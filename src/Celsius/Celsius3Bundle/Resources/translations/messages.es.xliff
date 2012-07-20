@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Users List</source>
+                <target>Lista de Usuarios</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Name</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Surname</source>
+                <target>Apellido</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Birthdate</source>
+                <target>Fecha de Nacimiento</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Username</source>
+                <target>Nombre de Usuario</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Email</source>
+                <target>Correo Electrónico</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Address</source>
+                <target>Dirección</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Actions</source>
+                <target>Acciones</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Show</source>
+                <target>Mostrar</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Order Edit</source>
+                <target>Editar Pedido</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Create a new entry</source>
+                <target>Crear una nueva entrada</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Home</source>
+                <target>Inicio</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Load</source>
+                <target>Cargar</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Users</source>
+                <target>Usuarios</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>User Edit</source>
+                <target>Editar Usuario</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Edit</source>
+                <target>Editar</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Delete</source>
+                <target>Borrar</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Back to the list</source>
+                <target>Volver al listado</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>User Creation</source>
+                <target>Crear Usuario</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Create</source>
+                <target>Crear</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>User</source>
+                <target>Usuario</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Administration</source>
+                <target>Administración</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>My Site</source>
+                <target>Mi Sitio</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Information</source>
+                <target>Información</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Statistics</source>
+                <target>Estadísticas</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Links</source>
+                <target>Enlaces</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Contact</source>
+                <target>Contacto</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>Type</source>
+                <target>Tipo</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Material Data</source>
+                <target>Datos del Material</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Owner</source>
+                <target>Propietario</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Created</source>
+                <target>Creado</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Searched</source>
+                <target>Buscado</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Requested</source>
+                <target>Solicitado</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Received</source>
+                <target>Recibido</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Delivered</source>
+                <target>Entregado</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Comments</source>
+                <target>Comentarios</target>
+            </trans-unit>
+            
+        </body>
+    </file>
+</xliff>

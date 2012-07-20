@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %} - Celsius3</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        {% block stylesheets %}
+        <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+            body {
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+            .footer {
+                border-top: 1px solid #E5E5E5;
+                margin-top: 45px;
+                padding: 35px 10px 10px;
+            }
+        </style>
+        <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('bundles/celsiuscelsius3/css/smoothness/jquery-ui-1.8.21.custom.css') }}" rel="stylesheet" type="text/css" />
+        {% endblock %}
+    </head>
+    <body>
+        {% block header %}
+        <div id="header">
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="brand" href="{{ path('index') }}">Celsius3</a>
+                        <div class="nav-collapse">
+                            <ul class="nav">
+                                <li>
+                                    <a href="{{ path('public_index', { 'url': app.request.get('url') }) }}">{{ 'Home'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('public_news', { 'url': app.request.get('url') }) }}">{{ 'News'|trans }}</a>
+                                </li>
+                                {% if app.user %}
+                                <li>
+                                    <a href="{{ path('administration') }}">{{ 'Administration'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a href="#">{{ 'My Site'|trans }}</a>
+                                </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{{ path('public_information', { 'url': app.request.get('url') }) }}">{{ 'Information'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('public_statistics', { 'url': app.request.get('url') }) }}">{{ 'Statistics'|trans }}</a>
+                                </li>
+                                {% if app.user %}
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}">{{ 'Logout'|trans }}</a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('fos_user_registration_register', { 'url': app.request.get('url') }) }}">{{ 'Register'|trans }}</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        {% block footer %}
+        <footer class="footer">
+            <p>&copy;PrEBi 2012</p>
+        </footer>
+        {% endblock %}
+        {% block javascripts %}
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/jquery-ui-1.8.21.custom.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/bootstrap.min.js') }}"></script>
+        {% include 'CelsiusCelsius3Bundle:Layout:forms.js.twig' %}
+        {% endblock %}
+    </body>
+</html>

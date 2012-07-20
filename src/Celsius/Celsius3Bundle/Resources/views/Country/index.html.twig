@@ -1,0 +1,39 @@
+<h1>Country list</h1>
+
+<table class="records_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Locations</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for document in documents %}
+        <tr>
+            <td><a href="{{ path('country_show', { 'id': document.id }) }}">{{ document.id }}</a></td>
+            <td>{{ document.name }}</td>
+            <td>{{ document.locations }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('country_show', { 'id': document.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('country_edit', { 'id': document.id }) }}">edit</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+        <a href="{{ path('country_new') }}">
+            Create a new entry
+        </a>
+    </li>
+</ul>

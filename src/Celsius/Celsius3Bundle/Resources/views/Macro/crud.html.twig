@@ -1,0 +1,151 @@
+{# edit #}
+{% macro edit(name, document, edit_form, delete_form) %}
+<h2>{{ [name|capitalize, ' Edit']|join|trans }}</h2>
+
+<form action="{{ path([name,'_update']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
+      {{ form_widget(edit_form) }}
+      <p>
+        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Edit'|trans }}</button>
+    </p>
+</form>
+
+<ul class="unstyled record_actions">
+    <li>
+        <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+            <i class="icon-home"></i> {{ 'Back to the list'|trans }}
+        </a>
+    </li>
+    <li>
+        <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
+        </form>
+    </li>
+</ul>
+{% endmacro %}
+
+{# new #}
+{% macro new(name, form) %}
+<h2>{{ [name|capitalize, ' Creation']|join|trans }}</h2>
+
+<form action="{{ path([name,'_create']|join, { 'code': app.request.get('code') }) }}" method="post" {{ form_enctype(form) }} class="well">
+      {{ form_widget(form) }}
+      <p>
+        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Create'|trans }}</button>
+    </p>
+</form>
+
+<ul class="unstyled record_actions">
+    <li>
+        <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+            <i class="icon-home"></i> {{ 'Back to the list'|trans }}
+        </a>
+    </li>
+</ul>
+{% endmacro %}
+
+{# show #}
+{% macro show(name, document, delete_form, folder) %}
+<h2>{{ name|capitalize|trans }}</h2>
+
+{% include [folder,':_show_fields.html.twig']|join %}
+
+<ul class="unstyled record_actions">
+    <li>
+        <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+            <i class="icon-home"></i> {{ 'Back to the list'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path([name,'_edit']|join, { 'code': app.request.get('code'), 'id': document.id }) }}">
+            <i class="icon-pencil"></i> {{ 'Edit'|trans }}
+        </a>
+    </li>
+    <li>
+        <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
+        </form>
+    </li>
+</ul>
+{% endmacro %}
+
+{# index #}
+{% macro index(name, pagination, folder, filter_form) %}
+<h2>{{ [name|capitalize, 's List']|join|trans }}</h2>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span9">
+            <div class="navigation">
+                {{ pagination.render()|raw }}
+            </div>
+
+            {% include [folder,':_index_fields.html.twig']|join %}
+
+            <div class="navigation">
+                {{ pagination.render()|raw }}
+            </div>
+        </div>
+        <div class="span3">
+            <div id="accordion" class="accordion">
+                {% if filter_form %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <i class="icon-search"></i> {{ 'Filters'|trans }}
+                        </a>
+                    </div>
+                    <div class="accordion-body in collapse" id="collapseOne">
+                        <div class="accordion-inner">
+                            {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
+
+                            {{ filter(name, filter_form) }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                        </a>
+                    </div>
+                    <div class="accordion-body collapse" id="collapseTwo">
+                        <div class="accordion-inner">
+                            <ul class="unstyled">
+                                <li>
+                                    <a href="{{ path([name,'_new']|join, { 'code': app.request.get('code') }) }}">
+                                        <i class="icon-plus"></i> {{ 'Create a new entry'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# filter #}
+{% macro filter(name, filter_form) %}
+<form action="{{ path(name, { 'code': app.request.get('code') }) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well">
+      {{ form_widget(filter_form) }}
+      <p>
+        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Filter'|trans }}</button>
+        <a href="{{ path(name, { 'code': app.request.get('code') }) }}"><i class="icon-remove"></i> {{ 'Reset'|trans }}</a>
+    </p>
+</form>
+{% endmacro %}
+
+{# admin_search #}
+{% macro admin_search(keyword) %}
+<div>
+    <form action="{{ path('administration_search') }}" method="GET" class="well form-search">
+        <input type="text" name="keyword" id="keyword" value="{{ keyword }}" class="input-medium search-query" />
+        <button type="submit" class="btn"><i class="icon-search"></i> {{ 'Search'|trans }}</button>
+    </form>
+</div>
+{% endmacro %}

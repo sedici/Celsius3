@@ -1,0 +1,56 @@
+<script type="text/javascript">
+function getOldValues() {
+    var oldValues = [];
+    oldValues['celsius_celsius3bundle_ordertype_materialData_title'] = $('#celsius_celsius3bundle_ordertype_materialData_title').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_authors'] = $('#celsius_celsius3bundle_ordertype_materialData_authors').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_year'] = $('#celsius_celsius3bundle_ordertype_materialData_year').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_startPage'] = $('#celsius_celsius3bundle_ordertype_materialData_startPage').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_endPage'] = $('#celsius_celsius3bundle_ordertype_materialData_endPage').val();
+    return oldValues;
+}
+    
+$(document).ready(function(){
+    /**
+     * Autocomplete fields related event
+     */
+    $('input.autocomplete').autocomplete({
+        source: function(request, response) {
+            var field = $(this);
+            $.ajax({
+                url: '{{ path('user_ajax') }}',
+                dataType: "json",
+                data: {
+                    term : request.term,
+                    target : field[0].element.attr('target')
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+            var id = $(this).attr('id').replace('_autocomplete','','gi');
+            $('#'+id).val(ui.item.id);
+        }
+    });
+    
+    /**
+     * Material type change related event
+     */
+    $('#celsius_celsius3bundle_ordertype_materialDataType').change(function () {
+        var oldValues = getOldValues();
+        $.ajax({
+            type: 'POST',
+            url: '{{ path('order_change') }}',
+            data: { material: $('#celsius_celsius3bundle_ordertype_materialDataType').val() },
+            success: function(data) {
+                $('#celsius_celsius3bundle_ordertype_materialData').html(data);
+                for (key in oldValues) {
+                    $('#'+key).val(oldValues[key]);
+                }
+            }
+        });
+    });
+});
+</script>

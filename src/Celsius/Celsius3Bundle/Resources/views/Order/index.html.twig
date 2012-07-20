@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Orders List'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('order', pagination, 'CelsiusCelsius3Bundle:Order') }}
+{% endblock %}

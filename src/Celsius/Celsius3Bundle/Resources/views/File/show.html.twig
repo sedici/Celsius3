@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'File'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+{{ show('file', document, delete_form, 'CelsiusCelsius3Bundle:File') }}
+{% endblock %}

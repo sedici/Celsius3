@@ -1,0 +1,7 @@
+{% form_theme form theme %}
+<form action="{{ path('fos_user_group_new') }}" {{ form_enctype(form) }} method="POST" class="fos_user_group_new well">
+    {{ form_widget(form) }}
+    <div>
+        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'group.new.submit'|trans([], 'FOSUserBundle') }}</button>
+    </div>
+</form>

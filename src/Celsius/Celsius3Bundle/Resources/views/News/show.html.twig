@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'News'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+{{ show('news', document, delete_form, 'CelsiusCelsius3Bundle:News') }}
+{% endblock %}

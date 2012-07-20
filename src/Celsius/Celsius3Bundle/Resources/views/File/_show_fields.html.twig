@@ -1,0 +1,16 @@
+<table class="table table-striped table-bordered table-condensed record_properties">
+    <tbody>
+        <tr>
+            <th>{{ 'Name'|trans }}</th>
+            <td>{{ document.name }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Comments'|trans }}</th>
+            <td>{{ document.comments }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Uploaded'|trans }}</th>
+            <td>{{ document.uploaded|date('d-m-Y H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>

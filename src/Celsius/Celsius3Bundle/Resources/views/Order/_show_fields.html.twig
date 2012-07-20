@@ -1,0 +1,40 @@
+<table class="table table-striped table-bordered table-condensed record_properties">
+    <tbody>
+        <tr>
+            <th>{{ 'Type'|trans }}</th>
+            <td>{{ document.type }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Created'|trans }}</th>
+            <td>{{ document.created|date('d-m-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Searched'|trans }}</th>
+            <td>{{ document.searched|date('d-m-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Requested'|trans }}</th>
+            <td>{{ document.requested|date('d-m-y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Received'|trans }}</th>
+            <td>{{ document.received|date('d-m-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Delivered'|trans }}</th>
+            <td>{{ document.delivered|date('d-m-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Comments'|trans }}</th>
+            <td>{{ document.comments }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Material Data'|trans }}</th>
+            <td>{{ document.materialData }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'Owner'|trans }}</th>
+            <td>{{ document.owner }}</td>
+        </tr>
+    </tbody>
+</table>
