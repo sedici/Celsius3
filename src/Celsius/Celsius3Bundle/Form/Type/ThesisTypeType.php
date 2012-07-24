@@ -4,6 +4,7 @@ namespace Celsius\Celsius3Bundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ThesisTypeType extends MaterialTypeType
 {
@@ -17,11 +18,11 @@ class ThesisTypeType extends MaterialTypeType
         ;
     }
     
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'data_class' => 'Celsius\\Celsius3Bundle\\Document\\ThesisType',
-        );
+        ));
     }
 
     public function getName()

@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius\Celsius3Bundle\Form\DataTransformer\InstanceToIdTransformer;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class InstanceSelectorType extends AbstractType
 {
@@ -26,14 +27,14 @@ class InstanceSelectorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new InstanceToIdTransformer($this->dm);
-        $builder->appendClientTransformer($transformer);
+        $builder->addViewTransformer($transformer);
     }
-
-    public function getDefaultOptions(array $options)
+    
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        $resolver->setDefaults(array(
             'invalid_message' => 'The selected Instance does not exist',
-        );
+        ));
     }
 
     public function getParent()

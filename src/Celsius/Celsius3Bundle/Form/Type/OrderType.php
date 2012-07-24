@@ -41,7 +41,6 @@ class OrderType extends AbstractType
                 ->add('comments', 'textarea', array(
                     'required' => false
                 ))
-                //->add('owner', new AutocompleteType('owner', 'BaseUser', 'Order', 'Owner'))
                 ->add('owner', 'user_selector', array(
                     'attr' => array(
                         'class' => 'container',
@@ -54,7 +53,7 @@ class OrderType extends AbstractType
                         'target' => 'BaseUser',
                         'value' => $owner,
                     ),
-                    'property_path' => false,
+                    'mapped' => false,
                     'label' => 'Owner',
                 ))
                 ->add('instance', 'instance_selector', array(
@@ -72,7 +71,7 @@ class OrderType extends AbstractType
                         'thesis' => 'Thesis',
                         'patent' => 'Patent',
                     ),
-                    'property_path' => false,
+                    'mapped' => false,
                     'data' => $this->preferredMaterial,
                     'label' => 'Material Type'
                 ))

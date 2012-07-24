@@ -63,7 +63,7 @@ abstract class BaseController extends Controller
     {
         $request = $this->getRequest();
         $form = $this->createForm($type, $document);
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid())
         {
@@ -113,7 +113,7 @@ abstract class BaseController extends Controller
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid())
         {
@@ -136,7 +136,7 @@ abstract class BaseController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
 
-        $form->bindRequest($request);
+        $form->bind($request);
 
         if ($form->isValid())
         {
