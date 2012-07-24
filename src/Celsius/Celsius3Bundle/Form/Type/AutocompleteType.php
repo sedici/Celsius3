@@ -3,7 +3,7 @@
 namespace Celsius\Celsius3Bundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class AutocompleteType extends AbstractType
 {
@@ -21,7 +21,7 @@ class AutocompleteType extends AbstractType
         $this->label = $label;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
                 ->add($this->field, 'user_selector', array(

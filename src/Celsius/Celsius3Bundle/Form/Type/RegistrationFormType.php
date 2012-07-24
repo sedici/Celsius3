@@ -2,7 +2,7 @@
 
 namespace Celsius\Celsius3Bundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 
 class RegistrationFormType extends BaseType
@@ -24,7 +24,7 @@ class RegistrationFormType extends BaseType
                         ->findOneBy(array('url' => $url));
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
 

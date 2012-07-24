@@ -4,17 +4,18 @@ imports:
 
 framework:
     #esi:             ~
+    trust_proxy_headers: false
+    default_locale: en
     translator:      { fallback: en }
     secret:          %secret%
-    charset:         UTF-8
-    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    router:          
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_parameters: %kernel.debug%
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
-    session:
-        default_locale: en
-        auto_start:     true
+    session:         ~
         
 # Monolog Configuration
 monolog:
@@ -30,6 +31,7 @@ twig:
 
 # Assetic Configuration
 assetic:
+    bundles:        []
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java
@@ -68,14 +70,11 @@ doctrine_mongodb:
 
 # Swiftmailer Configuration
 swiftmailer:
+    spool: { type: memory }
     transport: %mailer_transport%
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-
-jms_security_extra:
-    secure_controllers:  true
-    secure_all_services: false
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -105,11 +104,11 @@ services:
             - { name: doctrine.odm.mongodb.default_event_listener, event: postPersist }
     
     # Cambia el idioma del sitio
-    locale_listener:
-        class: Celsius\Celsius3Bundle\Listener\LocaleListener
-        arguments: ["@service_container"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
+#    locale_listener:
+#        class: Celsius\Celsius3Bundle\Listener\LocaleListener
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 100 }
     
     # Formulario de registro personalizado
     celsius_celsius3bundle.registration.form.type:

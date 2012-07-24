@@ -3,7 +3,7 @@
 namespace Celsius\Celsius3Bundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Celsius\Celsius3Bundle\Form\DataTransformer\UserToIdTransformer;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
@@ -23,7 +23,7 @@ class UserSelectorType extends AbstractType
         $this->dm = $dm;
     }
 
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new UserToIdTransformer($this->dm);
         $builder->appendClientTransformer($transformer);
@@ -36,7 +36,7 @@ class UserSelectorType extends AbstractType
         );
     }
 
-    public function getParent(array $options)
+    public function getParent()
     {
         return 'hidden';
     }
