@@ -27,7 +27,7 @@ class UserSelectorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new UserToIdTransformer($this->dm);
-        $builder->addViewTransformer($transformer);
+        $builder->addModelTransformer($transformer);
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
