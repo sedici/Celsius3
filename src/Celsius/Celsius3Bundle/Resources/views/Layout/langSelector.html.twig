@@ -1,0 +1,12 @@
+{% set query = (app.request.queryString) ? '?' ~ app.request.queryString : '' %}
+<ul class="nav pull-right">
+    <li>
+        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({ '_locale': 'es' })) ~ query }}">ES</a>
+    </li>
+    <li>
+        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({ '_locale': 'en' })) ~ query }}">EN</a>
+    </li>
+    <li>
+        <a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({ '_locale': 'pt' })) ~ query }}">PT</a>
+    </li>
+</ul>
