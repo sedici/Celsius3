@@ -1,5 +1,5 @@
 {
-    "hash": "87a1c9f24ff70376b779126c1a8ad41a",
+    "hash": "8ff6e64c500f2a26e45cd8a0714c69a0",
     "packages": [
         {
             "package": "doctrine/common",
@@ -18,8 +18,20 @@
         {
             "package": "doctrine/doctrine-bundle",
             "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "doctrine/doctrine-bundle",
+            "version": "dev-master",
             "source-reference": "62134e6a8dd3f330131ee6a970f0cee1d7760c1d",
             "commit-date": "1343203511"
+        },
+        {
+            "package": "doctrine/doctrine-fixtures-bundle",
+            "version": "dev-master",
+            "source-reference": "a5103a71bcd9b2f851ca6c16519a077784a3184a",
+            "commit-date": "1341472847"
         },
         {
             "package": "doctrine/mongodb",
@@ -74,12 +86,6 @@
         {
             "package": "jms/di-extra-bundle",
             "version": "1.0.1"
-        },
-        {
-            "package": "jms/i18n-routing-bundle",
-            "version": "dev-master",
-            "alias-pretty-version": "1.0.x-dev",
-            "alias-version": "1.0.9999999.9999999-dev"
         },
         {
             "package": "jms/i18n-routing-bundle",
@@ -202,8 +208,8 @@
         {
             "package": "symfony/symfony",
             "version": "dev-master",
-            "source-reference": "f4570d5e731f66198c3d69fe2baddc5785ff8318",
-            "commit-date": "1343209062"
+            "source-reference": "c6f0987771b45743cfc2e294b260e55b89cc1f11",
+            "commit-date": "1343230912"
         },
         {
             "package": "twig/extensions",
@@ -231,6 +237,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "doctrine/doctrine-bundle": 20,
+        "doctrine/doctrine-fixtures-bundle": 20,
         "twig/extensions": 20,
         "symfony/assetic-bundle": 20,
         "symfony/swiftmailer-bundle": 20,
