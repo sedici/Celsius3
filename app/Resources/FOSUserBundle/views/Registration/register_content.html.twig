@@ -1,5 +1,3 @@
-{% form_theme form theme %}
-
 <form action="{{ path('fos_user_registration_register', { 'url': app.request.get('url') }) }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register well">
     {{ form_widget(form) }}
     <div>

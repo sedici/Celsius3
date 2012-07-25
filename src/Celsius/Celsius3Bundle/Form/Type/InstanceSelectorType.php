@@ -27,12 +27,13 @@ class InstanceSelectorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $transformer = new InstanceToIdTransformer($this->dm);
-        $builder->addViewTransformer($transformer);
+        $builder->addModelTransformer($transformer);
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'data_class' => null,
             'invalid_message' => 'The selected Instance does not exist',
         ));
     }

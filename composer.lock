@@ -1,9 +1,13 @@
 {
-    "hash": "6748ee813b8de4cc7c662a1dad39e2d2",
+    "hash": "87a1c9f24ff70376b779126c1a8ad41a",
     "packages": [
         {
             "package": "doctrine/common",
             "version": "2.2.2"
+        },
+        {
+            "package": "doctrine/data-fixtures",
+            "version": "v1.0.0-ALPHA2"
         },
         {
             "package": "doctrine/dbal",
@@ -14,8 +18,8 @@
         {
             "package": "doctrine/doctrine-bundle",
             "version": "dev-master",
-            "source-reference": "c9ea46d1f0c48bb88bb87b44214fe44e03c0c692",
-            "commit-date": "1341405737"
+            "source-reference": "62134e6a8dd3f330131ee6a970f0cee1d7760c1d",
+            "commit-date": "1343203511"
         },
         {
             "package": "doctrine/mongodb",
@@ -26,8 +30,8 @@
         {
             "package": "doctrine/mongodb-odm",
             "version": "dev-master",
-            "source-reference": "c51c505fa47fd1ce001d89c0d2efa969621b798c",
-            "commit-date": "1343139255"
+            "source-reference": "242a3f5288950378b7652f17480e592485bcec39",
+            "commit-date": "1343162403"
         },
         {
             "package": "doctrine/mongodb-odm-bundle",
@@ -72,12 +76,30 @@
             "version": "1.0.1"
         },
         {
+            "package": "jms/i18n-routing-bundle",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "jms/i18n-routing-bundle",
+            "version": "dev-master",
+            "source-reference": "ff29b3dddeb802790ffce506a35e7423bd45a1b2",
+            "commit-date": "1342777687"
+        },
+        {
             "package": "jms/metadata",
             "version": "1.1.1"
         },
         {
             "package": "jms/security-extra-bundle",
             "version": "1.1.0"
+        },
+        {
+            "package": "jms/translation-bundle",
+            "version": "dev-master",
+            "source-reference": "cbe95c467ed5e5c26944a4eb23d7fcc90e799b35",
+            "commit-date": "1340675531"
         },
         {
             "package": "knplabs/knp-components",
@@ -108,6 +130,10 @@
             "version": "1.1.0"
         },
         {
+            "package": "nikic/php-parser",
+            "version": "v0.9.1"
+        },
+        {
             "package": "sensio/distribution-bundle",
             "version": "dev-master",
             "source-reference": "5886adae1613c0a72fbb95259a83ae798e86c0d3",
@@ -116,8 +142,8 @@
         {
             "package": "sensio/framework-extra-bundle",
             "version": "dev-master",
-            "source-reference": "e9ac8f1a911ed29e30296c7f1549f53d4c94eddf",
-            "commit-date": "1342084432"
+            "source-reference": "b2cdb24737aa0c7381faf53d2e2f31a667113adc",
+            "commit-date": "1343195639"
         },
         {
             "package": "sensio/generator-bundle",
@@ -152,8 +178,8 @@
         {
             "package": "symfony/assetic-bundle",
             "version": "dev-master",
-            "source-reference": "e5e9a56a872d9e1f305d14cd8296bf77888388af",
-            "commit-date": "1342820047"
+            "source-reference": "a5daf7ca4588f88105c808de9a28ba1e66bfa082",
+            "commit-date": "1343161458"
         },
         {
             "package": "symfony/monolog-bundle",
@@ -176,8 +202,8 @@
         {
             "package": "symfony/symfony",
             "version": "dev-master",
-            "source-reference": "2aaa4ed84e56ad8e3420e696f6a42231d30bc1d2",
-            "commit-date": "1343064472"
+            "source-reference": "f4570d5e731f66198c3d69fe2baddc5785ff8318",
+            "commit-date": "1343209062"
         },
         {
             "package": "twig/extensions",
@@ -215,6 +241,7 @@
         "doctrine/mongodb-odm-bundle": 20,
         "ismaambrosi/generator-bundle": 20,
         "knplabs/knp-paginator-bundle": 20,
-        "stof/doctrine-extensions-bundle": 20
+        "stof/doctrine-extensions-bundle": 20,
+        "jms/i18n-routing-bundle": 20
     }
 }
