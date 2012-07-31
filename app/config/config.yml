@@ -145,6 +145,12 @@ services:
     login_logging_interceptor:
         class: Celsius\Celsius3Bundle\Aop\LoginLoggingInterceptor
         arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
+        
+    menu.voter.request:
+        class: Celsius\Celsius3Bundle\Voter\RequestVoter
+        arguments: ["@service_container"]
+        tags:
+            - { name: knp_menu.voter }
             
 parameters:
     max_per_page: 10
@@ -160,3 +166,7 @@ jms_i18n_routing:
     default_locale: es
     locales: [es, en, pt]
     strategy: prefix_except_default
+    
+knp_menu:
+    twig:
+        template: CelsiusCelsius3Bundle:Layout:knp_menu.html.twig

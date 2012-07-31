@@ -28,10 +28,12 @@
             <div class="navbar navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container-fluid">
-                        <a class="brand" href="{{ path('index') }}">Celsius3</a>
+                        <a class="brand" href="{{ path('directory') }}">Celsius3</a>
                         <div class="nav-collapse">
-                            {% include 'CelsiusCelsius3Bundle:Layout:navigation.html.twig' %}
-                            {% include 'CelsiusCelsius3Bundle:Layout:langSelector.html.twig' %}
+                            {% block navigation_top %}
+                            {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:topMenu', { 'currentClass': 'active' }) }}
+                            {% endblock %}
+                            {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:langSelectorMenu', { 'currentClass': 'active' }) }}
                         </div>
                     </div>
                 </div>
@@ -41,6 +43,9 @@
         <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span12">
+                    {% block navigation_content %}
+                    {% include 'CelsiusCelsius3Bundle:Layout:navigation_content.html.twig' %}
+                    {% endblock %}
                     {% block content %}{% endblock %}
                 </div>
             </div>

@@ -2,7 +2,6 @@
 
 namespace Celsius\Celsius3Bundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius\Celsius3Bundle\Manager\SearchManager;

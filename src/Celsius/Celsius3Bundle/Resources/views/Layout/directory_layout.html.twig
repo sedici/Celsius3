@@ -1,0 +1,9 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block navigation_top %}
+{{ knp_menu_render('CelsiusCelsius3Bundle:Builder:directoryTopMenu', { 'currentClass': 'active' }) }}
+{% endblock %}
+
+{% block navigation_content %}
+{% include 'CelsiusCelsius3Bundle:Layout:directory_navigation_content.html.twig' %}
+{% endblock %}

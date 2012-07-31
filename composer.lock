@@ -1,5 +1,5 @@
 {
-    "hash": "8ff6e64c500f2a26e45cd8a0714c69a0",
+    "hash": "94d9e50e8eb1b05a9a227b5afd4d70fb",
     "packages": [
         {
             "package": "doctrine/common",
@@ -24,8 +24,8 @@
         {
             "package": "doctrine/doctrine-bundle",
             "version": "dev-master",
-            "source-reference": "62134e6a8dd3f330131ee6a970f0cee1d7760c1d",
-            "commit-date": "1343203511"
+            "source-reference": "ed8d02b491512f947fdb2f8b665dc8fd72b5879c",
+            "commit-date": "1343657020"
         },
         {
             "package": "doctrine/doctrine-fixtures-bundle",
@@ -36,26 +36,26 @@
         {
             "package": "doctrine/mongodb",
             "version": "dev-master",
-            "source-reference": "59b9ec3ed4cada86f4d4c979707de94a1347dda6",
-            "commit-date": "1343139123"
+            "source-reference": "d734f2e3093ad8318da7b7a5a15eb7c8fc2c7687",
+            "commit-date": "1343660187"
         },
         {
             "package": "doctrine/mongodb-odm",
             "version": "dev-master",
-            "source-reference": "242a3f5288950378b7652f17480e592485bcec39",
-            "commit-date": "1343162403"
+            "source-reference": "0601520d74777e265c3126571e3b7650a3260a7d",
+            "commit-date": "1343349020"
         },
         {
             "package": "doctrine/mongodb-odm-bundle",
             "version": "dev-master",
-            "source-reference": "97923c04752802a929d863d98978b74e76dd3454",
-            "commit-date": "1343139535"
+            "source-reference": "54937e3ac0c0530163f2919f29e9bc7e3e1726a6",
+            "commit-date": "1343719670"
         },
         {
             "package": "doctrine/orm",
             "version": "2.2.x-dev",
-            "source-reference": "5d2a3bcb3b467f41ee58575764f3ba84937f76e4",
-            "commit-date": "1341676080"
+            "source-reference": "7d343302a8f886be9cfb2a9c8345a95740dcfde9",
+            "commit-date": "1343560954"
         },
         {
             "package": "friendsofsymfony/user-bundle",
@@ -66,8 +66,8 @@
         {
             "package": "gedmo/doctrine-extensions",
             "version": "dev-master",
-            "source-reference": "9898253452a37733d278af6fc595b059327c4218",
-            "commit-date": "1342872222"
+            "source-reference": "3881e19cc9497efa132a55e44aebbc62405a05b1",
+            "commit-date": "1343672222"
         },
         {
             "package": "ismaambrosi/generator-bundle",
@@ -104,8 +104,8 @@
         {
             "package": "jms/translation-bundle",
             "version": "dev-master",
-            "source-reference": "cbe95c467ed5e5c26944a4eb23d7fcc90e799b35",
-            "commit-date": "1340675531"
+            "source-reference": "ef7890398485a1c9acaceb6618d742b90d80b6c2",
+            "commit-date": "1343645591"
         },
         {
             "package": "knplabs/knp-components",
@@ -114,10 +114,28 @@
             "commit-date": "1339767068"
         },
         {
+            "package": "knplabs/knp-menu",
+            "version": "dev-master",
+            "alias-pretty-version": "2.0.x-dev",
+            "alias-version": "2.0.9999999.9999999-dev"
+        },
+        {
+            "package": "knplabs/knp-menu",
+            "version": "dev-master",
+            "source-reference": "418788056ba5b95f4a2717ba5b4d4ab078aca4ab",
+            "commit-date": "1340209324"
+        },
+        {
+            "package": "knplabs/knp-menu-bundle",
+            "version": "dev-master",
+            "source-reference": "ba1ff625e4b34131106e12ee475eb6397eb5a758",
+            "commit-date": "1341324163"
+        },
+        {
             "package": "knplabs/knp-paginator-bundle",
             "version": "dev-master",
-            "source-reference": "427db8350ae57659645ba35480bbe1194c1c695f",
-            "commit-date": "1339165136"
+            "source-reference": "de439d2816fe984dbe0c438fd4d0d7c67748c5ff",
+            "commit-date": "1343676956"
         },
         {
             "package": "kriswallsmith/assetic",
@@ -128,8 +146,8 @@
         {
             "package": "kriswallsmith/assetic",
             "version": "dev-master",
-            "source-reference": "c518a48ddc26af898191410cc35f7f30aaed448e",
-            "commit-date": "1343084248"
+            "source-reference": "11324294acf2dcf6b7f7cb0c4f35fd77e6f01cb7",
+            "commit-date": "1343684910"
         },
         {
             "package": "monolog/monolog",
@@ -148,8 +166,8 @@
         {
             "package": "sensio/framework-extra-bundle",
             "version": "dev-master",
-            "source-reference": "b2cdb24737aa0c7381faf53d2e2f31a667113adc",
-            "commit-date": "1343195639"
+            "source-reference": "dbe4432742e16ee9ca550a2f953b059f0a80c53d",
+            "commit-date": "1343637454"
         },
         {
             "package": "sensio/generator-bundle",
@@ -160,8 +178,8 @@
         {
             "package": "sensio/generator-bundle",
             "version": "dev-master",
-            "source-reference": "c17dbddefe517e3adfcbeaa1ab7cef3e572d29c6",
-            "commit-date": "1342195488"
+            "source-reference": "4436c2e24301123fb413baf3f78cd93bbc016c07",
+            "commit-date": "1343291371"
         },
         {
             "package": "stof/doctrine-extensions-bundle",
@@ -184,8 +202,8 @@
         {
             "package": "symfony/assetic-bundle",
             "version": "dev-master",
-            "source-reference": "a5daf7ca4588f88105c808de9a28ba1e66bfa082",
-            "commit-date": "1343161458"
+            "source-reference": "24df9ede95084be882aeb557eaef5b761cfa00e0",
+            "commit-date": "1343684934"
         },
         {
             "package": "symfony/monolog-bundle",
@@ -208,8 +226,8 @@
         {
             "package": "symfony/symfony",
             "version": "dev-master",
-            "source-reference": "c6f0987771b45743cfc2e294b260e55b89cc1f11",
-            "commit-date": "1343230912"
+            "source-reference": "788e5eb730ad1c0436c519cf0b878fc48b854044",
+            "commit-date": "1343723577"
         },
         {
             "package": "twig/extensions",
@@ -226,8 +244,8 @@
         {
             "package": "twig/twig",
             "version": "dev-master",
-            "source-reference": "657de7bdeb680815e0df95f63da9f81e1533d2ea",
-            "commit-date": "1342953178"
+            "source-reference": "51c866f415bbee670cd9ba13591307bce8dabdca",
+            "commit-date": "1343464333"
         }
     ],
     "packages-dev": null,
@@ -249,6 +267,7 @@
         "ismaambrosi/generator-bundle": 20,
         "knplabs/knp-paginator-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
-        "jms/i18n-routing-bundle": 20
+        "jms/i18n-routing-bundle": 20,
+        "knplabs/knp-menu-bundle": 20
     }
 }
