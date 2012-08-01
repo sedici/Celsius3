@@ -113,4 +113,21 @@ class Builder extends ContainerAware
         return $menu;
     }
 
+    public function directoryContentMenu(FactoryInterface $factory, array $options)
+    {
+        $request = $this->container->get('request');
+
+        $menu = $factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'nav nav-pills');
+
+        $menu->addChild('Home', array(
+            'route' => 'directory',
+        ));
+        $menu->addChild('Instances', array(
+            'route' => 'directory_instances',
+        ));
+
+        return $menu;
+    }
+
 }

@@ -17,6 +17,9 @@
                 margin-top: 45px;
                 padding: 35px 10px 10px;
             }
+            li.span4:nth-child(3n+1) {
+                margin-left:0;
+            }
         </style>
         <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/celsiuscelsius3/css/smoothness/jquery-ui-1.8.21.custom.css') }}" rel="stylesheet" type="text/css" />
@@ -43,9 +46,12 @@
         <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span12">
-                    {% block navigation_content %}
-                    {% include 'CelsiusCelsius3Bundle:Layout:navigation_content.html.twig' %}
+                    {% block body_title %}
+                    <div class="well page-header">
+                        <h1>{{ 'Celsius3 Instance'|trans }}</h1>
+                    </div>
                     {% endblock %}
+                    {% block navigation_content %}{% endblock %}
                     {% block content %}{% endblock %}
                 </div>
             </div>

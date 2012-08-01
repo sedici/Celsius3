@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ 'Instances'|trans }}</h2>
-
+<ul class="thumbnails">
+    {% for instance in instances %}
+    <li class="span4">
+        <div class="thumbnail well">
+            <h3>{{ instance.name }}</h3>
+            <p>
+                {{ 'Institutions'|trans }}:
+            </p>
+            <p>
+                <a href="{{ instance.website }}">{{ 'Website'|trans }}</a>
+            </p>
+            <p>
+                <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
+            </p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

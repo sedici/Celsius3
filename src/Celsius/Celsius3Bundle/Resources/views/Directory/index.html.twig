@@ -5,6 +5,14 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ 'Directory'|trans }}</h2>
-
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="description" class="span6 well">
+            <h3>{{ 'Project description'|trans }}</h3>
+        </div>
+        <div id="news" class="span6 well">
+            <h3>{{ 'News'|trans }}</h3>
+        </div>
+    </div>
+</div>
 {% endblock %}

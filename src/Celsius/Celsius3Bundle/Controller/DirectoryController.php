@@ -31,6 +31,12 @@ class DirectoryController extends BaseController
      */
     public function instancesAction()
     {
-        return array();
+        $instances = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:Instance')
+                ->findAll();
+        
+        return array(
+            'instances' => $instances,
+        );
     }
 }

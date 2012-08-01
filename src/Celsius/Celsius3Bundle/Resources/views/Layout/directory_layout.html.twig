@@ -4,6 +4,12 @@
 {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:directoryTopMenu', { 'currentClass': 'active' }) }}
 {% endblock %}
 
+{% block body_title %}
+<div class="well page-header">
+    <h1>{{ 'Celsius3 Directory'|trans }}</h1>
+</div>
+{% endblock %}
+
 {% block navigation_content %}
-{% include 'CelsiusCelsius3Bundle:Layout:directory_navigation_content.html.twig' %}
+{{ knp_menu_render('CelsiusCelsius3Bundle:Builder:directoryContentMenu', { 'currentClass': 'active' }) }}
 {% endblock %}
