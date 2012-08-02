@@ -1,0 +1,18 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'My Site'|trans }}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="messages" class="span6 well">
+            <h3>{{ 'My Messages'|trans }}</h3>
+        </div>
+        <div id="orders" class="span6 well">
+            <h3>{{ 'My Orders'|trans }}</h3>
+        </div>
+    </div>
+</div>
+{% endblock %}

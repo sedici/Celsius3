@@ -5,6 +5,7 @@ CelsiusCelsius3Bundle:
     
 fos_user_security:
     resource: "@CelsiusCelsius3Bundle/Resources/config/routing/security.xml"
+    prefix: /{url}
 
 fos_user_profile:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"

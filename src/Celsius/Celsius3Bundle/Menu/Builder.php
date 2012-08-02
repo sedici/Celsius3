@@ -13,16 +13,18 @@ class Builder extends ContainerAware
         $request = $this->container->get('request');
         $securityContext = $this->container->get('security.context');
 
+        $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
+
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav');
 
         $menu->addChild('Home', array(
             'route' => 'public_index',
-            'routeParameters' => array('url' => $request->attributes->get('url'))
+            'routeParameters' => array('url' => $instance_url)
         ));
         $menu->addChild('News', array(
             'route' => 'public_news',
-            'routeParameters' => array('url' => $request->attributes->get('url'))
+            'routeParameters' => array('url' => $instance_url)
         ));
         if ($securityContext->isGranted('ROLE_ADMIN') !== false)
         {
@@ -33,30 +35,32 @@ class Builder extends ContainerAware
         if ($securityContext->isGranted('ROLE_USER') !== false)
         {
             $menu->addChild('My Site', array(
-                'route' => 'index'
+                'route' => 'user_index'
             ));
         }
         $menu->addChild('Information', array(
             'route' => 'public_information',
-            'routeParameters' => array('url' => $request->attributes->get('url'))
+            'routeParameters' => array('url' => $instance_url)
         ));
         $menu->addChild('Statistics', array(
             'route' => 'public_statistics',
-            'routeParameters' => array('url' => $request->attributes->get('url'))
+            'routeParameters' => array('url' => $instance_url)
         ));
         if ($securityContext->isGranted('ROLE_USER') !== false)
         {
             $menu->addChild('Logout', array(
-                'route' => 'fos_user_security_logout'
+                'route' => 'fos_user_security_logout',
+                'routeParameters' => array('url' => $instance_url)
             ));
         } else
         {
             $menu->addChild('Login', array(
-                'route' => 'fos_user_security_login'
+                'route' => 'fos_user_security_login',
+                'routeParameters' => array('url' => $instance_url)
             ));
             $menu->addChild('Register', array(
                 'route' => 'fos_user_registration_register',
-                'routeParameters' => array('url' => $request->attributes->get('url'))
+                'routeParameters' => array('url' => $instance_url)
             ));
         }
 
@@ -71,21 +75,21 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav');
 
-        if ($securityContext->isGranted('ROLE_USER') !== false)
-        {
-            $menu->addChild('My Instance', array(
-                'route' => 'public_index',
-                'routeParameters' => array('url' => $request->attributes->get('url'))
-            ));
-            $menu->addChild('Logout', array(
-                'route' => 'fos_user_security_logout'
-            ));
-        } else
-        {
-            $menu->addChild('Login', array(
-                'route' => 'fos_user_security_login'
-            ));
-        }
+//        if ($securityContext->isGranted('ROLE_USER') !== false)
+//        {
+//            $menu->addChild('My Instance', array(
+//                'route' => 'public_index',
+//                'routeParameters' => array('url' => $this->container->get('session')->get('instance_url'))
+//            ));
+//            $menu->addChild('Logout', array(
+//                'route' => 'fos_user_security_logout'
+//            ));
+//        } else
+//        {
+//            $menu->addChild('Login', array(
+//                'route' => 'fos_user_security_login'
+//            ));
+//        }
 
         return $menu;
     }
@@ -115,8 +119,6 @@ class Builder extends ContainerAware
 
     public function directoryContentMenu(FactoryInterface $factory, array $options)
     {
-        $request = $this->container->get('request');
-
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 

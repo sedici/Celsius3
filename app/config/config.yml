@@ -132,6 +132,7 @@ services:
     
     celsius_celsius3bundle.security.authentication_handler:
         class: Celsius\Celsius3Bundle\Handler\AuthenticationHandler
+        arguments: ["@service_container"]
         
     mongodb_logger_wrapper_handler:
         class: Celsius\Celsius3Bundle\Handler\MongoDBWrapperHandler

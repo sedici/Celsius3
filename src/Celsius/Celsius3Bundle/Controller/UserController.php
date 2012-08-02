@@ -14,6 +14,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class UserController extends BaseInstanceDependentController
 {
+    /**
+     * @Route("/", name="user_index")
+     * @Template()
+     *
+     * @return array
+     */
+    public function indexAction()
+    {
+        return array();
+    }
 
     /**
      * @Route("/ajax", name="user_ajax")
