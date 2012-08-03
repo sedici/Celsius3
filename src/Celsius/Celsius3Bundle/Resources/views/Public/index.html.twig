@@ -5,6 +5,25 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ 'Home'|trans }}</h2>
-P&aacute;gina princial.
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div id="description" class="span6 well">
+            <h3>{{ 'Instance description'|trans }}</h3>
+        </div>
+        <div id="news" class="span6 well">
+            <h3>{{ 'Latest News'|trans }}</h3>
+            {% for news in lastNews %}
+            <div class="thumbnail">
+                <h4>{{ news.title }}</h4>
+                <p>
+                    {{ 'Date'|trans }}: {{ news.date|date() }}
+                </p>
+                <div>
+                    {{ news.text }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

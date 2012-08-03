@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Celsius\Celsius3Bundle\Repository\InstanceRepository")
  */
 class Instance
 {
@@ -64,7 +65,7 @@ class Instance
     protected $orders;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="News", mappedBy="instance")
+     * @MongoDB\ReferenceMany(targetDocument="News", mappedBy="instance", sort={"date"="desc"})
      */
     protected $news;
 

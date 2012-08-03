@@ -69,27 +69,15 @@ class Builder extends ContainerAware
 
     public function directoryTopMenu(FactoryInterface $factory, array $options)
     {
-        $request = $this->container->get('request');
-        $securityContext = $this->container->get('security.context');
-
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav');
 
-//        if ($securityContext->isGranted('ROLE_USER') !== false)
-//        {
-//            $menu->addChild('My Instance', array(
-//                'route' => 'public_index',
-//                'routeParameters' => array('url' => $this->container->get('session')->get('instance_url'))
-//            ));
-//            $menu->addChild('Logout', array(
-//                'route' => 'fos_user_security_logout'
-//            ));
-//        } else
-//        {
-//            $menu->addChild('Login', array(
-//                'route' => 'fos_user_security_login'
-//            ));
-//        }
+        $menu->addChild('Home', array(
+            'route' => 'directory',
+        ));
+        $menu->addChild('Instances', array(
+            'route' => 'directory_instances',
+        ));
 
         return $menu;
     }
@@ -112,21 +100,6 @@ class Builder extends ContainerAware
         $menu->addChild('PT', array(
             'route' => $request->attributes->get('_route'),
             'routeParameters' => array_merge($request->attributes->get('_route_params'), array('_locale' => 'pt')),
-        ));
-
-        return $menu;
-    }
-
-    public function directoryContentMenu(FactoryInterface $factory, array $options)
-    {
-        $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav nav-pills');
-
-        $menu->addChild('Home', array(
-            'route' => 'directory',
-        ));
-        $menu->addChild('Instances', array(
-            'route' => 'directory_instances',
         ));
 
         return $menu;

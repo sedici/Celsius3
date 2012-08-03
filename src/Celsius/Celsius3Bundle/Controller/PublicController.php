@@ -11,18 +11,35 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * 
  * @Route("/{url}/public") 
  */
-class PublicController
+class PublicController extends BaseInstanceDependentController
 {
+
+    protected function getInstance()
+    {
+        $instance = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:Instance')
+                ->findOneBy(array('url' => $this->getRequest()->attributes->get('url')));
+
+        if (!$instance)
+        {
+            throw $this->createNotFoundException('Unable to find Instance.');
+        }
+
+        return $instance;
+    }
+
     /**
      * @Route("/", name="public_index")
      * @Template()
      */
     public function indexAction()
     {
-        return array();
+        return array(
+            'instance' => $this->getInstance(),
+            'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNews($this->getInstance()),
+        );
     }
-    
-    
+
     /**
      * @Route("/information", name="public_information")
      * @Template()
@@ -31,7 +48,7 @@ class PublicController
     {
         return array();
     }
-    
+
     /**
      * @Route("/news", name="public_news")
      * @Template()
@@ -40,7 +57,7 @@ class PublicController
     {
         return array();
     }
-    
+
     /**
      * @Route("/statistics", name="public_statistics")
      * @Template()
@@ -49,4 +66,5 @@ class PublicController
     {
         return array();
     }
+
 }
