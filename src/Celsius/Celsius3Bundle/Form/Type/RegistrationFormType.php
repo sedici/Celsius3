@@ -21,7 +21,7 @@ class RegistrationFormType extends BaseType
         $url = $container->get('request')->get('url');
 
         $this->instance = $dm->getRepository('CelsiusCelsius3Bundle:Instance')
-                        ->findOneBy(array('url' => $url));
+                ->findOneBy(array('url' => $url));
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -31,7 +31,11 @@ class RegistrationFormType extends BaseType
         // add your custom field
         $builder->add('name', null, array('label' => 'Name'))
                 ->add('surname')
-                ->add('birthdate', 'birthday')
+                ->add('birthdate', 'birthday', array(
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => array('class' => 'date')
+                ))
                 ->add('address')
                 ->add('instance', 'instance_selector', array(
                     'data' => $this->instance,

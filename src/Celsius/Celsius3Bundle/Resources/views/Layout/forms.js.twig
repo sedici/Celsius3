@@ -11,6 +11,17 @@ function getOldValues() {
     
 $(document).ready(function(){
     /**
+     * Turns default date picker into a jQuery UI widget
+     */
+    $('.date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd-mm-yy',
+        yearRange: 'c-100:c',
+        maxDate: new Date()
+    });
+
+    /**
      * Autocomplete fields related event
      */
     $('input.autocomplete').autocomplete({
