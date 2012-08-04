@@ -1,0 +1,14 @@
+<div class="modal hide" id="news{{ news.id }}">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4>{{ news.title }}</h4><p>{{ news.date|date('d-m-Y') }}</p>
+    </div>
+    <div class="modal-body">
+        <div>
+            {{ news.text|raw }}
+        </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</div>

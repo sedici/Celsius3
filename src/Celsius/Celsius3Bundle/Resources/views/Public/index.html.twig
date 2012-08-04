@@ -15,33 +15,11 @@
             <p>Nullam mattis arcu eu dolor viverra eu interdum leo tincidunt. Donec quis euismod quam. Mauris vel magna dui, vitae varius nunc. Mauris lobortis rhoncus eros eget rhoncus. Sed dignissim imperdiet neque, sit amet venenatis augue imperdiet vitae. Nunc sagittis venenatis purus, eget rutrum lorem volutpat non. Vestibulum eget dolor lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas sapien augue, tempus vitae egestas ut, semper eget turpis. Aenean dictum ornare mauris ut sodales.</p>
             <p>Curabitur in ante ac urna lacinia elementum. Aenean nisi nisi, malesuada non vehicula sed, blandit id urna. Quisque lectus quam, sodales interdum rhoncus at, faucibus vitae massa. Phasellus eget condimentum augue. Nam dignissim eleifend leo. Curabitur nisl ligula, adipiscing at pulvinar quis, eleifend eu justo. Quisque mollis sapien eget ante sagittis convallis. Nam sit amet tristique mi. Mauris porttitor tempus quam, sed tincidunt risus mattis blandit.</p>
         </div>
-        <div id="news" class="span6 well">
+        <div id="news" class="span6">
             <h3>{{ 'Latest News'|trans }}</h3>
             {% for news in lastNews %}
-            <div class="thumbnail">
-                <h4>{{ news.title }}</h4>
-                <p>
-                    {{ 'Date'|trans }}: {{ news.date|date('d-m-Y') }}
-                </p>
-                <div class="autoellipsis" style="height: 100px;">
-                    {{ news.text|raw }}
-                    <a class="read-more" data-toggle="modal" href="#news{{ news.id }}">{{ 'More'|trans }} »</a>
-                </div>
-            </div>
-            <div class="modal hide fade" id="news{{ news.id }}">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h4>{{ news.title }}</h4><p>{{ news.date|date('d-m-Y') }}</p>
-                </div>
-                <div class="modal-body">
-                    <div>
-                        {{ news.text|raw }}
-                    </div>
-                </div>
-                <div class="modal-footer">
-
-                </div>
-            </div>
+            {% include 'CelsiusCelsius3Bundle:Public:_news.html.twig' %}
+            {% include 'CelsiusCelsius3Bundle:Public:_news_modal.html.twig' %}
             {% endfor %}
         </div>
     </div>

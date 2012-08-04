@@ -5,6 +5,15 @@
 {% endblock %}
 
 {% block content %}
-<h2>{{ 'Home'|trans }}</h2>
-P&aacute;gina princial.
+<h2>{{ 'News'|trans }}</h2>
+<div class="navigation">
+    {{ pagination.render()|raw }}
+</div>
+{% for news in pagination %}
+{% include 'CelsiusCelsius3Bundle:Public:_news.html.twig' %}
+{% include 'CelsiusCelsius3Bundle:Public:_news_modal.html.twig' %}
+{% endfor %}
+<div class="navigation">
+    {{ pagination.render()|raw }}
+</div>
 {% endblock %}

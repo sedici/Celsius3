@@ -1,0 +1,12 @@
+<div class="thumbnail well">
+    <h4>{{ news.title }}</h4>
+    <p>
+        {{ news.date|date('d-m-Y') }}
+    </p>
+    <div class="autoellipsis" style="height: 100px;">
+        {{ news.text|raw }}
+    </div>
+    <p>
+        <a class="read-more" data-toggle="modal" href="#news{{ news.id }}">{{ 'More'|trans }} »</a>
+    </p>
+</div>
