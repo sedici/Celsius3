@@ -315,5 +315,13 @@ class BaseUser extends User
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    /**
+     * @MongoDB\PrePersist 
+     */
+    public function prePersist()
+    {
+        $this->addRole('ROLE_USER');
+    }
 
 }

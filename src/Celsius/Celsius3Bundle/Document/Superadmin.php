@@ -323,5 +323,13 @@ class Superadmin extends Admin
     {
         return $this->contact;
     }
+    
+    /**
+     * @MongoDB\PrePersist 
+     */
+    public function prePersist()
+    {
+        $this->addRole('ROLE_SUPER_ADMIN');
+    }
 
 }

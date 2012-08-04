@@ -323,5 +323,13 @@ class Admin extends BaseUser
     {
         return $this->contact;
     }
+    
+    /**
+     * @MongoDB\PrePersist 
+     */
+    public function prePersist()
+    {
+        $this->addRole('ROLE_ADMIN');
+    }
 
 }
