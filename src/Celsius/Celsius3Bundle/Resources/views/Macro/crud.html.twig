@@ -74,8 +74,8 @@
 {% macro index(name, pagination, folder, filter_form) %}
 <h2>{{ [name|capitalize, 's List']|join|trans }}</h2>
 
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <div class="span9">
             <div class="navigation">
                 {{ pagination.render()|raw }}
