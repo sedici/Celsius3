@@ -12,7 +12,7 @@
         <tr>
             <td>{{ document.name }}</td>
             <td>{{ document.comments }}</td>
-            <td>{% if document.uploaded %}{{ document.uploaded|date('d-m-Y H:i:s') }}{% endif%}</td>
+            <td>{% if document.uploaded %}{{ document.uploaded|localizeddate() }}{% endif%}</td>
             <td>
                 <ul class="unstyled">
                     <li>

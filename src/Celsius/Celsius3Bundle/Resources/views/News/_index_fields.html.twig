@@ -10,7 +10,7 @@
         {% for document in pagination %}
         <tr>
             <td>{{ document.title }}</td>
-            <td>{% if document.date %}{{ document.date|date('Y-m-d H:i:s') }}{% endif%}</td>
+            <td>{% if document.date %}{{ document.date|localizeddate() }}{% endif%}</td>
             <td>
                 <ul class="unstyled">
                     <li>

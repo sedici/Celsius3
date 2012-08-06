@@ -14,7 +14,7 @@
         <tr>
             <td>{{ document.name }}</td>
             <td>{{ document.surname }}</td>
-            <td>{% if document.birthdate %}{{ document.birthdate|date('d-m-Y') }}{% endif%}</td>
+            <td>{% if document.birthdate %}{{ document.birthdate|localizeddate('medium','none') }}{% endif%}</td>
             <td>{{ document.username }}</td>
             <td>{{ document.email }}</td>
             <td>

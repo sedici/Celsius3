@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <th>{{ 'Birthdate'|trans }}</th>
-            <td>{{ document.birthdate|date('Y-m-d H:i:s') }}</td>
+            <td>{{ document.birthdate|localizeddate('medium','none') }}</td>
         </tr>
         <tr>
             <th>{{ 'Username'|trans }}</th>

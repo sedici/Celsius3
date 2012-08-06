@@ -6,23 +6,23 @@
         </tr>
         <tr>
             <th>{{ 'Created'|trans }}</th>
-            <td>{{ document.created|date('d-m-Y H:i:s') }}</td>
+            <td>{{ document.created|localizeddate() }}</td>
         </tr>
         <tr>
             <th>{{ 'Searched'|trans }}</th>
-            <td>{{ document.searched|date('d-m-Y H:i:s') }}</td>
+            <td>{{ document.searched|localizeddate() }}</td>
         </tr>
         <tr>
             <th>{{ 'Requested'|trans }}</th>
-            <td>{{ document.requested|date('d-m-y H:i:s') }}</td>
+            <td>{{ document.requested|localizeddate() }}</td>
         </tr>
         <tr>
             <th>{{ 'Received'|trans }}</th>
-            <td>{{ document.received|date('d-m-Y H:i:s') }}</td>
+            <td>{{ document.received|localizeddate() }}</td>
         </tr>
         <tr>
             <th>{{ 'Delivered'|trans }}</th>
-            <td>{{ document.delivered|date('d-m-Y H:i:s') }}</td>
+            <td>{{ document.delivered|localizeddate() }}</td>
         </tr>
         <tr>
             <th>{{ 'Comments'|trans }}</th>

@@ -96,6 +96,11 @@ fos_user:
             type: celsius_celsius3bundle_registration
             
 services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+                - { name: twig.extension }
+  
     # Setea el codigo de Order
     counter_listener:
         class: Celsius\Celsius3Bundle\Listener\CounterListener

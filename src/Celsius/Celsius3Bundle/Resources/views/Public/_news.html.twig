@@ -1,7 +1,7 @@
 <div class="thumbnail well">
     <h4>{{ news.title }}</h4>
     <p>
-        {{ news.date|date('d-m-Y') }}
+        {{ news.date|localizeddate('medium','short') }}
     </p>
     <div class="autoellipsis" style="height: 100px;">
         {{ news.text|raw }}

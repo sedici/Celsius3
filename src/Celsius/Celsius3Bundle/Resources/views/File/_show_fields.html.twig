@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <th>{{ 'Uploaded'|trans }}</th>
-            <td>{{ document.uploaded|date('d-m-Y H:i:s') }}</td>
+            <td>{{ document.uploaded|localizeddate() }}</td>
         </tr>
     </tbody>
 </table>
