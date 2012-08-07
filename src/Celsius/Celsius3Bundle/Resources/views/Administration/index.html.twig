@@ -7,59 +7,103 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="span9">
+        <div class="span12">
             {% include 'CelsiusCelsius3Bundle:Administration:_dash.html.twig' %}
-            <div id="accordion" class="accordion">
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a href="#orders" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <i class="icon-file"></i> {{ 'Orders'|trans }}
-                        </a>
-                    </div>
-                    <div class="accordion-body in collapse" id="orders">
-                        <div class="accordion-inner">
-                            <ul class="unstyled">
-                                <li><i class="icon-list"></i> <a href="{{ path('order') }}">{{ 'List'|trans }}</a></li>
-                                <li><i class="icon-plus"></i> <a href="{{ path('order_new') }}">{{ 'New'|trans }}</a></li>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span6">
+            <div class="well">
+                <h2>{{ 'Orders'|trans }}</h2>
+                <ul class="nav nav-list">
+                    <li class="nav-header">
+                        {{ 'Filters'|trans }}
+                    </li>
+                    <li>
+                        <a href="#">{{ 'New'|trans }} (100)</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Being searched'|trans }} (200)</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Requested'|trans }} (147)</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Received'|trans }} (45)</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Delivered'|trans }} (214)</a>
+                    </li>
+                    <li class="nav-header">
+                        {{ 'Operations'|trans }}
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Add'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'List'|trans }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="well">
+                <h2>{{ 'Users'|trans }}</h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="span3">
+                            <ul class="nav nav-list">
+                                <li class="nav-header">
+                                    {{ 'Filters'|trans }}
+                                </li>
+                                <li>
+                                    <a href="#">{{ 'New'|trans }} (122)</a>
+                                </li>
+                                <li>
+                                    <a href="#">{{ 'Rejected'|trans }} (122)</a>
+                                </li>
                             </ul>
                         </div>
-                    </div>
-                </div>
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a href="#users" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <i class="icon-user"></i> {{ 'Users'|trans }}
-                        </a>
-                    </div>
-                    <div class="accordion-body collapse" id="users">
-                        <div class="accordion-inner">
-                            <ul class="unstyled">
-                                <li><i class="icon-list"></i> <a href="{{ path('user') }}">{{ 'List'|trans }}</a></li>
-                                <li><i class="icon-plus"></i> <a href="{{ path('user_new') }}">{{ 'New'|trans }}</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a href="#news" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <i class="icon-font"></i> {{ 'News'|trans }}
-                        </a>
-                    </div>
-                    <div class="accordion-body collapse" id="news">
-                        <div class="accordion-inner">
-                            <ul class="unstyled">
-                                <li><i class="icon-list"></i> <a href="{{ path('news') }}">{{ 'List'|trans }}</a></li>
-                                <li><i class="icon-plus"></i> <a href="{{ path('news_new') }}">{{ 'New'|trans }}</a></li>
+                        <div class="span3">
+                            <ul class="nav nav-list">
+                                <li class="nav-header">
+                                    {{ 'Operations'|trans }}
+                                </li>
+                                <li>
+                                    <a href="#">{{ 'Add'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a href="#">{{ 'List'|trans }}</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="span3">
-            {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import admin_search as admin_search %}
-            {{ admin_search() }}
+        <div class="span6">
+            <div class="well">
+                <h2>{{ 'Other'|trans }}</h2>
+                <ul class="nav nav-list">
+                    <li>
+                        <a href="#">{{ 'News'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Catalogs'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Journals'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Mail templates'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="#">{{ 'Configuration'|trans }}</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

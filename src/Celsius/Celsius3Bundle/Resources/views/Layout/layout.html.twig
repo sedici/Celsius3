@@ -23,6 +23,13 @@
             li.span12:nth-child(n+1) {
                 margin-left:0;
             }
+            #user_panel {
+                margin-top: -15px;
+            }
+            #admin_search {
+                margin-top: 11px;
+                margin-bottom: -15px;
+            }
         </style>
         <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/celsiuscelsius3/css/smoothness/jquery-ui-1.8.21.custom.css') }}" rel="stylesheet" type="text/css" />
@@ -51,7 +58,12 @@
                 <div class="span12">
                     {% block body_title %}
                     <div class="well page-header">
-                        <h1>{{ 'Celsius3 Instance'|trans }}</h1>
+                        <div class="pull-left">
+                            <h1>{{ 'Celsius3 Instance'|trans }}</h1>
+                        </div>
+                        <div class="pull-right">
+                            {% include 'CelsiusCelsius3Bundle:Layout:_user_panel.html.twig' %}
+                        </div>
                     </div>
                     {% endblock %}
                     {% block navigation_content %}{% endblock %}
@@ -59,11 +71,15 @@
                 </div>
             </div>
         </div>
-        {% block footer %}
-        <footer class="footer">
-            <p>&copy;PrEBi 2012</p>
-        </footer>
-        {% endblock %}
+        <div class="container">
+            <div class="row">
+                {% block footer %}
+                <footer class="footer">
+                    <p>&copy;PrEBi 2012</p>
+                </footer>
+                {% endblock %}
+            </div>
+        </div>
         {% block javascripts %}
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/jquery-ui-1.8.21.custom.min.js') }}"></script>

@@ -1,0 +1,19 @@
+<ul id="user_panel" class="unstyled">
+    {% if app.user %}
+    <li>
+        {{ 'You are logged in as'|trans }} {{ app.user.username }}
+    </li>
+    <li>
+        <a href="#" class="btn btn-primary"><i class="icon-wrench"></i> Settings</a>
+        <a href="#" class="btn btn-danger"><i class="icon-off"></i> Logout</a>
+    </li>
+    {% else %}
+    <li>
+        {{ 'You are not logged in'|trans }}
+    </li>
+    <li>
+        <a href="#" class="btn btn-primary"><i class="icon-user"></i> Login</a>
+        <a href="#" class="btn"><i class="icon-plus"></i> Register</a>
+    </li>
+    {% endif %}
+</ul>
