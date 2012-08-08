@@ -32,6 +32,12 @@ class Builder extends ContainerAware
                 'route' => 'administration'
             ));
         }
+        if ($securityContext->isGranted('ROLE_SUPER_ADMIN') !== false)
+        {
+            $menu->addChild('Super Administration', array(
+                'route' => 'superadministration'
+            ));
+        }
         if ($securityContext->isGranted('ROLE_USER') !== false)
         {
             $menu->addChild('My Site', array(
