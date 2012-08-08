@@ -1,5 +1,5 @@
 <div class="well">
-    <div class="pull-left">
+    <div class="dash">
         <a class="btn btn-large" href="#" style="width: 80px;">
             <i class="icon-file"></i><br />
             {{ 'Add Order'|trans }}
@@ -21,14 +21,4 @@
             {{ 'Configuration'|trans }}
         </a>
     </div>
-    <div class="pull-right">
-        <form id="admin_search" action="{{ path('administration_search') }}" method="GET" class="form-search">
-            <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="input-medium search-query" />
-            <button type="submit" class="btn"><i class="icon-search"></i></button>
-            <p>
-                <a href="#">{{ 'Advanced search'|trans }}</a>
-            </p>
-        </form>
-    </div>
-    <div class="clearfix"></div>
 </div>

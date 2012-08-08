@@ -26,9 +26,11 @@
             #user_panel {
                 margin-top: -15px;
             }
-            #admin_search {
-                margin-top: 11px;
-                margin-bottom: -15px;
+            .admin_search {
+                margin-bottom: -20px;
+            }
+            .dash {
+                text-align: center;
             }
         </style>
         <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap-responsive.min.css') }}" rel="stylesheet" type="text/css" />
@@ -73,7 +75,7 @@
             <div class="row">
                 {% block footer %}
                 <footer class="footer">
-                    <p>&copy;PrEBi 2012</p>
+                    <p>&copy;PrEBi {{ date()|date('Y') }}</p>
                 </footer>
                 {% endblock %}
             </div>

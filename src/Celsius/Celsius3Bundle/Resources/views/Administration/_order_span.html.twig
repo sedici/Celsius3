@@ -1,0 +1,44 @@
+<div class="span6">
+    <div class="well">
+        <h2 class="pull-left">{{ 'Orders'|trans }}</h2>
+        <div class="pull-right">
+            <form action="{{ path('administration_search') }}" method="GET" class="form-search admin_search">
+                <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="input-medium search-query" />
+                <button type="submit" class="btn"><i class="icon-search"></i></button>
+                <p>
+                    <a href="#">{{ 'Advanced search'|trans }}</a>
+                </p>
+            </form>
+        </div>
+        <div class="clearfix"></div>
+        <ul class="nav nav-list">
+            <li class="nav-header">
+                {{ 'Filters'|trans }}
+            </li>
+            <li>
+                <a href="#">{{ 'New'|trans }} (100)</a>
+            </li>
+            <li>
+                <a href="#">{{ 'Being searched'|trans }} (200)</a>
+            </li>
+            <li>
+                <a href="#">{{ 'Requested'|trans }} (147)</a>
+            </li>
+            <li>
+                <a href="#">{{ 'Received'|trans }} (45)</a>
+            </li>
+            <li>
+                <a href="#">{{ 'Delivered'|trans }} (214)</a>
+            </li>
+            <li class="nav-header">
+                {{ 'Operations'|trans }}
+            </li>
+            <li>
+                <a href="#">{{ 'Add'|trans }}</a>
+            </li>
+            <li>
+                <a href="#">{{ 'List'|trans }}</a>
+            </li>
+        </ul>
+    </div>
+</div>
