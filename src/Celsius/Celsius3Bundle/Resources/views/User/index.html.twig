@@ -6,11 +6,7 @@
 
 {% block content %}
 <div class="row">
-    <div id="messages" class="span6">
-        <h3>{{ 'My Messages'|trans }}</h3>
-    </div>
-    <div id="orders" class="span6">
-        <h3>{{ 'My Orders'|trans }}</h3>
-    </div>
+    {% include 'CelsiusCelsius3Bundle:User:_orders_span.html.twig' %}
+    {% include 'CelsiusCelsius3Bundle:User:_messages_span.html.twig' %}
 </div>
 {% endblock %}
