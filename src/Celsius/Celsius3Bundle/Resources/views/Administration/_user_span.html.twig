@@ -4,7 +4,7 @@
         <div class="pull-right">
             <form action="{{ path('administration_search') }}" method="GET" class="form-search admin_search">
                 <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="input-medium search-query" />
-                <button type="submit" class="btn"><i class="icon-search"></i></button>
+                <button type="submit" class="btn"><i class="icon-search"></i> {{ 'Search'|trans }}</button>
             </form>
         </div>
         <div class="clearfix"></div>
@@ -28,10 +28,10 @@
                         {{ 'Operations'|trans }}
                     </li>
                     <li>
-                        <a href="#">{{ 'Add'|trans }}</a>
+                        <a href="#"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
                     </li>
                     <li>
-                        <a href="#">{{ 'List'|trans }}</a>
+                        <a href="#"><i class="icon-list"></i> {{ 'List'|trans }}</a>
                     </li>
                 </ul>
             </div>
