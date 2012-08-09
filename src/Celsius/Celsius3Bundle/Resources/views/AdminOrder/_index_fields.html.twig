@@ -1,0 +1,36 @@
+{% for order in pagination %}
+<div id="code{{ order.code }}" class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a href="#collapse{{ order.code }}" data-parent="#code{{ order.code }}" data-toggle="collapse" class="accordion-toggle">
+                <span>{{ order.code }} - {{ order.materialData.title }}</span>
+                <span class="label pull-right">{{ order.owner.username }}</span>
+            </a>
+        </div>
+        <div class="accordion-body collapse" id="collapse{{ order.code }}">
+            <div class="accordion-inner">
+                <dl class="dl-horizontal">
+                    <dt>{{ 'Code'|trans }}</dt>
+                    <dd>{{ order.code }}</dd>
+                    <dt>{{ 'Request date'|trans }}</dt>
+                    <dd>{{ order.requested|localizeddate() }}</dd>
+                    <dt>{{ 'User'|trans }}</dt>
+                    <dd>{{ order.owner.surname }}, {{ order.owner.name }}</dd>
+                </dl>
+                <div class="thumbnail">
+                    <dl class="dl-horizontal">
+                        <dt>{{ 'Title'|trans }}</dt>
+                        <dd>{{ order.materialData.title }}</dd>
+                        <dt>{{ 'Year'|trans }}</dt>
+                        <dd>{{ order.materialData.year }}</dd>
+                        <dt>{{ 'Start page'|trans }}</dt>
+                        <dd>{{ order.materialData.startPage }}</dd>
+                        <dt>{{ 'End page'|trans }}</dt>
+                        <dd>{{ order.materialData.endPage }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
