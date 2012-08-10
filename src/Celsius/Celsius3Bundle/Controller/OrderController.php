@@ -17,7 +17,7 @@ class OrderController extends BaseInstanceDependentController
 
         $type = new OrderType($this->getInstance(), new $material);
         $form = $this->createForm($type, new Order());
-        return $this->render('CelsiusCelsius3Bundle:Order:_materialData.html.twig', array('form' => $form->createView()));
+        return $this->render('CelsiusCelsius3Bundle:AdminOrder:_materialData.html.twig', array('form' => $form->createView()));
     }
 
     protected function getMaterialType($materialData = null)

@@ -2,13 +2,8 @@
     <div class="well">
         <h2 class="pull-left">{{ 'Orders'|trans }}</h2>
         <div class="pull-right">
-            <form action="{{ path('administration_search') }}" method="GET" class="form-search admin_search">
-                <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="input-medium search-query" />
-                <button type="submit" class="btn"><i class="icon-search"></i> {{ 'Search'|trans }}</button>
-                <p>
-                    <a href="#">{{ 'Advanced search'|trans }}</a>
-                </p>
-            </form>
+            {% from "CelsiusCelsius3Bundle:Macro:admin.html.twig" import admin_search as search %}
+            {{ search(path('administration_search'), '#') }}
         </div>
         <div class="clearfix"></div>
         <div class="row">
