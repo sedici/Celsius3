@@ -78,6 +78,26 @@ class Instance
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="instance")
      */
     protected $institutions;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
+     */
+    protected $templates;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance")
+     */
+    private $configurations;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="instance")
+     */
+    private $catalogs;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Notification", mappedBy="target")
+     */
+    private $notifications;
 
     public function __toString()
     {
@@ -91,6 +111,9 @@ class Instance
         $this->news = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->templates = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -335,4 +358,84 @@ class Instance
         return $this->institutions;
     }
 
+
+    /**
+     * Add templates
+     *
+     * @param Celsius\Celsius3Bundle\Document\MailTemplate $templates
+     */
+    public function addTemplates(\Celsius\Celsius3Bundle\Document\MailTemplate $templates)
+    {
+        $this->templates[] = $templates;
+    }
+
+    /**
+     * Get templates
+     *
+     * @return Doctrine\Common\Collections\Collection $templates
+     */
+    public function getTemplates()
+    {
+        return $this->templates;
+    }
+
+    /**
+     * Add configurations
+     *
+     * @param Celsius\Celsius3Bundle\Document\Configuration $configurations
+     */
+    public function addConfigurations(\Celsius\Celsius3Bundle\Document\Configuration $configurations)
+    {
+        $this->configurations[] = $configurations;
+    }
+
+    /**
+     * Get configurations
+     *
+     * @return Doctrine\Common\Collections\Collection $configurations
+     */
+    public function getConfigurations()
+    {
+        return $this->configurations;
+    }
+
+    /**
+     * Add catalogs
+     *
+     * @param Celsius\Celsius3Bundle\Document\Catalog $catalogs
+     */
+    public function addCatalogs(\Celsius\Celsius3Bundle\Document\Catalog $catalogs)
+    {
+        $this->catalogs[] = $catalogs;
+    }
+
+    /**
+     * Get catalogs
+     *
+     * @return Doctrine\Common\Collections\Collection $catalogs
+     */
+    public function getCatalogs()
+    {
+        return $this->catalogs;
+    }
+
+    /**
+     * Add notifications
+     *
+     * @param Celsius\Celsius3Bundle\Document\Notification $notifications
+     */
+    public function addNotifications(\Celsius\Celsius3Bundle\Document\Notification $notifications)
+    {
+        $this->notifications[] = $notifications;
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return Doctrine\Common\Collections\Collection $notifications
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
 }

@@ -332,4 +332,54 @@ class Superadmin extends Admin
         $this->addRole('ROLE_SUPER_ADMIN');
     }
 
+    /**
+     * @var Celsius\Celsius3Bundle\Document\Message
+     */
+    protected $createdMessages = array();
+
+    /**
+     * @var Celsius\Celsius3Bundle\Document\Message
+     */
+    protected $receivedMessages = array();
+
+
+    /**
+     * Add createdMessages
+     *
+     * @param Celsius\Celsius3Bundle\Document\Message $createdMessages
+     */
+    public function addCreatedMessages(\Celsius\Celsius3Bundle\Document\Message $createdMessages)
+    {
+        $this->createdMessages[] = $createdMessages;
+    }
+
+    /**
+     * Get createdMessages
+     *
+     * @return Doctrine\Common\Collections\Collection $createdMessages
+     */
+    public function getCreatedMessages()
+    {
+        return $this->createdMessages;
+    }
+
+    /**
+     * Add receivedMessages
+     *
+     * @param Celsius\Celsius3Bundle\Document\Message $receivedMessages
+     */
+    public function addReceivedMessages(\Celsius\Celsius3Bundle\Document\Message $receivedMessages)
+    {
+        $this->receivedMessages[] = $receivedMessages;
+    }
+
+    /**
+     * Get receivedMessages
+     *
+     * @return Doctrine\Common\Collections\Collection $receivedMessages
+     */
+    public function getReceivedMessages()
+    {
+        return $this->receivedMessages;
+    }
 }

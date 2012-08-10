@@ -78,6 +78,16 @@ class BaseUser extends User
      * @MongoDB\ReferenceOne(targetDocument="Institution") 
      */
     protected $institution;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="sender")
+     */
+    protected $createdMessages;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="receiver")
+     */
+    protected $receivedMessages;
 
     public function __toString()
     {
@@ -314,6 +324,8 @@ class BaseUser extends User
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -324,4 +336,44 @@ class BaseUser extends User
         $this->addRole('ROLE_USER');
     }
 
+
+    /**
+     * Add createdMessages
+     *
+     * @param Celsius\Celsius3Bundle\Document\Message $createdMessages
+     */
+    public function addCreatedMessages(\Celsius\Celsius3Bundle\Document\Message $createdMessages)
+    {
+        $this->createdMessages[] = $createdMessages;
+    }
+
+    /**
+     * Get createdMessages
+     *
+     * @return Doctrine\Common\Collections\Collection $createdMessages
+     */
+    public function getCreatedMessages()
+    {
+        return $this->createdMessages;
+    }
+
+    /**
+     * Add receivedMessages
+     *
+     * @param Celsius\Celsius3Bundle\Document\Message $receivedMessages
+     */
+    public function addReceivedMessages(\Celsius\Celsius3Bundle\Document\Message $receivedMessages)
+    {
+        $this->receivedMessages[] = $receivedMessages;
+    }
+
+    /**
+     * Get receivedMessages
+     *
+     * @return Doctrine\Common\Collections\Collection $receivedMessages
+     */
+    public function getReceivedMessages()
+    {
+        return $this->receivedMessages;
+    }
 }

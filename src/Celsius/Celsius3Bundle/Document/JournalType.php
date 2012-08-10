@@ -51,6 +51,11 @@ class JournalType extends MaterialType
      * @var int $endPage
      */
     protected $endPage;
+    
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Journal") 
+     */
+    protected $journal;
 
     /**
      * Set volume
@@ -202,4 +207,26 @@ class JournalType extends MaterialType
         return $this->endPage;
     }
 
+
+    /**
+     * Set journal
+     *
+     * @param Celsius\Celsius3Bundle\Document\Journal $journal
+     * @return JournalType
+     */
+    public function setJournal(\Celsius\Celsius3Bundle\Document\Journal $journal)
+    {
+        $this->journal = $journal;
+        return $this;
+    }
+
+    /**
+     * Get journal
+     *
+     * @return Celsius\Celsius3Bundle\Document\Journal $journal
+     */
+    public function getJournal()
+    {
+        return $this->journal;
+    }
 }

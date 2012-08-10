@@ -56,9 +56,14 @@ class Institution
     protected $parent;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Location", inversedBy="institutions") 
+     * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions") 
      */
-    protected $location;
+    protected $city;
+    
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Catalog", mappedBy="institution") 
+     */
+    protected $catalog;
     
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
@@ -234,23 +239,23 @@ class Institution
     /**
      * Set location
      *
-     * @param Celsius\Celsius3Bundle\Document\Location $location
+     * @param Celsius\Celsius3Bundle\Document\City $city
      * @return Institution
      */
-    public function setLocation(\Celsius\Celsius3Bundle\Document\Location $location)
+    public function setCity(\Celsius\Celsius3Bundle\Document\City $city)
     {
-        $this->location = $location;
+        $this->city = $city;
         return $this;
     }
 
     /**
      * Get location
      *
-     * @return Celsius\Celsius3Bundle\Document\Location $location
+     * @return Celsius\Celsius3Bundle\Document\City $city
      */
-    public function getLocation()
+    public function getCity()
     {
-        return $this->location;
+        return $this->city;
     }
 
 
@@ -274,5 +279,27 @@ class Institution
     public function getInstance()
     {
         return $this->instance;
+    }
+
+    /**
+     * Set catalog
+     *
+     * @param Celsius\Celsius3Bundle\Document\Catalog $catalog
+     * @return Institution
+     */
+    public function setCatalog(\Celsius\Celsius3Bundle\Document\Catalog $catalog)
+    {
+        $this->catalog = $catalog;
+        return $this;
+    }
+
+    /**
+     * Get catalog
+     *
+     * @return Celsius\Celsius3Bundle\Document\Catalog $catalog
+     */
+    public function getCatalog()
+    {
+        return $this->catalog;
     }
 }

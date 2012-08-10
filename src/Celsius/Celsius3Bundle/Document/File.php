@@ -52,7 +52,7 @@ class File
     private $enabled;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Instance", mappedBy="files")
+     * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="files")
      */
     private $orders;
 
@@ -267,7 +267,7 @@ class File
      *
      * @param Celsius\Celsius3Bundle\Document\Instance $orders
      */
-    public function addOrders(\Celsius\Celsius3Bundle\Document\Instance $orders)
+    public function addOrders(\Celsius\Celsius3Bundle\Document\Order $orders)
     {
         $this->orders[] = $orders;
     }
