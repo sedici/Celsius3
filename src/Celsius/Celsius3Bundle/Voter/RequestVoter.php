@@ -33,7 +33,8 @@ class RequestVoter implements VoterInterface
      */
     public function matchItem(ItemInterface $item)
     {
-        if ($item->getUri() === preg_replace('/\?.*/', '', $this->container->get('request')->getRequestUri()))
+        if (false !== strpos($this->container->get('request')->getRequestUri(), $item->getUri()))
+        //if ($item->getUri() === preg_replace('/\?.*/', '', $this->container->get('request')->getRequestUri()))
         {
             return true;
         }
