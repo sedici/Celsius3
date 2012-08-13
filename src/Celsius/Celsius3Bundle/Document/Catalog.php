@@ -17,11 +17,14 @@ class Catalog
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $name;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Url()
      * @MongoDB\String
      */
     private $url;
@@ -40,7 +43,6 @@ class Catalog
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs") 
      */
     private $instance;
-
 
     /**
      * Get id

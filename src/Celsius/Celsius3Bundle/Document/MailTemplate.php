@@ -16,11 +16,13 @@ class MailTemplate
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $title;
     
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $text;

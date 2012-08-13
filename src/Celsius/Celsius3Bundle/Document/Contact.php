@@ -30,6 +30,7 @@ class Contact
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Email()
      * @MongoDB\String
      */
     protected $email;

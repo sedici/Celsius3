@@ -26,11 +26,15 @@ class Message
     private $text;
     
     /**
+     * @Assert\NotBlank()
+     * @Assert\Date()
      * @MongoDB\Date
      */
     private $date;
     
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
     private $viewed;

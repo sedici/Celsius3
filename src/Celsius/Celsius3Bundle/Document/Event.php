@@ -31,6 +31,7 @@ abstract class Event
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Date()
      * @MongoDB\Date
      */
     private $date;

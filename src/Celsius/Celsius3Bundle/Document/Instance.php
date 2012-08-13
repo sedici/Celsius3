@@ -31,12 +31,14 @@ class Instance
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Url()
      * @MongoDB\String
      */
     protected $url;
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Url()
      * @MongoDB\String
      */
     protected $website;

@@ -16,21 +16,26 @@ class Notification
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $type;
     
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $text;
     
     /**
+     * @Assert\Date()
      * @MongoDB\Date
      */
     private $created;
     
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
     private $viewed;

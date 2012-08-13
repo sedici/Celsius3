@@ -27,6 +27,8 @@ class BookType extends MaterialType
     protected $isbn;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
     protected $withIndex;

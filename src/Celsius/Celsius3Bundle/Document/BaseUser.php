@@ -38,6 +38,7 @@ class BaseUser extends User
     protected $surname;
 
     /**
+     * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */

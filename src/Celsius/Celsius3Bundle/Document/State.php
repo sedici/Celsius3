@@ -18,6 +18,7 @@ class State
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Date()
      * @MongoDB\Date
      */
     private $date;

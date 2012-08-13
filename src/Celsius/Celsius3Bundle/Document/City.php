@@ -29,12 +29,12 @@ class City
     protected $postalCode;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="location")
+     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="city")
      */
     protected $institutions;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="locations") 
+     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="cities") 
      */
     protected $country;
 

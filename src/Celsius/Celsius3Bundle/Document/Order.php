@@ -31,6 +31,7 @@ class Order
     protected $type;
 
     /**
+     * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */

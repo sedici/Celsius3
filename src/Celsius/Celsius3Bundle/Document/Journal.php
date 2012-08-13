@@ -16,6 +16,7 @@ class Journal
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $name;

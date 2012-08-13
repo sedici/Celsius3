@@ -16,6 +16,7 @@ class Configuration
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $key;

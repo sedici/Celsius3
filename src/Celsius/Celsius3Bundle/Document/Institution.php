@@ -30,6 +30,7 @@ class Institution
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Url()
      * @MongoDB\String
      */
     protected $website;

@@ -23,13 +23,13 @@ class Country
     protected $name;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Location", mappedBy="country")
+     * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="country")
      */
-    protected $locations;
+    protected $cities;
 
     public function __construct()
     {
-        $this->locations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cities = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -65,23 +65,23 @@ class Country
     }
 
     /**
-     * Add locations
+     * Add cities
      *
-     * @param Celsius\Celsius3Bundle\Document\Location $locations
+     * @param Celsius\Celsius3Bundle\Document\City $cities
      */
-    public function addLocations(\Celsius\Celsius3Bundle\Document\Location $locations)
+    public function addCities(\Celsius\Celsius3Bundle\Document\City $cities)
     {
-        $this->locations[] = $locations;
+        $this->cities[] = $cities;
     }
 
     /**
-     * Get locations
+     * Get cities
      *
-     * @return Doctrine\Common\Collections\Collection $locations
+     * @return Doctrine\Common\Collections\Collection $cities
      */
-    public function getLocations()
+    public function getCities()
     {
-        return $this->locations;
+        return $this->cities;
     }
 
 }
