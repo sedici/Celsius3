@@ -1,16 +1,14 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Celsius\Celsius3Bundle\Document;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * Description of Creation
- *
- * @author agustin
+ * @MongoDB\Document
  */
-class Creation
+class Creation extends SingleInstance
 {
-    //put your code here
+    
 }

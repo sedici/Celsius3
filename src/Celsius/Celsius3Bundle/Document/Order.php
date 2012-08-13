@@ -89,6 +89,11 @@ class Order
      * @MongoDB\ReferenceMany(targetDocument="File", inversedBy="orders")
      */
     protected $files;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Event", inversedBy="orders")
+     */
+    protected $events;
 
     public function __toString()
     {
@@ -106,6 +111,7 @@ class Order
     public function __construct()
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -402,4 +408,24 @@ class Order
         return $this->files;
     }
 
+
+    /**
+     * Add events
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $events
+     */
+    public function addEvents(\Celsius\Celsius3Bundle\Document\Event $events)
+    {
+        $this->events[] = $events;
+    }
+
+    /**
+     * Get events
+     *
+     * @return Doctrine\Common\Collections\Collection $events
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
 }

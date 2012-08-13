@@ -1,16 +1,39 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+namespace Celsius\Celsius3Bundle\Document;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * Description of LocalCancel
- *
- * @author agustin
+ * @MongoDB\Document
  */
-class LocalCancel
+class LocalCancel extends MultiInstance
 {
-    //put your code here
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvent")
+     */
+    private $remoteState;
+
+    /**
+     * Set remoteState
+     *
+     * @param Celsius\Celsius3Bundle\Document\State $remoteState
+     * @return LocalCancel
+     */
+    public function setRemoteState(\Celsius\Celsius3Bundle\Document\State $remoteState)
+    {
+        $this->remoteState = $remoteState;
+        return $this;
+    }
+
+    /**
+     * Get remoteState
+     *
+     * @return Celsius\Celsius3Bundle\Document\State $remoteState
+     */
+    public function getRemoteState()
+    {
+        return $this->remoteState;
+    }
 }

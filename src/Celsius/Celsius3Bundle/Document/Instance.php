@@ -78,26 +78,36 @@ class Instance
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="instance")
      */
     protected $institutions;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
     protected $templates;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance")
      */
     private $configurations;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="instance")
      */
     private $catalogs;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Notification", mappedBy="target")
      */
     private $notifications;
+
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="instance")
+     */
+    private $events;
+
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="instance")
+     */
+    private $states;
 
     public function __toString()
     {
@@ -114,6 +124,9 @@ class Instance
         $this->templates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->states = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -358,7 +371,6 @@ class Instance
         return $this->institutions;
     }
 
-
     /**
      * Add templates
      *
@@ -437,5 +449,46 @@ class Instance
     public function getNotifications()
     {
         return $this->notifications;
+    }
+
+
+    /**
+     * Add events
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $events
+     */
+    public function addEvents(\Celsius\Celsius3Bundle\Document\Event $events)
+    {
+        $this->events[] = $events;
+    }
+
+    /**
+     * Get events
+     *
+     * @return Doctrine\Common\Collections\Collection $events
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Add states
+     *
+     * @param Celsius\Celsius3Bundle\Document\State $states
+     */
+    public function addStates(\Celsius\Celsius3Bundle\Document\State $states)
+    {
+        $this->states[] = $states;
+    }
+
+    /**
+     * Get states
+     *
+     * @return Doctrine\Common\Collections\Collection $states
+     */
+    public function getStates()
+    {
+        return $this->states;
     }
 }
