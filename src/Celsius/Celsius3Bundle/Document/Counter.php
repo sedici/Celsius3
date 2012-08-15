@@ -15,14 +15,11 @@ class Counter
     protected $id;
 
     /**
-     * @Assert\NotBlank()
      * @MongoDB\String
      */
     protected $name;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
      * @MongoDB\Int
      */
     protected $value;
