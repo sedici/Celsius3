@@ -15,76 +15,76 @@ class Instance
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $name;
+    private $name;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $abbreviation;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Url()
-     * @MongoDB\String
-     */
-    protected $url;
+    private $abbreviation;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Url()
      * @MongoDB\String
      */
-    protected $website;
+    private $url;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Url()
+     * @MongoDB\String
+     */
+    private $website;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $title;
+    private $title;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      * @MongoDB\String
      */
-    protected $email;
+    private $email;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
      */
-    protected $users;
+    private $users;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="instance")
      */
-    protected $orders;
+    private $orders;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="News", mappedBy="instance", sort={"date"="desc"})
      */
-    protected $news;
+    private $news;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Contact", mappedBy="instance")
      */
-    protected $contacts;
+    private $contacts;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="instance")
      */
-    protected $institutions;
+    private $institutions;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
-    protected $templates;
+    private $templates;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance")

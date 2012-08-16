@@ -92,9 +92,14 @@ class Order
     protected $files;
     
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", inversedBy="orders")
+     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="order")
      */
     protected $events;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="order")
+     */
+    protected $states;
 
     public function __toString()
     {
@@ -428,5 +433,25 @@ class Order
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Add states
+     *
+     * @param Celsius\Celsius3Bundle\Document\State $states
+     */
+    public function addStates(\Celsius\Celsius3Bundle\Document\State $states)
+    {
+        $this->states[] = $states;
+    }
+
+    /**
+     * Get states
+     *
+     * @return Doctrine\Common\Collections\Collection $states
+     */
+    public function getStates()
+    {
+        return $this->states;
     }
 }

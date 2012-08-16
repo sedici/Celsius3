@@ -55,7 +55,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         // Shutdown the kernel.
         $this->kernel->shutdown();
 
-        $this->runConsole('doctrine:mongodb:schema:drop', array('--force' => true));
+        //$this->runConsole('doctrine:mongodb:schema:drop', array('--force' => true));
 
         parent::tearDown();
     }

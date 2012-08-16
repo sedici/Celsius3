@@ -47,6 +47,11 @@ class State
      * @MongoDB\ReferenceOne(targetDocument="State")
      */
     private $previous;
+    
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="states")
+     */
+    private $order;
 
     public function __construct()
     {
@@ -192,5 +197,27 @@ class State
     public function getRemoteEvent()
     {
         return $this->remoteEvent;
+    }
+
+    /**
+     * Set order
+     *
+     * @param Celsius\Celsius3Bundle\Document\Order $order
+     * @return State
+     */
+    public function setOrder(\Celsius\Celsius3Bundle\Document\Order $order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Celsius\Celsius3Bundle\Document\Order $order
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

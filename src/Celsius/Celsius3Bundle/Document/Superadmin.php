@@ -9,7 +9,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Superadmin extends Admin
 {
-
+    /**
+     * @MongoDB\PrePersist 
+     */
+    public function prePersist()
+    {
+        $this->addRole('ROLE_SUPER_ADMIN');
+    }
     /**
      * @var $id
      */
@@ -66,18 +72,24 @@ class Superadmin extends Admin
     protected $institution;
 
     /**
-     * @var Celsius\Celsius3Bundle\Document\Contact
+     * @var Celsius\Celsius3Bundle\Document\Message
      */
-    protected $contact;
+    protected $createdMessages = array();
+
+    /**
+     * @var Celsius\Celsius3Bundle\Document\Message
+     */
+    protected $receivedMessages = array();
 
     public function __construct()
     {
-        parent::__construct();
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    
     /**
      * Get id
      *
@@ -181,7 +193,7 @@ class Superadmin extends Admin
      *
      * @param Celsius\Celsius3Bundle\Document\Order $orders
      */
-    public function addOrders($orders)
+    public function addOrders(\Celsius\Celsius3Bundle\Document\Order $orders)
     {
         $this->orders[] = $orders;
     }
@@ -201,7 +213,7 @@ class Superadmin extends Admin
      *
      * @param Celsius\Celsius3Bundle\Document\Order $operatedOrders
      */
-    public function addOperatedOrders($operatedOrders)
+    public function addOperatedOrders(\Celsius\Celsius3Bundle\Document\Order $operatedOrders)
     {
         $this->operatedOrders[] = $operatedOrders;
     }
@@ -221,7 +233,7 @@ class Superadmin extends Admin
      *
      * @param Celsius\Celsius3Bundle\Document\Order $createdOrders
      */
-    public function addCreatedOrders($createdOrders)
+    public function addCreatedOrders(\Celsius\Celsius3Bundle\Document\Order $createdOrders)
     {
         $this->createdOrders[] = $createdOrders;
     }
@@ -242,7 +254,7 @@ class Superadmin extends Admin
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Superadmin
      */
-    public function setInstance($instance)
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -264,7 +276,7 @@ class Superadmin extends Admin
      * @param Celsius\Celsius3Bundle\Document\Librarian $librarian
      * @return Superadmin
      */
-    public function setLibrarian($librarian)
+    public function setLibrarian(\Celsius\Celsius3Bundle\Document\Librarian $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -286,7 +298,7 @@ class Superadmin extends Admin
      * @param Celsius\Celsius3Bundle\Document\Institution $institution
      * @return Superadmin
      */
-    public function setInstitution($institution)
+    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
     {
         $this->institution = $institution;
         return $this;
@@ -301,47 +313,6 @@ class Superadmin extends Admin
     {
         return $this->institution;
     }
-
-    /**
-     * Set contact
-     *
-     * @param Celsius\Celsius3Bundle\Document\Contact $contact
-     * @return Superadmin
-     */
-    public function setContact($contact)
-    {
-        $this->contact = $contact;
-        return $this;
-    }
-
-    /**
-     * Get contact
-     *
-     * @return Celsius\Celsius3Bundle\Document\Contact $contact
-     */
-    public function getContact()
-    {
-        return $this->contact;
-    }
-    
-    /**
-     * @MongoDB\PrePersist 
-     */
-    public function prePersist()
-    {
-        $this->addRole('ROLE_SUPER_ADMIN');
-    }
-
-    /**
-     * @var Celsius\Celsius3Bundle\Document\Message
-     */
-    protected $createdMessages = array();
-
-    /**
-     * @var Celsius\Celsius3Bundle\Document\Message
-     */
-    protected $receivedMessages = array();
-
 
     /**
      * Add createdMessages

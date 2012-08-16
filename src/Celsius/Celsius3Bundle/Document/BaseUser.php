@@ -79,12 +79,12 @@ class BaseUser extends User
      * @MongoDB\ReferenceOne(targetDocument="Institution") 
      */
     protected $institution;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="sender")
      */
     protected $createdMessages;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="receiver")
      */
@@ -95,6 +95,23 @@ class BaseUser extends User
         return $this->getSurname() . ', ' . $this->getName();
     }
 
+    /**
+     * @MongoDB\PrePersist 
+     */
+    public function prePersist()
+    {
+        $this->addRole('ROLE_USER');
+    }
+
+    public function __construct()
+    {
+        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -198,7 +215,7 @@ class BaseUser extends User
      *
      * @param Celsius\Celsius3Bundle\Document\Order $orders
      */
-    public function addOrders($orders)
+    public function addOrders(\Celsius\Celsius3Bundle\Document\Order $orders)
     {
         $this->orders[] = $orders;
     }
@@ -214,12 +231,52 @@ class BaseUser extends User
     }
 
     /**
+     * Add operatedOrders
+     *
+     * @param Celsius\Celsius3Bundle\Document\Order $operatedOrders
+     */
+    public function addOperatedOrders(\Celsius\Celsius3Bundle\Document\Order $operatedOrders)
+    {
+        $this->operatedOrders[] = $operatedOrders;
+    }
+
+    /**
+     * Get operatedOrders
+     *
+     * @return Doctrine\Common\Collections\Collection $operatedOrders
+     */
+    public function getOperatedOrders()
+    {
+        return $this->operatedOrders;
+    }
+
+    /**
+     * Add createdOrders
+     *
+     * @param Celsius\Celsius3Bundle\Document\Order $createdOrders
+     */
+    public function addCreatedOrders(\Celsius\Celsius3Bundle\Document\Order $createdOrders)
+    {
+        $this->createdOrders[] = $createdOrders;
+    }
+
+    /**
+     * Get createdOrders
+     *
+     * @return Doctrine\Common\Collections\Collection $createdOrders
+     */
+    public function getCreatedOrders()
+    {
+        return $this->createdOrders;
+    }
+
+    /**
      * Set instance
      *
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return BaseUser
      */
-    public function setInstance($instance)
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -241,7 +298,7 @@ class BaseUser extends User
      * @param Celsius\Celsius3Bundle\Document\Librarian $librarian
      * @return BaseUser
      */
-    public function setLibrarian($librarian)
+    public function setLibrarian(\Celsius\Celsius3Bundle\Document\Librarian $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -258,52 +315,12 @@ class BaseUser extends User
     }
 
     /**
-     * Add operatedOrders
-     *
-     * @param Celsius\Celsius3Bundle\Document\Order $operatedOrders
-     */
-    public function addOperatedOrders($operatedOrders)
-    {
-        $this->operatedOrders[] = $operatedOrders;
-    }
-
-    /**
-     * Get operatedOrders
-     *
-     * @return Doctrine\Common\Collections\Collection $operatedOrders
-     */
-    public function getOperatedOrders()
-    {
-        return $this->operatedOrders;
-    }
-
-    /**
-     * Add createdOrders
-     *
-     * @param Celsius\Celsius3Bundle\Document\Order $createdOrders
-     */
-    public function addCreatedOrders($createdOrders)
-    {
-        $this->createdOrders[] = $createdOrders;
-    }
-
-    /**
-     * Get createdOrders
-     *
-     * @return Doctrine\Common\Collections\Collection $createdOrders
-     */
-    public function getCreatedOrders()
-    {
-        return $this->createdOrders;
-    }
-
-    /**
      * Set institution
      *
      * @param Celsius\Celsius3Bundle\Document\Institution $institution
      * @return BaseUser
      */
-    public function setInstitution($institution)
+    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
     {
         $this->institution = $institution;
         return $this;
@@ -318,25 +335,6 @@ class BaseUser extends User
     {
         return $this->institution;
     }
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * @MongoDB\PrePersist 
-     */
-    public function prePersist()
-    {
-        $this->addRole('ROLE_USER');
-    }
-
 
     /**
      * Add createdMessages

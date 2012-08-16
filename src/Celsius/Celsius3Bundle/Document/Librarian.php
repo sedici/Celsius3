@@ -71,19 +71,25 @@ class Librarian extends BaseUser
     protected $institution;
 
     /**
-     * @var Celsius\Celsius3Bundle\Document\Contact
+     * @var Celsius\Celsius3Bundle\Document\Message
      */
-    protected $contact;
+    protected $createdMessages = array();
+
+    /**
+     * @var Celsius\Celsius3Bundle\Document\Message
+     */
+    protected $receivedMessages = array();
 
     public function __construct()
     {
-        parent::__construct();
         $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    
     /**
      * Add subordinates
      *
@@ -207,7 +213,7 @@ class Librarian extends BaseUser
      *
      * @param Celsius\Celsius3Bundle\Document\Order $orders
      */
-    public function addOrders($orders)
+    public function addOrders(\Celsius\Celsius3Bundle\Document\Order $orders)
     {
         $this->orders[] = $orders;
     }
@@ -227,7 +233,7 @@ class Librarian extends BaseUser
      *
      * @param Celsius\Celsius3Bundle\Document\Order $operatedOrders
      */
-    public function addOperatedOrders($operatedOrders)
+    public function addOperatedOrders(\Celsius\Celsius3Bundle\Document\Order $operatedOrders)
     {
         $this->operatedOrders[] = $operatedOrders;
     }
@@ -247,7 +253,7 @@ class Librarian extends BaseUser
      *
      * @param Celsius\Celsius3Bundle\Document\Order $createdOrders
      */
-    public function addCreatedOrders($createdOrders)
+    public function addCreatedOrders(\Celsius\Celsius3Bundle\Document\Order $createdOrders)
     {
         $this->createdOrders[] = $createdOrders;
     }
@@ -268,7 +274,7 @@ class Librarian extends BaseUser
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Librarian
      */
-    public function setInstance($instance)
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -290,7 +296,7 @@ class Librarian extends BaseUser
      * @param Celsius\Celsius3Bundle\Document\Librarian $librarian
      * @return Librarian
      */
-    public function setLibrarian($librarian)
+    public function setLibrarian(\Celsius\Celsius3Bundle\Document\Librarian $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -312,7 +318,7 @@ class Librarian extends BaseUser
      * @param Celsius\Celsius3Bundle\Document\Institution $institution
      * @return Librarian
      */
-    public function setInstitution($institution)
+    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
     {
         $this->institution = $institution;
         return $this;
@@ -327,46 +333,6 @@ class Librarian extends BaseUser
     {
         return $this->institution;
     }
-
-    /**
-     * Set contact
-     *
-     * @param Celsius\Celsius3Bundle\Document\Contact $contact
-     * @return Librarian
-     */
-    public function setContact($contact)
-    {
-        $this->contact = $contact;
-        return $this;
-    }
-
-    /**
-     * Get contact
-     *
-     * @return Celsius\Celsius3Bundle\Document\Contact $contact
-     */
-    public function getContact()
-    {
-        return $this->contact;
-    }
-
-
-
-    
-    public function prePersist()
-    {
-        // Add your code here
-    }
-    /**
-     * @var Celsius\Celsius3Bundle\Document\Message
-     */
-    protected $createdMessages = array();
-
-    /**
-     * @var Celsius\Celsius3Bundle\Document\Message
-     */
-    protected $receivedMessages = array();
-
 
     /**
      * Add createdMessages
@@ -406,5 +372,11 @@ class Librarian extends BaseUser
     public function getReceivedMessages()
     {
         return $this->receivedMessages;
+    }
+
+    
+    public function prePersist()
+    {
+        // Add your code here
     }
 }
