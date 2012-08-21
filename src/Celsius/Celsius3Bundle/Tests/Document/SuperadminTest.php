@@ -2,16 +2,16 @@
 
 namespace Celsius\Celsius3Bundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\BaseUser;
+use Celsius\Celsius3Bundle\Document\Superadmin;
 
-class BaseUserTest extends UserTest
+class SuperadminTest extends UserTest
 {
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->user = new BaseUser();
+        $this->user = new Superadmin();
     }
 
 }

@@ -82,6 +82,7 @@ class Librarian extends BaseUser
 
     public function __construct()
     {
+        parent::__construct();
         $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();

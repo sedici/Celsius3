@@ -84,6 +84,7 @@ class Admin extends BaseUser
 
     public function __construct()
     {
+        parent::__construct();
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();

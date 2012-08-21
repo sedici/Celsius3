@@ -10,6 +10,7 @@ require_once dirname(__DIR__) . '/../../../app/AppKernel.php';
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var Symfony\Component\Console\Application
      */
