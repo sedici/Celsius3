@@ -17,7 +17,7 @@ abstract class MultiInstance extends Event
     
     public function notifyRemoteInstance()
     {
-        
+        return null;
     }
 
     /**

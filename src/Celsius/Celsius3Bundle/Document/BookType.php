@@ -24,7 +24,7 @@ class BookType extends MaterialType
     /**
      * @MongoDB\String
      */
-    protected $isbn;
+    protected $ISBN;
 
     /**
      * @Assert\NotBlank()
@@ -32,36 +32,6 @@ class BookType extends MaterialType
      * @MongoDB\Boolean
      */
     protected $withIndex;
-
-    /**
-     * @var $id
-     */
-    protected $id;
-
-    /**
-     * @var string $title
-     */
-    protected $title;
-
-    /**
-     * @var string $authors
-     */
-    protected $authors;
-
-    /**
-     * @var int $year
-     */
-    protected $year;
-
-    /**
-     * @var int $startPage
-     */
-    protected $startPage;
-
-    /**
-     * @var int $endPage
-     */
-    protected $endPage;
 
     /**
      * Set editor
@@ -104,23 +74,23 @@ class BookType extends MaterialType
     }
 
     /**
-     * Set isbn
+     * Set ISBN
      *
-     * @param string $isbn
+     * @param string $ISBN
      */
-    public function setIsbn($isbn)
+    public function setISBN($ISBN)
     {
-        $this->isbn = $isbn;
+        $this->ISBN = $ISBN;
     }
 
     /**
-     * Get isbn
+     * Get ISBN
      *
-     * @return string $isbn
+     * @return string $ISBN
      */
     public function getIsbn()
     {
-        return $this->isbn;
+        return $this->ISBN;
     }
 
     /**
@@ -141,116 +111,6 @@ class BookType extends MaterialType
     public function getWithIndex()
     {
         return $this->withIndex;
-    }
-
-    /**
-     * Get id
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string $title
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Set authors
-     *
-     * @param string $authors
-     */
-    public function setAuthors($authors)
-    {
-        $this->authors = $authors;
-    }
-
-    /**
-     * Get authors
-     *
-     * @return string $authors
-     */
-    public function getAuthors()
-    {
-        return $this->authors;
-    }
-
-    /**
-     * Set year
-     *
-     * @param int $year
-     */
-    public function setYear($year)
-    {
-        $this->year = $year;
-    }
-
-    /**
-     * Get year
-     *
-     * @return int $year
-     */
-    public function getYear()
-    {
-        return $this->year;
-    }
-
-    /**
-     * Set startPage
-     *
-     * @param int $startPage
-     */
-    public function setStartPage($startPage)
-    {
-        $this->startPage = $startPage;
-    }
-
-    /**
-     * Get startPage
-     *
-     * @return int $startPage
-     */
-    public function getStartPage()
-    {
-        return $this->startPage;
-    }
-
-    /**
-     * Set endPage
-     *
-     * @param int $endPage
-     */
-    public function setEndPage($endPage)
-    {
-        $this->endPage = $endPage;
-    }
-
-    /**
-     * Get endPage
-     *
-     * @return int $endPage
-     */
-    public function getEndPage()
-    {
-        return $this->endPage;
     }
 
 }
