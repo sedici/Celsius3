@@ -5,25 +5,27 @@
 {% endblock %}
 
 {% block content %}
-<ul class="unstyled">
-    {% for instance in instances %}
-    <li class="span4">
-        <div class="well">
-            <h3>{{ instance.name }}</h3>
-            <p>
-                <a href="{{ path('public_index', { 'url': instance.url }) }}">{{ 'Visit'|trans }}</a>
-            </p>
-            <p>
-                {{ 'Institutions'|trans }}: "Here goes the Institution Tree"
-            </p>
-            <p>
-                <a href="http://{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
-            </p>
-            <p>
-                <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
-            </p>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
+<div class="row">
+    <ul class="unstyled">
+        {% for instance in instances %}
+        <li class="span6">
+            <div class="well">
+                <h3>{{ instance.name }}</h3>
+                <p>
+                    <a href="{{ path('public_index', { 'url': instance.url }) }}">{{ 'Visit'|trans }}</a>
+                </p>
+                <p>
+                    {{ 'Institutions'|trans }}: "Here goes the Institution Tree"
+                </p>
+                <p>
+                    <a href="http://{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
+                </p>
+                <p>
+                    <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
+                </p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

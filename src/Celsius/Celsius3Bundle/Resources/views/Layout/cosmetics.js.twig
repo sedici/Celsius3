@@ -3,5 +3,11 @@ $(document).ready(function(){
     $('.autoellipsis').dotdotdot({
         watch: true
     });
+    
+    $('.navbar .nav li').each(function (index, element) {
+        if (window.location.href.indexOf($(element).children('a').attr('href')) != -1) {
+            $(element).attr('class', 'active');
+        }
+    });
 });
 </script>

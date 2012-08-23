@@ -22,10 +22,6 @@ class Builder extends ContainerAware
             'route' => 'public_index',
             'routeParameters' => array('url' => $instance_url)
         ));
-        $menu->addChild('News', array(
-            'route' => 'public_news',
-            'routeParameters' => array('url' => $instance_url)
-        ));
         if ($securityContext->isGranted('ROLE_ADMIN') !== false)
         {
             $menu->addChild('Administration', array(
@@ -44,39 +40,14 @@ class Builder extends ContainerAware
                 'route' => 'user_index'
             ));
         }
-        $menu->addChild('Information', array(
-            'route' => 'public_information',
-            'routeParameters' => array('url' => $instance_url)
-        ));
-        $menu->addChild('Statistics', array(
-            'route' => 'public_statistics',
-            'routeParameters' => array('url' => $instance_url)
-        ));
-        if ($securityContext->isGranted('ROLE_USER') !== false)
-        {
-            $menu->addChild('Logout', array(
-                'route' => 'fos_user_security_logout',
-                'routeParameters' => array('url' => $instance_url)
-            ));
-        } else
-        {
-            $menu->addChild('Login', array(
-                'route' => 'fos_user_security_login',
-                'routeParameters' => array('url' => $instance_url)
-            ));
-            $menu->addChild('Register', array(
-                'route' => 'fos_user_registration_register',
-                'routeParameters' => array('url' => $instance_url)
-            ));
-        }
 
         return $menu;
     }
 
-    public function directoryTopMenu(FactoryInterface $factory, array $options)
+    public function directoryMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav');
+        $menu->setChildrenAttribute('class', 'nav nav-pills');
 
         $menu->addChild('Home', array(
             'route' => 'directory',
@@ -106,6 +77,35 @@ class Builder extends ContainerAware
         $menu->addChild('PT', array(
             'route' => $request->attributes->get('_route'),
             'routeParameters' => array_merge($request->attributes->get('_route_params'), array('_locale' => 'pt')),
+        ));
+
+        return $menu;
+    }
+
+    public function publicMenu(FactoryInterface $factory, array $options)
+    {
+        $request = $this->container->get('request');
+
+        $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
+
+        $menu = $factory->createItem('root');
+        $menu->setChildrenAttribute('class', 'nav nav-pills');
+
+        $menu->addChild('Home', array(
+            'route' => 'public_index',
+            'routeParameters' => array('url' => $instance_url)
+        ));
+        $menu->addChild('News', array(
+            'route' => 'public_news',
+            'routeParameters' => array('url' => $instance_url)
+        ));
+        $menu->addChild('Information', array(
+            'route' => 'public_information',
+            'routeParameters' => array('url' => $instance_url)
+        ));
+        $menu->addChild('Statistics', array(
+            'route' => 'public_statistics',
+            'routeParameters' => array('url' => $instance_url)
         ));
 
         return $menu;

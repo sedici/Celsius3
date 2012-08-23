@@ -152,11 +152,17 @@ services:
         class: Celsius\Celsius3Bundle\Aop\LoginLoggingInterceptor
         arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
         
-    menu.voter.request:
-        class: Celsius\Celsius3Bundle\Voter\RequestVoter
+    menu.voter.exact:
+        class: Celsius\Celsius3Bundle\Voter\ExactRequestVoter
         arguments: ["@service_container"]
         tags:
-            - { name: knp_menu.voter }
+            - { name: knp_menu.voter }    
+    
+#    menu.voter.request:
+#        class: Celsius\Celsius3Bundle\Voter\RequestVoter
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: knp_menu.voter }
             
 parameters:
     max_per_page: 10

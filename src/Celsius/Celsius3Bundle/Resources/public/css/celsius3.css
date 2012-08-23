@@ -7,15 +7,6 @@ body {
     margin-top: 45px;
     padding: 35px 10px 10px;
 }
-li.span4:nth-child(3n+1) {
-    margin-left:0;
-}
-li.span12:nth-child(n+1) {
-    margin-left:0;
-}
-#user_panel {
-    margin-top: -15px;
-}
 .admin_search {
     margin-top: -20px;
     margin-right: -20px;

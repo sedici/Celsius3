@@ -3,24 +3,12 @@
 namespace Celsius\Celsius3Bundle\Voter;
 
 use Knp\Menu\ItemInterface;
-use Knp\Menu\Matcher\Voter\VoterInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Voter based on the uri
  */
-class RequestVoter implements VoterInterface
+class ExactRequestVoter extends RequestVoter
 {
-
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * Checks whether an item is current.
@@ -33,7 +21,7 @@ class RequestVoter implements VoterInterface
      */
     public function matchItem(ItemInterface $item)
     {
-        if (false !== strpos($this->container->get('request')->getRequestUri(), $item->getUri()))
+        if ($item->getUri() === preg_replace('/\?.*/', '', $this->container->get('request')->getRequestUri()))
         {
             return true;
         }
