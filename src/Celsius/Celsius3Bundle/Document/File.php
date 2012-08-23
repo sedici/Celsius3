@@ -56,7 +56,7 @@ class File
      */
     private $orders;
 
-    protected function getUploadDir()
+    public function getUploadDir()
     {
         // the absolute directory path where uploaded files should be saved
         return __DIR__ . '/../../../../web/uploads/temp';
@@ -68,17 +68,15 @@ class File
      */
     public function prePersist()
     {
-        if ($this->file instanceof Doctrine\MongoDB\GridFSFile)
+        if (!($this->file instanceof Doctrine\MongoDB\GridFSFile))
         {
-            return;
+            $this->setName($this->file->getClientOriginalName());
+            $this->setMime($this->file->getMimeType());
+            $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
+            $this->getFile()->move($this->getUploadDir(), $this->getPath());
+            $this->setFile($this->getUploadDir() . '/' . $this->getPath());
+            $this->setUploaded(date('Y-m-d H:i:s'));
         }
-
-        $this->setName($this->file->getClientOriginalName());
-        $this->setMime($this->file->getMimeType());
-        $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
-        $this->getFile()->move($this->getUploadDir(), $this->getPath());
-        $this->setFile($this->getUploadDir() . '/' . $this->getPath());
-        $this->setUploaded(date('Y-m-d H:i:s'));
     }
 
     /**

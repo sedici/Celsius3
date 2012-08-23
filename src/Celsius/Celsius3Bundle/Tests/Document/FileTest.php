@@ -11,6 +11,8 @@ class FileTest extends TestCase
 {
 
     protected $file;
+    protected $path;
+    protected $name;
     protected $order;
 
     public function setUp()
@@ -18,6 +20,13 @@ class FileTest extends TestCase
         parent::setUp();
 
         $this->file = new File();
+
+        $this->name = md5(rand(0, 99999999)) . '.jpg';
+        $this->path = $this->file->getUploadDir() . '/' . $this->name;
+        $image = imagecreate(100, 100);
+        imagejpeg($image, $this->path);
+        imagedestroy($image);
+
         $this->order = new Order();
     }
 
@@ -94,10 +103,12 @@ class FileTest extends TestCase
     public function testGenerateFile()
     {
         $file = new UploadedFile(
-                        '/path/to/photo.jpg',
-                        'photo.jpg',
+                        $this->path,
+                        $this->name,
                         'image/jpeg',
-                        123
+                        123,
+                        null,
+                        true
         );
 
         $this->file->setFile($file);
@@ -114,7 +125,9 @@ class FileTest extends TestCase
     {
         parent::tearDown();
 
-        unset($this->file, $this->order);
+        if (file_exists($this->path))
+            unlink($this->path);
+        unset($this->file, $this->name, $this->path, $this->order);
     }
 
 }
