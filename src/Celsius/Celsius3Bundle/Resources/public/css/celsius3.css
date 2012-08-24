@@ -20,3 +20,14 @@ body {
 .dash {
     text-align: center;
 }
+.actions {
+    margin-top: -27px;
+    margin-right: 5px;
+    margin-bottom: 0px;
+}
+.sorting-group {
+    margin-bottom: 5px;
+}
+.actions > li, .sorting-group li, .sorting-group > ul {
+    display: inline;
+}

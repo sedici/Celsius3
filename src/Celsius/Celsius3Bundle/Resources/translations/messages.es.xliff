@@ -71,8 +71,8 @@
                 <target>Borrar</target>
             </trans-unit>
             <trans-unit id="18">
-                <source>Back to the list</source>
-                <target>Volver al listado</target>
+                <source>Go to the list</source>
+                <target>Ir al listado</target>
             </trans-unit>
             <trans-unit id="19">
                 <source>User Creation</source>
