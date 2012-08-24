@@ -33,7 +33,10 @@ class DirectoryController extends BaseController
     {
         $instances = $this->getDocumentManager()
                 ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->findAll();
+                ->createQueryBuilder()
+                ->field('enabled')->equals(true)
+                ->getQuery()
+                ->execute();
         
         return array(
             'instances' => $instances,

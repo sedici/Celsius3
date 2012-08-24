@@ -124,5 +124,34 @@ class InstanceController extends BaseController
     {
         return $this->baseDelete('Instance', $id, 'instance');
     }
+    
+    /**
+     * Switches the enabled flag of a Instance document.
+     *
+     * @Route("/{id}/switch", name="instance_switch")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function switchAction($id)
+    {
+        $document = $this->findQuery('Instance', $id);
+
+        if (!$document)
+        {
+            throw $this->createNotFoundException('Unable to find Instance.');
+        }
+        
+        $document->setEnabled(!$document->getEnabled());
+
+        $dm = $this->getDocumentManager();
+        $dm->persist($document);
+        $dm->flush();
+
+        return $this->redirect($this->generateUrl('instance'));
+    }
 
 }

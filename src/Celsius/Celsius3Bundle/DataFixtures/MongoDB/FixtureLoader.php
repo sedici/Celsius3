@@ -34,6 +34,7 @@ class FixtureLoader implements FixtureInterface
             $instance->setWebsite(md5(rand(0, 99999999)) . '.test.com');
             $instance->setEmail(md5(rand(0, 99999999)) . '@test.com');
             $instance->setUrl(str_replace('. ', '', $i . '_' . $generator->getContent(1, 'plain', false)));
+            $instance->setEnabled(true);
             $manager->persist($instance);
             $manager->flush();
 

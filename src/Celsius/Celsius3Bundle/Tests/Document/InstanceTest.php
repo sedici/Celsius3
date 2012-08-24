@@ -112,6 +112,15 @@ class InstanceTest extends TestCase
         $this->assertEquals($email, $this->instance->getEmail());
     }
     
+    public function testGetEnabled()
+    {
+        $enabled = true;
+
+        $this->instance->setEnabled($enabled);
+
+        $this->assertEquals($enabled, $this->instance->getEnabled());
+    }
+    
     public function testGetUsers()
     {
         $this->instance->addUsers($this->user);

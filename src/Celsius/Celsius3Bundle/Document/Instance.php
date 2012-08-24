@@ -55,6 +55,13 @@ class Instance
      * @MongoDB\String
      */
     private $email;
+    
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $enabled;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
@@ -492,5 +499,27 @@ class Instance
     public function getStates()
     {
         return $this->states;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return Instance
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean $enabled
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
     }
 }
