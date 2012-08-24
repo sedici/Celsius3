@@ -169,6 +169,7 @@ parameters:
     mongodb_host: localhost
     mongodb_port: 27017
     mongodb_database: celsius
+    mongodb_database_test: celsius_test
     mongodb_log_collection: Log
     
 jms_aop:
