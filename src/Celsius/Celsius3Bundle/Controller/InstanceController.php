@@ -107,7 +107,7 @@ class InstanceController extends BaseController
     {
         return $this->baseDelete('Instance', $id, 'instance');
     }
-    
+
     /**
      * Switches the enabled flag of a Instance document.
      *
@@ -127,12 +127,15 @@ class InstanceController extends BaseController
         {
             throw $this->createNotFoundException('Unable to find Instance.');
         }
-        
+
         $document->setEnabled(!$document->getEnabled());
 
         $dm = $this->getDocumentManager();
         $dm->persist($document);
         $dm->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' .
+                (($document->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('instance'));
     }
