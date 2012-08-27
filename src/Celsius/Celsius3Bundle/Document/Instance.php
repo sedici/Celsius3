@@ -61,7 +61,7 @@ class Instance
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $enabled;
+    private $enabled = true;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
