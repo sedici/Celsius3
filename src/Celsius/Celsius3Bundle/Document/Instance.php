@@ -31,7 +31,7 @@ class Instance
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Url()
+     * @MongoDB\UniqueIndex(order="asc")
      * @MongoDB\String
      */
     private $url;
