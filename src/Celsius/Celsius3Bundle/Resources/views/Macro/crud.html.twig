@@ -2,6 +2,8 @@
 {% macro edit(name, document, edit_form, delete_form) %}
 <h2>{{ [name|capitalize, ' Edit']|join|trans }}</h2>
 
+{% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
 <form action="{{ path([name,'_update']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
       {{ form_widget(edit_form) }}
       <p>
@@ -27,6 +29,8 @@
 {# new #}
 {% macro new(name, form) %}
 <h2>{{ [name|capitalize, ' Creation']|join|trans }}</h2>
+
+{% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
 <form action="{{ path([name,'_create']|join, { 'code': app.request.get('code') }) }}" method="post" {{ form_enctype(form) }} class="well">
       {{ form_widget(form) }}
@@ -77,6 +81,8 @@
 <div class="container">
     <div class="row">
         <div class="span9">
+            {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+            
             <div class="navigation">
                 {{ pagination.render()|raw }}
             </div>

@@ -1,0 +1,12 @@
+<div class="flashes">
+{% set flashes = { 'warning': '', 'notice': 'alert-info', 'error': 'alert-error', 'success': 'alert-success' } %}
+
+{% for key, messages in app.session.getFlashBag().all() %}
+    {% for message in messages %}
+    <div class="alert {{ flashes[key] }}">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endfor %}
+</div>
