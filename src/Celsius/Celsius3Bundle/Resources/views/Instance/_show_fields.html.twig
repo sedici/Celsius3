@@ -1,20 +1,14 @@
-<table class="table table-striped table-bordered table-condensed record_properties">
-    <tbody>
-        <tr>
-            <th>{{ 'Name'|trans }}</th>
-            <td>{{ document.name }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'Website'|trans }}</th>
-            <td>{{ document.website }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'Title'|trans }}</th>
-            <td>{{ document.title }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'Email'|trans }}</th>
-            <td>{{ document.email }}</td>
-        </tr>
-    </tbody>
-</table>
+<dl class="dl-horizontal">
+    <dt>{{ 'Name'|trans }}</dt>
+    <dd>{{ instance.name }}</dd>
+    <dt>{{ 'Abbreviation'|trans }}</dt>
+    <dd>{{ instance.abbreviation }}</dd>
+    <dt>{{ 'Url'|trans }}</dt>
+    <dd>{{ instance.url }}</dd>
+    <dt>{{ 'Title'|trans }}</dt>
+    <dd>{{ instance.title }}</dd>
+    <dt>{{ 'Email'|trans }}</dt>
+    <dd>{{ instance.email }}</dd>
+    <dt>{{ 'Institutions'|trans }}</dt>
+    <dd>Institutions tree</dd>
+</dl>

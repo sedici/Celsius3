@@ -30,23 +30,6 @@ class InstanceController extends BaseController
     }
 
     /**
-     * Finds and displays a Instance document.
-     *
-     * @Route("/{id}/show", name="instance_show")
-     * @Template()
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function showAction($id)
-    {
-        return $this->baseShow('Instance', $id);
-    }
-
-    /**
      * Displays a form to create a new Instance document.
      *
      * @Route("/new", name="instance_new")

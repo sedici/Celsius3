@@ -56,14 +56,8 @@
         {
             "package": "doctrine/mongodb-odm",
             "version": "dev-master",
-            "source-reference": "70521c1c654ef6a42a7e88ed9bb98f9d3fe9fc0c",
-            "commit-date": "1344881897"
-        },
-        {
-            "package": "doctrine/mongodb-odm-bundle",
-            "version": "dev-master",
-            "alias-pretty-version": "3.0.x-dev",
-            "alias-version": "3.0.9999999.9999999-dev"
+            "source-reference": "43f678b345a46d8399d86305a3d6947b3d19cfca",
+            "commit-date": "1345760269"
         },
         {
             "package": "doctrine/mongodb-odm-bundle",
@@ -80,8 +74,8 @@
         {
             "package": "friendsofsymfony/user-bundle",
             "version": "dev-master",
-            "source-reference": "5aa50962a4b67e380fe7912cb06defdf448c3f26",
-            "commit-date": "1345421669"
+            "source-reference": "8b2c9ae5e4c5ca11f11fa543d271fccf92f29331",
+            "commit-date": "1345849777"
         },
         {
             "package": "gedmo/doctrine-extensions",
@@ -92,14 +86,8 @@
         {
             "package": "gedmo/doctrine-extensions",
             "version": "dev-master",
-            "source-reference": "fa057868e3490c64afb7144348c7cf1da10229de",
-            "commit-date": "1345650337"
-        },
-        {
-            "package": "ismaambrosi/generator-bundle",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
+            "source-reference": "b0421677c69a6cdb649faedd659fdca39fcad028",
+            "commit-date": "1346056964"
         },
         {
             "package": "ismaambrosi/generator-bundle",
@@ -154,8 +142,8 @@
         {
             "package": "knplabs/knp-menu",
             "version": "dev-master",
-            "source-reference": "5b7d34e58c2d51b30005b69eeded9fb658fe8abf",
-            "commit-date": "1343985848"
+            "source-reference": "78f78d593117ac50ba3ab13664a7c99904f694d1",
+            "commit-date": "1345991530"
         },
         {
             "package": "knplabs/knp-menu-bundle",
@@ -178,8 +166,8 @@
         {
             "package": "kriswallsmith/assetic",
             "version": "dev-master",
-            "source-reference": "d1d5066d9071a76d771993081ee23137e96216b7",
-            "commit-date": "1344507381"
+            "source-reference": "db682ee6bf6b15131a5433f2a71f8ca39555ccaa",
+            "commit-date": "1346007196"
         },
         {
             "package": "monolog/monolog",
@@ -198,8 +186,8 @@
         {
             "package": "sensio/distribution-bundle",
             "version": "dev-master",
-            "source-reference": "bd98b5fb0e4a5dddb4f7acd2e11f28c4cd7eacee",
-            "commit-date": "1345139690"
+            "source-reference": "f7e9231c36c3badc43f40d025a0ad12939b91df7",
+            "commit-date": "1345982505"
         },
         {
             "package": "sensio/framework-extra-bundle",
@@ -240,20 +228,8 @@
         {
             "package": "symfony/assetic-bundle",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/assetic-bundle",
-            "version": "dev-master",
             "source-reference": "ec3a65d3eab342af9e93a3c21af0ac7b78e01c17",
             "commit-date": "1344507386"
-        },
-        {
-            "package": "symfony/monolog-bundle",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
         },
         {
             "package": "symfony/monolog-bundle",
@@ -264,7 +240,13 @@
         {
             "package": "symfony/swiftmailer-bundle",
             "version": "dev-master",
-            "source-reference": "v2.1.0-RC1",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/swiftmailer-bundle",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-BETA4",
             "commit-date": "1342684512"
         },
         {
@@ -276,8 +258,8 @@
         {
             "package": "symfony/symfony",
             "version": "dev-master",
-            "source-reference": "2cf3cb5b7a56446c76f90689e4df047031d73205",
-            "commit-date": "1345655061"
+            "source-reference": "2c0e851059905307e5a28ebe0b5153e8676585d1",
+            "commit-date": "1345978996"
         },
         {
             "package": "twig/extensions",
@@ -294,8 +276,8 @@
         {
             "package": "twig/twig",
             "version": "dev-master",
-            "source-reference": "11e91f63e94a4fce9e65ddbda44ed00ba22a2171",
-            "commit-date": "1345724338"
+            "source-reference": "32c4867f68c1bacc758602d602e18a3ac1598c76",
+            "commit-date": "1345916214"
         }
     ],
     "packages-dev": null,

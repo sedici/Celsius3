@@ -31,3 +31,12 @@ body {
 .actions > li, .sorting-group li, .sorting-group > ul {
     display: inline;
 }
+.dl-horizontal dt {
+    width: 150px;
+}
+.dl-horizontal dd {
+    margin-left: 160px;
+}
+.disabled-instance {
+    background-color: #F2DEDE;
+}
