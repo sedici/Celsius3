@@ -105,8 +105,8 @@ services:
     counter_listener:
         class: Celsius\Celsius3Bundle\Listener\CounterListener
         tags:
-            - { name: doctrine.odm.mongodb.event_listener, event: prePersist }
-            - { name: doctrine.odm.mongodb.event_listener, event: postPersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: prePersist }
+            - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
     
     # Formulario de registro personalizado
     celsius_celsius3bundle.registration.form.type:
