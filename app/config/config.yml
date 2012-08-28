@@ -107,6 +107,12 @@ services:
         tags:
             - { name: doctrine_mongodb.odm.event_listener, event: prePersist }
             - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
+            
+    # Crea la Configuration inicial de una Instance
+    configuration_listener:
+        class: Celsius\Celsius3Bundle\Listener\ConfigurationListener
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
     
     # Formulario de registro personalizado
     celsius_celsius3bundle.registration.form.type:
