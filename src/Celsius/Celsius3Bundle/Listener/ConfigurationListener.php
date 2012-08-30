@@ -25,12 +25,22 @@ class ConfigurationListener
 
             foreach ($default as $configuration)
             {
-                $new = new Configuration();
-                $new->setName($configuration->getName());
-                $new->setKey($configuration->getKey());
-                $new->setValue($configuration->getValue());
-                $new->setType($configuration->getType());
+                $new = Configuration::duplicate($configuration);
                 $new->setInstance($document);
+                $dm->persist($new);
+                $dm->flush();
+            }
+        } elseif ($document instanceof Configuration)
+        {
+            $instances = $dm->getRepository('CelsiusCelsius3Bundle:Instance')
+                    ->createQueryBuilder()
+                    ->getQuery()
+                    ->execute();
+
+            foreach ($instances as $instance)
+            {
+                $new = Configuration::duplicate($document);
+                $new->setInstance($instance);
                 $dm->persist($new);
                 $dm->flush();
             }

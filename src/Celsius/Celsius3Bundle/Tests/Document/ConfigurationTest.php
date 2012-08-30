@@ -37,6 +37,24 @@ class ConfigurationTest extends TestCase
         $this->assertEquals($value, $this->configuration->getValue());
     }
     
+    public function testGetName()
+    {
+        $name = 'Test Name';
+
+        $this->configuration->setName($name);
+
+        $this->assertEquals($name, $this->configuration->getName());
+    }
+    
+    public function testGetType()
+    {
+        $type = 'boolean';
+
+        $this->configuration->setType($type);
+
+        $this->assertEquals($type, $this->configuration->getType());
+    }
+    
     public function testGetInstance()
     {
         $this->configuration->setInstance($this->instance);
@@ -48,9 +66,13 @@ class ConfigurationTest extends TestCase
     {
         $key = 'testkey';
         $value = 'testvalue';
+        $name = 'Sample Name';
+        $type = 'boolean';
 
         $this->configuration->setKey($key);
         $this->configuration->setValue($value);
+        $this->configuration->setName($name);
+        $this->configuration->setType($type);
 
         $this->documentManager->persist($this->configuration);
         $this->documentManager->flush();
