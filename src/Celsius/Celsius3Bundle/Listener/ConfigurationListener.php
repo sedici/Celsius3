@@ -26,8 +26,10 @@ class ConfigurationListener
             foreach ($default as $configuration)
             {
                 $new = new Configuration();
+                $new->setName($configuration->getName());
                 $new->setKey($configuration->getKey());
                 $new->setValue($configuration->getValue());
+                $new->setType($configuration->getType());
                 $new->setInstance($document);
                 $dm->persist($new);
                 $dm->flush();

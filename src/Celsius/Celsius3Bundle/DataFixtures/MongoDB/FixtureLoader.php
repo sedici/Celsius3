@@ -26,20 +26,26 @@ class FixtureLoader implements FixtureInterface
         $max = strtotime('2000-12-31');
 
         $configuration = new Document\Configuration();
+        $configuration->setName('Email confirmation');
         $configuration->setKey('registration_email_confirm');
         $configuration->setValue(true);
+        $configuration->setType('boolean');
         $manager->persist($configuration);
         unset($configuration);
         
         $configuration = new Document\Configuration();
+        $configuration->setName('Administrator confirmation');
         $configuration->setKey('registration_admin_confirm');
         $configuration->setValue(true);
+        $configuration->setType('boolean');
         $manager->persist($configuration);
         unset($configuration);
         
         $configuration = new Document\Configuration();
+        $configuration->setName('Title');
         $configuration->setKey('instance_title');
         $configuration->setValue('Default Title');
+        $configuration->setType('string');
         $manager->persist($configuration);
         unset($configuration);
         

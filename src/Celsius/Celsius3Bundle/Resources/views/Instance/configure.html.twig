@@ -1,0 +1,26 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Instance Configuration'|trans }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ 'Instance Configuration' }}</h2>
+
+{% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
+<form action="{{ path('instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="well">
+      {{ form_widget(configure_form) }}
+      <p>
+        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Configure'|trans }}</button>
+    </p>
+</form>
+
+<ul class="unstyled record_actions">
+    <li>
+        <a href="{{ path('instance', { 'code': app.request.get('code') }) }}">
+            <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+        </a>
+    </li>
+</ul>
+{% endblock %}

@@ -10,6 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Configuration
 {
+
     /**
      * @MongoDB\Id
      */
@@ -20,12 +21,24 @@ class Configuration
      * @MongoDB\String
      */
     private $key;
-    
+
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $name;
+
     /**
      * @MongoDB\String
      */
     private $value;
-    
+
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $type;
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
@@ -106,4 +119,49 @@ class Configuration
     {
         return $this->instance;
     }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Configuration
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Configuration
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string $type
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
 }

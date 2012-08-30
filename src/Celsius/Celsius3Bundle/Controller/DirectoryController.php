@@ -8,12 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Directory controller
  * 
- * @Route("/directory") 
+ * @Route("") 
  */
 class DirectoryController extends BaseController
 {
     /**
-     * @Route("/", name="directory")
+     * @Route("/directory/", name="directory")
+     * @Route("/", name="index")
      * @Template()
      *
      * @return array
@@ -24,7 +25,7 @@ class DirectoryController extends BaseController
     }
     
     /**
-     * @Route("/instances", name="directory_instances")
+     * @Route("/directory/instances", name="directory_instances")
      * @Template()
      *
      * @return array

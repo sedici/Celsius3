@@ -28,6 +28,11 @@ abstract class BaseController extends Controller
         $pagination = $paginator->paginate(
                 $query, $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
         );
+        
+//        $this->get('session')->getFlashBag()->add('warning', 'Your config file is writable, it should be set read-only');
+//        $this->get('session')->getFlashBag()->add('error', 'Your config file is writable, it should be set read-only');
+//        $this->get('session')->getFlashBag()->add('notice', 'Your config file is writable, it should be set read-only');
+//        $this->get('session')->getFlashBag()->add('success', 'Your config file is writable, it should be set read-only');
 
         return array('pagination' => $pagination);
     }
@@ -171,6 +176,11 @@ abstract class BaseController extends Controller
     protected function getDocumentManager()
     {
         return $this->get('doctrine.odm.mongodb.document_manager');
+    }
+    
+    protected function addFlash($type, $message)
+    {
+        $this->get('session')->getFlashBag()->add($type, $message);
     }
 
 }

@@ -3,7 +3,7 @@
 
 {% for key, messages in app.session.getFlashBag().all() %}
     {% for message in messages %}
-    <div class="alert {{ flashes[key] }}">
+    <div class="alert {{ (flashes[key] is defined)?flashes[key]:'alert-info' }}">
         <button type="button" class="close" data-dismiss="alert">×</button>
         {{ message|trans }}
     </div>

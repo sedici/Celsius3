@@ -3,7 +3,7 @@
         <a href="{{ path('instance_edit', { 'id': instance.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
     </li>
     <li>
-        <a href="#"><i class="icon-wrench"></i> {{ 'Configuration'|trans }}</a>
+        <a href="{{ path('instance_configure', { 'id': instance.id }) }}"><i class="icon-wrench"></i> {{ 'Configuration'|trans }}</a>
     </li>
     <li>
         <a href="{{ path('instance_switch', { 'id': instance.id }) }}">
