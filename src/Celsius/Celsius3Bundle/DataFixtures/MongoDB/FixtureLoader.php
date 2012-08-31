@@ -49,6 +49,36 @@ class FixtureLoader implements FixtureInterface
         $manager->persist($configuration);
         unset($configuration);
         
+        $configuration = new Document\Configuration();
+        $configuration->setName('Results per page');
+        $configuration->setKey('results_per_page');
+        $configuration->setValue('10');
+        $configuration->setType('integer');
+        $manager->persist($configuration);
+        unset($configuration);
+        
+        $configuration = new Document\Configuration();
+        $configuration->setName('Reply to');
+        $configuration->setKey('email_reply_address');
+        $configuration->setValue('sample@instance.edu');
+        $configuration->setType('email');
+        $manager->persist($configuration);
+        unset($configuration);
+        
+        $configuration = new Document\Configuration();
+        $configuration->setName('Instance description');
+        $configuration->setKey('instance_description');
+        $configuration->setType('text');
+        $manager->persist($configuration);
+        unset($configuration);
+        
+        $configuration = new Document\Configuration();
+        $configuration->setName('Default language');
+        $configuration->setKey('instance_language');
+        $configuration->setType('language');
+        $manager->persist($configuration);
+        unset($configuration);
+
         $manager->flush();
         
         for ($i = 0; $i < 5; $i++)

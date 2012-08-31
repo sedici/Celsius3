@@ -162,7 +162,12 @@ services:
         class: Celsius\Celsius3Bundle\Voter\ExactRequestVoter
         arguments: ["@service_container"]
         tags:
-            - { name: knp_menu.voter }    
+            - { name: knp_menu.voter }
+    
+    form.type.gender:
+        class: Celsius\Celsius3Bundle\Form\Type\LanguageType
+        tags:
+            - { name: form.type, alias: language_type }
     
 #    menu.voter.request:
 #        class: Celsius\Celsius3Bundle\Voter\RequestVoter
