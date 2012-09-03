@@ -6,9 +6,11 @@
         <title>{% block title %}{% endblock %} - Celsius3</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
-        <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('bundles/celsiuscelsius3/css/celsius3.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('bundles/celsiuscelsius3/css/smoothness/jquery-ui-1.8.21.custom.css') }}" rel="stylesheet" type="text/css" />
+        {% stylesheets '@CelsiusCelsius3Bundle/Resources/public/css/smoothness/jquery-ui-1.8.21.custom.css'
+            '@CelsiusCelsius3Bundle/Resources/public/css/bootstrap.min.css'
+            '@CelsiusCelsius3Bundle/Resources/public/css/celsius3.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
         {% endblock %}
     </head>
     <body>
@@ -56,10 +58,13 @@
             </div>
         </div>
         {% block javascripts %}
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/jquery-ui-1.8.21.custom.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/jquery.dotdotdot-1.5.1.js') }}"></script>
+        {% javascripts 
+            '@CelsiusCelsius3Bundle/Resources/public/js/jquery-1.8.0.min.js'
+            '@CelsiusCelsius3Bundle/Resources/public/js/jquery-ui-1.8.21.custom.min.js'
+            '@CelsiusCelsius3Bundle/Resources/public/js/jquery.dotdotdot-1.5.1.js'
+            '@CelsiusCelsius3Bundle/Resources/public/js/bootstrap.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
         {% include 'CelsiusCelsius3Bundle:Layout:forms.js.twig' %}
         {% include 'CelsiusCelsius3Bundle:Layout:cosmetics.js.twig' %}
         {% endblock %}
