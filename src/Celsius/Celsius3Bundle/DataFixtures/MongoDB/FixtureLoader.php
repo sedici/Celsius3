@@ -86,7 +86,6 @@ class FixtureLoader implements FixtureInterface
             $instance = new Document\Instance();
             $instance->setName(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
             $instance->setAbbreviation(str_replace('. ', '', $generator->getContent(1, 'plain', false)));
-            $instance->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
             $instance->setWebsite('http://' . md5(rand(0, 99999999)) . '.test.com');
             $instance->setEmail(md5(rand(0, 99999999)) . '@test.com');
             $instance->setUrl(str_replace('. ', '', $i . '_' . $generator->getContent(1, 'plain', false)));

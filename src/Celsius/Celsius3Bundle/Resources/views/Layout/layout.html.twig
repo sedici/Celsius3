@@ -35,7 +35,7 @@
                     {% block body_title %}
                     <div class="well page-header">
                         <div class="pull-left">
-                            <h1>{{ 'Celsius3 Instance'|trans }}</h1>
+                            <h1>{{ instance.get('instance_title').value }}</h1>
                         </div>
                         <div class="pull-right">
                             {% include 'CelsiusCelsius3Bundle:Layout:_user_panel.html.twig' %}

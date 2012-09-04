@@ -28,13 +28,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getResultsPerPage()
     {
-        return ConfigurationHelper::getCastedValue($this->getDocumentManager()
-                                ->getRepository('CelsiusCelsius3Bundle:Configuration')
-                                ->createQueryBuilder()
-                                ->field('instance.id')->equals($this->getInstance()->getId())
-                                ->field('key')->equals('results_per_page')
-                                ->getQuery()
-                                ->getSingleResult());
+        return ConfigurationHelper::getCastedValue($this->getInstance->get('results_per_page'));
     }
 
     /**

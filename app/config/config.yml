@@ -158,6 +158,15 @@ services:
         class: Celsius\Celsius3Bundle\Aop\LoginLoggingInterceptor
         arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
         
+    instance_injection_pointcut:
+        class: Celsius\Celsius3Bundle\Aop\InstanceInjectionPointcut
+        tags:
+            - { name: jms_aop.pointcut, interceptor: instance_injection_interceptor }
+            
+    instance_injection_interceptor:
+        class: Celsius\Celsius3Bundle\Aop\InstanceInjectionInterceptor
+        arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
+        
     menu.voter.exact:
         class: Celsius\Celsius3Bundle\Voter\ExactRequestVoter
         arguments: ["@service_container"]
