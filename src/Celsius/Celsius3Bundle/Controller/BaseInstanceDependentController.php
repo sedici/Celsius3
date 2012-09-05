@@ -24,6 +24,11 @@ abstract class BaseInstanceDependentController extends BaseController
                         ->getSingleResult();
     }
 
+    protected function getResultsPerPage()
+    {
+        return ConfigurationHelper::getCastedValue($this->getInstance()->get('results_per_page'));
+    }
+
     /**
      * Returns the instance related to the users instance.
      *
