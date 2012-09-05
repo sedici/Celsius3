@@ -14,7 +14,6 @@ class InstanceType extends AbstractType
                 ->add('name')
                 ->add('abbreviation')
                 ->add('website')
-                ->add('title')
                 ->add('email')
                 ->add('url')
         ;

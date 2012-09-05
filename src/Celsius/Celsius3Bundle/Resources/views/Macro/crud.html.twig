@@ -1,6 +1,6 @@
- <link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 {# edit #}
 {% macro edit(name, document, edit_form, delete_form) %}
+<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <h2>{{ [name|capitalize, ' Edit']|join|trans }}</h2>
 {{ tinymce_init() }}
 {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
@@ -9,7 +9,7 @@
       {{ form_widget(edit_form) }}
       <p>
         <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Edit'|trans }}</button>
-      </p>
+    </p>
 </form>
 
 <ul class="unstyled record_actions">
@@ -83,7 +83,7 @@
     <div class="row">
         <div class="span9">
             {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
-            
+
             <div class="navigation">
                 {{ pagination.render()|raw }}
             </div>

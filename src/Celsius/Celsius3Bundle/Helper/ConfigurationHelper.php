@@ -11,12 +11,15 @@ class ConfigurationHelper
         'string' => 'text',
         'boolean' => 'checkbox',
         'integer' => 'integer',
+        'email' => 'email',
+        'text' => 'textarea',
+        'language' => 'language_type',
     );
 
     public static function guessConfigurationType(Configuration $configuration)
     {
-        return (array_key_exists($configuration->getType(), self::$equivalences))?
-                self::$equivalences[$configuration->getType()]:'text';
+        return (array_key_exists($configuration->getType(), self::$equivalences)) ?
+                self::$equivalences[$configuration->getType()] : 'text';
     }
 
     public static function getCastedValue($configuration)
@@ -31,7 +34,7 @@ class ConfigurationHelper
                 break;
             default: $value = $configuration->getValue();
         }
-        
+
         return $value;
     }
 

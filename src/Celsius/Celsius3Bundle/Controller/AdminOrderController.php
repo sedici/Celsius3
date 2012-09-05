@@ -26,7 +26,6 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-    	
         return $this->baseIndex('Order');
     }
 

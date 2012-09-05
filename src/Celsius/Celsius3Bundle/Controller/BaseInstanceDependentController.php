@@ -2,6 +2,8 @@
 
 namespace Celsius\Celsius3Bundle\Controller;
 
+use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
+
 abstract class BaseInstanceDependentController extends BaseController
 {
 

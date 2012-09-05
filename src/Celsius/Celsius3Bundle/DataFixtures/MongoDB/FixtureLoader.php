@@ -21,7 +21,7 @@ class FixtureLoader implements FixtureInterface
         $surnames = array('Perez', 'Rodriguez', 'Dominguez', 'Martinez', 'Gonzalez', 'Ibañez', 'Fernandez', 'Ledesma', 'Acuña', 'Estevez');
 
         $generator = new LoremIpsumHelper();
-        
+
         $min = strtotime('1940-01-01');
         $max = strtotime('2000-12-31');
 
@@ -32,7 +32,7 @@ class FixtureLoader implements FixtureInterface
         $configuration->setType('boolean');
         $manager->persist($configuration);
         unset($configuration);
-        
+
         $configuration = new Document\Configuration();
         $configuration->setName('Administrator confirmation');
         $configuration->setKey('registration_admin_confirm');
@@ -40,7 +40,7 @@ class FixtureLoader implements FixtureInterface
         $configuration->setType('boolean');
         $manager->persist($configuration);
         unset($configuration);
-        
+
         $configuration = new Document\Configuration();
         $configuration->setName('Title');
         $configuration->setKey('instance_title');
@@ -48,16 +48,45 @@ class FixtureLoader implements FixtureInterface
         $configuration->setType('string');
         $manager->persist($configuration);
         unset($configuration);
-        
+
+        $configuration = new Document\Configuration();
+        $configuration->setName('Results per page');
+        $configuration->setKey('results_per_page');
+        $configuration->setValue('10');
+        $configuration->setType('integer');
+        $manager->persist($configuration);
+        unset($configuration);
+
+        $configuration = new Document\Configuration();
+        $configuration->setName('Reply to');
+        $configuration->setKey('email_reply_address');
+        $configuration->setValue('sample@instance.edu');
+        $configuration->setType('email');
+        $manager->persist($configuration);
+        unset($configuration);
+
+        $configuration = new Document\Configuration();
+        $configuration->setName('Instance description');
+        $configuration->setKey('instance_description');
+        $configuration->setType('text');
+        $manager->persist($configuration);
+        unset($configuration);
+
+        $configuration = new Document\Configuration();
+        $configuration->setName('Default language');
+        $configuration->setKey('instance_language');
+        $configuration->setType('language');
+        $manager->persist($configuration);
+        unset($configuration);
+
         $manager->flush();
-        
+
         for ($i = 0; $i < 5; $i++)
         {
             $instance = new Document\Instance();
             $instance->setName(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
             $instance->setAbbreviation(str_replace('. ', '', $generator->getContent(1, 'plain', false)));
-            $instance->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-            $instance->setWebsite(md5(rand(0, 99999999)) . '.test.com');
+            $instance->setWebsite('http://' . md5(rand(0, 99999999)) . '.test.com');
             $instance->setEmail(md5(rand(0, 99999999)) . '@test.com');
             $instance->setUrl(str_replace('. ', '', $i . '_' . $generator->getContent(1, 'plain', false)));
             $instance->setEnabled(true);
@@ -69,7 +98,7 @@ class FixtureLoader implements FixtureInterface
                 $user = new Document\BaseUser();
                 $user->setName($names[rand(0, 99999999) % 10]);
                 $user->setSurname($surnames[rand(0, 99999999) % 10]);
-                $user->setBirthdate(date('Y-m-d', mt_rand($min,$max)));
+                $user->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
                 $user->setUsername($user->getName() . '_' . md5(rand(0, 99999999)));
                 $user->setPassword(md5(rand(0, 99999999)));
                 $user->setEmail($user->getName() . $user->getSurname() . md5(rand(0, 99999999)) . $i . $j . '@test.com');
@@ -125,7 +154,7 @@ class FixtureLoader implements FixtureInterface
                 $user = new Document\Librarian();
                 $user->setName($names[rand(0, 99999999) % 10]);
                 $user->setSurname($surnames[rand(0, 99999999) % 10]);
-                $user->setBirthdate(date('Y-m-d', mt_rand($min,$max)));
+                $user->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
                 $user->setUsername($user->getName() . '_' . md5(rand(0, 99999999)));
                 $user->setPassword(md5(rand(0, 99999999)));
                 $user->setEmail($user->getName() . $user->getSurname() . md5(rand(0, 99999999)) . $i . $j . '@test.com');
@@ -181,7 +210,7 @@ class FixtureLoader implements FixtureInterface
                 $user = new Document\Admin();
                 $user->setName($names[rand(0, 99999999) % 10]);
                 $user->setSurname($surnames[rand(0, 99999999) % 10]);
-                $user->setBirthdate(date('Y-m-d', mt_rand($min,$max)));
+                $user->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
                 $user->setUsername($user->getName() . '_' . md5(rand(0, 99999999)));
                 $user->setPassword(md5(rand(0, 99999999)));
                 $user->setEmail($user->getName() . $user->getSurname() . md5(rand(0, 99999999)) . $i . $j . '@test.com');
@@ -237,7 +266,7 @@ class FixtureLoader implements FixtureInterface
                 $user = new Document\Superadmin();
                 $user->setName($names[rand(0, 99999999) % 10]);
                 $user->setSurname($surnames[rand(0, 99999999) % 10]);
-                $user->setBirthdate(date('Y-m-d', mt_rand($min,$max)));
+                $user->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
                 $user->setUsername($user->getName() . '_' . md5(rand(0, 99999999)));
                 $user->setPassword(md5(rand(0, 99999999)));
                 $user->setEmail($user->getName() . $user->getSurname() . md5(rand(0, 99999999)) . $i . $j . '@test.com');
@@ -291,7 +320,7 @@ class FixtureLoader implements FixtureInterface
             for ($j = 0; $j < 100; $j++)
             {
                 $news = new Document\News();
-                $news->setDate(date('Y-m-d H:i:s', mt_rand($min,$max)));
+                $news->setDate(date('Y-m-d H:i:s', mt_rand($min, $max)));
                 $news->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
                 $news->setText($generator->getContent(rand(100, 500), 'html', false));
                 $news->setInstance($instance);
