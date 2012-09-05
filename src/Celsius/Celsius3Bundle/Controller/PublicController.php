@@ -35,6 +35,7 @@ class PublicController extends BaseInstanceDependentController
     public function indexAction()
     {
         return array(
+            'instance' => $this->getInstance(),
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNews($this->getInstance()),
         );
     }

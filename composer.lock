@@ -1,5 +1,5 @@
 {
-    "hash": "0586610f6443abd57f2d93eb5e536a58",
+    "hash": "8108e9537b910945d99e02a4cf796b26",
     "packages": [
         {
             "package": "doctrine/common",
@@ -100,6 +100,12 @@
             "version": "dev-master",
             "source-reference": "8fa580a58e73550b3f729e420d078784b154013f",
             "commit-date": "1346185701"
+        },
+        {
+            "package": "ismaambrosi/generator-bundle",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
         },
         {
             "package": "ismaambrosi/generator-bundle",
@@ -240,6 +246,12 @@
             "commit-date": "1346138171"
         },
         {
+            "package": "stfalcon/tinymce-bundle",
+            "version": "dev-master",
+            "source-reference": "39e2d52b6e345e2309e173b76a09f19dbee0c12e",
+            "commit-date": "1345020428"
+        },
+        {
             "package": "stof/doctrine-extensions-bundle",
             "version": "dev-master",
             "alias-pretty-version": "1.1.x-dev",
@@ -278,6 +290,12 @@
         {
             "package": "symfony/monolog-bundle",
             "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/monolog-bundle",
+            "version": "dev-master",
             "source-reference": "v2.1.0-RC2",
             "commit-date": "1345557954"
         },
@@ -304,6 +322,12 @@
             "version": "dev-master",
             "source-reference": "c0673d77d02e9955f9e80b82478d0b7259a3fc31",
             "commit-date": "1346413296"
+        },
+        {
+            "package": "twig/extensions",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
         },
         {
             "package": "twig/extensions",
@@ -344,6 +368,7 @@
         "knplabs/knp-paginator-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
         "jms/i18n-routing-bundle": 20,
-        "knplabs/knp-menu-bundle": 20
+        "knplabs/knp-menu-bundle": 20,
+        "stfalcon/tinymce-bundle": 20
     }
 }

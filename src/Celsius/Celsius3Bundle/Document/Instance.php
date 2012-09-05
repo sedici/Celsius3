@@ -45,11 +45,17 @@ class Instance
 
     /**
      * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $title;
+
+    /**
+     * @Assert\NotBlank()
      * @Assert\Email()
      * @MongoDB\String
      */
     private $email;
-
+    
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
@@ -88,7 +94,7 @@ class Instance
     private $templates;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance", sort={"key"="asc"})
+     * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance")
      */
     private $configurations;
 
@@ -228,6 +234,28 @@ class Instance
     public function getWebsite()
     {
         return $this->website;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Instance
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string $title
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -432,6 +460,7 @@ class Instance
         return $this->notifications;
     }
 
+
     /**
      * Add events
      *
@@ -493,21 +522,4 @@ class Instance
     {
         return $this->enabled;
     }
-
-    /**
-     * Returns the Configuration object associated with key
-     * 
-     * @param string $key
-     * @return Configuration
-     */
-    public function get($key)
-    {
-        return $this->getConfigurations()->filter(
-                        function($entry) use ($key)
-                        {
-                            return ($entry->getKey() == $key);
-                        }
-                )->first();
-    }
-
 }

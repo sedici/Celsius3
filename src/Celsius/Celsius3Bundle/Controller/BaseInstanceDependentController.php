@@ -2,8 +2,6 @@
 
 namespace Celsius\Celsius3Bundle\Controller;
 
-use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
-
 abstract class BaseInstanceDependentController extends BaseController
 {
 
@@ -24,11 +22,6 @@ abstract class BaseInstanceDependentController extends BaseController
                         ->field('id')->equals($id)
                         ->getQuery()
                         ->getSingleResult();
-    }
-
-    protected function getResultsPerPage()
-    {
-        return ConfigurationHelper::getCastedValue($this->getInstance->get('results_per_page'));
     }
 
     /**

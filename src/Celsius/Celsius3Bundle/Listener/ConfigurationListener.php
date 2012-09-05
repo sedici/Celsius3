@@ -32,20 +32,17 @@ class ConfigurationListener
             }
         } elseif ($document instanceof Configuration)
         {
-            if (!$document->getInstance())
-            {
-                $instances = $dm->getRepository('CelsiusCelsius3Bundle:Instance')
-                        ->createQueryBuilder()
-                        ->getQuery()
-                        ->execute();
+            $instances = $dm->getRepository('CelsiusCelsius3Bundle:Instance')
+                    ->createQueryBuilder()
+                    ->getQuery()
+                    ->execute();
 
-                foreach ($instances as $instance)
-                {
-                    $new = Configuration::duplicate($document);
-                    $new->setInstance($instance);
-                    $dm->persist($new);
-                    $dm->flush();
-                }
+            foreach ($instances as $instance)
+            {
+                $new = Configuration::duplicate($document);
+                $new->setInstance($instance);
+                $dm->persist($new);
+                $dm->flush();
             }
         }
     }

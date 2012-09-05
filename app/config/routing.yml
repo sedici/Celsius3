@@ -1,5 +1,5 @@
 CelsiusCelsius3Bundle:
-    resource: "@CelsiusCelsius3Bundle/Controller/"
+    resource: "@CelsiusCelsius3Bundle/Controller"
     type:     annotation
     prefix:   /
     

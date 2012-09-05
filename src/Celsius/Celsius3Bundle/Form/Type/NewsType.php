@@ -19,8 +19,12 @@ class NewsType extends AbstractType
     {
         $builder
                 ->add('title')
-                ->add('text')
-                ->add('date')
+                ->add('text', 'textarea', array(
+                    						'attr' => array(
+                    							'class' => 'tinymce',
+                    						),
+                ))
+                ->add('date', 'datetime')
                 ->add('instance', 'instance_selector', array(
                     'data' => $this->instance,
                     'attr' => array(
