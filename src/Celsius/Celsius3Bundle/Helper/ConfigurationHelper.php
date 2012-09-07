@@ -15,6 +15,11 @@ class ConfigurationHelper
         'text' => 'textarea',
         'language' => 'language_type',
     );
+    public static $languages = array(
+        'es' => 'Spanish',
+        'en' => 'English',
+        'pt' => 'Portuguese',
+    );
 
     public static function guessConfigurationType(Configuration $configuration)
     {

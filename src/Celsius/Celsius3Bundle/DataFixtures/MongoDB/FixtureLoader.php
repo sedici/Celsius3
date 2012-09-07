@@ -76,6 +76,7 @@ class FixtureLoader implements FixtureInterface
         $configuration->setName('Default language');
         $configuration->setKey('instance_language');
         $configuration->setType('language');
+        $configuration->setValue('es');
         $manager->persist($configuration);
         unset($configuration);
 

@@ -5,7 +5,7 @@ imports:
 framework:
     #esi:             ~
     trust_proxy_headers: false
-    default_locale: en
+    default_locale: es
     translator:      { fallback: en }
     secret:          %secret%
     router:          
@@ -140,7 +140,7 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
-    
+                
     celsius_celsius3bundle.security.authentication_handler:
         class: Celsius\Celsius3Bundle\Handler\AuthenticationHandler
         arguments: ["@service_container"]
@@ -165,6 +165,15 @@ services:
 
     instance_injection_interceptor:
         class: Celsius\Celsius3Bundle\Aop\InstanceInjectionInterceptor
+        arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
+        
+    instance_language_pointcut:
+        class: Celsius\Celsius3Bundle\Aop\InstanceLanguagePointcut
+        tags:
+            - { name: jms_aop.pointcut, interceptor: instance_language_interceptor }
+
+    instance_language_interceptor:
+        class: Celsius\Celsius3Bundle\Aop\InstanceLanguageInterceptor
         arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
         
     menu.voter.exact:
