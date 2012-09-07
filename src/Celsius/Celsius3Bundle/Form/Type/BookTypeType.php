@@ -16,7 +16,7 @@ class BookTypeType extends MaterialTypeType
         $builder
                 ->add('editor')
                 ->add('chapter')
-                ->add('isbn')
+                ->add('ISBN')
                 ->add('withIndex')
         ;
     }

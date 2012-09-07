@@ -1,10 +1,17 @@
+<div class="sorting-group pull-right">
+    <span>
+        {{ 'Sort by'|trans }}: 
+    </span>
+    {% include 'CelsiusCelsius3Bundle:AdminOrder:_index_sort.html.twig' %}
+</div>
+<div class="clearfix"></div>
 {% for order in pagination %}
 <div id="code{{ order.code }}" class="accordion">
     <div class="accordion-group">
         <div class="accordion-heading">
             <a href="#collapse{{ order.code }}" data-parent="#code{{ order.code }}" data-toggle="collapse" class="accordion-toggle">
                 <span>{{ order.code }} - {{ order.materialData.title }}</span>
-                <span class="label pull-right">{{ order.owner.username }}</span>
+                <span class="label pull-right">{{ order.owner.surname }}, {{ order.owner.name }}</span>
             </a>
         </div>
         <div class="accordion-body collapse" id="collapse{{ order.code }}">
@@ -15,7 +22,7 @@
                     <dt>{{ 'Request date'|trans }}</dt>
                     <dd>{{ order.requested|localizeddate() }}</dd>
                     <dt>{{ 'User'|trans }}</dt>
-                    <dd>{{ order.owner.surname }}, {{ order.owner.name }}</dd>
+                    <dd>{{ order.owner.username }}</dd>
                 </dl>
                 <div class="thumbnail">
                     <dl class="dl-horizontal">
