@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Country'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+{{ show('superadmin_country', document, delete_form, 'CelsiusCelsius3Bundle:SuperadminCountry') }}
+{% endblock %}

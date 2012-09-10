@@ -11,7 +11,6 @@ class CountryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('locations')
         ;
     }
 
