@@ -190,7 +190,6 @@ class OrderTest extends TestCase
         $this->instance->setAbbreviation('IN');
         $this->instance->setUrl('http://instance.url.com');
         $this->instance->setWebsite('http://instance.website.com');
-        $this->instance->setTitle('Some Title');
         $this->instance->setEmail('instance@email.com');
         
         $this->documentManager->persist($this->instance);

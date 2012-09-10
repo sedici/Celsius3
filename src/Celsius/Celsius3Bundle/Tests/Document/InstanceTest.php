@@ -94,15 +94,6 @@ class InstanceTest extends TestCase
         $this->assertEquals($website, $this->instance->getWebsite());
     }
     
-    public function testGetTitle()
-    {
-        $title = 'Some Title';
-
-        $this->instance->setTitle($title);
-
-        $this->assertEquals($title, $this->instance->getTitle());
-    }
-    
     public function testGetEmail()
     {
         $email = 'instance@email.com';
@@ -119,6 +110,16 @@ class InstanceTest extends TestCase
         $this->instance->setEnabled($enabled);
 
         $this->assertEquals($enabled, $this->instance->getEnabled());
+    }
+    
+    public function testGet()
+    {
+        $this->configuration->setKey('key');
+        $this->configuration->setValue('value');
+        
+        $this->instance->addConfigurations($this->configuration);
+        
+        $this->assertEquals($this->configuration, $this->instance->get('key'));
     }
     
     public function testGetUsers()
@@ -204,14 +205,12 @@ class InstanceTest extends TestCase
         $abbreviation = 'IN';
         $url = 'sampleurl';
         $website = 'http://instance.website.com';
-        $title = 'Some Title';
         $email = 'instance@email.com';
         
         $this->instance->setName($name);
         $this->instance->setAbbreviation($abbreviation);
         $this->instance->setUrl($url);
         $this->instance->setWebsite($website);
-        $this->instance->setTitle($title);
         $this->instance->setEmail($email);
         
         $this->assertNull($this->instance->getId());
