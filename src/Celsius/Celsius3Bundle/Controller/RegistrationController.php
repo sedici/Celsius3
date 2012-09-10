@@ -38,6 +38,8 @@ class RegistrationController extends BaseRegistrationController
             if ($authUser)
             {
                 $this->authenticateUser($user, $response);
+                $this->container->get('session')->set('instance_id', $user->getInstance()->getId());
+                $this->container->get('session')->set('instance_url', $user->getInstance()->getUrl());
             }
 
             return $response;
