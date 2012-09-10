@@ -140,6 +140,12 @@ services:
         arguments: ["@service_container"]
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+            
+    celsius_celsius3bundle.kernel.language_listener:
+        class: Celsius\Celsius3Bundle\Listener\LanguageListener
+        arguments: [%jms_i18n_routing.default_locale%, %jms_i18n_routing.locales%, "@jms_i18n_routing.locale_resolver", "@service_container", "@doctrine.odm.mongodb.document_manager"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 256 }
                 
     celsius_celsius3bundle.security.authentication_handler:
         class: Celsius\Celsius3Bundle\Handler\AuthenticationHandler
@@ -165,15 +171,6 @@ services:
 
     instance_injection_interceptor:
         class: Celsius\Celsius3Bundle\Aop\InstanceInjectionInterceptor
-        arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
-        
-    instance_language_pointcut:
-        class: Celsius\Celsius3Bundle\Aop\InstanceLanguagePointcut
-        tags:
-            - { name: jms_aop.pointcut, interceptor: instance_language_interceptor }
-
-    instance_language_interceptor:
-        class: Celsius\Celsius3Bundle\Aop\InstanceLanguageInterceptor
         arguments: ["@service_container", "@doctrine.odm.mongodb.document_manager"]
         
     menu.voter.exact:
