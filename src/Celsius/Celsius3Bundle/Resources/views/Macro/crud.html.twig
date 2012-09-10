@@ -79,55 +79,53 @@
 {% macro index(name, pagination, folder, filter_form) %}
 <h2>{{ [name|capitalize, 's List']|join|trans }}</h2>
 
-<div class="container">
-    <div class="row">
-        <div class="span9">
-            {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+<div class="row">
+    <div class="span9">
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-            <div class="navigation">
-                {{ pagination.render()|raw }}
-            </div>
-
-            {% include [folder,':_index_fields.html.twig']|join %}
-
-            <div class="navigation">
-                {{ pagination.render()|raw }}
-            </div>
+        <div class="navigation">
+            {{ pagination.render()|raw }}
         </div>
-        <div class="span3">
-            <div id="accordion" class="accordion">
-                {% if filter_form %}
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <i class="icon-search"></i> {{ 'Filters'|trans }}
-                        </a>
-                    </div>
-                    <div class="accordion-body in collapse" id="collapseOne">
-                        <div class="accordion-inner">
-                            {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
 
-                            {{ filter(name, filter_form) }}
-                        </div>
+        {% include [folder,':_index_fields.html.twig']|join %}
+
+        <div class="navigation">
+            {{ pagination.render()|raw }}
+        </div>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            {% if filter_form %}
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-search"></i> {{ 'Filters'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseOne">
+                    <div class="accordion-inner">
+                        {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
+
+                        {{ filter(name, filter_form) }}
                     </div>
                 </div>
-                {% endif %}
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <i class="icon-wrench"></i> {{ 'Actions'|trans }}
-                        </a>
-                    </div>
-                    <div class="accordion-body collapse" id="collapseTwo">
-                        <div class="accordion-inner">
-                            <ul class="unstyled">
-                                <li>
-                                    <a href="{{ path([name,'_new']|join, { 'code': app.request.get('code') }) }}">
-                                        <i class="icon-plus"></i> {{ 'Create a new entry'|trans }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+            </div>
+            {% endif %}
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path([name,'_new']|join, { 'code': app.request.get('code') }) }}">
+                                    <i class="icon-plus"></i> {{ 'Create a new entry'|trans }}
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
