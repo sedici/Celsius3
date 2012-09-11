@@ -19,6 +19,7 @@ class Country
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
+     * @MongoDB\UniqueIndex(order="asc")
      */
     protected $name;
 
@@ -26,6 +27,11 @@ class Country
      * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="country")
      */
     protected $cities;
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function __construct()
     {

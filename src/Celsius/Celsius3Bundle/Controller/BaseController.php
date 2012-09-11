@@ -80,9 +80,13 @@ abstract class BaseController extends Controller
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
+            
+            $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully created.');
 
-            return $this->redirect($this->generateUrl($route . '_show', array('id' => $document->getId())));
+            return $this->redirect($this->generateUrl($route, array('id' => $document->getId())));
         }
+        
+        $this->get('session')->getFlashBag()->add('error', 'There were errors creating the ' . $name . '.');
 
         return array(
             'document' => $document,
@@ -130,9 +134,13 @@ abstract class BaseController extends Controller
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
+            
+            $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully edited.');
 
             return $this->redirect($this->generateUrl($route . '_edit', array('id' => $id)));
         }
+        
+        $this->get('session')->getFlashBag()->add('error', 'There were errors editing the ' . $name . '.');
 
         return array(
             'document' => $document,
@@ -160,6 +168,8 @@ abstract class BaseController extends Controller
             $dm = $this->getDocumentManager();
             $dm->remove($document);
             $dm->flush();
+            
+            $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully deleted.');
         }
 
         return $this->redirect($this->generateUrl($route));

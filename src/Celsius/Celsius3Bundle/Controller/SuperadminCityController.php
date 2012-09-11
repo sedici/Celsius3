@@ -5,61 +5,61 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius\Celsius3Bundle\Document\Country;
-use Celsius\Celsius3Bundle\Form\Type\CountryType;
+use Celsius\Celsius3Bundle\Document\City;
+use Celsius\Celsius3Bundle\Form\Type\CityType;
 
 /**
- * Order controller.
+ * Location controller.
  *
- * @Route("/superadmin/country")
+ * @Route("/superadmin/city")
  */
-class SuperadminCountryController extends BaseController
+class SuperadminCityController extends BaseController
 {
 
     /**
-     * Lists all Country documents.
+     * Lists all City documents.
      *
-     * @Route("/", name="superadmin_country")
+     * @Route("/", name="superadmin_city")
      * @Template()
      *
      * @return array
      */
     public function indexAction()
     {
-        return $this->baseIndex('Country');
+        return $this->baseIndex('City');
     }
 
     /**
-     * Displays a form to create a new Country document.
+     * Displays a form to create a new City document.
      *
-     * @Route("/new", name="superadmin_country_new")
+     * @Route("/new", name="superadmin_city_new")
      * @Template()
      *
      * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('Country', new Country(), new CountryType());
+        return $this->baseNew('City', new City(), new CityType());
     }
 
     /**
-     * Creates a new Country document.
+     * Creates a new City document.
      *
-     * @Route("/create", name="superadmin_country_create")
+     * @Route("/create", name="superadmin_city_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:SuperadminCountry:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminCity:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('Country', new Country(), new CountryType(), 'superadmin_country');
+        return $this->baseCreate('City', new City(), new CityType(), 'superadmin_city');
     }
 
     /**
-     * Displays a form to edit an existing Country document.
+     * Displays a form to edit an existing City document.
      *
-     * @Route("/{id}/edit", name="superadmin_country_edit")
+     * @Route("/{id}/edit", name="superadmin_city_edit")
      * @Template()
      * @param string $id The document ID
      *
@@ -69,15 +69,15 @@ class SuperadminCountryController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Country', $id, new CountryType());
+        return $this->baseEdit('City', $id, new CityType());
     }
 
     /**
-     * Edits an existing Country document.
+     * Edits an existing City document.
      *
-     * @Route("/{id}/update", name="superadmin_country_update")
+     * @Route("/{id}/update", name="superadmin_city_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:SuperadminCountry:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminCity:edit.html.twig")
      * 
      * @param string $id The document ID
      *
@@ -87,13 +87,13 @@ class SuperadminCountryController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Country', $id, new CountryType(), 'superadmin_country');
+        return $this->baseUpdate('City', $id, new CityType(), 'superadmin_city');
     }
 
     /**
-     * Deletes a Country document.
+     * Deletes a City document.
      *
-     * @Route("/{id}/delete", name="superadmin_country_delete")
+     * @Route("/{id}/delete", name="superadmin_city_delete")
      * @Method("post")
      * 
      * @param string $id The document ID
@@ -104,7 +104,7 @@ class SuperadminCountryController extends BaseController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('Country', $id, 'superadmin_country');
+        return $this->baseDelete('City', $id, 'superadmin_city');
     }
 
 }
