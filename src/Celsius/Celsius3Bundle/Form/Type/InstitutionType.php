@@ -7,17 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class InstitutionType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('abbreviation')
-            ->add('website')
-            ->add('address')
-            ->add('users')
-            ->add('institutions')
-            ->add('parent')
-            ->add('location')
+                ->add('name')
+                ->add('abbreviation')
+                ->add('website')
+                ->add('address')
+                ->add('parent', null, array(
+                    'required' => false
+                ))
+                ->add('city')
         ;
     }
 
@@ -25,4 +26,5 @@ class InstitutionType extends AbstractType
     {
         return 'celsius_celsius3bundle_institutiontype';
     }
+
 }
