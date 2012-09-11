@@ -70,6 +70,11 @@ class Institution
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
      */
     protected $instance;
+    
+    public function __toString()
+    {
+        return $this->abbreviation . ' - ' . $this->name;
+    }
 
     public function __construct()
     {
