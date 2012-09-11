@@ -4,7 +4,7 @@
     <dt>{{ 'Url'|trans }}</dt>
     <dd><a href="{{ catalog.url }}" target="_blank">{{ catalog.url }}</a></dd>
     <dt>{{ 'Comments'|trans }}</dt>
-    <dd>{{ catalog.comments }}</dd>
+    <dd>{{ catalog.comments?catalog.comments:'-' }}</dd>
     <dt>{{ 'Institution'|trans }}</dt>
     <dd>{{ catalog.institution?catalog.institution:'-' }}</dd>
 </dl>
