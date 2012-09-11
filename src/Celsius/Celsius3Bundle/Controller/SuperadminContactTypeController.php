@@ -13,13 +13,13 @@ use Celsius\Celsius3Bundle\Form\Type\ContactTypeType;
  *
  * @Route("/superadmin/contacttype")
  */
-class ContactTypeController extends BaseController
+class SuperadminContactTypeController extends BaseController
 {
 
     /**
      * Lists all ContactType documents.
      *
-     * @Route("/", name="contacttype")
+     * @Route("/", name="superadmin_contacttype")
      * @Template()
      *
      * @return array
@@ -30,26 +30,9 @@ class ContactTypeController extends BaseController
     }
 
     /**
-     * Finds and displays a ContactType document.
-     *
-     * @Route("/{id}/show", name="contacttype_show")
-     * @Template()
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function showAction($id)
-    {
-        return $this->baseShow('ContactType', $id);
-    }
-
-    /**
      * Displays a form to create a new ContactType document.
      *
-     * @Route("/new", name="contacttype_new")
+     * @Route("/new", name="superadmin_contacttype_new")
      * @Template()
      *
      * @return array
@@ -62,21 +45,21 @@ class ContactTypeController extends BaseController
     /**
      * Creates a new ContactType document.
      *
-     * @Route("/create", name="contacttype_create")
+     * @Route("/create", name="superadmin_contacttype_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:ContactType:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminContactType:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('ContactType', new ContactType(), new ContactTypeType(), 'contacttype');
+        return $this->baseCreate('ContactType', new ContactType(), new ContactTypeType(), 'superadmin_contacttype');
     }
 
     /**
      * Displays a form to edit an existing ContactType document.
      *
-     * @Route("/{id}/edit", name="contacttype_edit")
+     * @Route("/{id}/edit", name="superadmin_contacttype_edit")
      * @Template()
      *
      * @param string $id The document ID
@@ -93,9 +76,9 @@ class ContactTypeController extends BaseController
     /**
      * Edits an existing ContactType document.
      *
-     * @Route("/{id}/update", name="contacttype_update")
+     * @Route("/{id}/update", name="superadmin_contacttype_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:ContactType:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminContactType:edit.html.twig")
      *
      * @param string $id The document ID
      *
@@ -105,13 +88,13 @@ class ContactTypeController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('ContactType', $id, new ContactTypeType(), 'contacttype');
+        return $this->baseUpdate('ContactType', $id, new ContactTypeType(), 'superadmin_contacttype');
     }
 
     /**
      * Deletes a ContactType document.
      *
-     * @Route("/{id}/delete", name="contacttype_delete")
+     * @Route("/{id}/delete", name="superadmin_contacttype_delete")
      * @Method("post")
      *
      * @param string $id The document ID
@@ -122,7 +105,7 @@ class ContactTypeController extends BaseController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('ContactType', $id, 'contacttype');
+        return $this->baseDelete('ContactType', $id, 'superadmin_contacttype');
     }
 
 }
