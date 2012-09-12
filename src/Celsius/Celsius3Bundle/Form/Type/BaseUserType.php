@@ -10,7 +10,7 @@ class BaseUserType extends AbstractType
 
     protected $instance;
 
-    public function __construct($instance)
+    public function __construct($instance = null)
     {
         $this->instance = $instance;
     }
@@ -20,18 +20,28 @@ class BaseUserType extends AbstractType
         $builder
                 ->add('name')
                 ->add('surname')
-                ->add('birthdate', 'birthday')
+                ->add('birthdate', 'birthday', array(
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => array('class' => 'date')
+                ))
                 ->add('username')
                 ->add('email', 'email')
                 ->add('address')
-                ->add('instance', 'instance_selector', array(
-                    'data' => $this->instance,
-                    'attr' => array(
-                        'value' => $this->instance->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ))
         ;
+        if (is_null($this->instance))
+        {
+            $builder->add('instance');
+        } else
+        {
+            $builder->add('instance', 'instance_selector', array(
+                'data' => $this->instance,
+                'attr' => array(
+                    'value' => $this->instance->getId(),
+                    'readonly' => 'readonly',
+                ),
+            ));
+        }
     }
 
     public function getName()

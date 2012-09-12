@@ -12,7 +12,7 @@ class OrderType extends AbstractType
     protected $material;
     protected $preferredMaterial;
 
-    public function __construct($instance, $material = null)
+    public function __construct($instance = null, $material = null)
     {
         $this->instance = $instance;
         $this->material = (is_null($material)) ? new JournalTypeType() : $material;
@@ -56,13 +56,6 @@ class OrderType extends AbstractType
                     'mapped' => false,
                     'label' => 'Owner',
                 ))
-                ->add('instance', 'instance_selector', array(
-                    'data' => $this->instance,
-                    'attr' => array(
-                        'value' => $this->instance->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ))
                 ->add('materialDataType', 'choice', array(
                     'choices' => array(
                         'journal' => 'Journal',
@@ -77,6 +70,19 @@ class OrderType extends AbstractType
                 ))
                 ->add('materialData', $this->material)
         ;
+        if (is_null($this->instance))
+        {
+            $builder->add('instance');
+        } else
+        {
+            $builder->add('instance', 'instance_selector', array(
+                'data' => $this->instance,
+                'attr' => array(
+                    'value' => $this->instance->getId(),
+                    'readonly' => 'readonly',
+                ),
+            ));
+        }
     }
 
     public function getName()

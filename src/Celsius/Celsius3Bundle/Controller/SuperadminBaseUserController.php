@@ -13,15 +13,15 @@ use Celsius\Celsius3Bundle\Filter\Type\BaseUserFilterType;
 /**
  * BaseUser controller.
  *
- * @Route("/admin/user")
+ * @Route("/superadmin/user")
  */
-class BaseUserController extends BaseInstanceDependentController
+class SuperadminBaseUserController extends BaseController
 {
 
     /**
      * Lists all BaseUser documents.
      *
-     * @Route("/", name="user")
+     * @Route("/", name="superadmin_user")
      * @Template()
      *
      * @return array
@@ -32,53 +32,36 @@ class BaseUserController extends BaseInstanceDependentController
     }
 
     /**
-     * Finds and displays a BaseUser document.
-     *
-     * @Route("/{id}/show", name="user_show")
-     * @Template()
-     * 
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function showAction($id)
-    {
-        return $this->baseShow('BaseUser', $id);
-    }
-
-    /**
      * Displays a form to create a new BaseUser document.
      *
-     * @Route("/new", name="user_new")
+     * @Route("/new", name="superadmin_user_new")
      * @Template()
      *
      * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->getInstance()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType());
     }
 
     /**
      * Creates a new BaseUser document.
      *
-     * @Route("/create", name="user_create")
+     * @Route("/create", name="superadmin_user_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:BaseUser:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminBaseUser:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->getInstance()), 'user');
+        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType(), 'superadmin_user');
     }
 
     /**
      * Displays a form to edit an existing BaseUser document.
      *
-     * @Route("/{id}/edit", name="user_edit")
+     * @Route("/{id}/edit", name="superadmin_user_edit")
      * @Template()
      * 
      * @param string $id The document ID
@@ -89,15 +72,15 @@ class BaseUserController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->getInstance()));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType());
     }
 
     /**
      * Edits an existing BaseUser document.
      *
-     * @Route("/{id}/update", name="user_update")
+     * @Route("/{id}/update", name="superadmin_user_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:BaseUser:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminBaseUser:edit.html.twig")
      *
      * @param string $id The document ID
      *
@@ -107,13 +90,13 @@ class BaseUserController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->getInstance()), 'user');
+        return $this->baseUpdate('BaseUser', $id, new BaseUserType(), 'superadmin_user');
     }
 
     /**
      * Deletes a BaseUser document.
      *
-     * @Route("/{id}/delete", name="user_delete")
+     * @Route("/{id}/delete", name="superadmin_user_delete")
      * @Method("post")
      *
      * @param string $id The document ID
@@ -124,7 +107,7 @@ class BaseUserController extends BaseInstanceDependentController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('BaseUser', $id, 'user');
+        return $this->baseDelete('BaseUser', $id, 'superadmin_user');
     }
 
 }

@@ -11,15 +11,33 @@ use Celsius\Celsius3Bundle\Form\Type\OrderType;
 /**
  * Order controller.
  *
- * @Route("/admin/order")
+ * @Route("/superadmin/order")
  */
-class AdminOrderController extends OrderController
+class SuperadminOrderController extends OrderController
 {
+
+    protected function listQuery($name)
+    {
+        return $this->getDocumentManager()
+                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
+                        ->createQueryBuilder();
+    }
+
+    protected function findQuery($name, $id)
+    {
+        return $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:' . $name)
+                        ->find($id);
+    }
+
+    protected function getResultsPerPage()
+    {
+        return $this->container->getParameter('max_per_page');
+    }
 
     /**
      * Lists all Order documents.
      *
-     * @Route("/", name="admin_order")
+     * @Route("/", name="superadmin_order")
      * @Template()
      *
      * @return array
@@ -32,34 +50,34 @@ class AdminOrderController extends OrderController
     /**
      * Displays a form to create a new Order document.
      *
-     * @Route("/new", name="admin_order_new")
+     * @Route("/new", name="superadmin_order_new")
      * @Template()
      *
      * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance()));
+        return $this->baseNew('Order', new Order(), new OrderType());
     }
 
     /**
      * Creates a new Order document.
      *
-     * @Route("/create", name="admin_order_create")
+     * @Route("/create", name="superadmin_order_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Order:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminOrder:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType()), 'order');
+        return $this->baseCreate('Order', new Order(), new OrderType(null, $this->getMaterialType()), 'superadmin_order');
     }
 
     /**
      * Displays a form to edit an existing Order document.
      *
-     * @Route("/{id}/edit", name="admin_order_edit")
+     * @Route("/{id}/edit", name="superadmin_order_edit")
      * @Template()
      * @param string $id The document ID
      *
@@ -78,7 +96,7 @@ class AdminOrderController extends OrderController
 
         $materialClass = get_class($document->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass)), $document);
+        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType($materialClass)), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -91,9 +109,9 @@ class AdminOrderController extends OrderController
     /**
      * Edits an existing Order document.
      *
-     * @Route("/{id}/update", name="admin_order_update")
+     * @Route("/{id}/update", name="superadmin_order_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Order:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:SuperadminOrder:edit.html.twig")
      * 
      * @param string $id The document ID
      *
@@ -112,7 +130,7 @@ class AdminOrderController extends OrderController
 
         $document->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType()), $document);
+        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -125,7 +143,7 @@ class AdminOrderController extends OrderController
             $dm->persist($document);
             $dm->flush();
 
-            return $this->redirect($this->generateUrl('order_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('superadmin_order_edit', array('id' => $id)));
         }
 
         return array(
@@ -138,7 +156,7 @@ class AdminOrderController extends OrderController
     /**
      * Deletes a Order document.
      *
-     * @Route("/{id}/delete", name="admin_order_delete")
+     * @Route("/{id}/delete", name="superadmin_order_delete")
      * @Method("post")
      * 
      * @param string $id The document ID
@@ -149,13 +167,13 @@ class AdminOrderController extends OrderController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('Order', $id, 'order');
+        return $this->baseDelete('Order', $id, 'superadmin_order');
     }
 
     /**
      * Updates de form materialData field.
      *
-     * @Route("/change", name="admin_order_change")
+     * @Route("/change", name="superadmin_order_change")
      * @Template()
      *
      * @return array
