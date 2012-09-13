@@ -13,7 +13,7 @@ use Celsius\Celsius3Bundle\Form\Type\NewsType;
  *
  * @Route("/admin/news")
  */
-class NewsController extends BaseInstanceDependentController
+class AdminNewsController extends BaseInstanceDependentController
 {
 
     /**

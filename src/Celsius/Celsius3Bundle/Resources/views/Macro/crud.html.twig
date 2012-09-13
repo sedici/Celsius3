@@ -29,8 +29,9 @@
 
 {# new #}
 {% macro new(name, form) %}
+<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <h2>{{ [name|capitalize, ' Creation']|join|trans }}</h2>
-
+{{ tinymce_init() }}
 {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
 <form action="{{ path([name,'_create']|join, { 'code': app.request.get('code') }) }}" method="post" {{ form_enctype(form) }} class="well">
