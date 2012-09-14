@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Form\Type\InstitutionType;
+use Celsius\Celsius3Bundle\Filter\Type\InstitutionFilterType;
 
 /**
  * Location controller.
@@ -26,7 +27,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Institution');
+        return $this->baseIndex('Institution', $this->createForm(new InstitutionFilterType()));
     }
 
     /**

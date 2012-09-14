@@ -183,6 +183,10 @@ services:
         class: Celsius\Celsius3Bundle\Form\Type\LanguageType
         tags:
             - { name: form.type, alias: language_type }
+            
+    field.guesser:
+        class: Celsius\Celsius3Bundle\Guesser\FieldGuesser
+        arguments: ["@doctrine.odm.mongodb.document_manager"]
     
 #    menu.voter.request:
 #        class: Celsius\Celsius3Bundle\Voter\RequestVoter

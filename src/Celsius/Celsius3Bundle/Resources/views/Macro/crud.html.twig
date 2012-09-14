@@ -103,7 +103,7 @@
                         <i class="icon-search"></i> {{ 'Filters'|trans }}
                     </a>
                 </div>
-                <div class="accordion-body in collapse" id="collapseOne">
+                <div class="accordion-body collapse" id="collapseOne">
                     <div class="accordion-inner">
                         {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
 
@@ -118,7 +118,7 @@
                         <i class="icon-wrench"></i> {{ 'Actions'|trans }}
                     </a>
                 </div>
-                <div class="accordion-body collapse" id="collapseTwo">
+                <div class="accordion-body in collapse" id="collapseTwo">
                     <div class="accordion-inner">
                         <ul class="unstyled">
                             <li>
@@ -137,7 +137,7 @@
 
 {# filter #}
 {% macro filter(name, filter_form) %}
-<form action="{{ path(name, { 'code': app.request.get('code') }) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well">
+<form action="{{ path(name, { 'code': app.request.get('code') }) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well filter-form">
       {{ form_widget(filter_form) }}
       <p>
         <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Filter'|trans }}</button>

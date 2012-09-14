@@ -6,27 +6,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BaseUserFilterType extends AbstractType
+class CityFilterType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('name', null, array(
-                    'required' => false,
-                ))
-                ->add('surname', null, array(
-                    'required' => false,
-                ))
-                ->add('username', null, array(
-                    'required' => false,
-                ))
-                ->add('email', null, array(
-                    'required' => false,
-                ))
+            ->add('name', null, array(
+                'required' => false,
+            ))
+            ->add('postalCode', null, array(
+                'required' => false,
+            ))
+            ->add('country', 'document', array(
+                'required' => false,
+                'class' => 'CelsiusCelsius3Bundle:Country'
+            ))
         ;
     }
-
+    
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -36,7 +33,6 @@ class BaseUserFilterType extends AbstractType
 
     public function getName()
     {
-        return 'celsius_celsius3bundle_baseuserfiltertype';
+        return 'celsius_celsius3bundle_cityfiltertype';
     }
-
 }

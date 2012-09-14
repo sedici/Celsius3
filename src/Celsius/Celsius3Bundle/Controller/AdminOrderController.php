@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Form\Type\OrderType;
+use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
 /**
  * Order controller.
@@ -26,7 +27,7 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Order');
+        return $this->baseIndex('Order', $this->createForm(new OrderFilterType()));
     }
 
     /**

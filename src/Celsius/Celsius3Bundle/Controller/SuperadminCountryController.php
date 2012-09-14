@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Country;
 use Celsius\Celsius3Bundle\Form\Type\CountryType;
+use Celsius\Celsius3Bundle\Filter\Type\CountryFilterType;
 
 /**
  * Order controller.
@@ -26,7 +27,7 @@ class SuperadminCountryController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Country');
+        return $this->baseIndex('Country', $this->createForm(new CountryFilterType()));
     }
 
     /**

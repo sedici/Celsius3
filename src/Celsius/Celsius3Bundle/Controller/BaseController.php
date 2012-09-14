@@ -25,9 +25,15 @@ abstract class BaseController extends Controller
         return $this->container->getParameter('max_per_page');
     }
 
-    protected function baseIndex($name, $query = null)
+    protected function baseIndex($name, $filter_form = null)
     {
         $query = $this->listQuery($name);
+
+        if (!is_null($filter_form))
+        {
+            $filter_form->bind($this->getRequest());
+            $query = $this->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name);
+        }
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -39,7 +45,10 @@ abstract class BaseController extends Controller
 //        $this->get('session')->getFlashBag()->add('notice', 'Your config file is writable, it should be set read-only');
 //        $this->get('session')->getFlashBag()->add('success', 'Your config file is writable, it should be set read-only');
 
-        return array('pagination' => $pagination);
+        return array(
+            'pagination' => $pagination,
+            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
+        );
     }
 
     protected function baseShow($name, $id)
@@ -80,12 +89,12 @@ abstract class BaseController extends Controller
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
-            
+
             $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully created.');
 
             return $this->redirect($this->generateUrl($route, array('id' => $document->getId())));
         }
-        
+
         $this->get('session')->getFlashBag()->add('error', 'There were errors creating the ' . $name . '.');
 
         return array(
@@ -134,12 +143,12 @@ abstract class BaseController extends Controller
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
-            
+
             $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully edited.');
 
             return $this->redirect($this->generateUrl($route . '_edit', array('id' => $id)));
         }
-        
+
         $this->get('session')->getFlashBag()->add('error', 'There were errors editing the ' . $name . '.');
 
         return array(
@@ -168,7 +177,7 @@ abstract class BaseController extends Controller
             $dm = $this->getDocumentManager();
             $dm->remove($document);
             $dm->flush();
-            
+
             $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully deleted.');
         }
 
@@ -196,6 +205,42 @@ abstract class BaseController extends Controller
     protected function addFlash($type, $message)
     {
         $this->get('session')->getFlashBag()->add($type, $message);
+    }
+
+    private function filter($query, $form, $class)
+    {
+        $guesser = $this->get('field.guesser');
+
+        foreach ($form->getData() as $key => $data)
+        {
+            if (!is_null($data))
+            {
+                switch ($guesser->getDbType($class, $key))
+                {
+                    case 'string':
+                        $query = $query->field($key)->equals(new \MongoRegex('/.*' . $data . '.*/i'));
+                        break;
+                    case 'boolean':
+                        if ("" !== $value)
+                        {
+                            $query = $query->field($key)->equals((boolean) $data);
+                        }
+                        break;
+                    case 'int':
+                        $query = $query->field($key)->equals((int) $data);
+                        break;
+                    case 'document':
+                    case 'collection':
+                        $query = $query->field($key . '.id')->equals(new \MongoId($data->getId()));
+                        break;
+                    default:
+                        $query = $query->field($key)->equals($data);
+                        break;
+                }
+            }
+        }
+
+        return $query;
     }
 
 }

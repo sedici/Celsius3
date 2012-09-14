@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Catalog;
 use Celsius\Celsius3Bundle\Form\Type\CatalogType;
+use Celsius\Celsius3Bundle\Filter\Type\CatalogFilterType;
 
 /**
  * Location controller.
@@ -26,7 +27,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Catalog');
+        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType()));
     }
 
     /**

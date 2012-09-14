@@ -43,6 +43,11 @@ class Catalog
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs") 
      */
     private $instance;
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id

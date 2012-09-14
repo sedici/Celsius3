@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BaseUserFilterType extends AbstractType
+class JournalFilterType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -15,13 +15,19 @@ class BaseUserFilterType extends AbstractType
                 ->add('name', null, array(
                     'required' => false,
                 ))
-                ->add('surname', null, array(
+                ->add('abbreviation', null, array(
                     'required' => false,
                 ))
-                ->add('username', null, array(
+                ->add('responsible', null, array(
                     'required' => false,
                 ))
-                ->add('email', null, array(
+                ->add('ISSN', null, array(
+                    'required' => false,
+                ))
+                ->add('ISSNE', null, array(
+                    'required' => false,
+                ))
+                ->add('frecuency', null, array(
                     'required' => false,
                 ))
         ;
@@ -36,7 +42,7 @@ class BaseUserFilterType extends AbstractType
 
     public function getName()
     {
-        return 'celsius_celsius3bundle_baseuserfiltertype';
+        return 'celsius_celsius3bundle_journalFiltertype';
     }
 
 }

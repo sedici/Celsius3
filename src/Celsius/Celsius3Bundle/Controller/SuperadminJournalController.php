@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Journal;
 use Celsius\Celsius3Bundle\Form\Type\JournalType;
+use Celsius\Celsius3Bundle\Filter\Type\JournalFilterType;
 
 /**
  * Location controller.
@@ -26,7 +27,7 @@ class SuperadminJournalController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Journal');
+        return $this->baseIndex('Journal', $this->createForm(new JournalFilterType()));
     }
 
     /**

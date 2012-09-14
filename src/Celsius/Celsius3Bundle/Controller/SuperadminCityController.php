@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\City;
 use Celsius\Celsius3Bundle\Form\Type\CityType;
+use Celsius\Celsius3Bundle\Filter\Type\CityFilterType;
 
 /**
  * Location controller.
@@ -26,7 +27,7 @@ class SuperadminCityController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('City');
+        return $this->baseIndex('City', $this->createForm(new CityFilterType()));
     }
 
     /**

@@ -28,7 +28,7 @@ class AdminBaseUserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('BaseUser');
+        return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType()));
     }
 
     /**

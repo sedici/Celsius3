@@ -7,5 +7,5 @@
 {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-{{ index('admin_user', pagination, 'CelsiusCelsius3Bundle:AdminBaseUser') }}
+{{ index('admin_user', pagination, 'CelsiusCelsius3Bundle:AdminBaseUser', filter_form) }}
 {% endblock %}
