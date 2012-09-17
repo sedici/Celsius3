@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\News;
 use Celsius\Celsius3Bundle\Form\Type\NewsType;
+use Celsius\Celsius3Bundle\Filter\Type\NewsFilterType;
 
 /**
  * News controller.
@@ -32,7 +33,7 @@ class SuperadminNewsController extends BaseController {
      * @return array
      */
     public function indexAction() {
-        return $this->baseIndex('News');
+        return $this->baseIndex('News', $this->createForm(new NewsFilterType()));
     }
 
     /**
