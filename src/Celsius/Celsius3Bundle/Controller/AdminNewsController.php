@@ -19,7 +19,7 @@ class AdminNewsController extends BaseInstanceDependentController
     /**
      * Lists all News documents.
      *
-     * @Route("/", name="news")
+     * @Route("/", name="admin_news")
      * @Template()
      *
      * @return array
@@ -32,7 +32,7 @@ class AdminNewsController extends BaseInstanceDependentController
     /**
      * Finds and displays a News document.
      *
-     * @Route("/{id}/show", name="news_show")
+     * @Route("/{id}/show", name="admin_news_show")
      * @Template()
      *
      * @param string $id The document ID
@@ -49,7 +49,7 @@ class AdminNewsController extends BaseInstanceDependentController
     /**
      * Displays a form to create a new News document.
      *
-     * @Route("/new", name="news_new")
+     * @Route("/new", name="admin_news_new")
      * @Template()
      *
      * @return array
@@ -62,21 +62,21 @@ class AdminNewsController extends BaseInstanceDependentController
     /**
      * Creates a new News document.
      *
-     * @Route("/create", name="news_create")
+     * @Route("/create", name="admin_news_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:News:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminNews:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('News', new News(), new NewsType($this->getInstance()), 'news');
+        return $this->baseCreate('News', new News(), new NewsType($this->getInstance()), 'admin_news');
     }
 
     /**
      * Displays a form to edit an existing News document.
      *
-     * @Route("/{id}/edit", name="news_edit")
+     * @Route("/{id}/edit", name="admin_news_edit")
      * @Template()
      *
      * @param string $id The document ID
@@ -93,9 +93,9 @@ class AdminNewsController extends BaseInstanceDependentController
     /**
      * Edits an existing News document.
      *
-     * @Route("/{id}/update", name="news_update")
+     * @Route("/{id}/update", name="admin_news_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:News:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminNews:edit.html.twig")
      * 
      * @param string $id The document ID
      *
@@ -105,13 +105,13 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('News', $id, new NewsType($this->getInstance()), 'news');
+        return $this->baseUpdate('News', $id, new NewsType($this->getInstance()), 'admin_news');
     }
 
     /**
      * Deletes a News document.
      *
-     * @Route("/{id}/delete", name="news_delete")
+     * @Route("/{id}/delete", name="admin_news_delete")
      * @Method("post")
      *
      * @param string $id The document ID
@@ -122,7 +122,7 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('News', $id, 'news');
+        return $this->baseDelete('News', $id, 'admin_news');
     }
 
 }

@@ -21,5 +21,15 @@ class NewsRepository extends DocumentRepository
                         ->limit($limit)
                         ->getQuery();
     }
+    
+    public function findLastNewsDirectory($limit = 5)
+    {
+        return $this->createQueryBuilder()
+                        ->field('instance.id')->equals(null)
+                        ->sort(array('date' => 'desc'))
+                        ->limit($limit)
+                        ->getQuery();
+    }
+  
 
 }

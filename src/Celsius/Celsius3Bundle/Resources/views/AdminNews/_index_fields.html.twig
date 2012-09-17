@@ -14,10 +14,10 @@
             <td>
                 <ul class="unstyled">
                     <li>
-                        <a href="{{ path('news_show', { 'code': app.request.get('code'), 'id': document.id }) }}"><i class="icon-book"></i> {{ 'Show'|trans }}</a>
+                        <a href="{{ path('admin_news_show', { 'code': app.request.get('code'), 'id': document.id }) }}"><i class="icon-book"></i> {{ 'Show'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('news_edit', { 'code': app.request.get('code'), 'id': document.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
+                        <a href="{{ path('admin_news_edit', { 'code': app.request.get('code'), 'id': document.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
                     </li>
                 </ul>
             </td>

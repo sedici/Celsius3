@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DirectoryController extends BaseController
 {
+    
     /**
      * @Route("/directory/", name="directory")
      * @Route("/", name="index")
@@ -21,7 +22,9 @@ class DirectoryController extends BaseController
      */
     public function indexAction()
     {
-        return array();
+        return array(
+           'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNewsDirectory(),
+        );
     }
     
     /**

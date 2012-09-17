@@ -9,8 +9,12 @@
     <div id="description" class="span6">
         <h3>{{ 'Project description'|trans }}</h3>
     </div>
-    <div id="news" class="span6">
-        <h3>{{ 'News'|trans }}</h3>
+     <div id="news" class="span6">
+        <h3>{{ 'Latest News'|trans }}</h3>
+        {% for news in lastNews %}
+        {% include 'CelsiusCelsius3Bundle:Public:_news.html.twig' %}
+        {% include 'CelsiusCelsius3Bundle:Public:_news_modal.html.twig' %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
