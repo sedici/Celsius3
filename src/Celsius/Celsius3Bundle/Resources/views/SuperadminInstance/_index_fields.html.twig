@@ -2,7 +2,7 @@
     <span>
         {{ 'Sort by'|trans }}: 
     </span>
-    {% include 'CelsiusCelsius3Bundle:Instance:_index_sort.html.twig' %}
+    {% include 'CelsiusCelsius3Bundle:SuperadminInstance:_index_sort.html.twig' %}
 </div>
 <div class="clearfix"></div>
 {% for instance in pagination %}
@@ -12,11 +12,11 @@
             <a href="#collapse{{ instance.id }}" data-parent="#id{{ instance.id }}" data-toggle="collapse" class="accordion-toggle">
                 <span>{{ instance.name }}</span>
             </a>
-            {% include 'CelsiusCelsius3Bundle:Instance:_index_list_actions.html.twig' %}
+            {% include 'CelsiusCelsius3Bundle:SuperadminInstance:_index_list_actions.html.twig' %}
         </div>
         <div class="accordion-body collapse" id="collapse{{ instance.id }}">
             <div class="accordion-inner">
-                {% include 'CelsiusCelsius3Bundle:Instance:_show_fields.html.twig' %}
+                {% include 'CelsiusCelsius3Bundle:SuperadminInstance:_show_fields.html.twig' %}
             </div>
         </div>
     </div>
