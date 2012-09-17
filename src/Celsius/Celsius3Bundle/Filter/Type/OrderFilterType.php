@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class OrderFilterType extends AbstractType
 {
 
+    private $instance;
+
+    public function __construct($instance = null)
+    {
+        $this->instance = $instance;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -28,6 +35,14 @@ class OrderFilterType extends AbstractType
                     'class' => 'CelsiusCelsius3Bundle:BaseUser',
                 ))
         ;
+
+        if (is_null($this->instance))
+        {
+            $builder->add('instance', 'document', array(
+                'required' => false,
+                'class' => 'CelsiusCelsius3Bundle:Instance',
+            ));
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

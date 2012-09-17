@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class BaseUserFilterType extends AbstractType
 {
 
+    private $instance;
+
+    public function __construct($instance = null)
+    {
+        $this->instance = $instance;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -25,6 +32,14 @@ class BaseUserFilterType extends AbstractType
                     'required' => false,
                 ))
         ;
+
+        if (is_null($this->instance))
+        {
+            $builder->add('instance', 'document', array(
+                'required' => false,
+                'class' => 'CelsiusCelsius3Bundle:Instance',
+            ));
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

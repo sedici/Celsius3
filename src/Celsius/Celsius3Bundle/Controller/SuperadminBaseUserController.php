@@ -28,7 +28,7 @@ class SuperadminBaseUserController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('BaseUser');
+        return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType()));
     }
 
     /**
