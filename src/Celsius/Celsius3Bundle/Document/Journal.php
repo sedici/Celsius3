@@ -10,6 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Journal
 {
+
     /**
      * @MongoDB\Id
      */
@@ -20,42 +21,47 @@ class Journal
      * @MongoDB\String
      */
     private $name;
-    
+
     /**
      * @MongoDB\String
      */
     private $abbreviation;
-    
+
     /**
      * @MongoDB\String
      */
     private $responsible;
-    
+
     /**
      * @MongoDB\String
      */
     private $ISSN;
-    
+
     /**
      * @MongoDB\String
      */
     private $ISSNE;
-    
+
     /**
      * @MongoDB\String
      */
     private $frecuency;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="JournalType", mappedBy="journal")
      */
     private $materials;
-    
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Instance") 
+     */
+    protected $instance;
+
     public function __construct()
     {
         $this->materials = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
@@ -217,4 +223,27 @@ class Journal
     {
         return $this->materials;
     }
+
+    /**
+     * Set instance
+     *
+     * @param Celsius\Celsius3Bundle\Document\Instance $instance
+     * @return Journal
+     */
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    {
+        $this->instance = $instance;
+        return $this;
+    }
+
+    /**
+     * Get instance
+     *
+     * @return Celsius\Celsius3Bundle\Document\Instance $instance
+     */
+    public function getInstance()
+    {
+        return $this->instance;
+    }
+
 }

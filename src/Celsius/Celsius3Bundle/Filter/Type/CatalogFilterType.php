@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class CatalogFilterType extends AbstractType
 {
 
+    private $instance;
+
+    public function __construct($instance = null)
+    {
+        $this->instance = $instance;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -20,8 +27,16 @@ class CatalogFilterType extends AbstractType
                     'class' => 'CelsiusCelsius3Bundle:Institution',
                 ))
         ;
+
+        if (is_null($this->instance))
+        {
+            $builder->add('instance', 'document', array(
+                'required' => false,
+                'class' => 'CelsiusCelsius3Bundle:Instance',
+            ));
+        }
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
