@@ -10,151 +10,10 @@ use Celsius\Celsius3Bundle\Form\Type\InstanceType;
 use Celsius\Celsius3Bundle\Filter\Type\InstanceFilterType;
 use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
 
-/**
- * Instance controller.
- *
- * @Route("/superadmin/instance")
- */
-class InstanceController extends BaseController
+abstract class InstanceController extends BaseController
 {
 
-    /**
-     * Lists all Instance documents.
-     *
-     * @Route("/", name="instance")
-     * @Template()
-     *
-     * @return array
-     */
-    public function indexAction()
-    {
-        return $this->baseIndex('Instance', $this->createForm(new InstanceFilterType()));
-    }
-
-    /**
-     * Displays a form to create a new Instance document.
-     *
-     * @Route("/new", name="instance_new")
-     * @Template()
-     *
-     * @return array
-     */
-    public function newAction()
-    {
-        return $this->baseNew('Instance', new Instance(), new InstanceType());
-    }
-
-    /**
-     * Creates a new Instance document.
-     *
-     * @Route("/create", name="instance_create")
-     * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Instance:new.html.twig")
-     *
-     * @return array
-     */
-    public function createAction()
-    {
-        return $this->baseCreate('Instance', new Instance(), new InstanceType(), 'instance');
-    }
-
-    /**
-     * Displays a form to edit an existing Instance document.
-     *
-     * @Route("/{id}/edit", name="instance_edit")
-     * @Template()
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function editAction($id)
-    {
-        return $this->baseEdit('Instance', $id, new InstanceType());
-    }
-
-    /**
-     * Edits an existing Instance document.
-     *
-     * @Route("/{id}/update", name="instance_update")
-     * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Instance:edit.html.twig")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function updateAction($id)
-    {
-        return $this->baseUpdate('Instance', $id, new InstanceType(), 'instance');
-    }
-
-    /**
-     * Deletes a Instance document.
-     *
-     * @Route("/{id}/delete", name="instance_delete")
-     * @Method("post")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Instance', $id, 'instance');
-    }
-
-    /**
-     * Switches the enabled flag of a Instance document.
-     *
-     * @Route("/{id}/switch", name="instance_switch")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function switchAction($id)
-    {
-        $document = $this->findQuery('Instance', $id);
-
-        if (!$document)
-        {
-            throw $this->createNotFoundException('Unable to find Instance.');
-        }
-
-        $document->setEnabled(!$document->getEnabled());
-
-        $dm = $this->getDocumentManager();
-        $dm->persist($document);
-        $dm->flush();
-
-        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' .
-                (($document->getEnabled()) ? 'enabled' : 'disabled'));
-
-        return $this->redirect($this->generateUrl('instance'));
-    }
-
-    /**
-     * Displays a form to configure an existing Instance
-     *
-     * @Route("/{id}/configure", name="instance_configure")
-     * @Template()
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function configureAction($id)
+    protected function baseConfigureAction($id)
     {
         $document = $this->findQuery('Instance', $id);
 
@@ -182,20 +41,7 @@ class InstanceController extends BaseController
         );
     }
 
-    /**
-     * Edits the existing Instance configuration.
-     *
-     * @Route("/{id}/update_configuration", name="instance_update_configuration")
-     * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Instance:configure.html.twig")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function configureUpdateAction($id)
+    protected function baseConfigureUpdateAction($id, $route)
     {
         $document = $this->findQuery('Instance', $id);
 
@@ -234,10 +80,10 @@ class InstanceController extends BaseController
             }
 
             $dm->flush();
-            
+
             $this->addFlash('success', 'The instance was successfully configured.');
 
-            return $this->redirect($this->generateUrl('instance_configure', array('id' => $id)));
+            return $this->redirect($this->generateUrl($route . '_configure', array('id' => $id)));
         }
 
         return array(
