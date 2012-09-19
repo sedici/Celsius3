@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Form\Type\OrderType;
+use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
 /**

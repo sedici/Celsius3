@@ -11,26 +11,21 @@ class OrderType extends AbstractType
     protected $instance;
     protected $material;
     protected $preferredMaterial;
+    protected $user;
 
-    public function __construct($instance = null, $material = null)
+    public function __construct($instance = null, $material = null, $user = null)
     {
         $this->instance = $instance;
         $this->material = (is_null($material)) ? new JournalTypeType() : $material;
 
         $class = explode('\\', get_class($this->material));
         $this->preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
+
+        $this->user = $user;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($builder->getData())
-        {
-            $owner = $builder->getData()->getOwner();
-        } else
-        {
-            $owner = '';
-        }
-
         $builder
                 ->add('type', 'choice', array(
                     'choices' => array(
@@ -43,18 +38,10 @@ class OrderType extends AbstractType
                 ))
                 ->add('owner', 'user_selector', array(
                     'attr' => array(
+                        'value' => (!is_null($this->user)) ? $this->user->getId() : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
-                ))
-                ->add('owner_autocomplete', 'text', array(
-                    'attr' => array(
-                        'class' => 'autocomplete',
-                        'target' => 'BaseUser',
-                        'value' => $owner,
-                    ),
-                    'mapped' => false,
-                    'label' => 'Owner',
                 ))
                 ->add('materialDataType', 'choice', array(
                     'choices' => array(

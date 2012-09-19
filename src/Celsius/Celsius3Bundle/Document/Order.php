@@ -31,7 +31,6 @@ class Order
     protected $type;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */
@@ -77,9 +76,14 @@ class Order
     protected $owner;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
+     * @MongoDB\ReferenceOne(targetDocument="Admin") 
      */
     protected $operator;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Librarian") 
+     */
+    protected $librarian;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
@@ -90,12 +94,12 @@ class Order
      * @MongoDB\ReferenceMany(targetDocument="File", inversedBy="orders")
      */
     protected $files;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="order")
      */
     protected $events;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="order")
      */
@@ -118,6 +122,7 @@ class Order
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->states = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -356,7 +361,7 @@ class Order
      * @param Celsius\Celsius3Bundle\Document\BaseUser $operator
      * @return Order
      */
-    public function setOperator(\Celsius\Celsius3Bundle\Document\BaseUser $operator)
+    public function setOperator(\Celsius\Celsius3Bundle\Document\Admin $operator)
     {
         $this->operator = $operator;
         return $this;
@@ -414,7 +419,6 @@ class Order
         return $this->files;
     }
 
-
     /**
      * Add events
      *
@@ -454,4 +458,27 @@ class Order
     {
         return $this->states;
     }
+
+    /**
+     * Set librarian
+     *
+     * @param Celsius\Celsius3Bundle\Document\Librarian $librarian
+     * @return Order
+     */
+    public function setLibrarian(\Celsius\Celsius3Bundle\Document\Librarian $librarian)
+    {
+        $this->librarian = $librarian;
+        return $this;
+    }
+
+    /**
+     * Get librarian
+     *
+     * @return Celsius\Celsius3Bundle\Document\Librarian $librarian
+     */
+    public function getLibrarian()
+    {
+        return $this->librarian;
+    }
+
 }

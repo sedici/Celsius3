@@ -2,7 +2,7 @@
     <span>
         {{ 'Sort by'|trans }}: 
     </span>
-    {% include 'CelsiusCelsius3Bundle:SuperadminOrder:_index_sort.html.twig' %}
+    {% include 'CelsiusCelsius3Bundle:UserOrder:_index_sort.html.twig' %}
 </div>
 <div class="clearfix"></div>
 {% for order in pagination %}
@@ -11,12 +11,14 @@
         <div class="accordion-heading">
             <a href="#collapse{{ order.code }}" data-parent="#code{{ order.code }}" data-toggle="collapse" class="accordion-toggle">
                 <span>{{ order.code }} - {{ order.materialData.title }}</span>
+                {% if app.user.username != order.owner.username %}
                 <span class="label pull-right">{{ order.owner.surname }}, {{ order.owner.name }}</span>
+                {% endif %}
             </a>
         </div>
         <div class="accordion-body collapse" id="collapse{{ order.code }}">
             <div class="accordion-inner">
-                {% include 'CelsiusCelsius3Bundle:SuperadminOrder:_show_fields.html.twig' %}
+                {% include 'CelsiusCelsius3Bundle:UserOrder:_show_fields.html.twig' %}
             </div>
         </div>
     </div>

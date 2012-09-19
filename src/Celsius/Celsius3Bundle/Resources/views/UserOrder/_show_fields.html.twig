@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="span6">
+        <dl class="dl-horizontal">
+            <dt>{{ 'Code'|trans }}</dt>
+            <dd>{{ order.code }}</dd>
+            <dt>{{ 'Request date'|trans }}</dt>
+            <dd>{{ order.requested|localizeddate() }}</dd>
+            {% if app.user.username != order.owner.username %}
+            <dt>{{ 'User'|trans }}</dt>
+            <dd>{{ order.owner.username }}</dd>
+            {% endif %}
+        </dl>
+        <div class="thumbnail">
+            <dl class="dl-horizontal">
+                <dt>{{ 'Title'|trans }}</dt>
+                <dd>{{ order.materialData.title }}</dd>
+                <dt>{{ 'Year'|trans }}</dt>
+                <dd>{{ order.materialData.year }}</dd>
+                <dt>{{ 'Start page'|trans }}</dt>
+                <dd>{{ order.materialData.startPage }}</dd>
+                <dt>{{ 'End page'|trans }}</dt>
+                <dd>{{ order.materialData.endPage }}</dd>
+            </dl>
+        </div>
+    </div>
+</div>

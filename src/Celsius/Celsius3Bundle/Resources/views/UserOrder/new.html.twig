@@ -1,4 +1,4 @@
-{% set ajax_path = 'superadmin_ajax' %}
+{% set ajax_path = 'user_ajax' %}
 {% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
 
 {% block title %}
@@ -8,5 +8,5 @@
 {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-{{ new('superadmin_order', form) }}
+{{ new('user_order', form) }}
 {% endblock %}

@@ -28,7 +28,7 @@ $(document).ready(function(){
         source: function(request, response) {
             var field = $(this);
             $.ajax({
-                url: '{{ path('user_ajax') }}',
+                url: '{{ (ajax_path is defined)?path(ajax_path):'' }}',
                 dataType: "json",
                 data: {
                     term : request.term,
@@ -62,6 +62,11 @@ $(document).ready(function(){
                 }
             }
         });
+    });
+    
+    $('#celsius_celsius3bundle_ordertype_instance').change(function () {
+        $('#celsius_celsius3bundle_ordertype_owner_autocomplete').val('');
+        $('#celsius_celsius3bundle_ordertype_owner').val('');
     });
 });
 </script>

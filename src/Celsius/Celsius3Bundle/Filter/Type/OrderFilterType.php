@@ -10,10 +10,12 @@ class OrderFilterType extends AbstractType
 {
 
     private $instance;
+    private $owner;
 
-    public function __construct($instance = null)
+    public function __construct($instance = null, $owner = null)
     {
         $this->instance = $instance;
+        $this->owner = $owner;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -30,11 +32,15 @@ class OrderFilterType extends AbstractType
                         1 => 'Search',
                     ),
                 ))
-                ->add('owner', 'document', array(
-                    'required' => false,
-                    'class' => 'CelsiusCelsius3Bundle:BaseUser',
-                ))
         ;
+        
+        if (is_null($this->owner))
+        {
+            $builder->add('owner', 'document', array(
+                'required' => false,
+                'class' => 'CelsiusCelsius3Bundle:BaseUser',
+            ));
+        }
 
         if (is_null($this->instance))
         {

@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Form\Type\OrderType;
+use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
 /**
@@ -48,7 +48,7 @@ class AdminOrderController extends OrderController
      *
      * @Route("/create", name="admin_order_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Order:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminOrder:new.html.twig")
      *
      * @return array
      */
@@ -94,7 +94,7 @@ class AdminOrderController extends OrderController
      *
      * @Route("/{id}/update", name="admin_order_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:Order:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminOrder:edit.html.twig")
      * 
      * @param string $id The document ID
      *

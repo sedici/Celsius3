@@ -50,5 +50,13 @@ class AdministrationController extends BaseInstanceDependentController
             'pagination' => $pagination,
         );
     }
+    
+    /**
+     * @Route("/ajax", name="admin_ajax")
+     */
+    public function ajaxAction()
+    {
+        return $this->ajax($this->getInstance());
+    }
 
 }

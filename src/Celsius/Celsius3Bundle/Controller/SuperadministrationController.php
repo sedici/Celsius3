@@ -23,5 +23,13 @@ class SuperadministrationController extends BaseController
     {
         return array();
     }
+    
+    /**
+     * @Route("/ajax", name="superadmin_ajax")
+     */
+    public function ajaxAction()
+    {
+        return $this->ajax();
+    }
 
 }
