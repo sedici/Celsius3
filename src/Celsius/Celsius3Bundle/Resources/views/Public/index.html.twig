@@ -15,7 +15,15 @@
         <p>Curabitur in ante ac urna lacinia elementum. Aenean nisi nisi, malesuada non vehicula sed, blandit id urna. Quisque lectus quam, sodales interdum rhoncus at, faucibus vitae massa. Phasellus eget condimentum augue. Nam dignissim eleifend leo. Curabitur nisl ligula, adipiscing at pulvinar quis, eleifend eu justo. Quisque mollis sapien eget ante sagittis convallis. Nam sit amet tristique mi. Mauris porttitor tempus quam, sed tincidunt risus mattis blandit.</p>
     </div>
     <div id="news" class="span6">
-        <h3>{{ 'Latest News'|trans }}</h3>
+        <h3>
+            {{ 'Latest News'|trans }}
+                <a href="{{path('instance_rss_news',{'urlInstance': instance.url })}}">
+                    <img src="{{ asset('bundles/webprofiler/images/rss.jpg') }}" height="32" width="32" />
+                </a>
+                <a href="{{path('instance_atom_news',{'urlInstance': instance.url })}}">
+                    <img src="{{ asset('bundles/webprofiler/images/atom.jpg') }}" height="32" width="32" />
+                </a>
+        </h3>
         {% for news in lastNews %}
         {% include 'CelsiusCelsius3Bundle:Public:_news.html.twig' %}
         {% include 'CelsiusCelsius3Bundle:Public:_news_modal.html.twig' %}

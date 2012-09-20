@@ -73,5 +73,5 @@ class PublicController extends BaseInstanceDependentController
     {
         return array();
     }
-
+    
 }

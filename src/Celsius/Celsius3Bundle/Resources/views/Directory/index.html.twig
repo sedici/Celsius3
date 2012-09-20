@@ -10,10 +10,18 @@
         <h3>{{ 'Project description'|trans }}</h3>
     </div>
      <div id="news" class="span6">
-        <h3>{{ 'Latest News'|trans }}</h3>
+        <h3>
+            {{ 'Latest News'|trans }}
+            <a href="{{path('directory_rss_news',{})}}">
+                <img src="{{ asset('bundles/webprofiler/images/rss.jpg') }}" height="32" width="32" />
+            </a>
+            <a href="{{path('directory_atom_news',{})}}">
+                <img src="{{ asset('bundles/webprofiler/images/atom.jpg') }}" height="32" width="32" />
+            </a>
+        </h3>
         {% for news in lastNews %}
-        {% include 'CelsiusCelsius3Bundle:Public:_news.html.twig' %}
-        {% include 'CelsiusCelsius3Bundle:Public:_news_modal.html.twig' %}
+            {% include 'CelsiusCelsius3Bundle:Public:_news.html.twig' %}
+            {% include 'CelsiusCelsius3Bundle:Public:_news_modal.html.twig' %}
         {% endfor %}
     </div>
 </div>
