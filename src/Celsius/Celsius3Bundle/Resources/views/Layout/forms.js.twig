@@ -81,18 +81,20 @@ $(document).ready(function(){
         $('#celsius_celsius3bundle_ordertype_owner').val('');
     });
     
-    // Controles para los widgets del formulario de carga de pedidos de un bibliotecario
-    if ($('#celsius_celsius3bundle_ordertype_target').length > 0) {
-        id = '{{ app.user.id }}';
-        noLibrarian(id);
-    }
-    
-    $('#celsius_celsius3bundle_ordertype_target').change(function () {
-        if ($('#celsius_celsius3bundle_ordertype_target').val() == 'me') {
+    {% if app.user %}
+        // Controles para los widgets del formulario de carga de pedidos de un bibliotecario
+        if ($('#celsius_celsius3bundle_ordertype_target').length > 0) {
+            id = '{{ app.user.id }}';
             noLibrarian(id);
-        } else {
-            librarian(id);
         }
-    });
+
+        $('#celsius_celsius3bundle_ordertype_target').change(function () {
+            if ($('#celsius_celsius3bundle_ordertype_target').val() == 'me') {
+                noLibrarian(id);
+            } else {
+                librarian(id);
+            }
+        });
+    {% endif %}
 });
 </script>
