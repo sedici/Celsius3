@@ -203,6 +203,23 @@ class FixtureLoader implements FixtureInterface
                     unset($material, $order);
                 }
 
+                for ($k = 0; $k < 5; $k++)
+                {
+                    $subordinate = new Document\BaseUser();
+                    $subordinate->setName($names[rand(0, 99999999) % 10]);
+                    $subordinate->setSurname($surnames[rand(0, 99999999) % 10]);
+                    $subordinate->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
+                    $subordinate->setUsername($subordinate->getName() . '_' . md5(rand(0, 99999999)));
+                    $subordinate->setPassword(md5(rand(0, 99999999)));
+                    $subordinate->setEmail($subordinate->getName() . $subordinate->getSurname() . md5(rand(0, 99999999)) . $i . $j . '@test.com');
+                    $subordinate->setAddress('address_' . md5(rand(0, 99999999)));
+                    $subordinate->setInstance($instance);
+                    $subordinate->setLibrarian($user);
+                    $manager->persist($subordinate);
+
+                    unset($subordinate);
+                }
+
                 unset($user);
             }
 

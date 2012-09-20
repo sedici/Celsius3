@@ -6,7 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\Librarian;
 use Celsius\Celsius3Bundle\Form\Type\OrderType;
+use Celsius\Celsius3Bundle\Form\Type\LibrarianOrderType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
 /**
@@ -19,23 +21,32 @@ class UserOrderController extends OrderController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        $qb = $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder()
-                        ->field('instance.id')->equals($this->getInstance()->getId())
-                        ->field('owner.id')->equals($this->getUser()->getId());
+                        ->field('instance.id')->equals($this->getInstance()->getId());
+
+        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
+
+        return $qb;
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        $qb = $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder()
-                        ->field('instance.id')->equals($this->getInstance()->getId())
-                        ->field('owner.id')->equals($this->getUser()->getId())
-                        ->field('id')->equals($id)
-                        ->getQuery()
-                        ->getSingleResult();
+                        ->field('instance.id')->equals($this->getInstance()->getId());
+
+        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
+
+        $qb = $qb->field('id')->equals($id)
+                ->getQuery()
+                ->getSingleResult();
+
+        return $qb;
     }
 
     /**
@@ -61,7 +72,15 @@ class UserOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, $this->getUser()));
+        if ($this->getUser() instanceof Librarian)
+        {
+            $type = new LibrarianOrderType($this->getInstance(), null, $this->getUser());
+        } else
+        {
+            $type = new OrderType($this->getInstance(), null, $this->getUser());
+        }
+
+        return $this->baseNew('Order', new Order(), $type);
     }
 
     /**
@@ -75,7 +94,15 @@ class UserOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser()), 'user_order');
+        if ($this->getUser() instanceof Librarian)
+        {
+            $type = new LibrarianOrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
+        } else
+        {
+            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
+        }
+
+        return $this->baseCreate('Order', new Order(), $type, 'user_order');
     }
 
     /**

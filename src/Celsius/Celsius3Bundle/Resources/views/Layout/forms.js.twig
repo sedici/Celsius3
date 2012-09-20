@@ -8,6 +8,18 @@ function getOldValues() {
     oldValues['celsius_celsius3bundle_ordertype_materialData_endPage'] = $('#celsius_celsius3bundle_ordertype_materialData_endPage').val();
     return oldValues;
 }
+
+function noLibrarian(id) {
+    $('#celsius_celsius3bundle_ordertype_owner_autocomplete').attr('disabled', 'disabled');
+    $('#celsius_celsius3bundle_ordertype_owner').val(id);
+    $('#celsius_celsius3bundle_ordertype_librarian').val('');
+}
+
+function librarian(id) {
+    $('#celsius_celsius3bundle_ordertype_owner_autocomplete').removeAttr('disabled');
+    $('#celsius_celsius3bundle_ordertype_owner').val('');
+    $('#celsius_celsius3bundle_ordertype_librarian').val(id);
+}
     
 $(document).ready(function(){
     /**
@@ -67,6 +79,20 @@ $(document).ready(function(){
     $('#celsius_celsius3bundle_ordertype_instance').change(function () {
         $('#celsius_celsius3bundle_ordertype_owner_autocomplete').val('');
         $('#celsius_celsius3bundle_ordertype_owner').val('');
+    });
+    
+    // Controles para los widgets del formulario de carga de pedidos de un bibliotecario
+    if ($('#celsius_celsius3bundle_ordertype_target').length > 0) {
+        id = '{{ app.user.id }}';
+        noLibrarian(id);
+    }
+    
+    $('#celsius_celsius3bundle_ordertype_target').change(function () {
+        if ($('#celsius_celsius3bundle_ordertype_target').val() == 'me') {
+            noLibrarian(id);
+        } else {
+            librarian(id);
+        }
     });
 });
 </script>

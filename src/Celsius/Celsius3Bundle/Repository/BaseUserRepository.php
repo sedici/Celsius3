@@ -13,7 +13,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class BaseUserRepository extends DocumentRepository
 {
 
-    public function findByTerm($term, $instance = null, $in = array(), $limit = null)
+    public function findByTerm($term, $instance = null, $in = array(), $limit = null, $librarian = null)
     {
         $expr = new \MongoRegex('/.*' . $term . '.*/i');
 
@@ -24,6 +24,9 @@ class BaseUserRepository extends DocumentRepository
 
         if (!is_null($instance))
             $qb = $qb->field('instance.id')->equals($instance->getId());
+        
+        if (!is_null($librarian))
+            $qb = $qb->field('librarian.id')->equals($librarian->getId());
 
         if (!is_null($limit))
             $qb = $qb->limit(10);
