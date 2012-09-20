@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rss version="2.0">
+    <channel>
+        <title>{{instance}}</title>
+	<description>Aqui podra encontrar las noticias recientes.</description>
+	<link>{{url}}</link>
+	{% for news in lastNews %}
+             {% include 'CelsiusCelsius3Bundle:NewsFeeds:_new_rss.html.twig' %}
+        {% endfor %}
+    </channel>
+</rss>
+    
