@@ -4,6 +4,7 @@ namespace Celsius\Celsius3Bundle\Controller;
 
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Form\Type\OrderType;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 class OrderController extends BaseInstanceDependentController
 {
@@ -35,6 +36,22 @@ class OrderController extends BaseInstanceDependentController
         }
 
         return new $materialTypeName;
+    }
+
+    public function baseSearch($id, $route)
+    {
+        $dm = $this->getDocumentManager();
+        
+        $order = $this->findQuery('Order', $id);
+        
+        $order->setSearched(date('Y-m-d H:i:s'));
+        $dm->persist($order);
+        $dm->flush();
+        
+        $lh = new LifecycleHelper($dm);
+        $lh->search($order);
+        
+        return $this->redirect($this->generateUrl($route));
     }
 
 }

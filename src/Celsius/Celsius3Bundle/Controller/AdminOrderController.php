@@ -165,5 +165,21 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
+    
+    /**
+     * Moves an order to search.
+     *
+     * @Route("/{id}/search", name="admin_order_search")
+     * 
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function searchAction($id)
+    {
+        return $this->baseSearch($id, 'admin_order');
+    }
 
 }

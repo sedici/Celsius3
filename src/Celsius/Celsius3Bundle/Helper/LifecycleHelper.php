@@ -23,15 +23,9 @@ class LifecycleHelper
         $this->dm = $dm;
     }
 
-    protected function setEventData(Event $event, $order_id, $state)
+    protected function setEventData(Event $event, Order $order, $state)
     {
         $date = date('Y-m-d H:i:s');
-
-        $order = $this->dm->getRepository('CelsiusCelsius3Bundle:Order')
-                ->createQueryBuilder()
-                ->field('id')->equals($order_id)
-                ->getQuery()
-                ->getSingleResult();
 
         $event->setDate($date);
         $event->setOperator($order->getOperator());
@@ -65,37 +59,43 @@ class LifecycleHelper
 
     public function creation($order_id)
     {
-        $this->setEventData(new Creation(), $order_id, 'created');
+        $order = $this->dm->getRepository('CelsiusCelsius3Bundle:Order')
+                ->createQueryBuilder()
+                ->field('id')->equals($order_id)
+                ->getQuery()
+                ->getSingleResult();
+        
+        $this->setEventData(new Creation(), $order, 'created');
     }
 
-    public function search(Order $order_id)
+    public function search(Order $order)
     {
-        $this->setEventData(new Search(), $order_id, 'searched');
+        $this->setEventData(new Search(), $order->getId(), 'searched');
     }
 
-    public function request(Order $order_id)
+    public function request(Order $order)
     {
-        $this->setEventData(new SingleInstanceRequest(), $order_id, 'requested');
+        $this->setEventData(new SingleInstanceRequest(), $order, 'requested');
     }
 
-    public function receive(Order $order_id)
+    public function receive(Order $order)
     {
-        $this->setEventData(new Receive(), $order_id, 'received');
+        $this->setEventData(new Receive(), $order, 'received');
     }
 
-    public function deliver(Order $order_id)
+    public function deliver(Order $order)
     {
-        $this->setEventData(new SingleInstanceDeliver(), $order_id, 'delivered');
+        $this->setEventData(new SingleInstanceDeliver(), $order, 'delivered');
     }
 
-    public function cancel(Order $order_id)
+    public function cancel(Order $order)
     {
-        $this->setEventData(new Cancel(), $order_id, 'canceled');
+        $this->setEventData(new Cancel(), $order, 'canceled');
     }
 
-    public function annul(Order $order_id)
+    public function annul(Order $order)
     {
-        $this->setEventData(new Annul(), $order_id, 'annuled');
+        $this->setEventData(new Annul(), $order, 'annuled');
     }
 
 }
