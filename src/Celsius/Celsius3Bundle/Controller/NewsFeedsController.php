@@ -44,11 +44,7 @@ class NewsFeedsController extends BaseInstanceDependentController
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNewsDirectory(),
             'url' => 'http://www.celsius3.com.localhost/app_dev.php/es/newsFeeds/rss/directory',
         );
-        echo '2';
-        echo $this->get('request')->getBasePath();
-        echo '2';
-        echo $this->get('kernel')->getRootDir();
-        echo '2';
+        
        return $array;
     }
     
