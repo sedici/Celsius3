@@ -113,6 +113,12 @@ services:
         class: Celsius\Celsius3Bundle\Listener\ConfigurationListener
         tags:
             - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
+            
+    # Carga el evento de creacion de una Order
+    order_listener:
+        class: Celsius\Celsius3Bundle\Listener\OrderListener
+        tags:
+            - { name: doctrine_mongodb.odm.event_listener, event: postPersist }
     
     # Formulario de registro personalizado
     celsius_celsius3bundle.registration.form.type:

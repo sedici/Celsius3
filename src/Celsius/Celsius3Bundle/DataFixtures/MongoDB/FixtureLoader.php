@@ -81,6 +81,43 @@ class FixtureLoader implements FixtureInterface
         unset($configuration);
 
         $manager->flush();
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('created');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('searched');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('requested');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('received');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('delivered');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('canceled');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $state_type = new Document\StateType();
+        $state_type->setName('annuled');
+        $manager->persist($state_type);
+        unset($state_type);
+        
+        $manager->flush();
 
         for ($i = 0; $i < 5; $i++)
         {

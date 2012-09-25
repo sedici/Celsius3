@@ -7,6 +7,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AdminOrderType extends OrderType
 {
+    
+    protected $operator;
+    
+    public function __construct($instance = null, $material = null, $user = null, $operator = null)
+    {
+        parent::__construct($instance, $material, $user);
+        $this->operator = $operator;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -27,6 +35,13 @@ class AdminOrderType extends OrderType
                     ),
                     'mapped' => false,
                     'label' => 'Owner',
+                ))
+                ->add('operator', 'user_selector', array(
+                    'attr' => array(
+                        'value' => (!is_null($this->operator)) ? $this->operator->getId() : '',
+                        'class' => 'container',
+                        'readonly' => 'readonly',
+                    ),
                 ))
         ;
 

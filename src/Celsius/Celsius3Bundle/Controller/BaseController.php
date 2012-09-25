@@ -93,7 +93,7 @@ abstract class BaseController extends Controller
 
             $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully created.');
 
-            return $this->redirect($this->generateUrl($route, array('id' => $document->getId())));
+            return $this->redirect($this->generateUrl($route));
         }
 
         $this->get('session')->getFlashBag()->add('error', 'There were errors creating the ' . $name . '.');

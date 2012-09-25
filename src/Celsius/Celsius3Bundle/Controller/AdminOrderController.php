@@ -40,7 +40,7 @@ class AdminOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance()));
+        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, null, $this->getUser()));
     }
 
     /**
@@ -54,7 +54,7 @@ class AdminOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType()), 'order');
+        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), 'admin_order');
     }
 
     /**
@@ -79,7 +79,7 @@ class AdminOrderController extends OrderController
 
         $materialClass = get_class($document->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass)), $document);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), null, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -113,7 +113,7 @@ class AdminOrderController extends OrderController
 
         $document->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType()), $document);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -126,7 +126,7 @@ class AdminOrderController extends OrderController
             $dm->persist($document);
             $dm->flush();
 
-            return $this->redirect($this->generateUrl('order_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_order_edit', array('id' => $id)));
         }
 
         return array(
@@ -150,7 +150,7 @@ class AdminOrderController extends OrderController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('Order', $id, 'order');
+        return $this->baseDelete('Order', $id, 'admin_order');
     }
 
     /**

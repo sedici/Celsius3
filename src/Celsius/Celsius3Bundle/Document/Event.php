@@ -116,7 +116,7 @@ abstract class Event
      * @param Celsius\Celsius3Bundle\Document\Admin $operator
      * @return Event
      */
-    public function setOperator(\Celsius\Celsius3Bundle\Document\Admin $operator)
+    public function setOperator(\Celsius\Celsius3Bundle\Document\Admin $operator = null)
     {
         $this->operator = $operator;
         return $this;

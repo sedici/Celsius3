@@ -58,7 +58,7 @@ class SuperadminOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this->baseNew('Order', new Order(), new OrderType());
+        return $this->baseNew('Order', new Order(), new OrderType(null, null, null, $this->getUser()));
     }
 
     /**
@@ -72,7 +72,7 @@ class SuperadminOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this->baseCreate('Order', new Order(), new OrderType(null, $this->getMaterialType()), 'superadmin_order');
+        return $this->baseCreate('Order', new Order(), new OrderType(null, $this->getMaterialType(), null, $this->getUser()), 'superadmin_order');
     }
 
     /**
@@ -97,7 +97,7 @@ class SuperadminOrderController extends OrderController
 
         $materialClass = get_class($document->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType($materialClass)), $document);
+        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType($materialClass), null, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -131,7 +131,7 @@ class SuperadminOrderController extends OrderController
 
         $document->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType()), $document);
+        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
