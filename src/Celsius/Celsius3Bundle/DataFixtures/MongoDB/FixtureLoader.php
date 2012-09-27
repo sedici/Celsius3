@@ -81,42 +81,49 @@ class FixtureLoader implements FixtureInterface
         unset($configuration);
 
         $manager->flush();
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('created');
+        $state_type->setPosition(0);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('searched');
+        $state_type->setPosition(1);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('requested');
+        $state_type->setPosition(2);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('received');
+        $state_type->setPosition(3);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('delivered');
+        $state_type->setPosition(4);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('canceled');
+        $state_type->setPosition(5);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName('annuled');
+        $state_type->setPosition(6);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $manager->flush();
 
         for ($i = 0; $i < 5; $i++)
@@ -144,50 +151,44 @@ class FixtureLoader implements FixtureInterface
                 $user->setInstance($instance);
                 $manager->persist($user);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\JournalType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\JournalType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\BookType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\BookType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
                 unset($user);
             }
 
-            for ($j = 0; $j < 50; $j++)
+            for ($j = 0; $j < 10; $j++)
             {
                 $user = new Document\Librarian();
                 $user->setName($names[rand(0, 99999999) % 10]);
@@ -200,45 +201,39 @@ class FixtureLoader implements FixtureInterface
                 $user->setInstance($instance);
                 $manager->persist($user);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\JournalType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\JournalType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\BookType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\BookType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
                 for ($k = 0; $k < 5; $k++)
                 {
@@ -260,7 +255,7 @@ class FixtureLoader implements FixtureInterface
                 unset($user);
             }
 
-            for ($j = 0; $j < 50; $j++)
+            for ($j = 0; $j < 5; $j++)
             {
                 $user = new Document\Admin();
                 $user->setName($names[rand(0, 99999999) % 10]);
@@ -273,50 +268,44 @@ class FixtureLoader implements FixtureInterface
                 $user->setInstance($instance);
                 $manager->persist($user);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\JournalType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\JournalType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\BookType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\BookType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
                 unset($user);
             }
 
-            for ($j = 0; $j < 50; $j++)
+            for ($j = 0; $j < 2; $j++)
             {
                 $user = new Document\Superadmin();
                 $user->setName($names[rand(0, 99999999) % 10]);
@@ -329,50 +318,44 @@ class FixtureLoader implements FixtureInterface
                 $user->setInstance($instance);
                 $manager->persist($user);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\JournalType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\JournalType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
-                for ($k = 0; $k < 5; $k++)
-                {
-                    $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(1);
-                    $order->setInstance($instance);
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
 
-                    $material = new Document\BookType();
-                    $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                    $material->setStartPage(rand(0, 9999999));
-                    $material->setEndPage(rand(0, 9999999));
-                    $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                    $material->setYear(rand(1980, 2012));
+                $material = new Document\BookType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
 
-                    $order->setMaterialData($material);
+                $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    unset($material, $order);
-                }
+                $manager->persist($order);
+                unset($material, $order);
 
                 unset($user);
             }
 
-            for ($j = 0; $j < 100; $j++)
+            for ($j = 0; $j < 20; $j++)
             {
                 $news = new Document\News();
                 $news->setDate(date('Y-m-d H:i:s', mt_rand($min, $max)));

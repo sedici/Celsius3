@@ -7,6 +7,10 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Indexes({
+ *   @MongoDB\Index(keys={"name"="asc"}),
+ *   @MongoDB\Index(keys={"position"="asc"}),
+ * })
  */
 class StateType
 {
@@ -21,6 +25,12 @@ class StateType
      * @MongoDB\String
      */
     protected $name;
+    
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\Int
+     */
+    protected $position;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="type")
@@ -84,4 +94,26 @@ class StateType
         return $this->states;
     }
 
+
+    /**
+     * Set position
+     *
+     * @param int $position
+     * @return StateType
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return int $position
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
 }

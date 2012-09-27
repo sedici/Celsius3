@@ -52,25 +52,18 @@ class LifecycleHelper
         );
 
         $this->dm->persist($state);
-        $this->dm->flush();
 
         return $state;
     }
 
-    public function creation($order_id)
+    public function creation($order)
     {
-        $order = $this->dm->getRepository('CelsiusCelsius3Bundle:Order')
-                ->createQueryBuilder()
-                ->field('id')->equals($order_id)
-                ->getQuery()
-                ->getSingleResult();
-        
         $this->setEventData(new Creation(), $order, 'created');
     }
 
     public function search(Order $order)
     {
-        $this->setEventData(new Search(), $order->getId(), 'searched');
+        $this->setEventData(new Search(), $order, 'searched');
     }
 
     public function request(Order $order)
