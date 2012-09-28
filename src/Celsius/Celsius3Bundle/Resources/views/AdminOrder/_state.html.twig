@@ -1,11 +1,28 @@
 <div class="row">
     <div class="span9">
-        <ul class="breadcrumb">
-            <li><a class="btn" href="#">{{ 'Created'|trans }}</a></li>
-            <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}">{{ 'Searched'|trans }}</a></li>
+        <ul class="breadcrumb state-list">
+            <li>
+                <a class="btn" id="created{{ order.id }}" data-placement="top" 
+                   data-title="State: Created" data-content="{{ 'Creation date'|trans }}: {{ order.created|localizeddate() }}">
+                    {{ 'Created'|trans }}
+                </a>
+            <li>
+                <a class="btn" id="searched{{ order.id }}" data-placement="top" data-html="true" 
+                   data-title="State: Searched">
+                    {{ 'Searched'|trans }}
+                </a>
+            </li>
             <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}">{{ 'Requested'|trans }}</a></li>
             <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive' }) }}">{{ 'Received'|trans }}</a></li>
             <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sideliver' }) }}">{{ 'Delivered'|trans }}</a></li>
         </ul>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#created{{ order.id }}').popover();
+                $('#searched{{ order.id }}').popover({
+                    content: '<a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}">{{ 'Search'|trans }}</a>'
+                });
+            });
+        </script>
     </div>
 </div>

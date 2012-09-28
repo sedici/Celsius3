@@ -17,7 +17,7 @@ body {
     margin-top: 1px;
     margin-bottom: -1px;
 }
-.dash {
+.dash, .state-list {
     text-align: center;
 }
 .actions {
