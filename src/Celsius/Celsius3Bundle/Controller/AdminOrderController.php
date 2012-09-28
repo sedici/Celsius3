@@ -27,16 +27,7 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        $result = $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
-
-        $result['state_types'] = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:StateType')
-                ->createQueryBuilder()
-                ->sort('position','asc')
-                ->getQuery()
-                ->execute();
-
-        return $result;
+        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
     }
 
     /**
