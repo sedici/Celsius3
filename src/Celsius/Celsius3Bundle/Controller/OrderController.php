@@ -38,7 +38,7 @@ class OrderController extends BaseInstanceDependentController
         return new $materialTypeName;
     }
 
-    public function baseSearch($id, $route)
+    public function baseEvent($id, $event, $route)
     {
         $dm = $this->getDocumentManager();
         
@@ -49,7 +49,7 @@ class OrderController extends BaseInstanceDependentController
         $dm->flush();
         
         $lh = new LifecycleHelper($dm);
-        $lh->search($order);
+        $lh->createEvent($event, $order);
         
         return $this->redirect($this->generateUrl($route));
     }

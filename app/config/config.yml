@@ -224,7 +224,7 @@ stfalcon_tinymce:
     include_jquery: true
     tinymce_jquery: true
     textarea_class: "tinymce"
-    language: en
+    language: %locale%
     theme:
         simple:
             mode: "textareas"

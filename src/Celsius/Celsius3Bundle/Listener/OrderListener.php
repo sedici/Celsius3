@@ -8,21 +8,21 @@ use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 class OrderListener
 {
-    
+
     private $lh = null;
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        if(is_null($this->lh))
+        if (is_null($this->lh))
         {
             $this->lh = new LifecycleHelper($args->getDocumentManager());
         }
-        
+
         $document = $args->getDocument();
 
         if ($document instanceof Order)
         {
-            $this->lh->creation($document);
+            $this->lh->createEvent('creation', $document);
         }
     }
 

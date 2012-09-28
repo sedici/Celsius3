@@ -56,39 +56,41 @@ class LifecycleHelper
         return $state;
     }
 
-    public function creation($order)
+    /**
+     * Receives the event name and the order document and creates the appropiate
+     * event and state
+     * 
+     * @param string $name The event name
+     * @param Celsius\Celsius3Bundle\Document\Order $order The Order document 
+     * 
+     * @todo Get rid of the switch statement and implement something prettier
+     */
+    public function createEvent($name, Order $order)
     {
-        $this->setEventData(new Creation(), $order, 'created');
-    }
-
-    public function search(Order $order)
-    {
-        $this->setEventData(new Search(), $order, 'searched');
-    }
-
-    public function request(Order $order)
-    {
-        $this->setEventData(new SingleInstanceRequest(), $order, 'requested');
-    }
-
-    public function receive(Order $order)
-    {
-        $this->setEventData(new Receive(), $order, 'received');
-    }
-
-    public function deliver(Order $order)
-    {
-        $this->setEventData(new SingleInstanceDeliver(), $order, 'delivered');
-    }
-
-    public function cancel(Order $order)
-    {
-        $this->setEventData(new Cancel(), $order, 'canceled');
-    }
-
-    public function annul(Order $order)
-    {
-        $this->setEventData(new Annul(), $order, 'annuled');
+        switch ($name)
+        {
+            case 'creation':
+                $this->setEventData(new Creation(), $order, 'created');
+                break;
+            case 'search':
+                $this->setEventData(new Search(), $order, 'searched');
+                break;
+            case 'sirequest':
+                $this->setEventData(new SingleInstanceRequest(), $order, 'requested');
+                break;
+            case 'receive':
+                $this->setEventData(new Receive(), $order, 'received');
+                break;
+            case 'sideliver':
+                $this->setEventData(new SingleInstanceDeliver(), $order, 'delivered');
+                break;
+            case 'cancel':
+                $this->setEventData(new Cancel(), $order, 'canceled');
+                break;
+            case 'annul':
+                $this->setEventData(new Annul(), $order, 'annuled');
+                break;
+        }
     }
 
 }

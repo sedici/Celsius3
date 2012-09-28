@@ -27,7 +27,16 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
+        $result = $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
+
+        $result['state_types'] = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:StateType')
+                ->createQueryBuilder()
+                ->sort('position','asc')
+                ->getQuery()
+                ->execute();
+
+        return $result;
     }
 
     /**
@@ -165,21 +174,22 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
-    
+
     /**
      * Moves an order to search.
      *
-     * @Route("/{id}/search", name="admin_order_search")
+     * @Route("/{id}/event/{event}", name="admin_order_event")
      * 
      * @param string $id The document ID
+     * @param string $event The event name
      *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function searchAction($id)
+    public function eventAction($id, $event)
     {
-        return $this->baseSearch($id, 'admin_order');
+        return $this->baseEvent($id, $event, 'admin_order');
     }
 
 }
