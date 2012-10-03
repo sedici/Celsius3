@@ -505,7 +505,6 @@ class Instance
         return $this->getConfigurations()->filter(
                         function($entry) use ($key)
                         {
-
                             return ($entry->getKey() == $key);
                         }
                 )->first();

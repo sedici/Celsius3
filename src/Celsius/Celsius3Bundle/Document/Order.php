@@ -105,6 +105,11 @@ class Order
      */
     protected $states;
 
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="State") 
+     */
+    protected $currentState;
+
     public function __toString()
     {
         return strval($this->getCode());
@@ -479,6 +484,38 @@ class Order
     public function getLibrarian()
     {
         return $this->librarian;
+    }
+
+    /**
+     * Set currentState
+     *
+     * @param Celsius\Celsius3Bundle\Document\State $currentState
+     * @return Order
+     */
+    public function setCurrentState(\Celsius\Celsius3Bundle\Document\State $currentState)
+    {
+        $this->currentState = $currentState;
+        return $this;
+    }
+
+    /**
+     * Get currentState
+     *
+     * @return Celsius\Celsius3Bundle\Document\State $currentState
+     */
+    public function getCurrentState()
+    {
+        return $this->currentState;
+    }
+
+    public function hasState($name)
+    {
+        return ($this->getStates()->filter(
+                        function($entry) use ($name)
+                        {
+                            return ($entry->getType()->getName() == $name);
+                        }
+                )->count() > 0);
     }
 
 }

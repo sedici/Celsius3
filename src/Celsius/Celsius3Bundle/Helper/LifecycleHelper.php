@@ -52,6 +52,10 @@ class LifecycleHelper
         );
 
         $this->dm->persist($state);
+        
+        $order->setCurrentState($state);
+        
+        $this->dm->persist($order);
 
         return $state;
     }

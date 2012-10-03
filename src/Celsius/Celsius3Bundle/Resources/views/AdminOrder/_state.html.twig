@@ -2,25 +2,45 @@
     <div class="span9">
         <ul class="breadcrumb state-list">
             <li>
-                <a class="btn" id="created{{ order.id }}" data-placement="top" 
-                   data-title="State: Created" data-content="{{ 'Creation date'|trans }}: {{ order.created|localizeddate() }}">
+                <a class="btn {{ order.hasState('created')?'':'disabled' }}" id="created{{ order.id }}" data-placement="top" 
+                   data-title="State: Created">
                     {{ 'Created'|trans }}
                 </a>
             <li>
-                <a class="btn" id="searched{{ order.id }}" data-placement="top" data-html="true" 
+                <a class="btn {{ order.hasState('searched')?'':'disabled' }}" id="searched{{ order.id }}" data-placement="top" data-html="true" 
                    data-title="State: Searched">
                     {{ 'Searched'|trans }}
                 </a>
             </li>
-            <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}">{{ 'Requested'|trans }}</a></li>
-            <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive' }) }}">{{ 'Received'|trans }}</a></li>
-            <li><a class="btn" href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sideliver' }) }}">{{ 'Delivered'|trans }}</a></li>
+            <li>
+                <a class="btn" id="requested{{ order.id }}" data-placement="top" data-html="true" 
+                   data-title="State: Requested">
+                    {{ 'Requested'|trans }}
+                </a>
+            </li>
+            <li>
+                <a class="btn" id="requested{{ order.id }}" data-placement="top" data-html="true" 
+                   data-title="State: Received">
+                    {{ 'Received'|trans }}
+                </a>
+            </li>
+            <li>
+                <a class="btn" id="requested{{ order.id }}" data-placement="top" data-html="true" 
+                   data-title="State: Delivered">
+                    {{ 'Delivered'|trans }}
+                </a>
+            </li>
         </ul>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#created{{ order.id }}').popover();
+                $('#created{{ order.id }}').popover({
+                    content: '{{ 'Creation date'|trans }}: {{ order.created|localizeddate() }}'
+                });
                 $('#searched{{ order.id }}').popover({
                     content: '<a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}">{{ 'Search'|trans }}</a>'
+                });
+                $('#requested{{ order.id }}').popover({
+                    content: '<a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}">{{ 'Request'|trans }}</a>'
                 });
             });
         </script>

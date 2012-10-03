@@ -34,7 +34,7 @@ class State
     private $events;
     
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Event", mappedBy="remoteState")
+     * @MongoDB\ReferenceOne
      */
     private $remoteEvent;
 
