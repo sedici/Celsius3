@@ -1,31 +1,32 @@
 <div class="row">
     <div class="span9">
-        <ul class="breadcrumb state-list">
+        <ul class="state-list">
             <li>
-                <a class="btn {{ order.hasState('created')?'':'disabled' }}" id="created{{ order.id }}" data-placement="top" 
+                <a class="{{ order.hasState('created')?'':'disabled' }}" id="created{{ order.id }}" data-placement="top" data-html="true"
                    data-title="State: Created">
                     {{ 'Created'|trans }}
                 </a>
+            </li>
             <li>
-                <a class="btn {{ order.hasState('searched')?'':'disabled' }}" id="searched{{ order.id }}" data-placement="top" data-html="true" 
+                <a class="{{ order.hasState('searched')?'':'disabled' }}" id="searched{{ order.id }}" data-placement="top" data-html="true" 
                    data-title="State: Searched">
                     {{ 'Searched'|trans }}
                 </a>
             </li>
             <li>
-                <a class="btn" id="requested{{ order.id }}" data-placement="top" data-html="true" 
+                <a class="{{ order.hasState('requested')?'':'disabled' }}" id="requested{{ order.id }}" data-placement="top" data-html="true" 
                    data-title="State: Requested">
                     {{ 'Requested'|trans }}
                 </a>
             </li>
             <li>
-                <a class="btn" id="requested{{ order.id }}" data-placement="top" data-html="true" 
+                <a class="{{ order.hasState('received')?'':'disabled' }}" id="received{{ order.id }}" data-placement="top" data-html="true" 
                    data-title="State: Received">
                     {{ 'Received'|trans }}
                 </a>
             </li>
             <li>
-                <a class="btn" id="requested{{ order.id }}" data-placement="top" data-html="true" 
+                <a class="{{ order.hasState('delivered')?'':'disabled' }}" id="delivered{{ order.id }}" data-placement="top" data-html="true" 
                    data-title="State: Delivered">
                     {{ 'Delivered'|trans }}
                 </a>
@@ -33,14 +34,34 @@
         </ul>
         <script type="text/javascript">
             $(document).ready(function () {
-                $('#created{{ order.id }}').popover({
-                    content: '{{ 'Creation date'|trans }}: {{ order.created|localizeddate() }}'
+                $('#created{{ order.id }}:not(.disabled)').popover({
+                    content: '<p>{{ 'Creation date'|trans }}: {{ order.created|localizeddate() }}</p>'
                 });
-                $('#searched{{ order.id }}').popover({
-                    content: '<a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}">{{ 'Search'|trans }}</a>'
+                $('#searched{{ order.id }}:not(.disabled)').popover({
+                    content: '<p>{{ 'Search date'|trans }}: {{ order.searched|localizeddate() }}</p>'
                 });
-                $('#requested{{ order.id }}').popover({
-                    content: '<a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}">{{ 'Request'|trans }}</a>'
+                $('#searched{{ order.id }}.disabled').popover({
+                    content: '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}">{{ 'Search'|trans }}</a></p>'
+                });
+                $('#requested{{ order.id }}:not(.disabled)').popover({
+                    content: '<p>{{ 'Request date'|trans }}: {{ order.requested|localizeddate() }}<p>'
+                        + '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}">{{ 'Request'|trans }}</a></p>'
+                });
+                $('#requested{{ order.id }}.disabled').popover({
+                    content: '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}">{{ 'Request'|trans }}</a></p>'
+                });
+                $('#received{{ order.id }}:not(.disabled)').popover({
+                    content: '<p>{{ 'Receive date'|trans }}: {{ order.received|localizeddate() }}<p>'
+                        + '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive' }) }}">{{ 'Receive'|trans }}</a></p>'
+                });
+                $('#received{{ order.id }}.disabled').popover({
+                    content: '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive' }) }}">{{ 'Receive'|trans }}</a></p>'
+                });
+                $('#delivered{{ order.id }}:not(.disabled)').popover({
+                    content: '<p>{{ 'Deliver date'|trans }}: {{ order.delivered|localizeddate() }}<p>'
+                });
+                $('#delivered{{ order.id }}.disabled').popover({
+                    content: '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'sideliver' }) }}">{{ 'Deliver'|trans }}</a></p>'
                 });
             });
         </script>

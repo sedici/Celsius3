@@ -44,10 +44,6 @@ class OrderController extends BaseInstanceDependentController
         
         $order = $this->findQuery('Order', $id);
         
-        $order->setSearched(date('Y-m-d H:i:s'));
-        $dm->persist($order);
-        $dm->flush();
-        
         $lh = new LifecycleHelper($dm);
         $lh->createEvent($event, $order);
         

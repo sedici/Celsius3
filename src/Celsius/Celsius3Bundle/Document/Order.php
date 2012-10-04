@@ -61,6 +61,18 @@ class Order
     protected $delivered;
 
     /**
+     * @Assert\Date()
+     * @MongoDB\Date
+     */
+    protected $canceled;
+
+    /**
+     * @Assert\Date()
+     * @MongoDB\Date
+     */
+    protected $annuled;
+
+    /**
      * @MongoDB\String
      */
     protected $comments;
@@ -113,14 +125,6 @@ class Order
     public function __toString()
     {
         return strval($this->getCode());
-    }
-
-    /**
-     * @MongoDB\PrePersist 
-     */
-    public function prePersist()
-    {
-        $this->setCreated(date('Y-m-d H:i:s'));
     }
 
     public function __construct()
@@ -516,6 +520,50 @@ class Order
                             return ($entry->getType()->getName() == $name);
                         }
                 )->count() > 0);
+    }
+
+    /**
+     * Set canceled
+     *
+     * @param date $canceled
+     * @return Order
+     */
+    public function setCanceled($canceled)
+    {
+        $this->canceled = $canceled;
+        return $this;
+    }
+
+    /**
+     * Get canceled
+     *
+     * @return date $canceled
+     */
+    public function getCanceled()
+    {
+        return $this->canceled;
+    }
+
+    /**
+     * Set annuled
+     *
+     * @param date $annuled
+     * @return Order
+     */
+    public function setAnnuled($annuled)
+    {
+        $this->annuled = $annuled;
+        return $this;
+    }
+
+    /**
+     * Get annuled
+     *
+     * @return date $annuled
+     */
+    public function getAnnuled()
+    {
+        return $this->annuled;
     }
 
 }

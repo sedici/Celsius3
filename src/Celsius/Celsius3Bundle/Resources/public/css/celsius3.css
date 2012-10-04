@@ -20,6 +20,19 @@ body {
 .dash, .state-list {
     text-align: center;
 }
+.state-list {
+    list-style: none outside none;
+}
+.state-list li {
+    display: inline-block;
+    width: 15%;
+}
+.state-list li a {
+    cursor: pointer;
+}
+.state-list li a.disabled {
+    color: #6c6159;
+}
 .actions {
     margin-top: -27px;
     margin-right: 5px;

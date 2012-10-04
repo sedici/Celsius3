@@ -23,10 +23,8 @@ class LifecycleHelper
         $this->dm = $dm;
     }
 
-    protected function setEventData(Event $event, Order $order, $state)
+    protected function setEventData(Event $event, Order $order, $state, $date)
     {
-        $date = date('Y-m-d H:i:s');
-
         $event->setDate($date);
         $event->setOperator($order->getOperator());
         $event->setInstance($order->getInstance());
@@ -71,28 +69,37 @@ class LifecycleHelper
      */
     public function createEvent($name, Order $order)
     {
+        $date = date('Y-m-d H:i:s');
+        
         switch ($name)
         {
             case 'creation':
-                $this->setEventData(new Creation(), $order, 'created');
+                $order->setCreated($date);
+                $this->setEventData(new Creation(), $order, 'created', $date);
                 break;
             case 'search':
-                $this->setEventData(new Search(), $order, 'searched');
+                $order->setSearched($date);
+                $this->setEventData(new Search(), $order, 'searched', $date);
                 break;
             case 'sirequest':
-                $this->setEventData(new SingleInstanceRequest(), $order, 'requested');
+                $order->setRequested($date);
+                $this->setEventData(new SingleInstanceRequest(), $order, 'requested', $date);
                 break;
             case 'receive':
-                $this->setEventData(new Receive(), $order, 'received');
+                $order->setReceived($date);
+                $this->setEventData(new Receive(), $order, 'received', $date);
                 break;
             case 'sideliver':
-                $this->setEventData(new SingleInstanceDeliver(), $order, 'delivered');
+                $order->setDelivered($date);
+                $this->setEventData(new SingleInstanceDeliver(), $order, 'delivered', $date);
                 break;
             case 'cancel':
-                $this->setEventData(new Cancel(), $order, 'canceled');
+                $order->setCanceled($date);
+                $this->setEventData(new Cancel(), $order, 'canceled', $date);
                 break;
             case 'annul':
-                $this->setEventData(new Annul(), $order, 'annuled');
+                $order->setAnnuled($date);
+                $this->setEventData(new Annul(), $order, 'annuled', $date);
                 break;
         }
     }
