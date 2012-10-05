@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Templates Mails List'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('admin_mails', pagination, 'CelsiusCelsius3Bundle:AdminMail', filter_form) }}
+{% endblock %}

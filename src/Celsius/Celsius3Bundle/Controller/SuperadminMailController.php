@@ -14,7 +14,7 @@ use Celsius\Celsius3Bundle\Filter\Type\MailTemplateFilterType;
  *
  * @Route("/superadmin/mail")
  */
-class SuperadminMailController extends BaseInstanceDependentController
+class SuperadminMailController extends BaseController
 {
 
     /**
@@ -39,7 +39,7 @@ class SuperadminMailController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()));
+        return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType());
     }
     
     /**
@@ -55,7 +55,7 @@ class SuperadminMailController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function editAction($id) {
-        return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()));
+        return $this->baseEdit('MailTemplate', $id, new MailTemplateType());
     }
     
     /**
@@ -68,7 +68,7 @@ class SuperadminMailController extends BaseInstanceDependentController
      * @return array
      */
     public function createAction() {
-        return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()), 'superadmin_mails');
+        return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType(), 'superadmin_mails');
     }
     
     /**
@@ -85,7 +85,7 @@ class SuperadminMailController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id) {
-        return $this->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getInstance()), 'superadmin_mails');
+        return $this->baseUpdate('MailTemplate', $id, new MailTemplateType(), 'superadmin_mails');
     }
     
     /**

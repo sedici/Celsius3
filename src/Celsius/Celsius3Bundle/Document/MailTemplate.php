@@ -19,6 +19,19 @@ class MailTemplate
      * @Assert\NotBlank()
      * @MongoDB\String
      */
+    private $code;
+    
+      /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $state = true;
+    
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
     private $title;
     
     /**
@@ -32,6 +45,10 @@ class MailTemplate
      */
     private $instance;
 
+    public function __construct() {
+        $this->state = 1;
+    }
+
     /**
      * Get id
      *
@@ -42,6 +59,50 @@ class MailTemplate
         return $this->id;
     }
 
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return MailTemplate
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string $code
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
+    /**
+     * Set state
+     *
+     * @param string $state
+     * @return MailTemplate
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer $state
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+    
     /**
      * Set title
      *

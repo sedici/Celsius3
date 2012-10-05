@@ -10,6 +10,7 @@ abstract class BaseController extends Controller
 
     protected function listQuery($name)
     {
+       
         return $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder();
@@ -104,7 +105,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseEdit($name, $id, $type)
+    public function baseEdit($name, $id, $type, $route=null)
     {
         $document = $this->findQuery($name, $id);
 
@@ -120,6 +121,7 @@ abstract class BaseController extends Controller
             'document' => $document,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'route' => $route
         );
     }
 
