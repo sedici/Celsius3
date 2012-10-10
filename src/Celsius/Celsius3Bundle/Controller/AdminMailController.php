@@ -18,7 +18,7 @@ class AdminMailController extends BaseInstanceDependentController
 {
     protected function listQuery($name)
     {   
-         //Se obtienen los templetes tanto de la instancia como los del directorio.
+        //Se obtienen los templetes tanto de la instancia como los del directorio.
         // FALTA DIFERENCIAR ENTRE LOS TEMPLATE QUE FUERON MODIFICADOS
          $qb = $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
@@ -84,17 +84,19 @@ class AdminMailController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function editAction($id) {
-        //Se debe determinar si se utilizara admin_mails_edit o admin_mails_create, dependiendo la plantilla.
+        //Se debe determinar si se utilizara admin_mails_edit o admin_mails_create, dependiendo 
+        //si la plantilla le pertenece al directorio o a la instancia.
         $template = $this->findQuery('MailTemplate', $id);
         
         if($template->getInstance())
         {
-            $route = 'edit';
+            $route = 'update';
         }
         else
         {
             $route = 'create';
         }
+
         return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()), $route);
        
     }
@@ -142,8 +144,20 @@ class AdminMailController extends BaseInstanceDependentController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function deleteAction($id) {
-        return $this->baseDelete('MailTemplate', $id, 'admin_mails');
-    }
+        //Se permitira borrar un template, solo si el mismo le pertence a la instancia
+       $template = $this->findQuery('MailTemplate', $id);
+       $idInstanceTempalte= $template->getInstance();
+  
+       if ($idInstanceTempalte == null)
+        {
+           //El template pertenece al directorio
+            throw $this->createNotFoundException('Unable to delete template.');
+        }
+        else
+        {
+           return $this->baseDelete('MailTemplate', $id, 'admin_mails');
+        }       
+      }
     
     /**
      * Change state an existing Mail TEmplate.

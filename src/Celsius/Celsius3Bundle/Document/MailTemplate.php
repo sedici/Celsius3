@@ -26,7 +26,7 @@ class MailTemplate
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $state = true;
+    private $state;
     
     /**
      * @Assert\NotBlank()
@@ -46,7 +46,7 @@ class MailTemplate
     private $instance;
 
     public function __construct() {
-        $this->state = 1;
+        $this->state = true;
     }
 
     /**

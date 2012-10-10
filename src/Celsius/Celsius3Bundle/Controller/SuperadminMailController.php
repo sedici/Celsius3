@@ -16,7 +16,16 @@ use Celsius\Celsius3Bundle\Filter\Type\MailTemplateFilterType;
  */
 class SuperadminMailController extends BaseController
 {
-
+    
+     protected function listQuery($name)
+    {   
+        //Se obtienen los templetes del directorio.
+         $qb = $this->getDocumentManager()
+                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
+                        ->createQueryBuilder()
+                        ->field('instance.id')->equals(null);
+        return $qb;        
+    }
     /**
      * Lists all Templates Mail.
      *
