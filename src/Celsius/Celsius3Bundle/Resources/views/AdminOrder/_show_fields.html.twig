@@ -1,9 +1,10 @@
-{% include 'CelsiusCelsius3Bundle:AdminOrder:_state.html.twig' %}
 <div class="row">
     <div class="span6">
         <dl class="dl-horizontal">
             <dt>{{ 'Code'|trans }}</dt>
             <dd>{{ order.code }}</dd>
+            <dt>{{ 'Current state'|trans }}</dt>
+            <dd>{{ order.currentState.type.name|capitalize }}</dd>
             <dt>{{ 'User'|trans }}</dt>
             <dd>{{ order.owner.username }}</dd>
         </dl>
@@ -22,6 +23,9 @@
     </div>
     <div class="span2 pull-right">
         <ul class="unstyled pull-right">
+            <li>
+                <a href="#"><i class="icon-file"></i> {{ 'Full view'|trans }}</a>
+            </li>
             <li>
                 <a href="{{ path('admin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
             </li>

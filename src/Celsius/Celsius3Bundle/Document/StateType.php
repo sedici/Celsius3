@@ -36,6 +36,11 @@ class StateType
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="type")
      */
     protected $states;
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function __construct()
     {
