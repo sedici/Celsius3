@@ -31,12 +31,15 @@ twig:
 
 # Assetic Configuration
 assetic:
-    bundles:        []
+    bundles:        [CelsiusCelsius3Bundle]
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java
     filters:
         cssrewrite: ~
+        less:
+            node: /usr/bin/node
+            node_paths: [/usr/local/lib/node_modules]
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:

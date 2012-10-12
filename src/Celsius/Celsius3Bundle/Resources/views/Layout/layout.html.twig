@@ -7,8 +7,11 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
         <link href="{{ asset('bundles/celsiuscelsius3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('bundles/celsiuscelsius3/css/celsius3.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('bundles/celsiuscelsius3/css/smoothness/jquery-ui-1.8.23.custom.css') }}" rel="stylesheet" type="text/css" />
+        {% stylesheets filter='less' output='css/celsius3-compiled.css'
+            '@CelsiusCelsius3Bundle/Resources/public/less/*' %}
+        <link href="{{ asset_url }}" rel="stylesheet" media="all" />
+        {% endstylesheets %}
         {% endblock %}
         {% block javascripts %}
         <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/jquery-1.8.1.min.js') }}"></script>
