@@ -10,57 +10,110 @@ class StateManager
             'events' => array(
                 'search' => array(
                     'weight' => 10,
-                    'state' => 'searched',
+                    'destinationState' => 'searched',
                 ),
                 'annul' => array(
                     'weight' => 1,
-                    'state' => 'annuled',
+                    'destinationState' => 'annuled',
                 ),
+            ),
+            'previousStates' => array(),
+            'originatingEvents' => array(
+                'creation'
             ),
         ),
         'searched' => array(
             'events' => array(
                 'mirequest' => array(
                     'weight' => 10,
-                    'state' => 'requested',
+                    'destinationState' => 'requested',
+                    'remoteState' => 'created',
                 ),
                 'sirequest' => array(
                     'weight' => 9,
-                    'state' => 'requested',
+                    'destinationState' => 'requested',
                 ),
                 'cancel' => array(
                     'weight' => 2,
-                    'state' => 'canceled',
+                    'destinationState' => 'canceled',
                 ),
                 'annul' => array(
                     'weight' => 1,
-                    'state' => 'annuled',
+                    'destinationState' => 'annuled',
                 ),
+            ),
+            'previousStates' => array(
+                'created',
+            ),
+            'originatingEvents' => array(
+                'search',
             ),
         ),
         'requested' => array(
             'events' => array(
                 'receive' => array(
                     'weight' => 10,
-                    'state' => 'received',
+                    'destinationState' => 'received',
                 ),
                 'cancel' => array(
                     'weight' => 2,
-                    'state' => 'canceled',
+                    'destinationState' => 'canceled',
                 ),
+            ),
+            'previousStates' => array(
+                'searched',
+            ),
+            'originatingEvents' => array(
+                'mirequest',
+                'sirequest',
             ),
         ),
         'received' => array(
             'events' => array(
-                'deliver' => array(
+                'sideliver' => array(
                     'weight' => 10,
-                    'state' => 'delivered',
+                    'destinationState' => 'delivered',
+                ),
+                'mideliver' => array(
+                    'weight' => 9,
+                    'destinationState' => 'delivered',
+                    'remoteState' => 'received',
                 ),
             ),
+            'previousStates' => array(
+                'requested',
+            ),
+            'originatingEvents' => array(
+                'receive',
+                'mideliver',
+            ),
         ),
-        'delivered' => array(),
-        'canceled' => array(),
-        'annuled' => array(),
+        'delivered' => array(
+            'previousStates' => array(
+                'received',
+            ),
+            'originatingEvents' => array(
+                'sideliver',
+            ),
+        ),
+        'canceled' => array(
+            'previousStates' => array(
+                'searched',
+                'requested',
+            ),
+            'originatingEvents' => array(
+                'cancel',
+            ),
+        ),
+        'annuled' => array(
+            'previousStates' => array(
+                'created',
+                'searched',
+            ),
+            'originatingEvents' => array(
+                'annul',
+            ),
+        ),
     );
     
     public function getGraph()

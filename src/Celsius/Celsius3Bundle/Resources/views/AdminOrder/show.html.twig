@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Order View'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+{{ show('admin_order', document, delete_form, 'CelsiusCelsius3Bundle:AdminOrder') }}
+{% endblock %}
