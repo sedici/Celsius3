@@ -7,6 +7,7 @@ class StateManager
 
     private $graph = array(
         'created' => array(
+            'positive' => true,
             'events' => array(
                 'search' => array(
                     'weight' => 10,
@@ -23,6 +24,7 @@ class StateManager
             ),
         ),
         'searched' => array(
+            'positive' => true,
             'events' => array(
                 'mirequest' => array(
                     'weight' => 10,
@@ -50,6 +52,7 @@ class StateManager
             ),
         ),
         'requested' => array(
+            'positive' => true,
             'events' => array(
                 'receive' => array(
                     'weight' => 10,
@@ -69,6 +72,7 @@ class StateManager
             ),
         ),
         'received' => array(
+            'positive' => true,
             'events' => array(
                 'sideliver' => array(
                     'weight' => 10,
@@ -89,6 +93,7 @@ class StateManager
             ),
         ),
         'delivered' => array(
+            'positive' => true,
             'previousStates' => array(
                 'received',
             ),
@@ -97,6 +102,7 @@ class StateManager
             ),
         ),
         'canceled' => array(
+            'positive' => false,
             'previousStates' => array(
                 'searched',
                 'requested',
@@ -106,6 +112,7 @@ class StateManager
             ),
         ),
         'annuled' => array(
+            'positive' => false,
             'previousStates' => array(
                 'created',
                 'searched',
@@ -115,10 +122,14 @@ class StateManager
             ),
         ),
     );
-    
-    public function getGraph()
+
+    public function getPositiveStates()
     {
-        return $this->graph;
+        return array_filter($this->graph, function($value)
+                        {
+                            return $value['positive'];
+                        }
+        );
     }
 
 }

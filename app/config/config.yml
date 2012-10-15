@@ -103,6 +103,12 @@ services:
         class: Twig_Extensions_Extension_Intl
         tags:
                 - { name: twig.extension }
+                
+    twig.extension.states:
+        class: Celsius\Celsius3Bundle\Twig\StateExtension
+        arguments: ["@state_manager"]
+        tags:
+                - { name: twig.extension }
   
     # Setea el codigo de Order
     counter_listener:
@@ -196,6 +202,9 @@ services:
     field.guesser:
         class: Celsius\Celsius3Bundle\Guesser\FieldGuesser
         arguments: ["@doctrine.odm.mongodb.document_manager"]
+        
+    state_manager:
+        class: Celsius\Celsius3Bundle\Manager\StateManager
     
 #    menu.voter.request:
 #        class: Celsius\Celsius3Bundle\Voter\RequestVoter
