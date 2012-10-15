@@ -522,6 +522,16 @@ class Order
                 )->count() > 0);
     }
 
+    public function getState($name)
+    {
+        return $this->getStates()->filter(
+                        function($entry) use ($name)
+                        {
+                            return ($entry->getType()->getName() == $name);
+                        }
+                )->first();
+    }
+
     /**
      * Set canceled
      *

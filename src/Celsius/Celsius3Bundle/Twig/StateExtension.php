@@ -31,7 +31,10 @@ class StateExtension extends \Twig_Extension
 
     public function renderState($state, Order $order)
     {
-        //$this->environment->render();
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
+                    'state' => $state,
+                    'order' => $order,
+                ));
     }
 
     public function getPositiveStates()
