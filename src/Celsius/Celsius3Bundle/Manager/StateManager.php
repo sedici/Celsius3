@@ -134,23 +134,23 @@ class StateManager
                         }
         );
     }
-    
+
     public function getStateData($state)
     {
         $data = null;
-        
+
         if (array_key_exists($state, $this->graph))
         {
             $data = $this->graph[$state];
         }
-        
+
         return $data;
     }
-    
+
     public function getEventsToState($state)
     {
         $data = array();
-        
+
         if (array_key_exists($state, $this->graph))
         {
             foreach ($this->graph[$state]['previousStates'] as $previous)
@@ -164,7 +164,31 @@ class StateManager
                 }
             }
         }
-        
+
+        return $data;
+    }
+
+    public function getPreviousPositiveState($state)
+    {
+        $data = null;
+
+        if (array_key_exists($state, $this->graph))
+        {
+            if (count($this->graph[$state]['previousStates']) == 0)
+            {
+                $data = $state;
+            } else
+            {
+                foreach ($this->graph[$state]['previousStates'] as $previous)
+                {
+                    if ($this->graph[$previous]['positive'])
+                    {
+                        $data = $previous;
+                    }
+                }
+            }
+        }
+
         return $data;
     }
 

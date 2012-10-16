@@ -41,13 +41,13 @@ class OrderController extends BaseInstanceDependentController
     public function baseEvent($id, $event, $route)
     {
         $dm = $this->getDocumentManager();
-        
+
         $order = $this->findQuery('Order', $id);
-        
+
         $lh = new LifecycleHelper($dm);
         $lh->createEvent($event, $order);
-        
-        return $this->redirect($this->generateUrl($route));
+
+        return $this->redirect($this->generateUrl($route . '_show', array('id' => $order->getId())));
     }
 
 }

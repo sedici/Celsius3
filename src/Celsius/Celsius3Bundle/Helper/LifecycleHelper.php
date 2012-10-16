@@ -48,6 +48,7 @@ class LifecycleHelper
                         ->getQuery()
                         ->getSingleResult()
         );
+        $state->setPrevious($order->getCurrentState());
 
         $this->dm->persist($state);
         

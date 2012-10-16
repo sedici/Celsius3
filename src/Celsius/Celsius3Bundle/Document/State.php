@@ -160,7 +160,7 @@ class State
      * @param Celsius\Celsius3Bundle\Document\State $previous
      * @return State
      */
-    public function setPrevious(\Celsius\Celsius3Bundle\Document\State $previous)
+    public function setPrevious(\Celsius\Celsius3Bundle\Document\State $previous = null)
     {
         $this->previous = $previous;
         return $this;

@@ -2,6 +2,7 @@
    data-title="State: {{ state|capitalize }}">
     {{ state|capitalize|trans }}
 </a>
+{% if hasPrevious %}
 <script type="text/javascript">    
     $(document).ready(function () {
         $('#{{ state ~ order.id }}:not(.disabled)').popover({
@@ -15,3 +16,4 @@
         });
     });
 </script>
+{% endif %}
