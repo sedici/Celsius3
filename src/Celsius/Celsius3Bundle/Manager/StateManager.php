@@ -94,6 +94,7 @@ class StateManager
         ),
         'delivered' => array(
             'positive' => true,
+            'events' => array(),
             'previousStates' => array(
                 'received',
             ),
@@ -103,6 +104,7 @@ class StateManager
         ),
         'canceled' => array(
             'positive' => false,
+            'events' => array(),
             'previousStates' => array(
                 'searched',
                 'requested',
@@ -113,6 +115,7 @@ class StateManager
         ),
         'annuled' => array(
             'positive' => false,
+            'events' => array(),
             'previousStates' => array(
                 'created',
                 'searched',
@@ -130,6 +133,39 @@ class StateManager
                             return $value['positive'];
                         }
         );
+    }
+    
+    public function getStateData($state)
+    {
+        $data = null;
+        
+        if (array_key_exists($state, $this->graph))
+        {
+            $data = $this->graph[$state];
+        }
+        
+        return $data;
+    }
+    
+    public function getEventsToState($state)
+    {
+        $data = array();
+        
+        if (array_key_exists($state, $this->graph))
+        {
+            foreach ($this->graph[$state]['previousStates'] as $previous)
+            {
+                foreach ($this->graph[$previous]['events'] as $key => $event)
+                {
+                    if ($event['destinationState'] == $state)
+                    {
+                        $data[$key] = $event;
+                    }
+                }
+            }
+        }
+        
+        return $data;
     }
 
 }

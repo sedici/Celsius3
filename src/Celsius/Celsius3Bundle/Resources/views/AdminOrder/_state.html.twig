@@ -2,21 +2,16 @@
    data-title="State: {{ state|capitalize }}">
     {{ state|capitalize|trans }}
 </a>
-<script type="text/javascript">
-    function generateContent() {
-        var content = '';
-        
-        
-        
-        return '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}">{{ 'Search'|trans }}</a></p>';
-    }
-    
+<script type="text/javascript">    
     $(document).ready(function () {
         $('#{{ state ~ order.id }}:not(.disabled)').popover({
             content: '<p>{{ 'Date'|trans }}: {{ order.hasState(state)?order.getState(state).date|localizeddate():'' }}</p>'
         });
         $('#{{ state ~ order.id }}.disabled').popover({
-            content: generateContent()
+            content: ''
+                    {% for eventKey, event in events %}
+                        + '<p><a href="{{ path('admin_order_event', { 'id': order.id, 'event': eventKey }) }}">{{ eventKey|capitalize|trans }}</a></p>'
+                    {% endfor %}
         });
     });
 </script>

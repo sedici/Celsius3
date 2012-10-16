@@ -34,6 +34,7 @@ class StateExtension extends \Twig_Extension
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
                     'state' => $state,
                     'order' => $order,
+                    'events' => $this->manager->getEventsToState($state),
                 ));
     }
 
