@@ -2,9 +2,22 @@
 
 namespace Celsius\Celsius3Bundle\Manager;
 
+use Celsius\Celsius3Bundle\Exception\NotFoundException;
+
 class StateManager
 {
 
+    private $class_prefix = 'Celsius\\Celsius3Bundle\\Document\\';
+    private $event_classes = array(
+        'search' => 'Search',
+        'sirequest' => 'SingleInstanceRequest',
+        'mirequest' => 'MultiInstanceRequest',
+        'receive' => 'Receive',
+        'sideliver' => 'SingleInstanceDeliver',
+        'mideliver' => 'MultiInstanceDeliver',
+        'cancel' => 'Cancel',
+        'annul' => 'Annul',
+    );
     private $graph = array(
         'created' => array(
             'positive' => true,
@@ -126,6 +139,57 @@ class StateManager
         ),
     );
 
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
+    {
+        return new NotFoundException($message, $previous);
+    }
+
+    public function getClassNameForEvent($event)
+    {
+        if (!array_key_exists($event, $this->event_classes))
+        {
+            throw $this->createNotFoundException('Event not found.');
+        }
+
+        return $this->event_classes[$event];
+    }
+
+    public function getFullClassNameForEvent($event)
+    {
+        if (!array_key_exists($event, $this->event_classes))
+        {
+            throw $this->createNotFoundException('Event not found.');
+        }
+
+        return $this->class_prefix . $this->event_classes[$event];
+    }
+    
+    public function getStateForEvent($event)
+    {
+        if (!array_key_exists($event, $this->event_classes))
+        {
+            throw $this->createNotFoundException('Event not found.');
+        }
+
+        $data = null;
+
+        foreach ($this->graph as $state)
+        {
+            if ($state['positive'])
+            {
+                foreach ($state['events'] as $key => $ev)
+                {
+                    if ($key == $event)
+                    {
+                        $data = $ev['destinationState'];
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
     public function getPositiveStates()
     {
         return array_filter($this->graph, function($value)
@@ -137,30 +201,30 @@ class StateManager
 
     public function getStateData($state)
     {
-        $data = null;
-
-        if (array_key_exists($state, $this->graph))
+        if (!array_key_exists($state, $this->graph))
         {
-            $data = $this->graph[$state];
+            throw $this->createNotFoundException('State not found.');
         }
 
-        return $data;
+        return $this->graph[$state];
     }
 
     public function getEventsToState($state)
     {
+        if (!array_key_exists($state, $this->graph))
+        {
+            throw $this->createNotFoundException('State not found.');
+        }
+
         $data = array();
 
-        if (array_key_exists($state, $this->graph))
+        foreach ($this->graph[$state]['previousStates'] as $previous)
         {
-            foreach ($this->graph[$state]['previousStates'] as $previous)
+            foreach ($this->graph[$previous]['events'] as $key => $event)
             {
-                foreach ($this->graph[$previous]['events'] as $key => $event)
+                if ($event['destinationState'] == $state)
                 {
-                    if ($event['destinationState'] == $state)
-                    {
-                        $data[$key] = $event;
-                    }
+                    $data[$key] = $event;
                 }
             }
         }
@@ -170,21 +234,23 @@ class StateManager
 
     public function getPreviousPositiveState($state)
     {
+        if (!array_key_exists($state, $this->graph))
+        {
+            throw $this->createNotFoundException('State not found.');
+        }
+
         $data = null;
 
-        if (array_key_exists($state, $this->graph))
+        if (count($this->graph[$state]['previousStates']) == 0)
         {
-            if (count($this->graph[$state]['previousStates']) == 0)
+            $data = $state;
+        } else
+        {
+            foreach ($this->graph[$state]['previousStates'] as $previous)
             {
-                $data = $state;
-            } else
-            {
-                foreach ($this->graph[$state]['previousStates'] as $previous)
+                if ($this->graph[$previous]['positive'])
                 {
-                    if ($this->graph[$previous]['positive'])
-                    {
-                        $data = $previous;
-                    }
+                    $data = $previous;
                 }
             }
         }

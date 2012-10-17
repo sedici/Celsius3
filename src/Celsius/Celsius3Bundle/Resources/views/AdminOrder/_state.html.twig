@@ -1,4 +1,4 @@
-<a class="{{ order.hasState(state)?'':'disabled' }}" id="{{ state ~ order.id }}" data-placement="top" data-html="true"
+<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" id="{{ state ~ order.id }}" data-placement="top"
    data-title="State: {{ state|capitalize }}">
     {{ state|capitalize|trans }}
 </a>

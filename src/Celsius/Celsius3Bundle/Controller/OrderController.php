@@ -44,8 +44,7 @@ class OrderController extends BaseInstanceDependentController
 
         $order = $this->findQuery('Order', $id);
 
-        $lh = new LifecycleHelper($dm);
-        $lh->createEvent($event, $order);
+        $this->get('lifecycle_helper')->createEvent($event, $order);
 
         return $this->redirect($this->generateUrl($route . '_show', array('id' => $order->getId())));
     }

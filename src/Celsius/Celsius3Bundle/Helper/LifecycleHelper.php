@@ -5,22 +5,18 @@ namespace Celsius\Celsius3Bundle\Helper;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\State;
 use Celsius\Celsius3Bundle\Document\Event;
-use Celsius\Celsius3Bundle\Document\Creation;
-use Celsius\Celsius3Bundle\Document\Search;
-use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
-use Celsius\Celsius3Bundle\Document\Receive;
-use Celsius\Celsius3Bundle\Document\SingleInstanceDeliver;
-use Celsius\Celsius3Bundle\Document\Cancel;
-use Celsius\Celsius3Bundle\Document\Annul;
+use Celsius\Celsius3Bundle\Manager\StateManager;
 
 class LifecycleHelper
 {
 
     private $dm;
+    private $manager;
 
-    public function __construct($dm)
+    public function __construct($dm, StateManager $manager)
     {
         $this->dm = $dm;
+        $this->manager = $manager;
     }
 
     protected function setEventData(Event $event, Order $order, $state, $date)
@@ -51,9 +47,9 @@ class LifecycleHelper
         $state->setPrevious($order->getCurrentState());
 
         $this->dm->persist($state);
-        
+
         $order->setCurrentState($state);
-        
+
         $this->dm->persist($order);
 
         return $state;
@@ -65,44 +61,23 @@ class LifecycleHelper
      * 
      * @param string $name The event name
      * @param Celsius\Celsius3Bundle\Document\Order $order The Order document 
-     * 
-     * @todo Get rid of the switch statement and implement something prettier
      */
     public function createEvent($name, Order $order)
     {
+        $stateName = $this->manager->getStateForEvent($name);
+        
+        if (!$order->hasState($this->manager->getPreviousPositiveState($stateName)))
+        {
+            throw $this->manager->createNotFoundException('State not found');
+        }
+        
         $date = date('Y-m-d H:i:s');
         
-        switch ($name)
-        {
-            case 'creation':
-                $order->setCreated($date);
-                $this->setEventData(new Creation(), $order, 'created', $date);
-                break;
-            case 'search':
-                $order->setSearched($date);
-                $this->setEventData(new Search(), $order, 'searched', $date);
-                break;
-            case 'sirequest':
-                $order->setRequested($date);
-                $this->setEventData(new SingleInstanceRequest(), $order, 'requested', $date);
-                break;
-            case 'receive':
-                $order->setReceived($date);
-                $this->setEventData(new Receive(), $order, 'received', $date);
-                break;
-            case 'sideliver':
-                $order->setDelivered($date);
-                $this->setEventData(new SingleInstanceDeliver(), $order, 'delivered', $date);
-                break;
-            case 'cancel':
-                $order->setCanceled($date);
-                $this->setEventData(new Cancel(), $order, 'canceled', $date);
-                break;
-            case 'annul':
-                $order->setAnnuled($date);
-                $this->setEventData(new Annul(), $order, 'annuled', $date);
-                break;
-        }
+        $orderDateMethod = 'set' . ucfirst($stateName);
+        $eventClassName = $this->manager->getFullClassNameForEvent($name);
+        
+        $order->$orderDateMethod($date);
+        $this->setEventData(new $eventClassName, $order, $stateName, $date);
     }
 
 }

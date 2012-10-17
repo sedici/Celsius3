@@ -25,11 +25,14 @@ body {
     li {
         display: inline-block;
         width: 15%;
-        a {
+        a.pointer {
             cursor: pointer;
         }
         a.disabled {
             color: #6c6159;
+        }
+        a:hover {
+            text-decoration: none;
         }
     }
 }
@@ -61,4 +64,4 @@ body {
 }
 .filter-form input, .filter-form select {
     width: 140px;
-} 
+}

@@ -202,6 +202,10 @@ services:
     field.guesser:
         class: Celsius\Celsius3Bundle\Guesser\FieldGuesser
         arguments: ["@doctrine.odm.mongodb.document_manager"]
+    
+    lifecycle_helper:
+        class: Celsius\Celsius3Bundle\Helper\LifecycleHelper
+        arguments: ["@doctrine.odm.mongodb.document_manager", "@state_manager"]
         
     state_manager:
         class: Celsius\Celsius3Bundle\Manager\StateManager
