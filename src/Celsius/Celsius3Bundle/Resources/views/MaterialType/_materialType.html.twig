@@ -1,0 +1,11 @@
+<dl class="dl-horizontal">
+    <dt>{{ 'Title'|trans }}</dt>
+    <dd>{{ materialData.title }}</dd>
+    <dt>{{ 'Year'|trans }}</dt>
+    <dd>{{ materialData.year }}</dd>
+    <dt>{{ 'Start page'|trans }}</dt>
+    <dd>{{ materialData.startPage }}</dd>
+    <dt>{{ 'End page'|trans }}</dt>
+    <dd>{{ materialData.endPage }}</dd>
+    {% block extraData %}{% endblock %}
+</dl>

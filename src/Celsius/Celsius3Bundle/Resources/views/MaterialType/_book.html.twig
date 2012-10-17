@@ -1,0 +1,12 @@
+{% extends 'CelsiusCelsius3Bundle:MaterialType:_materialType.html.twig' %}
+
+{% block extraData %}
+<dt>{{ 'Editor'|trans }}</dt>
+<dd>{{ materialData.editor }}</dd>
+<dt>{{ 'Chapter'|trans }}</dt>
+<dd>{{ materialData.chapter }}</dd>
+<dt>{{ 'ISBN'|trans }}</dt>
+<dd>{{ materialData.ISBN }}</dd>
+<dt>{{ 'With Index'|trans }}</dt>
+<dd>{{ (materialData.withIndex?'Yes':'No')|trans }}</dd>
+{% endblock %}

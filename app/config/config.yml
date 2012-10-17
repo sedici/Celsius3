@@ -109,6 +109,11 @@ services:
         arguments: ["@state_manager"]
         tags:
                 - { name: twig.extension }
+                
+    twig.extension.material_type:
+        class: Celsius\Celsius3Bundle\Twig\MaterialTypeExtension
+        tags:
+                - { name: twig.extension }
   
     # Setea el codigo de Order
     counter_listener:
