@@ -1,5 +1,10 @@
 {% extends 'CelsiusCelsius3Bundle:MaterialType:_materialType.html.twig' %}
 
+{% block dataType %}
+<dt>{{ 'Type'|trans }}</dt>
+<dd>{{ 'Book'|trans }}</dd>
+{% endblock %}
+
 {% block extraData %}
 <dt>{{ 'Editor'|trans }}</dt>
 <dd>{{ materialData.editor?materialData.editor:'-' }}</dd>

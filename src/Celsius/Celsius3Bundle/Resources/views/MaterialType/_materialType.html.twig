@@ -1,4 +1,5 @@
 <dl class="dl-horizontal">
+    {% block dataType %}{% endblock %}
     <dt>{{ 'Title'|trans }}</dt>
     <dd>{{ materialData.title?materialData.title:'-' }}</dd>
     <dt>{{ 'Year'|trans }}</dt>
