@@ -2,7 +2,7 @@
 
 {% block extraData %}
 <dt>{{ 'Director'|trans }}</dt>
-<dd>{{ materialData.director }}</dd>
+<dd>{{ materialData.director?materialData.director:'-' }}</dd>
 <dt>{{ 'Degree'|trans }}</dt>
-<dd>{{ materialData.degree }}</dd>
+<dd>{{ materialData.degree?materialData.degree:'-' }}</dd>
 {% endblock %}

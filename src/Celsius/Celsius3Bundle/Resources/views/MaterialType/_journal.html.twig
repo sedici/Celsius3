@@ -2,9 +2,9 @@
 
 {% block extraData %}
 <dt>{{ 'Volume'|trans }}</dt>
-<dd>{{ materialData.volume }}</dd>
+<dd>{{ materialData.volume?materialData.volume:'-' }}</dd>
 <dt>{{ 'Number'|trans }}</dt>
-<dd>{{ materialData.number }}</dd>
+<dd>{{ materialData.number?materialData.number:'-' }}</dd>
 <dt>{{ 'Journal'|trans }}</dt>
-<dd>{{ materialData.journal }}</dd>
+<dd>{{ materialData.journal?materialData.journal:'-' }}</dd>
 {% endblock %}

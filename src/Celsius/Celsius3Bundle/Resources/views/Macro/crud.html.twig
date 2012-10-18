@@ -2,78 +2,134 @@
 {% macro edit(name, document, edit_form, delete_form) %}
 <link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <h2>{{ [name|capitalize, ' Edit']|join|trans }}</h2>
-{{ tinymce_init() }}
-{% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-<form action="{{ path([name,'_update']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
-      {{ form_widget(edit_form) }}
-      <p>
-        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Edit'|trans }}</button>
-    </p>
-</form>
+<div class="row">
+    <div class="span9">
+        {{ tinymce_init() }}
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-<ul class="unstyled record_actions">
-    <li>
-        <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
-            <i class="icon-home"></i> {{ 'Go to the list'|trans }}
-        </a>
-    </li>
-    <li>
-        <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
+        <form action="{{ path([name,'_update']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
+              {{ form_widget(edit_form) }}
+              <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Edit'|trans }}</button>
+            </p>
         </form>
-    </li>
-</ul>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
+                                    {{ form_widget(delete_form) }}
+                                    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endmacro %}
 
 {# new #}
 {% macro new(name, form) %}
 <link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <h2>{{ [name|capitalize, ' Creation']|join|trans }}</h2>
-{{ tinymce_init() }}
-{% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-<form action="{{ path([name,'_create']|join, { 'code': app.request.get('code') }) }}" method="post" {{ form_enctype(form) }} class="well">
-      {{ form_widget(form) }}
-      <p>
-        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Create'|trans }}</button>
-    </p>
-</form>
+<div class="row">
+    <div class="span9">
+        {{ tinymce_init() }}
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-<ul class="unstyled record_actions">
-    <li>
-        <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
-            <i class="icon-home"></i> {{ 'Go to the list'|trans }}
-        </a>
-    </li>
-</ul>
+        <form action="{{ path([name,'_create']|join, { 'code': app.request.get('code') }) }}" method="post" {{ form_enctype(form) }} class="well">
+              {{ form_widget(form) }}
+              <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Create'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endmacro %}
 
 {# show #}
 {% macro show(name, document, delete_form, folder) %}
 <h2>{{ name|capitalize|trans }}</h2>
 
-{% include [folder,':_show_fields.html.twig']|join %}
-
-<ul class="unstyled record_actions">
-    <li>
-        <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
-            <i class="icon-home"></i> {{ 'Go to the list'|trans }}
-        </a>
-    </li>
-    <li>
-        <a href="{{ path([name,'_edit']|join, { 'code': app.request.get('code'), 'id': document.id }) }}">
-            <i class="icon-pencil"></i> {{ 'Edit'|trans }}
-        </a>
-    </li>
-    <li>
-        <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
-            {{ form_widget(delete_form) }}
-            <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
-        </form>
-    </li>
-</ul>
+<div class="row">
+    <div class="span9">
+        {% include [folder,':_show_fields.html.twig']|join %}
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path([name,'_edit']|join, { 'code': app.request.get('code'), 'id': document.id }) }}">
+                                    <i class="icon-pencil"></i> {{ 'Edit'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
+                                    {{ form_widget(delete_form) }}
+                                    <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endmacro %}
 
 {# index #}

@@ -2,7 +2,7 @@
 
 {% block extraData %}
 <dt>{{ 'Place'|trans }}</dt>
-<dd>{{ materialData.place }}</dd>
+<dd>{{ materialData.place?materialData.place:'-' }}</dd>
 <dt>{{ 'Communication'|trans }}</dt>
-<dd>{{ materialData.communication }}</dd>
+<dd>{{ materialData.communication?materialData.communication:'-' }}</dd>
 {% endblock %}
