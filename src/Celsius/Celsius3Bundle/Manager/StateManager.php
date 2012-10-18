@@ -9,6 +9,7 @@ class StateManager
 
     private $class_prefix = 'Celsius\\Celsius3Bundle\\Document\\';
     private $event_classes = array(
+        'creation' => 'Creation',
         'search' => 'Search',
         'sirequest' => 'SingleInstanceRequest',
         'mirequest' => 'MultiInstanceRequest',
@@ -185,6 +186,11 @@ class StateManager
                     }
                 }
             }
+        }
+        
+        if ($data == null && $event == 'creation')
+        {
+            $data = 'created';
         }
 
         return $data;

@@ -184,6 +184,57 @@ class FixtureLoader implements FixtureInterface
 
                 $manager->persist($order);
                 unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\PatentType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\CongressType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\ThesisType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
 
                 unset($user);
             }
@@ -224,6 +275,57 @@ class FixtureLoader implements FixtureInterface
                 $order->setInstance($instance);
 
                 $material = new Document\BookType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\PatentType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\CongressType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\ThesisType();
                 $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
                 $material->setStartPage(rand(0, 9999999));
                 $material->setEndPage(rand(0, 9999999));
@@ -301,6 +403,57 @@ class FixtureLoader implements FixtureInterface
 
                 $manager->persist($order);
                 unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\PatentType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\CongressType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\ThesisType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
 
                 unset($user);
             }
@@ -341,6 +494,57 @@ class FixtureLoader implements FixtureInterface
                 $order->setInstance($instance);
 
                 $material = new Document\BookType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\PatentType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\CongressType();
+                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
+                $material->setStartPage(rand(0, 9999999));
+                $material->setEndPage(rand(0, 9999999));
+                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
+                $material->setYear(rand(1980, 2012));
+
+                $order->setMaterialData($material);
+
+                $manager->persist($order);
+                unset($material, $order);
+                
+                $order = new Document\Order();
+                $order->setOwner($user);
+                $order->setType(1);
+                $order->setInstance($instance);
+
+                $material = new Document\ThesisType();
                 $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
                 $material->setStartPage(rand(0, 9999999));
                 $material->setEndPage(rand(0, 9999999));

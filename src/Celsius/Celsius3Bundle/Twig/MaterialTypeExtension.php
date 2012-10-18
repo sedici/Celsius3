@@ -8,13 +8,34 @@ class MaterialTypeExtension extends \Twig_Extension
 {
 
     private $environment;
-    private $templates = array(
-        'BookType' => '_book.html.twig',
-        'CongressType' => '_congress.html.twig',
-        'JournalType' => '_journal.html.twig',
-        'PatentType' => '_patent.html.twig',
-        'ThesisType' => '_thesis.html.twig',
+    private $materials = array(
+        'BookType' => array(
+            'template' => '_book.html.twig',
+            'class' => 'book',
+        ),
+        'CongressType' => array(
+            'template' => '_congress.html.twig',
+            'class' => 'congress',
+        ),
+        'JournalType' => array(
+            'template' => '_journal.html.twig',
+            'class' => 'journal',
+        ),
+        'PatentType' => array(
+            'template' => '_patent.html.twig',
+            'class' => 'patent',
+        ),
+        'ThesisType' => array(
+            'template' => '_thesis.html.twig',
+            'class' => 'thesis',
+        ),
     );
+
+    private function getClassName(MaterialType $material)
+    {
+        $class = explode('\\', get_class($material));
+        return end($class);
+    }
 
     public function initRuntime(\Twig_Environment $environment)
     {
@@ -25,17 +46,20 @@ class MaterialTypeExtension extends \Twig_Extension
     {
         return array(
             'render_material' => new \Twig_Function_Method($this, 'renderMaterial'),
+            'get_material_type' => new \Twig_Function_Method($this, 'getMaterialType'),
         );
     }
 
     public function renderMaterial(MaterialType $material)
     {
-        $class = explode('\\', get_class($material));
-        $className = end($class);
-
-        return $this->environment->render('CelsiusCelsius3Bundle:MaterialType:' . $this->templates[$className], array(
+        return $this->environment->render('CelsiusCelsius3Bundle:MaterialType:' . $this->materials[$this->getClassName($material)]['template'], array(
                     'materialData' => $material,
                 ));
+    }
+
+    public function getMaterialType(MaterialType $material)
+    {
+        return $this->materials[$this->getClassName($material)]['class'];
     }
 
     public function getName()

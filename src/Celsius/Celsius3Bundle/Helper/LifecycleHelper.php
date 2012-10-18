@@ -66,7 +66,7 @@ class LifecycleHelper
     {
         $stateName = $this->manager->getStateForEvent($name);
         
-        if (!$order->hasState($this->manager->getPreviousPositiveState($stateName)))
+        if (!$order->hasState($this->manager->getPreviousPositiveState($stateName)) && $name != 'creation')
         {
             throw $this->manager->createNotFoundException('State not found');
         }
