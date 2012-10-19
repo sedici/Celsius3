@@ -4,17 +4,140 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="celsius_celsius_3.example.class">Celsius\Celsius3Bundle\Example</parameter>
+        <parameter key="twig.extension.intl.class">Twig_Extensions_Extension_Intl</parameter>
+        <parameter key="twig.extension.states.class">Celsius\Celsius3Bundle\Twig\StateExtension</parameter>
+        <parameter key="twig.extension.material_type.class">Celsius\Celsius3Bundle\Twig\MaterialTypeExtension</parameter>
+        <parameter key="counter_listener.class">Celsius\Celsius3Bundle\Listener\CounterListener</parameter>
+        <parameter key="configuration_listener.class">Celsius\Celsius3Bundle\Listener\ConfigurationListener</parameter>
+        <parameter key="order_listener.class">Celsius\Celsius3Bundle\Listener\OrderListener</parameter>
+        <parameter key="security.login_listener.class">Celsius\Celsius3Bundle\Listener\LoginListener</parameter>
+        <parameter key="kernel.language_listener.class">Celsius\Celsius3Bundle\Listener\LanguageListener</parameter>
+        <parameter key="registration.form.type.class">Celsius\Celsius3Bundle\Form\Type\RegistrationFormType</parameter>
+        <parameter key="form.user_selector.class">Celsius\Celsius3Bundle\Form\Type\UserSelectorType</parameter>
+        <parameter key="form.instance_selector.class">Celsius\Celsius3Bundle\Form\Type\InstanceSelectorType</parameter>
+        <parameter key="form.type.language.class">Celsius\Celsius3Bundle\Form\Type\LanguageType</parameter>
+        <parameter key="security.authentication_handler.class">Celsius\Celsius3Bundle\Handler\AuthenticationHandler</parameter>
+        <parameter key="mongodb_logger_wrapper_handler.class">Celsius\Celsius3Bundle\Handler\MongoDBWrapperHandler</parameter>
+        <parameter key="login_logging_pointcut.class">Celsius\Celsius3Bundle\Aop\LoginLoggingPointcut</parameter>
+        <parameter key="login_logging_interceptor.class">Celsius\Celsius3Bundle\Aop\LoginLoggingInterceptor</parameter>
+        <parameter key="instance_injection_pointcut.class">Celsius\Celsius3Bundle\Aop\InstanceInjectionPointcut</parameter>
+        <parameter key="instance_injection_interceptor.class">Celsius\Celsius3Bundle\Aop\InstanceInjectionInterceptor</parameter>
+        <parameter key="menu.voter.exact.class">Celsius\Celsius3Bundle\Voter\ExactRequestVoter</parameter>
+        <parameter key="field.guesser.class">Celsius\Celsius3Bundle\Guesser\FieldGuesser</parameter>
+        <parameter key="lifecycle_helper.class">Celsius\Celsius3Bundle\Helper\LifecycleHelper</parameter>
+        <parameter key="state_manager.class">Celsius\Celsius3Bundle\Manager\StateManager</parameter>
     </parameters>
     
-    <services>
-        <service id="celsius_celsius_3.example" class="%celsius_celsius_3.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+    <services>        
+        <service id="twig.extension.intl" class="%twig.extension.intl.class%">
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="twig.extension.states" class="%twig.extension.states.class%">
+            <argument type="service" id="state_manager"></argument>
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="twig.extension.material_type" class="%twig.extension.material_type.class%">
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="twig.extension.material_type" class="%twig.extension.material_type.class%">
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="counter_listener" class="%counter_listener.class%">
+            <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+        
+        <service id="configuration_listener" class="%configuration_listener.class%">
+            <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+        
+        <service id="order_listener" class="%order_listener.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+        
+        <service id="security.login_listener" class="%security.login_listener.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
+        </service>
+        
+        <service id="kernel.language_listener" class="%kernel.language_listener.class%">
+            <argument type="string" id="%jms_i18n_routing.default_locale%"></argument>
+            <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
+            <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
+            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="256" />
+        </service>
+        
+        <service id="registration.form.type" class="%registration.form.type.class%">
+            <argument type="service" id="service_container"></argument>
+            <argument type="string" id="%fos_user.model.user.class%"></argument>
+            <tag name="form.type" alias="celsius_celsius3bundle_registration" />
+        </service>
+        
+        <service id="form.user_selector" class="%form.user_selector.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="form.type" alias="user_selector" />
+        </service>
+        
+        <service id="form.instance_selector" class="%form.instance_selector.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="form.type" alias="instance_selector" />
+        </service>
+        
+        <service id="form.type.language" class="%form.type.language.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="form.type" alias="language_type" />
+        </service>
+        
+        <service id="security.authentication_handler" class="%security.authentication_handler.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+        
+        <service id="mongodb_logger_wrapper_handler" class="%mongodb_logger_wrapper_handler.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+        
+        <service id="login_logging_pointcut" class="%login_logging_pointcut.class%">
+            <tag name="jms_aop.pointcut" interceptor="login_logging_interceptor" />
+        </service>
+        
+        <service id="login_logging_interceptor" class="%login_logging_interceptor.class%">
+            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+        
+        <service id="instance_injection_pointcut" class="%instance_injection_pointcut.class%">
+            <tag name="jms_aop.pointcut" interceptor="instance_injection_interceptor" />
+        </service>
+        
+        <service id="instance_injection_interceptor" class="%instance_injection_interceptor.class%">
+            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+        
+        <service id="menu.voter.exact" class="%menu.voter.exact.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="knp_menu.voter" />
+        </service>
+        
+        <service id="field.guesser" class="%field.guesser.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+        
+        <service id="lifecycle_helper" class="%lifecycle_helper.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="state_manager"></argument>
+        </service>
+        
+        <service id="state_manager" class="%state_manager.class%">
         </service>
     </services>
-    -->
 </container>
