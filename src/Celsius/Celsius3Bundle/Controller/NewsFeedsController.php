@@ -13,6 +13,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
  */
 class NewsFeedsController extends BaseInstanceDependentController
 {
+
+    function getUrl()
+    {
+     $domain = $_SERVER['HTTP_HOST'];  
+     $name_file = $_SERVER['PHP_SELF'];  
+     $language = $this->get('request')->get('_locale');
+     $url = "http://" . "$domain" . "$name_file" . "/$language";   
+     return $url;
+    }  
     
     protected function getInstance()
     {
@@ -34,15 +43,17 @@ class NewsFeedsController extends BaseInstanceDependentController
      *
      * @Route("/rss/directory",name="directory_rss_news")
      * @Template("CelsiusCelsius3Bundle:NewsFeeds:index_rss.html.twig")
-     *
+     
+     * *
      */
     
     public function directory_rssAction()
     {
+        $url = $this->getUrl();
         $array = array(
             'instance' => 'Directory',
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNewsDirectory(),
-            'url' => 'http://www.celsius3.com.localhost/app_dev.php/es/newsFeeds/rss/directory',
+            'url' => $url . '/newsFeeds/rss/directory',
         );
         
        return $array;
@@ -58,10 +69,12 @@ class NewsFeedsController extends BaseInstanceDependentController
     
     public function directory_atomAction()
     {
+        $url = $this->getUrl();
         $array = array(
             'instance' => 'Directory',
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNewsDirectory(),
-            'url' => 'http://www.celsius3.com.localhost/app_dev.php/es/newsFeeds/atom/directory/',
+            'url' => $url . '/newsFeeds/atom/directory',
+            
         );
         return $array;
     }
@@ -76,11 +89,11 @@ class NewsFeedsController extends BaseInstanceDependentController
     
     public function instance_rssAction($urlInstance)
     {
-        
+        $url = $this->getUrl();
         $array = array(
             'instance' => $this->getInstance(),
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNews($this->getInstance()),
-            'url' => 'http://www.celsius3.com.localhost/app_dev.php/es/newsFeeds/rss/'.$urlInstance,
+            'url' => $url . '/newsFeeds/rss/'. $urlInstance,
         );
         return $array;
         
@@ -95,10 +108,11 @@ class NewsFeedsController extends BaseInstanceDependentController
      */
     public function instance_atomAction($urlInstance)
     {
+        $url = $this->getUrl();
         $array = array(
             'instance' => $this->getInstance(),
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNews($this->getInstance()),
-            'url' => 'http://www.celsius3.com.localhost/app_dev.php/es/newsFeeds/atom/'.$urlInstance,
+            'url' => $url . '/newsFeeds/atom/'. $urlInstance,
         );
         return $array;
         
