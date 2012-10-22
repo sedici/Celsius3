@@ -22,7 +22,6 @@
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
         "doctrine/mongodb-odm-bundle": "dev-master",
-        "ismaambrosi/generator-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "friendsofsymfony/user-bundle": "*",
         "stof/doctrine-extensions-bundle": "dev-master",

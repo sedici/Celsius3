@@ -1,5 +1,5 @@
 {
-    "hash": "104129dccd3b7d7867c40cfff107f687",
+    "hash": "7ce07f021e83b5f6ca156d6bdcd29a1a",
     "packages": [
         {
             "name": "doctrine/common",
@@ -630,12 +630,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "117f14e0f8fd069d679ca0f84fa05c781cca3119"
+                "reference": "8eb6bf40c398a2f98d73e5fc56058283a356c2ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/117f14e0f8fd069d679ca0f84fa05c781cca3119",
-                "reference": "117f14e0f8fd069d679ca0f84fa05c781cca3119",
+                "url": "https://github.com/l3pp4rd/DoctrineExtensions/zipball/8eb6bf40c398a2f98d73e5fc56058283a356c2ea",
+                "reference": "8eb6bf40c398a2f98d73e5fc56058283a356c2ea",
                 "shasum": ""
             },
             "require": {
@@ -646,7 +646,7 @@
                 "doctrine/orm": ">=2.1",
                 "doctrine/mongodb-odm": "*"
             },
-            "time": "1349888959",
+            "time": "1350832294",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -683,53 +683,6 @@
                 "sortable",
                 "timestampable"
             ]
-        },
-        {
-            "name": "ismaambrosi/generator-bundle",
-            "version": "dev-master",
-            "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git",
-                "reference": "aed9faf65b8ca0130ef70b9168d12e90a6a44971"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/iambrosi/IsmaAmbrosiGeneratorBundle/zipball/aed9faf65b8ca0130ef70b9168d12e90a6a44971",
-                "reference": "aed9faf65b8ca0130ef70b9168d12e90a6a44971",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/mongodb-odm": "dev-master",
-                "php": ">=5.3.3",
-                "sensio/generator-bundle": "v2.1.0"
-            },
-            "require-dev": {
-                "twig/twig": ">=1.4,<2.0-dev"
-            },
-            "time": "1349839505",
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "IsmaAmbrosi\\Bundle\\GeneratorBundle": ""
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ismael Ambrosi",
-                    "email": "ismaambrosi@gmail.com"
-                }
-            ],
-            "description": "Generates Symfony2 documents, forms and CRUD"
         },
         {
             "name": "jms/aop-bundle",
@@ -1033,26 +986,23 @@
         },
         {
             "name": "jms/translation-bundle",
-            "version": "dev-master",
+            "version": "1.0.x-dev",
             "target-dir": "JMS/TranslationBundle",
             "source": {
                 "type": "git",
                 "url": "git://github.com/schmittjoh/JMSTranslationBundle.git",
-                "reference": "aa84f39d5207b1c6ce115ef80eb2a0c1a95e4a0a"
+                "reference": "046032b200b08b91a2075d745dce8a294b7a1aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSTranslationBundle/zipball/aa84f39d5207b1c6ce115ef80eb2a0c1a95e4a0a",
-                "reference": "aa84f39d5207b1c6ce115ef80eb2a0c1a95e4a0a",
+                "url": "https://github.com/schmittjoh/JMSTranslationBundle/zipball/046032b200b08b91a2075d745dce8a294b7a1aac",
+                "reference": "046032b200b08b91a2075d745dce8a294b7a1aac",
                 "shasum": ""
             },
             "require": {
+                "symfony/framework-bundle": ">=2.1,<2.2-dev",
                 "nikic/php-parser": "0.9.1",
-                "symfony/console": "*",
-                "symfony/framework-bundle": ">=2.1,<2.3-dev"
-            },
-            "conflict": {
-                "twig/twig": ">=1.10.2"
+                "symfony/console": "*"
             },
             "require-dev": {
                 "symfony/twig-bundle": "*",
@@ -1068,12 +1018,7 @@
                 "sensio/framework-extra-bundle": "*",
                 "jms/di-extra-bundle": "*"
             },
-            "suggest": {
-                "twig/twig": "1.*",
-                "sensio/framework-extra-bundle": "2.*",
-                "jms/di-extra-bundle": "1.*"
-            },
-            "time": "1350545179",
+            "time": "1349166647",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1168,12 +1113,12 @@
             "source": {
                 "type": "git",
                 "url": "http://github.com/KnpLabs/KnpMenu.git",
-                "reference": "b750b0346cec3cb77e49ed75c6e272bc9636a47b"
+                "reference": "5c33817281456f9d5298a277890e2e025f7f50c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KnpLabs/KnpMenu/zipball/b750b0346cec3cb77e49ed75c6e272bc9636a47b",
-                "reference": "b750b0346cec3cb77e49ed75c6e272bc9636a47b",
+                "url": "https://github.com/KnpLabs/KnpMenu/zipball/5c33817281456f9d5298a277890e2e025f7f50c7",
+                "reference": "5c33817281456f9d5298a277890e2e025f7f50c7",
                 "shasum": ""
             },
             "require": {
@@ -1189,7 +1134,7 @@
                 "silex/silex": "for the integration with your silex application",
                 "twig/twig": "for the TwigRenderer and the integration with your templates"
             },
-            "time": "1348823561",
+            "time": "1350747764",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1211,7 +1156,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -1410,12 +1355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog",
-                "reference": "fa292d1a945ac264093e7279032cf55cda9d1019"
+                "reference": "023b31a31f3807fb19bda1501abb96deacea7c84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/Seldaek/monolog/zipball/fa292d1a945ac264093e7279032cf55cda9d1019",
-                "reference": "fa292d1a945ac264093e7279032cf55cda9d1019",
+                "url": "https://github.com/Seldaek/monolog/zipball/023b31a31f3807fb19bda1501abb96deacea7c84",
+                "reference": "023b31a31f3807fb19bda1501abb96deacea7c84",
                 "shasum": ""
             },
             "require": {
@@ -1429,7 +1374,7 @@
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server"
             },
-            "time": "1350545514",
+            "time": "1350826548",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1764,18 +1709,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/swiftmailer/swiftmailer.git",
-                "reference": "22731e907f5ca288c9bfde6b54f3611ace0a6c39"
+                "reference": "ff51aae43c62aeaa55dcda109c5baf35731c04a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/swiftmailer/swiftmailer/zipball/22731e907f5ca288c9bfde6b54f3611ace0a6c39",
-                "reference": "22731e907f5ca288c9bfde6b54f3611ace0a6c39",
+                "url": "https://github.com/swiftmailer/swiftmailer/zipball/ff51aae43c62aeaa55dcda109c5baf35731c04a1",
+                "reference": "ff51aae43c62aeaa55dcda109c5baf35731c04a1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1349196829",
+            "time": "1350807573",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1814,12 +1759,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle",
-                "reference": "03528c45a8128cde610a305a9a67611eae4074aa"
+                "reference": "4eea8571954132e4715a5e756fe6a90a7e2d90f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/AsseticBundle/zipball/03528c45a8128cde610a305a9a67611eae4074aa",
-                "reference": "03528c45a8128cde610a305a9a67611eae4074aa",
+                "url": "https://github.com/symfony/AsseticBundle/zipball/4eea8571954132e4715a5e756fe6a90a7e2d90f6",
+                "reference": "4eea8571954132e4715a5e756fe6a90a7e2d90f6",
                 "shasum": ""
             },
             "require": {
@@ -1839,7 +1784,7 @@
             "suggest": {
                 "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
             },
-            "time": "1350597352",
+            "time": "1350864366",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1986,12 +1931,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "dba9bc35953b0d2b6e33ca316b3587f4049232f5"
+                "reference": "bb636c857abea60ac3a27ce0ab62ea979b3aad58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/dba9bc35953b0d2b6e33ca316b3587f4049232f5",
-                "reference": "dba9bc35953b0d2b6e33ca316b3587f4049232f5",
+                "url": "https://github.com/symfony/symfony/zipball/bb636c857abea60ac3a27ce0ab62ea979b3aad58",
+                "reference": "bb636c857abea60ac3a27ce0ab62ea979b3aad58",
                 "shasum": ""
             },
             "require": {
@@ -2040,7 +1985,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "1.*"
             },
-            "time": "1350645874",
+            "time": "1350717030",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2126,18 +2071,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "244eaf53b30632850c2b582fcea57ff1b9ac407f"
+                "reference": "61393dc9fb8982110048624aa573aec4aee0b465"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/244eaf53b30632850c2b582fcea57ff1b9ac407f",
-                "reference": "244eaf53b30632850c2b582fcea57ff1b9ac407f",
+                "url": "https://github.com/fabpot/Twig/zipball/61393dc9fb8982110048624aa573aec4aee0b465",
+                "reference": "61393dc9fb8982110048624aa573aec4aee0b465",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1350650176",
+            "time": "1350737598",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2178,7 +2123,6 @@
     "stability-flags": {
         "doctrine/doctrine-fixtures-bundle": 20,
         "doctrine/mongodb-odm-bundle": 20,
-        "ismaambrosi/generator-bundle": 20,
         "knplabs/knp-paginator-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
         "jms/i18n-routing-bundle": 20,
