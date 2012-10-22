@@ -9,10 +9,8 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function listQuery($name)
     {
-        
-        return $this->getDocumentManager()
-                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
-                        ->createQueryBuilder()
+
+        return parent::listQuery($name)
                         ->field('instance.id')->equals($this->getInstance()->getId());
     }
 

@@ -42,11 +42,6 @@ abstract class BaseController extends Controller
                 $query, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
         );
 
-//        $this->get('session')->getFlashBag()->add('warning', 'Your config file is writable, it should be set read-only');
-//        $this->get('session')->getFlashBag()->add('error', 'Your config file is writable, it should be set read-only');
-//        $this->get('session')->getFlashBag()->add('notice', 'Your config file is writable, it should be set read-only');
-//        $this->get('session')->getFlashBag()->add('success', 'Your config file is writable, it should be set read-only');
-
         return array(
             'pagination' => $pagination,
             'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,

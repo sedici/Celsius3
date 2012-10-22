@@ -9,6 +9,12 @@ use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 class OrderController extends BaseInstanceDependentController
 {
 
+    protected function listQuery($name)
+    {
+        return parent::listQuery($name)
+                        ->field('currentState')->prime(true);
+    }
+
     protected function change()
     {
         $material = 'Celsius\\Celsius3Bundle\\Form\\Type\\' . ucfirst($this->getRequest()->get('material')) . 'TypeType';
