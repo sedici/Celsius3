@@ -8,7 +8,7 @@
         {{ tinymce_init() }}
         {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-        <form action="{{ path([name,'_update']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
+        <form action="{{ path([name,'_update']|join, { 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
               {{ form_widget(edit_form) }}
               <p>
                 <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Edit'|trans }}</button>
@@ -27,12 +27,12 @@
                     <div class="accordion-inner">
                         <ul class="unstyled">
                             <li>
-                                <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+                                <a href="{{ path(name) }}">
                                     <i class="icon-home"></i> {{ 'Go to the list'|trans }}
                                 </a>
                             </li>
                             <li>
-                                <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
+                                <form action="{{ path([name,'_delete']|join, { 'id': document.id }) }}" method="post">
                                     {{ form_widget(delete_form) }}
                                     <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
                                 </form>
@@ -56,7 +56,7 @@
         {{ tinymce_init() }}
         {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-        <form action="{{ path([name,'_create']|join, { 'code': app.request.get('code') }) }}" method="post" {{ form_enctype(form) }} class="well">
+        <form action="{{ path([name,'_create']|join) }}" method="post" {{ form_enctype(form) }} class="well">
               {{ form_widget(form) }}
               <p>
                 <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Create'|trans }}</button>
@@ -75,7 +75,7 @@
                     <div class="accordion-inner">
                         <ul class="unstyled">
                             <li>
-                                <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+                                <a href="{{ path(name) }}">
                                     <i class="icon-home"></i> {{ 'Go to the list'|trans }}
                                 </a>
                             </li>
@@ -108,17 +108,17 @@
                     <div class="accordion-inner">
                         <ul class="unstyled">
                             <li>
-                                <a href="{{ path(name, { 'code': app.request.get('code') }) }}">
+                                <a href="{{ path(name) }}">
                                     <i class="icon-home"></i> {{ 'Go to the list'|trans }}
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path([name,'_edit']|join, { 'code': app.request.get('code'), 'id': document.id }) }}">
+                                <a href="{{ path([name,'_edit']|join, { 'id': document.id }) }}">
                                     <i class="icon-pencil"></i> {{ 'Edit'|trans }}
                                 </a>
                             </li>
                             <li>
-                                <form action="{{ path([name,'_delete']|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post">
+                                <form action="{{ path([name,'_delete']|join, { 'id': document.id }) }}" method="post">
                                     {{ form_widget(delete_form) }}
                                     <button type="submit" class="btn btn-danger"><i class="icon-remove"></i> {{ 'Delete'|trans }}</button>
                                 </form>
@@ -178,7 +178,7 @@
                     <div class="accordion-inner">
                         <ul class="unstyled">
                             <li>
-                                <a href="{{ path([name,'_new']|join, { 'code': app.request.get('code') }) }}">
+                                <a href="{{ path([name,'_new']|join) }}">
                                     <i class="icon-plus"></i> {{ 'Create a new entry'|trans }}
                                 </a>
                             </li>
@@ -193,11 +193,11 @@
 
 {# filter #}
 {% macro filter(name, filter_form) %}
-<form action="{{ path(name, { 'code': app.request.get('code') }) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well filter-form">
+<form action="{{ path(name) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well filter-form">
       {{ form_widget(filter_form) }}
       <p>
         <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Filter'|trans }}</button>
-        <a href="{{ path(name, { 'code': app.request.get('code') }) }}"><i class="icon-remove"></i> {{ 'Reset'|trans }}</a>
+        <a href="{{ path(name) }}"><i class="icon-remove"></i> {{ 'Reset'|trans }}</a>
     </p>
 </form>
 {% endmacro %}
