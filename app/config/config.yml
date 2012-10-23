@@ -98,7 +98,13 @@ fos_user:
         form:
             type: celsius_celsius3bundle_registration
             
-services: ~
+services:
+    # Formulario de registro personalizado
+    registration.form.type:
+        class: Celsius\Celsius3Bundle\Form\Type\RegistrationFormType
+        arguments: ["@service_container", %fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: celsius_celsius3bundle_registration }
             
 parameters:
     max_per_page: 10
