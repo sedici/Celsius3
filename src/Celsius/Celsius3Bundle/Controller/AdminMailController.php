@@ -19,7 +19,8 @@ class AdminMailController extends BaseInstanceDependentController
     protected function listQuery($name)
     {   
         //Se obtienen los templetes tanto de la instancia como los del directorio.
-        // FALTA DIFERENCIAR ENTRE LOS TEMPLATE QUE FUERON MODIFICADOS
+        // NO REPETIR LOS TEMPLATES DIRECTORY Y LOS TEMPLATE DIRECTORY MODIFICADOS POR LA INSTANCIA
+        // TENER EN CUENTA PARA LOS TEMPLATES Q SON DEL DIRECTORIO , QUE ESTEN ENABLED TRUE!
          $qb = $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder()
@@ -180,14 +181,14 @@ class AdminMailController extends BaseInstanceDependentController
             throw $this->createNotFoundException('Unable to find template.');
         }
         
-        $template->setState(!$template->getState());
+        $template->setEnabled(!$template->getEnabled());
         
         $dm = $this->getDocumentManager();
         $dm->persist($template);
         $dm->flush();
      
         $this->get('session')->getFlashBag()->add('success', 'The Template was successfully ' .
-                (($template->getState()) ? 'enabled' : 'disabled'));
+                (($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }

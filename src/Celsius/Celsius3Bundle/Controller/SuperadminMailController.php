@@ -112,4 +112,37 @@ class SuperadminMailController extends BaseController
     public function deleteAction($id) {
         return $this->baseDelete('MailTemplate', $id, 'superadmin_mails');
     }
+    
+    /**
+     * Change state an existing Mail TEmplate.
+     *
+     * @Route("/{id}/change_state", name="superadmin_mails_change_state")
+     * 
+     * @Template()
+     * 
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function changeStateAction($id) {
+        $template = $this->findQuery('MailTemplate', $id);
+        
+        if (!$template)
+        {
+            throw $this->createNotFoundException('Unable to find template.');
+        }
+        
+        $template->setEnabled(!$template->getEnabled());
+        
+        $dm = $this->getDocumentManager();
+        $dm->persist($template);
+        $dm->flush();
+     
+        $this->get('session')->getFlashBag()->add('success', 'The Template was successfully ' .
+                (($template->getEnabled()) ? 'enabled' : 'disabled'));
+
+        return $this->redirect($this->generateUrl('superadmin_mails'));
+    }
 }

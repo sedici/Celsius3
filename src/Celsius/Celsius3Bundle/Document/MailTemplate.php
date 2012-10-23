@@ -26,7 +26,7 @@ class MailTemplate
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $state;
+    private $enabled = true;
     
     /**
      * @Assert\NotBlank()
@@ -44,10 +44,6 @@ class MailTemplate
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
     private $instance;
-
-    public function __construct() {
-        $this->state = true;
-    }
 
     /**
      * Get id
@@ -82,25 +78,25 @@ class MailTemplate
     }
     
     /**
-     * Set state
+     * Set enabled
      *
-     * @param string $state
+     * @param string $enabled
      * @return MailTemplate
      */
-    public function setState($state)
+    public function setEnabled($enabled)
     {
-        $this->state = $state;
+        $this->enabled = $enabled;
         return $this;
     }
 
     /**
-     * Get state
+     * Get enabled
      *
-     * @return integer $state
+     * @return integer $enabled
      */
-    public function getState()
+    public function getEnabled()
     {
-        return $this->state;
+        return $this->enabled;
     }
     
     /**
