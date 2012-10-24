@@ -10,7 +10,7 @@ abstract class BaseController extends Controller
 
     protected function listQuery($name)
     {
-       
+
         return $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder();
@@ -100,7 +100,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseEdit($name, $id, $type, $route=null)
+    public function baseEdit($name, $id, $type, $route = null)
     {
         $document = $this->findQuery($name, $id);
 
@@ -204,6 +204,16 @@ abstract class BaseController extends Controller
     {
         $this->get('session')->getFlashBag()->add($type, $message);
     }
+    
+    protected function isSpecialField($key)
+    {
+        return false;
+    }
+    
+    protected function applySpecialFilter($key, $data, $query)
+    {
+        return $query;
+    }
 
     private function filter($query, $form, $class)
     {
@@ -211,7 +221,7 @@ abstract class BaseController extends Controller
 
         foreach ($form->getData() as $key => $data)
         {
-            if (!is_null($data))
+            if (!is_null($data) && !$this->isSpecialField($key))
             {
                 switch ($guesser->getDbType($class, $key))
                 {
@@ -235,6 +245,9 @@ abstract class BaseController extends Controller
                         $query = $query->field($key)->equals($data);
                         break;
                 }
+            } elseif (!is_null($data) && $this->isSpecialField($key))
+            {
+                $query = $this->applySpecialFilter($key, $data, $query);
             }
         }
 

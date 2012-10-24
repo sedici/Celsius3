@@ -32,6 +32,19 @@ class OrderFilterType extends AbstractType
                         1 => 'Search',
                     ),
                 ))
+                ->add('state', 'choice', array(
+                    'required' => false,
+                    'choices' => array(
+                        '' => '',
+                        'created' => 'Created',
+                        'searched' => 'Searched',
+                        'requested' => 'Requested',
+                        'received' => 'Received',
+                        'delivered' => 'Delivered',
+                        'Canceled' => 'Canceled',
+                        'annuled' => 'Annuled',
+                    ),
+                ))
         ;
         
         if (is_null($this->owner))
