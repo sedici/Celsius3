@@ -27,6 +27,7 @@
         <parameter key="field.guesser.class">Celsius\Celsius3Bundle\Guesser\FieldGuesser</parameter>
         <parameter key="lifecycle_helper.class">Celsius\Celsius3Bundle\Helper\LifecycleHelper</parameter>
         <parameter key="state_manager.class">Celsius\Celsius3Bundle\Manager\StateManager</parameter>
+        <parameter key="filter_manager.class">Celsius\Celsius3Bundle\Manager\FilterManager</parameter>
     </parameters>
     
     <services>        
@@ -131,6 +132,10 @@
         </service>
         
         <service id="state_manager" class="%state_manager.class%">
+        </service>
+        
+        <service id="filter_manager" class="%filter_manager.class%">
+            <argument type="service" id="service_container"></argument>
         </service>
     </services>
 </container>

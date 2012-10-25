@@ -34,7 +34,7 @@ abstract class BaseController extends Controller
         if (!is_null($filter_form))
         {
             $filter_form->bind($this->getRequest());
-            $query = $this->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name);
+            $query = $this->get('filter_manager')->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name);
         }
 
         $paginator = $this->get('knp_paginator');
@@ -203,55 +203,6 @@ abstract class BaseController extends Controller
     protected function addFlash($type, $message)
     {
         $this->get('session')->getFlashBag()->add($type, $message);
-    }
-    
-    protected function isSpecialField($key)
-    {
-        return false;
-    }
-    
-    protected function applySpecialFilter($key, $data, $query)
-    {
-        return $query;
-    }
-
-    private function filter($query, $form, $class)
-    {
-        $guesser = $this->get('field.guesser');
-
-        foreach ($form->getData() as $key => $data)
-        {
-            if (!is_null($data) && !$this->isSpecialField($key))
-            {
-                switch ($guesser->getDbType($class, $key))
-                {
-                    case 'string':
-                        $query = $query->field($key)->equals(new \MongoRegex('/.*' . $data . '.*/i'));
-                        break;
-                    case 'boolean':
-                        if ("" !== $value)
-                        {
-                            $query = $query->field($key)->equals((boolean) $data);
-                        }
-                        break;
-                    case 'int':
-                        $query = $query->field($key)->equals((int) $data);
-                        break;
-                    case 'document':
-                    case 'collection':
-                        $query = $query->field($key . '.id')->equals(new \MongoId($data->getId()));
-                        break;
-                    default:
-                        $query = $query->field($key)->equals($data);
-                        break;
-                }
-            } elseif (!is_null($data) && $this->isSpecialField($key))
-            {
-                $query = $this->applySpecialFilter($key, $data, $query);
-            }
-        }
-
-        return $query;
     }
 
     protected function ajax($instance = null, $librarian = null)

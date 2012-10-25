@@ -17,36 +17,6 @@ use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 class AdminOrderController extends OrderController
 {
 
-    protected function isSpecialField($key)
-    {
-        return $key == 'state';
-    }
-
-    protected function applySpecialFilter($key, $data, $query)
-    {
-        if ($key == 'state')
-        {
-            $stateType = $this->getDocumentManager()
-                    ->getRepository('CelsiusCelsius3Bundle:StateType')
-                    ->createQueryBuilder()
-                    ->field('name')->equals($data)
-                    ->getQuery()
-                    ->getSingleResult();
-
-            $states = array_keys($this->getDocumentManager()
-                            ->getRepository('CelsiusCelsius3Bundle:State')
-                            ->createQueryBuilder()
-                            ->field('type.id')->equals($stateType->getId())
-                            ->getQuery()
-                            ->execute()
-                            ->toArray());
-
-            $query = $query->field('currentState.id')->in($states);
-        }
-
-        return $query;
-    }
-
     /**
      * Lists all Order documents.
      *
