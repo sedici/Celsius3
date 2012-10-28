@@ -8,41 +8,19 @@ class FilterManager
 {
 
     private $container;
-    private $specials = array(
-        'Celsius\\Celsius3Bundle\\Document\\Order' => array(
-            'state' => 'filterOrderByStateType',
-        ),
-    );
 
-    private function filterOrderByStateType($data, $query)
+    private function getCustomFilterClass($class)
     {
-        $stateType = $this->container->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('CelsiusCelsius3Bundle:StateType')
-                ->createQueryBuilder()
-                ->field('name')->equals($data)
-                ->getQuery()
-                ->getSingleResult();
+        $className = explode('\\', get_class($class));
+        $filterClass = 'Celsius\\Celsius3Bundle\\Filter\\' . $className . 'Filter';
 
-        $states = array_keys($this->container->get('doctrine.odm.mongodb.document_manager')
-                        ->getRepository('CelsiusCelsius3Bundle:State')
-                        ->createQueryBuilder()
-                        ->field('type.id')->equals($stateType->getId())
-                        ->getQuery()
-                        ->execute()
-                        ->toArray());
+        $filter = null;
+        if (class_exists($filterClass))
+        {
+            $filter = new $filterClass;
+        }
 
-        return $query->field('currentState.id')->in($states);
-    }
-
-    private function isSpecialField($class, $key)
-    {
-        return array_key_exists($class, $this->specials) && array_key_exists($key, $this->specials[$class]);
-    }
-
-    private function applySpecialFilter($class, $key, $data, $query)
-    {
-        $name = $this->specials[$class][$key];
-        return $this->$name($data, $query);
+        return $filter;
     }
 
     public function __construct(ContainerInterface $container)
@@ -54,35 +32,40 @@ class FilterManager
     {
         $guesser = $this->container->get('field.guesser');
 
+        $customFilter = $this->getCustomFilterClass($class);
+
         foreach ($form->getData() as $key => $data)
         {
-            if (!is_null($data) && !$this->isSpecialField($class, $key))
+            if (!is_null($data))
             {
-                switch ($guesser->getDbType($class, $key))
+                if ($customFilter->hasCustomFilter($key))
                 {
-                    case 'string':
-                        $query = $query->field($key)->equals(new \MongoRegex('/.*' . $data . '.*/i'));
-                        break;
-                    case 'boolean':
-                        if ("" !== $value)
-                        {
-                            $query = $query->field($key)->equals((boolean) $data);
-                        }
-                        break;
-                    case 'int':
-                        $query = $query->field($key)->equals((int) $data);
-                        break;
-                    case 'document':
-                    case 'collection':
-                        $query = $query->field($key . '.id')->equals(new \MongoId($data->getId()));
-                        break;
-                    default:
-                        $query = $query->field($key)->equals($data);
-                        break;
+                    
+                } else
+                {
+                    switch ($guesser->getDbType($class, $key))
+                    {
+                        case 'string':
+                            $query = $query->field($key)->equals(new \MongoRegex('/.*' . $data . '.*/i'));
+                            break;
+                        case 'boolean':
+                            if ("" !== $value)
+                            {
+                                $query = $query->field($key)->equals((boolean) $data);
+                            }
+                            break;
+                        case 'int':
+                            $query = $query->field($key)->equals((int) $data);
+                            break;
+                        case 'document':
+                        case 'collection':
+                            $query = $query->field($key . '.id')->equals(new \MongoId($data->getId()));
+                            break;
+                        default:
+                            $query = $query->field($key)->equals($data);
+                            break;
+                    }
                 }
-            } elseif (!is_null($data) && $this->isSpecialField($class, $key))
-            {
-                $query = $this->applySpecialFilter($class, $key, $data, $query);
             }
         }
 
