@@ -19,7 +19,7 @@ class LifecycleHelper
         $this->manager = $manager;
     }
 
-    protected function setEventData(Event $event, Order $order, $state, $date)
+    private function setEventData(Event $event, Order $order, $state, $date)
     {
         $event->setDate($date);
         $event->setOperator($order->getOperator());
@@ -31,8 +31,16 @@ class LifecycleHelper
         $this->dm->flush();
     }
 
-    protected function createState($name, $date, $order)
+    private function createState($name, $date, $order)
     {
+        $currentState = $order->getCurrentState();
+        if (!is_null($currentState))
+        {
+            $currentState->setIsCurrent(false);
+
+            $this->dm->persist($currentState);
+        }
+
         $state = new State();
         $state->setDate($date);
         $state->setInstance($order->getInstance());
@@ -44,7 +52,7 @@ class LifecycleHelper
                         ->getQuery()
                         ->getSingleResult()
         );
-        $state->setPrevious($order->getCurrentState());
+        $state->setPrevious($currentState);
 
         $this->dm->persist($state);
 
@@ -65,17 +73,17 @@ class LifecycleHelper
     public function createEvent($name, Order $order)
     {
         $stateName = $this->manager->getStateForEvent($name);
-        
+
         if (!$order->hasState($this->manager->getPreviousPositiveState($stateName)) && $name != 'creation')
         {
             throw $this->manager->createNotFoundException('State not found');
         }
-        
+
         $date = date('Y-m-d H:i:s');
-        
+
         $orderDateMethod = 'set' . ucfirst($stateName);
         $eventClassName = $this->manager->getFullClassNameForEvent($name);
-        
+
         $order->$orderDateMethod($date);
         $this->setEventData(new $eventClassName, $order, $stateName, $date);
     }

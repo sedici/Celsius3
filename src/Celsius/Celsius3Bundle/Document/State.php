@@ -24,6 +24,13 @@ class State
     private $date;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="bool")
+     * @MongoDB\Boolean
+     */
+    private $isCurrent = true;
+
+    /**
      * @MongoDB\ReferenceOne(targetDocument="StateType", inversedBy="states")
      */
     private $type;
@@ -32,7 +39,7 @@ class State
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="state")
      */
     private $events;
-    
+
     /**
      * @MongoDB\ReferenceOne
      */
@@ -47,7 +54,7 @@ class State
      * @MongoDB\ReferenceOne(targetDocument="State")
      */
     private $previous;
-    
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="states")
      */
@@ -176,7 +183,6 @@ class State
         return $this->previous;
     }
 
-
     /**
      * Set remoteEvent
      *
@@ -220,4 +226,27 @@ class State
     {
         return $this->order;
     }
+
+    /**
+     * Set isCurrent
+     *
+     * @param boolean $isCurrent
+     * @return State
+     */
+    public function setIsCurrent($isCurrent)
+    {
+        $this->isCurrent = $isCurrent;
+        return $this;
+    }
+
+    /**
+     * Get isCurrent
+     *
+     * @return boolean $isCurrent
+     */
+    public function getIsCurrent()
+    {
+        return $this->isCurrent;
+    }
+
 }
