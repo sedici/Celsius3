@@ -23,8 +23,6 @@ class AuthenticationHandler implements AuthenticationFailureHandlerInterface, Lo
     {
         $url = $request->getSession()->get('instance_url');
 
-        $request->getSession()->invalidate();
-
         return new RedirectResponse($this->container->get('router')->generate('public_index', array('url' => $url)));
     }
 
