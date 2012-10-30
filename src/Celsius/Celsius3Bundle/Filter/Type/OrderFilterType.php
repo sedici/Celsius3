@@ -35,7 +35,6 @@ class OrderFilterType extends AbstractType
                 ->add('state', 'choice', array(
                     'required' => false,
                     'choices' => array(
-                        '' => '',
                         'created' => 'Created',
                         'searched' => 'Searched',
                         'requested' => 'Requested',
@@ -44,6 +43,7 @@ class OrderFilterType extends AbstractType
                         'Canceled' => 'Canceled',
                         'annuled' => 'Annuled',
                     ),
+                    'multiple' => true,
                 ))
         ;
         

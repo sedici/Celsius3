@@ -13,19 +13,19 @@
                         {{ 'Filters'|trans }}
                     </li>
                     <li>
-                        <a href="#">{{ 'New'|trans }} (100)</a>
+                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'created' }) }}">{{ 'Created'|trans }} (100)</a>
                     </li>
                     <li>
-                        <a href="#">{{ 'Being searched'|trans }} (200)</a>
+                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'searched' }) }}">{{ 'Being searched'|trans }} (200)</a>
                     </li>
                     <li>
-                        <a href="#">{{ 'Requested'|trans }} (147)</a>
+                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'requested' }) }}">{{ 'Requested'|trans }} (147)</a>
                     </li>
                     <li>
-                        <a href="#">{{ 'Received'|trans }} (45)</a>
+                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'received' }) }}">{{ 'Received'|trans }} (45)</a>
                     </li>
                     <li>
-                        <a href="#">{{ 'Delivered'|trans }} (214)</a>
+                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'delivered' }) }}">{{ 'Delivered'|trans }} (214)</a>
                     </li>
                 </ul>
             </div>

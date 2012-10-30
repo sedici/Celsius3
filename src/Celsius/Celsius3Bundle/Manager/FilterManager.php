@@ -64,7 +64,7 @@ class FilterManager
 
         foreach ($form->getData() as $key => $data)
         {
-            if (!is_null($data))
+            if (!is_null($data) && count($data)>0)
             {
                 if (!is_null($customFilter) && $customFilter->hasCustomFilter($key))
                 {
