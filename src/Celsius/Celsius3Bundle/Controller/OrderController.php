@@ -4,7 +4,6 @@ namespace Celsius\Celsius3Bundle\Controller;
 
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Form\Type\OrderType;
-use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 class OrderController extends BaseInstanceDependentController
 {

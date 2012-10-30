@@ -35,6 +35,11 @@ class SuperadminOrderController extends OrderController
     {
         return $this->container->getParameter('max_per_page');
     }
+    
+    protected function filter($name, $filter_form, $query)
+    {
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name);
+    }
 
     /**
      * Lists all Order documents.
