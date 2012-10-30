@@ -29,6 +29,11 @@ abstract class BaseInstanceDependentController extends BaseController
     {
         return ConfigurationHelper::getCastedValue($this->getInstance()->get('results_per_page'));
     }
+    
+    protected function filter($name, $filter_form, $query)
+    {
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name, $this->getInstance());
+    }
 
     /**
      * Returns the instance related to the users instance.

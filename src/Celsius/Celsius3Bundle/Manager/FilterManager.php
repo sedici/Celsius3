@@ -58,7 +58,7 @@ class FilterManager
         $this->container = $container;
     }
 
-    public function filter($query, $form, $class)
+    public function filter($query, $form, $class, $instance = null)
     {
         $customFilter = $this->getCustomFilterClass($class);
 
@@ -68,7 +68,7 @@ class FilterManager
             {
                 if (!is_null($customFilter) && $customFilter->hasCustomFilter($key))
                 {
-                    $query = $customFilter->applyCustomFilter($key, $data, $query);
+                    $query = $customFilter->applyCustomFilter($key, $data, $query, $instance);
                 } else
                 {
                     $query = $this->applyStandardFilter($class, $key, $data, $query);

@@ -12,7 +12,7 @@ class OrderFilter implements DocumentFilterInterface
         'state' => 'filterByStateType',
     );
 
-    private function filterByStateType($data, $query)
+    private function filterByStateType($data, $query, $instance)
     {
         $stateType = $this->dm->getRepository('CelsiusCelsius3Bundle:StateType')
                 ->createQueryBuilder()
@@ -20,26 +20,32 @@ class OrderFilter implements DocumentFilterInterface
                 ->getQuery()
                 ->getSingleResult();
 
-        $states = array_keys($this->dm->getRepository('CelsiusCelsius3Bundle:State')
+        $states = $this->dm->getRepository('CelsiusCelsius3Bundle:State')
                         ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('id')
                         ->field('isCurrent')->equals(true)
-                        ->field('type.id')->equals($stateType->getId())
-                        ->getQuery()
-                        ->execute()
-                        ->toArray());
+                        ->field('type.id')->equals($stateType->getId());
 
-        return $query->field('currentState.id')->in($states);
+        if (!is_null($instance))
+        {
+            $states = $states->field('instance.id')->equals($instance->getId());
+        }
+
+        return $query->field('currentState.id')->in(array_keys($states->getQuery()
+                                        ->execute()
+                                        ->toArray()));
     }
-    
+
     public function __construct(DocumentManager $dm)
     {
         $this->dm = $dm;
     }
 
-    public function applyCustomFilter($field_name, $data, $query)
+    public function applyCustomFilter($field_name, $data, $query, $instance)
     {
         $function = $this->specialFields[$field_name];
-        return $this->$function($data, $query);
+        return $this->$function($data, $query, $instance);
     }
 
     public function hasCustomFilter($field_name)

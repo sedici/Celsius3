@@ -27,6 +27,11 @@ abstract class BaseController extends Controller
         return $this->container->getParameter('max_per_page');
     }
 
+    protected function filter($name, $filter_form, $query)
+    {
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name);
+    }
+
     protected function baseIndex($name, $filter_form = null)
     {
         $query = $this->listQuery($name);
@@ -34,7 +39,7 @@ abstract class BaseController extends Controller
         if (!is_null($filter_form))
         {
             $filter_form->bind($this->getRequest());
-            $query = $this->get('filter_manager')->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name);
+            $query = $this->filter($name, $filter_form, $query);
         }
 
         $paginator = $this->get('knp_paginator');

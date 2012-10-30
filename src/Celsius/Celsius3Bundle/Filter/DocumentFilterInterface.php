@@ -6,5 +6,5 @@ interface DocumentFilterInterface
 {
     public function hasCustomFilter($field_name);
     
-    public function applyCustomFilter($field_name, $data, $query);
+    public function applyCustomFilter($field_name, $data, $query, $instance);
 }
