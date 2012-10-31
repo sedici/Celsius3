@@ -6,6 +6,8 @@ use FOS\UserBundle\Document\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
+use FOS\MessageBundle\Model\ParticipantInterface;
+
 /**
  * @MongoDB\Document
  * @MongoDB\InheritanceType("SINGLE_COLLECTION")
@@ -17,7 +19,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  * })
  * @MongoDB\Document(repositoryClass="Celsius\Celsius3Bundle\Repository\BaseUserRepository")
  */
-class BaseUser extends User
+class BaseUser extends User implements ParticipantInterface
 {
 
     /**

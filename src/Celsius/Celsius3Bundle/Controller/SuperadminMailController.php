@@ -17,7 +17,7 @@ use Celsius\Celsius3Bundle\Filter\Type\MailTemplateFilterType;
 class SuperadminMailController extends BaseController
 {
     
-     protected function listQuery($name)
+    protected function listQuery($name)
     {   
         //Se obtienen los templetes del directorio.
          $qb = $this->getDocumentManager()
@@ -35,7 +35,7 @@ class SuperadminMailController extends BaseController
      * @return array
      */
     public function indexAction() {
-        return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
+       return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
     
     /**
