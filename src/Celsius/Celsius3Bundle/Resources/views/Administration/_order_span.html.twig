@@ -13,19 +13,19 @@
                         {{ 'Filters'|trans }}
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'created' }) }}">{{ 'Created'|trans }} (100)</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'created' }) }}">{{ 'Created'|trans }} (100)</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'searched' }) }}">{{ 'Being searched'|trans }} (200)</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'searched' }) }}">{{ 'Being searched'|trans }} (200)</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'requested' }) }}">{{ 'Requested'|trans }} (147)</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'requested' }) }}">{{ 'Requested'|trans }} (147)</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'received' }) }}">{{ 'Received'|trans }} (45)</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'received' }) }}">{{ 'Received'|trans }} (45)</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'celsius_celsius3bundle_orderfiltertype[state][]': 'delivered' }) }}">{{ 'Delivered'|trans }} (214)</a>
+                        <a href="{{ path('admin_order')~'?state[]=delivered&state[]=canceled&state[]=annuled' }}">{{ 'Ended'|trans }} (214)</a>
                     </li>
                 </ul>
             </div>

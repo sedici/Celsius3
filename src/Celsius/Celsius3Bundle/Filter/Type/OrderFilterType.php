@@ -20,6 +20,14 @@ class OrderFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (is_null($this->owner))
+        {
+            $builder->add('owner', 'document', array(
+                'required' => false,
+                'class' => 'CelsiusCelsius3Bundle:BaseUser',
+            ));
+        }
+
         $builder
                 ->add('code', null, array(
                     'required' => false,
@@ -40,20 +48,13 @@ class OrderFilterType extends AbstractType
                         'requested' => 'Requested',
                         'received' => 'Received',
                         'delivered' => 'Delivered',
-                        'Canceled' => 'Canceled',
+                        'canceled' => 'Canceled',
                         'annuled' => 'Annuled',
                     ),
                     'multiple' => true,
+                    'expanded' => true,
                 ))
         ;
-        
-        if (is_null($this->owner))
-        {
-            $builder->add('owner', 'document', array(
-                'required' => false,
-                'class' => 'CelsiusCelsius3Bundle:BaseUser',
-            ));
-        }
 
         if (is_null($this->instance))
         {
@@ -73,7 +74,7 @@ class OrderFilterType extends AbstractType
 
     public function getName()
     {
-        return 'celsius_celsius3bundle_orderfiltertype';
+        return '';
     }
 
 }
