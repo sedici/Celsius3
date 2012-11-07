@@ -1,0 +1,24 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}" />
+        <title>{% trans from 'FOSMessageBundle' %}messenger{% endtrans %}</title>
+    </head>
+
+    <body>
+        <div class="btn-group">
+          <a class="btn" href="{{ path('admin_messages_inbox') }}">inbox</a>
+          <a class="btn" href="{{ path('admin_message_sent') }}">sent</a>
+        </div>
+      
+
+        {% block fos_message_content %}{% endblock %}
+
+    </body>
+</html>
+
+{% endblock %}

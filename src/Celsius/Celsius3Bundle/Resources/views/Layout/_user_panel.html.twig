@@ -1,10 +1,9 @@
 <ul id="user_panel" class="unstyled">
     {% if app.user %}
     <li>
-        {{ 'You are logged in as'|trans }} {{ app.user.username }}
-    </li>
-    <li>
-        <a href="#" class="btn btn-primary"><i class="icon-wrench"></i> Settings</a>
+        {{ 'You are logged in as'|trans }} 
+   </li>
+        <a href="{{path('fos_user_resetting_reset', {'url': app.session.get('instance_url'), 'token': app.security.token })}}" class="btn btn-primary"><i class="icon-wrench"></i> Settings</a>
         <a href="{{ path('fos_user_security_logout', { 'url': app.session.get('instance_url') }) }}" class="btn btn-danger"><i class="icon-off"></i> Logout</a>
     </li>
     {% else %}

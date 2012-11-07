@@ -44,7 +44,7 @@ class RegistrationFormType extends BaseType
                         'readonly' => 'readonly',
                     ),
                 ))
-        ;
+        ;    
     }
 
     public function getName()
