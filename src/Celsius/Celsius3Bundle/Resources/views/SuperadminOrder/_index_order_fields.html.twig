@@ -3,16 +3,18 @@
 {% block extrafields %}
 <dt>{{ 'User'|trans }}</dt>
 <dd>{{ order.owner.username }}</dd>
+<dt>{{ 'Instance'|trans }}</dt>
+<dd>{{ order.instance }}</dd>
 {% endblock %}
 
 {% block orderactions %}
 <div class="span2 pull-right">
     <ul class="unstyled pull-right">
         <li>
-            <a href="{{ path('admin_order_show', { 'id': order.id }) }}"><i class="icon-file"></i> {{ 'Full view'|trans }}</a>
+            <a href="{{ path('superadmin_order_show', { 'id': order.id }) }}"><i class="icon-file"></i> {{ 'Full view'|trans }}</a>
         </li>
         <li>
-            <a href="{{ path('admin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
+            <a href="{{ path('superadmin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
         </li>
     </ul>
 </div>

@@ -1,33 +1,16 @@
-<div class="row">
-    <div class="span6">
-        <dl class="dl-horizontal">
-            <dt>{{ 'Code'|trans }}</dt>
-            <dd>{{ order.code }}</dd>
-            <dt>{{ 'Request date'|trans }}</dt>
-            <dd>{{ order.requested|localizeddate() }}</dd>
-            <dt>{{ 'User'|trans }}</dt>
-            <dd>{{ order.owner.username }}</dd>
-            <dt>{{ 'Instance'|trans }}</dt>
-            <dd>{{ order.instance }}</dd>
-        </dl>
-        <div class="thumbnail">
-            <dl class="dl-horizontal">
-                <dt>{{ 'Title'|trans }}</dt>
-                <dd>{{ order.materialData.title }}</dd>
-                <dt>{{ 'Year'|trans }}</dt>
-                <dd>{{ order.materialData.year }}</dd>
-                <dt>{{ 'Start page'|trans }}</dt>
-                <dd>{{ order.materialData.startPage }}</dd>
-                <dt>{{ 'End page'|trans }}</dt>
-                <dd>{{ order.materialData.endPage }}</dd>
-            </dl>
-        </div>
-    </div>
-    <div class="span2 pull-right">
-        <ul class="unstyled pull-right">
-            <li>
-                <a href="{{ path('superadmin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
-            </li>
-        </ul>
-    </div>
-</div>
+{% extends 'CelsiusCelsius3Bundle:Order:_show_fields.html.twig' %}
+
+{% block statelist %}
+<ul class="state-list well">
+    {% for key, state in get_positive_states() %}
+    <li>{{ render_state(key, document)|raw }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block extrafields %}
+<dt>{{ 'User'|trans }}</dt>
+<dd>{{ document.owner.username }}</dd>
+<dt>{{ 'Instance'|trans }}</dt>
+<dd>{{ document.instance }}</dd>
+{% endblock %}

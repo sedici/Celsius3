@@ -1,26 +1,11 @@
-<div class="sorting-group pull-right">
-    <span>
-        {{ 'Sort by'|trans }}: 
-    </span>
-    {% include 'CelsiusCelsius3Bundle:UserOrder:_index_sort.html.twig' %}
-</div>
-<div class="clearfix"></div>
-{% for order in pagination %}
-<div id="code{{ order.code }}" class="accordion">
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a href="#collapse{{ order.code }}" data-parent="#code{{ order.code }}" data-toggle="collapse" class="accordion-toggle">
-                <span>{{ order.code }} - {{ order.materialData.title }}</span>
-                {% if app.user.username != order.owner.username %}
-                <span class="label pull-right">{{ order.owner.surname }}, {{ order.owner.name }}</span>
-                {% endif %}
-            </a>
-        </div>
-        <div class="accordion-body collapse" id="collapse{{ order.code }}">
-            <div class="accordion-inner">
-                {% include 'CelsiusCelsius3Bundle:UserOrder:_show_fields.html.twig' %}
-            </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
+{% extends 'CelsiusCelsius3Bundle:Order:_index_fields.html.twig' %}
+
+{% block extrainfo %}
+{% if app.user.username != order.owner.username %}
+<span class="label pull-right">{{ order.owner.surname }}, {{ order.owner.name }}</span>
+{% endif %}
+{% endblock %}
+
+{% block ordercontent %}
+{% include 'CelsiusCelsius3Bundle:UserOrder:_index_order_fields.html.twig' %}
+{% endblock %}

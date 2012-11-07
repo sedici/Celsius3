@@ -61,6 +61,23 @@ class UserOrderController extends OrderController
     {
         return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance(), $this->getUser())));
     }
+    
+    /**
+     * Finds and displays a Order document.
+     *
+     * @Route("/{id}/show", name="user_order_show")
+     * @Template()
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function showAction($id)
+    {
+        return $this->baseShow('Order', $id);
+    }
 
     /**
      * Displays a form to create a new Order document.

@@ -53,6 +53,23 @@ class SuperadminOrderController extends OrderController
     {
         return $this->baseIndex('Order', $this->createForm(new OrderFilterType()));
     }
+    
+    /**
+     * Finds and displays a Order document.
+     *
+     * @Route("/{id}/show", name="superadmin_order_show")
+     * @Template()
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function showAction($id)
+    {
+        return $this->baseShow('Order', $id);
+    }
 
     /**
      * Displays a form to create a new Order document.
