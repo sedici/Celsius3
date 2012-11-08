@@ -14,7 +14,9 @@ class Builder extends ContainerAware
         $securityContext = $this->container->get('security.context');
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
-
+        
+        $local = $request->attributes->has('url') && $request->attributes->get('url') == $this->container->get('session')->get('instance_url') || !$request->attributes->has('url');
+        
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav');
 
@@ -22,22 +24,29 @@ class Builder extends ContainerAware
             'route' => 'public_index',
             'routeParameters' => array('url' => $instance_url)
         ));
-        if ($securityContext->isGranted('ROLE_ADMIN') !== false)
+        if ($securityContext->isGranted('ROLE_ADMIN') !== false && $local)
         {
             $menu->addChild('Administration', array(
                 'route' => 'administration'
             ));
         }
-        if ($securityContext->isGranted('ROLE_SUPER_ADMIN') !== false)
+        if ($securityContext->isGranted('ROLE_SUPER_ADMIN') !== false && $local)
         {
             $menu->addChild('Super Administration', array(
                 'route' => 'superadministration'
             ));
         }
-        if ($securityContext->isGranted('ROLE_USER') !== false)
+        if ($securityContext->isGranted('ROLE_USER') !== false && $local)
         {
             $menu->addChild('My Site', array(
                 'route' => 'user_index'
+            ));
+        }
+        if ($securityContext->isGranted('ROLE_USER') !== false && !$local)
+        {
+            $menu->addChild('My Instance', array(
+                'route' => 'public_index',
+                'routeParameters' => array('url' => $this->container->get('session')->get('instance_url'))
             ));
         }
 
