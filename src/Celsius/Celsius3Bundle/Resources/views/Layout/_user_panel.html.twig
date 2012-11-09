@@ -1,5 +1,5 @@
 <ul id="user_panel" class="unstyled">
-    {% if app.request.get('url') and app.request.get('url') == app.session.get('instance_url') or not app.request.get('url') %}
+    {% if (app.request.get('url') and app.request.get('url') == app.session.get('instance_url')) or not app.request.get('url') or not app.session.get('instance_url') %}
         {% if app.user %}
         <li>
             {{ 'You are logged in as'|trans }} {{ app.user.username }}
