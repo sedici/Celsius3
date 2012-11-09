@@ -4,13 +4,38 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 /**
  * AdminMessageController controller.
  *
- * @Route("/admin/MessageController")
+ * @Route("/admin/Message")
  */
 class AdminMessageController extends \FOS\MessageBundle\Controller\MessageController 
 {
+    
+    public function generateFormsToThreads($threads)
+    {
+        $forms = array();
+        foreach ($threads as $thread) {
+            $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
+            $forms[$thread->getId()] = $form->createView();
+        }
+        return $forms;
+    }
+
+    
+    /**
+     * Displays the authenticated participant inbox
+     *
+     * @Route("/unRead_message", name="admin_unRead_message")
+     * @return Response
+     */
+    public function getUnReadMessageAction()
+    { 
+        $threads = $this->getProvider()->getNbUnreadMessages();
+        return new Response($threads);
+    }
+    
     /**
      * Displays the authenticated participant inbox
      *
@@ -20,11 +45,7 @@ class AdminMessageController extends \FOS\MessageBundle\Controller\MessageContro
     public function inboxAction()
     { 
         $threads = $this->getProvider()->getInboxThreads();
-        
-        foreach ($threads as $thread) {
-            $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
-            $forms[$thread->getId()] = $form->createView();
-        }
+        $forms = $this->generateFormsToThreads($threads);
         
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:inbox.html.twig', array(
             'threads' => $threads,
@@ -43,10 +64,7 @@ class AdminMessageController extends \FOS\MessageBundle\Controller\MessageContro
     {
         
         $threads = $this->getProvider()->getInboxThreads();
-        foreach ($threads as $thread) {
-            $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
-            $forms[$thread->getId()] = $form->createView();
-        }
+        $forms = $this->generateFormsToThreads($threads);
         
         $thread = $this->getProvider()->getThread($threadId);
         $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
@@ -71,13 +89,8 @@ class AdminMessageController extends \FOS\MessageBundle\Controller\MessageContro
      */
     public function sentAction()
     {
-        
         $threads = $this->getProvider()->getSentThreads();
-
-        foreach ($threads as $thread) {
-            $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
-            $forms[$thread->getId()] = $form->createView();
-        }
+        $forms = $this->generateFormsToThreads($threads);
         
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:sent.html.twig', array(
             'threads' => $threads,

@@ -23,8 +23,9 @@ class AdministrationController extends BaseInstanceDependentController
     public function indexAction()
     {
         $instance = $this->getInstance();
-
-        return array('instance' => $instance);
+        $numberMessage = $this->forward('CelsiusCelsius3Bundle:AdminMessage:getUnReadMessage');
+        return array('instance' => $instance,
+                     'numberMessage' => $numberMessage->getContent());
     }
 
     /**
