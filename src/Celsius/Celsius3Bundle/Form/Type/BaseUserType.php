@@ -31,16 +31,20 @@ class BaseUserType extends AbstractType
         ;
         if (is_null($this->instance))
         {
-            $builder->add('instance');
+            $builder
+                    ->add('instance')
+            ;
         } else
         {
-            $builder->add('instance', 'instance_selector', array(
-                'data' => $this->instance,
-                'attr' => array(
-                    'value' => $this->instance->getId(),
-                    'readonly' => 'readonly',
-                ),
-            ));
+            $builder
+                    ->add('instance', 'instance_selector', array(
+                        'data' => $this->instance,
+                        'attr' => array(
+                            'value' => $this->instance->getId(),
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+            ;
         }
     }
 

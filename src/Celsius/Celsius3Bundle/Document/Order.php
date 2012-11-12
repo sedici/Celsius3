@@ -88,12 +88,12 @@ class Order
     protected $owner;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Admin") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
      */
     protected $operator;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Librarian") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
      */
     protected $librarian;
 
@@ -370,7 +370,7 @@ class Order
      * @param Celsius\Celsius3Bundle\Document\BaseUser $operator
      * @return Order
      */
-    public function setOperator(\Celsius\Celsius3Bundle\Document\Admin $operator)
+    public function setOperator(\Celsius\Celsius3Bundle\Document\BaseUser $operator)
     {
         $this->operator = $operator;
         return $this;
@@ -471,10 +471,10 @@ class Order
     /**
      * Set librarian
      *
-     * @param Celsius\Celsius3Bundle\Document\Librarian $librarian
+     * @param Celsius\Celsius3Bundle\Document\BaseUser $librarian
      * @return Order
      */
-    public function setLibrarian(\Celsius\Celsius3Bundle\Document\Librarian $librarian)
+    public function setLibrarian(\Celsius\Celsius3Bundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
         return $this;

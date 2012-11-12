@@ -1,16 +1,1 @@
-<dl class="dl-horizontal">
-    <dt>{{ 'Name'|trans }}</dt>
-    <dd>{{ user.name }}</dd>
-    <dt>{{ 'Surname'|trans }}</dt>
-    <dd>{{ user.surname }}</dd>
-    <dt>{{ 'Birthdate'|trans }}</dt>
-    <dd>{{ user.birthdate|localizeddate('medium','none') }}</dd>
-    <dt>{{ 'Username'|trans }}</dt>
-    <dd>{{ user.username }}</dd>
-    <dt>{{ 'Email'|trans }}</dt>
-    <dd>{{ user.email }}</dd>
-    <dt>{{ 'Address'|trans }}</dt>
-    <dd>{{ user.address }}</dd>
-    <dt>{{ 'Institution'|trans }}</dt>
-    <dd>{{ user.institution?user.institution:'-' }}</dd>
-</dl>
+{% extends 'CelsiusCelsius3Bundle:BaseUser:_show_fields.html.twig' %}

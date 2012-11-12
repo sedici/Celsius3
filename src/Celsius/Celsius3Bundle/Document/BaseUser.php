@@ -5,14 +5,10 @@ namespace Celsius\Celsius3Bundle\Document;
 use FOS\UserBundle\Document\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-
 use FOS\MessageBundle\Model\ParticipantInterface;
 
 /**
  * @MongoDB\Document
- * @MongoDB\InheritanceType("SINGLE_COLLECTION")
- * @MongoDB\DiscriminatorField(fieldName="type")
- * @MongoDB\DiscriminatorMap({"baseuser"="BaseUser", "librarian"="Librarian", "admin"="Admin", "superadmin"="Superadmin"})
  * @MongoDB\Indexes({
  *   @MongoDB\Index(keys={"name"="asc"}),
  *   @MongoDB\Index(keys={"surname"="asc"}),
@@ -73,7 +69,7 @@ class BaseUser extends User implements ParticipantInterface
     protected $instance;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Librarian") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
      */
     protected $librarian;
 
@@ -91,6 +87,11 @@ class BaseUser extends User implements ParticipantInterface
      * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="receiver")
      */
     protected $receivedMessages;
+
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="librarian")
+     */
+    protected $subordinates;
 
     public function __toString()
     {
@@ -113,8 +114,9 @@ class BaseUser extends User implements ParticipantInterface
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
@@ -298,10 +300,10 @@ class BaseUser extends User implements ParticipantInterface
     /**
      * Set librarian
      *
-     * @param Celsius\Celsius3Bundle\Document\Librarian $librarian
+     * @param Celsius\Celsius3Bundle\Document\BaseUser $librarian
      * @return BaseUser
      */
-    public function setLibrarian(\Celsius\Celsius3Bundle\Document\Librarian $librarian)
+    public function setLibrarian(\Celsius\Celsius3Bundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -310,7 +312,7 @@ class BaseUser extends User implements ParticipantInterface
     /**
      * Get librarian
      *
-     * @return Celsius\Celsius3Bundle\Document\Librarian $librarian
+     * @return Celsius\Celsius3Bundle\Document\BaseUser $librarian
      */
     public function getLibrarian()
     {
@@ -378,4 +380,25 @@ class BaseUser extends User implements ParticipantInterface
     {
         return $this->receivedMessages;
     }
+
+    /**
+     * Add subordinates
+     *
+     * @param Celsius\Celsius3Bundle\Document\BaseUser $subordinates
+     */
+    public function addSubordinates(\Celsius\Celsius3Bundle\Document\BaseUser $subordinates)
+    {
+        $this->subordinates[] = $subordinates;
+    }
+
+    /**
+     * Get subordinates
+     *
+     * @return Doctrine\Common\Collections\Collection $subordinates
+     */
+    public function getSubordinates()
+    {
+        return $this->subordinates;
+    }
+
 }

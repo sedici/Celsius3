@@ -28,6 +28,7 @@
         <parameter key="lifecycle_helper.class">Celsius\Celsius3Bundle\Helper\LifecycleHelper</parameter>
         <parameter key="state_manager.class">Celsius\Celsius3Bundle\Manager\StateManager</parameter>
         <parameter key="filter_manager.class">Celsius\Celsius3Bundle\Manager\FilterManager</parameter>
+        <parameter key="user_manager.class">Celsius\Celsius3Bundle\Manager\UserManager</parameter>
     </parameters>
     
     <services>        
@@ -136,6 +137,9 @@
         
         <service id="filter_manager" class="%filter_manager.class%">
             <argument type="service" id="service_container"></argument>
+        </service>
+        
+        <service id="user_manager" class="%user_manager.class%">
         </service>
     </services>
 </container>

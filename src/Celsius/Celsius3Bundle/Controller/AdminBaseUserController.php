@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\BaseUser;
 use Celsius\Celsius3Bundle\Form\Type\BaseUserType;
+use Celsius\Celsius3Bundle\Form\Type\UserTransformType;
 use Celsius\Celsius3Bundle\Filter\Type\BaseUserFilterType;
 
 /**
@@ -108,6 +109,87 @@ class AdminBaseUserController extends BaseInstanceDependentController
     public function deleteAction($id)
     {
         return $this->baseDelete('BaseUser', $id, 'admin_user');
+    }
+    
+    /**
+     * Displays a form to transform an existing BaseUser document.
+     *
+     * @Route("/{id}/transform", name="admin_user_transform")
+     * @Template()
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function transformAction($id)
+    {
+        $document = $this->findQuery('BaseUser', $id);
+
+        if (!$document)
+        {
+            throw $this->createNotFoundException('Unable to find User.');
+        }
+
+        $transformForm = $this->createForm(new UserTransformType($this->getInstance()), array(
+            'type' => $this->get('user_manager')->getCurrentRole($document),
+        ));
+
+        return array(
+            'document' => $document,
+            'transform_form' => $transformForm->createView(),
+            'route' => null,
+        );
+    }
+
+    /**
+     * Transforms an existing BaseUser document.
+     *
+     * @Route("/{id}/dotransform", name="admin_user_do_transform")
+     * @Method("post")
+     * @Template("CelsiusCelsius3Bundle:AdminBaseUser:transform.html.twig")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function doTransformAction($id)
+    {
+        $document = $this->findQuery('BaseUser', $id);
+
+        if (!$document)
+        {
+            throw $this->createNotFoundException('Unable to find User.');
+        }
+
+        $transformForm = $this->createForm(new UserTransformType($this->getInstance()));
+
+        $request = $this->getRequest();
+
+        $transformForm->bind($request);
+
+        if ($transformForm->isValid())
+        {
+            $data = $transformForm->getData();
+            $document = $this->get('user_manager')->transform($data['type'], $document);
+            $dm = $this->getDocumentManager();
+            $dm->persist($document);
+            $dm->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'The User was successfully transformed.');
+
+            return $this->redirect($this->generateUrl('admin_user_transform', array('id' => $id)));
+        }
+
+        $this->get('session')->getFlashBag()->add('error', 'There were errors transforming the User.');
+
+        return array(
+            'document' => $document,
+            'edit_form' => $transformForm->createView(),
+        );
     }
 
 }

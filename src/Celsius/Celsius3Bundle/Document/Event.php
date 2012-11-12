@@ -42,7 +42,7 @@ abstract class Event
     private $order;
     
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Admin", inversedBy="events")
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser", inversedBy="events")
      */
     private $operator;
     
@@ -113,10 +113,10 @@ abstract class Event
     /**
      * Set operator
      *
-     * @param Celsius\Celsius3Bundle\Document\Admin $operator
+     * @param Celsius\Celsius3Bundle\Document\BaseUser $operator
      * @return Event
      */
-    public function setOperator(\Celsius\Celsius3Bundle\Document\Admin $operator = null)
+    public function setOperator(\Celsius\Celsius3Bundle\Document\BaseUser $operator = null)
     {
         $this->operator = $operator;
         return $this;
@@ -125,7 +125,7 @@ abstract class Event
     /**
      * Get operator
      *
-     * @return Celsius\Celsius3Bundle\Document\Admin $operator
+     * @return Celsius\Celsius3Bundle\Document\BaseUser $operator
      */
     public function getOperator()
     {

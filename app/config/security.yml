@@ -33,5 +33,6 @@ security:
         - { path: ^/superadmin/, role: ROLE_SUPER_ADMIN }
 
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
+        ROLE_LIBRARIAN:   ROLE_USER
+        ROLE_ADMIN:       ROLE_LIBRARIAN
         ROLE_SUPER_ADMIN: ROLE_ADMIN

@@ -191,6 +191,46 @@
 </div>
 {% endmacro %}
 
+{# transform #}
+{% macro transform(name, document, transform_form) %}
+<h2>{{ 'User Transform'|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
+        <form action="{{ path(name~'_do_transform', { 'id': document.id }) }}" method="post" {{ form_enctype(transform_form) }} class="well">
+              {{ form_widget(transform_form) }}
+              <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Transform'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
 {# filter #}
 {% macro filter(name, filter_form) %}
 <form action="{{ path(name) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well filter-form">
