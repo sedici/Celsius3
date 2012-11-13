@@ -13,10 +13,13 @@
                         {{ 'Filters'|trans }}
                     </li>
                     <li>
-                        <a href="#">{{ 'New'|trans }} (122)</a>
+                        <a href="{{ path('admin_user', { 'state[]': 'enabled' }) }}">{{ 'Enabled'|trans }}</a>
                     </li>
                     <li>
-                        <a href="#">{{ 'Rejected'|trans }} (122)</a>
+                        <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}">{{ 'Pending'|trans }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_user', { 'state[]': 'rejected' }) }}">{{ 'Rejected'|trans }}</a>
                     </li>
                 </ul>
             </div>

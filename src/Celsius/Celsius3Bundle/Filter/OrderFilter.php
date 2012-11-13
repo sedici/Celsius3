@@ -15,13 +15,13 @@ class OrderFilter implements DocumentFilterInterface
     private function filterByStateType($data, $query, $instance)
     {
         $stateType = array_keys($this->dm->getRepository('CelsiusCelsius3Bundle:StateType')
-                ->createQueryBuilder()
-                ->hydrate(false)
-                ->select('id')
-                ->field('name')->in($data)
-                ->getQuery()
-                ->execute()
-                ->toArray());
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('id')
+                        ->field('name')->in($data)
+                        ->getQuery()
+                        ->execute()
+                        ->toArray());
 
         $states = $this->dm->getRepository('CelsiusCelsius3Bundle:State')
                         ->createQueryBuilder()

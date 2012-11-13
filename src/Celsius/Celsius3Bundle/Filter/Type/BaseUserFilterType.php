@@ -31,6 +31,16 @@ class BaseUserFilterType extends AbstractType
                 ->add('email', null, array(
                     'required' => false,
                 ))
+                ->add('state', 'choice', array(
+                    'required' => false,
+                    'choices' => array(
+                        'enabled' => 'Enabled',
+                        'pending' => 'Pending',
+                        'rejected' => 'Rejected',
+                    ),
+                    'expanded' => true,
+                    'multiple' => true,
+                ))
         ;
 
         if (is_null($this->instance))
@@ -51,7 +61,7 @@ class BaseUserFilterType extends AbstractType
 
     public function getName()
     {
-        return 'celsius_celsius3bundle_baseuserfiltertype';
+        return '';
     }
 
 }
