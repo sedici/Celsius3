@@ -13,6 +13,20 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class BaseUserRepository extends DocumentRepository
 {
 
+    public function countUsers($instance = null)
+    {
+        $qb = $this->createQueryBuilder()
+                        ->field('enabled')->equals(false)
+                        ->field('locked')->equals(false);
+
+        if (!is_null($instance))
+            $qb = $qb->field('instance.id')->equals($instance->getId());
+
+        return array(
+            'pending' => $qb->count()->getQuery()->execute(),
+        );
+    }
+
     public function findByTerm($term, $instance = null, $in = array(), $limit = null, $librarian = null)
     {
         $expr = new \MongoRegex('/.*' . $term . '.*/i');
@@ -24,7 +38,7 @@ class BaseUserRepository extends DocumentRepository
 
         if (!is_null($instance))
             $qb = $qb->field('instance.id')->equals($instance->getId());
-        
+
         if (!is_null($librarian))
             $qb = $qb->field('librarian.id')->equals($librarian->getId());
 

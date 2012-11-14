@@ -13,19 +13,19 @@
                         {{ 'Filters'|trans }}
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'created' }) }}">{{ 'Created'|trans }}</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'created' }) }}">{{ 'Created'|trans }} ({{ orderCount['created'] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'searched' }) }}">{{ 'Being searched'|trans }}</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'searched' }) }}">{{ 'Being searched'|trans }} ({{ orderCount['searched'] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'requested' }) }}">{{ 'Requested'|trans }}</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'requested' }) }}">{{ 'Requested'|trans }} ({{ orderCount['requested'] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'received' }) }}">{{ 'Received'|trans }}</a>
+                        <a href="{{ path('admin_order', { 'state[]': 'received' }) }}">{{ 'Received'|trans }} ({{ orderCount['received'] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order')~'?state[]=delivered&state[]=canceled&state[]=annuled' }}">{{ 'Ended'|trans }}</a>
+                        <a href="{{ path('admin_order')~'?state[]=delivered&state[]=canceled&state[]=annuled' }}">{{ 'Ended'|trans }} ({{ orderCount['delivered']+orderCount['canceled']+orderCount['annuled'] }})</a>
                     </li>
                 </ul>
             </div>

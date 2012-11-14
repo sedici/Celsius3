@@ -23,9 +23,17 @@ class AdministrationController extends BaseInstanceDependentController
     public function indexAction()
     {
         $instance = $this->getInstance();
+
         $numberMessage = $this->forward('CelsiusCelsius3Bundle:AdminMessage:getUnReadMessage');
-        return array('instance' => $instance,
-                     'numberMessage' => $numberMessage->getContent());
+        $orderCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:State')->countOrders($this->getInstance());
+        $userCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:BaseUser')->countUsers($this->getInstance());
+
+        return array(
+            'instance' => $instance,
+            'orderCount' => $orderCount,
+            'userCount' => $userCount,
+            'numberMessage' => $numberMessage->getContent()
+        );
     }
 
     /**
@@ -38,12 +46,10 @@ class AdministrationController extends BaseInstanceDependentController
     {
         $keyword = $this->getRequest()->query->get('keyword');
         $searchManager = new SearchManager();
-        
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-                $searchManager->doSearch('Order', $keyword, $this->getDocumentManager(), $this->getInstance()),
-                $this->get('request')->query->get('page', 1)/* page number */,
-                $this->container->getParameter('max_per_page')/* limit per page */
+                $searchManager->doSearch('Order', $keyword, $this->getDocumentManager(), $this->getInstance()), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
         );
 
         return array(
@@ -51,7 +57,7 @@ class AdministrationController extends BaseInstanceDependentController
             'pagination' => $pagination,
         );
     }
-    
+
     /**
      * @Route("/ajax", name="admin_ajax")
      */

@@ -11,6 +11,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *   @MongoDB\Index(keys={"name"="asc"}),
  *   @MongoDB\Index(keys={"position"="asc"}),
  * })
+ * @MongoDB\Document(repositoryClass="Celsius\Celsius3Bundle\Repository\StateTypeRepository")
  */
 class StateType
 {
