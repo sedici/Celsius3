@@ -2,8 +2,6 @@
 
 namespace Celsius\Celsius3Bundle\Controller;
 
-use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
-
 abstract class BaseInstanceDependentController extends BaseController
 {
 
@@ -27,7 +25,7 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function getResultsPerPage()
     {
-        return ConfigurationHelper::getCastedValue($this->getInstance()->get('results_per_page'));
+        return $this->get('configuration_helper')->getCastedValue($this->getInstance()->get('results_per_page'));
     }
     
     protected function filter($name, $filter_form, $query)

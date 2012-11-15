@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Instance;
 use Celsius\Celsius3Bundle\Form\Type\InstanceType;
 use Celsius\Celsius3Bundle\Filter\Type\InstanceFilterType;
-use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
 
 /**
  * Instance controller.

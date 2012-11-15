@@ -13,40 +13,48 @@ class RegistrationController extends BaseRegistrationController
     {
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
-        $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
+        $confirmationType = $this->container->get('configuration_helper')->getCastedValue($this->getInstance()->get('confirmation_type'));
+        $confirmationEnabled = $confirmationType == 'email';
 
         $process = $formHandler->process($confirmationEnabled);
         if ($process)
         {
             $user = $form->getData();
 
-            $authUser = false;
+            $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
             if ($confirmationEnabled)
             {
-                $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
                 $route = 'fos_user_registration_check_email';
             } else
             {
-                $authUser = true;
-                $route = 'fos_user_registration_confirmed';
+                $route = 'fos_user_registration_wait_confirmation';
             }
 
             $this->setFlash('fos_user_success', 'registration.flash.user_created');
             $url = $this->container->get('router')->generate($route, array('url' => $this->container->get('request')->get('url')));
             $response = new RedirectResponse($url);
 
-            if ($authUser)
-            {
-                $this->authenticateUser($user, $response);
-                $this->container->get('session')->set('instance_id', $user->getInstance()->getId());
-                $this->container->get('session')->set('instance_url', $user->getInstance()->getUrl());
-            }
-
             return $response;
         }
 
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
                     'form' => $form->createView(),
+                ));
+    }
+
+    public function waitConfirmationAction()
+    {
+        $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
+        $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
+        $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
+
+        if (null === $user)
+        {
+            throw new NotFoundHttpException(sprintf('The user with email "%s" does not exist', $email));
+        }
+
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:waitConfirmation.html.' . $this->getEngine(), array(
+                    'user' => $user,
                 ));
     }
 

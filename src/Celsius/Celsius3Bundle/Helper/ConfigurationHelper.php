@@ -7,27 +7,32 @@ use Celsius\Celsius3Bundle\Document\Configuration;
 class ConfigurationHelper
 {
 
-    static $equivalences = array(
+    private $equivalences = array(
         'string' => 'text',
         'boolean' => 'checkbox',
         'integer' => 'integer',
         'email' => 'email',
         'text' => 'textarea',
         'language' => 'language_type',
+        'confirmation' => 'confirmation_type',
     );
-    public static $languages = array(
+    public $languages = array(
         'es' => 'Spanish',
         'en' => 'English',
         'pt' => 'Portuguese',
     );
+    public $confirmation = array(
+        'admin' => 'Administrator confirmation',
+        'email' => 'Email confirmation',
+    );
 
-    public static function guessConfigurationType(Configuration $configuration)
+    public function guessConfigurationType(Configuration $configuration)
     {
-        return (array_key_exists($configuration->getType(), self::$equivalences)) ?
-                self::$equivalences[$configuration->getType()] : 'text';
+        return (array_key_exists($configuration->getType(), $this->equivalences)) ?
+                $this->equivalences[$configuration->getType()] : 'text';
     }
 
-    public static function getCastedValue($configuration)
+    public function getCastedValue($configuration)
     {
         $value = null;
 

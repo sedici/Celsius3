@@ -2,14 +2,6 @@
 
 namespace Celsius\Celsius3Bundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius\Celsius3Bundle\Document\Instance;
-use Celsius\Celsius3Bundle\Form\Type\InstanceType;
-use Celsius\Celsius3Bundle\Filter\Type\InstanceFilterType;
-use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
-
 abstract class InstanceController extends BaseController
 {
 
@@ -26,8 +18,8 @@ abstract class InstanceController extends BaseController
 
         foreach ($document->getConfigurations() as $configuration)
         {
-            $configureForm->add($configuration->getKey(), ConfigurationHelper::guessConfigurationType($configuration), array(
-                'data' => ConfigurationHelper::getCastedValue($configuration),
+            $configureForm->add($configuration->getKey(), $this->get('configuration_helper')->guessConfigurationType($configuration), array(
+                'data' => $this->get('configuration_helper')->getCastedValue($configuration),
                 'label' => $configuration->getName(),
                 'required' => false
             ));
@@ -54,7 +46,7 @@ abstract class InstanceController extends BaseController
 
         foreach ($document->getConfigurations() as $configuration)
         {
-            $configureForm->add($configuration->getKey(), ConfigurationHelper::guessConfigurationType($configuration), array(
+            $configureForm->add($configuration->getKey(), $this->get('configuration_helper')->guessConfigurationType($configuration), array(
                 'attr' => array(
                     'value' => $configuration->getValue(),
                 ),

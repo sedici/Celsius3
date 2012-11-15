@@ -105,6 +105,9 @@ fos_user:
     registration:
         form:
             type: celsius_celsius3bundle_registration
+            handler: fos_user.registration.form.handler.custom
+    service:
+        mailer: fos_user.mailer.custom
 
 services:
     # Formulario de registro personalizado

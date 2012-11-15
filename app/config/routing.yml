@@ -12,7 +12,7 @@ fos_user_profile:
     prefix: /user/profile
 
 fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    resource: "@CelsiusCelsius3Bundle/Resources/config/routing/registration.xml"
     prefix: /{url}/public/register
 
 fos_user_resetting:

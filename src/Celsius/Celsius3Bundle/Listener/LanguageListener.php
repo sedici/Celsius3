@@ -10,7 +10,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
 
 class LanguageListener
 {
@@ -49,7 +48,7 @@ class LanguageListener
 
         $path = explode('/', $request->getPathInfo());
 
-        if (!array_key_exists($path[1], ConfigurationHelper::$languages) && !$this->container->get('request')->isXmlHttpRequest())
+        if (!array_key_exists($path[1], $this->container->get('configuration_helper')->languages) && !$this->container->get('request')->isXmlHttpRequest())
         {
             if ($this->container->get('session')->has('instance_url'))
                 $instance_url = $this->container->get('session')->get('instance_url');
