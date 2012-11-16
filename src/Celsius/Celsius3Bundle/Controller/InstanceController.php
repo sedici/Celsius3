@@ -21,7 +21,10 @@ abstract class InstanceController extends BaseController
             $configureForm->add($configuration->getKey(), $this->get('configuration_helper')->guessConfigurationType($configuration), array(
                 'data' => $this->get('configuration_helper')->getCastedValue($configuration),
                 'label' => $configuration->getName(),
-                'required' => false
+                'required' => false,
+                'attr' => array(
+                    'class' => $this->get('configuration_helper')->guessConfigurationType($configuration) == 'textarea' ? 'tinymce' : '',
+                )
             ));
         }
 

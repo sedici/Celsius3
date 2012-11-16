@@ -6,21 +6,39 @@
 
 {% block content %}
 <h2>{{ 'Instance Configuration' }}</h2>
-
-{% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
-
-<form action="{{ path('admin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="well">
-      {{ form_widget(configure_form) }}
-      <p>
-        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Configure'|trans }}</button>
-    </p>
-</form>
-
-<ul class="unstyled record_actions">
-    <li>
-        <a href="{{ path('administration', { 'code': app.request.get('code') }) }}">
-            <i class="icon-home"></i> {{ 'Go to the list'|trans }}
-        </a>
-    </li>
-</ul>
+<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
+<div class="row">
+    <div class="span9">
+        {{ tinymce_init() }}
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+        <form action="{{ path('admin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="well">
+            {{ form_widget(configure_form) }}
+                <p>
+                    <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+                </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path('administration', { 'code': app.request.get('code') }) }}">
+                                    <i class="icon-home"></i> {{ 'Go back'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
