@@ -5,7 +5,7 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Form\Type\OrderType;
 
-class OrderController extends BaseInstanceDependentController
+abstract class OrderController extends BaseInstanceDependentController
 {
 
     protected function listQuery($name)
@@ -43,10 +43,8 @@ class OrderController extends BaseInstanceDependentController
         return new $materialTypeName;
     }
 
-    public function baseEvent($id, $event, $route)
+    protected function baseEvent($id, $event, $route)
     {
-        $dm = $this->getDocumentManager();
-
         $order = $this->findQuery('Order', $id);
 
         $this->get('lifecycle_helper')->createEvent($event, $order);
