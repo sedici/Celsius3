@@ -8,17 +8,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class ConfirmationType extends AbstractType
 {
 
-    private $container;
+    private $configurationHelper;
 
-    public function __construct($container)
+    public function __construct($configurationHelper)
     {
-        $this->container = $container;
+        $this->configurationHelper = $configurationHelper;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->container->get('configuration_helper')->confirmation,
+            'choices' => $this->configurationHelper->confirmation,
             'required' => true,
             'expanded' => true,
         ));

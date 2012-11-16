@@ -8,17 +8,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class LanguageType extends AbstractType
 {
     
-    private $container;
+    private $configurationHelper;
     
-    public function __construct($container)
+    public function __construct($configurationHelper)
     {
-        $this->container = $container;
+        $this->configurationHelper = $configurationHelper;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'choices' => $this->container->get('configuration_helper')->languages,
+            'choices' => $this->configurationHelper->languages,
             'required' => true,
         ));
     }

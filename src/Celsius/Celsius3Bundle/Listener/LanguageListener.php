@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LanguageListener
 {
@@ -17,15 +16,19 @@ class LanguageListener
     private $defaultLocale;
     private $locales;
     private $localeResolver;
-    private $container;
+    private $configurationHelper;
+    private $session;
+    private $request;
     private $dm;
 
-    public function __construct($defaultLocale, array $locales, LocaleResolverInterface $localeResolver, ContainerInterface $container, DocumentManager $dm)
+    public function __construct($defaultLocale, array $locales, LocaleResolverInterface $localeResolver, $configurationHelper, $session, $request, DocumentManager $dm)
     {
         $this->defaultLocale = $defaultLocale;
         $this->locales = $locales;
         $this->localeResolver = $localeResolver;
-        $this->container = $container;
+        $this->configurationHelper = $configurationHelper;
+        $this->session = $session;
+        $this->request = $request;
         $this->dm = $dm;
     }
 
@@ -48,10 +51,10 @@ class LanguageListener
 
         $path = explode('/', $request->getPathInfo());
 
-        if (!array_key_exists($path[1], $this->container->get('configuration_helper')->languages) && !$this->container->get('request')->isXmlHttpRequest())
+        if (!array_key_exists($path[1], $this->configurationHelper->languages) && !$this->request->isXmlHttpRequest())
         {
-            if ($this->container->get('session')->has('instance_url'))
-                $instance_url = $this->container->get('session')->get('instance_url');
+            if ($this->session->has('instance_url'))
+                $instance_url = $this->session->get('instance_url');
             else
                 $instance_url = $path[1];
 

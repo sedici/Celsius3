@@ -4,7 +4,6 @@ namespace Celsius\Celsius3Bundle\Voter;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Voter based on the uri
@@ -12,14 +11,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class RequestVoter implements VoterInterface
 {
 
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    protected $container;
+    protected $request;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($request)
     {
-        $this->container = $container;
+        $this->request = $request;
     }
 
     /**
@@ -33,7 +29,7 @@ class RequestVoter implements VoterInterface
      */
     public function matchItem(ItemInterface $item)
     {
-        if (false !== strpos($this->container->get('request')->getRequestUri(), $item->getUri()))
+        if (false !== strpos($this->request->getRequestUri(), $item->getUri()))
         {
             return true;
         }

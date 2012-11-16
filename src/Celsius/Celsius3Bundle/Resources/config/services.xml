@@ -68,7 +68,7 @@
         </service>
         
         <service id="security.login_listener" class="%security.login_listener.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="session"></argument>
             <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
         </service>
         
@@ -76,7 +76,9 @@
             <argument type="string" id="%jms_i18n_routing.default_locale%"></argument>
             <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="configuration_helper"></argument>
+            <argument type="service" id="session"></argument>
+            <argument type="service" id="request" strict="false"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="256" />
         </service>
@@ -92,17 +94,17 @@
         </service>
         
         <service id="form.type.language" class="%form.type.language.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="configuration_helper"></argument>
             <tag name="form.type" alias="language_type" />
         </service>
         
         <service id="form.type.confirmation" class="%form.type.confirmation.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="configuration_helper"></argument>
             <tag name="form.type" alias="confirmation_type" />
         </service>
         
         <service id="security.authentication_handler" class="%security.authentication_handler.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="router"></argument>
         </service>
         
         <service id="mongodb_logger_wrapper_handler" class="%mongodb_logger_wrapper_handler.class%">
@@ -114,7 +116,7 @@
         </service>
         
         <service id="login_logging_interceptor" class="%login_logging_interceptor.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="request" strict="false"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
@@ -123,12 +125,13 @@
         </service>
         
         <service id="instance_injection_interceptor" class="%instance_injection_interceptor.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="session"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
         <service id="menu.voter.exact" class="%menu.voter.exact.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="request" strict="false"></argument>
             <tag name="knp_menu.voter" />
         </service>
         
@@ -148,7 +151,8 @@
         </service>
         
         <service id="filter_manager" class="%filter_manager.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="field.guesser"></argument>
         </service>
         
         <service id="user_manager" class="%user_manager.class%">
@@ -174,7 +178,7 @@
                     <argument key="resetting">%fos_user.resetting.email.from_email%</argument>
                 </argument>
             </argument>
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="request" strict="false"></argument>
         </service>
     </services>
 </container>

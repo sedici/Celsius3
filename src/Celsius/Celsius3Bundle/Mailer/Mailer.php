@@ -5,33 +5,23 @@ namespace Celsius\Celsius3Bundle\Mailer;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Routing\RouterInterface;
 use FOS\UserBundle\Model\UserInterface;
-use FOS\UserBundle\Mailer\MailerInterface;
+use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
 
-/**
- * @author Thibault Duplessis <thibault.duplessis@gmail.com>
- */
-class Mailer implements MailerInterface
+class Mailer extends DefaultMailer
 {
 
-    protected $mailer;
-    protected $router;
-    protected $templating;
-    protected $parameters;
-    protected $container;
+    protected $request;
 
-    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, $container)
+    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, $request)
     {
-        $this->mailer = $mailer;
-        $this->router = $router;
-        $this->templating = $templating;
-        $this->parameters = $parameters;
-        $this->container = $container;
+        parent::__construct($mailer, $router, $templating, $parameters);
+        $this->request = $request;
     }
 
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['confirmation.template'];
-        $url = $this->router->generate('fos_user_registration_confirm', array('token' => $user->getConfirmationToken(), 'url' => $this->container->get('request')->get('url')), true);
+        $url = $this->router->generate('fos_user_registration_confirm', array('token' => $user->getConfirmationToken(), 'url' => $this->request->get('url')), true);
         $rendered = $this->templating->render($template, array(
             'user' => $user,
             'confirmationUrl' => $url
@@ -42,32 +32,12 @@ class Mailer implements MailerInterface
     public function sendResettingEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['resetting.template'];
-        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), true);
+        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken(), 'url' => $this->request->get('url')), true);
         $rendered = $this->templating->render($template, array(
             'user' => $user,
             'confirmationUrl' => $url
                 ));
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
-    }
-
-    /**
-     * @param string $renderedTemplate
-     * @param string $toEmail
-     */
-    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
-    {
-        // Render the email, use the first line as the subject, and the rest as the body
-        $renderedLines = explode("\n", trim($renderedTemplate));
-        $subject = $renderedLines[0];
-        $body = implode("\n", array_slice($renderedLines, 1));
-
-        $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom($fromEmail)
-                ->setTo($toEmail)
-                ->setBody($body);
-
-        $this->mailer->send($message);
     }
 
 }

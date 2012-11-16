@@ -8,11 +8,11 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListener
 {
-    protected $container;
+    protected $session;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($session)
     {
-        $this->container = $container;
+        $this->session = $session;
     }
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -20,8 +20,8 @@ class LoginListener
         $user = $event->getAuthenticationToken()->getUser();
 
         if ($user instanceof UserInterface) {
-            $this->container->get('session')->set('instance_id',$user->getInstance()->getId());
-            $this->container->get('session')->set('instance_url',$user->getInstance()->getUrl());
+            $this->session->set('instance_id',$user->getInstance()->getId());
+            $this->session->set('instance_url',$user->getInstance()->getUrl());
         }
     }
 }

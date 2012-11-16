@@ -2,12 +2,11 @@
 
 namespace Celsius\Celsius3Bundle\Manager;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class FilterManager
 {
 
-    private $container;
+    private $dm;
+    private $fieldGuesser;
 
     private function getCustomFilterClass($class)
     {
@@ -17,7 +16,7 @@ class FilterManager
         $filter = null;
         if (class_exists($filterClass))
         {
-            $filter = new $filterClass($this->container->get('doctrine.odm.mongodb.document_manager'));
+            $filter = new $filterClass($this->dm);
         }
 
         return $filter;
@@ -25,9 +24,7 @@ class FilterManager
 
     private function applyStandardFilter($class, $key, $data, $query)
     {
-        $guesser = $this->container->get('field.guesser');
-
-        switch ($guesser->getDbType($class, $key))
+        switch ($this->fieldGuesser->getDbType($class, $key))
         {
             case 'string':
                 $query = $query->field($key)->equals(new \MongoRegex('/.*' . $data . '.*/i'));
@@ -53,9 +50,10 @@ class FilterManager
         return $query;
     }
 
-    public function __construct(ContainerInterface $container)
+    public function __construct($dm, $fieldGuesser)
     {
-        $this->container = $container;
+        $this->dm = $dm;
+        $this->fieldGuesser = $fieldGuesser;
     }
 
     public function filter($query, $form, $class, $instance = null)

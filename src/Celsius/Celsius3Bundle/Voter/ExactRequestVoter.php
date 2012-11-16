@@ -21,7 +21,7 @@ class ExactRequestVoter extends RequestVoter
      */
     public function matchItem(ItemInterface $item)
     {
-        if ($item->getUri() === preg_replace('/\?.*/', '', $this->container->get('request')->getRequestUri()))
+        if ($item->getUri() === preg_replace('/\?.*/', '', $this->request->getRequestUri()))
         {
             return true;
         }
