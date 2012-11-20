@@ -132,7 +132,7 @@
             {{ pagination.render()|raw }}
         </div>
 
-        {% include [folder,':_index_fields.html.twig']|join %}
+        {% include folder~':_index_fields.html.twig' %}
 
         <div class="navigation">
             {{ pagination.render()|raw }}
@@ -164,13 +164,7 @@
                 </div>
                 <div class="accordion-body in collapse" id="collapseTwo">
                     <div class="accordion-inner">
-                        <ul class="unstyled">
-                            <li>
-                                <a href="{{ path([name,'_new']|join) }}">
-                                    <i class="icon-plus"></i> {{ 'Create a new entry'|trans }}
-                                </a>
-                            </li>
-                        </ul>
+                        {% include folder~':_index_actions.html.twig' %}
                     </div>
                 </div>
             </div>

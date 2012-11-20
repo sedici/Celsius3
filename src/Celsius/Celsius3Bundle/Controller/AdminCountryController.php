@@ -12,55 +12,55 @@ use Celsius\Celsius3Bundle\Filter\Type\CountryFilterType;
 /**
  * Order controller.
  *
- * @Route("/superadmin/country")
+ * @Route("/admin/country")
  */
-class SuperadminCountryController extends BaseController
+class AdminCountryController extends BaseInstanceDependentController
 {
 
     /**
      * Lists all Country documents.
      *
-     * @Route("/", name="superadmin_country")
+     * @Route("/", name="admin_country")
      * @Template()
      *
      * @return array
      */
     public function indexAction()
     {
-        return $this->baseIndex('Country', $this->createForm(new CountryFilterType()));
+        return $this->baseIndex('Country', $this->createForm(new CountryFilterType($this->getInstance())));
     }
 
     /**
      * Displays a form to create a new Country document.
      *
-     * @Route("/new", name="superadmin_country_new")
+     * @Route("/new", name="admin_country_new")
      * @Template()
      *
      * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('Country', new Country(), new CountryType());
+        return $this->baseNew('Country', new Country(), new CountryType($this->getInstance()));
     }
 
     /**
      * Creates a new Country document.
      *
-     * @Route("/create", name="superadmin_country_create")
+     * @Route("/create", name="admin_country_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:SuperadminCountry:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminCountry:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('Country', new Country(), new CountryType(), 'superadmin_country');
+        return $this->baseCreate('Country', new Country(), new CountryType($this->getInstance()), 'admin_country');
     }
 
     /**
      * Displays a form to edit an existing Country document.
      *
-     * @Route("/{id}/edit", name="superadmin_country_edit")
+     * @Route("/{id}/edit", name="admin_country_edit")
      * @Template()
      * @param string $id The document ID
      *
@@ -70,15 +70,15 @@ class SuperadminCountryController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Country', $id, new CountryType());
+        return $this->baseEdit('Country', $id, new CountryType($this->getInstance()));
     }
 
     /**
      * Edits an existing Country document.
      *
-     * @Route("/{id}/update", name="superadmin_country_update")
+     * @Route("/{id}/update", name="admin_country_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:SuperadminCountry:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminCountry:edit.html.twig")
      * 
      * @param string $id The document ID
      *
@@ -88,13 +88,13 @@ class SuperadminCountryController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Country', $id, new CountryType(), 'superadmin_country');
+        return $this->baseUpdate('Country', $id, new CountryType($this->getInstance()), 'admin_country');
     }
 
     /**
      * Deletes a Country document.
      *
-     * @Route("/{id}/delete", name="superadmin_country_delete")
+     * @Route("/{id}/delete", name="admin_country_delete")
      * @Method("post")
      * 
      * @param string $id The document ID
@@ -105,20 +105,7 @@ class SuperadminCountryController extends BaseController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('Country', $id, 'superadmin_country');
-    }
-    
-    /**
-     * Unifies a group of Country document.
-     *
-     * @Route("/union", name="superadmin_country_union")
-     * @Method("post")
-     *
-     * @return array
-     */
-    public function unionAction()
-    {
-        
+        return $this->baseDelete('Country', $id, 'admin_country');
     }
 
 }

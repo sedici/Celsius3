@@ -27,7 +27,6 @@ class CatalogFilterType extends AbstractType
                     'class' => 'CelsiusCelsius3Bundle:Institution',
                 ))
         ;
-
         if (is_null($this->instance))
         {
             $builder->add('instance', 'document', array(

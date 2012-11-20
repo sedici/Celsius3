@@ -1,8 +1,4 @@
-<table class="table table-striped table-bordered table-condensed record_properties">
-    <tbody>
-        <tr>
-            <th>{{ 'Name'|trans }}</th>
-            <td>{{ document.name }}</td>
-        </tr>
-    </tbody>
-</table>
+<dl class="dl-horizontal">
+    <dt>{{ 'Instance'|trans }}</dt>
+    <dd>{{ country.instance?country.instance.name:'-' }}</dd>
+</dl>
