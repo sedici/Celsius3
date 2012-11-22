@@ -107,18 +107,67 @@ class SuperadminCountryController extends BaseController
     {
         return $this->baseDelete('Country', $id, 'superadmin_country');
     }
-    
+
     /**
-     * Unifies a group of Country document.
+     * Displays a list to unify a group of Country document.
      *
      * @Route("/union", name="superadmin_country_union")
      * @Method("post")
+     * @Template()
      *
      * @return array
      */
     public function unionAction()
     {
+        $dm = $this->getDocumentManager();
+        $documents = $dm->getRepository('CelsiusCelsius3Bundle:Country')
+                ->createQueryBuilder()
+                ->field('id')->in($this->getRequest()->request->get('country'))
+                ->getQuery()
+                ->execute();
+
+        return array(
+            'documents' => $documents,
+        );
+    }
+
+    /**
+     * Unifies a group of Country document.
+     *
+     * @Route("/doUnion", name="superadmin_country_doUnion")
+     * @Method("post")
+     *
+     * @return array
+     */
+    public function doUnionAction()
+    {
+        $dm = $this->getDocumentManager();
+
+        $main = $dm->getRepository('CelsiusCelsius3Bundle:Country')
+                ->find(new \MongoId($this->getRequest()->request->get('main')));
+
+        if (!$main)
+        {
+            throw $this->createNotFoundException('Unable to find Country.');
+        }
+
+        $documents = $dm->getRepository('CelsiusCelsius3Bundle:Country')
+                ->createQueryBuilder()
+                ->field('id')->in($this->getRequest()->request->get('element'))
+                ->field('id')->notEqual($main->getId())
+                ->getQuery()
+                ->execute();
+
+        if ($documents->count() != count($this->getRequest()->request->get('element')) - 1)
+        {
+            throw $this->createNotFoundException('Unable to find Country.');
+        }
+
+        $this->get('union_manager')->union('Country', $main, $documents);
         
+        $this->get('session')->getFlashBag()->add('success', 'The countries were successfully joined.');
+
+        return $this->redirect($this->generateUrl('superadmin_country'));
     }
 
 }

@@ -96,5 +96,10 @@ $(document).ready(function(){
             }
         });
     {% endif %}
+        
+    $('.union_link').click(function(){
+        if ($('input[type=checkbox]:checked').length >= 2)
+            $('.batch_form').submit();
+    });
 });
 </script>

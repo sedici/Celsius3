@@ -213,6 +213,52 @@
 </div>
 {% endmacro %}
 
+{# union #}
+{% macro union(name, documents, folder) %}
+<h2>{{ name|capitalize ~ 's Union'|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+        <form action="{{ path(name~'_doUnion') }}" method="post" class="well">
+            <p>{{ 'Please select the element you want to overwrite the others.'|trans }}</p>
+            {% for document in documents %}
+            <div>
+                <input type="radio" name="main" id="main{{ document.id }}" value="{{ document.id }}" />
+                <input type="hidden" name="element[]" id="element{{ document.id }}" value="{{ document.id }}" />
+                <label for="main{{ document.id }}">{{ document }}</label>
+            </div>
+            {% endfor %}
+            <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseOne">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
 {# filter #}
 {% macro filter(name, filter_form) %}
 <form action="{{ path(name) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well filter-form">

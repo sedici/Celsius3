@@ -31,6 +31,7 @@
         <parameter key="state_manager.class">Celsius\Celsius3Bundle\Manager\StateManager</parameter>
         <parameter key="filter_manager.class">Celsius\Celsius3Bundle\Manager\FilterManager</parameter>
         <parameter key="user_manager.class">Celsius\Celsius3Bundle\Manager\UserManager</parameter>
+        <parameter key="union_manager.class">Celsius\Celsius3Bundle\Manager\UnionManager</parameter>
         <parameter key="fos_user.resetting.email.template">FOSUserBundle:Resetting:email.txt.twig</parameter>
         <parameter key="fos_user.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
     </parameters>
@@ -156,6 +157,10 @@
         </service>
         
         <service id="user_manager" class="%user_manager.class%">
+        </service>
+        
+        <service id="union_manager" class="%union_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
         <service id="fos_user.registration.form.handler.custom" class="Celsius\Celsius3Bundle\Handler\RegistrationFormHandler" scope="request" public="false">

@@ -22,7 +22,9 @@ class CountryType extends AbstractType
         ;
         if (is_null($this->instance))
         {
-            $builder->add('instance');
+            $builder->add('instance', null, array(
+                'required' => false,
+            ));
         } else
         {
             $builder->add('instance', 'instance_selector', array(

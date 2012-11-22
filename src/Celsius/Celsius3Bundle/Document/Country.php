@@ -101,7 +101,7 @@ class Country
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Country
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;
