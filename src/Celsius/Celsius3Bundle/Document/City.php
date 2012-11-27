@@ -37,7 +37,12 @@ class City
      * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="cities") 
      */
     protected $country;
-    
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="cities") 
+     */
+    protected $instance;
+
     public function __toString()
     {
         return $this->name;
@@ -142,6 +147,28 @@ class City
     public function getCountry()
     {
         return $this->country;
+    }
+
+    /**
+     * Set instance
+     *
+     * @param Celsius\Celsius3Bundle\Document\Instance $instance
+     * @return City
+     */
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance = null)
+    {
+        $this->instance = $instance;
+        return $this;
+    }
+
+    /**
+     * Get instance
+     *
+     * @return Celsius\Celsius3Bundle\Document\Instance $instance
+     */
+    public function getInstance()
+    {
+        return $this->instance;
     }
 
 }

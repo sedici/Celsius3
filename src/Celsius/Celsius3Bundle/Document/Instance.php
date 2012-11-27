@@ -111,11 +111,16 @@ class Instance
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="instance")
      */
     private $states;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Country", mappedBy="instance")
      */
     private $countries;
+
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="instance")
+     */
+    private $cities;
 
     public function __toString()
     {
@@ -515,7 +520,6 @@ class Instance
                 )->first();
     }
 
-
     /**
      * Add countries
      *
@@ -535,4 +539,25 @@ class Instance
     {
         return $this->countries;
     }
+
+    /**
+     * Add cities
+     *
+     * @param Celsius\Celsius3Bundle\Document\City $cities
+     */
+    public function addCities(\Celsius\Celsius3Bundle\Document\City $cities)
+    {
+        $this->cities[] = $cities;
+    }
+
+    /**
+     * Get cities
+     *
+     * @return Doctrine\Common\Collections\Collection $cities
+     */
+    public function getCities()
+    {
+        return $this->cities;
+    }
+
 }

@@ -12,55 +12,55 @@ use Celsius\Celsius3Bundle\Filter\Type\CityFilterType;
 /**
  * Location controller.
  *
- * @Route("/superadmin/city")
+ * @Route("/admin/city")
  */
-class SuperadminCityController extends BaseController
+class AdminCityController extends BaseInstanceDependentController
 {
 
     /**
      * Lists all City documents.
      *
-     * @Route("/", name="superadmin_city")
+     * @Route("/", name="admin_city")
      * @Template()
      *
      * @return array
      */
     public function indexAction()
     {
-        return $this->baseIndex('City', $this->createForm(new CityFilterType()));
+        return $this->baseIndex('City', $this->createForm(new CityFilterType($this->getInstance())));
     }
 
     /**
      * Displays a form to create a new City document.
      *
-     * @Route("/new", name="superadmin_city_new")
+     * @Route("/new", name="admin_city_new")
      * @Template()
      *
      * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('City', new City(), new CityType());
+        return $this->baseNew('City', new City(), new CityType($this->getInstance()));
     }
 
     /**
      * Creates a new City document.
      *
-     * @Route("/create", name="superadmin_city_create")
+     * @Route("/create", name="admin_city_create")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:SuperadminCity:new.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminCity:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('City', new City(), new CityType(), 'superadmin_city');
+        return $this->baseCreate('City', new City(), new CityType($this->getInstance()), 'admin_city');
     }
 
     /**
      * Displays a form to edit an existing City document.
      *
-     * @Route("/{id}/edit", name="superadmin_city_edit")
+     * @Route("/{id}/edit", name="admin_city_edit")
      * @Template()
      * @param string $id The document ID
      *
@@ -70,15 +70,15 @@ class SuperadminCityController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('City', $id, new CityType());
+        return $this->baseEdit('City', $id, new CityType($this->getInstance()));
     }
 
     /**
      * Edits an existing City document.
      *
-     * @Route("/{id}/update", name="superadmin_city_update")
+     * @Route("/{id}/update", name="admin_city_update")
      * @Method("post")
-     * @Template("CelsiusCelsius3Bundle:SuperadminCity:edit.html.twig")
+     * @Template("CelsiusCelsius3Bundle:AdminCity:edit.html.twig")
      * 
      * @param string $id The document ID
      *
@@ -88,13 +88,13 @@ class SuperadminCityController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('City', $id, new CityType(), 'superadmin_city');
+        return $this->baseUpdate('City', $id, new CityType($this->getInstance()), 'admin_city');
     }
 
     /**
      * Deletes a City document.
      *
-     * @Route("/{id}/delete", name="superadmin_city_delete")
+     * @Route("/{id}/delete", name="admin_city_delete")
      * @Method("post")
      * 
      * @param string $id The document ID
@@ -105,37 +105,7 @@ class SuperadminCityController extends BaseController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('City', $id, 'superadmin_city');
-    }
-
-    /**
-     * Displays a list to unify a group of City documents.
-     *
-     * @Route("/union", name="superadmin_city_union")
-     * @Method("post")
-     * @Template()
-     *
-     * @return array
-     */
-    public function unionAction()
-    {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('City', $element_ids);
-    }
-
-    /**
-     * Unifies a group of City documents.
-     *
-     * @Route("/doUnion", name="superadmin_city_doUnion")
-     * @Method("post")
-     *
-     * @return array
-     */
-    public function doUnionAction()
-    {
-        $element_ids = $this->getRequest()->request->get('element');
-        $main_id = $this->getRequest()->request->get('main');
-        return $this->baseDoUnion('City', $element_ids, $main_id, 'superadmin_city');
+        return $this->baseDelete('City', $id, 'admin_city');
     }
 
 }

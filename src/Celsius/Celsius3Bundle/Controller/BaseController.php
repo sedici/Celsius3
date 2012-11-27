@@ -187,6 +187,51 @@ abstract class BaseController extends Controller
         return $this->redirect($this->generateUrl($route));
     }
 
+    public function baseUnion($name, $ids)
+    {
+        $dm = $this->getDocumentManager();
+        $documents = $dm->getRepository('CelsiusCelsius3Bundle:' . $name)
+                ->createQueryBuilder()
+                ->field('id')->in($ids)
+                ->getQuery()
+                ->execute();
+
+        return array(
+            'documents' => $documents,
+        );
+    }
+
+    public function baseDoUnion($name, $ids, $main_id, $route)
+    {
+        $dm = $this->getDocumentManager();
+
+        $main = $dm->getRepository('CelsiusCelsius3Bundle:' . $name)
+                ->find(new \MongoId($main_id));
+
+        if (!$main)
+        {
+            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+        }
+
+        $documents = $dm->getRepository('CelsiusCelsius3Bundle:' . $name)
+                ->createQueryBuilder()
+                ->field('id')->in($ids)
+                ->field('id')->notEqual($main->getId())
+                ->getQuery()
+                ->execute();
+
+        if ($documents->count() != count($ids) - 1)
+        {
+            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+        }
+
+        $this->get('union_manager')->union($name, $main, $documents);
+
+        $this->get('session')->getFlashBag()->add('success', 'The elements were successfully joined.');
+
+        return $this->redirect($this->generateUrl($route));
+    }
+
     protected function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))

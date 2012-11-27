@@ -12,6 +12,11 @@ class UnionManager
                 'country',
             ),
         ),
+        'City' => array(
+            'Institution' => array(
+                'city',
+            ),
+        ),
     );
 
     public function __construct($dm)
