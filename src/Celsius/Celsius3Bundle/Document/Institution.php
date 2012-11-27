@@ -71,6 +71,11 @@ class Institution
      */
     protected $instance;
     
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions") 
+     */
+    protected $celsiusInstance;
+    
     public function __toString()
     {
         return $this->abbreviation . ' - ' . $this->name;
@@ -271,7 +276,7 @@ class Institution
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Institution
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;
@@ -307,5 +312,27 @@ class Institution
     public function getCatalog()
     {
         return $this->catalog;
+    }
+
+    /**
+     * Set celsiusInstance
+     *
+     * @param Celsius\Celsius3Bundle\Document\Instance $celsiusInstance
+     * @return Institution
+     */
+    public function setCelsiusInstance(\Celsius\Celsius3Bundle\Document\Instance $celsiusInstance = null)
+    {
+        $this->celsiusInstance = $celsiusInstance;
+        return $this;
+    }
+
+    /**
+     * Get celsiusInstance
+     *
+     * @return Celsius\Celsius3Bundle\Document\Instance $celsiusInstance
+     */
+    public function getCelsiusInstance()
+    {
+        return $this->celsiusInstance;
     }
 }

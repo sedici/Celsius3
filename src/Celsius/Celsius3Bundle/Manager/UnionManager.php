@@ -17,6 +17,17 @@ class UnionManager
                 'city',
             ),
         ),
+        'Institution' => array(
+            'BaseUser' => array(
+                'institution',
+            ),
+            'Institution' => array(
+                'parent',
+            ),
+            'Catalog' => array(
+                'institution',
+            ),
+        ),
     );
 
     public function __construct($dm)

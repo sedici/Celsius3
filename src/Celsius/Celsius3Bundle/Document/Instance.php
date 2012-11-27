@@ -83,6 +83,11 @@ class Instance
     private $institutions;
 
     /**
+     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
+     */
+    private $ownerInstitutions;
+
+    /**
      * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
     private $templates;
@@ -558,6 +563,26 @@ class Instance
     public function getCities()
     {
         return $this->cities;
+    }
+
+    /**
+     * Add ownerInstitutions
+     *
+     * @param Celsius\Celsius3Bundle\Document\Institution $ownerInstitutions
+     */
+    public function addOwnerInstitutions(\Celsius\Celsius3Bundle\Document\Institution $ownerInstitutions)
+    {
+        $this->ownerInstitutions[] = $ownerInstitutions;
+    }
+
+    /**
+     * Get ownerInstitutions
+     *
+     * @return Doctrine\Common\Collections\Collection $ownerInstitutions
+     */
+    public function getOwnerInstitutions()
+    {
+        return $this->ownerInstitutions;
     }
 
 }

@@ -9,6 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class InstitutionFilterType extends AbstractType
 {
 
+    private $instance;
+
+    public function __construct($instance = null)
+    {
+        $this->instance = $instance;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -27,8 +34,23 @@ class InstitutionFilterType extends AbstractType
                     'class' => 'CelsiusCelsius3Bundle:City',
                 ))
         ;
+        if (is_null($this->instance))
+        {
+            $builder
+                    ->add('instance', 'document', array(
+                        'required' => false,
+                        'class' => 'CelsiusCelsius3Bundle:Instance',
+                        'label' => 'Owning Instance',
+                    ))
+                    ->add('celsiusInstance', 'document', array(
+                        'required' => false,
+                        'class' => 'CelsiusCelsius3Bundle:Instance',
+                        'label' => 'Celsius Instance',
+                    ))
+            ;
+        }
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(

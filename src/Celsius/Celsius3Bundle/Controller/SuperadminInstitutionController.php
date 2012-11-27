@@ -107,5 +107,35 @@ class SuperadminInstitutionController extends BaseController
     {
         return $this->baseDelete('Institution', $id, 'superadmin_institution');
     }
+    
+    /**
+     * Displays a list to unify a group of Institution documents.
+     *
+     * @Route("/union", name="superadmin_institution_union")
+     * @Method("post")
+     * @Template()
+     *
+     * @return array
+     */
+    public function unionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        return $this->baseUnion('Institution', $element_ids);
+    }
+
+    /**
+     * Unifies a group of Institution documents.
+     *
+     * @Route("/doUnion", name="superadmin_institution_doUnion")
+     * @Method("post")
+     *
+     * @return array
+     */
+    public function doUnionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        $main_id = $this->getRequest()->request->get('main');
+        return $this->baseDoUnion('Institution', $element_ids, $main_id, 'superadmin_institution');
+    }
 
 }
