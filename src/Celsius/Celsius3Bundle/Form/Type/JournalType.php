@@ -26,7 +26,12 @@ class JournalType extends AbstractType
                 ->add('frecuency')
         ;
 
-        if (!is_null($this->instance))
+        if (is_null($this->instance))
+        {
+            $builder->add('instance', null, array(
+                'required' => false,
+            ));
+        } else
         {
             $builder->add('instance', 'instance_selector', array(
                 'data' => $this->instance,

@@ -107,5 +107,35 @@ class SuperadminCatalogController extends BaseController
     {
         return $this->baseDelete('Catalog', $id, 'superadmin_catalog');
     }
+    
+    /**
+     * Displays a list to unify a group of Catalog documents.
+     *
+     * @Route("/union", name="superadmin_catalog_union")
+     * @Method("post")
+     * @Template()
+     *
+     * @return array
+     */
+    public function unionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        return $this->baseUnion('Catalog', $element_ids);
+    }
+
+    /**
+     * Unifies a group of Catalog documents.
+     *
+     * @Route("/doUnion", name="superadmin_catalog_doUnion")
+     * @Method("post")
+     *
+     * @return array
+     */
+    public function doUnionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        $main_id = $this->getRequest()->request->get('main');
+        return $this->baseDoUnion('Catalog', $element_ids, $main_id, 'superadmin_catalog');
+    }
 
 }

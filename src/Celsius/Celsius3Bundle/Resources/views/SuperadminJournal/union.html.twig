@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Journal Union'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import union as union %}
+
+{% block content %}
+{{ union('superadmin_journal', documents, 'CelsiusCelsius3Bundle:SuperadminJournal') }}
+{% endblock %}

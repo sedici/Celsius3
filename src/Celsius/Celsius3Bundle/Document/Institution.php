@@ -60,22 +60,22 @@ class Institution
      * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions") 
      */
     protected $city;
-    
+
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Catalog", mappedBy="institution") 
+     * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="institution") 
      */
-    protected $catalog;
-    
+    protected $catalogs;
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
      */
     protected $instance;
-    
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions") 
      */
     protected $celsiusInstance;
-    
+
     public function __toString()
     {
         return $this->abbreviation . ' - ' . $this->name;
@@ -269,7 +269,6 @@ class Institution
         return $this->city;
     }
 
-
     /**
      * Set instance
      *
@@ -293,28 +292,6 @@ class Institution
     }
 
     /**
-     * Set catalog
-     *
-     * @param Celsius\Celsius3Bundle\Document\Catalog $catalog
-     * @return Institution
-     */
-    public function setCatalog(\Celsius\Celsius3Bundle\Document\Catalog $catalog)
-    {
-        $this->catalog = $catalog;
-        return $this;
-    }
-
-    /**
-     * Get catalog
-     *
-     * @return Celsius\Celsius3Bundle\Document\Catalog $catalog
-     */
-    public function getCatalog()
-    {
-        return $this->catalog;
-    }
-
-    /**
      * Set celsiusInstance
      *
      * @param Celsius\Celsius3Bundle\Document\Instance $celsiusInstance
@@ -335,4 +312,25 @@ class Institution
     {
         return $this->celsiusInstance;
     }
+
+    /**
+     * Add catalogs
+     *
+     * @param Celsius\Celsius3Bundle\Document\Catalog $catalogs
+     */
+    public function addCatalogs(\Celsius\Celsius3Bundle\Document\Catalog $catalogs)
+    {
+        $this->catalogs[] = $catalogs;
+    }
+
+    /**
+     * Get catalogs
+     *
+     * @return Doctrine\Common\Collections\Collection $catalogs
+     */
+    public function getCatalogs()
+    {
+        return $this->catalogs;
+    }
+
 }

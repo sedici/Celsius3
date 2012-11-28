@@ -28,6 +28,11 @@ class UnionManager
                 'institution',
             ),
         ),
+        'Journal' => array(
+            'Order' => array(
+                'materialData.journal',
+            ),
+        ),
     );
 
     public function __construct($dm)
@@ -37,20 +42,23 @@ class UnionManager
 
     public function union($name, $main, $elements)
     {
-        foreach ($this->references[$name] as $key => $reference)
+        if (array_key_exists($name, $this->references))
         {
-            $query = $this->dm->getRepository('CelsiusCelsius3Bundle:' . $key)
-                    ->createQueryBuilder()
-                    ->update();
-
-            foreach ($reference as $field)
+            foreach ($this->references[$name] as $key => $reference)
             {
-                $query = $query->field($field . '.id')->in(array_keys($elements->toArray()))
-                                ->field($field . '.id')->set($main->getId());
-            }
+                $query = $this->dm->getRepository('CelsiusCelsius3Bundle:' . $key)
+                        ->createQueryBuilder()
+                        ->update();
 
-            $query->getQuery(array('multiple' => true))
-                    ->execute();
+                foreach ($reference as $field)
+                {
+                    $query = $query->field($field . '.id')->in(array_keys($elements->toArray()))
+                                    ->field($field . '.id')->set($main->getId());
+                }
+
+                $query->getQuery(array('multiple' => true))
+                        ->execute();
+            }
         }
 
         $this->dm->getRepository('CelsiusCelsius3Bundle:' . $name)

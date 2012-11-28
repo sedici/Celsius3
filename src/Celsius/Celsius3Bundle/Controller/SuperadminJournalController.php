@@ -107,5 +107,35 @@ class SuperadminJournalController extends BaseController
     {
         return $this->baseDelete('Journal', $id, 'superadmin_journal');
     }
+    
+    /**
+     * Displays a list to unify a group of Journal documents.
+     *
+     * @Route("/union", name="superadmin_journal_union")
+     * @Method("post")
+     * @Template()
+     *
+     * @return array
+     */
+    public function unionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        return $this->baseUnion('Journal', $element_ids);
+    }
+
+    /**
+     * Unifies a group of Journal documents.
+     *
+     * @Route("/doUnion", name="superadmin_journal_doUnion")
+     * @Method("post")
+     *
+     * @return array
+     */
+    public function doUnionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        $main_id = $this->getRequest()->request->get('main');
+        return $this->baseDoUnion('Journal', $element_ids, $main_id, 'superadmin_journal');
+    }
 
 }

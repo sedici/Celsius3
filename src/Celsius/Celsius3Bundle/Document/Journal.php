@@ -61,6 +61,11 @@ class Journal
     {
         $this->materials = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id
@@ -230,7 +235,7 @@ class Journal
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Journal
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;
