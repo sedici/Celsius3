@@ -25,6 +25,11 @@ $(document).ready(function(){
     /**
      * Turns default date picker into a jQuery UI widget
      */
+    if ("{{ app.request.get('_locale') }}" != "en") {
+        $.datepicker.setDefaults($.datepicker.regional["{{ app.request.get('_locale') }}"]); 
+    } else {
+        $.datepicker.setDefaults($.datepicker.regional[""]); 
+    }
     $('.date').datepicker({
         changeMonth: true,
         changeYear: true,
