@@ -102,6 +102,9 @@ fos_user:
     db_driver: mongodb # 'orm', 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Celsius\Celsius3Bundle\Document\BaseUser
+    profile:
+        form:
+            type: celsius_celsius3bundle_profile
     registration:
         form:
             type: celsius_celsius3bundle_registration
@@ -116,6 +119,12 @@ services:
         arguments: ["@service_container", %fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: celsius_celsius3bundle_registration }
+            
+    profile.form.type:
+        class: Celsius\Celsius3Bundle\Form\Type\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: celsius_celsius3bundle_profile }
 
             
 parameters:
