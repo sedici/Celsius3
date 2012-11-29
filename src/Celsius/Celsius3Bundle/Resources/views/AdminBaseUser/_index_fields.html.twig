@@ -1,5 +1,17 @@
 {% extends 'CelsiusCelsius3Bundle:BaseUser:_index_fields.html.twig' %}
 
+{% block batchform %}
+<form class="batch_form" action="{{ path('admin_user_union') }}" method="post">
+{% endblock %}
+
+{% block endbatchform %}
+</form>
+{% endblock %}
+
+{% block batchicon %}
+<input type="checkbox" name="element[]" id="element{{ user.id }}" value="{{ user.id }}" class="pull-left batch-checkbox"/>
+{% endblock %}
+
 {% block usercontent %}
 {% include 'CelsiusCelsius3Bundle:AdminBaseUser:_show_fields.html.twig' %}
 {% endblock %}

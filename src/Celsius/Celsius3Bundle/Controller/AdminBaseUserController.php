@@ -160,5 +160,35 @@ class AdminBaseUserController extends BaseUserController
     {
         return $this->baseEnableAction($id);
     }
+    
+    /**
+     * Displays a list to unify a group of BaseUser documents.
+     *
+     * @Route("/union", name="admin_user_union")
+     * @Method("post")
+     * @Template()
+     *
+     * @return array
+     */
+    public function unionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        return $this->baseUnion('BaseUser', $element_ids);
+    }
+
+    /**
+     * Unifies a group of Journal documents.
+     *
+     * @Route("/doUnion", name="admin_user_doUnion")
+     * @Method("post")
+     *
+     * @return array
+     */
+    public function doUnionAction()
+    {
+        $element_ids = $this->getRequest()->request->get('element');
+        $main_id = $this->getRequest()->request->get('main');
+        return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
+    }
 
 }

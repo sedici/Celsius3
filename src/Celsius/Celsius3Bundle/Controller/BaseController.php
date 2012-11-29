@@ -201,12 +201,12 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseDoUnion($name, $ids, $main_id, $route)
+    public function baseDoUnion($name, $ids, $main_id, $route, $updateInstance = true)
     {
         $dm = $this->getDocumentManager();
-
+        
         $main = $dm->getRepository('CelsiusCelsius3Bundle:' . $name)
-                ->find(new \MongoId($main_id));
+                ->find($main_id);
 
         if (!$main)
         {
@@ -225,7 +225,7 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $this->get('union_manager')->union($name, $main, $documents);
+        $this->get('union_manager')->union($name, $main, $documents, $updateInstance);
 
         $this->get('session')->getFlashBag()->add('success', 'The elements were successfully joined.');
 

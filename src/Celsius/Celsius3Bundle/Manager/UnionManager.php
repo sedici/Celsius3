@@ -6,6 +6,11 @@ class UnionManager
 {
 
     private $dm;
+
+    /**
+     * @fixme Deberia modificarse este array y realizar un procesamiento de los
+     * documentos para detectar las relaciones de forma automatica
+     */
     private $references = array(
         'Country' => array(
             'City' => array(
@@ -33,6 +38,20 @@ class UnionManager
                 'materialData.journal',
             ),
         ),
+        'BaseUser' => array(
+            'Order' => array(
+                'owner',
+                'operator',
+                'creator',
+            ),
+            'BaseUser' => array(
+                'librarian',
+            ),
+            'Message' => array(
+                'sender',
+                'receiver',
+            ),
+        ),
     );
 
     public function __construct($dm)
@@ -40,24 +59,22 @@ class UnionManager
         $this->dm = $dm;
     }
 
-    public function union($name, $main, $elements)
+    public function union($name, $main, $elements, $updateInstance)
     {
         if (array_key_exists($name, $this->references))
         {
             foreach ($this->references[$name] as $key => $reference)
             {
-                $query = $this->dm->getRepository('CelsiusCelsius3Bundle:' . $key)
-                        ->createQueryBuilder()
-                        ->update();
-
                 foreach ($reference as $field)
                 {
-                    $query = $query->field($field . '.id')->in(array_keys($elements->toArray()))
-                                    ->field($field . '.id')->set($main->getId());
+                    $this->dm->getRepository('CelsiusCelsius3Bundle:' . $key)
+                            ->createQueryBuilder()
+                            ->update()
+                            ->field($field . '.id')->in(array_keys($elements->toArray()))
+                            ->field($field . '.id')->set($main->getId())
+                            ->getQuery(array('multiple' => true))
+                            ->execute();
                 }
-
-                $query->getQuery(array('multiple' => true))
-                        ->execute();
             }
         }
 
@@ -68,9 +85,12 @@ class UnionManager
                 ->getQuery()
                 ->execute();
 
-        $main->setInstance(null);
-        $this->dm->persist($main);
-        $this->dm->flush();
+        if ($updateInstance)
+        {
+            $main->setInstance(null);
+            $this->dm->persist($main);
+            $this->dm->flush();
+        }
     }
 
 }
