@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
-class LanguageListener
+class LocaleChoosingListener
 {
 
     private $defaultLocale;
@@ -49,14 +49,12 @@ class LanguageListener
 
         $locale = $this->localeResolver->resolveLocale($request, $this->locales) ? : $this->defaultLocale;
 
-        $path = explode('/', $request->getPathInfo());
-
-        if (!array_key_exists($path[1], $this->configurationHelper->languages) && !$this->request->isXmlHttpRequest())
+        if (!$request->attributes->get('_locale') && !$this->request->isXmlHttpRequest())
         {
             if ($this->session->has('instance_url'))
                 $instance_url = $this->session->get('instance_url');
             else
-                $instance_url = $path[1];
+                $instance_url = $request->attributes->get('url');
 
             $instance = $this->dm
                     ->getRepository('CelsiusCelsius3Bundle:Instance')

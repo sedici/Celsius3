@@ -12,7 +12,7 @@
         <parameter key="configuration_listener.class">Celsius\Celsius3Bundle\Listener\ConfigurationListener</parameter>
         <parameter key="order_listener.class">Celsius\Celsius3Bundle\Listener\OrderListener</parameter>
         <parameter key="security.login_listener.class">Celsius\Celsius3Bundle\Listener\LoginListener</parameter>
-        <parameter key="kernel.language_listener.class">Celsius\Celsius3Bundle\Listener\LanguageListener</parameter>
+        <parameter key="kernel.locale_choosing_listener.class">Celsius\Celsius3Bundle\Listener\LocaleChoosingListener</parameter>
         <parameter key="registration.form.type.class">Celsius\Celsius3Bundle\Form\Type\RegistrationFormType</parameter>
         <parameter key="form.user_selector.class">Celsius\Celsius3Bundle\Form\Type\UserSelectorType</parameter>
         <parameter key="form.instance_selector.class">Celsius\Celsius3Bundle\Form\Type\InstanceSelectorType</parameter>
@@ -73,7 +73,7 @@
             <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
         </service>
         
-        <service id="kernel.language_listener" class="%kernel.language_listener.class%">
+        <service id="jms_i18n_routing.locale_choosing_listener" class="%kernel.locale_choosing_listener.class%">
             <argument type="string" id="%jms_i18n_routing.default_locale%"></argument>
             <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
@@ -81,7 +81,7 @@
             <argument type="service" id="session"></argument>
             <argument type="service" id="request" strict="false"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" priority="256" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
         </service>
         
         <service id="form.user_selector" class="%form.user_selector.class%">
