@@ -1,5 +1,8 @@
 <ul class="unstyled pull-right actions">
     <li>
+        <a href="{{ path('superadmin_instance_admin', { 'id': instance.id }) }}"><i class="icon-th-large"></i> {{ 'Admin'|trans }}</a>
+    </li>
+    <li>
         <a href="{{ path('superadmin_instance_edit', { 'id': instance.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
     </li>
     <li>

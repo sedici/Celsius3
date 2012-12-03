@@ -176,4 +176,30 @@ class SuperadminInstanceController extends InstanceController
         return $this->baseConfigureUpdateAction($id, 'superadmin_instance');
     }
 
+    /**
+     * Redirects to the administration of an Instance document.
+     *
+     * @Route("/{id}/admin", name="superadmin_instance_admin")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function adminAction($id)
+    {
+        $document = $this->findQuery('Instance', $id);
+
+        if (!$document)
+        {
+            throw $this->createNotFoundException('Unable to find Instance.');
+        }
+
+        $this->get('session')->set('instance_id', $document->getId());
+        $this->get('session')->set('instance_url', $document->getUrl());
+        
+        return $this->redirect($this->generateUrl('administration'));
+    }
+
 }
