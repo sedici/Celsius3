@@ -92,6 +92,11 @@ class BaseUser extends User implements ParticipantInterface
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="librarian")
      */
     protected $subordinates;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="CustomUserField", mappedBy="user")
+     */
+    protected $customFields;
 
     public function __toString()
     {
@@ -115,6 +120,7 @@ class BaseUser extends User implements ParticipantInterface
         $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customFields = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -401,4 +407,24 @@ class BaseUser extends User implements ParticipantInterface
         return $this->subordinates;
     }
 
+
+    /**
+     * Add customFields
+     *
+     * @param Celsius\Celsius3Bundle\Document\CustomUserField $customFields
+     */
+    public function addCustomFields(\Celsius\Celsius3Bundle\Document\CustomUserField $customFields)
+    {
+        $this->customFields[] = $customFields;
+    }
+
+    /**
+     * Get customFields
+     *
+     * @return Doctrine\Common\Collections\Collection $customFields
+     */
+    public function getCustomFields()
+    {
+        return $this->customFields;
+    }
 }
