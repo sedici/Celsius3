@@ -12,8 +12,12 @@ use Celsius\Celsius3Bundle\Manager\SearchManager;
  * @Route("/admin") 
  */
 class AdministrationController extends BaseInstanceDependentController
-{
-
+{  
+    
+    protected function getProvider()
+    {
+        return $this->container->get('fos_message.provider');
+    }
     /**
      * @Route("/", name="administration")
      * @Template()
@@ -24,7 +28,8 @@ class AdministrationController extends BaseInstanceDependentController
     {
         $instance = $this->getInstance();
 
-        $numberMessage = $this->forward('CelsiusCelsius3Bundle:AdminMessage:getUnReadMessage');
+        //$numberMessage = $this->forward('CelsiusCelsius3Bundle:AdminMessage:getUnReadMessage');
+        $numberMessage = $this->getProvider()->getNbUnreadMessages();
         $orderCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:State')->countOrders($this->getInstance());
         $userCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:BaseUser')->countUsers($this->getInstance());
 
@@ -32,7 +37,7 @@ class AdministrationController extends BaseInstanceDependentController
             'instance' => $instance,
             'orderCount' => $orderCount,
             'userCount' => $userCount,
-            'numberMessage' => $numberMessage->getContent()
+            'numberMessage' => $numberMessage
         );
     }
 

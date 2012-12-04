@@ -27,18 +27,6 @@ class AdminMessageController extends \FOS\MessageBundle\Controller\MessageContro
     /**
      * Displays the authenticated participant inbox
      *
-     * @Route("/unRead_message", name="admin_unRead_message")
-     * @return Response
-     */
-    public function getUnReadMessageAction()
-    { 
-        $threads = $this->getProvider()->getNbUnreadMessages();
-        return new Response($threads);
-    }
-    
-    /**
-     * Displays the authenticated participant inbox
-     *
      * @Route("/inbox", name="admin_messages_inbox")
      * @return Response
      */
@@ -56,7 +44,7 @@ class AdminMessageController extends \FOS\MessageBundle\Controller\MessageContro
     /**
      * Displays a thread, also allows to reply to it
      *
-     * @Route("/{threadId}", name="admin_message_thread_view")
+     * @Route("/reply/{threadId}", name="admin_message_thread_view")
      * @param strind $threadId the thread id
      * @return Response
      */
@@ -70,11 +58,11 @@ class AdminMessageController extends \FOS\MessageBundle\Controller\MessageContro
         $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
         $formHandler = $this->container->get('fos_message.reply_form.handler');
 
-        if ($message = $formHandler->process($form)) {
-            return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
-                'threadId' => $message->getThread()->getId()
-            )));
-        }
+      //  if ($message = $formHandler->process($form)) {
+      //      return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
+      //          'threadId' => $message->getThread()->getId()
+      //      )));
+      //  }
 
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:inbox.html.twig', array(
             'forms' => $forms,

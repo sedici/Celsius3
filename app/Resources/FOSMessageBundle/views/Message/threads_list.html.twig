@@ -83,7 +83,7 @@
                                 </div>
                             {% endfor %}
                             
-                            <form action="{{ url('admin_messages_inbox') }}" method="post">
+                            <form action="{{ url('admin_message_thread_view', {'threadId': thread.id}) }}" method="post">
                                 {{ form_widget(forms[thread.id]) }}
 
                                 <input type="submit" />
