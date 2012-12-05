@@ -41,7 +41,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->getInstance()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -55,7 +55,30 @@ class AdminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->getInstance()), 'admin_user');
+        $request = $this->getRequest();
+        $document = new BaseUser();
+        $form = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
+        $form->bind($request);
+
+        if ($form->isValid())
+        {
+            $dm = $this->getDocumentManager();
+            $dm->persist($document);
+            $dm->flush();
+
+            $this->get('custom_field_helper')->processCustomFields($this->getInstance(), $form, $document);
+
+            $this->get('session')->getFlashBag()->add('success', 'The BaseUser was successfully created.');
+
+            return $this->redirect($this->generateUrl('admin_user'));
+        }
+
+        $this->get('session')->getFlashBag()->add('error', 'There were errors creating the BaseUser.');
+
+        return array(
+            'document' => $document,
+            'form' => $form->createView()
+        );
     }
 
     /**
@@ -72,7 +95,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->getInstance()));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -90,7 +113,40 @@ class AdminBaseUserController extends BaseUserController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->getInstance()), 'admin_user');
+        $document = $this->findQuery('BaseUser', $id);
+
+        if (!$document)
+        {
+            throw $this->createNotFoundException('Unable to find BaseUser.');
+        }
+
+        $editForm = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
+        $deleteForm = $this->createDeleteForm($id);
+
+        $request = $this->getRequest();
+
+        $editForm->bind($request);
+
+        if ($editForm->isValid())
+        {
+            $dm = $this->getDocumentManager();
+            $dm->persist($document);
+            $dm->flush();
+
+            $this->get('custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $document);
+
+            $this->get('session')->getFlashBag()->add('success', 'The BaseUser was successfully edited.');
+
+            return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
+        }
+
+        $this->get('session')->getFlashBag()->add('error', 'There were errors editing the BaseUser.');
+
+        return array(
+            'document' => $document,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
     /**
@@ -144,7 +200,7 @@ class AdminBaseUserController extends BaseUserController
     {
         return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance()), 'admin_user');
     }
-    
+
     /**
      * Enables a BaseUser document.
      *
@@ -160,7 +216,7 @@ class AdminBaseUserController extends BaseUserController
     {
         return $this->baseEnableAction($id);
     }
-    
+
     /**
      * Displays a list to unify a group of BaseUser documents.
      *

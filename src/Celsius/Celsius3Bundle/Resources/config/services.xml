@@ -28,6 +28,7 @@
         <parameter key="field.guesser.class">Celsius\Celsius3Bundle\Guesser\FieldGuesser</parameter>
         <parameter key="lifecycle_helper.class">Celsius\Celsius3Bundle\Helper\LifecycleHelper</parameter>
         <parameter key="configuration_helper.class">Celsius\Celsius3Bundle\Helper\ConfigurationHelper</parameter>
+        <parameter key="custom_field_helper.class">Celsius\Celsius3Bundle\Helper\CustomFieldHelper</parameter>
         <parameter key="state_manager.class">Celsius\Celsius3Bundle\Manager\StateManager</parameter>
         <parameter key="filter_manager.class">Celsius\Celsius3Bundle\Manager\FilterManager</parameter>
         <parameter key="user_manager.class">Celsius\Celsius3Bundle\Manager\UserManager</parameter>
@@ -146,6 +147,11 @@
         </service>
         
         <service id="configuration_helper" class="%configuration_helper.class%">
+        </service>
+        
+        <service id="custom_field_helper" class="%custom_field_helper.class%">
+            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
         <service id="state_manager" class="%state_manager.class%">

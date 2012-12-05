@@ -20,6 +20,8 @@ class RegistrationController extends BaseRegistrationController
         if ($process)
         {
             $user = $form->getData();
+            
+            $this->container->get('custom_field_helper')->processCustomFields($this->getInstance(), $form, $user);
 
             $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
             if ($confirmationEnabled)

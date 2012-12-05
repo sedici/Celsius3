@@ -18,10 +18,13 @@ class CustomUserFieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('key')
                 ->add('name')
-                ->add('type')
-                ->add('private')
+                ->add('private', null, array(
+                    'required' => false,
+                ))
+                ->add('required', null, array(
+                    'required' => false,
+                ))
         ;
         if (is_null($this->instance))
         {

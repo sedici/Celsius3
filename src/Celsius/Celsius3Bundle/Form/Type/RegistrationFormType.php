@@ -4,11 +4,13 @@ namespace Celsius\Celsius3Bundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Celsius\Celsius3Bundle\Form\EventListener\AddCustomFieldsSubscriber;
 
 class RegistrationFormType extends BaseType
 {
 
     protected $instance;
+    protected $dm;
 
     /**
      * @param string $class The User class name
@@ -17,10 +19,10 @@ class RegistrationFormType extends BaseType
     {
         parent::__construct($class);
 
-        $dm = $container->get('doctrine.odm.mongodb.document_manager');
+        $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
         $url = $container->get('request')->get('url');
 
-        $this->instance = $dm->getRepository('CelsiusCelsius3Bundle:Instance')
+        $this->instance = $this->dm->getRepository('CelsiusCelsius3Bundle:Instance')
                 ->findOneBy(array('url' => $url));
     }
 
@@ -44,7 +46,9 @@ class RegistrationFormType extends BaseType
                         'readonly' => 'readonly',
                     ),
                 ))
-        ;    
+        ;
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, true);
+        $builder->addEventSubscriber($subscriber);
     }
 
     public function getName()

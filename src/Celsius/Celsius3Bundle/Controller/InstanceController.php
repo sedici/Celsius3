@@ -45,11 +45,11 @@ abstract class InstanceController extends BaseController
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
-        $configureForm = $this->createFormBuilder();
+        $builder = $this->createFormBuilder();
 
         foreach ($document->getConfigurations() as $configuration)
         {
-            $configureForm->add($configuration->getKey(), $this->get('configuration_helper')->guessConfigurationType($configuration), array(
+            $builder->add($configuration->getKey(), $this->get('configuration_helper')->guessConfigurationType($configuration), array(
                 'attr' => array(
                     'value' => $configuration->getValue(),
                 ),
@@ -57,7 +57,7 @@ abstract class InstanceController extends BaseController
             ));
         }
 
-        $configureForm = $configureForm->getForm();
+        $configureForm = $builder->getForm();
 
         $request = $this->getRequest();
 

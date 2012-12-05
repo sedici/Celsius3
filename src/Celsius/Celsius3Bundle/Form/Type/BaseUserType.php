@@ -4,15 +4,20 @@ namespace Celsius\Celsius3Bundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius\Celsius3Bundle\Form\EventListener\AddCustomFieldsSubscriber;
 
 class BaseUserType extends AbstractType
 {
 
     protected $instance;
+    protected $dm;
 
-    public function __construct($instance = null)
+    public function __construct(DocumentManager $dm, Instance $instance = null)
     {
         $this->instance = $instance;
+        $this->dm = $dm;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,6 +50,8 @@ class BaseUserType extends AbstractType
                         ),
                     ))
             ;
+            $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, false);
+            $builder->addEventSubscriber($subscriber);
         }
     }
 

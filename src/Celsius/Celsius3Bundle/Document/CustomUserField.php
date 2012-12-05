@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\UniqueIndex(keys={"name"="asc", "instance"="asc"})
  */
 class CustomUserField
 {
@@ -20,41 +21,29 @@ class CustomUserField
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    private $key;
-
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
     private $name;
 
     /**
-     * @MongoDB\String
-     */
-    private $value;
-
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
-    private $type;
-
-    /**
-     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
     private $private = true;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser", inversedBy="customFields") 
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
      */
-    private $user;
+    private $required = true;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
     private $instance;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="CustomUserValue", mappedBy="field") 
+     */
+    private $values;
 
     /**
      * Get id
@@ -64,28 +53,6 @@ class CustomUserField
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set key
-     *
-     * @param string $key
-     * @return CustomUserField
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-        return $this;
-    }
-
-    /**
-     * Get key
-     *
-     * @return string $key
-     */
-    public function getKey()
-    {
-        return $this->key;
     }
 
     /**
@@ -111,50 +78,6 @@ class CustomUserField
     }
 
     /**
-     * Set value
-     *
-     * @param string $value
-     * @return CustomUserField
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        return $this;
-    }
-
-    /**
-     * Get value
-     *
-     * @return string $value
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return CustomUserField
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string $type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set private
      *
      * @param boolean $private
@@ -174,6 +97,28 @@ class CustomUserField
     public function getPrivate()
     {
         return $this->private;
+    }
+
+    /**
+     * Set required
+     *
+     * @param boolean $required
+     * @return CustomUserField
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
+        return $this;
+    }
+
+    /**
+     * Get required
+     *
+     * @return boolean $required
+     */
+    public function getRequired()
+    {
+        return $this->required;
     }
 
     /**
@@ -198,26 +143,28 @@ class CustomUserField
         return $this->instance;
     }
 
-    /**
-     * Set user
-     *
-     * @param Celsius\Celsius3Bundle\Document\BaseUser $user
-     * @return CustomUserField
-     */
-    public function setUser(\Celsius\Celsius3Bundle\Document\BaseUser $user)
+    public function __construct()
     {
-        $this->user = $user;
-        return $this;
+        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add values
+     *
+     * @param Celsius\Celsius3Bundle\Document\CustomUserValue $values
+     */
+    public function addValues(\Celsius\Celsius3Bundle\Document\CustomUserValue $values)
+    {
+        $this->values[] = $values;
     }
 
     /**
-     * Get user
+     * Get values
      *
-     * @return Celsius\Celsius3Bundle\Document\BaseUser $user
+     * @return Doctrine\Common\Collections\Collection $values
      */
-    public function getUser()
+    public function getValues()
     {
-        return $this->user;
+        return $this->values;
     }
-
 }
