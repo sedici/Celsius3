@@ -1,0 +1,110 @@
+<script type="text/javascript">
+function getOldValues() {
+    var oldValues = [];
+    oldValues['celsius_celsius3bundle_ordertype_materialData_title'] = $('#celsius_celsius3bundle_ordertype_materialData_title').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_authors'] = $('#celsius_celsius3bundle_ordertype_materialData_authors').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_year'] = $('#celsius_celsius3bundle_ordertype_materialData_year').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_startPage'] = $('#celsius_celsius3bundle_ordertype_materialData_startPage').val();
+    oldValues['celsius_celsius3bundle_ordertype_materialData_endPage'] = $('#celsius_celsius3bundle_ordertype_materialData_endPage').val();
+    return oldValues;
+}
+
+function noLibrarian(id) {
+    $('#celsius_celsius3bundle_ordertype_owner_autocomplete').attr('disabled', 'disabled');
+    $('#celsius_celsius3bundle_ordertype_owner').val(id);
+    $('#celsius_celsius3bundle_ordertype_librarian').val('');
+}
+
+function librarian(id) {
+    $('#celsius_celsius3bundle_ordertype_owner_autocomplete').removeAttr('disabled');
+    $('#celsius_celsius3bundle_ordertype_owner').val('');
+    $('#celsius_celsius3bundle_ordertype_librarian').val(id);
+}
+    
+$(document).ready(function(){
+    /**
+     * Turns default date picker into a jQuery UI widget
+     */
+    if ("{{ app.request.get('_locale') }}" != "en") {
+        $.datepicker.setDefaults($.datepicker.regional["{{ app.request.get('_locale') }}"]); 
+    } else {
+        $.datepicker.setDefaults($.datepicker.regional[""]); 
+    }
+    $('.date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'dd-mm-yy',
+        yearRange: 'c-100:c',
+        maxDate: new Date()
+    });
+
+    /**
+     * Autocomplete fields related event
+     */
+    $('input.autocomplete').autocomplete({
+        source: function(request, response) {
+            var field = $(this);
+            $.ajax({
+                url: '{{ (ajax_path is defined)?path(ajax_path):'' }}',
+                dataType: "json",
+                data: {
+                    term : request.term,
+                    target : field[0].element.attr('target')
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 2,
+        select: function(event, ui) {
+            var id = $(this).attr('id').replace('_autocomplete','','gi');
+            $('#'+id).val(ui.item.id);
+        }
+    });
+    
+    /**
+     * Material type change related event
+     */
+    $('#celsius_celsius3bundle_ordertype_materialDataType').change(function () {
+        var oldValues = getOldValues();
+        $.ajax({
+            type: 'POST',
+            url: '{{ path('admin_order_change') }}',
+            data: { material: $('#celsius_celsius3bundle_ordertype_materialDataType').val() },
+            success: function(data) {
+                $('#celsius_celsius3bundle_ordertype_materialData').html(data);
+                for (key in oldValues) {
+                    $('#'+key).val(oldValues[key]);
+                }
+            }
+        });
+    });
+    
+    $('#celsius_celsius3bundle_ordertype_instance').change(function () {
+        $('#celsius_celsius3bundle_ordertype_owner_autocomplete').val('');
+        $('#celsius_celsius3bundle_ordertype_owner').val('');
+    });
+    
+    {% if app.user %}
+        // Controles para los widgets del formulario de carga de pedidos de un bibliotecario
+        if ($('#celsius_celsius3bundle_ordertype_target').length > 0) {
+            id = '{{ app.user.id }}';
+            noLibrarian(id);
+        }
+
+        $('#celsius_celsius3bundle_ordertype_target').change(function () {
+            if ($('#celsius_celsius3bundle_ordertype_target').val() == 'me') {
+                noLibrarian(id);
+            } else {
+                librarian(id);
+            }
+        });
+    {% endif %}
+        
+    $('.union_link').click(function(){
+        if ($('input[type=checkbox]:checked').length >= 2)
+            $('.batch_form').submit();
+    });
+});
+</script>

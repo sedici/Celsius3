@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Instances List'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('superadmin_instance', pagination, 'CelsiusCelsius3Bundle:SuperadminInstance', filter_form) }}
+{% endblock %}

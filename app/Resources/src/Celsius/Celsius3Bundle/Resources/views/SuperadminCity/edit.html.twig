@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'City Edit'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import edit as edit %}
+
+{% block content %}
+{{ edit('superadmin_city', document, edit_form, delete_form) }}
+{% endblock %}

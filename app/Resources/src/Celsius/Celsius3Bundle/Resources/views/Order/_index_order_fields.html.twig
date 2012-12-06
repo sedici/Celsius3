@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="span6">
+        <dl class="dl-horizontal">
+            <dt>{{ 'Code'|trans }}</dt>
+            <dd>{{ order.code }}</dd>
+            <dt>{{ 'Current state'|trans }}</dt>
+            <dd>{{ order.currentState.type.name|capitalize }}</dd>
+            {% block extrafields %}{% endblock %}
+        </dl>
+        <div class="thumbnail">
+            {{ render_material(order.materialData)|raw }}
+        </div>
+    </div>
+    {% block orderactions %}{% endblock %}
+</div>

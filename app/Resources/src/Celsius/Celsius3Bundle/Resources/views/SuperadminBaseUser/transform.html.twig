@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'User Transform'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import transform as transform %}
+
+{% block content %}
+{{ transform('superadmin_user', document, transform_form) }}
+{% endblock %}

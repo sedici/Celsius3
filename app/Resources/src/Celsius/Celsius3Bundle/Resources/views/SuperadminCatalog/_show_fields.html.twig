@@ -1,0 +1,12 @@
+<dl class="dl-horizontal">
+    <dt>{{ 'Name'|trans }}</dt>
+    <dd>{{ catalog.name }}</dd>
+    <dt>{{ 'Url'|trans }}</dt>
+    <dd><a href="{{ catalog.url }}" target="_blank">{{ catalog.url }}</a></dd>
+    <dt>{{ 'Comments'|trans }}</dt>
+    <dd>{{ catalog.comments?catalog.comments:'-' }}</dd>
+    <dt>{{ 'Institution'|trans }}</dt>
+    <dd>{{ catalog.institution?catalog.institution:'-' }}</dd>
+    <dt>{{ 'Instance'|trans }}</dt>
+    <dd>{{ catalog.instance?catalog.instance:'-' }}</dd>
+</dl>

@@ -1,0 +1,13 @@
+{% extends 'CelsiusCelsius3Bundle:MaterialType:_materialType.html.twig' %}
+
+{% block dataType %}
+<dt>{{ 'Type'|trans }}</dt>
+<dd>{{ 'Congress'|trans }}</dd>
+{% endblock %}
+
+{% block extraData %}
+<dt>{{ 'Place'|trans }}</dt>
+<dd>{{ materialData.place?materialData.place:'-' }}</dd>
+<dt>{{ 'Communication'|trans }}</dt>
+<dd>{{ materialData.communication?materialData.communication:'-' }}</dd>
+{% endblock %}

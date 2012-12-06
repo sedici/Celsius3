@@ -1,0 +1,271 @@
+{# edit #}
+{% macro edit(name, document, edit_form, delete_form) %}
+<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
+<h2>{{ [name|capitalize, ' Edit']|join|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {{ tinymce_init() }}
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
+        <form action="{{ path([name,'_update']|join, { 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
+              {{ form_widget(edit_form) }}
+              <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# new #}
+{% macro new(name, form) %}
+<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
+<h2>{{ [name|capitalize, ' Creation']|join|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {{ tinymce_init() }}
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
+        <form action="{{ path([name,'_create']|join) }}" method="post" {{ form_enctype(form) }} class="well">
+              {{ form_widget(form) }}
+              <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# show #}
+{% macro show(name, document, delete_form, folder) %}
+<h2>{{ name|capitalize|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {% include [folder,':_show_fields.html.twig']|join %}
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path([name,'_edit']|join, { 'id': document.id }) }}">
+                                    <i class="icon-pencil"></i> {{ 'Edit'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# index #}
+{% macro index(name, pagination, folder, filter_form) %}
+<h2>{{ [name|capitalize, 's List']|join|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
+        <div class="navigation">
+            {{ pagination.render()|raw }}
+        </div>
+
+        {% include folder~':_index_fields.html.twig' %}
+
+        <div class="navigation">
+            {{ pagination.render()|raw }}
+        </div>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            {% if filter_form %}
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-search"></i> {{ 'Filters'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body collapse" id="collapseOne">
+                    <div class="accordion-inner">
+                        {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
+
+                        {{ filter(name, filter_form) }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        {% include folder~':_index_actions.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# transform #}
+{% macro transform(name, document, transform_form) %}
+<h2>{{ 'User Transform'|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+
+        <form action="{{ path(name~'_do_transform', { 'id': document.id }) }}" method="post" {{ form_enctype(transform_form) }} class="well">
+              {{ form_widget(transform_form) }}
+              <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Transform'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseTwo">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# union #}
+{% macro union(name, documents, folder) %}
+<h2>{{ name|capitalize ~ 's Union'|trans }}</h2>
+
+<div class="row">
+    <div class="span9">
+        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
+        <form action="{{ path(name~'_doUnion') }}" method="post" class="well">
+            <p>{{ 'Please select the element you want to overwrite the others.'|trans }}</p>
+            {% for document in documents %}
+            <div>
+                <input type="radio" name="main" id="main{{ document.id }}" value="{{ document.id }}" />
+                <input type="hidden" name="element[]" id="element{{ document.id }}" value="{{ document.id }}" />
+                <label for="main{{ document.id }}">{{ document }}</label>
+            </div>
+            {% endfor %}
+            <p>
+                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+            </p>
+        </form>
+    </div>
+    <div class="span3">
+        <div id="accordion" class="accordion">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+                    </a>
+                </div>
+                <div class="accordion-body in collapse" id="collapseOne">
+                    <div class="accordion-inner">
+                        <ul class="unstyled">
+                            <li>
+                                <a href="{{ path(name) }}">
+                                    <i class="icon-home"></i> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# filter #}
+{% macro filter(name, filter_form) %}
+<form action="{{ path(name) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="well filter-form">
+      {{ form_widget(filter_form) }}
+      <p>
+        <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Filter'|trans }}</button>
+        <a href="{{ path(name) }}"><i class="icon-remove"></i> {{ 'Reset'|trans }}</a>
+    </p>
+</form>
+{% endmacro %}

@@ -1,0 +1,9 @@
+{% extends 'CelsiusCelsius3Bundle:Order:_index_fields.html.twig' %}
+
+{% block extrainfo %}
+<span class="label pull-right">{{ order.owner.surname }}, {{ order.owner.name }}</span>
+{% endblock %}
+
+{% block ordercontent %}
+{% include 'CelsiusCelsius3Bundle:SuperadminOrder:_index_order_fields.html.twig' %}
+{% endblock %}

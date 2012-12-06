@@ -1,0 +1,36 @@
+CelsiusCelsius3Bundle:
+    resource: "@CelsiusCelsius3Bundle/Controller/"
+    type:     annotation
+    prefix:   /
+    
+fos_user_security:
+    resource: "@CelsiusCelsius3Bundle/Resources/config/routing/security.xml"
+    prefix: /{url}
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /user/profile
+
+fos_user_register:
+    resource: "@CelsiusCelsius3Bundle/Resources/config/routing/registration.xml"
+    prefix: /{url}/public/register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /{url}/public/resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /user/profile
+
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix: /
+
+
+    
+    
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal

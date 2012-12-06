@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Journal List'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('admin_journal', pagination, 'CelsiusCelsius3Bundle:AdminJournal', filter_form) }}
+{% endblock %}

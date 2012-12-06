@@ -1,0 +1,6 @@
+<item>	
+    <title>{{ news.title }}</title>
+    <guid>{{ news.id }}</guid>
+    <pubDate>{{ news.date|localizeddate('medium','short') }}</pubDate>
+    <description>{{ news.text|raw }}</description>
+</item>

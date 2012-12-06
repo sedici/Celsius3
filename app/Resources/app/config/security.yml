@@ -1,0 +1,38 @@
+security:
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+
+    encoders:
+        "FOS\UserBundle\Model\UserInterface": sha512
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                login_path: fos_user_security_login
+                check_path: fos_user_security_check
+                failure_handler: security.authentication_handler
+                default_target_path: user_index
+            logout:
+                path:   fos_user_security_logout
+                target: public_index
+                success_handler: security.authentication_handler
+            anonymous:    true
+        
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+    access_control:
+        - { path: ^/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/user/, role: ROLE_USER }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/superadmin/, role: ROLE_SUPER_ADMIN }
+
+    role_hierarchy:
+        ROLE_LIBRARIAN:   ROLE_USER
+        ROLE_ADMIN:       ROLE_LIBRARIAN
+        ROLE_SUPER_ADMIN: ROLE_ADMIN

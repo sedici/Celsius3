@@ -1,0 +1,14 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block navigation_top %}
+{% endblock %}
+
+{% block body_title %}
+<div class="well page-header">
+    <h1>{{ 'Celsius3 Directory'|trans }}</h1>
+</div>
+{% endblock %}
+
+{% block navigation_content %}
+{{ knp_menu_render('CelsiusCelsius3Bundle:Builder:directoryMenu', { 'currentClass': 'active' }) }}
+{% endblock %}

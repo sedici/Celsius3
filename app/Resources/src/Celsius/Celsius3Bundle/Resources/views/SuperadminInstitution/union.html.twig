@@ -1,0 +1,11 @@
+{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Institution Union'|trans }}
+{% endblock %}
+
+{% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import union as union %}
+
+{% block content %}
+{{ union('superadmin_institution', documents, 'CelsiusCelsius3Bundle:SuperadminInstitution') }}
+{% endblock %}

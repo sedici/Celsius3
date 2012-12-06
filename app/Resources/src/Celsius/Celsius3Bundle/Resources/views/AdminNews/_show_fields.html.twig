@@ -1,0 +1,8 @@
+<dl class="dl-horizontal">
+    <dt>{{ 'Title'|trans }}</dt>
+    <dd>{{ news.title }}</dd>
+    <dt>{{ 'Date'|trans }}</dt>
+    <dd>{{ news.date|localizeddate() }}</dd>
+    <dt>{{ 'Text'|trans }}</dt>
+    <dd>{{ news.text|raw }}</dd>
+</dl>
