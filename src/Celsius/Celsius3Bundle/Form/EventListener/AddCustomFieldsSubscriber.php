@@ -76,7 +76,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 $value = null;
             }
 
-            $form->add($this->factory->createNamed($field->getName(), 'text', $value ? $value->getValue() : null, array(
+            $form->add($this->factory->createNamed($field->getKey(), 'text', $value ? $value->getValue() : null, array(
                         'label' => ucfirst($field->getName()),
                         'required' => $field->getRequired(),
                         'property_path' => false,

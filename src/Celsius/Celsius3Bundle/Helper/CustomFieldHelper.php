@@ -28,7 +28,7 @@ class CustomFieldHelper
 
         foreach ($fields as $field)
         {
-            if (array_key_exists($field->getName(), $data))
+            if (array_key_exists($field->getKey(), $data))
             {
                 $value = $this->dm->getRepository('CelsiusCelsius3Bundle:CustomUserValue')
                         ->createQueryBuilder()
@@ -43,7 +43,7 @@ class CustomFieldHelper
                     $value->setField($field);
                     $value->setUser($document);
                 }
-                $value->setValue($data[$field->getName()]);
+                $value->setValue($data[$field->getKey()]);
                 $this->dm->persist($value);
                 $this->dm->flush();
             }

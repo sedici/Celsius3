@@ -4,10 +4,11 @@ namespace Celsius\Celsius3Bundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @MongoDB\Document
- * @MongoDB\UniqueIndex(keys={"name"="asc", "instance"="asc"})
+ * @MongoDB\UniqueIndex(keys={"key"="asc", "instance"="asc"})
  */
 class CustomUserField
 {
@@ -16,6 +17,12 @@ class CustomUserField
      * @MongoDB\Id
      */
     private $id;
+
+    /**
+     * @Gedmo\Slug(fields={"name"})
+     * @MongoDB\String
+     */
+    private $key;
 
     /**
      * @Assert\NotBlank()
@@ -39,7 +46,7 @@ class CustomUserField
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
     private $instance;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="CustomUserValue", mappedBy="field") 
      */
@@ -147,7 +154,7 @@ class CustomUserField
     {
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add values
      *
@@ -167,4 +174,27 @@ class CustomUserField
     {
         return $this->values;
     }
+
+    /**
+     * Set key
+     *
+     * @param string $key
+     * @return \CustomUserField
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    /**
+     * Get key
+     *
+     * @return string $key
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
 }
