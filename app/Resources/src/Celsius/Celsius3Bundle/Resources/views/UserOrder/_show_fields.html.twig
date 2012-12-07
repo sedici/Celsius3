@@ -1,8 +1,0 @@
-{% extends 'CelsiusCelsius3Bundle:Order:_show_fields.html.twig' %}
-
-{% block extrafields %}
-{% if app.user.username != document.owner.username %}
-<dt>{{ 'User'|trans }}</dt>
-<dd>{{ document.owner.username }}</dd>
-{% endif %}
-{% endblock %}
