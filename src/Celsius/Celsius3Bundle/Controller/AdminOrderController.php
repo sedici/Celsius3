@@ -187,6 +187,7 @@ class AdminOrderController extends OrderController
      * Moves an order to search.
      *
      * @Route("/{id}/event/{event}", name="admin_order_event")
+     * @Method("post")
      * 
      * @param string $id The document ID
      * @param string $event The event name

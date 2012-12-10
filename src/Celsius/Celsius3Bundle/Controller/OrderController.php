@@ -48,6 +48,8 @@ abstract class OrderController extends BaseInstanceDependentController
         $order = $this->findQuery('Order', $id);
 
         $this->get('lifecycle_helper')->createEvent($event, $order);
+        
+        $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
 
         return $this->redirect($this->generateUrl($route . '_show', array('id' => $order->getId())));
     }

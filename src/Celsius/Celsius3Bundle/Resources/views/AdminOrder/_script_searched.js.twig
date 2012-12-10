@@ -1,0 +1,15 @@
+<script type="text/javascript">    
+$(document).ready(function () {
+    $('#submit-search-form').live('click', function(){
+        $('#search-form').submit();
+    });
+    $('#{{ 'searched' ~ order.id }}:not(.disabled)').popover({
+        content: '<p>{{ 'Date'|trans }}: {{ order.hasState('searched')?order.getState('searched').date|localizeddate():'' }}</p>'
+    });
+    $('#{{ 'searched' ~ order.id }}.disabled').popover({
+        content: '<form id="search-form" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'search' }) }}" method="post">'
+            + '<p><a id="submit-search-form" href="#">{{ 'search'|capitalize|trans }}</a></p>'
+            + '</form>'
+    });
+});
+</script>

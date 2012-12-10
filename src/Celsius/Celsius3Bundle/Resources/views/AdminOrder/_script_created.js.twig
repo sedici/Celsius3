@@ -1,0 +1,7 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#{{ 'created' ~ order.id }}:not(.disabled)').popover({
+        content: '<p>{{ 'Date'|trans }}: {{ order.hasState('created')?order.getState('created').date|localizeddate():'' }}</p>'
+    });
+});
+</script>
