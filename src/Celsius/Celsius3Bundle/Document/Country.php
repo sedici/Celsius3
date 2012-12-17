@@ -14,24 +14,31 @@ class Country
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      * @MongoDB\UniqueIndex(order="asc")
      */
-    protected $name;
+    private $name;
+
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     * @MongoDB\UniqueIndex(order="asc")
+     */
+    private $abbreviation;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="country")
      */
-    protected $cities;
+    private $cities;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="countries") 
      */
-    protected $instance;
+    private $instance;
 
     public function __toString()
     {
@@ -115,6 +122,28 @@ class Country
     public function getInstance()
     {
         return $this->instance;
+    }
+
+    /**
+     * Set abbreviation
+     *
+     * @param string $abbreviation
+     * @return \Country
+     */
+    public function setAbbreviation($abbreviation)
+    {
+        $this->abbreviation = $abbreviation;
+        return $this;
+    }
+
+    /**
+     * Get abbreviation
+     *
+     * @return string $abbreviation
+     */
+    public function getAbbreviation()
+    {
+        return $this->abbreviation;
     }
 
 }

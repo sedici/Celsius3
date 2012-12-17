@@ -14,34 +14,33 @@ class City
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $name;
+    private $name;
 
     /**
-     * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $postalCode;
+    private $postalCode;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="city")
      */
-    protected $institutions;
+    private $institutions;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="cities") 
      */
-    protected $country;
+    private $country;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="cities") 
      */
-    protected $instance;
+    private $instance;
 
     public function __toString()
     {

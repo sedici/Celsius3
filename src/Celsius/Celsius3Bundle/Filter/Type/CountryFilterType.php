@@ -22,6 +22,9 @@ class CountryFilterType extends AbstractType
                 ->add('name', null, array(
                     'required' => false,
                 ))
+                ->add('abbreviation', null, array(
+                    'required' => false,
+                ))
         ;
         if (is_null($this->instance))
         {

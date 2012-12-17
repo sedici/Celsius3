@@ -14,6 +14,11 @@
             </a>
             {% include 'CelsiusCelsius3Bundle:AdminCountry:_index_list_actions.html.twig' %}
         </div>
+        <div class="accordion-body collapse" id="collapse{{ country.id }}">
+            <div class="accordion-inner">
+                {% include 'CelsiusCelsius3Bundle:AdminCountry:_show_fields.html.twig' %}
+            </div>
+        </div>
     </div>
 </div>
 {% endfor %}

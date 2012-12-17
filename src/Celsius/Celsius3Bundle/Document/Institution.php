@@ -14,67 +14,67 @@ class Institution
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $name;
+    private $name;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $abbreviation;
+    private $abbreviation;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Url()
      * @MongoDB\String
      */
-    protected $website;
+    private $website;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $address;
+    private $address;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="institution")
      */
-    protected $users;
+    private $users;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="parent")
      */
-    protected $institutions;
+    private $institutions;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="institutions") 
      */
-    protected $parent;
+    private $parent;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions") 
      */
-    protected $city;
+    private $city;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="institution") 
      */
-    protected $catalogs;
+    private $catalogs;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
      */
-    protected $instance;
+    private $instance;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions") 
      */
-    protected $celsiusInstance;
+    private $celsiusInstance;
 
     public function __toString()
     {

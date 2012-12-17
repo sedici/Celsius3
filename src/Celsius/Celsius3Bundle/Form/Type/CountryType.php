@@ -19,6 +19,7 @@ class CountryType extends AbstractType
     {
         $builder
                 ->add('name')
+                ->add('abbreviation')
         ;
         if (is_null($this->instance))
         {
