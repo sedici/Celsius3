@@ -30,6 +30,7 @@ class AppKernel extends Kernel
             new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
             new FOS\MessageBundle\FOSMessageBundle(),
             new Celsius\Celsius3Bundle\CelsiusCelsius3Bundle(),
+            new Celsius\Celsius3MessageBundle\CelsiusCelsius3MessageBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test')))

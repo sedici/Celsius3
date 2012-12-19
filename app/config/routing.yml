@@ -1,3 +1,8 @@
+celsius_celsius3_message:
+    resource: "@CelsiusCelsius3MessageBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 CelsiusCelsius3Bundle:
     resource: "@CelsiusCelsius3Bundle/Controller/"
     type:     annotation

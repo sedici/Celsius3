@@ -1,4 +1,3 @@
-
 {% if threads %}
         {% for thread in threads %}
             <div id="id{{ thread.id }}" class="accordion">
@@ -25,7 +24,9 @@
                     </div>
                     <div class="accordion-body collapse" id="collapse{{ thread.id }}">
                         <div class="accordion-inner">
+                            <span style="font-weight:bold;">
                             {% trans from 'FOSMessageBundle' %}subject{% endtrans %}:
+                            </span>
                             <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
                                 {{ thread.subject }}
                             </a>
@@ -36,66 +37,67 @@
                             
                             <br>
                             
-                            {% trans from 'FOSMessageBundle' %}starter{% endtrans %}:
+                            <span style="font-weight:bold;">
+                                {% trans from 'FOSMessageBundle' %}starter{% endtrans %}:
+                            </span>
                             {{ thread.createdBy }}
                             
                             <br>
                             
-                            {% trans from 'FOSMessageBundle' %}startdate{% endtrans %}:
+                            <span style="font-weight:bold;">
+                                {% trans from 'FOSMessageBundle' %}startdate{% endtrans %}:
+                            </span>
                             {{ thread.createdAt|date }}
-                            
+                          
                             <br>
                             
-                            {% trans from 'FOSMessageBundle' %}messages{% endtrans %}:
+                            <span style="font-weight:bold;">
+                                {% trans from 'FOSMessageBundle' %}messages{% endtrans %}:
+                            </span>
                             {{ thread.messages|length }}
                             <br>
                             
-                            {% trans from 'FOSMessageBundle' %}last_message{% endtrans %}:
+                            <span style="font-weight:bold;">
+                                {% trans from 'FOSMessageBundle' %}last_message{% endtrans %}:
+                            </span>
                             {% if thread.lastMessage %}
                                 <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}#message_{{ thread.lastMessage.id }}" title="{% trans from 'FOSMessageBundle' %}goto_last{% endtrans %}">
                                     →
                                 </a>
                                 {% trans with {'%date%': thread.lastMessage.createdAt|date} from 'FOSMessageBundle' %}on{% endtrans %}
-                                <br />
-                                {% trans with {'%sender%': thread.lastMessage.sender|e } from 'FOSMessageBundle' %}by{% endtrans %}
+                              
                             {% else %}
                                 ----
                             {% endif %}
+                                    
+                            <hr style="background-color: #1E90FF; height: 1px; width: 80%;">
                   
                             
-                            <br>
-                            
-                            
-                            
-                            
-                            
-                            
-                            
                             {% for message in thread.messages %}
-                                <div class="messenger_thread_message">
-                                    <div class="messenger_thread_message_info">
+                                {% if loop.first %}
+                                    {% set aux = message.sender %}
+                                {% endif %}
+                                <div class="messenger_thread_message" {% if (aux == message.sender) %} style="background-color: #ddd;" {% else %}  style="background-color: #fff;" {% endif %}>
+                                    
+                                    <span class="messenger_thread_message_info" style="font-weight:bold;">
                                         {% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle' %}by{% endtrans %}
-                                    </div>
-
+                                    </span>
+                                    ---
+                                    <span style="text-align: right"> {{ message.createdAt|date }} </span>
+                                    
                                     <div class="messenger_thread_message_body" id="message_{{ message.id }}">
-                                        {{ message.body }}
+                                        <p class="texto-cortado">{{ message.body }}</p>
                                     </div>
                                 </div>
                             {% endfor %}
+                         
+                            <hr style="background-color: #1E90FF; height: 1px; width: 80%;">
                             
                             <form action="{{ url('admin_message_thread_view', {'threadId': thread.id}) }}" method="post">
                                 {{ form_widget(forms[thread.id]) }}
 
                                 <input type="submit" />
                             </form>
-                            
-                            
-                            
-                            
-              
-             
-                            
-                            
                             
                             <br>
                         </div>

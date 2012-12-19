@@ -1,6 +1,7 @@
 {% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
+
 <a href="{{ url('fos_message_thread_new' )}}">{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
 
 <h2>{% trans from 'FOSMessageBundle' %}inbox{% endtrans %}</h2>

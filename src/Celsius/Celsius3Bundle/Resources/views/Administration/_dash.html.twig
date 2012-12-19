@@ -1,5 +1,9 @@
 <div class="well">
     <div class="dash">
+        <a class="btn btn-large" href="{{ path('admin_messages_inbox') }}" style="width: 80px;">
+            <i class="icon-envelope"></i><br />
+            {{ 'Messages'|trans }}({{numberMessage}})
+        </a>
         <a class="btn btn-large" href="#" style="width: 80px;">
             <i class="icon-star"></i><br />
             {{ 'Notifications'|trans }}
