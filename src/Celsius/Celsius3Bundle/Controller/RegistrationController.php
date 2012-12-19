@@ -3,6 +3,7 @@
 namespace Celsius\Celsius3Bundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\UserBundle\Controller\RegistrationController as BaseRegistrationController;
 
@@ -20,7 +21,7 @@ class RegistrationController extends BaseRegistrationController
         if ($process)
         {
             $user = $form->getData();
-            
+
             $this->container->get('custom_field_helper')->processCustomFields($this->getInstance(), $form, $user);
 
             $this->container->get('session')->set('fos_user_send_confirmation_email/email', $user->getEmail());
@@ -58,6 +59,47 @@ class RegistrationController extends BaseRegistrationController
         return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:waitConfirmation.html.' . $this->getEngine(), array(
                     'user' => $user,
                 ));
+    }
+
+    public function citiesAction()
+    {
+        $request = $this->container->get('request');
+
+        $cities = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:City')
+                ->createQueryBuilder()
+                ->field('country.id')->equals($request->query->get('country_id'))
+                ->getQuery()
+                ->execute();
+
+        $response = '';
+
+        foreach ($cities as $city)
+        {
+            $response .= '<option value="' . $city->getId() . '">' . $city->getName() . '</option>';
+        }
+
+        return new Response($response);
+    }
+
+    public function institutionsAction()
+    {
+        $request = $this->container->get('request');
+
+        $institutions = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:Institution')
+                ->createQueryBuilder()
+                ->field('city.id')->equals($request->query->get('city_id'))
+                ->getQuery()
+                ->execute();
+
+        $response = '';
+
+        foreach ($institutions as $key => $institution)
+        {
+            $response .= '<input type="radio" value="' . $institution->getId() . '" required="required" name="fos_user_registration_form[institution]" id="fos_user_registration_form_institution_' . $key . '">';
+            $response .= '<label class="required" for="fos_user_registration_form_institution_' . $key . '">' . $institution->getName() . '</label>';
+        }
+
+        return new Response($response);
     }
 
     /**

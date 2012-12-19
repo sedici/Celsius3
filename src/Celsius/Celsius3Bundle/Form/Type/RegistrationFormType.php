@@ -5,6 +5,7 @@ namespace Celsius\Celsius3Bundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Celsius\Celsius3Bundle\Form\EventListener\AddCustomFieldsSubscriber;
+use Celsius\Celsius3Bundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class RegistrationFormType extends BaseType
 {
@@ -49,6 +50,8 @@ class RegistrationFormType extends BaseType
         ;
         $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, true);
         $builder->addEventSubscriber($subscriber);
+        $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
+        $builder->addEventSubscriber($subscriber2);
     }
 
     public function getName()

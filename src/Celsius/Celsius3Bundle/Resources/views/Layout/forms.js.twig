@@ -106,5 +106,34 @@ $(document).ready(function(){
         if ($('input[type=checkbox]:checked').length >= 2)
             $('.batch_form').submit();
     });
+    
+    $('#fos_user_registration_form_country').change(function(){
+        $('#fos_user_registration_form_city > option:gt(0)').remove();
+        $('#fos_user_registration_form_institution > *').remove();
+        if($(this).val()){
+            $.ajax({
+                type: "GET",
+                data: "country_id=" + $(this).val(),
+                url: '{{ path('fos_user_registration_cities', { 'url': app.request.get('url') }) }}',
+                success: function(data){
+                    $('#fos_user_registration_form_city').append(data);
+                }
+            });
+        }
+    });
+    
+    $('#fos_user_registration_form_city').change(function(){
+        $('#fos_user_registration_form_institution > *').remove();
+        if($(this).val()){
+            $.ajax({
+                type: "GET",
+                data: "city_id=" + $(this).val(),
+                url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
+                success: function(data){
+                    $('#fos_user_registration_form_institution').append(data);
+                }
+            });
+        }
+    });
 });
 </script>
