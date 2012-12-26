@@ -60,6 +60,11 @@ class Institution
      * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions") 
      */
     private $city;
+    
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="institutions") 
+     */
+    private $country;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="institution") 
@@ -333,4 +338,26 @@ class Institution
         return $this->catalogs;
     }
 
+
+    /**
+     * Set country
+     *
+     * @param Celsius\Celsius3Bundle\Document\Country $country
+     * @return \Institution
+     */
+    public function setCountry(\Celsius\Celsius3Bundle\Document\Country $country)
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return Celsius\Celsius3Bundle\Document\Country $country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
 }

@@ -74,6 +74,7 @@ class BaseUser extends User implements ParticipantInterface
     protected $librarian;
 
     /**
+     * @Assert\NotBlank()
      * @MongoDB\ReferenceOne(targetDocument="Institution") 
      */
     protected $institution;

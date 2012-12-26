@@ -34,6 +34,11 @@ class Country
      * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="country")
      */
     private $cities;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="country")
+     */
+    private $institutions;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="countries") 
@@ -146,4 +151,24 @@ class Country
         return $this->abbreviation;
     }
 
+
+    /**
+     * Add institutions
+     *
+     * @param Celsius\Celsius3Bundle\Document\Institution $institutions
+     */
+    public function addInstitutions(\Celsius\Celsius3Bundle\Document\Institution $institutions)
+    {
+        $this->institutions[] = $institutions;
+    }
+
+    /**
+     * Get institutions
+     *
+     * @return Doctrine\Common\Collections\Collection $institutions
+     */
+    public function getInstitutions()
+    {
+        return $this->institutions;
+    }
 }

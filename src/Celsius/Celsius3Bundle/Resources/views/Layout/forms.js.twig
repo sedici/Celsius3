@@ -119,6 +119,14 @@ $(document).ready(function(){
                     $('#fos_user_registration_form_city').append(data);
                 }
             });
+            $.ajax({
+                type: "GET",
+                data: "country_id=" + $(this).val(),
+                url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
+                success: function(data){
+                    $('#fos_user_registration_form_institution').append(data);
+                }
+            });
         }
     });
     

@@ -65,6 +65,11 @@ class RegistrationController extends BaseRegistrationController
     {
         $request = $this->container->get('request');
 
+        if (!$request->query->has('country_id'))
+        {
+            throw $this->createNotFoundException();
+        }
+
         $cities = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:City')
                 ->createQueryBuilder()
                 ->field('country.id')->equals($request->query->get('country_id'))
@@ -85,10 +90,23 @@ class RegistrationController extends BaseRegistrationController
     {
         $request = $this->container->get('request');
 
-        $institutions = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:Institution')
-                ->createQueryBuilder()
-                ->field('city.id')->equals($request->query->get('city_id'))
-                ->getQuery()
+        if (!$request->query->has('country_id') && !$request->query->has('city_id'))
+        {
+            throw $this->createNotFoundException();
+        }
+
+        $qb = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:Institution')
+                ->createQueryBuilder();
+
+        if ($request->query->has('city_id'))
+        {
+            $qb = $qb->field('city.id')->equals($request->query->get('city_id'));
+        } else
+        {
+            $qb = $qb->field('country.id')->equals($request->query->get('country_id'));
+        }
+
+        $institutions = $qb->getQuery()
                 ->execute();
 
         $response = '';

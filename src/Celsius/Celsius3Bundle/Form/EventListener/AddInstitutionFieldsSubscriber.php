@@ -26,14 +26,14 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            FormEvents::POST_SET_DATA => 'postSetData',
+            FormEvents::PRE_SET_DATA => 'preSetData',
+            FormEvents::PRE_BIND => 'preBind',
         );
     }
 
-    public function postSetData(FormEvent $event)
+    private function addInstitutionFields(FormEvent $event, $bind)
     {
         $data = $event->getData();
-        $extraData = $event->getForm()->getExtraData();
         $form = $event->getForm();
 
         // During form creation setData() is called with null as an argument
@@ -46,25 +46,36 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $country = array_key_exists('country', $extraData) ? $extraData['country'] : null;
-        $city = array_key_exists('city', $extraData) ? $extraData['city'] : null;
-        $institution = $data->getInstitution();
+        $country = null;
+        $city = null;
+        $institution = null;
 
-        $form->add($this->factory->createNamed('country', 'document', null, array(
+        if ($bind && array_key_exists('institution', $data))
+        {
+            $institution = $this->dm->find('CelsiusCelsius3Bundle:Institution', $data['institution']);
+            $city = $institution->getCity();
+            if (!is_null($city))
+            {
+                $country = $city->getCountry();
+            }
+        }
+
+        $form->add($this->factory->createNamed('country', 'document', $country, array(
                     'class' => 'CelsiusCelsius3Bundle:Country',
                     'property_path' => false,
                     'empty_value' => '',
+                    'required' => false,
                     'query_builder' => function(DocumentRepository $dr)
                     {
                         return $dr->createQueryBuilder()
                                         ->sort('name');
                     },
-                    'data' => $country,
                 )));
-        $form->add($this->factory->createNamed('city', 'document', null, array(
+        $form->add($this->factory->createNamed('city', 'document', $city, array(
                     'class' => 'CelsiusCelsius3Bundle:City',
                     'property_path' => false,
                     'empty_value' => '',
+                    'required' => false,
                     'query_builder' => function (DocumentRepository $repository) use ($country)
                     {
                         $qb = $repository->createQueryBuilder();
@@ -79,19 +90,21 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
                         return $qb;
                     },
-                    'data' => $city,
                 )));
-        $form->add($this->factory->createNamed('institution', 'document', null, array(
+        $form->add($this->factory->createNamed('institution', 'document', $institution, array(
                     'class' => 'CelsiusCelsius3Bundle:Institution',
                     'empty_value' => '',
                     'expanded' => true,
-                    'query_builder' => function (DocumentRepository $repository) use ($city)
+                    'query_builder' => function (DocumentRepository $repository) use ($city, $country)
                     {
                         $qb = $repository->createQueryBuilder();
 
                         if ($city instanceof City)
                         {
                             $qb = $qb->field('city.id')->equals($city->getId());
+                        } else if ($country instanceof Country)
+                        {
+                            $qb = $qb->field('country.id')->equals($country->getId());
                         } else
                         {
                             $qb = $qb->field('city.id')->equals(null);
@@ -99,8 +112,17 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
                         return $qb->sort('name');
                     },
-                    'data' => $institution,
                 )));
+    }
+
+    public function preSetData(FormEvent $event)
+    {
+        $this->addInstitutionFields($event, false);
+    }
+
+    public function preBind(FormEvent $event)
+    {
+        $this->addInstitutionFields($event, true);
     }
 
 }
