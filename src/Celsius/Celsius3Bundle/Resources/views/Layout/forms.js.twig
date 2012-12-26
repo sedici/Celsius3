@@ -20,6 +20,21 @@ function librarian(id) {
     $('#celsius_celsius3bundle_ordertype_owner').val('');
     $('#celsius_celsius3bundle_ordertype_librarian').val(id);
 }
+
+function loadCities(json) {
+    $.each(json, function(i, val) {
+        $('#fos_user_registration_form_city').append('<option value="'+val.value+'">'+val.name+'</option>');
+    });
+}
+
+function loadInstitutions(parent, json, level) {
+    $.each(json, function(i, val) {
+        var pre = Array(level + 1).join('-')
+        $(parent).append('<p id="radio' + val.value + '"><input type="radio" value="' + val.value + '" required="required" name="fos_user_registration_form[institution]" id="fos_user_registration_form_institution_' + i + '">'
+            + pre + '<label class="required" for="fos_user_registration_form_institution_' + i + '">' + val.name + '</label><p>');
+        loadInstitutions('#radio'+val.value, val.institutions, level+1);
+    });
+}
     
 $(document).ready(function(){
     /**
@@ -113,18 +128,21 @@ $(document).ready(function(){
         if($(this).val()){
             $.ajax({
                 type: "GET",
+                format: 'json',
                 data: "country_id=" + $(this).val(),
                 url: '{{ path('fos_user_registration_cities', { 'url': app.request.get('url') }) }}',
                 success: function(data){
-                    $('#fos_user_registration_form_city').append(data);
+                    loadCities(JSON.parse(data));
                 }
             });
             $.ajax({
                 type: "GET",
+                format: 'json',
                 data: "country_id=" + $(this).val(),
                 url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
                 success: function(data){
-                    $('#fos_user_registration_form_institution').append(data);
+                    loadInstitutions('#fos_user_registration_form_institution', JSON.parse(data), 0);
+                    //$('#fos_user_registration_form_institution').append(data);
                 }
             });
         }
@@ -138,7 +156,7 @@ $(document).ready(function(){
                 data: "city_id=" + $(this).val(),
                 url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
                 success: function(data){
-                    $('#fos_user_registration_form_institution').append(data);
+                    //$('#fos_user_registration_form_institution').append(data);
                 }
             });
         }

@@ -76,14 +76,14 @@ class RegistrationController extends BaseRegistrationController
                 ->getQuery()
                 ->execute();
 
-        $response = '';
+        $response = array();
 
         foreach ($cities as $city)
         {
-            $response .= '<option value="' . $city->getId() . '">' . $city->getName() . '</option>';
+            $response[] = array('value' => $city->getId(), 'name' => $city->getName());
         }
 
-        return new Response($response);
+        return new Response(json_encode($response));
     }
 
     public function institutionsAction()
@@ -103,21 +103,33 @@ class RegistrationController extends BaseRegistrationController
             $qb = $qb->field('city.id')->equals($request->query->get('city_id'));
         } else
         {
-            $qb = $qb->field('country.id')->equals($request->query->get('country_id'));
+            $qb = $qb->field('country.id')->equals($request->query->get('country_id'))
+                            ->field('city.id')->equals(null);
         }
 
-        $institutions = $qb->getQuery()
+        $institutions = $qb->field('parent.id')->equals(null)
+                ->getQuery()
                 ->execute();
 
-        $response = '';
+        $response = $this->parseInstitutions($institutions);
 
-        foreach ($institutions as $key => $institution)
+        return new Response(json_encode($response));
+    }
+    
+    protected function parseInstitutions($institutions)
+    {
+        $response = array();
+        
+        foreach ($institutions as $institution)
         {
-            $response .= '<input type="radio" value="' . $institution->getId() . '" required="required" name="fos_user_registration_form[institution]" id="fos_user_registration_form_institution_' . $key . '">';
-            $response .= '<label class="required" for="fos_user_registration_form_institution_' . $key . '">' . $institution->getName() . '</label>';
+            $response [] = array(
+                'value' => $institution->getId(),
+                'name' => $institution->getName(),
+                'institutions' => $this->parseInstitutions($institution->getInstitutions()),
+            );
         }
-
-        return new Response($response);
+        
+        return $response;
     }
 
     /**
