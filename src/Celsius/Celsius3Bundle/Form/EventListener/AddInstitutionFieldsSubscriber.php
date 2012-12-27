@@ -70,6 +70,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         return $dr->createQueryBuilder()
                                         ->sort('name');
                     },
+                    'attr' => array(
+                        'class' => 'country-select'
+                    ),
                 )));
         $form->add($this->factory->createNamed('city', 'document', $city, array(
                     'class' => 'CelsiusCelsius3Bundle:City',
@@ -90,6 +93,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
                         return $qb;
                     },
+                    'attr' => array(
+                        'class' => 'city-select'
+                    ),
                 )));
         $form->add($this->factory->createNamed('institution', 'document', $institution, array(
                     'class' => 'CelsiusCelsius3Bundle:Institution',
@@ -114,6 +120,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
                         return $qb->sort('name');
                     },
+                    'attr' => array(
+                        'class' => 'institution-select'
+                    ),
                 )));
     }
 

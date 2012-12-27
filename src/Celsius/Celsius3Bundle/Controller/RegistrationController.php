@@ -90,7 +90,7 @@ class RegistrationController extends BaseRegistrationController
     {
         $request = $this->container->get('request');
 
-        if (!$request->query->has('country_id') && !$request->query->has('city_id'))
+        if (!$request->query->has('country_id') && !$request->query->has('city_id') && !$request->query->has('institution_id'))
         {
             throw $this->createNotFoundException();
         }
@@ -100,36 +100,34 @@ class RegistrationController extends BaseRegistrationController
 
         if ($request->query->has('city_id'))
         {
-            $qb = $qb->field('city.id')->equals($request->query->get('city_id'));
-        } else
+            $qb = $qb->field('city.id')->equals($request->query->get('city_id'))
+                            ->field('parent.id')->equals(null);
+        } else if ($request->query->has('country_id'))
         {
             $qb = $qb->field('country.id')->equals($request->query->get('country_id'))
-                            ->field('city.id')->equals(null);
+                            ->field('city.id')->equals(null)
+                            ->field('parent.id')->equals(null);
+        } else
+        {
+            $qb = $qb->field('parent.id')->equals($request->query->get('institution_id'));
         }
 
-        $institutions = $qb->field('parent.id')->equals(null)
+        $institutions = $qb
                 ->getQuery()
                 ->execute();
 
-        $response = $this->parseInstitutions($institutions);
-
-        return new Response(json_encode($response));
-    }
-    
-    protected function parseInstitutions($institutions)
-    {
         $response = array();
-        
+
         foreach ($institutions as $institution)
         {
             $response [] = array(
                 'value' => $institution->getId(),
                 'name' => $institution->getName(),
-                'institutions' => $this->parseInstitutions($institution->getInstitutions()),
+                'hasChildren' => $institution->getInstitutions()->count() > 0,
             );
         }
-        
-        return $response;
+
+        return new Response(json_encode($response));
     }
 
     /**

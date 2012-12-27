@@ -1,0 +1,111 @@
+{% raw %}
+<script id="city" type="text/html">
+    <option value="{{value}}">{{name}}</option>
+</script>
+
+<script id="institution" type="text/html">
+    <p class="tree">
+        {{#hasChildren}}
+        <span class="expand-tree">+</span>
+        {{/hasChildren}}
+        {{^hasChildren}}
+        <span>&nbsp;&nbsp;</span>
+        {{/hasChildren}}
+        <input type="radio" value="{{value}}" required="required" name="{{form}}[institution]" id="{{form}}_institution_{{value}}" />
+        <label class="required inline" for="fos_user_registration_form_institution_{{value}}">{{name}}</label>
+    </p>
+</script>
+{% endraw %}
+<script type="text/javascript">
+function loadCities(json) {
+    $.each(json, function(i, val) {
+        var city_data;
+
+        city_data = {
+            value: val.value,
+            name: val.name
+        };
+
+        $('.city-select').append(ich.city(city_data));
+    });
+}
+
+function loadInstitutions(parent, json) {
+    $.each(json, function(i, val) {
+        var institution_data;
+
+        institution_data = {
+            value: val.value,
+            name: val.name,
+            hasChildren: val.hasChildren,
+            form: '{{ form.getName() }}'
+        };
+        
+        $(parent).append(ich.institution(institution_data));
+    });
+}
+    
+$(document).ready(function(){
+    $('.country-select').change(function(){
+        $('.city-select > option:gt(0)').empty();
+        $('.institution-select > *').empty();
+        if($(this).val()){
+            $.ajax({
+                type: 'GET',
+                format: 'json',
+                data: 'country_id=' + $(this).val(),
+                url: '{{ path('fos_user_registration_cities', { 'url': app.request.get('url') }) }}',
+                success: function(data){
+                    loadCities(JSON.parse(data));
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                format: 'json',
+                data: 'country_id=' + $(this).val(),
+                url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
+                success: function(data){
+                    loadInstitutions('.institution-select', JSON.parse(data));
+                }
+            });
+        }
+    });
+    
+    $('.city-select').change(function(){
+        $('.institution-select > *').empty();
+        if($(this).val()){
+            $.ajax({
+                type: 'GET',
+                data: 'city_id=' + $(this).val(),
+                url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
+                success: function(data){
+                    loadInstitutions('.institution-select', JSON.parse(data));
+                }
+            });
+        }
+    });
+    
+    $('.expand-tree').live('click', function(){
+        var element;
+        element = $(this);
+        $.ajax({
+            type: 'GET',
+            data: 'institution_id=' + $(this).parent().children('input').val(),
+            url: '{{ path('fos_user_registration_institutions', { 'url': app.request.get('url') }) }}',
+            success: function(data){
+                loadInstitutions(element.parent(), JSON.parse(data));
+                element.removeClass('expand-tree');
+                element.addClass('collapse-tree');
+                element.text('-');
+            }
+        });
+    });
+    
+    $('.collapse-tree').live('click', function(){
+        $(this).parent().children('p').remove();
+        $(this).removeClass('collapse-tree');
+        $(this).addClass('expand-tree');
+        $(this).text('+');
+    });
+});
+    </script>
