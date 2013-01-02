@@ -29,7 +29,7 @@ class StateExtension extends \Twig_Extension
         );
     }
 
-    public function renderState($state, Order $order)
+    public function renderState($state, Order $order, $extra)
     {
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
                     'state' => $state,
@@ -37,6 +37,7 @@ class StateExtension extends \Twig_Extension
                     'events' => $this->manager->getEventsToState($state),
                     'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
                     'script' => 'CelsiusCelsius3Bundle:AdminOrder:_script_' . $state . '.js.twig',
+                    'extra' => $extra,
                 ));
     }
 

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
+use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 
 /**
  * Order controller.
@@ -44,7 +45,15 @@ class AdminOrderController extends OrderController
      */
     public function showAction($id)
     {
-        return $this->baseShow('Order', $id);
+        $response = $this->baseShow('Order', $id);
+        
+        if (is_array($response))
+        {
+            $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'));
+            $response['request_form'] = $form->createView();
+        }
+        
+        return $response;
     }
 
     /**
