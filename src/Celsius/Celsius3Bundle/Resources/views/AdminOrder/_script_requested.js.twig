@@ -1,3 +1,5 @@
+{% include 'CelsiusCelsius3Bundle:Layout:cci.js.twig' with { 'form': extra['request_form'] } %}
+
 {% raw %}
 <script id="requested" type="text/html">
     <p>{{datetext}}: {{date}}</p>
@@ -14,13 +16,13 @@
         <h3 id="request-modal-label">{{ 'Request'|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form action="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' }) }}" method="post">
+        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' })|raw }}" method="post">
             {{ form_widget(extra['request_form'])|raw }}
         </form>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">{{ 'Request'|trans }}</button>
+        <button class="btn btn-primary" id="doRequest">{{ 'Save'|trans }}</button>
     </div>
 </div>
 <script type="text/javascript">    
@@ -29,6 +31,10 @@ $(document).ready(function () {
     
     $('#request-link').live('click', function(){
         $('#{{ 'requested' ~ order.id }}.disabled').popover('hide');
+    });
+    
+    $('#doRequest').click(function(){
+        $("#requestForm").submit();
     });
     
     searched_data = {

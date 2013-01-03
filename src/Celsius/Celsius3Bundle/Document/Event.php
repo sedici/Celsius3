@@ -37,6 +37,11 @@ abstract class Event
     private $date;
     
     /**
+     * @MongoDB\String
+     */
+    private $observations;
+    
+    /**
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="events")
      */
     private $order;
@@ -174,5 +179,27 @@ abstract class Event
     public function getInstance()
     {
         return $this->instance;
+    }
+
+    /**
+     * Set observations
+     *
+     * @param string $observations
+     * @return \Event
+     */
+    public function setObservations($observations)
+    {
+        $this->observations = $observations;
+        return $this;
+    }
+
+    /**
+     * Get observations
+     *
+     * @return string $observations
+     */
+    public function getObservations()
+    {
+        return $this->observations;
     }
 }

@@ -16,11 +16,13 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
     private $factory;
     private $dm;
+    private $property_path;
 
-    public function __construct(FormFactoryInterface $factory, DocumentManager $dm)
+    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, $property_path = 'institution')
     {
         $this->factory = $factory;
         $this->dm = $dm;
+        $this->property_path = $property_path;
     }
 
     public static function getSubscribedEvents()
@@ -99,6 +101,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                 )));
         $form->add($this->factory->createNamed('institution', 'document', $institution, array(
                     'class' => 'CelsiusCelsius3Bundle:Institution',
+                    'property_path' => $this->property_path,
                     'empty_value' => '',
                     'expanded' => true,
                     'query_builder' => function (DocumentRepository $repository) use ($city, $country)

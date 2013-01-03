@@ -12,30 +12,30 @@ class SingleInstanceRequest extends SingleInstance
 {
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Institution")
+     * @MongoDB\ReferenceOne(targetDocument="Provider")
      */
-    private $institution;
+    private $provider;
 
     /**
-     * Set institution
+     * Set provider
      *
-     * @param Celsius\Celsius3Bundle\Document\Institution $institution
+     * @param Celsius\Celsius3Bundle\Document\Provider $provider
      * @return \SingleInstanceRequest
      */
-    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
+    public function setProvider(\Celsius\Celsius3Bundle\Document\Provider $provider)
     {
-        $this->institution = $institution;
+        $this->provider = $provider;
         return $this;
     }
 
     /**
-     * Get institution
+     * Get provider
      *
-     * @return Celsius\Celsius3Bundle\Document\Institution $institution
+     * @return Celsius\Celsius3Bundle\Document\Provider $provider
      */
-    public function getInstitution()
+    public function getProvider()
     {
-        return $this->institution;
+        return $this->provider;
     }
 
 }

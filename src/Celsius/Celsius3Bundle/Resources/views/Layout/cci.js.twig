@@ -12,7 +12,7 @@
         <span>&nbsp;&nbsp;</span>
         {{/hasChildren}}
         <input type="radio" value="{{value}}" required="required" name="{{form}}[institution]" id="{{form}}_institution_{{value}}" />
-        <label class="required inline" for="fos_user_registration_form_institution_{{value}}">{{name}}</label>
+        <label class="required inline" for="{{form}}_institution_{{value}}">{{name}}</label>
     </p>
 </script>
 {% endraw %}
@@ -54,7 +54,7 @@ $(document).ready(function(){
                 type: 'GET',
                 format: 'json',
                 data: 'country_id=' + $(this).val(),
-                url: '{{ path('public_cities', { 'url': app.request.get('url') }) }}',
+                url: '{{ path('public_cities', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}',
                 success: function(data){
                     loadCities(JSON.parse(data));
                 }
@@ -63,7 +63,7 @@ $(document).ready(function(){
                 type: 'GET',
                 format: 'json',
                 data: 'country_id=' + $(this).val(),
-                url: '{{ path('public_institutions', { 'url': app.request.get('url') }) }}',
+                url: '{{ path('public_institutions', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}',
                 success: function(data){
                     loadInstitutions('.institution-select', JSON.parse(data));
                 }
@@ -77,7 +77,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'GET',
                 data: 'city_id=' + $(this).val(),
-                url: '{{ path('public_institutions', { 'url': app.request.get('url') }) }}',
+                url: '{{ path('public_institutions', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}',
                 success: function(data){
                     loadInstitutions('.institution-select', JSON.parse(data));
                 }
@@ -91,7 +91,7 @@ $(document).ready(function(){
         $.ajax({
             type: 'GET',
             data: 'institution_id=' + $(this).parent().children('input').val(),
-            url: '{{ path('public_institutions', { 'url': app.request.get('url') }) }}',
+            url: '{{ path('public_institutions', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}',
             success: function(data){
                 loadInstitutions(element.parent(), JSON.parse(data));
                 element.removeClass('expand-tree');

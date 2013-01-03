@@ -9,21 +9,26 @@ use Celsius\Celsius3Bundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class OrderRequestType extends AbstractType
 {
+
     private $dm;
     private $data_class;
-    
+
     public function __construct($dm, $data_class)
     {
         $this->dm = $dm;
         $this->data_class = $data_class;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
+        $builder
+                ->add('observations', 'textarea')
+        ;
+
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'provider');
         $builder->addEventSubscriber($subscriber);
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
@@ -35,4 +40,5 @@ class OrderRequestType extends AbstractType
     {
         return 'celsius_celsius3bundle_orderrequesttype';
     }
+
 }

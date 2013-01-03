@@ -8,7 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * @MongoDB\Document
  */
-class Institution
+class Institution extends Provider
 {
 
     /**
@@ -60,7 +60,7 @@ class Institution
      * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions") 
      */
     private $city;
-    
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="institutions") 
      */
@@ -338,7 +338,6 @@ class Institution
         return $this->catalogs;
     }
 
-
     /**
      * Set country
      *
@@ -360,4 +359,10 @@ class Institution
     {
         return $this->country;
     }
+
+    public function getProviderName()
+    {
+        return $this->getName();
+    }
+
 }

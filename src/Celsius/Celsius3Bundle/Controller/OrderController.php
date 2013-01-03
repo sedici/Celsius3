@@ -43,15 +43,4 @@ abstract class OrderController extends BaseInstanceDependentController
         return new $materialTypeName;
     }
 
-    protected function baseEvent($id, $event, $route)
-    {
-        $order = $this->findQuery('Order', $id);
-
-        $this->get('lifecycle_helper')->createEvent($event, $order);
-        
-        $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
-
-        return $this->redirect($this->generateUrl($route . '_show', array('id' => $order->getId())));
-    }
-
 }

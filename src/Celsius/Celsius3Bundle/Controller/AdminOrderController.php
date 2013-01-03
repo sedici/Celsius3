@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
@@ -49,7 +50,7 @@ class AdminOrderController extends OrderController
         
         if (is_array($response))
         {
-            $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'));
+            $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
             $response['request_form'] = $form->createView();
         }
         
@@ -207,7 +208,18 @@ class AdminOrderController extends OrderController
      */
     public function eventAction($id, $event)
     {
-        return $this->baseEvent($id, $event, 'admin_order');
+        $order = $this->findQuery('Order', $id);
+        
+        if (!$order)
+        {
+            throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
+        }
+
+        $this->get('lifecycle_helper')->createEvent($event, $order);
+        
+        $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
+
+        return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
     }
 
 }
