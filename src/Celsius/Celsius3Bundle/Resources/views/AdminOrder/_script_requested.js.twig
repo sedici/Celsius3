@@ -3,6 +3,7 @@
 {% raw %}
 <script id="requested" type="text/html">
     <p>{{datetext}}: {{date}}</p>
+    <p><a id="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
 </script>
 
 <script id="notrequested" type="text/html">
@@ -16,7 +17,7 @@
         <h3 id="request-modal-label">{{ 'Request'|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'sirequest' })|raw }}" method="post">
+        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'request' })|raw }}" method="post">
             {{ form_widget(extra['request_form'])|raw }}
         </form>
     </div>
@@ -31,15 +32,17 @@ $(document).ready(function () {
     
     $('#request-link').live('click', function(){
         $('#{{ 'requested' ~ order.id }}.disabled').popover('hide');
+        $('#{{ 'requested' ~ order.id }}:not(.disabled)').popover('hide');
     });
     
     $('#doRequest').click(function(){
         $("#requestForm").submit();
     });
     
-    searched_data = {
+    requested_data = {
         datetext: '{{ 'Date'|trans }}',
-        date: '{{ order.hasState('requested')?order.getState('requested').date|localizeddate():'' }}'
+        date: '{{ order.hasState('requested')?order.getState('requested').date|localizeddate():'' }}',
+        requesttext: '{{ 'request'|capitalize|trans }}'
     };
     
     $('#{{ 'requested' ~ order.id }}:not(.disabled)').popover({

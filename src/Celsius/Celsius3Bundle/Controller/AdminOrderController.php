@@ -5,6 +5,7 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
@@ -47,13 +48,13 @@ class AdminOrderController extends OrderController
     public function showAction($id)
     {
         $response = $this->baseShow('Order', $id);
-        
+
         if (is_array($response))
         {
             $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
             $response['request_form'] = $form->createView();
         }
-        
+
         return $response;
     }
 
@@ -145,7 +146,7 @@ class AdminOrderController extends OrderController
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid())
         {
@@ -209,14 +210,43 @@ class AdminOrderController extends OrderController
     public function eventAction($id, $event)
     {
         $order = $this->findQuery('Order', $id);
-        
+
         if (!$order)
         {
             throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
-
-        $this->get('lifecycle_helper')->createEvent($event, $order);
         
+        $extraData = array();
+
+        if ($event == 'request')
+        {
+            $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
+            $request = $this->getRequest();
+
+            $form->bind($request);
+
+            if ($form->isValid())
+            {
+                $provider = $form->getData()->getProvider();
+                $extraData['provider'] = $provider;
+                
+                if ($provider instanceof Institution && $provider->getInstance())
+                {
+                    $event = 'mirequest';
+                } else
+                {
+                    $event = 'sirequest';
+                }
+            } else
+            {
+                $this->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+
+                return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
+            }
+        }
+
+        $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);
+
         $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
 
         return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));

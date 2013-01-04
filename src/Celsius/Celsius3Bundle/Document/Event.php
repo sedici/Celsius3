@@ -30,7 +30,6 @@ abstract class Event
     private $id;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */
