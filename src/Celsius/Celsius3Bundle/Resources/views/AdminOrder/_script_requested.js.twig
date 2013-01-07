@@ -2,7 +2,9 @@
 
 {% raw %}
 <script id="requested" type="text/html">
-    <p>{{datetext}}: {{date}}</p>
+    {{#dates}}
+    <p>{{datetext}}: {{.}}</p>
+    {{/dates}}
     <p><a id="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
 </script>
 
@@ -28,7 +30,7 @@
 </div>
 <script type="text/javascript">    
 $(document).ready(function () {
-    var requested_data, not_requested_data;
+    var requested_data, not_requested_data, dates;
     
     $('#request-link').live('click', function(){
         $('#{{ 'requested' ~ order.id }}.disabled').popover('hide');
@@ -39,9 +41,15 @@ $(document).ready(function () {
         $("#requestForm").submit();
     });
     
+    dates = [
+        {% for event in createdEvents %}
+            '{{ event.date|localizeddate() }}',
+        {% endfor %}
+    ]
+    
     requested_data = {
         datetext: '{{ 'Date'|trans }}',
-        date: '{{ order.hasState('requested')?order.getState('requested').date|localizeddate():'' }}',
+        dates: dates,
         requesttext: '{{ 'request'|capitalize|trans }}'
     };
     

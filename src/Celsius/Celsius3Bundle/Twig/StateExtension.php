@@ -38,6 +38,7 @@ class StateExtension extends \Twig_Extension
                     'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
                     'script' => 'CelsiusCelsius3Bundle:AdminOrder:_script_' . $state . '.js.twig',
                     'extra' => $extra,
+                    'createdEvents' => $order->hasState($state) ? $order->getState($state)->getEvents() : array(),
                 ));
     }
 
