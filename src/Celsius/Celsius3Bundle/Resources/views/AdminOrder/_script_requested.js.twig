@@ -43,7 +43,7 @@ $(document).ready(function () {
     
     dates = [
         {% for event in createdEvents %}
-            '{{ event.date|localizeddate() }}',
+            '{{ event.date.sec|localizeddate() }}',
         {% endfor %}
     ]
     

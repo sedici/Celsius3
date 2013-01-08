@@ -44,6 +44,7 @@
         
         <service id="twig.extension.states" class="%twig.extension.states.class%">
             <argument type="service" id="state_manager"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
             <tag name="twig.extension" />
         </service>
         

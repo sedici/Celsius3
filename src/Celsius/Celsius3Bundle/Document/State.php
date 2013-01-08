@@ -37,11 +37,6 @@ class State
     private $type;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="state")
-     */
-    private $events;
-
-    /**
      * @MongoDB\ReferenceOne
      */
     private $remoteEvent;
@@ -60,11 +55,6 @@ class State
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="states")
      */
     private $order;
-
-    public function __construct()
-    {
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -118,26 +108,6 @@ class State
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Add events
-     *
-     * @param Celsius\Celsius3Bundle\Document\Event $events
-     */
-    public function addEvents(\Celsius\Celsius3Bundle\Document\Event $events)
-    {
-        $this->events[] = $events;
-    }
-
-    /**
-     * Get events
-     *
-     * @return Doctrine\Common\Collections\Collection $events
-     */
-    public function getEvents()
-    {
-        return $this->events;
     }
 
     /**

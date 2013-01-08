@@ -45,11 +45,15 @@ class LifecycleHelper
         $event->setOperator($order->getOperator());
         $event->setInstance($order->getInstance());
         $event->setOrder($order);
-        $event->setState($this->getState($state, $date, $order));
+        
+        $state = $this->getState($state, $date, $order);
+        
+        $event->setState($state);
 
         $this->applyExtraData($event, $order, $date, $extraData);
 
         $this->dm->persist($event);
+        $this->dm->persist($state);
         $this->dm->flush();
     }
 
