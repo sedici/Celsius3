@@ -42,9 +42,11 @@ $(document).ready(function () {
     });
     
     dates = [
-        {% for event in createdEvents %}
-            '{{ event.date.sec|localizeddate() }}',
-        {% endfor %}
+        {% if order.hasState('requested') %}
+            {% for event in order.getState('requested').events %}
+                '{{ event.date|localizeddate() }}',
+            {% endfor %}
+        {% endif %}
     ]
     
     requested_data = {

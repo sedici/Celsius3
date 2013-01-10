@@ -34,17 +34,6 @@ class StateExtension extends \Twig_Extension
 
     public function renderState($state, Order $order, $extra)
     {
-        $createdEvents = array();
-        if ($order->hasState($state))
-        {
-            $createdEvents = $this->dm->getRepository('CelsiusCelsius3Bundle:Event')
-                    ->createQueryBuilder()
-                    ->hydrate(false)
-                    ->select('date')
-                    ->field('state.id')->equals($order->getState($state)->getId())
-                    ->getQuery()
-                    ->execute();
-        }
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
                     'state' => $state,
                     'order' => $order,
@@ -52,7 +41,6 @@ class StateExtension extends \Twig_Extension
                     'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
                     'script' => 'CelsiusCelsius3Bundle:AdminOrder:_script_' . $state . '.js.twig',
                     'extra' => $extra,
-                    'createdEvents' => $createdEvents,
                 ));
     }
 

@@ -6,9 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\MappedSuperclass
+ * @MongoDB\Document
  */
-abstract class MultiInstance extends Event
+class MultiInstance extends Event
 {
 
     /**

@@ -130,7 +130,7 @@ class FixtureLoader implements FixtureInterface
             $manager->persist($instance);
             $manager->flush();
 
-            for ($j = 0; $j < 100; $j++)
+            for ($j = 0; $j < 20; $j++)
             {
                 $user = new Document\BaseUser();
                 $user->setName($names[rand(0, 99999999) % 10]);

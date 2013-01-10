@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\MappedSuperclass
+ * @MongoDB\Document
  * @MongoDB\InheritanceType("SINGLE_COLLECTION")
  * @MongoDB\DiscriminatorField(fieldName="type")
  * @MongoDB\DiscriminatorMap({
@@ -22,7 +22,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *   "remotecancel"="RemoteCancel"
  * })
  */
-abstract class Event
+class Event
 {
 
     /**

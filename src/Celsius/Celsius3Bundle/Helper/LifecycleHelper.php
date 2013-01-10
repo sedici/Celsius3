@@ -45,9 +45,9 @@ class LifecycleHelper
         $event->setOperator($order->getOperator());
         $event->setInstance($order->getInstance());
         $event->setOrder($order);
-        
-        $state = $this->getState($state, $date, $order);
-        
+
+        $state = $this->getState($state, $date, $order, $event);
+
         $event->setState($state);
 
         $this->applyExtraData($event, $order, $date, $extraData);
@@ -57,7 +57,7 @@ class LifecycleHelper
         $this->dm->flush();
     }
 
-    private function getState($name, $date, Order $order, Instance $instance = null)
+    private function getState($name, $date, Order $order, Event $event, Instance $instance = null)
     {
         $currentState = $order->getCurrentState();
 
@@ -79,6 +79,7 @@ class LifecycleHelper
             $order->setCurrentState($state);
             $this->dm->persist($order);
         }
+        $state->addEvents($event);
 
         return $state;
     }

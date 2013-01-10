@@ -1,0 +1,38 @@
+{% raw %}
+<script id="received" type="text/html">
+    <p>{{datetext}}: {{date}}</p>
+</script>
+
+<script id="notreceived" type="text/html">
+    <form id="receive-form" action="{{path}}" method="post">
+        <p><a id="submit-receive-form" href="#">{{receivetext}}</a></p>
+    </form>
+</script>
+{% endraw %}
+<script type="text/javascript">
+$(document).ready(function () {
+    var received_data, not_received_data;
+    
+    $('#submit-receive-form').live('click', function(){
+        $('#receive-form').submit();
+    });
+
+    received_data = {
+        datetext: '{{ 'Date'|trans }}',
+        date: '{{ order.hasState('received')?order.getState('received').date|localizeddate():'' }}'
+    };
+    
+    $('#{{ 'received' ~ order.id }}:not(.disabled)').popover({
+        content: ich.received(received_data)
+    });
+    
+    not_received_data = {
+        path: '{{ path('admin_order_event', { 'id': order.id, 'event': 'receive' }) }}',
+        receivetext: '{{ 'receive'|capitalize|trans }}'
+    };
+    
+    $('#{{ 'received' ~ order.id }}.disabled').popover({
+        content: ich.notreceived(not_received_data)
+    });
+});
+</script>

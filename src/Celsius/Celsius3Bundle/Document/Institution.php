@@ -12,11 +12,6 @@ class Institution extends Provider
 {
 
     /**
-     * @MongoDB\Id
-     */
-    private $id;
-
-    /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
@@ -90,16 +85,6 @@ class Institution extends Provider
     {
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

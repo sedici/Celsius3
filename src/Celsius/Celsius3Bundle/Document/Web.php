@@ -11,24 +11,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class Web extends Provider
 {
 
-    /**
-     * @MongoDB\Id
-     */
-    private $id;
-
     public function getProviderName()
     {
         return 'Found on the Web';
-    }
-
-    /**
-     * Get id
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
 }
