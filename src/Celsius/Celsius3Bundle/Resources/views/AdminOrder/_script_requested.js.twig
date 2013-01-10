@@ -3,7 +3,7 @@
 {% raw %}
 <script id="requested" type="text/html">
     {{#dates}}
-    <p>{{datetext}}: {{.}}</p>
+    <p>{{datetext}}: {{.}} <a href="#">{{receivetext}}</a></p>
     {{/dates}}
     <p><a id="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
 </script>
@@ -52,7 +52,8 @@ $(document).ready(function () {
     requested_data = {
         datetext: '{{ 'Date'|trans }}',
         dates: dates,
-        requesttext: '{{ 'request'|capitalize|trans }}'
+        requesttext: '{{ 'request'|capitalize|trans }}',
+        receivetext: '{{ 'receive'|capitalize|trans }}'
     };
     
     $('#{{ 'requested' ~ order.id }}:not(.disabled)').popover({
