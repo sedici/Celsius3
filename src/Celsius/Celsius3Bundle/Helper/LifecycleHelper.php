@@ -9,6 +9,7 @@ use Celsius\Celsius3Bundle\Document\Event;
 use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Manager\StateManager;
 
 class LifecycleHelper
@@ -36,6 +37,10 @@ class LifecycleHelper
         {
             $event->setRemoteInstance($extraData['provider']->getInstance());
             $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getInstance()));
+        } else if ($event instanceof Receive)
+        {
+            $requestEvent = $this->dm->find('CelsiusCelsius3Bundle:Event', $extraData['request']);
+            $event->setRequestEvent($requestEvent);
         }
     }
 

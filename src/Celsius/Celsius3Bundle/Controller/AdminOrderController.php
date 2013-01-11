@@ -7,10 +7,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
-use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
+use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
+use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
 /**
  * Order controller.
@@ -51,8 +53,10 @@ class AdminOrderController extends OrderController
 
         if (is_array($response))
         {
-            $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
-            $response['request_form'] = $form->createView();
+            $requestForm = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
+            $response['request_form'] = $requestForm->createView();
+            $receiveForm = $this->createForm(new OrderReceiveType(), new Receive());
+            $response['receive_form'] = $receiveForm->createView();
         }
 
         return $response;
@@ -215,7 +219,7 @@ class AdminOrderController extends OrderController
         {
             throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
-        
+
         $extraData = array();
 
         if ($event == 'request')
@@ -229,7 +233,7 @@ class AdminOrderController extends OrderController
             {
                 $provider = $form->getData()->getProvider();
                 $extraData['provider'] = $provider;
-                
+
                 if ($provider instanceof Institution && $provider->getInstance())
                 {
                     $event = 'mirequest';
@@ -243,6 +247,16 @@ class AdminOrderController extends OrderController
 
                 return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
             }
+        } else if ($event == 'receive')
+        {
+            if (!$this->getRequest()->query->has('request'))
+            {
+                $this->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+                
+                return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
+            }
+            
+            $extraData['request'] = $this->getRequest()->query->get('request');
         }
 
         $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);

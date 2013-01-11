@@ -103,7 +103,7 @@ class Order
     protected $instance;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="File", inversedBy="orders")
+     * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="order")
      */
     protected $files;
 

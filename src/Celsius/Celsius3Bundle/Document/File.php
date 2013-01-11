@@ -52,9 +52,14 @@ class File
     private $enabled;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="files")
+     * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="files")
      */
-    private $orders;
+    private $order;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Event", inversedBy="files")
+     */
+    private $event;
 
     public function getUploadDir()
     {
@@ -255,29 +260,48 @@ class File
         return $this->enabled;
     }
 
-    public function __construct()
+    /**
+     * Set event
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $event
+     * @return \File
+     */
+    public function setEvent(\Celsius\Celsius3Bundle\Document\Event $event)
     {
-        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->event = $event;
+        return $this;
     }
 
     /**
-     * Add orders
+     * Get event
      *
-     * @param Celsius\Celsius3Bundle\Document\Instance $orders
+     * @return Celsius\Celsius3Bundle\Document\Event $event
      */
-    public function addOrders(\Celsius\Celsius3Bundle\Document\Order $orders)
+    public function getEvent()
     {
-        $this->orders[] = $orders;
+        return $this->event;
     }
 
     /**
-     * Get orders
+     * Set order
      *
-     * @return Doctrine\Common\Collections\Collection $orders
+     * @param Celsius\Celsius3Bundle\Document\Order $order
+     * @return \File
      */
-    public function getOrders()
+    public function setOrder(\Celsius\Celsius3Bundle\Document\Order $order)
     {
-        return $this->orders;
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Celsius\Celsius3Bundle\Document\Order $order
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 
 }
