@@ -11,6 +11,7 @@
         <div class="modal-body">
             <form id="requestForm" action="{{route}}" method="post">
                 {{{form}}}
+                <a href="#" id="add-file">Add file</a>
             </form>
         </div>
         <div class="modal-footer">
@@ -48,7 +49,7 @@
 
 <script type="text/javascript">    
     $(document).ready(function () {
-        var requested_data, not_requested_data, dates;
+        var requested_data, not_requested_data, dates, receive_form;
     
         $('#request-link').live('click', function(){
             $('#{{ 'requested' ~ order.id }}.disabled').popover('hide');
@@ -67,6 +68,7 @@
             $(this).parents('form').submit();
         });
     
+        receive_form = '{{ form_widget(extra['receive_form'])|raw }}';
         events = [
             {% if order.hasState('requested') %}
                 {% for event in order.getState('requested').events %}
@@ -74,7 +76,7 @@
                         id: '{{ event.id }}',
                         date: '{{ event.date|localizeddate() }}',
                         route: '{{ path('admin_order_event', { 'id': order.id, 'event': 'receive', 'request': event.id })|raw }}',
-                        form: '{{ form_widget(extra['receive_form'])|raw }}'
+                        form: receive_form
                     },
                 {% endfor %}
             {% endif %}
@@ -99,5 +101,20 @@
         $('#{{ 'requested' ~ order.id }}.disabled').popover({
             content: ich.notrequested(not_requested_data)
         });
+        
+        var fileCount = '{{ extra['receive_form'].files | length }}';
+        $('#add-file').live('click', function() {
+            var fileList = $('#celsius_celsius3bundle_orderreceivetype_files');
+
+            // grab the prototype template
+            var newWidget = fileList.attr('data-prototype');
+            newWidget = newWidget.replace(/__name__label__/g, '');
+            newWidget = newWidget.replace(/__name__/g, fileCount);
+            fileCount++;
+
+            $(newWidget).appendTo($('#celsius_celsius3bundle_orderreceivetype_files'));
+
+            return false;
+        });
     });
-        </script>
+</script>

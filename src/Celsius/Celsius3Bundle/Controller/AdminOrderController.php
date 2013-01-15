@@ -220,47 +220,9 @@ class AdminOrderController extends OrderController
             throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
-        $extraData = array();
-
-        if ($event == 'request')
-        {
-            $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
-            $request = $this->getRequest();
-
-            $form->bind($request);
-
-            if ($form->isValid())
-            {
-                $provider = $form->getData()->getProvider();
-                $extraData['provider'] = $provider;
-
-                if ($provider instanceof Institution && $provider->getInstance())
-                {
-                    $event = 'mirequest';
-                } else
-                {
-                    $event = 'sirequest';
-                }
-            } else
-            {
-                $this->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
-
-                return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
-            }
-        } else if ($event == 'receive')
-        {
-            if (!$this->getRequest()->query->has('request'))
-            {
-                $this->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
-                
-                return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
-            }
-            
-            $extraData['request'] = $this->getRequest()->query->get('request');
-        }
-
+        $extraData = $this->get('event_manager')->prepareExtraData($event, $order);
+        $event = $this->get('event_manager')->getRealEventName($event, $extraData);
         $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);
-
         $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
 
         return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
