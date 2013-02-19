@@ -1,5 +1,5 @@
 <ul class="unstyled">
-    <li>{{ pagination.sortable('Default'|trans, 'id')|raw }} - </li>
-    <li>{{ pagination.sortable('Code'|trans, 'code')|raw }} - </li>
-    <li>{{ pagination.sortable('Title'|trans, 'materialData.title')|raw }}</li>
+    <li>{{ knp_pagination_sortable(pagination, 'Default'|trans, 'id') }} - </li>
+    <li>{{ knp_pagination_sortable(pagination, 'Code'|trans, 'code') }} - </li>
+    <li>{{ knp_pagination_sortable(pagination, 'Title'|trans, 'materialData.title') }}</li>
 </ul>

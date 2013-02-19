@@ -130,13 +130,13 @@
         {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
         <div class="navigation">
-            {{ pagination.render()|raw }}
+            {{ knp_pagination_render(pagination) }}
         </div>
 
         {% include folder~':_index_fields.html.twig' %}
 
         <div class="navigation">
-            {{ pagination.render()|raw }}
+            {{ knp_pagination_render(pagination) }}
         </div>
     </div>
     <div class="span3">

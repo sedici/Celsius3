@@ -1,9 +1,9 @@
 <table class="table table-striped table-bordered table-condensed records_list">
     <thead>
         <tr>
-            <th>{{ pagination.sortable('Name'|trans, 'name')|raw }}</th>
-            <th>{{ pagination.sortable('Comments'|trans, 'comments')|raw }}</th>
-            <th>{{ pagination.sortable('Uploaded'|trans, 'uploaded')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Name'|trans, 'name') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Comments'|trans, 'comments') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Uploaded'|trans, 'uploaded') }}</th>
             <th>{{ 'Actions'|trans }}</th>
         </tr>
     </thead>
