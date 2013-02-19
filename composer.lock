@@ -6,12 +6,12 @@
             "version": "2.3.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/common",
+                "url": "https://github.com/doctrine/common.git",
                 "reference": "bb0aebbf234db52df476a2b473d434745b34221c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/common/zipball/bb0aebbf234db52df476a2b473d434745b34221c",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/bb0aebbf234db52df476a2b473d434745b34221c",
                 "reference": "bb0aebbf234db52df476a2b473d434745b34221c",
                 "shasum": ""
             },
@@ -30,6 +30,7 @@
                     "Doctrine\\Common": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -53,9 +54,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -422,7 +423,7 @@
                     "homepage": "http://avalanche123.com"
                 },
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/"
                 },
@@ -499,7 +500,7 @@
                     "homepage": "http://avalanche123.com"
                 },
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/"
                 },
@@ -740,14 +741,15 @@
                     "JMS\\AopBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -781,14 +783,15 @@
                     "CG\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -808,7 +811,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSDiExtraBundle/zipball/1.1.1",
+                "url": "https://api.github.com/repos/schmittjoh/JMSDiExtraBundle/zipball/1.1.1",
                 "reference": "1.1.1",
                 "shasum": ""
             },
@@ -839,14 +842,15 @@
                     "JMS\\DiExtraBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -863,7 +867,7 @@
             "target-dir": "JMS/I18nRoutingBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/schmittjoh/JMSI18nRoutingBundle",
+                "url": "https://github.com/schmittjoh/JMSI18nRoutingBundle.git",
                 "reference": "5e8b7199ee109c266eb353d137195eb56ba86521"
             },
             "dist": {
@@ -908,7 +912,7 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -946,14 +950,15 @@
                     "Metadata\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache"
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -971,12 +976,12 @@
             "target-dir": "JMS/SecurityExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle",
+                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
                 "reference": "9ab6aceda50fc7a2b07d741ba4b3f0695508afcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle/zipball/9ab6aceda50fc7a2b07d741ba4b3f0695508afcb",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/9ab6aceda50fc7a2b07d741ba4b3f0695508afcb",
                 "reference": "9ab6aceda50fc7a2b07d741ba4b3f0695508afcb",
                 "shasum": ""
             },
@@ -1008,14 +1013,15 @@
                     "JMS\\SecurityExtraBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache2"
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1089,7 +1095,7 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -1114,12 +1120,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "cbec129a693e7d450e2fab4e9e2bf1e122d940a6"
+                "reference": "1.2.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/cbec129a693e7d450e2fab4e9e2bf1e122d940a6",
-                "reference": "cbec129a693e7d450e2fab4e9e2bf1e122d940a6",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/1.2.1",
+                "reference": "1.2.1",
                 "shasum": ""
             },
             "require": {
@@ -1174,12 +1180,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "http://github.com/KnpLabs/KnpMenu.git",
+                "url": "https://github.com/KnpLabs/KnpMenu.git",
                 "reference": "730bc37232f5f813822acf80edfbd89381ea5971"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KnpLabs/KnpMenu/archive/730bc37232f5f813822acf80edfbd89381ea5971.zip",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/730bc37232f5f813822acf80edfbd89381ea5971",
                 "reference": "730bc37232f5f813822acf80edfbd89381ea5971",
                 "shasum": ""
             },
@@ -1218,7 +1224,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "KnpLabs",
+                    "name": "Knplabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -1239,12 +1245,12 @@
             "target-dir": "Knp/Bundle/MenuBundle",
             "source": {
                 "type": "git",
-                "url": "http://github.com/KnpLabs/KnpMenuBundle.git",
+                "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
                 "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/KnpLabs/KnpMenuBundle/archive/bfaa9f1a74ee590c5e6460a3139b268fce1f1885.zip",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/bfaa9f1a74ee590c5e6460a3139b268fce1f1885",
                 "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885",
                 "shasum": ""
             },
@@ -1294,12 +1300,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "84b368777e3ca9cbe9db56f4a7b3c3b558cdf9ae"
+                "reference": "v2.3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/84b368777e3ca9cbe9db56f4a7b3c3b558cdf9ae",
-                "reference": "84b368777e3ca9cbe9db56f4a7b3c3b558cdf9ae",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/v2.3.2",
+                "reference": "v2.3.2",
                 "shasum": ""
             },
             "require": {
@@ -1427,7 +1433,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/Seldaek/monolog/zipball/1.2.1",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.2.1",
                 "reference": "1.2.1",
                 "shasum": ""
             },
@@ -1442,7 +1448,7 @@
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server"
             },
-            "time": "2012-08-29 04:53:20",
+            "time": "2012-08-29 11:53:20",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1483,7 +1489,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/nikic/PHP-Parser/zipball/v0.9.1",
+                "url": "https://github.com/nikic/PHP-Parser/archive/v0.9.1.zip",
                 "reference": "v0.9.1",
                 "shasum": ""
             },
@@ -1497,6 +1503,7 @@
                     "PHPParser": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD"
             ],
@@ -1711,12 +1718,12 @@
             "target-dir": "Stof/DoctrineExtensionsBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stof/StofDoctrineExtensionsBundle",
+                "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
                 "reference": "4a17550d8b101c5aafc56c9950149aa189b8402d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/stof/StofDoctrineExtensionsBundle/archive/4a17550d8b101c5aafc56c9950149aa189b8402d.zip",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/4a17550d8b101c5aafc56c9950149aa189b8402d",
                 "reference": "4a17550d8b101c5aafc56c9950149aa189b8402d",
                 "shasum": ""
             },
@@ -1796,6 +1803,7 @@
                     "lib/swift_required.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL"
             ],
@@ -2085,12 +2093,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig-extensions",
+                "url": "https://github.com/fabpot/Twig-extensions.git",
                 "reference": "5c2d515d4624bdd588226d688173cf0399a4d8cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig-extensions/archive/5c2d515d4624bdd588226d688173cf0399a4d8cf.zip",
+                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/5c2d515d4624bdd588226d688173cf0399a4d8cf",
                 "reference": "5c2d515d4624bdd588226d688173cf0399a4d8cf",
                 "shasum": ""
             },

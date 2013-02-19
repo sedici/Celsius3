@@ -6,6 +6,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
+use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 
 class EventManager
 {
@@ -19,7 +21,7 @@ class EventManager
 
     private function prepareExtraDataForRequest(Order $order, array $extraData)
     {
-        $form = $this->container->get('form.factory')->create(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
+        $form = $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
         $request = $this->container->get('request');
 
         $form->bind($request);
