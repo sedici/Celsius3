@@ -9,7 +9,7 @@
             <h3 id="receive-modal-label">{{receivetext}}</h3>
         </div>
         <div class="modal-body">
-            <form id="receiveForm{{id}}" action="{{route}}" method="post">
+            <form id="receiveForm{{id}}" action="{{route}}" method="post" enctype="multipart/form-data">
                 {{{form}}}
                 <a href="#" id="add-file">Add file</a>
             </form>

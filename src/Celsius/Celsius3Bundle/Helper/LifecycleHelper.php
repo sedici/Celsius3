@@ -10,19 +10,21 @@ use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Instance;
 use Celsius\Celsius3Bundle\Document\Receive;
-use Celsius\Celsius3Bundle\Document\File;
 use Celsius\Celsius3Bundle\Manager\StateManager;
+use Celsius\Celsius3Bundle\Manager\FileManager;
 
 class LifecycleHelper
 {
 
     private $dm;
-    private $manager;
+    private $state_manager;
+    private $file_manager;
 
-    public function __construct(DocumentManager $dm, StateManager $manager)
+    public function __construct(DocumentManager $dm, StateManager $state_manager, FileManager $file_manager)
     {
         $this->dm = $dm;
-        $this->manager = $manager;
+        $this->state_manager = $state_manager;
+        $this->file_manager = $file_manager;
     }
 
     /**
@@ -42,12 +44,7 @@ class LifecycleHelper
         {
             $requestEvent = $this->dm->find('CelsiusCelsius3Bundle:Event', $extraData['request']);
             $event->setRequestEvent($requestEvent);
-            foreach ($extraData['files'] as $uploadedFile)
-            {
-                $file = new File();
-                $file->setFile($uploadedFile);
-                $this->dm->persist($file);
-            }
+            $this->file_manager->uploadFiles($event, $extraData['files']);
         }
     }
 
@@ -126,17 +123,17 @@ class LifecycleHelper
      */
     public function createEvent($name, Order $order, array $extraData = array())
     {
-        $stateName = $this->manager->getStateForEvent($name);
+        $stateName = $this->state_manager->getStateForEvent($name);
 
-        if (!$order->hasState($this->manager->getPreviousPositiveState($stateName)) && $name != 'creation')
+        if (!$order->hasState($this->state_manager->getPreviousPositiveState($stateName)) && $name != 'creation')
         {
-            throw $this->manager->createNotFoundException('State not found');
+            throw $this->state_manager->createNotFoundException('State not found');
         }
 
         $date = date('Y-m-d H:i:s');
 
         $orderDateMethod = 'set' . ucfirst($stateName);
-        $eventClassName = $this->manager->getFullClassNameForEvent($name);
+        $eventClassName = $this->state_manager->getFullClassNameForEvent($name);
 
         $order->$orderDateMethod($date);
         $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData);

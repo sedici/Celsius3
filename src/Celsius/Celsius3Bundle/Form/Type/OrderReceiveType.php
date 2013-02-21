@@ -25,7 +25,7 @@ class OrderReceiveType extends AbstractType
                 ))
                 ->add('files', 'collection', array(
                     'label' => 'Files',
-                    'type' => new FileType(),
+                    'type' => 'file',
                     'prototype' => true,
                     'allow_add' => true,
                     'allow_delete' => true,

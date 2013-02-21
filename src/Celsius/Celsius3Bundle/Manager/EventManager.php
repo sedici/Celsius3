@@ -8,6 +8,7 @@ use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
+use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 
 class EventManager
 {
@@ -48,9 +49,23 @@ class EventManager
 
             return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
+        
+        $form = $this->container->get('form.factory')->create(new OrderReceiveType());
+        $request = $this->container->get('request');
 
-        $extraData['request'] = $this->container->get('request')->query->get('request');
-        $extraData['files'] = $this->container->get('request')->files;
+        $form->bind($request);
+
+        if ($form->isValid())
+        {
+            $data = $form->getData();
+            $extraData['request'] = $this->container->get('request')->query->get('request');
+            $extraData['files'] = $data['files'];
+        } else
+        {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+
+            return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
+        }
 
         return $extraData;
     }
