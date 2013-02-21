@@ -10,6 +10,7 @@ use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Instance;
 use Celsius\Celsius3Bundle\Document\Receive;
+use Celsius\Celsius3Bundle\Document\File;
 use Celsius\Celsius3Bundle\Manager\StateManager;
 
 class LifecycleHelper
@@ -41,6 +42,12 @@ class LifecycleHelper
         {
             $requestEvent = $this->dm->find('CelsiusCelsius3Bundle:Event', $extraData['request']);
             $event->setRequestEvent($requestEvent);
+            foreach ($extraData['files'] as $uploadedFile)
+            {
+                $file = new File();
+                $file->setFile($uploadedFile);
+                $this->dm->persist($file);
+            }
         }
     }
 

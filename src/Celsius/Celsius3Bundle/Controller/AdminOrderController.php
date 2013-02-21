@@ -5,7 +5,6 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;

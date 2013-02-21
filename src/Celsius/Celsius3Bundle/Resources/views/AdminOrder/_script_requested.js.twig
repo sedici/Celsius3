@@ -9,25 +9,23 @@
             <h3 id="receive-modal-label">{{receivetext}}</h3>
         </div>
         <div class="modal-body">
-            <form id="requestForm" action="{{route}}" method="post">
+            <form id="receiveForm{{id}}" action="{{route}}" method="post">
                 {{{form}}}
                 <a href="#" id="add-file">Add file</a>
             </form>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" id="doReceive">{{savetext}}</button>
+            <button class="btn btn-primary doReceive" value="#receiveForm{{id}}">{{savetext}}</button>
         </div>
     </div>
-    <form id="receive-form" action="{{route}}" method="post">
-        <p>{{datetext}}: {{date}} <a class="receive-link" href="#receive-modal{{id}}" role="button" data-toggle="modal">{{receivetext}}</a></p>
-    </form>
+    <p>{{datetext}}: {{date}} <a class="receive-link" href="#receive-modal{{id}}" role="button" data-toggle="modal">{{receivetext}}</a></p>
     {{/events}}
-    <p><a id="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
+    <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
 </script>
 
 <script id="notrequested" type="text/html">
-    <p><a id="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
+    <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{requesttext}}</a></p>
 </script>
 {% endraw %}
 
@@ -51,7 +49,7 @@
     $(document).ready(function () {
         var requested_data, not_requested_data, dates, receive_form;
     
-        $('#request-link').live('click', function(){
+        $('.request-link').live('click', function(){
             $('#{{ 'requested' ~ order.id }}.disabled').popover('hide');
             $('#{{ 'requested' ~ order.id }}:not(.disabled)').popover('hide');
         });
@@ -64,8 +62,8 @@
             $("#requestForm").submit();
         });
         
-        $('#doReceive').live('click', function(){
-            $(this).parents('form').submit();
+        $('.doReceive').live('click', function(){
+            $($(this).attr('value')).submit();
         });
     
         receive_form = '{{ form_widget(extra['receive_form'])|raw }}';

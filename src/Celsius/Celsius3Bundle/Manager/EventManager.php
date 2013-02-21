@@ -42,14 +42,15 @@ class EventManager
 
     private function prepareExtraDataForReceive(Order $order, array $extraData)
     {
-        if (!$this->getRequest()->query->has('request'))
+        if (!$this->container->get('request')->query->has('request'))
         {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
-        $extraData['request'] = $this->getRequest()->query->get('request');
+        $extraData['request'] = $this->container->get('request')->query->get('request');
+        $extraData['files'] = $this->container->get('request')->files;
 
         return $extraData;
     }
