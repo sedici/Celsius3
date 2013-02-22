@@ -1,0 +1,15 @@
+<div id="{{ 'info_'~state }}" class="collapse">
+    {% if order.hasState('received') %}
+        {% for event in order.getState('received').events %}
+        <p>{{ 'Date'|trans }}: {{ event.date|localizeddate() }} <a href="#">{{ 'download'|capitalize|trans }}</a> <a href="#">{{ 'deliver'|capitalize|trans }}</a></p>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#submit-receive-form').live('click', function(){
+        $('#receive-form').submit();
+    });
+});
+</script>

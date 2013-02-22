@@ -29,6 +29,7 @@ class StateExtension extends \Twig_Extension
         return array(
             'render_state' => new \Twig_Function_Method($this, 'renderState'),
             'get_positive_states' => new \Twig_Function_Method($this, 'getPositiveStates'),
+            'render_state_info' => new \Twig_Function_Method($this, 'renderStateInfo'),
         );
     }
 
@@ -37,9 +38,20 @@ class StateExtension extends \Twig_Extension
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
                     'state' => $state,
                     'order' => $order,
+                    //'events' => $this->manager->getEventsToState($state),
+                    'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
+                        //'script' => 'CelsiusCelsius3Bundle:AdminOrder:_script_' . $state . '.js.twig',
+                        //'extra' => $extra,
+                ));
+    }
+
+    public function renderStateInfo($state, Order $order, $extra)
+    {
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_info_' . $state . '.html.twig', array(
+                    'state' => $state,
+                    'order' => $order,
                     'events' => $this->manager->getEventsToState($state),
                     'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
-                    'script' => 'CelsiusCelsius3Bundle:AdminOrder:_script_' . $state . '.js.twig',
                     'extra' => $extra,
                 ));
     }

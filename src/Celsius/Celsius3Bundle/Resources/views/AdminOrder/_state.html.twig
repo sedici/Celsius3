@@ -1,7 +1,4 @@
-<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" id="{{ state ~ order.id }}" data-placement="top"
-   data-title="State: {{ state|capitalize }}">
+<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" data-toggle="collapse" data-parent="#state_info" 
+   data-target="#{{ 'info_'~state~(order.hasState(state)?'':'_disabled') }}">
     {{ state|capitalize|trans }}
 </a>
-{% if hasPrevious %}
-{% include script %}
-{% endif %}
