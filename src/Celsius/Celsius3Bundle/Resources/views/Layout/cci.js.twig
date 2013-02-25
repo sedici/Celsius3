@@ -38,7 +38,7 @@ function loadInstitutions(parent, json) {
             value: val.value,
             name: val.name,
             hasChildren: val.hasChildren,
-            form: '{{ form.getName() }}'
+            form: '{{ form.vars['name'] }}'
         };
         
         $(parent).append(ich.institution(institution_data));

@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    trust_proxy_headers: false
+    trusted_proxies: ['127.0.0.1', '10.0.0.1'] # a list of proxy IPs you trust
     default_locale: es
     translator:      { fallback: en }
     secret:          %secret%
