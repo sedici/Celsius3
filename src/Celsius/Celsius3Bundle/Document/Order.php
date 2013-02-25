@@ -428,6 +428,16 @@ class Order
         return $this->files;
     }
 
+    public function getFilesForEvent($event)
+    {
+        return $this->getFiles()->filter(
+                        function($entry) use ($event)
+                        {
+                            return ($entry->getEvent()->getId() == $event->getId());
+                        }
+        );
+    }
+
     /**
      * Add events
      *

@@ -1,28 +1,30 @@
 {% include 'CelsiusCelsius3Bundle:Layout:cci.js.twig' with { 'form': extra['request_form'] } %}
 
-<div id="{{ 'info_'~state }}" class="collapse">
-    {% if order.hasState('requested') %}
-        {% for event in order.getState('requested').events %}
-        <div id="receive-modal{{ event.id }}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="receive-modal-label" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="receive-modal-label">{{ 'receive'|capitalize|trans }}</h3>
+<div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
+    <div class="well">
+        {% if order.hasState('requested') %}
+            {% for event in order.getState('requested').events %}
+            <div id="receive-modal{{ event.id }}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="receive-modal-label" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="receive-modal-label">{{ 'receive'|capitalize|trans }}</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive', 'request': event.id })|raw }}" method="post" enctype="multipart/form-data">
+                        {{ form_widget(extra['receive_form'])|raw }}
+                        <a href="#" id="add-file">Add file</a>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn btn-primary doReceive" value="#receiveForm{{ event.id }}">{{ 'Save'|trans }}</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive', 'request': event.id })|raw }}" method="post" enctype="multipart/form-data">
-                    {{ form_widget(extra['receive_form'])|raw }}
-                    <a href="#" id="add-file">Add file</a>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                <button class="btn btn-primary doReceive" value="#receiveForm{{ event.id }}">{{ 'Save'|trans }}</button>
-            </div>
-        </div>
-        <p>{{ 'Date'|trans }}: {{ event.date|localizeddate() }} <a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a></p>
-        {% endfor %}
-    {% endif %}
-    <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+            <p>{{ 'Date'|trans }}: {{ event.date|localizeddate() }} <a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a></p>
+            {% endfor %}
+        {% endif %}
+        <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+    </div>
 </div>
 
 <div id="{{ 'info_'~state~'_disabled' }}" class="collapse">

@@ -10,19 +10,19 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Receive extends SingleInstance
 {
-    
+
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $deliveryType;
-    
+
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $observations;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
      */
@@ -59,7 +59,7 @@ class Receive extends SingleInstance
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Set deliveryType
      *
@@ -123,4 +123,5 @@ class Receive extends SingleInstance
     {
         return $this->files;
     }
+
 }

@@ -44,7 +44,14 @@ class LifecycleHelper
         {
             $requestEvent = $this->dm->find('CelsiusCelsius3Bundle:Event', $extraData['request']);
             $event->setRequestEvent($requestEvent);
-            $this->file_manager->uploadFiles($event, $extraData['files']);
+
+            /**
+             * @todo buscar la forma de no tener que hacer persist en este caso particular
+             */
+            $this->dm->persist($event);
+            $this->dm->flush();
+
+            $this->file_manager->uploadFiles($order, $event, $extraData['files']);
         }
     }
 

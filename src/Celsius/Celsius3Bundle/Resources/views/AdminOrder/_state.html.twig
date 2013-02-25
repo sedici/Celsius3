@@ -1,4 +1,3 @@
-<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" data-toggle="collapse" data-parent="#state_info" 
-   data-target="#{{ 'info_'~state~(order.hasState(state)?'':'_disabled') }}">
+<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" data-toggle="collapse" data-parent="#state-info" href="#{{ 'info_'~state~(order.hasState(state)?'':'_disabled') }}">
     {{ state|capitalize|trans }}
 </a>

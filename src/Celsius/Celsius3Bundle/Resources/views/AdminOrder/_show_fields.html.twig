@@ -6,11 +6,21 @@
     <li>{{ render_state(key, document, extra)|raw }}</li>
     {% endfor %}
 </ul>
-<div id="state_info">
+<div id="state-info">
     {% for key, state in get_positive_states() %}
     {{ render_state_info(key, document, extra)|raw }}
     {% endfor %}
 </div>
+
+<script type="text/javascript">
+    // Como no se utiliza accordion-group hay que ocultar "a mano" los elementos
+    // mostrados cuando se presiona otro link
+    $(document).ready(function(){
+        $('.state-list a').click(function(e){
+            $('#state-info .in').collapse('hide');
+        });
+    });
+</script>
 {% endblock %}
 
 {% block extrafields %}

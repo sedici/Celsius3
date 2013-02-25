@@ -53,6 +53,7 @@ class StateExtension extends \Twig_Extension
                     'events' => $this->manager->getEventsToState($state),
                     'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
                     'extra' => $extra,
+                    'isCurrent' => $order->getCurrentState()->getType()->getName() == $state,
                 ));
     }
 

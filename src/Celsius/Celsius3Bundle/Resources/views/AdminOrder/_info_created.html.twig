@@ -1,3 +1,5 @@
-<div id="{{ 'info_'~state }}" class="collapse">
-    <p>{{ 'Date'|trans }}: {{ order.hasState('created')?order.getState('created').date|localizeddate():'' }}</p>
+<div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
+    <div class="well">
+        <p>{{ 'Date'|trans }}: {{ order.hasState('created')?order.getState('created').date|localizeddate():'' }}</p>
+    </div>
 </div>
