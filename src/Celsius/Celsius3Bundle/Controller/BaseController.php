@@ -10,7 +10,6 @@ abstract class BaseController extends Controller
 
     protected function listQuery($name)
     {
-
         return $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder();
