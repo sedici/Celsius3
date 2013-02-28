@@ -1,0 +1,5 @@
+<div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
+    <div class="well">
+        <p>{{ 'Date'|trans }}: {{ order.hasState('delivered')?order.getState('delivered').date|localizeddate():'' }}</p>
+    </div>
+</div>
