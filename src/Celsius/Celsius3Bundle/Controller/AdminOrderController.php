@@ -6,11 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\Receive;
-use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
-use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
-use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
 /**
@@ -48,17 +44,7 @@ class AdminOrderController extends OrderController
      */
     public function showAction($id)
     {
-        $response = $this->baseShow('Order', $id);
-
-        if (is_array($response))
-        {
-            $requestForm = $this->createForm(new OrderRequestType($this->getDocumentManager(), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
-            $response['request_form'] = $requestForm->createView();
-            $receiveForm = $this->createForm(new OrderReceiveType(), new Receive());
-            $response['receive_form'] = $receiveForm->createView();
-        }
-
-        return $response;
+        return $this->baseShow('Order', $id);
     }
 
     /**

@@ -2,21 +2,20 @@
 
 namespace Celsius\Celsius3Bundle\Twig;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius\Celsius3Bundle\Manager\StateManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
+use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 
 class StateExtension extends \Twig_Extension
 {
 
-    private $manager;
+    private $container;
     private $environment;
-    private $dm;
 
-    public function __construct(StateManager $manager, DocumentManager $dm)
+    public function __construct(ContainerInterface $container)
     {
-        $this->manager = $manager;
-        $this->dm = $dm;
+        $this->container = $container;
     }
 
     public function initRuntime(\Twig_Environment $environment)
@@ -38,10 +37,7 @@ class StateExtension extends \Twig_Extension
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
                     'state' => $state,
                     'order' => $order,
-                    //'events' => $this->manager->getEventsToState($state),
-                    'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
-                        //'script' => 'CelsiusCelsius3Bundle:AdminOrder:_script_' . $state . '.js.twig',
-                        //'extra' => $extra,
+                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state)),
                 ));
     }
 
@@ -50,16 +46,17 @@ class StateExtension extends \Twig_Extension
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_info_' . $state . '.html.twig', array(
                     'state' => $state,
                     'order' => $order,
-                    'events' => $this->manager->getEventsToState($state),
-                    'hasPrevious' => $order->hasState($this->manager->getPreviousPositiveState($state)),
+                    'events' => $this->container->get('state_manager')->getEventsToState($state),
+                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state)),
                     'extra' => $extra,
                     'isCurrent' => $order->getCurrentState()->getType()->getName() == $state,
+                    'request_form' => $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest())->createView(),
                 ));
     }
 
     public function getPositiveStates()
     {
-        return $this->manager->getPositiveStates();
+        return $this->container->get('state_manager')->getPositiveStates();
     }
 
     public function getName()
