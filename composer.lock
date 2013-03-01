@@ -960,12 +960,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "8017f0f555e925faf60d511f4d091d40bcf14c3c"
+                "reference": "0e19859e1f262f9a380cd399964610cf3f73dcfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/8017f0f555e925faf60d511f4d091d40bcf14c3c",
-                "reference": "8017f0f555e925faf60d511f4d091d40bcf14c3c",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/0e19859e1f262f9a380cd399964610cf3f73dcfe",
+                "reference": "0e19859e1f262f9a380cd399964610cf3f73dcfe",
                 "shasum": ""
             },
             "require": {
@@ -985,7 +985,7 @@
                 "doctrine/mongodb-odm": ">=1.0.0-BETA7",
                 "doctrine/orm": ">=2.3.2"
             },
-            "time": "2013-02-24 23:48:40",
+            "time": "2013-03-01 15:53:01",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2094,12 +2094,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensio/SensioFrameworkExtraBundle.git",
-                "reference": "50cfef6632db7e7f9944749a4b17a17ca3e16ba3"
+                "reference": "v2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioFrameworkExtraBundle/zipball/50cfef6632db7e7f9944749a4b17a17ca3e16ba3",
-                "reference": "50cfef6632db7e7f9944749a4b17a17ca3e16ba3",
+                "url": "https://api.github.com/repos/sensio/SensioFrameworkExtraBundle/zipball/v2.2.0",
+                "reference": "v2.2.0",
                 "shasum": ""
             },
             "require": {
@@ -2421,12 +2421,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "b492800896b6abe2a6fe622c0f03e04a2d5b3fae"
+                "reference": "v2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/b492800896b6abe2a6fe622c0f03e04a2d5b3fae",
-                "reference": "b492800896b6abe2a6fe622c0f03e04a2d5b3fae",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/v2.2.0",
+                "reference": "v2.2.0",
                 "shasum": ""
             },
             "require": {
@@ -2533,12 +2533,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "ea5c7f1275998ef547dcd4d8ff687c1934e8ae3a"
+                "reference": "49984b6fba5c925b43d36285b40c8ca4295dee42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/ea5c7f1275998ef547dcd4d8ff687c1934e8ae3a",
-                "reference": "ea5c7f1275998ef547dcd4d8ff687c1934e8ae3a",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/49984b6fba5c925b43d36285b40c8ca4295dee42",
+                "reference": "49984b6fba5c925b43d36285b40c8ca4295dee42",
                 "shasum": ""
             },
             "require": {
@@ -2590,7 +2590,7 @@
                 "monolog/monolog": ">=1.3,<2.0",
                 "propel/propel1": "1.6.*"
             },
-            "time": "2013-02-28 14:46:40",
+            "time": "2013-03-01 14:58:56",
             "type": "library",
             "extra": {
                 "branch-alias": {

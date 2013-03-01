@@ -1,0 +1,20 @@
+<p>{{ 'Date'|trans }}: {{ event.date|localizeddate() }}</p>
+<p>
+    {% for file in order.getFilesForEvent(event) %}
+        <a href="{{ path('file_download', { 'id': file.id }) }}">{{ 'Download'|trans }}</a>
+    {% endfor %}
+    <form action="{{ path('admin_order_event', { 'id': order.id, 'event': 'deliver', 'receive': event.id }) }}" method="post">
+        <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
+    </form>
+    <form action="#" method="post">
+        <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
+    </form>
+</p>
+
+<script type="text/javascript">
+$(document).ready(function () {    
+    $('.submit-deliver-form').click(function(){
+        $(this).parent().submit();
+    });
+});
+</script>

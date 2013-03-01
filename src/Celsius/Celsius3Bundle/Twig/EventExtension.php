@@ -11,6 +11,7 @@ use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 
 class EventExtension extends \Twig_Extension
 {
+
     private $environment;
     private $container;
 
@@ -28,6 +29,7 @@ class EventExtension extends \Twig_Extension
     {
         return array(
             'render_request_event' => new \Twig_Function_Method($this, 'renderRequestEvent'),
+            'render_receive_event' => new \Twig_Function_Method($this, 'renderReceiveEvent'),
         );
     }
 
@@ -38,6 +40,22 @@ class EventExtension extends \Twig_Extension
                     'isMultiInstance' => $event instanceof MultiInstanceRequest,
                     'order' => $order,
                     'receive_form' => $this->container->get('form.factory')->create(new OrderReceiveType(), new Receive())->createView(),
+                    'isReceived' => $this->container->get('doctrine.odm.mongodb.document_manager')
+                            ->getRepository('CelsiusCelsius3Bundle:Receive')
+                            ->createQueryBuilder()
+                            ->field('requestEvent.id')->equals($event->getId())
+                            ->getQuery()
+                            ->execute()
+                            ->count() > 0,
+                ));
+    }
+
+    public function renderReceiveEvent(Event $event, Order $order)
+    {
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_receive.html.twig', array(
+                    'event' => $event,
+                    'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
+                    'order' => $order,
                 ));
     }
 
