@@ -21,7 +21,7 @@ class MailTemplate
      */
     private $code;
     
-      /**
+    /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean

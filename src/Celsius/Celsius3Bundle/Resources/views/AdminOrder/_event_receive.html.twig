@@ -3,17 +3,26 @@
     {% for file in order.getFilesForEvent(event) %}
         <a href="{{ path('file_download', { 'id': file.id }) }}">{{ 'Download'|trans }}</a>
     {% endfor %}
-    <form action="{{ path('admin_order_event', { 'id': order.id, 'event': 'deliver', 'receive': event.id }) }}" method="post">
-        <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
-    </form>
-    <form action="#" method="post">
-        <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
-    </form>
+    {% if not isDelivered %}
+        <form action="{{ path('admin_order_event', { 'id': order.id, 'event': 'deliver', 'receive': event.id }) }}" method="post">
+            <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
+        </form>
+        {{ isReclaimed?'true':'false' }}
+        {% if not isReclaimed %}
+        <form action="{{ path('admin_order_reclaim', { 'id': order.id, 'receive': event.id }) }}" method="post">
+            <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
+        </form>
+        {% endif %}
+    {% endif %}
 </p>
 
 <script type="text/javascript">
 $(document).ready(function () {    
     $('.submit-deliver-form').click(function(){
+        $(this).parent().submit();
+    });
+    
+    $('.submit-reclaim-form').click(function(){
         $(this).parent().submit();
     });
 });

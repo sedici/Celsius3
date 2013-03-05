@@ -51,6 +51,7 @@ class StateExtension extends \Twig_Extension
                     'extra' => $extra,
                     'isCurrent' => $order->getCurrentState()->getType()->getName() == $state,
                     'request_form' => $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest())->createView(),
+                    'isDelivered' => $order->getState('delivered'),
                 ));
     }
 

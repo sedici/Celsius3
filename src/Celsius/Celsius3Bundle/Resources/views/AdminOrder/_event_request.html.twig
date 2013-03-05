@@ -40,7 +40,7 @@
     {{ 'Date'|trans }}: {{ event.date|localizeddate() }}
 </p>
 <p>
-    {% if not isMultiInstance and not isReceived %}
+    {% if not isReceived and not isDelivered %}
     <a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a>
     {% endif %}
 </p>

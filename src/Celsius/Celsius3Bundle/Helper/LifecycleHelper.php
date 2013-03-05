@@ -143,4 +143,21 @@ class LifecycleHelper
         $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData);
     }
 
+    public function reclaim(Receive $event, Order $order)
+    {
+        $date = date('Y-m-d H:i:s');
+
+        $request = $event->getRequestEvent();
+        $extraData = array(
+            'provider' => $request->getProvider(),
+        );
+        $eventClassName = $this->dm->getClassMetadata(get_class($request))->name;
+
+        $this->setEventData(new $eventClassName, $order, 'requested', $date, $extraData);
+
+        $event->setReclaimed(true);
+        $this->dm->persist($event);
+        $this->dm->flush();
+    }
+
 }

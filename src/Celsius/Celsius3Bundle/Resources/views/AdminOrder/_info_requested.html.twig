@@ -7,12 +7,18 @@
             {{ render_request_event(event, order)|raw }}
             {% endfor %}
         {% endif %}
+        {% if not isDelivered %}
         <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+        {% endif %}
     </div>
 </div>
 
 <div id="{{ 'info_'~state~'_disabled' }}" class="collapse">
-    <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+    <div class="well">
+        {% if not isDelivered %}
+        <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+        {% endif %}
+    </div>
 </div>
 
 <div id="request-modal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="request-modal-label" aria-hidden="true">

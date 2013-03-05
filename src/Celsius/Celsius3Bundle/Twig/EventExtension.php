@@ -47,6 +47,7 @@ class EventExtension extends \Twig_Extension
                             ->getQuery()
                             ->execute()
                             ->count() > 0,
+                    'isDelivered' => $order->getState('delivered'),
                 ));
     }
 
@@ -56,6 +57,8 @@ class EventExtension extends \Twig_Extension
                     'event' => $event,
                     'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
                     'order' => $order,
+                    'isDelivered' => $order->getState('delivered'),
+                    'isReclaimed' => $event instanceof Receive && $event->getReclaimed(),
                 ));
     }
 

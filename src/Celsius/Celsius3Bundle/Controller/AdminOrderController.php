@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 
@@ -184,7 +185,7 @@ class AdminOrderController extends OrderController
     }
 
     /**
-     * Moves an order to search.
+     * Creates an Event for an Order
      *
      * @Route("/{id}/event/{event}", name="admin_order_event")
      * @Method("post")
@@ -209,6 +210,40 @@ class AdminOrderController extends OrderController
         $event = $this->get('event_manager')->getRealEventName($event, $extraData);
         $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);
         $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
+
+        return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
+    }
+    
+    /**
+     * Reclaims an Order
+     *
+     * @Route("/{id}/reclaim/{receive}", name="admin_order_reclaim")
+     * @Method("post")
+     * 
+     * @param string $id The document ID
+     * @param string $event The event name
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function reclaimAction($id, $receive)
+    {
+        $order = $this->findQuery('Order', $id);
+
+        if (!$order)
+        {
+            throw $this->createNotFoundException('Unable to find Order.');
+        }
+        
+        $event = $this->findQuery('Receive', $receive);
+
+        if (!$event)
+        {
+            throw $this->createNotFoundException('Unable to find Event.');
+        }
+        
+        $this->get('lifecycle_helper')->reclaim($event, $order);
 
         return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
     }

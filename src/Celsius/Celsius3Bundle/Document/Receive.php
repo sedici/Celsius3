@@ -22,6 +22,13 @@ class Receive extends SingleInstance
      * @MongoDB\String
      */
     private $observations;
+    
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $reclaimed = false;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
@@ -124,4 +131,46 @@ class Receive extends SingleInstance
         return $this->files;
     }
 
+
+    /**
+     * Set reclaimed
+     *
+     * @param boolean $reclaimed
+     * @return \Receive
+     */
+    public function setReclaimed($reclaimed)
+    {
+        $this->reclaimed = $reclaimed;
+        return $this;
+    }
+
+    /**
+     * Get reclaimed
+     *
+     * @return boolean $reclaimed
+     */
+    public function getReclaimed()
+    {
+        return $this->reclaimed;
+    }
+
+    /**
+     * Add files
+     *
+     * @param Celsius\Celsius3Bundle\Document\File $files
+     */
+    public function addFile(\Celsius\Celsius3Bundle\Document\File $files)
+    {
+        $this->files[] = $files;
+    }
+
+    /**
+    * Remove files
+    *
+    * @param <variableType$files
+    */
+    public function removeFile(\Celsius\Celsius3Bundle\Document\File $files)
+    {
+        $this->files->removeElement($files);
+    }
 }
