@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\InheritanceType("COLLECTION_PER_CLASS")
  */
 class Provider
 {

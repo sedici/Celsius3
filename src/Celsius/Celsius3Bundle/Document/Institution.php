@@ -24,14 +24,12 @@ class Institution extends Provider
     private $abbreviation;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Url()
      * @MongoDB\String
      */
     private $website;
 
     /**
-     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $address;
@@ -72,7 +70,7 @@ class Institution extends Provider
     private $instance;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions") 
+     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="ownerInstitutions") 
      */
     private $celsiusInstance;
 
