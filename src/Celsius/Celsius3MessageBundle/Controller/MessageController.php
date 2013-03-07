@@ -210,7 +210,8 @@ class MessageController extends BaseController
      */
     protected function getProvider()
     {
-        return $this->container->get('fos_message.provider');
+  
+        return $this->container->get('fos_message.provider.default.celsius');
     }
 
 }

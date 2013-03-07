@@ -1,7 +1,7 @@
 <?php
 
 namespace Celsius\Celsius3MessageBundle\Provider;
-
+/**
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\MessageBundle\ModelManager\ThreadManagerInterface;
@@ -9,8 +9,9 @@ use FOS\MessageBundle\Security\AuthorizerInterface;
 use FOS\MessageBundle\Reader\ReaderInterface;
 use FOS\MessageBundle\Security\ParticipantProviderInterface;
 use FOS\MessageBundle\ModelManager\MessageManagerInterface;
-
-use \FOS\MessageBundle\Controller\MessageController as BaseController;
+**/
+use Celsius\Celsius3MessageBundle\ModelManager\ThreadManagerInterface;
+use FOS\MessageBundle\Provider\Provider as Provider;
 
 /**
  * Provides threads for the current authenticated user
@@ -18,7 +19,7 @@ use \FOS\MessageBundle\Controller\MessageController as BaseController;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
 
-class Provider extends BaseController
+class Provider extends Provider
 {
     /**
      * The thread manager
@@ -32,30 +33,30 @@ class Provider extends BaseController
      *
      * @var MessageManagerInterface
      */
-    protected $messageManager;
+  //  protected $messageManager;
 
     /**
      * The reader used to mark threads as read
      *
      * @var ReaderInterface
      */
-    protected $threadReader;
+//    protected $threadReader;
 
     /**
      * The authorizer manager
      *
      * @var authorizerInterface
      */
-    protected $authorizer;
+ //   protected $authorizer;
 
     /**
      * The participant provider instance
      *
      * @var ParticipantProviderInterface
      */
-    protected $participantProvider;
+  //  protected $participantProvider;
 
-    public function __construct(ThreadManagerInterface $threadManager, MessageManagerInterface $messageManager, ReaderInterface $threadReader, AuthorizerInterface $authorizer, ParticipantProviderInterface $participantProvider)
+ /**   public function __construct(ThreadManagerInterface $threadManager, MessageManagerInterface $messageManager, ReaderInterface $threadReader, AuthorizerInterface $authorizer, ParticipantProviderInterface $participantProvider)
     {
         $this->threadManager = $threadManager;
         $this->messageManager = $messageManager;
@@ -63,7 +64,7 @@ class Provider extends BaseController
         $this->authorizer = $authorizer;
         $this->participantProvider = $participantProvider;
     }
-
+**/
     /**
      * Gets the thread in the inbox of the current user
      *
@@ -82,6 +83,7 @@ class Provider extends BaseController
      */
     public function getSentThreads()
     {
+        var_dump('ssssss');die;
         $participant = $this->getAuthenticatedParticipant();
         return $this->threadManager->findParticipantSentThreads($participant);
     }

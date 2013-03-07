@@ -62,11 +62,13 @@ class FieldGuesser
 
         if ($metadata->hasAssociation($fieldName))
         {
+            
             if ($metadata->isSingleValuedAssociation($fieldName))
             {
                 return 'document';
             } else
             {
+                
                 return 'collection';
             }
         }

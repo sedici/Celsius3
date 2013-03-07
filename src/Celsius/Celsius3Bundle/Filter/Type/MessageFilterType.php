@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+
 class MessageFilterType extends AbstractType
 {
 
@@ -14,8 +15,8 @@ class MessageFilterType extends AbstractType
         $builder
              ->add('sender', null, array(
                    'required' => false,
-                  ));
-        
+                  ))
+   ;
           //  ->add('sender', 'entity', array(
           //          'class' => 'CelsiusCelsius3Bundle:BaseUser',
           //          'property' => 'name',

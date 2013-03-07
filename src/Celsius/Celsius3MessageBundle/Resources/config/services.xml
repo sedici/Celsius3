@@ -17,4 +17,13 @@
         </service>
     </services>
     -->
+    <services>
+        <service id="fos_message.provider.default.celsius" class="Celsius\Celsius3MessageBundle\Provider\Provider" public="false">
+            <argument type="service" id="fos_message.thread_manager" />
+            <argument type="service" id="fos_message.message_manager" />
+            <argument type="service" id="fos_message.thread_reader" />
+            <argument type="service" id="fos_message.authorizer" />
+            <argument type="service" id="fos_message.participant_provider" />
+        </service>
+    </services>
 </container>
