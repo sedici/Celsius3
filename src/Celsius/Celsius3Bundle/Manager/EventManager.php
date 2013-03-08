@@ -3,7 +3,9 @@
 namespace Celsius\Celsius3Bundle\Manager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+//use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\Exception\NotValidException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
@@ -22,20 +24,20 @@ class EventManager
 
     private function prepareExtraDataForRequest(Order $order, array $extraData)
     {
-        $form = $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\Celsius3Bundle\Document\SingleInstanceRequest'), new SingleInstanceRequest());
+        $document = new SingleInstanceRequest();
+        $form = $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\\Celsius3Bundle\\Document\\SingleInstanceRequest'), $document);
         $request = $this->container->get('request');
-
         $form->bind($request);
 
         if ($form->isValid())
         {
-            $provider = $form->getData()->getProvider();
-            $extraData['provider'] = $provider;
+            $extraData['provider'] = $document->getProvider();
         } else
         {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
+            throw new NotValidException();
+            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         return $extraData;
@@ -47,7 +49,8 @@ class EventManager
         {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
+            throw new NotFoundHttpException();
+            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         $form = $this->container->get('form.factory')->create(new OrderReceiveType());
@@ -64,7 +67,8 @@ class EventManager
         {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
+            throw new NotValidException();
+            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         return $extraData;
@@ -76,11 +80,17 @@ class EventManager
         {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
+            throw new NotFoundHttpException();
+            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         $extraData['receive'] = $this->container->get('doctrine.odm.mongodb.document_manager')
                 ->find('CelsiusCelsius3Bundle:Receive', $this->container->get('request')->query->get('receive'));
+
+        if (!$extraData['receive'])
+        {
+            throw new NotFoundHttpException();
+        }
 
         return $extraData;
     }
@@ -89,7 +99,7 @@ class EventManager
     {
         switch ($event)
         {
-            case 'request': $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getInstance()) ? 'mirequest' : 'sirequest';
+            case 'request': $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? 'mirequest' : 'sirequest';
                 break;
             case 'deliver': $event = ($extraData['receive']->getRequestEvent() instanceof SingleInstanceRequest ? 'sideliver' : 'mideliver');
                 break;

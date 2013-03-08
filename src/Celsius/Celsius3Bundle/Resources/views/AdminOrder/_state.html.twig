@@ -1,3 +1,3 @@
-<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" data-toggle="collapse" data-parent="#state-info" href="#{{ 'info_'~state~(order.hasState(state)?'':'_disabled') }}">
-    {{ state|capitalize|trans }}
+<a class="{{ order.hasState(state)?'':'disabled' }} {{ hasPrevious?'pointer':'' }}" data-toggle="{{ hasPrevious?'collapse':'' }}" data-parent="#state-info" href="#{{ 'info_'~state~(order.hasState(state)?'':'_disabled') }}">
+    {{ state|replace({ '_': ' ' })|capitalize|trans }}
 </a>

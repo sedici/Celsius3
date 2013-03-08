@@ -56,8 +56,10 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         {
             $institution = $this->dm->find('CelsiusCelsius3Bundle:Institution', $data['institution']);
             $city = $institution->getCity();
-            if (!is_null($city))
+            if (is_null($city))
             {
+                $country = $institution->getCountry();
+            } else {
                 $country = $city->getCountry();
             }
         }
@@ -93,7 +95,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                             $qb = $qb->field('country.id')->equals(null);
                         }
 
-                        return $qb;
+                        return $qb->sort('name');
                     },
                     'attr' => array(
                         'class' => 'city-select'

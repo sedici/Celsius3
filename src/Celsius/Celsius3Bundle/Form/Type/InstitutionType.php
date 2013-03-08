@@ -20,12 +20,21 @@ class InstitutionType extends AbstractType
         $builder
                 ->add('name')
                 ->add('abbreviation')
-                ->add('website')
-                ->add('address')
+                ->add('website', null, array(
+                    'required' => false
+                ))
+                ->add('address', null, array(
+                    'required' => false
+                ))
                 ->add('parent', null, array(
                     'required' => false
                 ))
-                ->add('city')
+                ->add('city', null, array(
+                    'required' => false
+                ))
+                ->add('country', null, array(
+                    'required' => false
+                ))
         ;
         if (is_null($this->instance))
         {

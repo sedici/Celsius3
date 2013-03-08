@@ -91,28 +91,34 @@ class FixtureLoader implements FixtureInterface
         $state_type->setPosition(2);
         $manager->persist($state_type);
         unset($state_type);
-
+        
         $state_type = new Document\StateType();
-        $state_type->setName('received');
+        $state_type->setName('approval_pending');
         $state_type->setPosition(3);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('delivered');
+        $state_type->setName('received');
         $state_type->setPosition(4);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('canceled');
+        $state_type->setName('delivered');
         $state_type->setPosition(5);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('annuled');
+        $state_type->setName('canceled');
         $state_type->setPosition(6);
+        $manager->persist($state_type);
+        unset($state_type);
+
+        $state_type = new Document\StateType();
+        $state_type->setName('annuled');
+        $state_type->setPosition(7);
         $manager->persist($state_type);
         unset($state_type);
 

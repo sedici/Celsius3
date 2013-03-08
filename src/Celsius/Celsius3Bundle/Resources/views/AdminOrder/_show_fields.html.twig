@@ -1,11 +1,13 @@
 {% extends 'CelsiusCelsius3Bundle:Order:_show_fields.html.twig' %}
 
 {% block statelist %}
-<ul class="state-list well">
-    {% for key, state in get_positive_states() %}
-    <li>{{ render_state(key, document, extra)|raw }}</li>
-    {% endfor %}
-</ul>
+<div class="well">
+    <ul class="state-list">
+        {% for key, state in get_positive_states() %}
+        <li>{{ render_state(key, document, extra)|raw }}</li>
+        {% endfor %}
+    </ul>
+</div>
 <div id="state-info">
     {% for key, state in get_positive_states() %}
     {{ render_state_info(key, document, extra)|raw }}
@@ -16,7 +18,7 @@
     // Como no se utiliza accordion-group hay que ocultar "a mano" los elementos
     // mostrados cuando se presiona otro link
     $(document).ready(function(){
-        $('.state-list a').click(function(e){
+        $('.state-list a.pointer').click(function(e){
             $('#state-info .in').collapse('hide');
         });
     });

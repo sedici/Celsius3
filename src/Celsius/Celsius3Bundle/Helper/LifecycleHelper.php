@@ -38,8 +38,8 @@ class LifecycleHelper
             $event->setProvider($extraData['provider']);
         } else if ($event instanceof MultiInstanceRequest)
         {
-            $event->setRemoteInstance($extraData['provider']->getInstance());
-            $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getInstance()));
+            $event->setRemoteInstance($extraData['provider']->getCelsiusInstance());
+            $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getCelsiusInstance()));
         } else if ($event instanceof Receive)
         {
             $requestEvent = $this->dm->find('CelsiusCelsius3Bundle:Event', $extraData['request']);

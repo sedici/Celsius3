@@ -22,6 +22,7 @@ class StateManager
     private $graph = array(
         'created' => array(
             'positive' => true,
+            'mandatory' => true,
             'events' => array(
                 'search' => array(
                     'weight' => 10,
@@ -39,6 +40,7 @@ class StateManager
         ),
         'searched' => array(
             'positive' => true,
+            'mandatory' => true,
             'events' => array(
                 'mirequest' => array(
                     'weight' => 10,
@@ -67,6 +69,7 @@ class StateManager
         ),
         'requested' => array(
             'positive' => true,
+            'mandatory' => true,
             'events' => array(
                 'receive' => array(
                     'weight' => 10,
@@ -85,8 +88,29 @@ class StateManager
                 'sirequest',
             ),
         ),
+        'approval_pending' => array(
+            'positive' => true,
+            'mandatory' => false,
+            'events' => array(
+                'approve' => array(
+                    'weight' => 10,
+                    'destinationState' => 'received',
+                ),
+                'reclaim' => array(
+                    'weight' => 2,
+                    'destinationState' => 'canceled',
+                ),
+            ),
+            'previousStates' => array(
+                'requested',
+            ),
+            'originatingEvents' => array(
+                'receive',
+            ),
+        ),
         'received' => array(
             'positive' => true,
+            'mandatory' => true,
             'events' => array(
                 'sideliver' => array(
                     'weight' => 10,
@@ -95,7 +119,7 @@ class StateManager
                 'mideliver' => array(
                     'weight' => 9,
                     'destinationState' => 'delivered',
-                    'remoteState' => 'received',
+                    'remoteState' => 'approval_pending',
                 ),
             ),
             'previousStates' => array(
@@ -108,6 +132,7 @@ class StateManager
         ),
         'delivered' => array(
             'positive' => true,
+            'mandatory' => true,
             'events' => array(),
             'previousStates' => array(
                 'received',
@@ -118,10 +143,12 @@ class StateManager
         ),
         'canceled' => array(
             'positive' => false,
+            'mandatory' => false,
             'events' => array(),
             'previousStates' => array(
                 'searched',
                 'requested',
+                'approval_pending',
             ),
             'originatingEvents' => array(
                 'cancel',
@@ -129,6 +156,7 @@ class StateManager
         ),
         'annuled' => array(
             'positive' => false,
+            'mandatory' => false,
             'events' => array(),
             'previousStates' => array(
                 'created',
