@@ -3,11 +3,12 @@
 namespace Celsius\Celsius3Bundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Celsius\Celsius3Bundle\Document\Instance;
 
 class StateRepository extends DocumentRepository
 {
 
-    public function countOrders($instance = null)
+    public function countOrders(Instance $instance = null)
     {
         $types = $this->dm->getRepository('CelsiusCelsius3Bundle:StateType')
                 ->createQueryBuilder()

@@ -18,6 +18,22 @@ use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
 class AdminOrderController extends OrderController
 {
 
+    protected function listQuery($name)
+    {
+        return $this->getDocumentManager()
+                        ->getRepository('CelsiusCelsius3Bundle:Order')
+                        ->findForInstance($this->getInstance());
+    }
+
+    protected function findQuery($name, $id)
+    {
+        return $this->getDocumentManager()
+                        ->getRepository('CelsiusCelsius3Bundle:Order')
+                        ->findOneForInstance($id, $this->getInstance())
+                        ->getQuery()
+                        ->getSingleResult();
+    }
+
     /**
      * Lists all Order documents.
      *
@@ -213,7 +229,7 @@ class AdminOrderController extends OrderController
 
         return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
     }
-    
+
     /**
      * Reclaims an Order
      *
@@ -235,14 +251,14 @@ class AdminOrderController extends OrderController
         {
             throw $this->createNotFoundException('Unable to find Order.');
         }
-        
+
         $event = $this->findQuery('Receive', $receive);
 
         if (!$event)
         {
             throw $this->createNotFoundException('Unable to find Event.');
         }
-        
+
         $this->get('lifecycle_helper')->reclaim($event, $order);
 
         return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));

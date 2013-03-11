@@ -24,9 +24,6 @@ class FilterManager
 
     private function applyStandardFilter($class, $key, $data, $query)
     {
-        var_dump($class);
-        var_dump($key);
-        var_dump($data);
         switch ($this->fieldGuesser->getDbType($class, $key))
         {
             case 'string':
@@ -43,15 +40,13 @@ class FilterManager
                 break;
             case 'document':
             case 'collection':
-             //   echo "</br>";
-             //   var_dump(new \MongoId($data));
-                $query = $query->field($key . '.id')->equals(new \MongoId($data));//$data; data.$id
+                $query = $query->field($key . '.id')->equals(new \MongoId($data)); //$data; data.$id
                 break;
             default:
                 $query = $query->field($key)->equals($data);
                 break;
         }
-        
+
         return $query;
     }
 
@@ -67,21 +62,15 @@ class FilterManager
 
         foreach ($form->getData() as $key => $data)
         {
-     //       var_dump($key);
-      //      var_dump($data);
-            if (!is_null($data) && count($data)>0)
+            if (!is_null($data) && count($data) > 0)
             {
-                
                 if (!is_null($customFilter) && $customFilter->hasCustomFilter($key))
                 {
-                    var_dump(11);
                     $query = $customFilter->applyCustomFilter($key, $data, $query, $instance);
                 } else
                 {
-                    var_dump(22);
                     $query = $this->applyStandardFilter($class, $key, $data, $query);
                 }
-               
             }
         }
 

@@ -37,7 +37,6 @@ class EventManager
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw new NotValidException();
-            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         return $extraData;
@@ -50,7 +49,6 @@ class EventManager
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw new NotFoundHttpException();
-            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         $form = $this->container->get('form.factory')->create(new OrderReceiveType());
@@ -68,7 +66,6 @@ class EventManager
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw new NotValidException();
-            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         return $extraData;
@@ -81,7 +78,6 @@ class EventManager
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw new NotFoundHttpException();
-            //return new RedirectResponse($this->container->get('router')->generate('admin_order_show', array('id' => $order->getId())));
         }
 
         $extraData['receive'] = $this->container->get('doctrine.odm.mongodb.document_manager')
