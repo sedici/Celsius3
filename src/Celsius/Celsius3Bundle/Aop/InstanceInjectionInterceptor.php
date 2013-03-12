@@ -4,34 +4,21 @@ namespace Celsius\Celsius3Bundle\Aop;
 
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius\Celsius3Bundle\Helper\InstanceHelper;
 
 class InstanceInjectionInterceptor implements MethodInterceptorInterface
 {
 
-    private $request;
-    private $session;
-    private $dm;
+    private $instance_helper;
 
-    public function __construct($request, $session, DocumentManager $dm)
+    public function __construct(InstanceHelper $instance_helper)
     {
-        $this->request = $request;
-        $this->session = $session;
-        $this->dm = $dm;
+        $this->instance_helper = $instance_helper;
     }
 
     public function intercept(MethodInvocation $invocation)
     {
-        if ($this->request->attributes->has('url'))
-            $instance_url = $this->request->attributes->get('url');
-        else
-            $instance_url = $this->session->get('instance_url');
-
-        $instance = $this->dm
-                ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->findOneBy(array('url' => $instance_url));
-        
-        $invocation->arguments[1]['instance'] = $instance;
+        $invocation->arguments[1]['instance'] = $this->instance_helper->getUrlOrSessionInstance();
         
         return $invocation->proceed();
     }

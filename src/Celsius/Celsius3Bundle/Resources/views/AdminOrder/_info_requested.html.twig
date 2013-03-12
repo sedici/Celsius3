@@ -2,8 +2,8 @@
 
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
     <div class="well">
-        {% if order.hasState('requested') %}
-            {% for event in order.getState('requested').events %}
+        {% if order.hasState('requested', instance) %}
+            {% for event in order.getState('requested', instance).events %}
             {{ render_request_event(event, order)|raw }}
             {% endfor %}
         {% endif %}

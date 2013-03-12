@@ -4,6 +4,7 @@ namespace Celsius\Celsius3Bundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius\Celsius3Bundle\Document\Instance;
 
 /**
  * @MongoDB\Document
@@ -522,22 +523,22 @@ class Order
         return $this->currentState;
     }
 
-    public function hasState($name)
+    public function hasState($name, Instance $instance)
     {
         return ($this->getStates()->filter(
-                        function($entry) use ($name)
+                        function($entry) use ($name, $instance)
                         {
-                            return ($entry->getType()->getName() == $name);
+                            return ($entry->getType()->getName() == $name && $entry->getId() == $instance->getId());
                         }
                 )->count() > 0);
     }
 
-    public function getState($name)
+    public function getState($name, Instance $instance)
     {
         return $this->getStates()->filter(
-                        function($entry) use ($name)
+                        function($entry) use ($name, $instance)
                         {
-                            return ($entry->getType()->getName() == $name);
+                            return ($entry->getType()->getName() == $name && $entry->getId() == $instance->getId());
                         }
                 )->first();
     }

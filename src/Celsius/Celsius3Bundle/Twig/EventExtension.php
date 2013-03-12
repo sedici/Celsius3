@@ -47,7 +47,7 @@ class EventExtension extends \Twig_Extension
                             ->getQuery()
                             ->execute()
                             ->count() > 0,
-                    'isDelivered' => $order->getState('delivered'),
+                    'isDelivered' => $order->getState('delivered', $this->container->get('instance_helper')->getSessionInstance()),
                 ));
     }
 
@@ -57,7 +57,7 @@ class EventExtension extends \Twig_Extension
                     'event' => $event,
                     'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
                     'order' => $order,
-                    'isDelivered' => $order->getState('delivered'),
+                    'isDelivered' => $order->getState('delivered', $this->container->get('instance_helper')->getSessionInstance()),
                     'isReclaimed' => $event instanceof Receive && $event->getReclaimed(),
                 ));
     }

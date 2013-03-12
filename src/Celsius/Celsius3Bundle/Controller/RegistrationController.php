@@ -77,16 +77,7 @@ class RegistrationController extends BaseRegistrationController
      */
     protected function getInstance()
     {
-        $instance = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->findOneBy(array('url' => $this->container->get('request')->attributes->get('url')));
-
-        if (!$instance)
-        {
-            throw $this->createNotFoundException('Unable to find Instance.');
-        }
-
-        return $instance;
+        return $this->container->get('instance_helper')->getUrlInstance();
     }
 
     /**

@@ -32,26 +32,31 @@ class StateExtension extends \Twig_Extension
         );
     }
 
-    public function renderState($state, Order $order, $extra)
+    public function renderState($state, Order $order)
     {
+        $instance = $this->container->get('instance_helper')->getSessionInstance();
+
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
                     'state' => $state,
                     'order' => $order,
-                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state)),
+                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state), $instance),
+                    'instance' => $instance,
                 ));
     }
 
-    public function renderStateInfo($state, Order $order, $extra)
+    public function renderStateInfo($state, Order $order)
     {
+        $instance = $this->container->get('instance_helper')->getSessionInstance();
+
         return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_info_' . $state . '.html.twig', array(
                     'state' => $state,
                     'order' => $order,
                     'events' => $this->container->get('state_manager')->getEventsToState($state),
-                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state)),
-                    'extra' => $extra,
+                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state), $instance),
                     'isCurrent' => $order->getCurrentState()->getType()->getName() == $state,
                     'request_form' => $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\\Celsius3Bundle\\Document\\SingleInstanceRequest'), new SingleInstanceRequest())->createView(),
-                    'isDelivered' => $order->getState('delivered'),
+                    'isDelivered' => $order->getState('delivered', $instance),
+                    'instance' => $instance,
                 ));
     }
 

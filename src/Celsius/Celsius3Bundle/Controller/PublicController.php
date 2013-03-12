@@ -16,16 +16,7 @@ class PublicController extends BaseInstanceDependentController
 
     protected function getInstance()
     {
-        $instance = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->findOneBy(array('url' => $this->getRequest()->attributes->get('url')));
-
-        if (!$instance)
-        {
-            throw $this->createNotFoundException('Unable to find Instance.');
-        }
-
-        return $instance;
+        return $this->get('instance_helper')->getUrlInstance();
     }
 
     /**

@@ -27,7 +27,7 @@ abstract class BaseInstanceDependentController extends BaseController
     {
         return $this->get('configuration_helper')->getCastedValue($this->getInstance()->get('results_per_page'));
     }
-    
+
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius\\Celsius3Bundle\\Document\\' . $name, $this->getInstance());
@@ -40,16 +40,7 @@ abstract class BaseInstanceDependentController extends BaseController
      */
     protected function getInstance()
     {
-        $instance = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->find($this->get('session')->get('instance_id'));
-
-        if (!$instance)
-        {
-            throw $this->createNotFoundException('Unable to find Instance.');
-        }
-
-        return $instance;
+        return $this->get('instance_helper')->getSessionInstance();
     }
 
 }

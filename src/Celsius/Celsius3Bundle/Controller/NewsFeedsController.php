@@ -16,37 +16,25 @@ class NewsFeedsController extends BaseInstanceDependentController
 
     function getUrl()
     {
-     $domain = $_SERVER['HTTP_HOST'];  
-     $name_file = $_SERVER['PHP_SELF'];  
-     $language = $this->get('request')->get('_locale');
-     $url = "http://" . "$domain" . "$name_file" . "/$language";   
-     return $url;
-    }  
-    
-    protected function getInstance()
-    {
-        $instance = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->findOneBy(array('url' => $this->getRequest()->attributes->get('urlInstance')));
-
-        if (!$instance)
-        {
-            throw $this->createNotFoundException('Unable to find Instance.');
-        }
-
-        return $instance;
+        $domain = $_SERVER['HTTP_HOST'];
+        $name_file = $_SERVER['PHP_SELF'];
+        $language = $this->get('request')->get('_locale');
+        $url = "http://" . "$domain" . "$name_file" . "/$language";
+        return $url;
     }
 
-    
+    protected function getInstance()
+    {
+        return $this->get('instance_helper')->getUrlInstance();
+    }
+
     /**
      * Generate Rss News.
      *
      * @Route("/rss/directory",name="directory_rss_news")
      * @Template("CelsiusCelsius3Bundle:NewsFeeds:index_rss.html.twig")
-     
-     * *
+     *
      */
-    
     public function directory_rssAction()
     {
         $url = $this->getUrl();
@@ -55,10 +43,10 @@ class NewsFeedsController extends BaseInstanceDependentController
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNewsDirectory(),
             'url' => $url . '/newsFeeds/rss/directory',
         );
-        
-       return $array;
+
+        return $array;
     }
-    
+
     /**
      * Generate Atom News.
      *
@@ -66,7 +54,6 @@ class NewsFeedsController extends BaseInstanceDependentController
      * @Template("CelsiusCelsius3Bundle:NewsFeeds:index_atom.html.twig")
      *
      */
-    
     public function directory_atomAction()
     {
         $url = $this->getUrl();
@@ -74,31 +61,28 @@ class NewsFeedsController extends BaseInstanceDependentController
             'instance' => 'Directory',
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNewsDirectory(),
             'url' => $url . '/newsFeeds/atom/directory',
-            
         );
         return $array;
     }
-    
-     /**
+
+    /**
      * Generate Rss News.
      *
      * @Route("/rss/{urlInstance}",name="instance_rss_news")
      * @Template("CelsiusCelsius3Bundle:NewsFeeds:index_rss.html.twig")
      *
      */
-    
     public function instance_rssAction($urlInstance)
     {
         $url = $this->getUrl();
         $array = array(
             'instance' => $this->getInstance(),
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNews($this->getInstance()),
-            'url' => $url . '/newsFeeds/rss/'. $urlInstance,
+            'url' => $url . '/newsFeeds/rss/' . $urlInstance,
         );
         return $array;
-        
     }
-        
+
     /**
      * Generate atom News.
      *
@@ -112,11 +96,9 @@ class NewsFeedsController extends BaseInstanceDependentController
         $array = array(
             'instance' => $this->getInstance(),
             'lastNews' => $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:News')->findLastNews($this->getInstance()),
-            'url' => $url . '/newsFeeds/atom/'. $urlInstance,
+            'url' => $url . '/newsFeeds/atom/' . $urlInstance,
         );
         return $array;
-        
     }
-    
-    
+
 }

@@ -1,7 +1,6 @@
 imports:
     - { resource: parameters.ini }
     - { resource: security.yml }
-#    - { resource: '@CelsiusCelsius3MessageBundle/Resources/config/services.xml' }
      
 framework:
     #esi:             ~

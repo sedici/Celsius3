@@ -1,6 +1,6 @@
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
     <div class="well">
-        <p>{{ 'Date'|trans }}: {{ order.hasState('searched')?order.getState('searched').date|localizeddate():'' }}</p>
+        <p>{{ 'Date'|trans }}: {{ order.hasState('searched', instance)?order.getState('searched', instance).date|localizeddate():'' }}</p>
     </div>
 </div>
 

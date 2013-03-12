@@ -4,13 +4,13 @@
 <div class="well">
     <ul class="state-list">
         {% for key, state in get_positive_states() %}
-        <li>{{ render_state(key, document, extra)|raw }}</li>
+        <li>{{ render_state(key, document)|raw }}</li>
         {% endfor %}
     </ul>
 </div>
 <div id="state-info">
     {% for key, state in get_positive_states() %}
-    {{ render_state_info(key, document, extra)|raw }}
+    {{ render_state_info(key, document)|raw }}
     {% endfor %}
 </div>
 
