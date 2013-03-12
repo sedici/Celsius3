@@ -11,7 +11,7 @@ use FOS\MessageBundle\Security\ParticipantProviderInterface;
 use FOS\MessageBundle\ModelManager\MessageManagerInterface;
 **/
 use Celsius\Celsius3MessageBundle\ModelManager\ThreadManagerInterface;
-use FOS\MessageBundle\Provider\Provider as Provider;
+use FOS\MessageBundle\Provider\Provider as BaseProvider;
 
 /**
  * Provides threads for the current authenticated user
@@ -19,7 +19,7 @@ use FOS\MessageBundle\Provider\Provider as Provider;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
 
-class Provider extends Provider
+class Provider extends BaseProvider
 {
     /**
      * The thread manager
@@ -72,6 +72,7 @@ class Provider extends Provider
      */
     public function getInboxThreads()
     {
+        echo 'Esto pertenece a nuestro bundle!';
         $participant = $this->getAuthenticatedParticipant();
         return $this->threadManager->findParticipantInboxThreads($participant);
     }
@@ -83,7 +84,7 @@ class Provider extends Provider
      */
     public function getSentThreads()
     {
-        var_dump('ssssss');die;
+        echo 'Esto pertenece a nuestro bundle!';
         $participant = $this->getAuthenticatedParticipant();
         return $this->threadManager->findParticipantSentThreads($participant);
     }

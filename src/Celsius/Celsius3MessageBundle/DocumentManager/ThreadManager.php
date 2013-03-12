@@ -117,6 +117,7 @@ class ThreadManager extends BaseThreadManager
      */
     public function getParticipantSentThreadsQueryBuilder(ParticipantInterface $participant)
     {
+        echo 'Esto se redefine en nuestro bundle';
         return $this->repository->createQueryBuilder()
             ->field('activeSenders')->equals($participant->getId())
             /* TODO: Sort by date of the last message written by this
