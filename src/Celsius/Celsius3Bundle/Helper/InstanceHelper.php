@@ -3,6 +3,7 @@
 namespace Celsius\Celsius3Bundle\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InstanceHelper
 {
@@ -46,16 +47,26 @@ class InstanceHelper
     {
         $instance_url = $this->container->get('request')->attributes->has('url') ? $this->container->get('request')->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
-        $instance = $this->container->get('doctrine.odm.mongodb.document_manager')
+        return $this->container->get('doctrine.odm.mongodb.document_manager')
                 ->getRepository('CelsiusCelsius3Bundle:Instance')
                 ->findOneBy(array('url' => $instance_url));
+    }
 
-        if (!$instance)
-        {
-            throw $this->createNotFoundException('Unable to find Instance.');
-        }
-
-        return $instance;
+    /**
+     * Returns a NotFoundHttpException.
+     *
+     * This will result in a 404 response code. Usage example:
+     *
+     *     throw $this->createNotFoundException('Page not found!');
+     *
+     * @param string    $message  A message
+     * @param Exception $previous The previous exception
+     *
+     * @return NotFoundHttpException
+     */
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
+    {
+        return new NotFoundHttpException($message, $previous);
     }
 
 }

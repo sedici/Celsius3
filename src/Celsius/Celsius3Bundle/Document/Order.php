@@ -118,11 +118,6 @@ class Order
      */
     protected $states;
 
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="State") 
-     */
-    protected $currentState;
-
     public function __toString()
     {
         return strval($this->getCode());
@@ -501,34 +496,12 @@ class Order
         return $this->librarian;
     }
 
-    /**
-     * Set currentState
-     *
-     * @param Celsius\Celsius3Bundle\Document\State $currentState
-     * @return Order
-     */
-    public function setCurrentState(\Celsius\Celsius3Bundle\Document\State $currentState)
-    {
-        $this->currentState = $currentState;
-        return $this;
-    }
-
-    /**
-     * Get currentState
-     *
-     * @return Celsius\Celsius3Bundle\Document\State $currentState
-     */
-    public function getCurrentState()
-    {
-        return $this->currentState;
-    }
-
     public function hasState($name, Instance $instance)
     {
         return ($this->getStates()->filter(
                         function($entry) use ($name, $instance)
                         {
-                            return ($entry->getType()->getName() == $name && $entry->getId() == $instance->getId());
+                            return ($entry->getType()->getName() == $name && $entry->getInstance()->getId() == $instance->getId());
                         }
                 )->count() > 0);
     }
@@ -538,7 +511,17 @@ class Order
         return $this->getStates()->filter(
                         function($entry) use ($name, $instance)
                         {
-                            return ($entry->getType()->getName() == $name && $entry->getId() == $instance->getId());
+                            return ($entry->getType()->getName() == $name && $entry->getInstance()->getId() == $instance->getId());
+                        }
+                )->first();
+    }
+    
+    public function getCurrentState(Instance $instance)
+    {
+        return $this->getStates()->filter(
+                        function($entry) use ($instance)
+                        {
+                            return ($entry->getIsCurrent() && $entry->getInstance()->getId() == $instance->getId());
                         }
                 )->first();
     }

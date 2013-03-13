@@ -53,7 +53,7 @@ class StateExtension extends \Twig_Extension
                     'order' => $order,
                     'events' => $this->container->get('state_manager')->getEventsToState($state),
                     'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state), $instance),
-                    'isCurrent' => $order->getCurrentState()->getType()->getName() == $state,
+                    'isCurrent' => $order->getCurrentState($instance)->getType()->getName() == $state,
                     'request_form' => $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\\Celsius3Bundle\\Document\\SingleInstanceRequest'), new SingleInstanceRequest())->createView(),
                     'isDelivered' => $order->getState('delivered', $instance),
                     'instance' => $instance,

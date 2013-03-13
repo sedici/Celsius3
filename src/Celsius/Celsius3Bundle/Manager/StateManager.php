@@ -3,199 +3,186 @@
 namespace Celsius\Celsius3Bundle\Manager;
 
 use Celsius\Celsius3Bundle\Exception\NotFoundException;
+use Celsius\Celsius3Bundle\Manager\EventManager;
 
 class StateManager
 {
 
-    private $class_prefix = 'Celsius\\Celsius3Bundle\\Document\\';
-    private $event_classes = array(
-        'creation' => 'Creation',
-        'search' => 'Search',
-        'sirequest' => 'SingleInstanceRequest',
-        'mirequest' => 'MultiInstanceRequest',
-        'receive' => 'Receive',
-        'sideliver' => 'SingleInstanceDeliver',
-        'mideliver' => 'MultiInstanceDeliver',
-        'cancel' => 'Cancel',
-        'annul' => 'Annul',
-    );
+    const STATE__CREATED = 'created';
+    const STATE__SEARCHED = 'searched';
+    const STATE__REQUESTED = 'requested';
+    const STATE__APPROVAL_PENDING = 'approval_pending';
+    const STATE__RECEIVED = 'received';
+    const STATE__DELIVERED = 'delivered';
+    const STATE__CANCELED = 'canceled';
+    const STATE__ANNULED = 'annuled';
+
     private $graph = array(
-        'created' => array(
+        self::STATE__CREATED => array(
             'positive' => true,
             'mandatory' => true,
             'events' => array(
-                'search' => array(
+                EventManager::EVENT__SEARCH => array(
                     'weight' => 10,
-                    'destinationState' => 'searched',
+                    'destinationState' => self::STATE__SEARCHED,
                 ),
-                'annul' => array(
+                EventManager::EVENT__ANNUL => array(
                     'weight' => 1,
-                    'destinationState' => 'annuled',
+                    'destinationState' => self::STATE__ANNULED,
                 ),
             ),
             'previousStates' => array(),
             'originatingEvents' => array(
-                'creation'
+                EventManager::EVENT__CREATION,
             ),
         ),
-        'searched' => array(
+        self::STATE__SEARCHED => array(
             'positive' => true,
             'mandatory' => true,
             'events' => array(
-                'mirequest' => array(
+                EventManager::EVENT__MULTI_INSTANCE_REQUEST => array(
                     'weight' => 10,
-                    'destinationState' => 'requested',
-                    'remoteState' => 'created',
+                    'destinationState' => self::STATE__REQUESTED,
+                    'remoteState' => self::STATE__CREATED,
                 ),
-                'sirequest' => array(
+                EventManager::EVENT__SINGLE_INSTANCE_REQUEST => array(
                     'weight' => 9,
-                    'destinationState' => 'requested',
+                    'destinationState' => self::STATE__REQUESTED,
                 ),
-                'cancel' => array(
+                EventManager::EVENT__CANCEL => array(
                     'weight' => 2,
-                    'destinationState' => 'canceled',
+                    'destinationState' => self::STATE__CANCELED,
                 ),
-                'annul' => array(
+                EventManager::EVENT__ANNUL => array(
                     'weight' => 1,
-                    'destinationState' => 'annuled',
+                    'destinationState' => self::STATE__ANNULED,
                 ),
             ),
             'previousStates' => array(
-                'created',
+                self::STATE__CREATED,
             ),
             'originatingEvents' => array(
-                'search',
+                EventManager::EVENT__SEARCH,
             ),
         ),
-        'requested' => array(
+        self::STATE__REQUESTED => array(
             'positive' => true,
             'mandatory' => true,
             'events' => array(
-                'receive' => array(
+                EventManager::EVENT__RECEIVE => array(
                     'weight' => 10,
-                    'destinationState' => 'received',
+                    'destinationState' => self::STATE__RECEIVED,
                 ),
-                'cancel' => array(
+                EventManager::EVENT__CANCEL => array(
                     'weight' => 2,
-                    'destinationState' => 'canceled',
+                    'destinationState' => self::STATE__CANCELED,
                 ),
             ),
             'previousStates' => array(
-                'searched',
+                self::STATE__SEARCHED,
+                self::STATE__APPROVAL_PENDING,
             ),
             'originatingEvents' => array(
-                'mirequest',
-                'sirequest',
+                EventManager::EVENT__MULTI_INSTANCE_REQUEST,
+                EventManager::EVENT__SINGLE_INSTANCE_REQUEST,
+                EventManager::EVENT__RECLAIM,
             ),
         ),
-        'approval_pending' => array(
+        self::STATE__APPROVAL_PENDING => array(
             'positive' => true,
             'mandatory' => false,
             'events' => array(
-                'approve' => array(
+                EventManager::EVENT__APPROVE => array(
                     'weight' => 10,
-                    'destinationState' => 'received',
+                    'destinationState' => self::STATE__RECEIVED,
                 ),
-                'reclaim' => array(
+                EventManager::EVENT__RECLAIM => array(
                     'weight' => 2,
-                    'destinationState' => 'canceled',
+                    'destinationState' => self::STATE__CANCELED,
                 ),
             ),
             'previousStates' => array(
-                'requested',
+                self::STATE__REQUESTED,
             ),
             'originatingEvents' => array(
-                'receive',
+                EventManager::EVENT__RECEIVE,
             ),
         ),
-        'received' => array(
+        self::STATE__RECEIVED => array(
             'positive' => true,
             'mandatory' => true,
             'events' => array(
-                'sideliver' => array(
+                EventManager::EVENT__SINGLE_INSTANCE_DELIVER => array(
                     'weight' => 10,
-                    'destinationState' => 'delivered',
+                    'destinationState' => self::STATE__DELIVERED,
                 ),
-                'mideliver' => array(
+                EventManager::EVENT__MULTI_INSTANCE_DELIVER => array(
                     'weight' => 9,
-                    'destinationState' => 'delivered',
-                    'remoteState' => 'approval_pending',
+                    'destinationState' => self::STATE__DELIVERED,
+                    'remoteState' => self::STATE__APPROVAL_PENDING,
                 ),
             ),
             'previousStates' => array(
-                'requested',
+                self::STATE__REQUESTED,
+                self::STATE__APPROVAL_PENDING,
             ),
             'originatingEvents' => array(
-                'receive',
-                'mideliver',
+                EventManager::EVENT__RECEIVE,
+                EventManager::EVENT__APPROVE,
             ),
         ),
-        'delivered' => array(
+        self::STATE__DELIVERED => array(
             'positive' => true,
             'mandatory' => true,
             'events' => array(),
             'previousStates' => array(
-                'received',
+                self::STATE__RECEIVED,
             ),
             'originatingEvents' => array(
-                'sideliver',
+                EventManager::EVENT__SINGLE_INSTANCE_DELIVER,
             ),
         ),
-        'canceled' => array(
+        self::STATE__CANCELED => array(
             'positive' => false,
             'mandatory' => false,
             'events' => array(),
             'previousStates' => array(
-                'searched',
-                'requested',
-                'approval_pending',
+                self::STATE__SEARCHED,
+                self::STATE__REQUESTED,
+                self::STATE__APPROVAL_PENDING,
             ),
             'originatingEvents' => array(
-                'cancel',
+                EventManager::EVENT__CANCEL,
             ),
         ),
-        'annuled' => array(
+        self::STATE__ANNULED => array(
             'positive' => false,
             'mandatory' => false,
             'events' => array(),
             'previousStates' => array(
-                'created',
-                'searched',
+                self::STATE__CREATED,
+                self::STATE__SEARCHED,
             ),
             'originatingEvents' => array(
-                'annul',
+                EventManager::EVENT__ANNUL,
             ),
         ),
     );
+    private $event_manager;
+
+    public function __construct(EventManager $event_manager)
+    {
+        $this->event_manager = $event_manager;
+    }
 
     public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
     {
         return new NotFoundException($message, $previous);
     }
 
-    public function getClassNameForEvent($event)
-    {
-        if (!array_key_exists($event, $this->event_classes))
-        {
-            throw $this->createNotFoundException('Event not found.');
-        }
-
-        return $this->event_classes[$event];
-    }
-
-    public function getFullClassNameForEvent($event)
-    {
-        if (!array_key_exists($event, $this->event_classes))
-        {
-            throw $this->createNotFoundException('Event not found.');
-        }
-
-        return $this->class_prefix . $this->event_classes[$event];
-    }
-    
     public function getStateForEvent($event)
     {
-        if (!array_key_exists($event, $this->event_classes))
+        if (!array_key_exists($event, $this->event_manager->event_classes))
         {
             throw $this->createNotFoundException('Event not found.');
         }
@@ -215,10 +202,10 @@ class StateManager
                 }
             }
         }
-        
-        if ($data == null && $event == 'creation')
+
+        if ($data == null && $event == EventManager::EVENT__CREATION)
         {
-            $data = 'created';
+            $data = self::STATE__CREATED;
         }
 
         return $data;

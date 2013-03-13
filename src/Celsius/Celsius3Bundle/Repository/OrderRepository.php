@@ -78,7 +78,6 @@ class OrderRepository extends DocumentRepository
                         ->toArray());
 
         return $this->createQueryBuilder()
-                        ->field('currentState')->prime(true)
                         ->field('id')->in($order_ids);
     }
     

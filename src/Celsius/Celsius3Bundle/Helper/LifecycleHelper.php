@@ -76,9 +76,9 @@ class LifecycleHelper
 
         $instance = is_null($instance) ? $order->getInstance() : $instance;
 
-        if ($order->hasState($name))
+        if ($order->hasState($name, $instance))
         {
-            $state = $order->getState($name);
+            $state = $order->getState($name, $instance);
         } else
         {
             if (!is_null($currentState))
@@ -89,8 +89,6 @@ class LifecycleHelper
             }
 
             $state = $this->createState($name, $date, $order, $instance, $currentState);
-            $order->setCurrentState($state);
-            $this->dm->persist($order);
         }
         $state->addEvents($event);
 

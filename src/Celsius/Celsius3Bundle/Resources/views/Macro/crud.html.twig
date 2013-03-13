@@ -122,7 +122,7 @@
 {% endmacro %}
 
 {# index #}
-{% macro index(name, pagination, folder, filter_form) %}
+{% macro index(name, pagination, folder, filter_form, instance) %}
 <h2>{{ [name|capitalize, 's List']|join|trans }}</h2>
 
 <div class="row">

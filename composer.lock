@@ -335,12 +335,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "427a48c889e1e9c1775dca9a6db55eed4f42a1be"
+                "reference": "143c251041e6fed511b666ba865019f4e697e603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/427a48c889e1e9c1775dca9a6db55eed4f42a1be",
-                "reference": "427a48c889e1e9c1775dca9a6db55eed4f42a1be",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/143c251041e6fed511b666ba865019f4e697e603",
+                "reference": "143c251041e6fed511b666ba865019f4e697e603",
                 "shasum": ""
             },
             "require": {
@@ -397,7 +397,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-03-10 08:01:28"
+            "time": "2013-03-12 20:11:25"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -862,12 +862,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "df9f2d714b577086a212ef8ba08610539f6cf036"
+                "reference": "46e6d2e3cd7ccc4e4772573cd3201fa16430b63e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/df9f2d714b577086a212ef8ba08610539f6cf036",
-                "reference": "df9f2d714b577086a212ef8ba08610539f6cf036",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/46e6d2e3cd7ccc4e4772573cd3201fa16430b63e",
+                "reference": "46e6d2e3cd7ccc4e4772573cd3201fa16430b63e",
                 "shasum": ""
             },
             "require": {
@@ -907,7 +907,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-03-12 09:19:50"
+            "time": "2013-03-13 15:22:34"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -2556,12 +2556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "02da7da5a6ee0e00d4f7cde0544125f459b440aa"
+                "reference": "d32c1c0d9c0bb54c40d4edf0492e471f8e6f0544"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/02da7da5a6ee0e00d4f7cde0544125f459b440aa",
-                "reference": "02da7da5a6ee0e00d4f7cde0544125f459b440aa",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d32c1c0d9c0bb54c40d4edf0492e471f8e6f0544",
+                "reference": "d32c1c0d9c0bb54c40d4edf0492e471f8e6f0544",
                 "shasum": ""
             },
             "require": {
@@ -2647,7 +2647,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-03-11 22:11:53"
+            "time": "2013-03-13 13:44:31"
         },
         {
             "name": "twig/extensions",

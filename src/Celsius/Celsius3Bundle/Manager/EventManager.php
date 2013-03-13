@@ -3,7 +3,6 @@
 namespace Celsius\Celsius3Bundle\Manager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-//use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius\Celsius3Bundle\Document\Institution;
@@ -15,11 +14,62 @@ use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 class EventManager
 {
 
+    const EVENT__CREATION = 'creation';
+    const EVENT__SEARCH = 'search';
+    const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
+    const EVENT__MULTI_INSTANCE_REQUEST = 'mirequest';
+    const EVENT__APPROVE = 'approve';
+    const EVENT__RECLAIM = 'reclaim';
+    const EVENT__RECEIVE = 'receive';
+    const EVENT__SINGLE_INSTANCE_DELIVER = 'sideliver';
+    const EVENT__MULTI_INSTANCE_DELIVER = 'mideliver';
+    const EVENT__CANCEL = 'cancel';
+    const EVENT__ANNUL = 'annul';
+
+    private $class_prefix = 'Celsius\\Celsius3Bundle\\Document\\';
+    public $event_classes = array(
+        self::EVENT__CREATION => 'Creation',
+        self::EVENT__SEARCH => 'Search',
+        self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequest',
+        self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequest',
+        self::EVENT__APPROVE => 'Approve',
+        self::EVENT__RECLAIM => 'Reclaim',
+        self::EVENT__RECEIVE => 'Receive',
+        self::EVENT__SINGLE_INSTANCE_DELIVER => 'SingleInstanceDeliver',
+        self::EVENT__MULTI_INSTANCE_DELIVER => 'MultiInstanceDeliver',
+        self::EVENT__CANCEL => 'Cancel',
+        self::EVENT__ANNUL => 'Annul',
+    );
     private $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
+    {
+        return new NotFoundException($message, $previous);
+    }
+
+    public function getClassNameForEvent($event)
+    {
+        if (!array_key_exists($event, $this->event_classes))
+        {
+            throw $this->createNotFoundException('Event not found.');
+        }
+
+        return $this->event_classes[$event];
+    }
+
+    public function getFullClassNameForEvent($event)
+    {
+        if (!array_key_exists($event, $this->event_classes))
+        {
+            throw $this->createNotFoundException('Event not found.');
+        }
+
+        return $this->class_prefix . $this->event_classes[$event];
     }
 
     private function prepareExtraDataForRequest(Order $order, array $extraData)

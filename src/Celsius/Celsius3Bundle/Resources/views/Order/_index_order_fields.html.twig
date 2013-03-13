@@ -4,7 +4,7 @@
             <dt>{{ 'Code'|trans }}</dt>
             <dd>{{ order.code }}</dd>
             <dt>{{ 'Current state'|trans }}</dt>
-            <dd>{{ order.currentState.type.name|capitalize }}</dd>
+            <dd>{{ order.getCurrentState(instance).type.name|capitalize }}</dd>
             {% block extrafields %}{% endblock %}
         </dl>
         <div class="thumbnail">

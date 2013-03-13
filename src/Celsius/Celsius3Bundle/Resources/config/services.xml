@@ -171,6 +171,7 @@
         </service>
         
         <service id="state_manager" class="%state_manager.class%">
+            <argument type="service" id="event_manager"></argument>
         </service>
         
         <service id="file_manager" class="%file_manager.class%">

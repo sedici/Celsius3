@@ -3,7 +3,7 @@
     <dt>{{ 'Code'|trans }}</dt>
     <dd>{{ document.code }}</dd>
     <dt>{{ 'Current state'|trans }}</dt>
-    <dd>{{ document.currentState.type.name|capitalize }}</dd>
+    <dd>{{ document.getCurrentState(instance).type.name|capitalize }}</dd>
     {% block extrafields %}{% endblock %}
 </dl>
 <div class="thumbnail">
