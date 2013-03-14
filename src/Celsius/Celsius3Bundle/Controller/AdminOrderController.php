@@ -198,6 +198,23 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
+    
+    /**
+     * Shows the state list fragment for an Order.
+     *
+     * @Template()
+     * 
+     * @param Order $document The Order document
+     *
+     * @return array
+     */
+    public function stateListAction(Order $document)
+    {
+        return array(
+            'document' => $document,
+            'positive_states' => $this->get('state_manager')->getPositiveStates(),
+        );
+    }
 
     /**
      * Creates an Event for an Order

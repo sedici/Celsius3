@@ -1,0 +1,22 @@
+<div class="well">
+    <ul class="state-list">
+        {% for key, state in positive_states %}
+        <li>{{ render_state(key, document)|raw }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div id="state-info">
+    {% for key, state in positive_states %}
+    {{ render_state_info(key, document)|raw }}
+    {% endfor %}
+</div>
+
+<script type="text/javascript">
+    // Como no se utiliza accordion-group hay que ocultar "a mano" los elementos
+    // mostrados cuando se presiona otro link
+    $(document).ready(function(){
+        $('.state-list a.pointer').click(function(e){
+            $('#state-info .in').collapse('hide');
+        });
+    });
+</script>
