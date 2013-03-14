@@ -28,8 +28,6 @@ class LoginLoggingInterceptor implements MethodInterceptorInterface
         $log->setCategory('login');
         $log->setDate(time());
 
-        $token = null;
-
         try
         {
             $token = $invocation->proceed();

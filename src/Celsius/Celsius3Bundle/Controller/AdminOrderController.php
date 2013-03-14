@@ -20,14 +20,14 @@ class AdminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                        ->getRepository('CelsiusCelsius3Bundle:Order')
+                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                        ->getRepository('CelsiusCelsius3Bundle:Order')
+                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->findOneForInstance($id, $this->getInstance())
                         ->getQuery()
                         ->getSingleResult();
@@ -221,10 +221,16 @@ class AdminOrderController extends OrderController
             throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
-        $extraData = $this->get('event_manager')->prepareExtraData($event, $order);
-        $event = $this->get('event_manager')->getRealEventName($event, $extraData);
-        $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);
-        $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
+        try
+        {
+            $extraData = $this->get('event_manager')->prepareExtraData($event, $order);
+            $event = $this->get('event_manager')->getRealEventName($event, $extraData);
+            $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);
+            $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
+        } catch (\Exception $e)
+        {
+            
+        }
 
         return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
     }

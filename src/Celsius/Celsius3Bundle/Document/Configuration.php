@@ -164,14 +164,4 @@ class Configuration
         return $this->type;
     }
 
-    public static function duplicate($original)
-    {
-        $new = new Configuration();
-        $new->setName($original->getName());
-        $new->setKey($original->getKey());
-        $new->setValue($original->getValue());
-        $new->setType($original->getType());
-        return $new;
-    }
-
 }

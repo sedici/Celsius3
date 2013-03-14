@@ -1753,12 +1753,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "v2.3.2"
+                "reference": "ae880a6a8adc2a41b14dcebf0a4e9dc142a3a772"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/v2.3.2",
-                "reference": "v2.3.2",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/ae880a6a8adc2a41b14dcebf0a4e9dc142a3a772",
+                "reference": "ae880a6a8adc2a41b14dcebf0a4e9dc142a3a772",
                 "shasum": ""
             },
             "require": {
@@ -1803,7 +1803,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2013-02-18 17:29:20"
+            "time": "2013-03-14 07:27:40"
         },
         {
             "name": "kriswallsmith/assetic",
@@ -2556,12 +2556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "d32c1c0d9c0bb54c40d4edf0492e471f8e6f0544"
+                "reference": "82a78ed54515a914e46ccbad617d6f683e6a5acf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/d32c1c0d9c0bb54c40d4edf0492e471f8e6f0544",
-                "reference": "d32c1c0d9c0bb54c40d4edf0492e471f8e6f0544",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/82a78ed54515a914e46ccbad617d6f683e6a5acf",
+                "reference": "82a78ed54515a914e46ccbad617d6f683e6a5acf",
                 "shasum": ""
             },
             "require": {
@@ -2647,7 +2647,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-03-13 13:44:31"
+            "time": "2013-03-14 13:30:47"
         },
         {
             "name": "twig/extensions",

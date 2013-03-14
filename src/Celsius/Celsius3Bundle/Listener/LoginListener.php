@@ -3,14 +3,15 @@
 namespace Celsius\Celsius3Bundle\Listener;
 
 use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListener
 {
 
-    protected $session;
+    private $session;
 
-    public function __construct($session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

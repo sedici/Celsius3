@@ -2,13 +2,20 @@
 
 namespace Celsius\Celsius3Bundle\Listener;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
+use Celsius\Celsius3Bundle\Helper\ConfigurationHelper;
 use Celsius\Celsius3Bundle\Document\Configuration;
 use Celsius\Celsius3Bundle\Document\Instance;
 
 class ConfigurationListener
 {
+
+    private $configuration_helper;
+
+    public function __construct(ConfigurationHelper $configuration_helper)
+    {
+        $this->configuration_helper = $configuration_helper;
+    }
 
     public function postPersist(LifecycleEventArgs $args)
     {
@@ -18,14 +25,11 @@ class ConfigurationListener
         if ($document instanceof Instance)
         {
             $default = $dm->getRepository('CelsiusCelsius3Bundle:Configuration')
-                    ->createQueryBuilder()
-                    ->field('instance')->equals(null)
-                    ->getQuery()
-                    ->execute();
+                    ->findBy(array('instance' => null));
 
             foreach ($default as $configuration)
             {
-                $new = Configuration::duplicate($configuration);
+                $new = $this->configuration_helper->duplicate($configuration);
                 $new->setInstance($document);
                 $dm->persist($new);
                 $dm->flush();
@@ -35,13 +39,11 @@ class ConfigurationListener
             if (!$document->getInstance())
             {
                 $instances = $dm->getRepository('CelsiusCelsius3Bundle:Instance')
-                        ->createQueryBuilder()
-                        ->getQuery()
-                        ->execute();
+                        ->findAll();
 
                 foreach ($instances as $instance)
                 {
-                    $new = Configuration::duplicate($document);
+                    $new = $this->configuration_helper->duplicate($document);
                     $new->setInstance($instance);
                     $dm->persist($new);
                     $dm->flush();

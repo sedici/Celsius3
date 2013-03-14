@@ -48,8 +48,17 @@ class InstanceHelper
         $instance_url = $this->container->get('request')->attributes->has('url') ? $this->container->get('request')->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
         return $this->container->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('CelsiusCelsius3Bundle:Instance')
-                ->findOneBy(array('url' => $instance_url));
+                        ->getRepository('CelsiusCelsius3Bundle:Instance')
+                        ->findOneBy(array('url' => $instance_url));
+    }
+
+    public function getSessionOrUrlInstance()
+    {
+        $instance_url = $this->container->get('session')->has('instance_url') ? $this->container->get('session')->attributes->get('instance_url') : $this->container->get('request')->attributes->get('url');
+
+        return $this->container->get('doctrine.odm.mongodb.document_manager')
+                        ->getRepository('CelsiusCelsius3Bundle:Instance')
+                        ->findOneBy(array('url' => $instance_url));
     }
 
     /**

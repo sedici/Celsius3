@@ -59,7 +59,8 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             if (is_null($city))
             {
                 $country = $institution->getCountry();
-            } else {
+            } else
+            {
                 $country = $city->getCountry();
             }
         }
@@ -72,7 +73,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'query_builder' => function(DocumentRepository $dr)
                     {
                         return $dr->createQueryBuilder()
-                                        ->sort('name');
+                                        ->sort('name', 'asc');
                     },
                     'attr' => array(
                         'class' => 'country-select'
@@ -95,7 +96,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                             $qb = $qb->field('country.id')->equals(null);
                         }
 
-                        return $qb->sort('name');
+                        return $qb->sort('name', 'asc');
                     },
                     'attr' => array(
                         'class' => 'city-select'
@@ -123,7 +124,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                                             ->field('country.id')->equals(null);
                         }
 
-                        return $qb->sort('name');
+                        return $qb->sort('name', 'asc');
                     },
                     'attr' => array(
                         'class' => 'institution-select'

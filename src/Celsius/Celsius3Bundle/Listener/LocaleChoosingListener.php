@@ -9,26 +9,23 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius\Celsius3Bundle\Helper\InstanceHelper;
 
 class LocaleChoosingListener
 {
 
-    private $defaultLocale;
+    private $default_locale;
     private $locales;
-    private $localeResolver;
-    private $configurationHelper;
-    private $session;
-    private $request;
+    private $locale_resolver;
+    private $instance_helper;
     private $dm;
 
-    public function __construct($defaultLocale, array $locales, LocaleResolverInterface $localeResolver, $configurationHelper, $session, $request, DocumentManager $dm)
+    public function __construct($default_locale, array $locales, LocaleResolverInterface $locale_resolver, InstanceHelper $instance_helper, DocumentManager $dm)
     {
-        $this->defaultLocale = $defaultLocale;
+        $this->default_locale = $default_locale;
         $this->locales = $locales;
-        $this->localeResolver = $localeResolver;
-        $this->configurationHelper = $configurationHelper;
-        $this->session = $session;
-        $this->request = $request;
+        $this->locale_resolver = $locale_resolver;
+        $this->instance_helper = $instance_helper;
         $this->dm = $dm;
     }
 
@@ -47,18 +44,11 @@ class LocaleChoosingListener
             return;
         }
 
-        $locale = $this->localeResolver->resolveLocale($request, $this->locales) ? : $this->defaultLocale;
+        $locale = $this->locale_resolver->resolveLocale($request, $this->locales) ? : $this->default_locale;
 
         if (!$request->attributes->get('_locale') && !$this->request->isXmlHttpRequest())
         {
-            if ($this->session->has('instance_url'))
-                $instance_url = $this->session->get('instance_url');
-            else
-                $instance_url = $request->attributes->get('url');
-
-            $instance = $this->dm
-                    ->getRepository('CelsiusCelsius3Bundle:Instance')
-                    ->findOneBy(array('url' => $instance_url));
+            $instance = $this->instance_helper->getSessionOrUrlInstance();
 
             if ($instance)
                 $locale = $instance->get('instance_language')->getValue();

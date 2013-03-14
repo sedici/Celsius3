@@ -3,7 +3,9 @@
 namespace Celsius\Celsius3Bundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Query\Builder;
 use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius\Celsius3Bundle\Manager\StateManager;
 
 /**
  * OrderRepository
@@ -61,10 +63,7 @@ class OrderRepository extends DocumentRepository
     {
         $stateType = $this->getDocumentManager()
                 ->getRepository('CelsiusCelsius3Bundle:StateType')
-                ->createQueryBuilder()
-                ->field('name')->equals('created')
-                ->getQuery()
-                ->getSingleResult();
+                ->findOneBy(array('name' => StateManager::STATE__CREATED));
 
         $order_ids = array_map(array($this, 'getIds'), $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:State')
@@ -80,29 +79,56 @@ class OrderRepository extends DocumentRepository
         return $this->createQueryBuilder()
                         ->field('id')->in($order_ids);
     }
-    
+
     public function findOneForInstance($id, Instance $instance)
     {
         $stateType = $this->getDocumentManager()
                 ->getRepository('CelsiusCelsius3Bundle:StateType')
+                ->findOneBy(array('name' => StateManager::STATE__CREATED));
+
+        $order_id = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:State')
                 ->createQueryBuilder()
-                ->field('name')->equals('created')
+                ->hydrate(false)
+                ->select('order')
+                ->field('order.id')->equals($id)
+                ->field('type.id')->equals($stateType->getId())
+                ->field('instance.id')->equals($instance->getId())
                 ->getQuery()
                 ->getSingleResult();
-        
-        $order_id = $this->getDocumentManager()
+
+        return $this->createQueryBuilder()
+                        ->field('id')->equals($order_id['order']['$id']);
+    }
+
+    public function addFindByStateType(array $types, Builder $query, Instance $instance = null)
+    {
+        $stateTypes = array_keys($this->getDocumentManager()
+                        ->getRepository('CelsiusCelsius3Bundle:StateType')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('id')
+                        ->field('name')->in($types)
+                        ->getQuery()
+                        ->execute()
+                        ->toArray());
+
+        $states = $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
-                        ->select('order')
-                        ->field('order.id')->equals($id)
-                        ->field('type.id')->equals($stateType->getId())
-                        ->field('instance.id')->equals($instance->getId())
-                        ->getQuery()
-                        ->getSingleResult();
-        
-        return $this->createQueryBuilder()
-                        ->field('id')->equals($order_id['order']['$id']);
+                        ->select('id')
+                        ->field('isCurrent')->equals(true)
+                        ->field('type.id')->in($stateTypes);
+
+        if (!is_null($instance))
+        {
+            $states = $states->field('instance.id')->equals($instance->getId());
+        }
+
+        return $query->field('currentState.id')->in(array_keys($states->getQuery()
+                                        ->execute()
+                                        ->toArray()));
     }
 
 }

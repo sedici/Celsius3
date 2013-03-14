@@ -2,6 +2,9 @@
 
 namespace Celsius\Celsius3Bundle\Manager;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius\Celsius3Bundle\Document\Instance;
+
 class UnionManager
 {
 
@@ -54,12 +57,12 @@ class UnionManager
         ),
     );
 
-    public function __construct($dm)
+    public function __construct(DocumentManager $dm)
     {
         $this->dm = $dm;
     }
 
-    public function union($name, $main, $elements, $updateInstance)
+    public function union($name, Instance $main, $elements, $updateInstance)
     {
         if (array_key_exists($name, $this->references))
         {

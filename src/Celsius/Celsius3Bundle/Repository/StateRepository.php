@@ -3,21 +3,10 @@
 namespace Celsius\Celsius3Bundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\Instance;
 
 class StateRepository extends DocumentRepository
 {
-
-    public function findCurrentState(Order $order, Instance $instance)
-    {
-        return $this->createQueryBuilder()
-                        ->field('order.id')->equals($order->getId())
-                        ->field('instance.id')->equals($instance->getId())
-                        ->field('isCurrent')->equals(true)
-                        ->getQuery()
-                        ->getSingleResult();
-    }
 
     public function countOrders(Instance $instance = null)
     {

@@ -25,6 +25,10 @@ class EventManager
     const EVENT__MULTI_INSTANCE_DELIVER = 'mideliver';
     const EVENT__CANCEL = 'cancel';
     const EVENT__ANNUL = 'annul';
+    
+    // Fake events
+    const EVENT__REQUEST = 'request';
+    const EVENT__DELIVER = 'deliver';
 
     private $class_prefix = 'Celsius\\Celsius3Bundle\\Document\\';
     public $event_classes = array(
@@ -75,7 +79,7 @@ class EventManager
     private function prepareExtraDataForRequest(Order $order, array $extraData)
     {
         $document = new SingleInstanceRequest();
-        $form = $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\\Celsius3Bundle\\Document\\SingleInstanceRequest'), $document);
+        $form = $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), $this->getFullClassNameForEvent(self::EVENT__SINGLE_INSTANCE_REQUEST)), $document);
         $request = $this->container->get('request');
         $form->bind($request);
 
@@ -131,7 +135,8 @@ class EventManager
         }
 
         $extraData['receive'] = $this->container->get('doctrine.odm.mongodb.document_manager')
-                ->find('CelsiusCelsius3Bundle:Receive', $this->container->get('request')->query->get('receive'));
+                ->getRepository('CelsiusCelsius3Bundle:Receive')
+                ->find($this->container->get('request')->query->get('receive'));
 
         if (!$extraData['receive'])
         {
@@ -145,9 +150,9 @@ class EventManager
     {
         switch ($event)
         {
-            case 'request': $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? 'mirequest' : 'sirequest';
+            case self::EVENT__REQUEST: $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
-            case 'deliver': $event = ($extraData['receive']->getRequestEvent() instanceof SingleInstanceRequest ? 'sideliver' : 'mideliver');
+            case self::EVENT__DELIVER: $event = ($extraData['receive']->getRequestEvent() instanceof SingleInstanceRequest ? self::EVENT__SINGLE_INSTANCE_DELIVER : self::EVENT__MULTI_INSTANCE_DELIVER);
                 break;
             default:;
         }
@@ -159,11 +164,11 @@ class EventManager
         $extraData = array();
         switch ($event)
         {
-            case 'request': $extraData = $this->prepareExtraDataForRequest($order, $extraData);
+            case self::EVENT__REQUEST: $extraData = $this->prepareExtraDataForRequest($order, $extraData);
                 break;
-            case 'receive': $extraData = $this->prepareExtraDataForReceive($order, $extraData);
+            case self::EVENT__RECEIVE: $extraData = $this->prepareExtraDataForReceive($order, $extraData);
                 break;
-            case 'deliver': $extraData = $this->prepareExtraDataForDeliver($order, $extraData);
+            case self::EVENT__DELIVER: $extraData = $this->prepareExtraDataForDeliver($order, $extraData);
                 break;
             default:;
         }

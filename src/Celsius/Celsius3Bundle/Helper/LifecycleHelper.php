@@ -11,6 +11,7 @@ use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Instance;
 use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Manager\StateManager;
+use Celsius\Celsius3Bundle\Manager\EventManager;
 use Celsius\Celsius3Bundle\Manager\FileManager;
 
 class LifecycleHelper
@@ -18,12 +19,14 @@ class LifecycleHelper
 
     private $dm;
     private $state_manager;
+    private $event_manager;
     private $file_manager;
 
-    public function __construct(DocumentManager $dm, StateManager $state_manager, FileManager $file_manager)
+    public function __construct(DocumentManager $dm, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager)
     {
         $this->dm = $dm;
         $this->state_manager = $state_manager;
+        $this->event_manager = $event_manager;
         $this->file_manager = $file_manager;
     }
 
@@ -103,10 +106,7 @@ class LifecycleHelper
         $state->setOrder($order);
         $state->setType(
                 $this->dm->getRepository('CelsiusCelsius3Bundle:StateType')
-                        ->createQueryBuilder()
-                        ->field('name')->equals($name)
-                        ->getQuery()
-                        ->getSingleResult()
+                        ->findOneBy(array('name' => $name))
         );
         $state->setPrevious($currentState);
 
@@ -127,7 +127,7 @@ class LifecycleHelper
     {
         $stateName = $this->state_manager->getStateForEvent($name);
 
-        if (!$order->hasState($this->state_manager->getPreviousPositiveState($stateName)) && $name != 'creation')
+        if (!$order->hasState($this->state_manager->getPreviousPositiveState($stateName)) && $name != EventManager::EVENT__CREATION)
         {
             throw $this->state_manager->createNotFoundException('State not found');
         }
@@ -135,7 +135,7 @@ class LifecycleHelper
         $date = date('Y-m-d H:i:s');
 
         $orderDateMethod = 'set' . ucfirst($stateName);
-        $eventClassName = $this->state_manager->getFullClassNameForEvent($name);
+        $eventClassName = $this->event_manager->getFullClassNameForEvent($name);
 
         $order->$orderDateMethod($date);
         $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData);

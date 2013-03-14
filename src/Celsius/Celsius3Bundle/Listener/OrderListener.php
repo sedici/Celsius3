@@ -3,8 +3,9 @@
 namespace Celsius\Celsius3Bundle\Listener;
 
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
-use Celsius\Celsius3Bundle\Document\Order;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Manager\EventManager;
 
 class OrderListener
 {
@@ -22,7 +23,7 @@ class OrderListener
 
         if ($document instanceof Order)
         {
-            $this->container->get('lifecycle_helper')->createEvent('creation', $document);
+            $this->container->get('lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $document);
         }
     }
 

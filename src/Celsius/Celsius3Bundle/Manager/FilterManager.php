@@ -2,16 +2,30 @@
 
 namespace Celsius\Celsius3Bundle\Manager;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Symfony\Component\Form\FormInterface;
+use Celsius\Celsius3Bundle\Guesser\FieldGuesser;
+use Celsius\Celsius3Bundle\Document\Instance;
+
 class FilterManager
 {
 
+    const PATH__FILTERS = 'Celsius\\Celsius3Bundle\\Filter\\';
+
     private $dm;
-    private $fieldGuesser;
+    private $field_guesser;
+
+    public function __construct(DocumentManager $dm, FieldGuesser $field_guesser)
+    {
+        $this->dm = $dm;
+        $this->field_guesser = $field_guesser;
+    }
 
     private function getCustomFilterClass($class)
     {
         $className = explode('\\', $class);
-        $filterClass = 'Celsius\\Celsius3Bundle\\Filter\\' . end($className) . 'Filter';
+        $filterClass = self::PATH__FILTERS . end($className) . 'Filter';
 
         $filter = null;
         if (class_exists($filterClass))
@@ -22,9 +36,9 @@ class FilterManager
         return $filter;
     }
 
-    private function applyStandardFilter($class, $key, $data, $query)
+    private function applyStandardFilter($class, $key, $data, Builder $query)
     {
-        switch ($this->fieldGuesser->getDbType($class, $key))
+        switch ($this->field_guesser->getDbType($class, $key))
         {
             case 'string':
                 $query = $query->field($key)->equals(new \MongoRegex('/.*' . $data . '.*/i'));
@@ -50,13 +64,7 @@ class FilterManager
         return $query;
     }
 
-    public function __construct($dm, $fieldGuesser)
-    {
-        $this->dm = $dm;
-        $this->fieldGuesser = $fieldGuesser;
-    }
-
-    public function filter($query, $form, $class, $instance = null)
+    public function filter(Builder $query, FormInterface $form, $class, Instance $instance = null)
     {
         $customFilter = $this->getCustomFilterClass($class);
 

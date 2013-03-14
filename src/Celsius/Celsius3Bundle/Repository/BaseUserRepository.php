@@ -3,6 +3,8 @@
 namespace Celsius\Celsius3Bundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Query\Builder;
+use Celsius\Celsius3Bundle\Document\Instance;
 
 /**
  * BaseUserRepository
@@ -46,6 +48,26 @@ class BaseUserRepository extends DocumentRepository
             $qb = $qb->limit(10);
 
         return $qb->getQuery();
+    }
+
+    public function addFindByStateType(array $data, Builder $query, Instance $instance)
+    {
+        foreach ($data as $value)
+        {
+            switch ($value)
+            {
+                case 'enabled': $query = $query->addOr($query->expr()->field('enabled')->equals(true)
+                                    ->field('locked')->equals(false));
+                    break;
+                case 'pending': $query = $query->addOr($query->expr()->field('enabled')->equals(false)
+                                    ->field('locked')->equals(false));
+                    break;
+                case 'rejected': $query = $query->addOr($query->expr()->field('locked')->equals(true));
+                    break;
+            }
+        }
+
+        return $query;
     }
 
 }

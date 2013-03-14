@@ -2,7 +2,6 @@
 
 namespace Celsius\Celsius3Bundle\Listener;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Celsius\Celsius3Bundle\Document\Counter;
 use Celsius\Celsius3Bundle\Document\Instance;

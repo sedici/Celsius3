@@ -70,6 +70,7 @@
         </service>
         
         <service id="configuration_listener" class="%configuration_listener.class%">
+            <argument type="service" id="configuration_helper"></argument>
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
         </service>
         
@@ -87,9 +88,7 @@
             <argument type="string" id="%jms_i18n_routing.default_locale%"></argument>
             <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
-            <argument type="service" id="configuration_helper"></argument>
-            <argument type="service" id="session"></argument>
-            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="instance_helper"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
         </service>
@@ -151,6 +150,7 @@
         <service id="lifecycle_helper" class="%lifecycle_helper.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
             <argument type="service" id="state_manager"></argument>
+            <argument type="service" id="event_manager"></argument>
             <argument type="service" id="file_manager"></argument>
         </service>
         
