@@ -4,7 +4,7 @@
         <a href="{{ path('file_download', { 'id': file.id }) }}">{{ 'Download'|trans }}</a>
     {% endfor %}
     {% if not isDelivered %}
-        <form action="{{ path('admin_order_event', { 'id': order.id, 'event': 'deliver', 'receive': event.id }) }}" method="post">
+        <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__DELIVER'), 'receive': event.id }) }}" method="post">
             <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
         </form>
         {% if not isReclaimed %}

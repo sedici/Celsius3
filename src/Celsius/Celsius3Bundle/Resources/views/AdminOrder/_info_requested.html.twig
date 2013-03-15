@@ -2,13 +2,13 @@
 
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
     <div class="well">
-        {% if order.hasState('requested', instance) %}
-            {% for event in order.getState('requested', instance).events %}
-            {{ render_request_event(event, order)|raw }}
+        {% if order.hasState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'), instance) %}
+            {% for event in order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'), instance).events %}
+                {{ render(controller('CelsiusCelsius3Bundle:AdminOrder:eventRequest', { 'event': event, 'document': order })) }}
             {% endfor %}
         {% endif %}
         {% if not isDelivered %}
-        <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+            <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
         {% endif %}
     </div>
 </div>
@@ -16,7 +16,7 @@
 <div id="{{ 'info_'~state~'_disabled' }}" class="collapse">
     <div class="well">
         {% if not isDelivered %}
-        <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
+            <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
         {% endif %}
     </div>
 </div>
@@ -27,7 +27,7 @@
         <h3 id="request-modal-label">{{ 'Request'|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'request' })|raw }}" method="post">
+        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post">
             {{ form_widget(request_form) }}
         </form>
     </div>

@@ -1,5 +1,5 @@
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
     <div class="well">
-        <p>{{ 'Date'|trans }}: {{ order.hasState('delivered', instance)?order.getState('delivered', instance).date|localizeddate():'' }}</p>
+        <p>{{ 'Date'|trans }}: {{ order.hasState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__DELIVERED'), instance)?order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__DELIVERED'), instance).date|localizeddate():'' }}</p>
     </div>
 </div>

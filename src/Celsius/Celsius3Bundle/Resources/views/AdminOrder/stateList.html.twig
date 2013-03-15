@@ -1,13 +1,13 @@
 <div class="well">
     <ul class="state-list">
         {% for key, state in positive_states %}
-        <li>{{ render_state(key, document)|raw }}</li>
+            <li>{{ render(controller('CelsiusCelsius3Bundle:AdminOrder:stateHeader', { 'state': key, 'document': document })) }}</li>
         {% endfor %}
     </ul>
 </div>
 <div id="state-info">
     {% for key, state in positive_states %}
-    {{ render_state_info(key, document)|raw }}
+        {{ render(controller('CelsiusCelsius3Bundle:AdminOrder:stateBody', { 'state': key, 'document': document })) }}
     {% endfor %}
 </div>
 

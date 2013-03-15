@@ -4,13 +4,13 @@
         <h3 id="receive-modal-label">{{ 'receive'|capitalize|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': 'receive', 'request': event.id })|raw }}" method="post" enctype="multipart/form-data">
+        <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECEIVE'), 'request': event.id })|raw }}" method="post" enctype="multipart/form-data">
             {{ form_widget(receive_form) }}
-            <a href="#" id="add-file{{ event.id }}">Add file</a>
+            <a href="#" id="add-file{{ event.id }}">{{ 'Add file'|trans }}</a>
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
         <button class="btn btn-primary doReceive" value="#receiveForm{{ event.id }}">{{ 'Save'|trans }}</button>
     </div>
 </div>

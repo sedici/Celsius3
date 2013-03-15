@@ -46,7 +46,7 @@ class LocaleChoosingListener
 
         $locale = $this->locale_resolver->resolveLocale($request, $this->locales) ? : $this->default_locale;
 
-        if (!$request->attributes->get('_locale') && !$this->request->isXmlHttpRequest())
+        if (!$request->attributes->get('_locale') && !$request->isXmlHttpRequest())
         {
             $instance = $this->instance_helper->getSessionOrUrlInstance();
 

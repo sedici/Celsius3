@@ -5,9 +5,16 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Celsius\Celsius3Bundle\Document\Event;
+use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\AdminOrderType as OrderType;
+use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
+use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 use Celsius\Celsius3Bundle\Filter\Type\OrderFilterType;
+use Celsius\Celsius3Bundle\Manager\EventManager;
+use Celsius\Celsius3Bundle\Manager\StateManager;
 
 /**
  * Order controller.
@@ -198,7 +205,7 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
-    
+
     /**
      * Shows the state list fragment for an Order.
      *
@@ -214,6 +221,100 @@ class AdminOrderController extends OrderController
             'document' => $document,
             'positive_states' => $this->get('state_manager')->getPositiveStates(),
         );
+    }
+
+    /**
+     * Shows the state header for an Order state.
+     *
+     * @Template()
+     * 
+     * @param string $state The State name
+     * @param Order $document The Order document
+     *
+     * @return array
+     */
+    public function stateHeaderAction($state, Order $document)
+    {
+        $instance = $this->getInstance();
+        
+        return array(
+            'state' => $state,
+            'order' => $document,
+            'hasPrevious' => $document->hasState($this->get('state_manager')->getPreviousPositiveState($state), $instance),
+            'instance' => $instance,
+        );
+    }
+
+    /**
+     * Shows the state body for an Order state.
+     *
+     * @Template()
+     * 
+     * @param string $state The State name
+     * @param Order $document The Order document
+     *
+     * @return array
+     */
+    public function stateBodyAction($state, Order $document)
+    {
+        $instance = $this->getInstance();
+        
+        return $this->render('CelsiusCelsius3Bundle:AdminOrder:_info_' . $state . '.html.twig', array(
+                    'state' => $state,
+                    'order' => $document,
+                    'events' => $this->get('state_manager')->getEventsToState($state),
+                    'hasPrevious' => $document->hasState($this->get('state_manager')->getPreviousPositiveState($state), $instance),
+                    'isCurrent' => $document->getCurrentState($instance)->getType()->getName() == $state,
+                    'request_form' => $this->get('form.factory')->create(new OrderRequestType($this->getDocumentManager(), $this->get('event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView(),
+                    'isDelivered' => $document->getState(StateManager::STATE__DELIVERED, $instance),
+                    'instance' => $instance,
+                ));
+    }
+    
+    /**
+     * Shows the request event info for an Order state.
+     *
+     * @Template()
+     * 
+     * @param Event $event The Request event
+     * @param Order $document The Order document
+     *
+     * @return array
+     */
+    public function eventRequestAction(Event $event, Order $document)
+    {
+        return $this->render('CelsiusCelsius3Bundle:AdminOrder:_event_request.html.twig', array(
+                    'event' => $event,
+                    'isMultiInstance' => $event instanceof MultiInstanceRequest,
+                    'order' => $document,
+                    'receive_form' => $this->get('form.factory')->create(new OrderReceiveType(), new Receive())->createView(),
+                    'isReceived' => $this->getDocumentManager()
+                            ->getRepository('CelsiusCelsius3Bundle:Receive')
+                            ->findBy(array('requestEvent.id' => $event->getId()))
+                            ->count() > 0,
+                    'isDelivered' => $document->getState(StateManager::STATE__DELIVERED, $this->getInstance()),
+                ));
+    }
+    
+    /**
+     * Shows the receive event info for an Order state.
+     *
+     * @Template()
+     * 
+     * @param Event $event The Receive event
+     * @param Order $document The Order document
+     *
+     * @return array
+     */
+    public function eventReceiveAction(Event $event, Order $document)
+    {
+        return $this->render('CelsiusCelsius3Bundle:AdminOrder:_event_receive.html.twig', array(
+                    'event' => $event,
+                    'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
+                    'order' => $document,
+                    'isDelivered' => $document->getState(StateManager::STATE__DELIVERED, $this->get('instance_helper')->getSessionInstance()),
+                    'isReclaimed' => $event instanceof Receive && $event->getReclaimed(),
+                ));
     }
 
     /**
