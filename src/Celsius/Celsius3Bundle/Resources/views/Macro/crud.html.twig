@@ -8,11 +8,13 @@
         {{ tinymce_init() }}
         {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-        <form action="{{ path([name,'_update']|join, { 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">
-              {{ form_widget(edit_form) }}
-              <p>
-                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
-            </p>
+        <form action="{{ path([name,'_update']|join, { 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal well">
+              {{ form_widget(edit_form, {'form_type': 'horizontal'}) }}
+              <div class="control-group">
+                  <div class="controls">
+                      <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+                  </div>
+              </div>
         </form>
     </div>
     <div class="span3">
@@ -50,11 +52,13 @@
         {{ tinymce_init() }}
         {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
 
-        <form action="{{ path([name,'_create']|join) }}" method="post" {{ form_enctype(form) }} class="well">
-              {{ form_widget(form) }}
-              <p>
-                <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
-            </p>
+        <form action="{{ path([name,'_create']|join) }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">
+              {{ form_widget(form, {'form_type': 'horizontal'}) }}
+              <div class="control-group">
+                  <div class="controls">
+                      <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
+                  </div>
+              </div>
         </form>
     </div>
     <div class="span3">

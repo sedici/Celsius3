@@ -1,6 +1,60 @@
 {
-    "hash": "30b882d8e24b3535db85c564cc64d825",
+    "hash": "c59eef5dd6afcf9221b2ca8d6eef5644",
     "packages": [
+        {
+            "name": "braincrafted/bootstrap-bundle",
+            "version": "dev-master",
+            "target-dir": "Braincrafted/BootstrapBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/braincrafted/bootstrap-bundle.git",
+                "reference": "v1.3.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/braincrafted/bootstrap-bundle/zipball/v1.3.1",
+                "reference": "v1.3.1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "knplabs/knp-markdown-bundle": "dev-master",
+                "knplabs/knp-menu": "dev-master",
+                "knplabs/knp-menu-bundle": "dev-master",
+                "knplabs/knp-paginator-bundle": "dev-master"
+            },
+            "suggest": {
+                "knplabs/knp-menu": "Required to use KnpMenuBundle.",
+                "knplabs/knp-menu-bundle": "BraincraftedBootstrapBundle styles the menus provided by KnpMenuBundle.",
+                "knplabs/knp-paginator-bundle": "BraincraftedBootstrapBundle styles the pagination provided by KnpPaginatorBundle.",
+                "twitter/bootstrap": "Twitter Bootstrap provides the assets (images, CSS and JS)"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Braincrafted\\BootstrapBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florian Eckerstorfer",
+                    "email": "florian@theroadtojoy.at",
+                    "homepage": "http://florianeckerstorfer.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Twitter Bootstrap for Symfony2",
+            "keywords": [
+                "bootstrap"
+            ],
+            "time": "2013-03-08 21:14:47"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.1",
@@ -792,16 +846,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "00568cc51fac4430856a362de250f30f6254e5da"
+                "reference": "b7b9ff90d826b69fa1592aaf461c75c38387c99f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/00568cc51fac4430856a362de250f30f6254e5da",
-                "reference": "00568cc51fac4430856a362de250f30f6254e5da",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/b7b9ff90d826b69fa1592aaf461c75c38387c99f",
+                "reference": "b7b9ff90d826b69fa1592aaf461c75c38387c99f",
                 "shasum": ""
             },
             "require": {
-                "doctrine/mongodb-odm": ">=1.0.0-beta5,<1.1-dev",
+                "doctrine/mongodb-odm": ">=1.0-beta5,<1.1",
                 "php": ">=5.3.2",
                 "symfony/doctrine-bridge": ">=2.1,<2.3-dev",
                 "symfony/framework-bundle": ">=2.1,<2.3-dev",
@@ -853,7 +907,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2013-03-18 14:39:21"
+            "time": "2013-03-18 20:29:08"
         },
         {
             "name": "friendsofsymfony/message-bundle",
@@ -1699,12 +1753,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
-                "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885"
+                "reference": "8f84c396927809e885f7a17ef3737358c001d78f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/bfaa9f1a74ee590c5e6460a3139b268fce1f1885",
-                "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/8f84c396927809e885f7a17ef3737358c001d78f",
+                "reference": "8f84c396927809e885f7a17ef3737358c001d78f",
                 "shasum": ""
             },
             "require": {
@@ -1744,7 +1798,7 @@
             "keywords": [
                 "menu"
             ],
-            "time": "2012-12-29 08:47:58"
+            "time": "2013-03-18 17:08:00"
         },
         {
             "name": "knplabs/knp-paginator-bundle",
@@ -1882,12 +1936,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "041aa3930f8d2b466ae897440ec9471d5159c5bf"
+                "reference": "dd0b216e0229a24178c2f0782f8a7172c7ed1c96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/041aa3930f8d2b466ae897440ec9471d5159c5bf",
-                "reference": "041aa3930f8d2b466ae897440ec9471d5159c5bf",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/dd0b216e0229a24178c2f0782f8a7172c7ed1c96",
+                "reference": "dd0b216e0229a24178c2f0782f8a7172c7ed1c96",
                 "shasum": ""
             },
             "require": {
@@ -1936,7 +1990,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-02-26 10:18:11"
+            "time": "2013-03-18 18:06:02"
         },
         {
             "name": "nikic/php-parser",
@@ -2744,6 +2798,33 @@
                 "templating"
             ],
             "time": "2013-03-10 07:23:01"
+        },
+        {
+            "name": "twitter/bootstrap",
+            "version": "v2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twitter/bootstrap.git",
+                "reference": "v2.3.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twitter/bootstrap/zipball/v2.3.1",
+                "reference": "v2.3.1",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+            "homepage": "http://twitter.github.com/bootstrap/",
+            "keywords": [
+                "bootstrap",
+                "css"
+            ],
+            "time": "2013-03-01 05:24:27"
         }
     ],
     "packages-dev": [
@@ -2761,7 +2842,8 @@
         "jms/i18n-routing-bundle": 20,
         "knplabs/knp-menu-bundle": 20,
         "stfalcon/tinymce-bundle": 20,
-        "friendsofsymfony/message-bundle": 20
+        "friendsofsymfony/message-bundle": 20,
+        "braincrafted/bootstrap-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"

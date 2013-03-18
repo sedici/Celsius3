@@ -28,6 +28,9 @@ monolog:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    form:
+        resources:
+            - "BraincraftedBootstrapBundle:Form:form_div_layout.html.twig"
 
 # Assetic Configuration
 assetic:
@@ -39,20 +42,36 @@ assetic:
         cssrewrite: ~
         less:
             node: /usr/bin/nodejs
-            node_paths: [/usr/local/lib/node_modules]
+            node_paths: [/usr/local/lib/node_modules] 
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
         #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
-
-    bundles:        [CelsiusCelsius3Bundle]
-    debug:          %kernel.debug%
-    use_controller: false
-    filters:
-        cssrewrite: ~
-        less:
-            node: /usr/bin/node
-            node_paths: [/usr/local/lib/node_modules]
+    assets:
+        bootstrap_css:
+            inputs:
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/less/responsive.less
+            filters:
+                - less
+                - cssrewrite
+            output: bundles/celsiuscelsius3/css/bootstrap.css
+        bootstrap_js:
+            inputs:
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js
+                - %kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js
+            output: bundles/celsiuscelsius3/js/bootstrap.js
         
 doctrine_mongodb:
     connections:
@@ -105,8 +124,10 @@ knp_paginator:
         sort_field_name: sort          # sort field query parameter name
         sort_direction_name: direction # sort direction query parameter name
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+#    template:
+#        pagination: CelsiusCelsius3Bundle:Pagination:sliding.html.twig     # sliding pagination controls template
     template:
-        pagination: CelsiusCelsius3Bundle:Pagination:sliding.html.twig     # sliding pagination controls template
+        pagination: BraincraftedBootstrapBundle:Pagination:pagination.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
   
 fos_user:
@@ -155,8 +176,10 @@ jms_i18n_routing:
     strategy: prefix
     
 knp_menu:
+#    twig:
+#        template: CelsiusCelsius3Bundle:Layout:knp_menu.html.twig
     twig:
-        template: CelsiusCelsius3Bundle:Layout:knp_menu.html.twig
+        template: "BraincraftedBootstrapBundle:Menu:menu.html.twig"
 
 stfalcon_tinymce:
     include_jquery: false
