@@ -5,8 +5,11 @@ namespace Celsius\Celsius3Bundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius\Celsius3Bundle\Document\Event;
 use Celsius\Celsius3Bundle\Document\Institution;
+use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
@@ -25,7 +28,7 @@ class EventManager
     const EVENT__MULTI_INSTANCE_DELIVER = 'mideliver';
     const EVENT__CANCEL = 'cancel';
     const EVENT__ANNUL = 'annul';
-    
+
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__DELIVER = 'deliver';
@@ -173,6 +176,40 @@ class EventManager
             default:;
         }
         return $extraData;
+    }
+
+    /*
+     * Event rendering functions
+     */
+
+    public function getDataForRequestRendering(Event $event, Order $order)
+    {
+        $instance = $this->container->get('instance_helper')->getSessionInstance();
+
+        return array(
+            'event' => $event,
+            'isMultiInstance' => $event instanceof MultiInstanceRequest,
+            'order' => $order,
+            'receive_form' => $this->container->get('form.factory')->create(new OrderReceiveType(), new Receive())->createView(),
+            'isReceived' => $this->container->get('doctrine.odm.mongodb.document_manager')
+                    ->getRepository('CelsiusCelsius3Bundle:Receive')
+                    ->findBy(array('requestEvent.id' => $event->getId()))
+                    ->count() > 0,
+            'isDelivered' => $order->getState(StateManager::STATE__DELIVERED, $instance),
+        );
+    }
+
+    public function getDataForReceiveRendering(Event $event, Order $order)
+    {
+        $instance = $this->container->get('instance_helper')->getSessionInstance();
+
+        return array(
+            'event' => $event,
+            'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
+            'order' => $order,
+            'isDelivered' => $order->getState(StateManager::STATE__DELIVERED, $instance),
+            'isReclaimed' => $event instanceof Receive && $event->getReclaimed(),
+        );
     }
 
 }

@@ -1,9 +1,9 @@
+{% if hasState %}
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
     <div class="well">
-    {% if order.hasState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__RECEIVED'), instance) %}
         {% for event in order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__RECEIVED'), instance).events %}
-            {{ render(controller('CelsiusCelsius3Bundle:AdminOrder:eventReceive', { 'event': event, 'document': order })) }}
+            {{ render_receive_event(event, order)|raw }}
         {% endfor %}
-    {% endif %}
     </div>
 </div>
+{% endif %}

@@ -4,8 +4,6 @@ namespace Celsius\Celsius3Bundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
-use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 
 class StateExtension extends \Twig_Extension
 {
@@ -26,38 +24,20 @@ class StateExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'render_state' => new \Twig_Function_Method($this, 'renderState'),
+            'render_state_header' => new \Twig_Function_Method($this, 'renderStateHeader'),
             'get_positive_states' => new \Twig_Function_Method($this, 'getPositiveStates'),
-            'render_state_info' => new \Twig_Function_Method($this, 'renderStateInfo'),
+            'render_state_body' => new \Twig_Function_Method($this, 'renderStateBody'),
         );
     }
 
-    public function renderState($state, Order $order)
+    public function renderStateHeader($state, Order $order)
     {
-        $instance = $this->container->get('instance_helper')->getSessionInstance();
-
-        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', array(
-                    'state' => $state,
-                    'order' => $order,
-                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state), $instance),
-                    'instance' => $instance,
-                ));
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_state.html.twig', $this->container->get('state_manager')->getDataForHeaderRendering($state, $order));
     }
 
-    public function renderStateInfo($state, Order $order)
+    public function renderStateBody($state, Order $order)
     {
-        $instance = $this->container->get('instance_helper')->getSessionInstance();
-
-        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_info_' . $state . '.html.twig', array(
-                    'state' => $state,
-                    'order' => $order,
-                    'events' => $this->container->get('state_manager')->getEventsToState($state),
-                    'hasPrevious' => $order->hasState($this->container->get('state_manager')->getPreviousPositiveState($state), $instance),
-                    'isCurrent' => $order->getCurrentState($instance)->getType()->getName() == $state,
-                    'request_form' => $this->container->get('form.factory')->create(new OrderRequestType($this->container->get('doctrine.odm.mongodb.document_manager'), 'Celsius\\Celsius3Bundle\\Document\\SingleInstanceRequest'), new SingleInstanceRequest())->createView(),
-                    'isDelivered' => $order->getState('delivered', $instance),
-                    'instance' => $instance,
-                ));
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_info_' . $state . '.html.twig', $this->container->get('state_manager')->getDataForBodyRendering($state, $order));
     }
 
     public function getPositiveStates()

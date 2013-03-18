@@ -172,6 +172,9 @@
         
         <service id="state_manager" class="%state_manager.class%">
             <argument type="service" id="event_manager"></argument>
+            <argument type="service" id="instance_helper"></argument>
+            <argument type="service" id="form.factory"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
         <service id="file_manager" class="%file_manager.class%">

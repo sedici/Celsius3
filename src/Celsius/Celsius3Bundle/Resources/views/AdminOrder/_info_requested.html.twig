@@ -1,18 +1,17 @@
 {% include 'CelsiusCelsius3Bundle:Layout:cci.js.twig' with { 'form': request_form } %}
 
+{% if hasState %}
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
     <div class="well">
-        {% if order.hasState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'), instance) %}
-            {% for event in order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'), instance).events %}
-                {{ render(controller('CelsiusCelsius3Bundle:AdminOrder:eventRequest', { 'event': event, 'document': order })) }}
-            {% endfor %}
-        {% endif %}
+        {% for event in order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'), instance).events %}
+            {{ render_request_event(event, order)|raw }}
+        {% endfor %}
         {% if not isDelivered %}
             <p><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></p>
         {% endif %}
     </div>
 </div>
-
+{% else %}
 <div id="{{ 'info_'~state~'_disabled' }}" class="collapse">
     <div class="well">
         {% if not isDelivered %}
@@ -20,6 +19,7 @@
         {% endif %}
     </div>
 </div>
+{% endif %}
 
 <div id="request-modal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="request-modal-label" aria-hidden="true">
     <div class="modal-header">

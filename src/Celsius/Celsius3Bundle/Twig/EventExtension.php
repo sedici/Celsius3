@@ -4,10 +4,7 @@ namespace Celsius\Celsius3Bundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Document\Event;
-use Celsius\Celsius3Bundle\Document\Receive;
 use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
-use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 
 class EventExtension extends \Twig_Extension
 {
@@ -35,31 +32,12 @@ class EventExtension extends \Twig_Extension
 
     public function renderRequestEvent(Event $event, Order $order)
     {
-        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_request.html.twig', array(
-                    'event' => $event,
-                    'isMultiInstance' => $event instanceof MultiInstanceRequest,
-                    'order' => $order,
-                    'receive_form' => $this->container->get('form.factory')->create(new OrderReceiveType(), new Receive())->createView(),
-                    'isReceived' => $this->container->get('doctrine.odm.mongodb.document_manager')
-                            ->getRepository('CelsiusCelsius3Bundle:Receive')
-                            ->createQueryBuilder()
-                            ->field('requestEvent.id')->equals($event->getId())
-                            ->getQuery()
-                            ->execute()
-                            ->count() > 0,
-                    'isDelivered' => $order->getState('delivered', $this->container->get('instance_helper')->getSessionInstance()),
-                ));
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_request.html.twig', $this->container->get('event_manager')->getDataForRequestRendering($event, $order));
     }
 
     public function renderReceiveEvent(Event $event, Order $order)
     {
-        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_receive.html.twig', array(
-                    'event' => $event,
-                    'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
-                    'order' => $order,
-                    'isDelivered' => $order->getState('delivered', $this->container->get('instance_helper')->getSessionInstance()),
-                    'isReclaimed' => $event instanceof Receive && $event->getReclaimed(),
-                ));
+        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_receive.html.twig', $this->container->get('event_manager')->getDataForReceiveRendering($event, $order));
     }
 
     public function getName()

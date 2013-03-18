@@ -2,8 +2,14 @@
 
 namespace Celsius\Celsius3Bundle\Manager;
 
+use Symfony\Component\Form\FormFactoryInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius\Celsius3Bundle\Exception\NotFoundException;
 use Celsius\Celsius3Bundle\Manager\EventManager;
+use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
+use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
+use Celsius\Celsius3Bundle\Helper\InstanceHelper;
 
 class StateManager
 {
@@ -169,10 +175,16 @@ class StateManager
         ),
     );
     private $event_manager;
+    private $instance_helper;
+    private $form_factory;
+    private $document_manager;
 
-    public function __construct(EventManager $event_manager)
+    public function __construct(EventManager $event_manager, InstanceHelper $instance_helper, FormFactoryInterface $form_factory, DocumentManager $document_manager)
     {
         $this->event_manager = $event_manager;
+        $this->instance_helper = $instance_helper;
+        $this->form_factory = $form_factory;
+        $this->document_manager = $document_manager;
     }
 
     public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
@@ -277,6 +289,41 @@ class StateManager
         }
 
         return $data;
+    }
+    
+    /*
+     * State rendering functions
+     */
+
+    public function getDataForHeaderRendering($state, Order $order)
+    {
+        $instance = $this->instance_helper->getSessionInstance();
+
+        return array(
+            'state' => $state,
+            'order' => $order,
+            'hasState' => $order->hasState($state, $instance),
+            'hasPrevious' => $order->hasState($this->getPreviousPositiveState($state), $instance),
+            'instance' => $instance,
+        );
+    }
+
+    public function getDataForBodyRendering($state, Order $order)
+    {
+        $instance = $this->instance_helper->getSessionInstance();
+        $requestForm = self::STATE__REQUESTED == $state ? $this->form_factory->create(new OrderRequestType($this->document_manager, $this->event_manager->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView() : null;
+
+        return array(
+            'state' => $state,
+            'order' => $order,
+            'events' => $this->getEventsToState($state),
+            'hasState' => $order->hasState($state, $instance),
+            'hasPrevious' => $order->hasState($this->getPreviousPositiveState($state), $instance),
+            'isCurrent' => $order->getCurrentState($instance)->getType()->getName() == $state,
+            'request_form' => $requestForm,
+            'isDelivered' => $order->getState(self::STATE__DELIVERED, $instance),
+            'instance' => $instance,
+        );
     }
 
 }
