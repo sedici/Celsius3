@@ -43,7 +43,7 @@
             $("#requestForm").submit();
         });
         
-        $('.doReceive').live('click', function(){
+        $(document).on('click', '.doReceive', function(){
             $($(this).attr('value')).submit();
         });
     });
