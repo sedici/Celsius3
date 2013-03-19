@@ -47,8 +47,9 @@ function loadInstitutions(parent, json) {
     
 $(document).ready(function(){
     $('.country-select').change(function(){
+        var institution_select = $(this).parents('.control-group').next().next().children('.controls');
         $('.city-select > option:gt(0)').empty();
-        $('.institution-select > *').empty();
+        institution_select.empty();
         if($(this).val()){
             $.ajax({
                 type: 'GET',
@@ -65,27 +66,28 @@ $(document).ready(function(){
                 data: 'country_id=' + $(this).val(),
                 url: '{{ path('public_institutions', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}',
                 success: function(data){
-                    loadInstitutions('.institution-select', JSON.parse(data));
+                    loadInstitutions(institution_select, JSON.parse(data));
                 }
             });
         }
     });
     
     $('.city-select').change(function(){
-        $('.institution-select > *').empty();
+        var institution_select = $(this).parents('.control-group').next().children('.controls');
+        institution_select.empty();
         if($(this).val()){
             $.ajax({
                 type: 'GET',
                 data: 'city_id=' + $(this).val(),
                 url: '{{ path('public_institutions', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}',
                 success: function(data){
-                    loadInstitutions('.institution-select', JSON.parse(data));
+                    loadInstitutions(institution_select, JSON.parse(data));
                 }
             });
         }
     });
     
-    $('.expand-tree').live('click', function(){
+    $(document).on('click', '.expand-tree', function(){
         var element;
         element = $(this);
         $.ajax({
@@ -101,11 +103,11 @@ $(document).ready(function(){
         });
     });
     
-    $('.collapse-tree').live('click', function(){
+    $(document).on('click', '.collapse-tree', function(){
         $(this).parent().children('p').remove();
         $(this).removeClass('collapse-tree');
         $(this).addClass('expand-tree');
         $(this).text('+');
     });
 });
-    </script>
+</script>

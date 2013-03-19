@@ -47,7 +47,25 @@ class State
     private $instance;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="state")
+     * @MongoDB\ReferenceMany(
+     *     targetDocument="Event",
+     *     mappedBy="state",
+     *     discriminatorField="type",
+     *     discriminatorMap={
+     *         "creation"="Creation",
+     *         "search"="Search",
+     *         "sirequest"="SingleInstanceRequest",
+     *         "sideliver"="SingleInstanceDeliver",
+     *         "cancel"="Cancel",
+     *         "annul"="Annul",
+     *         "mirequest"="MultiInstanceRequest",
+     *         "mideliver"="MultiInstanceDeliver",
+     *         "localcancel"="LocalCancel",
+     *         "remotecancel"="RemoteCancel",
+     *         "reclaim"="Reclaim",
+     *         "approve"="Approve"
+     *     }
+     * )
      */
     private $events;
 

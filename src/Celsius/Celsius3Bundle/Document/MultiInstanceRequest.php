@@ -10,6 +10,19 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class MultiInstanceRequest extends MultiInstance
 {
+
+    /**
+     * @MongoDB\ReferenceOne(
+     *     targetDocument="Provider",
+     *     discriminatorField="type",
+     *     discriminatorMap={
+     *         "institution"="Institution",
+     *         "web"="Web"
+     *     }
+     * )
+     */
+    private $provider;
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvent")
      */
@@ -36,4 +49,27 @@ class MultiInstanceRequest extends MultiInstance
     {
         return $this->remoteState;
     }
+
+    /**
+     * Set provider
+     *
+     * @param Celsius\Celsius3Bundle\Document\Provider $provider
+     * @return \MultiInstanceRequest
+     */
+    public function setProvider(\Celsius\Celsius3Bundle\Document\Provider $provider)
+    {
+        $this->provider = $provider;
+        return $this;
+    }
+
+    /**
+     * Get provider
+     *
+     * @return Celsius\Celsius3Bundle\Document\Provider $provider
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
 }

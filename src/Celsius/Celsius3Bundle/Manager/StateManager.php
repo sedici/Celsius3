@@ -104,6 +104,10 @@ class StateManager
                 ),
                 EventManager::EVENT__RECLAIM => array(
                     'weight' => 2,
+                    'destinationState' => self::STATE__REQUESTED,
+                ),
+                EventManager::EVENT__CANCEL => array(
+                    'weight' => 1,
                     'destinationState' => self::STATE__CANCELED,
                 ),
             ),
@@ -291,6 +295,32 @@ class StateManager
         return $data;
     }
     
+    public function getPreviousMandatoryState($state)
+    {
+        if (!array_key_exists($state, $this->graph))
+        {
+            throw $this->createNotFoundException('State not found.');
+        }
+
+        $data = null;
+
+        if (count($this->graph[$state]['previousStates']) == 0)
+        {
+            $data = $state;
+        } else
+        {
+            foreach ($this->graph[$state]['previousStates'] as $previous)
+            {
+                if ($this->graph[$previous]['mandatory'])
+                {
+                    $data = $previous;
+                }
+            }
+        }
+
+        return $data;
+    }
+    
     /*
      * State rendering functions
      */
@@ -303,7 +333,7 @@ class StateManager
             'state' => $state,
             'order' => $order,
             'hasState' => $order->hasState($state, $instance),
-            'hasPrevious' => $order->hasState($this->getPreviousPositiveState($state), $instance),
+            'hasPrevious' => $order->hasState($this->getPreviousMandatoryState($state), $instance),
             'instance' => $instance,
         );
     }
@@ -318,7 +348,7 @@ class StateManager
             'order' => $order,
             'events' => $this->getEventsToState($state),
             'hasState' => $order->hasState($state, $instance),
-            'hasPrevious' => $order->hasState($this->getPreviousPositiveState($state), $instance),
+            'hasPrevious' => $order->hasState($this->getPreviousMandatoryState($state), $instance),
             'isCurrent' => $order->getCurrentState($instance)->getType()->getName() == $state,
             'request_form' => $requestForm,
             'isDelivered' => $order->getState(self::STATE__DELIVERED, $instance),

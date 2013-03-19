@@ -10,6 +10,7 @@ use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Instance;
 use Celsius\Celsius3Bundle\Document\Receive;
+use Celsius\Celsius3Bundle\Helper\InstanceHelper;
 use Celsius\Celsius3Bundle\Manager\StateManager;
 use Celsius\Celsius3Bundle\Manager\EventManager;
 use Celsius\Celsius3Bundle\Manager\FileManager;
@@ -21,13 +22,15 @@ class LifecycleHelper
     private $state_manager;
     private $event_manager;
     private $file_manager;
+    private $instance_helper;
 
-    public function __construct(DocumentManager $dm, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager)
+    public function __construct(DocumentManager $dm, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper)
     {
         $this->dm = $dm;
         $this->state_manager = $state_manager;
         $this->event_manager = $event_manager;
         $this->file_manager = $file_manager;
+        $this->instance_helper = $instance_helper;
     }
 
     /**
@@ -41,6 +44,7 @@ class LifecycleHelper
             $event->setProvider($extraData['provider']);
         } else if ($event instanceof MultiInstanceRequest)
         {
+            $event->setProvider($extraData['provider']);
             $event->setRemoteInstance($extraData['provider']->getCelsiusInstance());
             $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getCelsiusInstance()));
         } else if ($event instanceof Receive)
@@ -52,14 +56,14 @@ class LifecycleHelper
         }
     }
 
-    private function setEventData(Event $event, Order $order, $state, $date, array $extraData, Instance $instance = null)
+    private function setEventData(Event $event, Order $order, $state, $date, array $extraData, Instance $instance)
     {
         $event->setDate($date);
         $event->setOperator($order->getOperator());
-        $event->setInstance(is_null($instance) ? $order->getInstance() : $instance);
+        $event->setInstance($instance);
         $event->setOrder($order);
 
-        $state = $this->getState($state, $date, $order, $event);
+        $state = $this->getState($state, $date, $order, $event, $instance);
 
         $event->setState($state);
 
@@ -73,9 +77,9 @@ class LifecycleHelper
         $this->dm->flush();
     }
 
-    private function getState($name, $date, Order $order, Event $event, Instance $instance = null)
+    private function getState($name, $date, Order $order, Event $event, Instance $instance)
     {
-        $currentState = $order->getCurrentState();
+        $currentState = $order->getCurrentState($instance);
 
         $instance = is_null($instance) ? $order->getInstance() : $instance;
 
@@ -126,8 +130,9 @@ class LifecycleHelper
     public function createEvent($name, Order $order, array $extraData = array())
     {
         $stateName = $this->state_manager->getStateForEvent($name);
+        $instance = $this->instance_helper->getSessionInstance();
 
-        if (!$order->hasState($this->state_manager->getPreviousPositiveState($stateName)) && $name != EventManager::EVENT__CREATION)
+        if (!$order->hasState($this->state_manager->getPreviousMandatoryState($stateName), $instance) && $name != EventManager::EVENT__CREATION)
         {
             throw $this->state_manager->createNotFoundException('State not found');
         }
@@ -138,7 +143,7 @@ class LifecycleHelper
         $eventClassName = $this->event_manager->getFullClassNameForEvent($name);
 
         $order->$orderDateMethod($date);
-        $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData);
+        $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData, $instance);
     }
 
     public function reclaim(Receive $event, Order $order)

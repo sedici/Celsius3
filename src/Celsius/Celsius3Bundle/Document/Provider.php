@@ -26,6 +26,11 @@ class Provider
     {
         return $this->id;
     }
+    
+    public function __toString()
+    {
+        return $this->getProviderName();
+    }
 
     public function getProviderName()
     {

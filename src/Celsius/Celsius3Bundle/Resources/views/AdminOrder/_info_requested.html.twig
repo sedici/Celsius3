@@ -27,8 +27,8 @@
         <h3 id="request-modal-label">{{ 'Request'|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post">
-            {{ form_widget(request_form) }}
+        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post" class="form-horizontal">
+            {{ form_widget(request_form, {'form_type': 'horizontal'}) }}
         </form>
     </div>
     <div class="modal-footer">

@@ -18,7 +18,6 @@ class Receive extends SingleInstance
     private $deliveryType;
 
     /**
-     * @Assert\NotBlank()
      * @MongoDB\String
      */
     private $observations;

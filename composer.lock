@@ -916,12 +916,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "46e6d2e3cd7ccc4e4772573cd3201fa16430b63e"
+                "reference": "4b265cb8763cb0686eec1fc758ee312eea2ead2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/46e6d2e3cd7ccc4e4772573cd3201fa16430b63e",
-                "reference": "46e6d2e3cd7ccc4e4772573cd3201fa16430b63e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/4b265cb8763cb0686eec1fc758ee312eea2ead2e",
+                "reference": "4b265cb8763cb0686eec1fc758ee312eea2ead2e",
                 "shasum": ""
             },
             "require": {
@@ -961,7 +961,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-03-13 15:22:34"
+            "time": "2013-03-19 10:20:29"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -2610,12 +2610,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "ed6c52b712237aea9aed587931c942112d472129"
+                "reference": "d7fa84162b36d400e052ecea2126582e4278ff7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/ed6c52b712237aea9aed587931c942112d472129",
-                "reference": "ed6c52b712237aea9aed587931c942112d472129",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d7fa84162b36d400e052ecea2126582e4278ff7b",
+                "reference": "d7fa84162b36d400e052ecea2126582e4278ff7b",
                 "shasum": ""
             },
             "require": {
@@ -2701,7 +2701,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-03-18 14:29:32"
+            "time": "2013-03-19 08:33:24"
         },
         {
             "name": "twig/extensions",

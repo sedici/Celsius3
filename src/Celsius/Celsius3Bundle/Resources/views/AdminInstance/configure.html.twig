@@ -11,11 +11,13 @@
     <div class="span9">
         {{ tinymce_init() }}
         {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
-        <form action="{{ path('admin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="well">
-            {{ form_widget(configure_form) }}
-                <p>
+        <form action="{{ path('admin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="form-horizontal well">
+            {{ form_widget(configure_form, {'form_type': 'horizontal'}) }}
+            <div class="control-group">
+                <div class="controls">
                     <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
-                </p>
+                </div>
+            </div>
         </form>
     </div>
     <div class="span3">
@@ -30,7 +32,7 @@
                     <div class="accordion-inner">
                         <ul class="unstyled">
                             <li>
-                                <a href="{{ path('administration', { 'code': app.request.get('code') }) }}">
+                                <a href="{{ path('administration') }}">
                                     <i class="icon-home"></i> {{ 'Go back'|trans }}
                                 </a>
                             </li>

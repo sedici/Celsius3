@@ -9,7 +9,7 @@
     <div class="well">
         <script type="text/javascript">    
             $(document).ready(function () {
-                $('#submit-search-form').live('click', function(){
+                $(document).on('click', '#submit-search-form', function(){
                     $('#search-form').submit();
                 });
             });

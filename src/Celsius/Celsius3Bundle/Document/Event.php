@@ -19,7 +19,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *   "mirequest"="MultiInstanceRequest",
  *   "mideliver"="MultiInstanceDeliver",
  *   "localcancel"="LocalCancel",
- *   "remotecancel"="RemoteCancel"
+ *   "remotecancel"="RemoteCancel",
+ *   "reclaim"="Reclaim",
+ *   "approve"="Approve"
  * })
  */
 class Event

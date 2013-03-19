@@ -4,8 +4,8 @@
         <h3 id="receive-modal-label">{{ 'receive'|capitalize|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECEIVE'), 'request': event.id })|raw }}" method="post" enctype="multipart/form-data">
-            {{ form_widget(receive_form) }}
+        <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECEIVE'), 'request': event.id })|raw }}" method="post" {{ form_enctype(receive_form) }} class="form-horizontal">
+            {{ form_widget(receive_form, {'form_type': 'horizontal'}) }}
             <a href="#" id="add-file{{ event.id }}">{{ 'Add file'|trans }}</a>
         </form>
     </div>
@@ -34,6 +34,9 @@
     });
 </script>
 
+<p>
+    {{ 'Provider'|trans }}: 
+</p>
 <p>
     {{ 'Date'|trans }}: {{ event.date|localizeddate() }}
 </p>
