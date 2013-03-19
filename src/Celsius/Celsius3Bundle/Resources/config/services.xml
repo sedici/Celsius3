@@ -21,10 +21,8 @@
         <parameter key="form.type.confirmation.class">Celsius\Celsius3Bundle\Form\Type\ConfirmationType</parameter>
         <parameter key="security.authentication_handler.class">Celsius\Celsius3Bundle\Handler\AuthenticationHandler</parameter>
         <parameter key="mongodb_logger_wrapper_handler.class">Celsius\Celsius3Bundle\Handler\MongoDBWrapperHandler</parameter>
-        <parameter key="login_logging_pointcut.class">Celsius\Celsius3Bundle\Aop\LoginLoggingPointcut</parameter>
-        <parameter key="login_logging_interceptor.class">Celsius\Celsius3Bundle\Aop\LoginLoggingInterceptor</parameter>
-        <parameter key="instance_injection_pointcut.class">Celsius\Celsius3Bundle\Aop\InstanceInjectionPointcut</parameter>
-        <parameter key="instance_injection_interceptor.class">Celsius\Celsius3Bundle\Aop\InstanceInjectionInterceptor</parameter>
+        <parameter key="login_logging_aspect.class">Celsius\Celsius3Bundle\Aop\LoginLoggingAspect</parameter>
+        <parameter key="instance_injection_aspect.class">Celsius\Celsius3Bundle\Aop\InstanceInjectionAspect</parameter>
         <parameter key="menu.voter.exact.class">Celsius\Celsius3Bundle\Voter\ExactRequestVoter</parameter>
         <parameter key="field.guesser.class">Celsius\Celsius3Bundle\Guesser\FieldGuesser</parameter>
         <parameter key="lifecycle_helper.class">Celsius\Celsius3Bundle\Helper\LifecycleHelper</parameter>
@@ -121,20 +119,13 @@
             <argument type="service" id="service_container"></argument>
         </service>
         
-        <service id="login_logging_pointcut" class="%login_logging_pointcut.class%">
-            <tag name="jms_aop.pointcut" interceptor="login_logging_interceptor" />
+        <service id="login_logging_aspect" class="%login_logging_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="login_logging_aspect" />
+            <argument type="service" id="service_container"></argument>
         </service>
         
-        <service id="login_logging_interceptor" class="%login_logging_interceptor.class%">
-            <argument type="service" id="request" strict="false"></argument>
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
-        </service>
-        
-        <service id="instance_injection_pointcut" class="%instance_injection_pointcut.class%">
-            <tag name="jms_aop.pointcut" interceptor="instance_injection_interceptor" />
-        </service>
-        
-        <service id="instance_injection_interceptor" class="%instance_injection_interceptor.class%">
+        <service id="instance_injection_aspect" class="%instance_injection_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="instance_injection_aspect" />
             <argument type="service" id="instance_helper"></argument>
         </service>
         
@@ -152,6 +143,7 @@
             <argument type="service" id="state_manager"></argument>
             <argument type="service" id="event_manager"></argument>
             <argument type="service" id="file_manager"></argument>
+            <argument type="service" id="instance_helper"></argument>
         </service>
         
         <service id="configuration_helper" class="%configuration_helper.class%">
