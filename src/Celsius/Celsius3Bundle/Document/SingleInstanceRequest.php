@@ -12,14 +12,7 @@ class SingleInstanceRequest extends SingleInstance
 {
 
     /**
-     * @MongoDB\ReferenceOne(
-     *     targetDocument="Provider",
-     *     discriminatorField="type",
-     *     discriminatorMap={
-     *         "institution"="Institution",
-     *         "web"="Web"
-     *     }
-     * )
+     * @MongoDB\ReferenceOne(targetDocument="Provider")
      */
     private $provider;
 

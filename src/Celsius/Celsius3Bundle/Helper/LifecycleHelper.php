@@ -130,7 +130,7 @@ class LifecycleHelper
     public function createEvent($name, Order $order, array $extraData = array())
     {
         $stateName = $this->state_manager->getStateForEvent($name);
-        $instance = $this->instance_helper->getSessionInstance();
+        $instance = $name != EventManager::EVENT__CREATION ? $this->instance_helper->getSessionInstance() : $order->getInstance();
 
         if (!$order->hasState($this->state_manager->getPreviousMandatoryState($stateName), $instance) && $name != EventManager::EVENT__CREATION)
         {

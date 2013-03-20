@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Celsius\Celsius3Bundle\Document;
 use Celsius\Celsius3Bundle\Helper\LoremIpsumHelper;
+use Celsius\Celsius3Bundle\Manager\StateManager;
 
 /**
  * Description of FixtureLoader
@@ -75,49 +76,49 @@ class FixtureLoader implements FixtureInterface
         $manager->flush();
 
         $state_type = new Document\StateType();
-        $state_type->setName('created');
+        $state_type->setName(StateManager::STATE__CREATED);
         $state_type->setPosition(0);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('searched');
+        $state_type->setName(StateManager::STATE__SEARCHED);
         $state_type->setPosition(1);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('requested');
+        $state_type->setName(StateManager::STATE__REQUESTED);
         $state_type->setPosition(2);
         $manager->persist($state_type);
         unset($state_type);
         
         $state_type = new Document\StateType();
-        $state_type->setName('approval_pending');
+        $state_type->setName(StateManager::STATE__APPROVAL_PENDING);
         $state_type->setPosition(3);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('received');
+        $state_type->setName(StateManager::STATE__RECEIVED);
         $state_type->setPosition(4);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('delivered');
+        $state_type->setName(StateManager::STATE__DELIVERED);
         $state_type->setPosition(5);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('canceled');
+        $state_type->setName(StateManager::STATE__CANCELED);
         $state_type->setPosition(6);
         $manager->persist($state_type);
         unset($state_type);
 
         $state_type = new Document\StateType();
-        $state_type->setName('annuled');
+        $state_type->setName(StateManager::STATE__ANNULED);
         $state_type->setPosition(7);
         $manager->persist($state_type);
         unset($state_type);

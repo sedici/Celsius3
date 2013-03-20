@@ -7,7 +7,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
- * @MongoDB\InheritanceType("COLLECTION_PER_CLASS")
+ * @MongoDB\InheritanceType("SINGLE_COLLECTION")
+ * @MongoDB\DiscriminatorField(fieldName="type")
+ * @MongoDB\DiscriminatorMap({
+ *   "author"="Author",
+ *   "institution"="Institution",
+ *   "web"="Web"
+ * })
  */
 class Provider
 {
@@ -34,6 +40,6 @@ class Provider
 
     public function getProviderName()
     {
-        return '';
+        return 'hola';
     }
 }

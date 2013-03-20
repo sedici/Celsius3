@@ -508,22 +508,24 @@ class Order
 
     public function getState($name, Instance $instance)
     {
-        return $this->getStates()->filter(
+        $result = $this->getStates()->filter(
                         function($entry) use ($name, $instance)
                         {
                             return ($entry->getType()->getName() == $name && $entry->getInstance()->getId() == $instance->getId());
                         }
                 )->first();
+        return false !== $result ? $result : null;
     }
-    
+
     public function getCurrentState(Instance $instance)
     {
-        return $this->getStates()->filter(
+        $result = $this->getStates()->filter(
                         function($entry) use ($instance)
                         {
                             return ($entry->getIsCurrent() && $entry->getInstance()->getId() == $instance->getId());
                         }
                 )->first();
+        return false !== $result ? $result : null;
     }
 
     /**

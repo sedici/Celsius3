@@ -35,7 +35,7 @@
 </script>
 
 <p>
-    {{ 'Provider'|trans }}: 
+    {{ 'Provider'|trans }}: {{ event.provider.getProviderName() }}
 </p>
 <p>
     {{ 'Date'|trans }}: {{ event.date|localizeddate() }}
