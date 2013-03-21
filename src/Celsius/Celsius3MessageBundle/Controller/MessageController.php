@@ -160,10 +160,8 @@ class MessageController extends BaseController
     {
         $form = $this->container->get('fos_message.new_thread_form.factory')->create();
         $formHandler = $this->container->get('fos_message.new_thread_form.handler');
-
         //createForm
         $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
-        
         if ($message = $formHandler->process($form)) {
             return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
                 'threadId' => $message->getThread()->getId()

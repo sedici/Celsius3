@@ -5,9 +5,22 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="celsius_message.message_manager" class="Celsius\Celsius3MessageBundle\DocumentManager\MessageManager">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument>%fos_message.message_class%</argument>
+            <argument>%fos_message.message_meta_class%</argument>
+        </service>
+     
+        <service id="celsius_message.thread_manager" class="Celsius\Celsius3MessageBundle\DocumentManager\ThreadManager">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+            <argument>%fos_message.thread_class%</argument>
+            <argument>%fos_message.thread_meta_class%</argument>
+            <argument type="service" id="celsius_message.message_manager" />
+        </service>  
+                
         <service id="fos_message.provider.default.celsius" class="Celsius\Celsius3MessageBundle\Provider\Provider">
-            <argument type="service" id="fos_message.thread_manager" />
-            <argument type="service" id="fos_message.message_manager" />
+            <argument type="service" id="celsius_message.thread_manager" />
+            <argument type="service" id="celsius_message.message_manager" />
             <argument type="service" id="fos_message.thread_reader" />
             <argument type="service" id="fos_message.authorizer" />
             <argument type="service" id="fos_message.participant_provider" />

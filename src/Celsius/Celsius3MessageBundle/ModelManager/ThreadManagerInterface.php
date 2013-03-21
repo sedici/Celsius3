@@ -5,6 +5,7 @@ namespace Celsius\Celsius3MessageBundle\ModelManager;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use FOS\MessageBundle\Model\ThreadInterface;
 
+use FOS\MessageBundle\ModelManager\ReadableManagerInterface as FOSReadableManagerInterface;
 /**
  * Interface to be implemented by comment thread managers. This adds an additional level
  * of abstraction between your application, and the actual repository.
@@ -13,7 +14,7 @@ use FOS\MessageBundle\Model\ThreadInterface;
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
-interface ThreadManagerInterface extends FOS\MessageBundle\ModelManager\ReadableManagerInterface
+interface ThreadManagerInterface extends FOSReadableManagerInterface
 {
     /**
      * Finds a thread by its ID

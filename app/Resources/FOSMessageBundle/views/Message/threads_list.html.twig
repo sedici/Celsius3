@@ -1,11 +1,4 @@
-<div class="span9">
-        {% include 'CelsiusCelsius3Bundle:Layout:_flashes.html.twig' %}
-
-
-     
-
-        
-
+<h2>lista</h2>
 {% if threads %}
         {% for thread in threads %}
             <div id="id{{ thread.id }}" class="accordion">
@@ -122,25 +115,5 @@
     
     
     
-<div class="span3">
-    <div id="accordion" class="accordion">
-        {% if filter_form %}
-            <div class="accordion-group">
-                <div class="accordion-heading">
-                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                        <i class="icon-search"></i> {{ 'Filters'|trans }}
-                    </a>
-                </div>
-                <div class="accordion-body collapse" id="collapseOne">
-                    <div class="accordion-inner">
-                        {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
-          
-                        {{ filter(urlAction, filter_form) }}
-                            
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-    </div>
-</div>
+
     

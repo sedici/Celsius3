@@ -11,6 +11,8 @@ use FOS\MessageBundle\Security\ParticipantProviderInterface;
 use FOS\MessageBundle\ModelManager\MessageManagerInterface;
 **/
 use Celsius\Celsius3MessageBundle\ModelManager\ThreadManagerInterface;
+//use Celsius\Celsius3MessageBundle\ModelManager\MessageManagerInterface;
+
 use FOS\MessageBundle\Provider\Provider as BaseProvider;
 
 /**
@@ -23,7 +25,7 @@ class Provider extends BaseProvider
 {
     /**
      * The thread manager
-     *
+     *       
      * @var ThreadManagerInterface
      */
     protected $threadManager;
@@ -33,7 +35,7 @@ class Provider extends BaseProvider
      *
      * @var MessageManagerInterface
      */
-  //  protected $messageManager;
+   // protected $messageManager;
 
     /**
      * The reader used to mark threads as read
@@ -56,7 +58,7 @@ class Provider extends BaseProvider
      */
   //  protected $participantProvider;
 
- /**   public function __construct(ThreadManagerInterface $threadManager, MessageManagerInterface $messageManager, ReaderInterface $threadReader, AuthorizerInterface $authorizer, ParticipantProviderInterface $participantProvider)
+    public function __construct(ThreadManagerInterface $threadManager, MessageManagerInterface $messageManager, ReaderInterface $threadReader, AuthorizerInterface $authorizer, ParticipantProviderInterface $participantProvider)
     {
         $this->threadManager = $threadManager;
         $this->messageManager = $messageManager;
@@ -64,7 +66,7 @@ class Provider extends BaseProvider
         $this->authorizer = $authorizer;
         $this->participantProvider = $participantProvider;
     }
-**/
+
     /**
      * Gets the thread in the inbox of the current user
      *
