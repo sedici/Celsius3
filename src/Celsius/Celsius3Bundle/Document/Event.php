@@ -16,6 +16,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *   "sideliver"="SingleInstanceDeliver",
  *   "cancel"="Cancel",
  *   "annul"="Annul",
+ *   "receive"="Receive",
  *   "mirequest"="MultiInstanceRequest",
  *   "mideliver"="MultiInstanceDeliver",
  *   "localcancel"="LocalCancel",

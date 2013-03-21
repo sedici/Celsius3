@@ -1,3 +1,6 @@
+<p>
+    {{ 'Provider'|trans }}: {{ event.requestEvent.provider.getProviderName() }}
+</p>
 <p>{{ 'Date'|trans }}: {{ event.date|localizeddate() }}</p>
 <p>
     {% for file in order.getFilesForEvent(event) %}

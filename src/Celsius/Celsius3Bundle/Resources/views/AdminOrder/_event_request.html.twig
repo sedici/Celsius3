@@ -6,7 +6,11 @@
     <div class="modal-body">
         <form id="receiveForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECEIVE'), 'request': event.id })|raw }}" method="post" {{ form_enctype(receive_form) }} class="form-horizontal">
             {{ form_widget(receive_form, {'form_type': 'horizontal'}) }}
-            <a href="#" id="add-file{{ event.id }}">{{ 'Add file'|trans }}</a>
+            <div class="control-group">
+                <div class="controls">
+                    <a href="#" id="add-file{{ event.id }}">{{ 'Add file'|trans }}</a>
+                </div>
+            </div>
         </form>
     </div>
     <div class="modal-footer">
@@ -19,15 +23,10 @@
     $(document).ready(function () {
         var fileCount = '{{ receive_form.files | length }}';
         $('#add-file{{ event.id }}').click(function() {
-            var fileList = $('#receiveForm{{ event.id }} #celsius_celsius3bundle_orderreceivetype_files');
-
-            // grab the prototype template
-            var newWidget = fileList.attr('data-prototype');
-            newWidget = newWidget.replace(/__name__label__/g, '');
+            var newWidget = '<input type="file" id="celsius_celsius3bundle_orderreceivetype_files___name__" name="celsius_celsius3bundle_orderreceivetype[files][__name__]" />';
             newWidget = newWidget.replace(/__name__/g, fileCount);
             fileCount++;
-
-            $(newWidget).appendTo($('#receiveForm{{ event.id }} #celsius_celsius3bundle_orderreceivetype_files'));
+            $(this).parent().parent().prev().prev().children('.controls').append(newWidget);
 
             return false;
         });
