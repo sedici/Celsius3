@@ -1,31 +1,29 @@
-<p>
-    {{ 'Provider'|trans }}: {{ event.requestEvent.provider.getProviderName() }}
-</p>
-<p>{{ 'Date'|trans }}: {{ event.date|localizeddate() }}</p>
-<p>
-    {% for file in order.getFilesForEvent(event) %}
-        <a href="{{ path('file_download', { 'id': file.id }) }}">{{ 'Download'|trans }}</a>
-    {% endfor %}
-    {% if not isDelivered %}
-        <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__DELIVER'), 'receive': event.id }) }}" method="post">
-            <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
-        </form>
-        {% if not isReclaimed %}
-        <form action="{{ path('admin_order_reclaim', { 'id': order.id, 'receive': event.id }) }}" method="post">
-            <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
-        </form>
-        {% endif %}
+<dl class="dl-horizontal">
+    <dt>{{ 'Provider'|trans }}</dt>
+    <dd>{{ event.requestEvent.provider.getProviderName() }}</dd>
+    {% if isMultiInstance %}
+    <dt>{{ 'Remote Instance'|trans }}</dt>
+    <dd><a href="{{ path('public_index', { 'url': event.requestEvent.remoteInstance.url }) }}">{{ event.requestEvent.remoteInstance }}</a></dd>
     {% endif %}
-</p>
-
-<script type="text/javascript">
-$(document).ready(function () {    
-    $('.submit-deliver-form').click(function(){
-        $(this).parent().submit();
-    });
-    
-    $('.submit-reclaim-form').click(function(){
-        $(this).parent().submit();
-    });
-});
-</script>
+    <dt>{{ 'Receive Date'|trans }}</dt>
+    <dd>{{ event.date|localizeddate() }} ({{ event.date|time_ago_in_words }}) </dd>
+    <dt>{{ 'Files'|trans }}</dt>
+    <dd>
+        {% for file in order.getFilesForEvent(event) %}
+            <a href="{{ path('file_download', { 'id': file.id }) }}">{{ 'Download'|trans }}</a>
+        {% endfor %}
+    </dd>
+    {% if not isDelivered %}
+        <dt>{{ 'Receive Actions'|trans }}</dt>
+        <dd>
+            <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__DELIVER'), 'receive': event.id }) }}" method="post" class="inline-form">
+                <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
+            </form>
+            {% if not isReclaimed %}
+            <form action="{{ path('admin_order_reclaim', { 'id': order.id, 'receive': event.id }) }}" method="post" class="inline-form">
+                <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
+            </form>
+            {% endif %}
+        </dd>
+    {% endif %}
+</dl>

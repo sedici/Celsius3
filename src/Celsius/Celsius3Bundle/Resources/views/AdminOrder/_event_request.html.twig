@@ -33,14 +33,17 @@
     });
 </script>
 
-<p>
-    {{ 'Provider'|trans }}: {{ event.provider.getProviderName() }}
-</p>
-<p>
-    {{ 'Date'|trans }}: {{ event.date|localizeddate() }}
-</p>
-<p>
-    {% if not isReceived and not isDelivered %}
-    <a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a>
+<dl class="dl-horizontal">
+    <dt>{{ 'Provider'|trans }}</dt>
+    <dd>{{ event.provider.getProviderName() }}</dd>
+    {% if isMultiInstance %}
+    <dt>{{ 'Remote Instance'|trans }}</dt>
+    <dd><a href="{{ path('public_index', { 'url': event.remoteInstance.url }) }}">{{ event.remoteInstance }}</a></dd>
     {% endif %}
-</p>
+    <dt>{{ 'Request Date'|trans }}</dt>
+    <dd>{{ event.date|localizeddate() }} ({{ event.date|time_ago_in_words }}) </dd>
+    {% if not isReceived and not isDelivered %}
+    <dt>{{ 'Request Actions'|trans }}</dt>
+    <dd><a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a></dd>
+    {% endif %}
+</dl>

@@ -12,14 +12,7 @@ class MultiInstanceRequest extends MultiInstance
 {
 
     /**
-     * @MongoDB\ReferenceOne(
-     *     targetDocument="Provider",
-     *     discriminatorField="type",
-     *     discriminatorMap={
-     *         "institution"="Institution",
-     *         "web"="Web"
-     *     }
-     * )
+     * @MongoDB\ReferenceOne
      */
     private $provider;
 

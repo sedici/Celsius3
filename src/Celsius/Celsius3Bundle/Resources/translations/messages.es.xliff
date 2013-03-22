@@ -146,7 +146,42 @@
                 <source>Comments</source>
                 <target>Comentarios</target>
             </trans-unit>
-            
+            <trans-unit id="37">
+                <source>less than %seconds seconds ago</source>
+                <target>hace menos de %seconds segundos</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>half a minute ago</source>
+                <target>hace medio minuto</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>less than a minute ago</source>
+                <target>hace menos de un minuto</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>1 minute ago</source>
+                <target>hace 1 minuto</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>%minutes minutes ago</source>
+                <target>hace %minutes minutos</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>about 1 hour ago</source>
+                <target>hace casi 1 hora</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>about %hours hours ago</source>
+                <target>hace %hours horas</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>1 day ago</source>
+                <target>hace 1 día</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>%days days ago</source>
+                <target>hace %days días</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

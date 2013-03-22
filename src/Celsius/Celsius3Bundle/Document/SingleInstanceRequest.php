@@ -12,7 +12,7 @@ class SingleInstanceRequest extends SingleInstance
 {
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Provider")
+     * @MongoDB\ReferenceOne
      */
     private $provider;
 
