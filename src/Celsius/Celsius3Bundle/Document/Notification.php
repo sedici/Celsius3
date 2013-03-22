@@ -44,7 +44,7 @@ class Notification
     private $source;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="TemplateNotification") 
+     * @MongoDB\ReferenceOne(targetDocument="NotificationTemplate") 
      */
     private $template;
     
@@ -176,10 +176,10 @@ class Notification
     /**
      * Set template
      *
-     * @param Celsius\Celsius3Bundle\Document\TemplateNotification $template
+     * @param Celsius\Celsius3Bundle\Document\NotificationTemplate $template
      * @return Notification
      */
-    public function setTemplate(\Celsius\Celsius3Bundle\Document\TemplateNotificatio $template)
+    public function setTemplate(\Celsius\Celsius3Bundle\Document\NotificationTemplate $template)
     {
         $this->template = $template;
         return $this;
@@ -188,7 +188,7 @@ class Notification
     /**
      * Get template
      *
-     * @return Celsius\Celsius3Bundle\Document\TemplateNotification $template
+     * @return Celsius\Celsius3Bundle\Document\NotificationTemplate $template
      */
     public function getTemplate()
     {
