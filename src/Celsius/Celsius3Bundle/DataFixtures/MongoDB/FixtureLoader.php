@@ -64,7 +64,7 @@ class FixtureLoader implements FixtureInterface
         $configuration->setValue('es');
         $manager->persist($configuration);
         unset($configuration);
-        
+
         $configuration = new Document\Configuration();
         $configuration->setName('Confirmation type');
         $configuration->setKey('confirmation_type');
@@ -92,7 +92,7 @@ class FixtureLoader implements FixtureInterface
         $state_type->setPosition(2);
         $manager->persist($state_type);
         unset($state_type);
-        
+
         $state_type = new Document\StateType();
         $state_type->setName(StateManager::STATE__APPROVAL_PENDING);
         $state_type->setPosition(3);
@@ -136,6 +136,19 @@ class FixtureLoader implements FixtureInterface
             $instance->setEnabled(true);
             $manager->persist($instance);
             $manager->flush();
+
+            $admin = new Document\BaseUser();
+            $admin->setName('admin'.$i);
+            $admin->setSurname('admin'.$i);
+            $admin->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
+            $admin->setUsername('admin'.$i);
+            $admin->setPlainPassword('admin'.$i);
+            $admin->setEmail('admin' . $i . '@test.com');
+            $admin->setAddress('address_' . md5(rand(0, 99999999)));
+            $admin->setInstance($instance);
+            $admin->setEnabled(true);
+            $admin->addRole('ROLE_SUPER_ADMIN');
+            $manager->persist($admin);
 
             for ($j = 0; $j < 20; $j++)
             {
@@ -183,7 +196,7 @@ class FixtureLoader implements FixtureInterface
 
                 $manager->persist($order);
                 unset($material, $order);
-                
+
                 $order = new Document\Order();
                 $order->setOwner($user);
                 $order->setType(1);
@@ -200,7 +213,7 @@ class FixtureLoader implements FixtureInterface
 
                 $manager->persist($order);
                 unset($material, $order);
-                
+
                 $order = new Document\Order();
                 $order->setOwner($user);
                 $order->setType(1);
@@ -217,7 +230,7 @@ class FixtureLoader implements FixtureInterface
 
                 $manager->persist($order);
                 unset($material, $order);
-                
+
                 $order = new Document\Order();
                 $order->setOwner($user);
                 $order->setType(1);
