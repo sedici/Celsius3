@@ -19,13 +19,7 @@ class Notification
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    private $type;
-    
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
-    private $text;
+    private $cause;
     
     /**
      * @Assert\Date()
@@ -34,27 +28,31 @@ class Notification
     private $created;
     
     /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @Assert\Date()
+     * @MongoDB\Date
      */
     private $viewed;
     
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Order") 
+     * @Assert\NotBlank()
      */
-    private $order;
+    private $objectEvent;
     
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
     private $source;
-    
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance") 
-     */
-    private $target;
 
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="TemplateNotification") 
+     */
+    private $template;
+    
+     /**
+     * @MongoDB\ReferenceMany(targetDocument="BaseUser")
+     */
+    private $users;
+    
     /**
      * Get id
      *
@@ -66,50 +64,28 @@ class Notification
     }
 
     /**
-     * Set type
+     * Set cause
      *
-     * @param string $type
+     * @param string $cause
      * @return Notification
      */
-    public function setType($type)
+    public function setCause($cause)
     {
-        $this->type = $type;
+        $this->cause = $cause;
         return $this;
     }
 
     /**
-     * Get type
+     * Get cause
      *
-     * @return string $type
+     * @return string $cause
      */
-    public function getType()
+    public function getCause()
     {
-        return $this->type;
+        return $this->cause;
     }
 
-    /**
-     * Set text
-     *
-     * @param string $text
-     * @return Notification
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-        return $this;
-    }
-
-    /**
-     * Get text
-     *
-     * @return string $text
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
+     /**
      * Set created
      *
      * @param date $created
@@ -134,7 +110,7 @@ class Notification
     /**
      * Set viewed
      *
-     * @param boolean $viewed
+     * @param date $viewed
      * @return Notification
      */
     public function setViewed($viewed)
@@ -146,7 +122,7 @@ class Notification
     /**
      * Get viewed
      *
-     * @return boolean $viewed
+     * @return date $viewed
      */
     public function getViewed()
     {
@@ -154,25 +130,25 @@ class Notification
     }
 
     /**
-     * Set order
+     * Set objectEvent
      *
-     * @param Celsius\Celsius3Bundle\Document\Order $order
+     * 
      * @return Notification
      */
-    public function setOrder(\Celsius\Celsius3Bundle\Document\Order $order)
+    public function setObjectEvent($objectEvent)
     {
-        $this->order = $order;
+        $this->objectEvent = $objectEvent;
         return $this;
     }
 
     /**
-     * Get order
+     * Get objectEvent
      *
-     * @return Celsius\Celsius3Bundle\Document\Order $order
+     * 
      */
-    public function getOrder()
+    public function getObjectEvent()
     {
-        return $this->order;
+        return $this->objectEvent;
     }
 
     /**
@@ -198,24 +174,45 @@ class Notification
     }
 
     /**
-     * Set target
+     * Set template
      *
-     * @param Celsius\Celsius3Bundle\Document\Instance $target
+     * @param Celsius\Celsius3Bundle\Document\TemplateNotification $template
      * @return Notification
      */
-    public function setTarget(\Celsius\Celsius3Bundle\Document\Instance $target)
+    public function setTemplate(\Celsius\Celsius3Bundle\Document\TemplateNotificatio $template)
     {
-        $this->target = $target;
+        $this->template = $template;
         return $this;
     }
 
     /**
-     * Get target
+     * Get template
      *
-     * @return Celsius\Celsius3Bundle\Document\Instance $target
+     * @return Celsius\Celsius3Bundle\Document\TemplateNotification $template
      */
-    public function getTarget()
+    public function getTemplate()
     {
-        return $this->target;
+        return $this->template;
     }
+    
+    /**
+     * Add users
+     *
+     * @param Celsius\Celsius3Bundle\Document\BaseUser $users
+     */
+    public function addUsers(\Celsius\Celsius3Bundle\Document\BaseUser $users)
+    {
+        $this->users[] = $users;
+    }
+
+    /**
+     * Get users
+     *
+     * @return Doctrine\Common\Collections\Collection $users
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+    
 }
