@@ -30,7 +30,9 @@ class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
     public function intercept(MethodInvocation $invocation)
     {
        $invocation->proceed();
-       vardump('Se crea una notifiacion por la creacion de un mensaje');
+       var_dump('Se crea una notifiacion por la creacion de un mensaje');
+       //var_dump($invocation);
+       //die;
        //$message = $invocation->arguments[1]['instance'];
        /*Crear notificacion */ 
        

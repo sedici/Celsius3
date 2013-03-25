@@ -11,7 +11,10 @@ use FOS\MessageBundle\Security\ParticipantProviderInterface;
 use FOS\MessageBundle\ModelManager\MessageManagerInterface;
 **/
 use Celsius\Celsius3MessageBundle\ModelManager\ThreadManagerInterface;
-//use Celsius\Celsius3MessageBundle\ModelManager\MessageManagerInterface;
+use Celsius\Celsius3MessageBundle\ModelManager\MessageManagerInterface;
+use Celsius\Celsius3MessageBundle\Reader\ReaderInterface;
+use Celsius\Celsius3MessageBundle\Security\AuthorizerInterface;
+use Celsius\Celsius3MessageBundle\Security\ParticipantProviderInterface;
 
 use FOS\MessageBundle\Provider\Provider as BaseProvider;
 
@@ -35,28 +38,28 @@ class Provider extends BaseProvider
      *
      * @var MessageManagerInterface
      */
-   // protected $messageManager;
+    protected $messageManager;
 
     /**
      * The reader used to mark threads as read
      *
      * @var ReaderInterface
      */
-//    protected $threadReader;
+    protected $threadReader;
 
     /**
      * The authorizer manager
      *
      * @var authorizerInterface
      */
- //   protected $authorizer;
+    protected $authorizer;
 
     /**
      * The participant provider instance
      *
      * @var ParticipantProviderInterface
      */
-  //  protected $participantProvider;
+    protected $participantProvider;
 
     public function __construct(ThreadManagerInterface $threadManager, MessageManagerInterface $messageManager, ReaderInterface $threadReader, AuthorizerInterface $authorizer, ParticipantProviderInterface $participantProvider)
     {

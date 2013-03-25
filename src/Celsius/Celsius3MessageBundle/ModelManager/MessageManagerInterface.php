@@ -4,6 +4,7 @@ namespace Celsius\Celsius3MessageBundle\ModelManager;
 use FOS\MessageBundle\Model\MessageInterface;
 use FOS\MessageBundle\Model\ParticipantInterface;
 
+use FOS\MessageBundle\ModelManager\ReadableManagerInterface as FOSReadableManagerInterface;
 /**
  * Interface to be implemented by message managers. This adds an additional level
  * of abstraction between your application, and the actual repository.
@@ -12,7 +13,7 @@ use FOS\MessageBundle\Model\ParticipantInterface;
  *
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  */
-interface MessageManagerInterface extends ReadableManagerInterface
+interface MessageManagerInterface extends FOSReadableManagerInterface
 {
     /**
      * Tells how many unread, non-spam, messages this participant has
