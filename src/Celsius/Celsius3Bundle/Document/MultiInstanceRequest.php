@@ -17,7 +17,7 @@ class MultiInstanceRequest extends MultiInstance
     private $provider;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvent")
+     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents")
      */
     private $remoteState;
 

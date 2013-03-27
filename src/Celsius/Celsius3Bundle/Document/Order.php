@@ -53,6 +53,12 @@ class Order
      * @Assert\Date()
      * @MongoDB\Date
      */
+    protected $approval_pending;
+
+    /**
+     * @Assert\Date()
+     * @MongoDB\Date
+     */
     protected $received;
 
     /**
@@ -570,6 +576,88 @@ class Order
     public function getAnnuled()
     {
         return $this->annuled;
+    }
+
+    /**
+     * Set approval_pending
+     *
+     * @param date $approvalPending
+     * @return \Order
+     */
+    public function setApprovalPending($approvalPending)
+    {
+        $this->approval_pending = $approvalPending;
+        return $this;
+    }
+
+    /**
+     * Get approval_pending
+     *
+     * @return date $approvalPending
+     */
+    public function getApprovalPending()
+    {
+        return $this->approval_pending;
+    }
+
+    /**
+     * Add files
+     *
+     * @param Celsius\Celsius3Bundle\Document\File $files
+     */
+    public function addFile(\Celsius\Celsius3Bundle\Document\File $files)
+    {
+        $this->files[] = $files;
+    }
+
+    /**
+     * Remove files
+     *
+     * @param <variableType$files
+     */
+    public function removeFile(\Celsius\Celsius3Bundle\Document\File $files)
+    {
+        $this->files->removeElement($files);
+    }
+
+    /**
+     * Add events
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $events
+     */
+    public function addEvent(\Celsius\Celsius3Bundle\Document\Event $events)
+    {
+        $this->events[] = $events;
+    }
+
+    /**
+     * Remove events
+     *
+     * @param <variableType$events
+     */
+    public function removeEvent(\Celsius\Celsius3Bundle\Document\Event $events)
+    {
+        $this->events->removeElement($events);
+    }
+
+    /**
+     * Add states
+     *
+     * @param Celsius\Celsius3Bundle\Document\State $states
+     */
+    public function addState(\Celsius\Celsius3Bundle\Document\State $states)
+    {
+        $this->states[] = $states;
+    }
+
+    /**
+     * Remove states
+     *
+     * @param <variableType$states
+     */
+    public function removeState(\Celsius\Celsius3Bundle\Document\State $states)
+    {
+        $this->states->removeElement($states);
     }
 
 }

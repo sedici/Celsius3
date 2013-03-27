@@ -46,12 +46,17 @@ class LifecycleHelper
             if ($event instanceof MultiInstanceRequest)
             {
                 $event->setRemoteInstance($extraData['provider']->getCelsiusInstance());
-                $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getCelsiusInstance()));
+                $event->setRemoteState($this->getState(StateManager::STATE__CREATED, $date, $order, $event, $extraData['provider']->getCelsiusInstance()));
             }
         } else if ($event instanceof SingleInstanceReceive || $event instanceof MultiInstanceReceive)
         {
             $event->setRequestEvent($extraData['request']);
             $this->file_manager->uploadFiles($order, $event, $extraData['files']);
+            if ($event instanceof MultiInstanceReceive)
+            {
+                $event->setRemoteInstance($order->getInstance());
+                $event->setRemoteState($this->getState(StateManager::STATE__APPROVAL_PENDING, $date, $order, $event, $order->getInstance()));
+            }
         }
     }
 

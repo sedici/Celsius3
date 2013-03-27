@@ -157,7 +157,7 @@ class EventManager
         {
             case self::EVENT__REQUEST: $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
-            case self::EVENT__RECEIVE: $event = ($extraData['request']->getOrder()->getInstance()->getId() != $this->container->get('instance_helper')->getSessionInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+            case self::EVENT__RECEIVE: $event = ($extraData['request']->getOrder()->getInstance()->getId() != $extraData['request']->getInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
                 break;
             default:;
         }

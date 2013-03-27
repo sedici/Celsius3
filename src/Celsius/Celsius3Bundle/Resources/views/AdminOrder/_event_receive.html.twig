@@ -16,13 +16,22 @@
     {% if not isDelivered %}
         <dt>{{ 'Receive Actions'|trans }}</dt>
         <dd>
+            {% if isApproved %}
             <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__DELIVER'), 'receive': event.id }) }}" method="post" class="inline-form">
                 <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
             </form>
-            {% if not isReclaimed %}
-            <form action="{{ path('admin_order_reclaim', { 'id': order.id, 'receive': event.id }) }}" method="post" class="inline-form">
-                <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
-            </form>
+            {% endif %}
+            {% if isMultiInstance %}
+                {% if not isReclaimed %}
+                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECLAIM'), 'receive': event.id }) }}" method="post" class="inline-form">
+                    <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
+                </form>
+                {% endif %}
+                {% if not isApproved %}
+                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__APPROVE'), 'receive': event.id }) }}" method="post" class="inline-form">
+                    <a class="submit-approve-form" href="#">{{ 'approve'|capitalize|trans }}</a>
+                </form>
+                {% endif %}
             {% endif %}
         </dd>
     {% endif %}

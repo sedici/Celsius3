@@ -50,6 +50,11 @@ class State
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="state")
      */
     private $events;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="MultiInstanceReceive", mappedBy="remoteState")
+     */
+    private $remoteEvents;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="State")
@@ -250,4 +255,54 @@ class State
         return $this->events;
     }
 
+
+    /**
+     * Add events
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $events
+     */
+    public function addEvent(\Celsius\Celsius3Bundle\Document\Event $events)
+    {
+        $this->events[] = $events;
+    }
+
+    /**
+    * Remove events
+    *
+    * @param <variableType$events
+    */
+    public function removeEvent(\Celsius\Celsius3Bundle\Document\Event $events)
+    {
+        $this->events->removeElement($events);
+    }
+
+    /**
+     * Add remoteEvents
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $remoteEvents
+     */
+    public function addRemoteEvent(\Celsius\Celsius3Bundle\Document\Event $remoteEvents)
+    {
+        $this->remoteEvents[] = $remoteEvents;
+    }
+
+    /**
+    * Remove remoteEvents
+    *
+    * @param <variableType$remoteEvents
+    */
+    public function removeRemoteEvent(\Celsius\Celsius3Bundle\Document\Event $remoteEvents)
+    {
+        $this->remoteEvents->removeElement($remoteEvents);
+    }
+
+    /**
+     * Get remoteEvents
+     *
+     * @return Doctrine\Common\Collections\Collection $remoteEvents
+     */
+    public function getRemoteEvents()
+    {
+        return $this->remoteEvents;
+    }
 }
