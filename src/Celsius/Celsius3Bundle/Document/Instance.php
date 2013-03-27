@@ -139,6 +139,7 @@ class Instance
         $this->news = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ownerInstitutions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->templates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();

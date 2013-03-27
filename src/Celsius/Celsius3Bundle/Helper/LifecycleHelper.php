@@ -9,7 +9,8 @@ use Celsius\Celsius3Bundle\Document\Event;
 use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Instance;
-use Celsius\Celsius3Bundle\Document\Receive;
+use Celsius\Celsius3Bundle\Document\MultiInstanceReceive;
+use Celsius\Celsius3Bundle\Document\SingleInstanceReceive;
 use Celsius\Celsius3Bundle\Helper\InstanceHelper;
 use Celsius\Celsius3Bundle\Manager\StateManager;
 use Celsius\Celsius3Bundle\Manager\EventManager;
@@ -39,19 +40,17 @@ class LifecycleHelper
      */
     private function applyExtraData(Event $event, Order $order, $date, array $extraData)
     {
-        if ($event instanceof SingleInstanceRequest)
+        if ($event instanceof SingleInstanceRequest || $event instanceof MultiInstanceRequest)
         {
             $event->setProvider($extraData['provider']);
-        } else if ($event instanceof MultiInstanceRequest)
+            if ($event instanceof MultiInstanceRequest)
+            {
+                $event->setRemoteInstance($extraData['provider']->getCelsiusInstance());
+                $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getCelsiusInstance()));
+            }
+        } else if ($event instanceof SingleInstanceReceive || $event instanceof MultiInstanceReceive)
         {
-            $event->setProvider($extraData['provider']);
-            $event->setRemoteInstance($extraData['provider']->getCelsiusInstance());
-            $event->setRemoteState($this->createState('created', $date, $order, $extraData['provider']->getCelsiusInstance()));
-        } else if ($event instanceof Receive)
-        {
-            $requestEvent = $this->dm->find('CelsiusCelsius3Bundle:Event', $extraData['request']);
-            $event->setRequestEvent($requestEvent);
-
+            $event->setRequestEvent($extraData['request']);
             $this->file_manager->uploadFiles($order, $event, $extraData['files']);
         }
     }
@@ -144,23 +143,6 @@ class LifecycleHelper
 
         $order->$orderDateMethod($date);
         $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData, $instance);
-    }
-
-    public function reclaim(Receive $event, Order $order)
-    {
-        $date = date('Y-m-d H:i:s');
-
-        $request = $event->getRequestEvent();
-        $extraData = array(
-            'provider' => $request->getProvider(),
-        );
-        $eventClassName = $this->dm->getClassMetadata(get_class($request))->name;
-
-        $this->setEventData(new $eventClassName, $order, 'requested', $date, $extraData);
-
-        $event->setReclaimed(true);
-        $this->dm->persist($event);
-        $this->dm->flush();
     }
 
 }

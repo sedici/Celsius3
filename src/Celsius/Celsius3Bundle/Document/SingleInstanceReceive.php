@@ -8,7 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * @MongoDB\Document
  */
-class Receive extends SingleInstance
+class SingleInstanceReceive extends SingleInstance
 {
 
     /**

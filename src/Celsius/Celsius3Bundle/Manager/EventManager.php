@@ -9,7 +9,7 @@ use Celsius\Celsius3Bundle\Document\Event;
 use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\Receive;
+use Celsius\Celsius3Bundle\Document\SingleInstanceReceive;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
@@ -23,15 +23,15 @@ class EventManager
     const EVENT__MULTI_INSTANCE_REQUEST = 'mirequest';
     const EVENT__APPROVE = 'approve';
     const EVENT__RECLAIM = 'reclaim';
-    const EVENT__RECEIVE = 'receive';
-    const EVENT__SINGLE_INSTANCE_DELIVER = 'sideliver';
-    const EVENT__MULTI_INSTANCE_DELIVER = 'mideliver';
+    const EVENT__SINGLE_INSTANCE_RECEIVE = 'sireceive';
+    const EVENT__MULTI_INSTANCE_RECEIVE = 'mireceive';
+    const EVENT__DELIVER = 'deliver';
     const EVENT__CANCEL = 'cancel';
     const EVENT__ANNUL = 'annul';
 
     // Fake events
     const EVENT__REQUEST = 'request';
-    const EVENT__DELIVER = 'deliver';
+    const EVENT__RECEIVE = 'receive';
 
     private $class_prefix = 'Celsius\\Celsius3Bundle\\Document\\';
     public $event_classes = array(
@@ -41,9 +41,9 @@ class EventManager
         self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequest',
         self::EVENT__APPROVE => 'Approve',
         self::EVENT__RECLAIM => 'Reclaim',
-        self::EVENT__RECEIVE => 'Receive',
-        self::EVENT__SINGLE_INSTANCE_DELIVER => 'SingleInstanceDeliver',
-        self::EVENT__MULTI_INSTANCE_DELIVER => 'MultiInstanceDeliver',
+        self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceive',
+        self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceive',
+        self::EVENT__DELIVER => 'Deliver',
         self::EVENT__CANCEL => 'Cancel',
         self::EVENT__ANNUL => 'Annul',
     );
@@ -116,7 +116,9 @@ class EventManager
         if ($form->isValid())
         {
             $data = $form->getData();
-            $extraData['request'] = $this->container->get('request')->query->get('request');
+            $extraData['request'] = $this->container->get('doctrine.odm.mongodb.document_manager')
+                    ->getRepository('CelsiusCelsius3Bundle:Event')
+                    ->find($this->container->get('request')->query->get('request'));
             $extraData['files'] = $data['files'];
         } else
         {
@@ -138,7 +140,7 @@ class EventManager
         }
 
         $extraData['receive'] = $this->container->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('CelsiusCelsius3Bundle:Receive')
+                ->getRepository('CelsiusCelsius3Bundle:Event')
                 ->find($this->container->get('request')->query->get('receive'));
 
         if (!$extraData['receive'])
@@ -155,7 +157,7 @@ class EventManager
         {
             case self::EVENT__REQUEST: $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
-            case self::EVENT__DELIVER: $event = ($extraData['receive']->getRequestEvent() instanceof SingleInstanceRequest ? self::EVENT__SINGLE_INSTANCE_DELIVER : self::EVENT__MULTI_INSTANCE_DELIVER);
+            case self::EVENT__RECEIVE: $event = ($extraData['request']->getOrder()->getInstance()->getId() != $this->container->get('instance_helper')->getSessionInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
                 break;
             default:;
         }
@@ -190,9 +192,9 @@ class EventManager
             'event' => $event,
             'isMultiInstance' => $event instanceof MultiInstanceRequest,
             'order' => $order,
-            'receive_form' => $this->container->get('form.factory')->create(new OrderReceiveType(), new Receive())->createView(),
+            'receive_form' => $this->container->get('form.factory')->create(new OrderReceiveType(), new SingleInstanceReceive())->createView(),
             'isReceived' => $this->container->get('doctrine.odm.mongodb.document_manager')
-                    ->getRepository('CelsiusCelsius3Bundle:Receive')
+                    ->getRepository('CelsiusCelsius3Bundle:Event')
                     ->findBy(array('requestEvent.id' => $event->getId()))
                     ->count() > 0,
             'isDelivered' => $order->getState(StateManager::STATE__DELIVERED, $instance),
@@ -205,10 +207,10 @@ class EventManager
 
         return array(
             'event' => $event,
-            'isMultiInstance' => $event instanceof Receive && $event->getRequestEvent() instanceof MultiInstanceRequest,
+            'isMultiInstance' => $event->getRequestEvent() instanceof MultiInstanceRequest,
             'order' => $order,
             'isDelivered' => $order->getState(StateManager::STATE__DELIVERED, $instance),
-            'isReclaimed' => $event instanceof Receive && $event->getReclaimed(),
+            'isReclaimed' => $event->getReclaimed(),
         );
     }
 

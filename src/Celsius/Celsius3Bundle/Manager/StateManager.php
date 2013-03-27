@@ -75,9 +75,14 @@ class StateManager
             'positive' => true,
             'mandatory' => true,
             'events' => array(
-                EventManager::EVENT__RECEIVE => array(
+                EventManager::EVENT__SINGLE_INSTANCE_RECEIVE => array(
                     'weight' => 10,
                     'destinationState' => self::STATE__RECEIVED,
+                ),
+                EventManager::EVENT__MULTI_INSTANCE_RECEIVE => array(
+                    'weight' => 9,
+                    'destinationState' => self::STATE__RECEIVED,
+                    'remoteState' => self::STATE__APPROVAL_PENDING,
                 ),
                 EventManager::EVENT__CANCEL => array(
                     'weight' => 2,
@@ -115,21 +120,16 @@ class StateManager
                 self::STATE__REQUESTED,
             ),
             'originatingEvents' => array(
-                EventManager::EVENT__RECEIVE,
+                EventManager::EVENT__MULTI_INSTANCE_RECEIVE,
             ),
         ),
         self::STATE__RECEIVED => array(
             'positive' => true,
             'mandatory' => true,
             'events' => array(
-                EventManager::EVENT__SINGLE_INSTANCE_DELIVER => array(
+                EventManager::EVENT__DELIVER => array(
                     'weight' => 10,
                     'destinationState' => self::STATE__DELIVERED,
-                ),
-                EventManager::EVENT__MULTI_INSTANCE_DELIVER => array(
-                    'weight' => 9,
-                    'destinationState' => self::STATE__DELIVERED,
-                    'remoteState' => self::STATE__APPROVAL_PENDING,
                 ),
             ),
             'previousStates' => array(
@@ -137,7 +137,7 @@ class StateManager
                 self::STATE__APPROVAL_PENDING,
             ),
             'originatingEvents' => array(
-                EventManager::EVENT__RECEIVE,
+                EventManager::EVENT__SINGLE_INSTANCE_RECEIVE,
                 EventManager::EVENT__APPROVE,
             ),
         ),
@@ -149,7 +149,7 @@ class StateManager
                 self::STATE__RECEIVED,
             ),
             'originatingEvents' => array(
-                EventManager::EVENT__SINGLE_INSTANCE_DELIVER,
+                EventManager::EVENT__DELIVER,
             ),
         ),
         self::STATE__CANCELED => array(
