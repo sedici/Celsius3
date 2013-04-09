@@ -6,6 +6,8 @@ use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Celsius\Celsius3Bundle\Document\Notification;
 //use Celsius\Celsius3Bundle\Document\Message;
 
 class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
@@ -28,13 +30,24 @@ class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
     }
 
     public function intercept(MethodInvocation $invocation)
-    {
+    {  
+       
        $invocation->proceed();
-       var_dump('Se crea una notifiacion por la creacion de un mensaje');
+       $notification = new Notification;
+       $notification->setCause('NewMessage');
+       $notification->setCreated(date("j, n, Y"));
+       
+       var_dump($notification);
+       
+       $this->container->get('doctrine.odm.mongodb.document_manager')->persist($notification);
+       $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
+       
+       var_dump('Se crea una notifiacion por la creacion de un mensaje');die;
        //var_dump($invocation);
        //die;
        //$message = $invocation->arguments[1]['instance'];
        /*Crear notificacion */ 
        
+       
     }
-    }
+}

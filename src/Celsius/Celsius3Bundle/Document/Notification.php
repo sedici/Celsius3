@@ -4,7 +4,7 @@ namespace Celsius\Celsius3Bundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-
+use DateTime;
 /**
  * @MongoDB\Document
  */
@@ -22,6 +22,7 @@ class Notification
     private $cause;
     
     /**
+     * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */
@@ -52,6 +53,11 @@ class Notification
      * @MongoDB\ReferenceMany(targetDocument="BaseUser")
      */
     private $users;
+    
+    public function __construct()
+    {
+        $this->created = new DateTime();
+    }
     
     /**
      * Get id
