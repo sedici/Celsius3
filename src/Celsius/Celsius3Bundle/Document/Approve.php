@@ -14,28 +14,28 @@ class Approve extends MultiInstance
     /**
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
-    private $requestEvent;
+    private $receiveEvent;
 
     /**
-     * Set requestEvent
+     * Set receiveEvent
      *
-     * @param Celsius\Celsius3Bundle\Document\Event $requestEvent
+     * @param Celsius\Celsius3Bundle\Document\Event $receiveEvent
      * @return \Approve
      */
-    public function setRequestEvent(\Celsius\Celsius3Bundle\Document\Event $requestEvent)
+    public function setReceiveEvent(\Celsius\Celsius3Bundle\Document\Event $receiveEvent)
     {
-        $this->requestEvent = $requestEvent;
+        $this->receiveEvent = $receiveEvent;
         return $this;
     }
 
     /**
-     * Get requestEvent
+     * Get receiveEvent
      *
-     * @return Celsius\Celsius3Bundle\Document\Event $requestEvent
+     * @return Celsius\Celsius3Bundle\Document\Event $receiveEvent
      */
-    public function getRequestEvent()
+    public function getReceiveEvent()
     {
-        return $this->requestEvent;
+        return $this->receiveEvent;
     }
 
 }

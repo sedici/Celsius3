@@ -3,6 +3,7 @@
 namespace Celsius\Celsius3Bundle\Helper;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius\Celsius3Bundle\Document\Approve;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\State;
 use Celsius\Celsius3Bundle\Document\Event;
@@ -57,6 +58,8 @@ class LifecycleHelper
                 $event->setRemoteInstance($order->getInstance());
                 $event->setRemoteState($this->getState(StateManager::STATE__APPROVAL_PENDING, $date, $order, $event, $order->getInstance()));
             }
+        } else if ($event instanceof Approve) {
+            $event->setReceiveEvent($extraData['receive']);
         }
     }
 

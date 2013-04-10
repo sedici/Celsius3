@@ -5,6 +5,7 @@ namespace Celsius\Celsius3Bundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius\Celsius3Bundle\Document\Approve;
 use Celsius\Celsius3Bundle\Document\Event;
 use Celsius\Celsius3Bundle\Document\Institution;
 use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
@@ -52,6 +53,19 @@ class EventManager
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+    }
+
+    public function __call($name, $arguments)
+    {
+        if (strpos($name, 'prepareExtraDataFor') === 0)
+        {
+            $data = array();
+            if (method_exists($this, $name))
+            {
+                $data = call_user_func_array($this->$name, $arguments);
+            }
+            return $data;
+        }
     }
 
     public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
@@ -130,6 +144,27 @@ class EventManager
         return $extraData;
     }
 
+    private function prepareExtraDataForApprove(Order $order, array $extraData)
+    {
+        if (!$this->container->get('request')->query->has('receive'))
+        {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+
+            throw new NotFoundHttpException();
+        }
+
+        $extraData['receive'] = $this->container->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('CelsiusCelsius3Bundle:Event')
+                ->find($this->container->get('request')->query->get('receive'));
+
+        if (!$extraData['receive'])
+        {
+            throw new NotFoundHttpException();
+        }
+
+        return $extraData;
+    }
+
     private function prepareExtraDataForDeliver(Order $order, array $extraData)
     {
         if (!$this->container->get('request')->query->has('receive'))
@@ -166,18 +201,8 @@ class EventManager
 
     public function prepareExtraData($event, Order $order)
     {
-        $extraData = array();
-        switch ($event)
-        {
-            case self::EVENT__REQUEST: $extraData = $this->prepareExtraDataForRequest($order, $extraData);
-                break;
-            case self::EVENT__RECEIVE: $extraData = $this->prepareExtraDataForReceive($order, $extraData);
-                break;
-            case self::EVENT__DELIVER: $extraData = $this->prepareExtraDataForDeliver($order, $extraData);
-                break;
-            default:;
-        }
-        return $extraData;
+        $methodName = 'prepareExtraDataFor' . ucfirst($event);
+        return $this->$methodName($order, array());
     }
 
     /*
@@ -204,6 +229,17 @@ class EventManager
     public function getDataForReceiveRendering(Event $event, Order $order)
     {
         $instance = $this->container->get('instance_helper')->getSessionInstance();
+        $isApproveEvent = false;
+        if ($event instanceof Approve)
+        {
+            $event = $event->getState()->getPrevious()->getRemoteEvents()->filter(
+                            function($entry) use ($event)
+                            {
+                                return ($entry->getId() == $event->getReceiveEvent()->getId());
+                            }
+                    )->first();
+            $isApproveEvent = true;
+        }
 
         return array(
             'event' => $event,
@@ -211,6 +247,12 @@ class EventManager
             'order' => $order,
             'isDelivered' => $order->getState(StateManager::STATE__DELIVERED, $instance),
             'isReclaimed' => $event->getReclaimed(),
+            'isApproveEvent' => $isApproveEvent,
+            'isApproved' => $event->getInstance()->getId() != $instance->getId() ?
+                    ($this->container->get('doctrine.odm.mongodb.document_manager')
+                            ->getRepository('CelsiusCelsius3Bundle:Approve')
+                            ->findBy(array('receiveEvent.id' => $event->getId()))
+                            ->count() > 0) : true,
         );
     }
 
