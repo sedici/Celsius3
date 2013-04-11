@@ -31,23 +31,18 @@ class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
 
     public function intercept(MethodInvocation $invocation)
     {  
-       
        $invocation->proceed();
        $notification = new Notification;
+       /*La fecha de creacion se setea sola*/
        $notification->setCause('NewMessage');
-       $notification->setCreated(date("j, n, Y"));
+       $notification->setSource($this->container->get('instance_helper')->getSessionInstance());
+       $receiver = $invocation->arguments[0]->getParticipants();
+       $notification->addUsers($receiver[0]);
        
-       var_dump($notification);
-       
+  //     echo '<pre>';
+  //     var_dump($invocation->arguments[0]);die;
+  //     echo '</pre>';
        $this->container->get('doctrine.odm.mongodb.document_manager')->persist($notification);
        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
-       
-       var_dump('Se crea una notifiacion por la creacion de un mensaje');die;
-       //var_dump($invocation);
-       //die;
-       //$message = $invocation->arguments[1]['instance'];
-       /*Crear notificacion */ 
-       
-       
     }
 }

@@ -72,7 +72,9 @@ class MessageController extends BaseController
      */
     public function inboxAction()
     { 
+       
         $threads = $this->getProvider()->getInboxThreads();
+        
         $forms = $this->generateFormsToThreads($threads);
         
         //createForm
