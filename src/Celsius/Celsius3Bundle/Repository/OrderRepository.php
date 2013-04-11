@@ -117,7 +117,7 @@ class OrderRepository extends DocumentRepository
                         ->getRepository('CelsiusCelsius3Bundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
-                        ->select('id')
+                        ->select('order')
                         ->field('isCurrent')->equals(true)
                         ->field('type.id')->in($stateTypes);
 
@@ -126,7 +126,7 @@ class OrderRepository extends DocumentRepository
             $states = $states->field('instance.id')->equals($instance->getId());
         }
 
-        return $query->field('currentState.id')->in(array_keys($states->getQuery()
+        return $query->field('id')->in(array_map(array($this, 'getIds'), $states->getQuery()
                                         ->execute()
                                         ->toArray()));
     }

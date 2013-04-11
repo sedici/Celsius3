@@ -13,19 +13,22 @@
                         {{ 'Filters'|trans }}
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'created' }) }}">{{ 'Created'|trans }} ({{ orderCount['created'] }})</a>
+                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__CREATED') }) }}">{{ 'Created'|trans }} ({{ orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__CREATED')] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'searched' }) }}">{{ 'Being searched'|trans }} ({{ orderCount['searched'] }})</a>
+                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED') }) }}">{{ 'Being searched'|trans }} ({{ orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED')] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'requested' }) }}">{{ 'Requested'|trans }} ({{ orderCount['requested'] }})</a>
+                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED') }) }}">{{ 'Requested'|trans }} ({{ orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED')] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order', { 'state[]': 'received' }) }}">{{ 'Received'|trans }} ({{ orderCount['received'] }})</a>
+                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__APPROVAL_PENDING') }) }}">{{ 'Approval pending'|trans }} ({{ orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] }})</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_order')~'?state[]=delivered&state[]=canceled&state[]=annuled' }}">{{ 'Ended'|trans }} ({{ orderCount['delivered']+orderCount['canceled']+orderCount['annuled'] }})</a>
+                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__RECEIVED') }) }}">{{ 'Received'|trans }} ({{ orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__RECEIVED')] }})</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_order')~'?state[]=' ~ constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__DELIVERED') ~'&state[]='~ constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__CANCELED') ~'&state[]=' ~ constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__ANNULED') }}">{{ 'Ended'|trans }} ({{ orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__DELIVERED')]+orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__CANCELED')]+orderCount[constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__ANNULED')] }})</a>
                     </li>
                 </ul>
             </div>

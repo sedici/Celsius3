@@ -5,6 +5,7 @@ namespace Celsius\Celsius3Bundle\Filter\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Celsius\Celsius3Bundle\Manager\StateManager;
 
 class OrderFilterType extends AbstractType
 {
@@ -43,13 +44,14 @@ class OrderFilterType extends AbstractType
                 ->add('state', 'choice', array(
                     'required' => false,
                     'choices' => array(
-                        'created' => 'Created',
-                        'searched' => 'Searched',
-                        'requested' => 'Requested',
-                        'received' => 'Received',
-                        'delivered' => 'Delivered',
-                        'canceled' => 'Canceled',
-                        'annuled' => 'Annuled',
+                        StateManager::STATE__CREATED => ucfirst(StateManager::STATE__CREATED),
+                        StateManager::STATE__SEARCHED => ucfirst(StateManager::STATE__SEARCHED),
+                        StateManager::STATE__REQUESTED => ucfirst(StateManager::STATE__REQUESTED),
+                        StateManager::STATE__APPROVAL_PENDING => str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)),
+                        StateManager::STATE__RECEIVED => ucfirst(StateManager::STATE__RECEIVED),
+                        StateManager::STATE__DELIVERED => ucfirst(StateManager::STATE__DELIVERED),
+                        StateManager::STATE__CANCELED => ucfirst(StateManager::STATE__CANCELED),
+                        StateManager::STATE__ANNULED => ucfirst(StateManager::STATE__ANNULED),
                     ),
                     'multiple' => true,
                     'expanded' => true,

@@ -90,6 +90,7 @@ class Order
     protected $materialData;
 
     /**
+     * @Assert\NotNull()
      * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
      */
     protected $owner;
@@ -105,6 +106,7 @@ class Order
     protected $librarian;
 
     /**
+     * @Assert\NotNull()
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
     protected $instance;
