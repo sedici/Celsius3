@@ -78,7 +78,7 @@ class FixtureLoader implements FixtureInterface
                     },
                     'setJournal' => function() use ($generator, $manager)
                     {
-                        $random = $generator->randomNumber(0, $manager->getRepository('CelsiusCelsius3Bundle:Journal')->findAll()->count());
+                        $random = $generator->randomNumber(0, $manager->getRepository('CelsiusCelsius3Bundle:Journal')->findAll()->count()-1);
 
                         return $manager->getRepository('CelsiusCelsius3Bundle:Journal')
                                         ->createQueryBuilder()
@@ -167,7 +167,8 @@ class FixtureLoader implements FixtureInterface
             $journal->setName(str_replace('.', '', $generator->sentence));
             $journal->setAbbreviation(strtoupper($generator->word));
             $journal->setISSN($generator->randomNumber(8));
-            $journal->setFrecuency($generator->randomElement('anual', 'semestral', 'mensual'));
+            $journal->setISSNE($generator->bothify('#######X'));
+            $journal->setFrecuency($generator->randomElement(array('anual', 'semestral', 'mensual')));
             $journal->setResponsible($generator->name);
             $manager->persist($journal);
             unset($journal);
@@ -221,8 +222,8 @@ class FixtureLoader implements FixtureInterface
 
                     $material = new $material_type['class'];
                     $material->setAuthors($generator->name);
-                    $material->setStartPage($generator->randomNumber);
                     $material->setEndPage($generator->randomNumber);
+                    $material->setStartPage($generator->randomNumber(1,$material->getEndPage()));
                     $material->setTitle(str_replace('.', '', $generator->sentence));
                     $material->setYear($generator->year);
 
