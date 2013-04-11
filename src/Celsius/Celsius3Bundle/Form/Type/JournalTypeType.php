@@ -16,6 +16,7 @@ class JournalTypeType extends MaterialTypeType
         $builder
                 ->add('volume')
                 ->add('number')
+                ->add('journal')
         ;
     }
     

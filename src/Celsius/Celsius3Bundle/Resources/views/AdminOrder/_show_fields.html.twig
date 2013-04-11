@@ -26,6 +26,8 @@
 {% endblock %}
 
 {% block extrafields %}
+<dt>{{ 'Current state'|trans }}</dt>
+<dd>{{ document.getCurrentState(instance).type.name|capitalize }}</dd>
 <dt>{{ 'User'|trans }}</dt>
-<dd>{{ document.owner.username }}</dd>
+<dd><a href="{{ path('admin_user',{ 'id': document.owner.id }) }}">{{ document.owner.username }}</a></dd>
 {% endblock %}

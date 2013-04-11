@@ -2,8 +2,6 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Code'|trans }}</dt>
     <dd>{{ document.code }}</dd>
-    <dt>{{ 'Current state'|trans }}</dt>
-    <dd>{{ document.getCurrentState(instance).type.name|capitalize }}</dd>
     {% block extrafields %}{% endblock %}
 </dl>
 <div class="thumbnail">

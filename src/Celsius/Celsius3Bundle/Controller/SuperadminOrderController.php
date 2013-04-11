@@ -21,8 +21,7 @@ class SuperadminOrderController extends OrderController
     {
         return $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
-                        ->createQueryBuilder()
-                        ->field('currentState')->prime(true);
+                        ->createQueryBuilder();
     }
 
     protected function findQuery($name, $id)

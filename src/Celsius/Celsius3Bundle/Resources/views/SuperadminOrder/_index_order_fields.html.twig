@@ -2,7 +2,7 @@
 
 {% block extrafields %}
 <dt>{{ 'User'|trans }}</dt>
-<dd>{{ order.owner.username }}</dd>
+<dd><a href="{{ path('superadmin_user',{ 'id': order.owner.id }) }}">{{ order.owner.username }}</a></dd>
 <dt>{{ 'Instance'|trans }}</dt>
 <dd>{{ order.instance }}</dd>
 {% endblock %}

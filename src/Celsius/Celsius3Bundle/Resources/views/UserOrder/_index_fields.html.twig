@@ -2,7 +2,7 @@
 
 {% block extrainfo %}
 {% if app.user.username != order.owner.username %}
-<span class="label pull-right">{{ order.owner.surname }}, {{ order.owner.name }}</span>
+<dd><a href="{{ path('superadmin_user',{ 'id': order.owner.id }) }}">{{ order.owner.username }}</a></dd>
 {% endif %}
 {% endblock %}
 

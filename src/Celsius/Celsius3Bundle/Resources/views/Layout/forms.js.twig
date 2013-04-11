@@ -73,7 +73,7 @@ $(document).ready(function(){
             url: '{{ path('admin_order_change') }}',
             data: { material: $('#celsius_celsius3bundle_ordertype_materialDataType').val() },
             success: function(data) {
-                $('#celsius_celsius3bundle_ordertype_materialData').html(data);
+                $('#celsius_celsius3bundle_ordertype_materialData_title').parent().parent().parent().html(data);
                 for (key in oldValues) {
                     $('#'+key).val(oldValues[key]);
                 }

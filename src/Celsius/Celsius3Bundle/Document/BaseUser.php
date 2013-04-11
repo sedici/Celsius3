@@ -103,6 +103,11 @@ class BaseUser extends User implements ParticipantInterface
     {
         return $this->getSurname() . ', ' . $this->getName();
     }
+    
+    public function getFullName()
+    {
+        return $this->getSurname() . ', ' . $this->getName();
+    }
 
     /**
      * @MongoDB\PrePersist 
