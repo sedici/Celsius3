@@ -30,7 +30,8 @@
         "stfalcon/tinymce-bundle": "dev-master",
         "friendsofsymfony/message-bundle": "dev-master",
         "braincrafted/bootstrap-bundle": "dev-master",
-        "twitter/bootstrap": "2.3.*"
+        "twitter/bootstrap": "2.3.*",
+        "fzaninotto/faker": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

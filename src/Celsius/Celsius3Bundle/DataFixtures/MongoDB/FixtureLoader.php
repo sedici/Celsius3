@@ -2,10 +2,10 @@
 
 namespace Celsius\Celsius3Bundle\DataFixtures\MongoDB;
 
+use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Celsius\Celsius3Bundle\Document;
-use Celsius\Celsius3Bundle\Helper\LoremIpsumHelper;
 use Celsius\Celsius3Bundle\Manager\StateManager;
 
 /**
@@ -16,135 +16,184 @@ use Celsius\Celsius3Bundle\Manager\StateManager;
 class FixtureLoader implements FixtureInterface
 {
 
+    private $configurations = array(
+        'instance_title' => array(
+            'name' => 'Title',
+            'value' => 'Default title',
+            'type' => 'string',
+        ),
+        'results_per_page' => array(
+            'name' => 'Results per page',
+            'value' => '10',
+            'type' => 'integer',
+        ),
+        'email_reply_address' => array(
+            'name' => 'Reply to',
+            'value' => 'sample@instance.edu',
+            'type' => 'email',
+        ),
+        'instance_description' => array(
+            'name' => 'Instance description',
+            'value' => '',
+            'type' => 'text',
+        ),
+        'default_language' => array(
+            'name' => 'Default language',
+            'value' => 'es',
+            'type' => 'language',
+        ),
+        'confirmation_type' => array(
+            'name' => 'Confirmation type',
+            'value' => 'email',
+            'type' => 'confirmation',
+        ),
+    );
+    private $state_types = array(
+        StateManager::STATE__CREATED,
+        StateManager::STATE__SEARCHED,
+        StateManager::STATE__REQUESTED,
+        StateManager::STATE__APPROVAL_PENDING,
+        StateManager::STATE__RECEIVED,
+        StateManager::STATE__DELIVERED,
+        StateManager::STATE__CANCELED,
+        StateManager::STATE__ANNULED,
+    );
+
     public function load(ObjectManager $manager)
     {
-        $names = array('John', 'Tom', 'Laura', 'Mike', 'Chris', 'Michelle', 'Liz', 'Mary', 'Joe', 'Kevin');
-        $surnames = array('Perez', 'Rodriguez', 'Dominguez', 'Martinez', 'Gonzalez', 'Ibañez', 'Fernandez', 'Ledesma', 'Acuña', 'Estevez');
+        $generator = Factory::create('es_AR');
+        $generator->seed(1111);
 
-        $generator = new LoremIpsumHelper();
+        $material_types = array(
+            'journal' => array(
+                'class' => 'Celsius\\Celsius3Bundle\\Document\\JournalType',
+                'fields' => array(
+                    'setVolume' => function() use ($generator)
+                    {
+                        return $generator->randomNumber;
+                    },
+                    'setNumber' => function() use ($generator)
+                    {
+                        return $generator->randomNumber;
+                    },
+                    'setJournal' => function() use ($generator, $manager)
+                    {
+                        $random = $generator->randomNumber(0, $manager->getRepository('CelsiusCelsius3Bundle:Journal')->findAll()->count());
 
-        $min = strtotime('1940-01-01');
-        $max = strtotime('2000-12-31');
+                        return $manager->getRepository('CelsiusCelsius3Bundle:Journal')
+                                        ->createQueryBuilder()
+                                        ->limit(-1)
+                                        ->skip($random)
+                                        ->getQuery()
+                                        ->execute()
+                                        ->getNext();
+                    },
+                ),
+            ),
+            'book' => array(
+                'class' => 'Celsius\\Celsius3Bundle\\Document\\BookType',
+                'fields' => array(
+                    'setEditor' => function() use ($generator)
+                    {
+                        return $generator->company;
+                    },
+                    'setChapter' => function() use ($generator)
+                    {
+                        return $generator->randomNumber;
+                    },
+                    'setISBN' => function() use ($generator)
+                    {
+                        return $generator->randomNumber(13);
+                    },
+                ),
+            ),
+            'patent' => array(
+                'class' => 'Celsius\\Celsius3Bundle\\Document\\PatentType',
+                'fields' => array(),
+            ),
+            'congress' => array(
+                'class' => 'Celsius\\Celsius3Bundle\\Document\\CongressType',
+                'fields' => array(
+                    'setPlace' => function() use ($generator)
+                    {
+                        return $generator->address;
+                    },
+                    'setCommunication' => function() use ($generator)
+                    {
+                        return $generator->text(500);
+                    },
+                ),
+            ),
+            'thesis' => array(
+                'class' => 'Celsius\\Celsius3Bundle\\Document\\ThesisType',
+                'fields' => array(
+                    'setDirector' => function() use ($generator)
+                    {
+                        return $generator->name;
+                    },
+                    'setDegree' => function() use ($generator)
+                    {
+                        return $generator->randomElement(array('grado', 'posgrado'));
+                    },
+                ),
+            ),
+        );
 
-        $configuration = new Document\Configuration();
-        $configuration->setName('Title');
-        $configuration->setKey('instance_title');
-        $configuration->setValue('Default Title');
-        $configuration->setType('string');
-        $manager->persist($configuration);
-        unset($configuration);
-
-        $configuration = new Document\Configuration();
-        $configuration->setName('Results per page');
-        $configuration->setKey('results_per_page');
-        $configuration->setValue('10');
-        $configuration->setType('integer');
-        $manager->persist($configuration);
-        unset($configuration);
-
-        $configuration = new Document\Configuration();
-        $configuration->setName('Reply to');
-        $configuration->setKey('email_reply_address');
-        $configuration->setValue('sample@instance.edu');
-        $configuration->setType('email');
-        $manager->persist($configuration);
-        unset($configuration);
-
-        $configuration = new Document\Configuration();
-        $configuration->setName('Instance description');
-        $configuration->setKey('instance_description');
-        $configuration->setType('text');
-        $manager->persist($configuration);
-        unset($configuration);
-
-        $configuration = new Document\Configuration();
-        $configuration->setName('Default language');
-        $configuration->setKey('instance_language');
-        $configuration->setType('language');
-        $configuration->setValue('es');
-        $manager->persist($configuration);
-        unset($configuration);
-
-        $configuration = new Document\Configuration();
-        $configuration->setName('Confirmation type');
-        $configuration->setKey('confirmation_type');
-        $configuration->setValue('email');
-        $configuration->setType('confirmation');
-        $manager->persist($configuration);
-        unset($configuration);
-
+        foreach ($this->configurations as $key => $data)
+        {
+            $configuration = new Document\Configuration();
+            $configuration->setName($data['name']);
+            $configuration->setKey($key);
+            $configuration->setValue($data['value']);
+            $configuration->setType($data['type']);
+            $manager->persist($configuration);
+            unset($configuration);
+        }
         $manager->flush();
 
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__CREATED);
-        $state_type->setPosition(0);
-        $manager->persist($state_type);
-        unset($state_type);
+        foreach ($this->state_types as $key => $value)
+        {
+            $state_type = new Document\StateType();
+            $state_type->setName($value);
+            $state_type->setPosition($key);
+            $manager->persist($state_type);
+            unset($state_type);
+        }
+        $manager->flush();
 
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__SEARCHED);
-        $state_type->setPosition(1);
-        $manager->persist($state_type);
-        unset($state_type);
-
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__REQUESTED);
-        $state_type->setPosition(2);
-        $manager->persist($state_type);
-        unset($state_type);
-
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__APPROVAL_PENDING);
-        $state_type->setPosition(3);
-        $manager->persist($state_type);
-        unset($state_type);
-
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__RECEIVED);
-        $state_type->setPosition(4);
-        $manager->persist($state_type);
-        unset($state_type);
-
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__DELIVERED);
-        $state_type->setPosition(5);
-        $manager->persist($state_type);
-        unset($state_type);
-
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__CANCELED);
-        $state_type->setPosition(6);
-        $manager->persist($state_type);
-        unset($state_type);
-
-        $state_type = new Document\StateType();
-        $state_type->setName(StateManager::STATE__ANNULED);
-        $state_type->setPosition(7);
-        $manager->persist($state_type);
-        unset($state_type);
-
+        for ($i = 0; $i < 100; $i++)
+        {
+            $journal = new Document\Journal();
+            $journal->setName(str_replace('.', '', $generator->sentence));
+            $journal->setAbbreviation(strtoupper($generator->word));
+            $journal->setISSN($generator->randomNumber(8));
+            $journal->setFrecuency($generator->randomElement('anual', 'semestral', 'mensual'));
+            $journal->setResponsible($generator->name);
+            $manager->persist($journal);
+            unset($journal);
+        }
         $manager->flush();
 
         for ($i = 0; $i < 5; $i++)
         {
             $instance = new Document\Instance();
-            $instance->setName(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-            $instance->setAbbreviation(str_replace('. ', '', $generator->getContent(1, 'plain', false)));
-            $instance->setWebsite('http://' . md5(rand(0, 99999999)) . '.test.com');
-            $instance->setEmail(md5(rand(0, 99999999)) . '@test.com');
-            $instance->setUrl(str_replace('. ', '', $i . '_' . $generator->getContent(1, 'plain', false)));
+            $instance->setName($generator->company);
+            $instance->setAbbreviation(strtoupper($generator->word));
+            $instance->setWebsite($generator->url);
+            $instance->setEmail($generator->email);
+            $instance->setUrl($generator->word);
             $instance->setEnabled(true);
             $manager->persist($instance);
             $manager->flush();
 
             $admin = new Document\BaseUser();
-            $admin->setName('admin'.$i);
-            $admin->setSurname('admin'.$i);
-            $admin->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
-            $admin->setUsername('admin'.$i);
-            $admin->setPlainPassword('admin'.$i);
-            $admin->setEmail('admin' . $i . '@test.com');
-            $admin->setAddress('address_' . md5(rand(0, 99999999)));
+            $admin->setName('admin' . $i);
+            $admin->setSurname('admin' . $i);
+            $admin->setBirthdate($generator->date('Y-m-d'));
+            $admin->setUsername('admin' . $i);
+            $admin->setPlainPassword('admin' . $i);
+            $admin->setEmail($generator->email);
+            $admin->setAddress($generator->address);
             $admin->setInstance($instance);
             $admin->setEnabled(true);
             $admin->addRole('ROLE_SUPER_ADMIN');
@@ -153,115 +202,53 @@ class FixtureLoader implements FixtureInterface
             for ($j = 0; $j < 20; $j++)
             {
                 $user = new Document\BaseUser();
-                $user->setName($names[rand(0, 99999999) % 10]);
-                $user->setSurname($surnames[rand(0, 99999999) % 10]);
-                $user->setBirthdate(date('Y-m-d', mt_rand($min, $max)));
-                $user->setUsername($user->getName() . '_' . md5(rand(0, 99999999)));
-                $user->setPassword(md5(rand(0, 99999999)));
-                $user->setEmail($user->getName() . $user->getSurname() . md5(rand(0, 99999999)) . $i . $j . '@test.com');
-                $user->setAddress('address_' . md5(rand(0, 99999999)));
+                $user->setName($generator->firstName);
+                $user->setSurname($generator->lastName);
+                $user->setBirthdate($generator->date('Y-m-d'));
+                $user->setUsername($user->getName() . '_' . $generator->md5);
+                $user->setPlainPassword($generator->md5);
+                $user->setEmail($generator->email);
+                $user->setAddress($generator->address);
                 $user->setInstance($instance);
                 $manager->persist($user);
 
-                $order = new Document\Order();
-                $order->setOwner($user);
-                $order->setType(1);
-                $order->setInstance($instance);
+                foreach ($material_types as $material_type)
+                {
+                    $order = new Document\Order();
+                    $order->setOwner($user);
+                    $order->setType(1);
+                    $order->setInstance($instance);
 
-                $material = new Document\JournalType();
-                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                $material->setStartPage(rand(0, 9999999));
-                $material->setEndPage(rand(0, 9999999));
-                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                $material->setYear(rand(1980, 2012));
+                    $material = new $material_type['class'];
+                    $material->setAuthors($generator->name);
+                    $material->setStartPage($generator->randomNumber);
+                    $material->setEndPage($generator->randomNumber);
+                    $material->setTitle(str_replace('.', '', $generator->sentence));
+                    $material->setYear($generator->year);
 
-                $order->setMaterialData($material);
+                    foreach ($material_type['fields'] as $method => $function)
+                    {
+                        $material->$method($function());
+                    }
 
-                $manager->persist($order);
-                unset($material, $order);
+                    $order->setMaterialData($material);
 
-                $order = new Document\Order();
-                $order->setOwner($user);
-                $order->setType(1);
-                $order->setInstance($instance);
-
-                $material = new Document\BookType();
-                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                $material->setStartPage(rand(0, 9999999));
-                $material->setEndPage(rand(0, 9999999));
-                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                $material->setYear(rand(1980, 2012));
-
-                $order->setMaterialData($material);
-
-                $manager->persist($order);
-                unset($material, $order);
-
-                $order = new Document\Order();
-                $order->setOwner($user);
-                $order->setType(1);
-                $order->setInstance($instance);
-
-                $material = new Document\PatentType();
-                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                $material->setStartPage(rand(0, 9999999));
-                $material->setEndPage(rand(0, 9999999));
-                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                $material->setYear(rand(1980, 2012));
-
-                $order->setMaterialData($material);
-
-                $manager->persist($order);
-                unset($material, $order);
-
-                $order = new Document\Order();
-                $order->setOwner($user);
-                $order->setType(1);
-                $order->setInstance($instance);
-
-                $material = new Document\CongressType();
-                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                $material->setStartPage(rand(0, 9999999));
-                $material->setEndPage(rand(0, 9999999));
-                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                $material->setYear(rand(1980, 2012));
-
-                $order->setMaterialData($material);
-
-                $manager->persist($order);
-                unset($material, $order);
-
-                $order = new Document\Order();
-                $order->setOwner($user);
-                $order->setType(1);
-                $order->setInstance($instance);
-
-                $material = new Document\ThesisType();
-                $material->setAuthors($names[rand(0, 99999999) % 10] . $surnames[rand(0, 99999999) % 10]);
-                $material->setStartPage(rand(0, 9999999));
-                $material->setEndPage(rand(0, 9999999));
-                $material->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                $material->setYear(rand(1980, 2012));
-
-                $order->setMaterialData($material);
-
-                $manager->persist($order);
-                unset($material, $order);
-
+                    $manager->persist($order);
+                    unset($material, $order);
+                }
                 unset($user);
             }
 
             for ($j = 0; $j < 20; $j++)
             {
                 $news = new Document\News();
-                $news->setDate(date('Y-m-d H:i:s', mt_rand($min, $max)));
-                $news->setTitle(str_replace('. ', '', $generator->getContent(rand(1, 5), 'plain', false)));
-                $news->setText($generator->getContent(rand(100, 500), 'html', false));
+                $news->setDate($generator->date('Y-m-d H:i:s'));
+                $news->setTitle(str_replace('.', '', $generator->sentence));
+                $news->setText($generator->text(500));
                 $news->setInstance($instance);
                 $manager->persist($news);
                 unset($news);
             }
-
             $manager->flush();
             $manager->clear();
             unset($instance);

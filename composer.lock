@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "75116dd2d0597e8fa8f23b99a006e052",
+    "hash": "397c026523e8402bd7f646dc6d279de4",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -1031,6 +1031,51 @@
                 "User management"
             ],
             "time": "2012-12-22 15:09:34"
+        },
+        {
+            "name": "fzaninotto/faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fzaninotto/Faker.git",
+                "reference": "a1fd779b525c6a7669c136d23ca9c8130e4441b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/a1fd779b525c6a7669c136d23ca9c8130e4441b8",
+                "reference": "a1fd779b525c6a7669c136d23ca9c8130e4441b8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Faker": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2013-03-04 17:05:06"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2847,7 +2892,8 @@
         "knplabs/knp-menu-bundle": 20,
         "stfalcon/tinymce-bundle": 20,
         "friendsofsymfony/message-bundle": 20,
-        "braincrafted/bootstrap-bundle": 20
+        "braincrafted/bootstrap-bundle": 20,
+        "fzaninotto/faker": 20
     },
     "platform": {
         "php": ">=5.3.3"

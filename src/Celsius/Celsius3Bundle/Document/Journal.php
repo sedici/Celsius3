@@ -55,7 +55,7 @@ class Journal
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance") 
      */
-    protected $instance;
+    private $instance;
 
     public function __construct()
     {
