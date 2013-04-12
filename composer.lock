@@ -338,12 +338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "eef10f6b92706bdae2841a8fdeb45ad8999b15b3"
+                "reference": "6924952026b77ff492da559b04ad166d25c611cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/eef10f6b92706bdae2841a8fdeb45ad8999b15b3",
-                "reference": "eef10f6b92706bdae2841a8fdeb45ad8999b15b3",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/6924952026b77ff492da559b04ad166d25c611cb",
+                "reference": "6924952026b77ff492da559b04ad166d25c611cb",
                 "shasum": ""
             },
             "require": {
@@ -385,7 +385,7 @@
             "keywords": [
                 "database"
             ],
-            "time": "2013-03-11 00:25:48"
+            "time": "2013-04-11 23:14:04"
         },
         {
             "name": "doctrine/dbal",
@@ -920,12 +920,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "1ca5eef8c3625a125804bb20c9b1dd0f5beabd58"
+                "reference": "df1e0eea3108c73d2e3f747c9fab4b6ca3e3b25c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/1ca5eef8c3625a125804bb20c9b1dd0f5beabd58",
-                "reference": "1ca5eef8c3625a125804bb20c9b1dd0f5beabd58",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/df1e0eea3108c73d2e3f747c9fab4b6ca3e3b25c",
+                "reference": "df1e0eea3108c73d2e3f747c9fab4b6ca3e3b25c",
                 "shasum": ""
             },
             "require": {
@@ -965,7 +965,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-03-27 22:06:24"
+            "time": "2013-04-12 00:26:30"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1083,12 +1083,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "af197d8d65de90827778379a18dd44d82c61d3fc"
+                "reference": "b31e0a4664f13dbf24b0215547e42c401ca5300a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/af197d8d65de90827778379a18dd44d82c61d3fc",
-                "reference": "af197d8d65de90827778379a18dd44d82c61d3fc",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/b31e0a4664f13dbf24b0215547e42c401ca5300a",
+                "reference": "b31e0a4664f13dbf24b0215547e42c401ca5300a",
                 "shasum": ""
             },
             "require": {
@@ -1154,7 +1154,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2013-04-08 16:55:03"
+            "time": "2013-04-12 04:03:22"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1597,13 +1597,13 @@
             "target-dir": "JMS/TranslationBundle",
             "source": {
                 "type": "git",
-                "url": "git://github.com/schmittjoh/JMSTranslationBundle.git",
-                "reference": "1f50addc1686951cf9be37dccf5d23203a0c528d"
+                "url": "https://github.com/schmittjoh/JMSTranslationBundle.git",
+                "reference": "9d844494a0ad5a93cb7f81f4bd1a1d46950690ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/1f50addc1686951cf9be37dccf5d23203a0c528d",
-                "reference": "1f50addc1686951cf9be37dccf5d23203a0c528d",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/9d844494a0ad5a93cb7f81f4bd1a1d46950690ef",
+                "reference": "9d844494a0ad5a93cb7f81f4bd1a1d46950690ef",
                 "shasum": ""
             },
             "require": {
@@ -1628,11 +1628,6 @@
                 "symfony/validator": "*",
                 "symfony/yaml": "*"
             },
-            "suggest": {
-                "jms/di-extra-bundle": "1.*",
-                "sensio/framework-extra-bundle": "2.*",
-                "twig/twig": "1.*"
-            },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1650,7 +1645,7 @@
             ],
             "authors": [
                 {
-                    "name": "Johannes Schmitt",
+                    "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
                     "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
@@ -1668,7 +1663,7 @@
                 "ui",
                 "webinterface"
             ],
-            "time": "2013-02-06 14:11:31"
+            "time": "2013-04-12 07:13:08"
         },
         {
             "name": "knplabs/knp-components",
@@ -2659,12 +2654,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "3c44d487f2ca7c7237b7a5bb2fa98922d96d7478"
+                "reference": "972bde73ce28dd5699048d1beb3ff77d696f04f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/3c44d487f2ca7c7237b7a5bb2fa98922d96d7478",
-                "reference": "3c44d487f2ca7c7237b7a5bb2fa98922d96d7478",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/972bde73ce28dd5699048d1beb3ff77d696f04f4",
+                "reference": "972bde73ce28dd5699048d1beb3ff77d696f04f4",
                 "shasum": ""
             },
             "require": {
@@ -2750,7 +2745,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-04-11 10:20:28"
+            "time": "2013-04-12 12:45:07"
         },
         {
             "name": "twig/extensions",
@@ -2805,12 +2800,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "1819d97520079ade78abac7255e5b1e115bc7789"
+                "reference": "8bbbecd08e00615ad90b46ef7486abdfab911da9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1819d97520079ade78abac7255e5b1e115bc7789",
-                "reference": "1819d97520079ade78abac7255e5b1e115bc7789",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8bbbecd08e00615ad90b46ef7486abdfab911da9",
+                "reference": "8bbbecd08e00615ad90b46ef7486abdfab911da9",
                 "shasum": ""
             },
             "require": {
@@ -2846,7 +2841,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-04-09 16:55:44"
+            "time": "2013-04-12 09:46:40"
         },
         {
             "name": "twitter/bootstrap",

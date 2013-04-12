@@ -352,7 +352,9 @@ public function init()
 ini_set('display_errors', 0);
 if ($this->debug) {
 error_reporting(-1);
+if (class_exists('Symfony\Component\ClassLoader\DebugClassLoader')) {
 DebugClassLoader::enable();
+}
 ErrorHandler::register($this->errorReportingLevel);
 if ('cli'!== php_sapi_name()) {
 ExceptionHandler::register();

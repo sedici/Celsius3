@@ -1,6 +1,5 @@
 {# edit #}
 {% macro edit(name, document, edit_form, delete_form) %}
-<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <h2>{{ [name|capitalize, ' Edit']|join|trans }}</h2>
 
 <div class="row">
@@ -44,7 +43,6 @@
 
 {# new #}
 {% macro new(name, form) %}
-<link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <h2>{{ [name|capitalize, ' Creation']|join|trans }}</h2>
 
 <div class="row">
