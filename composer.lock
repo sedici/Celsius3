@@ -3,31 +3,35 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "397c026523e8402bd7f646dc6d279de4",
+    "hash": "55515d3c6ae1578a6c6ab55db01ca9bf",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
             "version": "dev-master",
-            "target-dir": "Braincrafted/BootstrapBundle",
+            "target-dir": "Bc/Bundle/BootstrapBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/braincrafted/bootstrap-bundle.git",
-                "reference": "v1.3.2"
+                "reference": "v1.4.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/braincrafted/bootstrap-bundle/zipball/v1.3.2",
-                "reference": "v1.3.2",
+                "url": "https://api.github.com/repos/braincrafted/bootstrap-bundle/zipball/v1.4.2",
+                "reference": "v1.4.2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
+                "instaclick/php-code-sniffer": "dev-master",
+                "instaclick/symfony2-coding-standard": "dev-master",
                 "knplabs/knp-markdown-bundle": "dev-master",
                 "knplabs/knp-menu": "dev-master",
                 "knplabs/knp-menu-bundle": "dev-master",
-                "knplabs/knp-paginator-bundle": "dev-master"
+                "knplabs/knp-paginator-bundle": "dev-master",
+                "nikic/php-parser": "dev-master",
+                "phpmd/phpmd": "1.4.*"
             },
             "suggest": {
                 "knplabs/knp-menu": "Required to use KnpMenuBundle.",
@@ -38,7 +42,7 @@
             "type": "symfony-bundle",
             "autoload": {
                 "psr-0": {
-                    "Braincrafted\\BootstrapBundle": ""
+                    "Bc\\Bundle\\BootstrapBundle": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -48,7 +52,7 @@
             "authors": [
                 {
                     "name": "Florian Eckerstorfer",
-                    "email": "florian@theroadtojoy.at",
+                    "email": "florian@eckerstorfer.co",
                     "homepage": "http://florianeckerstorfer.com",
                     "role": "Developer"
                 }
@@ -57,7 +61,7 @@
             "keywords": [
                 "bootstrap"
             ],
-            "time": "2013-03-22 07:53:07"
+            "time": "2013-04-12 23:57:05"
         },
         {
             "name": "doctrine/annotations",
@@ -393,12 +397,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "589a5fb9691e95146367efbb9369a2c34d04d51f"
+                "reference": "4485d19634219ee791fe631657b31069e0de277d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/589a5fb9691e95146367efbb9369a2c34d04d51f",
-                "reference": "589a5fb9691e95146367efbb9369a2c34d04d51f",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/4485d19634219ee791fe631657b31069e0de277d",
+                "reference": "4485d19634219ee791fe631657b31069e0de277d",
                 "shasum": ""
             },
             "require": {
@@ -410,7 +414,7 @@
                 "symfony/console": "2.*"
             },
             "suggest": {
-                "symfony/console": "For helpful console commands such as SQL execution and import of files."
+                "symfony/console": "Allows use of the command line interface"
             },
             "type": "library",
             "extra": {
@@ -455,7 +459,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-04-08 17:45:00"
+            "time": "2013-04-14 16:29:11"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -1666,6 +1670,17 @@
             "time": "2013-04-12 07:13:08"
         },
         {
+            "name": "jquery/jquery",
+            "version": "1.9.1",
+            "dist": {
+                "type": "file",
+                "url": "http://code.jquery.com/jquery-1.9.1.min.js",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
+        {
             "name": "knplabs/knp-components",
             "version": "dev-master",
             "source": {
@@ -1732,12 +1747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "730bc37232f5f813822acf80edfbd89381ea5971"
+                "reference": "5cf5ab4948d8c573f260e2b612bfc9721da1c892"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/730bc37232f5f813822acf80edfbd89381ea5971",
-                "reference": "730bc37232f5f813822acf80edfbd89381ea5971",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/5cf5ab4948d8c573f260e2b612bfc9721da1c892",
+                "reference": "5cf5ab4948d8c573f260e2b612bfc9721da1c892",
                 "shasum": ""
             },
             "require": {
@@ -1774,7 +1789,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -1788,7 +1803,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2012-12-27 13:04:16"
+            "time": "2013-04-15 14:10:52"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2654,12 +2669,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "972bde73ce28dd5699048d1beb3ff77d696f04f4"
+                "reference": "4b967b1fcbe3d54efff0f65ee373f004e414face"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/972bde73ce28dd5699048d1beb3ff77d696f04f4",
-                "reference": "972bde73ce28dd5699048d1beb3ff77d696f04f4",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/4b967b1fcbe3d54efff0f65ee373f004e414face",
+                "reference": "4b967b1fcbe3d54efff0f65ee373f004e414face",
                 "shasum": ""
             },
             "require": {
@@ -2745,7 +2760,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-04-12 12:45:07"
+            "time": "2013-04-12 14:22:22"
         },
         {
             "name": "twig/extensions",
@@ -2800,12 +2815,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "8bbbecd08e00615ad90b46ef7486abdfab911da9"
+                "reference": "887b6ee797dc338c5ef5669c98252db6bde7042d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8bbbecd08e00615ad90b46ef7486abdfab911da9",
-                "reference": "8bbbecd08e00615ad90b46ef7486abdfab911da9",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/887b6ee797dc338c5ef5669c98252db6bde7042d",
+                "reference": "887b6ee797dc338c5ef5669c98252db6bde7042d",
                 "shasum": ""
             },
             "require": {
@@ -2841,7 +2856,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-04-12 09:46:40"
+            "time": "2013-04-15 09:43:17"
         },
         {
             "name": "twitter/bootstrap",

@@ -6,6 +6,19 @@
             "": "src/"
         }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "jquery/jquery",
+                "version": "1.9.1",
+                "dist": {
+                    "url": "http://code.jquery.com/jquery-1.9.1.min.js",
+                    "type": "file"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.2.*",
@@ -31,22 +44,23 @@
         "friendsofsymfony/message-bundle": "dev-master",
         "braincrafted/bootstrap-bundle": "dev-master",
         "twitter/bootstrap": "2.3.*",
+        "jquery/jquery": "1.9.*",
         "fzaninotto/faker": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-        "Celsius\\Celsius3Bundle\\Composer\\ScriptHandler::asseticDump"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Celsius\\Celsius3Bundle\\Composer\\ScriptHandler::asseticDump"
         ],
         "post-update-cmd": [
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-        "Celsius\\Celsius3Bundle\\Composer\\ScriptHandler::asseticDump"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Celsius\\Celsius3Bundle\\Composer\\ScriptHandler::asseticDump"
         ]
     },
     "config": {
