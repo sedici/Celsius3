@@ -25,7 +25,7 @@ class UserController extends BaseInstanceDependentController
      */
         
    //     $repository = $this->get('doctrine.odm.mongodb.document_manager')
-                            ->getRepository('CelsiusCelsius3Bundle:Notification');
+                         //   ->getRepository('CelsiusCelsius3Bundle:Notification');
         
     //    $notification = $repository->findAll();
 
