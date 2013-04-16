@@ -80,16 +80,6 @@ class BaseUser extends User implements ParticipantInterface
     protected $institution;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="sender")
-     */
-    protected $createdMessages;
-
-    /**
-     * @MongoDB\ReferenceMany(targetDocument="Message", mappedBy="receiver")
-     */
-    protected $receivedMessages;
-
-    /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="librarian")
      */
     protected $subordinates;
@@ -103,7 +93,7 @@ class BaseUser extends User implements ParticipantInterface
     {
         return $this->getSurname() . ', ' . $this->getName();
     }
-    
+
     public function getFullName()
     {
         return $this->getSurname() . ', ' . $this->getName();
@@ -123,10 +113,8 @@ class BaseUser extends User implements ParticipantInterface
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdMessages = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->receivedMessages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->customFields = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -351,46 +339,6 @@ class BaseUser extends User implements ParticipantInterface
     public function getInstitution()
     {
         return $this->institution;
-    }
-
-    /**
-     * Add createdMessages
-     *
-     * @param Celsius\Celsius3Bundle\Document\Message $createdMessages
-     */
-    public function addCreatedMessages(\Celsius\Celsius3Bundle\Document\Message $createdMessages)
-    {
-        $this->createdMessages[] = $createdMessages;
-    }
-
-    /**
-     * Get createdMessages
-     *
-     * @return Doctrine\Common\Collections\Collection $createdMessages
-     */
-    public function getCreatedMessages()
-    {
-        return $this->createdMessages;
-    }
-
-    /**
-     * Add receivedMessages
-     *
-     * @param Celsius\Celsius3Bundle\Document\Message $receivedMessages
-     */
-    public function addReceivedMessages(\Celsius\Celsius3Bundle\Document\Message $receivedMessages)
-    {
-        $this->receivedMessages[] = $receivedMessages;
-    }
-
-    /**
-     * Get receivedMessages
-     *
-     * @return Doctrine\Common\Collections\Collection $receivedMessages
-     */
-    public function getReceivedMessages()
-    {
-        return $this->receivedMessages;
     }
 
     /**

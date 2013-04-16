@@ -106,5 +106,9 @@ $(document).ready(function(){
         if ($('input[type=checkbox]:checked').length >= 2)
             $('.batch_form').submit();
     });
+    
+    $('.delete-message').click(function(){
+        $(this).parent('form').submit();
+    });
 });
-    </script>
+</script>

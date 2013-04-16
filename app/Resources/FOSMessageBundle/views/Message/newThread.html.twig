@@ -1,12 +1,21 @@
 {% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
+<h3>{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
+<div class="row">
+    <div class="span9">
+        <form action="{{ url('fos_message_thread_new') }}" method="post" class="form-horizontal well">
+            {{ form_widget(form, {'form_type': 'horizontal'}) }}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary"><i class="icon-envelope"></i> {{ 'Send'|trans }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="span3">
 
-<h2>{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h2>
-<form action="{{ url('fos_message_thread_new') }}" method="post">
-    {{ form_widget(form) }}
-
-    <input type="submit" />
-</form>
+    </div>
+</div>
 
 {% endblock %}

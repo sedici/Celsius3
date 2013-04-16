@@ -5,6 +5,8 @@ namespace Celsius\Celsius3Bundle\DataFixtures\MongoDB;
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Document;
 use Celsius\Celsius3Bundle\Manager\StateManager;
 
@@ -13,9 +15,10 @@ use Celsius\Celsius3Bundle\Manager\StateManager;
  *
  * @author agustin
  */
-class FixtureLoader implements FixtureInterface
+class FixtureLoader implements FixtureInterface, ContainerAwareInterface
 {
 
+    private $container;
     private $configurations = array(
         'instance_title' => array(
             'name' => 'Title',
@@ -59,10 +62,18 @@ class FixtureLoader implements FixtureInterface
         StateManager::STATE__ANNULED,
     );
 
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager)
     {
         $generator = Factory::create('es_AR');
-        $generator->seed(1111);
+        $generator->seed(1112);
+
+        $composer = $this->container->get('fos_message.composer');
+        $sender = $this->container->get('fos_message.sender');
 
         $material_types = array(
             'journal' => array(
@@ -78,7 +89,7 @@ class FixtureLoader implements FixtureInterface
                     },
                     'setJournal' => function() use ($generator, $manager)
                     {
-                        $random = $generator->randomNumber(0, $manager->getRepository('CelsiusCelsius3Bundle:Journal')->findAll()->count()-1);
+                        $random = $generator->randomNumber(0, $manager->getRepository('CelsiusCelsius3Bundle:Journal')->findAll()->count() - 1);
 
                         return $manager->getRepository('CelsiusCelsius3Bundle:Journal')
                                         ->createQueryBuilder()
@@ -175,6 +186,9 @@ class FixtureLoader implements FixtureInterface
         }
         $manager->flush();
 
+        /*
+         * Carga de Instancias
+         */
         for ($i = 0; $i < 5; $i++)
         {
             $instance = new Document\Instance();
@@ -187,6 +201,9 @@ class FixtureLoader implements FixtureInterface
             $manager->persist($instance);
             $manager->flush();
 
+            /*
+             * Creacion de un superadmin por instancia
+             */
             $admin = new Document\BaseUser();
             $admin->setName('admin' . $i);
             $admin->setSurname('admin' . $i);
@@ -200,6 +217,9 @@ class FixtureLoader implements FixtureInterface
             $admin->addRole('ROLE_SUPER_ADMIN');
             $manager->persist($admin);
 
+            /*
+             * Creacion de usuarios de cada instancia
+             */
             for ($j = 0; $j < 20; $j++)
             {
                 $user = new Document\BaseUser();
@@ -213,6 +233,9 @@ class FixtureLoader implements FixtureInterface
                 $user->setInstance($instance);
                 $manager->persist($user);
 
+                /*
+                 * Creacion de pedidos por instancia
+                 */
                 foreach ($material_types as $material_type)
                 {
                     $order = new Document\Order();
@@ -223,7 +246,7 @@ class FixtureLoader implements FixtureInterface
                     $material = new $material_type['class'];
                     $material->setAuthors($generator->name);
                     $material->setEndPage($generator->randomNumber);
-                    $material->setStartPage($generator->randomNumber(1,$material->getEndPage()));
+                    $material->setStartPage($generator->randomNumber(1, $material->getEndPage()));
                     $material->setTitle(str_replace('.', '', $generator->sentence));
                     $material->setYear($generator->year);
 
@@ -237,22 +260,45 @@ class FixtureLoader implements FixtureInterface
                     $manager->persist($order);
                     unset($material, $order);
                 }
-                unset($user);
+
+                /*
+                 * Creacion de mensajes
+                 */
+                $message1 = $composer->newThread()
+                        ->setSender($user)
+                        ->addRecipient($admin)
+                        ->setSubject(str_replace('.', '', $generator->sentence))
+                        ->setBody($generator->text(1000))
+                        ->getMessage();
+
+                $sender->send($message1);
+
+                $message2 = $composer->reply($message1->getThread())
+                        ->setSender($admin)
+                        ->setBody($generator->text(1000))
+                        ->getMessage();
+
+                $sender->send($message2);
+
+                unset($user, $message1, $message2);
             }
 
+            /*
+             * Creacion de noticias por instancia
+             */
             for ($j = 0; $j < 20; $j++)
             {
                 $news = new Document\News();
                 $news->setDate($generator->date('Y-m-d H:i:s'));
                 $news->setTitle(str_replace('.', '', $generator->sentence));
-                $news->setText($generator->text(500));
+                $news->setText($generator->text(2000));
                 $news->setInstance($instance);
                 $manager->persist($news);
                 unset($news);
             }
             $manager->flush();
             $manager->clear();
-            unset($instance);
+            unset($instance, $admin);
         }
     }
 

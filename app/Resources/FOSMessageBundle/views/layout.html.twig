@@ -1,24 +1,15 @@
 {% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
 
+{% block title %}
+{% trans from 'FOSMessageBundle' %}messenger{% endtrans %}
+{% endblock %}
+
 {% block content %}
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset={{ _charset }}" />
-        <title>{% trans from 'FOSMessageBundle' %}messenger{% endtrans %}</title>
-    </head>
-
-    <body>
-        <div class="btn-group">
-          <a class="btn" href="{{ path('admin_messages_inbox') }}">inbox</a>
-          <a class="btn" href="{{ path('admin_message_sent') }}">sent</a>
-        </div>
-      
-
-        {% block fos_message_content %}{% endblock %}
-
-    </body>
-</html>
-
+    <h2>{{ 'Messages'|trans }}</h2>
+    <div class="btn-group">
+        <a class="btn" href="{{ path('fos_message_inbox') }}"><i class="icon-inbox"></i> {{ 'Inbox'|trans }}</a>
+        <a class="btn" href="{{ path('fos_message_sent') }}"><i class="icon-envelope"></i> {{ 'Sent'|trans }}</a>
+        <a class="btn" href="{{ path('fos_message_thread_new' )}}"><i class="icon-plus"></i> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
+    </div>
+    {% block fos_message_content %}{% endblock %}
 {% endblock %}

@@ -1,28 +1,34 @@
 {% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
-
-<h2>{{ thread.subject }}</h2>
-
-{% for message in thread.messages %}
-    <div class="messenger_thread_message">
-        <div class="messenger_thread_message_info">
-            {% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle' %}by{% endtrans %}
-        </div>
-
-        <div class="messenger_thread_message_body" id="message_{{ message.id }}">
-            {{ message.body }}
-        </div>
+<h3>{{ thread.subject }}</h3>
+<div class="row">
+    <div class="span9">
+        {% for message in thread.messages %}
+            <div class="messenger_thread_message well">
+                <div class="messenger_thread_message_info">
+                    <p>
+                        {% trans with {'%sender%': message.sender|e} from 'FOSMessageBundle' %}by{% endtrans %}
+                        {% trans with {'%date%': message.createdAt|localizeddate} from 'FOSMessageBundle' %}on{% endtrans %}
+                    </p>
+                </div>
+                <div class="messenger_thread_message_body" id="message_{{ message.id }}">
+                    {{ message.body }}
+                </div>
+            </div>
+        {% endfor %}
+        <h4>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h4>
+        <form action="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}" method="post" class="well form-horizontal">
+            {{ form_widget(form, {'form_type': 'horizontal'}) }}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary"><i class="icon-envelope"></i> {{ 'Send'|trans }}</button>
+                </div>
+            </div>
+        </form>
     </div>
-{% endfor %}
+    <div class="span3">
 
-<h3>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h3>
-                
-                
-<form action="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}" method="post">
-    {{ form_widget(form) }}
-
-    <input type="submit" />
-</form>
-
+    </div>
+</div>
 {% endblock %}

@@ -210,8 +210,9 @@ stfalcon_tinymce:
             
 fos_message:
     db_driver: mongodb
-    thread_class: Celsius\Celsius3Bundle\Document\Thread
-    message_class: Celsius\Celsius3Bundle\Document\Message     
+    thread_class: Celsius\Celsius3MessageBundle\Document\Thread
+    message_class: Celsius\Celsius3MessageBundle\Document\Message
+    provider: fos_message.provider.default.celsius
 
 stof_doctrine_extensions:
     default_locale: %locale%
