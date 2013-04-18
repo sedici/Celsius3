@@ -1,0 +1,34 @@
+<div id="accordion" class="accordion">
+    {% if filter_form %}
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                <i class="icon-search"></i> {{ 'Filters'|trans }}
+            </a>
+        </div>
+        <div class="accordion-body collapse" id="collapseOne">
+            <div class="accordion-inner">
+                {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import filter as filter %}
+
+                {{ filter('fos_message_search', filter_form) }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                <i class="icon-wrench"></i> {{ 'Actions'|trans }}
+            </a>
+        </div>
+        <div class="accordion-body in collapse" id="collapseTwo">
+            <div class="accordion-inner">
+                <ul class="unstyled">
+                    <li>
+                        <a href="{{ path('fos_message_thread_new' )}}"><i class="icon-plus"></i> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

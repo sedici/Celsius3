@@ -2,12 +2,23 @@
 
 {% block fos_message_content %}
 
-<h2>{% trans from 'FOSMessageBundle' %}search{% endtrans %}</h2>
-
-<p>{% transchoice threads|length with {'%num%': threads|length } from 'FOSMessageBundle' %}
-    threads_found
-{% endtranschoice %}</p>
-
-{% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads} %}
-
+<h3>{% trans from 'FOSMessageBundle' %}search{% endtrans %}</h3>
+<div class="row">
+    <div class="span9">
+        <dl class="dl-horizontal">
+            <dt>{{ 'Content'|trans }}</dt>
+            <dd>{{ query }}</dd>
+            <dt>{{ 'Results'|trans }}</dt>
+            <dd>
+                {% transchoice threads.paginationData.totalCount with {'%num%': threads.paginationData.totalCount } from 'FOSMessageBundle' %}
+                    threads_found
+                {% endtranschoice %}
+            </dd>
+        </dl>
+        {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads} %}
+    </div>
+    <div class="span3">
+        {% include 'FOSMessageBundle:Message:sidebar_inbox.html.twig' %}
+    </div>
+</div>
 {% endblock %}

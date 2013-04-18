@@ -268,12 +268,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed"
+                "reference": "3506be7467dbd4f923691a00555cf80065d32e59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/33f906e257510247d0bcd60b8b54f47cfb51e3ed",
-                "reference": "33f906e257510247d0bcd60b8b54f47cfb51e3ed",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/3506be7467dbd4f923691a00555cf80065d32e59",
+                "reference": "3506be7467dbd4f923691a00555cf80065d32e59",
                 "shasum": ""
             },
             "require": {
@@ -321,7 +321,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -334,7 +334,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-03-24 17:52:59"
+            "time": "2013-04-16 21:50:30"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -397,12 +397,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "4485d19634219ee791fe631657b31069e0de277d"
+                "reference": "10be52ae3dc88e102db9dbce776b856606421859"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/4485d19634219ee791fe631657b31069e0de277d",
-                "reference": "4485d19634219ee791fe631657b31069e0de277d",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/10be52ae3dc88e102db9dbce776b856606421859",
+                "reference": "10be52ae3dc88e102db9dbce776b856606421859",
                 "shasum": ""
             },
             "require": {
@@ -459,7 +459,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-04-14 16:29:11"
+            "time": "2013-04-18 15:56:29"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -1087,12 +1087,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "b31e0a4664f13dbf24b0215547e42c401ca5300a"
+                "reference": "673a8dfb05875e8512e3aab2cf10476f537db4cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/b31e0a4664f13dbf24b0215547e42c401ca5300a",
-                "reference": "b31e0a4664f13dbf24b0215547e42c401ca5300a",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/673a8dfb05875e8512e3aab2cf10476f537db4cd",
+                "reference": "673a8dfb05875e8512e3aab2cf10476f537db4cd",
                 "shasum": ""
             },
             "require": {
@@ -1158,7 +1158,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2013-04-12 04:03:22"
+            "time": "2013-04-17 16:42:34"
         },
         {
             "name": "genemu/form-bundle",
@@ -2394,12 +2394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stfalcon/TinymceBundle.git",
-                "reference": "f7422a4dc860641d57805a99705f5f32c4fb10d5"
+                "reference": "8fe6ae5f6c03525e4b03fb6e3ea49c69a66fb64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stfalcon/TinymceBundle/zipball/f7422a4dc860641d57805a99705f5f32c4fb10d5",
-                "reference": "f7422a4dc860641d57805a99705f5f32c4fb10d5",
+                "url": "https://api.github.com/repos/stfalcon/TinymceBundle/zipball/8fe6ae5f6c03525e4b03fb6e3ea49c69a66fb64b",
+                "reference": "8fe6ae5f6c03525e4b03fb6e3ea49c69a66fb64b",
                 "shasum": ""
             },
             "require": {
@@ -2443,7 +2443,7 @@
                 "tinymce",
                 "wysiwyg"
             ],
-            "time": "2013-02-21 12:21:06"
+            "time": "2013-04-18 08:00:55"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -2738,12 +2738,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "4b967b1fcbe3d54efff0f65ee373f004e414face"
+                "reference": "2cd4b8e9b04bee77c8927e2397531505718f4cd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/4b967b1fcbe3d54efff0f65ee373f004e414face",
-                "reference": "4b967b1fcbe3d54efff0f65ee373f004e414face",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/2cd4b8e9b04bee77c8927e2397531505718f4cd8",
+                "reference": "2cd4b8e9b04bee77c8927e2397531505718f4cd8",
                 "shasum": ""
             },
             "require": {
@@ -2829,7 +2829,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-04-12 14:22:22"
+            "time": "2013-04-17 05:39:09"
         },
         {
             "name": "twig/extensions",
@@ -2884,12 +2884,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "887b6ee797dc338c5ef5669c98252db6bde7042d"
+                "reference": "80fd11cbbe68fada461626e7b2d67bda0ef8ecfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/887b6ee797dc338c5ef5669c98252db6bde7042d",
-                "reference": "887b6ee797dc338c5ef5669c98252db6bde7042d",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/80fd11cbbe68fada461626e7b2d67bda0ef8ecfa",
+                "reference": "80fd11cbbe68fada461626e7b2d67bda0ef8ecfa",
                 "shasum": ""
             },
             "require": {
@@ -2925,7 +2925,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-04-15 09:43:17"
+            "time": "2013-04-17 12:07:50"
         },
         {
             "name": "twitter/bootstrap",

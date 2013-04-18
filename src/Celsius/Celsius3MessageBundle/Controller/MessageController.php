@@ -3,7 +3,7 @@
 namespace Celsius\Celsius3MessageBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Celsius\Celsius3Bundle\Filter\Type\MessageFilterType;
+use Celsius\Celsius3MessageBundle\Filter\Type\MessageFilterType;
 use FOS\MessageBundle\Controller\MessageController as BaseController;
 
 class MessageController extends BaseController
@@ -70,14 +70,7 @@ class MessageController extends BaseController
 
         $threads = $this->getProvider()->getInboxThreadsQuery();
 
-//        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
-//
-//        $query = $this->listQuery('Message');
-//        if (!is_null($filter_form))
-//        {
-//            $filter_form->bind($this->getRequest());
-//            $query = $this->filter('Message', $filter_form, $query);
-//        }
+        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -86,28 +79,7 @@ class MessageController extends BaseController
 
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:inbox.html.twig', array(
                     'threads' => $pagination,
-        ));
-    }
-
-    /**
-     * Displays a thread, also allows to reply to it
-     */
-    public function threadAction($threadId)
-    {
-        $thread = $this->getProvider()->getThread($threadId);
-        $form = $this->container->get('fos_message.reply_form.factory')->create($thread);
-        $formHandler = $this->container->get('fos_message.reply_form.handler');
-
-        if ($message = $formHandler->process($form))
-        {
-            return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
-                        'threadId' => $message->getThread()->getId()
-            )));
-        }
-
-        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:thread.html.twig', array(
-                    'form' => $form->createView(),
-                    'thread' => $thread
+                    'filter_form' => $filter_form->createView(),
         ));
     }
 
@@ -118,16 +90,7 @@ class MessageController extends BaseController
     {
         $threads = $this->getProvider()->getSentThreadsQuery();
 
-//        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
-//
-//        $query = $this->listQuery('Message');
-//
-//        if (!is_null($filter_form))
-//        {
-//            $filter_form->bind($this->getRequest());
-//            $query = $this->filter('Message', $filter_form, $query);
-//            //$threads = $this->filter('Message', $filter_form, $threads);
-//        }
+        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -136,6 +99,7 @@ class MessageController extends BaseController
 
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:sent.html.twig', array(
                     'threads' => $pagination,
+                    'filter_form' => $filter_form->createView(),
         ));
     }
 
@@ -161,28 +125,24 @@ class MessageController extends BaseController
     }
 
     /**
-     * Deletes a thread
-     */
-    public function deleteAction($threadId)
-    {
-        $thread = $this->getProvider()->getThread($threadId);
-        $this->container->get('fos_message.deleter')->markAsDeleted($thread);
-        $this->container->get('fos_message.thread_manager')->saveThread($thread);
-
-        return new RedirectResponse($this->container->get('router')->generate('admin_messages_inbox'));
-    }
-
-    /**
      * Searches for messages in the inbox and sentbox
      */
     public function searchAction()
     {
         $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
-        $threads = $this->container->get('fos_message.search_finder')->find($query);
+        $threads = $this->container->get('fos_message.search_finder')->getQueryBuilder($query);
+        
+        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                $threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
+        );
 
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:search.html.twig', array(
                     'query' => $query,
-                    'threads' => $threads
+                    'threads' => $pagination,
+                    'filter_form' => $filter_form->createView(),
         ));
     }
 

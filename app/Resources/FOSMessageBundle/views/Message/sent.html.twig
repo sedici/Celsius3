@@ -7,5 +7,8 @@
     <div class="span9">
         {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads, 'urlAction' : 'fos_message_sent'} %}
     </div>
+    <div class="span3">
+        {% include 'FOSMessageBundle:Message:sidebar_inbox.html.twig' %}
+    </div>
 </div>
 {% endblock %}
