@@ -1,5 +1,4 @@
 {% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
-
 {% block title %}
 {{ 'My Site'|trans }}
 {% endblock %}
@@ -8,5 +7,33 @@
 <div class="row">
     {% include 'CelsiusCelsius3Bundle:User:_orders_span.html.twig' %}
     {% include 'CelsiusCelsius3Bundle:User:_messages_span.html.twig' %}
+</div>
+<script>
+$(document).ready( function(){
+    $("#flash-messages").flashNotification("init");
+});
+</script>
+
+<div id="flash-messages">
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            <button class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage|trans|raw|nl2br }}
+        </div>
+    {% endfor %}
+ 
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-error">
+            <button class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage|trans|raw|nl2br }}
+        </div>
+    {% endfor %}
+ 
+    {% for flashMessage in app.session.flashbag.get('info') %}
+        <div class="alert alert-info">
+            <button class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage|trans|raw|nl2br }}
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

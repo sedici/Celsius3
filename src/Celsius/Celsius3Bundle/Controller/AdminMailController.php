@@ -18,7 +18,7 @@ class AdminMailController extends BaseInstanceDependentController
 {
     protected function listQuery($name)
     {   
-        //Se obtienen los templetes tanto de la instancia como los del directorio.
+        // Se obtienen los templetes tanto de la instancia como los del directorio.
         // NO REPETIR LOS TEMPLATES DIRECTORY Y LOS TEMPLATE DIRECTORY MODIFICADOS POR LA INSTANCIA
         // TENER EN CUENTA PARA LOS TEMPLATES Q SON DEL DIRECTORIO , QUE ESTEN ENABLED TRUE!
          $qb = $this->getDocumentManager()

@@ -29,9 +29,10 @@ class Notification
     private $created;
     
     /**
-     * @Assert\Date()
-     * @MongoDB\Date
-     */
+    * @Assert\NotBlank()
+    * @Assert\Type(type="boolean")
+    * @MongoDB\Boolean
+    */
     private $viewed;
     
     /**
@@ -45,18 +46,19 @@ class Notification
     private $source;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="NotificationTemplate") 
+     * @MongoDB\ReferenceOne(targetDocument="Template") 
      */
     private $template;
     
      /**
-     * @MongoDB\ReferenceMany(targetDocument="BaseUser")
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
-    private $users;
+    private $user;
     
     public function __construct()
     {
         $this->created = new DateTime();
+        $this->viewed = false;
     }
     
     /**
@@ -116,7 +118,7 @@ class Notification
     /**
      * Set viewed
      *
-     * @param date $viewed
+     * @param string $viewed
      * @return Notification
      */
     public function setViewed($viewed)
@@ -128,7 +130,7 @@ class Notification
     /**
      * Get viewed
      *
-     * @return date $viewed
+     * @return string $viewed
      */
     public function getViewed()
     {
@@ -182,10 +184,10 @@ class Notification
     /**
      * Set template
      *
-     * @param Celsius\Celsius3Bundle\Document\NotificationTemplate $template
+     * @param Celsius\Celsius3Bundle\Document\Template $template
      * @return Notification
      */
-    public function setTemplate(\Celsius\Celsius3Bundle\Document\NotificationTemplate $template)
+    public function setTemplate(\Celsius\Celsius3Bundle\Document\Template $template)
     {
         $this->template = $template;
         return $this;
@@ -194,7 +196,7 @@ class Notification
     /**
      * Get template
      *
-     * @return Celsius\Celsius3Bundle\Document\NotificationTemplate $template
+     * @return Celsius\Celsius3Bundle\Document\Template $template
      */
     public function getTemplate()
     {
@@ -202,23 +204,24 @@ class Notification
     }
     
     /**
-     * Add users
+     * Set users
      *
-     * @param Celsius\Celsius3Bundle\Document\BaseUser $users
+     * @return Notification
      */
-    public function addUsers(\Celsius\Celsius3Bundle\Document\BaseUser $users)
+    public function setUser(\Celsius\Celsius3Bundle\Document\BaseUser $user)
     {
-        $this->users[] = $users;
+        $this->user = $user;
+        return $this;
     }
-
+     
     /**
-     * Get users
+     * Get user
      *
-     * @return Doctrine\Common\Collections\Collection $users
+     * @return Doctrine\Common\Collections\Collection $user
      */
-    public function getUsers()
+    public function getUser()
     {
-        return $this->users;
+        return $this->user;
     }
     
 }

@@ -4,9 +4,53 @@ namespace Celsius\Celsius3Bundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Celsius\Celsius3Bundle\Manager\NotificationManager;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class BaseController extends Controller
 {
+    public function getTemplate($code, $idiom)
+    {
+        $templates = $this->get('doctrine.odm.mongodb.document_manager')
+                                      ->getRepository('CelsiusCelsius3Bundle:Template')
+                                      ->createQueryBuilder()
+                                      ->field('code')->equals($code)
+                                      ->field('idiom')->equals($idiom)
+                                      ->getQuery()
+                                      ->execute()
+                                      ->getNext();
+        return $templates;
+    }
+    
+    public function getNotificationToUser($cause, $user)
+    {
+        $notifications = $this->get('doctrine.odm.mongodb.document_manager')
+                        ->getRepository('CelsiusCelsius3Bundle:Notification')
+                        ->createQueryBuilder()
+                        ->field('user.$id')->equals(new \MongoId($user->getId()))
+                        ->field('cause')->equals($cause)
+                        ->field('viewed')->equals(false)
+                        ->getQuery()
+                        ->execute();
+        return $notifications;
+    }
+    
+    public function showMessageNotifiaction()
+    {
+        $notifications = $this->getNotificationToUser(NotificationManager::CAUSE__NEW__MESSAGE, $this->getUser());
+        
+        if (count($notifications) > 0) 
+        {
+            $templateNotification = $this->getTemplate(NotificationManager::CAUSE__NEW__MESSAGE, $this->get('request')->get('_locale'));
+            $env = new \Twig_Environment(new \Twig_Loader_String());
+            
+            $renderTemplate = $env->render($templateNotification->getText(),
+                                           array("user" => $this->getUser()));
+            $this->get('session')->getFlashBag()->add('info', $renderTemplate);
+         
+            return new JsonResponse();
+        }            
+    }
 
     protected function listQuery($name)
     {

@@ -1,5 +1,6 @@
 /***Limitar tamaño texto***/
 $(document).ready(function(){
+
     $('.texto-cortado').each(function(){
  
         var longitud=100;

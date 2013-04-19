@@ -7,12 +7,18 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 /**
  * @MongoDB\Document
  */
-class NotificationTemplate {
+class Template {
     
     /**
      * @MongoDB\Id
      */
     private $id;
+    
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $code;
     
     /**
      * @Assert\NotBlank()
@@ -27,6 +33,12 @@ class NotificationTemplate {
     private $text;
     
     /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $idiom;
+    
+    /**
      * Get id
      *
      * @return id $id
@@ -36,6 +48,28 @@ class NotificationTemplate {
         return $this->id;
     }
 
+    /**
+     * Set code
+     *
+     * @param string $title
+     * @return Notification
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string $code
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
     /**
      * Set title
      *
@@ -78,6 +112,28 @@ class NotificationTemplate {
     public function getText()
     {
         return $this->text;
+    }
+    
+    /**
+     * Set idiom
+     *
+     * @param string $idiom
+     * @return Notification
+     */
+    public function setIdiom($idiom)
+    {
+        $this->idiom = $idiom;
+        return $this;
+    }
+
+    /**
+     * Get idiom
+     *
+     * @return string $idiom
+     */
+    public function getIdiom()
+    {
+        return $this->idiom;
     }
     
 }

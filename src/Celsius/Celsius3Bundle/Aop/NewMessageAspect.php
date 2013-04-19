@@ -6,9 +6,9 @@ use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Celsius\Celsius3Bundle\Manager\NotificationManager;
 use Celsius\Celsius3Bundle\Document\Notification;
-//use Celsius\Celsius3Bundle\Document\Message;
+
 
 class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
 {
@@ -34,14 +34,15 @@ class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
        $invocation->proceed();
        $notification = new Notification;
        /*La fecha de creacion se setea sola*/
-       $notification->setCause('NewMessage');
-       $notification->setSource($this->container->get('instance_helper')->getSessionInstance());
+       $notification->setCause(NotificationManager::CAUSE__NEW__MESSAGE);
+       //$notification->setSource($this->container->get('instance_helper')->getSessionInstance());
+       $notification->setSource($invocation->arguments[0]->getCreatedBy()->getInstance());
        $receiver = $invocation->arguments[0]->getParticipants();
-       $notification->addUsers($receiver[0]);
-       
-  //     echo '<pre>';
-  //     var_dump($invocation->arguments[0]);die;
-  //     echo '</pre>';
+       $notification->setUser($receiver[0]);
+   //    echo '<pre>';
+   //    var_dump($invocation->arguments[0]->getCreatedBy()->getInstance()->getId());
+   //    echo '</pre>';
+   //    die;
        $this->container->get('doctrine.odm.mongodb.document_manager')->persist($notification);
        $this->container->get('doctrine.odm.mongodb.document_manager')->flush();
     }
