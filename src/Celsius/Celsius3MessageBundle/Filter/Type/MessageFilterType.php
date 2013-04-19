@@ -14,7 +14,29 @@ class MessageFilterType extends AbstractType
         $builder
                 ->add('q', null, array(
                     'required' => false,
-                    'label' => 'Content',
+                    'label' => 'Content or participant',
+                ))
+                ->add('created_between', 'date', array(
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => array(
+                        'class' => 'date'
+                    ),
+                ))
+                ->add('and', 'date', array(
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => array(
+                        'class' => 'date'
+                    ),
+                ))
+                ->add('read', 'checkbox', array(
+                    'required' => false,
+                ))
+                ->add('unread', 'checkbox', array(
+                    'required' => false,
                 ))
         ;
     }

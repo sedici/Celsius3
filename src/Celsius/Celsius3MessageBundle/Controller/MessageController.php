@@ -3,6 +3,8 @@
 namespace Celsius\Celsius3MessageBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\MongoDB\Query\Builder;
 use Celsius\Celsius3MessageBundle\Filter\Type\MessageFilterType;
 use FOS\MessageBundle\Controller\MessageController as BaseController;
 
@@ -130,9 +132,10 @@ class MessageController extends BaseController
     public function searchAction()
     {
         $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
-        $threads = $this->container->get('fos_message.search_finder')->getQueryBuilder($query);
-        
+        $threads = $this->getDocumentManager()->getRepository('CelsiusCelsius3MessageBundle:Thread')->applyExtraFilters($this->container->get('fos_message.search_finder')->getQueryBuilder($query), $this->getRequest(), $this->get('security.context')->getToken()->getUser());
+
         $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
+        $filter_form->bind($this->getRequest());
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -147,3 +150,4 @@ class MessageController extends BaseController
     }
 
 }
+

@@ -7,6 +7,7 @@ use FOS\MessageBundle\Document\Thread as BaseThread;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Celsius\Celsius3MessageBundle\Repository\ThreadRepository")
  */
 class Thread extends BaseThread
 {
