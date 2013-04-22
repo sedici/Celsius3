@@ -5,7 +5,7 @@ namespace Celsius\Celsius3Bundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Celsius\Celsius3Bundle\Manager\NotificationManager;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 abstract class BaseController extends Controller
 {
@@ -35,23 +35,28 @@ abstract class BaseController extends Controller
         return $notifications;
     }
     
-    public function showMessageNotifiaction()
+    public function getMessageNotifiaction()
     {
         $notifications = $this->getNotificationToUser(NotificationManager::CAUSE__NEW__MESSAGE, $this->getUser());
-        
         if (count($notifications) > 0) 
         {
             $templateNotification = $this->getTemplate(NotificationManager::CAUSE__NEW__MESSAGE, $this->get('request')->get('_locale'));
-            $env = new \Twig_Environment(new \Twig_Loader_String());
-            
-            $renderTemplate = $env->render($templateNotification->getText(),
-                                           array("user" => $this->getUser()));
-            $this->get('session')->getFlashBag()->add('info', $renderTemplate);
-         
-            return new JsonResponse();
-        }            
+            $notificationsMessagesArray['total'] = count($notifications);
+            foreach ($notifications as $notification)
+            {
+                $env = new \Twig_Environment(new \Twig_Loader_String());
+                $renderTemplate = $env->render($templateNotification->getText(),
+                                               array("user" => $this->getUser()));
+                $notificationsMessagesArray['templates'][] = $renderTemplate;
+            }
+            return $notificationsMessagesArray;
+        }
     }
 
+    public function loadNotifiactions()
+    {
+       return array('newMessage' => $this->getMessageNotifiaction());
+    }
     protected function listQuery($name)
     {
         return $this->getDocumentManager()

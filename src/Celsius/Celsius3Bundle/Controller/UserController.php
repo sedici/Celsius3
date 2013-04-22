@@ -1,10 +1,9 @@
 <?php
-
 namespace Celsius\Celsius3Bundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * User controller
  * 
@@ -20,9 +19,7 @@ class UserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        $this->showMessageNotifiaction();   
-      
-        return array();
+       return $this->loadNotifiactions();
     }
 
     /**
