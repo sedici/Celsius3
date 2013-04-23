@@ -21,7 +21,7 @@ class SuperadministrationController extends BaseController
      */
     public function indexAction()
     {
-        return array();
+        return $this->loadNotifiactions();
     }
     
     /**

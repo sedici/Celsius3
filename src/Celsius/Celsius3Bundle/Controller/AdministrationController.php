@@ -33,12 +33,15 @@ class AdministrationController extends BaseInstanceDependentController
         $orderCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:State')->countOrders($this->getInstance());
         $userCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:BaseUser')->countUsers($this->getInstance());
 
-        return array(
-            'instance' => $instance,
-            'orderCount' => $orderCount,
-            'userCount' => $userCount,
-            'numberMessage' => $numberMessage
-        );
+        $notificationsArray = $this->loadNotifiactions();
+        
+        $arrayResponse = array('instance' => $instance,
+                               'orderCount' => $orderCount,
+                               'userCount' => $userCount,
+                               'numberMessage' => $numberMessage
+                              );
+        
+        return array_merge($arrayResponse, $notificationsArray);
     }
 
     /**

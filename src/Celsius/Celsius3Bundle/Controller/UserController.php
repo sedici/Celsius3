@@ -19,7 +19,7 @@ class UserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-       return $this->loadNotifiactions();
+      return $this->loadNotifiactions();
     }
 
     /**

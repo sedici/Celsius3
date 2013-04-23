@@ -4,7 +4,6 @@ namespace Celsius\Celsius3Bundle\Controller;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
-
     protected function listQuery($name)
     {
 

@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Celsius\Celsius3Bundle\Manager\NotificationManager;
 
-
 abstract class BaseController extends Controller
 {
     public function getTemplate($code, $idiom)
@@ -57,6 +56,7 @@ abstract class BaseController extends Controller
     {
        return array('newMessage' => $this->getMessageNotifiaction());
     }
+    
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
