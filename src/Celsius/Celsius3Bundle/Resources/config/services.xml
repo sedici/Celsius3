@@ -198,12 +198,14 @@
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
-        <service id="fos_user.registration.form.handler.custom" class="Celsius\Celsius3Bundle\Handler\RegistrationFormHandler" scope="request" public="false">
-            <argument type="service" id="fos_user.registration.form" />
-            <argument type="service" id="request" />
-            <argument type="service" id="fos_user.user_manager" />
+        <service id="fos_user.listener.confirmation" class="Celsius\Celsius3Bundle\Listener\ConfirmationListener">
+            <tag name="kernel.event_subscriber" />
             <argument type="service" id="fos_user.mailer" />
             <argument type="service" id="fos_user.util.token_generator" />
+            <argument type="service" id="router" />
+            <argument type="service" id="session" />
+            <argument type="service" id="request" strict="false"/>
+            <argument type="service" id="configuration_helper" />
         </service>
         
         <service id="fos_user.mailer.custom" class="Celsius\Celsius3Bundle\Mailer\Mailer" public="false">

@@ -227,7 +227,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                 $user->setSurname($generator->lastName);
                 $user->setBirthdate($generator->date('Y-m-d'));
                 $user->setUsername($user->getName() . '_' . $generator->md5);
-                $user->setPlainPassword($generator->md5);
+                $user->setPlainPassword($user->getName());
                 $user->setEmail($generator->email);
                 $user->setAddress($generator->address);
                 $user->setInstance($instance);

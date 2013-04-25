@@ -117,7 +117,6 @@ fos_user:
     registration:
         form:
             type: celsius_celsius3bundle_registration
-            handler: fos_user.registration.form.handler.custom
     service:
         mailer: fos_user.mailer.custom
 
@@ -213,6 +212,8 @@ fos_message:
     thread_class: Celsius\Celsius3MessageBundle\Document\Thread
     message_class: Celsius\Celsius3MessageBundle\Document\Message
     provider: fos_message.provider.default.celsius
+    new_thread_form:
+        type: fos_message.new_thread_form.type.custom
 
 stof_doctrine_extensions:
     default_locale: %locale%
@@ -223,3 +224,6 @@ stof_doctrine_extensions:
             
 bc_bootstrap:
     jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.min.js
+    
+genemu_form:
+    select2: ~

@@ -64,7 +64,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType());
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->getDocumentManager()));
     }
 
     /**
@@ -78,7 +78,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType(), 'superadmin_user');
+        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->getDocumentManager()), 'superadmin_user');
     }
 
     /**
@@ -95,7 +95,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType());
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->getDocumentManager()));
     }
 
     /**
@@ -113,7 +113,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('BaseUser', $id, new BaseUserType(), 'superadmin_user');
+        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->getDocumentManager()), 'superadmin_user');
     }
 
     /**

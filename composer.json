@@ -36,7 +36,7 @@
         "jms/di-extra-bundle": "1.3.*",
         "doctrine/mongodb-odm-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "friendsofsymfony/user-bundle": "1.3.*",
+        "friendsofsymfony/user-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "dev-master",
         "jms/i18n-routing-bundle": "dev-master",
         "knplabs/knp-menu-bundle": "dev-master",

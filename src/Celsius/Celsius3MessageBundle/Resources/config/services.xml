@@ -5,11 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="fos_message.new_thread_form.type.custom.class">Celsius\Celsius3MessageBundle\FormType\NewThreadMessageFormType</parameter>
         <parameter key="twig.extension.threads.class">Celsius\Celsius3MessageBundle\Twig\ThreadExtension</parameter>
         <parameter key="fos_message.provider.default.celsius.class">Celsius\Celsius3MessageBundle\Provider\Provider</parameter>
     </parameters>
     
     <services>
+        <service id="fos_message.new_thread_form.type.custom" class="%fos_message.new_thread_form.type.custom.class%" public="false">
+            <argument type="service" id="service_container"></argument>
+        </service>
+        
         <service id="twig.extension.threads" class="%twig.extension.threads.class%">
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
@@ -28,6 +33,11 @@
             <argument>%fos_message.thread_class%</argument>
             <argument>%fos_message.thread_meta_class%</argument>
             <argument type="service" id="fos_message.message_manager" />
+        </service>
+        
+        <service id="fos_message.recipients_selector_custom" class="Celsius\Celsius3MessageBundle\FormType\RecipientsCustomType" public="true">
+            <argument type="service" id="fos_message.recipients_data_transformer" />
+            <tag name="form.type" alias="recipients_selector_custom" />
         </service>
     </services>
 </container>

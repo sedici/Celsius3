@@ -11,6 +11,7 @@
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('bundles/celsiuscelsius3/css/bootstrap.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/celsiuscelsius3/css/select2.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsiuscelsius3/css/smoothness/jquery-ui-1.9.0.custom.min.css') }}"/>
         {% stylesheets filter='less' output='bundles/celsiuscelsius3/css/celsius3-compiled.css'
             '@CelsiusCelsius3Bundle/Resources/public/less/*' %}
@@ -27,6 +28,9 @@
         <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/jquery.ui.datepicker-pt.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/reduceTextBlock.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/ICanHaz.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/select2.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/select2_locale_es.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/select2_locale_pt-BR.js') }}"></script>
         {% include 'CelsiusCelsius3Bundle:Layout:forms.js.twig' %}
         {% include 'CelsiusCelsius3Bundle:Layout:cosmetics.js.twig' %}
         {% endblock %}
