@@ -5,12 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="fos_message.new_thread_form.type.custom.class">Celsius\Celsius3MessageBundle\FormType\NewThreadMessageFormType</parameter>
+        <parameter key="fos_message.new_thread_form.type.custom.class">Celsius\Celsius3MessageBundle\FormType\NewThreadMultipleMessageFormType</parameter>
         <parameter key="twig.extension.threads.class">Celsius\Celsius3MessageBundle\Twig\ThreadExtension</parameter>
         <parameter key="fos_message.provider.default.celsius.class">Celsius\Celsius3MessageBundle\Provider\Provider</parameter>
     </parameters>
     
     <services>
+        <service id="fos_message.custom_recipients_data_transformer" class="Celsius\Celsius3MessageBundle\DataTransformer\CustomRecipientsDataTransformer"  public="false">
+            <argument type="service" id="fos_user.user_to_username_transformer" />
+        </service>
+        
         <service id="fos_message.new_thread_form.type.custom" class="%fos_message.new_thread_form.type.custom.class%" public="false">
             <argument type="service" id="service_container"></argument>
         </service>
@@ -36,8 +40,13 @@
         </service>
         
         <service id="fos_message.recipients_selector_custom" class="Celsius\Celsius3MessageBundle\FormType\RecipientsCustomType" public="true">
-            <argument type="service" id="fos_message.recipients_data_transformer" />
+            <argument type="service" id="fos_message.custom_recipients_data_transformer" />
             <tag name="form.type" alias="recipients_selector_custom" />
+        </service>
+        
+        <service id="fos_message.recipients_selector_hidden" class="Celsius\Celsius3MessageBundle\FormType\RecipientsHiddenType" public="true">
+            <argument type="service" id="fos_message.recipients_data_transformer" />
+            <tag name="form.type" alias="recipients_selector_hidden" />
         </service>
     </services>
 </container>

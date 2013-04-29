@@ -5,11 +5,9 @@ namespace Celsius\Celsius3MessageBundle\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use FOS\MessageBundle\FormType\NewThreadMessageFormType as BaseNewThreadMessageFormType;
-use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
-use FOS\UserBundle\Form\DataTransformer\UserToUsernameTransformer;
+use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
 
-class NewThreadMessageFormType extends BaseNewThreadMessageFormType
+class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
 
     private $container;
@@ -22,31 +20,34 @@ class NewThreadMessageFormType extends BaseNewThreadMessageFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $isAdmin = $this->container->get('security.context')->isGranted('ROLE_ADMIN');
-
+        $user = $this->container->get('security.context')->getToken()->getUser();
         if ($isAdmin)
         {
             $builder
-                    ->add('recipient', 'recipients_selector_custom', array(
-                        'class' => 'Celsius\\Celsius3Bundle\\Document\\BaseUser',
-                        'property' => 'username',
-                        'multiple' => true,
-            ));
-        } else
-        {
-            $user = $this->container->get('security.context')->getToken()->getUser();
-            $builder
-                    ->add('recipient', 'recipients_selector_custom', array(
+                    ->add('recipients', 'recipients_selector_custom', array(
                         'class' => 'Celsius\\Celsius3Bundle\\Document\\BaseUser',
                         'property' => 'username',
                         'multiple' => true,
                         'query_builder' => function(DocumentRepository $dr) use ($user)
                         {
                             return $dr->createQueryBuilder()
-                                    ->field('roles')->in(array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))
-                                    ->field('instance.id')->equals($user->getInstance()->getId())
+                                    ->field('id')->notEqual($user->getId())
                                     ->sort('username', 'asc');
                         },
-                    ));
+            ));
+        } else
+        {
+            $usernames = $this->container->get('doctrine.odm.mongodb.document_manager')
+                                    ->getRepository('CelsiusCelsius3Bundle:BaseUser')
+                                    ->createQueryBuilder()
+                                    ->field('instance.id')->equals($user->getInstance()->getId())
+                                    ->field('roles')->in(array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))
+                                    ->getQuery()
+                                    ->execute();
+
+            $builder->add('recipients', 'recipients_selector_hidden', array(
+                'data' => $usernames,
+            ));
         }
 
         $builder

@@ -213,7 +213,9 @@ fos_message:
     message_class: Celsius\Celsius3MessageBundle\Document\Message
     provider: fos_message.provider.default.celsius
     new_thread_form:
-        type: fos_message.new_thread_form.type.custom
+        type:               fos_message.new_thread_form.type.custom
+        handler:            fos_message.new_thread_multiple_form.handler
+        model:              FOS\MessageBundle\FormModel\NewThreadMultipleMessage
 
 stof_doctrine_extensions:
     default_locale: %locale%
