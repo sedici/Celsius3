@@ -1,7 +1,16 @@
 <div class="navigation">
     {{ knp_pagination_render(threads) }}
 </div>
-
+<div class="sorting-group pull-right">
+    <span>
+        {{ 'Sort by'|trans }}: 
+    </span>
+    <ul class="unstyled">
+        <li>{{ knp_pagination_sortable(threads, 'Date'|trans, 'createdAt') }} - </li>
+        <li>{{ knp_pagination_sortable(threads, 'Subject'|trans, 'subject') }}</li>
+    </ul>
+</div>
+<div class="clearfix"></div>
 {% for thread in threads %}
     <div id="id{{ thread.id }}" class="accordion">
         <div class="accordion-group">
