@@ -5,14 +5,28 @@
 <div class="row">
     <div class="span9">
         {% for message in thread.messages %}
-            <div class="messenger_thread_message well">
-                <div class="messenger_thread_message_info">
+            <div class="well {{ thread.createdBy == message.sender ? 'starter-message' : '' }}">
+                <div>
                     <p>
                         {% trans with {'%sender%': message.sender|e} from 'FOSMessageBundle' %}by{% endtrans %}
-                        {% trans with {'%date%': message.createdAt|localizeddate} from 'FOSMessageBundle' %}on{% endtrans %}
                     </p>
+                    <p>
+                        {% trans with {'%date%': message.createdAt|localizeddate} from 'FOSMessageBundle' %}on{% endtrans %}
+                        ({{ message.createdAt|time_ago_in_words }})
+                    </p>
+                    {% if loop.first %}
+                    <p>
+                        <span class="pull-left">{{ 'To'|trans }}&nbsp;</span>
+                        <ul class="unstyled pull-left">
+                            {% for participant in thread.participants if participant != thread.createdBy %}
+                                <li>{{ participant }}</li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                    {% endif %}
                 </div>
-                <div class="messenger_thread_message_body" id="message_{{ message.id }}">
+                <div class="clearfix"></div>
+                <div id="message_{{ message.id }}">
                     {{ message.body }}
                 </div>
             </div>
@@ -28,7 +42,7 @@
         </form>
     </div>
     <div class="span3">
-
+        {% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}
     </div>
 </div>
 {% endblock %}

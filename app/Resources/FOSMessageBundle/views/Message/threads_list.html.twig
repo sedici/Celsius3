@@ -53,8 +53,19 @@
                         </dd>
                         <dt>{% trans from 'FOSMessageBundle' %}starter{% endtrans %}</dt>
                         <dd>{{ thread.createdBy }}</dd>
+                        <dt>{{ 'Other praticipants'|trans }}</dt>
+                        <dd>
+                            <ul class="unstyled">
+                                {% for participant in thread.participants if participant != thread.createdBy %}
+                                    <li>{{ participant }}</li>
+                                {% endfor %}
+                            </ul>
+                        </dd>
                         <dt>{% trans from 'FOSMessageBundle' %}startdate{% endtrans %}</dt>
-                        <dd>{{ thread.createdAt|localizeddate }}</dd>
+                        <dd>
+                            {{ thread.createdAt|localizeddate }}
+                            ({{ thread.createdAt|time_ago_in_words }})
+                        </dd>
                         <dt>{% trans from 'FOSMessageBundle' %}messages{% endtrans %}</dt>
                         <dd>{{ thread.messages|length }}</dd>
                         <dt>{% trans from 'FOSMessageBundle' %}last_message{% endtrans %}</dt>
@@ -64,6 +75,7 @@
                                     →
                                 </a>
                                 {% trans with {'%date%': thread.lastMessage.createdAt|localizeddate} from 'FOSMessageBundle' %}on{% endtrans %}
+                                ({{ thread.lastMessage.createdAt|time_ago_in_words }})
                             {% else %}
                                 -
                             {% endif %}
