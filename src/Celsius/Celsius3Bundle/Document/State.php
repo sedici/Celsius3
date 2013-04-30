@@ -70,6 +70,11 @@ class State
     {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    public function __toString()
+    {
+        return $this->getType()->__toString();
+    }
 
     /**
      * Get id

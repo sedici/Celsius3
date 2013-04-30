@@ -19,7 +19,30 @@ class UserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-      return $this->loadNotifiactions();
+      $lastOrders = $this->getDocumentManager()
+              ->getRepository('CelsiusCelsius3Bundle:Order')
+              ->createQueryBuilder()
+              ->field('owner.id')->equals($this->getUser()->getId())
+              ->sort('created', 'desc')
+              ->limit(10)
+              ->getQuery()
+              ->execute();
+      
+      $lastMessages = $this->getDocumentManager()
+              ->getRepository('CelsiusCelsius3MessageBundle:Thread')
+              ->createQueryBuilder()
+              ->field('participants.id')->equals($this->getUser()->getId())
+              ->sort('lastMessageDate', 'desc')
+              ->limit(10)
+              ->getQuery()
+              ->execute();
+      
+      // Esto hay que cambiarlo, loadNotifications no tiene que acaparar todo el response
+      //return $this->loadNotifiactions();
+      return array_merge($this->loadNotifiactions(), array(
+          'lastOrders' => $lastOrders,
+          'lastMessages' => $lastMessages,
+      ));
     }
 
     /**

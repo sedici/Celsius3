@@ -7,5 +7,5 @@
 {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import show as show %}
 
 {% block content %}
-{{ show('user_order', document, delete_form, 'CelsiusCelsius3Bundle:UserOrder') }}
+{{ show('user_order', document, delete_form, 'CelsiusCelsius3Bundle:UserOrder', instance, true) }}
 {% endblock %}

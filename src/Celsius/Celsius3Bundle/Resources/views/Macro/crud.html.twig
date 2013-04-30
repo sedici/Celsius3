@@ -85,7 +85,7 @@
 {% endmacro %}
 
 {# show #}
-{% macro show(name, document, delete_form, folder, instance) %}
+{% macro show(name, document, delete_form, folder, instance, notEdit) %}
 <h2>{{ name|capitalize|trans }}</h2>
 
 <div class="row">
@@ -109,11 +109,13 @@
                                     <i class="icon-home"></i> {{ 'Go to the list'|trans }}
                                 </a>
                             </li>
+                            {% if not notEdit %}
                             <li>
                                 <a href="{{ path([name,'_edit']|join, { 'id': document.id }) }}">
                                     <i class="icon-pencil"></i> {{ 'Edit'|trans }}
                                 </a>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
