@@ -3,24 +3,27 @@
 namespace Celsius\Celsius3MessageBundle\FormType;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\SecurityContextInterface;
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
 
-    private $container;
+    private $context;
+    private $dm;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(SecurityContextInterface $context, DocumentManager $dm)
     {
-        $this->container = $container;
+        $this->context = $context;
+        $this->dm = $dm;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $isAdmin = $this->container->get('security.context')->isGranted('ROLE_ADMIN');
-        $user = $this->container->get('security.context')->getToken()->getUser();
+        $isAdmin = $this->context->isGranted('ROLE_ADMIN');
+        $user = $this->context->getToken()->getUser();
         if ($isAdmin)
         {
             $builder
@@ -37,13 +40,13 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
             ));
         } else
         {
-            $usernames = $this->container->get('doctrine.odm.mongodb.document_manager')
-                                    ->getRepository('CelsiusCelsius3Bundle:BaseUser')
-                                    ->createQueryBuilder()
-                                    ->field('instance.id')->equals($user->getInstance()->getId())
-                                    ->field('roles')->in(array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))
-                                    ->getQuery()
-                                    ->execute();
+            $usernames = $this->dm->getRepository('CelsiusCelsius3Bundle:BaseUser')
+                    ->createQueryBuilder()
+                    ->field('id')->notEqual($user->getId())
+                    ->field('instance.id')->equals($user->getInstance()->getId())
+                    ->field('roles')->in(array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'))
+                    ->getQuery()
+                    ->execute();
 
             $builder->add('recipients', 'recipients_selector_hidden', array(
                 'data' => $usernames,

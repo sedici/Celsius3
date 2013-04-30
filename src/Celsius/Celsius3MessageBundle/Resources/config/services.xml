@@ -16,7 +16,8 @@
         </service>
         
         <service id="fos_message.new_thread_form.type.custom" class="%fos_message.new_thread_form.type.custom.class%" public="false">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="security.context"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
         
         <service id="twig.extension.threads" class="%twig.extension.threads.class%">
