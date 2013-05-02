@@ -11,6 +11,7 @@
         <div class="accordion-heading">
             <a href="#collapse{{ mails.id }}" data-parent="#id{{ mails.id }}" data-toggle="collapse" class="accordion-toggle">
                 <span>{{ mails.title }}</span>
+                <span class="label">{{ mails.instance?'Custom'|trans:'' }}</span>
             </a>
             {% include 'CelsiusCelsius3Bundle:AdminMail:_index_list_actions.html.twig' %}  
         </div>

@@ -13,7 +13,7 @@
         <ul class="nav nav-list">
             {% for thread in lastMessages %}
             <li>
-                <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">{{ thread.createdBy.fullName }} - {{ thread.createdAt|localizeddate }} - {{ thread.subject }}</a>
+                <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}"><span class="label">{{ thread.createdBy.fullName }}</span> {{ thread.createdAt|localizeddate }} - {{ thread.subject }}</a>
             </li>
             {% endfor %}
         </ul>

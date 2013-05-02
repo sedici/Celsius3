@@ -14,38 +14,41 @@ use Celsius\Celsius3Bundle\Filter\Type\MailTemplateFilterType;
  *
  * @Route("/admin/mail")
  */
-class AdminMailController extends BaseInstanceDependentController 
+class AdminMailController extends BaseInstanceDependentController
 {
+
     protected function listQuery($name)
-    {   
-        // Se obtienen los templetes tanto de la instancia como los del directorio.
-        // NO REPETIR LOS TEMPLATES DIRECTORY Y LOS TEMPLATE DIRECTORY MODIFICADOS POR LA INSTANCIA
-        // TENER EN CUENTA PARA LOS TEMPLATES Q SON DEL DIRECTORIO , QUE ESTEN ENABLED TRUE!
-         $qb = $this->getDocumentManager()
+    {
+        $custom = array_map(function($elem)
+                {
+                    return $elem['code'];
+                }, $this->getDocumentManager()
                         ->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->createQueryBuilder()
-                        // ->distinct('code')
-                        //field('instance.id')->equals($this->getInstance()->getId());
-                        ->field('instance.id')->in(array($this->getInstance()->getId(), null));
-                        //->field('state')->equals(1);
-        return $qb;        
-        
-   //  return $qb->addOr($qb->expr()->field('instance.id')->equals(null));
-       
-       //  $qb = $this->getDocumentManager()
-       //                 ->getRepository('CelsiusCelsius3Bundle:' . $name)
-       //                 ->createQueryBuilder()
-       //                 ->field('instance.id')->equals(null);
-       // return $qb;
+                        ->hydrate(false)
+                        ->select('code')
+                        ->field('instance.id')->equals($this->getInstance()->getId())
+                        ->getQuery()
+                        ->execute()
+                        ->toArray());
+
+        $qb = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:' . $name)
+                ->createQueryBuilder();
+
+        return $qb->addOr($qb->expr()->field('instance.id')->equals(null)
+                                ->field('code')->notIn($custom)
+                                ->field('enabled')->equals(true)
+                        )
+                        ->addOr($qb->expr()->field('instance.id')->equals($this->getInstance()->getId()));
     }
-    
+
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:' . $name)
                         ->find($id);
     }
- 
-    
+
     /**
      * Lists all Templates Mail.
      *
@@ -54,11 +57,12 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function indexAction() {
+    public function indexAction()
+    {
 
         return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
-    
+
     /**
      * Displays a form to create a new mail template.
      *
@@ -71,7 +75,7 @@ class AdminMailController extends BaseInstanceDependentController
     {
         return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()));
     }
-    
+
     /**
      * Displays a form to edit an existing mail template.
      *
@@ -84,24 +88,23 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function editAction($id) {
+    public function editAction($id)
+    {
         //Se debe determinar si se utilizara admin_mails_edit o admin_mails_create, dependiendo 
         //si la plantilla le pertenece al directorio o a la instancia.
         $template = $this->findQuery('MailTemplate', $id);
-        
-        if($template->getInstance())
+
+        if ($template->getInstance())
         {
             $route = 'update';
-        }
-        else
+        } else
         {
             $route = 'create';
         }
 
         return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()), $route);
-       
     }
-    
+
     /**
      * Creates a new Mail Document.
      *
@@ -111,10 +114,11 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function createAction() {
+    public function createAction()
+    {
         return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()), 'admin_mails');
     }
-    
+
     /**
      * Edits an existing Mail TEmplate.
      *
@@ -128,10 +132,11 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function updateAction($id) {
+    public function updateAction($id)
+    {
         return $this->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getInstance()), 'admin_mails');
     }
-    
+
     /**
      * Deletes a Mails Template
      *
@@ -144,22 +149,22 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function deleteAction($id) {
+    public function deleteAction($id)
+    {
         //Se permitira borrar un template, solo si el mismo le pertence a la instancia
-       $template = $this->findQuery('MailTemplate', $id);
-       $idInstanceTempalte= $template->getInstance();
-  
-       if ($idInstanceTempalte == null)
+        $template = $this->findQuery('MailTemplate', $id);
+        $idInstanceTempalte = $template->getInstance();
+
+        if ($idInstanceTempalte == null)
         {
-           //El template pertenece al directorio
+            //El template pertenece al directorio
             throw $this->createNotFoundException('Unable to delete template.');
-        }
-        else
+        } else
         {
-           return $this->baseDelete('MailTemplate', $id, 'admin_mails');
-        }       
-      }
-    
+            return $this->baseDelete('MailTemplate', $id, 'admin_mails');
+        }
+    }
+
     /**
      * Change state an existing Mail TEmplate.
      *
@@ -173,23 +178,25 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function changeStateAction($id) {
+    public function changeStateAction($id)
+    {
         $template = $this->findQuery('MailTemplate', $id);
-        
+
         if (!$template)
         {
             throw $this->createNotFoundException('Unable to find template.');
         }
-        
+
         $template->setEnabled(!$template->getEnabled());
-        
+
         $dm = $this->getDocumentManager();
         $dm->persist($template);
         $dm->flush();
-     
+
         $this->get('session')->getFlashBag()->add('success', 'The Template was successfully ' .
                 (($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }
+
 }

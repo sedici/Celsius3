@@ -186,6 +186,17 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
         $manager->flush();
 
+        for ($i = 0; $i < 10; $i++)
+        {
+            $template = new Document\MailTemplate();
+            $template->setCode('tpl' . $i);
+            $template->setEnabled(true);
+            $template->setText($generator->text);
+            $template->setTitle($generator->sentence);
+            $manager->persist($template);
+            unset($template);
+        }
+
         /*
          * Carga de Instancias
          */
@@ -200,6 +211,18 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $instance->setEnabled(true);
             $manager->persist($instance);
             $manager->flush();
+
+            for ($j = 0; $j < 3; $j++)
+            {
+                $template = new Document\MailTemplate();
+                $template->setCode('tpl' . $j);
+                $template->setEnabled(true);
+                $template->setInstance($instance);
+                $template->setText($generator->text);
+                $template->setTitle($generator->sentence);
+                $manager->persist($template);
+                unset($template);
+            }
 
             /*
              * Creacion de un superadmin por instancia
