@@ -1,0 +1,11 @@
+<dl class="dl-horizontal">
+    <dt>{{ 'text'|trans }}</dt>
+    <dd>{% include template_from_string(templates[notifications.cause].text) with {'notification': notifications} %}</dd>
+    <dt>{{ 'view'|trans }}</dt>
+    <dd>{% if notifications.viewed == 1 %}
+        True
+        {% else %}
+        Flase
+        {% endif %}
+    </dd>
+</dl>

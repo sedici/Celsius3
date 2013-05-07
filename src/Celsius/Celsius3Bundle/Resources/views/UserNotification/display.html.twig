@@ -1,0 +1,27 @@
+<div class="dropdown">
+  <a class="dropdown-toggle btn " data-toggle="dropdown" href="#">Notifications</a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+      {% if hiddenTemplates is defined%}
+          {% for flashMessage in hiddenTemplates %}
+              {% for Message in flashMessage %}
+                  <li>
+                      <a tabindex="-1" href="#">
+                         {{ Message.text|trans|raw|nl2br }}
+                         <br>    
+                      </a>
+                      <span class="notification-date">{{ Message.date|date('Y-m-d') }}</span>
+                      
+                  </li>
+                  <br>
+                  <hr>
+              {% endfor %}
+          {% endfor %}
+  
+          <a tabindex="-1" href="{{ path('user_notification') }}">
+            <span class="notification-last-item">View All</span>
+          </a>
+          
+      {% endif %}
+    </ul>
+</div>
+	

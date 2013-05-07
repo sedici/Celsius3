@@ -47,7 +47,11 @@
                         <a class="brand" href="{{ path('directory') }}">Celsius3</a>
                         <div class="nav-collapse">
                             {% block navigation_top %}
-                            {% include 'CelsiusCelsius3Bundle:UserNotifications:display.html.twig' %}    
+                            
+                            {% if app.user %}
+                                {% include 'CelsiusCelsius3Bundle:UserNotification:display.html.twig' %}    
+                            {% endif %}    
+                            
                             {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:topMenu') }}
                             {% endblock %}
                             {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:langSelectorMenu') }}

@@ -8,6 +8,7 @@ use Celsius\Celsius3Bundle\Manager\NotificationManager;
 
 abstract class BaseController extends Controller
 {
+    /*Given a particular code and a particular idiom, this funtion returns a template*/
     public function getTemplate($code, $idiom)
     {
         $templates = $this->get('doctrine.odm.mongodb.document_manager')
@@ -21,6 +22,18 @@ abstract class BaseController extends Controller
         return $templates;
     }
     
+    /*This function returns all existing templates for a given idiom*/
+    public function getAllTemplate($idiom)
+    {
+        $templates = $this->get('doctrine.odm.mongodb.document_manager')
+                          ->createQueryBuilder('CelsiusCelsius3Bundle:Template')
+                          ->field('idiom')->equals($idiom)
+                          ->getQuery()
+                          ->execute();
+        return $templates;
+    }
+    
+    /*Given a cause_notification, this function returns all existing notification for a specific user*/
     public function getNotificationToUser($cause, $user)
     {
         $notifications = $this->get('doctrine.odm.mongodb.document_manager')
@@ -34,19 +47,21 @@ abstract class BaseController extends Controller
         return $notifications;
     }
     
-    public function getMessageNotifiaction()
+    /*This function make and returns all messages belonging to the session' user*/
+    public function getMessageNotifiaction($cause)
     {
-        $notifications = $this->getNotificationToUser(NotificationManager::CAUSE__NEW__MESSAGE, $this->getUser());
+        $notifications = $this->getNotificationToUser($cause, $this->getUser());
         if (count($notifications) > 0) 
         {
-            $templateNotification = $this->getTemplate(NotificationManager::CAUSE__NEW__MESSAGE, $this->get('request')->get('_locale'));
-            $notificationsMessagesArray['total'] = count($notifications);
+            $templateNotification = $this->getTemplate($cause, $this->get('request')->get('_locale'));
+            $notificationsMessagesArray = array();
             foreach ($notifications as $notification)
             {
                 $env = new \Twig_Environment(new \Twig_Loader_String());
                 $renderTemplate = $env->render($templateNotification->getText(),
-                                               array("user" => $this->getUser()));
-                $notificationsMessagesArray['templates'][] = $renderTemplate;
+                                               array("notification" => $notification));
+                array_push($notificationsMessagesArray, array ('text' => $renderTemplate,
+                                                               'date' => $notification->getCreated()));
             }
             return $notificationsMessagesArray;
         }
@@ -54,7 +69,10 @@ abstract class BaseController extends Controller
 
     public function loadNotifiactions()
     {
-       return array('newMessage' => $this->getMessageNotifiaction());
+       $causeNotifications = NotificationManager::getCauseNotification();
+       foreach($causeNotifications as $cause)
+           $array_response[$cause] = $this->getMessageNotifiaction($cause);
+       return array('hiddenTemplates' => $array_response);
     }
     
     protected function listQuery($name)
@@ -83,7 +101,6 @@ abstract class BaseController extends Controller
     protected function baseIndex($name, $filter_form = null)
     {
         $query = $this->listQuery($name);
-
         if (!is_null($filter_form))
         {
             $filter_form->bind($this->getRequest());
@@ -128,6 +145,13 @@ abstract class BaseController extends Controller
         );
     }
 
+    public function persistDocument($document)
+    {
+        $dm = $this->getDocumentManager();
+        $dm->persist($document);
+        $dm->flush();
+    }
+    
     public function baseCreate($name, $document, $type, $route)
     {
         $request = $this->getRequest();
@@ -136,10 +160,7 @@ abstract class BaseController extends Controller
 
         if ($form->isValid())
         {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
-
+            $this->persistDocument($document);
             $this->get('session')->getFlashBag()->add('success', 'The ' . $name . ' was successfully created.');
 
             return $this->redirect($this->generateUrl($route));

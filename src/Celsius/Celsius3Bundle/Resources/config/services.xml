@@ -41,6 +41,7 @@
         <parameter key="fos_user.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
         
         <parameter key="new_message_aspect.class">Celsius\Celsius3Bundle\Aop\NewMessageAspect</parameter>
+        <parameter key="new_object_aspect.class">Celsius\Celsius3Bundle\Aop\NewObjectAspect</parameter>
     </parameters>
     
     <services>
@@ -225,6 +226,11 @@
         
         <service id="new_message_aspect" class="%new_message_aspect.class%">
             <tag name="jms_aop.pointcut" interceptor="new_message_aspect" />
+	    <argument type="service" id="service_container"></argument>
+        </service>
+        
+        <service id="new_object_aspect" class="%new_object_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="new_object_aspect" />
 	    <argument type="service" id="service_container"></argument>
         </service>
         
