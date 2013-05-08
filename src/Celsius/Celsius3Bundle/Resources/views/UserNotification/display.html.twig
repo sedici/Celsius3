@@ -5,7 +5,7 @@
           {% for flashMessage in hiddenTemplates %}
               {% for Message in flashMessage %}
                   <li>
-                      <a tabindex="-1" href="#">
+                      <a tabindex="-1" href="{{ path('notification_change_state', { 'id': Message.id }) }}">
                          {{ Message.text|trans|raw|nl2br }}
                          <br>    
                       </a>

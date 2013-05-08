@@ -21,6 +21,36 @@ class UserNotificationController extends BaseController
      }
      
      /**
+     *  Change state to notification.
+     *
+     * @Route("/{id}/change_state", name="notification_change_state")
+     * @Template()
+     *
+     * @return array
+     */
+    public function changeStateAction($id)
+    {
+
+        $notification = $this->findQuery('Notification', $id);
+
+        if (!$notification)
+        {
+            throw $this->createNotFoundException('Unable to find Notification.');
+        }
+
+        $notification->setViewed(!$notification->getViewed());
+
+        $dm = $this->getDocumentManager();
+        $dm->persist($notification);
+        $dm->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'The Notification was successfully ' .
+                (($notification->getViewed()) ? 'enabled' : 'disabled'));
+
+        return $this->redirect($this->generateUrl('user_notification'));
+    }
+     
+     /**
      * Lists all Notification documents.
      *
      * @Route("/", name="user_notification")

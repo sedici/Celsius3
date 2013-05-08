@@ -8,6 +8,19 @@ use Celsius\Celsius3Bundle\Manager\NotificationManager;
 
 abstract class BaseController extends Controller
 {
+    /*Given a id, this funtion returns a notification*/
+    public function getNotification($id)
+    {
+        $templates = $this->get('doctrine.odm.mongodb.document_manager')
+                                      ->getRepository('CelsiusCelsius3Bundle:Notification')
+                                      ->createQueryBuilder()
+                                      ->field('id')->equals($code)
+                                      ->getQuery()
+                                      ->execute()
+                                      ->getNext();
+        return $templates;
+    }
+    
     /*Given a particular code and a particular idiom, this funtion returns a template*/
     public function getTemplate($code, $idiom)
     {
@@ -60,7 +73,8 @@ abstract class BaseController extends Controller
                 $env = new \Twig_Environment(new \Twig_Loader_String());
                 $renderTemplate = $env->render($templateNotification->getText(),
                                                array("notification" => $notification));
-                array_push($notificationsMessagesArray, array ('text' => $renderTemplate,
+                array_push($notificationsMessagesArray, array ('id' => $notification->getId(),
+                                                               'text' => $renderTemplate,
                                                                'date' => $notification->getCreated()));
             }
             return $notificationsMessagesArray;
