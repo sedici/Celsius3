@@ -8,19 +8,7 @@ use Celsius\Celsius3Bundle\Manager\NotificationManager;
 
 abstract class BaseController extends Controller
 {
-    /*Given a id, this funtion returns a notification*/
-    public function getNotification($id)
-    {
-        $templates = $this->get('doctrine.odm.mongodb.document_manager')
-                                      ->getRepository('CelsiusCelsius3Bundle:Notification')
-                                      ->createQueryBuilder()
-                                      ->field('id')->equals($code)
-                                      ->getQuery()
-                                      ->execute()
-                                      ->getNext();
-        return $templates;
-    }
-    
+  
     /*Given a particular code and a particular idiom, this funtion returns a template*/
     public function getTemplate($code, $idiom)
     {
