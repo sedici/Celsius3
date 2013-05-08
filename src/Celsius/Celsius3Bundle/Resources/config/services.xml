@@ -233,6 +233,10 @@
             <tag name="jms_aop.pointcut" interceptor="new_object_aspect" />
 	    <argument type="service" id="service_container"></argument>
         </service>
+       
+        <service id="celsius.twig.extension" class="Twig_Extension_StringLoader">
+            <tag name="twig.extension" />
+        </service>
         
     </services>
 </container>

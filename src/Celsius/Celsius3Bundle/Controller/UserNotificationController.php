@@ -69,7 +69,7 @@ class UserNotificationController extends BaseController
                                 'text' => $template->getText(), 
                                 'title' => $template->getTitle());
         }
-        $this->get('twig')->addExtension(new \Twig_Extension_StringLoader());
+   //     $this->get('twig')->addExtension(new \Twig_Extension_StringLoader());
 
         return array_merge($notifications, array('templates'=>$templates));
     }
