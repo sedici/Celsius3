@@ -1,16 +1,15 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 /**
  * @MongoDB\Document
  */
 class SingleInstanceRequest extends SingleInstance
 {
-
     /**
      * @MongoDB\ReferenceOne
      */
@@ -22,7 +21,8 @@ class SingleInstanceRequest extends SingleInstance
      * @param Celsius\Celsius3Bundle\Document\Provider $provider
      * @return \SingleInstanceRequest
      */
-    public function setProvider(\Celsius\Celsius3Bundle\Document\Provider $provider)
+    public function setProvider(
+            \Celsius\Celsius3Bundle\Document\Provider $provider)
     {
         $this->provider = $provider;
         return $this;
@@ -38,4 +38,10 @@ class SingleInstanceRequest extends SingleInstance
         return $this->provider;
     }
 
+    public function applyExtraData(Order $order, array $extraData,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setProvider($extraData['provider']);
+        $this->setObservations($extraData['observations']);
+    }
 }

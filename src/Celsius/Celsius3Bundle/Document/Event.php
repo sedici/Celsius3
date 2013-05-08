@@ -1,9 +1,9 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 /**
  * @MongoDB\Document
@@ -25,7 +25,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  *   "approve"="Approve"
  * })
  */
-class Event
+class Event implements EventInterface
 {
 
     /**
@@ -146,7 +146,8 @@ class Event
      * @param Celsius\Celsius3Bundle\Document\BaseUser $operator
      * @return \Event
      */
-    public function setOperator(\Celsius\Celsius3Bundle\Document\BaseUser $operator = null)
+    public function setOperator(
+            \Celsius\Celsius3Bundle\Document\BaseUser $operator = null)
     {
         $this->operator = $operator;
         return $this;
@@ -190,7 +191,8 @@ class Event
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return \Event
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    public function setInstance(
+            \Celsius\Celsius3Bundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -204,6 +206,12 @@ class Event
     public function getInstance()
     {
         return $this->instance;
+    }
+
+    public function applyExtraData(Order $order, array $extraData,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+
     }
 
 }

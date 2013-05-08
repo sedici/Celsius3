@@ -1,6 +1,8 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Provider'|trans }}</dt>
     <dd>{{ event.requestEvent.provider.getProviderName() }}</dd>
+    <dt>{{ 'Observations'|trans }}</dt>
+    <dd>{{ event.observations }}</dd>
     {% if isMultiInstance %}
     <dt>{{ 'Remote Instance'|trans }}</dt>
     <dd><a href="{{ path('public_index', { 'url': event.requestEvent.remoteInstance.url }) }}">{{ event.requestEvent.remoteInstance }}</a></dd>

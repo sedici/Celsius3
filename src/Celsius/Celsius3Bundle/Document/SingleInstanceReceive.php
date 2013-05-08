@@ -1,9 +1,9 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 /**
  * @MongoDB\Document
@@ -21,7 +21,7 @@ class SingleInstanceReceive extends SingleInstance
      * @MongoDB\String
      */
     private $observations;
-    
+
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
@@ -45,7 +45,8 @@ class SingleInstanceReceive extends SingleInstance
      * @param Celsius\Celsius3Bundle\Document\Event $requestEvent
      * @return \Receive
      */
-    public function setRequestEvent(\Celsius\Celsius3Bundle\Document\Event $requestEvent)
+    public function setRequestEvent(
+            \Celsius\Celsius3Bundle\Document\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
         return $this;
@@ -130,7 +131,6 @@ class SingleInstanceReceive extends SingleInstance
         return $this->files;
     }
 
-
     /**
      * Set reclaimed
      *
@@ -164,12 +164,20 @@ class SingleInstanceReceive extends SingleInstance
     }
 
     /**
-    * Remove files
-    *
-    * @param <variableType$files
-    */
+     * Remove files
+     *
+     * @param <variableType$files
+     */
     public function removeFile(\Celsius\Celsius3Bundle\Document\File $files)
     {
         $this->files->removeElement($files);
+    }
+
+    public function applyExtraData(Order $order, array $extraData,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setRequestEvent($extraData['request']);
+        $this->setObservations($extraData['observations']);
+        $lifecycleHelper->uploadFiles($order, $this, $extraData['files']);
     }
 }

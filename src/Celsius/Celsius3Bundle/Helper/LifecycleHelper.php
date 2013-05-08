@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Helper;
-
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius\Celsius3Bundle\Document\Approve;
 use Celsius\Celsius3Bundle\Document\Order;
@@ -26,7 +25,9 @@ class LifecycleHelper
     private $file_manager;
     private $instance_helper;
 
-    public function __construct(DocumentManager $dm, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper)
+    public function __construct(DocumentManager $dm,
+            StateManager $state_manager, EventManager $event_manager,
+            FileManager $file_manager, InstanceHelper $instance_helper)
     {
         $this->dm = $dm;
         $this->state_manager = $state_manager;
@@ -35,35 +36,13 @@ class LifecycleHelper
         $this->instance_helper = $instance_helper;
     }
 
-    /**
-     * @todo Mejorar y reemplazar este if, ya que puede crecer mucho debido a 
-     * casos particulares de cada tipo de evento.
-     */
-    private function applyExtraData(Event $event, Order $order, $date, array $extraData)
+    public function uploadFiles(Order $order, Event $event, array $files)
     {
-        if ($event instanceof SingleInstanceRequest || $event instanceof MultiInstanceRequest)
-        {
-            $event->setProvider($extraData['provider']);
-            if ($event instanceof MultiInstanceRequest)
-            {
-                $event->setRemoteInstance($extraData['provider']->getCelsiusInstance());
-                $event->setRemoteState($this->getState(StateManager::STATE__CREATED, $date, $order, $event, $extraData['provider']->getCelsiusInstance()));
-            }
-        } else if ($event instanceof SingleInstanceReceive || $event instanceof MultiInstanceReceive)
-        {
-            $event->setRequestEvent($extraData['request']);
-            $this->file_manager->uploadFiles($order, $event, $extraData['files']);
-            if ($event instanceof MultiInstanceReceive)
-            {
-                $event->setRemoteInstance($order->getInstance());
-                $event->setRemoteState($this->getState(StateManager::STATE__APPROVAL_PENDING, $date, $order, $event, $order->getInstance()));
-            }
-        } else if ($event instanceof Approve) {
-            $event->setReceiveEvent($extraData['receive']);
-        }
+        $this->file_manager->uploadFiles($order, $event, $files);
     }
 
-    private function setEventData(Event $event, Order $order, $state, $date, array $extraData, Instance $instance)
+    private function setEventData(Event $event, Order $order, $state, $date,
+            array $extraData, Instance $instance)
     {
         $event->setDate($date);
         $event->setOperator($order->getOperator());
@@ -77,48 +56,51 @@ class LifecycleHelper
         $this->dm->persist($event);
         $this->dm->flush();
 
-        $this->applyExtraData($event, $order, $date, $extraData);
+        $event->applyExtraData($order, $extraData, $this, $date);
 
         $this->dm->persist($event);
         $this->dm->persist($state);
         $this->dm->flush();
     }
 
-    private function getState($name, $date, Order $order, Event $event, Instance $instance)
+    public function getState($name, $date, Order $order, Event $event,
+            Instance $instance)
     {
         $currentState = $order->getCurrentState($instance);
 
         $instance = is_null($instance) ? $order->getInstance() : $instance;
 
-        if ($order->hasState($name, $instance))
-        {
+        if ($order->hasState($name, $instance)) {
             $state = $order->getState($name, $instance);
-        } else
-        {
-            if (!is_null($currentState))
-            {
+        } else {
+            if (!is_null($currentState)) {
                 $currentState->setIsCurrent(false);
 
                 $this->dm->persist($currentState);
             }
 
-            $state = $this->createState($name, $date, $order, $instance, $currentState);
+            $state = $this
+                    ->createState($name, $date, $order, $instance,
+                            $currentState);
         }
         $state->addEvents($event);
 
         return $state;
     }
 
-    private function createState($name, $date, Order $order, Instance $instance, State $currentState = null)
+    private function createState($name, $date, Order $order, Instance $instance,
+            State $currentState = null)
     {
         $state = new State();
         $state->setDate($date);
         $state->setInstance($instance);
         $state->setOrder($order);
-        $state->setType(
-                $this->dm->getRepository('CelsiusCelsius3Bundle:StateType')
-                        ->findOneBy(array('name' => $name))
-        );
+        $state
+                ->setType(
+                        $this->dm
+                                ->getRepository(
+                                        'CelsiusCelsius3Bundle:StateType')
+                                ->findOneBy(array('name' => $name)));
         $state->setPrevious($currentState);
 
         $this->dm->persist($state);
@@ -129,7 +111,7 @@ class LifecycleHelper
     /**
      * Receives the event name and the order document and creates the appropiate
      * event and state
-     * 
+     *
      * @param string $name The event name
      * @param Celsius\Celsius3Bundle\Document\Order $order The Order document
      * @param array $extraData Extra data for the event
@@ -137,11 +119,17 @@ class LifecycleHelper
     public function createEvent($name, Order $order, array $extraData = array())
     {
         $stateName = $this->state_manager->getStateForEvent($name);
-        $instance = $name != EventManager::EVENT__CREATION ? $this->instance_helper->getSessionInstance() : $order->getInstance();
+        $instance = $name != EventManager::EVENT__CREATION ? $this
+                        ->instance_helper->getSessionInstance()
+                : $order->getInstance();
 
-        if (!$order->hasState($this->state_manager->getPreviousMandatoryState($stateName), $instance) && $name != EventManager::EVENT__CREATION)
-        {
-            throw $this->state_manager->createNotFoundException('State not found');
+        if (!$order
+                ->hasState(
+                        $this->state_manager
+                                ->getPreviousMandatoryState($stateName),
+                        $instance) && $name != EventManager::EVENT__CREATION) {
+            throw $this->state_manager
+                    ->createNotFoundException('State not found');
         }
 
         $date = date('Y-m-d H:i:s');
@@ -150,7 +138,9 @@ class LifecycleHelper
         $eventClassName = $this->event_manager->getFullClassNameForEvent($name);
 
         $order->$orderDateMethod($date);
-        $this->setEventData(new $eventClassName, $order, $stateName, $date, $extraData, $instance);
+        $this
+                ->setEventData(new $eventClassName, $order, $stateName, $date,
+                        $extraData, $instance);
     }
 
 }

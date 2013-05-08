@@ -18,15 +18,17 @@
         <button class="btn btn-primary doReceive" value="#receiveForm{{ event.id }}">{{ 'Save'|trans }}</button>
     </div>
 </div>
-
-<script type="text/javascript">    
+<script type="text/javascript">
     $(document).ready(function () {
-        var fileCount = '{{ receive_form.files | length }}';
+    	var collectionHolder = $('#{{ receive_form.vars.name }}_files');
+        collectionHolder.data('index', collectionHolder.find(':input').length);
         $('#add-file{{ event.id }}').click(function() {
-            var newWidget = '<input type="file" id="celsius_celsius3bundle_orderreceivetype_files___name__" name="celsius_celsius3bundle_orderreceivetype[files][__name__]" />';
-            newWidget = newWidget.replace(/__name__/g, fileCount);
-            fileCount++;
-            $(this).parent().parent().prev().prev().children('.controls').append(newWidget);
+        	var index = collectionHolder.data('index');
+            var newWidget = collectionHolder.data('prototype');
+            newWidget = newWidget.replace(/__name__label__/g, '');
+            newWidget = newWidget.replace(/__name__/g, index);
+            collectionHolder.data('index', index + 1);
+            collectionHolder.append(newWidget);
 
             return false;
         });
@@ -36,6 +38,8 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Provider'|trans }}</dt>
     <dd>{{ event.provider.getProviderName() }}</dd>
+    <dt>{{ 'Observations'|trans }}</dt>
+    <dd>{{ event.observations }}</dd>
     {% if isMultiInstance %}
     <dt>{{ 'Remote Instance'|trans }}</dt>
     <dd><a href="{{ path('public_index', { 'url': event.remoteInstance.url }) }}">{{ event.remoteInstance }}</a></dd>

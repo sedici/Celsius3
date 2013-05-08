@@ -1,9 +1,10 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
+use Celsius\Celsius3Bundle\Manager\StateManager;
 
 /**
  * @MongoDB\Document
@@ -33,7 +34,7 @@ class MultiInstanceReceive extends MultiInstance
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
      */
     private $files;
-    
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents")
      */
@@ -151,7 +152,8 @@ class MultiInstanceReceive extends MultiInstance
      * @param Celsius\Celsius3Bundle\Document\Event $requestEvent
      * @return \MultiInstanceReceive
      */
-    public function setRequestEvent(\Celsius\Celsius3Bundle\Document\Event $requestEvent)
+    public function setRequestEvent(
+            \Celsius\Celsius3Bundle\Document\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
         return $this;
@@ -167,14 +169,14 @@ class MultiInstanceReceive extends MultiInstance
         return $this->requestEvent;
     }
 
-
     /**
      * Set remoteState
      *
      * @param Celsius\Celsius3Bundle\Document\State $remoteState
      * @return \MultiInstanceReceive
      */
-    public function setRemoteState(\Celsius\Celsius3Bundle\Document\State $remoteState)
+    public function setRemoteState(
+            \Celsius\Celsius3Bundle\Document\State $remoteState)
     {
         $this->remoteState = $remoteState;
         return $this;
@@ -188,5 +190,21 @@ class MultiInstanceReceive extends MultiInstance
     public function getRemoteState()
     {
         return $this->remoteState;
+    }
+
+    public function applyExtraData(Order $order, array $extraData,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setRequestEvent($extraData['request']);
+        $this->setObservations($extraData['observations']);
+        $lifecycleHelper->uploadFiles($order, $this, $extraData['files']);
+        $this->setRemoteInstance($order->getInstance());
+        $this
+                ->setRemoteState(
+                        $lifecycleHelper
+                                ->getState(
+                                        StateManager::STATE__APPROVAL_PENDING,
+                                        $date, $order, $this,
+                                        $order->getInstance()));
     }
 }

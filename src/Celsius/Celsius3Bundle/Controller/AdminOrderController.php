@@ -128,7 +128,7 @@ class AdminOrderController extends OrderController
      * @Route("/{id}/update", name="admin_order_update")
      * @Method("post")
      * @Template("CelsiusCelsius3Bundle:AdminOrder:edit.html.twig")
-     * 
+     *
      * @param string $id The document ID
      *
      * @return array
@@ -174,7 +174,7 @@ class AdminOrderController extends OrderController
      *
      * @Route("/{id}/delete", name="admin_order_delete")
      * @Method("post")
-     * 
+     *
      * @param string $id The document ID
      *
      * @return array
@@ -204,7 +204,7 @@ class AdminOrderController extends OrderController
      *
      * @Route("/{id}/event/{event}", name="admin_order_event")
      * @Method("post")
-     * 
+     *
      * @param string $id The document ID
      * @param string $event The event name
      *
@@ -234,7 +234,7 @@ class AdminOrderController extends OrderController
      *
      * @Route("/{id}/reclaim/{receive}", name="admin_order_reclaim")
      * @Method("post")
-     * 
+     *
      * @param string $id The document ID
      * @param string $event The event name
      *

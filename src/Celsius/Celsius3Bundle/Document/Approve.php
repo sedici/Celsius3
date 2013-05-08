@@ -1,9 +1,9 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 /**
  * @MongoDB\Document
@@ -22,7 +22,8 @@ class Approve extends MultiInstance
      * @param Celsius\Celsius3Bundle\Document\Event $receiveEvent
      * @return \Approve
      */
-    public function setReceiveEvent(\Celsius\Celsius3Bundle\Document\Event $receiveEvent)
+    public function setReceiveEvent(
+            \Celsius\Celsius3Bundle\Document\Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
         return $this;
@@ -38,4 +39,9 @@ class Approve extends MultiInstance
         return $this->receiveEvent;
     }
 
+    public function applyExtraData(Order $order, array $extraData,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $event->setReceiveEvent($extraData['receive']);
+    }
 }

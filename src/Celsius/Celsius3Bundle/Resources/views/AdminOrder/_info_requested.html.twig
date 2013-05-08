@@ -42,13 +42,12 @@
         <button class="btn btn-primary" id="doRequest">{{ 'Save'|trans }}</button>
     </div>
 </div>
-
-<script type="text/javascript">    
+<script type="text/javascript">
     $(document).ready(function () {
         $('#doRequest').click(function(){
             $("#requestForm").submit();
         });
-        
+
         $(document).on('click', '.doReceive', function(){
             $($(this).attr('value')).submit();
         });
