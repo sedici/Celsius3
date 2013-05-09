@@ -42,6 +42,6 @@ class Approve extends MultiInstance
     public function applyExtraData(Order $order, array $extraData,
             LifecycleHelper $lifecycleHelper, $date)
     {
-        $event->setReceiveEvent($extraData['receive']);
+        $this->setReceiveEvent($extraData['receive']);
     }
 }

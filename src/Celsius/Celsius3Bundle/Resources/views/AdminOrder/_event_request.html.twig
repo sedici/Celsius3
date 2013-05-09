@@ -39,7 +39,7 @@
     <dt>{{ 'Provider'|trans }}</dt>
     <dd>{{ event.provider.getProviderName() }}</dd>
     <dt>{{ 'Observations'|trans }}</dt>
-    <dd>{{ event.observations }}</dd>
+    <dd>{{ event.observations ? event.observations : '-' }}</dd>
     {% if isMultiInstance %}
     <dt>{{ 'Remote Instance'|trans }}</dt>
     <dd><a href="{{ path('public_index', { 'url': event.remoteInstance.url }) }}">{{ event.remoteInstance }}</a></dd>

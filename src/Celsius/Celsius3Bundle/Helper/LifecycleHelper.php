@@ -64,7 +64,7 @@ class LifecycleHelper
     }
 
     public function getState($name, $date, Order $order, Event $event,
-            Instance $instance)
+            Instance $instance, Event $remoteEvent = null)
     {
         $currentState = $order->getCurrentState($instance);
 
@@ -72,6 +72,7 @@ class LifecycleHelper
 
         if ($order->hasState($name, $instance)) {
             $state = $order->getState($name, $instance);
+            $state->setRemoteEvent($remoteEvent);
         } else {
             if (!is_null($currentState)) {
                 $currentState->setIsCurrent(false);
@@ -81,7 +82,7 @@ class LifecycleHelper
 
             $state = $this
                     ->createState($name, $date, $order, $instance,
-                            $currentState);
+                            $currentState, $remoteEvent);
         }
         $state->addEvents($event);
 
@@ -89,7 +90,7 @@ class LifecycleHelper
     }
 
     private function createState($name, $date, Order $order, Instance $instance,
-            State $currentState = null)
+            State $currentState = null, Event $remoteEvent = null)
     {
         $state = new State();
         $state->setDate($date);
@@ -102,6 +103,7 @@ class LifecycleHelper
                                         'CelsiusCelsius3Bundle:StateType')
                                 ->findOneBy(array('name' => $name)));
         $state->setPrevious($currentState);
+        $state->setRemoteEvent($remoteEvent);
 
         $this->dm->persist($state);
 

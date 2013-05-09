@@ -79,6 +79,6 @@ class MultiInstanceRequest extends MultiInstance
                                 ->getState(StateManager::STATE__CREATED, $date,
                                         $order, $this,
                                         $extraData['provider']
-                                                ->getCelsiusInstance()));
+                                                ->getCelsiusInstance(), $this));
     }
 }

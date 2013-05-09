@@ -273,12 +273,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "3506be7467dbd4f923691a00555cf80065d32e59"
+                "reference": "7eea788cb5869d9954b0d8091969f54b875d1003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/3506be7467dbd4f923691a00555cf80065d32e59",
-                "reference": "3506be7467dbd4f923691a00555cf80065d32e59",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/7eea788cb5869d9954b0d8091969f54b875d1003",
+                "reference": "7eea788cb5869d9954b0d8091969f54b875d1003",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-04-16 21:50:30"
+            "time": "2013-05-09 08:02:38"
         },
         {
             "name": "doctrine/data-fixtures",
@@ -402,12 +402,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "873b952c416b2d316ecb1e052f822d57390ac296"
+                "reference": "fd8ec96aa888664f78729cb0380cac1215c4ab53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/873b952c416b2d316ecb1e052f822d57390ac296",
-                "reference": "873b952c416b2d316ecb1e052f822d57390ac296",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/fd8ec96aa888664f78729cb0380cac1215c4ab53",
+                "reference": "fd8ec96aa888664f78729cb0380cac1215c4ab53",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +464,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-05-04 11:57:47"
+            "time": "2013-05-09 16:08:20"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -785,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "7d4c1eee5155c47830bacb728424cfbfe1adf454"
+                "reference": "439992daa8d1687a3021abc03a6cf74fabe1b926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/7d4c1eee5155c47830bacb728424cfbfe1adf454",
-                "reference": "7d4c1eee5155c47830bacb728424cfbfe1adf454",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/439992daa8d1687a3021abc03a6cf74fabe1b926",
+                "reference": "439992daa8d1687a3021abc03a6cf74fabe1b926",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-05-02 15:53:51"
+            "time": "2013-05-08 19:17:36"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -983,12 +983,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "b77fc8b35f76f523c219224afc8f068cdb9baf24"
+                "reference": "b694cb3fe5d0769ece7d9042aa4513713dcf905e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/b77fc8b35f76f523c219224afc8f068cdb9baf24",
-                "reference": "b77fc8b35f76f523c219224afc8f068cdb9baf24",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/b694cb3fe5d0769ece7d9042aa4513713dcf905e",
+                "reference": "b694cb3fe5d0769ece7d9042aa4513713dcf905e",
                 "shasum": ""
             },
             "require": {
@@ -1040,7 +1040,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-05-04 01:14:40"
+            "time": "2013-05-09 09:57:59"
         },
         {
             "name": "fzaninotto/faker",

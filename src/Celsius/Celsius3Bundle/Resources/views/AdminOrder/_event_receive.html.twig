@@ -1,11 +1,11 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Provider'|trans }}</dt>
-    <dd>{{ event.requestEvent.provider.getProviderName() }}</dd>
+    <dd>{{ provider.getProviderName() }}</dd>
     <dt>{{ 'Observations'|trans }}</dt>
-    <dd>{{ event.observations }}</dd>
+    <dd>{{ event.observations ? event.observations : '-' }}</dd>
     {% if isMultiInstance %}
     <dt>{{ 'Remote Instance'|trans }}</dt>
-    <dd><a href="{{ path('public_index', { 'url': event.requestEvent.remoteInstance.url }) }}">{{ event.requestEvent.remoteInstance }}</a></dd>
+    <dd><a href="{{ path('public_index', { 'url': event.instance.url }) }}">{{ event.instance }}</a></dd>
     {% endif %}
     <dt>{{ 'Receive Date'|trans }}</dt>
     <dd>{{ event.date|localizeddate() }} ({{ event.date|time_ago_in_words }}) </dd>
@@ -16,7 +16,7 @@
         {% endfor %}
     </dd>
     {% if not isDelivered %}
-        {% if not isApproveEvent %}
+        {% if isMultiInstance and not isApproveEvent %}
         <dt>{{ 'Approve Actions'|trans }}</dt>
         <dd>
             {% if not isReclaimed and not isApproved %}

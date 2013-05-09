@@ -257,8 +257,17 @@ class EventManager
             $isApproveEvent = true;
         }
 
+        $isMultiInstance = $event->getInstance() != $instance;
+        if ($isMultiInstance) {
+            $provider = $order->getState(StateManager::STATE__CREATED, $event->getInstance())->getRemoteEvent()->getProvider();
+        } else {
+            $provider = $event->getRequestEvent()->getProvider();
+        }
+
+
         return array('event' => $event,
-                'isMultiInstance' => $event->getRequestEvent() instanceof MultiInstanceRequest,
+                'provider' => $provider,
+                'isMultiInstance' => $isMultiInstance,
                 'order' => $order,
                 'isDelivered' => $order
                         ->getState(StateManager::STATE__DELIVERED, $instance),

@@ -50,7 +50,7 @@ class State
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="state")
      */
     private $events;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="MultiInstanceReceive", mappedBy="remoteState")
      */
@@ -70,7 +70,7 @@ class State
     {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function __toString()
     {
         return $this->getType()->__toString();
@@ -180,7 +180,7 @@ class State
      * @param Celsius\Celsius3Bundle\Document\Event $remoteEvent
      * @return State
      */
-    public function setRemoteEvent(\Celsius\Celsius3Bundle\Document\Event $remoteEvent)
+    public function setRemoteEvent(\Celsius\Celsius3Bundle\Document\Event $remoteEvent = null)
     {
         $this->remoteEvent = $remoteEvent;
         return $this;

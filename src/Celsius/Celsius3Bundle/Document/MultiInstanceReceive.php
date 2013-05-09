@@ -205,6 +205,6 @@ class MultiInstanceReceive extends MultiInstance
                                 ->getState(
                                         StateManager::STATE__APPROVAL_PENDING,
                                         $date, $order, $this,
-                                        $order->getInstance()));
+                                        $order->getInstance(), $this));
     }
 }
