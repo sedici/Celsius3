@@ -1,0 +1,15 @@
+{% if document.getCurrentState(instance).type.name in [constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED')] %}
+<li>
+    <form action="{{ path('admin_order_event', { 'id': document.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
+        <a class="submit-annul-form" href="#"><i class="icon-ban-circle"></i> {{ 'annul'|capitalize|trans }}</a>
+    </form>
+</li>
+{% endif %}
+{% if document.getCurrentState(instance).type.name in [constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'),
+constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] %}
+<li>
+    <form action="{{ path('admin_order_event', { 'id': document.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
+        <a class="submit-cancel-form" href="#"><i class="icon-remove"></i> {{ 'cancel'|capitalize|trans }}</a>
+    </form>
+</li>
+{% endif %}
