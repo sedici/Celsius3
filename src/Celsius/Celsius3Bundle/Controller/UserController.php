@@ -37,12 +37,10 @@ class UserController extends BaseInstanceDependentController
               ->getQuery()
               ->execute();
       
-      // Esto hay que cambiarlo, loadNotifications no tiene que acaparar todo el response
-      //return $this->loadNotifiactions();
-      return array_merge($this->loadNotifiactions(), array(
+      return array(
           'lastOrders' => $lastOrders,
           'lastMessages' => $lastMessages,
-      ));
+      );
     }
 
     /**

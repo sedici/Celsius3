@@ -33,7 +33,18 @@
         <script type="text/javascript" src="{{ asset('bundles/celsiuscelsius3/js/select2_locale_pt-BR.js') }}"></script>
         {% include 'CelsiusCelsius3Bundle:Layout:forms.js.twig' %}
         {% include 'CelsiusCelsius3Bundle:Layout:cosmetics.js.twig' %}
-        {% endblock %}
+        <script>
+            $(document).ready(function(){
+                $.ajax({
+                    url: "{{path('display')}}",
+                  success: (function(data) {
+                       $('.dropdown').empty();
+                       $('.dropdown').append(data);
+                    }),
+                });
+            });
+        </script>
+    {% endblock %}
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -47,9 +58,9 @@
                         <a class="brand" href="{{ path('directory') }}">Celsius3</a>
                         <div class="nav-collapse">
                             {% block navigation_top %}
-                            
+                             
                             {% if app.user %}
-                                {% include 'CelsiusCelsius3Bundle:UserNotification:display.html.twig' %}    
+                                <div class="dropdown"></div>  
                             {% endif %}    
                             
                             {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:topMenu') }}

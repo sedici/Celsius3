@@ -1,6 +1,5 @@
-<div class="dropdown">
-  <a class="dropdown-toggle btn " data-toggle="dropdown" href="#">Notifications</a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+<a class="dropdown-toggle btn" data-toggle="dropdown" href="#">Notifications</a>    
+<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
       {% if hiddenTemplates is defined%}
           {% for flashMessage in hiddenTemplates %}
               {% for Message in flashMessage %}
@@ -23,5 +22,4 @@
           
       {% endif %}
     </ul>
-</div>
-	
+

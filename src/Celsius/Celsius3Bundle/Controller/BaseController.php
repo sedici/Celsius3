@@ -4,79 +4,9 @@ namespace Celsius\Celsius3Bundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Celsius\Celsius3Bundle\Manager\NotificationManager;
 
 abstract class BaseController extends Controller
 {
-  
-    /*Given a particular code and a particular idiom, this funtion returns a template*/
-    public function getTemplate($code, $idiom)
-    {
-        $templates = $this->get('doctrine.odm.mongodb.document_manager')
-                                      ->getRepository('CelsiusCelsius3Bundle:Template')
-                                      ->createQueryBuilder()
-                                      ->field('code')->equals($code)
-                                      ->field('idiom')->equals($idiom)
-                                      ->getQuery()
-                                      ->execute()
-                                      ->getNext();
-        return $templates;
-    }
-    
-    /*This function returns all existing templates for a given idiom*/
-    public function getAllTemplate($idiom)
-    {
-        $templates = $this->get('doctrine.odm.mongodb.document_manager')
-                          ->createQueryBuilder('CelsiusCelsius3Bundle:Template')
-                          ->field('idiom')->equals($idiom)
-                          ->getQuery()
-                          ->execute();
-        return $templates;
-    }
-    
-    /*Given a cause_notification, this function returns all existing notification for a specific user*/
-    public function getNotificationToUser($cause, $user)
-    {
-        $notifications = $this->get('doctrine.odm.mongodb.document_manager')
-                        ->getRepository('CelsiusCelsius3Bundle:Notification')
-                        ->createQueryBuilder()
-                        ->field('user.$id')->equals(new \MongoId($user->getId()))
-                        ->field('cause')->equals($cause)
-                        ->field('viewed')->equals(false)
-                        ->getQuery()
-                        ->execute();
-        return $notifications;
-    }
-    
-    /*This function make and returns all messages belonging to the session' user*/
-    public function getMessageNotifiaction($cause)
-    {
-        $notifications = $this->getNotificationToUser($cause, $this->getUser());
-        if (count($notifications) > 0) 
-        {
-            $templateNotification = $this->getTemplate($cause, $this->get('request')->get('_locale'));
-            $notificationsMessagesArray = array();
-            foreach ($notifications as $notification)
-            {
-                $env = new \Twig_Environment(new \Twig_Loader_String());
-                $renderTemplate = $env->render($templateNotification->getText(),
-                                               array("notification" => $notification));
-                array_push($notificationsMessagesArray, array ('id' => $notification->getId(),
-                                                               'text' => $renderTemplate,
-                                                               'date' => $notification->getCreated()));
-            }
-            return $notificationsMessagesArray;
-        }
-    }
-
-    public function loadNotifiactions()
-    {
-       $causeNotifications = NotificationManager::getCauseNotification();
-       foreach($causeNotifications as $cause)
-           $array_response[$cause] = $this->getMessageNotifiaction($cause);
-       return array('hiddenTemplates' => $array_response);
-    }
-    
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
