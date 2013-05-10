@@ -147,12 +147,12 @@ class UserNotificationController extends BaseController
     /**
      * Lists all Notification documents.
      *
-     * @Route("/display", name="display")
+     * @Route("/getNotifications", name="get_notifications_list")
      * @Template()
      *
      * @return array
      */
-    public function displayAction()
+    public function getNotificationListAction()
     {
        $causeNotifications = NotificationManager::getCauseNotification();
        foreach($causeNotifications as $cause)
