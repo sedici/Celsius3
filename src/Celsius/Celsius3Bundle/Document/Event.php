@@ -45,6 +45,7 @@ class Event implements EventInterface
     private $observations;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="events")
      */
     private $order;
@@ -55,11 +56,13 @@ class Event implements EventInterface
     private $operator;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="events")
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="events", cascade={"persist", "refresh"})
      */
     private $state;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="events")
      */
     private $instance;

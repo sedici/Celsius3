@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -11,6 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class LocalCancel extends MultiInstance
 {
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvent")
      */
     private $remoteState;
@@ -21,7 +21,8 @@ class LocalCancel extends MultiInstance
      * @param Celsius\Celsius3Bundle\Document\State $remoteState
      * @return LocalCancel
      */
-    public function setRemoteState(\Celsius\Celsius3Bundle\Document\State $remoteState)
+    public function setRemoteState(
+            \Celsius\Celsius3Bundle\Document\State $remoteState)
     {
         $this->remoteState = $remoteState;
         return $this;

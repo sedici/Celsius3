@@ -10,9 +10,8 @@ use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
  */
 class SingleInstanceReceive extends SingleInstance
 {
-
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @MongoDB\String
      */
     private $deliveryType;
@@ -23,7 +22,7 @@ class SingleInstanceReceive extends SingleInstance
     private $observations;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
@@ -35,6 +34,7 @@ class SingleInstanceReceive extends SingleInstance
     private $files;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $requestEvent;

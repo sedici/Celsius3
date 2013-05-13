@@ -13,7 +13,7 @@ class MultiInstanceReceive extends MultiInstance
 {
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @MongoDB\String
      */
     private $deliveryType;
@@ -24,7 +24,7 @@ class MultiInstanceReceive extends MultiInstance
     private $observations;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
@@ -36,11 +36,13 @@ class MultiInstanceReceive extends MultiInstance
     private $files;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents")
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
      */
     private $remoteState;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $requestEvent;

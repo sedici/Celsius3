@@ -18,20 +18,21 @@ class State
     private $id;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Date()
+     * @Assert\NotBlank
+     * @Assert\Date
      * @MongoDB\Date
      */
     private $date;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Type(type="bool")
      * @MongoDB\Boolean
      */
     private $isCurrent = true;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="StateType", inversedBy="states")
      */
     private $type;
@@ -42,6 +43,7 @@ class State
     private $remoteEvent;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="states")
      */
     private $instance;
@@ -62,6 +64,7 @@ class State
     private $previous;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="states")
      */
     private $order;

@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -18,6 +17,7 @@ class Reclaim extends SingleInstance
     private $observations;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $requestEvent;
@@ -50,7 +50,8 @@ class Reclaim extends SingleInstance
      * @param Celsius\Celsius3Bundle\Document\Event $requestEvent
      * @return \Reclaim
      */
-    public function setRequestEvent(\Celsius\Celsius3Bundle\Document\Event $requestEvent)
+    public function setRequestEvent(
+            \Celsius\Celsius3Bundle\Document\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
         return $this;

@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius\Celsius3Bundle\Document\Instance;
@@ -90,24 +89,24 @@ class Order
     protected $materialData;
 
     /**
-     * @Assert\NotNull()
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
     protected $owner;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
     protected $operator;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
     protected $librarian;
 
     /**
-     * @Assert\NotNull()
-     * @MongoDB\ReferenceOne(targetDocument="Instance") 
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
     protected $instance;
 
@@ -374,7 +373,8 @@ class Order
      * @param Celsius\Celsius3Bundle\Document\BaseUser $operator
      * @return Order
      */
-    public function setOperator(\Celsius\Celsius3Bundle\Document\BaseUser $operator)
+    public function setOperator(
+            \Celsius\Celsius3Bundle\Document\BaseUser $operator)
     {
         $this->operator = $operator;
         return $this;
@@ -396,7 +396,8 @@ class Order
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Order
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    public function setInstance(
+            \Celsius\Celsius3Bundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -434,12 +435,13 @@ class Order
 
     public function getFilesForEvent($event)
     {
-        return $this->getFiles()->filter(
-                        function($entry) use ($event)
+        return $this->getFiles()
+                ->filter(
+                        function ($entry) use ($event)
                         {
-                            return ($entry->getEvent()->getId() == $event->getId());
-                        }
-        );
+                            return ($entry->getEvent()->getId()
+                                    == $event->getId());
+                        });
     }
 
     /**
@@ -488,7 +490,8 @@ class Order
      * @param Celsius\Celsius3Bundle\Document\BaseUser $librarian
      * @return Order
      */
-    public function setLibrarian(\Celsius\Celsius3Bundle\Document\BaseUser $librarian)
+    public function setLibrarian(
+            \Celsius\Celsius3Bundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -506,33 +509,39 @@ class Order
 
     public function hasState($name, Instance $instance)
     {
-        return ($this->getStates()->filter(
-                        function($entry) use ($name, $instance)
+        return ($this->getStates()
+                ->filter(
+                        function ($entry) use ($name, $instance)
                         {
-                            return ($entry->getType()->getName() == $name && $entry->getInstance()->getId() == $instance->getId());
-                        }
-                )->count() > 0);
+                            return ($entry->getType()->getName() == $name
+                                    && $entry->getInstance()->getId()
+                                            == $instance->getId());
+                        })->count() > 0);
     }
 
     public function getState($name, Instance $instance)
     {
-        $result = $this->getStates()->filter(
-                        function($entry) use ($name, $instance)
+        $result = $this->getStates()
+                ->filter(
+                        function ($entry) use ($name, $instance)
                         {
-                            return ($entry->getType()->getName() == $name && $entry->getInstance()->getId() == $instance->getId());
-                        }
-                )->first();
+                            return ($entry->getType()->getName() == $name
+                                    && $entry->getInstance()->getId()
+                                            == $instance->getId());
+                        })->first();
         return false !== $result ? $result : null;
     }
 
     public function getCurrentState(Instance $instance)
     {
-        $result = $this->getStates()->filter(
-                        function($entry) use ($instance)
+        $result = $this->getStates()
+                ->filter(
+                        function ($entry) use ($instance)
                         {
-                            return ($entry->getIsCurrent() && $entry->getInstance()->getId() == $instance->getId());
-                        }
-                )->first();
+                            return ($entry->getIsCurrent()
+                                    && $entry->getInstance()->getId()
+                                            == $instance->getId());
+                        })->first();
         return false !== $result ? $result : null;
     }
 

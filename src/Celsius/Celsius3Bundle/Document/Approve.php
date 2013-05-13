@@ -12,6 +12,7 @@ class Approve extends MultiInstance
 {
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $receiveEvent;

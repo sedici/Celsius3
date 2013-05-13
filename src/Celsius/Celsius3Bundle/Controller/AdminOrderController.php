@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -20,17 +19,16 @@ class AdminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
-                        ->findForInstance($this->getInstance());
+                ->getRepository('CelsiusCelsius3Bundle:' . $name)
+                ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                        ->getRepository('CelsiusCelsius3Bundle:' . $name)
-                        ->findOneForInstance($id, $this->getInstance())
-                        ->getQuery()
-                        ->getSingleResult();
+                ->getRepository('CelsiusCelsius3Bundle:' . $name)
+                ->findOneForInstance($id, $this->getInstance())->getQuery()
+                ->getSingleResult();
     }
 
     /**
@@ -43,7 +41,12 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
+        return $this
+                ->baseIndex('Order',
+                        $this
+                                ->createForm(
+                                        new OrderFilterType(
+                                                $this->getInstance())));
     }
 
     /**
@@ -73,7 +76,10 @@ class AdminOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, null, $this->getUser()));
+        return $this
+                ->baseNew('Order', new Order(),
+                        new OrderType($this->getInstance(), null, null,
+                                $this->getUser()));
     }
 
     /**
@@ -87,7 +93,11 @@ class AdminOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), 'admin_order');
+        return $this
+                ->baseCreate('Order', new Order(),
+                        new OrderType($this->getInstance(),
+                                $this->getMaterialType(), null,
+                                $this->getUser()), 'admin_order');
     }
 
     /**
@@ -105,21 +115,23 @@ class AdminOrderController extends OrderController
     {
         $document = $this->findQuery('Order', $id);
 
-        if (!$document)
-        {
-            throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
+        if (!$document) {
+            throw $this
+                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
         $materialClass = get_class($document->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), null, $this->getUser()), $document);
+        $editForm = $this
+                ->createForm(
+                        new OrderType($this->getInstance(),
+                                $this->getMaterialType($materialClass), null,
+                                $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'document' => $document,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return array('document' => $document,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -139,34 +151,39 @@ class AdminOrderController extends OrderController
     {
         $document = $this->findQuery('Order', $id);
 
-        if (!$document)
-        {
-            throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
+        if (!$document) {
+            throw $this
+                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
         $document->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
+        $editForm = $this
+                ->createForm(
+                        new OrderType($this->getInstance(),
+                                $this->getMaterialType(), null,
+                                $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
         $editForm->bind($request);
 
-        if ($editForm->isValid())
-        {
+        if ($editForm->isValid()) {
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
 
-            return $this->redirect($this->generateUrl('admin_order_edit', array('id' => $id)));
+            return $this
+                    ->redirect(
+                            $this
+                                    ->generateUrl('admin_order_edit',
+                                            array('id' => $id)));
         }
 
-        return array(
-            'document' => $document,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return array('document' => $document,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -216,51 +233,23 @@ class AdminOrderController extends OrderController
     {
         $order = $this->findQuery('Order', $id);
 
-        if (!$order)
-        {
-            throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
-        }
-
-        $extraData = $this->get('event_manager')->prepareExtraData($event, $order);
-        $event = $this->get('event_manager')->getRealEventName($event, $extraData);
-        $this->get('lifecycle_helper')->createEvent($event, $order, $extraData);
-        $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
-
-        return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
-    }
-
-    /**
-     * Reclaims an Order
-     *
-     * @Route("/{id}/reclaim/{receive}", name="admin_order_reclaim")
-     * @Method("post")
-     *
-     * @param string $id The document ID
-     * @param string $event The event name
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function reclaimAction($id, $receive)
-    {
-        $order = $this->findQuery('Order', $id);
-
-        if (!$order)
-        {
+        if (!$order) {
             throw $this->createNotFoundException('Unable to find Order.');
         }
 
-        $event = $this->findQuery('Receive', $receive);
-
-        if (!$event)
-        {
-            throw $this->createNotFoundException('Unable to find Event.');
+        if ($this->get('lifecycle_helper')->createEvent($event, $order)) {
+            $this->get('session')->getFlashBag()
+                    ->add('success', 'The state has been successfully changed.');
+        } else {
+            $this->get('session')->getFlashBag()
+                    ->add('success',
+                            'There was an error processing your request.');
         }
 
-        $this->get('lifecycle_helper')->reclaim($event, $order);
-
-        return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
+        return $this
+                ->redirect(
+                        $this
+                                ->generateUrl('admin_order_show',
+                                        array('id' => $order->getId())));
     }
-
 }

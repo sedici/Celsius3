@@ -12,12 +12,13 @@ use Celsius\Celsius3Bundle\Manager\StateManager;
 class MultiInstanceRequest extends MultiInstance
 {
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne
      */
     private $provider;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents")
+     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
     private $remoteState;
 

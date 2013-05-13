@@ -12,6 +12,7 @@ class MultiInstance extends Event
 {
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="events")
      */
     private $remoteInstance;

@@ -16,7 +16,7 @@ class MongoDBWrapperHandler extends AbstractProcessingHandler {
     private $handler;
     private $container;
 
-    public function __construct(ContainerInterface $container, $level = Logger::INFO, $bubble = true) {
+    public function __construct(ContainerInterface $container, $level = Logger::NOTICE, $bubble = true) {
         $this->container = $container;
         $this->handler = new MongoDBHandler(
                         new \Mongo('mongodb://' . $this->container->getParameter('mongodb_host') . ':' . $this->container->getParameter('mongodb_port')),
