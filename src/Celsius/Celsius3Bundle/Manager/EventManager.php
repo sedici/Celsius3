@@ -13,6 +13,7 @@ use Celsius\Celsius3Bundle\Document\SingleInstanceReceive;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
+use Celsius\Celsius3Bundle\Exception\NotFoundException;
 
 class EventManager
 {
@@ -259,16 +260,16 @@ class EventManager
 
         $isMultiInstance = $event->getInstance() != $instance;
         if ($isMultiInstance) {
-            $provider = $order->getState(StateManager::STATE__CREATED, $event->getInstance())->getRemoteEvent()->getProvider();
+            $provider = $order
+                    ->getState(StateManager::STATE__CREATED,
+                            $event->getInstance())->getRemoteEvent()
+                    ->getProvider();
         } else {
             $provider = $event->getRequestEvent()->getProvider();
         }
 
-
-        return array('event' => $event,
-                'provider' => $provider,
-                'isMultiInstance' => $isMultiInstance,
-                'order' => $order,
+        return array('event' => $event, 'provider' => $provider,
+                'isMultiInstance' => $isMultiInstance, 'order' => $order,
                 'isDelivered' => $order
                         ->getState(StateManager::STATE__DELIVERED, $instance),
                 'isReclaimed' => $event->getReclaimed(),

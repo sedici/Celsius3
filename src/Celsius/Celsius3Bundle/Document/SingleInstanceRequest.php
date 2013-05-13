@@ -11,7 +11,7 @@ use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 class SingleInstanceRequest extends SingleInstance
 {
     /**
-     * @Assert\NotNull
+     * @Assert\NotNull(groups={"request"})
      * @MongoDB\ReferenceOne
      */
     private $provider;

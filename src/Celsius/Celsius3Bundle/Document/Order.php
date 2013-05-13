@@ -76,7 +76,7 @@ class Order
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $annuled;
+    protected $annulled;
 
     /**
      * @MongoDB\String
@@ -568,25 +568,25 @@ class Order
     }
 
     /**
-     * Set annuled
+     * Set annulled
      *
-     * @param date $annuled
+     * @param date $annulled
      * @return Order
      */
-    public function setAnnuled($annuled)
+    public function setAnnulled($annulled)
     {
-        $this->annuled = $annuled;
+        $this->annulled = $annulled;
         return $this;
     }
 
     /**
-     * Get annuled
+     * Get annulled
      *
-     * @return date $annuled
+     * @return date $annulled
      */
-    public function getAnnuled()
+    public function getAnnulled()
     {
-        return $this->annuled;
+        return $this->annulled;
     }
 
     /**

@@ -104,18 +104,18 @@ class LifecycleHelper
     private function preValidate($name, Order $order)
     {
         $extraData = $this->event_manager->prepareExtraData($name, $order);
-        $data = array(
-                'eventName' => $this->event_manager
-                        ->getRealEventName($name, $extraData),
-                'stateName' => $this->state_manager->getStateForEvent($name),
+        $eventName = $this->event_manager->getRealEventName($name, $extraData);
+        $data = array('eventName' => $eventName,
+                'stateName' => $this->state_manager
+                        ->getStateForEvent($eventName),
                 'instance' => $name != EventManager::EVENT__CREATION ? $this
                                 ->instance_helper->getSessionInstance()
                         : $order->getInstance(), 'date' => date('Y-m-d H:i:s'),
                 'extraData' => $extraData,
                 'orderDateMethod' => 'set'
-                        . ucfirst($this->state_manager->getStateForEvent($name)),
+                        . ucfirst($this->state_manager->getStateForEvent($eventName)),
                 'eventClassName' => $this->event_manager
-                        ->getFullClassNameForEvent($name),);
+                        ->getFullClassNameForEvent($eventName),);
 
         if (!$order
                 ->hasState(

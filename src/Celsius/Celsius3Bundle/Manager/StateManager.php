@@ -19,7 +19,7 @@ class StateManager
     const STATE__RECEIVED = 'received';
     const STATE__DELIVERED = 'delivered';
     const STATE__CANCELED = 'canceled';
-    const STATE__ANNULED = 'annuled';
+    const STATE__ANNULLED = 'annulled';
 
     private $graph = array(
             self::STATE__CREATED => array('positive' => true,
@@ -29,7 +29,7 @@ class StateManager
                                     'weight' => 10,
                                     'destinationState' => self::STATE__SEARCHED,),
                             EventManager::EVENT__ANNUL => array('weight' => 1,
-                                    'destinationState' => self::STATE__ANNULED,),),
+                                    'destinationState' => self::STATE__ANNULLED,),),
                     'previousStates' => array(),
                     'originatingEvents' => array(EventManager::EVENT__CREATION,),),
             self::STATE__SEARCHED => array('positive' => true,
@@ -46,7 +46,7 @@ class StateManager
                                     'weight' => 2,
                                     'destinationState' => self::STATE__CANCELED,),
                             EventManager::EVENT__ANNUL => array('weight' => 1,
-                                    'destinationState' => self::STATE__ANNULED,),),
+                                    'destinationState' => self::STATE__ANNULLED,),),
                     'previousStates' => array(self::STATE__CREATED,),
                     'originatingEvents' => array(EventManager::EVENT__SEARCH,),),
             self::STATE__REQUESTED => array('positive' => true,
@@ -101,10 +101,9 @@ class StateManager
             self::STATE__CANCELED => array('positive' => false,
                     'mandatory' => false, 'events' => array(),
                     'previousStates' => array(self::STATE__APPROVAL_PENDING,
-                            self::STATE__REQUESTED, self::STATE__SEARCHED,
-                    ),
+                            self::STATE__REQUESTED, self::STATE__SEARCHED,),
                     'originatingEvents' => array(EventManager::EVENT__CANCEL,),),
-            self::STATE__ANNULED => array('positive' => false,
+            self::STATE__ANNULLED => array('positive' => false,
                     'mandatory' => false, 'events' => array(),
                     'previousStates' => array(self::STATE__SEARCHED,
                             self::STATE__CREATED,),
@@ -246,7 +245,9 @@ class StateManager
                 'hasState' => $order->hasState($state, $instance),
                 'hasPrevious' => $order
                         ->hasState($this->getPreviousMandatoryState($state),
-                                $instance), 'instance' => $instance,);
+                                $instance), 'instance' => $instance,
+                'isAnnulled' => $order
+                        ->hasState(self::STATE__ANNULLED, $instance));
     }
 
     public function getDataForBodyRendering($state, Order $order)
@@ -271,6 +272,8 @@ class StateManager
                         ->getName() == $state, 'request_form' => $requestForm,
                 'isDelivered' => $order
                         ->getState(self::STATE__DELIVERED, $instance),
-                'instance' => $instance,);
+                'instance' => $instance,
+                'isAnnulled' => $order
+                        ->hasState(self::STATE__ANNULLED, $instance));
     }
 }

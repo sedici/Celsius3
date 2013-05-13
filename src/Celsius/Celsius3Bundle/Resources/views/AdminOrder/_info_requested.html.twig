@@ -6,7 +6,7 @@
         {% for event in order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__REQUESTED'), instance).events %}
             {{ render_request_event(event, order)|raw }}
         {% endfor %}
-        {% if not isDelivered %}
+        {% if not isDelivered and not isAnnulled %}
             <dl class="dl-horizontal">
                 <dt>{{ 'Actions'|trans }}</dt>
                 <dd><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></dd>
@@ -14,15 +14,13 @@
         {% endif %}
     </div>
 </div>
-{% else %}
+{% elseif not isDelivered and not isAnnulled %}
 <div id="{{ 'info_'~state~'_disabled' }}" class="collapse">
     <div class="well">
-        {% if not isDelivered %}
-            <dl class="dl-horizontal">
-                <dt>{{ 'Actions'|trans }}</dt>
-                <dd><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></dd>
-            </dl>
-        {% endif %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'Actions'|trans }}</dt>
+            <dd><a class="request-link" href="#request-modal" role="button" data-toggle="modal">{{ 'request'|capitalize|trans }}</a></dd>
+        </dl>
     </div>
 </div>
 {% endif %}

@@ -59,7 +59,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         StateManager::STATE__RECEIVED,
         StateManager::STATE__DELIVERED,
         StateManager::STATE__CANCELED,
-        StateManager::STATE__ANNULED,
+        StateManager::STATE__ANNULLED,
     );
 
     public function setContainer(ContainerInterface $container = null)
