@@ -405,12 +405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2.4.0-BETA2"
+                "reference": "38f679377432e3c299be5a94ab1d034a822d296c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2.4.0-BETA2",
-                "reference": "2.4.0-BETA2",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/38f679377432e3c299be5a94ab1d034a822d296c",
+                "reference": "38f679377432e3c299be5a94ab1d034a822d296c",
                 "shasum": ""
             },
             "require": {
@@ -467,7 +467,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-05-11 08:21:40"
+            "time": "2013-05-14 13:30:37"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -788,12 +788,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "439992daa8d1687a3021abc03a6cf74fabe1b926"
+                "reference": "6fd7a46995a97d3acd232acdb780330a34125928"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/439992daa8d1687a3021abc03a6cf74fabe1b926",
-                "reference": "439992daa8d1687a3021abc03a6cf74fabe1b926",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/6fd7a46995a97d3acd232acdb780330a34125928",
+                "reference": "6fd7a46995a97d3acd232acdb780330a34125928",
                 "shasum": ""
             },
             "require": {
@@ -853,7 +853,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-05-08 19:17:36"
+            "time": "2013-05-14 04:02:02"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1682,12 +1682,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSTranslationBundle.git",
-                "reference": "9d844494a0ad5a93cb7f81f4bd1a1d46950690ef"
+                "reference": "91c96119ba7727c5c3b429ed4c2728d60e5e2346"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/9d844494a0ad5a93cb7f81f4bd1a1d46950690ef",
-                "reference": "9d844494a0ad5a93cb7f81f4bd1a1d46950690ef",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/91c96119ba7727c5c3b429ed4c2728d60e5e2346",
+                "reference": "91c96119ba7727c5c3b429ed4c2728d60e5e2346",
                 "shasum": ""
             },
             "require": {
@@ -1747,7 +1747,7 @@
                 "ui",
                 "webinterface"
             ],
-            "time": "2013-04-12 07:13:08"
+            "time": "2013-05-14 05:31:00"
         },
         {
             "name": "jquery/jquery",
@@ -2004,12 +2004,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "b52745747f8fa1767e0edd18f20bb2e66f1a4d74"
+                "reference": "fe0fa3d77b7dbbcc5b54a736216ee04f3ffd72be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/b52745747f8fa1767e0edd18f20bb2e66f1a4d74",
-                "reference": "b52745747f8fa1767e0edd18f20bb2e66f1a4d74",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/fe0fa3d77b7dbbcc5b54a736216ee04f3ffd72be",
+                "reference": "fe0fa3d77b7dbbcc5b54a736216ee04f3ffd72be",
                 "shasum": ""
             },
             "require": {
@@ -2067,7 +2067,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-13 16:03:03"
+            "time": "2013-05-14 16:55:03"
         },
         {
             "name": "monolog/monolog",
@@ -2574,12 +2574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle.git",
-                "reference": "v1.1.0-beta1"
+                "reference": "v2.3.0-beta1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/v1.1.0-beta1",
-                "reference": "v1.1.0-beta1",
+                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/v2.3.0-beta1",
+                "reference": "v2.3.0-beta1",
                 "shasum": ""
             },
             "require": {
@@ -2895,12 +2895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "a8395b3829bb4e3dd178f70abf4a6eeacd8f3393"
+                "reference": "7b298c2d1fa32b2d3ddb7e3b6b3deb56b16b3527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/a8395b3829bb4e3dd178f70abf4a6eeacd8f3393",
-                "reference": "a8395b3829bb4e3dd178f70abf4a6eeacd8f3393",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/7b298c2d1fa32b2d3ddb7e3b6b3deb56b16b3527",
+                "reference": "7b298c2d1fa32b2d3ddb7e3b6b3deb56b16b3527",
                 "shasum": ""
             },
             "require": {
@@ -2936,7 +2936,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-05-13 11:46:19"
+            "time": "2013-05-14 05:05:22"
         },
         {
             "name": "twitter/bootstrap",

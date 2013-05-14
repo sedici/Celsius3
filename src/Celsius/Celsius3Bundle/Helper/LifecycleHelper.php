@@ -51,19 +51,17 @@ class LifecycleHelper
         $event->setInstance($data['instance']);
         $event->setOrder($order);
         $event->setState($this->getState($order, $event, $data));
-        $event
-                ->applyExtraData($order, $data['extraData'], $this,
-                        $data['date']);
+        $event->applyExtraData($order, $data, $this, $data['date']);
         $this->dm->persist($event);
     }
 
     public function getState(Order $order, Event $event, array $data,
             Event $remoteEvent = null)
     {
-        $currentState = $order->getCurrentState($data['instance']);
-
         $instance = is_null($data['instance']) ? $order->getInstance()
                 : $data['instance'];
+
+        $currentState = $order->getCurrentState($instance);
 
         if ($order->hasState($data['stateName'], $instance)) {
             $state = $order->getState($data['stateName'], $instance);
@@ -113,7 +111,9 @@ class LifecycleHelper
                         : $order->getInstance(), 'date' => date('Y-m-d H:i:s'),
                 'extraData' => $extraData,
                 'orderDateMethod' => 'set'
-                        . ucfirst($this->state_manager->getStateForEvent($eventName)),
+                        . ucfirst(
+                                $this->state_manager
+                                        ->getStateForEvent($eventName)),
                 'eventClassName' => $this->event_manager
                         ->getFullClassNameForEvent($eventName),);
 

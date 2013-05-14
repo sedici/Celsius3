@@ -40,9 +40,9 @@ class Approve extends MultiInstance
         return $this->receiveEvent;
     }
 
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
-        $this->setReceiveEvent($extraData['receive']);
+        $this->setReceiveEvent($data['extraData']['receive']);
     }
 }

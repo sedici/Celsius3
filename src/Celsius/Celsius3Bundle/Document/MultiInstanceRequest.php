@@ -68,18 +68,18 @@ class MultiInstanceRequest extends MultiInstance
         return $this->provider;
     }
 
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
-        $this->setProvider($extraData['provider']);
-        $this->setObservations($extraData['observations']);
-        $this->setRemoteInstance($extraData['provider']->getCelsiusInstance());
+        $this->setProvider($data['extraData']['provider']);
+        $this->setObservations($data['extraData']['observations']);
+        $this
+                ->setRemoteInstance(
+                        $data['extraData']['provider']->getCelsiusInstance());
+        $data['instance'] = $this->getRemoteInstance();
+        $data['stateName'] = StateManager::STATE__CREATED;
         $this
                 ->setRemoteState(
-                        $lifecycleHelper
-                                ->getState(StateManager::STATE__CREATED, $date,
-                                        $order, $this,
-                                        $extraData['provider']
-                                                ->getCelsiusInstance(), $this));
+                        $lifecycleHelper->getState($order, $this, $data, $this));
     }
 }

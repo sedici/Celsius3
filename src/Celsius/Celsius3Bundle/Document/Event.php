@@ -211,7 +211,7 @@ class Event implements EventInterface
         return $this->instance;
     }
 
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
 

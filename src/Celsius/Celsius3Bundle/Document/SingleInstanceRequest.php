@@ -39,10 +39,10 @@ class SingleInstanceRequest extends SingleInstance
         return $this->provider;
     }
 
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
-        $this->setProvider($extraData['provider']);
-        $this->setObservations($extraData['observations']);
+        $this->setProvider($data['extraData']['provider']);
+        $this->setObservations($data['extraData']['observations']);
     }
 }

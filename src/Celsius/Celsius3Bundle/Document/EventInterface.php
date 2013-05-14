@@ -5,6 +5,6 @@ use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 interface EventInterface
 {
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date);
 }

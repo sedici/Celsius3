@@ -194,19 +194,18 @@ class MultiInstanceReceive extends MultiInstance
         return $this->remoteState;
     }
 
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
-        $this->setRequestEvent($extraData['request']);
-        $this->setObservations($extraData['observations']);
-        $lifecycleHelper->uploadFiles($order, $this, $extraData['files']);
+        $this->setRequestEvent($data['extraData']['request']);
+        $this->setObservations($data['extraData']['observations']);
+        $lifecycleHelper
+                ->uploadFiles($order, $this, $data['extraData']['files']);
         $this->setRemoteInstance($order->getInstance());
+        $data['instance'] = $this->getRemoteInstance();
+        $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
         $this
                 ->setRemoteState(
-                        $lifecycleHelper
-                                ->getState(
-                                        StateManager::STATE__APPROVAL_PENDING,
-                                        $date, $order, $this,
-                                        $order->getInstance(), $this));
+                        $lifecycleHelper->getState($order, $this, $data, $this));
     }
 }

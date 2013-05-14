@@ -173,11 +173,11 @@ class SingleInstanceReceive extends SingleInstance
         $this->files->removeElement($files);
     }
 
-    public function applyExtraData(Order $order, array $extraData,
+    public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
-        $this->setRequestEvent($extraData['request']);
-        $this->setObservations($extraData['observations']);
+        $this->setRequestEvent($data['extraData']['request']);
+        $this->setObservations($data['extraData']['observations']);
         $lifecycleHelper->uploadFiles($order, $this, $extraData['files']);
     }
 }
