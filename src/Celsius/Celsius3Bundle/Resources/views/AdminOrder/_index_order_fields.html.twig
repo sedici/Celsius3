@@ -2,7 +2,7 @@
 
 {% block extrafields %}
 <dt>{{ 'Current state'|trans }}</dt>
-<dd>{{ order.getCurrentState(instance).type.name|capitalize }}</dd>
+<dd>{{ order.getCurrentState(instance).type.name|capitalize }} {{ 'since'|trans }} {{ order.getCurrentState(instance).date|localizeddate }} ({{ order.getCurrentState(instance).date|time_ago_in_words }})</dd>
 <dt>{{ 'User'|trans }}</dt>
 <dd><a href="{{ path('admin_user',{ 'id': order.owner.id }) }}">{{ order.owner.username }}</a></dd>
 {% endblock %}

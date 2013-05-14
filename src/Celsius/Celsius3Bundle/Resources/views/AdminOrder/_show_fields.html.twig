@@ -27,7 +27,7 @@
 
 {% block extrafields %}
 <dt>{{ 'Current state'|trans }}</dt>
-<dd>{{ document.getCurrentState(instance).type.name|capitalize }}</dd>
+<dd>{{ document.getCurrentState(instance).type.name|capitalize }} {{ 'since'|trans }} {{ document.getCurrentState(instance).date|localizeddate }} ({{ document.getCurrentState(instance).date|time_ago_in_words }})</dd>
 <dt>{{ 'User'|trans }}</dt>
 <dd><a href="{{ path('admin_user',{ 'id': document.owner.id }) }}">{{ document.owner.username }}</a></dd>
 {% endblock %}
