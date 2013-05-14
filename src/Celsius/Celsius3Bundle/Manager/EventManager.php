@@ -239,7 +239,9 @@ class EventManager
                         ->findBy(array('requestEvent.id' => $event->getId()))
                         ->count() > 0,
                 'isDelivered' => $order
-                        ->getState(StateManager::STATE__DELIVERED, $instance),);
+                        ->getState(StateManager::STATE__DELIVERED, $instance),
+                'isCancelled' => $order
+                        ->hasState(StateManager::STATE__CANCELLED, $instance),);
     }
 
     public function getDataForReceiveRendering(Event $event, Order $order)

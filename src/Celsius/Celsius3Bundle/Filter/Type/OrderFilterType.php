@@ -50,7 +50,7 @@ class OrderFilterType extends AbstractType
                         StateManager::STATE__APPROVAL_PENDING => str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)),
                         StateManager::STATE__RECEIVED => ucfirst(StateManager::STATE__RECEIVED),
                         StateManager::STATE__DELIVERED => ucfirst(StateManager::STATE__DELIVERED),
-                        StateManager::STATE__CANCELED => ucfirst(StateManager::STATE__CANCELED),
+                        StateManager::STATE__CANCELLED => ucfirst(StateManager::STATE__CANCELLED),
                         StateManager::STATE__ANNULLED => ucfirst(StateManager::STATE__ANNULLED),
                     ),
                     'multiple' => true,

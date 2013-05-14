@@ -58,7 +58,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         StateManager::STATE__APPROVAL_PENDING,
         StateManager::STATE__RECEIVED,
         StateManager::STATE__DELIVERED,
-        StateManager::STATE__CANCELED,
+        StateManager::STATE__CANCELLED,
         StateManager::STATE__ANNULLED,
     );
 

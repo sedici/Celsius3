@@ -70,7 +70,7 @@ class Order
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $canceled;
+    protected $cancelled;
 
     /**
      * @Assert\Date()
@@ -546,25 +546,25 @@ class Order
     }
 
     /**
-     * Set canceled
+     * Set cancelled
      *
-     * @param date $canceled
+     * @param date $cancelled
      * @return Order
      */
-    public function setCanceled($canceled)
+    public function setCancelled($cancelled)
     {
-        $this->canceled = $canceled;
+        $this->cancelled = $cancelled;
         return $this;
     }
 
     /**
-     * Get canceled
+     * Get cancelled
      *
-     * @return date $canceled
+     * @return date $cancelled
      */
-    public function getCanceled()
+    public function getCancelled()
     {
-        return $this->canceled;
+        return $this->cancelled;
     }
 
     /**

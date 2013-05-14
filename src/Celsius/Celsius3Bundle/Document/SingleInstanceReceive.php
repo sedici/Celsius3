@@ -178,6 +178,6 @@ class SingleInstanceReceive extends SingleInstance
     {
         $this->setRequestEvent($data['extraData']['request']);
         $this->setObservations($data['extraData']['observations']);
-        $lifecycleHelper->uploadFiles($order, $this, $extraData['files']);
+        $lifecycleHelper->uploadFiles($order, $this, $data['extraData']['files']);
     }
 }

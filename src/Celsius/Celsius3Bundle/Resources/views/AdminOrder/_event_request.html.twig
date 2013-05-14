@@ -46,7 +46,7 @@
     {% endif %}
     <dt>{{ 'Request Date'|trans }}</dt>
     <dd>{{ event.date|localizeddate() }} ({{ event.date|time_ago_in_words }}) </dd>
-    {% if not isReceived and not isDelivered %}
+    {% if not isReceived and not isDelivered and not isCancelled %}
     <dt>{{ 'Request Actions'|trans }}</dt>
     <dd><a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a></dd>
     {% endif %}
