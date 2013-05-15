@@ -49,5 +49,9 @@
         $(document).on('click', '.doReceive', function(){
             $($(this).attr('value')).submit();
         });
+
+        $('.submit-cancel-form').click(function(){
+            $(this).parent().submit();
+        });
     });
 </script>

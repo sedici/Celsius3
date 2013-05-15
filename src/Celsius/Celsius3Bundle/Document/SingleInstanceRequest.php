@@ -17,6 +17,20 @@ class SingleInstanceRequest extends SingleInstance
     private $provider;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $isCancelled = false;
+
+    public function applyExtraData(Order $order, array $data,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setProvider($data['extraData']['provider']);
+        $this->setObservations($data['extraData']['observations']);
+    }
+
+    /**
      * Set provider
      *
      * @param Celsius\Celsius3Bundle\Document\Provider $provider
@@ -39,10 +53,25 @@ class SingleInstanceRequest extends SingleInstance
         return $this->provider;
     }
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    /**
+     * Set isCancelled
+     *
+     * @param boolean $isCancelled
+     * @return self
+     */
+    public function setIsCancelled($isCancelled)
     {
-        $this->setProvider($data['extraData']['provider']);
-        $this->setObservations($data['extraData']['observations']);
+        $this->isCancelled = $isCancelled;
+        return $this;
+    }
+
+    /**
+     * Get isCancelled
+     *
+     * @return boolean $isCancelled
+     */
+    public function getIsCancelled()
+    {
+        return $this->isCancelled;
     }
 }

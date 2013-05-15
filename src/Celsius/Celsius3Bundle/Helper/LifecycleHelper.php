@@ -38,6 +38,12 @@ class LifecycleHelper
         $this->instance_helper = $this->container->get('instance_helper');
     }
 
+    public function refresh($document)
+    {
+        $this->dm->persist($document);
+        $this->dm->flush();
+    }
+
     public function uploadFiles(Order $order, Event $event, array $files)
     {
         $this->file_manager->uploadFiles($order, $event, $files);
@@ -45,6 +51,7 @@ class LifecycleHelper
 
     private function setEventData(Order $order, array $data)
     {
+        /* @var $event Event */
         $event = new $data['eventClassName'];
         $event->setDate($data['date']);
         $event->setOperator($order->getOperator());
@@ -140,8 +147,8 @@ class LifecycleHelper
     {
         try {
             $data = $this->preValidate($name, $order);
-            $this->toPersist[] = $order
-                    ->$data['orderDateMethod']($data['date']);
+            $order->$data['orderDateMethod']($data['date']);
+            $this->dm->persist($order);
             $this->setEventData($order, $data);
             $this->dm->flush();
             return true;

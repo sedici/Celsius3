@@ -60,8 +60,14 @@ class StateManager
                                     'destinationState' => self::STATE__RECEIVED,
                                     'remoteState' => self::STATE__APPROVAL_PENDING,),
                             EventManager::EVENT__CANCEL => array(
+                                    'weight' => 3,
+                                    'destinationState' => self::STATE__CANCELLED,),
+                            EventManager::EVENT__LOCAL_CANCEL => array(
                                     'weight' => 2,
-                                    'destinationState' => self::STATE__CANCELLED,),),
+                                    'destinationState' => self::STATE__CREATED,),
+                            EventManager::EVENT__REMOTE_CANCEL => array(
+                                    'weight' => 1,
+                                    'destinationState' => self::STATE__CREATED,),),
                     'previousStates' => array(self::STATE__SEARCHED,
                             self::STATE__APPROVAL_PENDING,),
                     'originatingEvents' => array(

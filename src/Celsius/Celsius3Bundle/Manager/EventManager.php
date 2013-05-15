@@ -28,6 +28,8 @@ class EventManager
     const EVENT__MULTI_INSTANCE_RECEIVE = 'mireceive';
     const EVENT__DELIVER = 'deliver';
     const EVENT__CANCEL = 'cancel';
+    const EVENT__LOCAL_CANCEL = 'lcancel';
+    const EVENT__REMOTE_CANCEL = 'rcancel';
     const EVENT__ANNUL = 'annul';
 
     // Fake events
@@ -44,6 +46,8 @@ class EventManager
             self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceive',
             self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceive',
             self::EVENT__DELIVER => 'Deliver', self::EVENT__CANCEL => 'Cancel',
+            self::EVENT__LOCAL_CANCEL => 'LocalCancel',
+            self::EVENT__REMOTE_CANCEL => 'RemoteCancel',
             self::EVENT__ANNUL => 'Annul',);
     private $container;
 
@@ -193,6 +197,23 @@ class EventManager
         return $extraData;
     }
 
+    private function prepareExtraDataForCancel(Order $order, array $extraData)
+    {
+        if ($this->container->get('request')->query->has('request')) {
+            $extraData['request'] = $this->container
+                    ->get('doctrine.odm.mongodb.document_manager')
+                    ->getRepository('CelsiusCelsius3Bundle:Event')
+                    ->find(
+                            $this->container->get('request')->query
+                                    ->get('request'));
+
+            if (!$extraData['request']) {
+                throw new NotFoundHttpException();
+            }
+        }
+        return $extraData;
+    }
+
     public function getRealEventName($event, array $extraData)
     {
         switch ($event) {
@@ -205,6 +226,10 @@ class EventManager
             $event = ($extraData['request']->getOrder()->getInstance()->getId()
                     != $extraData['request']->getInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE
                     : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+            break;
+        case self::EVENT__CANCEL:
+            $event = $extraData['request'] ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL
+                            : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
             break;
         default:
             ;

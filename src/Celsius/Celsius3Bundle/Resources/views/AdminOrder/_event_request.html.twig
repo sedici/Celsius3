@@ -46,8 +46,13 @@
     {% endif %}
     <dt>{{ 'Request Date'|trans }}</dt>
     <dd>{{ event.date|localizeddate() }} ({{ event.date|time_ago_in_words }}) </dd>
-    {% if not isReceived and not isDelivered and not isCancelled %}
+    {% if not isReceived and not isDelivered and not isCancelled and not event.isCancelled %}
     <dt>{{ 'Request Actions'|trans }}</dt>
-    <dd><a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a></dd>
+    <dd>
+        <a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a>
+        <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__CANCEL'), 'request': event.id }) }}" method="post" class="inline-form">
+            <a class="submit-cancel-form" href="#">{{ 'cancel'|capitalize|trans }}</a>
+        </form>
+    </dd>
     {% endif %}
 </dl>

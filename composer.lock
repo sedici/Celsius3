@@ -405,12 +405,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "38f679377432e3c299be5a94ab1d034a822d296c"
+                "reference": "d69ecc73c7b3d8d3b54d6a8bbb0dae46409acdd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/38f679377432e3c299be5a94ab1d034a822d296c",
-                "reference": "38f679377432e3c299be5a94ab1d034a822d296c",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/d69ecc73c7b3d8d3b54d6a8bbb0dae46409acdd1",
+                "reference": "d69ecc73c7b3d8d3b54d6a8bbb0dae46409acdd1",
                 "shasum": ""
             },
             "require": {
@@ -467,7 +467,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-05-14 13:30:37"
+            "time": "2013-05-15 15:45:26"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -862,12 +862,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "23c08a476e386018d23c9562e6b5d32f2dd4ca6c"
+                "reference": "27797453d24088087a048e4b83bda928000d626e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/23c08a476e386018d23c9562e6b5d32f2dd4ca6c",
-                "reference": "23c08a476e386018d23c9562e6b5d32f2dd4ca6c",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/27797453d24088087a048e4b83bda928000d626e",
+                "reference": "27797453d24088087a048e4b83bda928000d626e",
                 "shasum": ""
             },
             "require": {
@@ -923,7 +923,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2013-05-03 14:22:16"
+            "time": "2013-05-15 16:34:21"
         },
         {
             "name": "friendsofsymfony/message-bundle",
@@ -2004,12 +2004,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "fe0fa3d77b7dbbcc5b54a736216ee04f3ffd72be"
+                "reference": "80a13792d38652d6f3bcb938c83a67836ad7a48d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/fe0fa3d77b7dbbcc5b54a736216ee04f3ffd72be",
-                "reference": "fe0fa3d77b7dbbcc5b54a736216ee04f3ffd72be",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/80a13792d38652d6f3bcb938c83a67836ad7a48d",
+                "reference": "80a13792d38652d6f3bcb938c83a67836ad7a48d",
                 "shasum": ""
             },
             "require": {
@@ -2067,7 +2067,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-14 16:55:03"
+            "time": "2013-05-14 23:15:02"
         },
         {
             "name": "monolog/monolog",
@@ -2695,12 +2695,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-                "reference": "v2.3.0-BETA2"
+                "reference": "5573e119252f4026c7d0e989b6820c6f687f6d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.3.0-BETA2",
-                "reference": "v2.3.0-BETA2",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/5573e119252f4026c7d0e989b6820c6f687f6d4c",
+                "reference": "5573e119252f4026c7d0e989b6820c6f687f6d4c",
                 "shasum": ""
             },
             "require": {
@@ -2741,7 +2741,7 @@
             ],
             "description": "Symfony SwiftmailerBundle",
             "homepage": "http://symfony.com",
-            "time": "2013-05-01 07:16:50"
+            "time": "2013-05-15 08:38:58"
         },
         {
             "name": "symfony/symfony",
@@ -2895,12 +2895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "7b298c2d1fa32b2d3ddb7e3b6b3deb56b16b3527"
+                "reference": "f6ebd46fad09d88302f6511db6b1f08d22a80fba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/7b298c2d1fa32b2d3ddb7e3b6b3deb56b16b3527",
-                "reference": "7b298c2d1fa32b2d3ddb7e3b6b3deb56b16b3527",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/f6ebd46fad09d88302f6511db6b1f08d22a80fba",
+                "reference": "f6ebd46fad09d88302f6511db6b1f08d22a80fba",
                 "shasum": ""
             },
             "require": {
@@ -2936,7 +2936,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-05-14 05:05:22"
+            "time": "2013-05-15 14:22:32"
         },
         {
             "name": "twitter/bootstrap",
