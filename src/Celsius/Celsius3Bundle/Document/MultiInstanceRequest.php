@@ -18,9 +18,31 @@ class MultiInstanceRequest extends MultiInstance
     private $provider;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $isCancelled = false;
+
+    /**
      * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
     private $remoteState;
+
+    public function applyExtraData(Order $order, array $data,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setProvider($data['extraData']['provider']);
+        $this->setObservations($data['extraData']['observations']);
+        $this
+                ->setRemoteInstance(
+                        $data['extraData']['provider']->getCelsiusInstance());
+        $data['instance'] = $this->getRemoteInstance();
+        $data['stateName'] = StateManager::STATE__CREATED;
+        $this
+                ->setRemoteState(
+                        $lifecycleHelper->getState($order, $this, $data, $this));
+    }
 
     /**
      * Set remoteState
@@ -68,18 +90,25 @@ class MultiInstanceRequest extends MultiInstance
         return $this->provider;
     }
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    /**
+     * Set isCancelled
+     *
+     * @param boolean $isCancelled
+     * @return self
+     */
+    public function setIsCancelled($isCancelled)
     {
-        $this->setProvider($data['extraData']['provider']);
-        $this->setObservations($data['extraData']['observations']);
-        $this
-                ->setRemoteInstance(
-                        $data['extraData']['provider']->getCelsiusInstance());
-        $data['instance'] = $this->getRemoteInstance();
-        $data['stateName'] = StateManager::STATE__CREATED;
-        $this
-                ->setRemoteState(
-                        $lifecycleHelper->getState($order, $this, $data, $this));
+        $this->isCancelled = $isCancelled;
+        return $this;
+    }
+
+    /**
+     * Get isCancelled
+     *
+     * @return boolean $isCancelled
+     */
+    public function getIsCancelled()
+    {
+        return $this->isCancelled;
     }
 }

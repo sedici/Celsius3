@@ -28,6 +28,9 @@ class StateManager
                             EventManager::EVENT__SEARCH => array(
                                     'weight' => 10,
                                     'destinationState' => self::STATE__SEARCHED,),
+                            EventManager::EVENT__CANCEL => array( //Por RemoteCancel
+                                    'weight' => 2,
+                                    'destinationState' => self::STATE__CANCELLED,),
                             EventManager::EVENT__ANNUL => array('weight' => 1,
                                     'destinationState' => self::STATE__ANNULLED,),),
                     'previousStates' => array(),
@@ -107,7 +110,8 @@ class StateManager
             self::STATE__CANCELLED => array('positive' => false,
                     'mandatory' => false, 'events' => array(),
                     'previousStates' => array(self::STATE__APPROVAL_PENDING,
-                            self::STATE__REQUESTED, self::STATE__SEARCHED,),
+                            self::STATE__REQUESTED, self::STATE__SEARCHED,
+                            self::STATE__CREATED),
                     'originatingEvents' => array(EventManager::EVENT__CANCEL,),),
             self::STATE__ANNULLED => array('positive' => false,
                     'mandatory' => false, 'events' => array(),

@@ -14,6 +14,8 @@ use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 use Celsius\Celsius3Bundle\Exception\NotFoundException;
+use Symfony\Component\BrowserKit\Request;
+use Celsius\Celsius3Bundle\Document\Instance;
 
 class EventManager
 {
@@ -91,7 +93,8 @@ class EventManager
         return $this->class_prefix . $this->event_classes[$event];
     }
 
-    private function prepareExtraDataForRequest(Order $order, array $extraData)
+    private function prepareExtraDataForRequest(Order $order, array $extraData,
+            Instance $instance)
     {
         $document = new SingleInstanceRequest();
         $form = $this->container->get('form.factory')
@@ -120,7 +123,8 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReceive(Order $order, array $extraData)
+    private function prepareExtraDataForReceive(Order $order, array $extraData,
+            Instance $instance)
     {
         if (!$this->container->get('request')->query->has('request')) {
             $this->container->get('session')->getFlashBag()
@@ -155,7 +159,8 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForApprove(Order $order, array $extraData)
+    private function prepareExtraDataForApprove(Order $order, array $extraData,
+            Instance $instance)
     {
         if (!$this->container->get('request')->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
@@ -176,7 +181,8 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForDeliver(Order $order, array $extraData)
+    private function prepareExtraDataForDeliver(Order $order, array $extraData,
+            Instance $instance)
     {
         if (!$this->container->get('request')->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
@@ -197,7 +203,8 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForCancel(Order $order, array $extraData)
+    private function prepareExtraDataForCancel(Order $order, array $extraData,
+            Instance $instance)
     {
         if ($this->container->get('request')->query->has('request')) {
             $extraData['request'] = $this->container
@@ -207,9 +214,28 @@ class EventManager
                             $this->container->get('request')->query
                                     ->get('request'));
 
+            $this->container->get('request')->query->remove('request');
             if (!$extraData['request']) {
                 throw new NotFoundHttpException();
             }
+        } else {
+            $extraData['httprequest'] = $this->container->get('request');
+            $extraData['sirequests'] = $this->container
+                    ->get('doctrine.odm.mongodb.document_manager')
+                    ->getRepository(
+                            'CelsiusCelsius3Bundle:SingleInstanceRequest')
+                    ->findBy(
+                            array('order.id' => $order->getId(),
+                                    'isCancelled' => false,
+                                    'instance.id' => $instance->getId(),));
+            $extraData['mirequests'] = $this->container
+                    ->get('doctrine.odm.mongodb.document_manager')
+                    ->getRepository(
+                            'CelsiusCelsius3Bundle:MultiInstanceRequest')
+                    ->findBy(
+                            array('order.id' => $order->getId(),
+                                    'isCancelled' => false,
+                                    'instance.id' => $instance->getId(),));
         }
         return $extraData;
     }
@@ -228,7 +254,7 @@ class EventManager
                     : self::EVENT__SINGLE_INSTANCE_RECEIVE;
             break;
         case self::EVENT__CANCEL:
-            $event = $extraData['request'] ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL
+            $event = isset($extraData['request']) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL
                             : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
             break;
         default:
@@ -237,10 +263,10 @@ class EventManager
         return $event;
     }
 
-    public function prepareExtraData($event, Order $order)
+    public function prepareExtraData($event, Order $order, Instance $instance)
     {
         $methodName = 'prepareExtraDataFor' . ucfirst($event);
-        return $this->$methodName($order, array());
+        return $this->$methodName($order, array(), $instance);
     }
 
     /*

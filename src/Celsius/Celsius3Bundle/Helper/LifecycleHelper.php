@@ -106,16 +106,19 @@ class LifecycleHelper
         return $state;
     }
 
-    private function preValidate($name, Order $order)
+    private function preValidate($name, Order $order, Instance $instance = null)
     {
-        $extraData = $this->event_manager->prepareExtraData($name, $order);
+        $instance = is_null($instance) ? ($name
+                        != EventManager::EVENT__CREATION ? $this
+                                ->instance_helper->getSessionInstance()
+                        : $order->getInstance()) : $instance;
+        $extraData = $this->event_manager
+                ->prepareExtraData($name, $order, $instance);
         $eventName = $this->event_manager->getRealEventName($name, $extraData);
         $data = array('eventName' => $eventName,
                 'stateName' => $this->state_manager
                         ->getStateForEvent($eventName),
-                'instance' => $name != EventManager::EVENT__CREATION ? $this
-                                ->instance_helper->getSessionInstance()
-                        : $order->getInstance(), 'date' => date('Y-m-d H:i:s'),
+                'instance' => $instance, 'date' => date('Y-m-d H:i:s'),
                 'extraData' => $extraData,
                 'orderDateMethod' => 'set'
                         . ucfirst(
@@ -143,10 +146,10 @@ class LifecycleHelper
      * @param string $name The event name
      * @param Celsius\Celsius3Bundle\Document\Order $order The Order document
      */
-    public function createEvent($name, Order $order)
+    public function createEvent($name, Order $order, Instance $instance = null)
     {
         try {
-            $data = $this->preValidate($name, $order);
+            $data = $this->preValidate($name, $order, $instance);
             $order->$data['orderDateMethod']($data['date']);
             $this->dm->persist($order);
             $this->setEventData($order, $data);
