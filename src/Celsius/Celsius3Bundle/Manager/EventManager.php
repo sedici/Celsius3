@@ -220,6 +220,11 @@ class EventManager
             }
         } else {
             $extraData['httprequest'] = $this->container->get('request');
+            if ($order->getInstance()->getId() != $instance->getId()) {
+                $extraData['remoterequest'] = $order
+                        ->getState(StateManager::STATE__CREATED, $instance)
+                        ->getRemoteEvent();
+            }
             $extraData['sirequests'] = $this->container
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository(
@@ -240,6 +245,18 @@ class EventManager
         return $extraData;
     }
 
+    private function prepareExtraDataForAnnul(Order $order, array $extraData,
+            Instance $instance)
+    {
+        if ($order->getInstance()->getId() != $instance->getId()) {
+            $extraData['request'] = $order
+                    ->getState(StateManager::STATE__CREATED, $instance)
+                    ->getRemoteEvent();
+        }
+
+        return $extraData;
+    }
+
     public function getRealEventName($event, array $extraData)
     {
         switch ($event) {
@@ -254,7 +271,8 @@ class EventManager
                     : self::EVENT__SINGLE_INSTANCE_RECEIVE;
             break;
         case self::EVENT__CANCEL:
-            $event = isset($extraData['request']) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL
+            var_dump(array_key_exists('request', $extraData));
+            $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL
                             : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
             break;
         default:

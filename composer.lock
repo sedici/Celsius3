@@ -932,12 +932,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "df1e0eea3108c73d2e3f747c9fab4b6ca3e3b25c"
+                "reference": "v1.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/df1e0eea3108c73d2e3f747c9fab4b6ca3e3b25c",
-                "reference": "df1e0eea3108c73d2e3f747c9fab4b6ca3e3b25c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/v1.2.0",
+                "reference": "v1.2.0",
                 "shasum": ""
             },
             "require": {
@@ -986,12 +986,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "7f8a21875eb424ca62ee79df7bd63325be5283fd"
+                "reference": "2c3b05b52c96b91255afc6d0d03dd97b03d17c4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7f8a21875eb424ca62ee79df7bd63325be5283fd",
-                "reference": "7f8a21875eb424ca62ee79df7bd63325be5283fd",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/2c3b05b52c96b91255afc6d0d03dd97b03d17c4d",
+                "reference": "2c3b05b52c96b91255afc6d0d03dd97b03d17c4d",
                 "shasum": ""
             },
             "require": {
@@ -1043,7 +1043,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-05-16 07:52:28"
+            "time": "2013-05-17 17:32:40"
         },
         {
             "name": "fzaninotto/faker",
@@ -2638,12 +2638,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "v2.3.0-BETA2"
+                "reference": "v2.3.0-RC1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/v2.3.0-BETA2",
-                "reference": "v2.3.0-BETA2",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/v2.3.0-RC1",
+                "reference": "v2.3.0-RC1",
                 "shasum": ""
             },
             "require": {
@@ -2696,12 +2696,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/SwiftmailerBundle.git",
-                "reference": "5573e119252f4026c7d0e989b6820c6f687f6d4c"
+                "reference": "v2.3.0-RC1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/5573e119252f4026c7d0e989b6820c6f687f6d4c",
-                "reference": "5573e119252f4026c7d0e989b6820c6f687f6d4c",
+                "url": "https://api.github.com/repos/symfony/SwiftmailerBundle/zipball/v2.3.0-RC1",
+                "reference": "v2.3.0-RC1",
                 "shasum": ""
             },
             "require": {
@@ -2896,12 +2896,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "f6ebd46fad09d88302f6511db6b1f08d22a80fba"
+                "reference": "ba88c755579c06e7ccb5ee73c6e27e88a1fed114"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/f6ebd46fad09d88302f6511db6b1f08d22a80fba",
-                "reference": "f6ebd46fad09d88302f6511db6b1f08d22a80fba",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/ba88c755579c06e7ccb5ee73c6e27e88a1fed114",
+                "reference": "ba88c755579c06e7ccb5ee73c6e27e88a1fed114",
                 "shasum": ""
             },
             "require": {
@@ -2937,7 +2937,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-05-15 14:22:32"
+            "time": "2013-05-17 10:06:31"
         },
         {
             "name": "twitter/bootstrap",

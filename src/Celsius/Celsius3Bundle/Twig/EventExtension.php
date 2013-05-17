@@ -1,10 +1,10 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Twig;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Document\Event;
 use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
 
 class EventExtension extends \Twig_Extension
 {
@@ -25,19 +25,35 @@ class EventExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'render_request_event' => new \Twig_Function_Method($this, 'renderRequestEvent'),
-            'render_receive_event' => new \Twig_Function_Method($this, 'renderReceiveEvent'),
-        );
+                'render_request_event' => new \Twig_Function_Method($this,
+                        'renderRequestEvent'),
+                'render_receive_event' => new \Twig_Function_Method($this,
+                        'renderReceiveEvent'),
+                'get_request_state' => new \Twig_Function_Method($this,
+                        'getRequestState'),);
     }
 
     public function renderRequestEvent(Event $event, Order $order)
     {
-        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_request.html.twig', $this->container->get('event_manager')->getDataForRequestRendering($event, $order));
+        return $this->environment
+                ->render(
+                        'CelsiusCelsius3Bundle:AdminOrder:_event_request.html.twig',
+                        $this->container->get('event_manager')
+                                ->getDataForRequestRendering($event, $order));
     }
 
     public function renderReceiveEvent(Event $event, Order $order)
     {
-        return $this->environment->render('CelsiusCelsius3Bundle:AdminOrder:_event_receive.html.twig', $this->container->get('event_manager')->getDataForReceiveRendering($event, $order));
+        return $this->environment
+                ->render(
+                        'CelsiusCelsius3Bundle:AdminOrder:_event_receive.html.twig',
+                        $this->container->get('event_manager')
+                                ->getDataForReceiveRendering($event, $order));
+    }
+
+    public function getRequestState(MultiInstanceRequest $request)
+    {
+        return $request->getOrder()->getCurrentState($request->getRemoteInstance());
     }
 
     public function getName()

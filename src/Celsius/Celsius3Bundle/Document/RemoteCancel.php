@@ -12,11 +12,6 @@ use Celsius\Celsius3Bundle\Manager\EventManager;
  */
 class RemoteCancel extends MultiInstance
 {
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
-     */
-    private $remoteState;
-
     public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
@@ -28,34 +23,5 @@ class RemoteCancel extends MultiInstance
         $lifecycleHelper
                 ->createEvent(EventManager::EVENT__CANCEL, $order,
                         $this->getRemoteInstance());
-
-        //         $data['instance'] = $this->getRemoteInstance();
-        //         $data['stateName'] = StateManager::STATE__CANCELLED;
-        //         $this
-        //                 ->setRemoteState(
-        //                         $lifecycleHelper->getState($order, $this, $data, $this));
-    }
-
-    /**
-     * Set remoteState
-     *
-     * @param Celsius\Celsius3Bundle\Document\State $remoteState
-     * @return self
-     */
-    public function setRemoteState(
-            \Celsius\Celsius3Bundle\Document\State $remoteState)
-    {
-        $this->remoteState = $remoteState;
-        return $this;
-    }
-
-    /**
-     * Get remoteState
-     *
-     * @return Celsius\Celsius3Bundle\Document\State $remoteState
-     */
-    public function getRemoteState()
-    {
-        return $this->remoteState;
     }
 }

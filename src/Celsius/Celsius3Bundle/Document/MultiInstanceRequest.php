@@ -25,6 +25,13 @@ class MultiInstanceRequest extends MultiInstance
     private $isCancelled = false;
 
     /**
+     * @Assert\NotBlank
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $isAnnulled = false;
+
+    /**
      * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
     private $remoteState;
@@ -110,5 +117,27 @@ class MultiInstanceRequest extends MultiInstance
     public function getIsCancelled()
     {
         return $this->isCancelled;
+    }
+
+    /**
+     * Set isAnnulled
+     *
+     * @param boolean $isAnnulled
+     * @return self
+     */
+    public function setIsAnnulled($isAnnulled)
+    {
+        $this->isAnnulled = $isAnnulled;
+        return $this;
+    }
+
+    /**
+     * Get isAnnulled
+     *
+     * @return boolean $isAnnulled
+     */
+    public function getIsAnnulled()
+    {
+        return $this->isAnnulled;
     }
 }
