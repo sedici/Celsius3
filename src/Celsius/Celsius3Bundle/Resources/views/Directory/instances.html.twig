@@ -10,10 +10,8 @@
         {% for instance in instances %}
         <li class="span6">
             <div class="well">
-                <h3>{{ instance.name }}</h3>
-                <p>
-                    <a href="{{ path('public_index', { 'url': instance.url }) }}">{{ 'Visit'|trans }}</a>
-                </p>
+            	<h2><a href="{{ path('public_index', { 'url': instance.url }) }}">{{ instance.get('instance_title').value }}</a></h2>
+                <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
                 <p>
                     {{ 'Institutions'|trans }}: "Here goes the Institution Tree"
                 </p>
