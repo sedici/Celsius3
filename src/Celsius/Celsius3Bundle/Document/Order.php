@@ -444,6 +444,31 @@ class Order
                         });
     }
 
+    public function getFilesForDownload()
+    {
+        $instance = $this->getInstance();
+        return $this->getFiles()
+                ->filter(
+                        function ($entry) use ($instance)
+                        {
+                            return ($entry->getEvent()->getInstance()->getId()
+                                    == $instance->getId());
+                        });
+    }
+
+    public function getNotDownloadedFiles()
+    {
+        $instance = $this->getInstance();
+        return $this->getFiles()
+                ->filter(
+                        function ($entry) use ($instance)
+                        {
+                            return ($entry->getEvent()->getInstance()->getId()
+                                    == $instance->getId()
+                                    && !$entry->getIsDownloaded());
+                        });
+    }
+
     /**
      * Add events
      *

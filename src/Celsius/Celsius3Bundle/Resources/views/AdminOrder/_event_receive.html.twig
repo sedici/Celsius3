@@ -12,7 +12,7 @@
     <dt>{{ 'Files'|trans }}</dt>
     <dd>
         {% for file in order.getFilesForEvent(event) %}
-            <a href="{{ path('file_download', { 'id': file.id }) }}">{{ 'Download'|trans }}</a>
+            <a href="{{ path('admin_file_download', { 'order': order.id, 'file': file.id }) }}">{{ 'Download'|trans }}</a>
         {% endfor %}
     </dd>
     {% if not isDelivered %}

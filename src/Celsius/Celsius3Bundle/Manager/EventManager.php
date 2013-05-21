@@ -181,28 +181,6 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForDeliver(Order $order, array $extraData,
-            Instance $instance)
-    {
-        if (!$this->container->get('request')->query->has('receive')) {
-            $this->container->get('session')->getFlashBag()
-                    ->add('error', 'There was an error changing the state.');
-
-            throw new NotFoundHttpException();
-        }
-
-        $extraData['receive'] = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('CelsiusCelsius3Bundle:Event')
-                ->find($this->container->get('request')->query->get('receive'));
-
-        if (!$extraData['receive']) {
-            throw new NotFoundHttpException();
-        }
-
-        return $extraData;
-    }
-
     private function prepareExtraDataForCancel(Order $order, array $extraData,
             Instance $instance)
     {

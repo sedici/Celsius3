@@ -1,9 +1,9 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\MongoDB\GridFSFile;
 
 /**
  * @MongoDB\Document
@@ -42,7 +42,7 @@ class File
     private $file;
 
     /**
-     * @MongoDB\Date 
+     * @MongoDB\Date
      */
     private $uploaded;
 
@@ -61,6 +61,11 @@ class File
      */
     private $event;
 
+    /**
+     * @MongoDB\Boolean
+     */
+    private $isDownloaded = false;
+
     public function getUploadDir()
     {
         // the absolute directory path where uploaded files should be saved
@@ -73,11 +78,13 @@ class File
      */
     public function prePersist()
     {
-        if (!($this->file instanceof Doctrine\MongoDB\GridFSFile))
-        {
+        if (!($this->file instanceof GridFSFile)) {
             $this->setName($this->file->getClientOriginalName());
             $this->setMime($this->file->getMimeType());
-            $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
+            $this
+                    ->setPath(
+                            md5(rand(0, 999999)) . '.'
+                                    . $this->getFile()->guessExtension());
             $this->getFile()->move($this->getUploadDir(), $this->getPath());
             $this->setFile($this->getUploadDir() . '/' . $this->getPath());
             $this->setUploaded(date('Y-m-d H:i:s'));
@@ -90,8 +97,7 @@ class File
      */
     public function postPersist()
     {
-        if (file_exists($this->getUploadDir() . '/' . $this->getPath()))
-        {
+        if (file_exists($this->getUploadDir() . '/' . $this->getPath())) {
             unlink($this->getUploadDir() . '/' . $this->getPath());
         }
     }
@@ -304,4 +310,25 @@ class File
         return $this->order;
     }
 
+    /**
+     * Set isDownloaded
+     *
+     * @param boolean $isDownloaded
+     * @return self
+     */
+    public function setIsDownloaded($isDownloaded)
+    {
+        $this->isDownloaded = $isDownloaded;
+        return $this;
+    }
+
+    /**
+     * Get isDownloaded
+     *
+     * @return boolean $isDownloaded
+     */
+    public function getIsDownloaded()
+    {
+        return $this->isDownloaded;
+    }
 }

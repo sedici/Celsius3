@@ -2,9 +2,25 @@
 
 {% block extrafields %}
 <dt>{{ 'Current state'|trans }}</dt>
-<dd>{{ order.getCurrentState(order.owner.instance).type.name|capitalize }}</dd>
+<dd>{{ order.getCurrentState(order.instance).type.name|capitalize }} {{ 'since'|trans }} {{ order.getCurrentState(order.instance).date|localizeddate }} ({{ order.getCurrentState(order.instance).date|time_ago_in_words }})</dd>
 {% if app.user.username != order.owner.username %}
 <dt>{{ 'User'|trans }}</dt>
 <dd>{{ order.owner.username }}</dd>
 {% endif %}
+{% endblock %}
+
+{% block orderactions %}
+<div class="span2 pull-right">
+    <ul class="unstyled pull-right">
+    {% if order.getCurrentState(app.user.instance).type.name == constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__RECEIVED') %}
+        {% for file in order.getFilesForDownload() %}
+            <li>
+                <form action="{{ path('user_file_download', { 'order': order.id, 'file': file.id }) }}" method="post" class="inline-form">
+                    <a class="submit-download-form" href="#" title="{{ file.name }}"><i class="icon-download-alt"></i>{{ 'download'|capitalize|trans }}</a>
+                </form>
+            </li>
+        {% endfor %}
+    {% endif %}
+    </ul>
+</div>
 {% endblock %}

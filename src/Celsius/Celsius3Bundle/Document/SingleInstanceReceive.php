@@ -29,7 +29,7 @@ class SingleInstanceReceive extends SingleInstance
     private $reclaimed = false;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
+     * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event", cascade={"persist"})
      */
     private $files;
 
@@ -38,6 +38,15 @@ class SingleInstanceReceive extends SingleInstance
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $requestEvent;
+
+    public function applyExtraData(Order $order, array $data,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setRequestEvent($data['extraData']['request']);
+        $this->setObservations($data['extraData']['observations']);
+        $lifecycleHelper
+                ->uploadFiles($order, $this, $data['extraData']['files']);
+    }
 
     /**
      * Set requestEvent
@@ -171,13 +180,5 @@ class SingleInstanceReceive extends SingleInstance
     public function removeFile(\Celsius\Celsius3Bundle\Document\File $files)
     {
         $this->files->removeElement($files);
-    }
-
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
-    {
-        $this->setRequestEvent($data['extraData']['request']);
-        $this->setObservations($data['extraData']['observations']);
-        $lifecycleHelper->uploadFiles($order, $this, $data['extraData']['files']);
     }
 }
