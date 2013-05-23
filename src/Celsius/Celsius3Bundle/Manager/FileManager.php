@@ -26,6 +26,7 @@ class FileManager
             $file->setFile($uploadedFile);
             $file->setEvent($event);
             $file->setOrder($order);
+            $this->dm->persist($file);
             $event->addFile($file);
         }
     }

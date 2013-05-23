@@ -1,3 +1,20 @@
+{% if isMultiInstance %}
+<div id="reclaim-modal{{ event.id }}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="reclaim-modal-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="receive-modal-label">{{ 'reclaim'|capitalize|trans }}</h3>
+    </div>
+    <div class="modal-body">
+        <form id="reclaimForm{{ event.id }}" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECLAIM'), 'receive': event.id })|raw }}" method="post" {{ form_enctype(reclaim_form) }} class="form-horizontal">
+            {{ form_widget(reclaim_form, {'form_type': 'horizontal'}) }}
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
+        <button class="btn btn-primary doReclaim" value="#reclaimForm{{ event.id }}">{{ 'Save'|trans }}</button>
+    </div>
+</div>
+{% endif %}
 <dl class="dl-horizontal">
     <dt>{{ 'Provider'|trans }}</dt>
     <dd>{{ provider.getProviderName() }}</dd>
@@ -13,6 +30,8 @@
     <dd>
         {% for file in order.getFilesForEvent(event) %}
             <a href="{{ path('admin_file_download', { 'order': order.id, 'file': file.id }) }}">{{ 'Download'|trans }}</a>
+        {% else %}
+            -
         {% endfor %}
     </dd>
     {% if not isDelivered %}
@@ -20,9 +39,7 @@
         <dt>{{ 'Approve Actions'|trans }}</dt>
         <dd>
             {% if not isReclaimed and not isApproved %}
-            <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__RECLAIM'), 'receive': event.id }) }}" method="post" class="inline-form">
-                <a class="submit-reclaim-form" href="#">{{ 'reclaim'|capitalize|trans }}</a>
-            </form>
+            <a class="reclaim-link" href="#reclaim-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'reclaim'|capitalize|trans }}</a>
             {% endif %}
             {% if not isApproved %}
             <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius\\Celsius3Bundle\\Manager\\EventManager::EVENT__APPROVE'), 'receive': event.id }) }}" method="post" class="inline-form">

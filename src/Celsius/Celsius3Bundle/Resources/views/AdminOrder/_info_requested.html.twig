@@ -46,6 +46,10 @@
             $("#requestForm").submit();
         });
 
+        $(document).on('click', '.doReclaim', function(){
+            $($(this).attr('value')).submit();
+        });
+
         $(document).on('click', '.doReceive', function(){
             $($(this).attr('value')).submit();
         });

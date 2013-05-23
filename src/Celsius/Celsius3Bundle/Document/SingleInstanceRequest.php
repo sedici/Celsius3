@@ -23,6 +23,13 @@ class SingleInstanceRequest extends SingleInstance
      */
     private $isCancelled = false;
 
+    /**
+     * @Assert\NotBlank
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $isReclaimed = false;
+
     public function applyExtraData(Order $order, array $data,
             LifecycleHelper $lifecycleHelper, $date)
     {
@@ -73,5 +80,27 @@ class SingleInstanceRequest extends SingleInstance
     public function getIsCancelled()
     {
         return $this->isCancelled;
+    }
+
+    /**
+     * Set isReclaimed
+     *
+     * @param boolean $isReclaimed
+     * @return self
+     */
+    public function setIsReclaimed($isReclaimed)
+    {
+        $this->isReclaimed = $isReclaimed;
+        return $this;
+    }
+
+    /**
+     * Get isReclaimed
+     *
+     * @return boolean $isReclaimed
+     */
+    public function getIsReclaimed()
+    {
+        return $this->isReclaimed;
     }
 }

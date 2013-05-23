@@ -11,7 +11,6 @@ use Celsius\Celsius3Bundle\Manager\StateManager;
  */
 class MultiInstanceReceive extends MultiInstance
 {
-
     /**
      * @Assert\NotBlank
      * @MongoDB\String
@@ -28,7 +27,7 @@ class MultiInstanceReceive extends MultiInstance
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $reclaimed = false;
+    private $isReclaimed = false;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
@@ -50,6 +49,21 @@ class MultiInstanceReceive extends MultiInstance
     public function __construct()
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function applyExtraData(Order $order, array $data,
+            LifecycleHelper $lifecycleHelper, $date)
+    {
+        $this->setRequestEvent($data['extraData']['request']);
+        $this->setObservations($data['extraData']['observations']);
+        $lifecycleHelper
+                ->uploadFiles($order, $this, $data['extraData']['files']);
+        $this->setRemoteInstance($order->getInstance());
+        $data['instance'] = $this->getRemoteInstance();
+        $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
+        $this
+                ->setRemoteState(
+                        $lifecycleHelper->getState($order, $this, $data, $this));
     }
 
     /**
@@ -94,28 +108,6 @@ class MultiInstanceReceive extends MultiInstance
     public function getObservations()
     {
         return $this->observations;
-    }
-
-    /**
-     * Set reclaimed
-     *
-     * @param boolean $reclaimed
-     * @return \MultiInstanceReceive
-     */
-    public function setReclaimed($reclaimed)
-    {
-        $this->reclaimed = $reclaimed;
-        return $this;
-    }
-
-    /**
-     * Get reclaimed
-     *
-     * @return boolean $reclaimed
-     */
-    public function getReclaimed()
-    {
-        return $this->reclaimed;
     }
 
     /**
@@ -194,18 +186,25 @@ class MultiInstanceReceive extends MultiInstance
         return $this->remoteState;
     }
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    /**
+     * Set isReclaimed
+     *
+     * @param boolean $isReclaimed
+     * @return self
+     */
+    public function setIsReclaimed($isReclaimed)
     {
-        $this->setRequestEvent($data['extraData']['request']);
-        $this->setObservations($data['extraData']['observations']);
-        $lifecycleHelper
-                ->uploadFiles($order, $this, $data['extraData']['files']);
-        $this->setRemoteInstance($order->getInstance());
-        $data['instance'] = $this->getRemoteInstance();
-        $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
-        $this
-                ->setRemoteState(
-                        $lifecycleHelper->getState($order, $this, $data, $this));
+        $this->isReclaimed = $isReclaimed;
+        return $this;
+    }
+
+    /**
+     * Get isReclaimed
+     *
+     * @return boolean $isReclaimed
+     */
+    public function getIsReclaimed()
+    {
+        return $this->isReclaimed;
     }
 }

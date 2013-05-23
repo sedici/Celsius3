@@ -26,7 +26,7 @@ class SingleInstanceReceive extends SingleInstance
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $reclaimed = false;
+    private $isReclaimed = false;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event", cascade={"persist"})
@@ -141,28 +141,6 @@ class SingleInstanceReceive extends SingleInstance
     }
 
     /**
-     * Set reclaimed
-     *
-     * @param boolean $reclaimed
-     * @return \Receive
-     */
-    public function setReclaimed($reclaimed)
-    {
-        $this->reclaimed = $reclaimed;
-        return $this;
-    }
-
-    /**
-     * Get reclaimed
-     *
-     * @return boolean $reclaimed
-     */
-    public function getReclaimed()
-    {
-        return $this->reclaimed;
-    }
-
-    /**
      * Add files
      *
      * @param Celsius\Celsius3Bundle\Document\File $files
@@ -180,5 +158,27 @@ class SingleInstanceReceive extends SingleInstance
     public function removeFile(\Celsius\Celsius3Bundle\Document\File $files)
     {
         $this->files->removeElement($files);
+    }
+
+    /**
+     * Set isReclaimed
+     *
+     * @param boolean $isReclaimed
+     * @return self
+     */
+    public function setIsReclaimed($isReclaimed)
+    {
+        $this->isReclaimed = $isReclaimed;
+        return $this;
+    }
+
+    /**
+     * Get isReclaimed
+     *
+     * @return boolean $isReclaimed
+     */
+    public function getIsReclaimed()
+    {
+        return $this->isReclaimed;
     }
 }

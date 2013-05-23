@@ -9,7 +9,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Reclaim extends SingleInstance
 {
-
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
@@ -21,6 +20,11 @@ class Reclaim extends SingleInstance
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $requestEvent;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Event")
+     */
+    private $receiveEvent;
 
     /**
      * Set observations
@@ -45,10 +49,33 @@ class Reclaim extends SingleInstance
     }
 
     /**
+     * Set receiveEvent
+     *
+     * @param Celsius\Celsius3Bundle\Document\Event $receiveEvent
+     * @return self
+     */
+    public function setReceiveEvent(
+            \Celsius\Celsius3Bundle\Document\Event $receiveEvent)
+    {
+        $this->receiveEvent = $receiveEvent;
+        return $this;
+    }
+
+    /**
+     * Get receiveEvent
+     *
+     * @return Celsius\Celsius3Bundle\Document\Event $receiveEvent
+     */
+    public function getReceiveEvent()
+    {
+        return $this->receiveEvent;
+    }
+
+    /**
      * Set requestEvent
      *
      * @param Celsius\Celsius3Bundle\Document\Event $requestEvent
-     * @return \Reclaim
+     * @return self
      */
     public function setRequestEvent(
             \Celsius\Celsius3Bundle\Document\Event $requestEvent)
@@ -66,5 +93,4 @@ class Reclaim extends SingleInstance
     {
         return $this->requestEvent;
     }
-
 }

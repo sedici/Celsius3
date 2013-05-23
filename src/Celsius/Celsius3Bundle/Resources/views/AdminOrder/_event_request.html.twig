@@ -20,7 +20,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-    	var collectionHolder = $('#{{ receive_form.vars.name }}_files');
+    	var collectionHolder = $('#receiveForm{{ event.id }} #{{ receive_form.vars.name }}_files');
         collectionHolder.data('index', collectionHolder.find(':input').length);
         $('#add-file{{ event.id }}').click(function() {
         	var index = collectionHolder.data('index');

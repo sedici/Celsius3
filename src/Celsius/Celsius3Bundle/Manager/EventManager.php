@@ -16,6 +16,8 @@ use Celsius\Celsius3Bundle\Form\Type\OrderReceiveType;
 use Celsius\Celsius3Bundle\Exception\NotFoundException;
 use Symfony\Component\BrowserKit\Request;
 use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius\Celsius3Bundle\Document\Reclaim;
+use Celsius\Celsius3Bundle\Form\Type\OrderReclaimType;
 
 class EventManager
 {
@@ -181,6 +183,48 @@ class EventManager
         return $extraData;
     }
 
+    private function prepareExtraDataForReclaim(Order $order, array $extraData,
+            Instance $instance)
+    {
+        if (!$this->container->get('request')->query->has('receive')) {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
+
+            throw new NotFoundHttpException();
+        }
+
+        $receive = $this->container
+                ->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('CelsiusCelsius3Bundle:Event')
+                ->find($this->container->get('request')->query->get('receive'));
+
+        if (!$receive) {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
+
+            throw new NotFoundHttpException();
+        }
+
+        $form = $this->container->get('form.factory')
+                ->create(new OrderReclaimType());
+        $request = $this->container->get('request');
+
+        $form->bind($request);
+
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $extraData['observations'] = $data['observations'];
+            $extraData['request'] = $receive->getRequestEvent();
+        } else {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
+
+            throw new NotValidException();
+        }
+
+        return $extraData;
+    }
+
     private function prepareExtraDataForCancel(Order $order, array $extraData,
             Instance $instance)
     {
@@ -318,7 +362,10 @@ class EventManager
         }
 
         return array('event' => $event, 'provider' => $provider,
-                'isMultiInstance' => $isMultiInstance, 'order' => $order,
+                'reclaim_form' => $this->container->get('form.factory')
+                        ->create(new OrderReclaimType(), new Reclaim())
+                        ->createView(), 'isMultiInstance' => $isMultiInstance,
+                'order' => $order,
                 'isDelivered' => $order
                         ->getState(StateManager::STATE__DELIVERED, $instance),
                 'isReclaimed' => $event->getReclaimed(),
