@@ -7,5 +7,17 @@
 {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
+{% block javascripts %}
+{% set msg = 'foo' %}
+
+<script>    
+var myClank = Clank.connect("ws://localhost:8080");
+myClank.on("socket/connect", function(session){
+    //session is an Autobahn JS WAMP session.
+    console.log("Successfully Connected!");
+    session.publish("channel/517125eb3da6ba480c0000ca", {msg: {{ msg|json_encode|raw }}});
+})
+</script>
+{% endblock %}
 {{ index('admin_mails', pagination, 'CelsiusCelsius3Bundle:AdminMail', filter_form) }}
 {% endblock %}

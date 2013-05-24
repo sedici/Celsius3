@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\MailTemplate;
 use Celsius\Celsius3Bundle\Form\Type\MailTemplateType;
 use Celsius\Celsius3Bundle\Filter\Type\MailTemplateFilterType;
-
+use Celsius\Celsius3Bundle\Manager\NotificationManager;
 /**
  * Order controller.
  *
@@ -59,7 +59,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-
+        //NotificationManager::notifyUser();
         return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
 

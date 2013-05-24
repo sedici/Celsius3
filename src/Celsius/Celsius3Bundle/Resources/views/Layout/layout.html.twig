@@ -36,6 +36,7 @@
     {% endblock %}
     </head>
     <body>
+        {{ clank_client() }}
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -47,18 +48,33 @@
                         <a class="brand" href="{{ path('directory') }}">Celsius3</a>
                         <div class="nav-collapse">
                             {% block navigation_top %}
-                             
                             {% if app.user %}
                                 <script>
-                                    $(document).ready(function(){
-                                        $.ajax({
-                                            url: "{{path('get_notifications_list')}}",
-                                            success: (function(data) {
-                                               $('.dropdown').empty();
-                                               $('.dropdown').append(data);
-                                            }),
-                                        });
-                                    });
+var myClank = Clank.connect("ws://localhost:8080");
+myClank.on("socket/connect", function(session){
+    //session is an Autobahn JS WAMP session.
+    console.log("Successfully Connected!");
+ 
+    //the callback function in "subscribe" is called everytime an event is published in that channel.
+      var channel = 'channel/' + {{ app.user.id|json_encode|raw }};
+      session.subscribe(channel, function(uri, payload){
+          alert(payload.msg);
+          $('.dropdown').empty();
+          $('.dropdown').append(payload.msg);
+      });
+})
+
+
+
+                            //        $(document).ready(function(){
+                            //            $.ajax({
+                            //                url: "{{path('get_notifications_list')}}",
+                            //                success: (function(data) {
+                            //                   $('.dropdown').empty();
+                            //                   $('.dropdown').append(data);
+                            //                }),
+                            //            });
+                            //        });
                                 </script>
                                 <div class="dropdown"></div>  
                             {% endif %}    

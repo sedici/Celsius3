@@ -46,7 +46,8 @@
         "twitter/bootstrap": "2.3.*",
         "jquery/jquery": "1.9.*",
         "fzaninotto/faker": "dev-master",
-        "genemu/form-bundle": "2.1.*"
+        "genemu/form-bundle": "2.1.*",
+        "jdare/clank-bundle": "0.1.*"
     },
     "scripts": {
         "post-install-cmd": [

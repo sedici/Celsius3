@@ -28,10 +28,13 @@ monolog:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        clank_host:    "%clank_host%"
+        clank_port:    "%clank_port%"
 
 # Assetic Configuration
 assetic:
-    bundles:        [CelsiusCelsius3Bundle]
+    bundles:        [CelsiusCelsius3Bundle, JDareClankBundle]
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java
@@ -229,3 +232,9 @@ bc_bootstrap:
     
 genemu_form:
     select2: ~
+
+# Clank Configuration
+clank:
+  web_socket_server:
+      port: "%clank_port%" #The port the socket server will listen on
+      host: "%clank_host%" #(optional) The host ip to bind to       

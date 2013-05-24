@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new Celsius\Celsius3MessageBundle\CelsiusCelsius3MessageBundle(),
             new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+            new JDare\ClankBundle\JDareClankBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test')))

@@ -80,15 +80,6 @@ class UserNotificationController extends BaseController
             return $notificationsMessagesArray;
         }
     }
-
-
-    public function loadNotifiactions()
-    {
-       $causeNotifications = NotificationManager::getCauseNotification();
-       foreach($causeNotifications as $cause)
-           $array_response[$cause] = $this->getMessageNotifiaction($cause);
-       return array('hiddenTemplates' => $array_response);
-    }
      
      /**
      *  Change state to notification.
@@ -154,13 +145,41 @@ class UserNotificationController extends BaseController
      */
     public function getNotificationListAction()
     {
-       $causeNotifications = NotificationManager::getCauseNotification();
-       foreach($causeNotifications as $cause)
-           $array_response[$cause] = $this->getMessageNotifiaction($cause);
-     
+ //      $causeNotifications = NotificationManager::getCauseNotification();
+ //      foreach($causeNotifications as $cause)
+ //          $array_response[$cause] = $this->getMessageNotifiaction($cause);
+        
+       $this->getMessages();
+        
        return $this->render('CelsiusCelsius3Bundle:UserNotification:list.html.twig',
                              array('hiddenTemplates' => $array_response)
                             );
+       
+    }
+    
+    public function getMessages()
+    {
+//      $notifications = $this->getNotificationToUser($cause, $this->getUser());
+        $notifications = $this->listQuery('Notification');
+        var_dump($notifications);die;
+        if (count($notifications) > 0) 
+        {
+//          $templateNotification = $this->getTemplate($cause, $this->get('request')->get('_locale'));
+            $templateNotification = $this->getAllTemplate($this->get('request')->get('_locale'));
+            var_dump($templateNotification);
+            die;
+            $notificationsMessagesArray = array();
+            foreach ($notifications as $notification)
+            {
+                $env = new \Twig_Environment(new \Twig_Loader_String());
+                $renderTemplate = $env->render($templateNotification->getText(),
+                                               array("notification" => $notification));
+                array_push($notificationsMessagesArray, array ('id' => $notification->getId(),
+                                                               'text' => $renderTemplate,
+                                                               'date' => $notification->getCreated()));
+            }
+            return $notificationsMessagesArray;
+        }
     }
     
 
