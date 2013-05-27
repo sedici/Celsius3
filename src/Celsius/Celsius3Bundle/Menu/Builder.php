@@ -40,7 +40,7 @@ class Builder extends ContainerAware
         if ($securityContext->isGranted(UserManager::ROLE_SUPER_ADMIN)
                 !== false && $local) {
             $menu
-                    ->addChild('Super Administration',
+                    ->addChild('Network Administration',
                             array('route' => 'superadministration'));
         }
         if ($securityContext->isGranted(UserManager::ROLE_USER) !== false

@@ -70,7 +70,9 @@
 
                             {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:topMenu') }}
                             {% endblock %}
-                            {% include 'CelsiusCelsius3Bundle:Layout:_user_panel.html.twig' %}
+                            {% block user_panel %}
+                                {% include 'CelsiusCelsius3Bundle:Layout:_user_panel.html.twig' %}
+                            {% endblock %}
                             {{ knp_menu_render('CelsiusCelsius3Bundle:Builder:langSelectorMenu') }}
                         </div>
                     </div>

@@ -32,6 +32,7 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+            &nbsp;<a href="{{ path("fos_user_resetting_request", { 'url': app.request.get('url') }) }}">{{ 'Forgot your password?'|trans }}</a>
         </div>
     </div>
 </form>
