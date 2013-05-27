@@ -3,34 +3,28 @@
         <h2>{{ 'Other'|trans }}</h2>
         <div class="row">
             <div class="span3">
-                <ul class="nav nav-list">
-                    <li class="nav-header">
-                        {{ 'Users'|trans }}
+                <ul class="unstyled btn-group-list">
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_user') }}" class="btn"><i class="icon-list"></i> {{ 'Users'|trans }}</a>
+                            <a href="{{ path('superadmin_user_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        </div>
                     </li>
                     <li>
-                        <a href="{{ path('superadmin_user_new') }}"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('superadmin_user') }}"><i class="icon-list"></i> {{ 'Global List'|trans }}</a>
-                    </li>
-                    <li class="nav-header">
-                        {{ 'Directory'|trans }}
-                    </li>
-                    <li>
-                        <a href="{{ path('superadmin_news') }}"><i class="icon-font"></i> {{ 'News'|trans }}</a>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_news') }}" class="btn"><i class="icon-font"></i> {{ 'News'|trans }}</a>
+                            <a href="{{ path('superadmin_news_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="span2">
-                <ul class="nav nav-list">
-                    <li class="nav-header">
-                        {{ 'Orders'|trans }}
-                    </li>
+                <ul class="unstyled btn-group-list">
                     <li>
-                        <a href="{{ path('superadmin_order_new') }}"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('superadmin_order') }}"><i class="icon-list"></i> {{ 'Global List'|trans }}</a>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_order') }}" class="btn"><i class="icon-list"></i> {{ 'Orders'|trans }}</a>
+                            <a href="{{ path('superadmin_order_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        </div>
                     </li>
                 </ul>
             </div>
