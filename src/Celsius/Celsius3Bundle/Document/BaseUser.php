@@ -1,11 +1,11 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use FOS\UserBundle\Document\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\MessageBundle\Model\ParticipantInterface;
+use Celsius\Celsius3Bundle\Manager\UserManager;
 
 /**
  * @MongoDB\Document
@@ -64,18 +64,18 @@ class BaseUser extends User implements ParticipantInterface
     protected $createdOrders;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance") 
+     * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
     protected $instance;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
     protected $librarian;
 
     /**
      * @Assert\NotBlank()
-     * @MongoDB\ReferenceOne(targetDocument="Institution") 
+     * @MongoDB\ReferenceOne(targetDocument="Institution")
      */
     protected $institution;
 
@@ -100,11 +100,11 @@ class BaseUser extends User implements ParticipantInterface
     }
 
     /**
-     * @MongoDB\PrePersist 
+     * @MongoDB\PrePersist
      */
     public function prePersist()
     {
-        $this->addRole('ROLE_USER');
+        $this->addRole(UserManager::ROLE_USER);
     }
 
     public function __construct()
@@ -240,7 +240,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius\Celsius3Bundle\Document\Order $operatedOrders
      */
-    public function addOperatedOrders(\Celsius\Celsius3Bundle\Document\Order $operatedOrders)
+    public function addOperatedOrders(
+            \Celsius\Celsius3Bundle\Document\Order $operatedOrders)
     {
         $this->operatedOrders[] = $operatedOrders;
     }
@@ -260,7 +261,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius\Celsius3Bundle\Document\Order $createdOrders
      */
-    public function addCreatedOrders(\Celsius\Celsius3Bundle\Document\Order $createdOrders)
+    public function addCreatedOrders(
+            \Celsius\Celsius3Bundle\Document\Order $createdOrders)
     {
         $this->createdOrders[] = $createdOrders;
     }
@@ -281,7 +283,8 @@ class BaseUser extends User implements ParticipantInterface
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return BaseUser
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance)
+    public function setInstance(
+            \Celsius\Celsius3Bundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -303,7 +306,8 @@ class BaseUser extends User implements ParticipantInterface
      * @param Celsius\Celsius3Bundle\Document\BaseUser $librarian
      * @return BaseUser
      */
-    public function setLibrarian(\Celsius\Celsius3Bundle\Document\BaseUser $librarian)
+    public function setLibrarian(
+            \Celsius\Celsius3Bundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -325,7 +329,8 @@ class BaseUser extends User implements ParticipantInterface
      * @param Celsius\Celsius3Bundle\Document\Institution $institution
      * @return BaseUser
      */
-    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
+    public function setInstitution(
+            \Celsius\Celsius3Bundle\Document\Institution $institution)
     {
         $this->institution = $institution;
         return $this;
@@ -346,7 +351,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius\Celsius3Bundle\Document\BaseUser $subordinates
      */
-    public function addSubordinates(\Celsius\Celsius3Bundle\Document\BaseUser $subordinates)
+    public function addSubordinates(
+            \Celsius\Celsius3Bundle\Document\BaseUser $subordinates)
     {
         $this->subordinates[] = $subordinates;
     }
@@ -366,7 +372,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius\Celsius3Bundle\Document\CustomUserValue $customValues
      */
-    public function addCustomValues(\Celsius\Celsius3Bundle\Document\CustomUserValue $customValues)
+    public function addCustomValues(
+            \Celsius\Celsius3Bundle\Document\CustomUserValue $customValues)
     {
         $this->customValues[] = $customValues;
     }

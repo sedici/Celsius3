@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Form\Type;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius\Celsius3Bundle\Form\DataTransformer\UserToIdTransformer;
@@ -29,12 +28,13 @@ class UserSelectorType extends AbstractType
         $transformer = new UserToIdTransformer($this->dm);
         $builder->addModelTransformer($transformer);
     }
-    
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array(
-            'invalid_message' => 'The selected User does not exist',
-        ));
+        $resolver
+                ->setDefaults(
+                        array(
+                                'invalid_message' => 'The selected User does not exist',));
     }
 
     public function getParent()

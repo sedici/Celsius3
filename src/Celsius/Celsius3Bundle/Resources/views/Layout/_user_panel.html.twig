@@ -1,21 +1,27 @@
-<ul id="user_panel" class="unstyled">
+<ul class="pull-right nav">
     {% if (app.request.get('url') and app.request.get('url') == app.session.get('instance_url')) or not app.request.get('url') or not app.session.get('instance_url') %}
-        {% if app.user %}
-        <li>
-            {{ 'You are logged in as'|trans }} {{ app.user.username }}
-        </li>
-        <li>
-            <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-primary"><i class="icon-wrench"></i> Settings</a>
-            <a href="{{ path('fos_user_security_logout', { 'url': app.session.get('instance_url') }) }}" class="btn btn-danger"><i class="icon-off"></i> Logout</a>
-        </li>
-        {% else %}
-        <li>
-            {{ 'You are not logged in'|trans }}
-        </li>
-        <li>
-            <a href="{{ path('fos_user_security_login', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}" class="btn btn-primary"><i class="icon-user"></i> Login</a>
-            <a href="{{ path('fos_user_registration_register', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}" class="btn"><i class="icon-plus"></i> Register</a>
-        </li>
-        {% endif %}
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="icon-user"></i> {{ app.user?app.user.username:'' }}
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            {% if app.user %}
+            <li>
+                <a href="{{ path('fos_user_profile_edit') }}"><i class="icon-wrench"></i> {{ 'Profile'|trans }}</a>
+            </li>
+            <li>
+                <a href="{{ path('fos_user_security_logout', { 'url': app.session.get('instance_url') }) }}"><i class="icon-off"></i> {{ 'Logout'|trans }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{{ path('fos_user_security_login', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><i class="icon-user"></i> {{ 'Login'|trans }}</a>
+            </li>
+            <li>
+                <a href="{{ path('fos_user_registration_register', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><i class="icon-plus"></i> {{ 'Register'|trans }}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </li>
     {% endif %}
 </ul>
