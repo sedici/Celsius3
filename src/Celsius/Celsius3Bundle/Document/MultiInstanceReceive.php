@@ -5,29 +5,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 use Celsius\Celsius3Bundle\Manager\StateManager;
+use Celsius\Celsius3Bundle\Document\Mixin\ReclaimableTrait;
 
 /**
  * @MongoDB\Document
  */
 class MultiInstanceReceive extends MultiInstance
 {
+    use ReclaimableTrait;
+
     /**
      * @Assert\NotBlank
      * @MongoDB\String
      */
     private $deliveryType;
-
-    /**
-     * @MongoDB\String
-     */
-    private $observations;
-
-    /**
-     * @Assert\NotBlank
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
-     */
-    private $isReclaimed = false;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
@@ -86,28 +77,6 @@ class MultiInstanceReceive extends MultiInstance
     public function getDeliveryType()
     {
         return $this->deliveryType;
-    }
-
-    /**
-     * Set observations
-     *
-     * @param string $observations
-     * @return \MultiInstanceReceive
-     */
-    public function setObservations($observations)
-    {
-        $this->observations = $observations;
-        return $this;
-    }
-
-    /**
-     * Get observations
-     *
-     * @return string $observations
-     */
-    public function getObservations()
-    {
-        return $this->observations;
     }
 
     /**
@@ -184,27 +153,5 @@ class MultiInstanceReceive extends MultiInstance
     public function getRemoteState()
     {
         return $this->remoteState;
-    }
-
-    /**
-     * Set isReclaimed
-     *
-     * @param boolean $isReclaimed
-     * @return self
-     */
-    public function setIsReclaimed($isReclaimed)
-    {
-        $this->isReclaimed = $isReclaimed;
-        return $this;
-    }
-
-    /**
-     * Get isReclaimed
-     *
-     * @return boolean $isReclaimed
-     */
-    public function getIsReclaimed()
-    {
-        return $this->isReclaimed;
     }
 }

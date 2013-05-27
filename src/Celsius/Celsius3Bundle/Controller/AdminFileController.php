@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius\Celsius3Bundle\Document\File;
 use Celsius\Celsius3Bundle\Form\Type\FileType;
+use Celsius\Celsius3Bundle\Controller\Mixin\FileControllerTrait;
 
 /**
  * File controller.
@@ -15,6 +16,24 @@ use Celsius\Celsius3Bundle\Form\Type\FileType;
  */
 class AdminFileController extends BaseController
 {
+    use FileControllerTrait;
+
+    protected function validate($order, $file)
+    {
+        if (!$order) {
+            return $this->createNotFoundException('Order not found.');
+        }
+
+        if (!$file) {
+            return $this->createNotFoundException('File not found.');
+        }
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $this->get('file_manager')
+                ->registerDownload($order, $file, $this->getRequest(), $user);
+    }
+
     /**
      * Downloads the file associated to a File document.
      *
@@ -24,35 +43,6 @@ class AdminFileController extends BaseController
      */
     public function downloadAction($order, $file)
     {
-        /* Esto es muy similar al controlador de User, evaluar la posibilidad
-         * de usar traits para resolver ese problema
-         */
-        $order = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:Order')->find($order);
-
-        if (!$order) {
-            return $this->createNotFoundException('Order not found.');
-        }
-
-        $file = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:File')->find($file);
-
-        $user = $this->get('security.context')->getToken()->getUser();
-
-        if (!$file) {
-            return $this->createNotFoundException('File not found.');
-        }
-
-        $this->get('file_manager')
-                ->registerDownload($order, $file, $this->getRequest(), $user);
-
-        $response = new Response();
-        $response->headers->set('Content-type', $file->getMime() . ';');
-        $response->headers
-                ->set('Content-Disposition',
-                        'attachment;filename="' . $file->getName() . '"');
-        $response->setContent($file->getFile()->getBytes());
-
-        return $response;
+        return $this->download($order, $file);
     }
 }

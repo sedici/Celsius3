@@ -4,12 +4,13 @@ namespace Celsius\Celsius3Bundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class AdminOrderType extends OrderType
 {
-    
+
     protected $operator;
-    
+
     public function __construct($instance = null, $material = null, $user = null, $operator = null)
     {
         parent::__construct($instance, $material, $user);
@@ -46,6 +47,13 @@ class AdminOrderType extends OrderType
         ;
 
         parent::buildForm($builder, $options);
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+                'validation_groups' => array('newOrder'),
+        ));
     }
 
     public function getName()

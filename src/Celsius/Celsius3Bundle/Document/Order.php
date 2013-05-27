@@ -11,22 +11,20 @@ use Celsius\Celsius3Bundle\Document\Instance;
  */
 class Order
 {
-
     /**
      * @MongoDB\Id
      */
     protected $id;
 
     /**
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="integer", groups={"newOrder"})
      * @MongoDB\Int
      */
     protected $code;
-
     /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="integer")
-     * @MongoDB\Int
+
+     * @Assert\NotBlank(groups={"newOrder"})
+     * @MongoDB\String
      */
     protected $type;
 
@@ -89,7 +87,7 @@ class Order
     protected $materialData;
 
     /**
-     * @Assert\NotNull
+     * @Assert\NotNull(groups={"newOrder"})
      * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
     protected $owner;
@@ -105,7 +103,7 @@ class Order
     protected $librarian;
 
     /**
-     * @Assert\NotNull
+     * @Assert\NotNull(groups={"newOrder"})
      * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
     protected $instance;
@@ -695,5 +693,4 @@ class Order
     {
         $this->states->removeElement($states);
     }
-
 }

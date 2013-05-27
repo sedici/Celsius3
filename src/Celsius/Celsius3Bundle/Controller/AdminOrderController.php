@@ -125,8 +125,9 @@ class AdminOrderController extends OrderController
         $editForm = $this
                 ->createForm(
                         new OrderType($this->getInstance(),
-                                $this->getMaterialType($materialClass), null,
-                                $this->getUser()), $document);
+                                $this->getMaterialType($materialClass),
+                                $document->getOwner(), $this->getUser()),
+                        $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('document' => $document,

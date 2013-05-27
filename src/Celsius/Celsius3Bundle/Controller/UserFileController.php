@@ -10,6 +10,8 @@ use Celsius\Celsius3Bundle\Form\Type\FileType;
 use Celsius\Celsius3Bundle\Manager\FileManager;
 use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 use Celsius\Celsius3Bundle\Manager\EventManager;
+use Celsius\Celsius3Bundle\Document\Order;
+use Celsius\Celsius3Bundle\Controller\Mixin\FileControllerTrait;
 
 /**
  * File controller.
@@ -18,25 +20,13 @@ use Celsius\Celsius3Bundle\Manager\EventManager;
  */
 class UserFileController extends BaseController
 {
-    /**
-     * Downloads the file associated to a File document.
-     *
-     * @Route("/{order}/{file}/download", name="user_file_download")
-     * @Method("post")
-     *
-     * @param string $id The document ID
-     */
-    public function downloadAction($order, $file)
-    {
-        $order = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:Order')->find($order);
+    use FileControllerTrait;
 
+    protected function validate(Order $order, File $file)
+    {
         if (!$order) {
             return $this->createNotFoundException('Order not found.');
         }
-
-        $file = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3Bundle:File')->find($file);
 
         $user = $this->get('security.context')->getToken()->getUser();
 
@@ -52,14 +42,18 @@ class UserFileController extends BaseController
             $this->get('lifecycle_helper')
                     ->createEvent(EventManager::EVENT__DELIVER, $order);
         }
+    }
 
-        $response = new Response();
-        $response->headers->set('Content-type', $file->getMime() . ';');
-        $response->headers
-                ->set('Content-Disposition',
-                        'attachment;filename="' . $file->getName() . '"');
-        $response->setContent($file->getFile()->getBytes());
-
-        return $response;
+    /**
+     * Downloads the file associated to a File document.
+     *
+     * @Route("/{order}/{file}/download", name="user_file_download")
+     * @Method("post")
+     *
+     * @param string $id The document ID
+     */
+    public function downloadAction($order, $file)
+    {
+        return $this->download($order, $file);
     }
 }

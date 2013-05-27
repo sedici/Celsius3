@@ -10,12 +10,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 class Reclaim extends SingleInstance
 {
     /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
-    private $observations;
-
-    /**
      * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
@@ -25,28 +19,6 @@ class Reclaim extends SingleInstance
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
     private $receiveEvent;
-
-    /**
-     * Set observations
-     *
-     * @param string $observations
-     * @return \Reclaim
-     */
-    public function setObservations($observations)
-    {
-        $this->observations = $observations;
-        return $this;
-    }
-
-    /**
-     * Get observations
-     *
-     * @return string $observations
-     */
-    public function getObservations()
-    {
-        return $this->observations;
-    }
 
     /**
      * Set receiveEvent
