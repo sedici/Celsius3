@@ -117,27 +117,27 @@ body {
     margin-top: -20px;
     margin-bottom: -20px;
 }
-.mail-creator {
-    width: 15%;
+.border-radius (@radius) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+.message-heading {
+	.border-radius(4px);
+	margin-bottom: 20px;
+	border: 1px solid #E5E5E5;
+	padding: 8px 15px;
+
+}
+.message-read {
+	background: #DCDCDC;
+}
+.message-creator {
     text-align: center;
+    margin-left: -5px;
 }
-.mail-subject {
-    width: 35%;
-}
-.mail-date {
-    width: 35%;
-}
-.mail-flag {
-    width: 20px;
-}
-.mail-subject, .mail-date {
-    dt {
-        width: 80px;
-    }
-    dd {
-        margin-left: 90px;
-        height: 20px;
-    }
+.message-subject {
+	height: 20px;
 }
 .btn-group-list li {
 	margin-bottom:5px;
@@ -146,17 +146,14 @@ body {
 		text-align: left;
 	}
 }
-
 #notifications.dropdown{
     display: inline-block;
 }
-
 .notification-date{
    font-size: 11px;
    float: right;
 
 }
-
 #notifications .dropdown-menu{
    overflow-y: scroll;
    height: auto;
@@ -168,7 +165,6 @@ body {
    padding-bottom:-5px;
    height: 6px;
 }
-
 .notification-last-item{
    font-size: 12px;
    float: right;
@@ -176,11 +172,9 @@ body {
    margin-right:5px;
    height: 5px;
 }
-
 .select2-container {
     width: 75%;
 }
-
 .starter-message {
   background-color: #FFFFFF;
 }
