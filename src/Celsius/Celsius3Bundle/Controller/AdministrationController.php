@@ -1,19 +1,18 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius\Celsius3Bundle\Manager\SearchManager;
 
 /**
  * Administration controller
- * 
- * @Route("/admin") 
+ *
+ * @Route("/admin")
  */
 class AdministrationController extends BaseInstanceDependentController
-{  
-    
+{
+
     protected function getProvider()
     {
         return $this->container->get('fos_message.provider');
@@ -28,17 +27,16 @@ class AdministrationController extends BaseInstanceDependentController
     {
         $instance = $this->getInstance();
 
-        //$numberMessage = $this->forward('CelsiusCelsius3Bundle:AdminMessage:getUnReadMessage');
-        $numberMessage = $this->getProvider()->getNbUnreadMessages();
-        $orderCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:State')->countOrders($this->getInstance());
-        $userCount = $this->getDocumentManager()->getRepository('CelsiusCelsius3Bundle:BaseUser')->countUsers($this->getInstance());
+        $orderCount = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:State')
+                ->countOrders($this->getInstance());
+        $userCount = $this->getDocumentManager()
+                ->getRepository('CelsiusCelsius3Bundle:BaseUser')
+                ->countUsers($this->getInstance());
 
         $arrayResponse = array('instance' => $instance,
-                               'orderCount' => $orderCount,
-                               'userCount' => $userCount,
-                               'numberMessage' => $numberMessage
-                              );
-        
+                'orderCount' => $orderCount, 'userCount' => $userCount,);
+
         return $arrayResponse;
     }
 
@@ -54,14 +52,17 @@ class AdministrationController extends BaseInstanceDependentController
         $searchManager = new SearchManager();
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-                $searchManager->doSearch('Order', $keyword, $this->getDocumentManager(), $this->getInstance()), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
-        );
+        $pagination = $paginator
+                ->paginate(
+                        $searchManager
+                                ->doSearch('Order', $keyword,
+                                        $this->getDocumentManager(),
+                                        $this->getInstance()),
+                        $this->get('request')->query->get('page', 1)/* page number */,
+                        $this->container->getParameter('max_per_page')/* limit per page */
+                );
 
-        return array(
-            'keyword' => $keyword,
-            'pagination' => $pagination,
-        );
+        return array('keyword' => $keyword, 'pagination' => $pagination,);
     }
 
     /**
