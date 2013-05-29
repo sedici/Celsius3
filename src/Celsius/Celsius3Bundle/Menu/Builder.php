@@ -74,38 +74,6 @@ class Builder extends ContainerAware
         return $menu;
     }
 
-    public function langSelectorMenu(FactoryInterface $factory, array $options)
-    {
-        $request = $this->container->get('request');
-
-        $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'pull-right');
-
-        $menu
-                ->addChild('ES',
-                        array('route' => $request->attributes->get('_route'),
-                                'routeParameters' => array_merge(
-                                        $request->attributes
-                                                ->get('_route_params'),
-                                        array('_locale' => 'es')),));
-        $menu
-                ->addChild('EN',
-                        array('route' => $request->attributes->get('_route'),
-                                'routeParameters' => array_merge(
-                                        $request->attributes
-                                                ->get('_route_params'),
-                                        array('_locale' => 'en')),));
-        $menu
-                ->addChild('PT',
-                        array('route' => $request->attributes->get('_route'),
-                                'routeParameters' => array_merge(
-                                        $request->attributes
-                                                ->get('_route_params'),
-                                        array('_locale' => 'pt')),));
-
-        return $menu;
-    }
-
     public function publicMenu(FactoryInterface $factory, array $options)
     {
         $request = $this->container->get('request');

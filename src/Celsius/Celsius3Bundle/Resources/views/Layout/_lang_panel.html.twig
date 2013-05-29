@@ -1,0 +1,14 @@
+<ul class="pull-right nav">
+    <li>
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            {{ app.request.get('_locale')|upper }}
+        </a>
+        <ul class="dropdown-menu">
+            {% for locale in ['es', 'en', 'pt'] %}
+            <li>
+                <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({ '_locale': locale })) }}">{{ locale|upper }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
