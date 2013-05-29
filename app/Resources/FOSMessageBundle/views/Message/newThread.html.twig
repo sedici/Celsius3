@@ -4,6 +4,7 @@
 <h3>{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
 <div class="row">
     <div class="span9">
+        {{ tinymce_init() }}
         <form action="{{ url('fos_message_thread_new') }}" method="post" class="form-horizontal well">
             {{ form_widget(form, {'form_type': 'horizontal'}) }}
             <div class="control-group">

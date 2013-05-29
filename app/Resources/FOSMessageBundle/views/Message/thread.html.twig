@@ -4,29 +4,27 @@
 <h3>{{ thread.subject }}</h3>
 <div class="row">
     <div class="span9">
+        {{ tinymce_init() }}
         {% for message in thread.messages %}
             <div class="well {{ thread.createdBy == message.sender ? 'starter-message' : '' }}">
-                <div>
-                    <p>
-                        {% trans with {'%sender%': message.sender|e} from 'FOSMessageBundle' %}by{% endtrans %}
-                    </p>
-                    <p>
-                        {% trans with {'%date%': message.createdAt|localizeddate} from 'FOSMessageBundle' %}on{% endtrans %}
-                        ({{ message.createdAt|time_ago_in_words }})
-                    </p>
+                <div class="message-header">
+                    <span class="pull-left message-sender">
+                        {{  message.sender }}
+                    </span>
+                    <span class="pull-right">
+                        {{ message.createdAt|localizeddate }} ({{ message.createdAt|time_ago_in_words }})
+                    </span>
+                    <div class="clearfix"></div>
                     {% if loop.first %}
                     <p>
-                        <span class="pull-left">{{ 'To'|trans }}&nbsp;</span>
-                        <ul class="unstyled pull-left">
-                            {% for participant in thread.participants if participant != thread.createdBy %}
-                                <li>{{ participant }}</li>
-                            {% endfor %}
-                        </ul>
+                        {{ 'To'|trans }}
+                        {% for participant in thread.participants if participant != thread.createdBy %}
+                            {{ not loop.first?',':'' }} {{ participant.username }}
+                        {% endfor %}
                     </p>
                     {% endif %}
                 </div>
-                <div class="clearfix"></div>
-                <div id="message_{{ message.id }}">
+                <div id="message_{{ message.id }}" class="well well-small">
                     {{ message.body }}
                 </div>
             </div>

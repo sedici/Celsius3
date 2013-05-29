@@ -777,12 +777,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb.git",
-                "reference": "1.0.3"
+                "reference": "7ed3379f927de2cbbc139727278b2c11b90266bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/1.0.3",
-                "reference": "1.0.3",
+                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/7ed3379f927de2cbbc139727278b2c11b90266bf",
+                "reference": "7ed3379f927de2cbbc139727278b2c11b90266bf",
                 "shasum": ""
             },
             "require": {
@@ -829,7 +829,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2013-04-23 15:15:35"
+            "time": "2013-05-29 17:28:27"
         },
         {
             "name": "doctrine/mongodb-odm",
@@ -837,12 +837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "b12a806f971bea6e55fbdb4a95bf4aeb82be61bc"
+                "reference": "b2597b9177e3c917e7189deba5cdd411e0a9e33e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/b12a806f971bea6e55fbdb4a95bf4aeb82be61bc",
-                "reference": "b12a806f971bea6e55fbdb4a95bf4aeb82be61bc",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/b2597b9177e3c917e7189deba5cdd411e0a9e33e",
+                "reference": "b2597b9177e3c917e7189deba5cdd411e0a9e33e",
                 "shasum": ""
             },
             "require": {
@@ -902,7 +902,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-05-23 07:06:17"
+            "time": "2013-05-28 20:34:49"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1026,12 +1026,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "8e9f5afaf27d81923954455a013322001d1a45ee"
+                "reference": "dac186d19db5c2ad97e710bef8c412e84b8c2ea0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/8e9f5afaf27d81923954455a013322001d1a45ee",
-                "reference": "8e9f5afaf27d81923954455a013322001d1a45ee",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/dac186d19db5c2ad97e710bef8c412e84b8c2ea0",
+                "reference": "dac186d19db5c2ad97e710bef8c412e84b8c2ea0",
                 "shasum": ""
             },
             "require": {
@@ -1071,7 +1071,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-05-24 10:16:31"
+            "time": "2013-05-29 14:07:43"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1148,12 +1148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "202c8517478011464e0e50923cab2bcd6344453b"
+                "reference": "c09176c838f30da83ba9e509151d055c0bb837c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/202c8517478011464e0e50923cab2bcd6344453b",
-                "reference": "202c8517478011464e0e50923cab2bcd6344453b",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/c09176c838f30da83ba9e509151d055c0bb837c8",
+                "reference": "c09176c838f30da83ba9e509151d055c0bb837c8",
                 "shasum": ""
             },
             "require": {
@@ -1186,7 +1186,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-05-20 20:34:10"
+            "time": "2013-05-29 13:25:57"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2344,12 +2344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "c24f69222dc837625715a6fa902a3e2fa4fb5038"
+                "reference": "de188e471f59918b0b523b8fc346761c2e4ff1a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/c24f69222dc837625715a6fa902a3e2fa4fb5038",
-                "reference": "c24f69222dc837625715a6fa902a3e2fa4fb5038",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/de188e471f59918b0b523b8fc346761c2e4ff1a4",
+                "reference": "de188e471f59918b0b523b8fc346761c2e4ff1a4",
                 "shasum": ""
             },
             "require": {
@@ -2407,7 +2407,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-22 17:17:41"
+            "time": "2013-05-29 08:54:41"
         },
         {
             "name": "monolog/monolog",
@@ -3365,12 +3365,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "f6c00587f8b2d6e680d09fd6015fa521f9c72327"
+                "reference": "fca6a9562dc032a7ba3ab8278b731b72efa8bd9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/f6c00587f8b2d6e680d09fd6015fa521f9c72327",
-                "reference": "f6c00587f8b2d6e680d09fd6015fa521f9c72327",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/fca6a9562dc032a7ba3ab8278b731b72efa8bd9c",
+                "reference": "fca6a9562dc032a7ba3ab8278b731b72efa8bd9c",
                 "shasum": ""
             },
             "require": {
@@ -3406,7 +3406,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-05-27 06:08:37"
+            "time": "2013-05-29 14:58:12"
         },
         {
             "name": "twitter/bootstrap",

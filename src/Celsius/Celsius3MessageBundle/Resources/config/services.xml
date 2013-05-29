@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="fos_message.new_thread_form.type.custom.class">Celsius\Celsius3MessageBundle\FormType\NewThreadMultipleMessageFormType</parameter>
+        <parameter key="fos_message.reply_form.type.custom.class">Celsius\Celsius3MessageBundle\FormType\ReplyMessageFormCustomType</parameter>
         <parameter key="twig.extension.threads.class">Celsius\Celsius3MessageBundle\Twig\ThreadExtension</parameter>
         <parameter key="fos_message.provider.default.celsius.class">Celsius\Celsius3MessageBundle\Provider\Provider</parameter>
     </parameters>
@@ -19,6 +20,8 @@
             <argument type="service" id="security.context"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
+
+        <service id="fos_message.reply_form.type.custom" class="%fos_message.reply_form.type.custom.class%" public="false" />
 
         <service id="fos_message.participant_provider" class="FOS\MessageBundle\Security\ParticipantProvider">
             <argument type="service" id="security.context" />
