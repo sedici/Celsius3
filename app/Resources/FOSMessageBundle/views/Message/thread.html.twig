@@ -25,7 +25,7 @@
                     {% endif %}
                 </div>
                 <div id="message_{{ message.id }}" class="well well-small">
-                    {{ message.body }}
+                    {{ message.body|raw }}
                 </div>
             </div>
         {% endfor %}
