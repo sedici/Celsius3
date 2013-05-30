@@ -24,7 +24,7 @@ class Builder extends ContainerAware
                 || !$request->attributes->has('url');
 
         $menu = $factory->createItem('root');
-        //$menu->setChildrenAttribute('class', 'nav');
+        $menu->setChildrenAttribute('class', 'nav-main');
 
         $menu
                 ->addChild('Home',

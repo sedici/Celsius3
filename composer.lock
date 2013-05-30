@@ -777,12 +777,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb.git",
-                "reference": "7ed3379f927de2cbbc139727278b2c11b90266bf"
+                "reference": "f70e2a700283fdf0931f1a70401588f66dd69d2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/7ed3379f927de2cbbc139727278b2c11b90266bf",
-                "reference": "7ed3379f927de2cbbc139727278b2c11b90266bf",
+                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/f70e2a700283fdf0931f1a70401588f66dd69d2e",
+                "reference": "f70e2a700283fdf0931f1a70401588f66dd69d2e",
                 "shasum": ""
             },
             "require": {
@@ -829,7 +829,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2013-05-29 17:28:27"
+            "time": "2013-05-29 19:13:05"
         },
         {
             "name": "doctrine/mongodb-odm",
@@ -1346,12 +1346,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/common.git",
-                "reference": "v3.5.0"
+                "reference": "v3.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/common/zipball/v3.5.0",
-                "reference": "v3.5.0",
+                "url": "https://api.github.com/repos/guzzle/common/zipball/v3.6.0",
+                "reference": "v3.6.0",
                 "shasum": ""
             },
             "require": {
@@ -1361,7 +1361,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.5-dev"
+                    "dev-master": "3.6-dev"
                 }
             },
             "autoload": {
@@ -1381,7 +1381,7 @@
                 "event",
                 "exception"
             ],
-            "time": "2013-05-13 20:17:47"
+            "time": "2013-05-30 07:01:25"
         },
         {
             "name": "guzzle/http",
@@ -1390,12 +1390,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/http.git",
-                "reference": "v3.5.0"
+                "reference": "v3.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/http/zipball/v3.5.0",
-                "reference": "v3.5.0",
+                "url": "https://api.github.com/repos/guzzle/http/zipball/v3.6.0",
+                "reference": "v3.6.0",
                 "shasum": ""
             },
             "require": {
@@ -1410,7 +1410,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.5-dev"
+                    "dev-master": "3.6-dev"
                 }
             },
             "autoload": {
@@ -1438,7 +1438,7 @@
                 "http",
                 "http client"
             ],
-            "time": "2013-05-13 20:17:47"
+            "time": "2013-05-30 07:01:25"
         },
         {
             "name": "guzzle/parser",
@@ -1447,12 +1447,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/parser.git",
-                "reference": "v3.5.0"
+                "reference": "v3.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/parser/zipball/v3.5.0",
-                "reference": "v3.5.0",
+                "url": "https://api.github.com/repos/guzzle/parser/zipball/v3.6.0",
+                "reference": "v3.6.0",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1461,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.5-dev"
+                    "dev-master": "3.6-dev"
                 }
             },
             "autoload": {
@@ -1482,7 +1482,7 @@
                 "message",
                 "url"
             ],
-            "time": "2013-05-13 20:17:47"
+            "time": "2013-05-30 07:01:25"
         },
         {
             "name": "guzzle/stream",
@@ -1491,12 +1491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/stream.git",
-                "reference": "v3.5.0"
+                "reference": "v3.6.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/stream/zipball/v3.5.0",
-                "reference": "v3.5.0",
+                "url": "https://api.github.com/repos/guzzle/stream/zipball/v3.6.0",
+                "reference": "v3.6.0",
                 "shasum": ""
             },
             "require": {
@@ -1509,7 +1509,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.5-dev"
+                    "dev-master": "3.6-dev"
                 }
             },
             "autoload": {
@@ -1535,7 +1535,7 @@
                 "component",
                 "stream"
             ],
-            "time": "2013-05-13 20:17:47"
+            "time": "2013-05-30 07:01:25"
         },
         {
             "name": "jdare/clank-bundle",

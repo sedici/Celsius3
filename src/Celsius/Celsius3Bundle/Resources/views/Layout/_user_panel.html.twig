@@ -25,10 +25,3 @@
     </li>
     {% endif %}
 </ul>
-<ul class="pull-right nav">
-    {% if app.user %}
-    <li>
-        <a href="{{ path('fos_message_inbox') }}"><i class="icon-envelope"></i> {{ fos_message_nb_unread() }}</a>
-    </li>
-    {% endif %}
-</ul>
