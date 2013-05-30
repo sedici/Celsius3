@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block content %}
-{% if error %}
-    <div>{{ error|trans }}</div>
-{% endif %}
-
 <form action="{{ path("fos_user_security_check", { 'url': app.request.get('url') }) }}" method="post" class="form-horizontal well">
+    <ul>
+        {% if error %}
+            <li>{{ error|trans }}</li>
+        {% endif %}
+    </ul>
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     <div class="control-group">
         <label class="control-label" for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>

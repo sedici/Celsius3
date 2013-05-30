@@ -126,7 +126,12 @@
         </service>
 
         <service id="security.authentication_handler" class="%security.authentication_handler.class%">
+            <tag name="monolog.logger" channel="security" />
             <argument type="service" id="router"></argument>
+            <argument type="service" id="http_kernel" />
+            <argument type="service" id="security.http_utils" />
+            <argument type="collection" /> <!-- Options -->
+            <argument type="service" id="logger" on-invalid="null" />
         </service>
 
         <service id="mongodb_logger_wrapper_handler" class="%mongodb_logger_wrapper_handler.class%">
