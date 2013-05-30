@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AuthenticationHandler extends DefaultAuthenticationFailureHandler
         implements AuthenticationFailureHandlerInterface,
@@ -18,9 +19,9 @@ class AuthenticationHandler extends DefaultAuthenticationFailureHandler
 {
     private $router;
 
-    public function __construct(Router $router, HttpKernelInterface $httpKernel,
-            HttpUtils $httpUtils, array $options,
-            LoggerInterface $logger = null)
+    public function __construct(Router $router,
+            HttpKernelInterface $httpKernel, HttpUtils $httpUtils,
+            array $options, LoggerInterface $logger = null)
     {
         parent::__construct($httpKernel, $httpUtils, $options, $logger);
         $this->router = $router;

@@ -16,6 +16,7 @@
         <parameter key="order_listener.class">Celsius\Celsius3Bundle\Listener\OrderListener</parameter>
         <parameter key="security.login_listener.class">Celsius\Celsius3Bundle\Listener\LoginListener</parameter>
         <parameter key="kernel.locale_choosing_listener.class">Celsius\Celsius3Bundle\Listener\LocaleChoosingListener</parameter>
+        <parameter key="instance_listener.class">Celsius\Celsius3Bundle\Listener\InstanceListener</parameter>
         <parameter key="registration.form.type.class">Celsius\Celsius3Bundle\Form\Type\RegistrationFormType</parameter>
         <parameter key="form.user_selector.class">Celsius\Celsius3Bundle\Form\Type\UserSelectorType</parameter>
         <parameter key="form.instance_selector.class">Celsius\Celsius3Bundle\Form\Type\InstanceSelectorType</parameter>
@@ -39,7 +40,6 @@
         <parameter key="union_manager.class">Celsius\Celsius3Bundle\Manager\UnionManager</parameter>
         <parameter key="fos_user.resetting.email.template">FOSUserBundle:Resetting:email.txt.twig</parameter>
         <parameter key="fos_user.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
-
         <parameter key="new_message_aspect.class">Celsius\Celsius3Bundle\Aop\NewMessageAspect</parameter>
         <parameter key="new_object_aspect.class">Celsius\Celsius3Bundle\Aop\NewObjectAspect</parameter>
     </parameters>
@@ -102,6 +102,11 @@
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
             <argument type="service" id="instance_helper"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
+
+        <service id="instance_listener" class="%instance_listener.class%">
+            <argument type="service" id="router"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
         </service>
 

@@ -12,7 +12,6 @@ use Celsius\Celsius3Bundle\Manager\SearchManager;
  */
 class AdministrationController extends BaseInstanceDependentController
 {
-
     protected function getProvider()
     {
         return $this->container->get('fos_message.provider');
