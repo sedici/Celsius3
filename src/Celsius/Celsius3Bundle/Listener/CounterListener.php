@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Listener;
-
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Celsius\Celsius3Bundle\Document\Counter;
 use Celsius\Celsius3Bundle\Document\Instance;
@@ -9,23 +8,22 @@ use Celsius\Celsius3Bundle\Document\Order;
 
 class CounterListener
 {
-
     public function prePersist(LifecycleEventArgs $args)
     {
         $document = $args->getDocument();
         $dm = $args->getDocumentManager();
 
-        if ($document instanceof Order)
-        {
-            $document->setCode($dm->createQueryBuilder('CelsiusCelsius3Bundle:Counter')
-                            ->findAndUpdate()
-                            ->refresh(true)
-                            ->field('name')->equals($document->getInstance()->getId())
-                            ->field('value')->inc(1)
-                            ->getQuery()
-                            ->execute()
-                            ->getValue()
-            );
+        if ($document instanceof Order) {
+            $document
+                    ->setCode(
+                            $dm
+                                    ->createQueryBuilder(
+                                            'CelsiusCelsius3Bundle:Counter')
+                                    ->findAndUpdate()->refresh(true)
+                                    ->field('name')
+                                    ->equals($document->getInstance()->getId())
+                                    ->field('value')->inc(1)->getQuery()
+                                    ->execute()->getValue());
         }
     }
 
@@ -34,8 +32,7 @@ class CounterListener
         $document = $args->getDocument();
         $dm = $args->getDocumentManager();
 
-        if ($document instanceof Instance)
-        {
+        if ($document instanceof Instance) {
             $counter = new Counter();
             $counter->setName($document->getId());
             $counter->setValue(1);
@@ -43,5 +40,4 @@ class CounterListener
             $dm->flush();
         }
     }
-
 }

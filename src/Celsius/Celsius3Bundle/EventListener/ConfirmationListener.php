@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Listener;
+namespace Celsius\Celsius3Bundle\EventListener;
 
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
@@ -50,7 +50,7 @@ class ConfirmationListener implements EventSubscriberInterface
         $confirmationType = $this->configuration_helper->getCastedValue($user->getInstance()->get('confirmation_type'));
 
         $this->session->set('fos_user_send_confirmation_email/email', $user->getEmail());
-        
+
         if ($confirmationType == 'email')
         {
             if (null === $user->getConfirmationToken())

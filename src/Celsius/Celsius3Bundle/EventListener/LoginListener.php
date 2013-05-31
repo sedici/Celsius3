@@ -1,14 +1,12 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Listener;
-
+namespace Celsius\Celsius3Bundle\EventListener;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListener
 {
-
     private $session;
 
     public function __construct(SessionInterface $session)
@@ -20,11 +18,9 @@ class LoginListener
     {
         $user = $event->getAuthenticationToken()->getUser();
 
-        if ($user instanceof UserInterface)
-        {
+        if ($user instanceof UserInterface) {
             $this->session->set('instance_id', $user->getInstance()->getId());
             $this->session->set('instance_url', $user->getInstance()->getUrl());
         }
     }
-
 }

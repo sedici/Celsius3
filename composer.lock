@@ -837,12 +837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "b2597b9177e3c917e7189deba5cdd411e0a9e33e"
+                "reference": "45cbc71e4ff42d2dcad68733f4f620f0f2527f95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/b2597b9177e3c917e7189deba5cdd411e0a9e33e",
-                "reference": "b2597b9177e3c917e7189deba5cdd411e0a9e33e",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/45cbc71e4ff42d2dcad68733f4f620f0f2527f95",
+                "reference": "45cbc71e4ff42d2dcad68733f4f620f0f2527f95",
                 "shasum": ""
             },
             "require": {
@@ -902,7 +902,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-05-28 20:34:49"
+            "time": "2013-05-30 23:20:33"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1194,12 +1194,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "5916b3ab254f2e52404fd76311c38e4219f548bc"
+                "reference": "74c7e03d342e51d1c0e9da0b18a0dfcc6484e453"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/5916b3ab254f2e52404fd76311c38e4219f548bc",
-                "reference": "5916b3ab254f2e52404fd76311c38e4219f548bc",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/74c7e03d342e51d1c0e9da0b18a0dfcc6484e453",
+                "reference": "74c7e03d342e51d1c0e9da0b18a0dfcc6484e453",
                 "shasum": ""
             },
             "require": {
@@ -1266,7 +1266,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2013-05-26 16:54:03"
+            "time": "2013-05-31 11:39:14"
         },
         {
             "name": "genemu/form-bundle",
@@ -3219,12 +3219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "afee664e8acceff7dad8cd111d8c77abf4035330"
+                "reference": "b67753820592f48539e9f5dd1dd7e20ec6f6dbd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/afee664e8acceff7dad8cd111d8c77abf4035330",
-                "reference": "afee664e8acceff7dad8cd111d8c77abf4035330",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/b67753820592f48539e9f5dd1dd7e20ec6f6dbd3",
+                "reference": "b67753820592f48539e9f5dd1dd7e20ec6f6dbd3",
                 "shasum": ""
             },
             "require": {
@@ -3310,7 +3310,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-05-27 20:40:05"
+            "time": "2013-05-31 14:46:43"
         },
         {
             "name": "twig/extensions",

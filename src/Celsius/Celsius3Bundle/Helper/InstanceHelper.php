@@ -60,8 +60,7 @@ class InstanceHelper
     public function getSessionOrUrlInstance()
     {
         $instance_url = $this->container->get('session')->has('instance_url') ? $this
-                        ->container->get('session')->attributes
-                        ->get('instance_url')
+                        ->container->get('session')->get('instance_url')
                 : $this->container->get('request')->attributes->get('url');
 
         return $this->container->get('doctrine.odm.mongodb.document_manager')

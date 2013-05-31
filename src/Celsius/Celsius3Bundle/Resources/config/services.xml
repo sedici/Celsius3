@@ -14,15 +14,17 @@
         <parameter key="counter_listener.class">Celsius\Celsius3Bundle\Listener\CounterListener</parameter>
         <parameter key="configuration_listener.class">Celsius\Celsius3Bundle\Listener\ConfigurationListener</parameter>
         <parameter key="order_listener.class">Celsius\Celsius3Bundle\Listener\OrderListener</parameter>
-        <parameter key="security.login_listener.class">Celsius\Celsius3Bundle\Listener\LoginListener</parameter>
-        <parameter key="kernel.locale_choosing_listener.class">Celsius\Celsius3Bundle\Listener\LocaleChoosingListener</parameter>
-        <parameter key="instance_listener.class">Celsius\Celsius3Bundle\Listener\InstanceListener</parameter>
+        <parameter key="security.login_listener.class">Celsius\Celsius3Bundle\EventListener\LoginListener</parameter>
+        <parameter key="kernel.locale_choosing_listener.class">Celsius\Celsius3Bundle\EventListener\LocaleChoosingListener</parameter>
+        <parameter key="instance_listener.class">Celsius\Celsius3Bundle\EventListener\InstanceListener</parameter>
         <parameter key="registration.form.type.class">Celsius\Celsius3Bundle\Form\Type\RegistrationFormType</parameter>
         <parameter key="form.user_selector.class">Celsius\Celsius3Bundle\Form\Type\UserSelectorType</parameter>
         <parameter key="form.instance_selector.class">Celsius\Celsius3Bundle\Form\Type\InstanceSelectorType</parameter>
         <parameter key="form.type.language.class">Celsius\Celsius3Bundle\Form\Type\LanguageType</parameter>
         <parameter key="form.type.confirmation.class">Celsius\Celsius3Bundle\Form\Type\ConfirmationType</parameter>
-        <parameter key="security.authentication_handler.class">Celsius\Celsius3Bundle\Handler\AuthenticationHandler</parameter>
+        <parameter key="security.authentication_failure_handler.class">Celsius\Celsius3Bundle\Handler\CustomAuthenticationFailureHandler</parameter>
+        <parameter key="security.logout_success_handler.class">Celsius\Celsius3Bundle\Handler\CustomLogoutSuccessHandler</parameter>
+        <parameter key="security.authentication_success_handler.class">Celsius\Celsius3Bundle\Handler\CustomAuthenticationSuccessHandler</parameter>
         <parameter key="mongodb_logger_wrapper_handler.class">Celsius\Celsius3Bundle\Handler\MongoDBWrapperHandler</parameter>
         <parameter key="login_logging_aspect.class">Celsius\Celsius3Bundle\Aop\LoginLoggingAspect</parameter>
         <parameter key="instance_injection_aspect.class">Celsius\Celsius3Bundle\Aop\InstanceInjectionAspect</parameter>
@@ -130,13 +132,24 @@
             <tag name="form.type" alias="confirmation_type" />
         </service>
 
-        <service id="security.authentication_handler" class="%security.authentication_handler.class%">
+		<service id="security.authentication_failure_handler" class="%security.authentication_failure_handler.class%">
             <tag name="monolog.logger" channel="security" />
             <argument type="service" id="router"></argument>
             <argument type="service" id="http_kernel" />
             <argument type="service" id="security.http_utils" />
             <argument type="collection" /> <!-- Options -->
             <argument type="service" id="logger" on-invalid="null" />
+        </service>
+
+        <service id="security.authentication_success_handler" class="%security.authentication_success_handler.class%">
+            <argument type="service" id="router"></argument>
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.http_utils" />
+            <argument type="collection" /> <!-- Options -->
+        </service>
+
+        <service id="security.logout_success_handler" class="%security.logout_success_handler.class%">
+            <argument type="service" id="router"></argument>
         </service>
 
         <service id="mongodb_logger_wrapper_handler" class="%mongodb_logger_wrapper_handler.class%">
@@ -205,7 +218,7 @@
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
 
-        <service id="fos_user.listener.confirmation" class="Celsius\Celsius3Bundle\Listener\ConfirmationListener">
+        <service id="fos_user.listener.confirmation" class="Celsius\Celsius3Bundle\EventListener\ConfirmationListener">
             <tag name="kernel.event_subscriber" />
             <argument type="service" id="fos_user.mailer" />
             <argument type="service" id="fos_user.util.token_generator" />

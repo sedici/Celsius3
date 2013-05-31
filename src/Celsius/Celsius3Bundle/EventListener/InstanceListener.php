@@ -1,5 +1,5 @@
 <?php
-namespace Celsius\Celsius3Bundle\Listener;
+namespace Celsius\Celsius3Bundle\EventListener;
 use Celsius\Celsius3Bundle\Exception\InstanceNotFoundException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;

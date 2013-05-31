@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Listener;
+namespace Celsius\Celsius3Bundle\EventListener;
 
 use JMS\I18nRoutingBundle\Router\LocaleResolverInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,7 +51,7 @@ class LocaleChoosingListener
             $instance = $this->instance_helper->getSessionOrUrlInstance();
 
             if ($instance)
-                $locale = $instance->get('instance_language')->getValue();
+                $locale = $instance->get('default_language')->getValue();
         }
 
         $request->setLocale($locale);
