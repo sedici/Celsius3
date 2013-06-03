@@ -177,6 +177,17 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
 
         /*
+         * Carga de catalogos globales
+         */
+        for ($i = 0; $i < 50; $i++) {
+            $catalog = new Document\Catalog();
+            $catalog->setName($generator->company);
+            $catalog->setUrl($generator->url);
+            $manager->persist($catalog);
+            unset($catalog);
+        }
+
+        /*
          * Carga de Instancias
          */
         for ($i = 0; $i < 5; $i++) {
@@ -199,6 +210,18 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                 $template->setTitle($generator->sentence);
                 $manager->persist($template);
                 unset($template);
+            }
+
+            /*
+             * Carga de catalogos por instancia
+             */
+            for ($j = 0; $j < 50; $j++) {
+                $catalog = new Document\Catalog();
+                $catalog->setName($generator->company);
+                $catalog->setUrl($generator->url);
+                $catalog->setInstance($instance);
+                $manager->persist($catalog);
+                unset($catalog);
             }
 
             /*

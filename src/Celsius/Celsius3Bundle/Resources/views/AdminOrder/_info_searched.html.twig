@@ -7,6 +7,10 @@
                 {{ order.hasState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED'), instance)?order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED'), instance).date|localizeddate():'' }}
                 ({{ order.hasState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED'), instance)?order.getState(constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__SEARCHED'), instance).date|time_ago_in_words:'' }})
             </dd>
+            <dt>{{ 'Actions'|trans }}</dt>
+            <dd>
+                <a class="search-link" href="#search-modal" role="button" data-toggle="modal">{{ 'Search in catalogs'|capitalize|trans }}</a>
+            </dd>
         </dl>
     </div>
 </div>
@@ -31,3 +35,44 @@
     </div>
 </div>
 {% endif %}
+
+<div id="search-modal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="search-modal-label" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="search-modal-label">{{ 'Search in catalogs'|trans }}</h3>
+    </div>
+    <div class="modal-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{ 'Catalog'|trans }}</th>
+                    <th>{{ 'Result'|trans }}</th>
+                    <th>{{ 'State'|trans }}</th>
+                    <th>{{ 'Actions'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for catalog in get_catalogs(instance) %}
+                <tr>
+                    <td>
+                        <p>{{ catalog.name }}</p>
+                        <p><a href="{{ catalog.url }}" target="_blank">{{ catalog.url }}</a></p>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
+    </div>
+</div>

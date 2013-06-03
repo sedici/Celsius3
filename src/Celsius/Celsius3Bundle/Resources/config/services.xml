@@ -11,6 +11,7 @@
         <parameter key="twig.extension.states.class">Celsius\Celsius3Bundle\Twig\StateExtension</parameter>
         <parameter key="twig.extension.events.class">Celsius\Celsius3Bundle\Twig\EventExtension</parameter>
         <parameter key="twig.extension.material_type.class">Celsius\Celsius3Bundle\Twig\MaterialTypeExtension</parameter>
+        <parameter key="twig.extension.catalogs.class">Celsius\Celsius3Bundle\Twig\CatalogExtension</parameter>
         <parameter key="counter_listener.class">Celsius\Celsius3Bundle\Listener\CounterListener</parameter>
         <parameter key="configuration_listener.class">Celsius\Celsius3Bundle\Listener\ConfigurationListener</parameter>
         <parameter key="order_listener.class">Celsius\Celsius3Bundle\Listener\OrderListener</parameter>
@@ -40,6 +41,7 @@
         <parameter key="filter_manager.class">Celsius\Celsius3Bundle\Manager\FilterManager</parameter>
         <parameter key="user_manager.class">Celsius\Celsius3Bundle\Manager\UserManager</parameter>
         <parameter key="union_manager.class">Celsius\Celsius3Bundle\Manager\UnionManager</parameter>
+        <parameter key="catalog_manager.class">Celsius\Celsius3Bundle\Manager\CatalogManager</parameter>
         <parameter key="fos_user.resetting.email.template">FOSUserBundle:Resetting:email.txt.twig</parameter>
         <parameter key="fos_user.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
         <parameter key="new_message_aspect.class">Celsius\Celsius3Bundle\Aop\NewMessageAspect</parameter>
@@ -75,6 +77,11 @@
         </service>
 
         <service id="twig.extension.material_type" class="%twig.extension.material_type.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="twig.extension.catalogs" class="%twig.extension.catalogs.class%">
+        	<argument type="service" id="catalog_manager"></argument>
             <tag name="twig.extension" />
         </service>
 
@@ -215,6 +222,10 @@
         </service>
 
         <service id="union_manager" class="%union_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="catalog_manager" class="%catalog_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
 

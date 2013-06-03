@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -10,21 +9,22 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Catalog
 {
-
     /**
      * @MongoDB\Id
      */
     private $id;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
+     * @Assert\NotNull
      * @MongoDB\String
      */
     private $name;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Url()
+     * @Assert\NotBlank
+     * @Assert\Url
+     * @Assert\NotNull
      * @MongoDB\String
      */
     private $url;
@@ -33,17 +33,17 @@ class Catalog
      * @MongoDB\String
      */
     private $comments;
-    
+
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="catalogs") 
+     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="catalogs")
      */
     private $institution;
-    
+
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs") 
+     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs")
      */
     private $instance;
-    
+
     public function __toString()
     {
         return $this->name;
@@ -131,7 +131,8 @@ class Catalog
      * @param Celsius\Celsius3Bundle\Document\Institution $institution
      * @return Catalog
      */
-    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
+    public function setInstitution(
+            \Celsius\Celsius3Bundle\Document\Institution $institution)
     {
         $this->institution = $institution;
         return $this;
@@ -153,7 +154,8 @@ class Catalog
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Catalog
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance = null)
+    public function setInstance(
+            \Celsius\Celsius3Bundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;

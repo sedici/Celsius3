@@ -65,16 +65,16 @@
         },
         {
             "name": "cboden/ratchet",
-            "version": "v0.2.5",
+            "version": "v0.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cboden/Ratchet.git",
-                "reference": "v0.2.5"
+                "reference": "v0.2.6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cboden/Ratchet/zipball/v0.2.5",
-                "reference": "v0.2.5",
+                "url": "https://api.github.com/repos/cboden/Ratchet/zipball/v0.2.6",
+                "reference": "v0.2.6",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "server",
                 "sockets"
             ],
-            "time": "2013-04-01 23:38:50"
+            "time": "2013-06-02 00:25:31"
         },
         {
             "name": "doctrine/annotations",
@@ -837,12 +837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "45cbc71e4ff42d2dcad68733f4f620f0f2527f95"
+                "reference": "7e4925a4b88364634772eacffce1cb12f6ff4c81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/45cbc71e4ff42d2dcad68733f4f620f0f2527f95",
-                "reference": "45cbc71e4ff42d2dcad68733f4f620f0f2527f95",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/7e4925a4b88364634772eacffce1cb12f6ff4c81",
+                "reference": "7e4925a4b88364634772eacffce1cb12f6ff4c81",
                 "shasum": ""
             },
             "require": {
@@ -902,7 +902,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-05-30 23:20:33"
+            "time": "2013-06-03 15:59:58"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1148,12 +1148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "c09176c838f30da83ba9e509151d055c0bb837c8"
+                "reference": "fac6c177c87bb5d10d256d9caa6933046fbac999"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/c09176c838f30da83ba9e509151d055c0bb837c8",
-                "reference": "c09176c838f30da83ba9e509151d055c0bb837c8",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fac6c177c87bb5d10d256d9caa6933046fbac999",
+                "reference": "fac6c177c87bb5d10d256d9caa6933046fbac999",
                 "shasum": ""
             },
             "require": {
@@ -1186,7 +1186,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-05-29 13:25:57"
+            "time": "2013-05-31 17:07:37"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1194,12 +1194,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/l3pp4rd/DoctrineExtensions.git",
-                "reference": "74c7e03d342e51d1c0e9da0b18a0dfcc6484e453"
+                "reference": "e1d33ee86e1718ab14b814443fe021e1a1895d82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/74c7e03d342e51d1c0e9da0b18a0dfcc6484e453",
-                "reference": "74c7e03d342e51d1c0e9da0b18a0dfcc6484e453",
+                "url": "https://api.github.com/repos/l3pp4rd/DoctrineExtensions/zipball/e1d33ee86e1718ab14b814443fe021e1a1895d82",
+                "reference": "e1d33ee86e1718ab14b814443fe021e1a1895d82",
                 "shasum": ""
             },
             "require": {
@@ -1266,7 +1266,7 @@
                 "tree",
                 "uploadable"
             ],
-            "time": "2013-05-31 11:39:14"
+            "time": "2013-06-03 14:33:44"
         },
         {
             "name": "genemu/form-bundle",
@@ -2344,12 +2344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "de188e471f59918b0b523b8fc346761c2e4ff1a4"
+                "reference": "014f83418c1c790303e7d803dae873ae6b2a4f61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/de188e471f59918b0b523b8fc346761c2e4ff1a4",
-                "reference": "de188e471f59918b0b523b8fc346761c2e4ff1a4",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/014f83418c1c790303e7d803dae873ae6b2a4f61",
+                "reference": "014f83418c1c790303e7d803dae873ae6b2a4f61",
                 "shasum": ""
             },
             "require": {
@@ -2407,7 +2407,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-29 08:54:41"
+            "time": "2013-06-01 22:07:54"
         },
         {
             "name": "monolog/monolog",
@@ -2779,13 +2779,13 @@
             "target-dir": "Sensio/Bundle/FrameworkExtraBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioFrameworkExtraBundle.git",
-                "reference": "09041c1f95f4ad9c9a23eb9d23d9d110cde94a44"
+                "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
+                "reference": "v2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioFrameworkExtraBundle/zipball/09041c1f95f4ad9c9a23eb9d23d9d110cde94a44",
-                "reference": "09041c1f95f4ad9c9a23eb9d23d9d110cde94a44",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/v2.2.2",
+                "reference": "v2.2.2",
                 "shasum": ""
             },
             "require": {
@@ -2818,7 +2818,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2013-04-11 06:46:09"
+            "time": "2013-06-02 13:06:28"
         },
         {
             "name": "sensio/generator-bundle",
@@ -2826,13 +2826,13 @@
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sensio/SensioGeneratorBundle.git",
-                "reference": "781c1a93a705fc823e2b65dd85e322b4eb77fef8"
+                "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
+                "reference": "v2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensio/SensioGeneratorBundle/zipball/781c1a93a705fc823e2b65dd85e322b4eb77fef8",
-                "reference": "781c1a93a705fc823e2b65dd85e322b4eb77fef8",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/v2.2.2",
+                "reference": "v2.2.2",
                 "shasum": ""
             },
             "require": {
@@ -2866,7 +2866,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2013-05-07 13:40:47"
+            "time": "2013-06-02 13:07:01"
         },
         {
             "name": "stfalcon/tinymce-bundle",
@@ -3107,12 +3107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle.git",
-                "reference": "03ed73bc11367b3156cc21f22ac37c7f70fcd10a"
+                "reference": "v2.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/03ed73bc11367b3156cc21f22ac37c7f70fcd10a",
-                "reference": "03ed73bc11367b3156cc21f22ac37c7f70fcd10a",
+                "url": "https://api.github.com/repos/symfony/MonologBundle/zipball/v2.3.0",
+                "reference": "v2.3.0",
                 "shasum": ""
             },
             "require": {
@@ -3219,12 +3219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "b67753820592f48539e9f5dd1dd7e20ec6f6dbd3"
+                "reference": "bc1bf3202dae3649387d4716b1816f580210fa9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/b67753820592f48539e9f5dd1dd7e20ec6f6dbd3",
-                "reference": "b67753820592f48539e9f5dd1dd7e20ec6f6dbd3",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/bc1bf3202dae3649387d4716b1816f580210fa9a",
+                "reference": "bc1bf3202dae3649387d4716b1816f580210fa9a",
                 "shasum": ""
             },
             "require": {
@@ -3310,7 +3310,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-05-31 14:46:43"
+            "time": "2013-06-02 16:01:55"
         },
         {
             "name": "twig/extensions",
