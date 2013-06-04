@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -10,51 +9,60 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Contact
 {
-
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $name;
+    private $name;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $surname;
+    private $surname;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      * @MongoDB\String
      */
-    protected $email;
+    private $email;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $address;
+    private $address;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser") 
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
-    protected $user;
+    private $user;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="ContactType") 
+     * @MongoDB\ReferenceOne(targetDocument="ContactType")
      */
-    protected $type;
+    private $type;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance") 
+     * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
-    protected $instance;
+    private $instance;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="contacts")
+     */
+    private $institution;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     */
+    private $owningInstance;
 
     /**
      * Get id
@@ -220,4 +228,48 @@ class Contact
         return $this->type;
     }
 
+
+    /**
+     * Set institution
+     *
+     * @param Celsius\Celsius3Bundle\Document\Institution $institution
+     * @return self
+     */
+    public function setInstitution(\Celsius\Celsius3Bundle\Document\Institution $institution)
+    {
+        $this->institution = $institution;
+        return $this;
+    }
+
+    /**
+     * Get institution
+     *
+     * @return Celsius\Celsius3Bundle\Document\Institution $institution
+     */
+    public function getInstitution()
+    {
+        return $this->institution;
+    }
+
+    /**
+     * Set owningInstance
+     *
+     * @param Celsius\Celsius3Bundle\Document\Instance $owningInstance
+     * @return self
+     */
+    public function setOwningInstance(\Celsius\Celsius3Bundle\Document\Instance $owningInstance)
+    {
+        $this->owningInstance = $owningInstance;
+        return $this;
+    }
+
+    /**
+     * Get owningInstance
+     *
+     * @return Celsius\Celsius3Bundle\Document\Instance $owningInstance
+     */
+    public function getOwningInstance()
+    {
+        return $this->owningInstance;
+    }
 }

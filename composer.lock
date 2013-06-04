@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e8c59711032fa42ad370196293e65271",
+    "hash": "d7012b859debf7d8e32d2c88d2809651",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -837,12 +837,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "7e4925a4b88364634772eacffce1cb12f6ff4c81"
+                "reference": "628cb3b21de42284200c18558e0ced7a3e9f5dea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/7e4925a4b88364634772eacffce1cb12f6ff4c81",
-                "reference": "7e4925a4b88364634772eacffce1cb12f6ff4c81",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/628cb3b21de42284200c18558e0ced7a3e9f5dea",
+                "reference": "628cb3b21de42284200c18558e0ced7a3e9f5dea",
                 "shasum": ""
             },
             "require": {
@@ -902,7 +902,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-06-03 15:59:58"
+            "time": "2013-06-04 15:59:44"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1951,12 +1951,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSecurityExtraBundle.git",
-                "reference": "f2a345dc468eb0ba9ce50211b289422c82082db0"
+                "reference": "1.5.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/f2a345dc468eb0ba9ce50211b289422c82082db0",
-                "reference": "f2a345dc468eb0ba9ce50211b289422c82082db0",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSecurityExtraBundle/zipball/1.5.0",
+                "reference": "1.5.0",
                 "shasum": ""
             },
             "require": {
@@ -2340,16 +2340,16 @@
         },
         {
             "name": "kriswallsmith/assetic",
-            "version": "dev-master",
+            "version": "1.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "014f83418c1c790303e7d803dae873ae6b2a4f61"
+                "reference": "1b4b9ab32355b0d377b8baba73d37ab9872ab60b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/014f83418c1c790303e7d803dae873ae6b2a4f61",
-                "reference": "014f83418c1c790303e7d803dae873ae6b2a4f61",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/1b4b9ab32355b0d377b8baba73d37ab9872ab60b",
+                "reference": "1b4b9ab32355b0d377b8baba73d37ab9872ab60b",
                 "shasum": ""
             },
             "require": {
@@ -2378,7 +2378,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -2407,7 +2407,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-06-01 22:07:54"
+            "time": "2013-06-04 03:51:00"
         },
         {
             "name": "monolog/monolog",
@@ -3039,21 +3039,21 @@
         },
         {
             "name": "symfony/assetic-bundle",
-            "version": "dev-master",
+            "version": "2.3.x-dev",
             "target-dir": "Symfony/Bundle/AsseticBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/AsseticBundle.git",
-                "reference": "v2.3.0"
+                "reference": "65bd076341ac54ebfcd845d8471044fc4afa73d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/v2.3.0",
-                "reference": "v2.3.0",
+                "url": "https://api.github.com/repos/symfony/AsseticBundle/zipball/65bd076341ac54ebfcd845d8471044fc4afa73d2",
+                "reference": "65bd076341ac54ebfcd845d8471044fc4afa73d2",
                 "shasum": ""
             },
             "require": {
-                "kriswallsmith/assetic": ">=1.1,<2.0",
+                "kriswallsmith/assetic": "1.1.x",
                 "php": ">=5.3.0",
                 "symfony/framework-bundle": ">=2.1,<3.0"
             },
@@ -3072,7 +3072,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -3098,7 +3098,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2013-05-16 05:32:23"
+            "time": "2013-06-04 14:18:43"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -3219,12 +3219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "bc1bf3202dae3649387d4716b1816f580210fa9a"
+                "reference": "18f55ffe5e7f8b118d12542c070e9200ff26bbaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/bc1bf3202dae3649387d4716b1816f580210fa9a",
-                "reference": "bc1bf3202dae3649387d4716b1816f580210fa9a",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/18f55ffe5e7f8b118d12542c070e9200ff26bbaa",
+                "reference": "18f55ffe5e7f8b118d12542c070e9200ff26bbaa",
                 "shasum": ""
             },
             "require": {
@@ -3310,7 +3310,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-06-02 16:01:55"
+            "time": "2013-06-04 15:00:11"
         },
         {
             "name": "twig/extensions",

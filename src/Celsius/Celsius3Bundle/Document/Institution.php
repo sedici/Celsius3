@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -10,7 +9,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Institution extends Provider
 {
-
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
@@ -45,24 +43,29 @@ class Institution extends Provider
     private $institutions;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="institutions") 
+     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="institutions")
      */
     private $parent;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions") 
+     * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions")
      */
     private $city;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="institutions") 
+     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="institutions")
      */
     private $country;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="institution") 
+     * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="institution")
      */
     private $catalogs;
+
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Contact", mappedBy="institution")
+     */
+    private $contacts;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
@@ -70,7 +73,7 @@ class Institution extends Provider
     private $instance;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="ownerInstitutions") 
+     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
 
@@ -198,7 +201,8 @@ class Institution extends Provider
      *
      * @param Celsius\Celsius3Bundle\Document\Institution $institutions
      */
-    public function addInstitutions(\Celsius\Celsius3Bundle\Document\Institution $institutions)
+    public function addInstitutions(
+            \Celsius\Celsius3Bundle\Document\Institution $institutions)
     {
         $this->institutions[] = $institutions;
     }
@@ -219,7 +223,8 @@ class Institution extends Provider
      * @param Celsius\Celsius3Bundle\Document\Institution $parent
      * @return Institution
      */
-    public function setParent(\Celsius\Celsius3Bundle\Document\Institution $parent)
+    public function setParent(
+            \Celsius\Celsius3Bundle\Document\Institution $parent)
     {
         $this->parent = $parent;
         return $this;
@@ -263,7 +268,8 @@ class Institution extends Provider
      * @param Celsius\Celsius3Bundle\Document\Instance $instance
      * @return Institution
      */
-    public function setInstance(\Celsius\Celsius3Bundle\Document\Instance $instance = null)
+    public function setInstance(
+            \Celsius\Celsius3Bundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;
@@ -285,7 +291,8 @@ class Institution extends Provider
      * @param Celsius\Celsius3Bundle\Document\Instance $celsiusInstance
      * @return Institution
      */
-    public function setCelsiusInstance(\Celsius\Celsius3Bundle\Document\Instance $celsiusInstance = null)
+    public function setCelsiusInstance(
+            \Celsius\Celsius3Bundle\Document\Instance $celsiusInstance = null)
     {
         $this->celsiusInstance = $celsiusInstance;
         return $this;
@@ -306,7 +313,8 @@ class Institution extends Provider
      *
      * @param Celsius\Celsius3Bundle\Document\Catalog $catalogs
      */
-    public function addCatalogs(\Celsius\Celsius3Bundle\Document\Catalog $catalogs)
+    public function addCatalogs(
+            \Celsius\Celsius3Bundle\Document\Catalog $catalogs)
     {
         $this->catalogs[] = $catalogs;
     }
@@ -327,7 +335,8 @@ class Institution extends Provider
      * @param Celsius\Celsius3Bundle\Document\Country $country
      * @return \Institution
      */
-    public function setCountry(\Celsius\Celsius3Bundle\Document\Country $country)
+    public function setCountry(
+            \Celsius\Celsius3Bundle\Document\Country $country)
     {
         $this->country = $country;
         return $this;
@@ -348,4 +357,93 @@ class Institution extends Provider
         return $this->getName();
     }
 
+    /**
+     * Add users
+     *
+     * @param Celsius\Celsius3Bundle\Document\BaseUser $users
+     */
+    public function addUser(\Celsius\Celsius3Bundle\Document\BaseUser $users)
+    {
+        $this->users[] = $users;
+    }
+
+    /**
+    * Remove users
+    *
+    * @param <variableType$users
+    */
+    public function removeUser(\Celsius\Celsius3Bundle\Document\BaseUser $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Add institutions
+     *
+     * @param Celsius\Celsius3Bundle\Document\Institution $institutions
+     */
+    public function addInstitution(\Celsius\Celsius3Bundle\Document\Institution $institutions)
+    {
+        $this->institutions[] = $institutions;
+    }
+
+    /**
+    * Remove institutions
+    *
+    * @param <variableType$institutions
+    */
+    public function removeInstitution(\Celsius\Celsius3Bundle\Document\Institution $institutions)
+    {
+        $this->institutions->removeElement($institutions);
+    }
+
+    /**
+     * Add catalogs
+     *
+     * @param Celsius\Celsius3Bundle\Document\Catalog $catalogs
+     */
+    public function addCatalog(\Celsius\Celsius3Bundle\Document\Catalog $catalogs)
+    {
+        $this->catalogs[] = $catalogs;
+    }
+
+    /**
+    * Remove catalogs
+    *
+    * @param <variableType$catalogs
+    */
+    public function removeCatalog(\Celsius\Celsius3Bundle\Document\Catalog $catalogs)
+    {
+        $this->catalogs->removeElement($catalogs);
+    }
+
+    /**
+     * Add contacts
+     *
+     * @param Celsius\Celsius3Bundle\Document\Contact $contacts
+     */
+    public function addContact(\Celsius\Celsius3Bundle\Document\Contact $contacts)
+    {
+        $this->contacts[] = $contacts;
+    }
+
+    /**
+    * Remove contacts
+    *
+    * @param <variableType$contacts
+    */
+    public function removeContact(\Celsius\Celsius3Bundle\Document\Contact $contacts)
+    {
+        $this->contacts->removeElement($contacts);
+    }
+
+    /**
+     * Get contacts
+     *
+     * @return Doctrine\Common\Collections\Collection $contacts
+     */
+    public function getContacts()
+    {
+        return $this->contacts;
+    }
 }
