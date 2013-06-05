@@ -59,7 +59,11 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        //NotificationManager::notifyUser();
+        /*  PRUEBA de notificacion! se tendrian que pasar los datos del user a notificar, asi se 
+         identifica el canal   */
+        $a = $this->container->get('celsius_celsius3.topic_sample_service');
+        $a->publish();
+        /****************************/
         return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
 

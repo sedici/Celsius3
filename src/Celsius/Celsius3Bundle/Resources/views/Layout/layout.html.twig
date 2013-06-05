@@ -48,23 +48,26 @@
                         <a class="brand" href="{{ path('directory') }}">Celsius3</a>
                         <div class="nav-collapse">
                             {% block navigation_top %}
-
                             {% if app.user %}
-                                <script type="text/javascript">
-                                var myClank = Clank.connect("ws://localhost:8080");
-                                myClank.on("socket/connect", function(session){
-                                    //session is an Autobahn JS WAMP session.
-                                    console.log("Successfully Connected!");
+                                <script>
 
-                                    //the callback function in "subscribe" is called everytime an event is published in that channel.
-                                      var channel = 'channel/' + {{ app.user.id|json_encode|raw }};
-                                      session.subscribe(channel, function(uri, payload){
-                                          alert(payload.msg);
-                                          $('#notifications').empty();
-                                          $('#notifications').append(payload.msg);
-                                      });
-                                });
-                                </script>
+
+var myClank = Clank.connect("ws://localhost:8080/");
+myClank.on("socket/connect", function(session){
+    //session is an Autobahn JS WAMP session.
+    console.log("Successfully Connected!");
+    //the callback function in "subscribe" is called everytime an event is published in that channel.
+      var channel = 'celsius/' + {{ app.user.id|json_encode|raw }};
+      
+    //como prueba se utiliza un canal global llamado 'celsius'
+      session.subscribe('celsius', function(uri, payload){
+          alert(payload.msg + 'sss');
+          $('.dropdown').empty();
+          $('.dropdown').append(payload.msg + 'sss');
+      });
+})
+
+                             </script>
                                 <div id="notifications" class="dropdown"></div>
                             {% endif %}
 

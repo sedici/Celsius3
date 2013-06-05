@@ -15,7 +15,7 @@ var myClank = Clank.connect("ws://localhost:8080");
 myClank.on("socket/connect", function(session){
     //session is an Autobahn JS WAMP session.
     console.log("Successfully Connected!");
-    session.publish("channel/517125eb3da6ba480c0000ca", {msg: {{ msg|json_encode|raw }}});
+    session.publish("celsius", {msg: {{ msg|json_encode|raw }}});
 })
 </script>
 {% endblock %}
