@@ -10,7 +10,7 @@
 {% block javascripts %}
 {% set msg = 'foo' %}
 
-<script>    
+<script>
 var myClank = Clank.connect("ws://localhost:8080");
 myClank.on("socket/connect", function(session){
     //session is an Autobahn JS WAMP session.

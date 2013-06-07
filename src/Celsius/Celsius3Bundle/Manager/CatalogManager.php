@@ -3,10 +3,11 @@
 namespace Celsius\Celsius3Bundle\Manager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius\Celsius3Bundle\Document\Order;
 
 class CatalogManager
 {
-    const CATALOG__NON_SEARCHED = 'non_searched';
+    const CATALOG__NOT_SEARCHED = 'not_searched';
     const CATALOG__FOUND = 'found';
     const CATALOG__PARTIALLY_FOUND = 'partially_found';
     const CATALOG__NOT_FOUND = 'not_found';
@@ -32,5 +33,13 @@ class CatalogManager
         return $qb->addOr($qb->expr()->field('instance.id')->equals($instance))
                 ->addOr($qb->expr()->field('instance.id')->equals(null))
                 ->getQuery()->execute();
+    }
+
+    public function getSearches(Order $order, Instance $instance)
+    {
+        return $this->dm->getRepository('CelsiusCelsius3Bundle:CatalogSearch')
+                ->findBy(
+                        array('order.id' => $order->getId(),
+                                'instance.id' => $instance->getId()));
     }
 }

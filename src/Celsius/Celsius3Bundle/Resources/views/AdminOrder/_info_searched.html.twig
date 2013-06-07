@@ -42,59 +42,7 @@
         <h3 id="search-modal-label">{{ 'Search in catalogs'|trans }}</h3>
     </div>
     <div class="modal-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>{{ 'Catalog'|trans }}</th>
-                    <th>{{ 'Result'|trans }}</th>
-                    <th>{{ 'State'|trans }}</th>
-                    <th>{{ 'Actions'|trans }}</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for catalog in get_catalogs(instance) %}
-                <tr>
-                    <td>
-                        <p>{{ catalog.name }}</p>
-                        <p><a href="{{ catalog.url }}" target="_blank">{{ catalog.url }}</a></p>
-                    </td>
-                    <td class="result">
-
-                    </td>
-                    <td>
-                        <input type="radio" class="mark-catalog" title="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__NON_SEARCHED') }}" name="catalog{{ catalog.id }}" value="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__NON_SEARCHED') }}" />
-                        <input type="radio" class="mark-catalog" title="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__FOUND') }}" name="catalog{{ catalog.id }}" value="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__FOUND') }}" />
-                        <input type="radio" class="mark-catalog" title="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND') }}" name="catalog{{ catalog.id }}" value="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND') }}" />
-                        <input type="radio" class="mark-catalog" title="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND') }}" name="catalog{{ catalog.id }}" value="{{ constant('Celsius\\Celsius3Bundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND') }}" />
-                    </td>
-                    <td>
-                        <a href="#" class="btn">{{ 'Request' }}</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        <script type="text/javascript">
-        function getCatalogId(inputName) {
-            return inputName.substr(7);
-        }
-
-        function registerSearch() {
-            var input = $(this);
-            var catalogId = getCatalogId(input.attr('name'));
-            $.ajax({
-                url: '{{ path('admin_catalog_search_mark') }}',
-                dataType: 'json',
-                data: 'order_id={{ order.id }}&instance_id={{ instance.id }}&catalog_id='+catalogId+'&result='+input.val()
-            }).done(function(data){
-                input.parent().siblings('.result').text(data.date);
-            });
-        }
-
-        $(document).ready(function(){
-            $('.mark-catalog').click(registerSearch);
-        });
-        </script>
+        {% include 'CelsiusCelsius3Bundle:AdminOrder:_catalog_list.html.twig' %}
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>

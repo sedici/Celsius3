@@ -238,9 +238,9 @@ genemu_form:
 # Clank Configuration
 clank:
   web_socket_server:
-      port: "%clank_port%" #The port the socket server will listen on
-      host: "%clank_host%" #(optional) The host ip to bind to
-   
+      port: %clank_port% #The port the socket server will listen on
+      host: %clank_host% #(optional) The host ip to bind to
+
   topic:
         -
             name: "celsius" #Important! this is the topic namespace used to match to this service!
