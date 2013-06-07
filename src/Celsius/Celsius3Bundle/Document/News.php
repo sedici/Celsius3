@@ -15,31 +15,36 @@ class News
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $title;
+    private $title;
 
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    protected $text;
+    private $text;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $date;
+    private $date;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance") 
+     * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
-    protected $instance;
+    private $instance;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get id

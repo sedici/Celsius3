@@ -114,5 +114,18 @@ $(document).ready(function(){
     $('.submit-annul-form, .submit-cancel-form').click(function(){
         $(this).parent().submit();
     });
+
+    {% if form is defined and form.vars['name'] == 'celsius_celsius3bundle_newstype' %}
+    $('#celsius_celsius3bundle_newstype_date').datetimepicker({
+        showSecond: true,
+    });
+    var dateWidgets = $('#celsius_celsius3bundle_newstype_date');
+    dateWidgets.hide();
+    $('.news-date').parent().append('<span class="date-text">{{ form.vars.data.date|localizeddate('medium', 'short') }}</span>&nbsp;<span><a class="show-date-widget btn">{{ 'Change'|trans }}</a></span>')
+    $(document).on('click','.show-date-widget', function(){
+    	$('.news-date').parent().children().hide();
+    	dateWidgets.show();
+    });
+    {% endif %}
 });
 </script>
