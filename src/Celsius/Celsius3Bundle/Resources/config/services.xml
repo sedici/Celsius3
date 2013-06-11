@@ -36,6 +36,7 @@
         <parameter key="custom_field_helper.class">Celsius\Celsius3Bundle\Helper\CustomFieldHelper</parameter>
         <parameter key="instance_helper.class">Celsius\Celsius3Bundle\Helper\InstanceHelper</parameter>
         <parameter key="event_manager.class">Celsius\Celsius3Bundle\Manager\EventManager</parameter>
+        <parameter key="search_manager.class">Celsius\Celsius3Bundle\Manager\SearchManager</parameter>
         <parameter key="state_manager.class">Celsius\Celsius3Bundle\Manager\StateManager</parameter>
         <parameter key="file_manager.class">Celsius\Celsius3Bundle\Manager\FileManager</parameter>
         <parameter key="filter_manager.class">Celsius\Celsius3Bundle\Manager\FilterManager</parameter>
@@ -200,6 +201,10 @@
 
         <service id="event_manager" class="%event_manager.class%">
             <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="search_manager" class="%search_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
 
         <service id="state_manager" class="%state_manager.class%">

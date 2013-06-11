@@ -1,27 +1,30 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Manager;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius\Celsius3Bundle\Document\Instance;
 
 class SearchManager
 {
+    private $dm;
+    private $tokenList = array('user:' => 'BaseUser',);
 
-    protected $tokenList = array(
-        'user:' => 'BaseUser',
-    );
+    public function __construct(DocumentManager $dm)
+    {
+        $this->dm = $dm;
+    }
 
     /**
      * Detects if any token from $tokenList is present in $keyword
-     * 
+     *
      * @param String $keyword The raw string to parse
-     * @return array 
+     * @return array
      */
     private function parseTokens($keyword)
     {
         $where = array();
-        foreach ($this->tokenList as $token => $repository)
-        {
-            if (preg_match('/\b' . $token . ' \b/i', $keyword))
-            {
+        foreach ($this->tokenList as $token => $repository) {
+            if (preg_match('/\b' . $token . ' \b/i', $keyword)) {
                 $where[$repository] = trim(str_replace($token, '', $keyword));
             }
         }
@@ -30,16 +33,15 @@ class SearchManager
 
     /**
      * Performs the search on the specified repository
-     * 
+     *
+     * @param string $repository
      * @param string $keyword
-     * @param DocumentManager $dm
      * @param Instance $instance
      * @return array
      */
-    public function doSearch($repository, $keyword, $dm, $instance = null)
+    public function search($repository, $keyword, Instance $instance = null)
     {
-        return $dm->getRepository('CelsiusCelsius3Bundle:' . $repository)
-                        ->findByTerm($keyword, $instance, $this->parseTokens($keyword));
+        return $this->dm->getRepository('CelsiusCelsius3Bundle:' . $repository)
+                ->findByTerm($keyword, $instance, $this->parseTokens($keyword));
     }
-
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Repository;
-
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Celsius\Celsius3Bundle\Document\Instance;
@@ -17,26 +16,25 @@ class BaseUserRepository extends DocumentRepository
 
     public function countUsers($instance = null)
     {
-        $qb = $this->createQueryBuilder()
-                        ->field('enabled')->equals(false)
-                        ->field('locked')->equals(false);
+        $qb = $this->createQueryBuilder()->field('enabled')->equals(false)
+                ->field('locked')->equals(false);
 
         if (!is_null($instance))
             $qb = $qb->field('instance.id')->equals($instance->getId());
 
-        return array(
-            'pending' => $qb->count()->getQuery()->execute(),
-        );
+        return array('pending' => $qb->count()->getQuery()->execute(),);
     }
 
-    public function findByTerm($term, $instance = null, $in = array(), $limit = null, $librarian = null)
+    public function findByTerm($term, $instance = null, $in = array(),
+            $limit = null, $librarian = null)
     {
         $expr = new \MongoRegex('/.*' . $term . '.*/i');
 
         $qb = $this->createQueryBuilder();
         $qb = $qb->addOr($qb->expr()->field('name')->equals($expr))
                 ->addOr($qb->expr()->field('surname')->equals($expr))
-                ->addOr($qb->expr()->field('username')->equals($expr));
+                ->addOr($qb->expr()->field('username')->equals($expr))
+                ->addOr($qb->expr()->field('email')->equals($expr));
 
         if (!is_null($instance))
             $qb = $qb->field('instance.id')->equals($instance->getId());
@@ -50,24 +48,30 @@ class BaseUserRepository extends DocumentRepository
         return $qb->getQuery();
     }
 
-    public function addFindByStateType(array $data, Builder $query, Instance $instance)
+    public function addFindByStateType(array $data, Builder $query,
+            Instance $instance)
     {
-        foreach ($data as $value)
-        {
-            switch ($value)
-            {
-                case 'enabled': $query = $query->addOr($query->expr()->field('enabled')->equals(true)
-                                    ->field('locked')->equals(false));
-                    break;
-                case 'pending': $query = $query->addOr($query->expr()->field('enabled')->equals(false)
-                                    ->field('locked')->equals(false));
-                    break;
-                case 'rejected': $query = $query->addOr($query->expr()->field('locked')->equals(true));
-                    break;
+        foreach ($data as $value) {
+            switch ($value) {
+            case 'enabled':
+                $query = $query
+                        ->addOr(
+                                $query->expr()->field('enabled')->equals(true)
+                                        ->field('locked')->equals(false));
+                break;
+            case 'pending':
+                $query = $query
+                        ->addOr(
+                                $query->expr()->field('enabled')->equals(false)
+                                        ->field('locked')->equals(false));
+                break;
+            case 'rejected':
+                $query = $query
+                        ->addOr($query->expr()->field('locked')->equals(true));
+                break;
             }
         }
 
         return $query;
     }
-
 }

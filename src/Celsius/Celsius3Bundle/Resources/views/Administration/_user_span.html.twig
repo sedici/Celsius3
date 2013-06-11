@@ -1,11 +1,6 @@
 <div class="span6">
     <div class="well">
-        <h2 class="pull-left">{{ 'Users'|trans }}</h2>
-        <div class="pull-right">
-            {% from "CelsiusCelsius3Bundle:Macro:admin.html.twig" import admin_search as search %}
-            {{ search(path('administration_search'), '#') }}
-        </div>
-        <div class="clearfix"></div>
+        <h2>{{ 'Users'|trans }}</h2>
         <div class="row">
             <div class="span3">
                 <ul class="nav nav-list">

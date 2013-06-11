@@ -48,14 +48,12 @@ class AdministrationController extends BaseInstanceDependentController
     public function searchAction()
     {
         $keyword = $this->getRequest()->query->get('keyword');
-        $searchManager = new SearchManager();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator
                 ->paginate(
-                        $searchManager
-                                ->doSearch('Order', $keyword,
-                                        $this->getDocumentManager(),
+                        $this->get('search_manager')
+                                ->search('Order', $keyword,
                                         $this->getInstance()),
                         $this->get('request')->query->get('page', 1)/* page number */,
                         $this->container->getParameter('max_per_page')/* limit per page */

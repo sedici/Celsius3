@@ -93,7 +93,11 @@ myClank.on("socket/connect", function(session){
                 <div class="span12">
                     {% block body_title %}
                     <div class="well page-header">
-                        <h1>{{ instance.get('instance_title').value }}</h1>
+                        <h1 class="pull-left">{{ instance.get('instance_title').value }}</h1>
+                        <div class="pull-right">
+	                    	{% block adminpanel %}{% endblock %}
+	                    </div>
+	                    <div class="clearfix"></div>
                     </div>
                     {% endblock %}
                     {% block navigation_content %}{% endblock %}

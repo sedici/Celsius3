@@ -1,27 +1,29 @@
-{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+{% extends 'CelsiusCelsius3Bundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Search Results'|trans }}
+{{ 'Search results'|trans }}
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="span9">
-            <h3>{{ 'Order'|trans }}</h3>
-            <div class="navigation">
-                {{ pagination.render()|raw }}
-            </div>
-            <table class="table table-striped table-bordered table-condensed records_list">
-                {% include 'CelsiusCelsius3Bundle:Order:_index_fields.html.twig' %}
-            </table>
-            <div class="navigation">
-                {{ pagination.render()|raw }}
-            </div>
+<h3>{{ 'Search results'|trans }}</h3>
+<div class="row">
+    <div class="span12">
+
+        <dl class="dl-horizontal">
+            <dt>{{ 'Keyword'|trans }}</dt>
+            <dd>{{ app.request.get('keyword') }}</dd>
+            <dt>{{ 'Results' }}</dt>
+            <dd>{{ pagination.paginationData.totalCount }}</dd>
+        </dl>
+
+        <div class="navigation">
+			{{ knp_pagination_render(pagination) }}
         </div>
-        <div class="span3">
-            {% from "CelsiusCelsius3Bundle:Macro:crud.html.twig" import admin_search as admin_search %}
-            {{ admin_search(app.request.get('keyword')) }}
+
+        {% include 'CelsiusCelsius3Bundle:AdminOrder:_index_fields.html.twig' %}
+
+        <div class="navigation">
+			{{ knp_pagination_render(pagination) }}
         </div>
     </div>
 </div>
