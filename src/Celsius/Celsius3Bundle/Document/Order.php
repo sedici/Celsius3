@@ -14,114 +14,114 @@ class Order
     /**
      * @MongoDB\Id
      */
-    protected $id;
+    private $id;
 
     /**
      * @Assert\Type(type="integer", groups={"newOrder"})
      * @MongoDB\Int
      */
-    protected $code;
+    private $code;
     /**
 
      * @Assert\NotBlank(groups={"newOrder"})
      * @MongoDB\String
      */
-    protected $type;
+    private $type;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $created;
+    private $created;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $searched;
+    private $searched;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $requested;
+    private $requested;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $approval_pending;
+    private $approval_pending;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $received;
+    private $received;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $delivered;
+    private $delivered;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $cancelled;
+    private $cancelled;
 
     /**
      * @Assert\Date()
      * @MongoDB\Date
      */
-    protected $annulled;
+    private $annulled;
 
     /**
      * @MongoDB\String
      */
-    protected $comments;
+    private $comments;
 
     /**
      * @MongoDB\EmbedOne(targetDocument="MaterialType")
      */
-    protected $materialData;
+    private $materialData;
 
     /**
-     * @Assert\NotNull(groups={"newOrder"})
+     * @Assert\NotNull(groups={"Default", "newOrder"})
      * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
-    protected $owner;
-
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
-     */
-    protected $operator;
+    private $owner;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
-    protected $librarian;
+    private $operator;
 
     /**
-     * @Assert\NotNull(groups={"newOrder"})
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     */
+    private $librarian;
+
+    /**
+     * @Assert\NotNull(groups={"Default", "newOrder"})
      * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
-    protected $instance;
+    private $instance;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="order")
      */
-    protected $files;
+    private $files;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="order")
      */
-    protected $events;
+    private $events;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="order")
      */
-    protected $states;
+    private $states;
 
     public function __toString()
     {

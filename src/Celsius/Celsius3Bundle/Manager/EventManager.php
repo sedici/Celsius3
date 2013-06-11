@@ -368,7 +368,7 @@ class EventManager
                 'order' => $order,
                 'isDelivered' => $order
                         ->getState(StateManager::STATE__DELIVERED, $instance),
-                'isReclaimed' => $event->getReclaimed(),
+                'isReclaimed' => $event->getIsReclaimed(),
                 'isApproveEvent' => $isApproveEvent,
                 'isApproved' => $event->getInstance()->getId()
                         != $instance->getId() ? ($this->container

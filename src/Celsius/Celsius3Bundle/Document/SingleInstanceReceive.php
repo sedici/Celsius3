@@ -90,28 +90,6 @@ class SingleInstanceReceive extends SingleInstance
     }
 
     /**
-     * Set observations
-     *
-     * @param string $observations
-     * @return \Receive
-     */
-    public function setObservations($observations)
-    {
-        $this->observations = $observations;
-        return $this;
-    }
-
-    /**
-     * Get observations
-     *
-     * @return string $observations
-     */
-    public function getObservations()
-    {
-        return $this->observations;
-    }
-
-    /**
      * Add files
      *
      * @param Celsius\Celsius3Bundle\Document\File $files

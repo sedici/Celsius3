@@ -4,6 +4,7 @@ namespace Celsius\Celsius3Bundle\Controller\Mixin;
 
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\File;
+use Symfony\Component\HttpFoundation\Response;
 trait FileControllerTrait
 {
     protected function download($order, $file)

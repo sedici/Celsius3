@@ -78,6 +78,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'attr' => array(
                         'class' => 'country-select'
                     ),
+                    'auto_initialize' => false,
                 )));
         $form->add($this->factory->createNamed('city', 'document', $city, array(
                     'class' => 'CelsiusCelsius3Bundle:City',
@@ -101,6 +102,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'attr' => array(
                         'class' => 'city-select'
                     ),
+                    'auto_initialize' => false,
                 )));
         $form->add($this->factory->createNamed('institution', 'document', $institution, array(
                     'class' => 'CelsiusCelsius3Bundle:Institution',
@@ -129,6 +131,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'attr' => array(
                         'class' => 'institution-select'
                     ),
+                    'auto_initialize' => false,
                 )));
     }
 

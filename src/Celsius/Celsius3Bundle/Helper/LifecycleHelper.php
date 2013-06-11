@@ -151,9 +151,8 @@ class LifecycleHelper
         try {
             $data = $this->preValidate($name, $order, $instance);
             $order->$data['orderDateMethod']($data['date']);
-            $this->dm->persist($order);
             $this->setEventData($order, $data);
-            $this->dm->flush();
+            $this->refresh($order);
             return true;
         } catch (PreviousStateNotFoundException $e) {
             return false;

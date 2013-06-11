@@ -6,24 +6,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Manager\EventManager;
 
-class OrderListener
-{
+class OrderListener {
 
-    private $container;
+	private $container;
 
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
+	public function __construct(ContainerInterface $container) {
+		$this->container = $container;
+	}
 
-    public function postPersist(LifecycleEventArgs $args)
-    {
-        $document = $args->getDocument();
+	public function postPersist(LifecycleEventArgs $args) {
+		$document = $args->getDocument();
 
-        if ($document instanceof Order) {
-            $this->container->get('lifecycle_helper')
-                    ->createEvent(EventManager::EVENT__CREATION, $document);
-        }
-    }
-
+		if ($document instanceof Order) {
+			$this->container->get('lifecycle_helper')
+					->createEvent(EventManager::EVENT__CREATION, $document,
+							$document->getInstance());
+		}
+	}
 }

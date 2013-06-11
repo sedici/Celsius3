@@ -20,13 +20,12 @@ class OrderRequestType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+    	$subscriber = new AddInstitutionFieldsSubscriber(
+    			$builder->getFormFactory(), $this->dm, 'provider');
+    	$builder->addEventSubscriber($subscriber);
         $builder
                 ->add('observations', 'textarea',
                         array('required' => false,));
-
-        $subscriber = new AddInstitutionFieldsSubscriber(
-                $builder->getFormFactory(), $this->dm, 'provider');
-        $builder->addEventSubscriber($subscriber);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

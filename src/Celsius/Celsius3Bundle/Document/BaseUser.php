@@ -1,7 +1,7 @@
 <?php
 
 namespace Celsius\Celsius3Bundle\Document;
-use FOS\UserBundle\Document\User;
+use FOS\UserBundle\Model\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\MessageBundle\Model\ParticipantInterface;
