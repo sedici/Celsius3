@@ -22,7 +22,8 @@ use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
  *   "localcancel"="LocalCancel",
  *   "remotecancel"="RemoteCancel",
  *   "reclaim"="Reclaim",
- *   "approve"="Approve"
+ *   "approve"="Approve",
+ *   "undo"="Undo"
  * })
  */
 class Event implements EventInterface

@@ -253,4 +253,40 @@ class AdminOrderController extends OrderController
                                 ->generateUrl('admin_order_show',
                                         array('id' => $order->getId())));
     }
+
+    /**
+     * Undoes the last state change
+     *
+     * @Route("/{id}/undo", name="admin_order_undo")
+     * @Method("post")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function undoStateAction($id)
+    {
+        $order = $this->findQuery('Order', $id);
+
+        if (!$order) {
+            throw $this->createNotFoundException('Unable to find Order.');
+        }
+
+        if ($this->get('lifecycle_helper')->undoState($order)) {
+            $this->get('session')->getFlashBag()
+                    ->add('success', 'The state has been successfully changed.');
+        } else {
+            $this->get('session')->getFlashBag()
+                    ->add('success',
+                            'There was an error processing your request.');
+        }
+
+        return $this
+                ->redirect(
+                        $this
+                                ->generateUrl('admin_order_show',
+                                        array('id' => $order->getId())));
+    }
 }

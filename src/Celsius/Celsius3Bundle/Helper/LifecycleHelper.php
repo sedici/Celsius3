@@ -17,6 +17,8 @@ use Celsius\Celsius3Bundle\Manager\EventManager;
 use Celsius\Celsius3Bundle\Manager\FileManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius\Celsius3Bundle\Exception\PreviousStateNotFoundException;
+use Celsius\Celsius3Bundle\Document\Undo;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class LifecycleHelper
 {
@@ -155,6 +157,31 @@ class LifecycleHelper
             $this->refresh($order);
             return true;
         } catch (PreviousStateNotFoundException $e) {
+            return false;
+        }
+    }
+
+    public function undoState(Order $order)
+    {
+        $instance = $this->instance_helper->getSessionInstance();
+        $currentState = $order->getCurrentState($instance);
+        if (!is_null($currentState->getPrevious())) {
+            $previousState = $currentState->getPrevious();
+            $currentState->setIsCurrent(false);
+            $previousState->setIsCurrent(true);
+
+            $event = new Undo();
+            $event->setDate(date('Y-m-d H:i:s'));
+            $event->setOrder($order);
+            $event->setOperator($this->container->get('security.context')->getToken()->getUser());
+            $event->setInstance($instance);
+            $event->setState($previousState);
+            $previousState->addEvent($event);
+
+            $this->refresh($event);
+            $this->refresh($currentState);
+            return true;
+        } else {
             return false;
         }
     }

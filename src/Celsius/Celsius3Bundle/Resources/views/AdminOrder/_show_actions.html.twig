@@ -13,3 +13,10 @@ constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__APPROVAL_PENDIN
     </form>
 </li>
 {% endif %}
+{% if document.getCurrentState(instance).type.name != constant('Celsius\\Celsius3Bundle\\Manager\\StateManager::STATE__CREATED') %}
+<li>
+    <form action="{{ path('admin_order_undo', { 'id': document.id }) }}" method="post" class="inline-form">
+        <a class="submit-undo-form" href="#"><i class="icon-arrow-left"></i> {{ 'back to previous state'|capitalize|trans }}</a>
+    </form>
+</li>
+{% endif %}
