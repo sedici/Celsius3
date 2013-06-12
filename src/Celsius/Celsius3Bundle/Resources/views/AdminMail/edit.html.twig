@@ -1,10 +1,10 @@
-{% extends 'CelsiusCelsius3Bundle:Layout:layout.html.twig' %}
+{% extends 'CelsiusCelsius3Bundle:Administration:layout.html.twig' %}
 
 {% block title %}
 
 {{ 'Templates Mails ' |trans }}
 {% endblock %}
-    
+
 {% block content %}
     <link href="{{ asset('bundles/celsiuscelsius3/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
     <h2>{{ ['admin_mails_update '|capitalize, route]|join|trans }}</h2>

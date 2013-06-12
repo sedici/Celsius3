@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ad37eb3796e60a6fa0d1dea4324627a2",
+    "hash": "b716e48916aad8384aebd77c9db73d49",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -1244,13 +1244,13 @@
             "target-dir": "JDare/ClankBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/amarisi/ClankBundle.git",
-                "reference": "8fb1c9a20a5fd4fb32524a750e07cea7db2555e9"
+                "url": "https://github.com/JDare/ClankBundle.git",
+                "reference": "762449fd25aacedebd1b405e62026700891363cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amarisi/ClankBundle/zipball/8fb1c9a20a5fd4fb32524a750e07cea7db2555e9",
-                "reference": "8fb1c9a20a5fd4fb32524a750e07cea7db2555e9",
+                "url": "https://api.github.com/repos/JDare/ClankBundle/zipball/762449fd25aacedebd1b405e62026700891363cb",
+                "reference": "762449fd25aacedebd1b405e62026700891363cb",
                 "shasum": ""
             },
             "require": {
@@ -1264,6 +1264,7 @@
                     "JDare\\ClankBundle": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1278,10 +1279,7 @@
             "keywords": [
                 "Web Socket Application"
             ],
-            "support": {
-                "source": "https://github.com/amarisi/ClankBundle/tree/master"
-            },
-            "time": "2013-06-10 02:32:43"
+            "time": "2013-06-12 17:08:47"
         },
         {
             "name": "jdorn/sql-formatter",

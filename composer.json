@@ -19,11 +19,7 @@
                     "type": "file"
                 }
             }
-        },
-        {
-	        "type": "vcs",
-	        "url": "https://github.com/amarisi/ClankBundle"
-	    }
+        }
     ],
     "require": {
         "php": ">=5.3.3",
