@@ -9,6 +9,8 @@ use Celsius\Celsius3Bundle\Document\Order;
 use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
 use Celsius\Celsius3Bundle\Form\Type\OrderRequestType;
 use Celsius\Celsius3Bundle\Helper\InstanceHelper;
+use Celsius\Celsius3Bundle\Document\State;
+use Symfony\Component\HttpFoundation\Request;
 
 class StateManager
 {
@@ -28,7 +30,8 @@ class StateManager
                             EventManager::EVENT__SEARCH => array(
                                     'weight' => 10,
                                     'destinationState' => self::STATE__SEARCHED,),
-                            EventManager::EVENT__CANCEL => array( //Por RemoteCancel
+                            EventManager::EVENT__CANCEL => array(
+                                    //Por RemoteCancel
                                     'weight' => 2,
                                     'destinationState' => self::STATE__CANCELLED,),
                             EventManager::EVENT__ANNUL => array('weight' => 1,
@@ -241,6 +244,25 @@ class StateManager
         }
 
         return $data;
+    }
+
+    public function extraUndoActions(State $state)
+    {
+        switch ($state->getType()->getName()) {
+        case self::STATE__REQUESTED:
+            $extraData = $this->event_manager
+                    ->prepareExtraData(EventManager::EVENT__CANCEL,
+                            $state->getOrder(), $state->getInstance());
+            $this->event_manager
+                    ->cancelRequests($extraData['sirequests'],
+                            $extraData['httprequest']);
+            $this->event_manager
+                    ->cancelRequests($extraData['mirequests'],
+                            $extraData['httprequest']);
+            break;
+        default:
+            ;
+        }
     }
 
     /*

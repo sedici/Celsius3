@@ -16,16 +16,12 @@ class Cancel extends SingleInstance
     {
         $data['extraData']['remoterequest']->setIsCancelled(true);
         $lifecycleHelper->refresh($data['extraData']['remoterequest']);
-        foreach ($data['extraData']['sirequests'] as $request) {
-            $data['extraData']['httprequest']->query
-                    ->set('request', $request->getId());
-            $lifecycleHelper->createEvent(EventManager::EVENT__CANCEL, $order);
-        }
+        $lifecycleHelper->getEventManager()
+                ->cancelRequests($data['extraData']['sirequests'],
+                        $data['extraData']['httprequest']);
 
-        foreach ($data['extraData']['mirequests'] as $request) {
-            $data['extraData']['httprequest']->query
-                    ->set('request', $request->getId());
-            $lifecycleHelper->createEvent(EventManager::EVENT__CANCEL, $order);
-        }
+        $lifecycleHelper->getEventManager()
+                ->cancelRequests($data['extraData']['mirequests'],
+                        $data['extraData']['httprequest']);
     }
 }

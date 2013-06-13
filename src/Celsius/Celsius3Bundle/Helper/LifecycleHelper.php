@@ -40,6 +40,11 @@ class LifecycleHelper
         $this->instance_helper = $this->container->get('instance_helper');
     }
 
+    public function getEventManager()
+    {
+        return $this->event_manager;
+    }
+
     public function refresh($document)
     {
         $this->dm->persist($document);
@@ -173,10 +178,15 @@ class LifecycleHelper
             $event = new Undo();
             $event->setDate(date('Y-m-d H:i:s'));
             $event->setOrder($order);
-            $event->setOperator($this->container->get('security.context')->getToken()->getUser());
+            $event
+                    ->setOperator(
+                            $this->container->get('security.context')
+                                    ->getToken()->getUser());
             $event->setInstance($instance);
             $event->setState($previousState);
             $previousState->addEvent($event);
+
+            $this->state_manager->extraUndoActions($currentState);
 
             $this->refresh($event);
             $this->refresh($currentState);

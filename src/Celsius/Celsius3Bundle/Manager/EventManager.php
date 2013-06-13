@@ -18,6 +18,7 @@ use Symfony\Component\BrowserKit\Request;
 use Celsius\Celsius3Bundle\Document\Instance;
 use Celsius\Celsius3Bundle\Document\Reclaim;
 use Celsius\Celsius3Bundle\Form\Type\OrderReclaimType;
+use Celsius\Celsius3Bundle\Helper\LifecycleHelper;
 
 class EventManager
 {
@@ -307,6 +308,16 @@ class EventManager
     {
         $methodName = 'prepareExtraDataFor' . ucfirst($event);
         return $this->$methodName($order, array(), $instance);
+    }
+
+    public function cancelRequests($requests,
+            \Symfony\Component\HttpFoundation\Request $httpRequest)
+    {
+        foreach ($requests as $request) {
+            $httpRequest->query->set('request', $request->getId());
+            $this->container->get('lifecycle_helper')
+                    ->createEvent(self::EVENT__CANCEL, $request->getOrder());
+        }
     }
 
     /*
