@@ -14,5 +14,16 @@ parameters:
     locale: en
     secret: Celsius3hfaksjdhfkajs
 
-    clank_host: 127.0.0.1
-    clank_port: 8080
+    max_per_page: 10
+
+    mongodb_host: localhost
+    mongodb_port: 27017
+    mongodb_database: celsius
+    mongodb_database_test: celsius_test
+    mongodb_log_collection: Log
+
+    celsius2_host: localhost
+    celsius2_port: 3306
+    celsius2_username: root
+    celsius2_password: root
+    celsius2_database: celsius

@@ -1,0 +1,40 @@
+<?php
+
+namespace Celsius3\CoreBundle\Document;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
+class MultiInstance extends Event
+{
+
+    /**
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="events")
+     */
+    private $remoteInstance;
+
+    /**
+     * Set remoteInstance
+     *
+     * @param Celsius3\CoreBundle\Document\Instance $remoteInstance
+     * @return self
+     */
+    public function setRemoteInstance(\Celsius3\CoreBundle\Document\Instance $remoteInstance)
+    {
+        $this->remoteInstance = $remoteInstance;
+        return $this;
+    }
+
+    /**
+     * Get remoteInstance
+     *
+     * @return Celsius3\CoreBundle\Document\Instance $remoteInstance
+     */
+    public function getRemoteInstance()
+    {
+        return $this->remoteInstance;
+    }
+}

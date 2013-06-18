@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'City List'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('superadmin_city', pagination, 'Celsius3CoreBundle:SuperadminCity', filter_form) }}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% set ajax_path = 'user_ajax' %}
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Order Creation'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
+
+{% block content %}
+{{ new('user_order', form) }}
+{% endblock %}

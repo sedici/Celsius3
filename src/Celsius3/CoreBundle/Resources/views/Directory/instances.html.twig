@@ -1,0 +1,29 @@
+{% extends 'Celsius3CoreBundle:Layout:directory_layout.html.twig' %}
+
+{% block title %}
+{{ 'Instances'|trans }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <ul class="unstyled">
+        {% for instance in instances %}
+        <li class="span6">
+            <div class="well">
+            	<h2><a href="{{ path('public_index', { 'url': instance.url }) }}">{{ instance.get('instance_title').value }}</a></h2>
+                <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
+                <p>
+                    {{ 'Institutions'|trans }}: "Here goes the Institution Tree"
+                </p>
+                <p>
+                    <a href="http://{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
+                </p>
+                <p>
+                    <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
+                </p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

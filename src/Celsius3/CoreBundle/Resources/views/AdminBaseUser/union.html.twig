@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+{{ 'Catalog Union'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import union as union %}
+
+{% block content %}
+{{ union('admin_user', documents, 'Celsius3CoreBundle:AdminBaseUser') }}
+{% endblock %}

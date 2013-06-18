@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.ini }
+    - { resource: parameters.yml }
     - { resource: security.yml }
 
 framework:
@@ -22,19 +22,16 @@ monolog:
     handlers:
         custom:
             type:                service
-            id:                  mongodb_logger_wrapper_handler
+            id:                  celsius3_core.mongodb_logger_wrapper_handler
 
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-    globals:
-        clank_host:    "%clank_host%"
-        clank_port:    "%clank_port%"
 
 # Assetic Configuration
 assetic:
-    bundles:        [CelsiusCelsius3Bundle, JDareClankBundle]
+    bundles:        [Celsius3CoreBundle]
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java
@@ -50,11 +47,11 @@ assetic:
         #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
     assets:
         bootstrap_css:
-            output: bundles/celsiuscelsius3/css/bootstrap.css
+            output: bundles/celsius3core/css/bootstrap.css
         bootstrap_js:
-            output: bundles/celsiuscelsius3/js/bootstrap.js
+            output: bundles/celsius3core/js/bootstrap.js
         jquery:
-            output: bundles/celsiuscelsius3/js/jquery-1.9.1.min,js
+            output: bundles/celsius3core/js/jquery-1.9.1.min,js
 
 doctrine_mongodb:
     connections:
@@ -113,38 +110,29 @@ knp_paginator:
 fos_user:
     db_driver: mongodb # 'orm', 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: Celsius\Celsius3Bundle\Document\BaseUser
+    user_class: Celsius3\CoreBundle\Document\BaseUser
     profile:
         form:
-            type: celsius_celsius3bundle_profile
+            type: celsius3_corebundle_profile
     registration:
         form:
-            type: celsius_celsius3bundle_registration
+            type: celsius3_corebundle_registration
     service:
-        mailer: fos_user.mailer.custom
+        mailer: celsius3_core.mailer.custom
 
 services:
     # Formulario de registro personalizado
     registration.form.type:
-        class: Celsius\Celsius3Bundle\Form\Type\RegistrationFormType
+        class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
         arguments: ["@service_container", %fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: celsius_celsius3bundle_registration }
+            - { name: form.type, alias: celsius3_corebundle_registration }
 
     profile.form.type:
-        class: Celsius\Celsius3Bundle\Form\Type\ProfileFormType
+        class: Celsius3\CoreBundle\Form\Type\ProfileFormType
         arguments: [%fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: celsius_celsius3bundle_profile }
-
-
-parameters:
-    max_per_page: 10
-    mongodb_host: localhost
-    mongodb_port: 27017
-    mongodb_database: celsius
-    mongodb_database_test: celsius_test
-    mongodb_log_collection: Log
+            - { name: form.type, alias: celsius3_corebundle_profile }
 
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
@@ -212,15 +200,15 @@ stfalcon_tinymce:
 
 fos_message:
     db_driver: mongodb
-    thread_class: Celsius\Celsius3MessageBundle\Document\Thread
-    message_class: Celsius\Celsius3MessageBundle\Document\Message
-    provider: fos_message.provider.default.celsius
+    thread_class: Celsius3\MessageBundle\Document\Thread
+    message_class: Celsius3\MessageBundle\Document\Message
+    provider: celsius3_message.provider.default
     new_thread_form:
-        type:               fos_message.new_thread_form.type.custom
+        type:               celsius3_message.new_thread_form.type.custom
         handler:            fos_message.new_thread_multiple_form.handler
         model:              FOS\MessageBundle\FormModel\NewThreadMultipleMessage
     reply_form:
-        type:               fos_message.reply_form.type.custom
+        type:               celsius3_message.reply_form.type.custom
 
 stof_doctrine_extensions:
     default_locale: %locale%
@@ -234,14 +222,3 @@ bc_bootstrap:
 
 genemu_form:
     select2: ~
-
-# Clank Configuration
-clank:
-  web_socket_server:
-      port: %clank_port% #The port the socket server will listen on
-      host: %clank_host% #(optional) The host ip to bind to
-
-  topic:
-        -
-            name: "celsius" #Important! this is the topic namespace used to match to this service!
-            service: "celsius_celsius3.topic_sample_service" #The service id.

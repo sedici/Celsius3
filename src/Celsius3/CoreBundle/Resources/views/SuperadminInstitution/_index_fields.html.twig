@@ -1,0 +1,27 @@
+<div class="sorting-group pull-right">
+    <span>
+        {{ 'Sort by'|trans }}: 
+    </span>
+    {% include 'Celsius3CoreBundle:SuperadminInstitution:_index_sort.html.twig' %}
+</div>
+<div class="clearfix"></div>
+<form class="batch_form" action="{{ path('superadmin_institution_union') }}" method="post">
+    {% for institution in pagination %}
+    <div id="id{{ institution.id }}" class="accordion">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <input type="checkbox" name="element[]" id="element{{ institution.id }}" value="{{ institution.id }}" class="pull-left batch-checkbox"/>
+                <a href="#collapse{{ institution.id }}" data-parent="#id{{ institution.id }}" data-toggle="collapse" class="accordion-toggle">
+                    <span>{{ institution.name }}</span>
+                </a>
+                {% include 'Celsius3CoreBundle:SuperadminInstitution:_index_list_actions.html.twig' %}
+            </div>
+            <div class="accordion-body collapse" id="collapse{{ institution.id }}">
+                <div class="accordion-inner">
+                    {% include 'Celsius3CoreBundle:SuperadminInstitution:_show_fields.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</form>

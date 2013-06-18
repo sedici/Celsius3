@@ -1,8 +1,0 @@
-{% extends 'CelsiusCelsius3Bundle:Order:_show_fields.html.twig' %}
-
-{% block extrafields %}
-<dt>{{ 'User'|trans }}</dt>
-<dd><a href="{{ path('superadmin_user',{ 'id': document.owner.id }) }}">{{ document.owner.username }}</a></dd>
-<dt>{{ 'Instance'|trans }}</dt>
-<dd>{{ document.instance }}</dd>
-{% endblock %}

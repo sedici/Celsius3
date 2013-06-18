@@ -1,0 +1,8 @@
+'{{ city.name }}' => array(
+    'postalCode' => '{{ city.postalCode }}',
+    'institutions' => array(
+{% for institution in institutions %}
+{{ render_institution(institution)|raw }}
+{% endfor %}
+    ),
+),

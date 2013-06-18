@@ -1,0 +1,27 @@
+<div class="sorting-group pull-right">
+    <span>
+        {{ 'Sort by'|trans }}: 
+    </span>
+    {% include 'Celsius3CoreBundle:BaseUser:_index_sort.html.twig' %}
+</div>
+<div class="clearfix"></div>
+{% block batchform %}{% endblock %}
+{% for user in pagination %}
+<div id="id{{ user.id }}" class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            {% block batchicon %}{% endblock %}
+            <a href="#collapse{{ user.id }}" data-parent="#id{{ user.id }}" data-toggle="collapse" class="accordion-toggle">
+                <span>{{ user.surname }}, {{ user.name }}</span>
+            </a>
+            {% include 'Celsius3CoreBundle:BaseUser:_index_list_actions.html.twig' %}
+        </div>
+        <div class="accordion-body collapse" id="collapse{{ user.id }}">
+            <div class="accordion-inner">
+                {% block usercontent %}{% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% block endbatchform %}{% endblock %}

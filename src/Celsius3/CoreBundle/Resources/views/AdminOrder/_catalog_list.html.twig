@@ -1,0 +1,61 @@
+<table class="table table-hover catalog-table">
+    <thead>
+        <tr>
+            <th>{{ 'Catalog'|trans }}</th>
+            <th>{{ 'Result'|trans }}</th>
+            <th>{{ 'State'|trans }}</th>
+            <th>{{ 'Actions'|trans }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set searches = get_searches(order, instance) %}
+    {% for catalog in get_catalogs(instance) %}
+        <tr>
+            <td class="catalog-data">
+                <p>{{ catalog.name }}</p>
+                <p><a href="{{ catalog.url }}" target="_blank">{{ catalog.url }}</a></p>
+            </td>
+            <td class="catalog-result">
+                {% set search = search_exists(searches, catalog) %}
+                {% if search %}
+                    {{ search.date|localizeddate }}
+                {% endif %}
+            </td>
+            <td class="catalog-marker">
+                {% set result = constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__NOT_SEARCHED') %}
+                <input type="radio" class="mark-catalog" title="{{ 'Non Searched'|trans }}" name="catalog{{ catalog.id }}" value="{{ result }}" {{ (search and search.result == result )?'checked="checked"':'' }} />
+                {% set result = constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__FOUND') %}
+                <input type="radio" class="mark-catalog" title="{{ 'Found'|trans }}" name="catalog{{ catalog.id }}" value="{{ result }}" {{ (search and search.result == result )?'checked="checked"':'' }} />
+                {% set result = constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND') %}
+                <input type="radio" class="mark-catalog" title="{{ 'Partially Found'|trans }}" name="catalog{{ catalog.id }}" value="{{ result }}" {{ (search and search.result == result )?'checked="checked"':'' }} />
+                {% set result = constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND') %}
+                <input type="radio" class="mark-catalog" title="{{ 'Not Found'|trans }}" name="catalog{{ catalog.id }}" value="{{ result }}" {{ (search and search.result == result )?'checked="checked"':'' }} />
+            </td>
+            <td class="catalog-actions">
+                <a href="#" class="btn">{{ 'Request' }}</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+function getCatalogId(inputName) {
+    return inputName.substr(7);
+}
+
+function registerSearch() {
+    var input = $(this);
+    var catalogId = getCatalogId(input.attr('name'));
+    $.ajax({
+        url: '{{ path('admin_catalog_search_mark') }}',
+        dataType: 'json',
+        data: 'order_id={{ order.id }}&instance_id={{ instance.id }}&catalog_id='+catalogId+'&result='+input.val()
+    }).done(function(data){
+        input.parent().siblings('.catalog-result').text(data.date);
+    });
+}
+
+$(document).ready(function(){
+    $('.mark-catalog').click(registerSearch);
+});
+</script>

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="celsius3_migration.country_helper.class">Celsius3\MigrationBundle\Helper\CountryHelper</parameter>
+		<parameter key="celsius3_migration.city_helper.class">Celsius3\MigrationBundle\Helper\CityHelper</parameter>
+		<parameter key="celsius3_migration.institution_helper.class">Celsius3\MigrationBundle\Helper\InstitutionHelper</parameter>
+		<parameter key="celsius3_migration.migration_manager.class">Celsius3\MigrationBundle\Manager\MigrationManager</parameter>
+		<parameter key="celsius3_migration.twig.extension.rendering.class">Celsius3\MigrationBundle\Twig\RenderingExtension</parameter>
+	</parameters>
+
+	<services>
+		<service id="celsius3_migration.country_helper" class="%celsius3_migration.country_helper.class%">
+			<argument type="service" id="service_container"></argument>
+			<argument type="service" id="celsius3_migration.city_helper"></argument>
+			<argument type="service" id="celsius3_migration.institution_helper"></argument>
+		</service>
+
+		<service id="celsius3_migration.city_helper" class="%celsius3_migration.city_helper.class%">
+			<argument type="service" id="service_container"></argument>
+			<argument type="service" id="celsius3_migration.institution_helper"></argument>
+		</service>
+
+		<service id="celsius3_migration.institution_helper" class="%celsius3_migration.institution_helper.class%">
+			<argument type="service" id="service_container"></argument>
+		</service>
+
+		<service id="celsius3_migration.migration_manager" class="%celsius3_migration.migration_manager.class%">
+			<argument type="service" id="celsius3_migration.country_helper"></argument>
+			<argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+		</service>
+
+		<service id="celsius3_migration.twig.extension.rendering" class="%celsius3_migration.twig.extension.rendering.class%">
+			<argument type="service" id="service_container"></argument>
+			<tag name="twig.extension" />
+		</service>
+	</services>
+
+</container>

@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+{{ 'Institution List'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('admin_institution', pagination, 'Celsius3CoreBundle:AdminInstitution', filter_form) }}
+{% endblock %}

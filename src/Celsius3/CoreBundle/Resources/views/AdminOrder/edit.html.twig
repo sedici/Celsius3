@@ -1,0 +1,12 @@
+{% set ajax_path = 'admin_ajax' %}
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+{{ 'Order Edit'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
+
+{% block content %}
+{{ edit('admin_order', document, edit_form, delete_form) }}
+{% endblock %}

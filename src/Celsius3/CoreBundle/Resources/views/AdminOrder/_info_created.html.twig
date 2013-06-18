@@ -1,0 +1,13 @@
+{% if hasState %}
+<div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
+    <div class="well">
+        <dl class="dl-horizontal">
+            <dt>{{ 'Creation Date'|trans }}</dt>
+            <dd>
+                {{ order.hasState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), instance)?order.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), instance).date|localizeddate():'' }}
+                ({{ order.hasState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), instance)?order.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), instance).date|time_ago_in_words:'' }})
+            </dd>
+        </dl>
+    </div>
+</div>
+{% endif %}

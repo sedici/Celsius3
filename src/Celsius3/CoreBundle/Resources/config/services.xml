@@ -1,0 +1,279 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+    	<parameter key="twig.extension.text.class">Twig_Extensions_Extension_Text</parameter>
+        <parameter key="twig.extension.intl.class">Twig_Extensions_Extension_Intl</parameter>
+        <parameter key="twig.extension.string_loader.class">Twig_Extension_StringLoader</parameter>
+        <parameter key="celsius3_core.twig.extension.timeago_extension.class">Celsius3\CoreBundle\Twig\TimeAgoExtension</parameter>
+        <parameter key="celsius3_core.twig.extension.states.class">Celsius3\CoreBundle\Twig\StateExtension</parameter>
+        <parameter key="celsius3_core.twig.extension.events.class">Celsius3\CoreBundle\Twig\EventExtension</parameter>
+        <parameter key="celsius3_core.twig.extension.material_type.class">Celsius3\CoreBundle\Twig\MaterialTypeExtension</parameter>
+        <parameter key="celsius3_core.twig.extension.catalogs.class">Celsius3\CoreBundle\Twig\CatalogExtension</parameter>
+        <parameter key="celsius3_core.counter_listener.class">Celsius3\CoreBundle\Listener\CounterListener</parameter>
+        <parameter key="celsius3_core.configuration_listener.class">Celsius3\CoreBundle\Listener\ConfigurationListener</parameter>
+        <parameter key="celsius3_core.order_listener.class">Celsius3\CoreBundle\Listener\OrderListener</parameter>
+        <parameter key="celsius3_core.security.login_listener.class">Celsius3\CoreBundle\EventListener\LoginListener</parameter>
+        <parameter key="celsius3_core.locale_choosing_listener.class">Celsius3\CoreBundle\EventListener\LocaleChoosingListener</parameter>
+        <parameter key="celsius3_core.instance_listener.class">Celsius3\CoreBundle\EventListener\InstanceListener</parameter>
+        <parameter key="celsius3_core.registration.form.type.class">Celsius3\CoreBundle\Form\Type\RegistrationFormType</parameter>
+        <parameter key="celsius3_core.form.user_selector.class">Celsius3\CoreBundle\Form\Type\UserSelectorType</parameter>
+        <parameter key="celsius3_core.form.instance_selector.class">Celsius3\CoreBundle\Form\Type\InstanceSelectorType</parameter>
+        <parameter key="celsius3_core.form.type.language.class">Celsius3\CoreBundle\Form\Type\LanguageType</parameter>
+        <parameter key="celsius3_core.form.type.confirmation.class">Celsius3\CoreBundle\Form\Type\ConfirmationType</parameter>
+        <parameter key="celsius3_core.security.authentication_failure_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationFailureHandler</parameter>
+        <parameter key="celsius3_core.security.logout_success_handler.class">Celsius3\CoreBundle\Handler\CustomLogoutSuccessHandler</parameter>
+        <parameter key="celsius3_core.security.authentication_success_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationSuccessHandler</parameter>
+        <parameter key="celsius3_core.mongodb_logger_wrapper_handler.class">Celsius3\CoreBundle\Handler\MongoDBWrapperHandler</parameter>
+        <parameter key="celsius3_core.login_logging_aspect.class">Celsius3\CoreBundle\Aop\LoginLoggingAspect</parameter>
+        <parameter key="celsius3_core.instance_injection_aspect.class">Celsius3\CoreBundle\Aop\InstanceInjectionAspect</parameter>
+        <parameter key="celsius3_core.menu.voter.exact.class">Celsius3\CoreBundle\Voter\ExactRequestVoter</parameter>
+        <parameter key="celsius3_core.field.guesser.class">Celsius3\CoreBundle\Guesser\FieldGuesser</parameter>
+        <parameter key="celsius3_core.lifecycle_helper.class">Celsius3\CoreBundle\Helper\LifecycleHelper</parameter>
+        <parameter key="celsius3_core.configuration_helper.class">Celsius3\CoreBundle\Helper\ConfigurationHelper</parameter>
+        <parameter key="celsius3_core.custom_field_helper.class">Celsius3\CoreBundle\Helper\CustomFieldHelper</parameter>
+        <parameter key="celsius3_core.instance_helper.class">Celsius3\CoreBundle\Helper\InstanceHelper</parameter>
+        <parameter key="celsius3_core.event_manager.class">Celsius3\CoreBundle\Manager\EventManager</parameter>
+        <parameter key="celsius3_core.search_manager.class">Celsius3\CoreBundle\Manager\SearchManager</parameter>
+        <parameter key="celsius3_core.state_manager.class">Celsius3\CoreBundle\Manager\StateManager</parameter>
+        <parameter key="celsius3_core.file_manager.class">Celsius3\CoreBundle\Manager\FileManager</parameter>
+        <parameter key="celsius3_core.filter_manager.class">Celsius3\CoreBundle\Manager\FilterManager</parameter>
+        <parameter key="celsius3_core.user_manager.class">Celsius3\CoreBundle\Manager\UserManager</parameter>
+        <parameter key="celsius3_core.union_manager.class">Celsius3\CoreBundle\Manager\UnionManager</parameter>
+        <parameter key="celsius3_core.catalog_manager.class">Celsius3\CoreBundle\Manager\CatalogManager</parameter>
+        <parameter key="celsius3_core.resetting.email.template">FOSUserBundle:Resetting:email.txt.twig</parameter>
+        <parameter key="celsius3_core.listener.confirmation.class">Celsius3\CoreBundle\EventListener\ConfirmationListener</parameter>
+        <parameter key="celsius3_core.mailer.custom.class">Celsius3\CoreBundle\Mailer\Mailer</parameter>
+        <parameter key="celsius3_core.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
+        <parameter key="celsius3_core.new_message_aspect.class">Celsius3\CoreBundle\Aop\NewMessageAspect</parameter>
+        <parameter key="celsius3_core.new_object_aspect.class">Celsius3\CoreBundle\Aop\NewObjectAspect</parameter>
+    </parameters>
+
+    <services>
+        <service id="twig.extension.text" class="%twig.extension.text.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="twig.extension.intl" class="%twig.extension.intl.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="twig.extension.string_loader" class="%twig.extension.string_loader.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.twig.extension.timeago_extension" class="%celsius3_core.twig.extension.timeago_extension.class%">
+            <argument type="service" id="translator"></argument>
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.twig.extension.states" class="%celsius3_core.twig.extension.states.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.twig.extension.events" class="%celsius3_core.twig.extension.events.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.twig.extension.material_type" class="%celsius3_core.twig.extension.material_type.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.twig.extension.material_type" class="%celsius3_core.twig.extension.material_type.class%">
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.twig.extension.catalogs" class="%celsius3_core.twig.extension.catalogs.class%">
+        	<argument type="service" id="celsius3_core.catalog_manager"></argument>
+            <tag name="twig.extension" />
+        </service>
+
+        <service id="celsius3_core.counter_listener" class="%celsius3_core.counter_listener.class%">
+            <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+
+        <service id="celsius3_core.configuration_listener" class="%celsius3_core.configuration_listener.class%">
+            <argument type="service" id="celsius3_core.configuration_helper"></argument>
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+
+        <service id="celsius3_core.order_listener" class="%celsius3_core.order_listener.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+
+        <service id="celsius3_core.security.login_listener" class="%celsius3_core.security.login_listener.class%">
+            <argument type="service" id="session"></argument>
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
+        </service>
+
+        <service id="celsius3_core.locale_choosing_listener" class="%celsius3_core.locale_choosing_listener.class%">
+            <argument type="string" id="%jms_i18n_routing.default_locale%"></argument>
+            <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
+            <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
+            <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
+
+        <service id="celsius3_core.instance_listener" class="%celsius3_core.instance_listener.class%">
+            <argument type="service" id="router"></argument>
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
+
+        <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="form.type" alias="celsius3_core.user_selector" />
+        </service>
+
+        <service id="celsius3_core.form.instance_selector" class="%celsius3_core.form.instance_selector.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <tag name="form.type" alias="celsius3_core.instance_selector" />
+        </service>
+
+        <service id="celsius3_core.form.type.language" class="%celsius3_core.form.type.language.class%">
+            <argument type="service" id="celsius3_core.configuration_helper"></argument>
+            <tag name="form.type" alias="celsius3_core.language_type" />
+        </service>
+
+        <service id="celsius3_core.form.type.confirmation" class="%celsius3_core.form.type.confirmation.class%">
+            <argument type="service" id="celsius3_core.configuration_helper"></argument>
+            <tag name="form.type" alias="celsius3_core.confirmation_type" />
+        </service>
+
+		<service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">
+            <tag name="monolog.logger" channel="security" />
+            <argument type="service" id="router"></argument>
+            <argument type="service" id="http_kernel" />
+            <argument type="service" id="security.http_utils" />
+            <argument type="collection" /> <!-- Options -->
+            <argument type="service" id="logger" on-invalid="null" />
+        </service>
+
+        <service id="celsius3_core.security.authentication_success_handler" class="%celsius3_core.security.authentication_success_handler.class%">
+            <argument type="service" id="router"></argument>
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.http_utils" />
+            <argument type="collection" /> <!-- Options -->
+        </service>
+
+        <service id="celsius3_core.security.logout_success_handler" class="%celsius3_core.security.logout_success_handler.class%">
+            <argument type="service" id="router"></argument>
+        </service>
+
+        <service id="celsius3_core.mongodb_logger_wrapper_handler" class="%celsius3_core.mongodb_logger_wrapper_handler.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="celsius3_core.login_logging_aspect" class="%celsius3_core.login_logging_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="celsius3_core.login_logging_aspect" />
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="celsius3_core.instance_injection_aspect" class="%celsius3_core.instance_injection_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="celsius3_core.instance_injection_aspect" />
+            <argument type="service" id="celsius3_core.instance_helper"></argument>
+        </service>
+
+        <service id="celsius3_core.menu.voter.exact" class="%celsius3_core.menu.voter.exact.class%">
+            <argument type="service" id="request" strict="false"></argument>
+            <tag name="knp_menu.voter" />
+        </service>
+
+        <service id="celsius3_core.field.guesser" class="%celsius3_core.field.guesser.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.lifecycle_helper" class="%celsius3_core.lifecycle_helper.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="celsius3_core.configuration_helper" class="%celsius3_core.configuration_helper.class%">
+        </service>
+
+        <service id="celsius3_core.custom_field_helper" class="%celsius3_core.custom_field_helper.class%">
+            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.instance_helper" class="%celsius3_core.instance_helper.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="celsius3_core.event_manager" class="%celsius3_core.event_manager.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="celsius3_core.search_manager" class="%celsius3_core.search_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.state_manager" class="%celsius3_core.state_manager.class%">
+            <argument type="service" id="celsius3_core.event_manager"></argument>
+            <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="service" id="form.factory"></argument>
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.file_manager" class="%celsius3_core.file_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.filter_manager" class="%celsius3_core.filter_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="celsius3_core.field.guesser"></argument>
+        </service>
+
+        <service id="celsius3_core.user_manager" class="%celsius3_core.user_manager.class%">
+        </service>
+
+        <service id="celsius3_core.union_manager" class="%celsius3_core.union_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.catalog_manager" class="%celsius3_core.catalog_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.listener.confirmation" class="%celsius3_core.listener.confirmation.class%">
+            <tag name="kernel.event_subscriber" />
+            <argument type="service" id="fos_user.mailer" />
+            <argument type="service" id="fos_user.util.token_generator" />
+            <argument type="service" id="router" />
+            <argument type="service" id="session" />
+            <argument type="service" id="request" strict="false"/>
+            <argument type="service" id="celsius3_core.configuration_helper" />
+        </service>
+
+        <service id="celsius3_core.mailer.custom" class="%celsius3_core.mailer.custom.class%" public="false">
+            <argument type="service" id="mailer" />
+            <argument type="service" id="router" />
+            <argument type="service" id="templating" />
+            <argument type="collection">
+                <argument key="confirmation.template">%fos_user.registration.confirmation.template%</argument>
+                <argument key="resetting.template">%fos_user.resetting.email.template%</argument>
+                <argument key="from_email" type="collection">
+                    <argument key="confirmation">%fos_user.registration.confirmation.from_email%</argument>
+                    <argument key="resetting">%fos_user.resetting.email.from_email%</argument>
+                </argument>
+            </argument>
+            <argument type="service" id="request" strict="false"></argument>
+        </service>
+
+        <service id="celsius3_core.new_message_aspect" class="%celsius3_core.new_message_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="celsius3_core.new_message_aspect" />
+	    <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="celsius3_core.new_object_aspect" class="%celsius3_core.new_object_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="celsius3_core.new_object_aspect" />
+	    	<argument type="service" id="service_container"></argument>
+        </service>
+    </services>
+</container>

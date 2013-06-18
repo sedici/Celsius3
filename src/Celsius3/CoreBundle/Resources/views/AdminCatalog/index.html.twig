@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+{{ 'Catalog List'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
+
+{% block content %}
+{{ index('admin_catalog', pagination, 'Celsius3CoreBundle:AdminCatalog', filter_form) }}
+{% endblock %}

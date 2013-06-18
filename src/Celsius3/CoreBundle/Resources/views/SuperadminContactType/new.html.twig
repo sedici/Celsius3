@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Contact Type Creation'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
+
+{% block content %}
+{{ new('superadmin_contacttype', form) }}
+{% endblock %}

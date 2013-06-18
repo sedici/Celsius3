@@ -5,7 +5,6 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
-
     public function registerBundles()
     {
         $bundles = array(new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -26,11 +25,13 @@ class AppKernel extends Kernel
                 new Knp\Bundle\MenuBundle\KnpMenuBundle(),
                 new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
                 new FOS\MessageBundle\FOSMessageBundle(),
-                new Celsius\Celsius3Bundle\CelsiusCelsius3Bundle(),
-                new Celsius\Celsius3MessageBundle\CelsiusCelsius3MessageBundle(),
-                new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
                 new Genemu\Bundle\FormBundle\GenemuFormBundle(),
-                new JDare\ClankBundle\JDareClankBundle(),);
+                new Bc\Bundle\BootstrapBundle\BcBootstrapBundle(),
+                new Celsius3\CoreBundle\Celsius3CoreBundle(),
+                new Celsius3\NotificationBundle\Celsius3NotificationBundle(),
+                new Celsius3\MessageBundle\Celsius3MessageBundle(),
+                new Celsius3\MigrationBundle\Celsius3MigrationBundle(),
+        );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();

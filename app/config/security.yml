@@ -14,13 +14,13 @@ security:
                 csrf_provider: form.csrf_provider
                 login_path: fos_user_security_login
                 check_path: fos_user_security_check
-                failure_handler: security.authentication_failure_handler
-                success_handler: security.authentication_success_handler
+                failure_handler: celsius3_core.security.authentication_failure_handler
+                success_handler: celsius3_core.security.authentication_success_handler
                 default_target_path: user_index
             logout:
                 path:   fos_user_security_logout
                 target: public_index
-                success_handler: security.logout_success_handler
+                success_handler: celsius3_core.security.logout_success_handler
             anonymous:    true
 
         dev:

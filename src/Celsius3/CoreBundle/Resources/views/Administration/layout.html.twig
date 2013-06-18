@@ -1,0 +1,13 @@
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block adminpanel %}
+<ul class="unstyled list-horizontal">
+	<li>Catalogs |</li>
+	<li>Journals |</li>
+	<li>Users</li>
+</ul>
+<form action="{{ path('administration_search') }}" method="GET" class="form-search">
+    <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="input-medium search-query" />
+    <button type="submit" class="btn"><i class="icon-search"></i></button>
+</form>
+{% endblock %}

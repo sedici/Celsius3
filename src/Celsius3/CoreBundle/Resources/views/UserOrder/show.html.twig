@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Order View'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+{{ show('user_order', document, delete_form, 'Celsius3CoreBundle:UserOrder', instance, true) }}
+{% endblock %}

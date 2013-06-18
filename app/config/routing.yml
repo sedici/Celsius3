@@ -1,15 +1,25 @@
-celsius_celsius3_message:
-    resource: "@CelsiusCelsius3MessageBundle/Controller/"
+celsius3_notification:
+    resource: "@Celsius3NotificationBundle/Controller/"
     type:     annotation
     prefix:   /
 
-CelsiusCelsius3Bundle:
-    resource: "@CelsiusCelsius3Bundle/Controller/"
+celsius3_message:
+    resource: "@Celsius3MessageBundle/Controller/"
     type:     annotation
     prefix:   /
-    
+
+celsius3_migration:
+    resource: "@Celsius3MigrationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+celsius3_core:
+    resource: "@Celsius3CoreBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 fos_user_security:
-    resource: "@CelsiusCelsius3Bundle/Resources/config/routing/security.xml"
+    resource: "@Celsius3CoreBundle/Resources/config/routing/security.xml"
     prefix: /{url}
 
 fos_user_profile:
@@ -17,7 +27,7 @@ fos_user_profile:
     prefix: /user/profile
 
 fos_user_register:
-    resource: "@CelsiusCelsius3Bundle/Resources/config/routing/registration.xml"
+    resource: "@Celsius3CoreBundle/Resources/config/routing/registration.xml"
     prefix: /{url}/public/register
 
 fos_user_resetting:

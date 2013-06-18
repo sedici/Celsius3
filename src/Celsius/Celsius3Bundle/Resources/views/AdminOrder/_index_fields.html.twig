@@ -1,9 +1,0 @@
-{% extends 'CelsiusCelsius3Bundle:Order:_index_fields.html.twig' %}
-
-{% block extrainfo %}
-<a class="pull-right label" href="{{ path('admin_user',{ 'id': order.owner.id }) }}">{{ order.owner.fullName }}</a>
-{% endblock %}
-
-{% block ordercontent %}
-{% include 'CelsiusCelsius3Bundle:AdminOrder:_index_order_fields.html.twig' %}
-{% endblock %}
