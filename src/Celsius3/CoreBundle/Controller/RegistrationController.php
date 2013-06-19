@@ -110,7 +110,7 @@ class RegistrationController extends BaseRegistrationController
      */
     protected function getInstance()
     {
-        return $this->container->get('instance_helper')->getUrlInstance();
+        return $this->container->get('celsius3_core.instance_helper')->getUrlInstance();
     }
 
     /**

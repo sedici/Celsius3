@@ -129,22 +129,22 @@
 
         <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
-            <tag name="form.type" alias="celsius3_core.user_selector" />
+            <tag name="form.type" alias="celsius3_corebundle_user_selector" />
         </service>
 
         <service id="celsius3_core.form.instance_selector" class="%celsius3_core.form.instance_selector.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
-            <tag name="form.type" alias="celsius3_core.instance_selector" />
+            <tag name="form.type" alias="celsius3_corebundle_instance_selector" />
         </service>
 
         <service id="celsius3_core.form.type.language" class="%celsius3_core.form.type.language.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" alias="celsius3_core.language_type" />
+            <tag name="form.type" alias="celsius3_corebundle_language_type" />
         </service>
 
         <service id="celsius3_core.form.type.confirmation" class="%celsius3_core.form.type.confirmation.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" alias="celsius3_core.confirmation_type" />
+            <tag name="form.type" alias="celsius3_corebundle_confirmation_type" />
         </service>
 
 		<service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">

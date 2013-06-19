@@ -35,7 +35,7 @@ class NewMessageAspect implements MethodInterceptorInterface, PointcutInterface
 //        $notification = new Notification;
 //        /*La fecha de creacion se setea sola*/
 //        $notification->setCause(NotificationManager::CAUSE__NEW__MESSAGE);
-//        $notification->setSource($this->container->get('instance_helper')->getSessionInstance());
+//        $notification->setSource($this->container->get('celsius3_core.instance_helper')->getSessionInstance());
 //        //$notification->setSource($invocation->arguments[0]->getCreatedBy()->getInstance());
 //        $receiver = $invocation->arguments[0]->getParticipants();
 //        $notification->setUser($receiver[0]);

@@ -5,7 +5,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\MaterialType;
 use Celsius3\CoreBundle\Document\BaseUser;
 
 class AdminOrderType extends OrderType
@@ -14,7 +13,7 @@ class AdminOrderType extends OrderType
     protected $operator;
 
     public function __construct(Instance $instance = null,
-            MaterialType $material = null, BaseUser $user = null,
+            MaterialTypeType $material = null, BaseUser $user = null,
             BaseUser $operator = null)
     {
         parent::__construct($instance, $material, $user);
@@ -36,7 +35,7 @@ class AdminOrderType extends OrderType
                                         'target' => 'BaseUser',
                                         'value' => $owner,), 'mapped' => false,
                                 'label' => 'Owner',))
-                ->add('operator', 'user_selector',
+                ->add('operator', 'celsius3_corebundle_user_selector',
                         array(
                                 'attr' => array(
                                         'value' => (!is_null($this->operator)) ? $this

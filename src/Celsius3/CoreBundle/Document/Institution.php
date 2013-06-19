@@ -89,6 +89,14 @@ class Institution extends Provider
     }
 
     /**
+     * @return string
+     */
+    public function getProviderName()
+    {
+        return $this->__toString();
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -211,7 +219,8 @@ class Institution extends Provider
      *
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
-    public function addInstitution(\Celsius3\CoreBundle\Document\Institution $institutions)
+    public function addInstitution(
+            \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions[] = $institutions;
     }
@@ -221,7 +230,8 @@ class Institution extends Provider
      *
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
-    public function removeInstitution(\Celsius3\CoreBundle\Document\Institution $institutions)
+    public function removeInstitution(
+            \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions->removeElement($institutions);
     }
@@ -242,7 +252,8 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Institution $parent
      * @return self
      */
-    public function setParent(\Celsius3\CoreBundle\Document\Institution $parent)
+    public function setParent(
+            \Celsius3\CoreBundle\Document\Institution $parent)
     {
         $this->parent = $parent;
         return $this;
@@ -317,7 +328,8 @@ class Institution extends Provider
      *
      * @param Celsius3\CoreBundle\Document\Catalog $catalogs
      */
-    public function removeCatalog(\Celsius3\CoreBundle\Document\Catalog $catalogs)
+    public function removeCatalog(
+            \Celsius3\CoreBundle\Document\Catalog $catalogs)
     {
         $this->catalogs->removeElement($catalogs);
     }
@@ -347,7 +359,8 @@ class Institution extends Provider
      *
      * @param Celsius3\CoreBundle\Document\Contact $contacts
      */
-    public function removeContact(\Celsius3\CoreBundle\Document\Contact $contacts)
+    public function removeContact(
+            \Celsius3\CoreBundle\Document\Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
@@ -368,7 +381,8 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance = null)
+    public function setInstance(
+            \Celsius3\CoreBundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;
@@ -390,7 +404,8 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Instance $celsiusInstance
      * @return self
      */
-    public function setCelsiusInstance(\Celsius3\CoreBundle\Document\Instance $celsiusInstance)
+    public function setCelsiusInstance(
+            \Celsius3\CoreBundle\Document\Instance $celsiusInstance)
     {
         $this->celsiusInstance = $celsiusInstance;
         return $this;

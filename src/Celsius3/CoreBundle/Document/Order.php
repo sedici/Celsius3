@@ -467,7 +467,7 @@ class Order
      * @param Celsius3\CoreBundle\Document\MaterialType $materialData
      * @return self
      */
-    public function setMaterialData(\Celsius3\CoreBundle\Document\MaterialType $materialData)
+    public function setMaterialData(\Celsius3\CoreBundle\Document\MaterialType $materialData = null)
     {
         $this->materialData = $materialData;
         return $this;

@@ -15,7 +15,7 @@ class LibrarianOrderType extends AdminOrderType
                                 'choices' => array('me' => 'Me',
                                         'other' => 'Other',),
                                 'mapped' => false,))
-                ->add('librarian', 'user_selector',
+                ->add('librarian', 'celsius3_corebundle_user_selector',
                         array(
                                 'attr' => array('readonly' => 'readonly',),));
 

@@ -32,7 +32,7 @@ class ConfirmationType extends AbstractType
 
     public function getName()
     {
-        return 'celsius3_core.confirmation_type';
+        return 'celsius3_corebundle_confirmation_type';
     }
 
 }

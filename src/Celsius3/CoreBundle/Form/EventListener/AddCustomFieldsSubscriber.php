@@ -46,8 +46,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
 
         $userId = $data->getId() ? $data->getId() : null;
 
-        $query = $this->dm
-                ->getRepository('Celsius3CoreBundle:CustomUserField')
+        $query = $this->dm->getRepository('Celsius3CoreBundle:CustomUserField')
                 ->createQueryBuilder()->field('instance.id')
                 ->equals($this->instance->getId());
 
@@ -78,7 +77,8 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                                                             $field->getName()),
                                                     'required' => $field
                                                             ->getRequired(),
-                                                    'mapped' => false,)));
+                                                    'mapped' => false,
+                                                    'auto_initialize' => false,)));
         }
     }
 

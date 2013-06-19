@@ -39,7 +39,7 @@ class RegistrationFormType extends BaseType
                                 'format' => 'dd-MM-yyyy',
                                 'attr' => array('class' => 'date')))
                 ->add('address')
-                ->add('instance', 'instance_selector',
+                ->add('instance', 'celsius3_corebundle_instance_selector',
                         array('data' => $this->instance,
                                 'attr' => array(
                                         'value' => $this->instance->getId(),

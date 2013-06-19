@@ -30,7 +30,7 @@ class MailTemplateType extends AbstractType
                                 'attr' => array('class' => 'tinymce',),));
         if (!is_null($this->instance)) {
             $builder
-                    ->add('instance', 'instance_selector',
+                    ->add('instance', 'celsius3_corebundle_instance_selector',
                             array('data' => $this->instance,
                                     'attr' => array(
                                             'value' => $this->instance->getId(),

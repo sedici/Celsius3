@@ -7,8 +7,8 @@ class ConfigurationHelper
 {
     private $equivalences = array('string' => 'text', 'boolean' => 'checkbox',
             'integer' => 'integer', 'email' => 'email', 'text' => 'textarea',
-            'language' => 'language_type',
-            'confirmation' => 'confirmation_type',);
+            'language' => 'celsius3_corebundle_language_type',
+            'confirmation' => 'celsius3_corebundle_confirmation_type',);
     public $languages = array('es' => 'Spanish', 'en' => 'English',
             'pt' => 'Portuguese',);
     public $confirmation = array('admin' => 'Administrator confirmation',

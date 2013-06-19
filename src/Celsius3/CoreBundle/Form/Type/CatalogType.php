@@ -29,7 +29,7 @@ class CatalogType extends AbstractType
                             array('required' => false,));
         } else {
             $builder
-                    ->add('instance', 'instance_selector',
+                    ->add('instance', 'celsius3_corebundle_instance_selector',
                             array('data' => $this->instance,
                                     'attr' => array(
                                             'value' => $this->instance->getId(),

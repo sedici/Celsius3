@@ -10,7 +10,7 @@ class LanguageType extends AbstractType
 
     private $configuration_helper;
 
-    public function __construct(ConfigurationHelper $configurationHelper)
+    public function __construct(ConfigurationHelper $configuration_helper)
     {
         $this->configuration_helper = $configuration_helper;
     }
@@ -31,6 +31,6 @@ class LanguageType extends AbstractType
 
     public function getName()
     {
-        return 'celsius3_core.language_type';
+        return 'celsius3_corebundle_language_type';
     }
 }

@@ -7,7 +7,6 @@ use Celsius3\CoreBundle\Manager\OrderManager;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\MaterialType;
 use Celsius3\CoreBundle\Document\BaseUser;
 
 class OrderType extends AbstractType
@@ -19,7 +18,7 @@ class OrderType extends AbstractType
     protected $user;
 
     public function __construct(Instance $instance = null,
-            MaterialType $material = null, BaseUser $user = null)
+            MaterialTypeType $material = null, BaseUser $user = null)
     {
         $this->instance = $instance;
         $this->material = (is_null($material)) ? new JournalTypeType()
@@ -42,7 +41,7 @@ class OrderType extends AbstractType
                                         OrderManager::TYPE__PROVISION => ucfirst(
                                                 OrderManager::TYPE__PROVISION),),))
                 ->add('comments', 'textarea', array('required' => false))
-                ->add('owner', 'user_selector',
+                ->add('owner', 'celsius3_corebundle_user_selector',
                         array(
                                 'attr' => array(
                                         'value' => (!is_null($this->user)) ? $this
@@ -70,7 +69,7 @@ class OrderType extends AbstractType
             $builder->add('instance');
         } else {
             $builder
-                    ->add('instance', 'instance_selector',
+                    ->add('instance', 'celsius3_corebundle_instance_selector',
                             array('data' => $this->instance,
                                     'attr' => array(
                                             'value' => $this->instance->getId(),

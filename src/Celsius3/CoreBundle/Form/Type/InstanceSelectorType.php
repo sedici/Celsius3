@@ -44,7 +44,7 @@ class InstanceSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'celsius3_core.instance_selector';
+        return 'celsius3_corebundle_instance_selector';
     }
 
 }

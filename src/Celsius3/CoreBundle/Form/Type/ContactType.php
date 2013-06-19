@@ -19,7 +19,7 @@ class ContactType extends AbstractType
     {
         $builder->add('name')->add('surname')->add('email')->add('address')
                 ->add('user')->add('type')
-                ->add('instance', 'instance_selector',
+                ->add('instance', 'celsius3_corebundle_instance_selector',
                         array('data' => $this->instance,
                                 'attr' => array(
                                         'value' => $this->instance->getId(),

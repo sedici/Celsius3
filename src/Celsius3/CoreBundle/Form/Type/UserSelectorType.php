@@ -44,7 +44,7 @@ class UserSelectorType extends AbstractType
 
     public function getName()
     {
-        return 'celsius3_core.user_selector';
+        return 'celsius3_corebundle_user_selector';
     }
 
 }
