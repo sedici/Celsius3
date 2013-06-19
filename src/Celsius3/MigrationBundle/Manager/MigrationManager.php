@@ -25,6 +25,8 @@ class MigrationManager
         $conn = mysqli_connect($host, $username, $password, $database, $port);
 
         $this->countryHelper->migrate($conn);
+
+        mysqli_close($conn);
     }
 
     public function createAssociation($name, $original_id, $table, $document)
@@ -36,6 +38,7 @@ class MigrationManager
         $association->setDocument($document);
 
         $this->dm->persist($association);
+        unset ($association);
     }
 
 }

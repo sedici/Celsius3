@@ -1,8 +1,0 @@
-
---Esta línea y las que están debajo serán ignoradas--
-
-M    src/Celsius/Celsius3Bundle/Controller/AdminMailController.php
-M    src/Celsius/Celsius3Bundle/DataFixtures/MongoDB/FixtureLoader.php
-M    src/Celsius/Celsius3Bundle/Resources/views/User/_messages_span.html.twig
-M    src/Celsius/Celsius3Bundle/Resources/views/AdminMail/_index_fields.html.twig
-M    composer.lock

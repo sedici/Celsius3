@@ -2,6 +2,7 @@
 
 namespace Celsius3\MigrationBundle\Helper;
 use Celsius3\CoreBundle\Document\Institution;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class InstitutionHelper
 {
@@ -9,10 +10,11 @@ class InstitutionHelper
     private $dm;
     private $container;
 
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
-        $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
         $this->container = $container;
+        $this->dm = $this->container
+                ->get('doctrine.odm.mongodb.document_manager');
     }
 
     public function migrate($conn, $country_id, $country, $city_id,
@@ -54,7 +56,10 @@ class InstitutionHelper
             $this
                     ->migrateDependencies($conn, $row_institucion['Codigo'],
                             $institution, $country, $city);
+
+            unset($institution, $row_institucion);
         }
+        unset($query_instituciones, $result_instituciones);
     }
 
     private function migrateDependencies($conn, $institution_id, $institution,
@@ -97,7 +102,10 @@ class InstitutionHelper
             $this
                     ->migrateUnits($conn, $row_dependencia['Id'], $dependency,
                             $country, $city);
+
+            unset($dependency, $row_dependencia);
         }
+        unset($query_dependencias, $result_dependencias);
     }
 
     private function migrateUnits($conn, $dependency_id, $dependency, $country,
@@ -128,7 +136,10 @@ class InstitutionHelper
             $this->container->get('celsius3_migration.migration_manager')
                     ->createAssociation($unit->getName(), $row_unidad['Id'],
                             'unidades', $unit);
+
+            unset($unit, $row_unidad);
         }
+        unset($query_unidades, $result_unidades);
     }
 
 }

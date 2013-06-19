@@ -2,6 +2,7 @@
 
 namespace Celsius3\MigrationBundle\Helper;
 use Celsius3\CoreBundle\Document\City;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CityHelper
 {
@@ -10,7 +11,7 @@ class CityHelper
     private $container;
     private $institutionHelper;
 
-    public function __construct($container,
+    public function __construct(ContainerInterface $container,
             InstitutionHelper $institutionHelper)
     {
         $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
@@ -41,7 +42,10 @@ class CityHelper
             $this->institutionHelper
                     ->migrate($conn, $country_id, $country,
                             $row_localidad['Id'], $city);
+
+            unset($city, $row_localidad);
         }
+        unset($query_localidades, $result_localidades);
     }
 
 }

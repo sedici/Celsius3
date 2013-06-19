@@ -731,12 +731,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "11111860b3b4e77ddfc546e1e9879d04a4a84345"
+                "reference": "5214fbdfbe46bf4833aa6675382b113cbd4ff557"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/11111860b3b4e77ddfc546e1e9879d04a4a84345",
-                "reference": "11111860b3b4e77ddfc546e1e9879d04a4a84345",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/5214fbdfbe46bf4833aa6675382b113cbd4ff557",
+                "reference": "5214fbdfbe46bf4833aa6675382b113cbd4ff557",
                 "shasum": ""
             },
             "require": {
@@ -791,7 +791,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-06-16 19:00:43"
+            "time": "2013-06-19 15:23:01"
         },
         {
             "name": "fzaninotto/faker",
@@ -799,12 +799,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "v1.2.0"
+                "reference": "e46930075a899c1d1ea8bc4b4bef6566eb0aefb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/v1.2.0",
-                "reference": "v1.2.0",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/e46930075a899c1d1ea8bc4b4bef6566eb0aefb0",
+                "reference": "e46930075a899c1d1ea8bc4b4bef6566eb0aefb0",
                 "shasum": ""
             },
             "require": {
@@ -837,7 +837,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-06-09 18:05:57"
+            "time": "2013-06-19 07:07:09"
         },
         {
             "name": "gedmo/doctrine-extensions",

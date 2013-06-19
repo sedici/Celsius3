@@ -157,7 +157,8 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                         $this->container->getParameter('celsius2_username'),
                         $this->container->getParameter('celsius2_password'),
                         $this->container->getParameter('celsius2_database'),
-                        $this->container->getParameter('celsius2_port'));
+                        $this->container->getParameter('celsius2_port'),
+                        $manager);
 
         for ($i = 0; $i < 100; $i++) {
             $journal = new Document\Journal();
@@ -176,6 +177,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             unset($journal);
         }
         $manager->flush();
+        $manager->clear();
 
         for ($i = 0; $i < 10; $i++) {
             $template = new Document\MailTemplate();
@@ -197,6 +199,8 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $manager->persist($catalog);
             unset($catalog);
         }
+        $manager->flush();
+        $manager->clear();
 
         /*
          * Carga de Instancias
