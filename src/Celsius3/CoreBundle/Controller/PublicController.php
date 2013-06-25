@@ -66,7 +66,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/cities", name="public_cities")
+     * @Route("/cities", name="public_cities", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -96,7 +96,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/institutions", name="public_institutions")
+     * @Route("/institutions", name="public_institutions", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists

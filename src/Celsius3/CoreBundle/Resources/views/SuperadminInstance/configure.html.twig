@@ -6,11 +6,8 @@
 
 {% block content %}
 <h2>{{ 'Instance Configuration' }}</h2>
-<link href="{{ asset('bundles/Celsius3Core/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
 <div class="row">
     <div class="span9">
-        {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
-        {{ tinymce_init() }}
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
         <form action="{{ path('superadmin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="form-horizontal well">
             {{ form_widget(configure_form, {'form_type': 'horizontal'}) }}

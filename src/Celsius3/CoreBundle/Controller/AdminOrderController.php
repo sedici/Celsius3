@@ -207,7 +207,7 @@ class AdminOrderController extends OrderController
     /**
      * Updates de form materialData field.
      *
-     * @Route("/change", name="admin_order_change")
+     * @Route("/change", name="admin_order_change", options={"expose"=true})
      * @Template()
      *
      * @return array

@@ -52,6 +52,6 @@ class RecipientsCustomType extends AbstractType
      */
     public function getName()
     {
-        return 'celsius3_message_recipients_selector_custom';
+        return 'celsius3_messagebundle_recipients_selector_custom';
     }
 }

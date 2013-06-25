@@ -17,18 +17,11 @@
 {% elseif not isAnnulled %}
 <div id="{{ 'info_'~state~'_disabled' }}" class="collapse">
     <div class="well">
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $(document).on('click', '#submit-search-form', function(){
-                    $('#search-form').submit();
-                });
-            });
-        </script>
         <dl class="dl-horizontal">
             <dt>{{ 'Actions'|trans }}</dt>
             <dd>
-                <form id="search-form" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__SEARCH') }) }}" method="post" class="inline-form">
-                    <a id="submit-search-form" href="#">{{ 'search'|capitalize|trans }}</a>
+                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__SEARCH') }) }}" method="post" class="inline-form">
+                    <a class="submit-form" href="#">{{ 'search'|capitalize|trans }}</a>
                 </form>
             </dd>
         </dl>

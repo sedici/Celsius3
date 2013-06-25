@@ -8,32 +8,16 @@
             {{ form_widget(receive_form, {'form_type': 'horizontal'}) }}
             <div class="control-group">
                 <div class="controls">
-                    <a href="#" id="add-file{{ event.id }}">{{ 'Add file'|trans }}</a>
+                    <a href="#" class="add-file">{{ 'Add file'|trans }}</a>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
-        <button class="btn btn-primary doReceive" value="#receiveForm{{ event.id }}">{{ 'Save'|trans }}</button>
+        <button class="btn btn-primary doSubmit" value="#receiveForm{{ event.id }}">{{ 'Save'|trans }}</button>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-    	var collectionHolder = $('#receiveForm{{ event.id }} #{{ receive_form.vars.name }}_files');
-        collectionHolder.data('index', collectionHolder.find(':input').length);
-        $('#add-file{{ event.id }}').click(function() {
-        	var index = collectionHolder.data('index');
-            var newWidget = collectionHolder.data('prototype');
-            newWidget = newWidget.replace(/__name__label__/g, '');
-            newWidget = newWidget.replace(/__name__/g, index);
-            collectionHolder.data('index', index + 1);
-            collectionHolder.append(newWidget);
-
-            return false;
-        });
-    });
-</script>
 
 <dl class="dl-horizontal">
     <dt>{{ 'Provider'|trans }}</dt>
@@ -53,7 +37,7 @@
     <dd>
         <a class="receive-link" href="#receive-modal{{ event.id }}" role="button" data-toggle="modal">{{ 'receive'|capitalize|trans }}</a>
         <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__CANCEL'), 'request': event.id }) }}" method="post" class="inline-form">
-            <a class="submit-cancel-form" href="#">{{ 'cancel'|capitalize|trans }}</a>
+            <a class="submit-form" href="#">{{ 'cancel'|capitalize|trans }}</a>
         </form>
     </dd>
     {% endif %}

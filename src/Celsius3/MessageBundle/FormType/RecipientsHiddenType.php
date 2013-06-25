@@ -53,6 +53,6 @@ class RecipientsHiddenType extends AbstractType
      */
     public function getName()
     {
-        return 'celsius3_message_recipients_selector_hidden';
+        return 'celsius3_messagebundle_recipients_selector_hidden';
     }
 }

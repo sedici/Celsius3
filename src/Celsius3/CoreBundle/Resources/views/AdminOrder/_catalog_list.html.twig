@@ -38,24 +38,3 @@
     {% endfor %}
     </tbody>
 </table>
-<script type="text/javascript">
-function getCatalogId(inputName) {
-    return inputName.substr(7);
-}
-
-function registerSearch() {
-    var input = $(this);
-    var catalogId = getCatalogId(input.attr('name'));
-    $.ajax({
-        url: '{{ path('admin_catalog_search_mark') }}',
-        dataType: 'json',
-        data: 'order_id={{ order.id }}&instance_id={{ instance.id }}&catalog_id='+catalogId+'&result='+input.val()
-    }).done(function(data){
-        input.parent().siblings('.catalog-result').text(data.date);
-    });
-}
-
-$(document).ready(function(){
-    $('.mark-catalog').click(registerSearch);
-});
-</script>

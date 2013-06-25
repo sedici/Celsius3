@@ -4,7 +4,6 @@
 
 <div class="row">
     <div class="span9">
-        {{ tinymce_init() }}
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
         <form action="{{ path([name,'_update']|join, { 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-horizontal well">
@@ -47,7 +46,6 @@
 
 <div class="row">
     <div class="span9">
-        {{ tinymce_init() }}
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
         <form action="{{ path([name,'_create']|join) }}" method="post" {{ form_enctype(form) }} class="form-horizontal well">

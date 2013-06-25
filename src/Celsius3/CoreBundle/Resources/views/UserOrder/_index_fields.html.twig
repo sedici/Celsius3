@@ -8,13 +8,4 @@
 
 {% block ordercontent %}
 {% include 'Celsius3CoreBundle:UserOrder:_index_order_fields.html.twig' %}
-<script type="text/javascript">
-$(document).ready(function(){
-    $('.submit-download-form').click(function(){
-        var form = $(this).parent();
-        form.submit();
-        form.remove();
-    });
-});
-</script>
 {% endblock %}

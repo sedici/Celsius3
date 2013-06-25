@@ -1,4 +1,6 @@
-{% include 'Celsius3CoreBundle:Layout:cci.js.twig' with { 'form': request_form } %}
+<script type="text/javascript">
+var form_name = '{{ request_form.vars['name'] }}';
+</script>
 
 {% if hasState %}
 <div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
@@ -37,25 +39,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary" id="doRequest">{{ 'Save'|trans }}</button>
+        <button class="btn btn-primary doSubmit" value="#requestForm">{{ 'Save'|trans }}</button>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#doRequest').click(function(){
-            $("#requestForm").submit();
-        });
-
-        $(document).on('click', '.doReclaim', function(){
-            $($(this).attr('value')).submit();
-        });
-
-        $(document).on('click', '.doReceive', function(){
-            $($(this).attr('value')).submit();
-        });
-
-        $('.submit-cancel-form').click(function(){
-            $(this).parent().submit();
-        });
-    });
-</script>

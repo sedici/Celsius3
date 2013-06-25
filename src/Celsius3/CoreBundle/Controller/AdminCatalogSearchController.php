@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AdminCatalogSearchController extends BaseInstanceDependentController
 {
     /**
-     * @Route("/", name="admin_catalog_search_mark")
+     * @Route("/", name="admin_catalog_search_mark", options={"expose"=true})
      * @Template()
      *
      * @return array

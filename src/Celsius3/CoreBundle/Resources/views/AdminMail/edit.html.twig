@@ -6,10 +6,8 @@
 {% endblock %}
 
 {% block content %}
-    <link href="{{ asset('bundles/Celsius3Core/css/tinymce.css') }}" rel="stylesheet" type="text/css" />
     <h2>{{ ['admin_mails_update '|capitalize, route]|join|trans }}</h2>
 
-    {{ tinymce_init() }}
     {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
     <form action="{{ path(['admin_mails_', route]|join, { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(edit_form) }} class="well">

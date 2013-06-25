@@ -11,7 +11,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">{{ 'Close'|trans }}</button>
-        <button class="btn btn-primary doReclaim" value="#reclaimForm{{ event.id }}">{{ 'Save'|trans }}</button>
+        <button class="btn btn-primary doSubmit" value="#reclaimForm{{ event.id }}">{{ 'Save'|trans }}</button>
     </div>
 </div>
 {% endif %}
@@ -43,7 +43,7 @@
             {% endif %}
             {% if not isApproved %}
             <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__APPROVE'), 'receive': event.id }) }}" method="post" class="inline-form">
-                <a class="submit-approve-form" href="#">{{ 'approve'|capitalize|trans }}</a>
+                <a class="submit-form" href="#">{{ 'approve'|capitalize|trans }}</a>
             </form>
             {% endif %}
         </dd>
@@ -52,7 +52,7 @@
         <dd>
             {% if isApproved %}
             <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__DELIVER'), 'receive': event.id }) }}" method="post" class="inline-form">
-                <a class="submit-deliver-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
+                <a class="submit-form" href="#">{{ 'deliver'|capitalize|trans }}</a>
             </form>
             {% endif %}
         </dd>

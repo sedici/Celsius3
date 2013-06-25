@@ -4,7 +4,6 @@
 <h3>{{ thread.subject }}</h3>
 <div class="row">
     <div class="span9">
-        {{ tinymce_init() }}
         {% for message in thread.messages %}
             <div class="well {{ thread.createdBy == message.sender ? 'starter-message' : '' }}">
                 <div class="message-header">

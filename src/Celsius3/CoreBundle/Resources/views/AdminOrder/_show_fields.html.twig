@@ -13,16 +13,6 @@
         {{ render_state_body(key, document)|raw }}
     {% endfor %}
 </div>
-
-<script type="text/javascript">
-    // Como no se utiliza accordion-group hay que ocultar "a mano" los elementos
-    // mostrados cuando se presiona otro link
-    $(document).ready(function(){
-        $('.state-list a.pointer').click(function(e){
-            $('#state-info .in').collapse('hide');
-        });
-    });
-</script>
 {% endblock %}
 
 {% block extrafields %}

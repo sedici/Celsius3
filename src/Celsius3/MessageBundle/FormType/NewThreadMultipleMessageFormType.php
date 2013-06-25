@@ -28,7 +28,7 @@ class NewThreadMultipleMessageFormType extends
         $user = $this->context->getToken()->getUser();
         if ($isAdmin) {
             $builder
-                    ->add('recipients', 'recipients_selector_custom',
+                    ->add('recipients', 'celsius3_messagebundle_recipients_selector_custom',
                             array(
                                     'class' => 'Celsius3\\CoreBundle\\Document\\BaseUser',
                                     'property' => 'username',
