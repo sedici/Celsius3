@@ -4,17 +4,20 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="celsius3_notification.example.class">Celsius3\NotificationBundle\Example</parameter>
+        <parameter key="celsius3_notification.notification_manager.class">Celsius3\NotificationBundle\Manager\NotificationManager</parameter>
+        <parameter key="celsius3_notification.notification_aspect.class">Celsius3\NotificationBundle\Aop\NotificationAspect</parameter>
     </parameters>
 
     <services>
-        <service id="celsius3_notification.example" class="%celsius3_notification.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="celsius3_notification.notification_manager" class="%celsius3_notification.notification_manager.class%">
+        	<argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+
+        <service id="celsius3_notification.notification_aspect" class="%celsius3_notification.notification_aspect.class%">
+            <tag name="jms_aop.pointcut" interceptor="celsius3_notification.notification_aspect" />
+	    	<argument type="service" id="celsius3_notification.notification_manager"></argument>
         </service>
     </services>
-    -->
+
 </container>

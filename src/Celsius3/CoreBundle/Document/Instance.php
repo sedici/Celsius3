@@ -102,11 +102,6 @@ class Instance
     private $catalogs;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Notification", mappedBy="target")
-     */
-    private $notifications;
-
-    /**
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="instance")
      */
     private $events;
@@ -142,7 +137,6 @@ class Instance
         $this->templates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -410,7 +404,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Contact $contacts
      */
-    public function removeContact(\Celsius3\CoreBundle\Document\Contact $contacts)
+    public function removeContact(
+            \Celsius3\CoreBundle\Document\Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
@@ -430,7 +425,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
-    public function addInstitution(\Celsius3\CoreBundle\Document\Institution $institutions)
+    public function addInstitution(
+            \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions[] = $institutions;
     }
@@ -440,7 +436,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
-    public function removeInstitution(\Celsius3\CoreBundle\Document\Institution $institutions)
+    public function removeInstitution(
+            \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions->removeElement($institutions);
     }
@@ -460,7 +457,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
      */
-    public function addOwnerInstitution(\Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
+    public function addOwnerInstitution(
+            \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
     {
         $this->ownerInstitutions[] = $ownerInstitutions;
     }
@@ -470,7 +468,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
      */
-    public function removeOwnerInstitution(\Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
+    public function removeOwnerInstitution(
+            \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
     {
         $this->ownerInstitutions->removeElement($ownerInstitutions);
     }
@@ -490,7 +489,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\MailTemplate $templates
      */
-    public function addTemplate(\Celsius3\CoreBundle\Document\MailTemplate $templates)
+    public function addTemplate(
+            \Celsius3\CoreBundle\Document\MailTemplate $templates)
     {
         $this->templates[] = $templates;
     }
@@ -500,7 +500,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\MailTemplate $templates
      */
-    public function removeTemplate(\Celsius3\CoreBundle\Document\MailTemplate $templates)
+    public function removeTemplate(
+            \Celsius3\CoreBundle\Document\MailTemplate $templates)
     {
         $this->templates->removeElement($templates);
     }
@@ -520,7 +521,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Configuration $configurations
      */
-    public function addConfiguration(\Celsius3\CoreBundle\Document\Configuration $configurations)
+    public function addConfiguration(
+            \Celsius3\CoreBundle\Document\Configuration $configurations)
     {
         $this->configurations[] = $configurations;
     }
@@ -530,7 +532,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Configuration $configurations
      */
-    public function removeConfiguration(\Celsius3\CoreBundle\Document\Configuration $configurations)
+    public function removeConfiguration(
+            \Celsius3\CoreBundle\Document\Configuration $configurations)
     {
         $this->configurations->removeElement($configurations);
     }
@@ -560,7 +563,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Catalog $catalogs
      */
-    public function removeCatalog(\Celsius3\CoreBundle\Document\Catalog $catalogs)
+    public function removeCatalog(
+            \Celsius3\CoreBundle\Document\Catalog $catalogs)
     {
         $this->catalogs->removeElement($catalogs);
     }
@@ -573,36 +577,6 @@ class Instance
     public function getCatalogs()
     {
         return $this->catalogs;
-    }
-
-    /**
-     * Add notifications
-     *
-     * @param Celsius3\CoreBundle\Document\Notification $notifications
-     */
-    public function addNotification(\Celsius3\CoreBundle\Document\Notification $notifications)
-    {
-        $this->notifications[] = $notifications;
-    }
-
-    /**
-     * Remove notifications
-     *
-     * @param Celsius3\CoreBundle\Document\Notification $notifications
-     */
-    public function removeNotification(\Celsius3\CoreBundle\Document\Notification $notifications)
-    {
-        $this->notifications->removeElement($notifications);
-    }
-
-    /**
-     * Get notifications
-     *
-     * @return Doctrine\Common\Collections\Collection $notifications
-     */
-    public function getNotifications()
-    {
-        return $this->notifications;
     }
 
     /**
@@ -670,7 +644,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Country $countries
      */
-    public function addCountrie(\Celsius3\CoreBundle\Document\Country $countries)
+    public function addCountrie(
+            \Celsius3\CoreBundle\Document\Country $countries)
     {
         $this->countries[] = $countries;
     }
@@ -680,7 +655,8 @@ class Instance
      *
      * @param Celsius3\CoreBundle\Document\Country $countries
      */
-    public function removeCountrie(\Celsius3\CoreBundle\Document\Country $countries)
+    public function removeCountrie(
+            \Celsius3\CoreBundle\Document\Country $countries)
     {
         $this->countries->removeElement($countries);
     }

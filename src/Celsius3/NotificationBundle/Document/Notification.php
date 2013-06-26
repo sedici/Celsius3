@@ -1,14 +1,19 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\NotificationBundle\Document;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
  * @MongoDB\Document
  */
 class Notification
 {
+    use TimestampableDocument;
+
     /**
      * @MongoDB\Id
      */
@@ -22,43 +27,32 @@ class Notification
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Date()
-     * @MongoDB\Date
-     */
-    private $created;
-
-    /**
-     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $viewed;
+    private $isViewed = false;
 
     /**
-     * @Assert\NotBlank()
+     * @MongoDB\Date
+     * @Gedmo\Timestampable(on="change", field="isViewed", value="true")
      */
-    private $objectEvent;
+    private $viewedAt;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne
      */
-    private $source;
+    private $object;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Template")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Template")
      */
     private $template;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
      */
-    private $user;
-
-    public function __construct()
-    {
-        $this->created = new \DateTime();
-        $this->viewed = false;
-    }
+    private $receiver;
 
     /**
      * Get id
@@ -93,69 +87,69 @@ class Notification
     }
 
     /**
-     * Set created
+     * Set isViewed
      *
-     * @param date $created
+     * @param boolean $isViewed
      * @return self
      */
-    public function setCreated($created)
+    public function setIsViewed($isViewed)
     {
-        $this->created = $created;
+        $this->isViewed = $isViewed;
         return $this;
     }
 
     /**
-     * Get created
+     * Get isViewed
      *
-     * @return date $created
+     * @return boolean $isViewed
      */
-    public function getCreated()
+    public function getIsViewed()
     {
-        return $this->created;
+        return $this->isViewed;
     }
 
     /**
-     * Set viewed
+     * Set viewedAt
      *
-     * @param boolean $viewed
+     * @param date $viewedAt
      * @return self
      */
-    public function setViewed($viewed)
+    public function setViewedAt($viewedAt)
     {
-        $this->viewed = $viewed;
+        $this->viewedAt = $viewedAt;
         return $this;
     }
 
     /**
-     * Get viewed
+     * Get viewedAt
      *
-     * @return boolean $viewed
+     * @return date $viewedAt
      */
-    public function getViewed()
+    public function getViewedAt()
     {
-        return $this->viewed;
+        return $this->viewedAt;
     }
 
     /**
-     * Set source
+     * Set object
      *
-     * @param Celsius3\CoreBundle\Document\Instance $source
+     * @param $object
      * @return self
      */
-    public function setSource(\Celsius3\CoreBundle\Document\Instance $source)
+    public function setObject($object)
     {
-        $this->source = $source;
+        $this->object = $object;
         return $this;
     }
 
     /**
-     * Get source
+     * Get object
      *
-     * @return Celsius3\CoreBundle\Document\Instance $source
+     * @return $object
      */
-    public function getSource()
+    public function getObject()
     {
-        return $this->source;
+        return $this->object;
     }
 
     /**
@@ -181,24 +175,24 @@ class Notification
     }
 
     /**
-     * Set user
+     * Set receiver
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $user
+     * @param Celsius3\CoreBundle\Document\BaseUser $receiver
      * @return self
      */
-    public function setUser(\Celsius3\CoreBundle\Document\BaseUser $user)
+    public function setReceiver(\Celsius3\CoreBundle\Document\BaseUser $receiver)
     {
-        $this->user = $user;
+        $this->receiver = $receiver;
         return $this;
     }
 
     /**
-     * Get user
+     * Get receiver
      *
-     * @return Celsius3\CoreBundle\Document\BaseUser $user
+     * @return Celsius3\CoreBundle\Document\BaseUser $receiver
      */
-    public function getUser()
+    public function getReceiver()
     {
-        return $this->user;
+        return $this->receiver;
     }
 }
