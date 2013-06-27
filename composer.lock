@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c2df0e378d130424a53c935c25a68d3d",
+    "hash": "0aecca3226c5d215c278835fbfbc2ff4",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -493,12 +493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "9bbe6a2ec98db4b66230f46f003129e7334943c5"
+                "reference": "0a1324a596a73e5d8ec2a26b957486dd56eba2c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/9bbe6a2ec98db4b66230f46f003129e7334943c5",
-                "reference": "9bbe6a2ec98db4b66230f46f003129e7334943c5",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/0a1324a596a73e5d8ec2a26b957486dd56eba2c7",
+                "reference": "0a1324a596a73e5d8ec2a26b957486dd56eba2c7",
                 "shasum": ""
             },
             "require": {
@@ -558,7 +558,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-06-17 01:52:45"
+            "time": "2013-06-27 14:07:45"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1576,10 +1576,10 @@
         },
         {
             "name": "jquery/jquery",
-            "version": "1.9.1",
+            "version": "1.10.1",
             "dist": {
                 "type": "file",
-                "url": "http://code.jquery.com/jquery-1.9.1.min.js",
+                "url": "http://code.jquery.com/jquery-1.10.1.min.js",
                 "reference": null,
                 "shasum": null
             },

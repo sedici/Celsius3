@@ -51,7 +51,7 @@ assetic:
         bootstrap_js:
             output: bundles/celsius3core/js/bootstrap.js
         jquery:
-            output: bundles/celsius3core/js/jquery-1.9.1.min,js
+            output: bundles/celsius3core/js/jquery-1.10.1.min.js
 
 doctrine_mongodb:
     connections:
@@ -218,7 +218,7 @@ stof_doctrine_extensions:
             sluggable: true
 
 bc_bootstrap:
-    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.min.js
+    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.1.min.js
 
 genemu_form:
     select2: ~

@@ -4,6 +4,7 @@ namespace Celsius3\CoreBundle\Repository;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Manager\UserManager;
 
 /**
  * BaseUserRepository
@@ -13,6 +14,12 @@ use Celsius3\CoreBundle\Document\Instance;
  */
 class BaseUserRepository extends DocumentRepository
 {
+    public function findAdmins(Instance $instance)
+    {
+        return $this->createQueryBuilder()->field('instance.id')
+                ->equals($instance->getId())->field('roles')
+                ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
+    }
 
     public function countUsers($instance = null)
     {

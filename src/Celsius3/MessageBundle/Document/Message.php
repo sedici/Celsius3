@@ -33,6 +33,6 @@ class Message extends BaseMessage implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notify(NotificationManager::CAUSE__NEW_MESSAGE, $this);
+        $manager->notifyNewMessage($this);
     }
 }

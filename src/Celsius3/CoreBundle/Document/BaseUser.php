@@ -6,6 +6,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\NotificationBundle\Document\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @MongoDB\Document
@@ -15,7 +17,7 @@ use Celsius3\CoreBundle\Manager\UserManager;
  * })
  * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
  */
-class BaseUser extends User implements ParticipantInterface
+class BaseUser extends User implements ParticipantInterface, Notifiable
 {
 
     /**
@@ -97,6 +99,11 @@ class BaseUser extends User implements ParticipantInterface
     public function getFullName()
     {
         return $this->getSurname() . ', ' . $this->getName();
+    }
+
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyNewUser($this);
     }
 
     /**
@@ -250,7 +257,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\Order $operatedOrders
      */
-    public function addOperatedOrder(\Celsius3\CoreBundle\Document\Order $operatedOrders)
+    public function addOperatedOrder(
+            \Celsius3\CoreBundle\Document\Order $operatedOrders)
     {
         $this->operatedOrders[] = $operatedOrders;
     }
@@ -260,7 +268,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\Order $operatedOrders
      */
-    public function removeOperatedOrder(\Celsius3\CoreBundle\Document\Order $operatedOrders)
+    public function removeOperatedOrder(
+            \Celsius3\CoreBundle\Document\Order $operatedOrders)
     {
         $this->operatedOrders->removeElement($operatedOrders);
     }
@@ -280,7 +289,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\Order $createdOrders
      */
-    public function addCreatedOrder(\Celsius3\CoreBundle\Document\Order $createdOrders)
+    public function addCreatedOrder(
+            \Celsius3\CoreBundle\Document\Order $createdOrders)
     {
         $this->createdOrders[] = $createdOrders;
     }
@@ -290,7 +300,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\Order $createdOrders
      */
-    public function removeCreatedOrder(\Celsius3\CoreBundle\Document\Order $createdOrders)
+    public function removeCreatedOrder(
+            \Celsius3\CoreBundle\Document\Order $createdOrders)
     {
         $this->createdOrders->removeElement($createdOrders);
     }
@@ -311,7 +322,8 @@ class BaseUser extends User implements ParticipantInterface
      * @param Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
+    public function setInstance(
+            \Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;
@@ -333,7 +345,8 @@ class BaseUser extends User implements ParticipantInterface
      * @param Celsius3\CoreBundle\Document\BaseUser $librarian
      * @return self
      */
-    public function setLibrarian(\Celsius3\CoreBundle\Document\BaseUser $librarian)
+    public function setLibrarian(
+            \Celsius3\CoreBundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
         return $this;
@@ -355,7 +368,8 @@ class BaseUser extends User implements ParticipantInterface
      * @param Celsius3\CoreBundle\Document\Institution $institution
      * @return self
      */
-    public function setInstitution(\Celsius3\CoreBundle\Document\Institution $institution)
+    public function setInstitution(
+            \Celsius3\CoreBundle\Document\Institution $institution)
     {
         $this->institution = $institution;
         return $this;
@@ -376,7 +390,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\BaseUser $subordinates
      */
-    public function addSubordinate(\Celsius3\CoreBundle\Document\BaseUser $subordinates)
+    public function addSubordinate(
+            \Celsius3\CoreBundle\Document\BaseUser $subordinates)
     {
         $this->subordinates[] = $subordinates;
     }
@@ -386,7 +401,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\BaseUser $subordinates
      */
-    public function removeSubordinate(\Celsius3\CoreBundle\Document\BaseUser $subordinates)
+    public function removeSubordinate(
+            \Celsius3\CoreBundle\Document\BaseUser $subordinates)
     {
         $this->subordinates->removeElement($subordinates);
     }
@@ -406,7 +422,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\CustomUserValue $customValues
      */
-    public function addCustomValue(\Celsius3\CoreBundle\Document\CustomUserValue $customValues)
+    public function addCustomValue(
+            \Celsius3\CoreBundle\Document\CustomUserValue $customValues)
     {
         $this->customValues[] = $customValues;
     }
@@ -416,7 +433,8 @@ class BaseUser extends User implements ParticipantInterface
      *
      * @param Celsius3\CoreBundle\Document\CustomUserValue $customValues
      */
-    public function removeCustomValue(\Celsius3\CoreBundle\Document\CustomUserValue $customValues)
+    public function removeCustomValue(
+            \Celsius3\CoreBundle\Document\CustomUserValue $customValues)
     {
         $this->customValues->removeElement($customValues);
     }

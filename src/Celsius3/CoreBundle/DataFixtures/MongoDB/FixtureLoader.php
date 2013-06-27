@@ -242,6 +242,22 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             /*
              * Creacion de un superadmin por instancia
              */
+            $superadmin = new Document\BaseUser();
+            $superadmin->setName('superadmin' . $i);
+            $superadmin->setSurname('superadmin' . $i);
+            $superadmin->setBirthdate($generator->date('Y-m-d'));
+            $superadmin->setUsername('superadmin' . $i);
+            $superadmin->setPlainPassword('superadmin' . $i);
+            $superadmin->setEmail($generator->email);
+            $superadmin->setAddress($generator->address);
+            $superadmin->setInstance($instance);
+            $superadmin->setEnabled(true);
+            $superadmin->addRole(UserManager::ROLE_SUPER_ADMIN);
+            $manager->persist($superadmin);
+
+            /*
+             * Creacion de un admin por instancia
+            */
             $admin = new Document\BaseUser();
             $admin->setName('admin' . $i);
             $admin->setSurname('admin' . $i);
@@ -252,7 +268,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $admin->setAddress($generator->address);
             $admin->setInstance($instance);
             $admin->setEnabled(true);
-            $admin->addRole(UserManager::ROLE_SUPER_ADMIN);
+            $admin->addRole(UserManager::ROLE_ADMIN);
             $manager->persist($admin);
 
             /*

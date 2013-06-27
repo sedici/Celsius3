@@ -6,17 +6,17 @@
 
     <parameters>
         <parameter key="celsius3_notification.notification_manager.class">Celsius3\NotificationBundle\Manager\NotificationManager</parameter>
-        <parameter key="celsius3_notification.notification_aspect.class">Celsius3\NotificationBundle\Aop\NotificationAspect</parameter>
+        <parameter key="celsius3_notification.notification_listener.class">Celsius3\NotificationBundle\Listener\NotificationListener</parameter>
     </parameters>
 
     <services>
         <service id="celsius3_notification.notification_manager" class="%celsius3_notification.notification_manager.class%">
-        	<argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        	<argument type="service" id="service_container"></argument>
         </service>
 
-        <service id="celsius3_notification.notification_aspect" class="%celsius3_notification.notification_aspect.class%">
-            <tag name="jms_aop.pointcut" interceptor="celsius3_notification.notification_aspect" />
-	    	<argument type="service" id="celsius3_notification.notification_manager"></argument>
+        <service id="celsius3_notification.notification_listener" class="%celsius3_notification.notification_listener.class%">
+            <argument type="service" id="celsius3_notification.notification_manager"></argument>
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
         </service>
     </services>
 

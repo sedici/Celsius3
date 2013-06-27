@@ -50,9 +50,19 @@ class Notification
     private $template;
 
     /**
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
+     */
+    private $receivers;
+
+    /**
      * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
      */
-    private $receiver;
+    private $viewer;
+
+    public function __construct()
+    {
+        $this->receivers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -175,24 +185,54 @@ class Notification
     }
 
     /**
-     * Set receiver
+     * Add receivers
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $receiver
+     * @param Celsius3\CoreBundle\Document\BaseUser $receivers
+     */
+    public function addReceiver(\Celsius3\CoreBundle\Document\BaseUser $receivers)
+    {
+        $this->receivers[] = $receivers;
+    }
+
+    /**
+     * Remove receivers
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $receivers
+     */
+    public function removeReceiver(\Celsius3\CoreBundle\Document\BaseUser $receivers)
+    {
+        $this->receivers->removeElement($receivers);
+    }
+
+    /**
+     * Get receivers
+     *
+     * @return Doctrine\Common\Collections\Collection $receivers
+     */
+    public function getReceivers()
+    {
+        return $this->receivers;
+    }
+
+    /**
+     * Set viewer
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $viewer
      * @return self
      */
-    public function setReceiver(\Celsius3\CoreBundle\Document\BaseUser $receiver)
+    public function setViewer(\Celsius3\CoreBundle\Document\BaseUser $viewer)
     {
-        $this->receiver = $receiver;
+        $this->viewer = $viewer;
         return $this;
     }
 
     /**
-     * Get receiver
+     * Get viewer
      *
-     * @return Celsius3\CoreBundle\Document\BaseUser $receiver
+     * @return Celsius3\CoreBundle\Document\BaseUser $viewer
      */
-    public function getReceiver()
+    public function getViewer()
     {
-        return $this->receiver;
+        return $this->viewer;
     }
 }

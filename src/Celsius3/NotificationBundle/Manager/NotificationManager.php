@@ -3,48 +3,56 @@
 namespace Celsius3\NotificationBundle\Manager;
 use Celsius3\NotificationBundle\Document\Notification;
 use Celsius3\MessageBundle\Document\Message;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\BaseUser;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class NotificationManager
 {
     const CAUSE__NEW_MESSAGE = 'new_message';
     const CAUSE__NEW_USER = 'new_user';
 
-    private $dm;
+    private $container;
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(ContainerInterface $container)
     {
-        $this->dm = $dm;
+        $this->container = $container;
     }
 
-    private function notifyNewMessage(Message $message)
+    private function notify($cause, $object, $receivers)
     {
-        foreach ($message->getThread()->getParticipants() as $participant)
-        {
-            $notification = new Notification();
-            $notification->setCause(self::CAUSE__NEW_MESSAGE);
-            $notification->setReceiver($participant);
-            $notification->setObject($message);
-            $this->dm->persist($notification);
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $notification = new Notification();
+        $notification->setCause($cause);
+        foreach ($receivers as $receiver) {
+            $notification->addReceiver($receiver);
         }
-        $this->dm->flush();
+        $notification->setObject($object);
+        $dm->persist($notification);
+        $dm->flush();
     }
 
-    private function notifyNewUser(BaseUser $user)
+    public function notifyNewMessage(Message $message)
     {
-
+        $receivers = new ArrayCollection(
+                $message->getThread()->getParticipants());
+        $this
+                ->notify(self::CAUSE__NEW_MESSAGE, $message,
+                        $receivers
+                                ->filter(
+                                        function ($receiver) use ($message)
+                                        {
+                                            return ($receiver->getId()
+                                                    != $message->getSender()
+                                                            ->getId());
+                                        }));
     }
 
-    public function notify($cause, $object)
+    public function notifyNewUser(BaseUser $user)
     {
-        switch ($cause) {
-        case self::CAUSE__NEW_MESSAGE:
-            return $this->notifyNewMessage($object);
-            break;
-        case self::CAUSE__NEW_USER:
-            return $this->notifyNewUser($object);
-            break;
-        }
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $admins = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findAdmins($user->getInstance());
+        $this->notify(self::CAUSE__NEW_USER, $user, $admins);
     }
 }

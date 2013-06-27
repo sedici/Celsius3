@@ -28,7 +28,8 @@ class NewThreadMultipleMessageFormType extends
         $user = $this->context->getToken()->getUser();
         if ($isAdmin) {
             $builder
-                    ->add('recipients', 'celsius3_messagebundle_recipients_selector_custom',
+                    ->add('recipients',
+                            'celsius3_messagebundle_recipients_selector_custom',
                             array(
                                     'class' => 'Celsius3\\CoreBundle\\Document\\BaseUser',
                                     'property' => 'username',
@@ -47,10 +48,7 @@ class NewThreadMultipleMessageFormType extends
                     ->createQueryBuilder()->field('id')
                     ->notEqual($user->getId())->field('instance.id')
                     ->equals($user->getInstance()->getId())->field('roles')
-                    ->in(
-                            array(UserManager::ROLE_ADMIN,
-                                    UserManager::ROLE_SUPER_ADMIN))->getQuery()
-                    ->execute();
+                    ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
 
             $builder
                     ->add('recipients', 'recipients_selector_hidden',
