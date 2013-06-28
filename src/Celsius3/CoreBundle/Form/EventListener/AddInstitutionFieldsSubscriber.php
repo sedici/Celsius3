@@ -128,7 +128,6 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                                                 'property_path' => $this
                                                         ->property_path,
                                                 'empty_value' => '',
-                                                'expanded' => true,
                                                 'query_builder' => function (
                                                         DocumentRepository $repository) use (
                                                         $city, $country)
