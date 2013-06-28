@@ -1,3 +1,5 @@
+
+
 function loadCities(json) {
 	$.each(json, function(i, val) {
 		var city_data;
@@ -12,23 +14,24 @@ function loadCities(json) {
 }
 
 function loadInstitutions(parent, json) {
-	$.each(json, function(i, val) {
+        $(parent).append('<select id="institutions"> </select>');
+        $.each(json, function(i, val) {
 		var institution_data;
-
 		institution_data = {
 			value : val.value,
 			name : val.name,
 			hasChildren : val.hasChildren,
+                        children: val.children,
 			form : form_name
 		};
-
-		$(parent).append(ich.institution(institution_data));
+               ("#institutions").append(ich.city(institution_data));
 	});
+        $("#institutions").select2({placeholder: "Select a Institution",allowClear: true});
 }
 
 $('.country-select').change(
 		function() {
-			var institution_select = $(this).parents('.control-group').next()
+                    	var institution_select = $(this).parents('.control-group').next()
 					.next().children('.controls');
 			$('.city-select > option:gt(0)').empty();
 			institution_select.empty();
@@ -48,12 +51,12 @@ $('.country-select').change(
 					type : 'GET',
 					format : 'json',
 					data : 'country_id=' + $(this).val(),
-					url : Routing.generate('public_institutions', {
+					url : Routing.generate('public_institutions_full', {
 						'url' : instance_url
 					}),
 					success : function(data) {
-						loadInstitutions(institution_select, JSON.parse(data));
-					}
+                                                loadInstitutions(institution_select, JSON.parse(data));
+                                        }
 				});
 			}
 		});
@@ -77,27 +80,9 @@ $('.city-select').change(
 			}
 		});
 
-$(document).on('click', '.expand-tree', function() {
-	var element;
-	element = $(this);
-	$.ajax({
-		type : 'GET',
-		data : 'institution_id=' + $(this).parent().children('input').val(),
-		url : Routing.generate('public_institutions', {
-			'url' : instance_url
-		}),
-		success : function(data) {
-			loadInstitutions(element.parent(), JSON.parse(data));
-			element.removeClass('expand-tree');
-			element.addClass('collapse-tree');
-			element.text('-');
-		}
-	});
-});
 
-$(document).on('click', '.collapse-tree', function() {
-	$(this).parent().children('p').remove();
-	$(this).removeClass('collapse-tree');
-	$(this).addClass('expand-tree');
-	$(this).text('+');
+$(document).ready(function() { 
+    $("#celsius_corebundle_baseusertype_instance").select2({placeholder: "Select a Instance",allowClear: true});
+    $(".country-select").select2({placeholder: "Select a Country",allowClear: true});
 });
+ 

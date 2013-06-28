@@ -4,15 +4,15 @@
 </script>
 
 <script id="institution" type="text/html">
-    <p class="tree">
-        {{#hasChildren}}
-        <span class="expand-tree">+</span>
-        {{/hasChildren}}
-        {{^hasChildren}}
-        <span>&nbsp;&nbsp;</span>
-        {{/hasChildren}}
-        <input type="radio" value="{{value}}" required="required" name="{{form}}[institution]" id="{{form}}_institution_{{value}}" />
-        <label class="required inline" for="{{form}}_institution_{{value}}">{{name}}</label>
-    </p>
+    {{#hasChildren}}
+        <optgroup label="{{name}}">
+            {{#children}}
+                <option value="{{value}}">{{name}}</option>
+            {{/children}}    
+        </optgroup>
+    {{/hasChildren}}
+    {{^hasChildren}}
+        <option value="{{value}}">{{name}}</option>
+    {{/hasChildren}}
 </script>
 {% endraw %}
