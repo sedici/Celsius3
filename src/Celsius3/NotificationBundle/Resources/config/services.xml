@@ -7,6 +7,9 @@
     <parameters>
         <parameter key="celsius3_notification.notification_manager.class">Celsius3\NotificationBundle\Manager\NotificationManager</parameter>
         <parameter key="celsius3_notification.notification_listener.class">Celsius3\NotificationBundle\Listener\NotificationListener</parameter>
+        <parameter key="celsius3_notification.wamp_server.class">Celsius3\NotificationBundle\Server\Pusher</parameter>
+        <parameter key="celsius3_notification.web_socket_server.class">Celsius3\NotificationBundle\Server\PusherType</parameter>
+        <parameter key="celsius3_notification.entry_point.class">Celsius3\NotificationBundle\Server\EntryPoint</parameter>
     </parameters>
 
     <services>
@@ -17,6 +20,19 @@
         <service id="celsius3_notification.notification_listener" class="%celsius3_notification.notification_listener.class%">
             <argument type="service" id="celsius3_notification.notification_manager"></argument>
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+
+        <service id="celsius3_notification.wamp_server" class="%celsius3_notification.wamp_server.class%"></service>
+
+        <service id="celsius3_notification.web_socket_server" class="%celsius3_notification.web_socket_server.class%">
+            <argument type="service" id="service_container" />
+            <argument>%celsius3_notification.web_socket_server.host%</argument>
+            <argument>%celsius3_notification.web_socket_server.port%</argument>
+        </service>
+
+        <service id="celsius3_notification.entry_point" class="%celsius3_notification.entry_point.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="celsius3_notification.web_socket_server" />
         </service>
     </services>
 

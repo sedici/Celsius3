@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius3\NotificationBundle\DependencyInjection;
-
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -14,15 +13,41 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class Celsius3NotificationExtension extends Extension
 {
+    private $container;
+
     /**
      * {@inheritDoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $this->container = $container;
+
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        if (isset($config['web_socket_server']) && $config['web_socket_server']) {
+            $this->setupWebSocketServer($config['web_socket_server']);
+        }
+
+        $loader = new Loader\XmlFileLoader($container,
+                new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
+    }
+
+    private function setupWebSocketServer($config)
+    {
+        if (isset($config['port']) && $config['port']) {
+            $port = (int) $config['port'];
+        }
+
+        $this->container
+                ->setParameter('celsius3_notification.web_socket_server.port',
+                        $port);
+
+        if (isset($config['host']) && $config['host'])
+            $this->container
+                    ->setParameter(
+                            'celsius3_notification.web_socket_server.host',
+                            $config['host']);
     }
 }

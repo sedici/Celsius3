@@ -386,7 +386,7 @@
             },
             "require": {
                 "doctrine/data-fixtures": "*",
-                "doctrine/doctrine-bundle": ">=1.0,<2.0",
+                "doctrine/doctrine-bundle": "~1.0",
                 "php": ">=5.3.2",
                 "symfony/doctrine-bridge": ">=2.1.0,<2.4-dev"
             },
@@ -785,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "bc750f6a80bf7558649c0a44a82147b8f1a2126c"
+                "reference": "025e8514c179573ff3c1cb6284ea7196425be1ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/bc750f6a80bf7558649c0a44a82147b8f1a2126c",
-                "reference": "bc750f6a80bf7558649c0a44a82147b8f1a2126c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/025e8514c179573ff3c1cb6284ea7196425be1ef",
+                "reference": "025e8514c179573ff3c1cb6284ea7196425be1ef",
                 "shasum": ""
             },
             "require": {
@@ -845,7 +845,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-06-26 08:08:01"
+            "time": "2013-06-28 18:43:05"
         },
         {
             "name": "fzaninotto/faker",
@@ -853,12 +853,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "e46930075a899c1d1ea8bc4b4bef6566eb0aefb0"
+                "reference": "cf749f1e40950873726ba437cbd36f1a5a1d5ad1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/e46930075a899c1d1ea8bc4b4bef6566eb0aefb0",
-                "reference": "e46930075a899c1d1ea8bc4b4bef6566eb0aefb0",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/cf749f1e40950873726ba437cbd36f1a5a1d5ad1",
+                "reference": "cf749f1e40950873726ba437cbd36f1a5a1d5ad1",
                 "shasum": ""
             },
             "require": {
@@ -891,7 +891,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-06-19 07:07:09"
+            "time": "2013-07-01 12:57:31"
         },
         {
             "name": "gedmo/doctrine-extensions",

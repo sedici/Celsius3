@@ -222,3 +222,8 @@ bc_bootstrap:
 
 genemu_form:
     select2: ~
+
+celsius3_notification:
+    web_socket_server:
+        port: 8080        #The port the socket server will listen on
+        host: 0.0.0.0   #(optional) The host ip to bind to

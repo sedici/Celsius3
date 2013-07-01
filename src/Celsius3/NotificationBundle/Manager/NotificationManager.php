@@ -30,6 +30,21 @@ class NotificationManager
         $notification->setObject($object);
         $dm->persist($notification);
         $dm->flush();
+
+        $entryData = array('id' => $notification->getObject()->getId(),
+                'cause' => $cause,
+                'user_ids' => array_map(
+                        function ($receiver)
+                        {
+                            return $receiver->getId();
+                        }, $notification->getReceivers()->toArray()),);
+
+        // This is our new stuff
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
+        $socket->connect("tcp://localhost:5555");
+
+        $socket->send(json_encode($entryData));
     }
 
     public function notifyNewMessage(Message $message)
