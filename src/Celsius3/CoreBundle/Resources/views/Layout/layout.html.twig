@@ -34,11 +34,10 @@
                             {% block navigation_top %}
                             {{ knp_menu_render('Celsius3CoreBundle:Builder:topMenu') }}
                             {% endblock %}
-                            {% block user_panel %}
+                            {% block instance_panels %}
                                 {% include 'Celsius3CoreBundle:Layout:_user_panel.html.twig' %}
-                            {% endblock %}
-                            {% block message_panel %}
                                 {% include 'Celsius3MessageBundle:Layout:_message_panel.html.twig' %}
+                                {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
                             {% endblock %}
                             {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}
                         </div>
@@ -96,6 +95,7 @@
         <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>
         {{ tinymce_init() }}
         {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
+        {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
         {% endblock %}
     </body>
 </html>

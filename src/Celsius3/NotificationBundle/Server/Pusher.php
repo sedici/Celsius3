@@ -2,13 +2,20 @@
 namespace Celsius3\NotificationBundle\Server;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 class Pusher implements WampServerInterface
 {
     /**
      * A lookup of all the topics clients have subscribed to
      */
-    protected $subscribedTopics = array();
+    private $subscribedTopics = array();
+    private $notification_manager;
+
+    public function __construct(NotificationManager $notification_manager)
+    {
+        $this->notification_manager = $notification_manager;
+    }
 
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
@@ -16,6 +23,21 @@ class Pusher implements WampServerInterface
         if (!array_key_exists($topic->getId(), $this->subscribedTopics)) {
             $this->subscribedTopics[$topic->getId()] = $topic;
         }
+
+        $notifications = array();
+        foreach ($this->notification_manager
+                ->getUnreadNotifications($topic->getId()) as $notification) {
+            $notifications[] = array(
+                    'id' => $notification->getObject()->getId(),
+                    'cause' => $notification->getCause(),
+                    'user_ids' => array_map(
+                            function ($receiver)
+                            {
+                                return $receiver->getId();
+                            }, $notification->getReceivers()->toArray()),);
+        }
+
+        $topic->broadcast($notifications);
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
@@ -66,7 +88,7 @@ class Pusher implements WampServerInterface
 
             $topic = $this->subscribedTopics[$user_id];
 
-            $topic->broadcast($entryData);
+            $topic->broadcast(array($entryData));
         }
     }
 }

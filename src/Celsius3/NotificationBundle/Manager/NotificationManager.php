@@ -6,6 +6,7 @@ use Celsius3\MessageBundle\Document\Message;
 use Celsius3\CoreBundle\Document\BaseUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NotificationManager
 {
@@ -24,10 +25,10 @@ class NotificationManager
         $this->zmq_port = $zmq_port;
     }
 
-    private function notifyRatchet(Notification $notification, $cause)
+    private function notifyRatchet(Notification $notification)
     {
         $entryData = array('id' => $notification->getObject()->getId(),
-                'cause' => $cause,
+                'cause' => $notification->getCause(),
                 'user_ids' => array_map(
                         function ($receiver)
                         {
@@ -54,7 +55,7 @@ class NotificationManager
         $dm->persist($notification);
         $dm->flush();
 
-        $this->notifyRatchet($notification, $cause);
+        $this->notifyRatchet($notification);
     }
 
     public function notifyNewMessage(Message $message)
@@ -79,5 +80,13 @@ class NotificationManager
         $admins = $dm->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findAdmins($user->getInstance());
         $this->notify(self::CAUSE__NEW_USER, $user, $admins);
+    }
+
+    public function getUnreadNotifications($user_id)
+    {
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        return $dm->getRepository('Celsius3NotificationBundle:Notification')
+                ->findBy(
+                        array('receivers.id' => $user_id, 'isViewed' => false,));
     }
 }
