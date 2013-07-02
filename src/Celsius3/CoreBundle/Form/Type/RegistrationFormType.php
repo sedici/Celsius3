@@ -44,6 +44,8 @@ class RegistrationFormType extends BaseType
                                 'attr' => array(
                                         'value' => $this->instance->getId(),
                                         'readonly' => 'readonly',),));
+        
+        
         $subscriber = new AddCustomFieldsSubscriber(
                 $builder->getFormFactory(), $this->dm, $this->instance, true);
         $builder->addEventSubscriber($subscriber);

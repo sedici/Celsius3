@@ -12,6 +12,8 @@ function loadCities(json) {
 }
 
 function loadInstitutions(json) {
+        $('select.country-select').append('<img id="loading" src="bundles/celsius3core/images/loading.gif"/>');
+
 	$.each(json, function(i, val) {
 		var institution_data;
 		institution_data = {
@@ -27,9 +29,10 @@ function loadInstitutions(json) {
 }
 
 $('select.country-select').change(function() {
-	$('.city-select > option:gt(0)').empty();
-	$('.institution-select > option:gt(0)').empty();
-	if ($(this).val()) {
+        $('select.institution-select').children().remove();
+        $('select.city-select').children().remove();
+       
+        if ($(this).val()) {
 		$.ajax({
 			type : 'GET',
 			format : 'json',
