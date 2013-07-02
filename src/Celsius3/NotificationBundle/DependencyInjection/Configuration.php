@@ -20,7 +20,10 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('celsius3_notification', 'array')
                 ->children()->arrayNode('web_socket_server')->children()
                 ->scalarNode('port')->defaultValue('8080')->end()
-                ->scalarNode('host')->defaultValue('localhost')->end()->end();
+                ->scalarNode('host')->defaultValue('localhost')->end()
+                ->scalarNode('zmq_port')->defaultValue('5555')->end()
+                ->scalarNode('zmq_host')->defaultValue('localhost')->end()
+                ->end();
 
         return $treeBuilder;
     }

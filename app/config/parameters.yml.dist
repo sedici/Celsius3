@@ -27,3 +27,8 @@ parameters:
     celsius2_username: root
     celsius2_password: root
     celsius2_database: celsius
+
+    notification_host: 0.0.0.0
+    notification_port: 8080
+    notification_zmq_host: localhost
+    notification_zmq_port: 5555

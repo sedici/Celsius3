@@ -28,6 +28,9 @@ monolog:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    globals:
+        notification_host: 0.0.0.0
+        notification_port: 8080
 
 # Assetic Configuration
 assetic:
@@ -225,5 +228,7 @@ genemu_form:
 
 celsius3_notification:
     web_socket_server:
-        port: 8080        #The port the socket server will listen on
-        host: 0.0.0.0   #(optional) The host ip to bind to
+        port: %notification_port%        #The port the socket server will listen on
+        host: %notification_host%   #(optional) The host ip to bind to
+        zmq_port: %notification_zmq_port%
+        zmq_host: %notification_zmq_host%

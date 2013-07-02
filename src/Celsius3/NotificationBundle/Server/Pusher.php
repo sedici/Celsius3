@@ -57,11 +57,12 @@ class Pusher implements WampServerInterface
         $entryData = json_decode($entry, true);
 
         foreach ($entryData['user_ids'] as $user_id) {
-            echo $user_id;
             // If the lookup topic object isn't set there is no one to publish to
             if (!array_key_exists($user_id, $this->subscribedTopics)) {
                 return;
             }
+
+            echo "Notifying to " . $user_id . "\n";
 
             $topic = $this->subscribedTopics[$user_id];
 

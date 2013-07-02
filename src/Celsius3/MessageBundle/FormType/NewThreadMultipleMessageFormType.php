@@ -51,7 +51,7 @@ class NewThreadMultipleMessageFormType extends
                     ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
 
             $builder
-                    ->add('recipients', 'recipients_selector_hidden',
+                    ->add('recipients', 'celsius3_messagebundle_recipients_selector_hidden',
                             array('data' => $usernames,));
         }
 

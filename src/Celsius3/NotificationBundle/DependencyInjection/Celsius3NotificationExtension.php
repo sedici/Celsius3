@@ -49,5 +49,20 @@ class Celsius3NotificationExtension extends Extension
                     ->setParameter(
                             'celsius3_notification.web_socket_server.host',
                             $config['host']);
+
+        if (isset($config['zmq_port']) && $config['zmq_port']) {
+            $zmq_port = (int) $config['zmq_port'];
+        }
+
+        $this->container
+                ->setParameter(
+                        'celsius3_notification.web_socket_server.zmq_port',
+                        $zmq_port);
+
+        if (isset($config['zmq_host']) && $config['zmq_host'])
+            $this->container
+                    ->setParameter(
+                            'celsius3_notification.web_socket_server.zmq_host',
+                            $config['zmq_host']);
     }
 }

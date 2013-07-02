@@ -731,18 +731,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "de0d3f2abf971ccfc6fb47a8af408c514aff10db"
+                "reference": "fd3fbc30d84ca520839f5473fbcc0ea74d596802"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/de0d3f2abf971ccfc6fb47a8af408c514aff10db",
-                "reference": "de0d3f2abf971ccfc6fb47a8af408c514aff10db",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/fd3fbc30d84ca520839f5473fbcc0ea74d596802",
+                "reference": "fd3fbc30d84ca520839f5473fbcc0ea74d596802",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1,<3.0",
-                "symfony/twig-bundle": ">=2.1,<3.0"
+                "symfony/framework-bundle": "~2.1",
+                "symfony/twig-bundle": "~2.1"
             },
             "suggest": {
                 "doctrine/doctrine-bundle": "dev-master",
@@ -776,7 +776,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-06-10 06:18:25"
+            "time": "2013-07-01 23:01:52"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -2425,7 +2425,7 @@
             "require": {
                 "gedmo/doctrine-extensions": "2.3.*",
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1,<3.0"
+                "symfony/framework-bundle": "~2.1"
             },
             "suggest": {
                 "doctrine/doctrine-bundle": "to use the ORM extensions",

@@ -13,10 +13,33 @@ class NotificationManager
     const CAUSE__NEW_USER = 'new_user';
 
     private $container;
+    private $zmq_port;
+    private $zmq_host;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, $zmq_host,
+            $zmq_port)
     {
         $this->container = $container;
+        $this->zmq_host = $zmq_host;
+        $this->zmq_port = $zmq_port;
+    }
+
+    private function notifyRatchet(Notification $notification, $cause)
+    {
+        $entryData = array('id' => $notification->getObject()->getId(),
+                'cause' => $cause,
+                'user_ids' => array_map(
+                        function ($receiver)
+                        {
+                            return $receiver->getId();
+                        }, $notification->getReceivers()->toArray()),);
+
+        // This is our new stuff
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
+        $socket->connect('tcp://' . $this->zmq_host . ':' . $this->zmq_port);
+
+        $socket->send(json_encode($entryData));
     }
 
     private function notify($cause, $object, $receivers)
@@ -31,20 +54,7 @@ class NotificationManager
         $dm->persist($notification);
         $dm->flush();
 
-        $entryData = array('id' => $notification->getObject()->getId(),
-                'cause' => $cause,
-                'user_ids' => array_map(
-                        function ($receiver)
-                        {
-                            return $receiver->getId();
-                        }, $notification->getReceivers()->toArray()),);
-
-        // This is our new stuff
-        $context = new \ZMQContext();
-        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
-        $socket->connect("tcp://localhost:5555");
-
-        $socket->send(json_encode($entryData));
+        $this->notifyRatchet($notification, $cause);
     }
 
     public function notifyNewMessage(Message $message)
