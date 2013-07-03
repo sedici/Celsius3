@@ -82,11 +82,22 @@ class NotificationManager
         $this->notify(self::CAUSE__NEW_USER, $user, $admins);
     }
 
+    public function getUnreadNotificationsCount($user_id)
+    {
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        return $dm->getRepository('Celsius3NotificationBundle:Notification')
+                ->createQueryBuilder()->field('receivers.id')->equals($user_id)
+                ->field('isViewed')->equals(false)->getQuery()->execute()
+                ->count();
+    }
+
     public function getUnreadNotifications($user_id)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         return $dm->getRepository('Celsius3NotificationBundle:Notification')
-                ->findBy(
-                        array('receivers.id' => $user_id, 'isViewed' => false,));
+                ->createQueryBuilder()->field('receivers.id')->equals($user_id)
+                ->field('isViewed')->equals(false)->sort('createdAt', 'desc')
+                ->limit($this->container->getParameter('notification_limit'))
+                ->getQuery()->execute();
     }
 }

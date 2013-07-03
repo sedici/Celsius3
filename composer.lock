@@ -493,22 +493,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "0a1324a596a73e5d8ec2a26b957486dd56eba2c7"
+                "reference": "d607bec0560f977274a818bf99d2d7f4d7f3e91b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/0a1324a596a73e5d8ec2a26b957486dd56eba2c7",
-                "reference": "0a1324a596a73e5d8ec2a26b957486dd56eba2c7",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/d607bec0560f977274a818bf99d2d7f4d7f3e91b",
+                "reference": "d607bec0560f977274a818bf99d2d7f4d7f3e91b",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": ">=2.2.0,<2.5-dev",
                 "doctrine/mongodb": "1.0.*",
                 "php": ">=5.3.2",
-                "symfony/console": ">=2.0,<3.0"
+                "symfony/console": "~2.0"
             },
             "require-dev": {
-                "symfony/yaml": ">=2.0,<3.0"
+                "symfony/yaml": "~2.0"
             },
             "suggest": {
                 "symfony/yaml": "Enables the YAML metadata mapping driver"
@@ -558,7 +558,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-06-27 14:07:45"
+            "time": "2013-07-02 19:15:51"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",

@@ -22,12 +22,16 @@ class Pusher implements WampServerInterface
         // When a visitor subscribes to a topic link the Topic object in a  lookup array
         if (!array_key_exists($topic->getId(), $this->subscribedTopics)) {
             $this->subscribedTopics[$topic->getId()] = $topic;
+            echo "User " . $topic->getId() . " subscribed.\n";
         }
 
-        $notifications = array();
+        $data = array(
+                'count' => $this->notification_manager
+                        ->getUnreadNotificationsCount($topic->getId()),
+                'notifications' => array(),);
         foreach ($this->notification_manager
                 ->getUnreadNotifications($topic->getId()) as $notification) {
-            $notifications[] = array(
+            $data['notifications'][] = array(
                     'id' => $notification->getObject()->getId(),
                     'cause' => $notification->getCause(),
                     'user_ids' => array_map(
@@ -37,7 +41,7 @@ class Pusher implements WampServerInterface
                             }, $notification->getReceivers()->toArray()),);
         }
 
-        $topic->broadcast($notifications);
+        $topic->broadcast($data);
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
@@ -88,7 +92,10 @@ class Pusher implements WampServerInterface
 
             $topic = $this->subscribedTopics[$user_id];
 
-            $topic->broadcast(array($entryData));
+            $topic
+                    ->broadcast(
+                            array('count' => 1,
+                                    'notifications' => array($entryData)));
         }
     }
 }

@@ -29,8 +29,9 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
     globals:
-        notification_host: 0.0.0.0
-        notification_port: 8080
+        notification_host: %notification_host%
+        notification_port: %notification_port%
+        notification_limit: %notification_limit%
 
 # Assetic Configuration
 assetic:
