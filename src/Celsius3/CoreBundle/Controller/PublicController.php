@@ -183,20 +183,21 @@ class PublicController extends BaseInstanceDependentController
                 ->execute();
 
         $response = array();
-
         foreach ($institutions as $institution)
         {
+            $level = 0;
             $response [] = array(
                                 'value' => $institution->getId(),
                                 'hasChildren' => $institution->getInstitutions()->count() > 0,    
                                 'name' => $institution->getName(),
-                                'children' => $this->getChildrenInstitution($institution),
+                                'level' => $level,
+                                'children' => $this->getChildrenInstitution($institution, $level+1),
                                 );
         }
         return new Response(json_encode($response));
     }
     
-    function getChildrenInstitution($institution)
+    function getChildrenInstitution($institution, $level)
     {
         if ($institution->getInstitutions()->count() > 0)
         {
@@ -207,7 +208,8 @@ class PublicController extends BaseInstanceDependentController
                                             'value' => $inst->getId(),
                                             'hasChildren' => $inst->getInstitutions()->count() > 0,                    
                                             'name' => $inst->getName(),
-                                            'children' =>  $this->getChildrenInstitution($inst),       
+                                            'level' => $level,
+                                            'children' =>  $this->getChildrenInstitution($inst, $level+1),       
                                             )
                           );
             }

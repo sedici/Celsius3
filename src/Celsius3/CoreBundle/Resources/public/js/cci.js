@@ -12,13 +12,13 @@ function loadCities(json) {
 }
 
 function loadInstitutions(json) {
-        $('select.country-select').append('<img id="loading" src="bundles/celsius3core/images/loading.gif"/>');
-
+ 
 	$.each(json, function(i, val) {
 		var institution_data;
 		institution_data = {
 			value : val.value,
 			name : val.name,
+                        level : val.level,
 			hasChildren : val.hasChildren,
 			children : val.children,
 			form : form_name
@@ -27,11 +27,10 @@ function loadInstitutions(json) {
 	});
 
 }
-
 $('select.country-select').change(function() {
+
         $('select.institution-select').children().remove();
         $('select.city-select').children().remove();
-       
         if ($(this).val()) {
 		$.ajax({
 			type : 'GET',
@@ -52,6 +51,7 @@ $('select.country-select').change(function() {
 				'url' : instance_url
 			}),
 			success : function(data) {
+                     
 				loadInstitutions(JSON.parse(data));
 			}
 		});
