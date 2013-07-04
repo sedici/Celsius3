@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\NotificationBundle\Document\NotificationTemplate;
+use Symfony\Component\Routing\Router;
 
 class NotificationManager
 {
@@ -44,6 +45,24 @@ class NotificationManager
         return $this->templating
                 ->render($notification->getTemplate()->getText(),
                         array($name => $object));
+    }
+
+    public function generateUrl(Notification $notification)
+    {
+        switch ($notification->getCause()) {
+        case self::CAUSE__NEW_MESSAGE:
+            $route = 'fos_message_thread_view';
+            $params = array(
+                    'threadId' => $notification->getObject()->getThread()
+                            ->getId(),);
+            break;
+        case self::CAUSE__NEW_USER:
+            $route = 'admin_user';
+            $params = array('id' => $notification->getObject()->getId(),);
+            break;
+        }
+
+        return $this->container->get('router')->generate($route, $params);
     }
 
     private function notifyRatchet(Notification $notification)
@@ -104,7 +123,8 @@ class NotificationManager
                                 ->getRepository(
                                         'Celsius3NotificationBundle:NotificationTemplate')
                                 ->findOneBy(
-                                        array('code' => self::CAUSE__NEW_MESSAGE)));
+                                        array(
+                                                'code' => self::CAUSE__NEW_MESSAGE)));
     }
 
     public function notifyNewUser(BaseUser $user)

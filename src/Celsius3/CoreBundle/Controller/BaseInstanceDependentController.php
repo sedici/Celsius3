@@ -13,7 +13,7 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
+                ->getRepository($this->getBundle() . ':' . $name)
                 ->createQueryBuilder()->field('instance.id')
                 ->equals($this->getInstance()->getId())->field('id')
                 ->equals($id)->getQuery()->getSingleResult();

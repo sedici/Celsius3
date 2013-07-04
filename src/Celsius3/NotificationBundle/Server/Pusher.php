@@ -34,12 +34,14 @@ class Pusher implements WampServerInterface
                         ->getUnreadNotificationsCount($topic->getId()),
                 'notifications' => array(),);
 
-        foreach ($this->notification_manager
-                ->getUnreadNotifications($topic->getId()) as $notification) {
+        $notifications = array_reverse(
+                $this->notification_manager
+                        ->getUnreadNotifications($topic->getId())->toArray());
+        foreach ($notifications as $notification) {
             $data['notifications'][] = array(
                     'template' => $this->notification_manager
                             ->getRenderedTemplate($notification),
-                    'link' => '#',);
+                    'id' => $notification->getId(),);
         }
 
         $topic->broadcast($data);
@@ -102,7 +104,7 @@ class Pusher implements WampServerInterface
             $notification_data = array(
                     'template' => $this->notification_manager
                             ->getRenderedTemplate($notification),
-                    'link' => '#',);
+                    'id' => $notification->getId(),);
 
             $topic = $this->subscribedTopics[$user->getId()];
 

@@ -6,17 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 abstract class BaseController extends Controller
 {
+    protected function getBundle()
+    {
+        return 'Celsius3CoreBundle';
+    }
+
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
+                ->getRepository($this->getBundle() . ':' . $name)
                 ->createQueryBuilder();
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                ->getRepository($this->getBundle() . ':' . $name)->find($id);
     }
 
     protected function getResultsPerPage()

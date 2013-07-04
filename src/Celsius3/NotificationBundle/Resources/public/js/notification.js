@@ -6,8 +6,10 @@ function showNotifications(data) {
 	$(data.notifications).each(function(index, element) {
 		var notification_data;
 		notification_data = {
-			link : element.link,
-			template : element.template,
+			link : Routing.generate('user_notification_view', {
+				id : element.id
+			}),
+			template : element.template
 		};
 		$('ul#notification-list').prepend(ich.notification(notification_data));
 		$('.notification').slice(notification_limit).remove();

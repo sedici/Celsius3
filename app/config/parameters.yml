@@ -21,8 +21,8 @@ parameters:
     celsius2_host: localhost
     celsius2_port: 3306
     celsius2_username: root
-    celsius2_password: kuabita
-    celsius2_database: celsiusNT
+    celsius2_password: root
+    celsius2_database: celsius
     notification_host: 0.0.0.0
     notification_port: 8080
     notification_zmq_host: localhost

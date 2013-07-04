@@ -31,6 +31,11 @@ class Message extends BaseMessage implements Notifiable
      */
     protected $sender;
 
+    public function __toString()
+    {
+        return $this->getSender() . ' - ' .$this->getThread()->getSubject();
+    }
+
     public function notify(NotificationManager $manager)
     {
         $manager->notifyNewMessage($this);
