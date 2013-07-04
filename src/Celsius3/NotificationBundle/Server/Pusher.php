@@ -3,6 +3,7 @@ namespace Celsius3\NotificationBundle\Server;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 class Pusher implements WampServerInterface
 {
@@ -11,10 +12,13 @@ class Pusher implements WampServerInterface
      */
     private $subscribedTopics = array();
     private $notification_manager;
+    private $dm;
 
-    public function __construct(NotificationManager $notification_manager)
+    public function __construct(NotificationManager $notification_manager,
+            DocumentManager $dm)
     {
         $this->notification_manager = $notification_manager;
+        $this->dm = $dm;
     }
 
     public function onSubscribe(ConnectionInterface $conn, $topic)
@@ -29,16 +33,13 @@ class Pusher implements WampServerInterface
                 'count' => $this->notification_manager
                         ->getUnreadNotificationsCount($topic->getId()),
                 'notifications' => array(),);
+
         foreach ($this->notification_manager
                 ->getUnreadNotifications($topic->getId()) as $notification) {
             $data['notifications'][] = array(
-                    'id' => $notification->getObject()->getId(),
-                    'cause' => $notification->getCause(),
-                    'user_ids' => array_map(
-                            function ($receiver)
-                            {
-                                return $receiver->getId();
-                            }, $notification->getReceivers()->toArray()),);
+                    'template' => $this->notification_manager
+                            ->getRenderedTemplate($notification),
+                    'link' => '#',);
         }
 
         $topic->broadcast($data);
@@ -82,20 +83,33 @@ class Pusher implements WampServerInterface
     {
         $entryData = json_decode($entry, true);
 
-        foreach ($entryData['user_ids'] as $user_id) {
+        $notification = $this->dm
+                ->getRepository('Celsius3NotificationBundle:Notification')
+                ->find($entryData['notification_id']);
+
+        if (!$notification) {
+            return;
+        }
+
+        foreach ($notification->getReceivers() as $user) {
             // If the lookup topic object isn't set there is no one to publish to
-            if (!array_key_exists($user_id, $this->subscribedTopics)) {
+            if (!array_key_exists($user->getId(), $this->subscribedTopics)) {
                 return;
             }
 
-            echo "Notifying to " . $user_id . "\n";
+            echo "Notifying to " . $user . "\n";
 
-            $topic = $this->subscribedTopics[$user_id];
+            $notification_data = array(
+                    'template' => $this->notification_manager
+                            ->getRenderedTemplate($notification),
+                    'link' => '#',);
+
+            $topic = $this->subscribedTopics[$user->getId()];
 
             $topic
                     ->broadcast(
                             array('count' => 1,
-                                    'notifications' => array($entryData)));
+                                    'notifications' => $notification_data));
         }
     }
 }

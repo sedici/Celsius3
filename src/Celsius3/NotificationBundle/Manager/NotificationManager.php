@@ -7,6 +7,7 @@ use Celsius3\CoreBundle\Document\BaseUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Celsius3\NotificationBundle\Document\NotificationTemplate;
 
 class NotificationManager
 {
@@ -16,6 +17,7 @@ class NotificationManager
     private $container;
     private $zmq_port;
     private $zmq_host;
+    private $templating;
 
     public function __construct(ContainerInterface $container, $zmq_host,
             $zmq_port)
@@ -23,6 +25,25 @@ class NotificationManager
         $this->container = $container;
         $this->zmq_host = $zmq_host;
         $this->zmq_port = $zmq_port;
+        $this->templating = new \Twig_Environment(new \Twig_Loader_String());
+    }
+
+    public function getRenderedTemplate(Notification $notification)
+    {
+        switch ($notification->getCause()) {
+        case self::CAUSE__NEW_MESSAGE:
+            $name = 'user';
+            $object = $notification->getObject()->getSender();
+            break;
+        case self::CAUSE__NEW_USER:
+            $name = 'user';
+            $object = $notification->getObject();
+            break;
+        }
+
+        return $this->templating
+                ->render($notification->getTemplate()->getText(),
+                        array($name => $object));
     }
 
     private function notifyRatchet(Notification $notification)
@@ -35,15 +56,20 @@ class NotificationManager
                             return $receiver->getId();
                         }, $notification->getReceivers()->toArray()),);
 
-        // This is our new stuff
         $context = new \ZMQContext();
         $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
         $socket->connect('tcp://' . $this->zmq_host . ':' . $this->zmq_port);
 
-        $socket->send(json_encode($entryData));
+        $socket
+                ->send(
+                        json_encode(
+                                array(
+                                        'notification_id' => $notification
+                                                ->getId())));
     }
 
-    private function notify($cause, $object, $receivers)
+    private function notify($cause, $object, $receivers,
+            NotificationTemplate $template)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         $notification = new Notification();
@@ -52,6 +78,7 @@ class NotificationManager
             $notification->addReceiver($receiver);
         }
         $notification->setObject($object);
+        $notification->setTemplate($template);
         $dm->persist($notification);
         $dm->flush();
 
@@ -62,6 +89,7 @@ class NotificationManager
     {
         $receivers = new ArrayCollection(
                 $message->getThread()->getParticipants());
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         $this
                 ->notify(self::CAUSE__NEW_MESSAGE, $message,
                         $receivers
@@ -71,7 +99,12 @@ class NotificationManager
                                             return ($receiver->getId()
                                                     != $message->getSender()
                                                             ->getId());
-                                        }));
+                                        }),
+                        $dm
+                                ->getRepository(
+                                        'Celsius3NotificationBundle:NotificationTemplate')
+                                ->findOneBy(
+                                        array('code' => self::CAUSE__NEW_MESSAGE)));
     }
 
     public function notifyNewUser(BaseUser $user)
@@ -79,25 +112,27 @@ class NotificationManager
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         $admins = $dm->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findAdmins($user->getInstance());
-        $this->notify(self::CAUSE__NEW_USER, $user, $admins);
+        $this
+                ->notify(self::CAUSE__NEW_USER, $user, $admins,
+                        $dm
+                                ->getRepository(
+                                        'Celsius3NotificationBundle:NotificationTemplate')
+                                ->findOneBy(
+                                        array('code' => self::CAUSE__NEW_USER)));
     }
 
     public function getUnreadNotificationsCount($user_id)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         return $dm->getRepository('Celsius3NotificationBundle:Notification')
-                ->createQueryBuilder()->field('receivers.id')->equals($user_id)
-                ->field('isViewed')->equals(false)->getQuery()->execute()
-                ->count();
+                ->getUnreadNotificationsCount($user_id);
     }
 
     public function getUnreadNotifications($user_id)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         return $dm->getRepository('Celsius3NotificationBundle:Notification')
-                ->createQueryBuilder()->field('receivers.id')->equals($user_id)
-                ->field('isViewed')->equals(false)->sort('createdAt', 'desc')
-                ->limit($this->container->getParameter('notification_limit'))
-                ->getQuery()->execute();
+                ->getUnreadNotifications($user_id,
+                        $this->container->getParameter('notification_limit'));
     }
 }

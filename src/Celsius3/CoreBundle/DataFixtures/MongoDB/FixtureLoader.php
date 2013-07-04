@@ -11,6 +11,8 @@ use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Manager\OrderManager;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\NotificationBundle\Document\NotificationTemplate;
 
 /**
  * Description of FixtureLoader
@@ -189,6 +191,18 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             unset($template);
         }
 
+        $template = new NotificationTemplate();
+        $template->setCode(NotificationManager::CAUSE__NEW_MESSAGE);
+        $template->setText('You have a new message from {{ user }}.');
+        $manager->persist($template);
+        unset($template);
+
+        $template = new NotificationTemplate();
+        $template->setCode(NotificationManager::CAUSE__NEW_USER);
+        $template->setText('There\'s a new registered user called {{ user }}.');
+        $manager->persist($template);
+        unset($template);
+
         /*
          * Carga de catalogos globales
          */
@@ -352,5 +366,6 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $manager->flush();
             unset($instance, $admin);
         }
+        $manager->clear();
     }
 }

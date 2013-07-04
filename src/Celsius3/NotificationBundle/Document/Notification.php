@@ -9,6 +9,7 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
  */
 class Notification
 {
@@ -45,7 +46,12 @@ class Notification
     private $object;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Template")
+     * @MongoDB\ReferenceOne
+     */
+    private $source;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="NotificationTemplate")
      */
     private $template;
 

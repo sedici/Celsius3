@@ -5,10 +5,15 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\InheritanceType("SINGLE_COLLECTION")
+ * @MongoDB\DiscriminatorField(fieldName="type")
+ * @MongoDB\DiscriminatorMap({
+ *   "mail"="MailTemplate",
+ *   "notification"="Celsius3\NotificationBundle\Document\NotificationTemplate"
+ * })
  */
 class Template
 {
-
     /**
      * @MongoDB\Id
      */
@@ -24,19 +29,7 @@ class Template
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    private $title;
-
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
     private $text;
-
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
-    private $idiom;
 
     /**
      * Get id
@@ -71,28 +64,6 @@ class Template
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return self
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string $title
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * Set text
      *
      * @param string $text
@@ -112,27 +83,5 @@ class Template
     public function getText()
     {
         return $this->text;
-    }
-
-    /**
-     * Set idiom
-     *
-     * @param string $idiom
-     * @return self
-     */
-    public function setIdiom($idiom)
-    {
-        $this->idiom = $idiom;
-        return $this;
-    }
-
-    /**
-     * Get idiom
-     *
-     * @return string $idiom
-     */
-    public function getIdiom()
-    {
-        return $this->idiom;
     }
 }
