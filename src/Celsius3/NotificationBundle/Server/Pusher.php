@@ -4,6 +4,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius3\NotificationBundle\Document\Notification;
 
 class Pusher implements WampServerInterface
 {
@@ -21,6 +22,20 @@ class Pusher implements WampServerInterface
         $this->dm = $dm;
     }
 
+    private function getNotificationData($count, $notifications)
+    {
+        $data = array('count' => $count, 'notifications' => array(),);
+
+        foreach ($notifications as $notification) {
+            $data['notifications'][] = array(
+                    'template' => $this->notification_manager
+                            ->getRenderedTemplate($notification),
+                    'id' => $notification->getId(),);
+        }
+
+        return $data;
+    }
+
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         // When a visitor subscribes to a topic link the Topic object in a  lookup array
@@ -29,20 +44,14 @@ class Pusher implements WampServerInterface
             echo "User " . $topic->getId() . " subscribed.\n";
         }
 
-        $data = array(
-                'count' => $this->notification_manager
-                        ->getUnreadNotificationsCount($topic->getId()),
-                'notifications' => array(),);
-
-        $notifications = array_reverse(
-                $this->notification_manager
-                        ->getUnreadNotifications($topic->getId())->toArray());
-        foreach ($notifications as $notification) {
-            $data['notifications'][] = array(
-                    'template' => $this->notification_manager
-                            ->getRenderedTemplate($notification),
-                    'id' => $notification->getId(),);
-        }
+        $data = $this
+                ->getNotificationData(
+                        $this->notification_manager
+                                ->getUnreadNotificationsCount($topic->getId()),
+                        array_reverse(
+                                $this->notification_manager
+                                        ->getUnreadNotifications(
+                                                $topic->getId())->toArray()));
 
         $topic->broadcast($data);
     }
@@ -101,17 +110,12 @@ class Pusher implements WampServerInterface
 
             echo "Notifying to " . $user . "\n";
 
-            $notification_data = array(
-                    'template' => $this->notification_manager
-                            ->getRenderedTemplate($notification),
-                    'id' => $notification->getId(),);
+            $data = $this
+                    ->getNotificationData(1, array($notification));
 
             $topic = $this->subscribedTopics[$user->getId()];
 
-            $topic
-                    ->broadcast(
-                            array('count' => 1,
-                                    'notifications' => $notification_data));
+            $topic->broadcast($data);
         }
     }
 }
