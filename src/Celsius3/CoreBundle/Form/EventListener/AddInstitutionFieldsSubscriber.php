@@ -81,6 +81,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                                                 'attr' => array(
                                                         'class' => 'country-select'),
                                                 'auto_initialize' => false,)));
+                                                
         $form
                 ->add(
                         $this->factory

@@ -28,7 +28,6 @@ function loadInstitutions(json) {
 
 }
 $('select.country-select').change(function() {
-
         $('select.institution-select').children().remove();
         $('select.city-select').children().remove();
         if ($(this).val()) {
@@ -51,8 +50,7 @@ $('select.country-select').change(function() {
 				'url' : instance_url
 			}),
 			success : function(data) {
-                     
-				loadInstitutions(JSON.parse(data));
+                              loadInstitutions(JSON.parse(data));
 			}
 		});
 	}

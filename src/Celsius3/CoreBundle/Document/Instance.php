@@ -121,6 +121,13 @@ class Instance
      */
     private $cities;
 
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $liblink = false;
+    
     public function __toString()
     {
         return $this->getName();
@@ -477,7 +484,7 @@ class Instance
     /**
      * Get ownerInstitutions
      *
-     * @return Doctrine\Common\Collections\Collection $ownerInstitutions
+     * @return Doctrine\Common\Collections\ArrayCollection $ownerInstitutions
      */
     public function getOwnerInstitutions()
     {
@@ -699,5 +706,57 @@ class Instance
     public function getCities()
     {
         return $this->cities;
+    }
+    
+    /**
+     * Set liblink
+     *
+     * @param boolean $liblink
+     * @return self
+     */
+    public function setLiblink($boolean)
+    {
+        $this->liblink = $boolean;
+        return $this;
+    }
+
+    /**
+     * Get liblink
+     *
+     * @return boolean $liblink
+     */
+    public function getLiblink()
+    {
+        return $this->liblink;
+    }
+    
+    /*Determina si la instancia es liblink, para esto se analiza tanto la instancia en si, asi como tambien todos sus padres...*/
+    public function isLiblink()
+    {
+        if($this->liblink)
+        {
+            return true;
+        }
+        else 
+        {
+            $parents = $this->getOwnerInstitutions();
+            $pos = 0;
+            $liblink = false;
+            $parent = new Institution();
+                /*MEJORAR CODIGO*/    
+                /*Recorro los padres*/
+                while ((!$liblink) && ($pos++ <= count($parents)))
+                {
+                    $parent = $parents->current();
+                    if($parent instanceof Institution)
+                    {
+                        $liblink = $parent->isLiblink();
+                    }
+                    $parents->next();
+                }
+                return $liblink;
+        
+        }
+        
     }
 }

@@ -11,6 +11,11 @@
         <div class="accordion-heading">
             <a href="#collapse{{ order.code }}" data-parent="#code{{ order.code }}" data-toggle="collapse" class="accordion-toggle">
                 <span>{{ order.code }} - {{ order.materialData.title }}</span>
+                
+                {% if (order.liblink) %}
+                    <span> --LIBLINK-- </span>
+                {% endif %}
+                
                 {% block extrainfo %}{% endblock %}
             </a>
         </div>

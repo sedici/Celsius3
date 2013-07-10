@@ -22,7 +22,6 @@ class Order
      */
     private $code;
     /**
-
      * @Assert\NotBlank(groups={"newOrder"})
      * @MongoDB\String
      */
@@ -122,6 +121,13 @@ class Order
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="order")
      */
     private $states;
+    
+     /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $liblink = false;
 
     public function __toString()
     {
@@ -558,6 +564,8 @@ class Order
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+        /*Se define si el pedido es o no liblink, en base a la instancia relacionada al mismo*/
+        $this->liblink = $instance->isLiblink();
         return $this;
     }
 
@@ -659,5 +667,27 @@ class Order
     public function getStates()
     {
         return $this->states;
+    }
+    
+    /**
+     * Set liblink
+     *
+     * @param boolean $liblink
+     * @return self
+     */
+    public function setLiblink($boolean)
+    {
+        $this->liblink = $boolean;
+        return $this;
+    }
+
+    /**
+     * Get liblink
+     *
+     * @return boolean $liblink
+     */
+    public function getLiblink()
+    {
+        return $this->liblink;
     }
 }

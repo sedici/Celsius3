@@ -76,6 +76,13 @@ class Institution extends Provider
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
+    
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $liblink = false;
 
     public function __toString()
     {
@@ -419,5 +426,42 @@ class Institution extends Provider
     public function getCelsiusInstance()
     {
         return $this->celsiusInstance;
+    }
+    
+    /**
+     * Set liblink
+     *
+     * @param boolean $liblink
+     * @return self
+     */
+    public function setLiblink($boolean)
+    {
+        $this->liblink = $boolean;
+        return $this;
+    }
+
+    /**
+     * Get liblink
+     *
+     * @return boolean $liblink
+     */
+    public function getLiblink()
+    {
+        return $this->liblink;
+    }
+    
+    /*Determina si la institucion es liblink*/
+    public function isLiblink()
+    {
+        if($this->liblink())
+        {
+            return true;
+        }
+        else 
+        {
+            $parent = $this->getParent();
+            return $parent->isLiblink();
+        }
+        
     }
 }

@@ -132,7 +132,16 @@ class UserOrderController extends OrderController
             $type = new OrderType($this->getInstance(),
                     $this->getMaterialType(), $this->getUser());
         }
-
+     
+ /*       if (getCurrentRole){
+        //if ($this->getUser() instanceof Librarian) {
+            $type = new LibrarianOrderType($this->getInstance(),
+                    $this->getMaterialType(), $this->getUser());
+        } else {
+            $type = new OrderType($this->getInstance(),
+                    $this->getMaterialType(), $this->getUser());
+        }
+   */     
         return $this->baseCreate('Order', new Order(), $type, 'user_order');
     }
 

@@ -23,6 +23,7 @@
             </form>
         </li>
         {% endif %}
+
         {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED'),
         constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] %}
         <li>
