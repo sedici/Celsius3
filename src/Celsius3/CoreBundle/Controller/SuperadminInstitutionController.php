@@ -1,6 +1,6 @@
 <?php
-
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,6 +15,7 @@ use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
  */
 class SuperadminInstitutionController extends BaseController
 {
+
     /**
      * Lists all Institution documents.
      *
@@ -25,9 +26,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Institution',
-                        $this->createForm(new InstitutionFilterType()));
+        return $this->baseIndex('Institution', $this->createForm(new InstitutionFilterType()));
     }
 
     /**
@@ -40,9 +39,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Institution', new Institution(),
-                        new InstitutionType());
+        return $this->baseNew('Institution', new Institution(), new InstitutionType());
     }
 
     /**
@@ -56,9 +53,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Institution', new Institution(),
-                        new InstitutionType(), 'superadmin_institution');
+        return $this->baseCreate('Institution', new Institution(), new InstitutionType(), 'superadmin_institution');
     }
 
     /**
@@ -66,8 +61,10 @@ class SuperadminInstitutionController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_institution_edit")
      * @Template()
-     * @param string $id The document ID
      *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -84,17 +81,16 @@ class SuperadminInstitutionController extends BaseController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminInstitution:edit.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Institution', $id, new InstitutionType(),
-                        'superadmin_institution');
+        return $this->baseUpdate('Institution', $id, new InstitutionType(), 'superadmin_institution');
     }
 
     /**
@@ -103,8 +99,9 @@ class SuperadminInstitutionController extends BaseController
      * @Route("/{id}/delete", name="superadmin_institution_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -115,18 +112,20 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Displays a list to unify a group of Institution documents.
+     * Batch actions.
      *
-     * @Route("/union", name="superadmin_institution_union")
-     * @Method("post")
-     * @Template()
+     * @Route("/batch", name="superadmin_institution_batch")
      *
      * @return array
      */
-    public function unionAction()
+    public function batchAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('Institution', $element_ids);
+        return $this->baseBatch();
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:SuperadminInstitution:batchUnion.html.twig', $this->baseUnion('Institution', $element_ids));
     }
 
     /**
@@ -141,9 +140,6 @@ class SuperadminInstitutionController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
-        return $this
-                ->baseDoUnion('Institution', $element_ids, $main_id,
-                        'superadmin_institution');
+        return $this->baseDoUnion('Institution', $element_ids, $main_id, 'superadmin_institution');
     }
-
 }

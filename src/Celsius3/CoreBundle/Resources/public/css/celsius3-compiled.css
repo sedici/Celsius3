@@ -1,0 +1,217 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+.footer {
+  border-top: 1px solid #E5E5E5;
+  margin-top: 45px;
+  padding: 35px 10px 10px;
+}
+.dash,
+.state-list {
+  text-align: center;
+}
+.state-list {
+  list-style: none outside none;
+  margin-left: -20px;
+}
+.state-list li {
+  display: inline-block;
+  width: 16%;
+}
+.state-list li a.pointer {
+  cursor: pointer;
+}
+.state-list li a.disabled {
+  color: #6c6159;
+}
+.state-list li a:hover {
+  text-decoration: none;
+}
+.actions {
+  margin-top: -27px;
+  margin-right: 5px;
+  margin-bottom: 0px;
+}
+.sorting-group {
+  margin-bottom: 5px;
+}
+.actions > li,
+.sorting-group li,
+.sorting-group > ul {
+  display: inline;
+}
+.dl-horizontal dt {
+  width: 150px;
+}
+.dl-horizontal dd {
+  margin-left: 160px;
+}
+.disabled-instance {
+  background-color: #F2DEDE;
+}
+.tinymce {
+  width: 650px;
+  height: 200px;
+}
+.filter-form input,
+.filter-form select {
+  width: 140px;
+}
+.book {
+  background-color: #B0E0E6;
+}
+.congress {
+  background-color: #98FB98;
+}
+.journal {
+  background-color: #FFDAB9;
+}
+.patent {
+  background-color: #D8BFD8;
+}
+.thesis {
+  background-color: #EEE8AA;
+}
+.batch-checkbox {
+  margin: 10px 5px 0 10px ! important;
+}
+#search-form,
+#receive-form,
+#deliver-form {
+  margin-bottom: 0px;
+}
+.inline {
+  display: inline;
+}
+.tree {
+  margin-left: 20px;
+}
+.expand-tree,
+.collapse-tree {
+  cursor: pointer;
+}
+.modal {
+  text-align: left;
+}
+.inline-form {
+  display: inline;
+}
+.accordion-heading > .label {
+  margin-top: -27px;
+  margin-right: 5px;
+}
+.inline-block {
+  display: inline-block;
+}
+.dl-accordion {
+  margin-top: -20px;
+  margin-bottom: -20px;
+}
+.message-heading {
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #E5E5E5;
+  padding: 8px 15px;
+}
+.message-read {
+  background: #DCDCDC;
+}
+.message-creator {
+  text-align: center;
+  margin-left: -5px;
+}
+.message-subject {
+  height: 20px;
+}
+.btn-group-list li {
+  margin-bottom: 5px;
+}
+.btn-group-list li a:first-child {
+  width: 150px;
+  text-align: left;
+}
+.message-sender {
+  font-weight: bold;
+}
+.message-header {
+  margin-bottom: 10px;
+}
+.user-dropdown {
+  max-width: 60px;
+}
+#notifications.dropdown {
+  display: inline-block;
+}
+.notification-date {
+  font-size: 11px;
+  float: right;
+}
+#notifications .dropdown-menu {
+  overflow-y: scroll;
+  height: auto;
+}
+#notifications .dropdown-menu li {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  margin-bottom: -5px;
+  padding-bottom: -5px;
+  height: 6px;
+}
+.notification-last-item {
+  font-size: 12px;
+  float: right;
+  padding-right: 5px;
+  margin-right: 5px;
+  height: 5px;
+}
+.select2-container {
+  width: 75%;
+}
+.starter-message {
+  background-color: #FFFFFF;
+}
+.catalog-table .catalog-data {
+  width: 250px;
+}
+.catalog-table .catalog-result,
+.catalog-table .catalog-marker,
+.catalog-table .catalog-actions {
+  width: 100px;
+}
+.list-horizontal li {
+  display: inline-block;
+}
+.children_option {
+  font-size: 12px;
+}
+.root_option {
+  font-size: 13px;
+  font-weight: bold;
+}
+.notification-list li {
+  white-space: nowrap;
+}
+.level0 {
+  padding: 0px 0px;
+}
+.level1 {
+  padding: 0px 20px;
+}
+.level2 {
+  padding: 0px 35px;
+}
+.level3 {
+  padding: 0px 50px;
+}
+.level4 {
+  padding: 0px 65px;
+}
+.level5 {
+  padding: 0px 80px;
+}
+.level5 {
+  padding: 0px 95px;
+}

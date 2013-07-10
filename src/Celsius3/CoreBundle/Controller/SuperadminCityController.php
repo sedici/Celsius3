@@ -1,6 +1,6 @@
 <?php
-
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,8 +26,7 @@ class SuperadminCityController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('City', $this->createForm(new CityFilterType()));
+        return $this->baseIndex('City', $this->createForm(new CityFilterType()));
     }
 
     /**
@@ -54,9 +53,7 @@ class SuperadminCityController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('City', new City(), new CityType(),
-                        'superadmin_city');
+        return $this->baseCreate('City', new City(), new CityType(), 'superadmin_city');
     }
 
     /**
@@ -64,8 +61,10 @@ class SuperadminCityController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_city_edit")
      * @Template()
-     * @param string $id The document ID
      *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -82,16 +81,16 @@ class SuperadminCityController extends BaseController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCity:edit.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('City', $id, new CityType(), 'superadmin_city');
+        return $this->baseUpdate('City', $id, new CityType(), 'superadmin_city');
     }
 
     /**
@@ -100,8 +99,9 @@ class SuperadminCityController extends BaseController
      * @Route("/{id}/delete", name="superadmin_city_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -112,18 +112,20 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Displays a list to unify a group of City documents.
+     * Batch actions.
      *
-     * @Route("/union", name="superadmin_city_union")
-     * @Method("post")
-     * @Template()
+     * @Route("/batch", name="superadmin_city_batch")
      *
      * @return array
      */
-    public function unionAction()
+    public function batchAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('City', $element_ids);
+        return $this->baseBatch();
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:SuperadminCity:batchUnion.html.twig', $this->baseUnion('City', $element_ids));
     }
 
     /**
@@ -138,8 +140,6 @@ class SuperadminCityController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
-        return $this
-                ->baseDoUnion('City', $element_ids, $main_id, 'superadmin_city');
+        return $this->baseDoUnion('City', $element_ids, $main_id, 'superadmin_city');
     }
-
 }

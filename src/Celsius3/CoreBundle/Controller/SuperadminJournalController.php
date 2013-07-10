@@ -1,6 +1,6 @@
 <?php
-
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,6 +15,7 @@ use Celsius3\CoreBundle\Filter\Type\JournalFilterType;
  */
 class SuperadminJournalController extends BaseController
 {
+
     /**
      * Lists all Journal documents.
      *
@@ -25,9 +26,7 @@ class SuperadminJournalController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Journal',
-                        $this->createForm(new JournalFilterType()));
+        return $this->baseIndex('Journal', $this->createForm(new JournalFilterType()));
     }
 
     /**
@@ -54,9 +53,7 @@ class SuperadminJournalController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Journal', new Journal(), new JournalType(),
-                        'superadmin_journal');
+        return $this->baseCreate('Journal', new Journal(), new JournalType(), 'superadmin_journal');
     }
 
     /**
@@ -64,8 +61,10 @@ class SuperadminJournalController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_journal_edit")
      * @Template()
-     * @param string $id The document ID
      *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -82,17 +81,16 @@ class SuperadminJournalController extends BaseController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminJournal:edit.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Journal', $id, new JournalType(),
-                        'superadmin_journal');
+        return $this->baseUpdate('Journal', $id, new JournalType(), 'superadmin_journal');
     }
 
     /**
@@ -101,8 +99,9 @@ class SuperadminJournalController extends BaseController
      * @Route("/{id}/delete", name="superadmin_journal_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -113,18 +112,20 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Displays a list to unify a group of Journal documents.
+     * Batch actions.
      *
-     * @Route("/union", name="superadmin_journal_union")
-     * @Method("post")
-     * @Template()
+     * @Route("/batch", name="superadmin_journal_batch")
      *
      * @return array
      */
-    public function unionAction()
+    public function batchAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('Journal', $element_ids);
+        return $this->baseBatch();
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:SuperadminJournal:batchUnion.html.twig', $this->baseUnion('Journal', $element_ids));
     }
 
     /**
@@ -139,9 +140,6 @@ class SuperadminJournalController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
-        return $this
-                ->baseDoUnion('Journal', $element_ids, $main_id,
-                        'superadmin_journal');
+        return $this->baseDoUnion('Journal', $element_ids, $main_id, 'superadmin_journal');
     }
-
 }

@@ -1,7 +1,9 @@
 {% extends 'Celsius3CoreBundle:BaseUser:_index_fields.html.twig' %}
 
 {% block batchform %}
-<form class="batch_form" action="{{ path('admin_user_union') }}" method="post">
+{% include 'Celsius3CoreBundle:Layout:_batch.html.twig' %}
+<form class="batch_form" action="{{ path('admin_user_batch') }}" method="post">
+<input type="hidden" id="batch-action" name="action" value=""></input>
 {% endblock %}
 
 {% block endbatchform %}

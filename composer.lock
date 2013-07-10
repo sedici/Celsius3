@@ -785,26 +785,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "025e8514c179573ff3c1cb6284ea7196425be1ef"
+                "reference": "71ab148085ac8f30ba4eaaefab593dcd1c40579d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/025e8514c179573ff3c1cb6284ea7196425be1ef",
-                "reference": "025e8514c179573ff3c1cb6284ea7196425be1ef",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/71ab148085ac8f30ba4eaaefab593dcd1c40579d",
+                "reference": "71ab148085ac8f30ba4eaaefab593dcd1c40579d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/form": ">=2.1,<3.0",
-                "symfony/framework-bundle": ">=2.1,<3.0",
-                "symfony/security-bundle": ">=2.1,<3.0"
+                "symfony/form": "~2.1",
+                "symfony/framework-bundle": "~2.1",
+                "symfony/security-bundle": "~2.1"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "*",
                 "swiftmailer/swiftmailer": ">=4.3, <6.0",
-                "symfony/validator": ">=2.1,<3.0",
-                "symfony/yaml": ">=2.1,<3.0",
-                "twig/twig": ">=1.5,<2.0",
+                "symfony/validator": "~2.1",
+                "symfony/yaml": "~2.1",
+                "twig/twig": "~1.5",
                 "willdurand/propel-typehintable-behavior": "dev-master"
             },
             "suggest": {
@@ -845,7 +845,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-06-28 18:43:05"
+            "time": "2013-07-08 14:36:01"
         },
         {
             "name": "fzaninotto/faker",
@@ -853,12 +853,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "cf749f1e40950873726ba437cbd36f1a5a1d5ad1"
+                "reference": "33ea3dd01aa452d3a38684851cf7f216497d9270"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/cf749f1e40950873726ba437cbd36f1a5a1d5ad1",
-                "reference": "cf749f1e40950873726ba437cbd36f1a5a1d5ad1",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/33ea3dd01aa452d3a38684851cf7f216497d9270",
+                "reference": "33ea3dd01aa452d3a38684851cf7f216497d9270",
                 "shasum": ""
             },
             "require": {
@@ -891,7 +891,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-07-01 12:57:31"
+            "time": "2013-07-10 15:38:09"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1448,8 +1448,8 @@
                 "shasum": ""
             },
             "require": {
-                "jms/translation-bundle": ">=1.0,<2.0",
-                "symfony/framework-bundle": ">=2.1,<3.0"
+                "jms/translation-bundle": "~1.0",
+                "symfony/framework-bundle": "~2.1"
             },
             "require-dev": {
                 "jms/di-extra-bundle": "*",

@@ -130,9 +130,11 @@ if (user_exists) {
 	});
 }
 
-$('.union_link').click(function() {
-	if ($('input[type=checkbox]:checked').length >= 2)
+$('.union_link, .enable_link').click(function() {
+	$('#batch-action').val($(this).attr('class').split('_')[0]);
+	if ($('input[type=checkbox]:checked').length >= 2) {
 		$('.batch_form').submit();
+	}
 });
 
 /*
@@ -183,7 +185,7 @@ $('.add-file').click(
  * Select especial para mensajes
  */
 $('#message_recipients').select2({
-    placeholder: ''
+	placeholder : ''
 });
 
 /*
@@ -205,4 +207,15 @@ $(document).on('click', '.submit-form', function() {
 
 $(document).on('click', '.doSubmit', function() {
 	$($(this).attr('value')).submit();
+});
+
+/*
+ * Form batch selection
+ */
+$('.check-all').click(function() {
+	$('.batch-checkbox').prop('checked', 'checked');
+});
+
+$('.uncheck-all').click(function() {
+	$('.batch-checkbox').prop('checked', '');
 });

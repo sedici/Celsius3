@@ -1,6 +1,6 @@
 <?php
-
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,9 +26,7 @@ class SuperadminCountryController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Country',
-                        $this->createForm(new CountryFilterType()));
+        return $this->baseIndex('Country', $this->createForm(new CountryFilterType()));
     }
 
     /**
@@ -55,9 +53,7 @@ class SuperadminCountryController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Country', new Country(), new CountryType(),
-                        'superadmin_country');
+        return $this->baseCreate('Country', new Country(), new CountryType(), 'superadmin_country');
     }
 
     /**
@@ -65,8 +61,10 @@ class SuperadminCountryController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_country_edit")
      * @Template()
-     * @param string $id The document ID
-     *
+     * 
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -83,17 +81,16 @@ class SuperadminCountryController extends BaseController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCountry:edit.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Country', $id, new CountryType(),
-                        'superadmin_country');
+        return $this->baseUpdate('Country', $id, new CountryType(), 'superadmin_country');
     }
 
     /**
@@ -102,8 +99,9 @@ class SuperadminCountryController extends BaseController
      * @Route("/{id}/delete", name="superadmin_country_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -112,20 +110,22 @@ class SuperadminCountryController extends BaseController
     {
         return $this->baseDelete('Country', $id, 'superadmin_country');
     }
-
+    
     /**
-     * Displays a list to unify a group of Country documents.
+     * Batch actions.
      *
-     * @Route("/union", name="superadmin_country_union")
-     * @Method("post")
-     * @Template()
+     * @Route("/batch", name="superadmin_country_batch")
      *
      * @return array
      */
-    public function unionAction()
+    public function batchAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('Country', $element_ids);
+        return $this->baseBatch();
+    }
+    
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:SuperadminCountry:batchUnion.html.twig', $this->baseUnion('Country', $element_ids));
     }
 
     /**
@@ -140,8 +140,6 @@ class SuperadminCountryController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
-        return $this
-                ->baseDoUnion('Country', $element_ids, $main_id,
-                        'superadmin_country');
+        return $this->baseDoUnion('Country', $element_ids, $main_id, 'superadmin_country');
     }
 }

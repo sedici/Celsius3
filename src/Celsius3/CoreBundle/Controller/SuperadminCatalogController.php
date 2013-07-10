@@ -1,6 +1,6 @@
 <?php
-
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,9 +26,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Catalog',
-                        $this->createForm(new CatalogFilterType()));
+        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType()));
     }
 
     /**
@@ -55,9 +53,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Catalog', new Catalog(), new CatalogType(),
-                        'superadmin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), new CatalogType(), 'superadmin_catalog');
     }
 
     /**
@@ -65,8 +61,10 @@ class SuperadminCatalogController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_catalog_edit")
      * @Template()
-     * @param string $id The document ID
      *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -83,17 +81,16 @@ class SuperadminCatalogController extends BaseController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCatalog:edit.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Catalog', $id, new CatalogType(),
-                        'superadmin_catalog');
+        return $this->baseUpdate('Catalog', $id, new CatalogType(), 'superadmin_catalog');
     }
 
     /**
@@ -102,8 +99,9 @@ class SuperadminCatalogController extends BaseController
      * @Route("/{id}/delete", name="superadmin_catalog_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -114,18 +112,22 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Displays a list to unify a group of Catalog documents.
+     * Batch actions.
      *
-     * @Route("/union", name="superadmin_catalog_union")
-     * @Method("post")
-     * @Template()
+     * @Route("/batch", name="superadmin_catalog_batch")
      *
      * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function unionAction()
+    public function batchAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('Catalog', $element_ids);
+        return $this->baseBatch();
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:SuperadminCatalog:batchUnion.html.twig', $this->baseUnion('Catalog', $element_ids));
     }
 
     /**
@@ -140,9 +142,6 @@ class SuperadminCatalogController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
-        return $this
-                ->baseDoUnion('Catalog', $element_ids, $main_id,
-                        'superadmin_catalog');
+        return $this->baseDoUnion('Catalog', $element_ids, $main_id, 'superadmin_catalog');
     }
-
 }

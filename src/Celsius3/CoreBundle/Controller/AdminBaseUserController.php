@@ -1,6 +1,6 @@
 <?php
-
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -8,6 +8,7 @@ use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * BaseUser controller.
@@ -27,12 +28,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('BaseUser',
-                        $this
-                                ->createForm(
-                                        new BaseUserFilterType(
-                                                $this->getInstance())));
+        return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType($this->getInstance())));
     }
 
     /**
@@ -45,10 +41,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('BaseUser', new BaseUser(),
-                        new BaseUserType($this->getDocumentManager(),
-                                $this->getInstance()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -64,31 +57,31 @@ class AdminBaseUserController extends BaseUserController
     {
         $request = $this->getRequest();
         $document = new BaseUser();
-        $form = $this
-                ->createForm(
-                        new BaseUserType($this->getDocumentManager(),
-                                $this->getInstance()), $document);
+        $form = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
         $form->bind($request);
-
+        
         if ($form->isValid()) {
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
-
-            $this->get('celsius3_core.custom_field_helper')
-                    ->processCustomFields($this->getInstance(), $form,
-                            $document);
-
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'The BaseUser was successfully created.');
-
+            
+            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $document);
+            
+            $this->get('session')
+                ->getFlashBag()
+                ->add('success', 'The BaseUser was successfully created.');
+            
             return $this->redirect($this->generateUrl('admin_user'));
         }
-
-        $this->get('session')->getFlashBag()
-                ->add('error', 'There were errors creating the BaseUser.');
-
-        return array('document' => $document, 'form' => $form->createView());
+        
+        $this->get('session')
+            ->getFlashBag()
+            ->add('error', 'There were errors creating the BaseUser.');
+        
+        return array(
+            'document' => $document,
+            'form' => $form->createView()
+        );
     }
 
     /**
@@ -97,18 +90,16 @@ class AdminBaseUserController extends BaseUserController
      * @Route("/{id}/edit", name="admin_user_edit")
      * @Template()
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('BaseUser', $id,
-                        new BaseUserType($this->getDocumentManager(),
-                                $this->getInstance()));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -118,8 +109,9 @@ class AdminBaseUserController extends BaseUserController
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminBaseUser:edit.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -127,46 +119,43 @@ class AdminBaseUserController extends BaseUserController
     public function updateAction($id)
     {
         $document = $this->findQuery('BaseUser', $id);
-
-        if (!$document) {
+        
+        if (! $document) {
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
-
-        $editForm = $this
-                ->createForm(
-                        new BaseUserType($this->getDocumentManager(),
-                                $this->getInstance()), $document);
+        
+        $editForm = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
         $deleteForm = $this->createDeleteForm($id);
-
+        
         $request = $this->getRequest();
-
+        
         $editForm->bind($request);
-
+        
         if ($editForm->isValid()) {
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
-
-            $this->get('celsius3_core.custom_field_helper')
-                    ->processCustomFields($this->getInstance(), $editForm,
-                            $document);
-
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'The BaseUser was successfully edited.');
-
-            return $this
-                    ->redirect(
-                            $this
-                                    ->generateUrl('admin_user_edit',
-                                            array('id' => $id)));
+            
+            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $document);
+            
+            $this->get('session')
+                ->getFlashBag()
+                ->add('success', 'The BaseUser was successfully edited.');
+            
+            return $this->redirect($this->generateUrl('admin_user_edit', array(
+                'id' => $id
+            )));
         }
-
-        $this->get('session')->getFlashBag()
-                ->add('error', 'There were errors editing the BaseUser.');
-
-        return array('document' => $document,
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),);
+        
+        $this->get('session')
+            ->getFlashBag()
+            ->add('error', 'There were errors editing the BaseUser.');
+        
+        return array(
+            'document' => $document,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView()
+        );
     }
 
     /**
@@ -175,8 +164,9 @@ class AdminBaseUserController extends BaseUserController
      * @Route("/{id}/delete", name="admin_user_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -192,17 +182,16 @@ class AdminBaseUserController extends BaseUserController
      * @Route("/{id}/transform", name="admin_user_transform")
      * @Template()
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function transformAction($id)
     {
-        return $this
-                ->baseTransformAction($id,
-                        new UserTransformType($this->getInstance()));
+        return $this->baseTransformAction($id, new UserTransformType($this->getInstance()));
     }
 
     /**
@@ -212,18 +201,16 @@ class AdminBaseUserController extends BaseUserController
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminBaseUser:transform.html.twig")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function doTransformAction($id)
     {
-        return $this
-                ->baseDoTransformAction($id,
-                        new UserTransformType($this->getInstance()),
-                        'admin_user');
+        return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance()), 'admin_user');
     }
 
     /**
@@ -231,8 +218,9 @@ class AdminBaseUserController extends BaseUserController
      *
      * @Route("/{id}/enable", name="admin_user_enable")
      *
-     * @param string $id The document ID
-     *
+     * @param string $id
+     *            The document ID
+     *            
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -243,24 +231,31 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a list to unify a group of BaseUser documents.
+     * Batch actions.
      *
-     * @Route("/union", name="admin_user_union")
-     * @Method("post")
-     * @Template()
+     * @Route("/batch", name="admin_user_batch")
      *
      * @return array
      */
-    public function unionAction()
+    public function batchAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        return $this->baseUnion('BaseUser', $element_ids);
+        return $this->baseBatch();
+    }
+
+    protected function batchEnable($element_ids)
+    {
+        return $this->baseBatchEnable($element_ids);
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:batchUnion.html.twig', $this->baseUnion('BaseUser', $element_ids));
     }
 
     /**
      * Unifies a group of Journal documents.
      *
-     * @Route("/doUnion", name="admin_user_doUnion")
+     * @Route("/batch/doUnion", name="admin_user_doUnion")
      * @Method("post")
      *
      * @return array
@@ -269,9 +264,6 @@ class AdminBaseUserController extends BaseUserController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
-        return $this
-                ->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user',
-                        false);
+        return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }
-
 }

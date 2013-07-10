@@ -5,7 +5,9 @@
     {% include 'Celsius3CoreBundle:SuperadminJournal:_index_sort.html.twig' %}
 </div>
 <div class="clearfix"></div>
-<form class="batch_form" action="{{ path('superadmin_journal_union') }}" method="post">
+{% include 'Celsius3CoreBundle:Layout:_batch.html.twig' %}
+<form class="batch_form" action="{{ path('superadmin_journal_batch') }}" method="post">
+    <input type="hidden" id="batch-action" name="action" value=""></input>
     {% for journal in pagination %}
     <div id="id{{ journal.id }}" class="accordion">
         <div class="accordion-group">
