@@ -7,7 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\BaseUser;
+use JMS\TranslationBundle\Annotation\Ignore;
 
+/** @Ignore */
 class OrderFilterType extends AbstractType
 {
 
@@ -37,25 +39,23 @@ class OrderFilterType extends AbstractType
                                 'choices' => array('' => '', 0 => 'Provision',
                                         1 => 'Search',),))
                 ->add('state', 'choice',
-                        array('required' => false,
-                                'choices' => array(
-                                        StateManager::STATE__CREATED => ucfirst(
+                       array('required' => false,
+                			 'choices' => array( 
+                                        /** @Ignore */ StateManager::STATE__CREATED => ucfirst(
                                                 StateManager::STATE__CREATED),
-                                        StateManager::STATE__SEARCHED => ucfirst(
+                                        /** @Ignore */ StateManager::STATE__SEARCHED => ucfirst(
                                                 StateManager::STATE__SEARCHED),
-                                        StateManager::STATE__REQUESTED => ucfirst(
+                                        /** @Ignore */ StateManager::STATE__REQUESTED => ucfirst(
                                                 StateManager::STATE__REQUESTED),
-                                        StateManager::STATE__APPROVAL_PENDING => str_replace(
-                                                '_', ' ',
-                                                ucfirst(
+                                        /** @Ignore */ StateManager::STATE__APPROVAL_PENDING => str_replace( '_', ' ',ucfirst(
                                                         StateManager::STATE__APPROVAL_PENDING)),
-                                        StateManager::STATE__RECEIVED => ucfirst(
+                                        /** @Ignore */ StateManager::STATE__RECEIVED => ucfirst(
                                                 StateManager::STATE__RECEIVED),
-                                        StateManager::STATE__DELIVERED => ucfirst(
+                                        /** @Ignore */ StateManager::STATE__DELIVERED => ucfirst(
                                                 StateManager::STATE__DELIVERED),
-                                        StateManager::STATE__CANCELLED => ucfirst(
+                                        /** @Ignore */ StateManager::STATE__CANCELLED => ucfirst(
                                                 StateManager::STATE__CANCELLED),
-                                        StateManager::STATE__ANNULLED => ucfirst(
+                                        /** @Ignore */ StateManager::STATE__ANNULLED => ucfirst(
                                                 StateManager::STATE__ANNULLED),),
                                 'multiple' => true, 'expanded' => true,));
 

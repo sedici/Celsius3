@@ -9,7 +9,7 @@ class UnionManager
     private $dm;
 
     /**
-     * @fixme Deberia modificarse este array y realizar un procesamiento de los
+     * FIXME Deberia modificarse este array y realizar un procesamiento de los
      * documentos para detectar las relaciones de forma automatica
      */
     private $references = array(

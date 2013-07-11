@@ -8,6 +8,7 @@ use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\BaseUser;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 class OrderType extends AbstractType
 {
@@ -36,9 +37,9 @@ class OrderType extends AbstractType
                 ->add('type', 'choice',
                         array(
                                 'choices' => array(
-                                        OrderManager::TYPE__SEARCH => ucfirst(
+                                         /** @Ignore */OrderManager::TYPE__SEARCH => ucfirst(
                                                 OrderManager::TYPE__SEARCH),
-                                        OrderManager::TYPE__PROVISION => ucfirst(
+                                         /** @Ignore */OrderManager::TYPE__PROVISION => ucfirst(
                                                 OrderManager::TYPE__PROVISION),),))
                 ->add('comments', 'textarea', array('required' => false))
                 ->add('owner', 'celsius3_corebundle_user_selector',
@@ -51,15 +52,15 @@ class OrderType extends AbstractType
                 ->add('materialDataType', 'choice',
                         array(
                                 'choices' => array(
-                                        MaterialTypeManager::TYPE__JOURNAL => ucfirst(
+                                        /** @Ignore */MaterialTypeManager::TYPE__JOURNAL => ucfirst(
                                                 MaterialTypeManager::TYPE__JOURNAL),
-                                        MaterialTypeManager::TYPE__BOOK => ucfirst(
+                                        /** @Ignore */MaterialTypeManager::TYPE__BOOK => ucfirst(
                                                 MaterialTypeManager::TYPE__BOOK),
-                                        MaterialTypeManager::TYPE__CONGRESS => ucfirst(
+                                        /** @Ignore */MaterialTypeManager::TYPE__CONGRESS => ucfirst(
                                                 MaterialTypeManager::TYPE__CONGRESS),
-                                        MaterialTypeManager::TYPE__THESIS => ucfirst(
+                                        /** @Ignore */MaterialTypeManager::TYPE__THESIS => ucfirst(
                                                 MaterialTypeManager::TYPE__THESIS),
-                                        MaterialTypeManager::TYPE__PATENT => ucfirst(
+                                        /** @Ignore */MaterialTypeManager::TYPE__PATENT => ucfirst(
                                                 MaterialTypeManager::TYPE__PATENT),),
                                 'mapped' => false,
                                 'data' => $this->preferredMaterial,

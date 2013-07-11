@@ -13,7 +13,7 @@ class OrderReceiveType extends AbstractType
     {
         $builder
                 ->add('deliverytype', 'choice',
-                        array('choices' => array('PDF', 'Printed',),
+                        array('choices' => array('PDF'=>'PDF', 'Printed' => 'Printed'),
                                 'label' => 'Delivery Type'))
                 ->add('observations', 'textarea', array('required' => false,))
                 ->add('files', 'collection',

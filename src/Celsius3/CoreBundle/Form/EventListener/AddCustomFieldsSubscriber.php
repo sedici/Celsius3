@@ -73,7 +73,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                                     ->createNamed($field->getKey(), 'text',
                                             $value ? $value->getValue() : null,
                                             array(
-                                                    'label' => ucfirst(
+                                                  /** @Ignore */  'label' => ucfirst(
                                                             $field->getName()),
                                                     'required' => $field
                                                             ->getRequired(),

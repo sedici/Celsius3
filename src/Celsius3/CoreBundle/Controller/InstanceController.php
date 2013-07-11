@@ -24,7 +24,7 @@ abstract class InstanceController extends BaseController
                                             ->get(
                                                     'celsius3_core.configuration_helper')
                                             ->getCastedValue($configuration),
-                                    'label' => $configuration->getName(),
+                                    /** @Ignore */ 'label' => $configuration->getName(),
                                     'required' => false,
                                     'attr' => array(
                                             'class' => $this
@@ -61,7 +61,7 @@ abstract class InstanceController extends BaseController
                                     'attr' => array(
                                             'value' => $configuration
                                                     ->getValue(),),
-                                    'label' => $configuration->getName(),));
+                                    /** @Ignore */'label' => $configuration->getName(),));
         }
 
         $configureForm = $builder->getForm();
