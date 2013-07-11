@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
@@ -32,23 +33,24 @@ class RegistrationFormType extends BaseType
     {
         parent::buildForm($builder, $options);
 
-        // add your custom field
-        $builder->add('name', null, array('label' => 'Name'))->add('surname')
-                ->add('birthdate', 'birthday',
-                        array('widget' => 'single_text',
-                                'format' => 'dd-MM-yyyy',
-                                'attr' => array('class' => 'date')))
+        $builder
+                ->add('name', null, array('label' => 'Name'))->add('surname')
+                ->add('birthdate', 'birthday', array(
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => array(
+                        'class' => 'date'
+                    ),
+                ))
                 ->add('address')
-                ->add('instance', 'celsius3_corebundle_instance_selector',
-                        array('data' => $this->instance,
-                                'attr' => array(
-                                        'value' => $this->instance->getId(),
-                                        'readonly' => 'readonly',),));
+                ->add('instance', 'celsius3_corebundle_instance_selector', array('data' => $this->instance,
+                    'attr' => array(
+                        'value' => $this->instance->getId(),
+                        'readonly' => 'readonly',),));
         $subscriber = new AddCustomFieldsSubscriber(
                 $builder->getFormFactory(), $this->dm, $this->instance, true);
         $builder->addEventSubscriber($subscriber);
-        $subscriber2 = new AddInstitutionFieldsSubscriber(
-                $builder->getFormFactory(), $this->dm);
+        $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
         $builder->addEventSubscriber($subscriber2);
     }
 

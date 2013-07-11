@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\DataFixtures\MongoDB;
+
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,25 +25,57 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
 
     private $container;
     private $configurations = array(
-            'instance_title' => array('name' => 'Title',
-                    'value' => 'Default title', 'type' => 'string',),
-            'results_per_page' => array('name' => 'Results per page',
-                    'value' => '10', 'type' => 'integer',),
-            'email_reply_address' => array('name' => 'Reply to',
-                    'value' => 'sample@instance.edu', 'type' => 'email',),
-            'instance_description' => array('name' => 'Instance description',
-                    'value' => '', 'type' => 'text',),
-            'default_language' => array('name' => 'Default language',
-                    'value' => 'es', 'type' => 'language',),
-            'confirmation_type' => array('name' => 'Confirmation type',
-                    'value' => 'email', 'type' => 'confirmation',),
-            'mail_signature' => array('name' => 'Mail signature',
-                    'value' => '', 'type' => 'text'),);
-    private $state_types = array(StateManager::STATE__CREATED,
-            StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED,
-            StateManager::STATE__APPROVAL_PENDING,
-            StateManager::STATE__RECEIVED, StateManager::STATE__DELIVERED,
-            StateManager::STATE__CANCELLED, StateManager::STATE__ANNULLED,);
+        'instance_title' => array(
+            'name' => 'Title',
+            'value' => 'Default title',
+            'type' => 'string',
+        ),
+        'results_per_page' => array(
+            'name' => 'Results per page',
+            'value' => '10',
+            'type' => 'integer',
+        ),
+        'email_reply_address' => array(
+            'name' => 'Reply to',
+            'value' => 'sample@instance.edu',
+            'type' => 'email',
+        ),
+        'instance_description' => array(
+            'name' => 'Instance description',
+            'value' => '',
+            'type' => 'text',
+        ),
+        'default_language' => array(
+            'name' => 'Default language',
+            'value' => 'es',
+            'type' => 'language',
+        ),
+        'confirmation_type' => array(
+            'name' => 'Confirmation type',
+            'value' => 'email',
+            'type' => 'confirmation',
+        ),
+        'mail_signature' => array(
+            'name' => 'Mail signature',
+            'value' => '',
+            'type' => 'text',
+        ),
+    );
+    private $state_types = array(
+        StateManager::STATE__CREATED,
+        StateManager::STATE__SEARCHED,
+        StateManager::STATE__REQUESTED,
+        StateManager::STATE__APPROVAL_PENDING,
+        StateManager::STATE__RECEIVED,
+        StateManager::STATE__DELIVERED,
+        StateManager::STATE__CANCELLED,
+        StateManager::STATE__ANNULLED,
+    );
+    private $contact_types = array(
+        'Director',
+        'Librarian',
+        'Technician',
+    );
 
     public function setContainer(ContainerInterface $container = null)
     {
@@ -58,78 +91,71 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         $sender = $this->container->get('fos_message.sender');
 
         $material_types = array(
-                MaterialTypeManager::TYPE__JOURNAL => array(
-                        'class' => 'Celsius3\\CoreBundle\\Document\\JournalType',
-                        'fields' => array(
-                                'setVolume' => function () use ($generator)
-                                {
-                                    return $generator->randomNumber;
-                                },
-                                'setNumber' => function () use ($generator)
-                                {
-                                    return $generator->randomNumber;
-                                },
-                                'setJournal' => function () use ($generator,
-                                        $manager)
-                                {
-                                    $random = $generator
-                                            ->randomNumber(0,
-                                                    $manager
-                                                            ->getRepository(
-                                                                    'Celsius3CoreBundle:Journal')
-                                                            ->findAll()
-                                                            ->count() - 1);
+            MaterialTypeManager::TYPE__JOURNAL => array(
+                'class' => 'Celsius3\\CoreBundle\\Document\\JournalType',
+                'fields' => array(
+                    'setVolume' => function () use ($generator) {
+                        return $generator->randomNumber;
+                    },
+                    'setNumber' => function () use ($generator) {
+                        return $generator->randomNumber;
+                    },
+                    'setJournal' => function () use ($generator, $manager) {
+                        $random = $generator->randomNumber(0, $manager->getRepository('Celsius3CoreBundle:Journal')->findAll()->count() - 1);
 
-                                    return $manager
-                                            ->getRepository(
-                                                    'Celsius3CoreBundle:Journal')
-                                            ->createQueryBuilder()->limit(-1)
-                                            ->skip($random)->getQuery()
-                                            ->execute()->getNext();
-                                },),),
-                MaterialTypeManager::TYPE__BOOK => array(
-                        'class' => 'Celsius3\\CoreBundle\\Document\\BookType',
-                        'fields' => array(
-                                'setEditor' => function () use ($generator)
-                                {
-                                    return $generator->company;
-                                },
-                                'setChapter' => function () use ($generator)
-                                {
-                                    return $generator->randomNumber;
-                                },
-                                'setISBN' => function () use ($generator)
-                                {
-                                    return $generator->randomNumber(13);
-                                },),),
-                MaterialTypeManager::TYPE__PATENT => array(
-                        'class' => 'Celsius3\\CoreBundle\\Document\\PatentType',
-                        'fields' => array(),),
-                MaterialTypeManager::TYPE__CONGRESS => array(
-                        'class' => 'Celsius3\\CoreBundle\\Document\\CongressType',
-                        'fields' => array(
-                                'setPlace' => function () use ($generator)
-                                {
-                                    return $generator->address;
-                                },
-                                'setCommunication' => function () use (
-                                        $generator)
-                                {
-                                    return $generator->text(500);
-                                },),),
-                MaterialTypeManager::TYPE__THESIS => array(
-                        'class' => 'Celsius3\\CoreBundle\\Document\\ThesisType',
-                        'fields' => array(
-                                'setDirector' => function () use ($generator)
-                                {
-                                    return $generator->name;
-                                },
-                                'setDegree' => function () use ($generator)
-                                {
-                                    return $generator
-                                            ->randomElement(
-                                                    array('grado', 'posgrado'));
-                                },),),);
+                        return $manager
+                                        ->getRepository(
+                                                'Celsius3CoreBundle:Journal')
+                                        ->createQueryBuilder()
+                                        ->limit(-1)
+                                        ->skip($random)
+                                        ->getQuery()
+                                        ->execute()
+                                        ->getNext();
+                    },
+                ),
+            ),
+            MaterialTypeManager::TYPE__BOOK => array(
+                'class' => 'Celsius3\\CoreBundle\\Document\\BookType',
+                'fields' => array(
+                    'setEditor' => function () use ($generator) {
+                        return $generator->company;
+                    },
+                    'setChapter' => function () use ($generator) {
+                        return $generator->randomNumber;
+                    },
+                    'setISBN' => function () use ($generator) {
+                        return $generator->randomNumber(13);
+                    },
+                ),
+            ),
+            MaterialTypeManager::TYPE__PATENT => array(
+                'class' => 'Celsius3\\CoreBundle\\Document\\PatentType',
+                'fields' => array(),
+            ),
+            MaterialTypeManager::TYPE__CONGRESS => array(
+                'class' => 'Celsius3\\CoreBundle\\Document\\CongressType',
+                'fields' => array(
+                    'setPlace' => function () use ($generator) {
+                        return $generator->address;
+                    },
+                    'setCommunication' => function () use ($generator) {
+                        return $generator->text(500);
+                    },
+                ),
+            ),
+            MaterialTypeManager::TYPE__THESIS => array(
+                'class' => 'Celsius3\\CoreBundle\\Document\\ThesisType',
+                'fields' => array(
+                    'setDirector' => function () use ($generator) {
+                        return $generator->name;
+                    },
+                    'setDegree' => function () use ($generator) {
+                        return $generator->randomElement(array('grado', 'posgrado'));
+                    },
+                ),
+            ),
+        );
 
         foreach ($this->configurations as $key => $data) {
             $configuration = new Document\Configuration();
@@ -154,13 +180,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         /*
          * Migracion de PIDU
          */
-        $this->container->get('celsius3_migration.migration_manager')
-                ->migrate($this->container->getParameter('celsius2_host'),
-                        $this->container->getParameter('celsius2_username'),
-                        $this->container->getParameter('celsius2_password'),
-                        $this->container->getParameter('celsius2_database'),
-                        $this->container->getParameter('celsius2_port'),
-                        $manager);
+        $this->container->get('celsius3_migration.migration_manager')->migrate($this->container->getParameter('celsius2_host'), $this->container->getParameter('celsius2_username'), $this->container->getParameter('celsius2_password'), $this->container->getParameter('celsius2_database'), $this->container->getParameter('celsius2_port'), $manager);
 
         for ($i = 0; $i < 100; $i++) {
             $journal = new Document\Journal();
@@ -168,12 +188,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $journal->setAbbreviation(strtoupper($generator->word));
             $journal->setISSN($generator->randomNumber(8));
             $journal->setISSNE($generator->bothify('#######X'));
-            $journal
-                    ->setFrecuency(
-                            $generator
-                                    ->randomElement(
-                                            array('anual', 'semestral',
-                                                    'mensual')));
+            $journal->setFrecuency($generator->randomElement(array('anual', 'semestral', 'mensual')));
             $journal->setResponsible($generator->name);
             $manager->persist($journal);
             unset($journal);
@@ -202,6 +217,13 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         $template->setText('There\'s a new registered user called {{ user }}.');
         $manager->persist($template);
         unset($template);
+
+        foreach ($this->contact_types as $contacttype) {
+            $ct = new Document\ContactType();
+            $ct->setName($contacttype);
+            $manager->persist($ct);
+            unset($ct);
+        }
 
         /*
          * Carga de catalogos globales
@@ -271,7 +293,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
 
             /*
              * Creacion de un admin por instancia
-            */
+             */
             $admin = new Document\BaseUser();
             $admin->setName('admin' . $i);
             $admin->setSurname('admin' . $i);
@@ -315,8 +337,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                     $material
                             ->setStartPage(
                                     $generator
-                                            ->randomNumber(1,
-                                                    $material->getEndPage()));
+                                    ->randomNumber(1, $material->getEndPage()));
                     $material
                             ->setTitle(
                                     str_replace('.', '', $generator->sentence));
@@ -336,9 +357,9 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                  * Creacion de mensajes
                  */
                 $message1 = $composer->newThread()->setSender($user)
-                        ->addRecipient($admin)
-                        ->setSubject(str_replace('.', '', $generator->sentence))
-                        ->setBody($generator->text(1000))->getMessage();
+                                ->addRecipient($admin)
+                                ->setSubject(str_replace('.', '', $generator->sentence))
+                                ->setBody($generator->text(1000))->getMessage();
 
                 $sender->send($message1);
 
@@ -368,4 +389,5 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
         $manager->clear();
     }
+
 }

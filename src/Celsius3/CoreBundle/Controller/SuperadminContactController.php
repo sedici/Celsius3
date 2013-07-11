@@ -1,24 +1,25 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Contact;
-use Celsius3\CoreBundle\Form\Type\ContactType;
+use Celsius3\CoreBundle\Form\Type\SuperadminContactType;
 
 /**
  * Contact controller.
  *
- * @Route("/admin/contact")
+ * @Route("/superadmin/contact")
  */
-class ContactController extends BaseInstanceDependentController
+class SuperadminContactController extends BaseController
 {
 
     /**
      * Lists all Contact documents.
      *
-     * @Route("/", name="contact")
+     * @Route("/", name="superadmin_contact")
      * @Template()
      *
      * @return array
@@ -31,7 +32,7 @@ class ContactController extends BaseInstanceDependentController
     /**
      * Finds and displays a Contact document.
      *
-     * @Route("/{id}/show", name="contact_show")
+     * @Route("/{id}/show", name="superadmin_contact_show")
      * @Template()
      *
      * @param string $id The document ID
@@ -48,22 +49,20 @@ class ContactController extends BaseInstanceDependentController
     /**
      * Displays a form to create a new Contact document.
      *
-     * @Route("/new", name="contact_new")
+     * @Route("/new", name="superadmin_contact_new")
      * @Template()
      *
      * @return array
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Contact', new Contact(),
-                        new ContactType($this->getInstance()));
+        return $this->baseNew('Contact', new Contact(), new SuperadminContactType());
     }
 
     /**
      * Creates a new Contact document.
      *
-     * @Route("/create", name="contact_create")
+     * @Route("/create", name="superadmin_contact_create")
      * @Method("post")
      * @Template("Celsius3CoreBundle:Contact:new.html.twig")
      *
@@ -71,15 +70,13 @@ class ContactController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Contact', new Contact(),
-                        new ContactType($this->getInstance()), 'contact');
+        return $this->baseCreate('Contact', new Contact(), new SuperadminContactType(), 'superadmin_contact');
     }
 
     /**
      * Displays a form to edit an existing Contact document.
      *
-     * @Route("/{id}/edit", name="contact_edit")
+     * @Route("/{id}/edit", name="superadmin_contact_edit")
      * @Template()
      *
      * @param string $id The document ID
@@ -90,15 +87,13 @@ class ContactController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('Contact', $id,
-                        new ContactType($this->getInstance()));
+        return $this->baseEdit('Contact', $id, new SuperadminContactType());
     }
 
     /**
      * Edits an existing Contact document.
      *
-     * @Route("/{id}/update", name="contact_update")
+     * @Route("/{id}/update", name="superadmin_contact_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:Contact:edit.html.twig")
      *
@@ -110,15 +105,13 @@ class ContactController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Contact', $id,
-                        new ContactType($this->getInstance()), 'contact');
+        return $this->baseUpdate('Contact', $id, new SuperadminContactType(), 'superadmin_contact');
     }
 
     /**
      * Deletes a Contact document.
      *
-     * @Route("/{id}/delete", name="contact_delete")
+     * @Route("/{id}/delete", name="superadmin_contact_delete")
      * @Method("post")
      *
      * @param string $id The document ID
@@ -129,6 +122,7 @@ class ContactController extends BaseInstanceDependentController
      */
     public function deleteAction($id)
     {
-        return $this->baseDelete('Contact', $id, 'contact');
+        return $this->baseDelete('Contact', $id, 'superadmin_contact');
     }
+
 }

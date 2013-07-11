@@ -1,4 +1,5 @@
 <?php
+
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -8,7 +9,6 @@ use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * BaseUser controller.
@@ -59,25 +59,25 @@ class AdminBaseUserController extends BaseUserController
         $document = new BaseUser();
         $form = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
         $form->bind($request);
-        
+
         if ($form->isValid()) {
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
-            
+
             $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $document);
-            
+
             $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The BaseUser was successfully created.');
-            
+                    ->getFlashBag()
+                    ->add('success', 'The BaseUser was successfully created.');
+
             return $this->redirect($this->generateUrl('admin_user'));
         }
-        
+
         $this->get('session')
-            ->getFlashBag()
-            ->add('error', 'There were errors creating the BaseUser.');
-        
+                ->getFlashBag()
+                ->add('error', 'There were errors creating the BaseUser.');
+
         return array(
             'document' => $document,
             'form' => $form->createView()
@@ -119,38 +119,38 @@ class AdminBaseUserController extends BaseUserController
     public function updateAction($id)
     {
         $document = $this->findQuery('BaseUser', $id);
-        
-        if (! $document) {
+
+        if (!$document) {
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
-        
+
         $editForm = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
         $deleteForm = $this->createDeleteForm($id);
-        
+
         $request = $this->getRequest();
-        
+
         $editForm->bind($request);
-        
+
         if ($editForm->isValid()) {
             $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
-            
+
             $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $document);
-            
+
             $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The BaseUser was successfully edited.');
-            
+                    ->getFlashBag()
+                    ->add('success', 'The BaseUser was successfully edited.');
+
             return $this->redirect($this->generateUrl('admin_user_edit', array(
-                'id' => $id
+                                'id' => $id
             )));
         }
-        
+
         $this->get('session')
-            ->getFlashBag()
-            ->add('error', 'There were errors editing the BaseUser.');
-        
+                ->getFlashBag()
+                ->add('error', 'There were errors editing the BaseUser.');
+
         return array(
             'document' => $document,
             'edit_form' => $editForm->createView(),
@@ -266,4 +266,5 @@ class AdminBaseUserController extends BaseUserController
         $main_id = $this->getRequest()->request->get('main');
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }
+
 }

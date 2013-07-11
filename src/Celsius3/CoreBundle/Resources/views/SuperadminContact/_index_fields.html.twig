@@ -1,0 +1,23 @@
+<div class="sorting-group pull-right">
+    <span>
+        {{ 'Sort by'|trans }}: 
+    </span>
+    {% include 'Celsius3CoreBundle:SuperadminContact:_index_sort.html.twig' %}
+</div>
+<div class="clearfix"></div>
+{% for contact in pagination %}
+<div id="id{{ contact.id }}" class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a href="#collapse{{ contact.id }}" data-parent="#id{{ contact.id }}" data-toggle="collapse" class="accordion-toggle">
+                <span>{{ contact.surname ~ ', ' ~ contact.name }}</span>
+            </a>
+        </div>
+        <div class="accordion-body collapse" id="collapse{{ contact.id }}">
+            <div class="accordion-inner">
+                {% include 'Celsius3CoreBundle:SuperadminContact:_show_fields.html.twig' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

@@ -1,36 +1,38 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 abstract class BaseInstanceDependentController extends BaseController
 {
+
     protected function listQuery($name)
     {
 
-        return parent::listQuery($name)->field('instance.id')
-                ->equals($this->getInstance()->getId());
+        return parent::listQuery($name)
+                        ->field('instance.id')->equals($this->getInstance()->getId());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository($this->getBundle() . ':' . $name)
-                ->createQueryBuilder()->field('instance.id')
-                ->equals($this->getInstance()->getId())->field('id')
-                ->equals($id)->getQuery()->getSingleResult();
+                        ->getRepository($this->getBundle() . ':' . $name)
+                        ->createQueryBuilder()
+                        ->field('instance.id')->equals($this->getInstance()->getId())
+                        ->field('id')->equals($id)
+                        ->getQuery()
+                        ->getSingleResult();
     }
 
     protected function getResultsPerPage()
     {
         return $this->get('celsius3_core.configuration_helper')
-                ->getCastedValue($this->getInstance()->get('results_per_page'));
+                        ->getCastedValue($this->getInstance()->get('results_per_page'));
     }
 
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                ->filter($query, $filter_form,
-                        'Celsius3\\CoreBundle\\Document\\' . $name,
-                        $this->getInstance());
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name, $this->getInstance());
     }
 
     /**
@@ -43,4 +45,5 @@ abstract class BaseInstanceDependentController extends BaseController
 
         return $this->get('celsius3_core.instance_helper')->getSessionInstance();
     }
+
 }

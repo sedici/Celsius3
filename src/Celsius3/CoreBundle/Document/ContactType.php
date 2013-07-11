@@ -30,6 +30,11 @@ class ContactType
     {
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id

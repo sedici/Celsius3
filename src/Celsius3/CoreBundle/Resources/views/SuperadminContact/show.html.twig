@@ -1,0 +1,11 @@
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ 'Contact'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+{{ show('superadmin_contact', document, delete_form, 'Celsius3CoreBundle:SuperadminContact') }}
+{% endblock %}
