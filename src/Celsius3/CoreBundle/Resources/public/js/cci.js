@@ -62,7 +62,7 @@ $('select.city-select').change(function() {
 		$.ajax({
 			type : 'GET',
 			data : 'city_id=' + $(this).val(),
-			url : Routing.generate('public_institutions', {
+			url : Routing.generate('public_institutions_full', {
 				'url' : instance_url
 			}),
 			success : function(data) {

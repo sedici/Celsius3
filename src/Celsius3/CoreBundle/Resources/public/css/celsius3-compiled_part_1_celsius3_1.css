@@ -74,7 +74,7 @@ body {
   background-color: #EEE8AA;
 }
 .batch-checkbox {
-  margin: 10px 5px 0 10px ! important;
+  margin: 10px 5px 0 10px!important;
 }
 #search-form,
 #receive-form,
@@ -190,9 +190,6 @@ body {
 .root_option {
   font-size: 13px;
   font-weight: bold;
-}
-.notification-list li {
-  white-space: nowrap;
 }
 .level0 {
   padding: 0px 0px;

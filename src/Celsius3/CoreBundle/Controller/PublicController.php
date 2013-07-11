@@ -101,7 +101,7 @@ class PublicController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function institutionsAction()
+ /*   public function institutionsAction()
     {
         $request = $this->container->get('request');
 
@@ -142,7 +142,7 @@ class PublicController extends BaseInstanceDependentController
 
         return new Response(json_encode($response));
     }
-    
+ */   
     
     /**
      * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})

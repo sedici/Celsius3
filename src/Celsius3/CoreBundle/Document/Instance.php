@@ -739,11 +739,11 @@ class Instance
         }
         else 
         {
+            /*MEJORAR CODIGO*/
             $parents = $this->getOwnerInstitutions();
             $pos = 0;
             $liblink = false;
             $parent = new Institution();
-                /*MEJORAR CODIGO*/    
                 /*Recorro los padres*/
                 while ((!$liblink) && ($pos++ <= count($parents)))
                 {
@@ -755,7 +755,6 @@ class Instance
                     $parents->next();
                 }
                 return $liblink;
-        
         }
         
     }
