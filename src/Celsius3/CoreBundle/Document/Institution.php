@@ -31,6 +31,13 @@ class Institution extends Provider
      * @MongoDB\String
      */
     private $address;
+    
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    private $liblink = false;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="institution")
@@ -76,13 +83,6 @@ class Institution extends Provider
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
-    
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
-     */
-    private $liblink = false;
 
     public function __toString()
     {

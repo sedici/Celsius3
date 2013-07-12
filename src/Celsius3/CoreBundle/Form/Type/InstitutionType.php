@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ODM\MongoDB\DocumentRepository;
@@ -19,31 +20,24 @@ class InstitutionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name')->add('abbreviation')
-                ->add('website', null,
-                        array('required' => false))
-                ->add('address', null,
-                        array('required' => false))
-                ->add('parent', null,
-                        array('required' => false))
-                ->add('city', null,
-                        array('required' => false))
-                ->add('country', null,
-                        array('required' => false));
+                ->add('website', null, array('required' => false))
+                ->add('address', null, array('required' => false))
+                ->add('liblink')
+                ->add('parent', null, array('required' => false))
+                ->add('city', null, array('required' => false))
+                ->add('country', null, array('required' => false));
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', null,
-                            array('required' => false,
-                                    'label' => 'Owning Instance',))
-                    ->add('celsiusInstance', null,
-                            array('required' => false,
-                                    'label' => 'Celsius Instance',));
+                    ->add('instance', null, array('required' => false,
+                        'label' => 'Owning Instance',))
+                    ->add('celsiusInstance', null, array('required' => false,
+                        'label' => 'Celsius Instance',));
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector',
-                            array('data' => $this->instance,
-                                    'attr' => array(
-                                            'value' => $this->instance->getId(),
-                                            'readonly' => 'readonly',),));
+                    ->add('instance', 'celsius3_corebundle_instance_selector', array('data' => $this->instance,
+                        'attr' => array(
+                            'value' => $this->instance->getId(),
+                            'readonly' => 'readonly',),));
         }
     }
 

@@ -22,16 +22,17 @@ security:
                 target: public_index
                 success_handler: celsius3_core.security.logout_success_handler
             anonymous:    true
+            switch_user: { role: ROLE_SUPER_ADMIN }
 
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
     access_control:
-        - { path: ^/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/user/, role: ROLE_USER }
-        - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/superadmin/, role: ROLE_SUPER_ADMIN }
+        - { path: /public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /user/, role: ROLE_USER }
+        - { path: /admin/, role: ROLE_ADMIN }
+        - { path: /superadmin/, role: ROLE_SUPER_ADMIN }
 
     role_hierarchy:
         ROLE_LIBRARIAN:   ROLE_USER
