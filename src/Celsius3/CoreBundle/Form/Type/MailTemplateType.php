@@ -7,13 +7,11 @@ use Celsius3\CoreBundle\Document\Instance;
 
 class MailTemplateType extends AbstractType
 {
-
     protected $instance;
 
     public function __construct(Instance $instance = null)
     {
         $this->instance = $instance;
-
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -26,8 +24,8 @@ class MailTemplateType extends AbstractType
                 //            'required'  => true,
                 //        ))
                 ->add('text', 'textarea',
-                        array(
-                                'attr' => array('class' => 'tinymce',),));
+                        array('attr' => array('class' => 'tinymce'),
+                              'data' => $this->instance->get('mail_signature')->getValue()));
         if (!is_null($this->instance)) {
             $builder
                     ->add('instance', 'celsius3_corebundle_instance_selector',
