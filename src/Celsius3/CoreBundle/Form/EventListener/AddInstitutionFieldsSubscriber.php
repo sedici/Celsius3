@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\EventListener;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormEvents;
@@ -17,8 +18,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     private $dm;
     private $property_path;
 
-    public function __construct(FormFactoryInterface $factory,
-            DocumentManager $dm, $property_path = 'institution')
+    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, $property_path = 'institution')
     {
         $this->factory = $factory;
         $this->dm = $dm;
@@ -27,8 +27,10 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(FormEvents::PRE_SET_DATA => 'preSetData',
-                FormEvents::PRE_BIND => 'preBind',);
+        return array(
+            FormEvents::PRE_SET_DATA => 'preSetData',
+            FormEvents::PRE_BIND => 'preBind',
+        );
     }
 
     private function addInstitutionFields(FormEvent $event, $bind)
@@ -50,9 +52,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $institution = null;
 
         if ($bind && array_key_exists('institution', $data)) {
-            $institution = $this->dm
-                    ->find('Celsius3CoreBundle:Institution',
-                            $data['institution']);
+            $institution = $this->dm->find('Celsius3CoreBundle:Institution', $data['institution']);
             $city = $institution->getCity();
             if (is_null($city)) {
                 $country = $institution->getCountry();
@@ -61,115 +61,69 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             }
         }
 
-        $form
-                ->add(
-                        $this->factory
-                                ->createNamed('country', 'document', $country,
-                                        array(
-                                                'class' => 'Celsius3CoreBundle:Country',
-                                                'mapped' => false,
-                                                'empty_value' => '',
-                                                'required' => false,
-                                                'query_builder' => function (
-                                                        DocumentRepository $dr)
-                                                {
-                                                    return $dr
-                                                            ->createQueryBuilder()
-                                                            ->sort('name',
-                                                                    'asc');
-                                                },
-                                                'attr' => array(
-                                                        'class' => 'country-select'),
-                                                'auto_initialize' => false,)));
-                                                
-        $form
-                ->add(
-                        $this->factory
-                                ->createNamed('city', 'document', $city,
-                                        array(
-                                                'class' => 'Celsius3CoreBundle:City',
-                                                'mapped' => false,
-                                                'empty_value' => '',
-                                                'required' => false,
-                                                'query_builder' => function (
-                                                        DocumentRepository $repository) use (
-                                                        $country)
-                                                {
-                                                    $qb = $repository
-                                                            ->createQueryBuilder();
+        $form->add($this->factory->createNamed('country', 'document', $country, array(
+                    'class' => 'Celsius3CoreBundle:Country',
+                    'mapped' => false,
+                    'empty_value' => '',
+                    'required' => false,
+                    'query_builder' => function (DocumentRepository $dr) {
+                        return $dr
+                                        ->createQueryBuilder()
+                                        ->sort('name', 'asc');
+                    },
+                    'attr' => array(
+                        'class' => 'country-select'
+                    ),
+                    'auto_initialize' => false,
+        )));
 
-                                                    if ($country instanceof Country) {
-                                                        $qb = $qb
-                                                                ->field(
-                                                                        'country.id')
-                                                                ->equals(
-                                                                        $country
-                                                                                ->getId());
-                                                    } else {
-                                                        $qb = $qb
-                                                                ->field(
-                                                                        'country.id')
-                                                                ->equals(null);
-                                                    }
+        $form->add($this->factory->createNamed('city', 'document', $city, array(
+                    'class' => 'Celsius3CoreBundle:City',
+                    'mapped' => false,
+                    'empty_value' => '',
+                    'required' => false,
+                    'query_builder' => function (DocumentRepository $repository) use ($country) {
+                        $qb = $repository->createQueryBuilder();
 
-                                                    return $qb
-                                                            ->sort('name',
-                                                                    'asc');
-                                                },
-                                                'attr' => array(
-                                                        'class' => 'city-select'),
-                                                'auto_initialize' => false,)));
-        $form
-                ->add(
-                        $this->factory
-                                ->createNamed('institution', 'document',
-                                        $institution,
-                                        array(
-                                                'class' => 'Celsius3CoreBundle:Institution',
-                                                'property_path' => $this
-                                                        ->property_path,
-                                                'empty_value' => '',
-                                                'query_builder' => function (
-                                                        DocumentRepository $repository) use (
-                                                        $city, $country)
-                                                {
-                                                    $qb = $repository
-                                                            ->createQueryBuilder();
+                        if ($country instanceof Country) {
+                            $qb = $qb->field('country.id')->equals($country->getId());
+                        } else {
+                            $qb = $qb->field('country.id')->equals(null);
+                        }
 
-                                                    if ($city instanceof City) {
-                                                        $qb = $qb
-                                                                ->field(
-                                                                        'city.id')
-                                                                ->equals(
-                                                                        $city
-                                                                                ->getId());
-                                                    } else if ($country instanceof Country) {
-                                                        $qb = $qb
-                                                                ->field(
-                                                                        'country.id')
-                                                                ->equals(
-                                                                        $country
-                                                                                ->getId())
-                                                                ->field(
-                                                                        'city.id')
-                                                                ->equals(null);
-                                                    } else {
-                                                        $qb = $qb
-                                                                ->field(
-                                                                        'city.id')
-                                                                ->equals(null)
-                                                                ->field(
-                                                                        'country.id')
-                                                                ->equals(null);
-                                                    }
+                        return $qb->sort('name', 'asc');
+                    },
+                    'attr' => array(
+                        'class' => 'city-select'
+                    ),
+                    'auto_initialize' => false,
+        )));
 
-                                                    return $qb
-                                                            ->sort('name',
-                                                                    'asc');
-                                                },
-                                                'attr' => array(
-                                                        'class' => 'institution-select'),
-                                                'auto_initialize' => false,)));
+        $form->add($this->factory->createNamed('institution', 'document', $institution, array(
+                    'class' => 'Celsius3CoreBundle:Institution',
+                    'property_path' => $this->property_path,
+                    'label' => ucfirst($this->property_path),
+                    'empty_value' => '',
+                    'query_builder' => function (DocumentRepository $repository) use ($city, $country) {
+                        $qb = $repository->createQueryBuilder();
+
+                        if ($city instanceof City) {
+                            $qb = $qb->field('city.id')->equals($city->getId());
+                        } else if ($country instanceof Country) {
+                            $qb = $qb->field('country.id')->equals($country->getId())
+                                            ->field('city.id')->equals(null);
+                        } else {
+                            $qb = $qb->field('city.id')->equals(null)
+                                            ->field('country.id')->equals(null);
+                        }
+
+                        return $qb->sort('name', 'asc');
+                    },
+                    'attr' => array(
+                        'class' => 'institution-select'
+                    ),
+                    'auto_initialize' => false,
+        )));
     }
 
     public function preSetData(FormEvent $event)

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,12 +27,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Institution',
-                        $this
-                                ->createForm(
-                                        new InstitutionFilterType(
-                                                $this->getInstance())));
+        return $this->baseIndex('Institution', $this->createForm(new InstitutionFilterType($this->getInstance())));
     }
 
     /**
@@ -44,9 +40,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Institution', new Institution(),
-                        new InstitutionType($this->getInstance()));
+        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -60,10 +54,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Institution', new Institution(),
-                        new InstitutionType($this->getInstance()),
-                        'admin_institution');
+        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getInstance()), 'admin_institution');
     }
 
     /**
@@ -79,9 +70,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('Institution', $id,
-                        new InstitutionType($this->getInstance()));
+        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -99,10 +88,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Institution', $id,
-                        new InstitutionType($this->getInstance()),
-                        'admin_institution');
+        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getInstance()), 'admin_institution');
     }
 
     /**
@@ -121,4 +107,5 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->baseDelete('Institution', $id, 'admin_institution');
     }
+
 }

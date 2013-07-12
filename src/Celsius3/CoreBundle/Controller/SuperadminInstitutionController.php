@@ -1,4 +1,5 @@
 <?php
+
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,7 +40,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Institution', new Institution(), new InstitutionType());
+        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDocumentManager()));
     }
 
     /**
@@ -53,7 +54,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Institution', new Institution(), new InstitutionType(), 'superadmin_institution');
+        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDocumentManager()), 'superadmin_institution');
     }
 
     /**
@@ -71,7 +72,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Institution', $id, new InstitutionType());
+        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDocumentManager()));
     }
 
     /**
@@ -90,7 +91,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Institution', $id, new InstitutionType(), 'superadmin_institution');
+        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDocumentManager()), 'superadmin_institution');
     }
 
     /**
@@ -142,4 +143,5 @@ class SuperadminInstitutionController extends BaseController
         $main_id = $this->getRequest()->request->get('main');
         return $this->baseDoUnion('Institution', $element_ids, $main_id, 'superadmin_institution');
     }
+
 }
