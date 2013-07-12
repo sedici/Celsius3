@@ -1,4 +1,4 @@
-{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+{% extends 'Celsius3CoreBundle:Layout:superadministration_layout.html.twig' %}
 
 {% block title %}
 {{ 'Network Administration'|trans }}
@@ -6,12 +6,12 @@
 
 {% block content %}
 <div class="row">
-    <div class="span12">
-        {% include 'Celsius3CoreBundle:Superadministration:_dash.html.twig' %}
-    </div>
+    {% include 'Celsius3CoreBundle:Superadministration:_shared_span.html.twig' %}
 </div>
 <div class="row">
-    {% include 'Celsius3CoreBundle:Superadministration:_shared_span.html.twig' %}
+    {% include 'Celsius3CoreBundle:Superadministration:_dash.html.twig' %}
+</div>
+<div class="row">
     {% include 'Celsius3CoreBundle:Superadministration:_global_span.html.twig' %}
     {% include 'Celsius3CoreBundle:Superadministration:_other_span.html.twig' %}
 </div>
