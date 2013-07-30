@@ -41,7 +41,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance()));
     }
 
     /**
@@ -57,7 +57,7 @@ class AdminBaseUserController extends BaseUserController
     {
         $request = $this->getRequest();
         $document = new BaseUser();
-        $form = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
+        $form = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance()), $document);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -99,7 +99,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance(), true));
     }
 
     /**
@@ -124,7 +124,7 @@ class AdminBaseUserController extends BaseUserController
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
 
-        $editForm = $this->createForm(new BaseUserType($this->getDocumentManager(), $this->getInstance()), $document);
+        $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance(), true), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();

@@ -40,6 +40,7 @@
                                 {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
                             {% endblock %}
                             {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}
+                            {% include 'Celsius3CoreBundle:Layout:_activity.html.twig' %}
                         </div>
                     </div>
                 </div>
@@ -74,15 +75,13 @@
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-1.10.1.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.activity-indicator-1.0.0.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/bootstrap.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.dotdotdot-1.5.1.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.ui.datepicker-es.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.ui.datepicker-pt.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/reduceTextBlock.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/ICanHaz.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/select2.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/select2_locale_es.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/select2_locale_pt-BR.js') }}"></script>
+        {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui-timepicker-addon.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.flot.min.js') }}"></script>
         <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->

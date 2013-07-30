@@ -1,5 +1,6 @@
 <script type="text/javascript">
 var _locale = '{{ app.request.get('_locale') }}';
+var ajax_message = '{{ 'Please wait...'|trans }}';
 var instance_id = '{{ (instance is defined and instance)?instance.id:'' }}';
 var document_id = '{{ (document is defined and document)?document.id:'' }}';
 var ajax_path = '{{ (ajax_path is defined)?path(ajax_path):'' }}';
@@ -10,6 +11,8 @@ var news_text_change = '{{ 'Change'|trans }}';
 var instance_url = "{{ app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }}";
 {% if form is defined %}
 var form_name = '{{ form.vars['name'] }}';
+{% elseif edit_form is defined %}
+var form_name = '{{ edit_form.vars['name'] }}';    
 {% endif %}
 {% if form is defined and form.vars['name'] == 'celsius3_corebundle_newstype' %}
 var news_date = "{{ form.vars.data.date|localizeddate('medium', 'short') }}";

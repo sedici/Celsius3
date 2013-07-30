@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -20,14 +21,14 @@ class SuperadminBaseUserController extends BaseUserController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder();
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder();
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                        ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
     }
 
     protected function getResultsPerPage()
@@ -38,8 +39,7 @@ class SuperadminBaseUserController extends BaseUserController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                ->filter($query, $filter_form,
-                        'Celsius3\\CoreBundle\\Document\\' . $name);
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
     }
 
     /**
@@ -52,9 +52,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('BaseUser',
-                        $this->createForm(new BaseUserFilterType()));
+        return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType()));
     }
 
     /**
@@ -67,9 +65,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('BaseUser', new BaseUser(),
-                        new BaseUserType($this->getDocumentManager()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser'));
     }
 
     /**
@@ -83,10 +79,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('BaseUser', new BaseUser(),
-                        new BaseUserType($this->getDocumentManager()),
-                        'superadmin_user');
+        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser'), 'superadmin_user');
     }
 
     /**
@@ -103,9 +96,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('BaseUser', $id,
-                        new BaseUserType($this->getDocumentManager()));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', null, true));
     }
 
     /**
@@ -123,10 +114,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('BaseUser', $id,
-                        new BaseUserType($this->getDocumentManager()),
-                        'superadmin_user');
+        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', null, true), 'superadmin_user');
     }
 
     /**
@@ -178,9 +166,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function doTransformAction($id)
     {
-        return $this
-                ->baseDoTransformAction($id, new UserTransformType(),
-                        'superadmin_user');
+        return $this->baseDoTransformAction($id, new UserTransformType(), 'superadmin_user');
     }
 
     /**
@@ -198,4 +184,5 @@ class SuperadminBaseUserController extends BaseUserController
     {
         return $this->baseEnableAction($id);
     }
+
 }

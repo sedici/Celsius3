@@ -23,7 +23,6 @@ class RegistrationFormType extends BaseType
 
         $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
         $url = $container->get('request')->get('url');
-
         $this->instance = $this->dm
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array('url' => $url));
@@ -34,7 +33,10 @@ class RegistrationFormType extends BaseType
         parent::buildForm($builder, $options);
 
         $builder
-                ->add('name', null, array('label' => 'Name'))->add('surname')
+                ->add('name', null, array(
+                    'label' => 'Name'
+                ))
+                ->add('surname')
                 ->add('birthdate', 'birthday', array(
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
@@ -43,13 +45,18 @@ class RegistrationFormType extends BaseType
                     ),
                 ))
                 ->add('address')
-                ->add('instance', 'celsius3_corebundle_instance_selector', array('data' => $this->instance,
-                    'attr' => array(
-                        'value' => $this->instance->getId(),
-                        'readonly' => 'readonly',),));
-        $subscriber = new AddCustomFieldsSubscriber(
-                $builder->getFormFactory(), $this->dm, $this->instance, true);
-        $builder->addEventSubscriber($subscriber);
+        ;
+        if (!is_null($this->instance)) {
+            $builder->add('instance', 'celsius3_corebundle_instance_selector', array(
+                'data' => $this->instance,
+                'attr' => array(
+                    'value' => $this->instance->getId(),
+                    'readonly' => 'readonly',
+                ),
+            ));
+            $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, true);
+            $builder->addEventSubscriber($subscriber);
+        }
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
         $builder->addEventSubscriber($subscriber2);
     }

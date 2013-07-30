@@ -5,14 +5,13 @@
 
 <script id="institution" type="text/html">
     {{#hasChildren}}
-            <option value="{{value}}" class="root_option level{{level}}" >{{name}}</option>
-            {{#children}}
-                {{>institution}}
-            {{/children}}    
+        <option value="{{value}}" class="root_option level{{level}}" >{{name}}</option>
+        {{#children}}
+            {{>institution}}
+        {{/children}}    
     {{/hasChildren}}
     {{^hasChildren}}
         <option value="{{value}}" class="children_option level{{level}}">{{name}}</option>
     {{/hasChildren}}
-    
 </script>
 {% endraw %}

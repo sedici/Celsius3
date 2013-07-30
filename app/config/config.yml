@@ -222,6 +222,7 @@ stof_doctrine_extensions:
             sluggable: true
 
 bc_bootstrap:
+    assets_dir:  %kernel.root_dir%/../vendor/twitter/bootstrap
     jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.1.min.js
 
 genemu_form:

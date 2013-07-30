@@ -51,8 +51,13 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $city = null;
         $institution = null;
 
-        if ($bind && array_key_exists('institution', $data)) {
-            $institution = $this->dm->find('Celsius3CoreBundle:Institution', $data['institution']);
+        if (is_object($data)) {
+            $institution = $data->getInstitution();
+        } elseif ($bind && array_key_exists($this->property_path, $data)) {
+            $institution = $this->dm->find('Celsius3CoreBundle:Institution', $data[$this->property_path]);
+        }
+
+        if ($institution) {
             $city = $institution->getCity();
             if (is_null($city)) {
                 $country = $institution->getCountry();
