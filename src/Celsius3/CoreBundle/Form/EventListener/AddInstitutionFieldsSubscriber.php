@@ -18,13 +18,17 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     private $dm;
     private $property_path;
     private $required;
+    private $country_mapped;
+    private $city_mapped;
 
-    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, $property_path = 'institution', $required = true)
+    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, $property_path = 'institution', $required = true, $country_mapped = false, $city_mapped = false)
     {
         $this->factory = $factory;
         $this->dm = $dm;
         $this->property_path = $property_path;
         $this->required = $required;
+        $this->country_mapped = $country_mapped;
+        $this->city_mapped = $city_mapped;
     }
 
     public static function getSubscribedEvents()
@@ -53,11 +57,11 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $city = null;
         $institution = null;
 
-        if (is_object($data)) {
+        if ($bind && array_key_exists($this->property_path, $data)) {
+            $institution = $this->dm->find('Celsius3CoreBundle:Institution', $data[$this->property_path]);
+        } elseif (is_object($data)) {
             $function = 'get' . ucfirst($this->property_path);
             $institution = $data->$function();
-        } elseif ($bind && array_key_exists($this->property_path, $data)) {
-            $institution = $this->dm->find('Celsius3CoreBundle:Institution', $data[$this->property_path]);
         }
 
         if ($institution) {
@@ -71,7 +75,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         $form->add($this->factory->createNamed('country', 'document', $country, array(
                     'class' => 'Celsius3CoreBundle:Country',
-                    'mapped' => false,
+                    'mapped' => $this->country_mapped,
                     'empty_value' => '',
                     'required' => false,
                     'query_builder' => function (DocumentRepository $dr) {
@@ -87,7 +91,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         $form->add($this->factory->createNamed('city', 'document', $city, array(
                     'class' => 'Celsius3CoreBundle:City',
-                    'mapped' => false,
+                    'mapped' => $this->city_mapped,
                     'empty_value' => '',
                     'required' => false,
                     'query_builder' => function (DocumentRepository $repository) use ($country) {
@@ -107,7 +111,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'auto_initialize' => false,
         )));
 
-        $form->add($this->factory->createNamed('institution', 'document', $institution, array(
+        $form->add($this->factory->createNamed($this->property_path, 'document', $institution, array(
                     'class' => 'Celsius3CoreBundle:Institution',
                     'property_path' => $this->property_path,
                     'label' => ucfirst($this->property_path),

@@ -31,11 +31,11 @@ class InstitutionType extends AbstractType
                     'required' => false
                 ))
                 ->add('isLiblink', null, array(
-                    'required' => false
+                    'required' => false,
                 ))
         ;
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent', false);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent', false, true, true);
         $builder->addEventSubscriber($subscriber);
 
         if (is_null($this->instance)) {
