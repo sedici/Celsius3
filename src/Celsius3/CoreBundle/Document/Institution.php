@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -9,6 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class Institution extends Provider
 {
+
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
@@ -31,13 +33,13 @@ class Institution extends Provider
      * @MongoDB\String
      */
     private $address;
-    
+
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $liblink = false;
+    private $isLiblink = false;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="institution")
@@ -227,7 +229,7 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
     public function addInstitution(
-            \Celsius3\CoreBundle\Document\Institution $institutions)
+    \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions[] = $institutions;
     }
@@ -238,7 +240,7 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
     public function removeInstitution(
-            \Celsius3\CoreBundle\Document\Institution $institutions)
+    \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions->removeElement($institutions);
     }
@@ -260,7 +262,7 @@ class Institution extends Provider
      * @return self
      */
     public function setParent(
-            \Celsius3\CoreBundle\Document\Institution $parent)
+    \Celsius3\CoreBundle\Document\Institution $parent)
     {
         $this->parent = $parent;
         return $this;
@@ -336,7 +338,7 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Catalog $catalogs
      */
     public function removeCatalog(
-            \Celsius3\CoreBundle\Document\Catalog $catalogs)
+    \Celsius3\CoreBundle\Document\Catalog $catalogs)
     {
         $this->catalogs->removeElement($catalogs);
     }
@@ -367,7 +369,7 @@ class Institution extends Provider
      * @param Celsius3\CoreBundle\Document\Contact $contacts
      */
     public function removeContact(
-            \Celsius3\CoreBundle\Document\Contact $contacts)
+    \Celsius3\CoreBundle\Document\Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
@@ -389,7 +391,7 @@ class Institution extends Provider
      * @return self
      */
     public function setInstance(
-            \Celsius3\CoreBundle\Document\Instance $instance = null)
+    \Celsius3\CoreBundle\Document\Instance $instance = null)
     {
         $this->instance = $instance;
         return $this;
@@ -412,7 +414,7 @@ class Institution extends Provider
      * @return self
      */
     public function setCelsiusInstance(
-            \Celsius3\CoreBundle\Document\Instance $celsiusInstance)
+    \Celsius3\CoreBundle\Document\Instance $celsiusInstance)
     {
         $this->celsiusInstance = $celsiusInstance;
         return $this;
@@ -427,41 +429,27 @@ class Institution extends Provider
     {
         return $this->celsiusInstance;
     }
-    
+
     /**
-     * Set liblink
+     * Set isLiblink
      *
-     * @param boolean $liblink
+     * @param boolean $isLiblink
      * @return self
      */
-    public function setLiblink($boolean)
+    public function setIsLiblink($isLiblink)
     {
-        $this->liblink = $boolean;
+        $this->isLiblink = $isLiblink;
         return $this;
     }
 
     /**
-     * Get liblink
+     * Get isLiblink
      *
-     * @return boolean $liblink
+     * @return boolean $isLiblink
      */
-    public function getLiblink()
+    public function getIsLiblink()
     {
-        return $this->liblink;
+        return is_null($this->parent) ? $this->isLiblink : $this->isLiblink || $this->getParent()->getIsLiblink();
     }
-    
-    /*Determina si la institucion es liblink*/
-    public function isLiblink()
-    {
-        if($this->liblink())
-        {
-            return true;
-        }
-        else 
-        {
-            $parent = $this->getParent();
-            return $parent->isLiblink();
-        }
-        
-    }
+
 }

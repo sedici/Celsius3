@@ -123,11 +123,11 @@ class Order
     private $states;
     
      /**
-     * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
-    private $liblink = false;
+    private $isLiblink = false;
 
     public function __toString()
     {
@@ -564,8 +564,6 @@ class Order
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
-        /*Se define si el pedido es o no liblink, en base a la instancia relacionada al mismo*/
-        $this->liblink = $instance->isLiblink();
         return $this;
     }
 
@@ -668,26 +666,26 @@ class Order
     {
         return $this->states;
     }
-    
+
     /**
-     * Set liblink
+     * Set isLiblink
      *
-     * @param boolean $liblink
+     * @param boolean $isLiblink
      * @return self
      */
-    public function setLiblink($boolean)
+    public function setIsLiblink($isLiblink)
     {
-        $this->liblink = $boolean;
+        $this->isLiblink = $isLiblink;
         return $this;
     }
 
     /**
-     * Get liblink
+     * Get isLiblink
      *
-     * @return boolean $liblink
+     * @return boolean $isLiblink
      */
-    public function getLiblink()
+    public function getIsLiblink()
     {
-        return $this->liblink;
+        return $this->isLiblink;
     }
 }

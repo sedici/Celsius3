@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -127,7 +128,7 @@ class Instance
      * @MongoDB\Boolean
      */
     private $liblink = false;
-    
+
     public function __toString()
     {
         return $this->getName();
@@ -157,11 +158,10 @@ class Instance
     public function get($key)
     {
         return $this->getConfigurations()
-                ->filter(
-                        function ($entry) use ($key)
-                        {
-                            return ($entry->getKey() == $key);
-                        })->first();
+                        ->filter(
+                                function ($entry) use ($key) {
+                                    return ($entry->getKey() == $key);
+                                })->first();
     }
 
     /**
@@ -412,7 +412,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Contact $contacts
      */
     public function removeContact(
-            \Celsius3\CoreBundle\Document\Contact $contacts)
+    \Celsius3\CoreBundle\Document\Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
@@ -433,7 +433,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
     public function addInstitution(
-            \Celsius3\CoreBundle\Document\Institution $institutions)
+    \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions[] = $institutions;
     }
@@ -444,7 +444,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Institution $institutions
      */
     public function removeInstitution(
-            \Celsius3\CoreBundle\Document\Institution $institutions)
+    \Celsius3\CoreBundle\Document\Institution $institutions)
     {
         $this->institutions->removeElement($institutions);
     }
@@ -465,7 +465,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
      */
     public function addOwnerInstitution(
-            \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
+    \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
     {
         $this->ownerInstitutions[] = $ownerInstitutions;
     }
@@ -476,7 +476,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
      */
     public function removeOwnerInstitution(
-            \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
+    \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
     {
         $this->ownerInstitutions->removeElement($ownerInstitutions);
     }
@@ -497,7 +497,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\MailTemplate $templates
      */
     public function addTemplate(
-            \Celsius3\CoreBundle\Document\MailTemplate $templates)
+    \Celsius3\CoreBundle\Document\MailTemplate $templates)
     {
         $this->templates[] = $templates;
     }
@@ -508,7 +508,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\MailTemplate $templates
      */
     public function removeTemplate(
-            \Celsius3\CoreBundle\Document\MailTemplate $templates)
+    \Celsius3\CoreBundle\Document\MailTemplate $templates)
     {
         $this->templates->removeElement($templates);
     }
@@ -529,7 +529,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Configuration $configurations
      */
     public function addConfiguration(
-            \Celsius3\CoreBundle\Document\Configuration $configurations)
+    \Celsius3\CoreBundle\Document\Configuration $configurations)
     {
         $this->configurations[] = $configurations;
     }
@@ -540,7 +540,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Configuration $configurations
      */
     public function removeConfiguration(
-            \Celsius3\CoreBundle\Document\Configuration $configurations)
+    \Celsius3\CoreBundle\Document\Configuration $configurations)
     {
         $this->configurations->removeElement($configurations);
     }
@@ -571,7 +571,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Catalog $catalogs
      */
     public function removeCatalog(
-            \Celsius3\CoreBundle\Document\Catalog $catalogs)
+    \Celsius3\CoreBundle\Document\Catalog $catalogs)
     {
         $this->catalogs->removeElement($catalogs);
     }
@@ -652,7 +652,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Country $countries
      */
     public function addCountrie(
-            \Celsius3\CoreBundle\Document\Country $countries)
+    \Celsius3\CoreBundle\Document\Country $countries)
     {
         $this->countries[] = $countries;
     }
@@ -663,7 +663,7 @@ class Instance
      * @param Celsius3\CoreBundle\Document\Country $countries
      */
     public function removeCountrie(
-            \Celsius3\CoreBundle\Document\Country $countries)
+    \Celsius3\CoreBundle\Document\Country $countries)
     {
         $this->countries->removeElement($countries);
     }
@@ -707,56 +707,17 @@ class Instance
     {
         return $this->cities;
     }
-    
-    /**
-     * Set liblink
-     *
-     * @param boolean $liblink
-     * @return self
-     */
-    public function setLiblink($boolean)
-    {
-        $this->liblink = $boolean;
-        return $this;
-    }
 
     /**
-     * Get liblink
-     *
-     * @return boolean $liblink
+     * Determina si alguno de los propietarios de la instancia es liblink
      */
-    public function getLiblink()
+    public function getIsLiblink()
     {
-        return $this->liblink;
-    }
-    
-    /*Determina si la instancia es liblink, para esto se analiza tanto la instancia en si, asi como tambien todos sus padres...*/
-    public function isLiblink()
-    {
-        if($this->liblink)
-        {
-            return true;
+        $result = false;
+        foreach ($this->getOwnerInstitutions() as $owner) {
+            $result = $result || $owner->getIsLiblink();
         }
-        else 
-        {
-            /*MEJORAR CODIGO*/
-            $parents = $this->getOwnerInstitutions();
-            $pos = 0;
-            $liblink = false;
-            $parent = new Institution();
-                /*Recorro los padres*/
-                while ((!$liblink) && ($pos++ <= count($parents)))
-                {
-                    $parent = $parents->current();
-                    if($parent instanceof Institution)
-                    {
-                        $liblink = $parent->isLiblink();
-                    }
-                    $parents->next();
-                }
-                return $liblink;
-        }
-        
+        return $result;
     }
-  
+
 }

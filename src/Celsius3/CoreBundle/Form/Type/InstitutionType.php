@@ -24,26 +24,41 @@ class InstitutionType extends AbstractType
     {
         $builder
                 ->add('name')->add('abbreviation')
-                ->add('website', null, array('required' => false))
-                ->add('address', null, array('required' => false))
-                ->add('liblink')
+                ->add('website', null, array(
+                    'required' => false
+                ))
+                ->add('address', null, array(
+                    'required' => false
+                ))
+                ->add('isLiblink', null, array(
+                    'required' => false
+                ))
         ;
-        
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent');
+
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent', false);
         $builder->addEventSubscriber($subscriber);
-        
+
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', null, array('required' => false,
-                        'label' => 'Owning Instance',))
-                    ->add('celsiusInstance', null, array('required' => false,
-                        'label' => 'Celsius Instance',));
+                    ->add('instance', null, array(
+                        'required' => false,
+                        'label' => 'Owning Instance',
+                    ))
+                    ->add('celsiusInstance', null, array(
+                        'required' => false,
+                        'label' => 'Celsius Instance',
+                    ))
+            ;
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector', array('data' => $this->instance,
+                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                        'data' => $this->instance,
                         'attr' => array(
                             'value' => $this->instance->getId(),
-                            'readonly' => 'readonly',),));
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+            ;
         }
     }
 
