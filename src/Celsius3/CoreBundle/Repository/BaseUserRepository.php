@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Repository;
+
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;
 use Celsius3\CoreBundle\Document\Instance;
@@ -14,17 +15,18 @@ use Celsius3\CoreBundle\Manager\UserManager;
  */
 class BaseUserRepository extends DocumentRepository
 {
+
     public function findAdmins(Instance $instance)
     {
         return $this->createQueryBuilder()->field('instance.id')
-                ->equals($instance->getId())->field('roles')
-                ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
+                        ->equals($instance->getId())->field('roles')
+                        ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
     }
 
     public function countUsers($instance = null)
     {
         $qb = $this->createQueryBuilder()->field('enabled')->equals(false)
-                ->field('locked')->equals(false);
+                        ->field('locked')->equals(false);
 
         if (!is_null($instance))
             $qb = $qb->field('instance.id')->equals($instance->getId());
@@ -32,8 +34,7 @@ class BaseUserRepository extends DocumentRepository
         return array('pending' => $qb->count()->getQuery()->execute(),);
     }
 
-    public function findByTerm($term, $instance = null, $in = array(),
-            $limit = null, $librarian = null)
+    public function findByTerm($term, $instance = null, $limit = null, array $institutions = array())
     {
         $expr = new \MongoRegex('/.*' . $term . '.*/i');
 
@@ -43,42 +44,45 @@ class BaseUserRepository extends DocumentRepository
                 ->addOr($qb->expr()->field('username')->equals($expr))
                 ->addOr($qb->expr()->field('email')->equals($expr));
 
-        if (!is_null($instance))
+        if (!is_null($instance)) {
             $qb = $qb->field('instance.id')->equals($instance->getId());
+        }
 
-        if (!is_null($librarian))
-            $qb = $qb->field('librarian.id')->equals($librarian->getId());
+        if (count($institutions) > 0) {
+            $qb = $qb->field('institution.id')->in($institutions);
+        }
 
-        if (!is_null($limit))
+        if (!is_null($limit)) {
             $qb = $qb->limit(10);
+        }
 
         return $qb->getQuery();
     }
 
-    public function addFindByStateType(array $data, Builder $query,
-            Instance $instance)
+    public function addFindByStateType(array $data, Builder $query, Instance $instance)
     {
         foreach ($data as $value) {
             switch ($value) {
-            case 'enabled':
-                $query = $query
-                        ->addOr(
-                                $query->expr()->field('enabled')->equals(true)
-                                        ->field('locked')->equals(false));
-                break;
-            case 'pending':
-                $query = $query
-                        ->addOr(
-                                $query->expr()->field('enabled')->equals(false)
-                                        ->field('locked')->equals(false));
-                break;
-            case 'rejected':
-                $query = $query
-                        ->addOr($query->expr()->field('locked')->equals(true));
-                break;
+                case 'enabled':
+                    $query = $query
+                            ->addOr(
+                            $query->expr()->field('enabled')->equals(true)
+                            ->field('locked')->equals(false));
+                    break;
+                case 'pending':
+                    $query = $query
+                            ->addOr(
+                            $query->expr()->field('enabled')->equals(false)
+                            ->field('locked')->equals(false));
+                    break;
+                case 'rejected':
+                    $query = $query
+                            ->addOr($query->expr()->field('locked')->equals(true));
+                    break;
             }
         }
 
         return $query;
     }
+
 }

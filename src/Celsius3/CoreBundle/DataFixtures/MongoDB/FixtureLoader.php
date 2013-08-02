@@ -87,6 +87,8 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         $generator = Factory::create('es_AR');
         $generator->seed(1112);
 
+        $dbhelper = $this->container->get('celsius3_core.database_helper');
+
         $composer = $this->container->get('fos_message.composer');
         $sender = $this->container->get('fos_message.sender');
 
@@ -241,7 +243,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         /*
          * Carga de Instancias
          */
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $instance = new Document\Instance();
             $instance->setName($generator->company);
             $instance->setAbbreviation(strtoupper($generator->word));
@@ -251,6 +253,10 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $instance->setEnabled(true);
             $manager->persist($instance);
             $manager->flush();
+            
+            $institution = $dbhelper->findRandomRecord('Celsius3CoreBundle:Institution');
+            $institution->setCelsiusInstance($instance);
+            $manager->persist($institution);
 
             for ($j = 0; $j < 3; $j++) {
                 $template = new Document\MailTemplate();
@@ -289,6 +295,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $superadmin->setInstance($instance);
             $superadmin->setEnabled(true);
             $superadmin->addRole(UserManager::ROLE_SUPER_ADMIN);
+            $superadmin->setInstitution($institution);
             $manager->persist($superadmin);
 
             /*
@@ -305,6 +312,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $admin->setInstance($instance);
             $admin->setEnabled(true);
             $admin->addRole(UserManager::ROLE_ADMIN);
+            $admin->setInstitution($institution);
             $manager->persist($admin);
 
             /*
@@ -320,6 +328,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                 $user->setEmail($generator->email);
                 $user->setAddress($generator->address);
                 $user->setInstance($instance);
+                $user->setInstitution($institution);
                 $manager->persist($user);
 
                 /*
@@ -334,13 +343,8 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                     $material = new $material_type['class'];
                     $material->setAuthors($generator->name);
                     $material->setEndPage($generator->randomNumber);
-                    $material
-                            ->setStartPage(
-                                    $generator
-                                    ->randomNumber(1, $material->getEndPage()));
-                    $material
-                            ->setTitle(
-                                    str_replace('.', '', $generator->sentence));
+                    $material->setStartPage($generator->randomNumber(1, $material->getEndPage()));
+                    $material->setTitle(str_replace('.', '', $generator->sentence));
                     $material->setYear($generator->year);
 
                     foreach ($material_type['fields'] as $method => $function) {

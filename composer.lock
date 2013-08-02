@@ -493,12 +493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "42909efe19a4b78e2d0b7076f72f3a8b90ad0b19"
+                "reference": "42c2f7e1f89557bb7861bb1363d26b2e6b1742a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/42909efe19a4b78e2d0b7076f72f3a8b90ad0b19",
-                "reference": "42909efe19a4b78e2d0b7076f72f3a8b90ad0b19",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/42c2f7e1f89557bb7861bb1363d26b2e6b1742a9",
+                "reference": "42c2f7e1f89557bb7861bb1363d26b2e6b1742a9",
                 "shasum": ""
             },
             "require": {
@@ -558,7 +558,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-07-30 18:12:11"
+            "time": "2013-07-31 21:47:49"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -980,12 +980,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/genemu/GenemuFormBundle.git",
-                "reference": "06f5a458823ef97d7e1f8c67f3cbba5ece0b551a"
+                "reference": "3c92eafeffc2f03be4137d20733d367b64023493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/06f5a458823ef97d7e1f8c67f3cbba5ece0b551a",
-                "reference": "06f5a458823ef97d7e1f8c67f3cbba5ece0b551a",
+                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/3c92eafeffc2f03be4137d20733d367b64023493",
+                "reference": "3c92eafeffc2f03be4137d20733d367b64023493",
                 "shasum": ""
             },
             "require": {
@@ -1042,7 +1042,7 @@
                 "extra form",
                 "form"
             ],
-            "time": "2013-07-19 13:16:05"
+            "time": "2013-07-31 22:40:36"
         },
         {
             "name": "guzzle/common",

@@ -36,6 +36,7 @@
         <parameter key="celsius3_core.configuration_helper.class">Celsius3\CoreBundle\Helper\ConfigurationHelper</parameter>
         <parameter key="celsius3_core.custom_field_helper.class">Celsius3\CoreBundle\Helper\CustomFieldHelper</parameter>
         <parameter key="celsius3_core.instance_helper.class">Celsius3\CoreBundle\Helper\InstanceHelper</parameter>
+        <parameter key="celsius3_core.database_helper.class">Celsius3\CoreBundle\Helper\DatabaseHelper</parameter>
         <parameter key="celsius3_core.event_manager.class">Celsius3\CoreBundle\Manager\EventManager</parameter>
         <parameter key="celsius3_core.search_manager.class">Celsius3\CoreBundle\Manager\SearchManager</parameter>
         <parameter key="celsius3_core.state_manager.class">Celsius3\CoreBundle\Manager\StateManager</parameter>
@@ -203,6 +204,10 @@
 
         <service id="celsius3_core.instance_helper" class="%celsius3_core.instance_helper.class%">
             <argument type="service" id="service_container"></argument>
+        </service>
+        
+        <service id="celsius3_core.database_helper" class="%celsius3_core.database_helper.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
 
         <service id="celsius3_core.event_manager" class="%celsius3_core.event_manager.class%">

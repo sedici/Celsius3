@@ -2,7 +2,6 @@
 
 namespace Celsius3\CoreBundle\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\CoreBundle\Exception\InstanceNotFoundException;
 
 class InstanceHelper

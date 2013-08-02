@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -9,6 +10,7 @@ use Celsius3\CoreBundle\Document\Librarian;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Form\Type\LibrarianOrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
+use Celsius3\CoreBundle\Manager\UserManager;
 
 /**
  * Order controller.
@@ -22,17 +24,11 @@ class UserOrderController extends OrderController
     {
         $qb = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()->field('instance.id')
-                ->equals($this->getInstance()->getId());
+                ->createQueryBuilder()
+                ->field('instance.id')->equals($this->getInstance()->getId());
 
-        $qb = $qb
-                ->addOr(
-                        $qb->expr()->field('owner.id')
-                                ->equals($this->getUser()->getId()));
-        $qb = $qb
-                ->addOr(
-                        $qb->expr()->field('librarian.id')
-                                ->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
 
         return $qb;
     }
@@ -41,21 +37,13 @@ class UserOrderController extends OrderController
     {
         $qb = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()->field('instance.id')
-                ->equals($this->getInstance()->getId());
+                ->createQueryBuilder()
+                ->field('instance.id')->equals($this->getInstance()->getId());
 
-        $qb = $qb
-                ->addOr(
-                        $qb->expr()->field('owner.id')
-                                ->equals($this->getUser()->getId()));
-        $qb = $qb
-                ->addOr(
-                        $qb->expr()->field('librarian.id')
-                                ->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
 
-        $qb = $qb->field('id')->equals($id)->getQuery()->getSingleResult();
-
-        return $qb;
+        return $qb->field('id')->equals($id)->getQuery()->getSingleResult();
     }
 
     /**
@@ -68,13 +56,7 @@ class UserOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Order',
-                        $this
-                                ->createForm(
-                                        new OrderFilterType(
-                                                $this->getInstance(),
-                                                $this->getUser())));
+        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance(), $this->getUser())));
     }
 
     /**
@@ -104,9 +86,8 @@ class UserOrderController extends OrderController
      */
     public function newAction()
     {
-        if ($this->getUser() instanceof Librarian) {
-            $type = new LibrarianOrderType($this->getInstance(), null,
-                    $this->getUser());
+        if ($this->get('security.context')->isGranted(UserManager::ROLE_LIBRARIAN)) {
+            $type = new LibrarianOrderType($this->getInstance(), null, $this->getUser());
         } else {
             $type = new OrderType($this->getInstance(), null, $this->getUser());
         }
@@ -125,23 +106,11 @@ class UserOrderController extends OrderController
      */
     public function createAction()
     {
-        if ($this->getUser() instanceof Librarian) {
-            $type = new LibrarianOrderType($this->getInstance(),
-                    $this->getMaterialType(), $this->getUser());
+        if ($this->get('security.context')->isGranted(UserManager::ROLE_LIBRARIAN)) {
+            $type = new LibrarianOrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
         } else {
-            $type = new OrderType($this->getInstance(),
-                    $this->getMaterialType(), $this->getUser());
+            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
         }
-     
- /*       if (getCurrentRole){
-        //if ($this->getUser() instanceof Librarian) {
-            $type = new LibrarianOrderType($this->getInstance(),
-                    $this->getMaterialType(), $this->getUser());
-        } else {
-            $type = new OrderType($this->getInstance(),
-                    $this->getMaterialType(), $this->getUser());
-        }
-   */     
         return $this->baseCreate('Order', new Order(), $type, 'user_order');
     }
 
@@ -157,4 +126,5 @@ class UserOrderController extends OrderController
     {
         return $this->change();
     }
+
 }
