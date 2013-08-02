@@ -1,8 +1,8 @@
-<div class="span12">
+<div class="row">
     <div class="well">
         <h2>{{ 'Shared Elements'|trans }}</h2>
         <div class="row">
-            <div class="span4">
+            <div class="span2">
                 <ul class="unstyled btn-group-list">
                     <li>
                         <div class="btn-group">
@@ -16,30 +16,26 @@
                             <a href="{{ path('superadmin_city_new') }}" class="btn"><i class="icon-plus"></i></a>
                         </div>
                     </li>
-                </ul>
-            </div>
-            <div class="span3 pull-right">
-                <ul class="unstyled btn-group-list">
                     <li>
                         <div class="btn-group">
                             <a href="{{ path('superadmin_catalog') }}" class="btn"><i class="icon-list"></i> {{ 'Global Catalogs'|trans }}</a>
                             <a href="{{ path('superadmin_catalog_new') }}" class="btn"><i class="icon-plus"></i></a>
                         </div>
                     </li>
-                    <li>
-                        <div class="btn-group">
-                            <a href="{{ path('superadmin_mails') }}" class="btn"><i class="icon-list"></i> {{ 'Mail Templates'|trans }}</a>
-                            <a href="{{ path('superadmin_mails_new') }}" class="btn"><i class="icon-plus"></i></a>
-                        </div>
-                    </li>
                 </ul>
             </div>
-            <div class="span4 pull-right">
+            <div class="span3 pull-right">
                 <ul class="unstyled btn-group-list">
                     <li>
                         <div class="btn-group">
                             <a href="{{ path('superadmin_institution') }}" class="btn"><i class="icon-list"></i> {{ 'Institutions'|trans }}</a>
                             <a href="{{ path('superadmin_institution_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_mails') }}" class="btn"><i class="icon-list"></i> {{ 'Mail Templates'|trans }}</a>
+                            <a href="{{ path('superadmin_mails_new') }}" class="btn"><i class="icon-plus"></i></a>
                         </div>
                     </li>
                     <li>

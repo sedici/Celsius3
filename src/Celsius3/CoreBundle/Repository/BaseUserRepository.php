@@ -18,14 +18,17 @@ class BaseUserRepository extends DocumentRepository
 
     public function findAdmins(Instance $instance)
     {
-        return $this->createQueryBuilder()->field('instance.id')
-                        ->equals($instance->getId())->field('roles')
-                        ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
+        return $this->createQueryBuilder()
+                        ->field('instance.id')->equals($instance->getId())
+                        ->field('roles')->in(array(UserManager::ROLE_ADMIN))
+                        ->getQuery()
+                        ->execute();
     }
 
     public function countUsers($instance = null)
     {
-        $qb = $this->createQueryBuilder()->field('enabled')->equals(false)
+        $qb = $this->createQueryBuilder()
+                        ->field('enabled')->equals(false)
                         ->field('locked')->equals(false);
 
         if (!is_null($instance))
@@ -83,6 +86,21 @@ class BaseUserRepository extends DocumentRepository
         }
 
         return $query;
+    }
+
+    public function findUsersPerInstance()
+    {
+        return $this->createQueryBuilder()
+                        ->map('function() { emit(this.instance.$id, 1); }')
+                        ->reduce('function(k, vals) {
+                            var sum = 0;
+                            for (var i in vals) {
+                                sum += vals[i];
+                            }
+                            return sum;
+                        }')
+                        ->getQuery()
+                        ->execute();
     }
 
 }
