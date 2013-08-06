@@ -102,5 +102,21 @@ class BaseUserRepository extends DocumentRepository
                         ->getQuery()
                         ->execute();
     }
+    
+    public function findNewUsersPerInstance()
+    {
+        return $this->createQueryBuilder()
+                        ->field('enabled')->equals(false)
+                        ->map('function() { emit(this.instance.$id, 1); }')
+                        ->reduce('function(k, vals) {
+                            var sum = 0;
+                            for (var i in vals) {
+                                sum += vals[i];
+                            }
+                            return sum;
+                        }')
+                        ->getQuery()
+                        ->execute();
+    }
 
 }

@@ -6,13 +6,26 @@
 
 {% block content %}
 <div class="row">
-    <div class="span6">
-        {% include 'Celsius3CoreBundle:Superadministration:_dash.html.twig' %}
-    </div>
-    <div class="span6 pull-right">
+    <div class="span12">
         {% include 'Celsius3CoreBundle:Superadministration:_shared_span.html.twig' %}
+    </div>
+</div>
+<div class="row">
+    <div class="span6">
         {% include 'Celsius3CoreBundle:Superadministration:_global_span.html.twig' %}
+    </div>
+    <div class="span6">
         {% include 'Celsius3CoreBundle:Superadministration:_other_span.html.twig' %}
     </div>
 </div>
+<div class="row">
+    <div class="span12">
+        {% include 'Celsius3CoreBundle:Superadministration:_dash.html.twig' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dash_table.js') }}"></script>
 {% endblock %}

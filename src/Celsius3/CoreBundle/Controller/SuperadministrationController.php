@@ -35,18 +35,15 @@ class SuperadministrationController extends BaseController
     }
 
     /**
-     * @Route("/graphic", name="superadmin_graphic", options={"expose"=true})
-     * @Method("post")
+     * @Route("/orderusertable", name="superadmin_orderusertable", options={"expose"=true})
      * @Template()
      */
-    public function graphicAction()
+    public function orderUserTableAction()
     {
-        $graphic = $this->getRequest()->request->get('graphic');
-        if (!$graphic) {
+        if (!$this->getRequest()->isXmlHttpRequest()) {
             return $this->createNotFoundException();
         }
-
-        return new Response(json_encode($this->get('celsius3_core.graphic_manager')->$graphic()));
+        return new Response(json_encode($this->get('celsius3_core.statistic_manager')->getOrderUserTableData()));
     }
 
 }

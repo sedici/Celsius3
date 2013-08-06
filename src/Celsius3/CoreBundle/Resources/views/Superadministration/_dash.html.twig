@@ -1,8 +1,29 @@
-<div class="span6">
-    <div class="row">
-        <h3>{{ 'Users per Instance'|trans }}</h3>
-        <div id="user-graphic" class="bar-graphic">
-        
+<div class="accordion" id="orderuser-accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#orderuser-accordion" href="#collapseOne">
+                {{ 'Orders and Users data'|trans }}
+            </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse">
+            <div class="accordion-inner">
+                <table id="orderuser-table" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{{ 'Instance'|trans }}</th>
+                            <th>{{ 'Country'|trans }}</th>
+                            <th>{{ 'Pending Orders'|trans }}</th>
+                            <th>{{ 'Delivered Orders'|trans }}</th>
+                            <th>{{ 'Total Orders'|trans }}</th>
+                            <th>{{ 'Pending Users'|trans }}</th>
+                            <th>{{ 'Total Users'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

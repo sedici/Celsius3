@@ -243,7 +243,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         /*
          * Carga de Instancias
          */
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $instance = new Document\Instance();
             $instance->setName($generator->company);
             $instance->setAbbreviation(strtoupper($generator->word));
@@ -253,7 +253,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $instance->setEnabled(true);
             $manager->persist($instance);
             $manager->flush();
-            
+
             $institution = $dbhelper->findRandomRecord('Celsius3CoreBundle:Institution');
             $institution->setCelsiusInstance($instance);
             $manager->persist($institution);
@@ -272,7 +272,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             /*
              * Carga de catalogos por instancia
              */
-            for ($j = 0; $j < 50; $j++) {
+            for ($j = 0; $j < $generator->randomNumber(5, 20); $j++) {
                 $catalog = new Document\Catalog();
                 $catalog->setName($generator->company);
                 $catalog->setUrl($generator->url);
@@ -318,7 +318,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             /*
              * Creacion de usuarios de cada instancia
              */
-            for ($j = 0; $j < 20; $j++) {
+            for ($j = 0; $j < $generator->randomNumber(5, 20); $j++) {
                 $user = new Document\BaseUser();
                 $user->setName($generator->firstName);
                 $user->setSurname($generator->lastName);
@@ -334,7 +334,10 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                 /*
                  * Creacion de pedidos por instancia
                  */
-                foreach ($material_types as $material_type) {
+                $material_keys = array_keys($material_types);
+                for ($k = 0; $k < $generator->randomNumber(1, 5); $k++) {
+                    $random_material = $generator->randomNumber(0, count($material_keys) - 1);
+                    $material_type = $material_types[$material_keys[$random_material]];
                     $order = new Document\Order();
                     $order->setOwner($user);
                     $order->setType(OrderManager::TYPE__SEARCH);
@@ -354,8 +357,9 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                     $order->setMaterialData($material);
 
                     $manager->persist($order);
-                    unset($order, $material);
+                    unset($order, $material, $random_material, $material_type);
                 }
+                unset($material_keys);
 
                 /*
                  * Creacion de mensajes
