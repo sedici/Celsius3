@@ -15,7 +15,10 @@ class StatisticManager
         'newUsersPerInstance' => array(
             'repository' => 'Celsius3CoreBundle:BaseUser',
         ),
-        'ordersPerInstance' => array(
+        'ordersPerStatePerInstance' => array(
+            'repository' => 'Celsius3CoreBundle:State',
+        ),
+        'totalOrdersPerInstance' => array(
             'repository' => 'Celsius3CoreBundle:State',
         ),
     );
@@ -81,31 +84,37 @@ class StatisticManager
         $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')
                 ->findAll();
 
-        $pendingOrdersPerInstance = $this->dm
-                ->getRepository($this->statistic_data['ordersPerInstance']['repository'])
-                ->findOrdersPerStatePerInstance(StateManager::STATE__CREATED);
-        $deliveredOrdersPerInstance = $this->dm
-                ->getRepository($this->statistic_data['ordersPerInstance']['repository'])
-                ->findOrdersPerStatePerInstance(StateManager::STATE__DELIVERED);
-        $totalOrdersPerInstance = $this->dm
-                ->getRepository($this->statistic_data['ordersPerInstance']['repository'])
-                ->findTotalOrdersPerInstance();
-
-        $usersPerInstance = $this->dm
-                ->getRepository($this->statistic_data['usersPerInstance']['repository'])
-                ->findUsersPerInstance();
-        $newUsersPerInstance = $this->dm
-                ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
-                ->findNewUsersPerInstance();
-        
+        $data = array(
+            'pendingOrders' => $this->dm
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatePerInstance(StateManager::STATE__CREATED),
+            'deliveredOrders' => $this->dm
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatePerInstance(StateManager::STATE__DELIVERED),
+            'totalOrders' => $this->dm
+                    ->getRepository($this->statistic_data['totalOrdersPerInstance']['repository'])
+                    ->findTotalOrdersPerInstance(),
+            'pendingUsers' => $this->dm
+                    ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
+                    ->findNewUsersPerInstance(),
+            'totalUsers' => $this->dm
+                    ->getRepository($this->statistic_data['usersPerInstance']['repository'])
+                    ->findUsersPerInstance(),
+        );
         $response = array();
         foreach ($instances as $instance) {
-            $response[] = array(
+            $response[$instance->getId()] = array(
                 'name' => $instance->getName(),
                 'country' => $instance->getOwnerInstitutions()->first()->getCountry()->getName(),
             );
         }
-        return $response;
+        foreach ($data as $key => $item) {
+            foreach ($item as $instance) {
+                $response[(string) $instance['_id']][$key] = $instance['value'];
+            }
+        }
+
+        return array_values($response);
     }
 
 }

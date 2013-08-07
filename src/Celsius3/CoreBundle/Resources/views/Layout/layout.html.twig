@@ -13,6 +13,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/bootstrap.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/select2.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/jquery.dataTables.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css') }}"/>
         {% stylesheets filter='less' output='bundles/celsius3core/css/celsius3-compiled.css'
             '@Celsius3CoreBundle/Resources/public/less/*' %}
@@ -96,6 +97,7 @@
         <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>
         {{ tinymce_init() }}
         {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
+        {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
         {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
         {% endblock %}
     </body>

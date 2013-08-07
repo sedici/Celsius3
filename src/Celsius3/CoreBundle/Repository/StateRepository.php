@@ -45,16 +45,14 @@ class StateRepository extends DocumentRepository
         return $result;
     }
 
-    public function findOrdersPerStatePerInstance($state = null)
+    public function findOrdersPerStatePerInstance($state)
     {
-        if (!is_null($state)) {
-            $state = $this->getDocumentManager()
-                    ->getRepository('Celsius3CoreBundle:StateType')
-                    ->findOneBy(array('name' => $state));
-        }
+        $state = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:StateType')
+                ->findOneBy(array('name' => $state));
 
         return $this->createQueryBuilder()
-                        ->field('type.$id')->equals($state ? $state->getId() : null)
+                        ->field('type.id')->equals($state ? $state->getId() : null)
                         ->field('isCurrent')->equals(true)
                         ->map('function() { emit(this.instance.$id, 1); }')
                         ->reduce('function(k, vals) {
@@ -75,7 +73,7 @@ class StateRepository extends DocumentRepository
                 ->findOneBy(array('name' => StateManager::STATE__CREATED));
 
         return $this->createQueryBuilder()
-                        ->field('type.$id')->equals($state ? $state->getId() : null)
+                        ->field('type.id')->equals($state ? $state->getId() : null)
                         ->field('isCurrent')->equals(true)
                         ->map('function() { emit(this.instance.$id, 1); }')
                         ->reduce('function(k, vals) {
