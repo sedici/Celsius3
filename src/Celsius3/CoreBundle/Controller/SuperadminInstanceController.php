@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -16,6 +17,12 @@ use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
 class SuperadminInstanceController extends InstanceController
 {
 
+    protected function listQuery($name)
+    {
+        return parent::listQuery($name)
+                        ->field('id')->notEqual($this->get('celsius3_core.instance_manager')->getDirectory()->getId());
+    }
+
     /**
      * Lists all Instance documents.
      *
@@ -26,9 +33,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Instance',
-                        $this->createForm(new InstanceFilterType()));
+        return $this->baseIndex('Instance', $this->createForm(new InstanceFilterType()));
     }
 
     /**
@@ -55,9 +60,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Instance', new Instance(), new InstanceType(),
-                        'superadmin_instance');
+        return $this->baseCreate('Instance', new Instance(), new InstanceType(), 'superadmin_instance');
     }
 
     /**
@@ -92,9 +95,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Instance', $id, new InstanceType(),
-                        'superadmin_instance');
+        return $this->baseUpdate('Instance', $id, new InstanceType(), 'superadmin_instance');
     }
 
     /**
@@ -139,13 +140,26 @@ class SuperadminInstanceController extends InstanceController
         $dm->persist($document);
         $dm->flush();
 
-        $this->get('session')->getFlashBag()
-                ->add('success',
-                        'The Instance was successfully '
-                                . (($document->getEnabled()) ? 'enabled'
-                                        : 'disabled'));
+        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($document->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('superadmin_instance'));
+    }
+    
+    /**
+     * Displays a form to configure the Directory
+     *
+     * @Route("/directory/configure", name="superadmin_directory_configure")
+     * @Template("Celsius3CoreBundle:SuperadminInstance:configure.html.twig")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function configureDirectoryAction()
+    {
+        return $this->baseConfigureAction($this->get('celsius3_core.instance_manager')->getDirectory()->getId());
     }
 
     /**
@@ -207,4 +221,5 @@ class SuperadminInstanceController extends InstanceController
 
         return $this->redirect($this->generateUrl('administration'));
     }
+
 }

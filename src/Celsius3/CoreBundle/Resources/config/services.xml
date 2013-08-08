@@ -46,6 +46,7 @@
         <parameter key="celsius3_core.union_manager.class">Celsius3\CoreBundle\Manager\UnionManager</parameter>
         <parameter key="celsius3_core.catalog_manager.class">Celsius3\CoreBundle\Manager\CatalogManager</parameter>
         <parameter key="celsius3_core.statistic_manager.class">Celsius3\CoreBundle\Manager\StatisticManager</parameter>
+        <parameter key="celsius3_core.instance_manager.class">Celsius3\CoreBundle\Manager\InstanceManager</parameter>
         <parameter key="celsius3_core.resetting.email.template">FOSUserBundle:Resetting:email.txt.twig</parameter>
         <parameter key="celsius3_core.listener.confirmation.class">Celsius3\CoreBundle\EventListener\ConfirmationListener</parameter>
         <parameter key="celsius3_core.mailer.custom.class">Celsius3\CoreBundle\Mailer\Mailer</parameter>
@@ -247,6 +248,10 @@
         </service>
         
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
+        
+        <service id="celsius3_core.instance_manager" class="%celsius3_core.instance_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
 

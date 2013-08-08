@@ -16,27 +16,20 @@ abstract class InstanceController extends BaseController
         $configureForm = $this->createFormBuilder();
 
         foreach ($document->getConfigurations() as $configuration) {
-            $configureForm
-                    ->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')
-                            ->guessConfigurationType($configuration), array(
-                        'data' => $this
-                        ->get(
-                                'celsius3_core.configuration_helper')
-                        ->getCastedValue($configuration),
-                        /** @Ignore */ 'label' => $configuration->getName(),
-                        'required' => false,
-                        'attr' => array(
-                            'class' => $this
-                            ->get(
-                                    'celsius3_core.configuration_helper')
-                            ->guessConfigurationType(
-                                    $configuration) == 'textarea' ? 'tinymce' : '',)));
+            $configureForm->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration), array(
+                'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
+                /** @Ignore */ 'label' => $configuration->getName(),
+                'required' => false,
+                'attr' => array(
+                    'class' => $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration) == 'textarea' ? 'tinymce' : '',
+                ),
+            ));
         }
 
-        $configureForm = $configureForm->getForm();
-
-        return array('document' => $document,
-            'configure_form' => $configureForm->createView(),);
+        return array(
+            'document' => $document,
+            'configure_form' => $configureForm->getForm()->createView(),
+        );
     }
 
     protected function baseConfigureUpdateAction($id, $route)
@@ -50,13 +43,12 @@ abstract class InstanceController extends BaseController
         $builder = $this->createFormBuilder();
 
         foreach ($document->getConfigurations() as $configuration) {
-            $builder
-                    ->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')
-                            ->guessConfigurationType($configuration), array(
-                        'attr' => array(
-                            'value' => $configuration
-                            ->getValue(),),
-                        /** @Ignore */ 'label' => $configuration->getName(),));
+            $builder->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration), array(
+                'attr' => array(
+                    'value' => $configuration->getValue(),
+                ),
+                /** @Ignore */ 'label' => $configuration->getName(),
+            ));
         }
 
         $configureForm = $builder->getForm();
@@ -76,17 +68,15 @@ abstract class InstanceController extends BaseController
 
             $dm->flush();
 
-            $this
-                    ->addFlash('success', 'The instance was successfully configured.');
+            $this->addFlash('success', 'The instance was successfully configured.');
 
-            return $this
-                            ->redirect(
-                                    $this
-                                    ->generateUrl($route . '_configure', array('id' => $id)));
+            return $this->redirect($this->generateUrl($route . '_configure', array('id' => $id)));
         }
 
-        return array('document' => $document,
-            'configure_form' => $configureForm->createView(),);
+        return array(
+            'document' => $document,
+            'configure_form' => $configureForm->createView(),
+        );
     }
 
 }

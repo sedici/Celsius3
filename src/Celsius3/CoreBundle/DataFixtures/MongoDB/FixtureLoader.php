@@ -12,6 +12,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Manager\OrderManager;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Celsius3\NotificationBundle\Document\NotificationTemplate;
 
@@ -24,6 +25,28 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
 {
 
     private $container;
+    private $directory_configurations = array(
+        'instance_title' => array(
+            'name' => 'Title',
+            'value' => 'Celsius3 Directory',
+            'type' => 'string',
+        ),
+        'results_per_page' => array(
+            'name' => 'Results per page',
+            'value' => '10',
+            'type' => 'integer',
+        ),
+        'instance_description' => array(
+            'name' => 'Instance description',
+            'value' => '',
+            'type' => 'text',
+        ),
+        'default_language' => array(
+            'name' => 'Default language',
+            'value' => 'es',
+            'type' => 'language',
+        ),
+    );
     private $configurations = array(
         'instance_title' => array(
             'name' => 'Title',
@@ -159,6 +182,50 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             ),
         );
 
+        /*
+         * Instancia que representa al directorio
+         */
+        $directory = new Document\Instance();
+        $directory->setName('Directory');
+        $directory->setAbbreviation('Directory');
+        $directory->setWebsite('http://www.celsius3.com.localhost');
+        $directory->setEmail('admin@celsius3.com');
+        $directory->setUrl(InstanceManager::INSTANCE__DIRECTORY);
+        $directory->setEnabled(false);
+        $manager->persist($directory);
+        $manager->flush();
+
+        /*
+         * Configuración del directorio
+         */
+        foreach ($this->directory_configurations as $key => $data) {
+            $configuration = new Document\Configuration();
+            $configuration->setName($data['name']);
+            $configuration->setKey($key);
+            $configuration->setValue($data['value']);
+            $configuration->setType($data['type']);
+            $configuration->setInstance($directory);
+            $manager->persist($configuration);
+            unset($configuration);
+        }
+        $manager->flush();
+
+        /*
+         * Creacion de noticias del directorio
+         */
+        for ($j = 0; $j < $generator->randomNumber(10, 20); $j++) {
+            $news = new Document\News();
+            $news->setDate($generator->date('Y-m-d H:i:s'));
+            $news->setTitle(str_replace('.', '', $generator->sentence));
+            $news->setText($generator->text(2000));
+            $news->setInstance($directory);
+            $manager->persist($news);
+            unset($news);
+        }
+
+        /*
+         * Configuración modelo para las Instancias
+         */
         foreach ($this->configurations as $key => $data) {
             $configuration = new Document\Configuration();
             $configuration->setName($data['name']);
@@ -168,8 +235,11 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $manager->persist($configuration);
             unset($configuration);
         }
-        $manager->flush();
 
+        /*
+         * Tipos de estado para los pedidos
+         * Revisar si esto sigue siendo necesario o se puede reemplazar por la constante en el objeto
+         */
         foreach ($this->state_types as $key => $value) {
             $state_type = new Document\StateType();
             $state_type->setName($value);
@@ -184,6 +254,9 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
          */
         $this->container->get('celsius3_migration.migration_manager')->migrate($this->container->getParameter('celsius2_host'), $this->container->getParameter('celsius2_username'), $this->container->getParameter('celsius2_password'), $this->container->getParameter('celsius2_database'), $this->container->getParameter('celsius2_port'), $manager);
 
+        /*
+         * Listado global de revistas
+         */
         for ($i = 0; $i < 100; $i++) {
             $journal = new Document\Journal();
             $journal->setName(str_replace('.', '', $generator->sentence));
@@ -192,6 +265,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $journal->setISSNE($generator->bothify('#######X'));
             $journal->setFrecuency($generator->randomElement(array('anual', 'semestral', 'mensual')));
             $journal->setResponsible($generator->name);
+            $journal->setInstance($directory);
             $manager->persist($journal);
             unset($journal);
         }
@@ -204,7 +278,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $template->setEnabled(true);
             $template->setText($generator->text);
             $template->setTitle($generator->sentence);
-            $manager->persist($template);
+            $template->setInstance($directory);
             unset($template);
         }
 
@@ -234,6 +308,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $catalog = new Document\Catalog();
             $catalog->setName($generator->company);
             $catalog->setUrl($generator->url);
+            $catalog->setInstance($directory);
             $manager->persist($catalog);
             unset($catalog);
         }

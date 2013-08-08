@@ -122,13 +122,6 @@ class Instance
      */
     private $cities;
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
-     */
-    private $liblink = false;
-
     public function __toString()
     {
         return $this->getName();

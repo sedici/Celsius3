@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Repository;
+
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
 /**
@@ -14,15 +15,11 @@ class NewsRepository extends DocumentRepository
 
     public function findLastNews($instance, $limit = 5)
     {
-        return $this->createQueryBuilder()->field('instance.id')
-                ->equals($instance->getId())->sort(array('date' => 'desc'))
-                ->limit($limit)->getQuery();
-    }
-
-    public function findLastNewsDirectory($limit = 5)
-    {
-        return $this->createQueryBuilder()->field('instance.id')->equals(null)
-                ->sort(array('date' => 'desc'))->limit($limit)->getQuery();
+        return $this->createQueryBuilder()
+                        ->field('instance.id')->equals($instance->getId())
+                        ->sort(array('date' => 'desc'))
+                        ->limit($limit)
+                        ->getQuery();
     }
 
 }

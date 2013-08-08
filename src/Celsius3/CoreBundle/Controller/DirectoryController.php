@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -12,6 +13,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DirectoryController extends BaseController
 {
 
+    private function getDirectory()
+    {
+        return $this->get('celsius3_core.instance_manager')->getDirectory();
+    }
+
     /**
      * @Route("/directory/", name="directory")
      * @Route("/", name="index")
@@ -22,9 +28,11 @@ class DirectoryController extends BaseController
     public function indexAction()
     {
         return array(
-                'lastNews' => $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:News')
-                        ->findLastNewsDirectory(),);
+            'directory' => $this->getDirectory(),
+            'lastNews' => $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:News')
+                    ->findLastNews($this->getDirectory()),
+        );
     }
 
     /**
@@ -36,10 +44,15 @@ class DirectoryController extends BaseController
     public function instancesAction()
     {
         $instances = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:Instance')
-                ->createQueryBuilder()->field('enabled')->equals(true)
-                ->getQuery()->execute();
+                        ->getRepository('Celsius3CoreBundle:Instance')
+                        ->createQueryBuilder()
+                        ->field('enabled')->equals(true)
+                        ->getQuery()->execute();
 
-        return array('instances' => $instances,);
+        return array(
+            'directory' => $this->getDirectory(),
+            'instances' => $instances,
+        );
     }
+
 }

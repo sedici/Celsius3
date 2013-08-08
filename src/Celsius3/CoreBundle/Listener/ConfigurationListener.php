@@ -1,10 +1,12 @@
 <?php
 
 namespace Celsius3\CoreBundle\Listener;
+
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Document\Configuration;
 use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class ConfigurationListener
 {
@@ -36,7 +38,10 @@ class ConfigurationListener
             if (!$document->getInstance()) {
                 $instances = $dm
                         ->getRepository('Celsius3CoreBundle:Instance')
-                        ->findAll();
+                        ->createQueryBuilder()
+                        ->field('url')->notEqual(InstanceManager::INSTANCE__DIRECTORY)
+                        ->getQuery()
+                        ->execute();
 
                 foreach ($instances as $instance) {
                     $new = $this->configuration_helper->duplicate($document);

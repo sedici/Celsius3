@@ -631,12 +631,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "a10cd474783739c238a045e3aaf9b9335a63e946"
+                "reference": "387ff28b145a7572cc38054393b5b964811d0b2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/a10cd474783739c238a045e3aaf9b9335a63e946",
-                "reference": "a10cd474783739c238a045e3aaf9b9335a63e946",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/387ff28b145a7572cc38054393b5b964811d0b2b",
+                "reference": "387ff28b145a7572cc38054393b5b964811d0b2b",
                 "shasum": ""
             },
             "require": {
@@ -692,7 +692,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2013-07-30 15:16:18"
+            "time": "2013-08-07 21:02:03"
         },
         {
             "name": "evenement/evenement",

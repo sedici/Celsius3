@@ -7,9 +7,9 @@
 {% block content %}
 <div class="row">
     <div id="description" class="span6">
-        <h3>{{ 'Project description'|trans }}</h3>
+        {{ directory.get('instance_description').value|raw }}
     </div>
-     <div id="news" class="span6">
+    <div id="news" class="span6">
         <h3>
             {{ 'Latest News'|trans }}
             <a href="{{path('directory_rss_news',{})}}">

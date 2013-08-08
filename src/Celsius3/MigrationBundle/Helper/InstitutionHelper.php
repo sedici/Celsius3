@@ -36,7 +36,7 @@ class InstitutionHelper
             if ($row_institucion['Sitio_Web'] != '') {
                 $institution->setWebsite($row_institucion['Sitio_Web']);
             }
-
+            $institution->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($institution);
 
             $this->container->get('celsius3_migration.migration_manager')->createAssociation($institution->getName(), $row_institucion['Codigo'], 'instituciones', $institution);
@@ -68,7 +68,7 @@ class InstitutionHelper
             if ($row_dependencia['Hipervinculo1'] != '') {
                 $dependency->setWebsite($row_dependencia['Hipervinculo1']);
             }
-
+            $dependency->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($dependency);
 
             $this->container->get('celsius3_migration.migration_manager')->createAssociation($dependency->getName(), $row_dependencia['Id'], 'dependencias', $dependency);
@@ -98,7 +98,7 @@ class InstitutionHelper
             if ($row_unidad['Hipervinculo1'] != '') {
                 $unit->setWebsite($row_unidad['Hipervinculo1']);
             }
-
+            $unit->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($unit);
 
             $this->container->get('celsius3_migration.migration_manager')->createAssociation($unit->getName(), $row_unidad['Id'], 'unidades', $unit);
