@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,11 +20,9 @@ class AdminMailController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         $custom = array_map(
-                function ($elem)
-                {
+                function ($elem) {
                     return $elem['code'];
-                },
-                $this->getDocumentManager()
+                }, $this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder()->hydrate(false)->select('code')
                         ->field('instance.id')
@@ -35,19 +34,19 @@ class AdminMailController extends BaseInstanceDependentController
                 ->createQueryBuilder();
 
         return $qb
-                ->addOr(
-                        $qb->expr()->field('instance.id')->equals(null)
+                        ->addOr(
+                                $qb->expr()->field('instance.id')->equals($this->getDirectory()->getId())
                                 ->field('code')->notIn($custom)
                                 ->field('enabled')->equals(true))
-                ->addOr(
-                        $qb->expr()->field('instance.id')
+                        ->addOr(
+                                $qb->expr()->field('instance.id')
                                 ->equals($this->getInstance()->getId()));
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                        ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
     }
 
     /**
@@ -61,8 +60,7 @@ class AdminMailController extends BaseInstanceDependentController
     public function indexAction()
     {
         return $this
-                ->baseIndex('MailTemplate',
-                        $this->createForm(new MailTemplateFilterType()));
+                        ->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
 
     /**
@@ -76,8 +74,7 @@ class AdminMailController extends BaseInstanceDependentController
     public function newAction()
     {
         return $this
-                ->baseNew('MailTemplate', new MailTemplate(),
-                        new MailTemplateType($this->getInstance()));
+                        ->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()));
     }
 
     /**
@@ -105,8 +102,7 @@ class AdminMailController extends BaseInstanceDependentController
         }
 
         return $this
-                ->baseEdit('MailTemplate', $id,
-                        new MailTemplateType($this->getInstance()), $route);
+                        ->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()), $route);
     }
 
     /**
@@ -121,9 +117,7 @@ class AdminMailController extends BaseInstanceDependentController
     public function createAction()
     {
         return $this
-                ->baseCreate('MailTemplate', new MailTemplate(),
-                        new MailTemplateType($this->getInstance()),
-                        'admin_mails');
+                        ->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()), 'admin_mails');
     }
 
     /**
@@ -142,9 +136,7 @@ class AdminMailController extends BaseInstanceDependentController
     public function updateAction($id)
     {
         return $this
-                ->baseUpdate('MailTemplate', $id,
-                        new MailTemplateType($this->getInstance()),
-                        'admin_mails');
+                        ->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getInstance()), 'admin_mails');
     }
 
     /**
@@ -201,11 +193,10 @@ class AdminMailController extends BaseInstanceDependentController
         $dm->flush();
 
         $this->get('session')->getFlashBag()
-                ->add('success',
-                        'The Template was successfully '
-                                . (($template->getEnabled()) ? 'enabled'
-                                        : 'disabled'));
+                ->add('success', 'The Template was successfully '
+                        . (($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }
+
 }

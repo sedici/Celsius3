@@ -1,4 +1,5 @@
 <?php
+
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,7 +40,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), new CatalogType());
+        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getDirectory()));
     }
 
     /**
@@ -53,7 +54,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Catalog', new Catalog(), new CatalogType(), 'superadmin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getDirectory()), 'superadmin_catalog');
     }
 
     /**
@@ -71,7 +72,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, new CatalogType());
+        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getDirectory()));
     }
 
     /**
@@ -90,7 +91,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Catalog', $id, new CatalogType(), 'superadmin_catalog');
+        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getDirectory()), 'superadmin_catalog');
     }
 
     /**
@@ -144,4 +145,5 @@ class SuperadminCatalogController extends BaseController
         $main_id = $this->getRequest()->request->get('main');
         return $this->baseDoUnion('Catalog', $element_ids, $main_id, 'superadmin_catalog');
     }
+
 }

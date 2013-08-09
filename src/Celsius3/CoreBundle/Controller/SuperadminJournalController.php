@@ -1,4 +1,5 @@
 <?php
+
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -39,7 +40,7 @@ class SuperadminJournalController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Journal', new Journal(), new JournalType());
+        return $this->baseNew('Journal', new Journal(), new JournalType($this->getDirectory()));
     }
 
     /**
@@ -53,7 +54,7 @@ class SuperadminJournalController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Journal', new Journal(), new JournalType(), 'superadmin_journal');
+        return $this->baseCreate('Journal', new Journal(), new JournalType($this->getDirectory()), 'superadmin_journal');
     }
 
     /**
@@ -71,7 +72,7 @@ class SuperadminJournalController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Journal', $id, new JournalType());
+        return $this->baseEdit('Journal', $id, new JournalType($this->getDirectory()));
     }
 
     /**
@@ -90,7 +91,7 @@ class SuperadminJournalController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Journal', $id, new JournalType(), 'superadmin_journal');
+        return $this->baseUpdate('Journal', $id, new JournalType($this->getDirectory()), 'superadmin_journal');
     }
 
     /**
@@ -142,4 +143,5 @@ class SuperadminJournalController extends BaseController
         $main_id = $this->getRequest()->request->get('main');
         return $this->baseDoUnion('Journal', $element_ids, $main_id, 'superadmin_journal');
     }
+
 }

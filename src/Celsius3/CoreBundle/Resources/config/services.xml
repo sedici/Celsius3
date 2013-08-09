@@ -241,6 +241,7 @@
 
         <service id="celsius3_core.union_manager" class="%celsius3_core.union_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.catalog_manager" class="%celsius3_core.catalog_manager.class%">

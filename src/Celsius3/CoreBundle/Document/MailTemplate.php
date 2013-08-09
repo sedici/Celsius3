@@ -23,6 +23,7 @@ class MailTemplate extends Template
     private $title;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
     private $instance;

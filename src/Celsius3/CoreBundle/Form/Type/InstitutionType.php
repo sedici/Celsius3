@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class InstitutionType extends AbstractType
 {
@@ -14,7 +15,7 @@ class InstitutionType extends AbstractType
     private $instance;
     private $dm;
 
-    public function __construct(DocumentManager $dm, Instance $instance = null)
+    public function __construct(DocumentManager $dm, Instance $instance)
     {
         $this->instance = $instance;
         $this->dm = $dm;
@@ -38,10 +39,9 @@ class InstitutionType extends AbstractType
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent', false, true, true);
         $builder->addEventSubscriber($subscriber);
 
-        if (is_null($this->instance)) {
+        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
                     ->add('instance', null, array(
-                        'required' => false,
                         'label' => 'Owning Instance',
                     ))
                     ->add('celsiusInstance', null, array(

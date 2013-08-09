@@ -40,6 +40,7 @@ class Country
     private $institutions;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="countries")
      */
     private $instance;
@@ -174,7 +175,7 @@ class Country
      * @param Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance = null)
+    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;

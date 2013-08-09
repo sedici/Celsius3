@@ -8,6 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 abstract class BaseController extends Controller
 {
 
+    protected function getDirectory()
+    {
+        return $this->get('celsius3_core.instance_manager')->getDirectory();
+    }
+
     protected function getBundle()
     {
         return 'Celsius3CoreBundle';

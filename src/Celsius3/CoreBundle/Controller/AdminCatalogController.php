@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -26,12 +27,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Catalog',
-                        $this
-                                ->createForm(
-                                        new CatalogFilterType(
-                                                $this->getInstance())));
+        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType($this->getInstance())));
     }
 
     /**
@@ -44,9 +40,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Catalog', new Catalog(),
-                        new CatalogType($this->getInstance()));
+        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -60,9 +54,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Catalog', new Catalog(),
-                        new CatalogType($this->getInstance()), 'admin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getInstance()), 'admin_catalog');
     }
 
     /**
@@ -78,9 +70,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('Catalog', $id,
-                        new CatalogType($this->getInstance()));
+        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getInstance()));
     }
 
     /**
@@ -98,9 +88,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Catalog', $id,
-                        new CatalogType($this->getInstance()), 'admin_catalog');
+        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getInstance()), 'admin_catalog');
     }
 
     /**

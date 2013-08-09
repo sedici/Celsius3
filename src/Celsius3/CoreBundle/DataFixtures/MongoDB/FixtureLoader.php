@@ -254,6 +254,8 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
          */
         $this->container->get('celsius3_migration.migration_manager')->migrate($this->container->getParameter('celsius2_host'), $this->container->getParameter('celsius2_username'), $this->container->getParameter('celsius2_password'), $this->container->getParameter('celsius2_database'), $this->container->getParameter('celsius2_port'), $manager);
 
+        $directory = $manager->merge($directory);
+        
         /*
          * Listado global de revistas
          */
@@ -271,6 +273,8 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
         $manager->flush();
         $manager->clear();
+        
+        $directory = $manager->merge($directory);
 
         for ($i = 0; $i < 10; $i++) {
             $template = new Document\MailTemplate();
@@ -279,6 +283,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $template->setText($generator->text);
             $template->setTitle($generator->sentence);
             $template->setInstance($directory);
+            $manager->persist($template);
             unset($template);
         }
 

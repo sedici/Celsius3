@@ -7,6 +7,7 @@ class UnionManager
 {
 
     private $dm;
+    private $instance_manager;
 
     /**
      * FIXME Deberia modificarse este array y realizar un procesamiento de los
@@ -55,9 +56,10 @@ class UnionManager
         )
     );
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(DocumentManager $dm, InstanceManager $instance_manager)
     {
         $this->dm = $dm;
+        $this->instance_manager = $instance_manager;
     }
 
     public function union($name, $main, $elements, $updateInstance)
@@ -89,7 +91,7 @@ class UnionManager
             ->execute();
         
         if ($updateInstance) {
-            $main->setInstance(null);
+            $main->setInstance($this->instance_manager->getDirectory());
             $this->dm->persist($main);
             $this->dm->flush();
         }

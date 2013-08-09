@@ -40,6 +40,7 @@ class Catalog
     private $institution;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs")
      */
     private $instance;
@@ -153,7 +154,7 @@ class Catalog
      * @param Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance = null)
+    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
         return $this;

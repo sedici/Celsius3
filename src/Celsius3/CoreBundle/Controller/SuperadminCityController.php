@@ -39,7 +39,7 @@ class SuperadminCityController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('City', new City(), new CityType());
+        return $this->baseNew('City', new City(), new CityType($this->getDirectory()));
     }
 
     /**
@@ -53,7 +53,7 @@ class SuperadminCityController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('City', new City(), new CityType(), 'superadmin_city');
+        return $this->baseCreate('City', new City(), new CityType($this->getDirectory()), 'superadmin_city');
     }
 
     /**
@@ -71,7 +71,7 @@ class SuperadminCityController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('City', $id, new CityType());
+        return $this->baseEdit('City', $id, new CityType($this->getDirectory()));
     }
 
     /**
@@ -90,7 +90,7 @@ class SuperadminCityController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('City', $id, new CityType(), 'superadmin_city');
+        return $this->baseUpdate('City', $id, new CityType($this->getDirectory()), 'superadmin_city');
     }
 
     /**

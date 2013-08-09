@@ -40,7 +40,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDocumentManager()));
+        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getDirectory()));
     }
 
     /**
@@ -54,7 +54,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDocumentManager()), 'superadmin_institution');
+        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getDirectory()), 'superadmin_institution');
     }
 
     /**
@@ -72,7 +72,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDocumentManager()));
+        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getDirectory()));
     }
 
     /**
@@ -91,7 +91,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDocumentManager()), 'superadmin_institution');
+        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getDirectory()), 'superadmin_institution');
     }
 
     /**

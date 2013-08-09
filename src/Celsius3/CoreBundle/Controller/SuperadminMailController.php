@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -20,10 +21,12 @@ class SuperadminMailController extends BaseController
     {
         //Se obtienen los templetes del directorio.
         $qb = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()->field('instance.id')->equals(null);
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder()
+                        ->field('instance.id')->equals($this->getDirectory()->getId());
         return $qb;
     }
+
     /**
      * Lists all Templates Mail.
      *
@@ -34,9 +37,7 @@ class SuperadminMailController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('MailTemplate',
-                        $this->createForm(new MailTemplateFilterType()));
+        return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
 
     /**
@@ -49,9 +50,7 @@ class SuperadminMailController extends BaseController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('MailTemplate', new MailTemplate(),
-                        new MailTemplateType());
+        return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getDirectory()));
     }
 
     /**
@@ -68,7 +67,7 @@ class SuperadminMailController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('MailTemplate', $id, new MailTemplateType());
+        return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getDirectory()));
     }
 
     /**
@@ -83,8 +82,7 @@ class SuperadminMailController extends BaseController
     public function createAction()
     {
         return $this
-                ->baseCreate('MailTemplate', new MailTemplate(),
-                        new MailTemplateType(), 'superadmin_mails');
+                        ->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getDirectory()), 'superadmin_mails');
     }
 
     /**
@@ -103,8 +101,7 @@ class SuperadminMailController extends BaseController
     public function updateAction($id)
     {
         return $this
-                ->baseUpdate('MailTemplate', $id, new MailTemplateType(),
-                        'superadmin_mails');
+                        ->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getDirectory()), 'superadmin_mails');
     }
 
     /**
@@ -152,11 +149,10 @@ class SuperadminMailController extends BaseController
         $dm->flush();
 
         $this->get('session')->getFlashBag()
-                ->add('success',
-                        'The Template was successfully '
-                                . (($template->getEnabled()) ? 'enabled'
-                                        : 'disabled'));
+                ->add('success', 'The Template was successfully '
+                        . (($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('superadmin_mails'));
     }
+
 }

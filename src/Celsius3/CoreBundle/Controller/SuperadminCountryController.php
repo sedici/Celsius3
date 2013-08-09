@@ -39,7 +39,7 @@ class SuperadminCountryController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Country', new Country(), new CountryType());
+        return $this->baseNew('Country', new Country(), new CountryType($this->getDirectory()));
     }
 
     /**
@@ -53,7 +53,7 @@ class SuperadminCountryController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Country', new Country(), new CountryType(), 'superadmin_country');
+        return $this->baseCreate('Country', new Country(), new CountryType($this->getDirectory()), 'superadmin_country');
     }
 
     /**
@@ -71,7 +71,7 @@ class SuperadminCountryController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Country', $id, new CountryType());
+        return $this->baseEdit('Country', $id, new CountryType($this->getDirectory()));
     }
 
     /**
@@ -90,7 +90,7 @@ class SuperadminCountryController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Country', $id, new CountryType(), 'superadmin_country');
+        return $this->baseUpdate('Country', $id, new CountryType($this->getDirectory()), 'superadmin_country');
     }
 
     /**

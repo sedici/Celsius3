@@ -12,12 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DirectoryController extends BaseController
 {
-
-    private function getDirectory()
-    {
-        return $this->get('celsius3_core.instance_manager')->getDirectory();
-    }
-
     /**
      * @Route("/directory/", name="directory")
      * @Route("/", name="index")

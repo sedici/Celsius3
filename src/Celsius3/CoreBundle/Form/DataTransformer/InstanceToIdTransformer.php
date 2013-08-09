@@ -44,7 +44,7 @@ class InstanceToIdTransformer implements DataTransformerInterface
         }
 
         $instance = $this->dm->getRepository('Celsius3CoreBundle:Instance')
-                ->findOneBy(array('id' => $id));
+                ->find($id);
 
         if (null === $instance) {
             throw new TransformationFailedException(

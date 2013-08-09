@@ -82,7 +82,9 @@ class StatisticManager
     public function getOrderUserTableData()
     {
         $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')
-                ->findAll();
+                ->findBy(array(
+            'enabled' => true,
+        ));
 
         $data = array(
             'pendingOrders' => $this->dm
@@ -105,7 +107,7 @@ class StatisticManager
         foreach ($instances as $instance) {
             $response[$instance->getId()] = array(
                 'name' => $instance->getName(),
-                'country' => $instance->getOwnerInstitutions()->first()->getCountry()->getName(),
+                'country' => $instance->getOwnerInstitutions()->first()->getCountry() ? $instance->getOwnerInstitutions()->first()->getCountry()->getName() : '',
             );
         }
         foreach ($data as $key => $item) {
