@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Manager\OrderManager;
@@ -9,6 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
+use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class OrderType extends AbstractType
 {
@@ -18,12 +21,10 @@ class OrderType extends AbstractType
     protected $preferredMaterial;
     protected $user;
 
-    public function __construct(Instance $instance = null,
-            MaterialTypeType $material = null, BaseUser $user = null)
+    public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null)
     {
         $this->instance = $instance;
-        $this->material = (is_null($material)) ? new JournalTypeType()
-                : $material;
+        $this->material = (is_null($material)) ? new JournalTypeType() : $material;
 
         $class = explode('\\', get_class($this->material));
         $this->preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
@@ -34,47 +35,53 @@ class OrderType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('type', 'choice',
-                        array(
-                                'choices' => array(
-                                         /** @Ignore */OrderManager::TYPE__SEARCH => ucfirst(
-                                                OrderManager::TYPE__SEARCH),
-                                         /** @Ignore */OrderManager::TYPE__PROVISION => ucfirst(
-                                                OrderManager::TYPE__PROVISION),),))
-                ->add('comments', 'textarea', array('required' => false))
-                ->add('owner', 'celsius3_corebundle_user_selector',
-                        array(
-                                'attr' => array(
-                                        'value' => (!is_null($this->user)) ? $this
-                                                        ->user->getId() : '',
-                                        'class' => 'container',
-                                        'readonly' => 'readonly',),))
-                ->add('materialDataType', 'choice',
-                        array(
-                                'choices' => array(
-                                        /** @Ignore */MaterialTypeManager::TYPE__JOURNAL => ucfirst(
-                                                MaterialTypeManager::TYPE__JOURNAL),
-                                        /** @Ignore */MaterialTypeManager::TYPE__BOOK => ucfirst(
-                                                MaterialTypeManager::TYPE__BOOK),
-                                        /** @Ignore */MaterialTypeManager::TYPE__CONGRESS => ucfirst(
-                                                MaterialTypeManager::TYPE__CONGRESS),
-                                        /** @Ignore */MaterialTypeManager::TYPE__THESIS => ucfirst(
-                                                MaterialTypeManager::TYPE__THESIS),
-                                        /** @Ignore */MaterialTypeManager::TYPE__PATENT => ucfirst(
-                                                MaterialTypeManager::TYPE__PATENT),),
-                                'mapped' => false,
-                                'data' => $this->preferredMaterial,
-                                'label' => 'Material Type'))
+                ->add('type', 'choice', array(
+                    'choices' => array(
+                        /** @Ignore */ OrderManager::TYPE__SEARCH => ucfirst(OrderManager::TYPE__SEARCH),
+                        /** @Ignore */ OrderManager::TYPE__PROVISION => ucfirst(OrderManager::TYPE__PROVISION),
+                    ),
+                ))
+                ->add('comments', 'textarea', array(
+                    'required' => false,
+                ))
+                ->add('owner', 'celsius3_corebundle_user_selector', array(
+                    'attr' => array(
+                        'value' => (!is_null($this->user)) ? $this->user->getId() : '',
+                        'class' => 'container',
+                        'readonly' => 'readonly',
+                    ),
+                ))
+                ->add('materialDataType', 'choice', array(
+                    'choices' => array(
+                        /** @Ignore */ MaterialTypeManager::TYPE__JOURNAL => ucfirst(MaterialTypeManager::TYPE__JOURNAL),
+                        /** @Ignore */ MaterialTypeManager::TYPE__BOOK => ucfirst(MaterialTypeManager::TYPE__BOOK),
+                        /** @Ignore */ MaterialTypeManager::TYPE__CONGRESS => ucfirst(MaterialTypeManager::TYPE__CONGRESS),
+                        /** @Ignore */ MaterialTypeManager::TYPE__THESIS => ucfirst(MaterialTypeManager::TYPE__THESIS),
+                        /** @Ignore */ MaterialTypeManager::TYPE__PATENT => ucfirst(MaterialTypeManager::TYPE__PATENT),
+                    ),
+                    'mapped' => false,
+                    'data' => $this->preferredMaterial,
+                    'label' => 'Material Type',
+                ))
                 ->add('materialData', $this->material);
-        if (is_null($this->instance)) {
-            $builder->add('instance');
+        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            $builder
+                    ->add('instance', null, array(
+                        'query_builder' => function (DocumentRepository $repository) {
+                            return $repository->findAllExceptDirectory();
+                        },
+                    ))
+            ;
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector',
-                            array('data' => $this->instance,
-                                    'attr' => array(
-                                            'value' => $this->instance->getId(),
-                                            'readonly' => 'readonly',),));
+                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                        'data' => $this->instance,
+                        'attr' => array(
+                            'value' => $this->instance->getId(),
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+            ;
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,9 +20,9 @@ class SuperadminNewsController extends BaseController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()->field('instance.id')->equals(null);
-        ;
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder()
+                        ->field('instance.id')->equals($this->getDirectory()->getId());
     }
 
     /**
@@ -34,8 +35,7 @@ class SuperadminNewsController extends BaseController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('News', $this->createForm(new NewsFilterType()));
+        return $this->baseIndex('News', $this->createForm(new NewsFilterType()));
     }
 
     /**
@@ -65,7 +65,7 @@ class SuperadminNewsController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('News', new News(), new NewsType());
+        return $this->baseNew('News', new News(), new NewsType($this->getDirectory()));
     }
 
     /**
@@ -79,9 +79,7 @@ class SuperadminNewsController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('News', new News(), new NewsType(),
-                        'superadmin_news');
+        return $this->baseCreate('News', new News(), new NewsType($this->getDirectory()), 'superadmin_news');
     }
 
     /**
@@ -98,7 +96,7 @@ class SuperadminNewsController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('News', $id, new NewsType());
+        return $this->baseEdit('News', $id, new NewsType($this->getDirectory()));
     }
 
     /**
@@ -116,8 +114,7 @@ class SuperadminNewsController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('News', $id, new NewsType(), 'superadmin_news');
+        return $this->baseUpdate('News', $id, new NewsType($this->getDirectory()), 'superadmin_news');
     }
 
     /**
@@ -136,4 +133,5 @@ class SuperadminNewsController extends BaseController
     {
         return $this->baseDelete('News', $id, 'superadmin_news');
     }
+
 }

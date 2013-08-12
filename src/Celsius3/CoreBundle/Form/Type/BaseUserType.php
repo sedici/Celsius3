@@ -5,12 +5,15 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Document\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ODM\MongoDB\DocumentRepository;
 
 class BaseUserType extends RegistrationFormType
 {
+
     private $editing;
 
-    public function __construct(ContainerInterface $container, $class, Instance $instance = null, $editing = false)
+    public function __construct(ContainerInterface $container, $class, Instance $instance, $editing = false)
     {
         parent::__construct($container, $class);
         $this->instance = $instance;
@@ -28,8 +31,14 @@ class BaseUserType extends RegistrationFormType
                     'required' => false,
                 ))
         ;
-        if (is_null($this->instance)) {
-            $builder->add('instance');
+        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            $builder
+                    ->add('instance', null, array(
+                        'query_builder' => function (DocumentRepository $repository) {
+                            return $repository->findAllExceptDirectory();
+                        },
+                    ))
+            ;
         } else {
             $builder
                     ->add('instance', 'celsius3_corebundle_instance_selector', array(
@@ -41,7 +50,7 @@ class BaseUserType extends RegistrationFormType
                     ))
             ;
         }
-        
+
         if ($this->editing) {
             $builder->remove('plainPassword');
         }

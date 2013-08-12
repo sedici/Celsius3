@@ -45,18 +45,16 @@ class RegistrationFormType extends BaseType
                     ),
                 ))
                 ->add('address')
+                ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                    'data' => $this->instance,
+                    'attr' => array(
+                        'value' => $this->instance->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ))
         ;
-        if (!is_null($this->instance)) {
-            $builder->add('instance', 'celsius3_corebundle_instance_selector', array(
-                'data' => $this->instance,
-                'attr' => array(
-                    'value' => $this->instance->getId(),
-                    'readonly' => 'readonly',
-                ),
-            ));
-            $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, true);
-            $builder->addEventSubscriber($subscriber);
-        }
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, true);
+        $builder->addEventSubscriber($subscriber);
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
         $builder->addEventSubscriber($subscriber2);
     }
@@ -67,3 +65,4 @@ class RegistrationFormType extends BaseType
     }
 
 }
+

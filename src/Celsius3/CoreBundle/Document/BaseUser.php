@@ -67,12 +67,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $createdOrders;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
     protected $instance;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Institution")
      */
     protected $institution;

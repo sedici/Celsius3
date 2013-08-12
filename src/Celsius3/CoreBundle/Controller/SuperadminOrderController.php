@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,14 +20,14 @@ class SuperadminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder();
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder();
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                        ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
     }
 
     protected function getResultsPerPage()
@@ -36,9 +37,7 @@ class SuperadminOrderController extends OrderController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('filter_manager')
-                ->filter($query, $filter_form,
-                        'Celsius3\\CoreBundle\\Document\\' . $name);
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
     }
 
     /**
@@ -51,8 +50,7 @@ class SuperadminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Order', $this->createForm(new OrderFilterType()));
+        return $this->baseIndex('Order', $this->createForm(new OrderFilterType()));
     }
 
     /**
@@ -82,9 +80,7 @@ class SuperadminOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Order', new Order(),
-                        new OrderType(null, null, null, $this->getUser()));
+        return $this->baseNew('Order', new Order(), new OrderType($this->getDirectory(), null, $this->getUser()));
     }
 
     /**
@@ -98,10 +94,7 @@ class SuperadminOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Order', new Order(),
-                        new OrderType(null, $this->getMaterialType(), null,
-                                $this->getUser()), 'superadmin_order');
+        return $this->baseCreate('Order', new Order(), new OrderType($this->getDirectory(), $this->getMaterialType(), $this->getUser()), 'superadmin_order');
     }
 
     /**
@@ -120,22 +113,17 @@ class SuperadminOrderController extends OrderController
         $document = $this->findQuery('Order', $id);
 
         if (!$document) {
-            throw $this
-                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
+            throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
         $materialClass = get_class($document->getMaterialData());
 
-        $editForm = $this
-                ->createForm(
-                        new OrderType($document->getInstance(),
-                                $this->getMaterialType($materialClass), null,
-                                $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('document' => $document,
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),);
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -162,11 +150,7 @@ class SuperadminOrderController extends OrderController
 
         $document->setMaterialData(null);
 
-        $editForm = $this
-                ->createForm(
-                        new OrderType($document->getInstance(),
-                                $this->getMaterialType(), null,
-                                $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType(), $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -178,16 +162,12 @@ class SuperadminOrderController extends OrderController
             $dm->persist($document);
             $dm->flush();
 
-            return $this
-                    ->redirect(
-                            $this
-                                    ->generateUrl('superadmin_order_edit',
-                                            array('id' => $id)));
+            return $this->redirect($this->generateUrl('superadmin_order_edit', array('id' => $id)));
         }
 
         return array('document' => $document,
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),);
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -219,4 +199,5 @@ class SuperadminOrderController extends OrderController
     {
         return $this->change();
     }
+
 }

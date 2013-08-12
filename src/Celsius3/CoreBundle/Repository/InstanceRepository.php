@@ -3,6 +3,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 /**
  * InstanceRepository
@@ -12,4 +13,11 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class InstanceRepository extends DocumentRepository
 {
+
+    public function findAllExceptDirectory()
+    {
+        return $this->createQueryBuilder()
+                        ->field('url')->notEqual(InstanceManager::INSTANCE__DIRECTORY);
+    }
+
 }

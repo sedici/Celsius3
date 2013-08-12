@@ -20,7 +20,7 @@ class SuperadminInstanceController extends InstanceController
     protected function listQuery($name)
     {
         return parent::listQuery($name)
-                        ->field('id')->notEqual($this->get('celsius3_core.instance_manager')->getDirectory()->getId());
+                        ->field('id')->notEqual($this->getDirectory()->getId());
     }
 
     /**
