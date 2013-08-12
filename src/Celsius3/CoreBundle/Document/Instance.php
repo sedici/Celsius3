@@ -9,123 +9,79 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @MongoDB\Document
  * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
  */
-class Instance
+class Instance extends LegacyInstance
 {
 
     /**
-     * @MongoDB\Id
-     */
-    private $id;
-
-    /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
-    private $name;
-
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\String
-     */
-    private $abbreviation;
-
-    /**
-     * @Assert\NotBlank()
-     * @MongoDB\UniqueIndex(order="asc")
-     * @MongoDB\String
-     */
-    private $url;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Url()
-     * @MongoDB\String
-     */
-    private $website;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     * @MongoDB\String
-     */
-    private $email;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
-     */
-    private $enabled = true;
+    protected $url;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
      */
-    private $users;
+    protected $users;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="instance")
      */
-    private $orders;
+    protected $orders;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="News", mappedBy="instance", sort={"date"="desc"})
      */
-    private $news;
+    protected $news;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Contact", mappedBy="instance")
      */
-    private $contacts;
+    protected $contacts;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="instance")
      */
-    private $institutions;
+    protected $institutions;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
      */
-    private $ownerInstitutions;
+    protected $ownerInstitutions;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
-    private $templates;
+    protected $templates;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance", sort={"key"="asc"})
      */
-    private $configurations;
+    protected $configurations;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="instance")
      */
-    private $catalogs;
+    protected $catalogs;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="instance")
      */
-    private $events;
+    protected $events;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="instance")
      */
-    private $states;
+    protected $states;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="Country", mappedBy="instance")
      */
-    private $countries;
+    protected $countries;
 
     /**
      * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="instance")
      */
-    private $cities;
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
+    protected $cities;
 
     public function __construct()
     {
@@ -141,6 +97,11 @@ class Instance
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    public function isCurrent()
+    {
+        return true;
+    }
 
     /**
      * Returns the Configuration object associated with key
@@ -155,60 +116,6 @@ class Instance
                                 function ($entry) use ($key) {
                                     return ($entry->getKey() == $key);
                                 })->first();
-    }
-
-    /**
-     * Get id
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return self
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set abbreviation
-     *
-     * @param string $abbreviation
-     * @return self
-     */
-    public function setAbbreviation($abbreviation)
-    {
-        $this->abbreviation = $abbreviation;
-        return $this;
-    }
-
-    /**
-     * Get abbreviation
-     *
-     * @return string $abbreviation
-     */
-    public function getAbbreviation()
-    {
-        return $this->abbreviation;
     }
 
     /**
@@ -231,72 +138,6 @@ class Instance
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * Set website
-     *
-     * @param string $website
-     * @return self
-     */
-    public function setWebsite($website)
-    {
-        $this->website = $website;
-        return $this;
-    }
-
-    /**
-     * Get website
-     *
-     * @return string $website
-     */
-    public function getWebsite()
-    {
-        return $this->website;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return self
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string $email
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set enabled
-     *
-     * @param boolean $enabled
-     * @return self
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-        return $this;
-    }
-
-    /**
-     * Get enabled
-     *
-     * @return boolean $enabled
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
     }
 
     /**

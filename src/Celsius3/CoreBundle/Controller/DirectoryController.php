@@ -38,10 +38,11 @@ class DirectoryController extends BaseController
     public function instancesAction()
     {
         $instances = $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:Instance')
+                        ->getRepository('Celsius3CoreBundle:LegacyInstance')
                         ->createQueryBuilder()
                         ->field('enabled')->equals(true)
-                        ->getQuery()->execute();
+                        ->getQuery()
+                        ->execute();
 
         return array(
             'directory' => $this->getDirectory(),

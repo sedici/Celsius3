@@ -2,6 +2,7 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
+use Celsius3\CoreBundle\Document\Instance;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
 /**
@@ -13,7 +14,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class NewsRepository extends DocumentRepository
 {
 
-    public function findLastNews($instance, $limit = 5)
+    public function findLastNews(Instance $instance, $limit = 5)
     {
         return $this->createQueryBuilder()
                         ->field('instance.id')->equals($instance->getId())

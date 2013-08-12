@@ -108,7 +108,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $generator = Factory::create('es_AR');
-        $generator->seed(1112);
+        $generator->seed(1113);
 
         $dbhelper = $this->container->get('celsius3_core.database_helper');
 
@@ -319,6 +319,20 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
         $manager->flush();
         $manager->clear();
+        
+        /*
+         * Carga de Instancias Legacy
+         */
+        for ($i = 0; $i < $generator->randomNumber(5, 20); $i++) {
+            $instance = new Document\LegacyInstance();
+            $instance->setName($generator->company);
+            $instance->setAbbreviation(strtoupper($generator->word));
+            $instance->setWebsite($generator->url);
+            $instance->setEmail($generator->email);
+            $instance->setEnabled(true);
+            $manager->persist($instance);
+        }
+        $manager->flush();
 
         /*
          * Carga de Instancias
