@@ -6,7 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Document\LegacyInstance;
 use Celsius3\CoreBundle\Form\Type\InstanceType;
+use Celsius3\CoreBundle\Form\Type\LegacyInstanceType;
 use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
 
 /**
@@ -19,8 +21,13 @@ class SuperadminInstanceController extends InstanceController
 
     protected function listQuery($name)
     {
-        return parent::listQuery($name)
+        $qb = parent::listQuery($name)
                         ->field('id')->notEqual($this->getDirectory()->getId());
+        if ($name == 'LegacyInstance') {
+            return $qb->field('type')->equals('legacy');
+        } else {
+            return $qb;
+        }
     }
 
     /**
@@ -37,6 +44,19 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
+     * Lists all Instance documents.
+     *
+     * @Route("/legacy", name="superadmin_instance_legacy")
+     * @Template()
+     *
+     * @return array
+     */
+    public function legacyIndexAction()
+    {
+        return $this->baseIndex('LegacyInstance', $this->createForm(new InstanceFilterType()));
+    }
+
+    /**
      * Displays a form to create a new Instance document.
      *
      * @Route("/new", name="superadmin_instance_new")
@@ -47,6 +67,19 @@ class SuperadminInstanceController extends InstanceController
     public function newAction()
     {
         return $this->baseNew('Instance', new Instance(), new InstanceType());
+    }
+
+    /**
+     * Displays a form to create a new LegacyInstance document.
+     *
+     * @Route("/new/legacy", name="superadmin_instance_legacy_new")
+     * @Template()
+     *
+     * @return array
+     */
+    public function legacyNewAction()
+    {
+        return $this->baseNew('LegacyInstance', new LegacyInstance(), new LegacyInstanceType());
     }
 
     /**
@@ -61,6 +94,20 @@ class SuperadminInstanceController extends InstanceController
     public function createAction()
     {
         return $this->baseCreate('Instance', new Instance(), new InstanceType(), 'superadmin_instance');
+    }
+
+    /**
+     * Creates a new LegacyInstance document.
+     *
+     * @Route("/create/legacy", name="superadmin_instance_legacy_create")
+     * @Method("post")
+     * @Template("Celsius3CoreBundle:SuperadminInstance:legacyNew.html.twig")
+     *
+     * @return array
+     */
+    public function legacyCreateAction()
+    {
+        return $this->baseCreate('LegacyInstance', new LegacyInstance(), new LegacyInstanceType(), 'superadmin_instance_legacy');
     }
 
     /**
@@ -81,6 +128,23 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
+     * Displays a form to edit an existing LegacyInstance document.
+     *
+     * @Route("/{id}/edit/legacy", name="superadmin_instance_legacy_edit")
+     * @Template()
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function legacyEditAction($id)
+    {
+        return $this->baseEdit('LegacyInstance', $id, new LegacyInstanceType());
+    }
+
+    /**
      * Edits an existing Instance document.
      *
      * @Route("/{id}/update", name="superadmin_instance_update")
@@ -96,6 +160,24 @@ class SuperadminInstanceController extends InstanceController
     public function updateAction($id)
     {
         return $this->baseUpdate('Instance', $id, new InstanceType(), 'superadmin_instance');
+    }
+
+    /**
+     * Edits an existing Instance document.
+     *
+     * @Route("/{id}/update/legacy", name="superadmin_instance_legacy_update")
+     * @Method("post")
+     * @Template("Celsius3CoreBundle:SuperadminInstance:legacyEdit.html.twig")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function legacyUpdateAction($id)
+    {
+        return $this->baseUpdate('LegacyInstance', $id, new LegacyInstanceType(), 'superadmin_instance_legacy');
     }
 
     /**
@@ -128,7 +210,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function switchAction($id)
     {
-        $document = $this->findQuery('Instance', $id);
+        $document = $this->findQuery('LegacyInstance', $id);
 
         if (!$document) {
             throw $this->createNotFoundException('Unable to find Instance.');
@@ -142,9 +224,9 @@ class SuperadminInstanceController extends InstanceController
 
         $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($document->getEnabled()) ? 'enabled' : 'disabled'));
 
-        return $this->redirect($this->generateUrl('superadmin_instance'));
+        return $this->redirect($this->generateUrl($document->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
     }
-    
+
     /**
      * Displays a form to configure the Directory
      *

@@ -3,8 +3,10 @@
     <dd>{{ instance.name }}</dd>
     <dt>{{ 'Abbreviation'|trans }}</dt>
     <dd>{{ instance.abbreviation }}</dd>
+    {% if instance.isCurrent %}
     <dt>{{ 'Url'|trans }}</dt>
     <dd>{{ instance.url }}</dd>
+    {% endif %}
     <dt>{{ 'Email'|trans }}</dt>
     <dd>{{ instance.email }}</dd>
     <dt>{{ 'Institutions'|trans }}</dt>

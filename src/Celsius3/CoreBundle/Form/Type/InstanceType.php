@@ -1,16 +1,16 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
-use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 
-class InstanceType extends AbstractType
+class InstanceType extends LegacyInstanceType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('abbreviation')->add('website')
-                ->add('email')->add('url');
+        parent::buildForm($builder, $options);
+        $builder->add('url');
     }
 
     public function getName()

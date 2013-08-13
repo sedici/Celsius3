@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
@@ -17,11 +18,10 @@ class LanguageType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array(
-                                'choices' => $this->configuration_helper
-                                        ->languages, 'required' => true,));
+        $resolver->setDefaults(array(
+            'choices' => $this->configuration_helper->languages,
+            'required' => true,
+        ));
     }
 
     public function getParent()
@@ -33,4 +33,5 @@ class LanguageType extends AbstractType
     {
         return 'celsius3_corebundle_language_type';
     }
+
 }
