@@ -63,7 +63,7 @@ $('select.country-select').change(function() {
         $.ajax({
             type: 'GET',
             format: 'json',
-            data: 'country_id=' + $(this).val(),
+            data: 'country_id=' + $(this).val() + '&filter=' + filter,
             url: Routing.generate('public_institutions_full', {
                 'url': instance_url
             }),
@@ -80,7 +80,7 @@ $('select.city-select').change(function() {
     if ($(this).val()) {
         $.ajax({
             type: 'GET',
-            data: 'city_id=' + $(this).val(),
+            data: 'city_id=' + $(this).val() + '&filter=' + filter,
             url: Routing.generate('public_institutions_full', {
                 'url': instance_url
             }),
@@ -88,6 +88,15 @@ $('select.city-select').change(function() {
                 loadInstitutions(JSON.parse(data));
             }
         });
+    }
+});
+
+$('.filter-select').change(function() {
+    filter = $(this).val();
+    if ($('select.city-select').val() !== '') {
+        $('select.city-select').change();
+    } else if ($('select.country-select').val() !== '') {
+        $('select.country-select').change();
     }
 });
 
@@ -102,6 +111,7 @@ $(".institution-select").select2();
  */
 var value = $('select.institution-select').val();
 var done = false;
+var filter = '';
 var refresh = function() {
     if (!done) {
         done = true;

@@ -20,8 +20,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     private $required;
     private $country_mapped;
     private $city_mapped;
+    private $with_filter;
 
-    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, $property_path = 'institution', $required = true, $country_mapped = false, $city_mapped = false)
+    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, $property_path = 'institution', $required = true, $country_mapped = false, $city_mapped = false, $with_filter = false)
     {
         $this->factory = $factory;
         $this->dm = $dm;
@@ -29,6 +30,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $this->required = $required;
         $this->country_mapped = $country_mapped;
         $this->city_mapped = $city_mapped;
+        $this->with_filter = $with_filter;
     }
 
     public static function getSubscribedEvents()
@@ -71,6 +73,24 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             } else {
                 $country = $city->getCountry();
             }
+        }
+
+        if ($this->with_filter) {
+            $filter = null;
+            $form->add($this->factory->createNamed('filter', 'choice', $filter, array(
+                        'choices' => array(
+                            'liblink' => 'Liblink',
+                            'celsius3' => 'Celsius3',
+                        ),
+                        'mapped' => false,
+                        'empty_value' => 'All',
+                        'required' => false,
+                        'expanded' => true,
+                        'attr' => array(
+                            'class' => 'filter-select'
+                        ),
+                        'auto_initialize' => false,
+            )));
         }
 
         $form->add($this->factory->createNamed('country', 'document', $country, array(

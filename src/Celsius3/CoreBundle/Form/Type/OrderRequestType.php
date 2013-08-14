@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -21,19 +22,23 @@ class OrderRequestType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $subscriber = new AddInstitutionFieldsSubscriber(
-                $builder->getFormFactory(), $this->dm, 'provider');
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'provider', true, false, false, true);
         $builder->addEventSubscriber($subscriber);
         $builder
-                ->add('observations', 'textarea', array('required' => false,));
+                ->add('observations', 'textarea', array(
+                    'required' => false,
+                ))
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array('data_class' => $this->data_class,
-                                'validation_groups' => array('request'),));
+        $resolver->setDefaults(array(
+            'data_class' => $this->data_class,
+            'validation_groups' => array(
+                'request',
+            ),
+        ));
     }
 
     public function getName()
