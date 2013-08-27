@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import union as union %}
 
 {% block content %}
+<h2>{{ 'Country Union'|trans }}</h2>
+
 {{ union('superadmin_country', documents, 'Celsius3CoreBundle:SuperadminCountry') }}
 {% endblock %}

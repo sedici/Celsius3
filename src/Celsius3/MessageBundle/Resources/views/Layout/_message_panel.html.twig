@@ -1,16 +1,16 @@
-<ul class="pull-right nav">
+<ul class="pull-right nav navbar-nav">
     {% if app.user %}
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="icon-envelope"></i> {{ fos_message_nb_unread() }}
+            <span class="glyphicon glyphicon-envelope"></span> {{ fos_message_nb_unread() }}
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
             <li>
-                <a href="{{ path('fos_message_thread_new') }}"><i class="icon-plus"></i> {{ 'New'|trans }}</a>
+                <a href="{{ path('fos_message_thread_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'New'|trans }}</a>
             </li>
             <li>
-                <a href="{{ path('fos_message_inbox') }}"><i class="icon-inbox"></i> {{ 'Inbox'|trans }}</a>
+                <a href="{{ path('fos_message_inbox') }}"><span class="glyphicon glyphicon-inbox"></span> {{ 'Inbox'|trans }}</a>
             </li>
         </ul>
     </li>

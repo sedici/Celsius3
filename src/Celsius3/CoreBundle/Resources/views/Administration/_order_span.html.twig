@@ -1,42 +1,42 @@
-<div class="span6">
-    <div class="well">
+<div class="col-md-6">
+    <div>
         <h2>{{ 'Orders'|trans }}</h2>
         <div class="row">
-            <div class="span3">
-                <ul class="nav nav-list">
-                    <li class="nav-header">
-                        {{ 'Filters'|trans }}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h3>{{ 'Filters'|trans }}</h3>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED') }) }}">{{ 'Created'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED')] }})</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED') }) }}">{{ 'Being searched'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] }})</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED') }) }}">{{ 'Requested'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED')] }})</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING') }) }}">{{ 'Approval pending'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] }})</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED') }) }}">{{ 'Received'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED')] }})</a>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_order')~'?state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED') ~'&state[]='~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED') ~'&state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED') }}">{{ 'Ended'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED')] }})</a>
                     </li>
                 </ul>
             </div>
-            <div class="span2">
-                <ul class="nav nav-list">
-                    <li class="nav-header">
-                        {{ 'Operations'|trans }}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h3>{{ 'Operations'|trans }}</h3>
                     </li>
-                    <li>
-                        <a href="{{ path('admin_order_new') }}"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
+                    <li class="list-group-item">
+                        <a href="{{ path('admin_order_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Add'|trans }}</a>
                     </li>
-                    <li>
-                        <a href="{{ path('admin_order') }}"><i class="icon-list"></i> {{ 'List'|trans }}</a>
+                    <li class="list-group-item">
+                        <a href="{{ path('admin_order') }}"><span class="glyphicon glyphicon-list"></span> {{ 'List'|trans }}</a>
                     </li>
                 </ul>
             </div>

@@ -1,28 +1,28 @@
-<div class="well">
+<div>
     <h2>{{ 'Global Elements'|trans }}</h2>
     <div class="row">
-        <div class="span3">
-            <ul class="unstyled btn-group-list">
+        <div class="col-md-6">
+            <ul class="list-unstyled btn-group-list">
                 <li>
                     <div class="btn-group">
-                        <a href="{{ path('superadmin_instance') }}" class="btn"><i class="icon-list"></i> {{ 'Instances'|trans }}</a>
-                        <a href="{{ path('superadmin_instance_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        <a href="{{ path('superadmin_instance') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Instances'|trans }}</a>
+                        <a href="{{ path('superadmin_instance_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </li>
                 <li>
                     <div class="btn-group">
-                        <a href="{{ path('superadmin_instance_legacy') }}" class="btn"><i class="icon-list"></i> {{ 'Legacy Instances'|trans }}</a>
-                        <a href="{{ path('superadmin_instance_legacy_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        <a href="{{ path('superadmin_instance_legacy') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Legacy Instances'|trans }}</a>
+                        <a href="{{ path('superadmin_instance_legacy_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="span2">
-            <ul class="unstyled btn-group-list">
+        <div class="col-md-6">
+            <ul class="list-unstyled btn-group-list">
                 <li>
                     <div class="btn-group">
-                        <a href="{{ path('superadmin_contacttype') }}" class="btn"><i class="icon-list"></i> {{ 'Contact types'|trans }}</a>
-                        <a href="{{ path('superadmin_contacttype_new') }}" class="btn"><i class="icon-plus"></i></a>
+                        <a href="{{ path('superadmin_contacttype') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Contact types'|trans }}</a>
+                        <a href="{{ path('superadmin_contacttype_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </li>
             </ul>

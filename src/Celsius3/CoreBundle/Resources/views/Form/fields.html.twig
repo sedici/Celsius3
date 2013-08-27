@@ -1,0 +1,10 @@
+{% block form_row %}
+{% spaceless %}
+    {% set class = (form.vars.attr.class is defined ? form.vars.attr.class : '') ~ ' form-control' %}
+    <div class="form_group">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, { 'attr': { 'class': class } }) }}
+    </div>
+{% endspaceless %}
+{% endblock form_row %}

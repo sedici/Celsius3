@@ -32,6 +32,9 @@ twig:
         notification_host: %notification_host%
         notification_port: %notification_port%
         notification_limit: %notification_limit%
+    form:
+        resources:
+            - 'Celsius3CoreBundle:Form:fields.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -49,13 +52,6 @@ assetic:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
         #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
-    assets:
-        bootstrap_css:
-            output: bundles/celsius3core/css/bootstrap.css
-        bootstrap_js:
-            output: bundles/celsius3core/js/bootstrap.js
-        jquery:
-            output: bundles/celsius3core/js/jquery-1.10.1.min.js
 
 doctrine_mongodb:
     connections:
@@ -112,6 +108,7 @@ knp_paginator:
         sort_direction_name: direction # sort direction query parameter name
         distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
     template:
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
 fos_user:
@@ -149,12 +146,6 @@ jms_i18n_routing:
     locales: [es, en, pt]
     strategy: prefix
 
-stfalcon_tinymce:
-    include_jquery: false
-    tinymce_jquery: true
-    selector: ".tinymce"
-    language: %locale%
-
 fos_message:
     db_driver: mongodb
     thread_class: Celsius3\MessageBundle\Document\Thread
@@ -174,12 +165,9 @@ stof_doctrine_extensions:
             timestampable: true
             sluggable: true
 
-bc_bootstrap:
-    assets_dir:  %kernel.root_dir%/../vendor/twitter/bootstrap
-    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.10.1.min.js
-
 genemu_form:
     select2: ~
+    tinymce: ~
 
 celsius3_notification:
     web_socket_server:

@@ -1,27 +1,27 @@
-<div class="span6">
-    <div class="well">
+<div class="col-md-6">
+    <div>
         <h2>{{ 'Users'|trans }}</h2>
         <div class="row">
-            <div class="span3">
-                <ul class="nav nav-list">
-                    <li class="nav-header">
-                        {{ 'Filters'|trans }}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h3>{{ 'Filters'|trans }}</h3>
                     </li>
-                    <li>
+                    <li class="list-group-item">
                         <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}">{{ 'Pending'|trans }} ({{ userCount['pending'] }})</a>
                     </li>
                 </ul>
             </div>
-            <div class="span2">
-                <ul class="nav nav-list">
-                    <li class="nav-header">
-                        {{ 'Operations'|trans }}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h3>{{ 'Operations'|trans }}</h3>
                     </li>
-                    <li>
-                        <a href="{{ path('admin_user_new') }}"><i class="icon-plus"></i> {{ 'Add'|trans }}</a>
+                    <li class="list-group-item">
+                        <a href="{{ path('admin_user_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Add'|trans }}</a>
                     </li>
-                    <li>
-                        <a href="{{ path('admin_user') }}"><i class="icon-list"></i> {{ 'List'|trans }}</a>
+                    <li class="list-group-item">
+                        <a href="{{ path('admin_user') }}"><span class="glyphicon glyphicon-list"></span> {{ 'List'|trans }}</a>
                     </li>
                 </ul>
             </div>

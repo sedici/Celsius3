@@ -1,6 +1,4 @@
-
-
-$('#orderuser-accordion').one('show', function() {
+$('#orderuser-accordion').one('show.bs.collapse', function() {
     $.ajax({
         type: 'get',
         format: 'json',
@@ -15,7 +13,7 @@ $('#orderuser-accordion').one('show', function() {
             }
             $('#orderuser-table').dataTable({
                 "bPaginate": false,
-                "bInfo": false,
+                "bInfo": false
             });
         }
     });

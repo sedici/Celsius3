@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
+<h2>{{ 'City List'|trans }}</h2>
+
 {{ index('admin_city', pagination, 'Celsius3CoreBundle:AdminCity', filter_form) }}
 {% endblock %}
