@@ -20,9 +20,6 @@ abstract class InstanceController extends BaseController
                 'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
                 /** @Ignore */ 'label' => $configuration->getName(),
                 'required' => false,
-                'attr' => array(
-                    'class' => $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration) == 'textarea' ? 'tinymce' : '',
-                ),
             ));
         }
 

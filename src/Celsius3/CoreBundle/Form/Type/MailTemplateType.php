@@ -22,11 +22,7 @@ class MailTemplateType extends AbstractType
         $builder
                 ->add('title')
                 ->add('code')
-                ->add('text', 'textarea', array(
-                    'attr' => array(
-                        'class' => 'tinymce'
-                    ),
-                ))
+                ->add('text', 'genemu_tinymce')
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder

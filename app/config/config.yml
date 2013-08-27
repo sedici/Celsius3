@@ -167,7 +167,8 @@ stof_doctrine_extensions:
 
 genemu_form:
     select2: ~
-    tinymce: ~
+    tinymce:
+        theme: modern
 
 celsius3_notification:
     web_socket_server:

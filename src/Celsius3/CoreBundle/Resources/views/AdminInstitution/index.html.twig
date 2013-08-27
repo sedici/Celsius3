@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
+<h2>{{ 'Institution List'|trans }}</h2>
+
 {{ index('admin_institution', pagination, 'Celsius3CoreBundle:AdminInstitution', filter_form) }}
 {% endblock %}

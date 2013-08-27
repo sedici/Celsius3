@@ -1,14 +1,12 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Name'|trans }}</dt>
-    <dd>{{ institution.name }}</dd>
+    <dd>{{ element.name }}</dd>
     <dt>{{ 'Abbreviation'|trans }}</dt>
-    <dd>{{ institution.abbreviation }}</dd>
+    <dd>{{ element.abbreviation }}</dd>
     <dt>{{ 'Website'|trans }}</dt>
-    <dd><a href="{{ institution.website }}" target="_blank">{{ institution.website }}</a></dd>
+    <dd><a href="{{ element.website }}" target="_blank">{{ element.website }}</a></dd>
     <dt>{{ 'Parent institution'|trans }}</dt>
-    <dd>{{ institution.parent?institution.parent:'-' }}</dd>
+    <dd>{{ element.parent?element.parent:'-' }}</dd>
     <dt>{{ 'City'|trans }}</dt>
-    <dd>{{ institution.city }}</dd>
-    <dt>{{ 'Catalog'|trans }}</dt>
-    <dd>{{ institution.catalog?institution.catalog:'-' }}</dd>
+    <dd>{{ element.city?element.city:'-' }}</dd>
 </dl>

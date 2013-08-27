@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -27,8 +28,7 @@ class AdminInstanceController extends InstanceController
      */
     public function configureAction()
     {
-        return $this
-                ->baseConfigureAction($this->get('session')->get('instance_id'));
+        return $this->baseConfigureAction($this->get('session')->get('instance_id'));
     }
 
     /**

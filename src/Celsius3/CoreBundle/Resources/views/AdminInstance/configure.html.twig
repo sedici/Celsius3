@@ -8,41 +8,41 @@
 <h2>{{ 'Instance Configuration' }}</h2>
 
 <div class="row">
-    <div class="span9">
+    <div class="col-md-9">
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
-        <form action="{{ path('admin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="form-horizontal well">
-            {{ form_widget(configure_form, {'form_type': 'horizontal'}) }}
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'Save'|trans }}</button>
-                </div>
+        <form action="{{ path('admin_instance_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="form" role="form">
+            {{ form_widget(configure_form) }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
             </div>
         </form>
     </div>
-    <div class="span3">
-        <div id="accordion" class="accordion">
-            <div class="accordion-group">
-                <div class="accordion-heading">
-                    <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                        <i class="icon-wrench"></i> {{ 'Actions'|trans }}
-                    </a>
+    <div class="col-md-3">
+        <div id="accordion" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                        </a>
+                    </h4>
                 </div>
-                <div class="accordion-body in collapse" id="collapseTwo">
-                    <div class="accordion-inner">
-                        <ul class="unstyled">
+                <div class="panel-collapse in collapse" id="collapseTwo">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
                             <li>
                                 <a href="{{ path('admin_mails') }}">
-                                    <i class="icon-envelope"></i> {{ 'Mail templates'|trans }}
+                                    <span class="glyphicon glyphicon-envelope"></span> {{ 'Mail templates'|trans }}
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('admin_customuserfield') }}">
-                                    <i class="icon-th-list"></i> {{ 'Custom user fields'|trans }}
+                                    <span class="glyphicon glyphicon-th-list"></span> {{ 'Custom user fields'|trans }}
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ path('administration') }}">
-                                    <i class="icon-home"></i> {{ 'Go back'|trans }}
+                                    <span class="glyphicon glyphicon-home"></span> {{ 'Go back'|trans }}
                                 </a>
                             </li>
                         </ul>
@@ -52,4 +52,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ form_javascript(configure_form) }}
 {% endblock %}

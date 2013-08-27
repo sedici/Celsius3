@@ -1,23 +1,35 @@
 <?php
 
 namespace Celsius3\CoreBundle\Helper;
+
 use Celsius3\CoreBundle\Document\Configuration;
 
 class ConfigurationHelper
 {
-    private $equivalences = array('string' => 'text', 'boolean' => 'checkbox',
-            'integer' => 'integer', 'email' => 'email', 'text' => 'textarea',
-            'language' => 'celsius3_corebundle_language_type',
-            'confirmation' => 'celsius3_corebundle_confirmation_type');
-    public $languages = array('es' => 'Spanish', 'en' => 'English',
-            'pt' => 'Portuguese');
-    public $confirmation = array('admin' => 'Administrator confirmation',
-            'email' => 'Email confirmation');
+
+    private $equivalences = array(
+        'string' => 'text',
+        'boolean' => 'checkbox',
+        'integer' => 'integer',
+        'email' => 'email',
+        'text' => 'genemu_tinymce',
+        'language' => 'celsius3_corebundle_language_type',
+        'confirmation' => 'celsius3_corebundle_confirmation_type',
+    );
+    public $languages = array(
+        'es' => 'Spanish',
+        'en' => 'English',
+        'pt' => 'Portuguese',
+    );
+    public $confirmation = array(
+        'admin' => 'Administrator confirmation',
+        'email' => 'Email confirmation',
+    );
 
     public function guessConfigurationType(Configuration $configuration)
     {
         return (array_key_exists($configuration->getType(), $this->equivalences)) ? $this
-                        ->equivalences[$configuration->getType()] : 'text';
+                ->equivalences[$configuration->getType()] : 'text';
     }
 
     public function getCastedValue($configuration)
@@ -25,14 +37,14 @@ class ConfigurationHelper
         $value = null;
 
         switch ($configuration->getType()) {
-        case 'boolean':
-            $value = (boolean) $configuration->getValue();
-            break;
-        case 'integer':
-            $value = (integer) $configuration->getValue();
-            break;
-        default:
-            $value = $configuration->getValue();
+            case 'boolean':
+                $value = (boolean) $configuration->getValue();
+                break;
+            case 'integer':
+                $value = (integer) $configuration->getValue();
+                break;
+            default:
+                $value = $configuration->getValue();
         }
 
         return $value;
@@ -47,4 +59,5 @@ class ConfigurationHelper
         $new->setType($original->getType());
         return $new;
     }
+
 }

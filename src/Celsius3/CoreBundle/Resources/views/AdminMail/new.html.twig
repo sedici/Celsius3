@@ -7,5 +7,12 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
+<h2>{{ 'Mail Template Creation'|trans }}</h2>
+
 {{ new('admin_mails', form) }}
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ form_javascript(form) }}
 {% endblock %}

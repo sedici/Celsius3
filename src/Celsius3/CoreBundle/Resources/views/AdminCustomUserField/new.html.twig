@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
+<h2>{{ 'Custom User Field Creation'|trans }}</h2>
+
 {{ new('admin_customuserfield', form) }}
 {% endblock %}

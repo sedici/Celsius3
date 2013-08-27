@@ -1,16 +1,16 @@
-<ul class="unstyled pull-right actions">
+<ul class="list-unstyled pull-right actions">
     <li>
-        <a href="{{ path('admin_mails_edit', { 'id': mails.id }) }}">
-            <i class="icon-pencil"></i> {{ 'Edit'|trans }}
+        <a href="{{ path('admin_mails_edit', { 'id': element.id }) }}">
+            <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
         </a>
     </li>
 
     <li>
-        <a href="{{ path('admin_mails_change_state', { 'id': mails.id }) }}">
-            {% if mails.enabled %}
-            <i class="icon-remove"></i> {{ 'Disable'|trans }}
+        <a href="{{ path('admin_mails_change_state', { 'id': element.id }) }}">
+            {% if element.enabled %}
+            <span class="glyphicon glyphicon-remove"></span> {{ 'Disable'|trans }}
             {% else %}
-            <i class="icon-ok"></i> {{ 'Enable'|trans }}
+            <span class="glyphicon glyphicon-ok"></span> {{ 'Enable'|trans }}
             {% endif %}
         </a>
     </li>
