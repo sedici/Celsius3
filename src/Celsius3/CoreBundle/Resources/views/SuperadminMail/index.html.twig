@@ -1,11 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Templates Mails List'|trans }}
+{{ 'Mail Template List'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
+<h2>{{ 'Mail Template List'|trans }}</h2>
+
 {{ index('superadmin_mails', pagination, 'Celsius3CoreBundle:SuperadminMail', filter_form) }}
 {% endblock %}

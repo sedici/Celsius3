@@ -2,19 +2,19 @@
 
 {% block extrafields %}
 <dt>{{ 'Current state'|trans }}</dt>
-<dd>{{ document.getCurrentState(document.instance).type.name|capitalize }} {{ 'since'|trans }} {{ document.getCurrentState(document.instance).date|localizeddate }} ({{ document.getCurrentState(document.instance).date|time_ago_in_words }})</dd>
-{% if document.getCurrentState(app.user.instance).type.name == constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED') %}
+<dd>{{ element.getCurrentState(element.instance).type.name|capitalize }} {{ 'since'|trans }} {{ element.getCurrentState(element.instance).date|localizeddate }} ({{ element.getCurrentState(element.instance).date|time_ago_in_words }})</dd>
+{% if element.getCurrentState(app.user.instance).type.name == constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED') %}
     <dt>{{ 'Files'|trans }}</dt>
     <dd>
-    {% for file in document.getNotDownloadedFiles() %}
-        <form action="{{ path('user_file_download', { 'order': document.id, 'file': file.id }) }}" method="post" class="inline-form">
+    {% for file in element.getNotDownloadedFiles() %}
+        <form action="{{ path('user_file_download', { 'order': element.id, 'file': file.id }) }}" method="post" class="inline-form">
             <a class="submit-download-form" href="#" title="{{ file.name }}"><i class="icon-download-alt"></i>{{ 'download'|capitalize|trans }}</a>
         </form>
     {% endfor %}
     </dd>
 {% endif %}
-{% if app.user.username != document.owner.username %}
+{% if app.user.username != element.owner.username %}
 <dt>{{ 'User'|trans }}</dt>
-<dd>{{ document.owner.username }}</dd>
+<dd>{{ element.owner.username }}</dd>
 {% endif %}
 {% endblock %}

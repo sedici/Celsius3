@@ -146,11 +146,11 @@ $('#celsius3_corebundle_newstype_date').datetimepicker({
 var dateWidgets = $('#celsius3_corebundle_newstype_date');
 dateWidgets.hide();
 $('.news-date').parent().append(
-        '<span class="date-text">' + news_date
-        + '</span>&nbsp;<span><a class="show-date-widget btn">'
-        + news_text_change + '</a></span>');
+        '<div class="date-text form-control">' + news_date
+        + '</div><div><a class="show-date-widget btn btn-default">'
+        + news_text_change + '</a></div>');
 $(document).on('click', '.show-date-widget', function() {
-    $('.news-date').parent().children().hide();
+    $('.news-date').parent().children('div').hide();
     dateWidgets.show();
 });
 

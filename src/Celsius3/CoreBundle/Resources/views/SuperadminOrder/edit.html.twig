@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
+<h2>{{ 'Order Edit'|trans }} - {{ element.code ~ ' - ' ~ element.materialData.title }}</h2>
+
 {{ edit('superadmin_order', document, edit_form, delete_form) }}
 {% endblock %}

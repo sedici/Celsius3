@@ -37,7 +37,7 @@ class SuperadminOrderController extends OrderController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
+        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
     }
 
     /**

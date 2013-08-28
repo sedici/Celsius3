@@ -82,7 +82,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             throw $this->createNotFoundException('Unable to find User.');
         }
         
-        $this->enableUser($user);
+        $this->enableUser($document);
         
         return $this->redirect($this->get('request')->headers->get('referer'));
     }

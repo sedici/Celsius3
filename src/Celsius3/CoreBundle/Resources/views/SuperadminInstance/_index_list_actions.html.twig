@@ -1,25 +1,25 @@
-<ul class="unstyled pull-right actions">
-    {% if instance.isCurrent %}
+<ul class="list-unstyled pull-right actions">
+    {% if element.isCurrent %}
     <li>
-        <a href="{{ path('superadmin_instance_admin', { 'id': instance.id }) }}"><i class="icon-th-large"></i> {{ 'Admin'|trans }}</a>
+        <a href="{{ path('superadmin_instance_admin', { 'id': element.id }) }}"><span class="glyphicon glyphicon-th-large"></span> {{ 'Admin'|trans }}</a>
     </li>
     <li>
-        <a href="{{ path('superadmin_instance_edit', { 'id': instance.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
+        <a href="{{ path('superadmin_instance_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
     </li>
     <li>
-        <a href="{{ path('superadmin_instance_configure', { 'id': instance.id }) }}"><i class="icon-wrench"></i> {{ 'Configuration'|trans }}</a>
+        <a href="{{ path('superadmin_instance_configure', { 'id': element.id }) }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Configuration'|trans }}</a>
     </li>
     {% else %}
     <li>
-        <a href="{{ path('superadmin_instance_legacy_edit', { 'id': instance.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
+        <a href="{{ path('superadmin_instance_legacy_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
     </li>
     {% endif %}
     <li>
-        <a href="{{ path('superadmin_instance_switch', { 'id': instance.id }) }}">
-            {% if instance.enabled %}
-            <i class="icon-remove"></i> {{ 'Disable'|trans }}
+        <a href="{{ path('superadmin_instance_switch', { 'id': element.id }) }}">
+            {% if element.enabled %}
+            <span class="glyphicon glyphicon-remove"></span> {{ 'Disable'|trans }}
             {% else %}
-            <i class="icon-ok"></i> {{ 'Enable'|trans }}
+            <span class="glyphicon glyphicon-ok"></span> {{ 'Enable'|trans }}
             {% endif %}
         </a>
     </li>

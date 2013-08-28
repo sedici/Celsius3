@@ -1,6 +1,9 @@
 {% block form_row %}
 {% spaceless %}
-    {% set class = (form.vars.attr.class is defined ? form.vars.attr.class : '') ~ ' form-control' %}
+    {% set class = (form.vars.attr.class is defined ? form.vars.attr.class : '') %}
+    {% if form.count == 0 %}
+    {% set class = class ~ ' form-control' %}
+    {% endif %}
     <div class="form_group">
         {{ form_label(form) }}
         {{ form_errors(form) }}

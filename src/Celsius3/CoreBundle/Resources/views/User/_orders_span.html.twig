@@ -1,21 +1,19 @@
-<div class="span6">
-    <div class="well">
-        <h2 class="pull-left">{{ 'Last orders'|trans }}</h2>
-        <div class="pull-right">
-            <a class="btn btn-primary" href="{{ path('user_order_new') }}">
-                <i class="icon-file"></i> {{ 'New'|trans }}
-            </a>
-            <a class="btn" href="{{ path('user_order') }}">
-                <i class="icon-list-alt"></i> {{ 'All'|trans }}
-            </a>
-        </div>
-        <div class="clearfix"></div>
-        <ul class="nav nav-list">
-            {% for order in lastOrders %}
-            <li>
-                <a href="{{ url('user_order_show', { 'id': order.id }) }}">{{ order.code }} - {{ order.materialData.title }} ({{ order.currentState(instance) }})</a>
-            </li>
-            {% endfor %}
-        </ul>
+<div class="col-md-6">
+    <h2 class="pull-left">{{ 'Last orders'|trans }}</h2>
+    <div class="pull-right">
+        <a class="btn btn-primary" href="{{ path('user_order_new') }}">
+            <span class="glyphicon glyphicon-file"></span> {{ 'New'|trans }}
+        </a>
+        <a class="btn btn-default" href="{{ path('user_order') }}">
+            <span class="glyphicon glyphicon-list-alt"></span> {{ 'All'|trans }}
+        </a>
     </div>
+    <div class="clearfix"></div>
+    <ul class="list-group">
+        {% for order in lastOrders %}
+        <li class="list-group-item">
+            <a href="{{ url('user_order_show', { 'id': order.id }) }}">{{ order.code }} - {{ order.materialData.title }} ({{ order.currentState(instance) }})</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>

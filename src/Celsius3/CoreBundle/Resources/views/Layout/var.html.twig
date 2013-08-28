@@ -17,4 +17,7 @@ var form_name = '{{ edit_form.vars['name'] }}';
 {% if form is defined and form.vars['name'] == 'celsius3_corebundle_newstype' %}
 var news_date = "{{ form.vars.data.date|localizeddate('medium', 'short') }}";
 {% endif %}
+{% if edit_form is defined and edit_form.vars['name'] == 'celsius3_corebundle_newstype' %}
+var news_date = "{{ edit_form.vars.data.date|localizeddate('medium', 'short') }}";
+{% endif %}
 </script>

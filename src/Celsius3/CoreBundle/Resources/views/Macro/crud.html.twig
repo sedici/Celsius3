@@ -140,13 +140,11 @@
 {% endmacro %}
 
 {# show #}
-{% macro show(name, document, delete_form, folder, instance, notEdit) %}
-<h2>{{ name|capitalize|trans }}</h2>
-
+{% macro show(name, element, delete_form, folder, instance, notEdit) %}
 <div class="row">
     <div class="col-md-9">
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
-        {% include [folder,':_show_fields.html.twig']|join %}
+        {% include folder ~ ':_show_fields.html.twig' %}
     </div>
     <div class="col-md-3">
         <div id="accordion" class="panel-group">
@@ -263,6 +261,41 @@
                     {% include folder~':_item_actions.html.twig' ignore missing  %}
                     {% endif %}
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{# configure #}
+{% macro configure(name, configure_form, folder, document) %}
+<div class="row">
+    <div class="col-md-9">
+        {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+        <form action="{{ path(name ~ '_update_configuration', { 'code': app.request.get('code'), 'id': document.id }) }}" method="post" {{ form_enctype(configure_form) }} class="form" role="form">
+            {{ form_widget(configure_form) }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+        <div id="accordion" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse in collapse" id="collapseTwo">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            {% include folder~':_configure_actions.html.twig' ignore missing  %}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

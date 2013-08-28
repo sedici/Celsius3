@@ -1,11 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Legacy Instances List'|trans }}
+{{ 'Legacy Instance List'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
+<h2>{{ 'Legacy Instance List'|trans }}</h2>
+
 {{ index('superadmin_instance_legacy', pagination, 'Celsius3CoreBundle:SuperadminInstance', filter_form) }}
 {% endblock %}

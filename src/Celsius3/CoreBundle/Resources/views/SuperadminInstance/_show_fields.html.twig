@@ -1,14 +1,14 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Name'|trans }}</dt>
-    <dd>{{ instance.name }}</dd>
+    <dd>{{ element.name }}</dd>
     <dt>{{ 'Abbreviation'|trans }}</dt>
-    <dd>{{ instance.abbreviation }}</dd>
-    {% if instance.isCurrent %}
+    <dd>{{ element.abbreviation }}</dd>
+    {% if element.isCurrent %}
     <dt>{{ 'Url'|trans }}</dt>
-    <dd>{{ instance.url }}</dd>
+    <dd>{{ element.url }}</dd>
     {% endif %}
     <dt>{{ 'Email'|trans }}</dt>
-    <dd>{{ instance.email }}</dd>
+    <dd>{{ element.email }}</dd>
     <dt>{{ 'Institutions'|trans }}</dt>
     <dd>Institutions tree</dd>
 </dl>

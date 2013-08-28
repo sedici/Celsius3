@@ -1,7 +1,0 @@
-<ul class="unstyled pull-right actions">
-    <li>
-        {% if notifications.viewed == 0 %}
-            <a href="{{ path('notification_change_state', { 'id': notifications.id }) }}"><i class="icon-ok"></i> {{ 'View'|trans }}</a>
-        {% endif %}
-    </li>
-</ul>

@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
 
 {% block content %}
+<h2>{{ 'Order View'|trans }}</h2>
+
 {{ show('user_order', document, delete_form, 'Celsius3CoreBundle:UserOrder', instance, true) }}
 {% endblock %}

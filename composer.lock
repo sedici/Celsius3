@@ -498,12 +498,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "744b63b7b9aee9208d3e97e0d16e5b5f46a58e8b"
+                "reference": "58f108822e8e1db585929c2aa615dfa91ff5ccdc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/744b63b7b9aee9208d3e97e0d16e5b5f46a58e8b",
-                "reference": "744b63b7b9aee9208d3e97e0d16e5b5f46a58e8b",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/58f108822e8e1db585929c2aa615dfa91ff5ccdc",
+                "reference": "58f108822e8e1db585929c2aa615dfa91ff5ccdc",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +541,7 @@
                     "homepage": "http://avalanche123.com"
                 },
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/"
                 },
@@ -564,7 +564,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-08-20 21:50:51"
+            "time": "2013-08-28 16:48:38"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -791,12 +791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "3b8643c573b93ab2a5d2c0cab893cb0fedcac757"
+                "reference": "e536e8b87db29854cacc214dff5d41fbcf188674"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/3b8643c573b93ab2a5d2c0cab893cb0fedcac757",
-                "reference": "3b8643c573b93ab2a5d2c0cab893cb0fedcac757",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/e536e8b87db29854cacc214dff5d41fbcf188674",
+                "reference": "e536e8b87db29854cacc214dff5d41fbcf188674",
                 "shasum": ""
             },
             "require": {
@@ -851,7 +851,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-08-27 13:19:17"
+            "time": "2013-08-28 08:24:11"
         },
         {
             "name": "fzaninotto/faker",

@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-{{ index('superadmin_journal', pagination, 'Celsius3CoreBundle:SuperadminJournal', filter_form) }}
+<h2>{{ 'Journal List'|trans }}</h2>
+
+{{ index('superadmin_journal', pagination, 'Celsius3CoreBundle:SuperadminJournal', filter_form, null, true) }}
 {% endblock %}

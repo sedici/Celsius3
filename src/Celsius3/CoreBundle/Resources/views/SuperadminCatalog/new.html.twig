@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
+<h2>{{ 'Catalog Creation'|trans }}</h2>
+
 {{ new('superadmin_catalog', form) }}
 {% endblock %}
