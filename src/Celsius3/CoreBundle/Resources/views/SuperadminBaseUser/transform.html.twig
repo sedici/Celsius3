@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import transform as transform %}
 
 {% block content %}
+<h2>{{ 'User Transform'|trans }} - {{ document.name }}</h2>
+
 {{ transform('superadmin_user', document, transform_form) }}
 {% endblock %}

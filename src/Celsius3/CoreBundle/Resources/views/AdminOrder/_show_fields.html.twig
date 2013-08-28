@@ -4,20 +4,20 @@
 <div class="well">
     <ul class="state-list">
         {% for key, state in get_positive_states() %}
-            <li>{{ render_state_header(key, document)|raw }}</li>
+            <li>{{ render_state_header(key, element)|raw }}</li>
         {% endfor %}
     </ul>
 </div>
 <div id="state-info">
     {% for key, state in get_positive_states() %}
-        {{ render_state_body(key, document)|raw }}
+        {{ render_state_body(key, element)|raw }}
     {% endfor %}
 </div>
 {% endblock %}
 
 {% block extrafields %}
 <dt>{{ 'Current state'|trans }}</dt>
-<dd>{{ document.getCurrentState(instance).type.name|capitalize }} {{ 'since'|trans }} {{ document.getCurrentState(instance).date|localizeddate }} ({{ document.getCurrentState(instance).date|time_ago_in_words }})</dd>
+<dd>{{ element.getCurrentState(instance).type.name|capitalize }} {{ 'since'|trans }} {{ element.getCurrentState(instance).date|localizeddate }} ({{ element.getCurrentState(instance).date|time_ago_in_words }})</dd>
 <dt>{{ 'User'|trans }}</dt>
-<dd><a href="{{ path('admin_user',{ 'id': document.owner.id }) }}">{{ document.owner.username }}</a></dd>
+<dd><a href="{{ path('admin_user',{ 'id': element.owner.id }) }}">{{ element.owner.username }}</a></dd>
 {% endblock %}

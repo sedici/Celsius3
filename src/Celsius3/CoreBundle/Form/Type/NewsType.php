@@ -19,11 +19,7 @@ class NewsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title')
-                ->add('text', 'textarea', array(
-                    'attr' => array(
-                        'class' => 'tinymce',
-                    ),
-                ))
+                ->add('text', 'genemu_tinymce')
                 ->add('date', 'datetime', array(
                     'widget' => 'single_text',
                     'format' => 'dd/MM/yyyy HH:mm',

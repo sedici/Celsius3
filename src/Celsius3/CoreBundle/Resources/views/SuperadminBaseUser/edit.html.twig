@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
+<h2>{{ 'User Edit'|trans }} - {{ document.username }}</h2>
+
 {{ edit('superadmin_user', document, edit_form, delete_form) }}
 {% endblock %}

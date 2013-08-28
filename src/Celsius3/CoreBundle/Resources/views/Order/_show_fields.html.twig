@@ -1,9 +1,9 @@
 {% block statelist %}{% endblock %}
 <dl class="dl-horizontal">
     <dt>{{ 'Code'|trans }}</dt>
-    <dd>{{ document.code }}</dd>
+    <dd>{{ element.code }}</dd>
     {% block extrafields %}{% endblock %}
 </dl>
 <div class="thumbnail">
-    {{ render_material(document.materialData)|raw }}
+    {{ render_material(element.materialData)|raw }}
 </div>
