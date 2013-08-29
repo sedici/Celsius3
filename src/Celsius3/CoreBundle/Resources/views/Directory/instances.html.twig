@@ -6,25 +6,18 @@
 
 {% block content %}
 <div class="row">
+    <h2>{{ 'Celsius3 Instances'|trans }}</h2>
     <ul class="list-unstyled">
         {% for instance in instances %}
-        <li class="col-md-6">
-            <div class="well">
-                {% if instance.isCurrent %}
-                    <h2><a href="{{ path('public_index', { 'url': instance.url }) }}">{{ instance.get('instance_title').value }}</a></h2>    
-                {% endif %}
-                <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
-                <p>
-                    {{ 'Institutions'|trans }}: "Here goes the Institution Tree"
-                </p>
-                <p>
-                    <a href="http://{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
-                </p>
-                <p>
-                    <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
-                </p>
-            </div>
-        </li>
+        {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
+        {% endfor %}
+    </ul>
+</div>
+<div class="row">
+    <h2>{{ 'Legacy Instances'|trans }}</h2>
+    <ul class="list-unstyled">
+        {% for instance in legacyInstances %}
+        {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
         {% endfor %}
     </ul>
 </div>

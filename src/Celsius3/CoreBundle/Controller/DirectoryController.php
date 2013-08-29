@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class DirectoryController extends BaseController
 {
+
     /**
      * @Route("/directory/", name="directory")
      * @Route("/", name="index")
@@ -38,15 +39,24 @@ class DirectoryController extends BaseController
     public function instancesAction()
     {
         $instances = $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:LegacyInstance')
-                        ->createQueryBuilder()
-                        ->field('enabled')->equals(true)
-                        ->getQuery()
-                        ->execute();
+                ->getRepository('Celsius3CoreBundle:Instance')
+                ->createQueryBuilder()
+                ->field('enabled')->equals(true)
+                ->getQuery()
+                ->execute();
+
+        $legacyInstances = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:LegacyInstance')
+                ->createQueryBuilder()
+                ->field('enabled')->equals(true)
+                ->field('type')->equals('legacy')
+                ->getQuery()
+                ->execute();
 
         return array(
             'directory' => $this->getDirectory(),
             'instances' => $instances,
+            'legacyInstances' => $legacyInstances,
         );
     }
 
