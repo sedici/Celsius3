@@ -1,9 +1,5 @@
-<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form-horizontal well">
-    {{ form_widget(form, {'form_type': 'horizontal'}) }}
-    <div class="control-group">
-        <div class="controls">
-            <button type="submit" class="btn btn-primary"><i class="icon-ok"></i> {{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</button>
-            <a href="{{ path('fos_user_change_password') }}">{{ 'Change password'|trans }}</a>
-        </div>
-    </div>
+<form action="{{ path('fos_user_profile_edit') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit form" role="form">
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</button>
+    <a href="{{ path('fos_user_change_password') }}">{{ 'Change password'|trans }}</a>
 </form>

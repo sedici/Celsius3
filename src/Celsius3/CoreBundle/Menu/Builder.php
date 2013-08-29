@@ -19,7 +19,7 @@ class Builder extends ContainerAware
         $local = $request->attributes->has('url') && $request->attributes->get('url') == $this->container->get('session')->get('instance_url') || !$request->attributes->has('url');
 
         $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav navbar-nav');
+        $menu->setChildrenAttribute('class', 'nav navbar-nav main-navbar');
 
         $menu->addChild('Home', array(
             'route' => 'public_index',

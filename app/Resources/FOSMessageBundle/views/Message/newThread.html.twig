@@ -3,18 +3,19 @@
 {% block fos_message_content %}
 <h3>{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
 <div class="row">
-    <div class="span9">
-        <form action="{{ url('fos_message_thread_new') }}" method="post" class="form-horizontal well">
-            {{ form_widget(form, {'form_type': 'horizontal'}) }}
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-primary"><i class="icon-envelope"></i> {{ 'Send'|trans }}</button>
-                </div>
-            </div>
+    <div class="col-md-9">
+        <form action="{{ url('fos_message_thread_new') }}" method="post" class="form">
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-envelope"></span> {{ 'Send'|trans }}</button>
         </form>
     </div>
-    <div class="span3">
+    <div class="col-md-3">
         {% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ form_javascript(form) }}
 {% endblock %}

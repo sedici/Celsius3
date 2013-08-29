@@ -1,18 +1,20 @@
-<div id="accordion" class="accordion">
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                <i class="icon-wrench"></i> {{ 'Actions'|trans }}
-            </a>
+<div id="accordion" class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                </a>
+            </h4>
         </div>
-        <div class="accordion-body in collapse" id="collapseTwo">
-            <div class="accordion-inner">
-                <ul class="unstyled">
+        <div class="panel-collapse in collapse" id="collapseTwo">
+            <div class="panel-body">
+                <ul class="list-unstyled">
                     <li>
-                        <a href="{{ path('fos_message_inbox' )}}"><i class="icon-inbox"></i> {{ 'Go to Inbox'|trans }}</a>
+                        <a href="{{ path('fos_message_inbox' )}}"><span class="glyphicon glyphicon-inbox"></span> {{ 'Go to Inbox'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('fos_message_sent' )}}"><i class="icon-envelope"></i> {{ 'Go to Sent'|trans }}</a>
+                        <a href="{{ path('fos_message_sent' )}}"><span class="glyphicon glyphicon-envelope"></span> {{ 'Go to Sent'|trans }}</a>
                     </li>
                 </ul>
             </div>

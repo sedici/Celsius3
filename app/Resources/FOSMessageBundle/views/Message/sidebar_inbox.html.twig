@@ -1,13 +1,15 @@
-<div id="accordion" class="accordion">
+<div id="accordion" class="panel-group">
     {% if filter_form %}
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                <i class="icon-search"></i> {{ 'Filters'|trans }}
-            </a>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
+                </a>
+            </h4>
         </div>
-        <div class="accordion-body collapse" id="collapseOne">
-            <div class="accordion-inner">
+        <div class="panel-collapse collapse" id="collapseOne">
+            <div class="panel-body">
                 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %}
 
                 {{ filter('fos_message_search', filter_form) }}
@@ -15,17 +17,19 @@
         </div>
     </div>
     {% endif %}
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                <i class="icon-wrench"></i> {{ 'Actions'|trans }}
-            </a>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                </a>
+            </h4>
         </div>
-        <div class="accordion-body in collapse" id="collapseTwo">
-            <div class="accordion-inner">
-                <ul class="unstyled">
+        <div class="panel-collapse in collapse" id="collapseTwo">
+            <div class="panel-body">
+                <ul class="list-unstyled">
                     <li>
-                        <a href="{{ path('fos_message_thread_new' )}}"><i class="icon-plus"></i> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
+                        <a href="{{ path('fos_message_thread_new' )}}"><span class="glyphicon glyphicon-plus"></span> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
                     </li>
                 </ul>
             </div>

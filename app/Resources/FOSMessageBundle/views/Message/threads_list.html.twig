@@ -5,7 +5,7 @@
     <span>
         {{ 'Sort by'|trans }}:
     </span>
-    <ul class="unstyled">
+    <ul class="list-unstyled">
         <li>{{ knp_pagination_sortable(threads, 'Date'|trans, 'createdAt') }} - </li>
         <li>{{ knp_pagination_sortable(threads, 'Subject'|trans, 'subject') }}</li>
     </ul>
@@ -15,10 +15,10 @@
     <div id="id{{ thread.id }}">
         <div class="message-heading {{ fos_message_is_read(thread)?'message-read':'' }}">
             <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
-                <span class="label label-inverse message-creator span2">
+                <span class="label label-default message-creator col-md-2">
                     {{  thread.lastMessage.sender.fullName }}
                 </span>
-                <span class="message-subject span5 autoellipsis">
+                <span class="message-subject col-md-7 autoellipsis">
                     ({{ get_unread_messages(thread) }}) {{ thread.subject }}
                 </span>
                 <span class="pull-right">

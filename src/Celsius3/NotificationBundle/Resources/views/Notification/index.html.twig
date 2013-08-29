@@ -7,5 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
+<h2>{{ 'Notification List'|trans }}</h2>
+
 {{ index('user_notification', pagination, 'Celsius3NotificationBundle:Notification', filter_form) }}
 {% endblock %}

@@ -8,7 +8,7 @@
     <dd>
     {% for file in element.getNotDownloadedFiles() %}
         <form action="{{ path('user_file_download', { 'order': element.id, 'file': file.id }) }}" method="post" class="inline-form">
-            <a class="submit-download-form" href="#" title="{{ file.name }}"><i class="icon-download-alt"></i>{{ 'download'|capitalize|trans }}</a>
+            <a class="submit-download-form" href="#" title="{{ file.name }}"><span class="glyphicon glyphicon-download-alt"></span>{{ 'download'|capitalize|trans }}</a>
         </form>
     {% endfor %}
     </dd>

@@ -2,7 +2,7 @@
 {% macro admin_search(path, advanced_path) %}
 <form action="{{ path }}" method="GET" class="form-search admin_search thumbnail">
     <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="input-medium search-query" />
-    <button type="submit" class="btn"><i class="icon-search"></i> {{ 'Search'|trans }}</button>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> {{ 'Search'|trans }}</button>
     {% if advanced_path %}
     <p>
         <a href="{{ advanced_path }}">{{ 'Advanced search'|trans }}</a>

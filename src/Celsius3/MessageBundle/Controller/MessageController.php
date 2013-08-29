@@ -1,9 +1,9 @@
 <?php
 
 namespace Celsius3\MessageBundle\Controller;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\MongoDB\Query\Builder;
 use Celsius3\MessageBundle\Filter\Type\MessageFilterType;
 use FOS\MessageBundle\Controller\MessageController as BaseController;
 
@@ -41,8 +41,7 @@ class MessageController extends BaseController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('filter_manager')
-                ->filter($query, $filter_form,
-                        'Celsius3\\CoreBundle\\Document\\' . $name);
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
     }
 
     public function getRequest()
@@ -78,15 +77,12 @@ class MessageController extends BaseController
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator
-                ->paginate($threads,
-                        $this->get('request')->query->get('page', 1)/* page number */,
-                        $this->getResultsPerPage()/* limit per page */
-                );
+                ->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
+        );
 
         return $this->container->get('templating')
-                ->renderResponse('FOSMessageBundle:Message:inbox.html.twig',
-                        array('threads' => $pagination,
-                                'filter_form' => $filter_form->createView(),));
+                        ->renderResponse('FOSMessageBundle:Message:inbox.html.twig', array('threads' => $pagination,
+                            'filter_form' => $filter_form->createView(),));
     }
 
     /**
@@ -101,15 +97,12 @@ class MessageController extends BaseController
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator
-                ->paginate($threads,
-                        $this->get('request')->query->get('page', 1)/* page number */,
-                        $this->getResultsPerPage()/* limit per page */
-                );
+                ->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
+        );
 
         return $this->container->get('templating')
-                ->renderResponse('FOSMessageBundle:Message:sent.html.twig',
-                        array('threads' => $pagination,
-                                'filter_form' => $filter_form->createView(),));
+                        ->renderResponse('FOSMessageBundle:Message:sent.html.twig', array('threads' => $pagination,
+                            'filter_form' => $filter_form->createView(),));
     }
 
     /**
@@ -125,17 +118,15 @@ class MessageController extends BaseController
         if ($message = $formHandler->process($form)) {
             return new RedirectResponse(
                     $this->container->get('router')
-                            ->generate('fos_message_thread_view',
-                                    array(
-                                            'threadId' => $message->getThread()
-                                                    ->getId())));
+                            ->generate('fos_message_thread_view', array(
+                                'threadId' => $message->getThread()
+                                ->getId())));
         }
 
         return $this->container->get('templating')
-                ->renderResponse(
-                        'FOSMessageBundle:Message:newThread.html.twig',
-                        array('form' => $form->createView(),
-                                'data' => $form->getData(),));
+                        ->renderResponse(
+                                'FOSMessageBundle:Message:newThread.html.twig', array('form' => $form->createView(),
+                            'data' => $form->getData(),));
     }
 
     /**
@@ -146,27 +137,22 @@ class MessageController extends BaseController
         $query = $this->container->get('fos_message.search_query_factory')
                 ->createFromRequest();
         $threads = $this->getDocumentManager()
-                ->getRepository('CelsiusCelsius3MessageBundle:Thread')
-                ->applyExtraFilters(
-                        $this->container->get('fos_message.search_finder')
-                                ->getQueryBuilder($query), $this->getRequest(),
-                        $this->get('security.context')->getToken()->getUser());
+                ->getRepository('Celsius3MessageBundle:Thread')
+                ->applyExtraFilters($this->container->get('fos_message.search_finder')->getQueryBuilder($query), $this->getRequest(), $this->get('security.context')->getToken()->getUser());
 
-        $filter_form = $this->container->get('form.factory')
-                ->create(new MessageFilterType());
+        $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
         $filter_form->bind($this->getRequest());
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator
-                ->paginate($threads,
-                        $this->get('request')->query->get('page', 1)/* page number */,
-                        $this->getResultsPerPage()/* limit per page */
-                );
+                ->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
+        );
 
-        return $this->container->get('templating')
-                ->renderResponse('FOSMessageBundle:Message:search.html.twig',
-                        array('query' => $query, 'threads' => $pagination,
-                                'filter_form' => $filter_form->createView(),));
+        return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:search.html.twig', array(
+                    'query' => $query,
+                    'threads' => $pagination,
+                    'filter_form' => $filter_form->createView(),
+        ));
     }
 
 }

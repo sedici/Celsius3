@@ -1,5 +1,14 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
+{% block title %}
+{{ 'Edit Profile'|trans }}
+{% endblock %}
+
 {% block content %}
-{% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>{{ 'Edit Profile'|trans }}</h2>
+        {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+    </div>
+</div>
 {% endblock %}
