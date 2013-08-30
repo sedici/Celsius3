@@ -21,6 +21,7 @@ class Order
      * @MongoDB\Int
      */
     private $code;
+    
     /**
      * @Assert\NotBlank(groups={"newOrder"})
      * @MongoDB\String

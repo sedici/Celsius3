@@ -14,6 +14,7 @@
         <parameter key="celsius3_core.twig.extension.material_type.class">Celsius3\CoreBundle\Twig\MaterialTypeExtension</parameter>
         <parameter key="celsius3_core.twig.extension.catalogs.class">Celsius3\CoreBundle\Twig\CatalogExtension</parameter>
         <parameter key="celsius3_core.counter_listener.class">Celsius3\CoreBundle\Listener\CounterListener</parameter>
+        <parameter key="celsius3_core.catalog_listener.class">Celsius3\CoreBundle\Listener\CatalogListener</parameter>
         <parameter key="celsius3_core.configuration_listener.class">Celsius3\CoreBundle\Listener\ConfigurationListener</parameter>
         <parameter key="celsius3_core.order_listener.class">Celsius3\CoreBundle\Listener\OrderListener</parameter>
         <parameter key="celsius3_core.security.login_listener.class">Celsius3\CoreBundle\EventListener\LoginListener</parameter>
@@ -96,6 +97,11 @@
 
         <service id="celsius3_core.counter_listener" class="%celsius3_core.counter_listener.class%">
             <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+        
+        <service id="celsius3_core.catalog_listener" class="%celsius3_core.catalog_listener.class%">
+            <argument type="service" id="service_container"></argument>
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
         </service>
 
