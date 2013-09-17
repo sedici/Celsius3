@@ -137,7 +137,12 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: celsius3_corebundle_profile }
-
+        
+    jms_serializer.metadata.doctrine_type_driver:
+        class:        %jms_serializer.doctrine_object_constructor.class%
+        public:       false
+        arguments:    ["@jms_serializer.metadata.chain_driver", "@doctrine_mongodb"]
+    
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
 
@@ -176,3 +181,10 @@ celsius3_notification:
         host: %notification_host%   #(optional) The host ip to bind to
         zmq_port: %notification_zmq_port%
         zmq_host: %notification_zmq_host%
+        
+fos_oauth_server:
+    db_driver: mongodb       # Driver availables: orm, mongodb, or propel
+    client_class:        Celsius3\ApiBundle\Entity\Client
+    access_token_class:  Celsius3\ApiBundle\Entity\AccessToken
+    refresh_token_class: Celsius3\ApiBundle\Entity\RefreshToken
+    auth_code_class:     Celsius3\ApiBundle\Entity\AuthCode

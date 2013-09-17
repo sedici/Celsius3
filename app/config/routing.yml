@@ -1,3 +1,8 @@
+celsius3_api:
+    resource: "@Celsius3ApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 celsius3_notification:
     resource: "@Celsius3NotificationBundle/Controller/"
     type:     annotation
@@ -44,6 +49,12 @@ fos_message:
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+    
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
+
+fos_oauth_server_authorize:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
 
 # Internal routing configuration to handle ESI
 #_internal:
