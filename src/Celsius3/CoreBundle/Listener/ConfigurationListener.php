@@ -31,6 +31,11 @@ class ConfigurationListener
             foreach ($default as $configuration) {
                 $new = $this->configuration_helper->duplicate($configuration);
                 $new->setInstance($document);
+
+                if ($new->getKey() == 'api_key') {
+                    $new->setValue(sha1($document->getUrl() . $document->getName()));
+                }
+
                 $dm->persist($new);
                 $dm->flush();
             }

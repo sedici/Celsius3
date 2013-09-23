@@ -1,20 +1,28 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="celsius3_api.example.class">Celsius3\ApiBundle\Example</parameter>
+        <parameter key="wsse.security.authentication.provider.class">Celsius3\ApiBundle\Security\Authentication\Provider\WsseProvider</parameter>
+        <parameter key="wsse.security.authentication.listener.class">Celsius3\ApiBundle\Security\Firewall\WsseListener</parameter>
+        <parameter key="celsius3_api.instance_provider.class">Celsius3\ApiBundle\Security\InstanceProvider</parameter>
     </parameters>
 
     <services>
-        <service id="celsius3_api.example" class="%celsius3_api.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="celsius3_api.instance_provider" class="%celsius3_api.instance_provider.class%" public="false">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager" />
+        </service>
+        
+        <service id="wsse.security.authentication.provider" class="%wsse.security.authentication.provider.class%" public="false">
+            <argument type="service" id="celsius3_api.instance_provider" />
+            <argument>%kernel.cache_dir%/security/nonces</argument>
+        </service>
+
+        <service id="wsse.security.authentication.listener" class="%wsse.security.authentication.listener.class%" public="false">
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="security.authentication.manager" />
         </service>
     </services>
-    -->
 </container>

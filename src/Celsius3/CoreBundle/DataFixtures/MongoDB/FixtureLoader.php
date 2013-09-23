@@ -83,6 +83,11 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             'value' => '',
             'type' => 'text',
         ),
+        'api_key' => array(
+            'name' => 'Api Key',
+            'value' => '',
+            'type' => 'string',
+        ),
     );
     private $state_types = array(
         StateManager::STATE__CREATED,

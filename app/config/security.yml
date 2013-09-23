@@ -4,9 +4,14 @@ security:
             id: fos_user.user_provider.username
 
     encoders:
-        "FOS\UserBundle\Model\UserInterface": sha512
+        FOS\UserBundle\Model\UserInterface: sha512
 
     firewalls:
+        wsse_secured:
+            pattern:   ^/api/.*
+            stateless: true
+            wsse:      true
+      
         main:
             pattern: ^/
             form_login:
@@ -27,26 +32,13 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-            
-        oauth_token:
-            pattern:    ^/oauth/v2/token
-            security:   false
-
-        oauth_authorize:
-            pattern:    ^/oauth/v2/auth
-            # Add your favorite authentication process here
-
-        api:
-            pattern:    ^/api
-            fos_oauth:  true
-            stateless:  true
 
     access_control:
         - { path: ^/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/, role: ROLE_USER }
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/superadmin/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/api/, role: IS_AUTHENTICATED_FULLY }
 
     role_hierarchy:
         ROLE_LIBRARIAN:   ROLE_USER

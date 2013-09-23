@@ -181,10 +181,14 @@ celsius3_notification:
         host: %notification_host%   #(optional) The host ip to bind to
         zmq_port: %notification_zmq_port%
         zmq_host: %notification_zmq_host%
-        
-fos_oauth_server:
-    db_driver: mongodb       # Driver availables: orm, mongodb, or propel
-    client_class:        Celsius3\ApiBundle\Entity\Client
-    access_token_class:  Celsius3\ApiBundle\Entity\AccessToken
-    refresh_token_class: Celsius3\ApiBundle\Entity\RefreshToken
-    auth_code_class:     Celsius3\ApiBundle\Entity\AuthCode
+
+fos_rest:
+    view:
+        #view_response_listener: true
+        formats:
+            json: true
+            xml: true
+        templating_formats:
+            html: false
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
