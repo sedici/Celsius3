@@ -20,9 +20,14 @@ class UserController extends FOSRestController
      */
     public function getUsersAction()
     {
-        return json_encode(array(
-            'sarasa' => 'sarasa',
-        ));
+        $data = array(
+            'foo' => 'bar'
+        );
+        $view = $this->view($data, 200)
+            ->setFormat('json')
+        ;
+
+        return $this->handleView($view);
     }
 
 }
