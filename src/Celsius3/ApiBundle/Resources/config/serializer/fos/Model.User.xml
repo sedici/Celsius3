@@ -1,0 +1,6 @@
+<serializer>  
+    <class name="FOS\UserBundle\Model\User" exclusion-policy="all">  
+        <property name="username" type="string" expose="true" access-type="public_method"></property>
+        <property name="email" type="string" expose="true" access-type="public_method"></property>
+    </class>  
+</serializer>  

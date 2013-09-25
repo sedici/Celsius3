@@ -1,0 +1,12 @@
+<serializer>  
+    <class name="Celsius3\CoreBundle\Document\BaseUser" exclusion-policy="all">  
+        <property name="id" type="string" expose="true" read-only="true"></property>  
+        <property name="username" type="string" expose="true" access-type="public_method"></property>
+        <property name="email" type="string" expose="true" access-type="public_method"></property>
+        <property name="name" type="string" expose="true" access-type="public_method"></property>  
+        <property name="surname" type="string" expose="true" access-type="public_method"></property>  
+        <property name="birthdate" type="DateTime" expose="true" access-type="public_method"></property>  
+        <property name="address" type="string" expose="true" access-type="public_method"></property>  
+        <property name="enabled" type="boolean" expose="true" access-type="public_method"></property>  
+    </class>  
+</serializer>  

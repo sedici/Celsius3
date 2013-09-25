@@ -44,7 +44,8 @@ class SecurityListener
                 ->findOneBy(array('url' => $matches[1]));
 
         try {
-            if ($instance && $this->validateDigest($matches[2], $matches[3], $matches[4], $instance->get('api_key')->getValue())) {
+            if ($instance && $instance->getEnabled() && $this->validateDigest($matches[2], $matches[3], $matches[4], $instance->get('api_key')->getValue())) {
+                $request->request->set('instance_id', $instance->getId());
                 // everything cool
                 return;
             }

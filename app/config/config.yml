@@ -139,9 +139,14 @@ services:
             - { name: form.type, alias: celsius3_corebundle_profile }
         
     jms_serializer.metadata.doctrine_type_driver:
-        class:        %jms_serializer.doctrine_object_constructor.class%
+        class:        %jms_serializer.metadata.doctrine_type_driver.class%
         public:       false
         arguments:    ["@jms_serializer.metadata.chain_driver", "@doctrine_mongodb"]
+        
+    jms_serializer.metadata.doctrine_object_constructor:
+        class:        %jms_serializer.doctrine_object_constructor.class%
+        public:       false
+        arguments:    ["@doctrine_mongodb", "@jms_serializer.unserialize_object_constructor"]
     
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
@@ -188,7 +193,6 @@ fos_rest:
     format_listener: true
     view:
         formats:
-            xml: true
             json : true
         templating_formats:
             html: true
@@ -198,3 +202,14 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
+        
+jms_serializer:
+    metadata:
+        auto_detection: true
+        directories:
+            FOSUserBundle:
+                namespace_prefix: FOS\UserBundle
+                path: "@Celsius3ApiBundle/Resources/config/serializer/fos"
+            Celsius3CoreBundle:
+                namespace_prefix: Celsius3\CoreBundle
+                path: "@Celsius3ApiBundle/Resources/config/serializer/core"

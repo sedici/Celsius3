@@ -2,30 +2,31 @@
 
 namespace Celsius3\ApiBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 
 /**
  * User controller.
  *
- * @Route("/user")
+ * @Route("/users")
  */
-class UserController extends FOSRestController
+class UserController extends BaseController
 {
 
     /**
      * GET Route annotation.
      * @Get("/")
      */
-    public function getUsersAction()
+    public function usersAction()
     {
-        $data = array(
-            'foo' => 'bar'
-        );
-        $view = $this->view($data, 200)
-            ->setFormat('json')
-        ;
+        $dm = $this->getDocumentManager();
+
+        $users = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findBy(array('instance.id' => $this->getInstance()->getId()))
+                ->toArray();
+
+        $view = $this->view($users, 200)
+                ->setFormat('json');
 
         return $this->handleView($view);
     }

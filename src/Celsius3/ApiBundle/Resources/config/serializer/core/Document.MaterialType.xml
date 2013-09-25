@@ -1,0 +1,19 @@
+<serializer>  
+    <class name="Celsius3\CoreBundle\Document\MaterialType" exclusion-policy="all">  
+        <property name="id" type="string" expose="true" read-only="true"></property>  
+        <property name="title" type="string" expose="true" access-type="public_method"></property>
+        <property name="authors" type="string" expose="true" access-type="public_method"></property>
+        <property name="year" type="integer" expose="true" access-type="public_method"></property>
+        <property name="startPage" type="integer" expose="true" access-type="public_method"></property>
+        <property name="endPage" type="integer" expose="true" access-type="public_method"></property>
+        <property name="editor" type="string" expose="true" access-type="public_method"></property>
+        <property name="chapter" type="string" expose="true" access-type="public_method"></property>
+        <property name="ISBN" type="string" expose="true" access-type="public_method"></property>
+        <property name="director" type="string" expose="true" access-type="public_method"></property>
+        <property name="degree" type="string" expose="true" access-type="public_method"></property>
+        <property name="place" type="string" expose="true" access-type="public_method"></property>
+        <property name="communication" type="string" expose="true" access-type="public_method"></property>
+        <property name="volume" type="string" expose="true" access-type="public_method"></property>
+        <property name="number" type="string" expose="true" access-type="public_method"></property>
+    </class>  
+</serializer>  
