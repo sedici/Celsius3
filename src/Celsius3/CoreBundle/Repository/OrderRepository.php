@@ -4,6 +4,7 @@ namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;
+use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
 
@@ -91,6 +92,39 @@ class OrderRepository extends DocumentRepository
 
         return $this->createQueryBuilder()->field('id')
                         ->equals($order_id['order']['$id']);
+    }
+
+    public function findByStateType($type, BaseUser $user = null, Instance $instance = null)
+    {
+        $stateType = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:StateType')
+                ->createQueryBuilder()
+                ->select('id')
+                ->field('name')->equals($type)
+                ->getQuery()
+                ->getSingleResult();
+
+        $states = $this->getDocumentManager()
+                        ->getRepository('Celsius3CoreBundle:State')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('order')
+                        ->field('isCurrent')->equals(true)
+                        ->field('type.id')->equals($stateType->getId());
+
+        if (!is_null($instance)) {
+            $states = $states->field('instance.id')->equals($instance->getId());
+        }
+
+        $qb = $this->createQueryBuilder()
+                        ->field('id')->in(array_map(array($this, 'getIds'), $states->getQuery()->execute()->toArray()));
+
+        if (!is_null($user)) {
+            $qb = $qb->field('owner.id')->equals($user->getId());
+        }
+
+        return $qb->getQuery()
+                        ->execute();
     }
 
     public function addFindByStateType(array $types, Builder $query, Instance $instance = null)
