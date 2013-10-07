@@ -2,5 +2,6 @@
     <class name="Celsius3\CoreBundle\Document\Order" exclusion-policy="all">  
         <property name="id" type="string" expose="true" read-only="true"></property>  
         <property name="code" type="integer" expose="true" access-type="public_method"></property>
+        <property name="owner" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
     </class>  
 </serializer>  

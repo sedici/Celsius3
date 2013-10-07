@@ -94,7 +94,7 @@ class OrderRepository extends DocumentRepository
                         ->equals($order_id['order']['$id']);
     }
 
-    public function findByStateType($type, BaseUser $user = null, Instance $instance = null)
+    public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
         $stateType = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:StateType')
@@ -114,6 +114,10 @@ class OrderRepository extends DocumentRepository
 
         if (!is_null($instance)) {
             $states = $states->field('instance.id')->equals($instance->getId());
+        }
+        
+        if (!is_null($startDate)) {
+            $states = $states->field('created')->gte($startDate);
         }
 
         $qb = $this->createQueryBuilder()

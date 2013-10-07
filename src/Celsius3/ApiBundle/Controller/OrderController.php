@@ -40,7 +40,7 @@ class OrderController extends BaseController
 
         return $this->handleView($view);
     }
-    
+
     /**
      * GET Route annotation.
      * @Get("/state/{state}")
@@ -49,8 +49,10 @@ class OrderController extends BaseController
     {
         $dm = $this->getDocumentManager();
 
+        $startDate = $this->getRequest()->query->get('startDate');
+
         $orders = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->findByStateType($state, null, $this->getInstance())
+                ->findByStateType($state, $startDate, null, $this->getInstance())
                 ->toArray();
 
         $view = $this->view($orders, 200)

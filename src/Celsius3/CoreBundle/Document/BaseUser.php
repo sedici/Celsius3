@@ -5,7 +5,10 @@ namespace Celsius3\CoreBundle\Document;
 use FOS\UserBundle\Model\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use FOS\MessageBundle\Model\ParticipantInterface;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\NotificationBundle\Document\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
@@ -20,6 +23,8 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable
 {
+
+    use TimestampableDocument;
 
     /**
      * @MongoDB\Id
