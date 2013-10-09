@@ -21,8 +21,18 @@ class UserController extends BaseController
     {
         $dm = $this->getDocumentManager();
 
-        $users = $dm->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findBy(array('instance.id' => $this->getInstance()->getId()))
+        $startDate = $this->getRequest()->query->get('startDate');
+
+        $qb = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                        ->createQueryBuilder()
+                        ->field('instance.id')->equals($this->getInstance()->getId());
+
+        if (!is_null($startDate)) {
+            $qb = $qb->field('createdAt')->gte(new \DateTime($startDate));
+        }
+
+        $users = $qb->getQuery()
+                ->execute()
                 ->toArray();
 
         $view = $this->view($users, 200)

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "158dcffa0c8e22136c2b99d8ffa90481",
+    "hash": "9a830418db71b72fefddab979e98cfa8",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -764,12 +764,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "926c0eb6c98a409e6bd52ca4acf2fd75f2fcb3de"
+                "reference": "ca84cbf7e016f46c5199aaa3d3c7ed4cd7014a0b"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/926c0eb6c98a409e6bd52ca4acf2fd75f2fcb3de",
-                "reference": "926c0eb6c98a409e6bd52ca4acf2fd75f2fcb3de",
+                "reference": "ca84cbf7e016f46c5199aaa3d3c7ed4cd7014a0b",
                 "shasum": ""
             },
             "require": {
@@ -830,7 +830,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-09-30 15:22:44"
+            "time": "2013-09-27 16:29:25"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1003,12 +1003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "0891050e6303ab3f2390579875308afa56fc3347"
+                "reference": "802f4e31dff98cedfbce3e257d0ae33a73a8d643"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/0891050e6303ab3f2390579875308afa56fc3347",
-                "reference": "0891050e6303ab3f2390579875308afa56fc3347",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/802f4e31dff98cedfbce3e257d0ae33a73a8d643",
+                "reference": "802f4e31dff98cedfbce3e257d0ae33a73a8d643",
                 "shasum": ""
             },
             "require": {
@@ -1021,6 +1021,11 @@
                 "doctrine/mongodb-odm-bundle": "dev-master"
             },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "FOS\\MessageBundle": ""
@@ -1048,7 +1053,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-09-06 08:54:23"
+            "time": "2013-10-08 21:47:44"
         },
         {
             "name": "friendsofsymfony/rest",
@@ -1108,12 +1113,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "2240da74617e16904aac6d56b99bd3b190bae74d"
+                "reference": "d24a0de8f99df40de9072fa0cf014a9d6ff47dde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/2240da74617e16904aac6d56b99bd3b190bae74d",
-                "reference": "2240da74617e16904aac6d56b99bd3b190bae74d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/d24a0de8f99df40de9072fa0cf014a9d6ff47dde",
+                "reference": "d24a0de8f99df40de9072fa0cf014a9d6ff47dde",
                 "shasum": ""
             },
             "require": {
@@ -1176,7 +1181,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-10-06 06:20:25"
+            "time": "2013-10-09 18:03:55"
         },
         {
             "name": "friendsofsymfony/user-bundle",

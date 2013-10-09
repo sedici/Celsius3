@@ -1,7 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
-use Symfony\Component\Form\AbstractType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Document\Instance;
@@ -12,9 +12,7 @@ class AdminOrderType extends OrderType
 
     protected $operator;
 
-    public function __construct(Instance $instance = null,
-            MaterialTypeType $material = null, BaseUser $user = null,
-            BaseUser $operator = null)
+    public function __construct(Instance $instance = null, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null)
     {
         parent::__construct($instance, $material, $user);
         $this->operator = $operator;
@@ -29,19 +27,17 @@ class AdminOrderType extends OrderType
         }
 
         $builder
-                ->add('owner_autocomplete', 'text',
-                        array(
-                                'attr' => array('class' => 'autocomplete',
-                                        'target' => 'BaseUser',
-                                        'value' => $owner,), 'mapped' => false,
-                                'label' => 'Owner',))
-                ->add('operator', 'celsius3_corebundle_user_selector',
-                        array(
-                                'attr' => array(
-                                        'value' => (!is_null($this->operator)) ? $this
-                                                        ->operator->getId() : '',
-                                        'class' => 'container',
-                                        'readonly' => 'readonly',),));
+                ->add('owner_autocomplete', 'text', array(
+                    'attr' => array('class' => 'autocomplete',
+                        'target' => 'BaseUser',
+                        'value' => $owner,), 'mapped' => false,
+                    'label' => 'Owner',))
+                ->add('operator', 'celsius3_corebundle_user_selector', array(
+                    'attr' => array(
+                        'value' => (!is_null($this->operator)) ? $this
+                                ->operator->getId() : '',
+                        'class' => 'container',
+                        'readonly' => 'readonly',),));
 
         parent::buildForm($builder, $options);
     }

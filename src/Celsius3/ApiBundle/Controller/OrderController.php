@@ -54,6 +54,8 @@ class OrderController extends BaseController
         $orders = $dm->getRepository('Celsius3CoreBundle:Order')
                 ->findByStateType($state, $startDate, null, $this->getInstance())
                 ->toArray();
+        
+        $this->get('logger')->info(count($orders));
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');

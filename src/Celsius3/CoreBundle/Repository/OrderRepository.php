@@ -109,15 +109,10 @@ class OrderRepository extends DocumentRepository
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->select('order')
-                        ->field('isCurrent')->equals(true)
                         ->field('type.id')->equals($stateType->getId());
 
         if (!is_null($instance)) {
             $states = $states->field('instance.id')->equals($instance->getId());
-        }
-        
-        if (!is_null($startDate)) {
-            $states = $states->field('created')->gte($startDate);
         }
 
         $qb = $this->createQueryBuilder()
@@ -125,6 +120,10 @@ class OrderRepository extends DocumentRepository
 
         if (!is_null($user)) {
             $qb = $qb->field('owner.id')->equals($user->getId());
+        }
+        
+        if (!is_null($startDate)) {
+            $qb = $qb->field('received')->gte(new \DateTime($startDate));
         }
 
         return $qb->getQuery()

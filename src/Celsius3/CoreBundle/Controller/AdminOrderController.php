@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,16 +20,16 @@ class AdminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->findForInstance($this->getInstance());
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->findOneForInstance($id, $this->getInstance())->getQuery()
-                ->getSingleResult();
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->findOneForInstance($id, $this->getInstance())->getQuery()
+                        ->getSingleResult();
     }
 
     /**
@@ -41,12 +42,7 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Order',
-                        $this
-                                ->createForm(
-                                        new OrderFilterType(
-                                                $this->getInstance())));
+        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
     }
 
     /**
@@ -76,10 +72,7 @@ class AdminOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Order', new Order(),
-                        new OrderType($this->getInstance(), null, null,
-                                $this->getUser()));
+        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, null, $this->getUser()));
     }
 
     /**
@@ -93,11 +86,7 @@ class AdminOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Order', new Order(),
-                        new OrderType($this->getInstance(),
-                                $this->getMaterialType(), null,
-                                $this->getUser()), 'admin_order');
+        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), 'admin_order');
     }
 
     /**
@@ -124,15 +113,12 @@ class AdminOrderController extends OrderController
 
         $editForm = $this
                 ->createForm(
-                        new OrderType($this->getInstance(),
-                                $this->getMaterialType($materialClass),
-                                $document->getOwner(), $this->getUser()),
-                        $document);
+                new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $document->getOwner(), $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('document' => $document,
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),);
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -161,9 +147,7 @@ class AdminOrderController extends OrderController
 
         $editForm = $this
                 ->createForm(
-                        new OrderType($this->getInstance(),
-                                $this->getMaterialType(), null,
-                                $this->getUser()), $document);
+                new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -176,15 +160,14 @@ class AdminOrderController extends OrderController
             $dm->flush();
 
             return $this
-                    ->redirect(
-                            $this
-                                    ->generateUrl('admin_order_edit',
-                                            array('id' => $id)));
+                            ->redirect(
+                                    $this
+                                    ->generateUrl('admin_order_edit', array('id' => $id)));
         }
 
         return array('document' => $document,
-                'edit_form' => $editForm->createView(),
-                'delete_form' => $deleteForm->createView(),);
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),);
     }
 
     /**
@@ -243,15 +226,13 @@ class AdminOrderController extends OrderController
                     ->add('success', 'The state has been successfully changed.');
         } else {
             $this->get('session')->getFlashBag()
-                    ->add('success',
-                            'There was an error processing your request.');
+                    ->add('success', 'There was an error processing your request.');
         }
 
         return $this
-                ->redirect(
-                        $this
-                                ->generateUrl('admin_order_show',
-                                        array('id' => $order->getId())));
+                        ->redirect(
+                                $this
+                                ->generateUrl('admin_order_show', array('id' => $order->getId())));
     }
 
     /**
@@ -279,14 +260,13 @@ class AdminOrderController extends OrderController
                     ->add('success', 'The state has been successfully changed.');
         } else {
             $this->get('session')->getFlashBag()
-                    ->add('success',
-                            'There was an error processing your request.');
+                    ->add('success', 'There was an error processing your request.');
         }
 
         return $this
-                ->redirect(
-                        $this
-                                ->generateUrl('admin_order_show',
-                                        array('id' => $order->getId())));
+                        ->redirect(
+                                $this
+                                ->generateUrl('admin_order_show', array('id' => $order->getId())));
     }
+
 }
