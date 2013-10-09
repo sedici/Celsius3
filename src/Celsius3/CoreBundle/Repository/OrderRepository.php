@@ -123,7 +123,7 @@ class OrderRepository extends DocumentRepository
         }
         
         if (!is_null($startDate)) {
-            $qb = $qb->field('received')->gte(new \DateTime($startDate));
+            $qb = $qb->field($type)->gte(new \DateTime($startDate));
         }
 
         return $qb->getQuery()
