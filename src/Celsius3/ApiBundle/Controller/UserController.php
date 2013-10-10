@@ -41,4 +41,28 @@ class UserController extends BaseController
         return $this->handleView($view);
     }
 
+    /**
+     * GET Route annotation.
+     * @Get("/{user_id}")
+     */
+    public function userAction($user_id)
+    {
+        $dm = $this->getDocumentManager();
+
+        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findOneBy(array(
+            'id' => $user_id,
+            'instance.id' => $this->getInstance()->getId(),
+        ));
+
+        if (!$user) {
+            return $this->createNotFoundException('User not found');
+        }
+
+        $view = $this->view($user, 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
 }
