@@ -4,6 +4,7 @@ namespace Celsius3\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 
 /**
  * User controller.
@@ -14,7 +15,6 @@ class UserController extends BaseController
 {
 
     /**
-     * GET Route annotation.
      * @Get("/")
      */
     public function usersAction()
@@ -42,7 +42,6 @@ class UserController extends BaseController
     }
 
     /**
-     * GET Route annotation.
      * @Get("/{user_id}")
      */
     public function userAction($user_id)
@@ -60,6 +59,64 @@ class UserController extends BaseController
         }
 
         $view = $this->view($user, 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Post("/{user_id}/disable_download")
+     */
+    public function disableDownloadAction($user_id)
+    {
+        $dm = $this->getDocumentManager();
+
+        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findOneBy(array(
+            'id' => $user_id,
+            'instance.id' => $this->getInstance()->getId(),
+        ));
+
+        if (!$user) {
+            return $this->createNotFoundException('User not found');
+        }
+
+        $user->setDownloadAuth(false);
+        $dm->persist($user);
+        $dm->flush();
+
+        $view = $this->view(array(
+                    'result' => true
+                        ), 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Post("/{user_id}/enable_download")
+     */
+    public function enableDownloadAction($user_id)
+    {
+        $dm = $this->getDocumentManager();
+
+        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findOneBy(array(
+            'id' => $user_id,
+            'instance.id' => $this->getInstance()->getId(),
+        ));
+
+        if (!$user) {
+            return $this->createNotFoundException('User not found');
+        }
+
+        $user->setDownloadAuth(true);
+        $dm->persist($user);
+        $dm->flush();
+
+        $view = $this->view(array(
+                    'result' => true
+                        ), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

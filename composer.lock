@@ -341,12 +341,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "b1e7d5a991ca891cd66c143a618f5ce1e679ba9f"
+                "reference": "8ffac1c63f34124f693b93889fa32f4036eb241b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/b1e7d5a991ca891cd66c143a618f5ce1e679ba9f",
-                "reference": "b1e7d5a991ca891cd66c143a618f5ce1e679ba9f",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/8ffac1c63f34124f693b93889fa32f4036eb241b",
+                "reference": "8ffac1c63f34124f693b93889fa32f4036eb241b",
                 "shasum": ""
             },
             "require": {
@@ -388,7 +388,7 @@
             "keywords": [
                 "database"
             ],
-            "time": "2013-09-16 23:31:59"
+            "time": "2013-10-10 22:08:39"
         },
         {
             "name": "doctrine/dbal",
@@ -1003,12 +1003,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "802f4e31dff98cedfbce3e257d0ae33a73a8d643"
+                "reference": "6a68fe5af382903c5208646f1f662b6433d006ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/802f4e31dff98cedfbce3e257d0ae33a73a8d643",
-                "reference": "802f4e31dff98cedfbce3e257d0ae33a73a8d643",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/6a68fe5af382903c5208646f1f662b6433d006ad",
+                "reference": "6a68fe5af382903c5208646f1f662b6433d006ad",
                 "shasum": ""
             },
             "require": {
@@ -1053,58 +1053,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-10-08 21:47:44"
-        },
-        {
-            "name": "friendsofsymfony/rest",
-            "version": "0.8.0",
-            "target-dir": "FOS/Rest",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FriendsOfSymfony/FOSRest.git",
-                "reference": "9a84df8220553e2ae3163b8325a3c4c2e9792426"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRest/zipball/9a84df8220553e2ae3163b8325a3c4c2e9792426",
-                "reference": "9a84df8220553e2ae3163b8325a3c4c2e9792426",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "symfony/http-foundation": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.8.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "FOS\\Rest": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lukas Kahwe Smith",
-                    "email": "smith@pooteeweet.org"
-                },
-                {
-                    "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/FriendsOfSymfony/FOSRest/contributors"
-                }
-            ],
-            "description": "This library provides various tools to develop RESTful API's",
-            "homepage": "http://friendsofsymfony.github.com",
-            "keywords": [
-                "rest"
-            ],
-            "time": "2013-03-02 20:35:05"
+            "time": "2013-10-09 22:06:13"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1113,17 +1062,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "d24a0de8f99df40de9072fa0cf014a9d6ff47dde"
+                "reference": "8e0b02a3ea9cbb76b2043868796659c8f61af29b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/d24a0de8f99df40de9072fa0cf014a9d6ff47dde",
-                "reference": "d24a0de8f99df40de9072fa0cf014a9d6ff47dde",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/8e0b02a3ea9cbb76b2043868796659c8f61af29b",
+                "reference": "8e0b02a3ea9cbb76b2043868796659c8f61af29b",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "1.0.*",
-                "friendsofsymfony/rest": ">=0.7.0,<0.9.0-dev",
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": "~2.1",
                 "willdurand/negotiation": "1.0.*"
@@ -1144,7 +1092,7 @@
             "suggest": {
                 "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires 0.12.*",
                 "sensio/framework-extra-bundle": "Add support for route annotations and the view response listener",
-                "symfony/serializer": "Add support for basic serialization capabilities, requires >=2.0,<2.3-dev"
+                "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ~2.1"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1181,7 +1129,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-10-09 18:03:55"
+            "time": "2013-10-11 14:23:24"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1190,12 +1138,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "5e236332c3934fbc16b79eff3cf6ee9ee21b7519"
+                "reference": "f9ea1de0698e3055c9916e88c19f42e28844ef61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/5e236332c3934fbc16b79eff3cf6ee9ee21b7519",
-                "reference": "5e236332c3934fbc16b79eff3cf6ee9ee21b7519",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/f9ea1de0698e3055c9916e88c19f42e28844ef61",
+                "reference": "f9ea1de0698e3055c9916e88c19f42e28844ef61",
                 "shasum": ""
             },
             "require": {
@@ -1250,7 +1198,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-10-02 23:38:05"
+            "time": "2013-10-09 22:58:46"
         },
         {
             "name": "fzaninotto/faker",
@@ -1258,12 +1206,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "7a56e4469954bf982b832e3e078c08ef9fef7258"
+                "reference": "2355fcf8d19de6eaa562f809150e4ddace90d985"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7a56e4469954bf982b832e3e078c08ef9fef7258",
-                "reference": "7a56e4469954bf982b832e3e078c08ef9fef7258",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/2355fcf8d19de6eaa562f809150e4ddace90d985",
+                "reference": "2355fcf8d19de6eaa562f809150e4ddace90d985",
                 "shasum": ""
             },
             "require": {
@@ -1296,7 +1244,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-09-23 22:28:51"
+            "time": "2013-10-10 13:40:29"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3403,16 +3351,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.3.5",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "aa5626cd2a359567c948ebdeeca68d948640302f"
+                "reference": "d0597156c4c03ceca039f6b7770a47397ba295f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/aa5626cd2a359567c948ebdeeca68d948640302f",
-                "reference": "aa5626cd2a359567c948ebdeeca68d948640302f",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/d0597156c4c03ceca039f6b7770a47397ba295f0",
+                "reference": "d0597156c4c03ceca039f6b7770a47397ba295f0",
                 "shasum": ""
             },
             "require": {
@@ -3507,7 +3455,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-09-27 07:31:40"
+            "time": "2013-10-10 13:24:22"
         },
         {
             "name": "twig/extensions",

@@ -57,6 +57,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $address;
 
     /**
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
+     * @MongoDB\Boolean
+     */
+    protected $downloadAuth = true;
+
+    /**
      * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="owner")
      */
     protected $orders;
@@ -449,6 +456,28 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getCustomValues()
     {
         return $this->customValues;
+    }
+
+    /**
+     * Set downloadAuth
+     *
+     * @param boolean $downloadAuth
+     * @return self
+     */
+    public function setDownloadAuth($downloadAuth)
+    {
+        $this->downloadAuth = $downloadAuth;
+        return $this;
+    }
+
+    /**
+     * Get downloadAuth
+     *
+     * @return boolean $downloadAuth
+     */
+    public function getDownloadAuth()
+    {
+        return $this->downloadAuth;
     }
 
 }
