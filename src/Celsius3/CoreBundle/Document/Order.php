@@ -4,6 +4,7 @@ namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Celsius3\CoreBundle\Document\Instance;
 
 /**
  * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
@@ -28,12 +29,12 @@ class Order
     private $materialData;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Request")
+     * @MongoDB\ReferenceOne(targetDocument="Request", cascade={"persist"})
      */
     private $originalRequest;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="Order")
+     * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="order")
      */
     private $requests;
 
@@ -107,7 +108,7 @@ class Order
      * @param Celsius3\CoreBundle\Document\Request $originalRequest
      * @return self
      */
-    public function setOriginalRequest(\Celsius3\CoreBundle\Document\Request $originalRequest)
+    public function setOriginalRequest(\Celsius3\CoreBundle\Document\Request $originalRequest = null)
     {
         $this->originalRequest = $originalRequest;
         return $this;
@@ -151,6 +152,32 @@ class Order
     public function getRequests()
     {
         return $this->requests;
+    }
+
+    /**
+     * Retorna si existe o no un request para $instance
+     */
+    public function hasRequest(Instance $instance)
+    {
+        return ($this->getRequests()
+                        ->filter(
+                                function ($entry) use ($instance) {
+                                    return $entry->getInstance()->getId() == $instance->getId();
+                                })->count() > 0);
+    }
+
+    /**
+     * Retorna el Request para la instancia $instance para el Order actual.
+     * Antes debería verificarse su existencia con hasRequest.
+     */
+    public function getRequest(Instance $instance)
+    {
+        $result = $this->getRequests()
+                        ->filter(
+                                function ($entry) use ($instance) {
+                                    return $entry->getInstance()->getId() == $instance->getId();
+                                })->first();
+        return false !== $result ? $result : null;
     }
 
 }

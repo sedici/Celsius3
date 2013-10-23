@@ -1066,12 +1066,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "d808b2269d0049e39f318b5eb8c1ab63ad9e7814"
+                "reference": "5247d44889e0a37ca75ec329179b3fe073b17802"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/d808b2269d0049e39f318b5eb8c1ab63ad9e7814",
-                "reference": "d808b2269d0049e39f318b5eb8c1ab63ad9e7814",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5247d44889e0a37ca75ec329179b3fe073b17802",
+                "reference": "5247d44889e0a37ca75ec329179b3fe073b17802",
                 "shasum": ""
             },
             "require": {
@@ -1133,7 +1133,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-10-18 17:56:57"
+            "time": "2013-10-23 17:28:24"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1210,12 +1210,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "2355fcf8d19de6eaa562f809150e4ddace90d985"
+                "reference": "728dc177d5e2d9943fe5a42a625d4052f30ecb79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/2355fcf8d19de6eaa562f809150e4ddace90d985",
-                "reference": "2355fcf8d19de6eaa562f809150e4ddace90d985",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/728dc177d5e2d9943fe5a42a625d4052f30ecb79",
+                "reference": "728dc177d5e2d9943fe5a42a625d4052f30ecb79",
                 "shasum": ""
             },
             "require": {
@@ -1224,7 +1224,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -1248,7 +1248,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-10-10 13:40:29"
+            "time": "2013-10-21 21:24:03"
         },
         {
             "name": "gedmo/doctrine-extensions",

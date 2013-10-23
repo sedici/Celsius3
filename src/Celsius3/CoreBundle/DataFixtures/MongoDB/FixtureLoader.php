@@ -438,9 +438,6 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                     $random_material = $generator->randomNumber(0, count($material_keys) - 1);
                     $material_type = $material_types[$material_keys[$random_material]];
                     $order = new Document\Order();
-                    $order->setOwner($user);
-                    $order->setType(OrderManager::TYPE__SEARCH);
-                    $order->setInstance($instance);
 
                     $material = new $material_type['class'];
                     $material->setAuthors($generator->name);
@@ -456,7 +453,20 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
                     $order->setMaterialData($material);
 
                     $manager->persist($order);
-                    unset($order, $material, $random_material, $material_type);
+                    
+                    $request = new Document\Request();
+                    $request->setOwner($user);
+                    $request->setType(OrderManager::TYPE__SEARCH);
+                    $request->setInstance($instance);
+                    $request->setOrder($order);
+                    
+                    $manager->persist($request);
+                    
+                    $order->setOriginalRequest($request);
+                    
+                    $manager->persist($order);
+                    
+                    unset($order, $material, $random_material, $material_type, $request);
                 }
                 unset($material_keys);
 

@@ -52,12 +52,12 @@ class Request
     private $files;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="order")
+     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="request")
      */
     private $events;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="order")
+     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="request")
      */
     private $states;
 

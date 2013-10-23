@@ -64,9 +64,9 @@ class State
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="states")
+     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="states")
      */
-    private $order;
+    private $request;
 
     public function __construct()
     {
@@ -280,25 +280,26 @@ class State
         return $this->previous;
     }
 
+
     /**
-     * Set order
+     * Set request
      *
-     * @param Celsius3\CoreBundle\Document\Order $order
+     * @param Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
-    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
+    public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
     {
-        $this->order = $order;
+        $this->request = $request;
         return $this;
     }
 
     /**
-     * Get order
+     * Get request
      *
-     * @return Celsius3\CoreBundle\Document\Order $order
+     * @return Celsius3\CoreBundle\Document\Request $request
      */
-    public function getOrder()
+    public function getRequest()
     {
-        return $this->order;
+        return $this->request;
     }
 }

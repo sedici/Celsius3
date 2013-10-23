@@ -22,7 +22,8 @@ class OrderListener
         $document = $args->getDocument();
 
         if ($document instanceof Order) {
-            $document->setIsLiblink($document->getInstance()->getIsLiblink());
+            $document->getOriginalRequest()->setOrder($document);
+            $document->getOriginalRequest()->setIsLiblink($document->getOriginalRequest()->getInstance()->getIsLiblink());
         }
     }
 
@@ -31,7 +32,7 @@ class OrderListener
         $document = $args->getDocument();
 
         if ($document instanceof Order) {
-            $this->container->get('celsius3_core.lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $document, $document->getInstance());
+            //$this->container->get('celsius3_core.lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $document, $document->getInstance());
         }
     }
 

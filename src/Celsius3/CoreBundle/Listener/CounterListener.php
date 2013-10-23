@@ -19,7 +19,7 @@ class CounterListener
             $document->setCode($dm->createQueryBuilder('Celsius3CoreBundle:Counter')
                             ->findAndUpdate()->refresh(true)
                             ->field('name')
-                            ->equals($document->getInstance()->getId())
+                            ->equals($document->getOriginalRequest()->getInstance()->getId())
                             ->field('value')->inc(1)->getQuery()
                             ->execute()->getValue());
         }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
@@ -47,9 +48,9 @@ class Event implements EventInterface
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="events")
+     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="events")
      */
-    private $order;
+    private $request;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="BaseUser", inversedBy="events")
@@ -68,12 +69,10 @@ class Event implements EventInterface
      */
     private $instance;
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Order $order, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
-
+        
     }
-
 
     /**
      * Get id
@@ -127,28 +126,6 @@ class Event implements EventInterface
     public function getObservations()
     {
         return $this->observations;
-    }
-
-    /**
-     * Set order
-     *
-     * @param Celsius3\CoreBundle\Document\Order $order
-     * @return self
-     */
-    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
-    {
-        $this->order = $order;
-        return $this;
-    }
-
-    /**
-     * Get order
-     *
-     * @return Celsius3\CoreBundle\Document\Order $order
-     */
-    public function getOrder()
-    {
-        return $this->order;
     }
 
     /**
@@ -216,4 +193,27 @@ class Event implements EventInterface
     {
         return $this->instance;
     }
+
+    /**
+     * Set request
+     *
+     * @param Celsius3\CoreBundle\Document\Request $request
+     * @return self
+     */
+    public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * Get request
+     *
+     * @return Celsius3\CoreBundle\Document\Request $request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
 }
