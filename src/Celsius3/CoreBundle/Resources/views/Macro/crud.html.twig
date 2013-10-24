@@ -1,5 +1,5 @@
 {# index #}
-{% macro index(name, pagination, folder, filter_form, instance, has_batch = false) %}
+{% macro index(name, pagination, folder, filter_form, instance, has_batch = false, custom_element_template = false) %}
 <div class="row">
     <div class="col-md-9">
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
@@ -24,6 +24,12 @@
         <form class="batch_form" action="{{ path(name ~ '_batch') }}" method="post">
             <input type="hidden" id="batch-action" name="action" value=""></input>
         {% endif %}
+            
+            {% if custom_element_template %}
+            {% for element in pagination %}
+                {% include folder ~ ':_index_element.html.twig' %}
+            {% endfor %}
+            {% else %}
             <div id="main-accordion" class="panel-group">
             {% for element in pagination %}
                 <div class="panel panel-default">
@@ -46,6 +52,7 @@
                 </div>
             {% endfor %}
             </div>
+            {% endif %}
         {% if has_batch %}
         </form>
         {% endif %}

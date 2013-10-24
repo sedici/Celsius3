@@ -63,18 +63,17 @@ class OrderRepository extends DocumentRepository
 
     public function findForInstance(Instance $instance)
     {
-        $stateType = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:StateType')
-                ->findOneBy(array('name' => StateManager::STATE__CREATED));
-
-        $order_ids = array_map(array($this, 'getIds'), $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:State')
-                        ->createQueryBuilder()->hydrate(false)->select('order')
-                        ->field('type.id')->equals($stateType->getId())
+        $requests = array_map(array($this, 'getIds'), $this->getDocumentManager()
+                        ->getRepository('Celsius3CoreBundle:Request')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('order')
                         ->field('instance.id')->equals($instance->getId())
-                        ->getQuery()->execute()->toArray());
+                        ->getQuery()
+                        ->execute()
+                        ->toArray());
 
-        return $this->createQueryBuilder()->field('id')->in($order_ids);
+        return $this->createQueryBuilder()->field('id')->in($requests);
     }
 
     public function findOneForInstance($id, Instance $instance)
@@ -121,7 +120,7 @@ class OrderRepository extends DocumentRepository
         if (!is_null($user)) {
             $qb = $qb->field('owner.id')->equals($user->getId());
         }
-        
+
         if (!is_null($startDate)) {
             $qb = $qb->field($type)->gte(new \DateTime($startDate));
         }

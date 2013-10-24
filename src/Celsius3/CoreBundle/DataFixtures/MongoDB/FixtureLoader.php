@@ -260,7 +260,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         $this->container->get('celsius3_migration.migration_manager')->migrate($this->container->getParameter('celsius2_host'), $this->container->getParameter('celsius2_username'), $this->container->getParameter('celsius2_password'), $this->container->getParameter('celsius2_database'), $this->container->getParameter('celsius2_port'), $manager);
 
         $directory = $manager->merge($directory);
-        
+
         /*
          * Listado global de revistas
          */
@@ -278,7 +278,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
         $manager->flush();
         $manager->clear();
-        
+
         $directory = $manager->merge($directory);
 
         for ($i = 0; $i < 10; $i++) {
@@ -324,7 +324,7 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
         }
         $manager->flush();
         $manager->clear();
-        
+
         /*
          * Carga de Instancias Legacy
          */
@@ -452,20 +452,15 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
 
                     $order->setMaterialData($material);
 
-                    $manager->persist($order);
-                    
                     $request = new Document\Request();
                     $request->setOwner($user);
                     $request->setType(OrderManager::TYPE__SEARCH);
                     $request->setInstance($instance);
-                    $request->setOrder($order);
-                    
-                    $manager->persist($request);
-                    
+
                     $order->setOriginalRequest($request);
-                    
+
                     $manager->persist($order);
-                    
+
                     unset($order, $material, $random_material, $material_type, $request);
                 }
                 unset($material_keys);

@@ -17,8 +17,10 @@ class OrderType extends AbstractType
     protected $material;
     protected $preferredMaterial;
     protected $user;
+    protected $operator;
+    protected $librarian;
 
-    public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null)
+    public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null, $librarian = false)
     {
         $this->instance = $instance;
         $this->material = (is_null($material)) ? new JournalTypeType() : $material;
@@ -27,12 +29,14 @@ class OrderType extends AbstractType
         $this->preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
 
         $this->user = $user;
+        $this->operator = $operator;
+        $this->librarian = $librarian;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('originalRequest', new RequestType($this->instance, $this->user), array(
+                ->add('originalRequest', new RequestType($this->instance, $this->user, $this->operator, $this->librarian), array(
                     'label' => false,
                 ))
                 ->add('materialDataType', 'choice', array(

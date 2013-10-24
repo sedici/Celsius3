@@ -1,0 +1,34 @@
+{% set request = element.request(instance) %}
+<div class="item_container">
+
+    <div class="top_info">
+        <div class="top_left">
+            {% if request.type == constant('Celsius3\\CoreBundle\\Manager\\OrderManager::TYPE__SEARCH') %}
+            <div class="busqueda">B</div>
+            {% else %}
+            <div class="provision">P</div>
+            {% endif %}
+            <div class="tipoarticulo">{{ get_material_type(element.materialData) }}</div>
+        </div>
+
+        <div class="top_right">	
+            <div class="status"></div>
+            <div class="uri">{{ element.code }}</div>
+            <div class="usuario">{{ request.owner }}</div>
+            <div class="decoracion"></div>
+        </div>
+    </div>
+
+    <div class="main_info">
+        <div class="title_and_author">
+            <div class="titulo">{{ element.materialData.title }}</div>
+            <div class="autor">{{ element.materialData.authors }}</div>
+        </div>
+        <div class="doc_and_year">
+            <div class="doc_type"></div>	<div class="doc_year">{{ element.materialData.year }}</div>
+        </div>
+    </div>
+
+    <div class="comments">{{ request.comments }}</div>
+
+</div>

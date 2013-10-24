@@ -6,9 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\Librarian;
 use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Form\Type\LibrarianOrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 use Celsius3\CoreBundle\Manager\UserManager;
 
@@ -87,7 +85,7 @@ class UserOrderController extends OrderController
     public function newAction()
     {
         if ($this->get('security.context')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $type = new LibrarianOrderType($this->getInstance(), null, $this->getUser());
+            $type = new OrderType($this->getInstance(), null, $this->getUser(), null, true);
         } else {
             $type = new OrderType($this->getInstance(), null, $this->getUser());
         }
@@ -107,7 +105,7 @@ class UserOrderController extends OrderController
     public function createAction()
     {
         if ($this->get('security.context')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $type = new LibrarianOrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
+            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, true);
         } else {
             $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
         }

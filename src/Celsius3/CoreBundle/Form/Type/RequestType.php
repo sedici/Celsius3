@@ -15,13 +15,17 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 class RequestType extends AbstractType
 {
 
-    protected $instance;
-    protected $user;
+    private $instance;
+    private $user;
+    private $operator;
+    private $librarian;
 
-    public function __construct(Instance $instance, BaseUser $user = null)
+    public function __construct(Instance $instance, BaseUser $user = null, BaseUser $operator = null, $librarian = false)
     {
         $this->instance = $instance;
         $this->user = $user;
+        $this->operator = $operator;
+        $this->librarian = $librarian;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -44,6 +48,60 @@ class RequestType extends AbstractType
                     ),
                 ))
         ;
+
+        if ($builder->getData()) {
+            $owner = $builder->getData()->getOriginalRequest()->getOwner();
+        } else {
+            $owner = '';
+        }
+
+        if ($this->librarian) {
+            $builder
+                    ->add('target', 'choice', array(
+                        'choices' => array(
+                            'me' => 'Me',
+                            'other' => 'Other'
+                        ),
+                        'mapped' => false,
+                    ))
+                    ->add('librarian', 'celsius3_corebundle_user_selector', array(
+                        'attr' => array(
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+                    ->add('owner_autocomplete', 'text', array(
+                        'attr' => array(
+                            'class' => 'autocomplete',
+                            'target' => 'BaseUser',
+                            'value' => $owner,
+                        ),
+                        'mapped' => false,
+                        'label' => 'Owner',
+                    ))
+            ;
+        }
+
+        if (!is_null($this->operator)) {
+            $builder
+                    ->add('owner_autocomplete', 'text', array(
+                        'attr' => array(
+                            'class' => 'autocomplete',
+                            'target' => 'BaseUser',
+                            'value' => $owner,
+                        ),
+                        'mapped' => false,
+                        'label' => 'Owner',
+                    ))
+                    ->add('operator', 'celsius3_corebundle_user_selector', array(
+                        'attr' => array(
+                            'value' => (!is_null($this->operator)) ? $this->operator->getId() : '',
+                            'class' => 'container',
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+            ;
+        }
+
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
                     ->add('instance', null, array(
