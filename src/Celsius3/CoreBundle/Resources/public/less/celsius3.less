@@ -340,7 +340,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .item_container .main_info .titulo {
 	font-size: 14px;
 	font-style: italic;
-	padding: 10px 25px 3px 8px;
+	padding: 10px 25px 1px 8px;
 	font-weight: bold;
 	color: #245568;
 }
@@ -348,9 +348,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	font-style: normal;
 	padding: 0px 8px;
 }
+.item_container .main_info .doc_year {
+	font-style: normal;
+	padding: 0px 8px;
+}
 .item_container .main_info {
-	height: 50px;
+	height: 66px;
 	clear: both;
+        border-bottom: 1px dashed #bfbfbf;
 }
 .doc_and_year {
 	float: right;
@@ -362,19 +367,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	text-align: center;
 	float: left;
 	background-color: #245568;
-	padding: 3px 5px;
+	padding: 2px 5px;
 }
 .busqueda{
 	//width: 10px;
 	text-align: center;
 	float: left;
 	background-color: #9cbac1;
-	padding: 3px 5px;
+	padding: 2px 5px;
 }
 
 .tipoarticulo {
 	float: left;
-	padding: 3px 15px 3px 5px;
+	padding: 3px 15px 1px 5px;
 	background-image: url(/bundles/celsius3core/images/fondo_labels.png);
 	background-position: 100% 0%;
 }
@@ -382,14 +387,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 .tipobusqueda {
 	float: left;
-	padding: 3px 15px 3px 5px;
+	padding: 3px 15px 1px 5px;
 	background-image: url(/bundles/celsius3core/images/fondo_labels.png);
 	background-position: 100% 100%;
 
 }
 .usuario {
 	float: right;
-	padding: 3px 15px 3px 5px;
+	padding: 3px 15px 1px 5px;
 	/*	background-color: #e2e2e2;*/
 	background-image: url(/bundles/celsius3core/images/top_all.png);
 	background-position: right 0px;
@@ -397,7 +402,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 .top_right .uri {
 	float: right;
-	padding: 3px 15px 3px 10px;
+	padding: 3px 15px 1px 10px;
 	color: white;
 	background-image: url(/bundles/celsius3core/images/top_all.png);
 	background-position: 100% -20px;
@@ -406,9 +411,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 .status {
 	float: right;
-	padding: 3px 7px 3px 12px;
+	padding: 3px 7px 1px 12px;
 	background-image: url(/bundles/celsius3core/images/progreso.png);
-	width: 56px;
+	width: 72px;
 	background-position: 0px 54px;
 	height: 15px;
 	margin-left: 10px;
@@ -416,7 +421,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 .item_container .comments {
 	padding: 10px 25px 5px 8px;
-	border-top: 1px dashed #bfbfbf;
+        width: 80%;
+        float:left;
+}
+.item_container .order-actions {
+	float: right;
+        padding: 10px 5px;
 }
 .doc_type {
 	background-image: url(/bundles/celsius3core/images/item_online.png);

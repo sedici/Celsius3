@@ -1007,17 +1007,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "507de1ba6e164bd0498ebeee671990c1228b348f"
+                "reference": "d5b40ed8a5b59ee8bbecf03934878460fb172c55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/507de1ba6e164bd0498ebeee671990c1228b348f",
-                "reference": "507de1ba6e164bd0498ebeee671990c1228b348f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/d5b40ed8a5b59ee8bbecf03934878460fb172c55",
+                "reference": "d5b40ed8a5b59ee8bbecf03934878460fb172c55",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
+                "symfony/form": "~2.1",
                 "symfony/framework-bundle": "~2.1",
+                "symfony/security": "~2.1",
                 "symfony/twig-bundle": "~2.1"
             },
             "suggest": {
@@ -1057,7 +1059,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2013-10-17 03:43:23"
+            "time": "2013-10-25 11:05:36"
         },
         {
             "name": "friendsofsymfony/rest-bundle",

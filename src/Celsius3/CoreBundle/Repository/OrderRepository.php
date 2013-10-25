@@ -78,19 +78,17 @@ class OrderRepository extends DocumentRepository
 
     public function findOneForInstance($id, Instance $instance)
     {
-        $stateType = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:StateType')
-                ->findOneBy(array('name' => StateManager::STATE__CREATED));
-
         $order_id = $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:State')
-                        ->createQueryBuilder()->hydrate(false)->select('order')
-                        ->field('order.id')->equals($id)->field('type.id')
-                        ->equals($stateType->getId())->field('instance.id')
-                        ->equals($instance->getId())->getQuery()->getSingleResult();
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->createQueryBuilder()
+                ->hydrate(false)
+                ->select('order')
+                ->field('order.id')->equals($id)
+                ->field('instance.id')->equals($instance->getId())
+                ->getQuery()
+                ->getSingleResult();
 
-        return $this->createQueryBuilder()->field('id')
-                        ->equals($order_id['order']['$id']);
+        return $this->createQueryBuilder()->field('id')->equals($order_id['order']['$id']);
     }
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)

@@ -105,15 +105,12 @@ class AdminOrderController extends OrderController
         $document = $this->findQuery('Order', $id);
 
         if (!$document) {
-            throw $this
-                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
+            throw $this->createNotFoundException('Unable to find Order.');
         }
 
         $materialClass = get_class($document->getMaterialData());
 
-        $editForm = $this
-                ->createForm(
-                new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $document->getOwner(), $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $document->getOriginalRequest()->getOwner(), $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('document' => $document,

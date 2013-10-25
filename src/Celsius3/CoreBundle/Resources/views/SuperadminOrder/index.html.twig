@@ -9,5 +9,5 @@
 {% block content %}
 <h2>{{ 'Order List'|trans }}</h2>
 
-{{ index('superadmin_order', pagination, 'Celsius3CoreBundle:SuperadminOrder', filter_form) }}
+{{ index('superadmin_order', pagination, 'Celsius3CoreBundle:SuperadminOrder', filter_form, null, false, true) }}
 {% endblock %}

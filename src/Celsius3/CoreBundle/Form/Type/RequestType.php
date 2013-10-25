@@ -49,12 +49,6 @@ class RequestType extends AbstractType
                 ))
         ;
 
-        if ($builder->getData()) {
-            $owner = $builder->getData()->getOriginalRequest()->getOwner();
-        } else {
-            $owner = '';
-        }
-
         if ($this->librarian) {
             $builder
                     ->add('target', 'choice', array(
@@ -73,7 +67,7 @@ class RequestType extends AbstractType
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => $owner,
+                            'value' => $this->user,
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
@@ -87,7 +81,7 @@ class RequestType extends AbstractType
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => $owner,
+                            'value' => $this->user,
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
