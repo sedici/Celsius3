@@ -15,8 +15,7 @@ class SingleInstanceRequest extends SingleInstance
 {
     use ReclaimableTrait, CancellableTrait, ProviderTrait;
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);

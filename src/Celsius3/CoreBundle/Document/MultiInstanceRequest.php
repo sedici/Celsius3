@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
@@ -15,26 +16,25 @@ use Celsius3\CoreBundle\Document\Mixin\AnnullableTrait;
  */
 class MultiInstanceRequest extends MultiInstance
 {
-    use AnnullableTrait, ReclaimableTrait, CancellableTrait, ProviderTrait;
+
+    use AnnullableTrait,
+        ReclaimableTrait,
+        CancellableTrait,
+        ProviderTrait;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
     private $remoteState;
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);
-        $this
-                ->setRemoteInstance(
-                        $data['extraData']['provider']->getCelsiusInstance());
+        $this->setRemoteInstance($data['extraData']['provider']->getCelsiusInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__CREATED;
-        $this
-                ->setRemoteState(
-                        $lifecycleHelper->getState($order, $this, $data, $this));
+        $this->setRemoteState($lifecycleHelper->getState($request, $this, $data, $this));
     }
 
     /**
@@ -58,4 +58,5 @@ class MultiInstanceRequest extends MultiInstance
     {
         return $this->remoteState;
     }
+
 }

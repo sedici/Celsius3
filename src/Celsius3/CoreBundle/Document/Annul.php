@@ -10,8 +10,7 @@ use Celsius3\CoreBundle\Helper\LifecycleHelper;
  */
 class Annul extends SingleInstance
 {
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('request', $data['extraData'])) {
             $data['extraData']['request']->setIsAnnulled(true);

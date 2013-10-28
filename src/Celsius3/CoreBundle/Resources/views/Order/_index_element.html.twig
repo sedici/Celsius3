@@ -1,6 +1,8 @@
-{% block request %}
+{% if instance %}
 {% set request = element.request(instance) %}
-{% endblock %}
+{% else %}
+{% set request = element.originalRequest %}
+{% endif %}
 <div class="item_container">
 
     <div class="top_info">

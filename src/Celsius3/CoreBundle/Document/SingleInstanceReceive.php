@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
@@ -11,6 +12,7 @@ use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
  */
 class SingleInstanceReceive extends SingleInstance
 {
+
     use ReclaimableTrait;
 
     /**
@@ -30,13 +32,11 @@ class SingleInstanceReceive extends SingleInstance
      */
     private $requestEvent;
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setRequestEvent($data['extraData']['request']);
         $this->setObservations($data['extraData']['observations']);
-        $lifecycleHelper
-                ->uploadFiles($order, $this, $data['extraData']['files']);
+        $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
     }
 
     public function __construct()
@@ -117,4 +117,5 @@ class SingleInstanceReceive extends SingleInstance
     {
         return $this->requestEvent;
     }
+
 }

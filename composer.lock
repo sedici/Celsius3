@@ -127,16 +127,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "d0e4447707a064a5814b18cb0dcc2f24185f6179"
+                "reference": "e16d7adf45664a50fa86f515b6d5e7f670130449"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/d0e4447707a064a5814b18cb0dcc2f24185f6179",
-                "reference": "d0e4447707a064a5814b18cb0dcc2f24185f6179",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/e16d7adf45664a50fa86f515b6d5e7f670130449",
+                "reference": "e16d7adf45664a50fa86f515b6d5e7f670130449",
                 "shasum": ""
             },
             "require": {
@@ -144,6 +144,10 @@
             },
             "conflict": {
                 "doctrine/common": ">2.2,<2.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=3.7",
+                "satooshi/php-coveralls": "~0.6"
             },
             "type": "library",
             "extra": {
@@ -192,7 +196,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2013-09-26 19:23:25"
+            "time": "2013-10-25 19:04:14"
         },
         {
             "name": "doctrine/collections",
@@ -768,7 +772,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/cc69523a3eccae7c8d71a9a03087bec90c179f25",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/4337a196395e26c167bdde5def8fc33503d6e202",
                 "reference": "ca84cbf7e016f46c5199aaa3d3c7ed4cd7014a0b",
                 "shasum": ""
             },
@@ -1068,12 +1072,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "5247d44889e0a37ca75ec329179b3fe073b17802"
+                "reference": "0595e424359e3e2b3a658c813ae070e6b55ff6ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5247d44889e0a37ca75ec329179b3fe073b17802",
-                "reference": "5247d44889e0a37ca75ec329179b3fe073b17802",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/0595e424359e3e2b3a658c813ae070e6b55ff6ff",
+                "reference": "0595e424359e3e2b3a658c813ae070e6b55ff6ff",
                 "shasum": ""
             },
             "require": {
@@ -1135,7 +1139,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-10-23 17:28:24"
+            "time": "2013-10-28 13:12:59"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1144,12 +1148,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "4025c4113bc000cef331ea833a52123080d2faa4"
+                "reference": "0cb03029c7c1c833a11c7bebf30125276f0aa5b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/4025c4113bc000cef331ea833a52123080d2faa4",
-                "reference": "4025c4113bc000cef331ea833a52123080d2faa4",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/0cb03029c7c1c833a11c7bebf30125276f0aa5b9",
+                "reference": "0cb03029c7c1c833a11c7bebf30125276f0aa5b9",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1208,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-10-21 09:54:07"
+            "time": "2013-10-28 10:50:07"
         },
         {
             "name": "fzaninotto/faker",

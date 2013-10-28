@@ -52,9 +52,9 @@ class File
     private $enabled;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="files")
+     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="files")
      */
-    private $order;
+    private $request;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Event", inversedBy="files")
@@ -267,28 +267,6 @@ class File
     }
 
     /**
-     * Set order
-     *
-     * @param Celsius3\CoreBundle\Document\Order $order
-     * @return self
-     */
-    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
-    {
-        $this->order = $order;
-        return $this;
-    }
-
-    /**
-     * Get order
-     *
-     * @return Celsius3\CoreBundle\Document\Order $order
-     */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    /**
      * Set event
      *
      * @param Celsius3\CoreBundle\Document\Event $event
@@ -330,5 +308,27 @@ class File
     public function getIsDownloaded()
     {
         return $this->isDownloaded;
+    }
+
+    /**
+     * Set request
+     *
+     * @param Celsius3\CoreBundle\Document\Request $request
+     * @return self
+     */
+    public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * Get request
+     *
+     * @return Celsius3\CoreBundle\Document\Request $request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Manager;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -9,12 +10,12 @@ use Celsius3\CoreBundle\Document\Event;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Document\SingleInstanceReceive;
 use Celsius3\CoreBundle\Document\SingleInstanceRequest;
 use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Form\Type\OrderReceiveType;
 use Celsius3\CoreBundle\Exception\NotFoundException;
-use Symfony\Component\BrowserKit\Request;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\Reclaim;
 use Celsius3\CoreBundle\Form\Type\OrderReclaimType;
@@ -43,17 +44,17 @@ class EventManager
 
     private $class_prefix = 'Celsius3\\CoreBundle\\Document\\';
     public $event_classes = array(self::EVENT__CREATION => 'Creation',
-            self::EVENT__SEARCH => 'Search',
-            self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequest',
-            self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequest',
-            self::EVENT__APPROVE => 'Approve',
-            self::EVENT__RECLAIM => 'Reclaim',
-            self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceive',
-            self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceive',
-            self::EVENT__DELIVER => 'Deliver', self::EVENT__CANCEL => 'Cancel',
-            self::EVENT__LOCAL_CANCEL => 'LocalCancel',
-            self::EVENT__REMOTE_CANCEL => 'RemoteCancel',
-            self::EVENT__ANNUL => 'Annul',);
+        self::EVENT__SEARCH => 'Search',
+        self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequest',
+        self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequest',
+        self::EVENT__APPROVE => 'Approve',
+        self::EVENT__RECLAIM => 'Reclaim',
+        self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceive',
+        self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceive',
+        self::EVENT__DELIVER => 'Deliver', self::EVENT__CANCEL => 'Cancel',
+        self::EVENT__LOCAL_CANCEL => 'LocalCancel',
+        self::EVENT__REMOTE_CANCEL => 'RemoteCancel',
+        self::EVENT__ANNUL => 'Annul',);
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -72,8 +73,7 @@ class EventManager
         }
     }
 
-    public function createNotFoundException($message = 'Not Found',
-            \Exception $previous = null)
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
     {
         return new NotFoundException($message, $previous);
     }
@@ -96,20 +96,17 @@ class EventManager
         return $this->class_prefix . $this->event_classes[$event];
     }
 
-    private function prepareExtraDataForRequest(Order $order, array $extraData,
-            Instance $instance)
+    private function prepareExtraDataForRequest(Order $order, array $extraData, Instance $instance)
     {
         $document = new SingleInstanceRequest();
         $form = $this->container->get('form.factory')
                 ->create(
-                        new OrderRequestType(
-                                $this->container
-                                        ->get(
-                                                'doctrine.odm.mongodb.document_manager'),
-                                $this
-                                        ->getFullClassNameForEvent(
-                                                self::EVENT__SINGLE_INSTANCE_REQUEST)),
-                        $document);
+                new OrderRequestType(
+                $this->container
+                ->get(
+                        'doctrine.odm.mongodb.document_manager'), $this
+                ->getFullClassNameForEvent(
+                        self::EVENT__SINGLE_INSTANCE_REQUEST)), $document);
         $request = $this->container->get('request');
         $form->bind($request);
 
@@ -126,8 +123,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReceive(Order $order, array $extraData,
-            Instance $instance)
+    private function prepareExtraDataForReceive(Order $order, array $extraData, Instance $instance)
     {
         if (!$this->container->get('request')->query->has('request')) {
             $this->container->get('session')->getFlashBag()
@@ -149,8 +145,8 @@ class EventManager
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository('Celsius3CoreBundle:Event')
                     ->find(
-                            $this->container->get('request')->query
-                                    ->get('request'));
+                    $this->container->get('request')->query
+                    ->get('request'));
             $extraData['files'] = $data['files'];
         } else {
             $this->container->get('session')->getFlashBag()
@@ -162,8 +158,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForApprove(Order $order, array $extraData,
-            Instance $instance)
+    private function prepareExtraDataForApprove(Order $order, array $extraData, Instance $instance)
     {
         if (!$this->container->get('request')->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
@@ -184,8 +179,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReclaim(Order $order, array $extraData,
-            Instance $instance)
+    private function prepareExtraDataForReclaim(Order $order, array $extraData, Instance $instance)
     {
         if (!$this->container->get('request')->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
@@ -226,16 +220,15 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForCancel(Order $order, array $extraData,
-            Instance $instance)
+    private function prepareExtraDataForCancel(Order $order, array $extraData, Instance $instance)
     {
         if ($this->container->get('request')->query->has('request')) {
             $extraData['request'] = $this->container
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository('Celsius3CoreBundle:Event')
                     ->find(
-                            $this->container->get('request')->query
-                                    ->get('request'));
+                    $this->container->get('request')->query
+                    ->get('request'));
 
             $this->container->get('request')->query->remove('request');
             if (!$extraData['request']) {
@@ -252,22 +245,21 @@ class EventManager
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository('Celsius3CoreBundle:SingleInstanceRequest')
                     ->findBy(
-                            array('order.id' => $order->getId(),
-                                    'isCancelled' => false,
-                                    'instance.id' => $instance->getId(),));
+                    array('order.id' => $order->getId(),
+                        'isCancelled' => false,
+                        'instance.id' => $instance->getId(),));
             $extraData['mirequests'] = $this->container
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository('Celsius3CoreBundle:MultiInstanceRequest')
                     ->findBy(
-                            array('order.id' => $order->getId(),
-                                    'isCancelled' => false,
-                                    'instance.id' => $instance->getId(),));
+                    array('order.id' => $order->getId(),
+                        'isCancelled' => false,
+                        'instance.id' => $instance->getId(),));
         }
         return $extraData;
     }
 
-    private function prepareExtraDataForAnnul(Order $order, array $extraData,
-            Instance $instance)
+    private function prepareExtraDataForAnnul(Order $order, array $extraData, Instance $instance)
     {
         if ($order->getInstance()->getId() != $instance->getId()) {
             $extraData['request'] = $order
@@ -281,35 +273,28 @@ class EventManager
     public function getRealEventName($event, array $extraData)
     {
         switch ($event) {
-        case self::EVENT__REQUEST:
-            $event = ($extraData['provider'] instanceof Institution
-                    && $extraData['provider']->getCelsiusInstance()) ? self::EVENT__MULTI_INSTANCE_REQUEST
-                    : self::EVENT__SINGLE_INSTANCE_REQUEST;
-            break;
-        case self::EVENT__RECEIVE:
-            $event = ($extraData['request']->getOrder()->getInstance()->getId()
-                    != $extraData['request']->getInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE
-                    : self::EVENT__SINGLE_INSTANCE_RECEIVE;
-            break;
-        case self::EVENT__CANCEL:
-            var_dump(array_key_exists('request', $extraData));
-            $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL
-                            : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
-            break;
-        default:
-            ;
+            case self::EVENT__REQUEST:
+                $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
+                break;
+            case self::EVENT__RECEIVE:
+                $event = ($extraData['request']->getOrder()->getInstance()->getId() != $extraData['request']->getInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+                break;
+            case self::EVENT__CANCEL:
+                $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
+                break;
+            default:
+                ;
         }
         return $event;
     }
 
-    public function prepareExtraData($event, Order $order, Instance $instance)
+    public function prepareExtraData($event, Request $request, Instance $instance)
     {
         $methodName = 'prepareExtraDataFor' . ucfirst($event);
-        return $this->$methodName($order, array(), $instance);
+        return $this->$methodName($request, array(), $instance);
     }
 
-    public function cancelRequests($requests,
-            \Symfony\Component\HttpFoundation\Request $httpRequest)
+    public function cancelRequests($requests, \Symfony\Component\HttpFoundation\Request $httpRequest)
     {
         foreach ($requests as $request) {
             $httpRequest->query->set('request', $request->getId());
@@ -328,20 +313,19 @@ class EventManager
                 ->getSessionInstance();
 
         return array('event' => $event,
-                'isMultiInstance' => $event instanceof MultiInstanceRequest,
-                'order' => $order,
-                'receive_form' => $this->container->get('form.factory')
-                        ->create(new OrderReceiveType(),
-                                new SingleInstanceReceive())->createView(),
-                'isReceived' => $this->container
-                        ->get('doctrine.odm.mongodb.document_manager')
-                        ->getRepository('Celsius3CoreBundle:Event')
-                        ->findBy(array('requestEvent.id' => $event->getId()))
-                        ->count() > 0,
-                'isDelivered' => $order
-                        ->getState(StateManager::STATE__DELIVERED, $instance),
-                'isCancelled' => $order
-                        ->hasState(StateManager::STATE__CANCELLED, $instance),);
+            'isMultiInstance' => $event instanceof MultiInstanceRequest,
+            'order' => $order,
+            'receive_form' => $this->container->get('form.factory')
+                    ->create(new OrderReceiveType(), new SingleInstanceReceive())->createView(),
+            'isReceived' => $this->container
+                    ->get('doctrine.odm.mongodb.document_manager')
+                    ->getRepository('Celsius3CoreBundle:Event')
+                    ->findBy(array('requestEvent.id' => $event->getId()))
+                    ->count() > 0,
+            'isDelivered' => $order
+                    ->getState(StateManager::STATE__DELIVERED, $instance),
+            'isCancelled' => $order
+                    ->hasState(StateManager::STATE__CANCELLED, $instance),);
     }
 
     public function getDataForReceiveRendering(Event $event, Order $order)
@@ -351,43 +335,38 @@ class EventManager
         $isApproveEvent = false;
         if ($event instanceof Approve) {
             $event = $event->getState()->getPrevious()->getRemoteEvents()
-                    ->filter(
-                            function ($entry) use ($event)
-                            {
-                                return ($entry->getId()
-                                        == $event->getReceiveEvent()->getId());
-                            })->first();
+                            ->filter(
+                                    function ($entry) use ($event) {
+                                        return ($entry->getId() == $event->getReceiveEvent()->getId());
+                                    })->first();
             $isApproveEvent = true;
         }
 
         $isMultiInstance = $event->getInstance() != $instance;
         if ($isMultiInstance) {
             $provider = $order
-                    ->getState(StateManager::STATE__CREATED,
-                            $event->getInstance())->getRemoteEvent()
+                    ->getState(StateManager::STATE__CREATED, $event->getInstance())->getRemoteEvent()
                     ->getProvider();
         } else {
             $provider = $event->getRequestEvent()->getProvider();
         }
 
         return array('event' => $event, 'provider' => $provider,
-                'reclaim_form' => $this->container->get('form.factory')
-                        ->create(new OrderReclaimType(), new Reclaim())
-                        ->createView(), 'isMultiInstance' => $isMultiInstance,
-                'order' => $order,
-                'isDelivered' => $order
-                        ->getState(StateManager::STATE__DELIVERED, $instance),
-                'isReclaimed' => $event->getIsReclaimed(),
-                'isApproveEvent' => $isApproveEvent,
-                'isApproved' => $event->getInstance()->getId()
-                        != $instance->getId() ? ($this->container
-                                ->get('doctrine.odm.mongodb.document_manager')
-                                ->getRepository('Celsius3CoreBundle:Approve')
-                                ->findBy(
-                                        array(
-                                                'receiveEvent.id' => $event
-                                                        ->getId()))->count()
-                                > 0) : true,);
+            'reclaim_form' => $this->container->get('form.factory')
+                    ->create(new OrderReclaimType(), new Reclaim())
+                    ->createView(), 'isMultiInstance' => $isMultiInstance,
+            'order' => $order,
+            'isDelivered' => $order
+                    ->getState(StateManager::STATE__DELIVERED, $instance),
+            'isReclaimed' => $event->getIsReclaimed(),
+            'isApproveEvent' => $isApproveEvent,
+            'isApproved' => $event->getInstance()->getId() != $instance->getId() ? ($this->container
+                            ->get('doctrine.odm.mongodb.document_manager')
+                            ->getRepository('Celsius3CoreBundle:Approve')
+                            ->findBy(
+                                    array(
+                                        'receiveEvent.id' => $event
+                                        ->getId()))->count() > 0) : true,);
     }
 
 }

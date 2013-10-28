@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
@@ -12,6 +13,7 @@ use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
  */
 class MultiInstanceReceive extends MultiInstance
 {
+
     use ReclaimableTrait;
 
     /**
@@ -42,19 +44,15 @@ class MultiInstanceReceive extends MultiInstance
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function applyExtraData(Order $order, array $data,
-            LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setRequestEvent($data['extraData']['request']);
         $this->setObservations($data['extraData']['observations']);
-        $lifecycleHelper
-                ->uploadFiles($order, $this, $data['extraData']['files']);
-        $this->setRemoteInstance($order->getInstance());
+        $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
+        $this->setRemoteInstance($request->getInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
-        $this
-                ->setRemoteState(
-                        $lifecycleHelper->getState($order, $this, $data, $this));
+        $this->setRemoteState($lifecycleHelper->getState($request, $this, $data, $this));
     }
 
     /**
@@ -152,4 +150,5 @@ class MultiInstanceReceive extends MultiInstance
     {
         return $this->requestEvent;
     }
+
 }
