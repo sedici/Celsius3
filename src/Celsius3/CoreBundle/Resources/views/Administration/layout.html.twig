@@ -6,9 +6,9 @@
     <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a> |</li>
     <li>
         <a href="{{ path('admin_user') }}">
-            {{ 'Users'|trans }} 
-            <span class="label label-danger">{{ userCount['pending'] }}</span>    
-        </a> |
+            {{ 'Users'|trans }}     
+        </a>
+            <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}"><span class="label label-danger">{{ count_users(instance)['pending'] }}</span></a> |
     </li>
     <li>
         <div class="dropdown">

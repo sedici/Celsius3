@@ -25,9 +25,6 @@ class AdministrationController extends BaseInstanceDependentController
         $orderCount = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:State')
                 ->countOrders($this->getInstance());
-        $userCount = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->countUsers($this->getInstance());
 
         $query = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:Order')
@@ -39,7 +36,6 @@ class AdministrationController extends BaseInstanceDependentController
         return array(
             'pagination' => $pagination,
             'orderCount' => $orderCount,
-            'userCount' => $userCount,
         );
     }
 
