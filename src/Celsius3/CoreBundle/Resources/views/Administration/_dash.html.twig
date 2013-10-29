@@ -1,28 +1,102 @@
-<div class="well">
-    <div class="dash">
-        <a class="btn btn-default btn-large" href="#" style="width: 120px;">
-            <span class="glyphicon glyphicon-star"></span><br />
-            {{ 'Notifications'|trans }}
-        </a>
-        <a class="btn btn-default btn-large" href="#" style="width: 120px;">
-            <span class="glyphicon glyphicon-file"></span><br />
-            {{ 'Add Order'|trans }}
-        </a>
-        <a class="btn btn-default btn-large" href="#" style="width: 120px;">
-            <span class="glyphicon glyphicon-envelope"></span><br />
-            {{ 'New Mail'|trans }}
-        </a>
-        <a class="btn btn-default btn-large" href="#" style="width: 120px;">
-            <span class="glyphicon glyphicon-user"></span><br />
-            {{ 'Registrations'|trans }}
-        </a>
-        <a class="btn btn-default btn-large" href="#" style="width: 120px;">
-            <span class="glyphicon glyphicon-font"></span><br />
-            {{ 'Add News'|trans }}
-        </a>
-        <a class="btn btn-default btn-large" href="#" style="width: 120px;">
-            <span class="glyphicon glyphicon-wrench"></span><br />
-            {{ 'Configuration'|trans }}
-        </a>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-left">
+            <h3><a href="#">{{ 'All'|trans }}</a></h3>
+        </div>
+        <div class="pull-left">
+            <h3>&nbsp;|&nbsp;</h3>
+        </div>
+        <div class="pull-left">
+            <h3><a href="#">{{ 'My Orders'|trans }}</a></h3>
+        </div>
+        <div class="pull-right">
+            <h3>
+                <a href="{{ path('admin_order')~'?state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED') ~'&state[]='~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED') ~'&state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED') }}">
+                    {{ 'Delivered'|trans }} 
+                    {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED')] }}
+                </a>
+            </h3>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 dash">
+        <ul class="list-unstyled">
+            <li>
+                <h2><a href="{{ path('admin_order_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Add order'|trans }}</a></h2>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED') }) }}">{{ 'Created'|trans }}</a></h3>
+                    </li>
+                    <li>
+                        <h2>
+                            <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED') }) }}">
+                                {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED')] }}
+                            </a>
+                        </h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED') }) }}">{{ 'Being searched'|trans }}</a></h3>
+                    </li>
+                    <li>
+                        <h2>
+                            <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED') }) }}">
+                                {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] }}
+                            </a>
+                        </h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED') }) }}">{{ 'Requested'|trans }}</a></h3>
+                    </li>
+                    <li>
+                        <h2>
+                            <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED') }) }}">
+                                {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED')] }}
+                            </a>
+                        </h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING') }) }}">{{ 'Approval pending'|trans }}</a></h3>
+                    </li>
+                    <li>
+                        <h2>
+                            <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING') }) }}">
+                                {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] }}
+                            </a>
+                        </h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED') }) }}">{{ 'Received'|trans }}</a></h3>
+                    </li>
+                    <li>
+                        <h2>
+                            <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED') }) }}">
+                                {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED')] }}
+                            </a>
+                        </h2>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </div>
 </div>

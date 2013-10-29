@@ -1,45 +1,22 @@
-<div class="col-md-6">
-    <div>
-        <h2>{{ 'Orders'|trans }}</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <h3>{{ 'Filters'|trans }}</h3>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED') }) }}">{{ 'Created'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED')] }})</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED') }) }}">{{ 'Being searched'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] }})</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED') }) }}">{{ 'Requested'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED')] }})</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING') }) }}">{{ 'Approval pending'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] }})</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order', { 'state[]': constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED') }) }}">{{ 'Received'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__RECEIVED')] }})</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order')~'?state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED') ~'&state[]='~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED') ~'&state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED') }}">{{ 'Ended'|trans }} ({{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED')] }})</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <h3>{{ 'Operations'|trans }}</h3>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Add'|trans }}</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_order') }}"><span class="glyphicon glyphicon-list"></span> {{ 'List'|trans }}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+<div class="col-md-12">
+    {% set folder = 'Celsius3CoreBundle:AdminOrder' %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div class="sorting-group pull-right">
+        <span>
+            {{ 'Sort by'|trans }}: 
+        </span>
+        {% include folder ~ ':_index_sort.html.twig' %}
+    </div>
+    <div class="clearfix"></div>
+
+    {% for element in pagination %}
+        {% include folder ~ ':_index_element.html.twig' %}
+    {% endfor %}
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
     </div>
 </div>

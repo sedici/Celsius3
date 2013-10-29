@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\CoreBundle\Manager\SearchManager;
@@ -12,6 +13,7 @@ use Celsius3\CoreBundle\Manager\SearchManager;
  */
 class AdministrationController extends BaseInstanceDependentController
 {
+
     /**
      * @Route("/", name="administration")
      * @Template()
@@ -27,7 +29,18 @@ class AdministrationController extends BaseInstanceDependentController
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->countUsers($this->getInstance());
 
-        return array('orderCount' => $orderCount, 'userCount' => $userCount,);
+        $query = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance());
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
+
+        return array(
+            'pagination' => $pagination,
+            'orderCount' => $orderCount,
+            'userCount' => $userCount,
+        );
     }
 
     /**
@@ -41,14 +54,7 @@ class AdministrationController extends BaseInstanceDependentController
         $keyword = $this->getRequest()->query->get('keyword');
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator
-                ->paginate(
-                        $this->get('celsius3_core.search_manager')
-                                ->search('Order', $keyword,
-                                        $this->getInstance()),
-                        $this->get('request')->query->get('page', 1)/* page number */,
-                        $this->container->getParameter('max_per_page')/* limit per page */
-                );
+        $pagination = $paginator->paginate($this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance()), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
 
         return array('keyword' => $keyword, 'pagination' => $pagination,);
     }

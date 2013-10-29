@@ -772,7 +772,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/4337a196395e26c167bdde5def8fc33503d6e202",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/4a2d7755c225f5b27f69e3ef0187ae0caec24aea",
                 "reference": "ca84cbf7e016f46c5199aaa3d3c7ed4cd7014a0b",
                 "shasum": ""
             },
@@ -846,12 +846,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "64caeeb6d6c1eb1554f3ec8aaf2b08bf05ac68ec"
+                "reference": "b7d25d7fab0149942d3a19c73c0544ef54b1bab7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/64caeeb6d6c1eb1554f3ec8aaf2b08bf05ac68ec",
-                "reference": "64caeeb6d6c1eb1554f3ec8aaf2b08bf05ac68ec",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/b7d25d7fab0149942d3a19c73c0544ef54b1bab7",
+                "reference": "b7d25d7fab0149942d3a19c73c0544ef54b1bab7",
                 "shasum": ""
             },
             "require": {
@@ -907,7 +907,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2013-08-09 18:32:51"
+            "time": "2013-10-28 20:35:52"
         },
         {
             "name": "evenement/evenement",
@@ -1216,12 +1216,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "836a757943d9fc4dff0b98e6deb57b7f0cad1044"
+                "reference": "15ec357497d9bd33076f18bec2293d9ac0fe53e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/836a757943d9fc4dff0b98e6deb57b7f0cad1044",
-                "reference": "836a757943d9fc4dff0b98e6deb57b7f0cad1044",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/15ec357497d9bd33076f18bec2293d9ac0fe53e7",
+                "reference": "15ec357497d9bd33076f18bec2293d9ac0fe53e7",
                 "shasum": ""
             },
             "require": {
@@ -1254,7 +1254,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-10-24 09:48:56"
+            "time": "2013-10-29 09:52:28"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3469,20 +3469,20 @@
         },
         {
             "name": "twig/extensions",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig-extensions.git",
-                "reference": "v1.0.0"
+                "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/v1.0.0",
-                "reference": "v1.0.0",
+                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
+                "reference": "f91a82ec225e5bb108e01a0f93c9be04f84dcfa0",
                 "shasum": ""
             },
             "require": {
-                "twig/twig": "1.*"
+                "twig/twig": "~1.0"
             },
             "type": "library",
             "extra": {
@@ -3512,7 +3512,7 @@
                 "i18n",
                 "text"
             ],
-            "time": "2013-02-28 14:21:30"
+            "time": "2013-10-18 19:37:15"
         },
         {
             "name": "twig/twig",

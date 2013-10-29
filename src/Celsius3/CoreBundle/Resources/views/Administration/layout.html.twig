@@ -1,10 +1,28 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block adminpanel %}
-<ul class="list-unstyled list-horizontal">
-    <li>Catalogs |</li>
-    <li>Journals |</li>
-    <li>Users</li>
+<ul class="list-unstyled list-inline">
+    <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a> |</li>
+    <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a> |</li>
+    <li>
+        <a href="{{ path('admin_user') }}">
+            {{ 'Users'|trans }} 
+            <span class="label label-danger">{{ userCount['pending'] }}</span>    
+        </a> |
+    </li>
+    <li>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="{{ path('admin_instance_configure') }}">{{ 'Configuration'|trans }}</a></li>
+                <li><a href="{{ path('admin_news') }}">{{ 'News'|trans }}</a></li>
+                <li><a href="{{ path('admin_contact') }}">{{ 'Contacts'|trans }}</a></li>
+                <li><a href="{{ path('admin_country') }}">{{ 'Countries'|trans }}</a></li>
+                <li><a href="{{ path('admin_city') }}">{{ 'Cities'|trans }}</a></li>
+                <li><a href="{{ path('admin_institution') }}">{{ 'Institutions'|trans }}</a></li>
+            </ul>
+        </div>
+    </li>
 </ul>
 <form action="{{ path('administration_search') }}" method="GET" role="form" class="search-form form-inline">
     <div class="form-group">
