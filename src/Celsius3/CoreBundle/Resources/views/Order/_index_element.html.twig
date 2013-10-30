@@ -35,17 +35,8 @@
     </div>
 
     <div class="comments">{{ request.comments }}</div>
-    
-    <div class="order-actions">
-        <ul class="list-unstyled actions">
-            <li>
-                <a href="{{ path('admin_order_show', { 'id': element.id }) }}"><span class="glyphicon glyphicon-file"></span></a>
-            </li>
-            <li>
-                <a href="{{ path('admin_order_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-            </li>
-        </ul>
-    </div>
+
+    {% block admin %}{% endblock %}
     
     <div class="clearfix"></div>
 

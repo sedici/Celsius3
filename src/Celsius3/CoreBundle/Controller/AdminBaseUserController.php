@@ -216,7 +216,7 @@ class AdminBaseUserController extends BaseUserController
     /**
      * Enables a BaseUser document.
      *
-     * @Route("/{id}/enable", name="admin_user_enable")
+     * @Route("/{id}/enable", name="admin_user_enable", options={"expose"=true})
      *
      * @param string $id
      *            The document ID

@@ -24,8 +24,8 @@ class BaseUserRepository extends DocumentRepository
                         ->getQuery()
                         ->execute();
     }
-
-    public function countUsers($instance = null)
+    
+    public function findPendingUsers(Instance $instance = null)
     {
         $qb = $this->createQueryBuilder()
                         ->field('enabled')->equals(false)
@@ -34,7 +34,21 @@ class BaseUserRepository extends DocumentRepository
         if (!is_null($instance))
             $qb = $qb->field('instance.id')->equals($instance->getId());
 
-        return array('pending' => $qb->count()->getQuery()->execute(),);
+        return $qb->getQuery()->execute();
+    }
+
+    public function countUsers(Instance $instance = null)
+    {
+        $qb = $this->createQueryBuilder()
+                        ->field('enabled')->equals(false)
+                        ->field('locked')->equals(false);
+
+        if (!is_null($instance))
+            $qb = $qb->field('instance.id')->equals($instance->getId());
+
+        return array(
+            'pending' => $qb->count()->getQuery()->execute(),
+        );
     }
 
     public function findByTerm($term, $instance = null, $limit = null, array $institutions = array())
@@ -62,27 +76,30 @@ class BaseUserRepository extends DocumentRepository
         return $qb->getQuery();
     }
 
-    public function addFindByStateType(array $data, Builder $query, Instance $instance)
+    public function addFindByStateType(array $data, Builder $query, Instance $instance = null)
     {
         foreach ($data as $value) {
             switch ($value) {
                 case 'enabled':
-                    $query = $query
-                            ->addOr(
-                            $query->expr()->field('enabled')->equals(true)
-                            ->field('locked')->equals(false));
+                    $query = $query->addOr($query->expr()
+                                    ->field('enabled')->equals(true)
+                                    ->field('locked')->equals(false)
+                    );
                     break;
                 case 'pending':
-                    $query = $query
-                            ->addOr(
-                            $query->expr()->field('enabled')->equals(false)
-                            ->field('locked')->equals(false));
+                    $query = $query->addOr($query->expr()
+                                    ->field('enabled')->equals(false)
+                                    ->field('locked')->equals(false)
+                    );
                     break;
                 case 'rejected':
-                    $query = $query
-                            ->addOr($query->expr()->field('locked')->equals(true));
+                    $query = $query->addOr($query->expr()->field('locked')->equals(true));
                     break;
             }
+        }
+
+        if (!is_null($instance)) {
+            $query = $query->field('instance.id')->equals($instance->getId());
         }
 
         return $query;
@@ -102,7 +119,7 @@ class BaseUserRepository extends DocumentRepository
                         ->getQuery()
                         ->execute();
     }
-    
+
     public function findNewUsersPerInstance()
     {
         return $this->createQueryBuilder()
