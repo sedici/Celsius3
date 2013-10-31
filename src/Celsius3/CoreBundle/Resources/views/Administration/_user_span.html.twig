@@ -10,8 +10,8 @@
             <div class="pull-right">
                 <ul class="list-unstyled list-inline">
                     <li><a class="user-enable" href="#"><span class="glyphicon glyphicon-ok"></span></a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-eye-open"></span></a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-pencil"></span></a></li>
+                    <li><a href="{{ path('admin_user_modal_show', { 'id': user.id }) }}" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                    <li><a href="{{ path('admin_user_edit', { 'id': user.id }) }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -19,3 +19,7 @@
     {% endfor %}
     </ul>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  
+</div><!-- /.modal -->
