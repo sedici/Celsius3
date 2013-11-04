@@ -22,6 +22,11 @@ class OrderRepository extends DocumentRepository
         return $value['order']['$id'];
     }
 
+    protected function getRequestIds($value)
+    {
+        return $value['request']['$id'];
+    }
+
     public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null)
     {
         $qb = $this->createQueryBuilder();
@@ -131,21 +136,39 @@ class OrderRepository extends DocumentRepository
     {
         $stateTypes = array_keys($this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:StateType')
-                        ->createQueryBuilder()->hydrate(false)->select('id')
-                        ->field('name')->in($types)->getQuery()->execute()
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('id')
+                        ->field('name')->in($types)
+                        ->getQuery()
+                        ->execute()
                         ->toArray());
 
         $states = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:State')
-                ->createQueryBuilder()->hydrate(false)->select('order')
-                ->field('isCurrent')->equals(true)->field('type.id')
-                ->in($stateTypes);
+                        ->getRepository('Celsius3CoreBundle:State')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('request')
+                        ->field('isCurrent')->equals(true)
+                        ->field('type.id')->in($stateTypes);
 
         if (!is_null($instance)) {
             $states = $states->field('instance.id')->equals($instance->getId());
         }
 
-        return $query->field('id')->in(array_map(array($this, 'getIds'), $states->getQuery()->execute()->toArray()));
+        $requests = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->createQueryBuilder()
+                ->hydrate(false)
+                ->select('order')
+                ->field('id')->in(array_map(function ($item) {
+                                    return $item['request']['$id'];
+                                }, $states->getQuery()->execute()->toArray()))
+                ->getQuery()
+                ->execute()
+                ->toArray();
+
+        return $query->field('id')->in(array_map(array($this, 'getIds'), $requests));
     }
 
 }

@@ -210,6 +210,11 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $configuration->setValue($data['value']);
             $configuration->setType($data['type']);
             $configuration->setInstance($directory);
+
+            if ($key == 'instance_description') {
+                $configuration->setValue($generator->text(1000));
+            }
+
             $manager->persist($configuration);
             unset($configuration);
         }
@@ -237,6 +242,11 @@ class FixtureLoader implements FixtureInterface, ContainerAwareInterface
             $configuration->setKey($key);
             $configuration->setValue($data['value']);
             $configuration->setType($data['type']);
+
+            if ($key == 'instance_description') {
+                $configuration->setValue($generator->text(1000));
+            }
+
             $manager->persist($configuration);
             unset($configuration);
         }
