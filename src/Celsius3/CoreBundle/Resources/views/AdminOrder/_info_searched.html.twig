@@ -4,8 +4,8 @@
         <dl class="dl-horizontal">
             <dt>{{ 'Search Date'|trans }}</dt>
             <dd>
-                {{ order.hasState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance)?order.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance).date|localizeddate():'' }}
-                ({{ order.hasState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance)?order.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance).date|time_ago_in_words:'' }})
+                {{ request.hasState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance)?request.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance).date|localizeddate():'' }}
+                ({{ request.hasState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance)?request.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), instance).date|time_ago_in_words:'' }})
             </dd>
             <dt>{{ 'Actions'|trans }}</dt>
             <dd>
@@ -20,7 +20,7 @@
         <dl class="dl-horizontal">
             <dt>{{ 'Actions'|trans }}</dt>
             <dd>
-                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__SEARCH') }) }}" method="post" class="inline-form">
+                <form action="{{ path('admin_order_event', { 'id': request.order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__SEARCH') }) }}" method="post" class="inline-form">
                     <a class="submit-form" href="#">{{ 'search'|capitalize|trans }}</a>
                 </form>
             </dd>

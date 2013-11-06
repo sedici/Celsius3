@@ -1,15 +1,17 @@
 <?php
 
 namespace Celsius3\CoreBundle\Twig;
+
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Manager\CatalogManager;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\Request;
 use Doctrine\Common\Collections\ArrayCollection;
 use Celsius3\CoreBundle\Document\Catalog;
 use Doctrine\ODM\MongoDB\Cursor;
 
 class CatalogExtension extends \Twig_Extension
 {
+
     private $catalog_manager;
 
     public function __construct(CatalogManager $catalog_manager)
@@ -25,12 +27,10 @@ class CatalogExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-                'get_catalogs' => new \Twig_Function_Method($this,
-                        'getCatalogs'),
-                'get_searches' => new \Twig_Function_Method($this,
-                        'getSearches'),
-                'search_exists' => new \Twig_Function_Method($this,
-                        'searchExists'),);
+            'get_catalogs' => new \Twig_Function_Method($this, 'getCatalogs'),
+            'get_searches' => new \Twig_Function_Method($this, 'getSearches'),
+            'search_exists' => new \Twig_Function_Method($this, 'searchExists'),
+        );
     }
 
     public function getCatalogs(Instance $instance)
@@ -38,20 +38,16 @@ class CatalogExtension extends \Twig_Extension
         return $this->catalog_manager->getAllCatalogs($instance);
     }
 
-    public function getSearches(Order $order, Instance $instance)
+    public function getSearches(Request $request)
     {
-        return $this->catalog_manager->getSearches($order, $instance);
+        return $this->catalog_manager->getSearches($request);
     }
 
     public function searchExists(Cursor $searches, Catalog $catalog)
     {
         $searches = new ArrayCollection($searches->toArray());
-        $result = $searches
-                ->filter(
-                        function ($entry) use ($catalog)
-                        {
-                            return $entry->getCatalog()->getId()
-                                    == $catalog->getId();
+        $result = $searches->filter(function ($entry) use ($catalog) {
+                            return $entry->getCatalog()->getId() == $catalog->getId();
                         })->first();
         return false !== $result ? $result : null;
     }
@@ -60,4 +56,5 @@ class CatalogExtension extends \Twig_Extension
     {
         return 'celsius3_core.catalog_extension';
     }
+
 }

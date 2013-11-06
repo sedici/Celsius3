@@ -173,7 +173,7 @@
                             </li>
                             {% if not notEdit %}
                             <li>
-                                <a href="{{ path([name,'_edit']|join, { 'id': document.id }) }}">
+                                <a href="{{ path([name,'_edit']|join, { 'id': element.id }) }}">
                                     <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
                                 </a>
                             </li>

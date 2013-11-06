@@ -76,6 +76,16 @@ class Request
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="requests")
      */
     private $order;
+    
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="requests")
+     */
+    private $previousRequest;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="previousRequest")
+     */
+    private $requests;
 
     public function __construct()
     {
@@ -437,4 +447,56 @@ class Request
         return false !== $result ? $result : null;
     }
 
+
+    /**
+     * Set previousRequest
+     *
+     * @param Celsius3\CoreBundle\Document\Request $previousRequest
+     * @return self
+     */
+    public function setPreviousRequest(\Celsius3\CoreBundle\Document\Request $previousRequest)
+    {
+        $this->previousRequest = $previousRequest;
+        return $this;
+    }
+
+    /**
+     * Get previousRequest
+     *
+     * @return Celsius3\CoreBundle\Document\Request $previousRequest
+     */
+    public function getPreviousRequest()
+    {
+        return $this->previousRequest;
+    }
+
+    /**
+     * Add request
+     *
+     * @param Celsius3\CoreBundle\Document\Request $request
+     */
+    public function addRequest(\Celsius3\CoreBundle\Document\Request $request)
+    {
+        $this->requests[] = $request;
+    }
+
+    /**
+     * Remove request
+     *
+     * @param Celsius3\CoreBundle\Document\Request $request
+     */
+    public function removeRequest(\Celsius3\CoreBundle\Document\Request $request)
+    {
+        $this->requests->removeElement($request);
+    }
+
+    /**
+     * Get requests
+     *
+     * @return Doctrine\Common\Collections\Collection $requests
+     */
+    public function getRequests()
+    {
+        return $this->requests;
+    }
 }

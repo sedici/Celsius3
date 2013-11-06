@@ -218,7 +218,7 @@ class AdminOrderController extends OrderController
             throw $this->createNotFoundException('Unable to find Order.');
         }
 
-        if ($this->get('celsius3_core.lifecycle_helper')->createEvent($event, $order)) {
+        if ($this->get('celsius3_core.lifecycle_helper')->createEvent($event, $order->getRequest($this->getInstance()))) {
             $this->get('session')->getFlashBag()
                     ->add('success', 'The state has been successfully changed.');
         } else {

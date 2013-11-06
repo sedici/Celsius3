@@ -33,7 +33,7 @@ var form_name = '{{ request_form.vars['name'] }}';
         <h3 id="request-modal-label">{{ 'Request'|trans }}</h3>
     </div>
     <div class="modal-body">
-        <form id="requestForm" action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post" class="form-horizontal">
+        <form id="requestForm" action="{{ path('admin_order_event', { 'id': request.order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post" class="form-horizontal">
             {{ form_widget(request_form, {'form_type': 'horizontal'}) }}
         </form>
     </div>

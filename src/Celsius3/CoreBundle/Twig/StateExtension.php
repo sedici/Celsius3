@@ -1,8 +1,9 @@
 <?php
 
 namespace Celsius3\CoreBundle\Twig;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\Request;
 
 class StateExtension extends \Twig_Extension
 {
@@ -23,30 +24,20 @@ class StateExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-                'render_state_header' => new \Twig_Function_Method($this,
-                        'renderStateHeader'),
-                'get_positive_states' => new \Twig_Function_Method($this,
-                        'getPositiveStates'),
-                'render_state_body' => new \Twig_Function_Method($this,
-                        'renderStateBody'),);
+            'render_state_header' => new \Twig_Function_Method($this, 'renderStateHeader'),
+            'get_positive_states' => new \Twig_Function_Method($this, 'getPositiveStates'),
+            'render_state_body' => new \Twig_Function_Method($this, 'renderStateBody'),
+        );
     }
 
-    public function renderStateHeader($state, Order $order)
+    public function renderStateHeader($state, Request $request)
     {
-        return $this->environment
-                ->render('Celsius3CoreBundle:AdminOrder:_state.html.twig',
-                        $this->container->get('celsius3_core.state_manager')
-                                ->getDataForHeaderRendering($state, $order));
+        return $this->environment->render('Celsius3CoreBundle:AdminOrder:_state.html.twig', $this->container->get('celsius3_core.state_manager')->getDataForHeaderRendering($state, $request));
     }
 
-    public function renderStateBody($state, Order $order)
+    public function renderStateBody($state, Request $request)
     {
-        return $this->environment
-                ->render(
-                        'Celsius3CoreBundle:AdminOrder:_info_' . $state
-                                . '.html.twig',
-                        $this->container->get('celsius3_core.state_manager')
-                                ->getDataForBodyRendering($state, $order));
+        return $this->environment->render('Celsius3CoreBundle:AdminOrder:_info_' . $state. '.html.twig', $this->container->get('celsius3_core.state_manager')->getDataForBodyRendering($state, $request));
     }
 
     public function getPositiveStates()

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -9,6 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class CatalogSearch
 {
+
     /**
      * @MongoDB\Id
      */
@@ -34,15 +36,9 @@ class CatalogSearch
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Order")
+     * @MongoDB\ReferenceOne(targetDocument="Request")
      */
-    private $order;
-
-    /**
-     * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
-     */
-    private $instance;
+    private $request;
 
     /**
      * @Assert\NotNull
@@ -127,50 +123,6 @@ class CatalogSearch
     }
 
     /**
-     * Set order
-     *
-     * @param Celsius3\CoreBundle\Document\Order $order
-     * @return self
-     */
-    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
-    {
-        $this->order = $order;
-        return $this;
-    }
-
-    /**
-     * Get order
-     *
-     * @return Celsius3\CoreBundle\Document\Order $order
-     */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    /**
-     * Set instance
-     *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
-     * @return self
-     */
-    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
-    {
-        $this->instance = $instance;
-        return $this;
-    }
-
-    /**
-     * Get instance
-     *
-     * @return Celsius3\CoreBundle\Document\Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
-
-    /**
      * Set admin
      *
      * @param Celsius3\CoreBundle\Document\BaseUser $admin
@@ -191,4 +143,27 @@ class CatalogSearch
     {
         return $this->admin;
     }
+
+    /**
+     * Set request
+     *
+     * @param Celsius3\CoreBundle\Document\Request $request
+     * @return self
+     */
+    public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
+    {
+        $this->request = $request;
+        return $this;
+    }
+
+    /**
+     * Get request
+     *
+     * @return Celsius3\CoreBundle\Document\Request $request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
 }

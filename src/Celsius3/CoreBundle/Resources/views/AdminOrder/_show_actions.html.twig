@@ -1,21 +1,22 @@
-{% if document.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] %}
+{% set request = element.request(instance) %}
+{% if request.currentState.type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] %}
 <li>
-    <form action="{{ path('admin_order_event', { 'id': document.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
+    <form action="{{ path('admin_order_event', { 'id': element.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
         <a class="submit-form" href="#"><i class="icon-ban-circle"></i> {{ 'annul'|capitalize|trans }}</a>
     </form>
 </li>
 {% endif %}
-{% if document.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED'),
+{% if request.currentState.type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED'),
 constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] %}
 <li>
-    <form action="{{ path('admin_order_event', { 'id': document.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
+    <form action="{{ path('admin_order_event', { 'id': element.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
         <a class="submit-form" href="#"><i class="icon-remove"></i> {{ 'cancel'|capitalize|trans }}</a>
     </form>
 </li>
 {% endif %}
-{% if document.getCurrentState(instance).type.name != constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED') %}
+{% if request.currentState.type.name != constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED') %}
 <li>
-    <form action="{{ path('admin_order_undo', { 'id': document.id }) }}" method="post" class="inline-form">
+    <form action="{{ path('admin_order_undo', { 'id': element.id }) }}" method="post" class="inline-form">
         <a class="submit-form" href="#"><i class="icon-arrow-left"></i> {{ 'back to previous state'|capitalize|trans }}</a>
     </form>
 </li>
