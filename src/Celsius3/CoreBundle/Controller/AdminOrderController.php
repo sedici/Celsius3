@@ -142,9 +142,7 @@ class AdminOrderController extends OrderController
 
         $document->setMaterialData(null);
 
-        $editForm = $this
-                ->createForm(
-                new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -156,10 +154,7 @@ class AdminOrderController extends OrderController
             $dm->persist($document);
             $dm->flush();
 
-            return $this
-                            ->redirect(
-                                    $this
-                                    ->generateUrl('admin_order_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_order_edit', array('id' => $id)));
         }
 
         return array('document' => $document,

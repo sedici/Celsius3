@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -11,15 +12,21 @@ class BookTypeType extends MaterialTypeType
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('editor')->add('chapter')->add('ISBN')->add('withIndex');
+        $builder
+                ->add('editor')
+                ->add('chapter')
+                ->add('ISBN')
+                ->add('withIndex', null, array(
+                    'required' => false,
+                ))
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array(
-                                'data_class' => 'Celsius3\\CoreBundle\\Document\\BookType',));
+        $resolver->setDefaults(array(
+            'data_class' => 'Celsius3\\CoreBundle\\Document\\BookType',
+        ));
     }
 
     public function getName()
