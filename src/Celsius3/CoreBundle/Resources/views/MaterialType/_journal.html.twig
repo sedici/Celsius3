@@ -1,15 +1,11 @@
 {% extends 'Celsius3CoreBundle:MaterialType:_materialType.html.twig' %}
 
 {% block dataType %}
-<dt>{{ 'Type'|trans }}</dt>
-<dd>{{ 'Journal'|trans }}</dd>
+<p><span>{{ 'Type'|trans }}</span> {{ 'Journal'|trans }}</p>
 {% endblock %}
 
 {% block extraData %}
-<dt>{{ 'Volume'|trans }}</dt>
-<dd>{{ materialData.volume?materialData.volume:'-' }}</dd>
-<dt>{{ 'Number'|trans }}</dt>
-<dd>{{ materialData.number?materialData.number:'-' }}</dd>
-<dt>{{ 'Journal'|trans }}</dt>
-<dd>{{ materialData.journal?materialData.journal:'-' }}</dd>
+<p><span>{{ 'Volume'|trans }}</span> {{ materialData.volume?materialData.volume:'-' }}</p>
+<p><span>{{ 'Number'|trans }}</span> {{ materialData.number?materialData.number:'-' }}</p>
+<p><span>{{ 'Journal'|trans }}</span> {{ materialData.journal?materialData.journal:'-' }}</p>
 {% endblock %}

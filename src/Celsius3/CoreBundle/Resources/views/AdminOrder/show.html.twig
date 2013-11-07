@@ -7,5 +7,90 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
 
 {% block content %}
-{{ show('admin_order', document, delete_form, 'Celsius3CoreBundle:AdminOrder', instance) }}
+{% set request = document.request(instance) %}
+<div class="item_container">
+
+    <div class="top_info">
+        <div class="top_left">
+            {% if request.type == constant('Celsius3\\CoreBundle\\Manager\\OrderManager::TYPE__SEARCH') %}
+            <div class="busqueda">B</div>
+            {% else %}
+            <div class="provision">P</div>
+            {% endif %}
+            <div class="tipoarticulo">{{ get_material_type(document.materialData) }}</div>
+        </div>
+
+        <div class="top_right">	
+            <div class="status"></div>
+            <div class="uri">{{ document.code }}</div>
+            <div class="usuario">{{ request.owner }}</div>
+            <div class="decoracion"></div>
+        </div>
+    </div>
+
+    <div class="main_info">
+        <div class="title_and_author">
+            <div class="titulo">{{ document.materialData.title }}</div>
+            <div class="autor">{{ document.materialData.authors }}</div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <h4>{{ 'General item information'|trans }}</h4>
+            {{ render_material(document.materialData)|raw }}
+        </div>
+            
+        <div class="col-md-5">
+            <h4>{{ 'Interaction summary'|trans }}</h4>
+            
+        </div>
+            
+        <div class="col-md-3">
+            <ul class="list-unstyled">
+                {% include 'Celsius3CoreBundle:AdminOrder:_show_actions.html.twig' %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12">
+                    Estados
+                </div>
+            </div>
+                
+            <div class="row">
+                <div class="col-md-3">
+                    Acciones
+                </div>
+
+                <div class="col-md-9">
+                    Busquedas
+                </div>
+            </div>
+                
+            <div class="row">
+                <div class="col-md-4">
+                    Catalogos encontrado
+                </div>
+                    
+                <div class="col-md-4">
+                    Catalogos encontrado parcialmente
+                </div>
+                    
+                <div class="col-md-4">
+                    Catalogos no encontrado
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-md-4">
+            <h4>{{ 'History'|trans }}</h4>
+        </div>
+    </div>
+    
+
+</div>
 {% endblock %}
