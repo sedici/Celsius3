@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -20,6 +21,11 @@ class JournalType extends MaterialType
      * @MongoDB\String
      */
     protected $number;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $other;
 
     /**
      * @MongoDB\ReferenceOne(targetDocument="Journal")
@@ -91,4 +97,27 @@ class JournalType extends MaterialType
     {
         return $this->journal;
     }
+
+    /**
+     * Set other
+     *
+     * @param string $other
+     * @return self
+     */
+    public function setOther($other)
+    {
+        $this->other = $other;
+        return $this;
+    }
+
+    /**
+     * Get other
+     *
+     * @return string $other
+     */
+    public function getOther()
+    {
+        return $this->other;
+    }
+
 }

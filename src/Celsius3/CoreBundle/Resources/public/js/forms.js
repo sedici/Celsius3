@@ -189,6 +189,21 @@ $('#message_recipients').select2({
 });
 
 /*
+ * Select especial para journals
+ */
+$('#celsius3_corebundle_ordertype_materialData_journal').select2();
+
+$('#celsius3_corebundle_ordertype_materialData_journal').on('change', function() {
+    if ($('#celsius3_corebundle_ordertype_materialData_journal').val() === '') {
+        $('#celsius3_corebundle_ordertype_materialData_other').prop('disabled', false);
+    } else {
+        $('#celsius3_corebundle_ordertype_materialData_other').prop('disabled', true);
+    }
+});
+
+$('#celsius3_corebundle_ordertype_materialData_journal').change();
+
+/*
  * Form submission
  */
 $('.delete-message').click(function() {
