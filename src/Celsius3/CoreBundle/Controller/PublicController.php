@@ -105,16 +105,17 @@ class PublicController extends BaseInstanceDependentController
      */
     public function institutionsFullAction()
     {
-
         $request = $this->container->get('request');
 
         if (!$request->query->has('country_id') && !$request->query->has('city_id') && !$request->query->has('institution_id')) {
             throw $this->createNotFoundException();
         }
 
-        $qb = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Institution')
-                ->createQueryBuilder();
-
+        $dm = $this->getDocumentManager();
+        $qb = $dm->getRepository('Celsius3CoreBundle:Institution')
+                ->createQueryBuilder()
+                ->hydrate(false);
+        
         if ($request->query->has('city_id')) {
             $qb = $qb->field('city.id')->equals($request->query->get('city_id'));
         } else if ($request->query->has('country_id')) {
@@ -125,48 +126,62 @@ class PublicController extends BaseInstanceDependentController
         if ($request->query->get('filter') == '') {
             $qb = $qb->field('parent.id')->equals(null);
         }
+        
+        $qb->getQuery()->execute();
 
-        $institutions = new \Doctrine\Common\Collections\ArrayCollection($qb
-                        ->getQuery()
-                        ->execute()
-                        ->toArray());
+        $institutions = $qb->getQuery()->execute()->toArray();
 
         $response = array();
         foreach ($institutions as $institution) {
             $level = 0;
-            if (($request->query->get('filter') == 'liblink' && $institution->getIsLiblink()) ||
-                    ($request->query->get('filter') == 'celsius3' && $institution->getCelsiusInstance()) ||
+            if (($request->query->get('filter') == 'liblink' && $institution['isLibLink']) ||
+                    ($request->query->get('filter') == 'celsius3' && $institution['celsiusInstance']) ||
                     ($request->query->get('filter') == '')) {
-                $response [] = array(
-                    'value' => $institution->getId(),
-                    'hasChildren' => $institution->getInstitutions()->count() > 0,
-                    'name' => $institution->getName(),
+
+                $children = $dm->getRepository('Celsius3CoreBundle:Institution')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->field('parent.id')->equals($institution['_id'])
+                        ->getQuery()
+                        ->execute()
+                        ->toArray();
+
+                $response[] = array(
+                    'value' => $institution['_id'],
+                    'hasChildren' => count($children) > 0,
+                    'name' => $institution['name'],
                     'level' => $level,
-                    'children' => $this->getChildrenInstitution($institution, $level + 1, $institutions),
+                    'children' => $this->getChildrenInstitution($children, $level + 1),
                 );
             }
         }
         return new Response(json_encode($response));
     }
 
-    function getChildrenInstitution($institution, $level, $institutions)
+    function getChildrenInstitution($institutions, $level)
     {
-        if ($institution->getInstitutions()->count() > 0) {
-            $response = array();
-            foreach ($institution->getInstitutions() as $inst) {
-                array_push($response, array(
-                    'value' => $inst->getId(),
-                    'hasChildren' => $inst->getInstitutions()->count() > 0,
-                    'name' => $inst->getName(),
+        $dm = $this->getDocumentManager();
+        $response = array();
+        if (count($institutions) > 0) {
+            foreach ($institutions as $institution) {
+                $children = $dm->getRepository('Celsius3CoreBundle:Institution')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->field('parent.id')->equals($institution['_id'])
+                        ->getQuery()
+                        ->execute()
+                        ->toArray();
+
+                $response[] = array(
+                    'value' => $institution['_id'],
+                    'hasChildren' => count($children) > 0,
+                    'name' => $institution['name'],
                     'level' => $level,
-                    'children' => $this->getChildrenInstitution($inst, $level + 1, $institutions),
-                ));
-                $institutions->removeElement($inst);
+                    'children' => $this->getChildrenInstitution($children, $level + 1),
+                );
             }
-            return $response;
-        } else {
-            return [];
         }
+        return $response;
     }
 
 }
