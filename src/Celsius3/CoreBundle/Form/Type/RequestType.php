@@ -29,7 +29,7 @@ class RequestType extends AbstractType
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {   
+    {
         $builder
                 ->add('type', 'choice', array(
                     'choices' => array(

@@ -34,8 +34,7 @@ class OrderType extends AbstractType
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {    
-        
+    {
         $builder
                 ->add('originalRequest', new RequestType($this->instance, $this->user, $this->operator, $this->librarian), array(
                     'label' => false,

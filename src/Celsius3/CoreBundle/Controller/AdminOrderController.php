@@ -142,10 +142,14 @@ class AdminOrderController extends OrderController
 
         $document->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), $document);
-        $deleteForm = $this->createDeleteForm($id);
-
         $request = $this->getRequest();
+        
+        // Se extrae el usuario del request y se setea en la construccion del form
+        $user = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:BaseUser')
+                ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
+        
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $document);
+        $deleteForm = $this->createDeleteForm($id);
 
         $editForm->bind($request);
 
