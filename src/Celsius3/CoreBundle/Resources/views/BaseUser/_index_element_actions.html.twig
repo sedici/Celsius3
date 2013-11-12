@@ -1,4 +1,4 @@
-<ul class="list-unstyled pull-right actions">
+<ul class="list-unstyled">
     {% if not element.enabled %}
     <li>
         <a href="{{ path(name~'_enable', { 'id': element.id }) }}"><span class="glyphicon glyphicon-ok"></span> {{ 'Enable'|trans }}</a>
@@ -10,4 +10,5 @@
     <li>
         <a href="{{ path(name~'_transform', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Transform'|trans }}</a>
     </li>
+    {% block extraactions %}{% endblock %}
 </ul>

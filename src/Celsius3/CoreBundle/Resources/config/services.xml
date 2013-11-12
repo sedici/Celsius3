@@ -10,6 +10,7 @@
         <parameter key="twig.extension.string_loader.class">Twig_Extension_StringLoader</parameter>
         <parameter key="celsius3_core.twig.extension.timeago_extension.class">Celsius3\CoreBundle\Twig\TimeAgoExtension</parameter>
         <parameter key="celsius3_core.twig.extension.administration.class">Celsius3\CoreBundle\Twig\AdministrationExtension</parameter>
+        <parameter key="celsius3_core.twig.extension.institution.class">Celsius3\CoreBundle\Twig\InstitutionExtension</parameter>
         <parameter key="celsius3_core.twig.extension.states.class">Celsius3\CoreBundle\Twig\StateExtension</parameter>
         <parameter key="celsius3_core.twig.extension.events.class">Celsius3\CoreBundle\Twig\EventExtension</parameter>
         <parameter key="celsius3_core.twig.extension.material_type.class">Celsius3\CoreBundle\Twig\MaterialTypeExtension</parameter>
@@ -75,6 +76,10 @@
 
         <service id="celsius3_core.twig.extension.administration" class="%celsius3_core.twig.extension.administration.class%">
             <argument type="service" id="service_container"></argument>
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="celsius3_core.twig.extension.institution" class="%celsius3_core.twig.extension.institution.class%">
             <tag name="twig.extension" />
         </service>
 

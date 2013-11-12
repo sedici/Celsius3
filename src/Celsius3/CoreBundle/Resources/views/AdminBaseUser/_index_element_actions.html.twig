@@ -1,0 +1,7 @@
+{% extends 'Celsius3CoreBundle:BaseUser:_index_element_actions.html.twig' %}
+
+{% block extraactions %}
+<li>
+    <a href="{{ path('admin_customuserfield_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Custom field'|trans }}</a>
+</li>
+{% endblock %}

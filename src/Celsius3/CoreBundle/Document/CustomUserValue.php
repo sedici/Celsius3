@@ -20,11 +20,13 @@ class CustomUserValue
     private $value;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="CustomUserField", inversedBy="values")
      */
     private $field;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="BaseUser", inversedBy="customValues")
      */
     private $user;

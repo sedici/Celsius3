@@ -91,6 +91,11 @@ class Institution extends Provider
     {
         return $this->abbreviation . ' - ' . $this->name;
     }
+    
+    public function getFullName()
+    {
+        return ($this->parent ? $this->parent->getFullName() . ' - ' : '') . $this->name;
+    }
 
     public function __construct()
     {
