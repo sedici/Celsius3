@@ -815,7 +815,7 @@
                     "homepage": "http://avalanche123.com"
                 },
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -1218,12 +1218,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "080f944b011eaa6e9a901f210b897001730b5de2"
+                "reference": "61b2b866d999f96e19de7bc3f546ecb55c3a2e5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/080f944b011eaa6e9a901f210b897001730b5de2",
-                "reference": "080f944b011eaa6e9a901f210b897001730b5de2",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/61b2b866d999f96e19de7bc3f546ecb55c3a2e5f",
+                "reference": "61b2b866d999f96e19de7bc3f546ecb55c3a2e5f",
                 "shasum": ""
             },
             "require": {
@@ -1256,7 +1256,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-11-08 15:32:41"
+            "time": "2013-11-12 21:22:57"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1345,12 +1345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/genemu/GenemuFormBundle.git",
-                "reference": "9a68d6811fd80d1fe908af014687562301329d6e"
+                "reference": "156089856016abde934b92961724b9aa728b7eae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/9a68d6811fd80d1fe908af014687562301329d6e",
-                "reference": "9a68d6811fd80d1fe908af014687562301329d6e",
+                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/156089856016abde934b92961724b9aa728b7eae",
+                "reference": "156089856016abde934b92961724b9aa728b7eae",
                 "shasum": ""
             },
             "require": {
@@ -1407,7 +1407,7 @@
                 "extra form",
                 "form"
             ],
-            "time": "2013-09-03 21:48:06"
+            "time": "2013-11-13 16:22:53"
         },
         {
             "name": "guzzle/common",
