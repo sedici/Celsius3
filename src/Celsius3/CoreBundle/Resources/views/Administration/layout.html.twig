@@ -8,7 +8,10 @@
         <a href="{{ path('admin_user') }}">
             {{ 'Users'|trans }}     
         </a>
-            <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}"><span class="label label-danger">{{ count_users(instance)['pending'] }}</span></a> |
+        {% if count_users(instance)['pending'] > 0 %}
+            <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}"><span class="label label-danger">{{ count_users(instance)['pending'] }}</span></a> 
+        {% endif %}
+  	|
     </li>
     <li>
         <div class="dropdown">
