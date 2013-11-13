@@ -132,7 +132,7 @@ class OrderRepository extends DocumentRepository
                         ->execute();
     }
 
-    public function addFindByStateType(array $types, Builder $query, Instance $instance = null)
+    public function addFindByStateType(array $types, Builder $query, Instance $instance = null, BaseUser $user = null)
     {
         $stateTypes = array_keys($this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:StateType')
@@ -157,18 +157,39 @@ class OrderRepository extends DocumentRepository
         }
 
         $requests = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:Request')
-                ->createQueryBuilder()
-                ->hydrate(false)
-                ->select('order')
-                ->field('id')->in(array_map(function ($item) {
-                                    return $item['request']['$id'];
-                                }, $states->getQuery()->execute()->toArray()))
-                ->getQuery()
+                        ->getRepository('Celsius3CoreBundle:Request')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('order')
+                        ->field('id')->in(array_map(function ($item) {
+                            return $item['request']['$id'];
+                        }, $states->getQuery()->execute()->toArray()));
+
+        if ($user) {
+            $requests = $requests->addOr($requests->expr()->field('owner.id')->equals($user->getId()))
+                    ->addOr($requests->expr()->field('librarian.id')->equals($user->getId()));
+        }
+
+        $requests = $requests->getQuery()
                 ->execute()
                 ->toArray();
 
         return $query->field('id')->in(array_map(array($this, 'getIds'), $requests));
+    }
+
+    public function findActiveForUser(BaseUser $user, Instance $instance)
+    {
+        $qb = $this->createQueryBuilder();
+
+        return $this->addFindByStateType(array(
+                            StateManager::STATE__CREATED,
+                            StateManager::STATE__SEARCHED,
+                            StateManager::STATE__REQUESTED,
+                            StateManager::STATE__APPROVAL_PENDING,
+                            StateManager::STATE__RECEIVED,
+                                ), $qb, $instance, $user)
+                        ->getQuery()
+                        ->execute();
     }
 
 }

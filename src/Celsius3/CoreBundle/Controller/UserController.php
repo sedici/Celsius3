@@ -1,5 +1,7 @@
 <?php
+
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -10,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class UserController extends BaseInstanceDependentController
 {
+
     /**
      * @Route("/", name="user_index")
      * @Template()
@@ -20,19 +23,21 @@ class UserController extends BaseInstanceDependentController
     {
         $lastOrders = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:Order')
-                ->createQueryBuilder()->field('owner.id')
-                ->equals($this->getUser()->getId())->sort('created', 'desc')
-                ->limit(10)->getQuery()->execute();
+                ->findActiveForUser($this->getUser(), $this->getInstance());
 
         $lastMessages = $this->getDocumentManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
-                ->createQueryBuilder()->field('participants.id')
-                ->equals($this->getUser()->getId())
-                ->sort('lastMessageDate', 'desc')->limit(10)->getQuery()
+                ->createQueryBuilder()
+                ->field('participants.id')->equals($this->getUser()->getId())
+                ->sort('lastMessageDate', 'desc')
+                ->limit(10)
+                ->getQuery()
                 ->execute();
 
-        return array('lastOrders' => $lastOrders,
-                'lastMessages' => $lastMessages,);
+        return array(
+            'lastOrders' => $lastOrders,
+            'lastMessages' => $lastMessages,
+        );
     }
 
     /**
@@ -42,4 +47,5 @@ class UserController extends BaseInstanceDependentController
     {
         return $this->ajax($this->getInstance(), $this->getUser());
     }
+
 }
