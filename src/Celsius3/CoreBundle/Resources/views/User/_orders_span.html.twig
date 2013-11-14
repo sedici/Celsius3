@@ -1,11 +1,10 @@
-<div class="col-md-9">
+<div class="col-md-8">
+    <h2>{{ 'Orders'|trans }}</h2>
     <h2>
         <a href="{{ path('user_order_new') }}">
             <span class="glyphicon glyphicon-plus"></span> {{ 'Add order'|trans }}
         </a>
     </h2>
-    <h2 class="pull-left">{{ 'Active orders'|trans }}</h2>
-    <div class="clearfix"></div>
     {% for element in lastOrders %}
         {% include 'Celsius3CoreBundle:UserOrder:_index_element.html.twig' %}
     {% endfor %}

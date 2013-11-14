@@ -30,7 +30,7 @@ class UserController extends BaseInstanceDependentController
                 ->createQueryBuilder()
                 ->field('participants.id')->equals($this->getUser()->getId())
                 ->sort('lastMessageDate', 'desc')
-                ->limit(10)
+                ->limit(3)
                 ->getQuery()
                 ->execute();
 

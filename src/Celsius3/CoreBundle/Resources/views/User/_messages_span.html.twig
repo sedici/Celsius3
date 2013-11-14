@@ -1,19 +1,17 @@
-<div class="col-md-3">
-    <h2 class="pull-left">{{ 'Last messages'|trans }}</h2>
-    <div class="pull-right">
-        <a class="btn btn-primary" href="{{ path('fos_message_thread_new' )}}">
-            <span class="glyphicon glyphicon-envelope"></span> {{ 'New'|trans }}
-        </a>
-        <a class="btn btn-default" href="{{ path('fos_message_inbox' )}}">
-            <span class="glyphicon glyphicon-inbox"></span> {{ 'All'|trans }}
-        </a>
-    </div>
-    <div class="clearfix"></div>
-    <ul class="list-group">
-        {% for thread in lastMessages %}
-        <li class="list-group-item">
-            <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}"><span class="label label-default">{{ thread.createdBy.fullName }}</span> {{ thread.createdAt|localizeddate }} - {{ thread.subject }}</a>
-        </li>
-        {% endfor %}
-    </ul>
+<h2 class="pull-left">{{ 'Last messages'|trans }}</h2>
+<div class="pull-right user-message-actions">
+    <a class="btn btn-primary" href="{{ path('fos_message_thread_new' )}}">
+        <span class="glyphicon glyphicon-envelope"></span> {{ 'New'|trans }}
+    </a>
+    <a class="btn btn-default" href="{{ path('fos_message_inbox' )}}">
+        <span class="glyphicon glyphicon-inbox"></span> {{ 'All'|trans }}
+    </a>
 </div>
+<div class="clearfix"></div>
+<ul class="list-group">
+    {% for thread in lastMessages %}
+    <li class="list-group-item">
+        <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}"><span class="label label-default">{{ thread.createdBy.fullName }}</span> {{ thread.subject }}</a>
+    </li>
+    {% endfor %}
+</ul>
