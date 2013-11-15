@@ -32,7 +32,7 @@ class CatalogPosition
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Catalog")
+     * @MongoDB\ReferenceOne(targetDocument="Catalog", inversedBy="positions")
      */
     private $catalog;
 

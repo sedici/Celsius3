@@ -1,14 +1,17 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
  */
 class Catalog
 {
+
     /**
      * @MongoDB\Id
      */
@@ -44,6 +47,11 @@ class Catalog
      * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs")
      */
     private $instance;
+
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="CatalogPosition", mappedBy="catalog")
+     */
+    private $positions;
 
     public function __toString()
     {
@@ -169,4 +177,40 @@ class Catalog
     {
         return $this->instance;
     }
+
+    public function __construct()
+    {
+        $this->positions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add position
+     *
+     * @param Celsius3\CoreBundle\Document\CatalogPosition $position
+     */
+    public function addPosition(\Celsius3\CoreBundle\Document\CatalogPosition $position)
+    {
+        $this->positions[] = $position;
+    }
+
+    /**
+     * Remove position
+     *
+     * @param Celsius3\CoreBundle\Document\CatalogPosition $position
+     */
+    public function removePosition(\Celsius3\CoreBundle\Document\CatalogPosition $position)
+    {
+        $this->positions->removeElement($position);
+    }
+
+    /**
+     * Get positions
+     *
+     * @return Doctrine\Common\Collections\Collection $positions
+     */
+    public function getPositions()
+    {
+        return $this->positions;
+    }
+
 }

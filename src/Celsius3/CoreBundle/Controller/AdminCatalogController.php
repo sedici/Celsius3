@@ -17,6 +17,13 @@ use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
 class AdminCatalogController extends BaseInstanceDependentController
 {
 
+    protected function listQuery($name)
+    {
+        return $this->getDocumentManager()
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->get('celsius3_core.instance_manager')->getDirectory());
+    }
+
     /**
      * Lists all Catalog documents.
      *
@@ -27,7 +34,15 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType($this->getInstance())));
+        $query = $this->listQuery('Catalog');
+        $filter_form = $this->createForm(new CatalogFilterType($this->getInstance()));
+        $filter_form->bind($this->getRequest());
+        $query = $this->filter('Catalog', $filter_form, $query);
+
+        return array(
+            'pagination' => $query->getQuery()->execute(),
+            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form
+        );
     }
 
     /**
