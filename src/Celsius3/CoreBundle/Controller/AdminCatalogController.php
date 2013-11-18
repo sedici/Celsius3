@@ -36,13 +36,9 @@ class AdminCatalogController extends BaseInstanceDependentController
     public function indexAction()
     {
         $query = $this->listQuery('Catalog');
-        $filter_form = $this->createForm(new CatalogFilterType($this->getInstance()));
-        $filter_form->bind($this->getRequest());
-        $query = $this->filter('Catalog', $filter_form, $query);
 
         return array(
             'pagination' => $query->getQuery()->execute(),
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form
         );
     }
 

@@ -9,7 +9,9 @@
 {% block content %}
 <h2>{{ 'Catalog List'|trans }}</h2>
 <div class="row">
-    <a class="submit-catalog-data btn btn-primary" href="#"><span class="glyphicon glyphicon-save"></span> {{ 'Save changes'|trans }}</a>
+    <div class="col-md-12">
+        {% include 'Celsius3CoreBundle:AdminCatalog:_index_actions.html.twig' %}
+    </div>
 </div>
 
 <div class="row">
@@ -63,41 +65,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
-        <div id="accordion" class="panel-group">
-            {% if filter_form %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
-                        </a>
-                    </h4>
-                </div>
-                <div class="panel-collapse collapse" id="collapseOne">
-                    <div class="panel-body">
-                        {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %}
-
-                        {{ filter('admin_catalog', filter_form) }}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                            <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
-                        </a>
-                    </h4>
-                </div>
-                <div class="panel-collapse in collapse" id="collapseTwo">
-                    <div class="panel-body">
-                        {% include 'Celsius3CoreBundle:AdminCatalog:_index_actions.html.twig' %}
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-12">
+        {% include 'Celsius3CoreBundle:AdminCatalog:_index_actions.html.twig' %}
     </div>
 </div>
 {% endblock %}

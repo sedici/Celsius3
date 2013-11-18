@@ -11,10 +11,17 @@ $('.connectedSortable').sortable({
         } else if (secondColumn > actualSC) {
             $('.secondColumn').prepend($('.firstColumn > .draggable').slice(secondColumn - firstColumn));
         }
+
+        // Se habilita el boton
+        $('.submit-catalog-data.disabled').removeClass('btn-default disabled').addClass('btn-primary enabled');
     }
 }).disableSelection();
 
-$('.submit-catalog-data').on('click', function() {
+$('.submit-catalog-data.disabled').on('click', function(e) {
+    e.preventDefault();
+});
+
+$(document).on('click', '.submit-catalog-data.enabled', function() {
     var ids = new Array();
     $('.draggable').each(function(i, elem) {
         ids.push($(elem).data('id'));
@@ -29,7 +36,11 @@ $('.submit-catalog-data').on('click', function() {
             url: instance_url
         }),
         success: function(data) {
-            console.log("success");
+            $('.flashes').empty().append('<div class="alert alert-success">' +
+                    '<button data-dismiss="alert" class="close" type="button">×</button>' +
+                    'The Catalogs were successfully sorted.' +
+                    '</div>');
+            $('.submit-catalog-data.enabled').removeClass('btn-primary enabled').addClass('btn-default disabled');
         }
     });
 });
