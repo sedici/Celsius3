@@ -19,7 +19,7 @@ class CatalogRepository extends DocumentRepository
                     return $item['catalog']['$id'];
                 }, $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
                         ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
-                        ->sort('place', 'asc')
+                        ->sort('position', 'asc')
                         ->getQuery()
                         ->execute()
                         ->toArray());

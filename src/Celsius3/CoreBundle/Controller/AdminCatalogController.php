@@ -2,6 +2,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -121,6 +122,39 @@ class AdminCatalogController extends BaseInstanceDependentController
     public function deleteAction($id)
     {
         return $this->baseDelete('Catalog', $id, 'admin_catalog');
+    }
+
+    /**
+     * Updates de order of each Catalog
+     *
+     * @Route("/persist", name="admin_catalog_persist", options={"expose"=true})
+     * @Method("post")
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function persistAction()
+    {
+        $ids = $this->getRequest()->request->get('ids');
+        $dm = $this->getDocumentManager();
+
+        if ($ids) {
+            foreach ($ids as $key => $id) {
+                $position = $dm->getRepository('Celsius3CoreBundle:CatalogPosition')
+                        ->findOneBy(array(
+                    'catalog.id' => $id,
+                    'instance.id' => $this->getInstance()->getId(),
+                ));
+                if ($position) {
+                    $position->setPosition($key);
+                    $dm->persist($position);
+                }
+            }
+            $dm->flush();
+        }
+
+        return new Response(json_encode(array(
+            'success' => 'Success',
+        )));
     }
 
 }

@@ -19,5 +19,17 @@ $('.submit-catalog-data').on('click', function() {
     $('.draggable').each(function(i, elem) {
         ids.push($(elem).data('id'));
     });
-    console.log(ids);
+    $.ajax({
+        type: 'POST',
+        format: 'json',
+        data: {
+            ids: ids
+        },
+        url: Routing.generate('admin_catalog_persist', {
+            url: instance_url
+        }),
+        success: function(data) {
+            console.log("success");
+        }
+    });
 });

@@ -7,7 +7,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
- * @MongoDB\UniqueIndex(keys={"instance.id"="asc", "position"="asc"})
  */
 class CatalogPosition
 {

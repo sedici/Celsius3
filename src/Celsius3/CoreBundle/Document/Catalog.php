@@ -213,4 +213,13 @@ class Catalog
         return $this->positions;
     }
 
+    public function getPosition(Instance $instance)
+    {
+        $result = $this->getPositions()
+                        ->filter(
+                                function ($entry) use ($instance) {
+                                    return $entry->getInstance()->getId() == $instance->getId();
+                                })->first();
+        return false !== $result ? $result : null;
+    }
 }
