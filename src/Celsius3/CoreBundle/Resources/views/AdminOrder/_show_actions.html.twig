@@ -5,8 +5,13 @@
     </a>
 </li>
 <li>
-    <a href="{{ path(['admin_order_edit']|join, { 'id': document.id }) }}">
+    <a href="{{ path('admin_order_edit', { 'id': document.id }) }}">
         <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
+    </a>
+</li>
+<li>
+    <a href="{{ path('admin_mails_modal', { 'user_id': request.owner.id, 'order_id': document.id }) }}" data-toggle="modal" data-target="#modal-email">
+        <span class="glyphicon glyphicon-envelope"></span> {{ 'Send mail'|trans }}
     </a>
 </li>
 {% if request.currentState.type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] %}

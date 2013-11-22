@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\EventListener;
+
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Mailer\MailerInterface;
@@ -22,10 +23,7 @@ class ConfirmationListener implements EventSubscriberInterface
     private $request;
     private $configuration_helper;
 
-    public function __construct(MailerInterface $mailer,
-            TokenGeneratorInterface $tokenGenerator,
-            UrlGeneratorInterface $router, SessionInterface $session,
-            Request $request, ConfigurationHelper $configuration_helper)
+    public function __construct(MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UrlGeneratorInterface $router, SessionInterface $session, Request $request, ConfigurationHelper $configuration_helper)
     {
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
@@ -38,7 +36,8 @@ class ConfirmationListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-                FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',);
+            FOSUserEvents::REGISTRATION_SUCCESS => 'onRegistrationSuccess',
+        );
     }
 
     public function onRegistrationSuccess(FormEvent $event)
@@ -48,29 +47,20 @@ class ConfirmationListener implements EventSubscriberInterface
 
         $user->setEnabled(false);
 
-        $confirmationType = $this->configuration_helper
-                ->getCastedValue($user->getInstance()->get('confirmation_type'));
+        $confirmationType = $this->configuration_helper->getCastedValue($user->getInstance()->get('confirmation_type'));
 
-        $this->session
-                ->set('fos_user_send_confirmation_email/email',
-                        $user->getEmail());
+        $this->session->set('fos_user_send_confirmation_email/email', $user->getEmail());
 
         if ($confirmationType == 'email') {
             if (null === $user->getConfirmationToken()) {
-                $user
-                        ->setConfirmationToken(
-                                $this->tokenGenerator->generateToken());
+                $user->setConfirmationToken($this->tokenGenerator->generateToken());
             }
 
             $this->mailer->sendConfirmationEmailMessage($user);
 
-            $url = $this->router
-                    ->generate('fos_user_registration_check_email',
-                            array('url' => $this->request->get('url')));
+            $url = $this->router->generate('fos_user_registration_check_email', array('url' => $this->request->get('url')));
         } else if ($confirmationType == 'admin') {
-            $url = $this->router
-                    ->generate('fos_user_registration_wait_confirmation',
-                            array('url' => $this->request->get('url')));
+            $url = $this->router->generate('fos_user_registration_wait_confirmation', array('url' => $this->request->get('url')));
         }
 
         $event->setResponse(new RedirectResponse($url));

@@ -84,6 +84,7 @@
                 {% endblock %}
             </div>
         </div>
+        {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
         {% block javascripts %}
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-1.10.2.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
@@ -106,6 +107,7 @@
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cci.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/admin.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dnd.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/mail.js') }}"></script>
         {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
         <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/autobahn.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>

@@ -50,9 +50,10 @@
         <parameter key="celsius3_core.catalog_manager.class">Celsius3\CoreBundle\Manager\CatalogManager</parameter>
         <parameter key="celsius3_core.statistic_manager.class">Celsius3\CoreBundle\Manager\StatisticManager</parameter>
         <parameter key="celsius3_core.instance_manager.class">Celsius3\CoreBundle\Manager\InstanceManager</parameter>
+        <parameter key="celsius3_core.mail_manager.class">Celsius3\CoreBundle\Manager\MailManager</parameter>
         <parameter key="celsius3_core.resetting.email.template">FOSUserBundle:Resetting:email.txt.twig</parameter>
         <parameter key="celsius3_core.listener.confirmation.class">Celsius3\CoreBundle\EventListener\ConfirmationListener</parameter>
-        <parameter key="celsius3_core.mailer.custom.class">Celsius3\CoreBundle\Mailer\Mailer</parameter>
+        <parameter key="celsius3_core.fos_mailer.custom.class">Celsius3\CoreBundle\Mailer\FosMailer</parameter>
         <parameter key="celsius3_core.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
     </parameters>
 
@@ -272,6 +273,10 @@
         <service id="celsius3_core.instance_manager" class="%celsius3_core.instance_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
+        
+        <service id="celsius3_core.mail_manager" class="%celsius3_core.mail_manager.class%">
+            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        </service>
 
         <service id="celsius3_core.listener.confirmation" class="%celsius3_core.listener.confirmation.class%">
             <tag name="kernel.event_subscriber" />
@@ -283,7 +288,7 @@
             <argument type="service" id="celsius3_core.configuration_helper" />
         </service>
 
-        <service id="celsius3_core.mailer.custom" class="%celsius3_core.mailer.custom.class%" public="false">
+        <service id="celsius3_core.fos_mailer.custom" class="%celsius3_core.fos_mailer.custom.class%" public="false">
             <argument type="service" id="mailer" />
             <argument type="service" id="router" />
             <argument type="service" id="templating" />

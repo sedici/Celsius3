@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
 use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
+use Celsius3\CoreBundle\Manager\MailManager;
 
 /**
  * Order controller.
@@ -33,14 +34,10 @@ class AdminMailController extends BaseInstanceDependentController
                 ->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder();
 
-        return $qb
-                        ->addOr(
-                                $qb->expr()->field('instance.id')->equals($this->getDirectory()->getId())
+        return $qb->addOr($qb->expr()->field('instance.id')->equals($this->getDirectory()->getId())
                                 ->field('code')->notIn($custom)
                                 ->field('enabled')->equals(true))
-                        ->addOr(
-                                $qb->expr()->field('instance.id')
-                                ->equals($this->getInstance()->getId()));
+                        ->addOr($qb->expr()->field('instance.id')->equals($this->getInstance()->getId()));
     }
 
     protected function findQuery($name, $id)
@@ -59,8 +56,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this
-                        ->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
+        return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
     }
 
     /**
@@ -73,8 +69,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this
-                        ->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()));
+        return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()));
     }
 
     /**
@@ -101,8 +96,7 @@ class AdminMailController extends BaseInstanceDependentController
             $route = 'create';
         }
 
-        return $this
-                        ->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()), $route);
+        return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()), $route);
     }
 
     /**
@@ -116,8 +110,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this
-                        ->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()), 'admin_mails');
+        return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()), 'admin_mails');
     }
 
     /**
@@ -135,8 +128,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this
-                        ->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getInstance()), 'admin_mails');
+        return $this->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getInstance()), 'admin_mails');
     }
 
     /**
@@ -197,6 +189,37 @@ class AdminMailController extends BaseInstanceDependentController
                         . (($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('admin_mails'));
+    }
+    
+    /**
+     *
+     * @Route("/{user_id}/modal", name="admin_mails_modal")
+     * @Template()
+     * 
+     * @return array
+     */
+    public function modalAction($user_id)
+    {
+        $dm = $this->getDocumentManager();
+        
+        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+                ->find($user_id);
+        
+        if (!$user) {
+            return $this->createNotFoundException('User not found');
+        }
+        
+        $request = $this->getRequest();
+        
+        $order_id = $request->query->get('order_id');
+        $order = $dm->getRepository('Celsius3CoreBundle:Order')
+                ->find($order_id);
+        
+        
+        
+       return array(
+           'form' => $form,
+       ) 
     }
 
 }
