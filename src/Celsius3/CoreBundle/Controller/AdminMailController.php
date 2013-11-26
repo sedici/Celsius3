@@ -190,7 +190,7 @@ class AdminMailController extends BaseInstanceDependentController
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }
-    
+
     /**
      *
      * @Route("/{user_id}/modal", name="admin_mails_modal")
@@ -201,25 +201,25 @@ class AdminMailController extends BaseInstanceDependentController
     public function modalAction($user_id)
     {
         $dm = $this->getDocumentManager();
-        
+
         $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($user_id);
-        
+
         if (!$user) {
             return $this->createNotFoundException('User not found');
         }
-        
+
         $request = $this->getRequest();
-        
+
         $order_id = $request->query->get('order_id');
         $order = $dm->getRepository('Celsius3CoreBundle:Order')
                 ->find($order_id);
-        
-        
-        
-       return array(
-           'form' => $form,
-       ) 
+
+
+
+        return array(
+            'form' => $form,
+        );
     }
 
 }

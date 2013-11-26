@@ -55,11 +55,16 @@ class LegacyInstance
      */
     protected $enabled = true;
 
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Hive", inversedBy="instances")
+     */
+    protected $hive;
+
     public function __toString()
     {
         return $this->getName();
     }
-    
+
     public function isCurrent()
     {
         return false;
@@ -183,6 +188,28 @@ class LegacyInstance
     public function getEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Set hive
+     *
+     * @param Celsius3\CoreBundle\Document\Hive $hive
+     * @return self
+     */
+    public function setHive(\Celsius3\CoreBundle\Document\Hive $hive)
+    {
+        $this->hive = $hive;
+        return $this;
+    }
+
+    /**
+     * Get hive
+     *
+     * @return Celsius3\CoreBundle\Document\Hive $hive
+     */
+    public function getHive()
+    {
+        return $this->hive;
     }
 
 }
