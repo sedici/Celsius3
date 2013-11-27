@@ -29,14 +29,12 @@ class UserManager
         return $results;
     }
 
-    public function transform($type, $document)
+    public function transform($type, BaseUser $document)
     {
         if (in_array($type, $this->types)) {
             $document->setRoles(array());
             $document->addRole($type);
-        }
-
-        return $document;
+        };
     }
 
     public function getCurrentRole(BaseUser $document)

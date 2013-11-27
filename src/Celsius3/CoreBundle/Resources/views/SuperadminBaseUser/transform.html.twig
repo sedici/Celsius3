@@ -11,3 +11,8 @@
 
 {{ transform('superadmin_user', document, transform_form) }}
 {% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="{{ asset('bundles/celsius3core/js/transform.js') }}"></script>
+{% endblock %}

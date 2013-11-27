@@ -1,6 +1,8 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\Type;
+
+use Doctrine\ODM\MongoDB\DocumentRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Manager\UserManager;
@@ -20,23 +22,32 @@ class UserTransformType extends AbstractType
     {
         if (!is_null($this->instance)) {
             $builder
-                    ->add('type', 'choice',
-                            array(
-                                    'choices' => array(
-                                            UserManager::ROLE_USER => 'User',
-                                            UserManager::ROLE_LIBRARIAN => 'Librarian',
-                                            UserManager::ROLE_ADMIN => 'Admin',),
-                                    'expanded' => true,));
+                    ->add('type', 'choice', array(
+                        'choices' => array(
+                            UserManager::ROLE_USER => 'User',
+                            UserManager::ROLE_LIBRARIAN => 'Librarian',
+                            UserManager::ROLE_ADMIN => 'Admin',),
+                        'expanded' => true,
+                    ))
+            ;
         } else {
             $builder
-                    ->add('type', 'choice',
-                            array(
-                                    'choices' => array(
-                                            UserManager::ROLE_USER => 'User',
-                                            UserManager::ROLE_LIBRARIAN => 'Librarian',
-                                            UserManager::ROLE_ADMIN => 'Admin',
-                                            UserManager::ROLE_SUPER_ADMIN => 'Superadmin',),
-                                    'expanded' => true,));
+                    ->add('type', 'choice', array(
+                        'choices' => array(
+                            UserManager::ROLE_USER => 'User',
+                            UserManager::ROLE_LIBRARIAN => 'Librarian',
+                            UserManager::ROLE_ADMIN => 'Admin',
+                            UserManager::ROLE_SUPER_ADMIN => 'Superadmin',),
+                        'expanded' => true,
+                    ))
+                    ->add('instances', 'document', array(
+                        'class' => 'Celsius3CoreBundle:Instance',
+                        'multiple' => true,
+                        'query_builder' => function (DocumentRepository $repository) {
+                            return $repository->findAllExceptDirectory();
+                        },
+                    ))
+            ;
         }
     }
 

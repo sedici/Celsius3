@@ -100,6 +100,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $customValues;
 
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Instance")
+     */
+    protected $administeredInstances;
+
     public function __toString()
     {
         return $this->getSurname() . ', ' . $this->getName();
@@ -131,6 +136,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->administeredInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -478,6 +484,36 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getDownloadAuth()
     {
         return $this->downloadAuth;
+    }
+
+    /**
+     * Add administeredInstance
+     *
+     * @param Celsius3\CoreBundle\Document\Instance $administeredInstance
+     */
+    public function addAdministeredInstance(\Celsius3\CoreBundle\Document\Instance $administeredInstance)
+    {
+        $this->administeredInstances[] = $administeredInstance;
+    }
+
+    /**
+     * Remove administeredInstance
+     *
+     * @param Celsius3\CoreBundle\Document\Instance $administeredInstance
+     */
+    public function removeAdministeredInstance(\Celsius3\CoreBundle\Document\Instance $administeredInstance)
+    {
+        $this->administeredInstances->removeElement($administeredInstance);
+    }
+
+    /**
+     * Get administeredInstances
+     *
+     * @return Doctrine\Common\Collections\Collection $administeredInstances
+     */
+    public function getAdministeredInstances()
+    {
+        return $this->administeredInstances;
     }
 
 }

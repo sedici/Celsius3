@@ -4,3 +4,7 @@
 <dt>{{ 'Instance'|trans }}</dt>
 <dd>{{ element.instance }}</dd>
 {% endblock %}
+
+{% block actions %}
+{% include 'Celsius3CoreBundle:AdminBaseUser:_index_element_actions.html.twig' %}
+{% endblock %}
