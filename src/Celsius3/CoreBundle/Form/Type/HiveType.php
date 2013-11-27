@@ -2,22 +2,22 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class InstanceType extends LegacyInstanceType
+class HiveType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
         $builder
-                ->add('url')
+                ->add('name')
         ;
     }
 
     public function getName()
     {
-        return 'celsius3_corebundle_instancetype';
+        return 'celsius3_corebundle_hivetype';
     }
 
 }

@@ -21,6 +21,12 @@
             <ul class="list-unstyled btn-group-list">
                 <li>
                     <div class="btn-group">
+                        <a href="{{ path('superadmin_hive') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Hives'|trans }}</a>
+                        <a href="{{ path('superadmin_hive_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                </li>
+                <li>
+                    <div class="btn-group">
                         <a href="{{ path('superadmin_contacttype') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Contact types'|trans }}</a>
                         <a href="{{ path('superadmin_contacttype_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>

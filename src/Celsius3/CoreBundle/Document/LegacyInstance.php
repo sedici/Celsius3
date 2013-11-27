@@ -56,6 +56,7 @@ class LegacyInstance
     protected $enabled = true;
 
     /**
+     * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Hive", inversedBy="instances")
      */
     protected $hive;

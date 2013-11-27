@@ -50,6 +50,8 @@
                         </div>
                     </div>
                 </div>
+            {% else %}
+                <p>{{ 'No elements to display.'|trans }}</p>
             {% endfor %}
             </div>
             {% endif %}

@@ -10,13 +10,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Document;
-use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Manager\OrderManager;
 use Celsius3\CoreBundle\Manager\UserManager;
-use Celsius3\CoreBundle\Manager\InstanceManager;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
-use Celsius3\NotificationBundle\Document\NotificationTemplate;
 
 /**
  * Description of FixtureLoader
@@ -107,6 +103,11 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                 ),
             ),
         );
+                    
+        $hive = new Document\Hive();
+        $hive->setName('LibLink');
+        $manager->persist($hive);
+        $manager->flush();
 
         /*
          * Carga de Instancias Legacy
@@ -118,6 +119,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             $instance->setWebsite($generator->url);
             $instance->setEmail($generator->email);
             $instance->setEnabled(true);
+            $instance->setHive($hive);
             $manager->persist($instance);
         }
         $manager->flush();
@@ -133,6 +135,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             $instance->setEmail($generator->email);
             $instance->setUrl($generator->word);
             $instance->setEnabled(true);
+            $instance->setHive($hive);
             $manager->persist($instance);
             $manager->flush();
 
