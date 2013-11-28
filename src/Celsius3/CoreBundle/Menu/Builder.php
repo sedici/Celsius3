@@ -16,7 +16,9 @@ class Builder extends ContainerAware
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
-        $local = $request->attributes->has('url') && $request->attributes->get('url') == $this->container->get('session')->get('instance_url') || !$request->attributes->has('url');
+        $local = $request->attributes->has('url') &&
+                $request->attributes->get('url') == $this->container->get('session')->get('instance_url') ||
+                !$request->attributes->has('url');
 
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav main-navbar');
@@ -25,11 +27,46 @@ class Builder extends ContainerAware
             'route' => 'public_index',
             'routeParameters' => array(
                 'url' => $instance_url,
-        )));
+            ),
+        ));
         if ($securityContext->isGranted(UserManager::ROLE_ADMIN) !== false && $local) {
             $menu->addChild('Administration', array(
                 'route' => 'administration',
             ));
+            $user = $securityContext->getToken()->getUser();
+            if ($user->getAdministeredInstances()->count() > 0) {
+                if (!$user->getAdministeredInstances()->contains($user->getInstance())) {
+                    $user->getAdministeredInstances()->add($user->getInstance());
+                }
+                
+                $menu->addChild('Others', array(
+                            'uri' => '#',
+                            'linkAttributes' => array(
+                                'class' => 'dropdown-toggle',
+                                'data-toggle' => 'dropdown',
+                            ),
+                            'label' => '<b class="caret"></b>',
+                            'extras' => array(
+                                'safe_label' => true,
+                            ),
+                        ))
+                        ->setChildrenAttributes(array(
+                            'class' => 'dropdown-menu',
+                ));
+
+                foreach ($user->getAdministeredInstances() as $instance) {
+                    $class = $instance->getUrl() == $instance_url ? 'active' : '';
+                    $menu['Others']->addChild($instance->getName(), array(
+                        'route' => 'administration_change_context',
+                        'routeParameters' => array(
+                            'id' => $instance->getId(),
+                        ),
+                        'attributes' => array(
+                            'class' => $class,
+                        ),
+                    ));
+                }
+            }
         }
         if ($securityContext->isGranted(UserManager::ROLE_SUPER_ADMIN) !== false && $local) {
             $menu->addChild('Network Administration', array(
@@ -58,9 +95,12 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $menu->addChild('Home', array('route' => 'directory',));
-        $menu
-                ->addChild('Instances', array('route' => 'directory_instances',));
+        $menu->addChild('Home', array(
+            'route' => 'directory',
+        ));
+        $menu->addChild('Instances', array(
+            'route' => 'directory_instances',
+        ));
 
         return $menu;
     }
@@ -69,28 +109,35 @@ class Builder extends ContainerAware
     {
         $request = $this->container->get('request');
 
-        $instance_url = $request->attributes->has('url') ? $request->attributes
-                        ->get('url') : $this->container->get('session')->get('instance_url');
+        $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $menu
-                ->addChild('Home', array('route' => 'public_index',
-                    'routeParameters' => array(
-                        'url' => $instance_url)));
-        $menu
-                ->addChild('News', array('route' => 'public_news',
-                    'routeParameters' => array(
-                        'url' => $instance_url)));
-        $menu
-                ->addChild('Information', array('route' => 'public_information',
-                    'routeParameters' => array(
-                        'url' => $instance_url)));
-        $menu
-                ->addChild('Statistics', array('route' => 'public_statistics',
-                    'routeParameters' => array(
-                        'url' => $instance_url)));
+        $menu->addChild('Home', array(
+            'route' => 'public_index',
+            'routeParameters' => array(
+                'url' => $instance_url,
+            ),
+        ));
+        $menu->addChild('News', array(
+            'route' => 'public_news',
+            'routeParameters' => array(
+                'url' => $instance_url,
+            ),
+        ));
+        $menu->addChild('Information', array(
+            'route' => 'public_information',
+            'routeParameters' => array(
+                'url' => $instance_url,
+            ),
+        ));
+        $menu->addChild('Statistics', array(
+            'route' => 'public_statistics',
+            'routeParameters' => array(
+                'url' => $instance_url,
+            ),
+        ));
 
         return $menu;
     }

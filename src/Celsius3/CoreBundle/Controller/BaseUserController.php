@@ -54,6 +54,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             $this->get('celsius3_core.user_manager')->transform($data['type'], $document);
 
             if (array_key_exists('instances', $data)) {
+                $document->getAdministeredInstances()->clear();
                 foreach ($data['instances'] as $instance) {
                     $document->addAdministeredInstance($instance);
                 }
