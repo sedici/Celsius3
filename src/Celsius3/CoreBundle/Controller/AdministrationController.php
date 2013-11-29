@@ -77,7 +77,12 @@ class AdministrationController extends BaseInstanceDependentController
         $instance = $dm->getRepository('Celsius3CoreBundle:Instance')
                 ->find($id);
 
-        if (!$instance || !$this->getUser()->getAdministeredInstances()->contains($instance)) {
+        $user = $this->getUser();
+        if (!$user->getAdministeredInstances()->contains($user->getInstance())) {
+            $user->getAdministeredInstances()->add($user->getInstance());
+        }
+
+        if (!$instance || !$user->getAdministeredInstances()->contains($instance)) {
             return $this->createNotFoundException('Instance not found');
         }
 
