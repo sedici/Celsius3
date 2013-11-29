@@ -1,13 +1,15 @@
 <?php
+
 namespace Celsius3\NotificationBundle\Server;
+
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\NotificationBundle\Document\Notification;
 
 class Pusher implements WampServerInterface
 {
+
     /**
      * A lookup of all the topics clients have subscribed to
      */
@@ -15,8 +17,7 @@ class Pusher implements WampServerInterface
     private $notification_manager;
     private $dm;
 
-    public function __construct(NotificationManager $notification_manager,
-            DocumentManager $dm)
+    public function __construct(NotificationManager $notification_manager, DocumentManager $dm)
     {
         $this->notification_manager = $notification_manager;
         $this->dm = $dm;
@@ -24,13 +25,16 @@ class Pusher implements WampServerInterface
 
     private function getNotificationData($count, $notifications)
     {
-        $data = array('count' => $count, 'notifications' => array(),);
+        $data = array(
+            'count' => $count,
+            'notifications' => array(),
+        );
 
         foreach ($notifications as $notification) {
             $data['notifications'][] = array(
-                    'template' => $this->notification_manager
-                            ->getRenderedTemplate($notification),
-                    'id' => $notification->getId(),);
+                'template' => $this->notification_manager->getRenderedTemplate($notification),
+                'id' => $notification->getId(),
+            );
         }
 
         return $data;
@@ -44,40 +48,33 @@ class Pusher implements WampServerInterface
             echo "User " . $topic->getId() . " subscribed.\n";
         }
 
-        $data = $this
-                ->getNotificationData(
-                        $this->notification_manager
-                                ->getUnreadNotificationsCount($topic->getId()),
-                        array_reverse(
-                                $this->notification_manager
-                                        ->getUnreadNotifications(
-                                                $topic->getId())->toArray()));
+        $data = $this->getNotificationData($this->notification_manager->getUnreadNotificationsCount($topic->getId()), array_reverse($this->notification_manager->getUnreadNotifications($topic->getId())->toArray()));
 
         $topic->broadcast($data);
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
+        
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
+        
     }
 
     public function onClose(ConnectionInterface $conn)
     {
+        
     }
 
-    public function onCall(ConnectionInterface $conn, $id, $topic,
-            array $params)
+    public function onCall(ConnectionInterface $conn, $id, $topic, array $params)
     {
         // In this application if clients send data it's because the user hacked around in console
-        $conn->callError($id, $topic, 'You are not allowed to make calls')
-                ->close();
+        $conn->callError($id, $topic, 'You are not allowed to make calls')->close();
     }
 
-    public function onPublish(ConnectionInterface $conn, $topic, $event,
-            array $exclude, array $eligible)
+    public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
     {
         // In this application if clients send data it's because the user hacked around in console
         $conn->close();
@@ -85,6 +82,7 @@ class Pusher implements WampServerInterface
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
+        
     }
 
     /**
@@ -110,12 +108,12 @@ class Pusher implements WampServerInterface
 
             echo "Notifying to " . $user . "\n";
 
-            $data = $this
-                    ->getNotificationData(1, array($notification));
+            $data = $this->getNotificationData(1, array($notification));
 
             $topic = $this->subscribedTopics[$user->getId()];
 
             $topic->broadcast($data);
         }
     }
+
 }

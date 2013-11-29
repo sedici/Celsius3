@@ -1,7 +1,7 @@
 <?php
 
 namespace Celsius3\NotificationBundle\Controller;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\CoreBundle\Controller\BaseController;
@@ -13,6 +13,7 @@ use Celsius3\CoreBundle\Controller\BaseController;
  */
 class NotificationController extends BaseController
 {
+
     protected function getBundle()
     {
         return 'Celsius3NotificationBundle';
@@ -21,7 +22,7 @@ class NotificationController extends BaseController
     protected function listQuery($name)
     {
         return parent::listQuery($name)->field('receivers.id')
-                ->equals($this->getUser()->getId());
+                        ->equals($this->getUser()->getId());
     }
 
     /**
@@ -60,11 +61,7 @@ class NotificationController extends BaseController
         $dm->persist($notification);
         $dm->flush();
 
-        return $this
-                ->redirect(
-                        $this
-                                ->get(
-                                        'celsius3_notification.notification_manager')
-                                ->generateUrl($notification));
+        return $this->redirect($this->get('celsius3_notification.notification_manager')->generateUrl($notification));
     }
+
 }

@@ -15,7 +15,7 @@ function showNotifications(data) {
     });
 }
 
-if (user_id != '') {
+if (user_id !== '') {
     var conn = new ab.Session('ws://' + notification_host + ':'
             + notification_port, function() {
         conn.subscribe(user_id, function(topic, data) {

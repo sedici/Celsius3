@@ -32,6 +32,8 @@ twig:
         notification_host: %notification_host%
         notification_port: %notification_port%
         notification_limit: %notification_limit%
+        chat_host: %chat_host%
+        chat_port: %chat_port%
     form:
         resources:
             - 'Celsius3CoreBundle:Form:fields.html.twig'

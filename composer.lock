@@ -1075,12 +1075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "0b4a1accfacbe0ebec4d0efc00c8ff9c3f11e77c"
+                "reference": "e0def4f4f3699f9629f46ca4ed3dbde250d78d96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/0b4a1accfacbe0ebec4d0efc00c8ff9c3f11e77c",
-                "reference": "0b4a1accfacbe0ebec4d0efc00c8ff9c3f11e77c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/e0def4f4f3699f9629f46ca4ed3dbde250d78d96",
+                "reference": "e0def4f4f3699f9629f46ca4ed3dbde250d78d96",
                 "shasum": ""
             },
             "require": {
@@ -1110,7 +1110,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
@@ -1142,7 +1142,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-11-25 22:37:41"
+            "time": "2013-11-28 09:03:02"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1219,12 +1219,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "7df7fcc89f003b92c320434ca30b99461f2f6ca8"
+                "reference": "3326cd3c401323bd3d56c767ef66cb045c9eee47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7df7fcc89f003b92c320434ca30b99461f2f6ca8",
-                "reference": "7df7fcc89f003b92c320434ca30b99461f2f6ca8",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/3326cd3c401323bd3d56c767ef66cb045c9eee47",
+                "reference": "3326cd3c401323bd3d56c767ef66cb045c9eee47",
                 "shasum": ""
             },
             "require": {
@@ -1257,7 +1257,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-11-19 08:24:27"
+            "time": "2013-11-28 16:41:22"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1660,16 +1660,16 @@
         },
         {
             "name": "jdorn/sql-formatter",
-            "version": "v1.2.9",
+            "version": "v1.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jdorn/sql-formatter.git",
-                "reference": "v1.2.9"
+                "reference": "8859d664737492d313c34796731b35eca851b362"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/v1.2.9",
-                "reference": "v1.2.9",
+                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/8859d664737492d313c34796731b35eca851b362",
+                "reference": "8859d664737492d313c34796731b35eca851b362",
                 "shasum": ""
             },
             "require": {
@@ -1706,7 +1706,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2013-04-26 18:42:52"
+            "time": "2013-11-27 22:51:13"
         },
         {
             "name": "jms/aop-bundle",

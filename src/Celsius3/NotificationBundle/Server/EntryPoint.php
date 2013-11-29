@@ -1,11 +1,12 @@
 <?php
 
 namespace Celsius3\NotificationBundle\Server;
+
 use Symfony\Component\Console\Output\OutputInterface;
-use Ratchet\Wamp\WampServerInterface;
 
 class EntryPoint
 {
+
     private $container;
     private $server;
     private $output;
@@ -46,9 +47,10 @@ class EntryPoint
             $this->getOutput()
                     ->writeln(
                             "Launching " . $this->server->getName() . " on: "
-                                    . $this->server->getAddress());
+                            . $this->server->getAddress());
         }
         //launch server into background process?
         $this->server->launch();
     }
+
 }

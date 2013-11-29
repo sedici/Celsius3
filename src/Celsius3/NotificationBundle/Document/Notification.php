@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\NotificationBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -13,6 +14,7 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
  */
 class Notification
 {
+
     use TimestampableDocument;
 
     /**
@@ -241,4 +243,5 @@ class Notification
     {
         return $this->viewer;
     }
+
 }
