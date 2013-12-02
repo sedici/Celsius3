@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "9a830418db71b72fefddab979e98cfa8",
+    "hash": "dad0bd502ec3cdb97bf854ee6e29200b",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -705,16 +705,16 @@
         },
         {
             "name": "doctrine/mongodb",
-            "version": "1.0.4",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb.git",
-                "reference": "401796e7a5ec3cea099d993fd0034235b917f1a8"
+                "reference": "0d90296cf98c043b331209a609cb165fb038802e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/401796e7a5ec3cea099d993fd0034235b917f1a8",
-                "reference": "401796e7a5ec3cea099d993fd0034235b917f1a8",
+                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/0d90296cf98c043b331209a609cb165fb038802e",
+                "reference": "0d90296cf98c043b331209a609cb165fb038802e",
                 "shasum": ""
             },
             "require": {
@@ -722,7 +722,18 @@
                 "ext-mongo": ">=1.2.12,<1.6-dev",
                 "php": ">=5.3.2"
             },
+            "require-dev": {
+                "jmikola/geojson": "~1.0"
+            },
+            "suggest": {
+                "jmikola/geojson": "Support GeoJSON geometry objects in 2dsphere queries"
+            },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\MongoDB": "lib/"
@@ -762,7 +773,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2013-11-01 17:12:21"
+            "time": "2013-12-02 16:06:10"
         },
         {
             "name": "doctrine/mongodb-odm",
@@ -770,12 +781,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "ca84cbf7e016f46c5199aaa3d3c7ed4cd7014a0b"
+                "reference": "f65e504e630d2697f9d8673ed92c23ccbbd9aa9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/4a2d7755c225f5b27f69e3ef0187ae0caec24aea",
-                "reference": "ca84cbf7e016f46c5199aaa3d3c7ed4cd7014a0b",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/f65e504e630d2697f9d8673ed92c23ccbbd9aa9b",
+                "reference": "f65e504e630d2697f9d8673ed92c23ccbbd9aa9b",
                 "shasum": ""
             },
             "require": {
@@ -784,7 +795,7 @@
                 "doctrine/collections": "~1.0",
                 "doctrine/common": "2.4.*",
                 "doctrine/inflector": "~1.0",
-                "doctrine/mongodb": "1.0.*",
+                "doctrine/mongodb": "~1.1",
                 "php": ">=5.3.2",
                 "symfony/console": "~2.0"
             },
@@ -840,7 +851,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-09-27 16:29:25"
+            "time": "2013-12-02 16:37:03"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",

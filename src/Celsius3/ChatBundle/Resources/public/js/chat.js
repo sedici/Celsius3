@@ -16,9 +16,9 @@ function showChat(data) {
 }
 
 if (user_id !== '') {
-    var conn = new ab.Session('ws://' + chat_host + ':'
+    var chat_conn = new ab.Session('ws://' + chat_host + ':'
             + chat_port, function() {
-        conn.subscribe(hive_id, function(topic, data) {
+        chat_conn.subscribe(hive_id, function(topic, data) {
             showChat(data);
         });
     }, function() {

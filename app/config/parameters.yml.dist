@@ -37,5 +37,3 @@ parameters:
 
     chat_host: 0.0.0.0
     chat_port: 8081
-    chat_zmq_host: localhost
-    chat_zmq_port: 5556

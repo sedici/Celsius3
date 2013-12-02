@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\NotificationBundle\Server;
+namespace Celsius3\ChatBundle\Server;
 
 use Ratchet\Wamp\WampServer;
 use Ratchet\WebSocket\WsServer;
@@ -43,14 +43,6 @@ class PusherType
 
         $this->socket = new \React\Socket\Server($this->loop);
 
-        $context = new \React\ZMQ\Context($this->loop);
-        $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
-        $pull->bind('tcp://' . $this->host . ':5555'); // Binding to 127.0.0.1 means the only client that can connect is itself
-        $pull->on('message', array(
-            $this->container->get('celsius3_notification.wamp_server'),
-            'onNotificationEntry',
-        ));
-
         if ($this->host) {
             $this->socket->listen($this->port, $this->host);
         } else {
@@ -65,7 +57,7 @@ class PusherType
      */
     private function setupApp()
     {
-        $serverStack = new WampServer($this->container->get('celsius3_notification.wamp_server'));
+        $serverStack = new WampServer($this->container->get('celsius3_chat.wamp_server'));
 
         $this->app = new WsServer($serverStack);
     }
@@ -77,7 +69,7 @@ class PusherType
 
     public function getName()
     {
-        return "Notification Server";
+        return "Chat Server";
     }
 
 }
