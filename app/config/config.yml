@@ -153,10 +153,10 @@ services:
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
 
-jms_i18n_routing:
-    default_locale: es
-    locales: [es, en, pt]
-    strategy: prefix
+#jms_i18n_routing:
+#    default_locale: es
+#    locales: [es, en, pt]
+#    strategy: prefix
 
 fos_message:
     db_driver: mongodb

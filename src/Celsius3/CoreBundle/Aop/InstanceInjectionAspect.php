@@ -29,8 +29,7 @@ class InstanceInjectionAspect implements MethodInterceptorInterface,
 
     public function intercept(MethodInvocation $invocation)
     {
-        $invocation->arguments[1]['instance'] = $this->instance_helper
-                ->getUrlOrSessionInstance();
+        $invocation->arguments[1]['instance'] = $this->instance_helper->getUrlOrSessionInstance();
 
         return $invocation->proceed();
     }

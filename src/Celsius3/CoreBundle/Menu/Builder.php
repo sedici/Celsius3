@@ -11,7 +11,7 @@ class Builder extends ContainerAware
 
     public function topMenu(FactoryInterface $factory, array $options)
     {
-        $request = $this->container->get('request');
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $securityContext = $this->container->get('security.context');
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
@@ -107,7 +107,7 @@ class Builder extends ContainerAware
 
     public function publicMenu(FactoryInterface $factory, array $options)
     {
-        $request = $this->container->get('request');
+        $request = $this->container->get('request_stack')->getCurrentRequest();
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
 

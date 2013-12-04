@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\EventListener;
+
 use JMS\I18nRoutingBundle\Router\LocaleResolverInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
@@ -19,9 +20,7 @@ class LocaleChoosingListener
     private $instance_helper;
     private $dm;
 
-    public function __construct($default_locale, array $locales,
-            LocaleResolverInterface $locale_resolver,
-            InstanceHelper $instance_helper, DocumentManager $dm)
+    public function __construct($default_locale, array $locales, LocaleResolverInterface $locale_resolver, InstanceHelper $instance_helper, DocumentManager $dm)
     {
         $this->default_locale = $default_locale;
         $this->locales = $locales;
@@ -39,21 +38,18 @@ class LocaleChoosingListener
         $request = $event->getRequest();
 
         $ex = $event->getException();
-        if (!$ex instanceof NotFoundHttpException
-                || !$ex->getPrevious() instanceof ResourceNotFoundException) {
+        if (!$ex instanceof NotFoundHttpException || !$ex->getPrevious() instanceof ResourceNotFoundException) {
             return;
         }
 
-        $locale = $this->locale_resolver
-                ->resolveLocale($request, $this->locales) ?
-                : $this->default_locale;
+        $locale = $this->locale_resolver->resolveLocale($request, $this->locales) ? : $this->default_locale;
 
-        if (!$request->attributes->get('_locale')
-                && !$request->isXmlHttpRequest()) {
+        if (!$request->attributes->get('_locale') && !$request->isXmlHttpRequest()) {
             $instance = $this->instance_helper->getSessionOrUrlInstance();
 
-            if ($instance)
+            if ($instance) {
                 $locale = $instance->get('default_language')->getValue();
+            }
         }
 
         $request->setLocale($locale);
@@ -61,14 +57,7 @@ class LocaleChoosingListener
         $params = $request->query->all();
         unset($params['hl']);
 
-        $event
-                ->setResponse(
-                        new RedirectResponse(
-                                $request->getBaseUrl() . '/' . $locale
-                                        . $request->getPathInfo()
-                                        . ($params ? '?'
-                                                        . http_build_query(
-                                                                $params) : '')));
+        $event->setResponse(new RedirectResponse($request->getBaseUrl() . '/' . $locale . $request->getPathInfo() . ($params ? '?' . http_build_query($params) : '')));
     }
 
 }

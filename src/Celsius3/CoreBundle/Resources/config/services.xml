@@ -133,14 +133,14 @@
             <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
         </service>
 
-        <service id="celsius3_core.locale_choosing_listener" class="%celsius3_core.locale_choosing_listener.class%">
+<!--        <service id="celsius3_core.locale_choosing_listener" class="%celsius3_core.locale_choosing_listener.class%">
             <argument type="string" id="%jms_i18n_routing.default_locale%"></argument>
             <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
-        </service>
+        </service>-->
 
         <service id="celsius3_core.instance_listener" class="%celsius3_core.instance_listener.class%">
             <argument type="service" id="router"></argument>
@@ -202,7 +202,7 @@
         </service>
 
         <service id="celsius3_core.menu.voter.exact" class="%celsius3_core.menu.voter.exact.class%">
-            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="request_stack"></argument>
             <tag name="knp_menu.voter" />
         </service>
 
@@ -218,7 +218,7 @@
         </service>
 
         <service id="celsius3_core.custom_field_helper" class="%celsius3_core.custom_field_helper.class%">
-            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="request_stack"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
 
@@ -284,7 +284,7 @@
             <argument type="service" id="fos_user.util.token_generator" />
             <argument type="service" id="router" />
             <argument type="service" id="session" />
-            <argument type="service" id="request" strict="false"/>
+            <argument type="service" id="request_stack" />
             <argument type="service" id="celsius3_core.configuration_helper" />
         </service>
 
@@ -300,7 +300,7 @@
                     <argument key="resetting">%fos_user.resetting.email.from_email%</argument>
                 </argument>
             </argument>
-            <argument type="service" id="request" strict="false"></argument>
+            <argument type="service" id="request_stack"></argument>
         </service>
     </services>
 </container>

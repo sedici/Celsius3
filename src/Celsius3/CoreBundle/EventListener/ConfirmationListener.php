@@ -7,7 +7,7 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Util\TokenGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,16 +20,16 @@ class ConfirmationListener implements EventSubscriberInterface
     private $tokenGenerator;
     private $router;
     private $session;
-    private $request;
+    private $request_stack;
     private $configuration_helper;
 
-    public function __construct(MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UrlGeneratorInterface $router, SessionInterface $session, Request $request, ConfigurationHelper $configuration_helper)
+    public function __construct(MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UrlGeneratorInterface $router, SessionInterface $session, RequestStack $request_stack, ConfigurationHelper $configuration_helper)
     {
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
         $this->router = $router;
         $this->session = $session;
-        $this->request = $request;
+        $this->request_stack = $request_stack;
         $this->configuration_helper = $configuration_helper;
     }
 
@@ -58,9 +58,9 @@ class ConfirmationListener implements EventSubscriberInterface
 
             $this->mailer->sendConfirmationEmailMessage($user);
 
-            $url = $this->router->generate('fos_user_registration_check_email', array('url' => $this->request->get('url')));
+            $url = $this->router->generate('fos_user_registration_check_email', array('url' => $this->request_stack->getCurrentRequest()->get('url')));
         } else if ($confirmationType == 'admin') {
-            $url = $this->router->generate('fos_user_registration_wait_confirmation', array('url' => $this->request->get('url')));
+            $url = $this->router->generate('fos_user_registration_wait_confirmation', array('url' => $this->request_stack->getCurrentRequest()->get('url')));
         }
 
         $event->setResponse(new RedirectResponse($url));

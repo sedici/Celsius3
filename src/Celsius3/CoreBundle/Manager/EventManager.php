@@ -107,7 +107,7 @@ class EventManager
                         'doctrine.odm.mongodb.document_manager'), $this
                 ->getFullClassNameForEvent(
                         self::EVENT__SINGLE_INSTANCE_REQUEST)), $document);
-        $request = $this->container->get('request');
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -125,7 +125,7 @@ class EventManager
 
     private function prepareExtraDataForReceive(Order $order, array $extraData, Instance $instance)
     {
-        if (!$this->container->get('request')->query->has('request')) {
+        if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('request')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
@@ -134,7 +134,7 @@ class EventManager
 
         $form = $this->container->get('form.factory')
                 ->create(new OrderReceiveType());
-        $request = $this->container->get('request');
+        $request = $this->container->get('request_stack')->getCurrentRequest();
 
         $form->bind($request);
 
@@ -145,7 +145,7 @@ class EventManager
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository('Celsius3CoreBundle:Event')
                     ->find(
-                    $this->container->get('request')->query
+                    $request->query
                     ->get('request'));
             $extraData['files'] = $data['files'];
         } else {
@@ -160,7 +160,7 @@ class EventManager
 
     private function prepareExtraDataForApprove(Order $order, array $extraData, Instance $instance)
     {
-        if (!$this->container->get('request')->query->has('receive')) {
+        if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
@@ -170,7 +170,7 @@ class EventManager
         $extraData['receive'] = $this->container
                 ->get('doctrine.odm.mongodb.document_manager')
                 ->getRepository('Celsius3CoreBundle:Event')
-                ->find($this->container->get('request')->query->get('receive'));
+                ->find($this->container->get('request_stack')->getCurrentRequest()->query->get('receive'));
 
         if (!$extraData['receive']) {
             throw new NotFoundHttpException();
@@ -181,7 +181,7 @@ class EventManager
 
     private function prepareExtraDataForReclaim(Order $order, array $extraData, Instance $instance)
     {
-        if (!$this->container->get('request')->query->has('receive')) {
+        if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
@@ -191,7 +191,7 @@ class EventManager
         $receive = $this->container
                 ->get('doctrine.odm.mongodb.document_manager')
                 ->getRepository('Celsius3CoreBundle:Event')
-                ->find($this->container->get('request')->query->get('receive'));
+                ->find($this->container->get('request_stack')->getCurrentRequest()->query->get('receive'));
 
         if (!$receive) {
             $this->container->get('session')->getFlashBag()
@@ -202,7 +202,7 @@ class EventManager
 
         $form = $this->container->get('form.factory')
                 ->create(new OrderReclaimType());
-        $request = $this->container->get('request');
+        $request = $this->container->get('request_stack')->getCurrentRequest();
 
         $form->bind($request);
 
@@ -222,20 +222,20 @@ class EventManager
 
     private function prepareExtraDataForCancel(Order $order, array $extraData, Instance $instance)
     {
-        if ($this->container->get('request')->query->has('request')) {
+        if ($this->container->get('request_stack')->getCurrentRequest()->query->has('request')) {
             $extraData['request'] = $this->container
                     ->get('doctrine.odm.mongodb.document_manager')
                     ->getRepository('Celsius3CoreBundle:Event')
                     ->find(
-                    $this->container->get('request')->query
+                    $this->container->get('request_stack')->getCurrentRequest()->query
                     ->get('request'));
 
-            $this->container->get('request')->query->remove('request');
+            $this->container->get('request_stack')->getCurrentRequest()->query->remove('request');
             if (!$extraData['request']) {
                 throw new NotFoundHttpException();
             }
         } else {
-            $extraData['httprequest'] = $this->container->get('request');
+            $extraData['httprequest'] = $this->container->get('request_stack')->getCurrentRequest();
             if ($order->getInstance()->getId() != $instance->getId()) {
                 $extraData['remoterequest'] = $order
                         ->getState(StateManager::STATE__CREATED, $instance)

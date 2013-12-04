@@ -1,6 +1,8 @@
 <?php
 
 namespace Celsius3\CoreBundle\Voter;
+
+use Symfony\Component\HttpFoundation\RequestStack;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
 
@@ -10,11 +12,11 @@ use Knp\Menu\Matcher\Voter\VoterInterface;
 class RequestVoter implements VoterInterface
 {
 
-    protected $request;
+    protected $request_stack;
 
-    public function __construct($request)
+    public function __construct(RequestStack $request_stack)
     {
-        $this->request = $request;
+        $this->request_stack = $request_stack;
     }
 
     /**
@@ -28,7 +30,7 @@ class RequestVoter implements VoterInterface
      */
     public function matchItem(ItemInterface $item)
     {
-        if (false !== strpos($this->request->getRequestUri(), $item->getUri())) {
+        if (false !== strpos($this->request_stack->getCurrentRequest()->getRequestUri(), $item->getUri())) {
             return true;
         }
 

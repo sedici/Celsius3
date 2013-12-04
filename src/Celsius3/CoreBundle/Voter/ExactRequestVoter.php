@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Voter;
+
 use Knp\Menu\ItemInterface;
 
 /**
@@ -20,8 +21,7 @@ class ExactRequestVoter extends RequestVoter
      */
     public function matchItem(ItemInterface $item)
     {
-        if ($item->getUri()
-                === preg_replace('/\?.*/', '', $this->request->getRequestUri())) {
+        if ($item->getUri() === preg_replace('/\?.*/', '', $this->request_stack->getCurrentRequest()->getRequestUri())) {
             return true;
         }
 

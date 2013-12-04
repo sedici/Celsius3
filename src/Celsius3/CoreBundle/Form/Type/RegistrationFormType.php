@@ -22,7 +22,7 @@ class RegistrationFormType extends BaseType
         parent::__construct($class);
 
         $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
-        $url = $container->get('request')->get('url');
+        $url = $container->get('request_stack')->getCurrentRequest()->get('url');
         $this->instance = $this->dm
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array('url' => $url));
