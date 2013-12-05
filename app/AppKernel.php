@@ -26,7 +26,7 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             //new JMS\I18nRoutingBundle\JMSI18nRoutingBundle(),
-            //new JMS\TranslationBundle\JMSTranslationBundle(),
+            new JMS\TranslationBundle\JMSTranslationBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),

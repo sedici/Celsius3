@@ -7,26 +7,42 @@
 {% block content %}
 <h2>{{ instance.hive ~ ' Chat'|trans }}</h2>
 
-<div class="row">
-    <div id="conversation" class="col-md-8 well well-sm">
-    
-    </div>
-    <div id="users" class="col-md-3 col-md-offset-1 well well-sm">
+<section id="channelList" style="opacity: 1;">
+    <button id="chat-status"></button>
+  <ul>
+  </ul>
+</section>
+
+<section id="chat" style="opacity: 1;">
+
+  <div id="colA">
+
+    <div class="rooms">
 
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12 input-group">
-        <input type="text" class="form-control" id="chat-input" name="chat-input" />
-        <span class="input-group-btn">
-            <button type="button" class="btn btn-default">{{ 'Send'|trans }}</button>
-        </span>
+
+  </div>
+
+  <div id="colB">
+    <div class="chatWindow active" id="room-529b64d84d9c0" style="display: block;">
+        
     </div>
-</div>
+    <form id="textbox">
+      <input type="text" maxlength="140" />
+    </form>
+  </div>
+
+</section>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3chat/css/chat.css') }}"/>
 {% endblock %}
 
 {% block javascripts %}
 {{ parent() }}
 {% include 'Celsius3ChatBundle:Chat:var.html.twig' %}
+<script type="text/javascript" src="{{ asset('bundles/celsius3chat/js/jquery.cookie.js') }}"></script>
 <script type="text/javascript" src="{{ asset('bundles/celsius3chat/js/chat.js') }}"></script>
 {% endblock %}

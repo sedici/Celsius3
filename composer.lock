@@ -2039,12 +2039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "9cdfef0a473e166cad13170c8f35d67023ebd083"
+                "reference": "bb15db3e661168f4310fad48b86915ff1ca33795"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/9cdfef0a473e166cad13170c8f35d67023ebd083",
-                "reference": "9cdfef0a473e166cad13170c8f35d67023ebd083",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/bb15db3e661168f4310fad48b86915ff1ca33795",
+                "reference": "bb15db3e661168f4310fad48b86915ff1ca33795",
                 "shasum": ""
             },
             "require": {
@@ -2100,7 +2100,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-12-04 16:42:31"
+            "time": "2013-12-05 14:36:11"
         },
         {
             "name": "jms/translation-bundle",
