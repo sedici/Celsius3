@@ -1,10 +1,16 @@
 {% extends 'Celsius3CoreBundle:MaterialType:_materialType.html.twig' %}
 
 {% block dataType %}
-<p><span>{{ 'Type'|trans }}</span> {{ 'Thesis'|trans }}</p>
+<li>
+    <strong>{{ 'Type'|trans }}</strong> {{ 'Thesis'|trans }}
+</li>
 {% endblock %}
 
 {% block extraData %}
-<p><span>{{ 'Director'|trans }}</span> {{ materialData.director?materialData.director:'-' }}</p>
-<p><span>{{ 'Degree'|trans }}</span> {{ materialData.degree?materialData.degree:'-' }}</p>
+<li>
+    <strong>{{ 'Director'|trans }}</strong> {{ materialData.director?materialData.director:'-' }}
+</li>
+<li>
+    <strong>{{ 'Degree'|trans }}</strong> {{ materialData.degree?materialData.degree:'-' }}
+</li>
 {% endblock %}

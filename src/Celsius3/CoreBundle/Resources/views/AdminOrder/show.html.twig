@@ -8,51 +8,57 @@
 
 {% block content %}
 {% set request = document.request(instance) %}
-<div class="item_container">
+<div id="cuerpo_pedido"
+     <div class="item_container">
 
-    <div class="top_info">
-        <div class="top_left">
+        <div class="top_info">
+            <div class="top_left">
             {% if request.type == constant('Celsius3\\CoreBundle\\Manager\\OrderManager::TYPE__SEARCH') %}
-            <div class="busqueda">B</div>
+                <div class="busqueda">B</div>
             {% else %}
-            <div class="provision">P</div>
+                <div class="provision">P</div>
             {% endif %}
-            <div class="tipoarticulo">{{ get_material_type(document.materialData) }}</div>
+                <div class="tipoarticulo">{{ get_material_type(document.materialData) }}</div>
+            </div>
+
+            <div class="top_right">	
+                <div class="status-{{ request.currentState }}"></div>
+                <div class="uri">{{ document.code }}</div>
+                <div class="usuario">{{ request.owner }}</div>
+                <div class="decoracion"></div>
+            </div>
         </div>
 
-        <div class="top_right">	
-            <div class="status"></div>
-            <div class="uri">{{ document.code }}</div>
-            <div class="usuario">{{ request.owner }}</div>
-            <div class="decoracion"></div>
+        <div class="main_info">
+            <div class="title_and_author">
+                <div class="titulo">{{ document.materialData.title }}</div>
+                <div class="autor">{{ document.materialData.authors }}</div>
+                <div class="doc_year">{{ document.materialData.year }}</div>
+            </div>
+            <div class="doc_and_year">
+                <div class="doc_type"></div>
+            </div>
         </div>
-    </div>
 
-    <div class="main_info">
-        <div class="title_and_author">
-            <div class="titulo">{{ document.materialData.title }}</div>
-            <div class="autor">{{ document.materialData.authors }}</div>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-4">
-            <h4>{{ 'General item information'|trans }}</h4>
-            {{ render_material(document.materialData)|raw }}
-        </div>
-            
-        <div class="col-md-5">
-            <h4>{{ 'Interaction summary'|trans }}</h4>
-            
-        </div>
-            
-        <div class="col-md-3">
-            <ul class="list-unstyled">
+        <div id="pedido_tope" class="row">
+            <div id="columna1" class="col-md-4">
+                <h4>{{ 'General item information'|trans }}</h4>
+                {{ render_material(document.materialData)|raw }}
+            </div>
+
+            <div id="columna2" class="col-md-5">
+                <h4>{{ 'Interaction summary'|trans }}</h4>
+
+            </div>
+
+            <div class="col-md-3">
+                <ul class="list-unstyled">
                 {% include 'Celsius3CoreBundle:AdminOrder:_show_actions.html.twig' %}
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-8">
             <div class="row">
@@ -60,7 +66,7 @@
                     Estados
                 </div>
             </div>
-                
+
             <div class="row">
                 <div class="col-md-3">
                     Acciones
@@ -70,27 +76,27 @@
                     Busquedas
                 </div>
             </div>
-                
+
             <div class="row">
                 <div class="col-md-4">
                     Catalogos encontrado
                 </div>
-                    
+
                 <div class="col-md-4">
                     Catalogos encontrado parcialmente
                 </div>
-                    
+
                 <div class="col-md-4">
                     Catalogos no encontrado
                 </div>
             </div>
         </div>
-            
+
         <div class="col-md-4">
             <h4>{{ 'History'|trans }}</h4>
         </div>
     </div>
-    
+
 
 </div>
 {% endblock %}

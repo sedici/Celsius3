@@ -1,8 +1,16 @@
-<div class="material-data">
+<ul class="list-unstyled">
     {% block dataType %}{% endblock %}
-    <p><span>{{ 'Title'|trans }}</span> {{ materialData.title?materialData.title:'-' }}</p>
-    <p><span>{{ 'Year'|trans }}</span> {{ materialData.year?materialData.year:'-' }}</p>
-    <p><span>{{ 'Start page'|trans }}</span> {{ materialData.startPage?materialData.startPage:'-' }}</p>
-    <p><span>{{ 'End page'|trans }}</span> {{ materialData.endPage?materialData.endPage:'-' }}</p>
+    <li>
+        <strong>{{ 'Title'|trans }}</strong> {{ materialData.title?materialData.title:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Year'|trans }}</strong> {{ materialData.year?materialData.year:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Start page'|trans }}</strong> {{ materialData.startPage?materialData.startPage:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'End page'|trans }}</strong> {{ materialData.endPage?materialData.endPage:'-' }}
+    </li>
     {% block extraData %}{% endblock %}
-</div>
+</ul>

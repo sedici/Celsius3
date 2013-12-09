@@ -16,9 +16,15 @@
         </div>
 
         <div class="top_right">	
-            <div class="status"></div>
+            <div class="status-{{ request.currentState }}"></div>
             <div class="uri">{{ element.code }}</div>
-            <div class="usuario">{{ request.owner }}</div>
+            <div class="usuario">
+            {% if request.operator %}
+                {{ request.operator }}
+            {% else %}
+                &nbsp;
+            {% endif %}
+            </div>
             <div class="decoracion"></div>
         </div>
     </div>
@@ -37,7 +43,7 @@
     <div class="comments">{{ request.comments }}</div>
 
     {% block admin %}{% endblock %}
-    
+
     <div class="clearfix"></div>
 
 </div>
