@@ -782,12 +782,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "f65e504e630d2697f9d8673ed92c23ccbbd9aa9b"
+                "reference": "06971f2ac3db9521bd750bbfcadb7263aaa97402"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/f65e504e630d2697f9d8673ed92c23ccbbd9aa9b",
-                "reference": "f65e504e630d2697f9d8673ed92c23ccbbd9aa9b",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/06971f2ac3db9521bd750bbfcadb7263aaa97402",
+                "reference": "06971f2ac3db9521bd750bbfcadb7263aaa97402",
                 "shasum": ""
             },
             "require": {
@@ -852,7 +852,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-12-02 16:37:03"
+            "time": "2013-12-06 19:02:57"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1087,12 +1087,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "e0def4f4f3699f9629f46ca4ed3dbde250d78d96"
+                "reference": "86f07baeb5772bb31362e8be46c10059db1ab419"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/e0def4f4f3699f9629f46ca4ed3dbde250d78d96",
-                "reference": "e0def4f4f3699f9629f46ca4ed3dbde250d78d96",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/86f07baeb5772bb31362e8be46c10059db1ab419",
+                "reference": "86f07baeb5772bb31362e8be46c10059db1ab419",
                 "shasum": ""
             },
             "require": {
@@ -1154,7 +1154,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-11-28 09:03:02"
+            "time": "2013-12-09 08:04:15"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1163,12 +1163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "f7380a4e476302aa8ca16c9fd017d6d9adc9482e"
+                "reference": "7a5e29a56418fc409d1475149710239d17ad4135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/f7380a4e476302aa8ca16c9fd017d6d9adc9482e",
-                "reference": "f7380a4e476302aa8ca16c9fd017d6d9adc9482e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7a5e29a56418fc409d1475149710239d17ad4135",
+                "reference": "7a5e29a56418fc409d1475149710239d17ad4135",
                 "shasum": ""
             },
             "require": {
@@ -1223,7 +1223,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-12-02 23:42:45"
+            "time": "2013-12-09 02:46:36"
         },
         {
             "name": "fzaninotto/faker",
@@ -1231,12 +1231,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "fa21a4ca903957b1bdf03cb3a4e677f39a052a19"
+                "reference": "ca91fd3cce983578a7acceb8dec7131c3ba63a67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fa21a4ca903957b1bdf03cb3a4e677f39a052a19",
-                "reference": "fa21a4ca903957b1bdf03cb3a4e677f39a052a19",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/ca91fd3cce983578a7acceb8dec7131c3ba63a67",
+                "reference": "ca91fd3cce983578a7acceb8dec7131c3ba63a67",
                 "shasum": ""
             },
             "require": {
@@ -1269,7 +1269,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2013-12-03 16:06:23"
+            "time": "2013-12-06 12:38:25"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1622,30 +1622,32 @@
         },
         {
             "name": "incenteev/composer-parameter-handler",
-            "version": "v2.0.0",
+            "version": "v2.1.0",
             "target-dir": "Incenteev/ParameterHandler",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "v2.0.0"
+                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/v2.0.0",
-                "reference": "v2.0.0",
+                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/143272a0a09c62616a3c8011fc165a10c6b35241",
+                "reference": "143272a0a09c62616a3c8011fc165a10c6b35241",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "symfony/yaml": ">=2.0,<3.0"
+                "symfony/yaml": "~2.0"
             },
             "require-dev": {
-                "composer/composer": "*"
+                "composer/composer": "1.0.*@dev",
+                "phpspec/prophecy-phpunit": "~1.0",
+                "symfony/filesystem": "~2.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -1668,7 +1670,7 @@
             "keywords": [
                 "parameters management"
             ],
-            "time": "2013-04-06 17:15:44"
+            "time": "2013-12-07 10:10:39"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -3551,16 +3553,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.14.2",
+            "version": "v1.15.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "ca445842fcea4f844d68203ffa2d00f5e3cdea64"
+                "reference": "85e4ff98000157ff753d934b9f13659a953f5666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/ca445842fcea4f844d68203ffa2d00f5e3cdea64",
-                "reference": "ca445842fcea4f844d68203ffa2d00f5e3cdea64",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/85e4ff98000157ff753d934b9f13659a953f5666",
+                "reference": "85e4ff98000157ff753d934b9f13659a953f5666",
                 "shasum": ""
             },
             "require": {
@@ -3569,7 +3571,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -3596,7 +3598,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-10-30 08:20:53"
+            "time": "2013-12-06 07:47:10"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -3640,16 +3642,16 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "d5d080d5405e3e0895038b5b578458884cdf8af6"
+                "reference": "366e31cfc247946dfe8c622bc00041964e9b294f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/d5d080d5405e3e0895038b5b578458884cdf8af6",
-                "reference": "d5d080d5405e3e0895038b5b578458884cdf8af6",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/366e31cfc247946dfe8c622bc00041964e9b294f",
+                "reference": "366e31cfc247946dfe8c622bc00041964e9b294f",
                 "shasum": ""
             },
             "require": {
@@ -3686,7 +3688,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2013-11-21 10:29:12"
+            "time": "2013-11-26 14:42:16"
         }
     ],
     "packages-dev": [

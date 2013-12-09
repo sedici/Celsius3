@@ -26,8 +26,8 @@ class Pusher implements WampServerInterface
         $conn->Chat = new \StdClass;
         $conn->Chat->rooms = array();
         $conn->Chat->name = $conn->WAMP->sessionId;
-
-        if (isset($conn->WebSocket)) {
+        
+        if (isset($conn->WebSocket)) {    
             $conn->Chat->name = $this->escape($conn->WebSocket->request->getCookie('name'));
 
             if (empty($conn->Chat->name)) {
@@ -55,6 +55,7 @@ class Pusher implements WampServerInterface
     {
         switch ($fn) {
             case 'setName':
+                var_dump($params);
                 break;
             default:
                 return $conn->callError($id, 'Unknown call');
@@ -67,11 +68,14 @@ class Pusher implements WampServerInterface
      */
     function onSubscribe(ConnectionInterface $conn, $topic)
     {
+        var_dump($conn->WebSocket->request);
+        echo $conn->Chat->name . " subscribed\n";
+        
         // Room does not exist
         if (!array_key_exists($topic->getId(), $this->rooms)) {
             $this->rooms[$topic->getId()] = new \SplObjectStorage();
         }
-
+        
         // Notify everyone this guy has joined the room they're in
         $this->broadcast($topic->getId(), array('joinRoom', $conn->WAMP->sessionId, $conn->Chat->name), $conn);
 
@@ -95,13 +99,13 @@ class Pusher implements WampServerInterface
      */
     function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
-        unset($conn->Chat->rooms[$topic->getId()]);
-        $this->rooms[$topic->getId()]->detach($conn);
+        unset($conn->Chat->rooms[$topic]);
+        $this->rooms[$topic]->detach($conn);
 
-        if ($this->rooms[$topic->getId()]->count() == 0) {
-            unset($this->rooms[$topic->getId()], $this->roomLookup[array_search($topic->getId(), $this->roomLookup)]);
+        if ($this->rooms[$topic]->count() == 0) {
+            unset($this->rooms[$topic], $this->roomLookup[array_search($topic, $this->roomLookup)]);
         } else {
-            $this->broadcast($topic->getId(), array('leftRoom', $conn->WAMP->sessionId));
+            $this->broadcast($topic, array('leftRoom', $conn->WAMP->sessionId));
         }
     }
 

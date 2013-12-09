@@ -17,49 +17,49 @@ ChatRoom = function(optDebug) {
              */
             'connect'
 
-            /**
-             * The user has disconnected from the server
-             * @event disconnect
-             */
-            , 'disconnect'
+                    /**
+                     * The user has disconnected from the server
+                     * @event disconnect
+                     */
+                    , 'disconnect'
 
-            /**
-             * Crap crap crap!
-             * @event error
-             * @param string Message from the server
-             */
-            , 'error'
+                    /**
+                     * Crap crap crap!
+                     * @event error
+                     * @param string Message from the server
+                     */
+                    , 'error'
 
-            /**
-             * Another use has joined a room the current user is in
-             * @event joinRoom
-             * @param string Room name
-             * @param string Unique ID of the person who joined
-             * @param string Display name of the person who joined (make sure to store this in a lookup)
-             */
-            , 'joinRoom'
+                    /**
+                     * Another use has joined a room the current user is in
+                     * @event joinRoom
+                     * @param string Room name
+                     * @param string Unique ID of the person who joined
+                     * @param string Display name of the person who joined (make sure to store this in a lookup)
+                     */
+                    , 'joinRoom'
 
-            /**
-             * Another use has left one of the rooms this user is in
-             * @event leftRoom
-             * @param string Room name
-             * @param string Unique ID of the person who left
-             */
-            , 'leftRoom'
+                    /**
+                     * Another use has left one of the rooms this user is in
+                     * @event leftRoom
+                     * @param string Room name
+                     * @param string Unique ID of the person who left
+                     */
+                    , 'leftRoom'
 
-            /**
-             * A message has been received in one of the chat rooms
-             * @event message
-             * @param string Room the message is sent to
-             * @param string Unique ID of the person who sent the message
-             * @param string Message received
-             */
-            , 'message'
-]
+                    /**
+                     * A message has been received in one of the chat rooms
+                     * @event message
+                     * @param string Room the message is sent to
+                     * @param string Unique ID of the person who sent the message
+                     * @param string Message received
+                     */
+                    , 'message'
+        ]
 
-        , debug: optDebug | false
+                , debug: optDebug | false
 
-        , setName: function(name) {
+                , setName: function(name) {
             // Name can not be longer than 32 characters
 
             sess.call('setName', name).then(function() {
@@ -96,10 +96,8 @@ ChatRoom = function(optDebug) {
         }
 
         , create: function(name, callback) {
-            sess.call('createRoom', name).then(function(args) {
-                callback(args.id, args.display);
-            }, function(args) {
-                callback(args.id, args.display);
+            sess.subscribe(name, function(room, msg) {
+                callback(room);
             });
         }
 
@@ -122,6 +120,10 @@ ChatRoom = function(optDebug) {
         sess.subscribe(hive_id, function(room, msg) {
             Debug('ctrl:rooms: ' + msg);
             var state = msg.pop();
+
+            console.log(room);
+            console.log(msg);
+            console.log(state);
 
             if (1 == state) {
                 api.rooms[msg[0]] = msg[1];
@@ -148,7 +150,7 @@ ChatRoom = function(optDebug) {
 
 var GUI = function() {
     var Chat;
-    var focusRoom = '';
+    var focusRoom = hive_id;
 
     var Joined = [];
     var Names = {};
@@ -271,14 +273,6 @@ var GUI = function() {
             return false;
         });
 
-        $(document).on('.add', 'click', function() {
-            $('#create').fadeIn(500);
-            $('#channelList').animate({opacity: 0}, 300);
-            $('#chat').animate({opacity: 0}, 300);
-            $('#createRoom input').focus();
-            return false;
-        });
-
         $('#channelList ul li').each(function() {
             listWidth = (listWidth + $(this).width()) + 15;
             $('#channelList ul').width(listWidth);
@@ -291,23 +285,9 @@ var GUI = function() {
             return false;
         });
 
-        $('#createRoom').submit(function() {
-            var text = $('#createRoom input').val();
-            $('#createRoom input').val('');
-            $('#create').fadeOut(300);
-            $('#channelList').animate({opacity: 1}, 500);
-            $('#chat').animate({opacity: 1}, 500);
-
-            Chat.create(text, function(id, disp) {
-                join(id);
-            });
-
-            return false;
-        });
-
         status.init();
         status.update('connecting');
-        $.cookie('name', username, {domain: '.' + window.location.hostname});
+        $.cookie('name', username, {domain: window.location.hostname});
 
         Chat = new ChatRoom();
 
@@ -316,7 +296,7 @@ var GUI = function() {
 
             status.update('online');
 
-            Chat.create('General', function(id, display) {
+            Chat.create(hive_id, function(id, display) {
                 join(id);
             });
         });
@@ -326,6 +306,10 @@ var GUI = function() {
         });
 
         $(Chat).bind('message', function(e, room, from, msg, time) {
+            console.log(room);
+            console.log(from);
+            console.log(msg);
+            console.log(time);
             if (focusRoom != room) {
                 var number = $('.groupHead[data-channel="' + room + '"] .notifications').html();
                 number = parseInt(number) + 1;
