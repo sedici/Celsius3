@@ -24,7 +24,13 @@
             <div class="top_right">	
                 <div class="status-{{ request.currentState }}"></div>
                 <div class="uri">{{ document.code }}</div>
-                <div class="usuario">{{ request.owner }}</div>
+                <div class="usuario">
+                    {% if request.operator %}
+                        {{ request.operator }}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </div>
                 <div class="decoracion"></div>
             </div>
         </div>
@@ -36,7 +42,7 @@
                 <div class="doc_year">{{ document.materialData.year }}</div>
             </div>
             <div class="doc_and_year">
-                <div class="doc_type"></div>
+                <div class="doc_type_pdf"></div>
             </div>
         </div>
 
@@ -51,7 +57,7 @@
 
             </div>
 
-            <div class="col-md-3">
+            <div id="columna3" class="col-md-3">
                 <ul class="list-unstyled">
                 {% include 'Celsius3CoreBundle:AdminOrder:_show_actions.html.twig' %}
                 </ul>

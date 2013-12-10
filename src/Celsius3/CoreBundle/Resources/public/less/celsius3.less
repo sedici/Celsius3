@@ -17,6 +17,9 @@
 body {
     padding-top: 40px;
     padding-bottom: 40px;
+    background-image: url(/bundles/celsius3core/images/mundo_fondo.png);
+    background-repeat: no-repeat;
+    background-position: bottom right;
 }
 
 .footer {
@@ -341,7 +344,9 @@ body {
     height: 400px;
 }
 
-/* Estilos de la lista de pedidos */
+/* 
+ * Estilos de la lista de pedidos y el item
+ */
 .item_container {
     /*background-color:#f9f8f8;*/
     font-family: Arial, Helvetica, sans-serif;
@@ -357,186 +362,353 @@ body {
     background: -ms-linear-gradient(top,  #ffffff 0%,#efeeee 100%); /* IE10+ */
     background: linear-gradient(to bottom,  #ffffff 0%,#efeeee 100%); /* W3C */
 
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efeeee',GradientType=0 ); /* IE6-9 */
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#efeeee',GradientType=0 ); /* IE6-9 */
     margin-bottom: 15px;
+    .top_info {
+        clear: both;
+        height: 20px;
+        background-color: #e9e9e8;
+        text-align: right;
+        .top_right {
+            float: right;
+            /*	width: 40%;*/
+            text-align: right;
+            .uri {
+                float: right;
+                padding: 3px 15px 1px 10px;
+                color: white;
+                background-image: url(/bundles/celsius3core/images/top_all.png);
+                background-position: 100% -20px;
+                background-repeat: no-repeat;
+                background-color: #babbbb;
+            }
+            .usuario {
+                float: right;
+                padding: 3px 15px 1px 5px;
+                /*	background-color: #e2e2e2;*/
+                background-image: url(/bundles/celsius3core/images/top_all.png);
+                background-position: right 0px;
+                background-color: #d8d8d8;
+            }
+            .decoracion {
+                background-image: url(/bundles/celsius3core/images/top_all.png);
+                background-repeat: no-repeat;
+                background-position: 0px -41px;
+                width: 11px;
+                height: 20px;
+                float: right;
+            }
+            .status {
+                float: right;
+                padding: 3px 7px 1px 12px;
+                width: 72px;
+                height: 15px;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            .status-created {
+                .status;
+                background-image: url(/bundles/celsius3core/images/progreso.png);
+            }
+            .status-searched {
+                .status;
+                background-image: url(/bundles/celsius3core/images/progreso.png);
+                background-position: 0px 90px;
+            }
+            .status-requested {
+                .status;
+                background-image: url(/bundles/celsius3core/images/progreso.png);
+                background-position: 0px 72px;
+            }
+            .status-approval_pending {
+                .status;
+                background-image: url(/bundles/celsius3core/images/progreso.png);
+                background-position: 0px 54px;
+            }
+            .status-received {
+                .status;
+                background-image: url(/bundles/celsius3core/images/progreso.png);
+                background-position: 0px 36px;
+            }
+            .status-delivered {
+                .status;
+                background-image: url(/bundles/celsius3core/images/progreso.png);
+                background-position: 0px 19px;
+            }
+        }
+        .top_left {
+            float: left;
+            text-transform: uppercase;
+            max-width: 200px;
+            color: white;
+            height: auto;
+            .provision {
+                text-align: center;
+                float: left;
+                background-color: #245568;
+                padding: 2px 5px;
+            }
+            .busqueda{
+                text-align: center;
+                float: left;
+                background-color: #9cbac1;
+                padding: 2px 5px;
+            }
+            .tipoarticulo {
+                float: left;
+                padding: 3px 15px 1px 5px;
+                background-image: url(/bundles/celsius3core/images/fondo_labels.png);
+                background-position: 100% 0%;
+            }
+        }
+    }
+    .main_info {
+        height: 66px;
+        clear: both;
+        border-bottom: 1px dashed #bfbfbf;
+        .title_and_author {
+            width: 90%;
+            float: left;
+            .titulo {
+                font-size: 14px;
+                font-style: italic;
+                padding: 10px 25px 1px 8px;
+                font-weight: bold;
+                color: #245568;
+            }
+            .autor {
+                font-style: normal;
+                padding: 0px 8px;
+            }
+            .doc_year {
+                font-style: normal;
+                padding: 0px 8px;
+            }
+        }
+        .doc_and_year {
+            float: right;
+            width: 5%;
+            margin-top: 10px;
+        }
+    }
+    .comments {
+        padding: 10px 25px 5px 8px;
+        width: 60%;
+        float:left;
+    }
+    .order-actions {
+        float: right;
+        padding: 10px 5px;
+    }
 }
-
-.item_container .top_info .top_left {
-    float: left;
-    text-transform: uppercase;
-    max-width: 200px;
-    color: white;
-    height: auto;
-}
-.item_container .top_info .top_right {
-    float: right;
-    /*	width: 40%;*/
-    text-align: right;
-}
-.item_container .top_info {
-    clear: both;
-    height: 20px;
-    background-color: #e9e9e8;
-    text-align: right;
-}
-.item_container .main_info .titulo {
-    font-size: 14px;
-    font-style: italic;
-    padding: 10px 25px 1px 8px;
-    font-weight: bold;
-    color: #245568;
-}
-.item_container .main_info .autor {
-    font-style: normal;
-    padding: 0px 8px;
-}
-.item_container .main_info .doc_year {
-    font-style: normal;
-    padding: 0px 8px;
-}
-.item_container .main_info {
-    height: 66px;
-    clear: both;
-    border-bottom: 1px dashed #bfbfbf;
-}
-.doc_and_year {
-    float: right;
-    width: 5%;
-    margin-top: 10px;
-}
-.provision {
-    //width: 10px;
-    text-align: center;
-    float: left;
-    background-color: #245568;
-    padding: 2px 5px;
-}
-.busqueda{
-    //width: 10px;
-    text-align: center;
-    float: left;
-    background-color: #9cbac1;
-    padding: 2px 5px;
-}
-
-.tipoarticulo {
-    float: left;
-    padding: 3px 15px 1px 5px;
-    background-image: url(/bundles/celsius3core/images/fondo_labels.png);
-    background-position: 100% 0%;
-}
-
 
 .tipobusqueda {
     float: left;
     padding: 3px 15px 1px 5px;
     background-image: url(/bundles/celsius3core/images/fondo_labels.png);
     background-position: 100% 100%;
+}
 
+#pedido_tope {
+    height: 200px;
+    #columna1 {
+        height: 200px;
+        background-image: url(/bundles/celsius3core/images/linea.png);
+        background-repeat: no-repeat;
+        background-position: right;
+        h4, ul {
+            margin-left: 10px;
+        }
+        ul li strong {
+            list-style-type: none;
+            font-family: arial;
+        }
+        ul li {
+            list-style-type: none;
+            font-family: georgia;
+        }
+    }
+    #columna2 {
+        height: 200px;
+        background-image: url(/bundles/celsius3core/images/linea.png);
+        background-repeat: no-repeat;
+        background-position: right;
+        ul li {
+            list-style-type: none;
+            font-family: georgia;
+        }
+        ul li strong {
+            list-style-type: none;
+            font-family: arial;
+        }
+    }
+    h4 {
+        font-family: arial;
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: normal;
+    }
+    #columna3 {
+        ul {
+            list-style-type: none;
+            line-height: 1.7;
+        }
+        a {
+            text-decoration:none;
+            color: black;
+        }
+        a:hover {
+            text-decoration:none;
+            background-color: black;
+        }
+    }
 }
-.usuario {
-    float: right;
-    padding: 3px 15px 1px 5px;
-    /*	background-color: #e2e2e2;*/
-    background-image: url(/bundles/celsius3core/images/top_all.png);
-    background-position: right 0px;
-    background-color: #d8d8d8;
-}
-.top_right .uri {
-    float: right;
-    padding: 3px 15px 1px 10px;
-    color: white;
-    background-image: url(/bundles/celsius3core/images/top_all.png);
-    background-position: 100% -20px;
+
+.iconhistorial {
     background-repeat: no-repeat;
-    background-color: #babbbb;
-}
-.status-created {
-    float: right;
-    padding: 3px 7px 1px 12px;
-    background-image: url(/bundles/celsius3core/images/progreso.png);
-    width: 72px;
+    width: 15px;
     height: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
-.status-searched {
-    float: right;
-    padding: 3px 7px 1px 12px;
-    background-image: url(/bundles/celsius3core/images/progreso.png);
-    width: 72px;
-    background-position: 0px 90px;
-    height: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+.iconhistorial-lupa1 {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
 }
-.status-requested {
-    float: right;
-    padding: 3px 7px 1px 12px;
-    background-image: url(/bundles/celsius3core/images/progreso.png);
-    width: 72px;
-    background-position: 0px 72px;
-    height: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+
+.iconhistorial-reloj1 {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+    background-position: 0px -22px;
 }
-.status-approval_pending {
-    float: right;
-    padding: 3px 7px 1px 12px;
-    background-image: url(/bundles/celsius3core/images/progreso.png);
-    width: 72px;
-    background-position: 0px 54px;
-    height: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+
+.iconhistorial-papel1 {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+    background-position: 0px -46px;
 }
-.status-received {
-    float: right;
-    padding: 3px 7px 1px 12px;
-    background-image: url(/bundles/celsius3core/images/progreso.png);
-    width: 72px;
-    background-position: 0px 36px;
-    height: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+
+.iconhistorial-papel2 {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+    background-position: 0px -72px;
 }
-.status-delivered {
-    float: right;
-    padding: 3px 7px 1px 12px;
-    background-image: url(/bundles/celsius3core/images/progreso.png);
-    width: 72px;
-    background-position: 0px 19px;
-    height: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
+
+.iconhistorial-lupa2 {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+    background-position: 0px -95px;
 }
-.item_container .comments {
-    padding: 10px 25px 5px 8px;
-    width: 60%;
-    float:left;
+
+.iconhistorial-reloj2 {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+    background-position: 0px -118px;
 }
-.item_container .order-actions {
-    float: right;
-    padding: 10px 5px;
+
+.iconhistorial-tick {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
+    background-position: 0px -145px;
 }
-.doc_type {
+
+.tabla_historial {
+    text-align: right;
+}
+.historial_encargado {
+    text-align: left;
+}
+
+.doc_type_pdf {
     background-image: url(/bundles/celsius3core/images/item_online.png);
     width: 21px;
     height: 20px;
-}
-.title_and_author {
-    width: 90%;
-    float: left;
-}
-.decoracion {
-    background-image: url(/bundles/celsius3core/images/top_all.png);
     background-repeat: no-repeat;
-    background-position: 0px -41px;
-    width: 11px;
-    height: 20px;
-    float: right;
 }
+
+.doc_type_print {
+    background-image: url(/bundles/celsius3core/images/item_impreso.png);
+    width: 21px;
+    height: 20px;
+    background-repeat: no-repeat;
+}
+
+#nav {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    height: 80px;
+    margin-bottom: 20px;
+    min-width: 900px;
+    #ul_container {
+        min-width: 700px;
+        float: left;
+        text-align: center;
+        background-image: url(/bundles/celsius3core/images/fondo_tira.png);
+        background-repeat: no-repeat;
+        background-position: 150px 15px;
+        height: 75px;
+        ul {
+            list-style-type: none;
+            height: 30px;
+            margin: 0 auto;
+            float: left;
+            ul{
+                a {
+                    text-decoration:none;
+                    .label{
+                        bottom:10px;
+                    }
+                    .valor {
+                        text-decoration:none;
+                    }
+                    .valor:hover {
+                        color:#4CBBE7;
+                        background-color:white;
+                        height: 60px;
+                        display: block;
+
+                        box-shadow: 2px 2px 10px #dedede;
+                        /*gradiente*/
+
+                        background: linear-gradient(to bottom, #ffffff 0%,#efeeee 100%); /* Old browsers */
+                        background: -moz-linear-gradient(top,  #ffffff 0%, #efeeee 100%); /* FF3.6+ */
+                        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#efeeee)); /* Chrome,Safari4+ */
+                        background: -webkit-linear-gradient(top,  #ffffff 0%,#efeeee 100%); /* Chrome10+,Safari5.1+ */
+                        background: -o-linear-gradient(top,  #ffffff 0%,#efeeee 100%); /* Opera 11.10+ */
+                        background: -ms-linear-gradient(top,  #ffffff 0%,#efeeee 100%); /* IE10+ */
+                        background: linear-gradient(to bottom,  #ffffff 0%,#efeeee 100%); /* W3C */
+
+                    }
+                }
+                a:visited {
+                    text-decoration:none;
+                    color:grey;
+                }
+                a:hover {
+                    text-decoration:none;
+                    color:#4CBBE7;
+                    background-color:white;
+                }
+            }
+        }
+        .class {
+            float: left;
+        }
+        .valor {
+            font-size: 40px;
+            font-family: Georgia, "Times New Roman", Times, serif;
+            color: #7C7C7C;
+        }
+    }
+    #agregar {
+        background-image: url(/bundles/celsius3core/images/agregar.png);
+        width: 250px;
+        height: 80px;
+        float: left;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
 #derecha {
     float: right;
     width: 20%;
@@ -546,73 +718,52 @@ body {
     color: #8B8C8C;
     padding: 0px;
     margin: 0px 0px 0px 10px;
+    h1 {
+        font-size: 12px;
+        font-style: normal;
+    }
 }
+
 #izquierda {
     float: left;
     width: 79%;
-}
-#sorter_container ul {
-    list-style-type: none;
-    margin-top: 20px;
-}
-#sorter_container li {
-}
-#sorter_container li {
-    margin: 10px 0px 0px 0px;
-}
-#checkboxes li {
-    margin: 5px 0px 0px 0px;
-}
-#derecha #sorter_container {
-    padding: 0px;
-    margin: 5px;
-    border-top: 1px solid #757575;
-}
-#derecha h1 {
-    font-size: 12px;
-    font-style: normal;
-}
-#izquierda h1 {
-    font-size: 25px;
-    font-family: Georgia;
-    font-style: italic;
-    color: #245568;
-    margin-top: 13px;
-    display: inline;
-}
-#izquierda #results {
-    background-image: url(/bundles/celsius3core/images/lupa.png);
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 60px;
-}
-#izquierda #usuarios {
-    list-style-type: none;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 12px;
-    line-height: 2;
-}
-#izquierda #usuarios .rotulo_tabla {
-    font-weight: bold;
-    text-align: right;
-    padding-right: 10px;
-    color: #7f7f7f;
+    h1 {
+        font-size: 25px;
+        font-family: Georgia;
+        font-style: italic;
+        color: #245568;
+        margin-top: 13px;
+        display: inline;
+    }
+    #results {
+        background-image: url(/bundles/celsius3core/images/lupa.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        height: 60px;
+    }
+    #usuarios {
+        list-style-type: none;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        line-height: 2;
+        .rotulo_tabla {
+            font-weight: bold;
+            text-align: right;
+            padding-right: 10px;
+            color: #7f7f7f;
+        }
+        ul li:odd {
+            color: #FF0000;
+        }
+    }
 }
 
 .tabla_usuario {
     float: left;
 }
 
-#usuarios li:odd {
-    color:red;
-}
-
 .herramientas_usuario {
     float: left;
-}
-
-#izquierda #usuarios ul li:odd {
-    color: #FF0000;
 }
 
 .img_icon {
@@ -625,24 +776,18 @@ body {
     font-size: 12px;
     float: left;
     width: 40%;
-}
-
-#catalogos li{
-    list-style-type:decimal;
-    line-height:2;
-}
-
-#catalogos ul li:odd{
-    background-color:red;
+    li {
+        list-style-type:decimal;
+        line-height:2;
+    }
+    ul li:odd {
+        background-color:red;
+    }
 }
 
 #catalogo_izquierda {
     float: left;
     width: 100%;
-}
-
-#pedido_tope {
-    height: 180px;
 }
 
 #pedido_columnaizquierda {
@@ -660,14 +805,12 @@ body {
     float: left;
 }
 
-#pedido_contenido {
-}
-
 #barra {
     background-image: url(/bundles/celsius3core/images/barrita.png);
     width:824px;
     height:145px;
 }
+
 #panelsecundario {
     padding: 8px;
     height: 100px;
@@ -688,31 +831,28 @@ body {
     width: 300px;
     height: 62px;
     margin: 5px;
-}
-
-.item1 .panel1 {
-    width:175px;
-    background-image: url(/bundles/celsius3core/images/item_catalogos_01_grey.png);
-    height: 62px;
-    float: left;
-    padding: 10px 0px 0px 10px;
-    background-repeat: no-repeat;
-}
-
-.item1 .panel2 {
-    width:30px;
-    background-image: url(/bundles/celsius3core/images/item_catalogos_02_transicion.png);
-    height: 62px;
-    float: left;
-}
-
-.item1 .panel3 {
-    width:73px;
-    background-image: url(/bundles/celsius3core/images/item_catalogos_03_blue.png);
-    height: 62px;
-    float: left;
-    padding-right: 10px;
-    background-position: right;
+    .panel1 {
+        width:175px;
+        background-image: url(/bundles/celsius3core/images/item_catalogos_01_grey.png);
+        height: 62px;
+        float: left;
+        padding: 10px 0px 0px 10px;
+        background-repeat: no-repeat;
+    }
+    .panel2 {
+        width:30px;
+        background-image: url(/bundles/celsius3core/images/item_catalogos_02_transicion.png);
+        height: 62px;
+        float: left;
+    }
+    .panel3 {
+        width:73px;
+        background-image: url(/bundles/celsius3core/images/item_catalogos_03_blue.png);
+        height: 62px;
+        float: left;
+        padding-right: 10px;
+        background-position: right;
+    }
 }
 
 .relojito {
@@ -733,7 +873,6 @@ body {
     background-image: url(/bundles/celsius3core/images/estrella.png);
     margin-right: 8px;
     margin-left: 8px;
-
 }
 
 .cat_datos {
@@ -762,131 +901,4 @@ body {
 }
 #panel_add #agregar_solicitud {
     text-align: right;
-}
-
-.iconhistorial1 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-}
-
-.iconhistorial2 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -22px;
-}
-
-.iconhistorial3 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -46px;
-}
-
-.iconhistorial4 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -72px;
-}
-
-.iconhistorial5 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -95px;
-}
-
-.iconhistorial6 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -118;
-}
-
-.iconhistorial7 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -118px;
-}
-
-.iconhistorial8 {
-    background-image: url(/bundles/celsius3core/images/iconos_historial.png);
-    background-repeat: no-repeat;
-    width: 15px;
-    height: 15px;
-    background-position: 0px -145px;
-}
-.tabla_historial {
-    text-align:right;
-}
-.historial_encargado {
-    text-align: left;
-}
-#pedido_tope #columna1 {
-    height: 180px;
-    background-image: url(/bundles/celsius3core/images/linea.png);
-    background-repeat: no-repeat;
-    background-position: right;
-    ul {
-        margin-left: 30px;
-    }
-    h4 {
-        margin-left: 10px;
-    }
-}
-#pedido_tope #columna2 {
-    height: 180px;
-    background-image: url(/bundles/celsius3core/images/linea.png);
-    background-repeat: no-repeat;
-    background-position: right;
-}
-#columna1 ul li {
-    list-style-type: none;
-    font-family: georgia;
-}
-
-#columna1 ul li strong{
-    list-style-type: none;
-    font-family: arial;
-}
-
-#columna2 ul li {
-    list-style-type: none;
-    font-family: georgia;
-}
-
-#columna2 ul li strong{
-    list-style-type: none;
-    font-family: arial;
-}
-
-#pedido_tope h2 {
-    font-family: arial;
-    font-size: 12px;
-    text-transform: uppercase;
-    font-weight: normal;
-}
-#columna3 ul {
-    list-style-type: none;
-    line-height: 1.7;
-}
-
-#columna3 a {
-    text-decoration:none;
-    color: black;
-}
-
-#columna3 a:hover {
-    text-decoration:none;
-    background-color: black;
 }

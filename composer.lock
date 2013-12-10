@@ -1087,19 +1087,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "86f07baeb5772bb31362e8be46c10059db1ab419"
+                "reference": "dd965b6675d819118efb27ea55ccdfdb06a7d035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/86f07baeb5772bb31362e8be46c10059db1ab419",
-                "reference": "86f07baeb5772bb31362e8be46c10059db1ab419",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/dd965b6675d819118efb27ea55ccdfdb06a7d035",
+                "reference": "dd965b6675d819118efb27ea55ccdfdb06a7d035",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "1.0.*",
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": "~2.1",
-                "willdurand/negotiation": "1.0.*"
+                "symfony/framework-bundle": "~2.2",
+                "willdurand/negotiation": "~1.1.0"
             },
             "conflict": {
                 "jms/serializer": "<0.12",
@@ -1107,22 +1107,22 @@
             },
             "require-dev": {
                 "jms/serializer-bundle": "0.12.*",
-                "sensio/framework-extra-bundle": "~2.1",
-                "symfony/form": "~2.1",
-                "symfony/security": "~2.1",
-                "symfony/serializer": "~2.1",
-                "symfony/validator": "~2.1",
-                "symfony/yaml": "~2.1"
+                "sensio/framework-extra-bundle": "~2.2",
+                "symfony/form": "~2.2",
+                "symfony/security": "~2.2",
+                "symfony/serializer": "~2.2",
+                "symfony/validator": "~2.2",
+                "symfony/yaml": "~2.2"
             },
             "suggest": {
                 "jms/serializer-bundle": "Add support for advanced serialization capabilities, recommended, requires 0.12.*",
                 "sensio/framework-extra-bundle": "Add support for route annotations and the view response listener",
-                "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ~2.1"
+                "symfony/serializer": "Add support for basic serialization capabilities and xml decoding, requires ~2.2"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1-dev"
+                    "dev-master": "1.2-dev"
                 }
             },
             "autoload": {
@@ -1154,7 +1154,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-12-09 08:04:15"
+            "time": "2013-12-10 07:27:29"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1163,12 +1163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "7a5e29a56418fc409d1475149710239d17ad4135"
+                "reference": "945eebb625073c51072b721ec528f12199b34915"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7a5e29a56418fc409d1475149710239d17ad4135",
-                "reference": "7a5e29a56418fc409d1475149710239d17ad4135",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/945eebb625073c51072b721ec528f12199b34915",
+                "reference": "945eebb625073c51072b721ec528f12199b34915",
                 "shasum": ""
             },
             "require": {
@@ -1223,7 +1223,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-12-09 02:46:36"
+            "time": "2013-12-10 16:13:14"
         },
         {
             "name": "fzaninotto/faker",
@@ -3642,16 +3642,16 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "1.0.3",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "366e31cfc247946dfe8c622bc00041964e9b294f"
+                "reference": "f2b501fd2552045886ea288fdef16ce39ab77c09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/366e31cfc247946dfe8c622bc00041964e9b294f",
-                "reference": "366e31cfc247946dfe8c622bc00041964e9b294f",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/f2b501fd2552045886ea288fdef16ce39ab77c09",
+                "reference": "f2b501fd2552045886ea288fdef16ce39ab77c09",
                 "shasum": ""
             },
             "require": {
@@ -3688,7 +3688,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2013-11-26 14:42:16"
+            "time": "2013-12-06 16:18:56"
         }
     ],
     "packages-dev": [
