@@ -549,17 +549,22 @@ body {
         font-weight: normal;
     }
     #columna3 {
+        height: 200px;
+        float: right;
+        text-align: right;
+        padding: 0px 25px 0px 0px;
         ul {
             list-style-type: none;
             line-height: 1.7;
+            background-color: whityer;
+            padding: 0px 0px 0px 10px;
         }
         a {
-            text-decoration:none;
+            text-decoration: none;
             color: black;
         }
         a:hover {
-            text-decoration:none;
-            background-color: black;
+            text-decoration: underline;
         }
     }
 }
@@ -710,17 +715,23 @@ body {
 }
 
 #derecha {
-    float: right;
-    width: 20%;
     font-family: arial;
     font-style: italic;
     font-size: 14px;
     color: #8B8C8C;
-    padding: 0px;
-    margin: 0px 0px 0px 10px;
     h1 {
-        font-size: 12px;
-        font-style: normal;
+        display:block;
+        background-image:url(/bundles/celsius3core/images/h1_historial.png);
+        width:315px;
+        height:42px;
+        background-position: -20px 0px;
+        background-repeat: no-repeat;
+    }
+    #derecha h2 {
+        font-size:16px;
+        text-align: center;
+        background-color:none;
+
     }
 }
 
@@ -767,7 +778,7 @@ body {
 }
 
 .img_icon {
-    padding-left:10px;
+    padding-left: 10px;
 }
 
 /* Catálogos */
@@ -777,25 +788,17 @@ body {
     float: left;
     width: 40%;
     li {
-        list-style-type:decimal;
-        line-height:2;
+        list-style-type: decimal;
+        line-height: 2;
     }
     ul li:odd {
-        background-color:red;
+        background-color: red;
     }
 }
 
 #catalogo_izquierda {
     float: left;
     width: 100%;
-}
-
-#pedido_columnaizquierda {
-    width: 70%;
-    background-color: #FFFFFF;
-    height: 60px;
-    float:left;
-    clear: both;
 }
 
 #pedido_columnaderecha {
@@ -807,14 +810,12 @@ body {
 
 #barra {
     background-image: url(/bundles/celsius3core/images/barrita.png);
-    width:824px;
     height:145px;
 }
 
 #panelsecundario {
     padding: 8px;
-    height: 100px;
-    clear: both;
+    border-top: 1px dashed #bababa;
 }
 
 .tabla {
@@ -824,7 +825,6 @@ body {
 
 #panelprincipal {
     background-color: white;
-
 }
 
 .item1 {
@@ -853,6 +853,21 @@ body {
         padding-right: 10px;
         background-position: right;
     }
+    .panel2_ok {
+        width:30px;
+        background-image: url(/bundles/celsius3core/images/item_catalogos_03_ok.png);
+        height: 62px;
+        float: left;
+    }
+
+    .panel3_ok {
+        width:73px;
+        background-image: url(/bundles/celsius3core/images/item_catalogos_04_ok.png);
+        height: 62px;
+        float: left;
+        padding-right: 10px;
+        background-position: right;
+    }
 }
 
 .relojito {
@@ -875,30 +890,45 @@ body {
     margin-left: 8px;
 }
 
+.cat_estrella_ok{
+    width: 13px;
+    height: 13px;
+    float: left;
+    background-image: url(/bundles/celsius3core/images/estrella_.png);
+    background-position:bottom;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
 .cat_datos {
     float: left;
 }
 
-.cat_titulo {}
-
-.cat_fecha {}
-#panel_add {
-    width: 100px;
-    height: 200px;
+.cat_datos_ok {
+    color:green;
     float: left;
-    margin: 0px 15px 0px 0px;
 }
+
 #panel_contenido {
-    width: 600px;
-    float: left;
     background-color: #f0f2f4;
     border: 1px solid #d2d7e1;
+    h1 {
+        font-size:12px;
+        color:#25AAE0;
+        font-weight:bold;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
 }
+
 #panel_add #explorar_catalogos {
     text-align: right;
     color: #a0a0a0;
     margin-bottom: 10px;
+    width: 150px;
+    height: 40px;
 }
+
 #panel_add #agregar_solicitud {
     text-align: right;
 }
