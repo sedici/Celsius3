@@ -6,8 +6,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\SingleInstanceRequest;
 use Celsius3\CoreBundle\Form\Type\OrderType;
+use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
+use Celsius3\CoreBundle\Manager\EventManager;
 
 /**
  * Order controller.
@@ -59,7 +62,10 @@ class AdminOrderController extends OrderController
      */
     public function showAction($id)
     {
-        return $this->baseShow('Order', $id);
+        $result = $this->baseShow('Order', $id);
+        $result['request_form'] = $this->createForm(new OrderRequestType($this->getDocumentManager(), $this->get('celsius3_core.event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView();
+        
+        return $result;
     }
 
     /**

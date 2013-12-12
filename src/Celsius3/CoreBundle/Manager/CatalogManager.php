@@ -2,9 +2,10 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 class CatalogManager
 {
@@ -15,10 +16,12 @@ class CatalogManager
     const CATALOG__NOT_FOUND = 'not_found';
 
     private $dm;
+    private $instance_manager;
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(DocumentManager $dm, InstanceManager $instance_manager)
     {
         $this->dm = $dm;
+        $this->instance_manager = $instance_manager;
     }
 
     public function getCatalogs(Instance $instance = null)
@@ -32,8 +35,8 @@ class CatalogManager
         $qb = $this->dm->getRepository('Celsius3CoreBundle:Catalog')
                 ->createQueryBuilder();
 
-        return $qb->addOr($qb->expr()->field('instance.id')->equals($instance))
-                        ->addOr($qb->expr()->field('instance.id')->equals(null))
+        return $qb->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
+                        ->addOr($qb->expr()->field('instance.id')->equals($this->instance_manager->getDirectory()->getId()))
                         ->getQuery()->execute();
     }
 
