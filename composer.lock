@@ -966,17 +966,17 @@
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "target-dir": "FOS/JsRoutingBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git",
-                "reference": "ca856bcd25c8486d42e52279391fcb1dfc288dba"
+                "reference": "408af3a8fd106454eb561b1e1b550d0acff967f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/ca856bcd25c8486d42e52279391fcb1dfc288dba",
-                "reference": "ca856bcd25c8486d42e52279391fcb1dfc288dba",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSJsRoutingBundle/zipball/408af3a8fd106454eb561b1e1b550d0acff967f4",
+                "reference": "408af3a8fd106454eb561b1e1b550d0acff967f4",
                 "shasum": ""
             },
             "require": {
@@ -1012,12 +1012,14 @@
                     "homepage": "https://github.com/friendsofsymfony/FOSJsRoutingBundle/contributors"
                 }
             ],
-            "description": "Symfony FOSJsRoutingBundle",
+            "description": "A pretty nice way to expose your Symfony2 routing to client applications.",
             "homepage": "http://friendsofsymfony.github.com",
             "keywords": [
-                "Js Routing"
+                "Js Routing",
+                "javascript",
+                "routing"
             ],
-            "time": "2013-10-21 13:22:09"
+            "time": "2013-12-13 09:35:50"
         },
         {
             "name": "friendsofsymfony/message-bundle",
@@ -1087,12 +1089,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "dd965b6675d819118efb27ea55ccdfdb06a7d035"
+                "reference": "5e266a982f46b4227785eedef148879a34c0a0a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/dd965b6675d819118efb27ea55ccdfdb06a7d035",
-                "reference": "dd965b6675d819118efb27ea55ccdfdb06a7d035",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/5e266a982f46b4227785eedef148879a34c0a0a5",
+                "reference": "5e266a982f46b4227785eedef148879a34c0a0a5",
                 "shasum": ""
             },
             "require": {
@@ -1154,7 +1156,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-12-10 07:27:29"
+            "time": "2013-12-13 12:48:00"
         },
         {
             "name": "friendsofsymfony/user-bundle",

@@ -40,10 +40,17 @@ class CatalogManager
                         ->getQuery()->execute();
     }
 
-    public function getSearches(Request $request)
+    public function getSearches(Request $request, $result = null)
     {
-        return $this->dm->getRepository('Celsius3CoreBundle:CatalogSearch')
-                        ->findBy(array('request.id' => $request->getId()));
+        $qb = $this->dm->getRepository('Celsius3CoreBundle:CatalogSearch')
+                        ->createQueryBuilder()
+                        ->field('request.id')->equals($request->getId());
+
+        if ($result) {
+            $qb = $qb->field('result')->equals($result);
+        }
+
+        return $qb->getQuery()->execute();
     }
 
 }

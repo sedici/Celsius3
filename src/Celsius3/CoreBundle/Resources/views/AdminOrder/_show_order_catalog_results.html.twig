@@ -1,85 +1,62 @@
 <div class="col-md-4">
-    <table class="tabla" border="0" cellspacing="4" cellpadding="0">
-        <tr>
-            <td colspan="3"><strong style="color:#157C34">Coincidencia total </strong></td>
-        </tr>
-        <tr>
-            <td>0/3</td>
-            <td>KVK</td>
-            <td>20 agosto </td>
-        </tr>
-        <tr>
-            <td>1/1</td>
-            <td>OPAC ISTEC </td>
-            <td>10 marzo </td>
-        </tr>
-        <tr>
-            <td>0/1</td>
-            <td>Web</td>
-            <td>5 junio </td>
-        </tr>
-        <tr>
-            <td>0/1</td>
-            <td>TNT</td>
-            <td>3 de febrero </td>
-        </tr>
+    <table class="table table-condensed" data-type="{{ constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__FOUND') }}">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    <strong style="color:#157C34">{{ 'Full match'|trans }}</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="catalogSortable">
+            {% for search in get_searches(request, constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__FOUND')) %}
+            <tr data-id="{{ search.id }}">
+                <td>0/3</td>
+                <td>{{ search.catalog }}</td>
+                <td class="search-date">{{ search.date|localizeddate('short', 'none') }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 
 <div class="col-md-4">
-    <table class="tabla" border="0" cellspacing="4" cellpadding="0">
-        <tr>
-            <td colspan="3"><strong style="color:#157C34">Título encontrado</strong></td>
-        </tr>
-        <tr>
-            <td>0/3</td>
-            <td>KVK</td>
-            <td>20 agosto </td>
-        </tr>
-        <tr>
-            <td>1/1</td>
-            <td>OPAC ISTEC </td>
-            <td>10 marzo </td>
-        </tr>
-        <tr>
-            <td>0/1</td>
-            <td>Web</td>
-            <td>5 junio </td>
-        </tr>
-        <tr>
-            <td>0/1</td>
-            <td>TNT</td>
-            <td>3 de febrero </td>
-        </tr>
+    <table class="table table-condensed" data-type="{{ constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND') }}">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    <strong style="color:#157C34">{{ 'Partial match'|trans }}</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="catalogSortable">
+            {% for search in get_searches(request, constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND')) %}
+            <tr data-id="{{ search.id }}">
+                <td>0/3</td>
+                <td>{{ search.catalog }}</td>
+                <td class="search-date">{{ search.date|localizeddate('short', 'none') }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-
 </div>
 
 <div class="col-md-4">
-    <table class="tabla" border="0" cellspacing="4" cellpadding="0">
-        <tr>
-            <td colspan="3"><strong style="color:#E41D19">B&uacute;squedas infructuosas</strong> </td>
-        </tr>
-        <tr>
-            <td>0/3</td>
-            <td>KVK</td>
-            <td>20 agosto </td>
-        </tr>
-        <tr>
-            <td>1/1</td>
-            <td>OPAC ISTEC </td>
-            <td>10 marzo </td>
-        </tr>
-        <tr>
-            <td>0/1</td>
-            <td>Web</td>
-            <td>5 junio </td>
-        </tr>
-        <tr>
-            <td>0/1</td>
-            <td>TNT</td>
-            <td>3 de febrero </td>
-        </tr>
+    <table class="table table-condensed" data-type="{{ constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND') }}">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    <strong style="color:#E41D19">{{ 'No match'|trans }}</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="catalogSortable">
+            {% for search in get_searches(request, constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND')) %}
+            <tr data-id="{{ search.id }}">
+                <td>0/3</td>
+                <td>{{ search.catalog }}</td>
+                <td class="search-date">{{ search.date|localizeddate('short', 'none') }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-
 </div>

@@ -30,14 +30,13 @@ function getCatalogId(inputName) {
 function registerSearch() {
     var input = $(this);
     var catalogId = getCatalogId(input.attr('name'));
-    $.ajax(
-            {
-                url: Routing.generate('admin_catalog_search_mark'),
-                dataType: 'json',
-                data: 'order_id=' + document_id + '&instance_id='
-                        + instance_id + '&catalog_id=' + catalogId + '&result='
-                        + input.val()
-            }).done(function(data) {
+    $.ajax({
+        url: Routing.generate('admin_catalog_search_mark'),
+        dataType: 'json',
+        data: 'order_id=' + document_id + '&instance_id='
+                + instance_id + '&catalog_id=' + catalogId + '&result='
+                + input.val()
+    }).done(function(data) {
         input.parent().siblings('.catalog-result').text(data.date);
     });
 }

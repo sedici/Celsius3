@@ -38,9 +38,9 @@ class CatalogExtension extends \Twig_Extension
         return $this->catalog_manager->getAllCatalogs($instance);
     }
 
-    public function getSearches(Request $request)
+    public function getSearches(Request $request, $result = null)
     {
-        return $this->catalog_manager->getSearches($request);
+        return $this->catalog_manager->getSearches($request, $result);
     }
 
     public function searchExists(Cursor $searches, Catalog $catalog)
