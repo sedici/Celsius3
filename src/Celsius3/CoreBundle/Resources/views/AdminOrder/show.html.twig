@@ -6,7 +6,7 @@
 
 {% block content %}
 <div ng-app="orderApp">
-    <div id="cuerpo_pedido" ng-controller="OrderCtrl">
+    <div id="cuerpo_pedido" ng-view>
 
     </div>
 </div>
@@ -15,5 +15,7 @@
 {% block javascripts %}
 {{ parent() }}
 <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/angular.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/celsius3core/js/angular-route.min.js') }}"></script>
+<script type="text/javascript" src="/ng-app/AdminOrder/js/app.js"></script>
 <script type="text/javascript" src="/ng-app/AdminOrder/js/controllers.js"></script>
 {% endblock %}

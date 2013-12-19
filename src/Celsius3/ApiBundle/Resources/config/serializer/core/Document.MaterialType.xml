@@ -1,0 +1,16 @@
+<serializer>  
+    <class name="Celsius3\CoreBundle\Document\MaterialType" discriminator-field-name="type" exclusion-policy="all">  
+        <discriminator-class value="journal">Celsius3\CoreBundle\Document\JournalType</discriminator-class>
+        <discriminator-class value="book">Celsius3\CoreBundle\Document\BookType</discriminator-class>
+        <discriminator-class value="congress">Celsius3\CoreBundle\Document\CongressType</discriminator-class>
+        <discriminator-class value="thesis">Celsius3\CoreBundle\Document\ThesisType</discriminator-class>
+        <discriminator-class value="patent">Celsius3\CoreBundle\Document\PatentType</discriminator-class>
+        <property name="id" type="string" expose="true" read-only="true"></property>  
+        <property name="title" type="string" expose="true" access-type="public_method"></property>
+        <property name="authors" type="string" expose="true" access-type="public_method"></property>
+        <property name="year" type="integer" expose="true" access-type="public_method"></property>
+        <property name="startPage" type="integer" expose="true" access-type="public_method"></property>
+        <property name="endPage" type="integer" expose="true" access-type="public_method"></property>
+        <property name="type" type="string" expose="true" access-type="public_method"></property>
+    </class>  
+</serializer>  

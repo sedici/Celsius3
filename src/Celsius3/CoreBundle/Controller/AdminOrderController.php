@@ -51,7 +51,7 @@ class AdminOrderController extends OrderController
     /**
      * Finds and displays a Order document.
      *
-     * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
+     * @Route("/{id}/show", name="admin_order_show")
      * @Template()
      *
      * @param string $id The document ID

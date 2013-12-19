@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>  
+    <class name="Celsius3\CoreBundle\Document\BookType" exclusion-policy="all">  
+        <property name="editor" type="string" expose="true" read-only="true"></property>  
+        <property name="chapter" type="string" expose="true" access-type="public_method"></property>
+        <property name="ISBN" type="string" expose="true" access-type="public_method"></property>
+        <property name="withIndex" type="boolean" expose="true" access-type="public_method"></property>
+    </class>  
+</serializer>  

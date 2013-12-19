@@ -1,7 +1,8 @@
-var orderApp = angular.module('orderApp', []);
+var orderControllers = angular.module('orderControllers', []);
 
-orderApp.controller('OrderCtrl', function ($scope, $http) {
-    $http.get(Routing.generate('admin_order_show', { id: document_id })).success(function(data) {
-        $scope.order = data;
+orderControllers.controller('OrderCtrl', function ($scope, $http) {
+    $http.get(Routing.generate('admin_rest_order_show', { id: document_id })).success(function(data) {
+        $scope.order = data.order;
+        $scope.request = data.request;
     });
 });

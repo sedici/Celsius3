@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <serializer>  
     <class name="Celsius3\CoreBundle\Document\BaseUser" exclusion-policy="all">  
         <property name="id" type="string" expose="true" read-only="true"></property>  

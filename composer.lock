@@ -1089,12 +1089,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "d469bffb7ca4db956bcfcce271271d16500cd274"
+                "reference": "f7892fa7390ce9502842cf966d864a83097d2d72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/d469bffb7ca4db956bcfcce271271d16500cd274",
-                "reference": "d469bffb7ca4db956bcfcce271271d16500cd274",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/f7892fa7390ce9502842cf966d864a83097d2d72",
+                "reference": "f7892fa7390ce9502842cf966d864a83097d2d72",
                 "shasum": ""
             },
             "require": {
@@ -1156,7 +1156,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-12-16 18:40:03"
+            "time": "2013-12-19 08:12:24"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -2189,12 +2189,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "1045b0b1a2bec9695515fdef68a0dd9285d29816"
+                "reference": "61dfa0372168ddf1a9e0061b68d3fb6ea5996c04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/1045b0b1a2bec9695515fdef68a0dd9285d29816",
-                "reference": "1045b0b1a2bec9695515fdef68a0dd9285d29816",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/61dfa0372168ddf1a9e0061b68d3fb6ea5996c04",
+                "reference": "61dfa0372168ddf1a9e0061b68d3fb6ea5996c04",
                 "shasum": ""
             },
             "require": {
@@ -2242,7 +2242,7 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2013-12-12 00:33:39"
+            "time": "2013-12-18 14:28:37"
         },
         {
             "name": "knplabs/knp-menu",
@@ -2369,12 +2369,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpPaginatorBundle.git",
-                "reference": "5386aa8e79c8758f4b8ea3627623e54ba5c40845"
+                "reference": "e817cbddfa13cb9a72bf1ddcaf6a36b99cda5c2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/5386aa8e79c8758f4b8ea3627623e54ba5c40845",
-                "reference": "5386aa8e79c8758f4b8ea3627623e54ba5c40845",
+                "url": "https://api.github.com/repos/KnpLabs/KnpPaginatorBundle/zipball/e817cbddfa13cb9a72bf1ddcaf6a36b99cda5c2d",
+                "reference": "e817cbddfa13cb9a72bf1ddcaf6a36b99cda5c2d",
                 "shasum": ""
             },
             "require": {
@@ -2419,7 +2419,7 @@
                 "pagination",
                 "paginator"
             ],
-            "time": "2013-12-17 17:55:56"
+            "time": "2013-12-19 09:14:09"
         },
         {
             "name": "kriswallsmith/assetic",
