@@ -1,17 +1,17 @@
-<div class="item_container row">
-    <div class="top_info">
-        <div class="top_left">
-            <div class="{{ request.type === 'search' ? 'busqueda' : 'provision'}}">{{ request.type === 'search' ? 'B' : 'P'}}</div>
-            <div class="tipoarticulo">{{ order.material_data.type }}</div>
+<div class="item_container row" ng-include="'/ng-app/AdminOrder/partials/show_order_data.html'">
+</div>
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="row">
+            <div id="barra" class="col-md-12" ng-include="'/ng-app/AdminOrder/partials/show_order_status.html'">
+            </div>
         </div>
 
-        <div class="top_right">	
-            <div class="status-{{ request.current_state }}"></div>
-            <div class="uri">{{ order.code }}</div>
-            <div class="usuario">
-                {{ request.operator ? request.operator : '&nbsp;' }}
-            </div>
-            <div class="decoracion"></div>
+        <div class="row" ng-include="'/ng-app/AdminOrder/partials/show_order_content.html'">
         </div>
+    </div>
+
+    <div id="derecha" class="col-md-3" ng-include="'/ng-app/AdminOrder/partials/show_order_history.html'">
     </div>
 </div>

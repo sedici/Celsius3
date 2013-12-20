@@ -1,0 +1,32 @@
+<ul class="list-unstyled">
+    <li>
+        <a href="{{Routing.generate('admin_order')}}">
+            <span class="glyphicon glyphicon-home"></span> {{'Go to the list'}}
+        </a>
+    </li>
+    <li>
+        <a href="{{Routing.generate('admin_order_edit', {'id': order.id})}}">
+            <span class="glyphicon glyphicon-pencil"></span> {{'Edit'}}
+        </a>
+    </li>
+    <li>
+        <a href="{{Routing.generate('admin_mails_modal', { 'user_id': request.owner.id, 'order_id': order.id })}}" data-toggle="modal" data-target="#modal-email">
+            <span class="glyphicon glyphicon-envelope"></span> {{'Send mail'}}
+        </a>
+    </li>
+    <li ng-if="['created', 'searched'].indexOf(request.current_state) !== -1">
+        <form action="{{Routing.generate('admin_order_event', { 'id': order.id, 'event': 'annul' })}}" method="post" class="inline-form">
+            <a class="submit-form" href="#"><span class="glyphicon glyphicon-ban-circle"></span> {{'Annul'}}</a>
+        </form>
+    </li>
+    <li ng-if="['searched', 'requested', 'approval_pending'].indexOf(request.current_state) !== -1">
+        <form action="{{Routing.generate('admin_order_event', { 'id': order.id, 'event': 'cancel' })}}" method="post" class="inline-form">
+            <a class="submit-form" href="#"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
+        </form>
+    </li>
+    <li ng-if="request.current_state !== 'created'">
+        <form action="{{Routing.generate('admin_order_undo', { 'id': order.id })}}" method="post" class="inline-form">
+            <a class="submit-form" href="#"><span class="glyphicon glyphicon-arrow-left"></span> {{'Back to previous state'}}</a>
+        </form>
+    </li>
+</ul>

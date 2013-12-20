@@ -1,6 +1,7 @@
 var orderApp = angular.module('orderApp', [
     'ngRoute',
-    'orderControllers'
+    'orderControllers',
+    'orderFilters'
 ]);
 
 orderApp.config(['$routeProvider',

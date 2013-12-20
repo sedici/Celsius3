@@ -1,0 +1,37 @@
+<div class="top_info">
+    <div class="top_left">
+        <div class="{{request.type | request_type}}">{{request.type | request_type_abbr}}</div>
+        <div class="tipoarticulo">{{order.material_data.type}}</div>
+    </div>
+
+    <div class="top_right">	
+        <div class="status-{{request.current_state }}"></div>
+        <div class="uri">{{order.code}}</div>
+        <div class="usuario">
+            {{request.operator | request_operator}}
+        </div>
+        <div class="decoracion"></div>
+    </div>
+</div>
+
+<div class="main_info">
+    <div class="title_and_author">
+        <div class="titulo">{{order.material_data.title}}</div>
+        <div class="autor">{{order.material_data.authors}}</div>
+        <div class="doc_year">{{order.material_data.year}}</div>
+    </div>
+    <div class="doc_and_year">
+        <div class="doc_type_pdf"></div>
+    </div>
+</div>
+
+<div id="pedido_tope" class="row">
+    <div id="columna1" class="col-md-4" ng-include="'/ng-app/AdminOrder/partials/show_material_data.html'">
+    </div>
+
+    <div id="columna2" class="col-md-5" ng-include="'/ng-app/AdminOrder/partials/show_interaction.html'">
+    </div>
+
+    <div id="columna3" class="col-md-3" ng-include="'/ng-app/AdminOrder/partials/show_actions.html'">
+    </div>
+</div>

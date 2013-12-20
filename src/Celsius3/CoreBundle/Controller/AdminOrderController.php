@@ -38,7 +38,7 @@ class AdminOrderController extends OrderController
     /**
      * Lists all Order documents.
      *
-     * @Route("/", name="admin_order")
+     * @Route("/", name="admin_order", options={"expose"=true})
      * @Template()
      *
      * @return array
