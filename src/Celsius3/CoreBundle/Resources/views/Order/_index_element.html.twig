@@ -31,7 +31,7 @@
 
     <div class="main_info">
         <div class="title_and_author">
-            <div class="titulo">{{ element.materialData.title }}</div>
+            <div class="titulo"><a href="{{ path('admin_order_show', { 'id': element.id }) }}">{{ element.materialData.title }}</a></div>
             <div class="autor">{{ element.materialData.authors }}</div>
             <div class="doc_year">{{ element.materialData.year }}</div>
         </div>
