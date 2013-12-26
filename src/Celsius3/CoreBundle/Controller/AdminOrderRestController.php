@@ -34,9 +34,15 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Request not found.');
         }
 
+        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance())->toArray();
+
+        $searches = $this->get('celsius3_core.catalog_manager')->getSearches($request)->toArray();
+
         $view = $this->view(array(
                     'order' => $order,
                     'request' => $request,
+                    'catalogs' => $catalogs,
+                    'searches' => $searches,
                         ), 200)
                 ->setFormat('json');
 

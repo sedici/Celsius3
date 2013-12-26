@@ -23,3 +23,9 @@ orderFilters.filter('material_with_index', function() {
         return input === true ? 'Yes' : 'No';
     };
 });
+
+orderFilters.filter('get_url', function() {
+    return function(input) {
+        return Routing.generate(input.path, input.params);
+    };
+});

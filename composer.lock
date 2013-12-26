@@ -782,12 +782,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "c0965b5315e797d7a31952b23825b6a39f6c5fce"
+                "reference": "c8a1d28a498acfd6dd4c0bd4f7dd87df3c63beb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/c0965b5315e797d7a31952b23825b6a39f6c5fce",
-                "reference": "c0965b5315e797d7a31952b23825b6a39f6c5fce",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/c8a1d28a498acfd6dd4c0bd4f7dd87df3c63beb6",
+                "reference": "c8a1d28a498acfd6dd4c0bd4f7dd87df3c63beb6",
                 "shasum": ""
             },
             "require": {
@@ -852,7 +852,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-12-16 18:00:37"
+            "time": "2013-12-24 20:07:12"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1089,18 +1089,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "f7892fa7390ce9502842cf966d864a83097d2d72"
+                "reference": "c7adf7bd473997766b4154b9ea66457e6d5f470c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/f7892fa7390ce9502842cf966d864a83097d2d72",
-                "reference": "f7892fa7390ce9502842cf966d864a83097d2d72",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/c7adf7bd473997766b4154b9ea66457e6d5f470c",
+                "reference": "c7adf7bd473997766b4154b9ea66457e6d5f470c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "1.0.*",
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": "~2.2",
+                "willdurand/jsonp-callback-validator": "~1.0.0",
                 "willdurand/negotiation": "~1.2.0"
             },
             "conflict": {
@@ -1156,7 +1157,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-12-19 08:12:24"
+            "time": "2013-12-23 15:26:07"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -2189,12 +2190,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "61dfa0372168ddf1a9e0061b68d3fb6ea5996c04"
+                "reference": "ae454fb43473127a7bdc0a777f962f64f94e2795"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/61dfa0372168ddf1a9e0061b68d3fb6ea5996c04",
-                "reference": "61dfa0372168ddf1a9e0061b68d3fb6ea5996c04",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/ae454fb43473127a7bdc0a777f962f64f94e2795",
+                "reference": "ae454fb43473127a7bdc0a777f962f64f94e2795",
                 "shasum": ""
             },
             "require": {
@@ -2242,7 +2243,7 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2013-12-18 14:28:37"
+            "time": "2013-12-23 13:48:48"
         },
         {
             "name": "knplabs/knp-menu",

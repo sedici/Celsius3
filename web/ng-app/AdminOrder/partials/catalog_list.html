@@ -1,0 +1,30 @@
+<table class="table table-hover catalog-table">
+    <thead>
+        <tr>
+            <th>{{'Catalog'}}</th>
+            <th>{{'Result'}}</th>
+            <th>{{'State'}}</th>
+            <th>{{'Actions'}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="catalog in catalogs">
+            <td class="catalog-data">
+                <p>{{catalog.name}}</p>
+                <p><a href="{{catalog.url}}" target="_blank">{{catalog.url}}</a></p>
+            </td>
+            <td class="catalog-result">
+                
+            </td>
+            <td class="catalog-marker">
+                <input type="radio" class="mark-catalog" title="{{'Non Searched'}}" name="catalog{{catalog.id}}" value="" />
+                <input type="radio" class="mark-catalog" title="{{'Found'}}" name="catalog{{catalog.id}}" value="" />
+                <input type="radio" class="mark-catalog" title="{{'Partially Found'}}" name="catalog{{catalog.id}}" value="" />
+                <input type="radio" class="mark-catalog" title="{{'Not Found'}}" name="catalog{{catalog.id}}" value="" />
+            </td>
+            <td class="catalog-actions">
+                <a href="#" class="btn">{{'Request'}}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

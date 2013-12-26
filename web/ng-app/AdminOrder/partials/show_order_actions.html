@@ -1,0 +1,25 @@
+<div id="explorar_catalogos">
+    <a href="#request-modal" role="button" data-toggle="modal">
+        <img src="/bundles/celsius3core/images/agregar_solicitud.png" alt="Add request" width="150" height="40" />
+    </a>
+</div>
+<div id="explorar_catalogos">
+    <a href="#search-modal" role="button" data-toggle="modal" id="catalogs_link">{{'Explore catalogs'}}</a>
+</div>
+
+<div id="search-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 id="search-modal-label" class="modal-title">{{'Search in catalogs'}}</h4>
+            </div>
+            <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/catalog_list.html'">
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">{{'Close'}}</button>
+            </div>
+        </div>
+    </div>
+</div>

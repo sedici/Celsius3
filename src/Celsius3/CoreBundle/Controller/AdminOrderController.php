@@ -98,7 +98,7 @@ class AdminOrderController extends OrderController
     /**
      * Displays a form to edit an existing Order document.
      *
-     * @Route("/{id}/edit", name="admin_order_edit")
+     * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
      * @Template()
      * @param string $id The document ID
      *
@@ -205,7 +205,7 @@ class AdminOrderController extends OrderController
     /**
      * Creates an Event for an Order
      *
-     * @Route("/{id}/event/{event}", name="admin_order_event")
+     * @Route("/{id}/event/{event}", name="admin_order_event", options={"expose"=true})
      * @Method("post")
      *
      * @param string $id The document ID
@@ -240,7 +240,7 @@ class AdminOrderController extends OrderController
     /**
      * Undoes the last state change
      *
-     * @Route("/{id}/undo", name="admin_order_undo")
+     * @Route("/{id}/undo", name="admin_order_undo", options={"expose"=true})
      * @Method("post")
      *
      * @param string $id The document ID

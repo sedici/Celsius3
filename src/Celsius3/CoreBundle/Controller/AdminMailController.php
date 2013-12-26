@@ -193,7 +193,7 @@ class AdminMailController extends BaseInstanceDependentController
 
     /**
      *
-     * @Route("/{user_id}/modal", name="admin_mails_modal")
+     * @Route("/{user_id}/modal", name="admin_mails_modal", options={"expose"=true})
      * @Template()
      * 
      * @return array
