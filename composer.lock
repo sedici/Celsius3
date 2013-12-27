@@ -1166,12 +1166,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "6596b9d754b6cb094e10470967ed7b51e2aa9e12"
+                "reference": "a02f6fe3553391a84041ca11f02b781b2560b05b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/6596b9d754b6cb094e10470967ed7b51e2aa9e12",
-                "reference": "6596b9d754b6cb094e10470967ed7b51e2aa9e12",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a02f6fe3553391a84041ca11f02b781b2560b05b",
+                "reference": "a02f6fe3553391a84041ca11f02b781b2560b05b",
                 "shasum": ""
             },
             "require": {
@@ -1226,7 +1226,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-12-16 16:36:36"
+            "time": "2013-12-26 16:09:25"
         },
         {
             "name": "fzaninotto/faker",

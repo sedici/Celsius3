@@ -11,10 +11,10 @@
         <tr ng-repeat="catalog in catalogs">
             <td class="catalog-data">
                 <p>{{catalog.name}}</p>
-                <p><a href="{{catalog.url}}" target="_blank">{{catalog.url}}</a></p>
+                <p><a ng-href="{{catalog.url}}" target="_blank">{{catalog.url}}</a></p>
             </td>
             <td class="catalog-result">
-                
+                {{catalog.search|search_date}}
             </td>
             <td class="catalog-marker">
                 <input type="radio" class="mark-catalog" title="{{'Non Searched'}}" name="catalog{{catalog.id}}" value="" />
