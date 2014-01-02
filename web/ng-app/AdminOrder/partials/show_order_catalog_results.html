@@ -1,62 +1,56 @@
 <div class="col-md-4">
-    <table class="table table-condensed" data-type="{{ constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__FOUND') }}">
+    <table class="table table-condensed" data-type="{{'found'}}">
         <thead>
             <tr>
                 <th colspan="3">
-                    <strong style="color:#157C34">{{ 'Full match'|trans }}</strong>
+                    <strong style="color:#157C34">{{'Full match'}}</strong>
                 </th>
             </tr>
         </thead>
         <tbody class="catalogSortable">
-            {% for search in get_searches(request, constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__FOUND')) %}
-            <tr data-id="{{ search.id }}">
-                <td>0/3</td>
-                <td>{{ search.catalog }}</td>
-                <td class="search-date">{{ search.date|localizeddate('short', 'none') }} </td>
+            <tr ng-repeat="catalog in catalogs | filter:filterFound" data-id="{{catalog.search.id}}">
+                <td></td>
+                <td>{{catalog.name}}</td>
+                <td>{{catalog.search|search_date}}</td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 </div>
 
 <div class="col-md-4">
-    <table class="table table-condensed" data-type="{{ constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND') }}">
+    <table class="table table-condensed" data-type="{{'partially_found'}}">
         <thead>
             <tr>
                 <th colspan="3">
-                    <strong style="color:#157C34">{{ 'Partial match'|trans }}</strong>
+                    <strong style="color:#157C34">{{'Partial match'}}</strong>
                 </th>
             </tr>
         </thead>
         <tbody class="catalogSortable">
-            {% for search in get_searches(request, constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__PARTIALLY_FOUND')) %}
-            <tr data-id="{{ search.id }}">
-                <td>0/3</td>
-                <td>{{ search.catalog }}</td>
-                <td class="search-date">{{ search.date|localizeddate('short', 'none') }} </td>
+            <tr ng-repeat="catalog in catalogs | filter:filterPartiallyFound" data-id="{{catalog.search.id}}">
+                <td></td>
+                <td>{{catalog.name}}</td>
+                <td>{{catalog.search|search_date}}</td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 </div>
 
 <div class="col-md-4">
-    <table class="table table-condensed" data-type="{{ constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND') }}">
+    <table class="table table-condensed" data-type="{{'not_found'}}">
         <thead>
             <tr>
                 <th colspan="3">
-                    <strong style="color:#E41D19">{{ 'No match'|trans }}</strong>
+                    <strong style="color:#E41D19">{{'No match'}}</strong>
                 </th>
             </tr>
         </thead>
         <tbody class="catalogSortable">
-            {% for search in get_searches(request, constant('Celsius3\\CoreBundle\\Manager\\CatalogManager::CATALOG__NOT_FOUND')) %}
-            <tr data-id="{{ search.id }}">
-                <td>0/3</td>
-                <td>{{ search.catalog }}</td>
-                <td class="search-date">{{ search.date|localizeddate('short', 'none') }} </td>
+            <tr ng-repeat="catalog in catalogs | filter:filterNotFound" data-id="{{catalog.search.id}}">
+                <td></td>
+                <td>{{catalog.name}}</td>
+                <td>{{catalog.search|search_date}}</td>
             </tr>
-            {% endfor %}
         </tbody>
     </table>
 </div>

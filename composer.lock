@@ -397,16 +397,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "328357bd9eea9d671fe5fff0737f01953bfe66a0"
+                "reference": "fec965d330c958e175c39e61c3f6751955af32d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/328357bd9eea9d671fe5fff0737f01953bfe66a0",
-                "reference": "328357bd9eea9d671fe5fff0737f01953bfe66a0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/fec965d330c958e175c39e61c3f6751955af32d0",
+                "reference": "fec965d330c958e175c39e61c3f6751955af32d0",
                 "shasum": ""
             },
             "require": {
@@ -459,7 +459,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2013-11-12 12:38:28"
+            "time": "2014-01-01 16:43:57"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -538,12 +538,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "3caec4826e58fe47520b591f965b4adcdfc8a6c8"
+                "reference": "42ac886c2c669d793dc9d6258a7296edb0d5e933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/3caec4826e58fe47520b591f965b4adcdfc8a6c8",
-                "reference": "3caec4826e58fe47520b591f965b4adcdfc8a6c8",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/42ac886c2c669d793dc9d6258a7296edb0d5e933",
+                "reference": "42ac886c2c669d793dc9d6258a7296edb0d5e933",
                 "shasum": ""
             },
             "require": {
@@ -587,7 +587,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2013-09-16 10:15:05"
+            "time": "2013-12-31 08:56:10"
         },
         {
             "name": "doctrine/inflector",
@@ -782,18 +782,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "c8a1d28a498acfd6dd4c0bd4f7dd87df3c63beb6"
+                "reference": "b8205cfbabe8cfd89d2451ed3e6d9ca709e319da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/c8a1d28a498acfd6dd4c0bd4f7dd87df3c63beb6",
-                "reference": "c8a1d28a498acfd6dd4c0bd4f7dd87df3c63beb6",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/b8205cfbabe8cfd89d2451ed3e6d9ca709e319da",
+                "reference": "b8205cfbabe8cfd89d2451ed3e6d9ca709e319da",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "~1.0",
                 "doctrine/cache": "~1.0",
-                "doctrine/collections": "~1.0",
+                "doctrine/collections": "~1.1",
                 "doctrine/common": "2.4.*",
                 "doctrine/inflector": "~1.0",
                 "doctrine/mongodb": "~1.1",
@@ -852,7 +852,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2013-12-24 20:07:12"
+            "time": "2014-01-01 01:02:08"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -861,12 +861,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "b7d25d7fab0149942d3a19c73c0544ef54b1bab7"
+                "reference": "739b30c15347b3e049a8d7189973566ac3adb22e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/b7d25d7fab0149942d3a19c73c0544ef54b1bab7",
-                "reference": "b7d25d7fab0149942d3a19c73c0544ef54b1bab7",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/739b30c15347b3e049a8d7189973566ac3adb22e",
+                "reference": "739b30c15347b3e049a8d7189973566ac3adb22e",
                 "shasum": ""
             },
             "require": {
@@ -908,7 +908,8 @@
                 {
                     "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/"
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
                 },
                 {
                     "name": "Kris Wallsmith",
@@ -922,7 +923,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2013-10-28 20:35:52"
+            "time": "2013-12-31 08:56:40"
         },
         {
             "name": "evenement/evenement",
@@ -1089,12 +1090,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "c7adf7bd473997766b4154b9ea66457e6d5f470c"
+                "reference": "e45dcbaecd50babfbaef68cee3626e2fedff9cb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/c7adf7bd473997766b4154b9ea66457e6d5f470c",
-                "reference": "c7adf7bd473997766b4154b9ea66457e6d5f470c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/e45dcbaecd50babfbaef68cee3626e2fedff9cb1",
+                "reference": "e45dcbaecd50babfbaef68cee3626e2fedff9cb1",
                 "shasum": ""
             },
             "require": {
@@ -1157,7 +1158,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2013-12-23 15:26:07"
+            "time": "2013-12-30 12:30:30"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1166,12 +1167,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "a02f6fe3553391a84041ca11f02b781b2560b05b"
+                "reference": "c66cb666ea98d101c3650279c545081a94e47d3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a02f6fe3553391a84041ca11f02b781b2560b05b",
-                "reference": "a02f6fe3553391a84041ca11f02b781b2560b05b",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/c66cb666ea98d101c3650279c545081a94e47d3e",
+                "reference": "c66cb666ea98d101c3650279c545081a94e47d3e",
                 "shasum": ""
             },
             "require": {
@@ -1226,7 +1227,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2013-12-26 16:09:25"
+            "time": "2013-12-30 08:57:49"
         },
         {
             "name": "fzaninotto/faker",
