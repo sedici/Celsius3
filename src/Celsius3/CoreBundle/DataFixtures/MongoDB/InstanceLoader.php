@@ -48,7 +48,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                         return $generator->randomNumber;
                     },
                     'setJournal' => function () use ($generator, $manager) {
-                        $random = $generator->randomNumber(0, $manager->getRepository('Celsius3CoreBundle:Journal')->findAll()->count() - 1);
+                        $random = $generator->randomNumber(0, count($manager->getRepository('Celsius3CoreBundle:Journal')->findAll()) - 1);
 
                         return $manager
                                         ->getRepository(

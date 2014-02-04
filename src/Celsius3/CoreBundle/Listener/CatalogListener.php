@@ -8,18 +8,15 @@ use Celsius3\CoreBundle\Document\CatalogPosition;
 use Celsius3\CoreBundle\Document\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class CatalogListener
-{
+class CatalogListener {
 
     private $container;
 
-    public function __construct(ContainerInterface $container)
-    {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 
-    public function postPersist(LifecycleEventArgs $args)
-    {
+    public function postPersist(LifecycleEventArgs $args) {
         $document = $args->getDocument();
         $dm = $args->getDocumentManager();
 
@@ -31,9 +28,8 @@ class CatalogListener
                         ->getQuery()
                         ->execute();
                 foreach ($instances as $instance) {
-                    $place = $dm->getRepository('Celsius3CoreBundle:CatalogPosition')
-                            ->findBy(array('instance.id' => $instance->getId()))
-                            ->count();
+                    $place = count($dm->getRepository('Celsius3CoreBundle:CatalogPosition')
+                                    ->findBy(array('instance.id' => $instance->getId())));
 
                     $position = new CatalogPosition();
                     $position->setCatalog($document);
@@ -43,9 +39,8 @@ class CatalogListener
                 }
                 $dm->flush();
             } else {
-                $place = $dm->getRepository('Celsius3CoreBundle:CatalogPosition')
-                        ->findBy(array('instance.id' => $document->getInstance()->getId()))
-                        ->count();
+                $place = count($dm->getRepository('Celsius3CoreBundle:CatalogPosition')
+                        ->findBy(array('instance.id' => $document->getInstance()->getId())));
 
                 $position = new CatalogPosition();
                 $position->setCatalog($document);

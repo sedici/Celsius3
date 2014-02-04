@@ -17,8 +17,7 @@ class DatabaseHelper
     public function findRandomRecord($repository)
     {
         $rand = rand(0, $this->dm->getRepository($repository)
-                        ->findAll()
-                        ->count() - 1);
+                        ->createQueryBuilder()->getQuery()->count() - 1);
 
         return $this->dm->getRepository($repository)
                         ->createQueryBuilder()
