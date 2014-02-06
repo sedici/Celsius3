@@ -4,7 +4,7 @@
             {{ app.request.get('_locale')|upper }}
             <b class="caret"></b>
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-right">
             {% for locale in ['es', 'en', 'pt'] %}
             <li>
                 <a href="{{ path(app.request.get('_route'), app.request.get('_route_params')|merge({ '_locale': locale })) }}">{{ locale|upper }}</a>

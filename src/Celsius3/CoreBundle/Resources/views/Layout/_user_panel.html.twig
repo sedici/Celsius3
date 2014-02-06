@@ -5,7 +5,7 @@
             <span class="glyphicon glyphicon-user"></span> {{ app.user?app.user.username:'' }}
             <b class="caret"></b>
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-right">
             {% if app.user %}
             <li>
                 <a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile'|trans }}</a>

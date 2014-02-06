@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http) {
+orderControllers.controller('OrderCtrl', function($scope, $http, Order) {
     $http.get(Routing.generate('admin_rest_order_show', {id: document_id})).success(function(data) {
         $scope.order = data.order;
         $scope.request = data.request;
@@ -18,11 +18,9 @@ orderControllers.controller('OrderCtrl', function($scope, $http) {
         {value: 'non_searched', text: 'Non searched'}
     ];
 
-    $scope.updateCatalog = function(catalog) {
-        $http.post().success(function(data){
-            
-        });
-    }
+    Order.get({id: document_id}, function(result) {
+        $scope.order = result.order;
+    });
 
     $scope.filterFound = function(catalog) {
         return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
