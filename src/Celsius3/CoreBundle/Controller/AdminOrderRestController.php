@@ -8,16 +8,16 @@ use FOS\RestBundle\Controller\Annotations\Get;
 /**
  * User controller.
  *
- * @Route("/admin/rest/order")
+ * @Route("/admin/rest/orders")
  */
 class AdminOrderRestController extends BaseInstanceDependentRestController
 {
 
     /**
      * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_order_show", options={"expose"=true})
+     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
      */
-    public function showAction($id)
+    public function getOrderAction($id)
     {
         $dm = $this->getDocumentManager();
 
@@ -28,25 +28,25 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Order not found.');
         }
 
-        $request = $order->getRequest($this->getInstance());
-
-        if (!$request) {
-            return $this->createNotFoundException('Request not found.');
-        }
-
-        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance())->toArray();
-
-        $searches = $this->get('celsius3_core.catalog_manager')->getSearches($request)->toArray();
+//        $request = $order->getRequest($this->getInstance());
+//
+//        if (!$request) {
+//            return $this->createNotFoundException('Request not found.');
+//        }
+//
+//        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance())->toArray();
+//
+//        $searches = $this->get('celsius3_core.catalog_manager')->getSearches($request)->toArray();
 
         $view = $this->view(array(
-                    'order' => $order,
-                    'request' => $request,
-                    'catalogs' => $catalogs,
-                    'searches' => $searches,
+                    'data' => $order
+//                    'request' => $request,
+//                    'catalogs' => $catalogs,
+//                    'searches' => $searches,
                         ), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
     }
-
+    
 }
