@@ -15,6 +15,25 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     * @Get("/", name="admin_rest_request", options={"expose"=true})
+     */
+    public function getRequestsAction()
+    {
+        $dm = $this->getDocumentManager();
+
+        $requests = $dm->getRepository('Celsius3CoreBundle:Request')
+                ->findBy(array('instance.id' => $this->getInstance()->getId(),));
+
+        $view = $this->view(array(
+                    'data' => $requests
+                        ), 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
      * @Get("/{order_id}", name="admin_rest_request_get", options={"expose"=true})
      */
     public function getRequestAction($order_id)

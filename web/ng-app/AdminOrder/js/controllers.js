@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request) {
+orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch) {
 //    $http.get(Routing.generate('admin_rest_order_show', {id: document_id})).success(function(data) {
 //        $scope.order = data.order;
 //        $scope.request = data.request;
@@ -21,10 +21,13 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request)
     Order.get({id: document_id}, function(result) {
         $scope.order = result.data;
     });
-    
+
     Request.get({order_id: document_id}, function(result) {
         $scope.request = result.data;
+        //$scope.searches = CatalogSearch.query({request_id: result.data.id});
     });
+
+    //$scope.catalogs = Catalog.query();
 
     $scope.filterFound = function(catalog) {
         return !_.isUndefined(catalog.search) && catalog.search.result === 'found';

@@ -15,10 +15,31 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     * @Get("/", name="admin_rest_order", options={"expose"=true})
+     */
+    public function getOrdersAction()
+    {
+        $dm = $this->getDocumentManager();
+
+        $orders = $dm->getRepository('Celsius3CoreBundle:Order')
+                ->findBy(array('instance.id' => $this->getInstance()->getId(),));
+
+        $view = $this->view(array(
+                    'data' => $orders
+                        ), 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
      * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
      */
     public function getOrderAction($id)
     {
+        echo 'jola';
+        die();
         $dm = $this->getDocumentManager();
 
         $order = $dm->getRepository('Celsius3CoreBundle:Order')
@@ -28,25 +49,12 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Order not found.');
         }
 
-//        $request = $order->getRequest($this->getInstance());
-//
-//        if (!$request) {
-//            return $this->createNotFoundException('Request not found.');
-//        }
-//
-//        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance())->toArray();
-//
-//        $searches = $this->get('celsius3_core.catalog_manager')->getSearches($request)->toArray();
-
         $view = $this->view(array(
-                    'data' => $order
-//                    'request' => $request,
-//                    'catalogs' => $catalogs,
-//                    'searches' => $searches,
+                    'data' => $order,
                         ), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
     }
-    
+
 }

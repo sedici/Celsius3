@@ -3651,16 +3651,16 @@
         },
         {
             "name": "willdurand/negotiation",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "8b32a05c2cfd41c0b350de5ea03aba8b35dfc13c"
+                "reference": "84c855a0a9318b29b2535ca88a86e899d7ac4bda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/8b32a05c2cfd41c0b350de5ea03aba8b35dfc13c",
-                "reference": "8b32a05c2cfd41c0b350de5ea03aba8b35dfc13c",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/84c855a0a9318b29b2535ca88a86e899d7ac4bda",
+                "reference": "84c855a0a9318b29b2535ca88a86e899d7ac4bda",
                 "shasum": ""
             },
             "require": {
@@ -3697,7 +3697,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2014-01-09 22:50:05"
+            "time": "2014-02-11 15:51:10"
         }
     ],
     "packages-dev": [
