@@ -24,9 +24,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $orders = $dm->getRepository('Celsius3CoreBundle:Order')
                 ->findBy(array('instance.id' => $this->getInstance()->getId(),));
 
-        $view = $this->view(array(
-                    'data' => $orders
-                        ), 200)
+        $view = $this->view(array_values($orders), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
@@ -38,8 +36,6 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
      */
     public function getOrderAction($id)
     {
-        echo 'jola';
-        die();
         $dm = $this->getDocumentManager();
 
         $order = $dm->getRepository('Celsius3CoreBundle:Order')
@@ -49,9 +45,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Order not found.');
         }
 
-        $view = $this->view(array(
-                    'data' => $order,
-                        ), 200)
+        $view = $this->view($order, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

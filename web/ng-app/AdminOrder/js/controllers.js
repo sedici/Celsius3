@@ -1,16 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
 orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch) {
-//    $http.get(Routing.generate('admin_rest_order_show', {id: document_id})).success(function(data) {
-//        $scope.order = data.order;
-//        $scope.request = data.request;
-//        $scope.catalogs = _.values(data.catalogs).map(function(item) {
-//            item.search = _.first(_.values(data.searches).filter(function(search) {
-//                return search.catalog.id === item.id;
-//            }));
-//            return item;
-//        });
-//    });
     $scope.search_results = [
         {value: 'found', text: 'Found'},
         {value: 'partially_found', text: 'Partially found'},
@@ -18,16 +8,24 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         {value: 'non_searched', text: 'Non searched'}
     ];
 
-    Order.get({id: document_id}, function(result) {
-        $scope.order = result.data;
+    Order.get({id: document_id}, function(order) {
+        $scope.order = order;
     });
 
-    Request.get({order_id: document_id}, function(result) {
-        $scope.request = result.data;
-        //$scope.searches = CatalogSearch.query({request_id: result.data.id});
+    Request.get({order_id: document_id}, function(request) {
+        $scope.request = request;
+        Catalog.query(function(catalogs) {
+            $scope.catalogs = catalogs;
+            CatalogSearch.query({request_id: request.id}, function(searches) {
+                $scope.catalogsWithSearches = angular.copy(catalogs).map(function(item) {
+                    item.search = _.first(searches.filter(function(search) {
+                        return search.catalog.id === item.id;
+                    }));
+                    return item;
+                });
+            });
+        });
     });
-
-    //$scope.catalogs = Catalog.query();
 
     $scope.filterFound = function(catalog) {
         return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
@@ -39,5 +37,12 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
 
     $scope.filterNotFound = function(catalog) {
         return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+    }
+    
+    $scope.updateCatalog = function(catalog) {
+        catalog.search.catalog = _.first($scope.catalogs.filter(function(c){
+            return c.id === catalog.id;
+        }));
+        CatalogSearch.save(catalog.search);
     }
 });

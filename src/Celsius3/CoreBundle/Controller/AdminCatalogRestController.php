@@ -8,7 +8,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 /**
  * User controller.
  *
- * @Route("/admin/rest/orders")
+ * @Route("/admin/rest/catalogs")
  */
 class AdminCatalogRestController extends BaseInstanceDependentRestController
 {
@@ -21,9 +21,7 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
     {
         $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance())->toArray();
 
-        $view = $this->view(array(
-                    'data' => $catalogs,
-                        ), 200)
+        $view = $this->view(array_values($catalogs), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

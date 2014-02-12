@@ -30,9 +30,7 @@ class AdminCatalogSearchRestController extends BaseInstanceDependentRestControll
 
         $searches = $this->get('celsius3_core.catalog_manager')->getSearches($request)->toArray();
 
-        $view = $this->view(array(
-                    'data' => $searches,
-                        ), 200)
+        $view = $this->view(array_values($searches), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

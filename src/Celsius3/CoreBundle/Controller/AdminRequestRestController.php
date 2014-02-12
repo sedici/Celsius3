@@ -24,9 +24,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         $requests = $dm->getRepository('Celsius3CoreBundle:Request')
                 ->findBy(array('instance.id' => $this->getInstance()->getId(),));
 
-        $view = $this->view(array(
-                    'data' => $requests
-                        ), 200)
+        $view = $this->view(array_values($requests), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
@@ -50,9 +48,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Request not found.');
         }
 
-        $view = $this->view(array(
-                    'data' => $request
-                        ), 200)
+        $view = $this->view($request, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
