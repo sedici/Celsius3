@@ -42,9 +42,7 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Catalog not found.');
         }
 
-        $view = $this->view(array(
-                    'data' => $catalog,
-                        ), 200)
+        $view = $this->view($catalog, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

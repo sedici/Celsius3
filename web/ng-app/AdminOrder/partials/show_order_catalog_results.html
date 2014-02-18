@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody class="catalogSortable">
-            <tr ng-repeat="catalog in catalogs | filter:filterFound" data-id="{{catalog.search.id}}">
+            <tr ng-repeat="catalog in catalogsWithSearches | filter:filterFound" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
@@ -27,7 +27,7 @@
             </tr>
         </thead>
         <tbody class="catalogSortable">
-            <tr ng-repeat="catalog in catalogs | filter:filterPartiallyFound" data-id="{{catalog.search.id}}">
+            <tr ng-repeat="catalog in catalogsWithSearches | filter:filterPartiallyFound" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
@@ -46,7 +46,7 @@
             </tr>
         </thead>
         <tbody class="catalogSortable">
-            <tr ng-repeat="catalog in catalogs | filter:filterNotFound" data-id="{{catalog.search.id}}">
+            <tr ng-repeat="catalog in catalogsWithSearches | filter:filterNotFound" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>

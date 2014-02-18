@@ -43,6 +43,6 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         catalog.search.catalog = _.first($scope.catalogs.filter(function(c){
             return c.id === catalog.id;
         }));
-        CatalogSearch.save(catalog.search);
+        catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
     }
 });

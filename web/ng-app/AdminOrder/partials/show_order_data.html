@@ -1,11 +1,11 @@
 <div class="top_info">
     <div class="top_left">
-        <div class="{{request.type | request_type}}">{{request.type | request_type_abbr}}</div>
+        <div ng-class="request.type | request_type">{{request.type | request_type_abbr}}</div>
         <div class="tipoarticulo">{{order.material_data.type}}</div>
     </div>
 
     <div class="top_right">	
-        <div class="status-{{request.current_state }}"></div>
+        <div class="status-{{request.current_state}}"></div>
         <div class="uri">{{order.code}}</div>
         <div class="usuario">
             {{request.operator | request_operator}}
