@@ -17,26 +17,6 @@ $('.connectedSortable').sortable({
     }
 }).disableSelection();
 
-$('.catalogSortable').sortable({
-    connectWith: '.catalogSortable',
-    stop: function(event, ui) {
-        var id = $(ui.item).data('id');
-        var result = $(ui.item).parents('table.table').data('type');
-        $.ajax({
-            type: 'POST',
-            format: 'json',
-            data: {
-                id: id,
-                result: result
-            },
-            url: Routing.generate('admin_catalog_search_update'),
-            success: function(data) {
-                $(ui.item).children('.date').text(data.date);
-            }
-        });
-    }
-}).disableSelection();
-
 $('.submit-catalog-data.disabled').on('click', function(e) {
     e.preventDefault();
 });

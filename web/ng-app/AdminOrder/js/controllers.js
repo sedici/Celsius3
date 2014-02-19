@@ -1,6 +1,19 @@
 var orderControllers = angular.module('orderControllers', []);
 
 orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch) {
+    $scope.sortableOptions = {
+        connectWith: '.catalogSortable',
+        stop: function(event, ui) {
+            var id = ui.item.data('id');
+            var result = $(ui.item.sortable.droptarget).parents('table.table').data('type');
+            var catalog = _.first($scope.catalogsWithSearches.filter(function (item) {
+                return !_.isUndefined(item.search) && item.search.id === id;
+            }));
+            catalog.search.result = result;
+            $scope.updateCatalog(catalog);
+        }
+    };
+
     $scope.search_results = [
         {value: 'found', text: 'Found'},
         {value: 'partially_found', text: 'Partially found'},
@@ -38,9 +51,9 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
     $scope.filterNotFound = function(catalog) {
         return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
     }
-    
+
     $scope.updateCatalog = function(catalog) {
-        catalog.search.catalog = _.first($scope.catalogs.filter(function(c){
+        catalog.search.catalog = _.first($scope.catalogs.filter(function(c) {
             return c.id === catalog.id;
         }));
         catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
