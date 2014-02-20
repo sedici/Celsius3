@@ -7,12 +7,13 @@
                 </th>
             </tr>
         </thead>
-        <tbody ui-sortable="sortableOptions" ng-model="catalogsWithSearches" class="catalogSortable">
-            <tr ng-repeat="catalog in catalogsWithSearches | filter:filterFound" data-id="{{catalog.search.id}}">
+        <tbody ui-sortable="sortableOptions" ng-model="filterFound" class="catalogSortable">
+            <tr ng-repeat="catalog in filterFound" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
             </tr>
+            <tr class="sort-disabled"><td></td><td></td><td></td></tr>
         </tbody>
     </table>
 </div>
@@ -26,12 +27,13 @@
                 </th>
             </tr>
         </thead>
-        <tbody ui-sortable="sortableOptions" ng-model="catalogsWithSearches" class="catalogSortable">
-            <tr ng-repeat="catalog in catalogsWithSearches | filter:filterPartiallyFound" data-id="{{catalog.search.id}}">
+        <tbody ui-sortable="sortableOptions" ng-model="filterPartiallyFound" class="catalogSortable">
+            <tr ng-repeat="catalog in filterPartiallyFound" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
             </tr>
+            <tr class="sort-disabled"><td></td><td></td><td></td></tr>
         </tbody>
     </table>
 </div>
@@ -45,12 +47,13 @@
                 </th>
             </tr>
         </thead>
-        <tbody ui-sortable="sortableOptions" ng-model="catalogsWithSearches" class="catalogSortable">
-            <tr ng-repeat="catalog in catalogsWithSearches | filter:filterNotFound" data-id="{{catalog.search.id}}">
+        <tbody ui-sortable="sortableOptions" ng-model="filterNotFound" class="catalogSortable">
+            <tr ng-repeat="catalog in filterNotFound" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
             </tr>
+            <tr class="sort-disabled"><td></td><td></td><td></td></tr>
         </tbody>
     </table>
 </div>

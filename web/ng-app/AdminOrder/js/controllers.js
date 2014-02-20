@@ -3,15 +3,16 @@ var orderControllers = angular.module('orderControllers', []);
 orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch) {
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
-        stop: function(event, ui) {
+        update: function(event, ui) {
             var id = ui.item.data('id');
             var result = $(ui.item.sortable.droptarget).parents('table.table').data('type');
-            var catalog = _.first($scope.catalogsWithSearches.filter(function (item) {
+            var catalog = _.first($scope.catalogsWithSearches.filter(function(item) {
                 return !_.isUndefined(item.search) && item.search.id === id;
             }));
             catalog.search.result = result;
             $scope.updateCatalog(catalog);
-        }
+        },
+        items: ">*:not(.sort-disabled)"
     };
 
     $scope.search_results = [
@@ -25,10 +26,8 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         $scope.order = order;
     });
 
-    Request.get({order_id: document_id}, function(request) {
-        $scope.request = request;
-        Catalog.query(function(catalogs) {
-            $scope.catalogs = catalogs;
+    $scope.request = Request.get({order_id: document_id}, function(request) {
+        $scope.catalogs = Catalog.query(function(catalogs) {
             CatalogSearch.query({request_id: request.id}, function(searches) {
                 $scope.catalogsWithSearches = angular.copy(catalogs).map(function(item) {
                     item.search = _.first(searches.filter(function(search) {
@@ -36,21 +35,21 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
                     }));
                     return item;
                 });
+
+                $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                    return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
+                });
+
+                $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                    return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
+                });
+
+                $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                    return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+                });
             });
         });
     });
-
-    $scope.filterFound = function(catalog) {
-        return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
-    }
-
-    $scope.filterPartiallyFound = function(catalog) {
-        return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
-    }
-
-    $scope.filterNotFound = function(catalog) {
-        return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
-    }
 
     $scope.updateCatalog = function(catalog) {
         catalog.search.catalog = _.first($scope.catalogs.filter(function(c) {
