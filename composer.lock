@@ -1169,12 +1169,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "ae2be6ca5886696ec6b20e31340387a3fd7d676e"
+                "reference": "815055bcb1936a0bba0af93cf1b44fddf98a64b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/ae2be6ca5886696ec6b20e31340387a3fd7d676e",
-                "reference": "ae2be6ca5886696ec6b20e31340387a3fd7d676e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/815055bcb1936a0bba0af93cf1b44fddf98a64b5",
+                "reference": "815055bcb1936a0bba0af93cf1b44fddf98a64b5",
                 "shasum": ""
             },
             "require": {
@@ -1229,7 +1229,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-02-19 14:32:53"
+            "time": "2014-02-21 12:52:40"
         },
         {
             "name": "fzaninotto/faker",
@@ -1825,12 +1825,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSI18nRoutingBundle.git",
-                "reference": "c58e4d99ae867f8b64a481c84cad89e1df03d1c6"
+                "reference": "b3710ab158de78a87bcba2cf000bff4569ae0ebe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSI18nRoutingBundle/zipball/c58e4d99ae867f8b64a481c84cad89e1df03d1c6",
-                "reference": "c58e4d99ae867f8b64a481c84cad89e1df03d1c6",
+                "url": "https://api.github.com/repos/schmittjoh/JMSI18nRoutingBundle/zipball/b3710ab158de78a87bcba2cf000bff4569ae0ebe",
+                "reference": "b3710ab158de78a87bcba2cf000bff4569ae0ebe",
                 "shasum": ""
             },
             "require": {
@@ -1884,7 +1884,7 @@
                 "routing",
                 "translation"
             ],
-            "time": "2013-12-05 21:19:53"
+            "time": "2014-02-21 15:48:50"
         },
         {
             "name": "jms/metadata",
@@ -3070,12 +3070,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "cbec28d1ed6dce13b0c18c2dfd8f6af81e65cbae"
+                "reference": "ec565406edc50453f9d61e2fd7c30c61e406c6b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/cbec28d1ed6dce13b0c18c2dfd8f6af81e65cbae",
-                "reference": "cbec28d1ed6dce13b0c18c2dfd8f6af81e65cbae",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/ec565406edc50453f9d61e2fd7c30c61e406c6b4",
+                "reference": "ec565406edc50453f9d61e2fd7c30c61e406c6b4",
                 "shasum": ""
             },
             "require": {
@@ -3123,7 +3123,7 @@
                 "translatable",
                 "tree"
             ],
-            "time": "2014-01-23 11:00:25"
+            "time": "2014-02-21 11:10:28"
         },
         {
             "name": "swiftmailer/swiftmailer",

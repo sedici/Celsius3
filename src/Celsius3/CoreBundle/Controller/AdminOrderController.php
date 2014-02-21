@@ -62,10 +62,7 @@ class AdminOrderController extends OrderController
      */
     public function showAction($id)
     {
-        $result = $this->baseShow('Order', $id);
-        $result['request_form'] = $this->createForm(new OrderRequestType($this->getDocumentManager(), $this->get('celsius3_core.event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView();
-        
-        return $result;
+        return $this->baseShow('Order', $id);
     }
 
     /**
@@ -149,11 +146,11 @@ class AdminOrderController extends OrderController
         $document->setMaterialData(null);
 
         $request = $this->getRequest();
-        
+
         // Se extrae el usuario del request y se setea en la construccion del form
         $user = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
-        
+
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $document);
         $deleteForm = $this->createDeleteForm($id);
 
@@ -200,6 +197,30 @@ class AdminOrderController extends OrderController
     public function changeAction()
     {
         return $this->change();
+    }
+
+    /**
+     * Returns the form to create a new request
+     *
+     * @Route("/request-form/{id}", name="admin_order_request_form", options={"expose"=true})
+     * @Template()
+     *
+     * @return array
+     */
+    public function requestFormAction($id)
+    {
+        $document = $this->findQuery('Order', $id);
+
+        if (!$document) {
+            throw $this->createNotFoundException('Unable to find Order.');
+        }
+
+        $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), $this->get('celsius3_core.event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView();
+
+        return array(
+            'document' => $document,
+            'form' => $form,
+        );
     }
 
     /**

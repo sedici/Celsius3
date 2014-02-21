@@ -7,12 +7,3 @@ $('.navbar .main-navbar li').each(function(index, element) {
         $(element).attr('class', 'active');
     }
 });
-
-/**
- * Bloqueo de la interfaz al hacer una petición.
- */
-$(document).ajaxStart(function() {
-    $('#activity').activity({segments: 8, width:3, space: 1, length: 3});
-}).ajaxStop(function() {
-    $('#activity').activity(false);
-});

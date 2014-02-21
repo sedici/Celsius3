@@ -36,25 +36,39 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
                     return item;
                 });
 
-                $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
-                    return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
-                });
-
-                $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
-                    return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
-                });
-
-                $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
-                    return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
-                });
+                $scope.updateTables();
             });
         });
     });
+
+    $scope.requestFormUrl = Routing.generate('admin_order_request_form', {id: document_id});
+
+    $scope.select2 = function() {
+        console.log('hola');
+        $(".country-select").select2();
+        $(".city-select").select2();
+        $(".institution-select").select2();
+    }
+
+    $scope.updateTables = function() {
+        $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
+            return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
+        });
+
+        $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
+            return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
+        });
+
+        $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
+            return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+        });
+    }
 
     $scope.updateCatalog = function(catalog) {
         catalog.search.catalog = _.first($scope.catalogs.filter(function(c) {
             return c.id === catalog.id;
         }));
         catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
+        $scope.updateTables();
     }
 });
