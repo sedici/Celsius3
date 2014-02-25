@@ -1,17 +1,18 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
+use Celsius3\CoreBundle\Document\Request;
 
 /**
  * @MongoDB\Document
  */
-class MultiInstanceReceive extends MultiInstance
+class MultiInstanceReceiveEvent extends MultiInstanceEvent
 {
 
     use ReclaimableTrait;

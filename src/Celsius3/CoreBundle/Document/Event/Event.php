@@ -1,30 +1,31 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Document\Request;
 
 /**
  * @MongoDB\Document
  * @MongoDB\InheritanceType("SINGLE_COLLECTION")
  * @MongoDB\DiscriminatorField(fieldName="type")
  * @MongoDB\DiscriminatorMap({
- *   "creation"="Creation",
- *   "search"="Search",
- *   "sirequest"="SingleInstanceRequest",
- *   "cancel"="Cancel",
- *   "annul"="Annul",
- *   "sireceive"="SingleInstanceReceive",
- *   "mireceive"="MultiInstanceReceive",
- *   "mirequest"="MultiInstanceRequest",
- *   "deliver"="Deliver",
- *   "localcancel"="LocalCancel",
- *   "remotecancel"="RemoteCancel",
- *   "reclaim"="Reclaim",
- *   "approve"="Approve",
- *   "undo"="Undo"
+ *   "creation"="CreationEvent",
+ *   "search"="SearchEvent",
+ *   "sirequest"="SingleInstanceRequestEvent",
+ *   "cancel"="CancelEvent",
+ *   "annul"="AnnulEvent",
+ *   "sireceive"="SingleInstanceReceiveEvent",
+ *   "mireceive"="MultiInstanceReceiveEvent",
+ *   "mirequest"="MultiInstanceRequestEvent",
+ *   "deliver"="DeliverEvent",
+ *   "localcancel"="LocalCancelEvent",
+ *   "remotecancel"="RemoteCancelEvent",
+ *   "reclaim"="ReclaimEvent",
+ *   "approve"="ApproveEvent",
+ *   "undo"="UndoEvent"
  * })
  */
 class Event implements EventInterface

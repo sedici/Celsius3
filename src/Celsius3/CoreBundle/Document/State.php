@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
@@ -48,12 +49,12 @@ class State
     private $instance;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="state")
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="state")
      */
     private $events;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="MultiInstanceReceive", mappedBy="remoteState")
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent", mappedBy="remoteState")
      */
     private $remoteEvents;
 
@@ -201,9 +202,9 @@ class State
     /**
      * Add events
      *
-     * @param Celsius3\CoreBundle\Document\Event $events
+     * @param Celsius3\CoreBundle\Document\Event\Event $events
      */
-    public function addEvent(\Celsius3\CoreBundle\Document\Event $events)
+    public function addEvent(\Celsius3\CoreBundle\Document\Event\Event $events)
     {
         $this->events[] = $events;
     }
@@ -211,9 +212,9 @@ class State
     /**
      * Remove events
      *
-     * @param Celsius3\CoreBundle\Document\Event $events
+     * @param Celsius3\CoreBundle\Document\Event\Event $events
      */
-    public function removeEvent(\Celsius3\CoreBundle\Document\Event $events)
+    public function removeEvent(\Celsius3\CoreBundle\Document\Event\Event $events)
     {
         $this->events->removeElement($events);
     }
@@ -231,9 +232,9 @@ class State
     /**
      * Add remoteEvents
      *
-     * @param Celsius3\CoreBundle\Document\MultiInstanceReceive $remoteEvents
+     * @param Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent $remoteEvents
      */
-    public function addRemoteEvent(\Celsius3\CoreBundle\Document\MultiInstanceReceive $remoteEvents)
+    public function addRemoteEvent(\Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent $remoteEvents)
     {
         $this->remoteEvents[] = $remoteEvents;
     }
@@ -241,9 +242,9 @@ class State
     /**
      * Remove remoteEvents
      *
-     * @param Celsius3\CoreBundle\Document\MultiInstanceReceive $remoteEvents
+     * @param Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent $remoteEvents
      */
-    public function removeRemoteEvent(\Celsius3\CoreBundle\Document\MultiInstanceReceive $remoteEvents)
+    public function removeRemoteEvent(\Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent $remoteEvents)
     {
         $this->remoteEvents->removeElement($remoteEvents);
     }
@@ -280,7 +281,6 @@ class State
         return $this->previous;
     }
 
-
     /**
      * Set request
      *
@@ -302,4 +302,5 @@ class State
     {
         return $this->request;
     }
+
 }

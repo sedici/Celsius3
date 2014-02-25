@@ -1,15 +1,15 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\CoreBundle\Document\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Document\Request;
 
 /**
  * @MongoDB\Document
  */
-class LocalCancel extends MultiInstance
+class LocalCancelEvent extends MultiInstanceEvent
 {
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)

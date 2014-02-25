@@ -52,7 +52,7 @@ class Request
     private $files;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="request")
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="request")
      */
     private $events;
 
@@ -76,12 +76,12 @@ class Request
      * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="requests")
      */
     private $order;
-    
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="requests")
      */
     private $previousRequest;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="previousRequest")
      */
@@ -247,9 +247,9 @@ class Request
     /**
      * Add event
      *
-     * @param Celsius3\CoreBundle\Document\Event $event
+     * @param Celsius3\CoreBundle\Document\Event\Event $event
      */
-    public function addEvent(\Celsius3\CoreBundle\Document\Event $event)
+    public function addEvent(\Celsius3\CoreBundle\Document\Event\Event $event)
     {
         $this->events[] = $event;
     }
@@ -257,9 +257,9 @@ class Request
     /**
      * Remove event
      *
-     * @param Celsius3\CoreBundle\Document\Event $event
+     * @param Celsius3\CoreBundle\Document\Event\Event $event
      */
-    public function removeEvent(\Celsius3\CoreBundle\Document\Event $event)
+    public function removeEvent(\Celsius3\CoreBundle\Document\Event\Event $event)
     {
         $this->events->removeElement($event);
     }
@@ -378,8 +378,8 @@ class Request
         return $this->getFiles()
                         ->filter(
                                 function ($entry) use ($event) {
-                                    return ($entry->getEvent()->getId() == $event->getId());
-                                });
+                            return ($entry->getEvent()->getId() == $event->getId());
+                        });
     }
 
     /**
@@ -391,8 +391,8 @@ class Request
         return $this->getFiles()
                         ->filter(
                                 function ($entry) use ($instance) {
-                                    return ($entry->getEvent()->getInstance()->getId() == $instance->getId());
-                                });
+                            return ($entry->getEvent()->getInstance()->getId() == $instance->getId());
+                        });
     }
 
     /**
@@ -404,8 +404,8 @@ class Request
         return $this->getFiles()
                         ->filter(
                                 function ($entry) use ($instance) {
-                                    return ($entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->getIsDownloaded());
-                                });
+                            return ($entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->getIsDownloaded());
+                        });
     }
 
     /**
@@ -416,8 +416,8 @@ class Request
         return ($this->getStates()
                         ->filter(
                                 function ($entry) use ($name) {
-                                    return $entry->getType()->getName() == $name;
-                                })->count() > 0);
+                            return $entry->getType()->getName() == $name;
+                        })->count() > 0);
     }
 
     /**
@@ -429,8 +429,8 @@ class Request
         $result = $this->getStates()
                         ->filter(
                                 function ($entry) use ($name) {
-                                    return $entry->getType()->getName() == $name;
-                                })->first();
+                            return $entry->getType()->getName() == $name;
+                        })->first();
         return false !== $result ? $result : null;
     }
 
@@ -442,11 +442,10 @@ class Request
         $result = $this->getStates()
                         ->filter(
                                 function ($entry) {
-                                    return $entry->getIsCurrent();
-                                })->first();
+                            return $entry->getIsCurrent();
+                        })->first();
         return false !== $result ? $result : null;
     }
-
 
     /**
      * Set previousRequest
@@ -499,4 +498,5 @@ class Request
     {
         return $this->requests;
     }
+
 }

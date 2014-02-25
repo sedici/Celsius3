@@ -1,26 +1,47 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 
 /**
  * @MongoDB\Document
  */
-class Approve extends MultiInstance
+class ReclaimEvent extends SingleInstanceEvent
 {
 
     /**
      * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Event")
      */
+    private $requestEvent;
+
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Event")
+     */
     private $receiveEvent;
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    /**
+     * Set requestEvent
+     *
+     * @param Celsius3\CoreBundle\Document\Event $requestEvent
+     * @return self
+     */
+    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event $requestEvent)
     {
-        $this->setReceiveEvent($data['extraData']['receive']);
+        $this->requestEvent = $requestEvent;
+        return $this;
+    }
+
+    /**
+     * Get requestEvent
+     *
+     * @return Celsius3\CoreBundle\Document\Event $requestEvent
+     */
+    public function getRequestEvent()
+    {
+        return $this->requestEvent;
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Event;
+use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\File;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\FileDownload;

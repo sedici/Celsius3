@@ -539,12 +539,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineFixturesBundle.git",
-                "reference": "42ac886c2c669d793dc9d6258a7296edb0d5e933"
+                "reference": "351bcc4de9ff58bac8d72bb3ef0b7481377bb25e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/42ac886c2c669d793dc9d6258a7296edb0d5e933",
-                "reference": "42ac886c2c669d793dc9d6258a7296edb0d5e933",
+                "url": "https://api.github.com/repos/doctrine/DoctrineFixturesBundle/zipball/351bcc4de9ff58bac8d72bb3ef0b7481377bb25e",
+                "reference": "351bcc4de9ff58bac8d72bb3ef0b7481377bb25e",
                 "shasum": ""
             },
             "require": {
@@ -570,8 +570,10 @@
             ],
             "authors": [
                 {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
+                    "name": "Fabien Potencier2",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
                 },
                 {
                     "name": "Symfony Community",
@@ -588,7 +590,7 @@
                 "Fixture",
                 "persistence"
             ],
-            "time": "2013-12-31 08:56:10"
+            "time": "2014-02-22 15:01:12"
         },
         {
             "name": "doctrine/inflector",
@@ -783,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "db5fd69432d2e5c031529e4a6a79e8da60b74dff"
+                "reference": "3743acb256eb91a377d525cd2ed03a6b5e7ddf10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/db5fd69432d2e5c031529e4a6a79e8da60b74dff",
-                "reference": "db5fd69432d2e5c031529e4a6a79e8da60b74dff",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/3743acb256eb91a377d525cd2ed03a6b5e7ddf10",
+                "reference": "3743acb256eb91a377d525cd2ed03a6b5e7ddf10",
                 "shasum": ""
             },
             "require": {
@@ -853,7 +855,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-02-09 14:57:03"
+            "time": "2014-02-24 20:26:49"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1030,12 +1032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "bd3a2b2ba11b8724f079c1379bb3a94e59cb1b68"
+                "reference": "2d18aa7311d985fdde85d68b27ca13aca921780f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/bd3a2b2ba11b8724f079c1379bb3a94e59cb1b68",
-                "reference": "bd3a2b2ba11b8724f079c1379bb3a94e59cb1b68",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/2d18aa7311d985fdde85d68b27ca13aca921780f",
+                "reference": "2d18aa7311d985fdde85d68b27ca13aca921780f",
                 "shasum": ""
             },
             "require": {
@@ -1082,7 +1084,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2014-01-22 22:52:42"
+            "time": "2014-02-24 10:41:22"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1091,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "2e2e1e98908060f53960cc3172261134c4db4ede"
+                "reference": "4b6ac2e8c40ef6ad2a76f0c206b29594c078470f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/2e2e1e98908060f53960cc3172261134c4db4ede",
-                "reference": "2e2e1e98908060f53960cc3172261134c4db4ede",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/4b6ac2e8c40ef6ad2a76f0c206b29594c078470f",
+                "reference": "4b6ac2e8c40ef6ad2a76f0c206b29594c078470f",
                 "shasum": ""
             },
             "require": {
@@ -1160,7 +1162,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-02-09 15:56:45"
+            "time": "2014-02-23 01:16:41"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1237,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "7b4d01a928fb1a2c792f8f6659ea7316d14ca1c9"
+                "reference": "61a62d67ec2d5a19aa653ffe411f312e306556be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7b4d01a928fb1a2c792f8f6659ea7316d14ca1c9",
-                "reference": "7b4d01a928fb1a2c792f8f6659ea7316d14ca1c9",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/61a62d67ec2d5a19aa653ffe411f312e306556be",
+                "reference": "61a62d67ec2d5a19aa653ffe411f312e306556be",
                 "shasum": ""
             },
             "require": {
@@ -1275,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-02-06 22:17:25"
+            "time": "2014-02-24 21:51:30"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1825,12 +1827,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSI18nRoutingBundle.git",
-                "reference": "b3710ab158de78a87bcba2cf000bff4569ae0ebe"
+                "reference": "781e44ed7f84462bdec1823c5e4bae5549c31da2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSI18nRoutingBundle/zipball/b3710ab158de78a87bcba2cf000bff4569ae0ebe",
-                "reference": "b3710ab158de78a87bcba2cf000bff4569ae0ebe",
+                "url": "https://api.github.com/repos/schmittjoh/JMSI18nRoutingBundle/zipball/781e44ed7f84462bdec1823c5e4bae5549c31da2",
+                "reference": "781e44ed7f84462bdec1823c5e4bae5549c31da2",
                 "shasum": ""
             },
             "require": {
@@ -1884,7 +1886,7 @@
                 "routing",
                 "translation"
             ],
-            "time": "2014-02-21 15:48:50"
+            "time": "2014-02-24 11:42:02"
         },
         {
             "name": "jms/metadata",

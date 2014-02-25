@@ -64,7 +64,7 @@ class Instance extends LegacyInstance
     protected $catalogs;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Event", mappedBy="instance")
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="instance")
      */
     protected $events;
 
@@ -423,9 +423,9 @@ class Instance extends LegacyInstance
     /**
      * Add events
      *
-     * @param Celsius3\CoreBundle\Document\Event $events
+     * @param Celsius3\CoreBundle\Document\Event\Event $events
      */
-    public function addEvent(\Celsius3\CoreBundle\Document\Event $events)
+    public function addEvent(\Celsius3\CoreBundle\Document\Event\Event $events)
     {
         $this->events[] = $events;
     }
@@ -433,9 +433,9 @@ class Instance extends LegacyInstance
     /**
      * Remove events
      *
-     * @param Celsius3\CoreBundle\Document\Event $events
+     * @param Celsius3\CoreBundle\Document\Event\Event $events
      */
-    public function removeEvent(\Celsius3\CoreBundle\Document\Event $events)
+    public function removeEvent(\Celsius3\CoreBundle\Document\Event\Event $events)
     {
         $this->events->removeElement($events);
     }

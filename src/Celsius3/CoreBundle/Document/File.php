@@ -57,7 +57,7 @@ class File
     private $request;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Event", inversedBy="files")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event", inversedBy="files")
      */
     private $event;
 
@@ -269,10 +269,10 @@ class File
     /**
      * Set event
      *
-     * @param Celsius3\CoreBundle\Document\Event $event
+     * @param Celsius3\CoreBundle\Document\Event\Event $event
      * @return self
      */
-    public function setEvent(\Celsius3\CoreBundle\Document\Event $event)
+    public function setEvent(\Celsius3\CoreBundle\Document\Event\Event $event)
     {
         $this->event = $event;
         return $this;
@@ -281,7 +281,7 @@ class File
     /**
      * Get event
      *
-     * @return Celsius3\CoreBundle\Document\Event $event
+     * @return Celsius3\CoreBundle\Document\Event\Event $event
      */
     public function getEvent()
     {

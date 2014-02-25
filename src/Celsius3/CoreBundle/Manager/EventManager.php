@@ -5,21 +5,20 @@ namespace Celsius3\CoreBundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Celsius3\CoreBundle\Document\Approve;
-use Celsius3\CoreBundle\Document\Event;
+use Celsius3\CoreBundle\Document\Event\Approve;
+use Celsius3\CoreBundle\Document\Event\Event;
+use Celsius3\CoreBundle\Document\Event\SingleInstanceReceive;
+use Celsius3\CoreBundle\Document\Event\SingleInstanceRequest;
+use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Institution;
-use Celsius3\CoreBundle\Document\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Document\SingleInstanceReceive;
-use Celsius3\CoreBundle\Document\SingleInstanceRequest;
 use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Form\Type\OrderReceiveType;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\Reclaim;
 use Celsius3\CoreBundle\Form\Type\OrderReclaimType;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 
 class EventManager
 {

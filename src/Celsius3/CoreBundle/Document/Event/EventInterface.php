@@ -1,8 +1,9 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\CoreBundle\Document\Event;
 
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Document\Request;
 
 interface EventInterface
 {

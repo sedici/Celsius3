@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius3\CoreBundle\Document;
+namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
@@ -10,11 +10,12 @@ use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Document\Mixin\CancellableTrait;
 use Celsius3\CoreBundle\Document\Mixin\ProviderTrait;
 use Celsius3\CoreBundle\Document\Mixin\AnnullableTrait;
+use Celsius3\CoreBundle\Document\Request;
 
 /**
  * @MongoDB\Document
  */
-class MultiInstanceRequest extends MultiInstance
+class MultiInstanceRequestEvent extends MultiInstanceEvent
 {
 
     use AnnullableTrait,
