@@ -13,22 +13,22 @@ class ReclaimEvent extends SingleInstanceEvent
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Event")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $requestEvent;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Event")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $receiveEvent;
 
     /**
      * Set requestEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event $requestEvent
+     * @param Celsius3\CoreBundle\Document\Event\Event $requestEvent
      * @return self
      */
-    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event $requestEvent)
+    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
         return $this;
@@ -37,7 +37,7 @@ class ReclaimEvent extends SingleInstanceEvent
     /**
      * Get requestEvent
      *
-     * @return Celsius3\CoreBundle\Document\Event $requestEvent
+     * @return Celsius3\CoreBundle\Document\Event\Event $requestEvent
      */
     public function getRequestEvent()
     {
@@ -47,10 +47,10 @@ class ReclaimEvent extends SingleInstanceEvent
     /**
      * Set receiveEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event $receiveEvent
+     * @param Celsius3\CoreBundle\Document\Event\Event $receiveEvent
      * @return self
      */
-    public function setReceiveEvent(\Celsius3\CoreBundle\Document\Event $receiveEvent)
+    public function setReceiveEvent(\Celsius3\CoreBundle\Document\Event\Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
         return $this;
@@ -59,7 +59,7 @@ class ReclaimEvent extends SingleInstanceEvent
     /**
      * Get receiveEvent
      *
-     * @return Celsius3\CoreBundle\Document\Event $receiveEvent
+     * @return Celsius3\CoreBundle\Document\Event\Event $receiveEvent
      */
     public function getReceiveEvent()
     {

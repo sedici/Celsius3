@@ -36,7 +36,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Event")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $requestEvent;
 
@@ -133,10 +133,10 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     /**
      * Set requestEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event $requestEvent
+     * @param Celsius3\CoreBundle\Document\Event\Event $requestEvent
      * @return self
      */
-    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event $requestEvent)
+    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
         return $this;
@@ -145,7 +145,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     /**
      * Get requestEvent
      *
-     * @return Celsius3\CoreBundle\Document\Event $requestEvent
+     * @return Celsius3\CoreBundle\Document\Event\Event $requestEvent
      */
     public function getRequestEvent()
     {

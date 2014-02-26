@@ -15,7 +15,7 @@ class ApproveEvent extends MultiInstanceEvent
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Event")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $receiveEvent;
 
@@ -27,10 +27,10 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Set receiveEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event $receiveEvent
+     * @param Celsius3\CoreBundle\Document\Event\Event $receiveEvent
      * @return self
      */
-    public function setReceiveEvent(\Celsius3\CoreBundle\Document\Event $receiveEvent)
+    public function setReceiveEvent(\Celsius3\CoreBundle\Document\Event\Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
         return $this;
@@ -39,7 +39,7 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Get receiveEvent
      *
-     * @return Celsius3\CoreBundle\Document\Event $receiveEvent
+     * @return Celsius3\CoreBundle\Document\Event\Event $receiveEvent
      */
     public function getReceiveEvent()
     {

@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Document\Request;
+
 /**
  * @MongoDB\Document
  */
@@ -28,7 +29,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Event")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $requestEvent;
 
@@ -99,10 +100,10 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     /**
      * Set requestEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event $requestEvent
+     * @param Celsius3\CoreBundle\Document\Event\Event $requestEvent
      * @return self
      */
-    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event $requestEvent)
+    public function setRequestEvent(\Celsius3\CoreBundle\Document\Event\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
         return $this;
@@ -111,7 +112,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     /**
      * Get requestEvent
      *
-     * @return Celsius3\CoreBundle\Document\Event $requestEvent
+     * @return Celsius3\CoreBundle\Document\Event\Event $requestEvent
      */
     public function getRequestEvent()
     {
