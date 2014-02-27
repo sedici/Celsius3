@@ -87,6 +87,11 @@ class Request
      */
     private $requests;
 
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="CatalogSearch", mappedBy="request")
+     */
+    private $searches;
+
     public function __construct()
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
@@ -497,6 +502,36 @@ class Request
     public function getRequests()
     {
         return $this->requests;
+    }
+
+    /**
+     * Add search
+     *
+     * @param Celsius3\CoreBundle\Document\CatalogSearch $search
+     */
+    public function addSearch(\Celsius3\CoreBundle\Document\CatalogSearch $search)
+    {
+        $this->searches[] = $search;
+    }
+
+    /**
+     * Remove search
+     *
+     * @param Celsius3\CoreBundle\Document\CatalogSearch $search
+     */
+    public function removeSearch(\Celsius3\CoreBundle\Document\CatalogSearch $search)
+    {
+        $this->searches->removeElement($search);
+    }
+
+    /**
+     * Get searches
+     *
+     * @return Doctrine\Common\Collections\Collection $searches
+     */
+    public function getSearches()
+    {
+        return $this->searches;
     }
 
 }

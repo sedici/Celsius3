@@ -31,7 +31,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="request-modal-label">{{'Request'}}</h3>
             </div>
-            <div class="modal-body" ng-include="requestFormUrl" ng-bind-html-unsafe="requestFormResponse" onload="selec2()">
+            <div class="modal-body" onload="applySelect2()" ng-include="requestFormUrl">
                 
             </div>
             <div class="modal-footer">

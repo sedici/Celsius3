@@ -36,7 +36,7 @@ class CatalogSearch
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Request")
+     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="searches")
      */
     private $request;
 

@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\SingleInstanceRequest;
+use Celsius3\CoreBundle\Document\Event\SingleInstanceRequestEvent;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
@@ -215,7 +215,7 @@ class AdminOrderController extends OrderController
             throw $this->createNotFoundException('Unable to find Order.');
         }
 
-        $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), $this->get('celsius3_core.event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView();
+        $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), $this->get('celsius3_core.event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequestEvent())->createView();
 
         return array(
             'document' => $document,

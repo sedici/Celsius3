@@ -36,24 +36,25 @@ class EventManager
     const EVENT__LOCAL_CANCEL = 'lcancel';
     const EVENT__REMOTE_CANCEL = 'rcancel';
     const EVENT__ANNUL = 'annul';
-
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
 
-    private $class_prefix = 'Celsius3\\CoreBundle\\Document\\';
-    public $event_classes = array(self::EVENT__CREATION => 'Creation',
-        self::EVENT__SEARCH => 'Search',
-        self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequest',
-        self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequest',
-        self::EVENT__APPROVE => 'Approve',
-        self::EVENT__RECLAIM => 'Reclaim',
-        self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceive',
-        self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceive',
-        self::EVENT__DELIVER => 'Deliver', self::EVENT__CANCEL => 'Cancel',
-        self::EVENT__LOCAL_CANCEL => 'LocalCancel',
-        self::EVENT__REMOTE_CANCEL => 'RemoteCancel',
-        self::EVENT__ANNUL => 'Annul',);
+    private $class_prefix = 'Celsius3\\CoreBundle\\Document\\Event\\';
+    public $event_classes = array(
+        self::EVENT__CREATION => 'CreationEvent',
+        self::EVENT__SEARCH => 'SearchEvent',
+        self::EVENT__SINGLE_INSTANCE_REQUEST => 'SingleInstanceRequestEvent',
+        self::EVENT__MULTI_INSTANCE_REQUEST => 'MultiInstanceRequestEvent',
+        self::EVENT__APPROVE => 'ApproveEvent',
+        self::EVENT__RECLAIM => 'ReclaimEvent',
+        self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceiveEvent',
+        self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceiveEvent',
+        self::EVENT__DELIVER => 'Deliver', self::EVENT__CANCEL => 'CancelEvent',
+        self::EVENT__LOCAL_CANCEL => 'LocalCancelEvent',
+        self::EVENT__REMOTE_CANCEL => 'RemoteCancelEvent',
+        self::EVENT__ANNUL => 'AnnulEvent',
+    );
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -336,8 +337,8 @@ class EventManager
             $event = $event->getState()->getPrevious()->getRemoteEvents()
                             ->filter(
                                     function ($entry) use ($event) {
-                                        return ($entry->getId() == $event->getReceiveEvent()->getId());
-                                    })->first();
+                                return ($entry->getId() == $event->getReceiveEvent()->getId());
+                            })->first();
             $isApproveEvent = true;
         }
 

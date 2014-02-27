@@ -119,7 +119,7 @@ class LifecycleHelper
     }
 
     /**
-     * Receives the event name and the order document and creates the appropiate
+     * Receives the event name and the request document and creates the appropiate
      * event and state
      *
      * @param string $name The event name

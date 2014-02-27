@@ -785,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "3743acb256eb91a377d525cd2ed03a6b5e7ddf10"
+                "reference": "e99d818b4224b35fab38abc230696d9282a1ecea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/3743acb256eb91a377d525cd2ed03a6b5e7ddf10",
-                "reference": "3743acb256eb91a377d525cd2ed03a6b5e7ddf10",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/e99d818b4224b35fab38abc230696d9282a1ecea",
+                "reference": "e99d818b4224b35fab38abc230696d9282a1ecea",
                 "shasum": ""
             },
             "require": {
@@ -855,7 +855,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-02-24 20:26:49"
+            "time": "2014-02-27 04:04:39"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1032,12 +1032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "2d18aa7311d985fdde85d68b27ca13aca921780f"
+                "reference": "a9818ce3095af5dae9758f5feca9c7adbaa930ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/2d18aa7311d985fdde85d68b27ca13aca921780f",
-                "reference": "2d18aa7311d985fdde85d68b27ca13aca921780f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/a9818ce3095af5dae9758f5feca9c7adbaa930ba",
+                "reference": "a9818ce3095af5dae9758f5feca9c7adbaa930ba",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1084,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2014-02-24 10:41:22"
+            "time": "2014-02-26 22:17:49"
         },
         {
             "name": "friendsofsymfony/rest-bundle",

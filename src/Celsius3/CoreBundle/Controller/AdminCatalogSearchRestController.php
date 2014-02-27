@@ -64,16 +64,16 @@ class AdminCatalogSearchRestController extends BaseInstanceDependentRestControll
      */
     public function createCatalogSearchAction($request_id)
     {
-        $request = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:Request')
+        $dm = $this->getDocumentManager();
+
+        $request = $dm->getRepository('Celsius3CoreBundle:Request')
                 ->find($request_id);
 
         if (!$request) {
             return $this->createNotFoundException('Request not found.');
         }
 
-        $catalog = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:Catalog')
+        $catalog = $dm->getRepository('Celsius3CoreBundle:Catalog')
                 ->find($this->getRequest()->request->get('catalog[id]', null, true));
 
         if (!$catalog) {
@@ -84,8 +84,7 @@ class AdminCatalogSearchRestController extends BaseInstanceDependentRestControll
             return $this->createNotFoundException('Result not found.');
         }
 
-        $document = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:CatalogSearch')
+        $document = $dm->getRepository('Celsius3CoreBundle:CatalogSearch')
                 ->findOneBy(array(
             'catalog.id' => $catalog->getId(),
             'request.id' => $request->getId(),
@@ -101,10 +100,10 @@ class AdminCatalogSearchRestController extends BaseInstanceDependentRestControll
         $document->setDate(date('Y-m-d H:i:s'));
         $document->setResult($this->getRequest()->request->get('result'));
 
-        $this->getDocumentManager()->persist($document);
-        $this->getDocumentManager()->flush();
+        $dm->persist($document);
+        $dm->flush();
 
-        $this->getDocumentManager()->refresh($document);
+        $dm->refresh($document);
 
         $view = $this->view($document, 200)
                 ->setFormat('json');

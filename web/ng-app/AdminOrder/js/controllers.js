@@ -41,14 +41,13 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         });
     });
 
-    $scope.requestFormUrl = Routing.generate('admin_order_request_form', {id: document_id});
-
-    $scope.select2 = function() {
-        console.log('hola');
+    $scope.applySelect2 = function() {
         $(".country-select").select2();
         $(".city-select").select2();
         $(".institution-select").select2();
     }
+
+    $scope.requestFormUrl = Routing.generate('admin_order_request_form', {id: document_id});
 
     $scope.updateTables = function() {
         $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {

@@ -23,8 +23,7 @@ function loadInstitutions(json) {
         name: '',
         level: 1,
         hasChildren: false,
-        children: [],
-        form: form_name
+        children: []
     };
     $('select.institution-select').append(ich.institution(institution_data));
 
@@ -35,15 +34,14 @@ function loadInstitutions(json) {
             name: val.name,
             level: val.level,
             hasChildren: val.hasChildren,
-            children: val.children,
-            form: form_name
+            children: val.children
         };
         $('select.institution-select').append(ich.institution(institution_data));
     });
     refresh();
 }
 
-$('select.country-select').change(function() {
+$(document).on('change', 'select.country-select', function() {
     $('select.institution-select').children().remove();
     $('.institution-select').select2('val', '');
     $('select.city-select').children().remove();
@@ -74,7 +72,7 @@ $('select.country-select').change(function() {
     }
 });
 
-$('select.city-select').change(function() {
+$(document).on('change', 'select.city-select', function() {
     $('select.institution-select').children().remove();
     $('.institution-select').select2('val', '');
     if ($(this).val()) {
@@ -91,7 +89,7 @@ $('select.city-select').change(function() {
     }
 });
 
-$('.filter-select').change(function() {
+$(document).on('change', '.filter-select', function() {
     filter = $(this).val();
     if ($('select.city-select').val() !== '') {
         $('select.city-select').change();
