@@ -6,11 +6,11 @@
             <dt>{{ 'Country'|trans }}</dt>
             <dd>{{ get_country(element.institution) }}</dd>
             <dt>{{ 'City'|trans }}</dt>
-            <dd>{{ get_city(element.institution) }}</dd>
+            <dd>{{ get_city(element.institution) ? get_city(element.institution) : '-' }}</dd>
             <dt>{{ 'Birthdate'|trans }}</dt>
             <dd>{{ element.birthdate|localizeddate('medium','none') }}</dd>
             <dt>{{ 'Address'|trans }}</dt>
-            <dd>{{ element.address }}</dd>
+            <dd>{{ element.address ? element.address : '-' }}</dd>
             <dt>{{ 'Email'|trans }}</dt>
             <dd>{{ element.email }}</dd>
             {% for customValue in element.customValues %}

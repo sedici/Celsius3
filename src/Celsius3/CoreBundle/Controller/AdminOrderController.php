@@ -245,17 +245,12 @@ class AdminOrderController extends OrderController
         }
 
         if ($this->get('celsius3_core.lifecycle_helper')->createEvent($event, $order->getRequest($this->getInstance()))) {
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'The state has been successfully changed.');
+            $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
         } else {
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'There was an error processing your request.');
+            $this->get('session')->getFlashBag()->add('success', 'There was an error processing your request.');
         }
 
-        return $this
-                        ->redirect(
-                                $this
-                                ->generateUrl('admin_order_show', array('id' => $order->getId())));
+        return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
     }
 
     /**

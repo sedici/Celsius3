@@ -1,0 +1,50 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+{{ 'User View'|trans }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ 'User View'|trans }}</h2>
+
+<div class="row">
+    <h3>{{ 'Personal data'|trans }}</h3>
+    {% include 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
+
+    <h3>{{ 'Institutional data'|trans }}</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="dl-horizontal">
+                <dt>{{ 'Institution'|trans }}</dt>
+                <dd>{{ element.institution }}</dd>
+                <dt>...</dt>
+                <dd>...</dd>
+            </dl>
+        </div>
+    </div>
+
+    <h3>{{ 'Orders'|trans }}</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#active" data-toggle="tab">{{ 'Active'|trans }}</a></li>
+                <li><a href="#ready" data-toggle="tab">{{ 'Ready'|trans }}</a></li>
+                <li><a href="#history" data-toggle="tab">{{ 'History'|trans }}</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="active">
+                    
+                </div>
+                <div class="tab-pane" id="ready">
+                    
+                </div>
+                <div class="tab-pane" id="history">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

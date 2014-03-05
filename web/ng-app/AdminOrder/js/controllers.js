@@ -70,4 +70,10 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
         $scope.updateTables();
     }
+
+    $scope.submit = function() {
+        // Add your own logic, for example show the response your received from Symfony2
+        // We have to explictly compile the data received, to parse AngularJS tags
+        $scope.formResponse = $compile(data)($scope);
+    }
 });

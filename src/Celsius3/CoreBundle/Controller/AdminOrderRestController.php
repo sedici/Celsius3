@@ -4,6 +4,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 
 /**
  * User controller.
@@ -46,6 +47,25 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         }
 
         $view = $this->view($order, 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Post("/{id}/event/{event}", name="admin_rest_order_event", options={"expose"=true})
+     */
+    public function registerEventAction($id, $event)
+    {
+        $order = $this->findQuery('Order', $id);
+
+        if (!$order) {
+            throw $this->createNotFoundException('Unable to find Order.');
+        }
+
+        $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $order->getRequest($this->getInstance()));
+
+        $view = $this->view($result, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

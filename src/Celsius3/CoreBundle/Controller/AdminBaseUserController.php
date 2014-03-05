@@ -30,7 +30,28 @@ class AdminBaseUserController extends BaseUserController
     {
         return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType($this->getInstance())));
     }
-    
+
+    /**
+     * Shows the data of a user
+     *
+     * @Route("/{id}/show", name="admin_user_show")
+     * @Template()
+     *
+     * @return array
+     */
+    public function showAction($id)
+    {
+        $document = $this->findQuery('BaseUser', $id);
+
+        if (!$document) {
+            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+        }
+
+        return array(
+            'element' => $document,
+        );
+    }
+
     /**
      * Shows the data of a user in a modal
      *
@@ -46,7 +67,7 @@ class AdminBaseUserController extends BaseUserController
         if (!$document) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
-        
+
         return array(
             'element' => $document,
         );

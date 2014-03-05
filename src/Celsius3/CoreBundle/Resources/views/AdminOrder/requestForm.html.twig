@@ -1,3 +1,3 @@
-<form id="requestForm" action="{{ path('admin_order_event', { 'id': document.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post" class="form-horizontal">
+<form id="requestForm" ng-submit="submitRequest()" action="{{ path('admin_rest_order_event', { 'id': document.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__REQUEST') })|raw }}" method="post" class="form-horizontal">
     {{ form_widget(form, {'form_type': 'horizontal'}) }}
 </form>
