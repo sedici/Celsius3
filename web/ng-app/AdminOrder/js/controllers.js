@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch) {
+orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch, Country) {
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
         update: function(event, ui) {
@@ -41,6 +41,8 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         });
     });
 
+    $scope.countries = Country.query();
+
     $scope.applySelect2 = function() {
         $(".country-select").select2();
         $(".city-select").select2();
@@ -76,4 +78,14 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         // We have to explictly compile the data received, to parse AngularJS tags
         $scope.formResponse = $compile(data)($scope);
     }
+
+    $scope.$watch('country', function(newVal) {
+        if (newVal)
+            $scope.cities = ['Los Angeles', 'San Francisco'];
+    });
+
+    $scope.$watch('city', function(newVal) {
+        if (newVal)
+            $scope.institutions = ['SOMA', 'Richmond', 'Sunset'];
+    });
 });

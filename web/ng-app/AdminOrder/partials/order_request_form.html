@@ -1,0 +1,35 @@
+<form class="form-horizontal" ng-submit="submitRequest()" id="requestForm">
+    <div class="form_group">
+        <label for="observations">{{'Observations'}}</label>
+        <textarea class=" form-control" name="observations" id="observations"></textarea>
+    </div>
+    <div class="form_group">
+        <label>{{'Filter'}}</label>
+        <div class="filter-select" id="filter">
+            <input type="radio" checked="checked" value="" name="filter" id="filter_placeholder">
+            <label for="filter_placeholder">All</label>
+            <input type="radio" value="liblink" name="filter" id="filter_0">
+            <label for="filter_0">Liblink</label>
+            <input type="radio" value="celsius3" name="filter" id="filter_1">
+            <label for="filter_1">Celsius3</label>
+        </div>
+    </div>
+    <div class="form_group">
+        <label for="country">{{'Country'}}</label>
+        <select ng-model="country" name="country" ng-options="c.id as c.name for c in countries" id="country">
+            
+        </select>
+    </div>
+    <div class="form_group">
+        <label for="city">{{'City'}}</label>
+        <select ng-model="city" name="city" id="city" ng-disabled="!cities" ng-options="c.id as c.name for c in cities">
+            
+        </select>
+    </div>
+    <div class="form_group">
+        <label for="institution">{{'Institution'}}</label>
+        <select ng-model="institution" name="institution" id="institution" ng-disabled="!institutions" ng-options="i.id as i.name for i in institutions">
+            
+        </select>
+    </div>
+</form>
