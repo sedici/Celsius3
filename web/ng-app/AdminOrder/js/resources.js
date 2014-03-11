@@ -33,3 +33,9 @@ orderApp.factory('City', ['$resource', function($resource) {
                 {country_id: '@country_id'},
         {charge: {method: 'POST', params: {charge: true}}});
     }]);
+
+orderApp.factory('Institution', ['$resource', function($resource) {
+        return $resource(Routing.generate('admin_rest_institution') + '/:country_id' + '/:city_id',
+                {country_id: '@country_id', city_id: '@city_id'},
+        {charge: {method: 'POST', params: {charge: true}}});
+    }]);

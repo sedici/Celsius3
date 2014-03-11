@@ -864,12 +864,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "b9a52dc9961d63f837af3b1bdbbb7759476d91d9"
+                "reference": "037e4d054364abd5ece804440fd8242639b021d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/b9a52dc9961d63f837af3b1bdbbb7759476d91d9",
-                "reference": "b9a52dc9961d63f837af3b1bdbbb7759476d91d9",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/037e4d054364abd5ece804440fd8242639b021d6",
+                "reference": "037e4d054364abd5ece804440fd8242639b021d6",
                 "shasum": ""
             },
             "require": {
@@ -926,7 +926,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2014-02-04 16:15:58"
+            "time": "2014-03-10 15:20:26"
         },
         {
             "name": "evenement/evenement",
@@ -1093,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "e443de2a62472d64415f2cfa6ab496c4d98c6038"
+                "reference": "13bcb1d6180115c96c0e4b78a50255b75f3d6185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/e443de2a62472d64415f2cfa6ab496c4d98c6038",
-                "reference": "e443de2a62472d64415f2cfa6ab496c4d98c6038",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/13bcb1d6180115c96c0e4b78a50255b75f3d6185",
+                "reference": "13bcb1d6180115c96c0e4b78a50255b75f3d6185",
                 "shasum": ""
             },
             "require": {
@@ -1106,8 +1106,8 @@
                 "php": ">=5.3.2",
                 "psr/log": "~1.0",
                 "symfony/framework-bundle": "~2.2",
-                "willdurand/jsonp-callback-validator": "~1.0.0",
-                "willdurand/negotiation": "~1.2.0"
+                "willdurand/jsonp-callback-validator": "~1.0",
+                "willdurand/negotiation": "~1.2"
             },
             "conflict": {
                 "jms/serializer": "<0.12",
@@ -1130,7 +1130,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1162,7 +1162,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-03-05 19:43:05"
+            "time": "2014-03-11 08:23:18"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1239,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "5be755ad0f9e1e968249ef3cfd4ebbcb51d9f6a7"
+                "reference": "6504aec2652751f464939f54461b880efa51c203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/5be755ad0f9e1e968249ef3cfd4ebbcb51d9f6a7",
-                "reference": "5be755ad0f9e1e968249ef3cfd4ebbcb51d9f6a7",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/6504aec2652751f464939f54461b880efa51c203",
+                "reference": "6504aec2652751f464939f54461b880efa51c203",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-03-06 13:55:13"
+            "time": "2014-03-11 08:25:24"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3625,16 +3625,16 @@
         },
         {
             "name": "willdurand/jsonp-callback-validator",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/JsonpCallbackValidator.git",
-                "reference": "58c0a6c76718794856f7049cf066fdda4e984c49"
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/58c0a6c76718794856f7049cf066fdda4e984c49",
-                "reference": "58c0a6c76718794856f7049cf066fdda4e984c49",
+                "url": "https://api.github.com/repos/willdurand/JsonpCallbackValidator/zipball/1a7d388bb521959e612ef50c5c7b1691b097e909",
+                "reference": "1a7d388bb521959e612ef50c5c7b1691b097e909",
                 "shasum": ""
             },
             "require": {
@@ -3655,26 +3655,26 @@
             ],
             "authors": [
                 {
-                    "name": "William DURAND",
+                    "name": "William Durand",
                     "email": "william.durand1@gmail.com",
                     "homepage": "http://www.willdurand.fr"
                 }
             ],
             "description": "JSONP callback validator.",
-            "time": "2013-10-21 12:01:32"
+            "time": "2014-01-20 22:35:06"
         },
         {
             "name": "willdurand/negotiation",
-            "version": "1.2.3",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/willdurand/Negotiation.git",
-                "reference": "d1347ba8208a449c5aa0bf13cd7b65298c59257e"
+                "reference": "cda64e26a980f433ce98200ba1b2301850489aab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/d1347ba8208a449c5aa0bf13cd7b65298c59257e",
-                "reference": "d1347ba8208a449c5aa0bf13cd7b65298c59257e",
+                "url": "https://api.github.com/repos/willdurand/Negotiation/zipball/cda64e26a980f433ce98200ba1b2301850489aab",
+                "reference": "cda64e26a980f433ce98200ba1b2301850489aab",
                 "shasum": ""
             },
             "require": {
@@ -3683,7 +3683,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -3711,7 +3711,7 @@
                 "header",
                 "negotiation"
             ],
-            "time": "2014-02-28 14:39:44"
+            "time": "2014-02-26 13:56:25"
         }
     ],
     "packages-dev": [

@@ -16,19 +16,19 @@
     </div>
     <div class="form_group">
         <label for="country">{{'Country'}}</label>
-        <select ng-model="country" name="country" ng-options="c.id as c.name for c in countries" id="country">
+        <select ng-model="select.country" name="country" id="country" ng-options="c.name for c in countries" ng-change="countryChanged()">
             
         </select>
     </div>
     <div class="form_group">
         <label for="city">{{'City'}}</label>
-        <select ng-model="city" name="city" id="city" ng-disabled="!cities" ng-options="c.id as c.name for c in cities">
+        <select ng-model="select.city" name="city" id="city" ng-disabled="!cities" ng-options="c.name for c in cities" ng-change="cityChanged()">
             
         </select>
     </div>
     <div class="form_group">
         <label for="institution">{{'Institution'}}</label>
-        <select ng-model="institution" name="institution" id="institution" ng-disabled="!institutions" ng-options="i.id as i.name for i in institutions">
+        <select ng-model="select.institution" name="institution" id="institution" ng-disabled="!institutions" ng-options="i.name for i in institutions">
             
         </select>
     </div>

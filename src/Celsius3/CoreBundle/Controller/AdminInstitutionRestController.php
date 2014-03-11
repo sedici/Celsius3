@@ -9,20 +9,20 @@ use FOS\RestBundle\Controller\Annotations\Post;
 /**
  * User controller.
  *
- * @Route("/admin/rest/city")
+ * @Route("/admin/rest/institution")
  */
-class AdminCityRestController extends BaseInstanceDependentRestController
+class AdminInstitutionRestController extends BaseInstanceDependentRestController
 {
 
     /**
      * GET Route annotation.
-     * @Get("/{country_id}", name="admin_rest_city", options={"expose"=true})
+     * @Get("/{country_id}", name="admin_rest_institution", options={"expose"=true})
      */
-    public function getCitiesAction($country_id)
+    public function getInstitutionsAction($country_id)
     {
         $dm = $this->getDocumentManager();
 
-        $countries = $dm->getRepository('Celsius3CoreBundle:City')
+        $countries = $dm->getRepository('Celsius3CoreBundle:Institution')
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id);
 
         $view = $this->view(array_values($countries), 200)
@@ -33,17 +33,17 @@ class AdminCityRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_city_get", options={"expose"=true})
+     * @Get("/{id}", name="admin_rest_institution_get", options={"expose"=true})
      */
-    public function getCityAction($id)
+    public function getInstitutionAction($id)
     {
         $dm = $this->getDocumentManager();
 
-        $institution = $dm->getRepository('Celsius3CoreBundle:City')
+        $institution = $dm->getRepository('Celsius3CoreBundle:Institution')
                 ->find($id);
 
         if (!$institution) {
-            return $this->createNotFoundException('City not found.');
+            return $this->createNotFoundException('Institution not found.');
         }
 
         $view = $this->view($institution, 200)

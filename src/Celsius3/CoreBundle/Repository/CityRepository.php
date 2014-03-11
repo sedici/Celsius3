@@ -14,16 +14,15 @@ class CityRepository extends DocumentRepository
                 ->createQueryBuilder();
 
         $qb = $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
-                ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
-                ->getQuery()
-                ->execute()
-                ->toArray();
+                ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()));
 
         if (!is_null($country_id)) {
             $qb = $qb->field('country.id')->equals($country_id);
         }
 
-        return $qb;
+        return $qb->getQuery()
+                        ->execute()
+                        ->toArray();
     }
 
 }

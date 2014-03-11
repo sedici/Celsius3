@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch, Country) {
+orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch, Country, City, Institution) {
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
         update: function(event, ui) {
@@ -42,11 +42,16 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
     });
 
     $scope.countries = Country.query();
+    $scope.select = {
+        country: {},
+        city: {},
+        institution: {}
+    };
 
     $scope.applySelect2 = function() {
-        $(".country-select").select2();
-        $(".city-select").select2();
-        $(".institution-select").select2();
+        $("#country").select2();
+        $("#city").select2();
+        $("#institution").select2();
     }
 
     $scope.requestFormUrl = Routing.generate('admin_order_request_form', {id: document_id});
@@ -79,13 +84,12 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         $scope.formResponse = $compile(data)($scope);
     }
 
-    $scope.$watch('country', function(newVal) {
-        if (newVal)
-            $scope.cities = ['Los Angeles', 'San Francisco'];
-    });
+    $scope.countryChanged = function() {
+        $scope.cities = City.query({country_id: $scope.select.country.id});
+        $scope.institutions = Institution.query({country_id: $scope.select.country.id});
+    }
 
-    $scope.$watch('city', function(newVal) {
-        if (newVal)
-            $scope.institutions = ['SOMA', 'Richmond', 'Sunset'];
-    });
+    $scope.cityChanged = function() {
+        $scope.institutions = ['SOMA', 'Richmond', 'Sunset'];
+    }
 });
