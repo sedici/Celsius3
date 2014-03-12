@@ -90,6 +90,6 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
     }
 
     $scope.cityChanged = function() {
-        $scope.institutions = ['SOMA', 'Richmond', 'Sunset'];
+        $scope.institutions = Institution.query({country_id: $scope.select.country.id, city_id: $scope.select.city.id});
     }
 });

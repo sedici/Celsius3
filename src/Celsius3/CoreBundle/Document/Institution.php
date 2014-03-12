@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstitutionRepository")
  */
 class Institution extends Provider
 {

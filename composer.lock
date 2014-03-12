@@ -1093,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "13bcb1d6180115c96c0e4b78a50255b75f3d6185"
+                "reference": "ed28a056225d911de4be4686326339a1a51b7fa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/13bcb1d6180115c96c0e4b78a50255b75f3d6185",
-                "reference": "13bcb1d6180115c96c0e4b78a50255b75f3d6185",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/ed28a056225d911de4be4686326339a1a51b7fa9",
+                "reference": "ed28a056225d911de4be4686326339a1a51b7fa9",
                 "shasum": ""
             },
             "require": {
@@ -1162,7 +1162,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-03-11 08:23:18"
+            "time": "2014-03-11 15:28:34"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1239,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "6504aec2652751f464939f54461b880efa51c203"
+                "reference": "4207ee3e514f9a74c4acfe5c70e34119fd7d67e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/6504aec2652751f464939f54461b880efa51c203",
-                "reference": "6504aec2652751f464939f54461b880efa51c203",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/4207ee3e514f9a74c4acfe5c70e34119fd7d67e8",
+                "reference": "4207ee3e514f9a74c4acfe5c70e34119fd7d67e8",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-03-11 08:25:24"
+            "time": "2014-03-11 15:45:40"
         },
         {
             "name": "gedmo/doctrine-extensions",
