@@ -54,6 +54,11 @@ class LegacyInstance
      * @MongoDB\Boolean
      */
     protected $enabled = true;
+    
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
+     */
+    protected $ownerInstitutions;
 
     /**
      * @Assert\NotNull

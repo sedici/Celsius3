@@ -121,6 +121,10 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             $instance->setEnabled(true);
             $instance->setHive($hive);
             $manager->persist($instance);
+            
+            $institution = $dbhelper->findRandomRecord('Celsius3CoreBundle:Institution');
+            $institution->setCelsiusInstance($instance);
+            $manager->persist($institution);
         }
         $manager->flush();
 

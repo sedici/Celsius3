@@ -26,10 +26,7 @@
             
         </select>
     </div>
-    <div class="form_group">
-        <label for="institution">{{'Institution'}}</label>
-        <select ng-model="select.institution" name="institution" id="institution" ng-disabled="!institutions" ng-options="i.name for i in institutions">
-            
-        </select>
+    <div ng-repeat="data in select.tree" ng-include="'/ng-app/AdminOrder/partials/institution_select.html'">
+                
     </div>
 </form>

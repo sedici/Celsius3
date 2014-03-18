@@ -84,7 +84,7 @@ class Institution extends Provider
     private $instance;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="ownerInstitutions")
+     * @MongoDB\ReferenceOne(targetDocument="LegacyInstance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
 
@@ -92,7 +92,7 @@ class Institution extends Provider
     {
         return $this->abbreviation . ' - ' . $this->name;
     }
-    
+
     public function getFullName()
     {
         return ($this->parent ? $this->parent->getFullName() . ' - ' : '') . $this->name;
@@ -416,11 +416,10 @@ class Institution extends Provider
     /**
      * Set celsiusInstance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $celsiusInstance
+     * @param Celsius3\CoreBundle\Document\LegacyInstance $celsiusInstance
      * @return self
      */
-    public function setCelsiusInstance(
-    \Celsius3\CoreBundle\Document\Instance $celsiusInstance)
+    public function setCelsiusInstance(\Celsius3\CoreBundle\Document\LegacyInstance $celsiusInstance)
     {
         $this->celsiusInstance = $celsiusInstance;
         return $this;
@@ -429,7 +428,7 @@ class Institution extends Provider
     /**
      * Get celsiusInstance
      *
-     * @return Celsius3\CoreBundle\Document\Instance $celsiusInstance
+     * @return Celsius3\CoreBundle\Document\LegacyInstance $celsiusInstance
      */
     public function getCelsiusInstance()
     {

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "aeee91140c4089adb88967257abdf194",
+    "hash": "ea3603c1ed9fd5e0b3831af4e989b51f",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -346,12 +346,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "d5970ef13cc39607caf7d1b3d1417881f63af67d"
+                "reference": "e847b073c2b5350045edbb40443645ad09a59538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/d5970ef13cc39607caf7d1b3d1417881f63af67d",
-                "reference": "d5970ef13cc39607caf7d1b3d1417881f63af67d",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/e847b073c2b5350045edbb40443645ad09a59538",
+                "reference": "e847b073c2b5350045edbb40443645ad09a59538",
                 "shasum": ""
             },
             "require": {
@@ -394,7 +394,7 @@
             "keywords": [
                 "database"
             ],
-            "time": "2014-03-03 22:09:44"
+            "time": "2014-03-13 12:26:17"
         },
         {
             "name": "doctrine/dbal",
@@ -785,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "e99d818b4224b35fab38abc230696d9282a1ecea"
+                "reference": "c25f282adccac62f9f70c36727e3520d2f4be70f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/e99d818b4224b35fab38abc230696d9282a1ecea",
-                "reference": "e99d818b4224b35fab38abc230696d9282a1ecea",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/c25f282adccac62f9f70c36727e3520d2f4be70f",
+                "reference": "c25f282adccac62f9f70c36727e3520d2f4be70f",
                 "shasum": ""
             },
             "require": {
@@ -855,7 +855,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-02-27 04:04:39"
+            "time": "2014-03-13 15:48:42"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -864,12 +864,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "037e4d054364abd5ece804440fd8242639b021d6"
+                "reference": "3b0b678497a3536cf85b2679d179c0a8a6f96690"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/037e4d054364abd5ece804440fd8242639b021d6",
-                "reference": "037e4d054364abd5ece804440fd8242639b021d6",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/3b0b678497a3536cf85b2679d179c0a8a6f96690",
+                "reference": "3b0b678497a3536cf85b2679d179c0a8a6f96690",
                 "shasum": ""
             },
             "require": {
@@ -926,7 +926,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2014-03-10 15:20:26"
+            "time": "2014-03-17 23:33:24"
         },
         {
             "name": "evenement/evenement",
@@ -1032,12 +1032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "40c3bf31f0b78837e911fa2f0ae040487c13b0a1"
+                "reference": "34ecbce30a5f3e9599a80f31d3506c6e72d3f434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/40c3bf31f0b78837e911fa2f0ae040487c13b0a1",
-                "reference": "40c3bf31f0b78837e911fa2f0ae040487c13b0a1",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/34ecbce30a5f3e9599a80f31d3506c6e72d3f434",
+                "reference": "34ecbce30a5f3e9599a80f31d3506c6e72d3f434",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1084,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2014-03-04 01:43:49"
+            "time": "2014-03-15 01:54:30"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1171,12 +1171,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "7867dfc7aa67969a24fec7f8aa1051eda23098e9"
+                "reference": "f8e9255eedc91bc53195de288c9fe640719b2817"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/7867dfc7aa67969a24fec7f8aa1051eda23098e9",
-                "reference": "7867dfc7aa67969a24fec7f8aa1051eda23098e9",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/f8e9255eedc91bc53195de288c9fe640719b2817",
+                "reference": "f8e9255eedc91bc53195de288c9fe640719b2817",
                 "shasum": ""
             },
             "require": {
@@ -1231,7 +1231,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-03-04 23:23:39"
+            "time": "2014-03-18 08:55:34"
         },
         {
             "name": "fzaninotto/faker",
@@ -1239,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "4207ee3e514f9a74c4acfe5c70e34119fd7d67e8"
+                "reference": "4ca3829d9dde19cbe188da004d7b6d4e92d6cb86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/4207ee3e514f9a74c4acfe5c70e34119fd7d67e8",
-                "reference": "4207ee3e514f9a74c4acfe5c70e34119fd7d67e8",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/4ca3829d9dde19cbe188da004d7b6d4e92d6cb86",
+                "reference": "4ca3829d9dde19cbe188da004d7b6d4e92d6cb86",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-03-11 15:45:40"
+            "time": "2014-03-13 18:33:34"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3064,6 +3064,68 @@
             ],
             "description": "This bundle generates code for you",
             "time": "2013-08-21 18:09:35"
+        },
+        {
+            "name": "sp/bower-bundle",
+            "version": "v0.9",
+            "target-dir": "Sp/BowerBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spea/SpBowerBundle.git",
+                "reference": "fda2f8049422c91180d4b736d3c57cc21f71d9ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/fda2f8049422c91180d4b736d3c57cc21f71d9ab",
+                "reference": "fda2f8049422c91180d4b736d3c57cc21f71d9ab",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "~1.0",
+                "doctrine/collections": "1.*",
+                "php": ">=5.3.3",
+                "symfony/assetic-bundle": "~2.1",
+                "symfony/framework-bundle": "~2.1",
+                "symfony/process": "~2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "symfony/console": "~2.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Sp\\BowerBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Parsiegla",
+                    "email": "martin.parsiegla@gmail.com",
+                    "homepage": "http://speanet.info"
+                },
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/Spea/SpBowerBundle/contributors"
+                }
+            ],
+            "description": "Handle asset dependencies with bower",
+            "keywords": [
+                "asset",
+                "bower",
+                "bower manager",
+                "dependencies"
+            ],
+            "time": "2014-01-15 22:44:59"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

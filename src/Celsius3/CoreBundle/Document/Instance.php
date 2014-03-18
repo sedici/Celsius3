@@ -44,11 +44,6 @@ class Instance extends LegacyInstance
     protected $institutions;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
-     */
-    protected $ownerInstitutions;
-
-    /**
      * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
     protected $templates;

@@ -54,6 +54,17 @@ assetic:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
         #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+    assets:
+        bootstrap:
+            inputs:
+                - "bundles/celsius3core/components/bootstrap/dist/css/bootstrap.css"
+            filters:
+                - cssrewrite
+        font_awesome:
+            inputs:
+                - "bundles/celsius3core/components/font-awesome/css/font-awesome.min.css"
+            filters:
+                - cssrewrite
 
 doctrine_mongodb:
     connections:
@@ -220,3 +231,10 @@ jms_serializer:
             Celsius3CoreBundle:
                 namespace_prefix: Celsius3\CoreBundle
                 path: "@Celsius3ApiBundle/Resources/config/serializer/core"
+                
+sp_bower:
+    install_on_warmup: true
+    assetic:
+        nest_dependencies: false
+    bundles:
+        Celsius3CoreBundle: ~

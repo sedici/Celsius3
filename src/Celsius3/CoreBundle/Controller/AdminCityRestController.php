@@ -16,14 +16,14 @@ class AdminCityRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/{country_id}/{city_id}", defaults={"city_id" = null}, name="admin_rest_city", options={"expose"=true})
+     * @Get("/{country_id}", name="admin_rest_city", options={"expose"=true})
      */
-    public function getCitiesAction($country_id, $city_id)
+    public function getCitiesAction($country_id)
     {
         $dm = $this->getDocumentManager();
 
         $countries = $dm->getRepository('Celsius3CoreBundle:City')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id, $city_id);
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id);
 
         $view = $this->view(array_values($countries), 200)
                 ->setFormat('json');

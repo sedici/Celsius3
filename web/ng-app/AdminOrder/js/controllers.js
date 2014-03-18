@@ -1,6 +1,10 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch, Country, City, Institution) {
+orderControllers.controller('OrderCtrl', function($scope, $rootScope, Order, Request, Catalog, CatalogSearch, Country, City, Institution) {
+    $rootScope.$apply(function() {
+        console.log('hola');
+    });
+    
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
         update: function(event, ui) {
@@ -15,6 +19,7 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         items: ">*:not(.sort-disabled)"
     };
 
+    $scope.select_count = 0;
     $scope.search_results = [
         {value: 'found', text: 'Found'},
         {value: 'partially_found', text: 'Partially found'},
@@ -45,13 +50,18 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
     $scope.select = {
         country: {},
         city: {},
-        institution: {}
+        tree: [{
+                id: 'institution' + $scope.select_count,
+                name: 'institution' + $scope.select_count,
+                institutions: [],
+                child: []
+            }]
     };
 
     $scope.applySelect2 = function() {
         $("#country").select2();
         $("#city").select2();
-        $("#institution").select2();
+        $(".institution").select2();
     }
 
     $scope.requestFormUrl = Routing.generate('admin_order_request_form', {id: document_id});
@@ -86,10 +96,26 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
 
     $scope.countryChanged = function() {
         $scope.cities = City.query({country_id: $scope.select.country.id});
-        $scope.institutions = Institution.query({country_id: $scope.select.country.id});
+        $scope.institutions = Institution.query({country_id: $scope.select.country.id}, function(institutions) {
+            _.first($scope.select.tree).institutions = institutions;
+        });
     }
 
     $scope.cityChanged = function() {
-        $scope.institutions = Institution.query({country_id: $scope.select.country.id, city_id: $scope.select.city.id});
+        $scope.institutions = Institution.query({country_id: $scope.select.country.id, city_id: $scope.select.city.id}, function(institutions) {
+            _.first($scope.select.tree).institutions = institutions;
+        });
+    }
+
+    $scope.institutionChanged = function(data) {
+        $scope.select_count++;
+        Institution.parent({parent_id: data.institution.id}, function(institutions) {
+            data.child = [{
+                    id: 'institution' + $scope.select_count,
+                    name: 'institution' + $scope.select_count,
+                    institutions: institutions,
+                    child: []
+                }];
+        });
     }
 });

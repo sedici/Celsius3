@@ -16,7 +16,7 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/", name="admin_rest_country", options={"expose"=true})
+     * @Get("", name="admin_rest_country", options={"expose"=true})
      */
     public function getCountriesAction()
     {

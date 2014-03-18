@@ -4,6 +4,5 @@
         <property name="id" type="string" expose="true" read-only="true"></property>  
         <property name="name" type="string" expose="true" access-type="public_method"></property>
         <property name="abbreviation" type="string" expose="true" access-type="public_method"></property>
-        <property name="institutions" type="array" expose="true" access-type="public_method" accessor-setter="addInstitution" max-depth="10"></property>
     </class>  
 </serializer>

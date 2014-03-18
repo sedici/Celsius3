@@ -10,11 +10,13 @@
         <title>{% block title %}{% endblock %} - Celsius3</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/bootstrap.min.css') }}"/>
-        <!--<link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/bootstrap-theme.min.css') }}"/>-->
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/select2.css') }}"/>
+        {% stylesheets '@bootstrap'
+                       '@font_awesome'
+                       '@select2_css'
+                       '@datatables_css' %}
+        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+        {% endstylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/jquery.dataTables.css') }}"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css') }}"/>
         {% stylesheets filter='less' output='bundles/celsius3core/css/celsius3-compiled.css'
             '@Celsius3CoreBundle/Resources/public/less/*' %}
@@ -86,18 +88,23 @@
         </div>
         {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
         {% block javascripts %}
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-1.11.0.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/modernizr-2.6.2-respond-1.1.0.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/bootstrap.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.dotdotdot-1.5.1.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/reduceTextBlock.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/ICanHaz.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/select2.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/underscore-min.js') }}"></script>
+            {% javascripts '@jquery_js'
+                           '@jqueryui_js'
+                           '@bootstrap_js'
+                           '@jQuery_dotdotdot_js'
+                           '@icanhaz_js'
+                           '@underscore_js'
+                           '@select2_js'
+                           '@datatables_js'
+                           '@angular_js'
+                           '@angular_route_js'
+                           '@angular_resource_js'
+                           '@angular_ui_sortable_js'
+                           '@angular_ui_select2_js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui-timepicker-addon.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.dataTables.min.js') }}"></script>
         <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>

@@ -1,0 +1,9 @@
+<div class="form_group" ng-if="select_count == 0 || data.institutions">
+    <label ng-if="data.id == 'institution0'" for="{{data.id}}">{{'Institution'}}</label>
+    <select ng-model="data.institution" class="institution" name="{{data.name}}" id="{{data.id}}" ng-disabled="!data.institutions" ng-options="i.name for i in data.institutions"  ng-change="institutionChanged(data)">
+
+    </select>
+    <div ng-repeat="data in data.child" onload="applySelect2()" ng-include="'/ng-app/AdminOrder/partials/institution_select.html'">
+
+    </div>
+</div>

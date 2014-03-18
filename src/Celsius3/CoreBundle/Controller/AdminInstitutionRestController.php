@@ -16,16 +16,35 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/{country_id}", name="admin_rest_institution", options={"expose"=true})
+     * @Get("/parent/{parent_id}", name="admin_rest_institution_parent_get", options={"expose"=true})
      */
-    public function getInstitutionsAction($country_id)
+    public function getInstitutionByParentAction($parent_id)
     {
         $dm = $this->getDocumentManager();
 
-        $countries = $dm->getRepository('Celsius3CoreBundle:Institution')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id);
+        $institutions = $dm->getRepository('Celsius3CoreBundle:Institution')
+                ->findBy(array(
+            'parent.id' => $parent_id,
+        ));
 
-        $view = $this->view(array_values($countries), 200)
+        $view = $this->view(array_values($institutions), 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
+     * @Get("/{country_id}/{city_id}", defaults={"city_id" = null}, name="admin_rest_institution", options={"expose"=true})
+     */
+    public function getInstitutionsAction($country_id, $city_id)
+    {
+        $dm = $this->getDocumentManager();
+
+        $institutions = $dm->getRepository('Celsius3CoreBundle:Institution')
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id, $city_id);
+
+        $view = $this->view(array_values($institutions), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

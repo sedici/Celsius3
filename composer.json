@@ -39,7 +39,8 @@
         "fzaninotto/faker": "dev-master",
         "genemu/form-bundle": "dev-master",
         "cboden/Ratchet": "0.2.*",
-        "react/zmq": "0.1.*"
+        "react/zmq": "0.1.*",
+        "sp/bower-bundle": "~0.9"
     },
     "scripts": {
         "post-install-cmd": [
@@ -48,6 +49,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"
         ],
         "post-update-cmd": [
@@ -56,6 +58,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"
         ]
     },

@@ -15,7 +15,7 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/", name="admin_rest_catalog", options={"expose"=true})
+     * @Get("", name="admin_rest_catalog", options={"expose"=true})
      */
     public function getCatalogsAction()
     {
