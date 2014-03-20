@@ -2,6 +2,7 @@ var orderApp = angular.module('orderApp', [
     'ngRoute',
     'ngResource',
     'ui.sortable',
+    'cciWidget',
     'orderControllers',
     'orderFilters'
 ]);

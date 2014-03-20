@@ -1,0 +1,10 @@
+<div class="form_group" ng-if="select_count == 0 || data.institutions">
+    <label ng-if="data.id === 'institution0'" for="{{data.id}}">{{'Institution'}}</label>
+    <select ui-select2 ng-model="data.institution" class="institution" name="{{data.name}}" id="{{data.id}}" ng-disabled="!data.institutions" ng-change="institutionChanged(data)">
+        <option value=""></option>
+        <option ng-repeat="i in data.institutions" value="{{i.id}}">{{i.name}}</option>
+    </select>
+    <div ng-repeat="data in data.child" ng-include="'/ng-app/Directives/CCI/partials/institution_select.html'">
+
+    </div>
+</div>

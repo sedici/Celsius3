@@ -3,30 +3,7 @@
         <label for="observations">{{'Observations'}}</label>
         <textarea class=" form-control" name="observations" id="observations"></textarea>
     </div>
-    <div class="form_group">
-        <label>{{'Filter'}}</label>
-        <div class="filter-select" id="filter">
-            <input type="radio" checked="checked" value="" name="filter" id="filter_placeholder">
-            <label for="filter_placeholder">All</label>
-            <input type="radio" value="liblink" name="filter" id="filter_0">
-            <label for="filter_0">Liblink</label>
-            <input type="radio" value="celsius3" name="filter" id="filter_1">
-            <label for="filter_1">Celsius3</label>
-        </div>
-    </div>
-    <div class="form_group">
-        <label for="country">{{'Country'}}</label>
-        <select ng-model="select.country" name="country" id="country" ng-options="c.name for c in countries" ng-change="countryChanged()">
-            
-        </select>
-    </div>
-    <div class="form_group">
-        <label for="city">{{'City'}}</label>
-        <select ng-model="select.city" name="city" id="city" ng-disabled="!cities" ng-options="c.name for c in cities" ng-change="cityChanged()">
-            
-        </select>
-    </div>
-    <div ng-repeat="data in select.tree" ng-include="'/ng-app/AdminOrder/partials/institution_select.html'">
-                
-    </div>
+    <cci-widget>
+        
+    </cci-widget>
 </form>

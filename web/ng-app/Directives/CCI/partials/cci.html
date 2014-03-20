@@ -1,0 +1,28 @@
+<div class="form_group">
+    <label>{{'Filter'}}</label>
+    <div class="filter-select" id="filter">
+        <input type="radio" checked="checked" value="" name="filter" id="filter_placeholder">
+        <label for="filter_placeholder">All</label>
+        <input type="radio" value="liblink" name="filter" id="filter_0">
+        <label for="filter_0">Liblink</label>
+        <input type="radio" value="celsius3" name="filter" id="filter_1">
+        <label for="filter_1">Celsius3</label>
+    </div>
+</div>
+<div class="form_group">
+    <label for="country">{{'Country'}}</label>
+    <select ui-select2 ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
+        <option value=""></option>
+        <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
+    </select>
+</div>
+<div class="form_group">
+    <label for="city">{{'City'}}</label>
+    <select ui-select2 ng-model="select.city" name="city" id="city" ng-disabled="!cities" ng-change="cityChanged()">
+        <option value=""></option>
+        <option ng-repeat="c in cities" value="{{c.id}}">{{c.name}}</option>
+    </select>
+</div>
+<div ng-repeat="data in select.tree" ng-include="'/ng-app/Directives/CCI/partials/institution_select.html'">
+
+</div>
