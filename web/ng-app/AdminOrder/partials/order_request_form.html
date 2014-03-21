@@ -1,7 +1,7 @@
-<form class="form-horizontal" ng-submit="submitRequest()" id="requestForm">
+<form class="form-horizontal" id="requestForm">
     <div class="form_group">
         <label for="observations">{{'Observations'}}</label>
-        <textarea class=" form-control" name="observations" id="observations"></textarea>
+        <textarea class=" form-control" ng-model="observations" name="observations" id="observations"></textarea>
     </div>
     <cci-widget>
         

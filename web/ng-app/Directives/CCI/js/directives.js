@@ -2,16 +2,14 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
     function link(scope, element, attrs) {
         scope.select_count = 0;
         scope.countries = Country.query();
-        scope.select = {
-            country: {},
-            city: {},
-            tree: [{
-                    id: 'institution' + scope.select_count,
-                    name: 'institution' + scope.select_count,
-                    institutions: [],
-                    child: []
-                }]
-        }
+        scope.select.country = {};
+        scope.select.city = {};
+        scope.select.tree = [{
+                id: 'institution' + scope.select_count,
+                name: 'institution' + scope.select_count,
+                institutions: [],
+                child: []
+            }];
         scope.countryChanged = function() {
             scope.cities = City.query({country_id: scope.select.country});
             scope.institutions = Institution.query({country_id: scope.select.country}, function(institutions) {

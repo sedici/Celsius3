@@ -1,6 +1,16 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalog, CatalogSearch) {
+orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request, Catalog, CatalogSearch) {
+    function findInstitution(tree) {
+        var node = _.first(tree);
+        if (node.child.length === 0) {
+            return _.isUndefined(node.institution) ? null : node.institution;
+        } else {
+            var institution = findInstitution(node.child);
+            return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
+        }
+    }
+
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
         update: function(event, ui) {
@@ -15,12 +25,16 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         items: ">*:not(.sort-disabled)"
     };
 
+    $scope.observations = '';
+
     $scope.search_results = [
         {value: 'found', text: 'Found'},
         {value: 'partially_found', text: 'Partially found'},
         {value: 'not_found', text: 'Not found'},
         {value: 'non_searched', text: 'Non searched'}
     ];
+
+    $scope.select = {};
 
     Order.get({id: document_id}, function(order) {
         $scope.order = order;
@@ -63,9 +77,18 @@ orderControllers.controller('OrderCtrl', function($scope, Order, Request, Catalo
         $scope.updateTables();
     }
 
-    $scope.submit = function() {
-        // Add your own logic, for example show the response your received from Symfony2
-        // We have to explictly compile the data received, to parse AngularJS tags
-        $scope.formResponse = $compile(data)($scope);
+    $scope.submitRequest = function() {
+        var institution = findInstitution($scope.select.tree);
+        var data = {
+            type: 'request',
+            data: {
+                observations: $scope.observations,
+                institution: institution
+            }
+        }
+
+        $http.post(Routing.generate('admin_rest_order') + '/' + $scope.order.id + '/registerEvent', data).success(function(response) {
+
+        });
     }
 });
