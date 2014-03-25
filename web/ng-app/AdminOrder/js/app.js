@@ -4,7 +4,8 @@ var orderApp = angular.module('orderApp', [
     'ui.sortable',
     'cciWidget',
     'orderControllers',
-    'orderFilters'
+    'orderFilters',
+    'mgcrea.ngStrap.modal'
 ]);
 
 orderApp.config(['$routeProvider',

@@ -80,15 +80,14 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
     $scope.submitRequest = function() {
         var institution = findInstitution($scope.select.tree);
         var data = {
-            type: 'request',
-            data: {
-                observations: $scope.observations,
-                institution: institution
-            }
+            observations: $scope.observations,
+            provider: institution
         }
 
-        $http.post(Routing.generate('admin_rest_order') + '/' + $scope.order.id + '/registerEvent', data).success(function(response) {
-
+        $http.post(Routing.generate('admin_rest_order') + $scope.order.id + '/event/request', data).success(function(response) {
+            if (response) {
+                $('.modal').modal('hide');
+            }
         });
     }
 });

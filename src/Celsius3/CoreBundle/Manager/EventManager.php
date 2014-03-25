@@ -3,8 +3,8 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\Exception\NotValidException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Celsius3\CoreBundle\Document\Event\Approve;
 use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\Event\SingleInstanceReceive;
@@ -96,28 +96,20 @@ class EventManager
         return $this->class_prefix . $this->event_classes[$event];
     }
 
-    private function prepareExtraDataForRequest(Order $order, array $extraData, Instance $instance)
+    private function prepareExtraDataForRequest(Request $request, array $extraData, Instance $instance)
     {
-        $document = new SingleInstanceRequest();
-        $form = $this->container->get('form.factory')
-                ->create(
-                new OrderRequestType(
-                $this->container
-                ->get(
-                        'doctrine.odm.mongodb.document_manager'), $this
-                ->getFullClassNameForEvent(
-                        self::EVENT__SINGLE_INSTANCE_REQUEST)), $document);
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-        $form->bind($request);
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
-        if ($form->isValid()) {
-            $extraData['provider'] = $document->getProvider();
-            $extraData['observations'] = $document->getObservations();
+        $extraData['observations'] = $httpRequest->request->get('observations', null);
+
+        if ($httpRequest->request->has("provider")) {
+            $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+            $extraData['provider'] = $dm->getRepository('Celsius3CoreBundle:Institution')
+                    ->find($httpRequest->request->get('provider'));
         } else {
-            $this->container->get('session')->getFlashBag()
-                    ->add('error', 'There was an error changing the state.');
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new NotValidException();
+            throw new HttpException('There was an error changing the state.');
         }
 
         return $extraData;
