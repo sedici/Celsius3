@@ -1239,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "392e191ebaec5e5072dca1642ac994df250884f2"
+                "reference": "991e39d280afc34a91684e5789023f1b276e4618"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/392e191ebaec5e5072dca1642ac994df250884f2",
-                "reference": "392e191ebaec5e5072dca1642ac994df250884f2",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/991e39d280afc34a91684e5789023f1b276e4618",
+                "reference": "991e39d280afc34a91684e5789023f1b276e4618",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-03-21 17:25:56"
+            "time": "2014-03-26 17:22:53"
         },
         {
             "name": "gedmo/doctrine-extensions",

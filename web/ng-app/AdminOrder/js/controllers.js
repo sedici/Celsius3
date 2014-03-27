@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request, Catalog, CatalogSearch) {
+orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request, Catalog, CatalogSearch, Event) {
     function findInstitution(tree) {
         var node = _.first(tree);
         if (node.child.length === 0) {
@@ -53,6 +53,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
                 $scope.updateTables();
             });
         });
+
+        $scope.requests = Event.query({request_id: request.id, event: 'request'});
     });
 
     $scope.updateTables = function() {

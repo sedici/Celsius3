@@ -13,7 +13,7 @@ class MultiInstanceEvent extends Event
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="events")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
      */
     private $remoteInstance;
 

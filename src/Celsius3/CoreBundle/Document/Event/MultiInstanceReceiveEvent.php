@@ -24,13 +24,13 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     private $deliveryType;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event")
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\File", mappedBy="event")
      */
     private $files;
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
      */
     private $remoteState;
 

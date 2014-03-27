@@ -8,12 +8,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Celsius3\CoreBundle\Document\Event\Approve;
 use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\Event\SingleInstanceReceive;
-use Celsius3\CoreBundle\Document\Event\SingleInstanceRequest;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Form\Type\OrderReceiveType;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Document\Instance;
@@ -293,6 +291,36 @@ class EventManager
             $this->container->get('celsius3_core.lifecycle_helper')
                     ->createEvent(self::EVENT__CANCEL, $request->getOrder());
         }
+    }
+
+    public function getEvents($event, $request_id)
+    {
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+
+        if ($event === self::EVENT__REQUEST) {
+            $repositories = array(
+                $this->event_classes[self::EVENT__MULTI_INSTANCE_REQUEST],
+                $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],
+            );
+        } else if ($event === self::EVENT__RECEIVE) {
+            $repositories = array(
+                $this->event_classes[self::EVENT__MULTI_INSTANCE_RECEIVE],
+                $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],
+            );
+        } else {
+            $repositories = array(
+                $this->event_classes[$event],
+            );
+        }
+
+        $results = array();
+
+        #foreach ($repositories as $repository) {
+            $results = array_merge($results, $dm->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
+                            ->findBy(array('request.id' => $request_id)));
+        #}
+
+        return $results;
     }
 
     /*

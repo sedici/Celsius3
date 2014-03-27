@@ -24,7 +24,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
         ProviderTrait;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
     private $remoteState;
 

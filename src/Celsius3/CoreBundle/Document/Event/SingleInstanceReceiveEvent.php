@@ -23,7 +23,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     private $deliveryType;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="event", cascade={"persist"})
+     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\File", mappedBy="event", cascade={"persist"})
      */
     private $files;
 

@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody ui-sortable="sortableOptions" ng-model="filterFound" class="catalogSortable">
-            <tr ng-repeat="catalog in filterFound" data-id="{{catalog.search.id}}">
+            <tr ng-repeat="catalog in filterFound track by $index" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody ui-sortable="sortableOptions" ng-model="filterPartiallyFound" class="catalogSortable">
-            <tr ng-repeat="catalog in filterPartiallyFound" data-id="{{catalog.search.id}}">
+            <tr ng-repeat="catalog in filterPartiallyFound track by $index" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>
@@ -48,7 +48,7 @@
             </tr>
         </thead>
         <tbody ui-sortable="sortableOptions" ng-model="filterNotFound" class="catalogSortable">
-            <tr ng-repeat="catalog in filterNotFound" data-id="{{catalog.search.id}}">
+            <tr ng-repeat="catalog in filterNotFound track by $index" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
                 <td>{{catalog.search|search_date}}</td>

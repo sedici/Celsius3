@@ -49,24 +49,24 @@ class Event implements EventInterface
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="events")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Request", inversedBy="events")
      */
     private $request;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser", inversedBy="events")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser", inversedBy="events")
      */
     private $operator;
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="State", inversedBy="events", cascade={"persist", "refresh"})
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="events", cascade={"persist", "refresh"})
      */
     private $state;
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="events")
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
      */
     private $instance;
 
