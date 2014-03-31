@@ -709,16 +709,16 @@
         },
         {
             "name": "doctrine/mongodb",
-            "version": "1.1.2",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb.git",
-                "reference": "ac63fdf9847a5ec6d44721526623e8bddaa25fe6"
+                "reference": "1a9b001a97256208e0fc4970305cd48208d5b78c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/ac63fdf9847a5ec6d44721526623e8bddaa25fe6",
-                "reference": "ac63fdf9847a5ec6d44721526623e8bddaa25fe6",
+                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/1a9b001a97256208e0fc4970305cd48208d5b78c",
+                "reference": "1a9b001a97256208e0fc4970305cd48208d5b78c",
                 "shasum": ""
             },
             "require": {
@@ -777,7 +777,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2014-01-09 21:24:02"
+            "time": "2014-03-28 19:22:22"
         },
         {
             "name": "doctrine/mongodb-odm",
@@ -785,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "c25f282adccac62f9f70c36727e3520d2f4be70f"
+                "reference": "e9ad2beeb1ea09bb3fc268e55be609ff3cc96a44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/c25f282adccac62f9f70c36727e3520d2f4be70f",
-                "reference": "c25f282adccac62f9f70c36727e3520d2f4be70f",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/e9ad2beeb1ea09bb3fc268e55be609ff3cc96a44",
+                "reference": "e9ad2beeb1ea09bb3fc268e55be609ff3cc96a44",
                 "shasum": ""
             },
             "require": {
@@ -855,7 +855,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-03-13 15:48:42"
+            "time": "2014-03-28 14:48:33"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -864,12 +864,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "3b0b678497a3536cf85b2679d179c0a8a6f96690"
+                "reference": "30be111a948a661d42a1008a11847702e8d6e4aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/3b0b678497a3536cf85b2679d179c0a8a6f96690",
-                "reference": "3b0b678497a3536cf85b2679d179c0a8a6f96690",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/30be111a948a661d42a1008a11847702e8d6e4aa",
+                "reference": "30be111a948a661d42a1008a11847702e8d6e4aa",
                 "shasum": ""
             },
             "require": {
@@ -926,7 +926,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2014-03-17 23:33:24"
+            "time": "2014-03-28 00:31:22"
         },
         {
             "name": "evenement/evenement",
@@ -1093,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "74dcf0465b19f2c3082693a875850897241851ef"
+                "reference": "0f9f719b5b1cbcb18e40b6a13a9f700c0b1e5bb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/74dcf0465b19f2c3082693a875850897241851ef",
-                "reference": "74dcf0465b19f2c3082693a875850897241851ef",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/0f9f719b5b1cbcb18e40b6a13a9f700c0b1e5bb8",
+                "reference": "0f9f719b5b1cbcb18e40b6a13a9f700c0b1e5bb8",
                 "shasum": ""
             },
             "require": {
@@ -1162,7 +1162,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-03-23 17:58:22"
+            "time": "2014-03-28 23:58:47"
         },
         {
             "name": "friendsofsymfony/user-bundle",

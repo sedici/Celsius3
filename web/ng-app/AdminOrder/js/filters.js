@@ -29,9 +29,3 @@ orderFilters.filter('get_url', function() {
         return Routing.generate(input.path, input.params);
     };
 });
-
-orderFilters.filter('search_date', function() {
-    return function(input) {
-        return _.isUndefined(input) ? '' : input.date;
-    };
-});

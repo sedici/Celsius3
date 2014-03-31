@@ -11,7 +11,7 @@
             <tr ng-repeat="catalog in filterFound track by $index" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
-                <td>{{catalog.search|search_date}}</td>
+                <td>{{catalog.search.date|date:'dd-MM-yyyy'}}</td>
             </tr>
             <tr class="sort-disabled"><td></td><td></td><td></td></tr>
         </tbody>
@@ -31,7 +31,7 @@
             <tr ng-repeat="catalog in filterPartiallyFound track by $index" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
-                <td>{{catalog.search|search_date}}</td>
+                <td>{{catalog.search.date|date:'dd-MM-yyyy'}}</td>
             </tr>
             <tr class="sort-disabled"><td></td><td></td><td></td></tr>
         </tbody>
@@ -51,7 +51,7 @@
             <tr ng-repeat="catalog in filterNotFound track by $index" data-id="{{catalog.search.id}}">
                 <td></td>
                 <td>{{catalog.name}}</td>
-                <td>{{catalog.search|search_date}}</td>
+                <td>{{catalog.search.date|date:'dd-MM-yyyy'}}</td>
             </tr>
             <tr class="sort-disabled"><td></td><td></td><td></td></tr>
         </tbody>

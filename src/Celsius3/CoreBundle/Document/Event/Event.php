@@ -25,7 +25,9 @@ use Celsius3\CoreBundle\Document\Request;
  *   "remotecancel"="RemoteCancelEvent",
  *   "reclaim"="ReclaimEvent",
  *   "approve"="ApproveEvent",
- *   "undo"="UndoEvent"
+ *   "undo"="UndoEvent",
+ *   "si"="SingleInstanceEvent",
+ *   "mi"="MultiInstanceEvent"
  * })
  */
 class Event implements EventInterface

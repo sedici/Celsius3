@@ -60,6 +60,8 @@ class LifecycleHelper
         $event->setState($this->getState($request, $event, $data));
         $event->applyExtraData($request, $data, $this, $data['date']);
         $this->dm->persist($event);
+        
+        return $event;
     }
 
     public function getState(Request $request, Event $event, array $data, Event $remoteEvent = null)
@@ -129,11 +131,12 @@ class LifecycleHelper
     {
         try {
             $data = $this->preValidate($name, $request, $instance);
-            $this->setEventData($request, $data);
+            $event = $this->setEventData($request, $data);
             $this->refresh($request);
-            return true;
+            $this->dm->refresh($event);
+            return $event;
         } catch (PreviousStateNotFoundException $e) {
-            return false;
+            return null;
         }
     }
 

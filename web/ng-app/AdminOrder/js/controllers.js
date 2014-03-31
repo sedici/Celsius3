@@ -55,6 +55,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
         });
 
         $scope.requests = Event.query({request_id: request.id, event: 'request'});
+        $scope.receptions = Event.query({request_id: request.id, event: 'receive'});
     });
 
     $scope.updateTables = function() {
@@ -88,6 +89,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
 
         $http.post(Routing.generate('admin_rest_order') + $scope.order.id + '/event/request', data).success(function(response) {
             if (response) {
+                $scope.requests.push(response);
                 $('.modal').modal('hide');
             }
         });

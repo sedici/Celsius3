@@ -300,7 +300,7 @@ class EventManager
         if ($event === self::EVENT__REQUEST) {
             $repositories = array(
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_REQUEST],
-                $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],
+                $this->event_classes[self::EVENT__SINGLE_INSTANCE_REQUEST],
             );
         } else if ($event === self::EVENT__RECEIVE) {
             $repositories = array(
@@ -315,10 +315,10 @@ class EventManager
 
         $results = array();
 
-        #foreach ($repositories as $repository) {
-            $results = array_merge($results, $dm->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
+        foreach ($repositories as $repository) {
+            $results = array_merge($results, $dm->getRepository('Celsius3CoreBundle:Event\\' . $repository)
                             ->findBy(array('request.id' => $request_id)));
-        #}
+        }
 
         return $results;
     }

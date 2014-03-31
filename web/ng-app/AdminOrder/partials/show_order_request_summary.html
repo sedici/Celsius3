@@ -1,46 +1,52 @@
 <h1>{{'Requests'}}</h1>
 <div>
-    <div class="item1 col-md-6">
+    <div ng-repeat="request in requests" class="item1 col-md-6">
         <div class="panel1 col-md-5">
             <div class="cat_estrella"></div>
             <div class="cat_datos">
-                <div class="cat_titulo">KVK</div>
-                <div class="cat_fecha">12 abril 2012</div>
+                <div class="cat_titulo">{{request.provider.name}}</div>
+                <div class="cat_fecha"></div>
             </div>
         </div>
-        <div class="panel2 col-md-1"></div>
-        <div class="panel3 col-md-5">
-            <div class="relojito"><img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" /></div>
-            <div class="fecha_relojito">12 abril 1998</div>
+        <div ng-if="!hasReceive(request)">
+            <div class="panel2 col-md-1"></div>
+            <div class="panel3 col-md-5">
+                <div class="relojito">
+                    <a class="modal-link" data-target="#receive-modal" role="button" data-toggle="modal">
+                        <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" />
+                    </a>
+                </div>
+                <div class="fecha_relojito">
+                    <a class="modal-link" data-target="#receive-modal" role="button" data-toggle="modal">
+                        {{request.date|date:'dd-MM-yyyy'}}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div ng-if="hasReceive(request)">
+            <div class="panel2_ok col-md-1"></div>
+            <div class="panel3_ok col-md-5">
+                <div class="relojito"><img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" /></div>
+                <div class="fecha_hoja">{{getReceive(request).date | date:'dd-MM-yyyy'}}</div>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="item1 col-md-6">
-        <div class="panel1 col-md-5">
-            <div class="cat_estrella"></div>
-            <div class="cat_datos">
-                <div class="cat_titulo">KVK</div>
-                <div class="cat_fecha">12 abril 2012</div>
+<div id="receive-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="request-modal-label">{{'Receive'}}</h3>
             </div>
-        </div>
-        <div class="panel2 col-md-1"></div>
-        <div class="panel3 col-md-5">
-            <div class="relojito"><img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" /></div>
-            <div class="fecha_relojito">12 abril 1998</div>
-        </div>
-    </div>
-    <div class="item1 col-md-6">
-        <div class="panel1 col-md-5">
-            <div class="cat_estrella_ok"></div>
-            <div class="cat_datos_ok">
-                <div class="cat_titulo">KVK</div>
-                <div class="cat_fecha">12 abril 2012</div>
+            <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/order_receive_form.html'" ng-bind-html-unsafe="formResponse">
+                
             </div>
-        </div>
-        <div class="panel2_ok col-md-1"></div>
-        <div class="panel3_ok col-md-5">
-            <div class="relojito"><img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" /></div>
-            <div class="fecha_hoja">12 abril 1998</div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'Close'}}</button>
+                <button class="btn btn-primary" ng-click="submitReceive()" value="#receiveForm">{{'Save'}}</button>
+            </div>
         </div>
     </div>
 </div>
