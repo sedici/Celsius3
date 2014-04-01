@@ -5,7 +5,8 @@ var orderApp = angular.module('orderApp', [
     'cciWidget',
     'orderControllers',
     'orderFilters',
-    'mgcrea.ngStrap.modal'
+    'mgcrea.ngStrap.modal',
+    'angularFileUpload'
 ]);
 
 orderApp.config(['$routeProvider',

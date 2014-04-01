@@ -15,6 +15,7 @@
         "angular-resource": "~1.2.0",
         "angular-ui-sortable": "~0.12.0",
         "angular-ui-select2": "~0.0.0",
-        "angular-strap": "~2.0.0"
+        "angular-strap": "~2.0.0",
+        "angular-file-upload": "~0.4.0"
     }
 }

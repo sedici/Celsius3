@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request, Catalog, CatalogSearch, Event) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, Order, Request, Catalog, CatalogSearch, Event) {
     function findInstitution(tree) {
         var node = _.first(tree);
         if (node.child.length === 0) {
@@ -34,7 +34,15 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
         {value: 'non_searched', text: 'Non searched'}
     ];
 
+    // Data for the request form
     $scope.select = {};
+
+    // Data for the receive form
+    $scope.receive = {};
+
+    /**
+     * Resource load
+     */
 
     Order.get({id: document_id}, function(order) {
         $scope.order = order;
@@ -58,6 +66,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
         $scope.receptions = Event.query({request_id: request.id, event: 'receive'});
     });
 
+    /**
+     * Functions
+     */
+
     $scope.updateTables = function() {
         $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
             return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
@@ -70,7 +82,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
         $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
             return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
         });
-    }
+    };
 
     $scope.updateCatalog = function(catalog) {
         catalog.search.catalog = _.first($scope.catalogs.filter(function(c) {
@@ -78,14 +90,14 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
         }));
         catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
         $scope.updateTables();
-    }
+    };
 
     $scope.submitRequest = function() {
         var institution = findInstitution($scope.select.tree);
         var data = {
             observations: $scope.observations,
             provider: institution
-        }
+        };
 
         $http.post(Routing.generate('admin_rest_order') + $scope.order.id + '/event/request', data).success(function(response) {
             if (response) {
@@ -93,5 +105,24 @@ orderControllers.controller('OrderCtrl', function($scope, $http, Order, Request,
                 $('.modal').modal('hide');
             }
         });
-    }
+    };
+
+    $scope.formatReceiveData = function() {
+        return _.pairs($scope.receive).map(function(item) {
+            return _.object(item);
+        });
+    };
+
+    $scope.uploader = $fileUploader.create({
+        scope: $scope,
+        url: Routing.generate('admin_rest_order') + document_id + '/event/receive'
+    });
+
+    $scope.uploader.bind('beforeupload', function(event, item) {
+        item.formData = $scope.formatReceiveData();
+    });
+    
+    $scope.submitReceive = function() {
+        $scope.uploader.uploadAll();
+    };
 });

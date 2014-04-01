@@ -1093,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "0f9f719b5b1cbcb18e40b6a13a9f700c0b1e5bb8"
+                "reference": "8a558a91dd6b6b9f1d22e065fed5ad58e1957c0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/0f9f719b5b1cbcb18e40b6a13a9f700c0b1e5bb8",
-                "reference": "0f9f719b5b1cbcb18e40b6a13a9f700c0b1e5bb8",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/8a558a91dd6b6b9f1d22e065fed5ad58e1957c0a",
+                "reference": "8a558a91dd6b6b9f1d22e065fed5ad58e1957c0a",
                 "shasum": ""
             },
             "require": {
@@ -1162,7 +1162,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-03-28 23:58:47"
+            "time": "2014-04-01 11:22:32"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1171,12 +1171,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "f8e9255eedc91bc53195de288c9fe640719b2817"
+                "reference": "98953461473facd3bcb486b88cdd87bc5120b218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/f8e9255eedc91bc53195de288c9fe640719b2817",
-                "reference": "f8e9255eedc91bc53195de288c9fe640719b2817",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/98953461473facd3bcb486b88cdd87bc5120b218",
+                "reference": "98953461473facd3bcb486b88cdd87bc5120b218",
                 "shasum": ""
             },
             "require": {
@@ -1231,7 +1231,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-03-18 08:55:34"
+            "time": "2014-04-01 09:27:17"
         },
         {
             "name": "fzaninotto/faker",
@@ -1239,12 +1239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "991e39d280afc34a91684e5789023f1b276e4618"
+                "reference": "2fc67a37bdb32300080dee7a14b902c7a012837a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/991e39d280afc34a91684e5789023f1b276e4618",
-                "reference": "991e39d280afc34a91684e5789023f1b276e4618",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/2fc67a37bdb32300080dee7a14b902c7a012837a",
+                "reference": "2fc67a37bdb32300080dee7a14b902c7a012837a",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-03-26 17:22:53"
+            "time": "2014-04-01 15:09:42"
         },
         {
             "name": "gedmo/doctrine-extensions",

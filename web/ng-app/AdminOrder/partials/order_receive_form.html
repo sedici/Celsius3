@@ -1,0 +1,18 @@
+<form class="form-horizontal" id="requestForm">
+    <div class="form_group">
+        <label for="delivery_type">{{'Delivery type'}}</label>
+        <select ui-select2 ng-model="receive.delivery_type" name="delivery_type" id="delivery_type">
+            <option value=""></option>
+            <option value="pdf">{{'PDF'}}</option>
+            <option value="printed">{{'Printed'}}</option>
+        </select>
+    </div>
+    <div class="form_group">
+        <label for="observations">{{'Observations'}}</label>
+        <textarea class=" form-control" ng-model="observations" name="observations" id="observations"></textarea>
+    </div>
+    <div class="form_group">
+        <label for="files">{{'Files'}}</label>
+        <input ng-file-select type="file" multiple id="files" name="files" />
+    </div>
+</form>
