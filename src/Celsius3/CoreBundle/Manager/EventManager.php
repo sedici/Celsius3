@@ -113,37 +113,22 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReceive(Order $order, array $extraData, Instance $instance)
+    private function prepareExtraDataForReceive(Request $request, array $extraData, Instance $instance)
     {
-        if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('request')) {
-            $this->container->get('session')->getFlashBag()
-                    ->add('error', 'There was an error changing the state.');
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        
+        if (!$httpRequest->request->has('request')) {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw new NotFoundHttpException();
         }
 
-        $form = $this->container->get('form.factory')
-                ->create(new OrderReceiveType());
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $extraData['observations'] = $data['observations'];
-            $extraData['request'] = $this->container
-                    ->get('doctrine.odm.mongodb.document_manager')
-                    ->getRepository('Celsius3CoreBundle:Event')
-                    ->find(
-                    $request->query
-                    ->get('request'));
-            $extraData['files'] = $data['files'];
-        } else {
-            $this->container->get('session')->getFlashBag()
-                    ->add('error', 'There was an error changing the state.');
-
-            throw new NotValidException();
-        }
+        $extraData['observations'] = $httpRequest->request->get('observations', null);
+        $extraData['request'] = $this->container
+                ->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->find($httpRequest->request->get('request'));
+        $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;
     }
@@ -267,7 +252,7 @@ class EventManager
                 $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance()) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
             case self::EVENT__RECEIVE:
-                $event = ($extraData['request']->getOrder()->getInstance()->getId() != $extraData['request']->getInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+                $event = ($extraData['request']->getRequest()->getInstance()->getId() != $extraData['request']->getInstance()->getId()) ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
                 break;
             case self::EVENT__CANCEL:
                 $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;

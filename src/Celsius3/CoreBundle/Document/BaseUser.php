@@ -15,6 +15,7 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\HasLifecycleCallbacks
  * @MongoDB\Indexes({
  *   @MongoDB\Index(keys={"name"="asc"}),
  *   @MongoDB\Index(keys={"surname"="asc"}),

@@ -5,9 +5,9 @@ namespace Celsius3\CoreBundle\Manager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\File;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Document\FileDownload;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Document\BaseUser;
 
 class FileManager
@@ -32,7 +32,7 @@ class FileManager
         }
     }
 
-    public function registerDownload(Order $order, File $file, Request $request, BaseUser $user)
+    public function registerDownload(Order $order, File $file, HttpRequest $request, BaseUser $user)
     {
         $file->setIsDownloaded(true);
         $download = new FileDownload();

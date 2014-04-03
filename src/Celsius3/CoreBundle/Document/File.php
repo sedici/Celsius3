@@ -7,6 +7,7 @@ use Doctrine\MongoDB\GridFSFile;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\HasLifecycleCallbacks
  */
 class File
 {

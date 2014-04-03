@@ -109,7 +109,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.formatReceiveData = function() {
         return _.pairs($scope.receive).map(function(item) {
-            return _.object(item);
+            return _.object([item]);
         });
     };
 
