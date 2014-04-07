@@ -60,7 +60,7 @@ class LifecycleHelper
         $event->setState($this->getState($request, $event, $data));
         $event->applyExtraData($request, $data, $this, $data['date']);
         $this->dm->persist($event);
-        
+
         return $event;
     }
 
@@ -113,6 +113,14 @@ class LifecycleHelper
             'eventClassName' => $this->event_manager->getFullClassNameForEvent($eventName),
         );
 
+        if ($name === EventManager::EVENT__RECEIVE) {
+            $events = $this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId());
+
+            if (count($events) > 0) {
+                $data['event'] = array_pop($events);
+            }
+        }
+
         if (!$request->hasState($this->state_manager->getPreviousMandatoryState($data['stateName']), $data['instance']) && $name != EventManager::EVENT__CREATION) {
             throw new PreviousStateNotFoundException('State not found');
         }
@@ -131,7 +139,12 @@ class LifecycleHelper
     {
         try {
             $data = $this->preValidate($name, $request, $instance);
-            $event = $this->setEventData($request, $data);
+            if (array_key_exists('event', $data)) {
+                $event = $data['event'];
+                $this->uploadFiles($request, $event, $data['extraData']['files']);
+            } else {
+                $event = $this->setEventData($request, $data);
+            }
             $this->refresh($request);
             $this->dm->refresh($event);
             return $event;

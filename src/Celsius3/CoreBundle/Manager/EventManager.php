@@ -5,17 +5,12 @@ namespace Celsius3\CoreBundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Celsius3\CoreBundle\Document\Event\Approve;
-use Celsius3\CoreBundle\Document\Event\Event;
-use Celsius3\CoreBundle\Document\Event\SingleInstanceReceive;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Form\Type\OrderReceiveType;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\Reclaim;
 use Celsius3\CoreBundle\Form\Type\OrderReclaimType;
 
 class EventManager
@@ -116,7 +111,7 @@ class EventManager
     private function prepareExtraDataForReceive(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
-        
+
         if (!$httpRequest->request->has('request')) {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
@@ -306,72 +301,6 @@ class EventManager
         }
 
         return $results;
-    }
-
-    /*
-     * Event rendering functions
-     */
-
-    public function getDataForRequestRendering(Event $event, Order $order)
-    {
-        $instance = $this->container->get('celsius3_core.instance_helper')
-                ->getSessionInstance();
-
-        return array('event' => $event,
-            'isMultiInstance' => $event instanceof MultiInstanceRequest,
-            'order' => $order,
-            'receive_form' => $this->container->get('form.factory')
-                    ->create(new OrderReceiveType(), new SingleInstanceReceive())->createView(),
-            'isReceived' => $this->container
-                    ->get('doctrine.odm.mongodb.document_manager')
-                    ->getRepository('Celsius3CoreBundle:Event')
-                    ->findBy(array('requestEvent.id' => $event->getId()))
-                    ->count() > 0,
-            'isDelivered' => $order
-                    ->getState(StateManager::STATE__DELIVERED, $instance),
-            'isCancelled' => $order
-                    ->hasState(StateManager::STATE__CANCELLED, $instance),);
-    }
-
-    public function getDataForReceiveRendering(Event $event, Order $order)
-    {
-        $instance = $this->container->get('celsius3_core.instance_helper')
-                ->getSessionInstance();
-        $isApproveEvent = false;
-        if ($event instanceof Approve) {
-            $event = $event->getState()->getPrevious()->getRemoteEvents()
-                            ->filter(
-                                    function ($entry) use ($event) {
-                                return ($entry->getId() == $event->getReceiveEvent()->getId());
-                            })->first();
-            $isApproveEvent = true;
-        }
-
-        $isMultiInstance = $event->getInstance() != $instance;
-        if ($isMultiInstance) {
-            $provider = $order
-                    ->getState(StateManager::STATE__CREATED, $event->getInstance())->getRemoteEvent()
-                    ->getProvider();
-        } else {
-            $provider = $event->getRequestEvent()->getProvider();
-        }
-
-        return array('event' => $event, 'provider' => $provider,
-            'reclaim_form' => $this->container->get('form.factory')
-                    ->create(new OrderReclaimType(), new Reclaim())
-                    ->createView(), 'isMultiInstance' => $isMultiInstance,
-            'order' => $order,
-            'isDelivered' => $order
-                    ->getState(StateManager::STATE__DELIVERED, $instance),
-            'isReclaimed' => $event->getIsReclaimed(),
-            'isApproveEvent' => $isApproveEvent,
-            'isApproved' => $event->getInstance()->getId() != $instance->getId() ? ($this->container
-                            ->get('doctrine.odm.mongodb.document_manager')
-                            ->getRepository('Celsius3CoreBundle:Approve')
-                            ->findBy(
-                                    array(
-                                        'receiveEvent.id' => $event
-                                        ->getId()))->count() > 0) : true,);
     }
 
 }
