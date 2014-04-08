@@ -26,7 +26,11 @@
         <div ng-if="hasReceive(request)">
             <div class="panel2_ok col-md-1"></div>
             <div class="panel3_ok col-md-5">
-                <div class="relojito"><img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" /></div>
+                <div class="relojito">
+                    <a ng-repeat="file in getReceive(request).files" ng-href="{{getFileDownloadRoute(file)}}">
+                        <img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" alt="download link" />
+                    </a>
+                </div>
                 <div class="fecha_hoja">{{getReceive(request).date | date:'dd-MM-yyyy'}}</div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation\ReferenceOne;
@@ -10,6 +11,7 @@ use Gedmo\Mapping\Annotation\ReferenceOne;
  */
 class FileDownload
 {
+
     /**
      * @MongoDB\Id
      */
@@ -45,9 +47,9 @@ class FileDownload
     private $file;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Order")
+     * @MongoDB\ReferenceOne(targetDocument="Request")
      */
-    private $order;
+    private $request;
 
     /**
      * Get id
@@ -170,24 +172,25 @@ class FileDownload
     }
 
     /**
-     * Set order
+     * Set request
      *
-     * @param Celsius3\CoreBundle\Document\Order $order
+     * @param Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
-    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
+    public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
     {
-        $this->order = $order;
+        $this->request = $request;
         return $this;
     }
 
     /**
-     * Get order
+     * Get request
      *
-     * @return Celsius3\CoreBundle\Document\Order $order
+     * @return Celsius3\CoreBundle\Document\Request $request
      */
-    public function getOrder()
+    public function getRequest()
     {
-        return $this->order;
+        return $this->request;
     }
+
 }

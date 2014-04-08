@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -16,12 +17,13 @@ use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
  */
 class AdminFileController extends BaseController
 {
+
     use FileControllerTrait;
 
-    protected function validate($order, $file)
+    protected function validate($request, $file)
     {
-        if (!$order) {
-            return $this->createNotFoundException('Order not found.');
+        if (!$request) {
+            return $this->createNotFoundException('Request not found.');
         }
 
         if (!$file) {
@@ -29,20 +31,22 @@ class AdminFileController extends BaseController
         }
 
         $user = $this->get('security.context')->getToken()->getUser();
+        
+        $httpRequest = $this->get('request_stack')->getCurrentRequest();
 
-        $this->get('celsius3_core.file_manager')
-                ->registerDownload($order, $file, $this->getRequest(), $user);
+        $this->get('celsius3_core.file_manager')->registerDownload($request, $file, $httpRequest, $user);
     }
 
     /**
      * Downloads the file associated to a File document.
      *
-     * @Route("/{order}/{file}/download", name="admin_file_download")
+     * @Route("/{request}/{file}/download", name="admin_file_download", options={"expose"=true})
      *
      * @param string $id The document ID
      */
-    public function downloadAction($order, $file)
+    public function downloadAction($request, $file)
     {
-        return $this->download($order, $file);
+        return $this->download($request, $file);
     }
+
 }

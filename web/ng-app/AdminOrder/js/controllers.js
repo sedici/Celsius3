@@ -10,6 +10,22 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
         }
     }
+    
+    $scope.getFileDownloadRoute = function(file) {
+        return Routing.generate('admin_file_download', {request: $scope.request.id, file: file.id});
+    }
+    
+    $scope.hasReceive = function(request) {
+        return $scope.receptions.filter(function(item) {
+            return item.request_event.id === request.id;
+        }).length > 0;
+    };
+    
+    $scope.getReceive = function(request) {
+        return _.first($scope.receptions.filter(function(item) {
+            return item.request_event.id === request.id;
+        }));
+    }
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',

@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Handler;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
 use Monolog\Handler\MongoDBHandler;
@@ -16,20 +17,10 @@ class MongoDBWrapperHandler extends AbstractProcessingHandler
     private $handler;
     private $container;
 
-    public function __construct(ContainerInterface $container,
-            $level = Logger::NOTICE, $bubble = true)
+    public function __construct(ContainerInterface $container, $level = Logger::NOTICE, $bubble = true)
     {
         $this->container = $container;
-        $this->handler = new MongoDBHandler(
-                new \Mongo(
-                        'mongodb://'
-                                . $this->container
-                                        ->getParameter('mongodb_host') . ':'
-                                . $this->container
-                                        ->getParameter('mongodb_port')),
-                $this->container->getParameter('mongodb_database'),
-                $this->container->getParameter('mongodb_log_collection'),
-                $level, $bubble);
+        $this->handler = new MongoDBHandler(new \MongoClient('mongodb://' . $this->container->getParameter('mongodb_host') . ':' . $this->container->getParameter('mongodb_port')), $this->container->getParameter('mongodb_database'), $this->container->getParameter('mongodb_log_collection'), $level, $bubble);
 
         parent::__construct($level, $bubble);
     }

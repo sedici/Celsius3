@@ -32,16 +32,16 @@ class FileManager
         }
     }
 
-    public function registerDownload(Order $order, File $file, HttpRequest $request, BaseUser $user)
+    public function registerDownload(Request $request, File $file, HttpRequest $httpRequest, BaseUser $user)
     {
         $file->setIsDownloaded(true);
         $download = new FileDownload();
         $download->setDate(time());
-        $download->setIp($request->getClientIp());
+        $download->setIp($httpRequest->getClientIp());
         $download->setUser($user);
-        $download->setUserAgent($request->headers->get('user-agent'));
+        $download->setUserAgent($httpRequest->headers->get('user-agent'));
         $download->setFile($file);
-        $download->setOrder($order);
+        $download->setRequest($request);
         $this->dm->persist($file);
         $this->dm->persist($download);
         $this->dm->flush();
