@@ -16,6 +16,23 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     * @Get("/{request_id}", name="admin_rest_events", options={"expose"=true})
+     */
+    public function getAllEventsAction($request_id)
+    {
+        $events = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->findBy(array(
+            'request.id' => $request_id,
+        ));
+
+        $view = $this->view(array_values($events), 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
      * @Get("/{request_id}/{event}", name="admin_rest_event", options={"expose"=true})
      */
     public function getEventsAction($request_id, $event)

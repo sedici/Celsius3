@@ -80,6 +80,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
         $scope.requests = Event.query({request_id: request.id, event: 'request'});
         $scope.receptions = Event.query({request_id: request.id, event: 'receive'});
+        $scope.events = Event.query({request_id: request.id});
     });
 
     /**
