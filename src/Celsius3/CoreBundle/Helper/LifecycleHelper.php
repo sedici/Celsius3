@@ -114,7 +114,9 @@ class LifecycleHelper
         );
 
         if ($name === EventManager::EVENT__RECEIVE) {
-            $events = $this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId());
+            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function($item) use ($extraData) {
+                return $item->getRequestEvent()->getId() === $extraData['request']->getId();
+            });
 
             if (count($events) > 0) {
                 $data['event'] = array_pop($events);

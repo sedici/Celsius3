@@ -10,22 +10,22 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
         }
     }
-    
+
     $scope.getFileDownloadRoute = function(file) {
         return Routing.generate('admin_file_download', {request: $scope.request.id, file: file.id});
-    }
-    
+    };
+
     $scope.hasReceive = function(request) {
         return $scope.receptions.filter(function(item) {
             return item.request_event.id === request.id;
         }).length > 0;
     };
-    
+
     $scope.getReceive = function(request) {
         return _.first($scope.receptions.filter(function(item) {
             return item.request_event.id === request.id;
         }));
-    }
+    };
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
@@ -99,6 +99,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
         });
     };
+    
+    $scope.updateReceive = function(id) {
+        $scope.receive.request = id;
+    };
 
     $scope.updateCatalog = function(catalog) {
         catalog.search.catalog = _.first($scope.catalogs.filter(function(c) {
@@ -137,7 +141,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.uploader.bind('beforeupload', function(event, item) {
         item.formData = $scope.formatReceiveData();
     });
-    
+
+    $scope.uploader.bind('completeall', function(event, item) {
+        $('.modal').modal('hide');
+    });
+
     $scope.submitReceive = function() {
         $scope.uploader.uploadAll();
     };
