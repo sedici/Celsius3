@@ -12,12 +12,6 @@ orderFilters.filter('request_type_abbr', function() {
     };
 });
 
-orderFilters.filter('request_operator', function() {
-    return function(operator) {
-        return operator ? operator : '-';
-    };
-});
-
 orderFilters.filter('material_with_index', function() {
     return function(input) {
         return input === true ? 'Yes' : 'No';
@@ -27,5 +21,19 @@ orderFilters.filter('material_with_index', function() {
 orderFilters.filter('get_url', function() {
     return function(input) {
         return Routing.generate(input.path, input.params);
+    };
+});
+
+orderFilters.filter('get_history_icon', function() {
+    return function(input) {
+        var icons = {
+            search: 'lupa1',
+            sirequest: 'reloj1',
+            mirequest: 'reloj2',
+            sireceive: 'papel1',
+            mireceive: 'papel2',
+            deliver: 'ok'
+        };
+        return icons[input];
     };
 });

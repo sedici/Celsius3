@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, Order, Request, Catalog, CatalogSearch, Event) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, Order, Request, Catalog, CatalogSearch, Event) {
     function findInstitution(tree) {
         var node = _.first(tree);
         if (node.child.length === 0) {
@@ -80,7 +80,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
         $scope.requests = Event.query({request_id: request.id, event: 'request'});
         $scope.receptions = Event.query({request_id: request.id, event: 'receive'});
-        $scope.events = Event.query({request_id: request.id});
+        Event.query({request_id: request.id}, function(events) {
+            $scope.events = _.groupBy(events, function(event) {
+                return $filter('date')(event.date, 'yyyy');
+            });
+        });
     });
 
     /**
@@ -100,7 +104,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
         });
     };
-    
+
     $scope.updateReceive = function(id) {
         $scope.receive.request = id;
     };

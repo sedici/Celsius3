@@ -66,8 +66,11 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         if (!$order) {
             throw $this->createNotFoundException('Unable to find Order.');
         }
+        
+        $request = $order->getRequest($this->getInstance());
+        $request->setOperator($this->getUser());
 
-        $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $order->getRequest($this->getInstance()));
+        $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request);
 
         $view = $this->view($result, 200)
                 ->setFormat('json');

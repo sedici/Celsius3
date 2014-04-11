@@ -44,7 +44,7 @@ class CatalogSearch
      * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="BaseUser")
      */
-    private $admin;
+    private $operator;
 
     /**
      * Get id
@@ -123,25 +123,25 @@ class CatalogSearch
     }
 
     /**
-     * Set admin
+     * Set operator
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $admin
+     * @param Celsius3\CoreBundle\Document\BaseUser $operator
      * @return self
      */
-    public function setAdmin(\Celsius3\CoreBundle\Document\BaseUser $admin)
+    public function setOperator(\Celsius3\CoreBundle\Document\BaseUser $operator)
     {
-        $this->admin = $admin;
+        $this->operator = $operator;
         return $this;
     }
 
     /**
-     * Get admin
+     * Get operator
      *
-     * @return Celsius3\CoreBundle\Document\BaseUser $admin
+     * @return Celsius3\CoreBundle\Document\BaseUser $operator
      */
-    public function getAdmin()
+    public function getOperator()
     {
-        return $this->admin;
+        return $this->operator;
     }
 
     /**

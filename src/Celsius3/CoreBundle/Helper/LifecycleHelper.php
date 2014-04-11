@@ -135,7 +135,8 @@ class LifecycleHelper
      * event and state
      *
      * @param string $name The event name
-     * @param Celsius3\CoreBundle\Document\Order $order The Order document
+     * @param Celsius3\CoreBundle\Document\Request $request The Request document
+     * @param Celsius3\CoreBundle\Document\Instance $instance The Instance document
      */
     public function createEvent($name, Request $request, Instance $instance = null)
     {

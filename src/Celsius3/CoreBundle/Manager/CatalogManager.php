@@ -2,8 +2,11 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
+use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Document\Catalog;
+use Celsius3\CoreBundle\Document\CatalogSearch;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
@@ -51,6 +54,32 @@ class CatalogManager
         }
 
         return $qb->getQuery()->execute();
+    }
+
+    public function createSearch(Catalog $catalog, Request $request, BaseUser $user, $result)
+    {
+        $document = $this->dm->getRepository('Celsius3CoreBundle:CatalogSearch')
+                ->findOneBy(array(
+            'catalog.id' => $catalog->getId(),
+            'request.id' => $request->getId(),
+        ));
+        
+        if (!$document) {
+            $document = new CatalogSearch();
+            $document->setCatalog($catalog);
+            $document->setRequest($request);
+        }
+
+        $document->setOperator($user);
+        $document->setDate(date('Y-m-d H:i:s'));
+        $document->setResult($result);
+
+        $this->dm->persist($document);
+        $this->dm->flush();
+
+        $this->dm->refresh($document);
+        
+        return $document;
     }
 
 }

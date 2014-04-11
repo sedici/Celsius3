@@ -5,6 +5,6 @@
         <property name="result" type="string" expose="true" access-type="public_method"></property>
         <property name="date" type="DateTime" expose="true" access-type="public_method"></property>
         <property name="catalog" type="Celsius3\CoreBundle\Document\Catalog" expose="true" access-type="public_method"></property>
-        <property name="admin" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
+        <property name="operator" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
     </class>  
 </serializer>

@@ -8,7 +8,7 @@
         <div class="status-{{request.current_state}}"></div>
         <div class="uri">{{order.code}}</div>
         <div class="usuario">
-            {{request.operator | request_operator}}
+            {{request.operator ? request.operator.name : '-'}}
         </div>
         <div class="decoracion"></div>
     </div>

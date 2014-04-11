@@ -20,5 +20,6 @@
         <property name="id" type="string" expose="true" read-only="true"></property>  
         <property name="date" type="DateTime" expose="true" access-type="public_method"></property>
         <property name="observations" type="string" expose="true" access-type="public_method"></property>
+        <property name="operator" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
     </class>  
 </serializer>  

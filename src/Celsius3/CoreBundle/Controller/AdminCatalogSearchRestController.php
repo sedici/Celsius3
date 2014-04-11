@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Celsius3\CoreBundle\Document\CatalogSearch;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 /**
  * User controller.
@@ -62,21 +63,16 @@ class AdminCatalogSearchRestController extends BaseInstanceDependentRestControll
     /**
      * @Post("/{request_id}", name="admin_rest_catalogsearch_create", options={"expose"=true})
      */
-    public function createCatalogSearchAction($request_id)
+    public function createCatalogSearchAction($request_id, HttpRequest $httpRequest)
     {
         $dm = $this->getDocumentManager();
 
-        $request = $dm->getRepository('Celsius3CoreBundle:Request')
-                ->find($request_id);
-
-        if (!$request) {
+        if (!$request = $dm->getRepository('Celsius3CoreBundle:Request')->find($request_id)) {
             return $this->createNotFoundException('Request not found.');
         }
 
-        $catalog = $dm->getRepository('Celsius3CoreBundle:Catalog')
-                ->find($this->getRequest()->request->get('catalog[id]', null, true));
-
-        if (!$catalog) {
+        if (!$catalog = $dm->getRepository('Celsius3CoreBundle:Catalog')
+                ->find($this->getRequest()->request->get('catalog[id]', null, true))) {
             return $this->createNotFoundException('Catalog not found.');
         }
 
@@ -84,26 +80,11 @@ class AdminCatalogSearchRestController extends BaseInstanceDependentRestControll
             return $this->createNotFoundException('Result not found.');
         }
 
-        $document = $dm->getRepository('Celsius3CoreBundle:CatalogSearch')
-                ->findOneBy(array(
-            'catalog.id' => $catalog->getId(),
-            'request.id' => $request->getId(),
-        ));
+        $result = $httpRequest->request->get('result');
+        
+        $request->setOperator($this->getUser());
 
-        if (!$document) {
-            $document = new CatalogSearch();
-            $document->setCatalog($catalog);
-            $document->setRequest($request);
-        }
-
-        $document->setAdmin($this->getUser());
-        $document->setDate(date('Y-m-d H:i:s'));
-        $document->setResult($this->getRequest()->request->get('result'));
-
-        $dm->persist($document);
-        $dm->flush();
-
-        $dm->refresh($document);
+        $document = $this->get('celsius3_core.catalog_manager')->createSearch($catalog, $request, $this->getUser(), $result);
 
         $view = $this->view($document, 200)
                 ->setFormat('json');
