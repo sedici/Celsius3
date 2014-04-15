@@ -1,3 +1,5 @@
+$.fn.modal.Constructor.prototype.enforceFocus = function () {};
+
 function getOldValues() {
     var values = [];
     var form_name = 'celsius3_corebundle_ordertype_materialData';

@@ -1,6 +1,8 @@
 var orderControllers = angular.module('orderControllers', []);
 
 orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, Order, Request, Catalog, CatalogSearch, Event) {
+    'use strict';
+
     function findInstitution(tree) {
         var node = _.first(tree);
         if (node.child.length === 0) {
@@ -9,6 +11,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             var institution = findInstitution(node.child);
             return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
         }
+    }
+    
+    $scope.addToEvents = function(event) {
+        $scope.events[$filter('date')(event.date, 'yyyy')].push(event);
     }
 
     $scope.getFileDownloadRoute = function(file) {
@@ -127,6 +133,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         $http.post(Routing.generate('admin_rest_order') + $scope.order.id + '/event/request', data).success(function(response) {
             if (response) {
                 $scope.requests.push(response);
+                $scope.addToEvents(response);
                 $('.modal').modal('hide');
             }
         });
@@ -147,7 +154,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         item.formData = $scope.formatReceiveData();
     });
 
-    $scope.uploader.bind('completeall', function(event, item) {
+    $scope.uploader.bind('completeall', function(event, items) {
+        // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
+        var response = JSON.parse(_.last(items)._xhr.response)
+        $scope.receptions.push(response);
+        $scope.addToEvents(response);
         $('.modal').modal('hide');
     });
 

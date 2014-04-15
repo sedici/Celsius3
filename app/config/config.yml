@@ -67,7 +67,12 @@ assetic:
                 - cssrewrite
         select2:
             inputs:
-                - "bundles/celsius3core/components//select2/select2.css"
+                - "bundles/celsius3core/components/select2/select2.css"
+            filters:
+                - cssrewrite
+        select2-bootstrap-css:
+            inputs:
+                - "bundles/celsius3core/components/select2-bootstrap-css/select2-bootstrap.css"
             filters:
                 - cssrewrite
 

@@ -22,7 +22,7 @@
         <strong>{{'Number'}}</strong> {{order.material_data.number}}
     </li>
     <li ng-if="order.material_data.type === 'journal'">
-        <strong>{{'Journal'}}</strong> {{order.material_data.journal}}
+        <strong>{{'Journal'}}</strong> {{order.material_data.journal.name}}
     </li>
     <li ng-if="order.material_data.type === 'book'">
         <strong>{{'Editor'}}</strong> {{order.material_data.editor}}
