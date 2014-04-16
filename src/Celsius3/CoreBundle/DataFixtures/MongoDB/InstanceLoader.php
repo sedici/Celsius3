@@ -242,12 +242,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
 
                     $order->setMaterialData($material);
 
-                    $request = new Document\Request();
-                    $request->setOwner($user);
-                    $request->setType(OrderManager::TYPE__SEARCH);
-                    $request->setInstance($instance);
-
-                    $order->setOriginalRequest($request);
+                    $order->setOriginalRequest($this->container->get('celsius3_core.lifecycle_helper')->createRequest($user, OrderManager::TYPE__SEARCH, $instance));
 
                     $manager->persist($order);
 

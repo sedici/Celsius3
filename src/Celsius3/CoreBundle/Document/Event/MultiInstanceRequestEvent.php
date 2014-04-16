@@ -11,6 +11,7 @@ use Celsius3\CoreBundle\Document\Mixin\CancellableTrait;
 use Celsius3\CoreBundle\Document\Mixin\ProviderTrait;
 use Celsius3\CoreBundle\Document\Mixin\AnnullableTrait;
 use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Manager\OrderManager;
 
 /**
  * @MongoDB\Document
@@ -18,15 +19,15 @@ use Celsius3\CoreBundle\Document\Request;
 class MultiInstanceRequestEvent extends MultiInstanceEvent
 {
 
-    use AnnullableTrait,
-        ReclaimableTrait,
+    use ReclaimableTrait,
         CancellableTrait,
+        AnnullableTrait,
         ProviderTrait;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="remoteEvents", cascade={"persist", "refresh"})
+     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Request", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
-    private $remoteState;
+    private $remoteRequest;
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
@@ -35,29 +36,31 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
         $this->setRemoteInstance($data['extraData']['provider']->getCelsiusInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__CREATED;
-        $this->setRemoteState($lifecycleHelper->getState($request, $this, $data, $this));
+        $remoteRequest = $lifecycleHelper->createRequest($request->getOperator(), OrderManager::TYPE__PROVISION, $this->getRemoteInstance());
+        $remoteRequest->setOrder($request->getOrder());
+        $this->setRemoteRequest($remoteRequest);
     }
 
     /**
-     * Set remoteState
+     * Set remoteRequest
      *
-     * @param Celsius3\CoreBundle\Document\State $remoteState
+     * @param Celsius3\CoreBundle\Document\Request $remoteRequest
      * @return self
      */
-    public function setRemoteState(\Celsius3\CoreBundle\Document\State $remoteState)
+    public function setRemoteRequest(\Celsius3\CoreBundle\Document\Request $remoteRequest)
     {
-        $this->remoteState = $remoteState;
+        $this->remoteRequest = $remoteRequest;
         return $this;
     }
 
     /**
-     * Get remoteState
+     * Get remoteRequest
      *
-     * @return Celsius3\CoreBundle\Document\State $remoteState
+     * @return Celsius3\CoreBundle\Document\Request $remoteRequest
      */
-    public function getRemoteState()
+    public function getRemoteRequest()
     {
-        return $this->remoteState;
+        return $this->remoteRequest;
     }
 
 }

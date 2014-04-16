@@ -51,7 +51,7 @@ class FilterManager
                 break;
             case 'document':
             case 'collection':
-                $query = $query->field($key . '.id')->equals(new \MongoId($data)); //$data; data.$id
+                $query = $query->field($key . '.id')->equals($data->getId()); //$data; data.$id
                 break;
             default:
                 $query = $query->field($key)->equals($data);

@@ -12,7 +12,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
         }
     }
-    
+
     $scope.addToEvents = function(event) {
         $scope.events[$filter('date')(event.date, 'yyyy')].push(event);
     }
@@ -84,8 +84,16 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             });
         });
 
-        $scope.requests = Event.query({request_id: request.id, event: 'request'});
-        $scope.receptions = Event.query({request_id: request.id, event: 'receive'});
+        Event.query({request_id: request.id, event: 'request'}, function(events) {
+            $scope.requests = _.sortBy(events, function(event) {
+                return event.date;
+            });
+        });
+        Event.query({request_id: request.id, event: 'receive'}, function(events) {
+            $scope.receptions = _.sortBy(events, function(event) {
+                return event.date;
+            });
+        });
         Event.query({request_id: request.id}, function(events) {
             $scope.events = _.groupBy(events, function(event) {
                 return $filter('date')(event.date, 'yyyy');

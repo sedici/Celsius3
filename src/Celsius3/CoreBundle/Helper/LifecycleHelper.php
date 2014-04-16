@@ -7,6 +7,7 @@ use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Document\State;
 use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Exception\PreviousStateNotFoundException;
@@ -154,6 +155,15 @@ class LifecycleHelper
         } catch (PreviousStateNotFoundException $e) {
             return null;
         }
+    }
+
+    public function createRequest(BaseUser $user, $type, Instance $instance)
+    {
+        $request = new Request();
+        $request->setOwner($user);
+        $request->setType($type);
+        $request->setInstance($instance);
+        $this->dm->persist($request);
     }
 
     public function undoState(Order $order)
