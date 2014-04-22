@@ -19,7 +19,6 @@
         <parameter key="celsius3_core.catalog_listener.class">Celsius3\CoreBundle\Listener\CatalogListener</parameter>
         <parameter key="celsius3_core.configuration_listener.class">Celsius3\CoreBundle\Listener\ConfigurationListener</parameter>
         <parameter key="celsius3_core.order_listener.class">Celsius3\CoreBundle\Listener\OrderListener</parameter>
-        <parameter key="celsius3_core.catalog_search_listener.class">Celsius3\CoreBundle\Listener\CatalogSearchListener</parameter>
         <parameter key="celsius3_core.security.login_listener.class">Celsius3\CoreBundle\EventListener\LoginListener</parameter>
         <parameter key="celsius3_core.locale_choosing_listener.class">Celsius3\CoreBundle\EventListener\LocaleChoosingListener</parameter>
         <parameter key="celsius3_core.instance_listener.class">Celsius3\CoreBundle\EventListener\InstanceListener</parameter>
@@ -127,11 +126,6 @@
             <argument type="service" id="service_container"></argument>
             <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
-        </service>
-        
-        <service id="celsius3_core.catalog_search_listener" class="%celsius3_core.catalog_search_listener.class%">
-            <argument type="service" id="service_container"></argument>
-            <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
         </service>
 
         <service id="celsius3_core.security.login_listener" class="%celsius3_core.security.login_listener.class%">
