@@ -157,13 +157,16 @@ class LifecycleHelper
         }
     }
 
-    public function createRequest(BaseUser $user, $type, Instance $instance)
+    public function createRequest(Order $order, BaseUser $user, $type, Instance $instance)
     {
         $request = new Request();
         $request->setOwner($user);
         $request->setType($type);
         $request->setInstance($instance);
+        $request->setOrder($order);
         $this->dm->persist($request);
+        
+        return $request;
     }
 
     public function undoState(Order $order)

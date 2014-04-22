@@ -8,7 +8,8 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
                 id: 'institution' + scope.select_count,
                 name: 'institution' + scope.select_count,
                 institutions: [],
-                child: []
+                child: [],
+                institution: {}
             }];
         scope.countryChanged = function() {
             scope.cities = City.query({country_id: scope.select.country});
@@ -32,6 +33,19 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
                     }];
             });
         }
+        scope.$on('reset', function() {
+            scope.select_count = 0;
+            scope.cities = [];
+            scope.select.country = {};
+            scope.select.city = {};
+            scope.select.tree = [{
+                    id: 'institution' + scope.select_count,
+                    name: 'institution' + scope.select_count,
+                    institutions: [],
+                    child: [],
+                    institution: {}
+                }];
+        });
     }
 
     return {

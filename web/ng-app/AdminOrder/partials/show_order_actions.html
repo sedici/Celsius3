@@ -1,10 +1,19 @@
-<div id="explorar_catalogos">
-    <a data-target="#request-modal" role="button" data-toggle="modal" id="request_link">
-        <img src="/bundles/celsius3core/images/agregar_solicitud.png" alt="Add request" width="150" height="40" />
-    </a>
+<div class="explorar_catalogos" ng-if="searches.length > 0">
+    <button type="button" class="btn btn-success btn-block" data-target="#request-modal" role="button" data-toggle="modal">
+        <span class="glyphicon glyphicon-plus"></span> {{'Add request'}}
+    </button>
 </div>
-<div id="explorar_catalogos">
-    <a data-target="#search-modal" role="button" data-toggle="modal" id="catalogs_link">{{'Explore catalogs'}}</a>
+
+<div class="explorar_catalogos" ng-if="searches.length === 0">
+    <button type="button" class="btn btn-default btn-block">
+        <span class="glyphicon glyphicon-plus"></span> {{'Add request'}}
+    </button>
+</div>
+
+<div class="explorar_catalogos">
+    <button type="button" class="btn btn-link btn-block" data-target="#search-modal" role="button" data-toggle="modal" id="catalogs_link">
+        {{'Explore catalogs'}}
+    </button>
 </div>
 
 <div id="search-modal" class="modal fade">
@@ -15,7 +24,7 @@
                 <h4 id="search-modal-label" class="modal-title">{{'Search in catalogs'}}</h4>
             </div>
             <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/catalog_list.html'">
-                
+
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal">{{'Close'}}</button>
@@ -31,8 +40,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="request-modal-label">{{'Request'}}</h3>
             </div>
-            <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/order_request_form.html'" ng-bind-html-unsafe="formResponse">
-                
+            <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/order_request_form.html'">
+
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'Close'}}</button>

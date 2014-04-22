@@ -11,15 +11,15 @@
 </div>
 <div class="form_group">
     <label for="country">{{'Country'}}</label>
-    <select ui-select2 ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
-        <option value=""></option>
+    <select ui-select2="{placeholder: 'Select a country', allowClear: true}" ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
+        <option></option>
         <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
     </select>
 </div>
 <div class="form_group">
     <label for="city">{{'City'}}</label>
-    <select ui-select2 ng-model="select.city" name="city" id="city" ng-disabled="!cities" ng-change="cityChanged()">
-        <option value=""></option>
+    <select ui-select2="{placeholder: 'Select a city', allowClear: true}" ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
+        <option></option>
         <option ng-repeat="c in cities" value="{{c.id}}">{{c.name}}</option>
     </select>
 </div>

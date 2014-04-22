@@ -785,12 +785,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "69e3d11841419e5cb6a0eff1c0b5f40225815f88"
+                "reference": "ba003dbee2e715fac5269a1bf356a73374e763d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/69e3d11841419e5cb6a0eff1c0b5f40225815f88",
-                "reference": "69e3d11841419e5cb6a0eff1c0b5f40225815f88",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/ba003dbee2e715fac5269a1bf356a73374e763d5",
+                "reference": "ba003dbee2e715fac5269a1bf356a73374e763d5",
                 "shasum": ""
             },
             "require": {
@@ -831,7 +831,7 @@
                     "homepage": "http://avalanche123.com"
                 },
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -855,7 +855,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-04-15 07:15:38"
+            "time": "2014-04-20 16:45:34"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1093,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "292891740390ec5bdddc95340dec3a2b3c687e0d"
+                "reference": "6e5017a66437fdf54c88db75edeec25e4354b4f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/292891740390ec5bdddc95340dec3a2b3c687e0d",
-                "reference": "292891740390ec5bdddc95340dec3a2b3c687e0d",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/6e5017a66437fdf54c88db75edeec25e4354b4f6",
+                "reference": "6e5017a66437fdf54c88db75edeec25e4354b4f6",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1163,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-04-14 18:21:20"
+            "time": "2014-04-21 08:26:51"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1240,12 +1240,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "89345a3ccc366bc14e0a984a086cc66028bd6411"
+                "reference": "3a03f26ea3f8f86ebf90edb1df5c4c73ec4d68c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/89345a3ccc366bc14e0a984a086cc66028bd6411",
-                "reference": "89345a3ccc366bc14e0a984a086cc66028bd6411",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/3a03f26ea3f8f86ebf90edb1df5c4c73ec4d68c2",
+                "reference": "3a03f26ea3f8f86ebf90edb1df5c4c73ec4d68c2",
                 "shasum": ""
             },
             "require": {
@@ -1282,7 +1282,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-04-14 12:22:41"
+            "time": "2014-04-21 20:53:35"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2504,16 +2504,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174"
+                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/392ef35fd470638e08d0160d6b1cbab63cb23174",
-                "reference": "392ef35fd470638e08d0160d6b1cbab63cb23174",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
+                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
                 "shasum": ""
             },
             "require": {
@@ -2541,7 +2541,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.8.x-dev"
+                    "dev-master": "1.9.x-dev"
                 }
             },
             "autoload": {
@@ -2568,7 +2568,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-03-23 19:50:26"
+            "time": "2014-04-20 16:41:26"
         },
         {
             "name": "nikic/php-parser",

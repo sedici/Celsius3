@@ -42,38 +42,38 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                 'class' => 'Celsius3\\CoreBundle\\Document\\JournalType',
                 'fields' => array(
                     'setVolume' => function () use ($generator) {
-                        return $generator->randomNumber;
-                    },
+                return $generator->randomNumber;
+            },
                     'setNumber' => function () use ($generator) {
-                        return $generator->randomNumber;
-                    },
+                return $generator->randomNumber;
+            },
                     'setJournal' => function () use ($generator, $manager) {
-                        $random = $generator->randomNumber(0, count($manager->getRepository('Celsius3CoreBundle:Journal')->findAll()) - 1);
+                $random = $generator->randomNumber(0, count($manager->getRepository('Celsius3CoreBundle:Journal')->findAll()) - 1);
 
-                        return $manager
-                                        ->getRepository(
-                                                'Celsius3CoreBundle:Journal')
-                                        ->createQueryBuilder()
-                                        ->limit(-1)
-                                        ->skip($random)
-                                        ->getQuery()
-                                        ->execute()
-                                        ->getNext();
-                    },
+                return $manager
+                                ->getRepository(
+                                        'Celsius3CoreBundle:Journal')
+                                ->createQueryBuilder()
+                                ->limit(-1)
+                                ->skip($random)
+                                ->getQuery()
+                                ->execute()
+                                ->getNext();
+            },
                 ),
             ),
             MaterialTypeManager::TYPE__BOOK => array(
                 'class' => 'Celsius3\\CoreBundle\\Document\\BookType',
                 'fields' => array(
                     'setEditor' => function () use ($generator) {
-                        return $generator->company;
-                    },
+                return $generator->company;
+            },
                     'setChapter' => function () use ($generator) {
-                        return $generator->randomNumber;
-                    },
+                return $generator->randomNumber;
+            },
                     'setISBN' => function () use ($generator) {
-                        return $generator->randomNumber(13);
-                    },
+                return $generator->randomNumber(13);
+            },
                 ),
             ),
             MaterialTypeManager::TYPE__PATENT => array(
@@ -84,26 +84,26 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                 'class' => 'Celsius3\\CoreBundle\\Document\\CongressType',
                 'fields' => array(
                     'setPlace' => function () use ($generator) {
-                        return $generator->address;
-                    },
+                return $generator->address;
+            },
                     'setCommunication' => function () use ($generator) {
-                        return $generator->text(500);
-                    },
+                return $generator->text(500);
+            },
                 ),
             ),
             MaterialTypeManager::TYPE__THESIS => array(
                 'class' => 'Celsius3\\CoreBundle\\Document\\ThesisType',
                 'fields' => array(
                     'setDirector' => function () use ($generator) {
-                        return $generator->name;
-                    },
+                return $generator->name;
+            },
                     'setDegree' => function () use ($generator) {
-                        return $generator->randomElement(array('grado', 'posgrado'));
-                    },
+                return $generator->randomElement(array('grado', 'posgrado'));
+            },
                 ),
             ),
         );
-                    
+
         $hive = new Document\Hive();
         $hive->setName('LibLink');
         $manager->persist($hive);
@@ -121,7 +121,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             $instance->setEnabled(true);
             $instance->setHive($hive);
             $manager->persist($instance);
-            
+
             $institution = $dbhelper->findRandomRecord('Celsius3CoreBundle:Institution');
             $institution->setCelsiusInstance($instance);
             $manager->persist($institution);
@@ -242,7 +242,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
 
                     $order->setMaterialData($material);
 
-                    $order->setOriginalRequest($this->container->get('celsius3_core.lifecycle_helper')->createRequest($user, OrderManager::TYPE__SEARCH, $instance));
+                    $order->setOriginalRequest($this->container->get('celsius3_core.lifecycle_helper')->createRequest($order, $user, OrderManager::TYPE__SEARCH, $instance));
 
                     $manager->persist($order);
 

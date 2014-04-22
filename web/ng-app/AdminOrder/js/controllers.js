@@ -15,14 +15,14 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.addToEvents = function(event) {
         $scope.events[$filter('date')(event.date, 'yyyy')].push(event);
-    }
+    };
 
     $scope.getFileDownloadRoute = function(file) {
         return Routing.generate('admin_file_download', {request: $scope.request.id, file: file.id});
     };
 
     $scope.hasReceive = function(request) {
-        return $scope.receptions.filter(function(item) {
+        return !_.isUndefined($scope.receptions) && $scope.receptions.filter(function(item) {
             return item.request_event.id === request.id;
         }).length > 0;
     };
@@ -73,6 +73,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.request = Request.get({order_id: document_id}, function(request) {
         $scope.catalogs = Catalog.query(function(catalogs) {
             CatalogSearch.query({request_id: request.id}, function(searches) {
+                $scope.searches = searches;
                 $scope.catalogsWithSearches = angular.copy(catalogs).map(function(item) {
                     item.search = _.first(searches.filter(function(search) {
                         return search.catalog.id === item.id;
@@ -128,6 +129,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return c.id === catalog.id;
         }));
         catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
+        $scope.searches.push(catalog.search);
         $scope.updateTables();
     };
 
@@ -142,6 +144,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             if (response) {
                 $scope.requests.push(response);
                 $scope.addToEvents(response);
+                $('#requestForm').get(0).reset();
+                $scope.$broadcast('reset');
                 $('.modal').modal('hide');
             }
         });
@@ -164,7 +168,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.uploader.bind('completeall', function(event, items) {
         // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
-        var response = JSON.parse(_.last(items)._xhr.response)
+        var response = JSON.parse(_.last(items)._xhr.response);
         $scope.receptions.push(response);
         $scope.addToEvents(response);
         $('.modal').modal('hide');

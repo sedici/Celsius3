@@ -36,7 +36,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
         $this->setRemoteInstance($data['extraData']['provider']->getCelsiusInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__CREATED;
-        $remoteRequest = $lifecycleHelper->createRequest($request->getOperator(), OrderManager::TYPE__PROVISION, $this->getRemoteInstance());
+        $remoteRequest = $lifecycleHelper->createRequest($request->getOrder(), $request->getOperator(), OrderManager::TYPE__PROVISION, $this->getRemoteInstance());
         $remoteRequest->setOrder($request->getOrder());
         $this->setRemoteRequest($remoteRequest);
     }
