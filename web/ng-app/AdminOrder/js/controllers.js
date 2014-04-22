@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, Order, Request, Catalog, CatalogSearch, Event) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, Order, Request, Catalog, Event) {
     'use strict';
 
     function findInstitution(tree) {
@@ -71,11 +71,20 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     });
 
     $scope.request = Request.get({order_id: document_id}, function(request) {
-        $scope.catalogs = Catalog.query(function(catalogs) {
-            CatalogSearch.query({request_id: request.id}, function(searches) {
-                $scope.searches = searches;
+        Event.query({request_id: request.id}, function(events) {
+            $scope.events = _.groupBy(events, function(event) {
+                return $filter('date')(event.date, 'yyyy');
+            });
+
+            $scope.searches = _.sortBy(events.filter(function(event) {
+                return event.type === 'search';
+            }), function(event) {
+                return event.date;
+            });
+
+            $scope.catalogs = Catalog.query(function(catalogs) {
                 $scope.catalogsWithSearches = angular.copy(catalogs).map(function(item) {
-                    item.search = _.first(searches.filter(function(search) {
+                    item.search = _.first($scope.searches.filter(function(search) {
                         return search.catalog.id === item.id;
                     }));
                     return item;
@@ -83,22 +92,35 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
                 $scope.updateTables();
             });
+
+            $scope.requests = _.sortBy(events.filter(function(event) {
+                return event.type === 'sirequest' || event.type === 'mirequest';
+            }), function(event) {
+                return event.date;
+            });
+
+            $scope.receptions = _.sortBy(events.filter(function(event) {
+                return event.type === 'sireceive' || event.type === 'mireceive';
+            }), function(event) {
+                return event.date;
+            });
         });
 
-        Event.query({request_id: request.id, event: 'request'}, function(events) {
-            $scope.requests = _.sortBy(events, function(event) {
-                return event.date;
-            });
+        $scope.uploader = $fileUploader.create({
+            scope: $scope,
+            url: Routing.generate('admin_rest_event') + '/' + request.id + '/receive'
         });
-        Event.query({request_id: request.id, event: 'receive'}, function(events) {
-            $scope.receptions = _.sortBy(events, function(event) {
-                return event.date;
-            });
+
+        $scope.uploader.bind('beforeupload', function(event, item) {
+            item.formData = $scope.formatReceiveData();
         });
-        Event.query({request_id: request.id}, function(events) {
-            $scope.events = _.groupBy(events, function(event) {
-                return $filter('date')(event.date, 'yyyy');
-            });
+
+        $scope.uploader.bind('completeall', function(event, items) {
+            // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
+            var response = JSON.parse(_.last(items)._xhr.response);
+            $scope.receptions.push(response);
+            $scope.addToEvents(response);
+            $('.modal').modal('hide');
         });
     });
 
@@ -125,12 +147,17 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.updateCatalog = function(catalog) {
-        catalog.search.catalog = _.first($scope.catalogs.filter(function(c) {
-            return c.id === catalog.id;
-        }));
-        catalog.search = CatalogSearch.save({request_id: $scope.request.id}, catalog.search);
-        $scope.searches.push(catalog.search);
-        $scope.updateTables();
+        var data = {
+            result: catalog.search.result,
+            catalog_id: catalog.id
+        };
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/search', data).success(function(response) {
+            if (response) {
+                catalog.search = response;
+                $scope.searches.push(response);
+                $scope.updateTables();
+            }
+        });
     };
 
     $scope.submitRequest = function() {
@@ -140,7 +167,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             provider: institution
         };
 
-        $http.post(Routing.generate('admin_rest_order') + $scope.order.id + '/event/request', data).success(function(response) {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data).success(function(response) {
             if (response) {
                 $scope.requests.push(response);
                 $scope.addToEvents(response);
@@ -156,23 +183,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return _.object([item]);
         });
     };
-
-    $scope.uploader = $fileUploader.create({
-        scope: $scope,
-        url: Routing.generate('admin_rest_order') + document_id + '/event/receive'
-    });
-
-    $scope.uploader.bind('beforeupload', function(event, item) {
-        item.formData = $scope.formatReceiveData();
-    });
-
-    $scope.uploader.bind('completeall', function(event, items) {
-        // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
-        var response = JSON.parse(_.last(items)._xhr.response);
-        $scope.receptions.push(response);
-        $scope.addToEvents(response);
-        $('.modal').modal('hide');
-    });
 
     $scope.submitReceive = function() {
         $scope.uploader.uploadAll();

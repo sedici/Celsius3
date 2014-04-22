@@ -53,29 +53,4 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
-    /**
-     * @Post("/{id}/event/{event}", name="admin_rest_order_event", options={"expose"=true})
-     */
-    public function registerEventAction($id, $event, Request $request)
-    {
-        $dm = $this->getDocumentManager();
-
-        $order = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->find($id);
-
-        if (!$order) {
-            throw $this->createNotFoundException('Unable to find Order.');
-        }
-        
-        $request = $order->getRequest($this->getInstance());
-        $request->setOperator($this->getUser());
-
-        $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request);
-
-        $view = $this->view($result, 200)
-                ->setFormat('json');
-
-        return $this->handleView($view);
-    }
-
 }

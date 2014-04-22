@@ -165,7 +165,7 @@ class LifecycleHelper
         $request->setInstance($instance);
         $request->setOrder($order);
         $this->dm->persist($request);
-        
+
         return $request;
     }
 

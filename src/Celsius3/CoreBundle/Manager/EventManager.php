@@ -88,6 +88,25 @@ class EventManager
 
         return $this->class_prefix . $this->event_classes[$event];
     }
+    
+    private function prepareExtraDataForSearch(Request $request, array $extraData, Instance $instance)
+    {
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+
+        $extraData['result'] = $httpRequest->request->get('result', null);
+
+        if ($httpRequest->request->has('catalog_id')) {
+            $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+            $extraData['catalog'] = $dm->getRepository('Celsius3CoreBundle:Catalog')
+                    ->find($httpRequest->request->get('catalog_id'));
+        } else {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+
+            throw new HttpException('There was an error changing the state.');
+        }
+
+        return $extraData;
+    }
 
     private function prepareExtraDataForRequest(Request $request, array $extraData, Instance $instance)
     {

@@ -40,13 +40,6 @@ class Request
     private $librarian;
 
     /**
-     * @Assert\NotNull
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
-     */
-    private $isLiblink = false;
-
-    /**
      * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="order")
      */
     private $files;
@@ -86,11 +79,6 @@ class Request
      * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="previousRequest")
      */
     private $requests;
-
-    /**
-     * @MongoDB\ReferenceMany(targetDocument="CatalogSearch", mappedBy="request")
-     */
-    private $searches;
 
     public function __construct()
     {
@@ -195,28 +183,6 @@ class Request
     public function getLibrarian()
     {
         return $this->librarian;
-    }
-
-    /**
-     * Set isLiblink
-     *
-     * @param boolean $isLiblink
-     * @return self
-     */
-    public function setIsLiblink($isLiblink)
-    {
-        $this->isLiblink = $isLiblink;
-        return $this;
-    }
-
-    /**
-     * Get isLiblink
-     *
-     * @return boolean $isLiblink
-     */
-    public function getIsLiblink()
-    {
-        return $this->isLiblink;
     }
 
     /**
@@ -502,36 +468,6 @@ class Request
     public function getRequests()
     {
         return $this->requests;
-    }
-
-    /**
-     * Add search
-     *
-     * @param Celsius3\CoreBundle\Document\CatalogSearch $search
-     */
-    public function addSearch(\Celsius3\CoreBundle\Document\CatalogSearch $search)
-    {
-        $this->searches[] = $search;
-    }
-
-    /**
-     * Remove search
-     *
-     * @param Celsius3\CoreBundle\Document\CatalogSearch $search
-     */
-    public function removeSearch(\Celsius3\CoreBundle\Document\CatalogSearch $search)
-    {
-        $this->searches->removeElement($search);
-    }
-
-    /**
-     * Get searches
-     *
-     * @return Doctrine\Common\Collections\Collection $searches
-     */
-    public function getSearches()
-    {
-        return $this->searches;
     }
 
 }

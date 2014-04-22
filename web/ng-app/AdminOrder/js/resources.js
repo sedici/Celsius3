@@ -16,12 +16,6 @@ orderApp.factory('Catalog', ['$resource', function($resource) {
         );
     }]);
 
-orderApp.factory('CatalogSearch', ['$resource', function($resource) {
-        return $resource(Routing.generate('admin_rest_catalogsearch') + '/:request_id',
-                {request_id: '@request_id'}
-        );
-    }]);
-
 orderApp.factory('Event', ['$resource', function($resource) {
         return $resource(Routing.generate('admin_rest_event') + '/:request_id/:event',
                 {request_id: '@request_id', event: '@event'}

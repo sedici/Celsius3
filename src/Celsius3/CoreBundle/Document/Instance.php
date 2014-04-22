@@ -92,7 +92,7 @@ class Instance extends LegacyInstance
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function isCurrent()
     {
         return true;
@@ -109,8 +109,8 @@ class Instance extends LegacyInstance
         return $this->getConfigurations()
                         ->filter(
                                 function ($entry) use ($key) {
-                                    return ($entry->getKey() == $key);
-                                })->first();
+                            return ($entry->getKey() == $key);
+                        })->first();
     }
 
     /**
@@ -535,18 +535,6 @@ class Instance extends LegacyInstance
     public function getCities()
     {
         return $this->cities;
-    }
-
-    /**
-     * Determina si alguno de los propietarios de la instancia es liblink
-     */
-    public function getIsLiblink()
-    {
-        $result = false;
-        foreach ($this->getOwnerInstitutions() as $owner) {
-            $result = $result || $owner->getIsLiblink();
-        }
-        return $result;
     }
 
 }

@@ -231,7 +231,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
 
                     $material = new $material_type['class'];
                     $material->setAuthors($generator->name);
-                    $material->setEndPage($generator->randomNumber);
+                    $material->setEndPage($generator->randomNumber(10,1000));
                     $material->setStartPage($generator->randomNumber(1, $material->getEndPage()));
                     $material->setTitle(str_replace('.', '', $generator->sentence));
                     $material->setYear($generator->year);

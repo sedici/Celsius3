@@ -24,7 +24,6 @@ class OrderListener
 
         if ($document instanceof Order) {
             $document->getOriginalRequest()->setOrder($document);
-            $document->getOriginalRequest()->setIsLiblink($document->getOriginalRequest()->getInstance()->getIsLiblink());
         }
     }
 
