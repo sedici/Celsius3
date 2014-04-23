@@ -105,6 +105,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         StateManager::STATE__DELIVERED,
         StateManager::STATE__CANCELLED,
         StateManager::STATE__ANNULLED,
+        StateManager::STATE__TAKEN,
     );
 
     public function setContainer(ContainerInterface $container = null)

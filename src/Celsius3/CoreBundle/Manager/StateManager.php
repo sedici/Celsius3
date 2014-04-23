@@ -25,6 +25,7 @@ class StateManager
     const STATE__DELIVERED = 'delivered';
     const STATE__CANCELLED = 'cancelled';
     const STATE__ANNULLED = 'annulled';
+    const STATE__TAKEN = 'taken';
 
     private $graph = array(
         self::STATE__CREATED => array(
@@ -192,6 +193,22 @@ class StateManager
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__ANNUL,
+            ),
+        ),
+        self::STATE__TAKEN => array(
+            'positive' => true,
+            'mandatory' => false,
+            'events' => array(
+                EventManager::EVENT__DELIVER => array(
+                    'weight' => 10,
+                    'destinationState' => self::STATE__DELIVERED,
+                ),
+            ),
+            'previousStates' => array(
+                self::STATE__CREATED,
+            ),
+            'originatingEvents' => array(
+                EventManager::EVENT__TAKE,
             ),
         ),
     );

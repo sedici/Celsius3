@@ -29,6 +29,7 @@ class EventManager
     const EVENT__LOCAL_CANCEL = 'lcancel';
     const EVENT__REMOTE_CANCEL = 'rcancel';
     const EVENT__ANNUL = 'annul';
+    CONST EVENT__TAKE = 'take';
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
@@ -47,6 +48,7 @@ class EventManager
         self::EVENT__LOCAL_CANCEL => 'LocalCancelEvent',
         self::EVENT__REMOTE_CANCEL => 'RemoteCancelEvent',
         self::EVENT__ANNUL => 'AnnulEvent',
+        self::EVENT__TAKE => 'TakeEvent',
     );
     private $container;
 
