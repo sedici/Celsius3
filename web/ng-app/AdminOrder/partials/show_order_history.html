@@ -1,4 +1,4 @@
-<div ng-repeat="(key, value) in events">
+<div ng-repeat="(key, value) in groupedEvents">
     <h1></h1>
     <h2>{{key}}</h2>
     <div ng-repeat="event in value" ng-if="event.type !== 'creation'">

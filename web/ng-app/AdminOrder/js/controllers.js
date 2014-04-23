@@ -13,8 +13,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         }
     }
 
-    $scope.addToEvents = function(event) {
-        $scope.events[$filter('date')(event.date, 'yyyy')].push(event);
+    $scope.groupEvents = function(events) {
+        return _.groupBy(events, function(event) {
+            return $filter('date')(event.date, 'yyyy');
+        });
     };
 
     $scope.getFileDownloadRoute = function(file) {
@@ -35,7 +37,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
-        update: function(event, ui) {
+        stop: function(event, ui) {
             var id = ui.item.data('id');
             var result = $(ui.item.sortable.droptarget).parents('table.table').data('type');
             var catalog = _.first($scope.catalogsWithSearches.filter(function(item) {
@@ -71,39 +73,9 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     });
 
     $scope.request = Request.get({order_id: document_id}, function(request) {
-        Event.query({request_id: request.id}, function(events) {
-            $scope.events = _.groupBy(events, function(event) {
-                return $filter('date')(event.date, 'yyyy');
-            });
-
-            $scope.searches = _.sortBy(events.filter(function(event) {
-                return event.type === 'search';
-            }), function(event) {
-                return event.date;
-            });
-
-            $scope.catalogs = Catalog.query(function(catalogs) {
-                $scope.catalogsWithSearches = angular.copy(catalogs).map(function(item) {
-                    item.search = _.first($scope.searches.filter(function(search) {
-                        return search.catalog.id === item.id;
-                    }));
-                    return item;
-                });
-
-                $scope.updateTables();
-            });
-
-            $scope.requests = _.sortBy(events.filter(function(event) {
-                return event.type === 'sirequest' || event.type === 'mirequest';
-            }), function(event) {
-                return event.date;
-            });
-
-            $scope.receptions = _.sortBy(events.filter(function(event) {
-                return event.type === 'sireceive' || event.type === 'mireceive';
-            }), function(event) {
-                return event.date;
-            });
+        Catalog.query(function(catalogs) {
+            $scope.catalogs = catalogs;
+            $scope.updateTables();
         });
 
         $scope.uploader = $fileUploader.create({
@@ -118,8 +90,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         $scope.uploader.bind('completeall', function(event, items) {
             // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
             var response = JSON.parse(_.last(items)._xhr.response);
-            $scope.receptions.push(response);
-            $scope.addToEvents(response);
+            $scope.updateTables();
             $('.modal').modal('hide');
         });
     });
@@ -129,16 +100,44 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
      */
 
     $scope.updateTables = function() {
-        $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
-            return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
-        });
+        Event.query({request_id: $scope.request.id}, function(events) {
+            $scope.groupedEvents = $scope.groupEvents(events);
 
-        $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
-            return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
-        });
+            $scope.searches = _.sortBy(events.filter(function(event) {
+                return event.type === 'search';
+            }), function(event) {
+                return event.date;
+            });
 
-        $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
-            return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+            $scope.requests = _.sortBy(events.filter(function(event) {
+                return event.type === 'sirequest' || event.type === 'mirequest';
+            }), function(event) {
+                return event.date;
+            });
+
+            $scope.receptions = _.sortBy(events.filter(function(event) {
+                return event.type === 'sireceive' || event.type === 'mireceive';
+            }), function(event) {
+                return event.date;
+            });
+
+            $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function(item) {
+                item.search = $scope.searches.find(function(search) {
+                    return search.catalog.id === item.id;
+                });
+            });
+
+            $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
+            });
+
+            $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
+            });
+
+            $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+            });
         });
     };
 
@@ -154,7 +153,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/search', data).success(function(response) {
             if (response) {
                 catalog.search = response;
-                $scope.searches.push(response);
                 $scope.updateTables();
             }
         });
@@ -169,8 +167,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data).success(function(response) {
             if (response) {
-                $scope.requests.push(response);
-                $scope.addToEvents(response);
+                $scope.updateTables();
                 $('#requestForm').get(0).reset();
                 $scope.$broadcast('reset');
                 $('.modal').modal('hide');
