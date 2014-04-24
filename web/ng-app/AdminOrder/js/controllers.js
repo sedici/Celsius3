@@ -37,7 +37,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
-        stop: function(event, ui) {
+        update: function(event, ui) {
             var id = ui.item.data('id');
             var result = $(ui.item.sortable.droptarget).parents('table.table').data('type');
             var catalog = _.first($scope.catalogsWithSearches.filter(function(item) {
@@ -48,6 +48,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         },
         items: ">*:not(.sort-disabled)"
     };
+
+    $scope.advanced = false;
 
     $scope.observations = '';
 
@@ -89,7 +91,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
         $scope.uploader.bind('completeall', function(event, items) {
             // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
-            var response = JSON.parse(_.last(items)._xhr.response);
             $scope.updateTables();
             $('.modal').modal('hide');
         });
@@ -99,9 +100,25 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
      * Functions
      */
 
+    $scope.basicMode = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take').success(function(response) {
+            if (response) {
+                $scope.updateTables();
+            }
+        });
+    };
+
+    $scope.advancedMode = function() {
+        $scope.advanced = true;
+    };
+
     $scope.updateTables = function() {
         Event.query({request_id: $scope.request.id}, function(events) {
             $scope.groupedEvents = $scope.groupEvents(events);
+
+            $scope.take = events.filter(function(event) {
+                return event.type === 'take';
+            });
 
             $scope.searches = _.sortBy(events.filter(function(event) {
                 return event.type === 'search';
@@ -182,6 +199,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.submitReceive = function() {
+        $scope.uploader.uploadAll();
+    };
+    
+    $scope.submitUpload = function() {
         $scope.uploader.uploadAll();
     };
 });

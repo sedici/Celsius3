@@ -2,7 +2,26 @@
 </div>
 
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0">
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{'Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione Básico, de lo contrario elija avanzado'}}</p>
+                <p>
+                    <button class="btn btn-success" ng-click="basicMode()">{{'Basic'}}</button>
+                    <button class="btn btn-primary" ng-click="advancedMode()">{{'Advanced'}}</button>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
+        <div class="row">
+            <div class="col-md-12" ng-include="'/ng-app/AdminOrder/partials/order_upload_form.html'">
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0">
         <div class="row">
             <div id="barra" class="col-md-12" ng-include="'/ng-app/AdminOrder/partials/show_order_status.html'">
             </div>

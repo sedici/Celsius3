@@ -36,6 +36,10 @@ class StateManager
                     'weight' => 10,
                     'destinationState' => self::STATE__SEARCHED,
                 ),
+                EventManager::EVENT__TAKE => array(
+                    'weight' => 9,
+                    'destinationState' => self::STATE__TAKEN,
+                ),
                 EventManager::EVENT__CANCEL => array(
                     //Por RemoteCancel
                     'weight' => 2,

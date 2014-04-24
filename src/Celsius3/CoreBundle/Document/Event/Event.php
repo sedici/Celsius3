@@ -27,7 +27,8 @@ use Celsius3\CoreBundle\Document\Request;
  *   "approve"="ApproveEvent",
  *   "undo"="UndoEvent",
  *   "si"="SingleInstanceEvent",
- *   "mi"="MultiInstanceEvent"
+ *   "mi"="MultiInstanceEvent",
+ *   "take"="TakeEvent"
  * })
  */
 class Event implements EventInterface

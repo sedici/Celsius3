@@ -1240,12 +1240,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "54f93f9fc61e8d4d610ab7f8fb8d4c5fc1c418f5"
+                "reference": "3bab1d19cf195ff9ee8732a5503c5d57774ec7d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/54f93f9fc61e8d4d610ab7f8fb8d4c5fc1c418f5",
-                "reference": "54f93f9fc61e8d4d610ab7f8fb8d4c5fc1c418f5",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/3bab1d19cf195ff9ee8732a5503c5d57774ec7d4",
+                "reference": "3bab1d19cf195ff9ee8732a5503c5d57774ec7d4",
                 "shasum": ""
             },
             "require": {
@@ -1282,7 +1282,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-04-23 14:04:50"
+            "time": "2014-04-24 10:36:04"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -2504,16 +2504,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.9.0",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
-                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
@@ -2568,7 +2568,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-20 16:41:26"
+            "time": "2014-04-24 13:29:03"
         },
         {
             "name": "nikic/php-parser",
