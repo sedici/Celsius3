@@ -39,6 +39,8 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
         $remoteRequest = $lifecycleHelper->createRequest($request->getOrder(), $request->getOperator(), OrderManager::TYPE__PROVISION, $this->getRemoteInstance());
         $remoteRequest->setOrder($request->getOrder());
         $this->setRemoteRequest($remoteRequest);
+        $remoteRequest->setPreviousRequest($request);
+        $lifecycleHelper->refresh($remoteRequest);
     }
 
     /**

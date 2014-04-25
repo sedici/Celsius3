@@ -13,6 +13,9 @@ use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Form\Type\OrderReclaimType;
 
+/**
+ * @todo Eliminar el parámetro $instance de los prepareExtraDataFor*
+ */
 class EventManager
 {
 
@@ -29,7 +32,8 @@ class EventManager
     const EVENT__LOCAL_CANCEL = 'lcancel';
     const EVENT__REMOTE_CANCEL = 'rcancel';
     const EVENT__ANNUL = 'annul';
-    CONST EVENT__TAKE = 'take';
+    const EVENT__TAKE = 'take';
+    const EVENT__UPLOAD = 'upload';
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
@@ -90,7 +94,7 @@ class EventManager
 
         return $this->class_prefix . $this->event_classes[$event];
     }
-    
+
     private function prepareExtraDataForSearch(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
@@ -149,7 +153,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForApprove(Order $order, array $extraData, Instance $instance)
+    private function prepareExtraDataForApprove(Request $request, array $extraData, Instance $instance)
     {
         if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('receive')) {
             $this->container->get('session')->getFlashBag()
@@ -167,6 +171,15 @@ class EventManager
             throw new NotFoundHttpException();
         }
 
+        return $extraData;
+    }
+
+    private function prepareExtraDataForDeliver(Request $request, array $extraData, Instance $instance)
+    {
+        if ($request->getType() === OrderManager::TYPE__PROVISION && $request->getCurrentState()->getType() === StateManager::STATE__TAKEN) {
+            $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+            $extraData['files'] = $httpRequest->files->all();
+        }
         return $extraData;
     }
 

@@ -6,13 +6,11 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Manager\EventManager;
-use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Document\SingleInstanceRequest;
 use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Document\State;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class StateManager
 {
@@ -171,6 +169,7 @@ class StateManager
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__DELIVER,
+                EventManager::EVENT__UPLOAD,
             ),
         ),
         self::STATE__CANCELLED => array(
@@ -203,7 +202,7 @@ class StateManager
             'positive' => true,
             'mandatory' => false,
             'events' => array(
-                EventManager::EVENT__DELIVER => array(
+                EventManager::EVENT__UPLOAD => array(
                     'weight' => 10,
                     'destinationState' => self::STATE__DELIVERED,
                 ),
@@ -262,8 +261,8 @@ class StateManager
     public function getPositiveStates()
     {
         return array_filter($this->graph, function ($value) {
-                    return $value['positive'];
-                });
+            return $value['positive'];
+        });
     }
 
     public function getStateData($state)

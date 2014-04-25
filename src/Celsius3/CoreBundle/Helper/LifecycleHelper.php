@@ -115,7 +115,7 @@ class LifecycleHelper
         );
 
         /**
-         * @todo Refactorizar estos dos ifs
+         * @todo Refactorizar estos tres ifs
          */
         if ($name === EventManager::EVENT__RECEIVE) {
             $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function($item) use ($extraData) {
