@@ -1,5 +1,7 @@
 <?php
 
+namespace Celsius3\CoreBundle\Document\Event;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
@@ -34,6 +36,7 @@ class UploadEvent extends MultiInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
+        $this->setRemoteInstance($request->getPreviousRequest()->getInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
         $this->setRemoteState($lifecycleHelper->getState($request->getPreviousRequest(), $this, $data, $this));

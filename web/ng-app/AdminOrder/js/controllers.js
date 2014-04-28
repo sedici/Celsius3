@@ -79,6 +79,30 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.catalogs = catalogs;
             $scope.updateTables();
         });
+
+        $scope.uploader = $fileUploader.create({
+            scope: $scope,
+            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
+        });
+
+        $scope.uploader.bind('beforeupload', function(event, item) {
+            item.formData = $scope.formatReceiveData();
+        });
+
+        $scope.uploader.bind('completeall', function(event, items) {
+            // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
+            $scope.updateTables();
+            $('.modal').modal('hide');
+        });
+        
+        $scope.uploaderBasic = $fileUploader.create({
+            scope: $scope,
+            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload'
+        });
+
+        $scope.uploaderBasic.bind('completeall', function(event, items) {
+            $scope.updateTables();
+        });
     });
 
     /**
@@ -118,7 +142,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             });
 
             $scope.receptions = _.sortBy(events.filter(function(event) {
-                return event.type === 'sireceive' || event.type === 'mireceive';
+                return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
             }), function(event) {
                 return event.date;
             });
@@ -184,34 +208,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.submitReceive = function() {
-        $scope.uploader = $fileUploader.create({
-            scope: $scope,
-            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
-        });
-
-        $scope.uploader.bind('beforeupload', function(event, item) {
-            item.formData = $scope.formatReceiveData();
-        });
-
-        $scope.uploader.bind('completeall', function(event, items) {
-            // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
-            $scope.updateTables();
-            $('.modal').modal('hide');
-        });
-
         $scope.uploader.uploadAll();
     };
 
     $scope.submitUpload = function() {
-        $scope.uploaderBasic = $fileUploader.create({
-            scope: $scope,
-            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
-        });
-
-        $scope.uploaderBasic.bind('completeall', function(event, items) {
-            $scope.updateTables();
-        });
-        
         $scope.uploaderBasic.uploadAll();
     };
 });

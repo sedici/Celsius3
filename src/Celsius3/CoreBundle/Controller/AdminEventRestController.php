@@ -24,8 +24,13 @@ class AdminEventRestController extends BaseInstanceDependentRestController
                 ->findBy(array(
             'request.id' => $request_id,
         ));
+        
+        $remoteEvents = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
+                ->findBy(array(
+            'remoteInstance.id' => $this->getInstance()->getId(),
+        ));
 
-        $view = $this->view(array_values($events), 200)
+        $view = $this->view(array_values(array_merge($events, $remoteEvents)), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

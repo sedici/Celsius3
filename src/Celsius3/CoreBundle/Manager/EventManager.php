@@ -53,6 +53,7 @@ class EventManager
         self::EVENT__REMOTE_CANCEL => 'RemoteCancelEvent',
         self::EVENT__ANNUL => 'AnnulEvent',
         self::EVENT__TAKE => 'TakeEvent',
+        self::EVENT__UPLOAD => 'UploadEvent',
     );
     private $container;
 
@@ -148,6 +149,15 @@ class EventManager
                 ->get('doctrine.odm.mongodb.document_manager')
                 ->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($httpRequest->request->get('request'));
+        $extraData['files'] = $httpRequest->files->all();
+
+        return $extraData;
+    }
+
+    private function prepareExtraDataForUpload(Request $request, array $extraData, Instance $instance)
+    {
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+
         $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;

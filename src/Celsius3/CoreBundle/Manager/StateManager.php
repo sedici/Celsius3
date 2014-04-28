@@ -137,9 +137,11 @@ class StateManager
             ),
             'previousStates' => array(
                 self::STATE__REQUESTED,
+                self::STATE__TAKEN,
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__MULTI_INSTANCE_RECEIVE,
+                EventManager::EVENT__UPLOAD,
             ),
         ),
         self::STATE__RECEIVED => array(
@@ -169,7 +171,6 @@ class StateManager
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__DELIVER,
-                EventManager::EVENT__UPLOAD,
             ),
         ),
         self::STATE__CANCELLED => array(
@@ -200,11 +201,11 @@ class StateManager
         ),
         self::STATE__TAKEN => array(
             'positive' => true,
-            'mandatory' => false,
+            'mandatory' => true,
             'events' => array(
                 EventManager::EVENT__UPLOAD => array(
                     'weight' => 10,
-                    'destinationState' => self::STATE__DELIVERED,
+                    'destinationState' => self::STATE__APPROVAL_PENDING,
                 ),
             ),
             'previousStates' => array(
@@ -314,20 +315,20 @@ class StateManager
         return $data;
     }
 
-    public function getPreviousMandatoryState($state)
+    public function getPreviousMandatoryStates($state)
     {
         if (!array_key_exists($state, $this->graph)) {
             throw $this->createNotFoundException('State not found.');
         }
 
-        $data = null;
+        $data = array();
 
         if (count($this->graph[$state]['previousStates']) == 0) {
-            $data = $state;
+            $data[] = $state;
         } else {
             foreach ($this->graph[$state]['previousStates'] as $previous) {
                 if ($this->graph[$previous]['mandatory']) {
-                    $data = $previous;
+                    $data[] = $previous;
                 }
             }
         }
@@ -346,45 +347,6 @@ class StateManager
             default:
                 ;
         }
-    }
-
-    /*
-     * State rendering functions
-     */
-
-    public function getDataForHeaderRendering($state, Request $request)
-    {
-        $instance = $this->instance_helper->getSessionInstance();
-
-        return array(
-            'state' => $state,
-            'request' => $request,
-            'hasState' => $request->hasState($state),
-            'hasPrevious' => $request->hasState($this->getPreviousMandatoryState($state)),
-            'instance' => $instance,
-            'isAnnulled' => $request->hasState(self::STATE__ANNULLED),
-            'isCancelled' => $request->hasState(self::STATE__CANCELLED),
-        );
-    }
-
-    public function getDataForBodyRendering($state, Request $request)
-    {
-        $instance = $this->instance_helper->getSessionInstance();
-        $requestForm = self::STATE__REQUESTED == $state ? $this->form_factory->create(new OrderRequestType($this->document_manager, $this->event_manager->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequest())->createView() : null;
-
-        return array(
-            'state' => $state,
-            'request' => $request,
-            'events' => $this->getEventsToState($state),
-            'hasState' => $request->hasState($state),
-            'hasPrevious' => $request->hasState($this->getPreviousMandatoryState($state)),
-            'isCurrent' => $request->getCurrentState()->getType()->getName() == $state,
-            'request_form' => $requestForm,
-            'isDelivered' => $request->getState(self::STATE__DELIVERED),
-            'instance' => $instance,
-            'isAnnulled' => $request->hasState(self::STATE__ANNULLED),
-            'isCancelled' => $request->hasState(self::STATE__CANCELLED),
-        );
     }
 
 }

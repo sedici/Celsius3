@@ -18,6 +18,7 @@
         <discriminator-class value="si">Celsius3\CoreBundle\Document\Event\SingleInstanceEvent</discriminator-class>
         <discriminator-class value="mi">Celsius3\CoreBundle\Document\Event\MultiInstanceEvent</discriminator-class>
         <discriminator-class value="take">Celsius3\CoreBundle\Document\Event\TakeEvent</discriminator-class>
+        <discriminator-class value="upload">Celsius3\CoreBundle\Document\Event\UploadEvent</discriminator-class>
         <property name="id" type="string" expose="true" read-only="true"></property>  
         <property name="date" type="DateTime" expose="true" access-type="public_method"></property>
         <property name="observations" type="string" expose="true" access-type="public_method"></property>

@@ -380,14 +380,17 @@ class Request
     }
 
     /**
-     * Retorna si el Request actual ha alcanzado un determinado estado
+     * Retorna si el Request actual ha alcanzado un determinado estado o estados
      */
-    public function hasState($name)
+    public function hasState($names)
     {
+        if (!is_array($names)) {
+            $names = array($names);
+        }
         return ($this->getStates()
                         ->filter(
-                                function ($entry) use ($name) {
-                            return $entry->getType()->getName() == $name;
+                                function ($entry) use ($names) {
+                            return in_array($entry->getType()->getName(), $names);
                         })->count() > 0);
     }
 

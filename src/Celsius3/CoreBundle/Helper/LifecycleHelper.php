@@ -137,7 +137,7 @@ class LifecycleHelper
             }
         }
 
-        if (!$request->hasState($this->state_manager->getPreviousMandatoryState($data['stateName']), $data['instance']) && $name != EventManager::EVENT__CREATION) {
+        if (!$request->hasState($this->state_manager->getPreviousMandatoryStates($data['stateName']), $data['instance']) && $name != EventManager::EVENT__CREATION) {
             throw new PreviousStateNotFoundException('State not found');
         }
 
@@ -161,7 +161,7 @@ class LifecycleHelper
                  * @todo Refactorizar esta rama del if
                  */
                 $event = $data['event'];
-                if ($name === EventManager::EVENT__RECEIVE) {
+                if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
                 } else if ($name === EventManager::EVENT__SEARCH) {
                     $event->setResult($data['extraData']['result']);

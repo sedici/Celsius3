@@ -9,6 +9,7 @@ use Celsius3\CoreBundle\Document\Request;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
  * @MongoDB\InheritanceType("SINGLE_COLLECTION")
  * @MongoDB\DiscriminatorField(fieldName="type")
  * @MongoDB\DiscriminatorMap({
@@ -28,7 +29,8 @@ use Celsius3\CoreBundle\Document\Request;
  *   "undo"="UndoEvent",
  *   "si"="SingleInstanceEvent",
  *   "mi"="MultiInstanceEvent",
- *   "take"="TakeEvent"
+ *   "take"="TakeEvent",
+ *   "upload"="UploadEvent"
  * })
  */
 class Event implements EventInterface
