@@ -6,6 +6,7 @@
         <property name="comments" type="string" expose="true" access-type="public_method"></property>
         <property name="owner" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
         <property name="operator" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
+        <property name="previousRequest" type="Celsius3\CoreBundle\Document\Request" expose="true" access-type="public_method"></property>
         <virtual-property name="currentState" type="string" expose="true" method="getCurrentState"></virtual-property>
     </class>  
 </serializer>  

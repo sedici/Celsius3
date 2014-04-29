@@ -25,13 +25,21 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.hasReceive = function(request) {
         return !_.isUndefined($scope.receptions) && $scope.receptions.filter(function(item) {
-            return item.request_event.id === request.id;
+            if (item.type === 'sireceive') {
+                return item.request_event.id === request.id;
+            } else {
+                return item.request.previous_request.id === $scope.request.id;
+            }
         }).length > 0;
     };
 
     $scope.getReceive = function(request) {
         return _.first($scope.receptions.filter(function(item) {
-            return item.request_event.id === request.id;
+            if (item.type === 'sireceive') {
+                return item.request_event.id === request.id;
+            } else {
+                return item.request.previous_request.id === $scope.request.id;
+            }
         }));
     };
 

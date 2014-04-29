@@ -1032,12 +1032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "34ecbce30a5f3e9599a80f31d3506c6e72d3f434"
+                "reference": "65be32944d79e5fdfab2878b49f164f36c4910a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/34ecbce30a5f3e9599a80f31d3506c6e72d3f434",
-                "reference": "34ecbce30a5f3e9599a80f31d3506c6e72d3f434",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/65be32944d79e5fdfab2878b49f164f36c4910a8",
+                "reference": "65be32944d79e5fdfab2878b49f164f36c4910a8",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1084,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2014-03-15 01:54:30"
+            "time": "2014-04-29 09:02:36"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1093,12 +1093,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "8072b992807d0fc278ffb4dc9485c9d422664b29"
+                "reference": "a1763eb9c8d3988d607b4448a1a24197f7bcf8cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/8072b992807d0fc278ffb4dc9485c9d422664b29",
-                "reference": "8072b992807d0fc278ffb4dc9485c9d422664b29",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/a1763eb9c8d3988d607b4448a1a24197f7bcf8cb",
+                "reference": "a1763eb9c8d3988d607b4448a1a24197f7bcf8cb",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1163,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-04-23 14:33:46"
+            "time": "2014-04-28 21:08:53"
         },
         {
             "name": "friendsofsymfony/user-bundle",

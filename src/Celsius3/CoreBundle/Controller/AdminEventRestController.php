@@ -25,8 +25,14 @@ class AdminEventRestController extends BaseInstanceDependentRestController
             'request.id' => $request_id,
         ));
         
+        $requests = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Request')
+                ->findBy(array(
+            'previousRequest.id' => $request_id,
+        ));
+        
         $remoteEvents = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->findBy(array(
+            'request.id' => $requests,
             'remoteInstance.id' => $this->getInstance()->getId(),
         ));
 
