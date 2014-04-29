@@ -28,7 +28,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             if (item.type === 'sireceive') {
                 return item.request_event.id === request.id;
             } else {
-                return item.request.previous_request.id === $scope.request.id;
+                return item.request.previous_request.id === $scope.request.id || item.request_event.id === request.id;
             }
         }).length > 0;
     };
@@ -38,7 +38,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             if (item.type === 'sireceive') {
                 return item.request_event.id === request.id;
             } else {
-                return item.request.previous_request.id === $scope.request.id;
+                return item.request.previous_request.id === $scope.request.id || item.request_event.id === request.id;
             }
         }));
     };

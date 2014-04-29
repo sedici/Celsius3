@@ -127,6 +127,14 @@ class LifecycleHelper
             }
         }
 
+        if ($name === EventManager::EVENT__UPLOAD) {
+            $events = $this->event_manager->getEvents(EventManager::EVENT__UPLOAD, $request->getId());
+
+            if (count($events) > 0) {
+                $data['event'] = array_pop($events);
+            }
+        }
+
         if ($name === EventManager::EVENT__SEARCH) {
             $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__SEARCH, $request->getId()), function($item) use ($extraData) {
                 return $item->getCatalog()->getId() === $extraData['catalog']->getId();

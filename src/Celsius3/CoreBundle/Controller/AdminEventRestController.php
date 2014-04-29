@@ -24,17 +24,20 @@ class AdminEventRestController extends BaseInstanceDependentRestController
                 ->findBy(array(
             'request.id' => $request_id,
         ));
-        
+
         $requests = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Request')
                 ->findBy(array(
             'previousRequest.id' => $request_id,
         ));
-        
+
         $remoteEvents = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
-                ->findBy(array(
-            'request.id' => $requests,
-            'remoteInstance.id' => $this->getInstance()->getId(),
-        ));
+                ->createQueryBuilder()
+                ->field('request.id')->in(array_map(function($item) {
+                            return $item->getId();
+                        }, $requests))
+                ->getQuery()
+                ->execute()
+                ->toArray();
 
         $view = $this->view(array_values(array_merge($events, $remoteEvents)), 200)
                 ->setFormat('json');
@@ -76,7 +79,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-    
+
     /**
      * @Post("/{request_id}/{event}", name="admin_rest_order_event", options={"expose"=true})
      */
@@ -90,7 +93,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         if (!$request) {
             throw $this->createNotFoundException('Unable to find Request.');
         }
-        
+
         $request->setOperator($this->getUser());
 
         $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request);
