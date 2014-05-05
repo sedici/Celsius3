@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Child rows (show extra / detailed information)</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -14,7 +15,7 @@ td.details-control {
 	background: url('../resources/details_open.png') no-repeat center center;
 	cursor: pointer;
 }
-tr.details td.details-control {
+tr.shown td.details-control {
 	background: url('../resources/details_close.png') no-repeat center center;
 }
 
@@ -88,7 +89,7 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Child rows (show extra / detailed information)</span></h1>
+			<h1>DataTables example <span>Child rows (show extra / detailed information)</span></h1>
 
 			<div class="info">
 				<p>The DataTables API has a number of methods available for attaching child rows to a <em>parent</em>
@@ -96,14 +97,15 @@ $(document).ready(function() {
 				where you wish to convey more information about a row than there is space for in the host table.</p>
 
 				<p>The example below makes use of the <a href="//datatables.net/reference/api/row().child"><code class=
-				"api" title="API method">row().child</code></a> methods to firstly check if a row is already displayed,
-				and if so hide it (<a href="//datatables.net/reference/api/row().child.hide()"><code class="api" title=
-				"API method">row().child.hide()</code></a>), otherwise show it (<a href=
+				"api" title="DataTables API method">row().child<span>DT</span></code></a> methods to firstly check if a
+				row is already displayed, and if so hide it (<a href=
+				"//datatables.net/reference/api/row().child.hide()"><code class="api" title=
+				"DataTables API method">row().child.hide()<span>DT</span></code></a>), otherwise show it (<a href=
 				"//datatables.net/reference/api/row().child.show()"><code class="api" title=
-				"API method">row().child.show()</code></a>). The content of the child row is, in this example, defined
-				by the <code>formatDetails()</code> function, but you would replace that with whatever you wanted to
-				show the content required, possibly including, for example, an Ajax call to the server to obtain the
-				extra information to show.</p>
+				"DataTables API method">row().child.show()<span>DT</span></code></a>). The content of the child row is,
+				in this example, defined by the <code>formatDetails()</code> function, but you would replace that with
+				whatever you wanted to show the content required, possibly including, for example, an Ajax call to the
+				server to obtain the extra information to show.</p>
 			</div>
 
 			<table id="example" class="display" cellspacing="0" width="100%">
@@ -216,7 +218,7 @@ $(document).ready(function() {
 	background: url('../resources/details_open.png') no-repeat center center;
 	cursor: pointer;
 }
-tr.details td.details-control {
+tr.shown td.details-control {
 	background: url('../resources/details_close.png') no-repeat center center;
 }</code>
 					</div>

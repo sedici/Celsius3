@@ -1,11 +1,12 @@
 var orderApp = angular.module('orderApp', [
     'ngRoute',
     'ngResource',
+    'ngAnimate',
     'ui.sortable',
     'cciWidget',
     'orderControllers',
     'orderFilters',
-    'mgcrea.ngStrap.modal',
+    'mgcrea.ngStrap',
     'angularFileUpload'
 ]);
 

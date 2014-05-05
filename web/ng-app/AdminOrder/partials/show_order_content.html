@@ -5,6 +5,13 @@
     <div class="row" ng-include="'/ng-app/AdminOrder/partials/show_order_request_summary.html'">
     </div>
 
-    <div id="panelsecundario" class="row" ng-include="'/ng-app/AdminOrder/partials/show_order_catalog_results.html'">
+    <div class="panelsecundario row">
+        <h1>{{'Searches'}}</h1>
+        <div ng-include="'/ng-app/AdminOrder/partials/show_order_catalog_results.html'" ng-if="countSearches() > 0">
+            
+        </div>
+        <div ng-if="countSearches() === 0">
+            <p>{{'There are no searches.'}}</p>
+        </div>
     </div>
 </div>

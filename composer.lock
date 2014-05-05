@@ -709,16 +709,16 @@
         },
         {
             "name": "doctrine/mongodb",
-            "version": "1.1.5",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb.git",
-                "reference": "1a9b001a97256208e0fc4970305cd48208d5b78c"
+                "reference": "4eafa3e719bfe14422f4c1d928771331edd26b39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/1a9b001a97256208e0fc4970305cd48208d5b78c",
-                "reference": "1a9b001a97256208e0fc4970305cd48208d5b78c",
+                "url": "https://api.github.com/repos/doctrine/mongodb/zipball/4eafa3e719bfe14422f4c1d928771331edd26b39",
+                "reference": "4eafa3e719bfe14422f4c1d928771331edd26b39",
                 "shasum": ""
             },
             "require": {
@@ -733,11 +733,6 @@
                 "jmikola/geojson": "Support GeoJSON geometry objects in 2dsphere queries"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.1.x-dev"
-                }
-            },
             "autoload": {
                 "psr-0": {
                     "Doctrine\\MongoDB": "lib/"
@@ -777,7 +772,7 @@
                 "mongodb",
                 "persistence"
             ],
-            "time": "2014-03-28 19:22:22"
+            "time": "2014-04-29 21:14:37"
         },
         {
             "name": "doctrine/mongodb-odm",
@@ -785,12 +780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "ba003dbee2e715fac5269a1bf356a73374e763d5"
+                "reference": "bd59fe6fdda8d564eb9e56840ca1ffe9c9ecd033"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/ba003dbee2e715fac5269a1bf356a73374e763d5",
-                "reference": "ba003dbee2e715fac5269a1bf356a73374e763d5",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/bd59fe6fdda8d564eb9e56840ca1ffe9c9ecd033",
+                "reference": "bd59fe6fdda8d564eb9e56840ca1ffe9c9ecd033",
                 "shasum": ""
             },
             "require": {
@@ -855,7 +850,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-04-20 16:45:34"
+            "time": "2014-05-05 16:17:08"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1032,12 +1027,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "65be32944d79e5fdfab2878b49f164f36c4910a8"
+                "reference": "40c4141da6ebfc01fd8e6eaff6ff20a48c0945ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/65be32944d79e5fdfab2878b49f164f36c4910a8",
-                "reference": "65be32944d79e5fdfab2878b49f164f36c4910a8",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/40c4141da6ebfc01fd8e6eaff6ff20a48c0945ad",
+                "reference": "40c4141da6ebfc01fd8e6eaff6ff20a48c0945ad",
                 "shasum": ""
             },
             "require": {
@@ -1084,7 +1079,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2014-04-29 09:02:36"
+            "time": "2014-05-02 09:43:18"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -1240,12 +1235,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "3bab1d19cf195ff9ee8732a5503c5d57774ec7d4"
+                "reference": "c43676fdda733c413ec016d4fdeb73d5477e4d65"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/3bab1d19cf195ff9ee8732a5503c5d57774ec7d4",
-                "reference": "3bab1d19cf195ff9ee8732a5503c5d57774ec7d4",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/c43676fdda733c413ec016d4fdeb73d5477e4d65",
+                "reference": "c43676fdda733c413ec016d4fdeb73d5477e4d65",
                 "shasum": ""
             },
             "require": {
@@ -1282,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-04-24 10:36:04"
+            "time": "2014-04-29 17:36:46"
         },
         {
             "name": "gedmo/doctrine-extensions",

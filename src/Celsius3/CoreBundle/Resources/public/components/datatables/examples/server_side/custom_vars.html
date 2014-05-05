@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Custom HTTP variables</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -38,16 +39,16 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Custom HTTP variables</span></h1>
+			<h1>DataTables example <span>Custom HTTP variables</span></h1>
 
 			<div class="info">
 				<p>It can often be useful to send extra information to the server when utilising DataTables'
 				server-side processing option. This is done by using the <a href=
 				"//datatables.net/reference/option/ajax"><code class="option" title=
-				"Initialisation option">ajax</code></a> option's <code>data</code> parameter which can be used in one
-				of two different ways:</p>
+				"DataTables initialisation option">ajax<span>DT</span></code></a> option's <code>data</code> parameter
+				which can be used in one of two different ways:</p>
 
-				<ul>
+				<ul class="markdown">
 					<li><code>object</code> - An object data to send to the server. This is useful for adding static
 					data to the request.</li>
 					<li><code>function</code> - A function which will manipulate the data object to send to the server,

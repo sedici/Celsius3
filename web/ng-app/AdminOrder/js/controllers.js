@@ -13,6 +13,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         }
     }
 
+    $scope.countSearches = function() {
+        return $scope.searches.reduce(function(p, c) {
+            return p + (c.result !== 'non_searched' ? 1 : 0);
+        }, 0);
+    };
+
     $scope.groupEvents = function(events) {
         return _.groupBy(events, function(event) {
             return $filter('date')(event.date, 'yyyy');
@@ -55,6 +61,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.updateCatalog(catalog);
         },
         items: ">*:not(.sort-disabled)"
+    };
+
+    $scope.requestTooltip = {
+        "title": "You must search before making a request.",
+        "placement": "top",
+        "trigger": "hover"
     };
 
     $scope.advanced = false;
@@ -102,7 +114,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.updateTables();
             $('.modal').modal('hide');
         });
-        
+
         $scope.uploaderBasic = $fileUploader.create({
             scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload'
@@ -177,6 +189,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.updateReceive = function(id) {
         $scope.receive.request = id;
+    };
+
+    $scope.deleteSearch = function(catalog) {
+        catalog.search.result = 'non_searched';
+        $scope.updateCatalog(catalog);
     };
 
     $scope.updateCatalog = function(catalog) {

@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Pipelining data to reduce Ajax calls for paging</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -24,8 +25,11 @@
 $.fn.dataTable.pipeline = function ( opts ) {
 	// Configuration options
 	var conf = $.extend( {
-		pages: 5, // number of pages to cache
-		url: ''   // script url
+		pages: 5,     // number of pages to cache
+		url: '',      // script url
+		data: null,   // function or object with parameters to send to the server
+		              // matching how `ajax.data` works in DataTables
+		method: 'GET' // Ajax HTTP method
 	}, opts );
 
 	// Private variables for storing the cache
@@ -40,7 +44,12 @@ $.fn.dataTable.pipeline = function ( opts ) {
 		var requestLength = request.length;
 		var requestEnd    = requestStart + requestLength;
 		
-		if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+		if ( settings.clearCache ) {
+			// API requested that the cache be cleared
+			ajax = true;
+			settings.clearCache = false;
+		}
+		else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
 			// outside cached data - need to make a request
 			ajax = true;
 		}
@@ -71,7 +80,23 @@ $.fn.dataTable.pipeline = function ( opts ) {
 			request.start = requestStart;
 			request.length = requestLength*conf.pages;
 
+			// Provide the same `data` options as DataTables.
+			if ( $.isFunction ( conf.data ) ) {
+				// As a function it is executed with the data object as an arg
+				// for manipulation. If an object is returned, it is used as the
+				// data object to submit
+				var d = conf.data( request );
+				if ( d ) {
+					$.extend( request, d );
+				}
+			}
+			else if ( $.isPlainObject( conf.data ) ) {
+				// As an object, the data given extends the default
+				$.extend( request, conf.data );
+			}
+
 			settings.jqXHR = $.ajax( {
+				"type":     conf.method,
 				"url":      conf.url,
 				"data":     request,
 				"dataType": "json",
@@ -99,6 +124,14 @@ $.fn.dataTable.pipeline = function ( opts ) {
 	}
 };
 
+// Register an API method that will empty the pipelined data, forcing an Ajax
+// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+$.fn.dataTable.Api.register( 'clearPipeline()', function () {
+	return this.iterator( 'table', function ( settings ) {
+		settings.clearCache = true;
+	} );
+} );
+
 
 //
 // DataTables initialisation
@@ -121,7 +154,7 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Pipelining data to reduce Ajax calls for paging</span></h1>
+			<h1>DataTables example <span>Pipelining data to reduce Ajax calls for paging</span></h1>
 
 			<div class="info">
 				<p>Sever-side processing can be quite hard on your server, since it makes an Ajax call to the server
@@ -133,8 +166,9 @@ $(document).ready(function() {
 				it through a data cache control; using the data from the cache if available, and making the Ajax
 				request if not. This intercept of the Ajax request is performed by giving the <a href=
 				"//datatables.net/reference/option/ajax"><code class="option" title=
-				"Initialisation option">ajax</code></a> option as a function. This function then performs the logic of
-				deciding if another Ajax call is needed, or if data from the cache can be used.</p>
+				"DataTables initialisation option">ajax<span>DT</span></code></a> option as a function. This function
+				then performs the logic of deciding if another Ajax call is needed, or if data from the cache can be
+				used.</p>
 
 				<p>Keep in mind that this caching is for paging only; the pipeline must be cleared for other
 				interactions such as ordering and searching since the full data set, when using server-side processing,
@@ -182,8 +216,11 @@ $(document).ready(function() {
 $.fn.dataTable.pipeline = function ( opts ) {
 	// Configuration options
 	var conf = $.extend( {
-		pages: 5, // number of pages to cache
-		url: ''   // script url
+		pages: 5,     // number of pages to cache
+		url: '',      // script url
+		data: null,   // function or object with parameters to send to the server
+		              // matching how `ajax.data` works in DataTables
+		method: 'GET' // Ajax HTTP method
 	}, opts );
 
 	// Private variables for storing the cache
@@ -198,7 +235,12 @@ $.fn.dataTable.pipeline = function ( opts ) {
 		var requestLength = request.length;
 		var requestEnd    = requestStart + requestLength;
 		
-		if ( cacheLower &lt; 0 || requestStart &lt; cacheLower || requestEnd &gt; cacheUpper ) {
+		if ( settings.clearCache ) {
+			// API requested that the cache be cleared
+			ajax = true;
+			settings.clearCache = false;
+		}
+		else if ( cacheLower &lt; 0 || requestStart &lt; cacheLower || requestEnd &gt; cacheUpper ) {
 			// outside cached data - need to make a request
 			ajax = true;
 		}
@@ -229,7 +271,23 @@ $.fn.dataTable.pipeline = function ( opts ) {
 			request.start = requestStart;
 			request.length = requestLength*conf.pages;
 
+			// Provide the same `data` options as DataTables.
+			if ( $.isFunction ( conf.data ) ) {
+				// As a function it is executed with the data object as an arg
+				// for manipulation. If an object is returned, it is used as the
+				// data object to submit
+				var d = conf.data( request );
+				if ( d ) {
+					$.extend( request, d );
+				}
+			}
+			else if ( $.isPlainObject( conf.data ) ) {
+				// As an object, the data given extends the default
+				$.extend( request, conf.data );
+			}
+
 			settings.jqXHR = $.ajax( {
+				&quot;type&quot;:     conf.method,
 				&quot;url&quot;:      conf.url,
 				&quot;data&quot;:     request,
 				&quot;dataType&quot;: &quot;json&quot;,
@@ -256,6 +314,14 @@ $.fn.dataTable.pipeline = function ( opts ) {
 		}
 	}
 };
+
+// Register an API method that will empty the pipelined data, forcing an Ajax
+// fetch on the next draw (i.e. `table.clearPipeline().draw()`)
+$.fn.dataTable.Api.register( 'clearPipeline()', function () {
+	return this.iterator( 'table', function ( settings ) {
+		settings.clearCache = true;
+	} );
+} );
 
 
 //

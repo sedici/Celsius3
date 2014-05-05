@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Automatic addition of row ID attributes</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -39,7 +40,7 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Automatic addition of row ID attributes</span></h1>
+			<h1>DataTables example <span>Automatic addition of row ID attributes</span></h1>
 
 			<div class="info">
 				<p>Often when using server-side processing you will find that it can be useful to have a specific ID on
@@ -50,7 +51,7 @@ $(document).ready(function() {
 				<p>In addition to <code>DT_RowId</code> there are two other properties which perform similar actions:
 				<code>DT_RowClass</code> and <code>DT_RowData</code>:</p>
 
-				<ul>
+				<ul class="markdown">
 					<li>{string} <code>DT_RowId</code> - Add an ID to the <em>TR</em> element</li>
 					<li>{string} <code>DT_RowClass</code> - Add a class name to the <em>TR</em> element</li>
 					<li>{object} <code>DT_RowData</code> - Add HTML5 <em>data-</em> attributes to the <em>TR</em>

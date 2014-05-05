@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Column rendering</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -42,16 +43,17 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Column rendering</span></h1>
+			<h1>DataTables example <span>Column rendering</span></h1>
 
 			<div class="info">
 				<p>Each column has an optional rendering control called <a href=
 				"//datatables.net/reference/option/columns.render"><code class="option" title=
-				"Initialisation option">columns.render</code></a> which can be used to process the content of each cell
-				before the data is used. <a href="//datatables.net/reference/option/columns.render"><code class=
-				"option" title="Initialisation option">columns.render</code></a> has a wide array of options available
-				to it for rendering different types of data orthogonally (ordering, searching, display etc), but it can
-				be used very simply to manipulate the content of a cell, as shown here.</p>
+				"DataTables initialisation option">columns.render<span>DT</span></code></a> which can be used to
+				process the content of each cell before the data is used. <a href=
+				"//datatables.net/reference/option/columns.render"><code class="option" title=
+				"DataTables initialisation option">columns.render<span>DT</span></code></a> has a wide array of options
+				available to it for rendering different types of data orthogonally (ordering, searching, display etc),
+				but it can be used very simply to manipulate the content of a cell, as shown here.</p>
 
 				<p>This example shows the person's age combined with their name in the first column, hiding the age
 				column. This technique can be useful for adding links, assigning colours based on content rules and any

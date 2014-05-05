@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Deferred loading of data</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -32,7 +33,7 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Deferred loading of data</span></h1>
+			<h1>DataTables example <span>Deferred loading of data</span></h1>
 
 			<div class="info">
 				<p>When using DataTables with server-side processing, the default behaviour is to have DataTables
@@ -43,15 +44,16 @@ $(document).ready(function() {
 
 				<p>This automatic Ajax call to get the first page of data can be overridden by using the <a href=
 				"//datatables.net/reference/option/deferLoading"><code class="option" title=
-				"Initialisation option">deferLoading</code></a> initialisation property. It serves two purposes,
-				firstly to indicate that deferred loading is required, but also to tell DataTables how many records
-				there are in the full table, in this case 57 (this allows the information element and pagination to be
-				displayed correctly).</p>
+				"DataTables initialisation option">deferLoading<span>DT</span></code></a> initialisation property. It
+				serves two purposes, firstly to indicate that deferred loading is required, but also to tell DataTables
+				how many records there are in the full table, in this case 57 (this allows the information element and
+				pagination to be displayed correctly).</p>
 
 				<p>In the example below, the HTML page already has the first 10 rows of data available it in, so we use
 				<a href="//datatables.net/reference/option/deferLoading"><code class="option" title=
-				"Initialisation option">deferLoading</code></a> to tell DataTables that this data is available and that
-				it should wait for under interaction (ordering, paging etc) before making an Ajax call.</p>
+				"DataTables initialisation option">deferLoading<span>DT</span></code></a> to tell DataTables that this
+				data is available and that it should wait for under interaction (ordering, paging etc) before making an
+				Ajax call.</p>
 			</div>"
 
 			<table id="example" class="display" cellspacing="0" width="100%">

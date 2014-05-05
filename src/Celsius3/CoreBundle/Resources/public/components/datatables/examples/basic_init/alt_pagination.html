@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Alternative pagination</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -29,18 +30,18 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Alternative pagination</span></h1>
+			<h1>DataTables example <span>Alternative pagination</span></h1>
 
 			<div class="info">
 				<p>The default page control presented by DataTables (forward and backward buttons with up to 7 page
 				numbers in-between) is fine for most situations, but there are cases where you may wish to customise
 				the options presented to the end user. This is done through DataTables' extensible pagination
 				mechanism, the <a href="//datatables.net/reference/option/pagingType"><code class="option" title=
-				"Initialisation option">pagingType</code></a> option.</p>
+				"DataTables initialisation option">pagingType<span>DT</span></code></a> option.</p>
 
 				<p>There are four built-in options for which pagination controls DataTables should show:</p>
 
-				<ul>
+				<ul class="markdown">
 					<li><code class="string" title="String">simple</code> - 'Previous' and 'Next' buttons only</li>
 					<li><code class="string" title="String">simple_numbers</code> - 'Previous' and 'Next' buttons, plus
 					page numbers</li>
@@ -52,9 +53,9 @@ $(document).ready(function() {
 
 				<p>The language strings of 'First', 'Previous' etc can be optionally through the internationalisation
 				options of DataTables; <a href="//datatables.net/reference/option/language.paginate.first"><code class=
-				"option" title="Initialisation option">language.paginate.first</code></a>, <a href=
-				"//datatables.net/reference/option/language.paginate.previous"><code class="option" title=
-				"Initialisation option">language.paginate.previous</code></a> etc.</p>
+				"option" title="DataTables initialisation option">language.paginate.first<span>DT</span></code></a>,
+				<a href="//datatables.net/reference/option/language.paginate.previous"><code class="option" title=
+				"DataTables initialisation option">language.paginate.previous<span>DT</span></code></a> etc.</p>
 
 				<p>Additional options for the buttons that are shown can be added through the use of pagination type
 				plug-ins. Furthermore, how the buttons are actually shown can be altered through the use of plug-in

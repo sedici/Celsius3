@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Order direction sequence control</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -38,19 +39,19 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Order direction sequence control</span></h1>
+			<h1>DataTables example <span>Order direction sequence control</span></h1>
 
 			<div class="info">
 				<p>At times you may wish to change the default ordering direction sequence for columns (some or all of
 				them) to be 'descending' rather than DataTables' default ascending. This can be done through the use of
 				the <a href="//datatables.net/reference/option/columns.orderSequence"><code class="option" title=
-				"Initialisation option">columns.orderSequence</code></a> initialisation parameter. This parameter also
-				allows you to limit the ordering to a single direction, or you could add complex behaviour to the
-				ordering interaction.</p>
+				"DataTables initialisation option">columns.orderSequence<span>DT</span></code></a> initialisation
+				parameter. This parameter also allows you to limit the ordering to a single direction, or you could add
+				complex behaviour to the ordering interaction.</p>
 
 				<p>The example below shows:</p>
 
-				<ul>
+				<ul class="markdown">
 					<li>Column 1 - default ordering</li>
 					<li>Column 2 - default ordering</li>
 					<li>Column 3 - ascending ordering only</li>

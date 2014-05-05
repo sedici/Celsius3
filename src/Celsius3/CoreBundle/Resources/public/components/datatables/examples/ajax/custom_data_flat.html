@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Flat array data source</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -40,19 +41,20 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Flat array data source</span></h1>
+			<h1>DataTables example <span>Flat array data source</span></h1>
 
 			<div class="info">
 				<p>When loading data from an Ajax source, by default, DataTables will look for the data to use in the
 				<code>data</code> parameter of a returned object (e.g. <code>{ "data": [...] }</code>). This can easily
 				be change by using the <code>dataSrc</code> option of the <a href=
 				"//datatables.net/reference/option/ajax"><code class="option" title=
-				"Initialisation option">ajax</code></a> initiation option.</p>
+				"DataTables initialisation option">ajax<span>DT</span></code></a> initiation option.</p>
 
 				<p>The <a href="//datatables.net/reference/option/ajax.dataSrc"><code class="option" title=
-				"Initialisation option">ajax.dataSrc</code></a> has a number of ways in which it can be used:</p>
+				"DataTables initialisation option">ajax.dataSrc<span>DT</span></code></a> has a number of ways in which
+				it can be used:</p>
 
-				<ul>
+				<ul class="markdown">
 					<li>As a string (e.g. <code>dataSrc: 'myData'</code>) - obtain data from a different property in
 					the source object.</li>
 					<li>As an empty string (e.g. <code>dataSrc: ''</code>) - the data source is not an object but an
@@ -63,9 +65,9 @@ $(document).ready(function() {
 				</ul>
 
 				<p>The example below shows <a href="//datatables.net/reference/option/ajax.dataSrc"><code class=
-				"option" title="Initialisation option">ajax.dataSrc</code></a> being used as an empty string. This
-				tells DataTables that the JSON loaded is a plain array, not an object with an array inside it as is the
-				default.</p>
+				"option" title="DataTables initialisation option">ajax.dataSrc<span>DT</span></code></a> being used as
+				an empty string. This tells DataTables that the JSON loaded is a plain array, not an object with an
+				array inside it as is the default.</p>
 			</div>
 
 			<table id="example" class="display" cellspacing="0" width="100%">

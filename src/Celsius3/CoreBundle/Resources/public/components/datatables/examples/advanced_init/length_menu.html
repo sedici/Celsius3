@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
 
 	<title>DataTables example - Page length options</title>
 	<link rel="stylesheet" type="text/css" href="../../media/css/jquery.dataTables.css">
@@ -31,16 +32,17 @@ $(document).ready(function() {
 <body class="dt-example">
 	<div class="container">
 		<section>
-			<h1>DataTables example <span>- Page length options</span></h1>
+			<h1>DataTables example <span>Page length options</span></h1>
 
 			<div class="info">
 				<p>It is possible to easily customise the options shown in the length menu (by default at the top left
 				of the table) using the <a href="//datatables.net/reference/option/lengthMenu"><code class="option"
-				title="Initialisation option">lengthMenu</code></a> initialisation option.</p>
+				title="DataTables initialisation option">lengthMenu<span>DT</span></code></a> initialisation
+				option.</p>
 
 				<p>This parameter can take one of two forms:</p>
 
-				<ul>
+				<ul class="markdown">
 					<li>A 1D array of options which will be used for both the displayed option and the value, or</li>
 					<li>A 2D array in which the first array is used to define the value options and the second array
 					the displayed options (useful for language strings such as 'All').</li>

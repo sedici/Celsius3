@@ -1,11 +1,11 @@
-<div class="explorar_catalogos" ng-if="searches.length > 0">
+<div class="explorar_catalogos" ng-if="countSearches() > 0">
     <button type="button" class="btn btn-success btn-block" data-target="#request-modal" role="button" data-toggle="modal">
         <span class="glyphicon glyphicon-plus"></span> {{'Add request'}}
     </button>
 </div>
 
-<div class="explorar_catalogos" ng-if="searches.length === 0">
-    <button type="button" class="btn btn-default btn-block">
+<div class="explorar_catalogos" ng-if="countSearches() === 0">
+    <button bs-tooltip="requestTooltip" type="button" class="btn btn-default btn-block">
         <span class="glyphicon glyphicon-plus"></span> {{'Add request'}}
     </button>
 </div>
