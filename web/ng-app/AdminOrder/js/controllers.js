@@ -14,15 +14,27 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     }
 
     $scope.countSearches = function() {
-        return $scope.searches.reduce(function(p, c) {
-            return p + (c.result !== 'non_searched' ? 1 : 0);
-        }, 0);
+        if (_.isUndefined($scope.searches)) {
+            return 0;
+        } else {
+            return $scope.searches.reduce(function(p, c) {
+                return p + (c.result !== 'non_searched' ? 1 : 0);
+            }, 0);
+        }
     };
 
     $scope.groupEvents = function(events) {
-        return _.groupBy(events, function(event) {
-            return $filter('date')(event.date, 'yyyy');
+        var interesting = events.filter(function(item) {
+            return item.type !== 'creation' && (item.type !== 'search' || item.result !== 'non_searched');
         });
+
+        if (interesting.length === 0) {
+            return null;
+        } else {
+            return _.groupBy(interesting, function(event) {
+                return $filter('date')(event.date, 'yyyy');
+            });
+        }
     };
 
     $scope.getFileDownloadRoute = function(file) {
@@ -144,6 +156,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.updateTables = function() {
         Event.query({request_id: $scope.request.id}, function(events) {
             $scope.groupedEvents = $scope.groupEvents(events);
+            console.log($scope.groupedEvents);
 
             $scope.take = events.filter(function(event) {
                 return event.type === 'take';
