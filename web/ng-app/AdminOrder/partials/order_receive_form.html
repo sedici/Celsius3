@@ -1,7 +1,7 @@
-<form class="form-horizontal" id="requestForm">
-    <div class="form_group">
+<form class="form-horizontal" id="receiveForm" name="forms.receive" novalidate ng-submit="submitReceive()">
+    <div class="form_group" ng-class="delivery_type_error">
         <label for="delivery_type">{{'Delivery type'}}</label>
-        <select ui-select2 ng-model="receive.delivery_type" name="delivery_type" id="delivery_type">
+        <select ui-select2 ng-model="receive.delivery_type" name="delivery_type" id="delivery_type" required>
             <option value=""></option>
             <option value="pdf">{{'PDF'}}</option>
             <option value="printed">{{'Printed'}}</option>
@@ -11,8 +11,8 @@
         <label for="observations">{{'Observations'}}</label>
         <textarea class=" form-control" ng-model="observations" name="observations" id="observations"></textarea>
     </div>
-    <div class="form_group">
+    <div class="form_group" ng-class="files_error">
         <label for="files">{{'Files'}}</label>
-        <input ng-file-select="" type="file" multiple="multiple" id="files" name="files" />
+        <input ng-file-select="" type="file" multiple="multiple" id="files" name="files" required />
     </div>
 </form>

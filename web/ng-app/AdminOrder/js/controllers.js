@@ -97,6 +97,9 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     // Data for the receive form
     $scope.receive = {};
+    
+    // Form container for validation
+    $scope.forms = {};
 
     /**
      * Resource load
@@ -156,7 +159,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.updateTables = function() {
         Event.query({request_id: $scope.request.id}, function(events) {
             $scope.groupedEvents = $scope.groupEvents(events);
-            console.log($scope.groupedEvents);
 
             $scope.take = events.filter(function(event) {
                 return event.type === 'take';
@@ -222,6 +224,15 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         });
     };
 
+    $scope.validateRequest = function() {
+//        if (!_.isEmpty(findInstitution($scope.select.tree))) {
+//            $scope.ccierror = '';
+            $scope.submitRequest();
+//        } else {
+//            $scope.ccierror = 'has-error';
+//        }
+    };
+
     $scope.submitRequest = function() {
         var institution = findInstitution($scope.select.tree);
         var data = {
@@ -244,6 +255,21 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return _.object([item]);
         });
     };
+    
+    $scope.validateReceive = function() {
+        $scope.delivery_type_error = '';
+        $scope.files_error = '';
+        if ($scope.forms.receive.$valid) {
+            $scope.submitReceive();
+        } else {
+            if (_.isUndefined($scope.receive.delivery_type)) {
+                $scope.delivery_type_error = 'has-error';
+            }
+            if ($scope.uploader.queue.length === 0) {
+                $scope.files_error = 'has-error';
+            }
+        }
+    }
 
     $scope.submitReceive = function() {
         $scope.uploader.uploadAll();

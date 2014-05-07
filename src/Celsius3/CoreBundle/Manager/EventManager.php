@@ -121,10 +121,12 @@ class EventManager
 
         $extraData['observations'] = $httpRequest->request->get('observations', null);
 
-        if ($httpRequest->request->has("provider")) {
-            $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
-            $extraData['provider'] = $dm->getRepository('Celsius3CoreBundle:Institution')
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $provider = $dm->getRepository('Celsius3CoreBundle:Institution')
                     ->find($httpRequest->request->get('provider'));
+        
+        if ($provider) {
+            $extraData['provider'] = $provider;
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 

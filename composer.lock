@@ -780,12 +780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "89b2d4152832b4e82806f320539d71c8c2bed29c"
+                "reference": "2e11467a5f55d636441248bae8efb8d7b0293cb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/89b2d4152832b4e82806f320539d71c8c2bed29c",
-                "reference": "89b2d4152832b4e82806f320539d71c8c2bed29c",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/2e11467a5f55d636441248bae8efb8d7b0293cb5",
+                "reference": "2e11467a5f55d636441248bae8efb8d7b0293cb5",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-05-06 15:35:58"
+            "time": "2014-05-06 20:42:59"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1235,12 +1235,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "c43676fdda733c413ec016d4fdeb73d5477e4d65"
+                "reference": "904496ef8f0277cecababbc8add214bfc23ff467"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/c43676fdda733c413ec016d4fdeb73d5477e4d65",
-                "reference": "c43676fdda733c413ec016d4fdeb73d5477e4d65",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/904496ef8f0277cecababbc8add214bfc23ff467",
+                "reference": "904496ef8f0277cecababbc8add214bfc23ff467",
                 "shasum": ""
             },
             "require": {
@@ -1277,7 +1277,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-04-29 17:36:46"
+            "time": "2014-05-06 22:05:17"
         },
         {
             "name": "gedmo/doctrine-extensions",
