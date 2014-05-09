@@ -85,6 +85,7 @@ class Request
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

@@ -81,6 +81,22 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "trigger": "hover"
     };
 
+    $scope.cancelTooltip = {
+        "title": "Cancel",
+        "placement": "right",
+        "trigger": "hover"
+    };
+
+    $scope.reclaimTooltip = {
+        "title": "Reclaim",
+        "placement": "right",
+        "trigger": "hover"
+    };
+
+    $scope.actionsTooltip = {
+        "title": "sakdjhgsk skdfhgsdkjf kjsdfglsjfls.",
+    }
+
     $scope.advanced = false;
 
     $scope.observations = '';
@@ -97,7 +113,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     // Data for the receive form
     $scope.receive = {};
-    
+
     // Form container for validation
     $scope.forms = {};
 
@@ -225,12 +241,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.validateRequest = function() {
-//        if (!_.isEmpty(findInstitution($scope.select.tree))) {
-//            $scope.ccierror = '';
+        if (!_.isEmpty(findInstitution($scope.select.tree))) {
+            $scope.ccierror = '';
             $scope.submitRequest();
-//        } else {
-//            $scope.ccierror = 'has-error';
-//        }
+        } else {
+            $scope.ccierror = 'has-error';
+        }
     };
 
     $scope.submitRequest = function() {
@@ -255,7 +271,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return _.object([item]);
         });
     };
-    
+
     $scope.validateReceive = function() {
         $scope.delivery_type_error = '';
         $scope.files_error = '';
@@ -277,5 +293,31 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.submitUpload = function() {
         $scope.uploaderBasic.uploadAll();
+    };
+
+    $scope.validateCancel = function() {
+        if ($scope.cancelForm.$valid) {
+            $scope.cancelerror = '';
+            $scope.cancelRequest();
+        } else {
+            $scope.cancelerror = 'has-error';
+        }
+    };
+
+    $scope.cancelRequest = function(request) {
+        var data = {
+            observations: $scope.observations,
+            request: request.id
+        };
+
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function(response) {
+            $scope.updateTables();
+            $('#cancelForm').get(0).reset();
+            $('.modal').modal('hide');
+        });
+    };
+
+    $scope.reclaimRequest = function(request) {
+
     };
 });

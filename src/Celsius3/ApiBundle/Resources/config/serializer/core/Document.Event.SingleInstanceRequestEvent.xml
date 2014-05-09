@@ -2,5 +2,6 @@
 <serializer>  
     <class name="Celsius3\CoreBundle\Document\Event\SingleInstanceRequestEvent" exclusion-policy="all">
         <property name="provider" expose="true" access-type="public_method"></property>
+        <property name="isCancelled" expose="true" access-type="public_method"></property>
     </class>  
 </serializer>  

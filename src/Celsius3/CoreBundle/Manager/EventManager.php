@@ -4,7 +4,6 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
@@ -109,7 +108,7 @@ class EventManager
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new HttpException('There was an error changing the state.');
+            throw new NotFoundHttpException();
         }
 
         return $extraData;
@@ -123,14 +122,14 @@ class EventManager
 
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
         $provider = $dm->getRepository('Celsius3CoreBundle:Institution')
-                    ->find($httpRequest->request->get('provider'));
-        
+                ->find($httpRequest->request->get('provider'));
+
         if ($provider) {
             $extraData['provider'] = $provider;
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new HttpException('There was an error changing the state.');
+            throw new NotFoundHttpException();
         }
 
         return $extraData;
@@ -236,41 +235,39 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForCancel(Order $order, array $extraData, Instance $instance)
+    private function prepareExtraDataForCancel(Request $request, array $extraData, Instance $instance)
     {
-        if ($this->container->get('request_stack')->getCurrentRequest()->query->has('request')) {
-            $extraData['request'] = $this->container
-                    ->get('doctrine.odm.mongodb.document_manager')
-                    ->getRepository('Celsius3CoreBundle:Event')
-                    ->find(
-                    $this->container->get('request_stack')->getCurrentRequest()->query
-                    ->get('request'));
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        
+        if ($httpRequest->request->has('request')) {
+            $extraData['request'] = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
+                    ->find($httpRequest->request->get('request'));
 
-            $this->container->get('request_stack')->getCurrentRequest()->query->remove('request');
+            $httpRequest->query->remove('request');
             if (!$extraData['request']) {
                 throw new NotFoundHttpException();
             }
         } else {
-            $extraData['httprequest'] = $this->container->get('request_stack')->getCurrentRequest();
-            if ($order->getInstance()->getId() != $instance->getId()) {
-                $extraData['remoterequest'] = $order
-                        ->getState(StateManager::STATE__CREATED, $instance)
+            $extraData['httprequest'] = $httpRequest;
+            if ($request->getInstance()->getId() != $instance->getId()) {
+                $extraData['remoterequest'] = $request->getOrder()
+                        ->getRequest($instance)
+                        ->getState(StateManager::STATE__CREATED)
                         ->getRemoteEvent();
             }
-            $extraData['sirequests'] = $this->container
-                    ->get('doctrine.odm.mongodb.document_manager')
-                    ->getRepository('Celsius3CoreBundle:SingleInstanceRequest')
-                    ->findBy(
-                    array('order.id' => $order->getId(),
-                        'isCancelled' => false,
-                        'instance.id' => $instance->getId(),));
-            $extraData['mirequests'] = $this->container
-                    ->get('doctrine.odm.mongodb.document_manager')
-                    ->getRepository('Celsius3CoreBundle:MultiInstanceRequest')
-                    ->findBy(
-                    array('order.id' => $order->getId(),
-                        'isCancelled' => false,
-                        'instance.id' => $instance->getId(),));
+            $extraData['sirequests'] = $dm->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
+                    ->findBy(array(
+                'request.id' => $request->getId(),
+                'isCancelled' => false,
+                'instance.id' => $instance->getId(),
+            ));
+            $extraData['mirequests'] = $dm->getRepository('Celsius3CoreBundle:Event\\MultiInstanceRequestEvent')
+                    ->findBy(array(
+                'request.id' => $request->getId(),
+                'isCancelled' => false,
+                'instance.id' => $instance->getId(),
+            ));
         }
         return $extraData;
     }
@@ -314,8 +311,7 @@ class EventManager
     {
         foreach ($requests as $request) {
             $httpRequest->query->set('request', $request->getId());
-            $this->container->get('celsius3_core.lifecycle_helper')
-                    ->createEvent(self::EVENT__CANCEL, $request->getOrder());
+            $this->container->get('celsius3_core.lifecycle_helper')->createEvent(self::EVENT__CANCEL, $request->getRequest());
         }
     }
 

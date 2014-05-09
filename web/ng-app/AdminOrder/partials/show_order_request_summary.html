@@ -13,7 +13,7 @@
         </div>
         <div ng-if="!hasReceive(request)">
             <div class="panel2 col-md-1"></div>
-            <div class="panel3 col-md-5">
+            <div class="panel3 col-md-4">
                 <div class="relojito">
                     <a class="modal-link" data-target="#receive-modal" role="button" data-toggle="modal">
                         <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
@@ -24,6 +24,16 @@
                         {{request.date|date:'dd-MM-yyyy'}}
                     </a>
                 </div>
+            </div>
+            <div class="panel3 col-md-1 panel3_last">
+                <ul class="list-unstyled request-actions">
+                    <li>
+                        <a href bs-tooltip="cancelTooltip" ng-click="cancelRequest(request)"><span class="glyphicon glyphicon-remove"></span></a>
+                    </li>
+                    <li>
+                        <a href bs-tooltip="reclaimTooltip" ng-click="reclaimRequest(request)"><span class="glyphicon glyphicon-repeat"></span></a>
+                    </li>
+                </ul>
             </div>
         </div>
         <div ng-if="hasReceive(request)">
@@ -48,11 +58,29 @@
                 <h3 id="request-modal-label">{{'Receive'}}</h3>
             </div>
             <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/order_receive_form.html'" ng-bind-html-unsafe="formResponse">
-                
+
             </div>
             <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'Close'}}</button>
                 <button class="btn btn-primary" ng-click="validateReceive()" value="#receiveForm">{{'Save'}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cancel-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="cancel-modal-label">{{'Cancel'}}</h3>
+            </div>
+            <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/order_cancel_form.html'" ng-bind-html-unsafe="formResponse">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'Close'}}</button>
+                <button class="btn btn-primary" ng-click="validateCancel()" value="#cancelForm">{{'Save'}}</button>
             </div>
         </div>
     </div>
