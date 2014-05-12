@@ -194,43 +194,51 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReclaim(Order $order, array $extraData, Instance $instance)
+    private function prepareExtraDataForReclaim(Request $request, array $extraData, Instance $instance)
     {
-        if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('receive')) {
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        if (!$httpRequest->request->has('request') && !$httpRequest->request->has('receive')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
             throw new NotFoundHttpException();
         }
 
-        $receive = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('Celsius3CoreBundle:Event')
-                ->find($this->container->get('request_stack')->getCurrentRequest()->query->get('receive'));
+        if ($httpRequest->request->has('request')) {
+            $request = $dm->getRepository('Celsius3CoreBundle:Event')
+                    ->find($request->request->get('request'));
 
-        if (!$receive) {
-            $this->container->get('session')->getFlashBag()
-                    ->add('error', 'There was an error changing the state.');
+            if (!$request) {
+                $this->container->get('session')->getFlashBag()
+                        ->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
-        }
+                throw new NotFoundHttpException();
+            }
 
-        $form = $this->container->get('form.factory')
-                ->create(new OrderReclaimType());
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-
-        $form->bind($request);
-
-        if ($form->isValid()) {
-            $data = $form->getData();
-            $extraData['observations'] = $data['observations'];
-            $extraData['request'] = $receive->getRequestEvent();
+            $extraData['request'] = $request;
         } else {
+            $receive = $dm->getRepository('Celsius3CoreBundle:Event')
+                    ->find($request->request->get('receive'));
+
+            if (!$receive) {
+                $this->container->get('session')->getFlashBag()
+                        ->add('error', 'There was an error changing the state.');
+
+                throw new NotFoundHttpException();
+            }
+
+            $extraData['receive'] = $receive;
+        }
+
+        if (!$httpRequest->request->has('observations')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
-            throw new NotValidException();
+            throw new NotFoundHttpException();
         }
+
+        $extraData['observations'] = $httpRequest->request->get('observations');
 
         return $extraData;
     }
@@ -239,7 +247,7 @@ class EventManager
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
-        
+
         if ($httpRequest->request->has('request')) {
             $extraData['request'] = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
                     ->find($httpRequest->request->get('request'));

@@ -1,0 +1,14 @@
+<div class="panel2_ok col-md-1"></div>
+<div class="panel3_ok col-md-4">
+    <div class="relojito">
+        <a ng-repeat="file in getReceive(request).files" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+            <img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" alt="download link" />
+        </a>
+    </div>
+    <div class="fecha_hoja">{{getReceive(request).date | date:'dd-MM-yyyy'}}</div>
+</div>
+<div class="panel3_ok col-md-1 panel3_last_ok">
+    <ul class="list-unstyled request-actions">
+        
+    </ul>
+</div>

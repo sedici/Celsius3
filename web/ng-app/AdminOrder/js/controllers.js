@@ -114,6 +114,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     // Data for the receive form
     $scope.receive = {};
 
+    // Data for the cancel form
+    $scope.cancel = {};
+    
+    // Data for the reclaim form
+    $scope.reclaim = {};
+
     // Form container for validation
     $scope.forms = {};
 
@@ -296,7 +302,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.validateCancel = function() {
-        if ($scope.cancelForm.$valid) {
+        if ($scope.forms.cancel.$valid) {
             $scope.cancelerror = '';
             $scope.cancelRequest();
         } else {
@@ -304,10 +310,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         }
     };
 
-    $scope.cancelRequest = function(request) {
+    $scope.cancelRequest = function() {
         var data = {
             observations: $scope.observations,
-            request: request.id
+            request: $scope.cancel.request
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function(response) {
@@ -317,7 +323,25 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         });
     };
 
-    $scope.reclaimRequest = function(request) {
+    $scope.validateReclaim = function() {
+        if ($scope.forms.reclaim.$valid) {
+            $scope.reclaimerror = '';
+            $scope.reclaimRequest();
+        } else {
+            $scope.reclaimerror = 'has-error';
+        }
+    };
 
+    $scope.reclaimRequest = function() {
+        var data = {
+            observations: $scope.observations,
+            request: $scope.reclaim.request
+        };
+
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function(response) {
+            $scope.updateTables();
+            $('#reclaimForm').get(0).reset();
+            $('.modal').modal('hide');
+        });
     };
 });

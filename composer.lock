@@ -780,12 +780,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "2e11467a5f55d636441248bae8efb8d7b0293cb5"
+                "reference": "a7f59648deba613fa6a43cdd54c00cf710a58b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/2e11467a5f55d636441248bae8efb8d7b0293cb5",
-                "reference": "2e11467a5f55d636441248bae8efb8d7b0293cb5",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/a7f59648deba613fa6a43cdd54c00cf710a58b58",
+                "reference": "a7f59648deba613fa6a43cdd54c00cf710a58b58",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-05-06 20:42:59"
+            "time": "2014-05-12 15:32:53"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
