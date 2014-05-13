@@ -271,6 +271,16 @@ class EventManager
                 'instance.id' => $instance->getId(),
             ));
         }
+
+        if (!$httpRequest->request->has('observations') || $httpRequest->request->get('observations') === '') {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
+
+            throw new NotFoundHttpException();
+        }
+
+        $extraData['observations'] = $httpRequest->request->get('observations');
+
         return $extraData;
     }
 

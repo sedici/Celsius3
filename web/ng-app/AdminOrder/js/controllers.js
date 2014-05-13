@@ -61,6 +61,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         }));
     };
 
+    $scope.hasReclaim = function(request) {
+        return !_.isUndefined($scope.reclaims) && $scope.reclaims.filter(function(item) {
+            return item.request_event.id === request.id;
+        }).length > 0;
+    };
+
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
         update: function(event, ui) {
@@ -112,7 +118,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         cancel: {},
         reclaim: {}
     };
-    
+
     // Form container for validation
     $scope.formNames = {};
 
@@ -195,6 +201,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
             }), function(event) {
                 return event.date;
+            });
+
+            $scope.reclaims = events.filter(function(event) {
+                return event.type === 'reclaim';
             });
 
             $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function(item) {

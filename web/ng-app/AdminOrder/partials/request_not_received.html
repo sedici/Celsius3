@@ -4,6 +4,7 @@
         <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
             <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
         </a>
+        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
     </div>
     <div class="fecha_relojito">
         <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
