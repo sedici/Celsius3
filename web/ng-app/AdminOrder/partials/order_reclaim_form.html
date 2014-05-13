@@ -1,6 +1,6 @@
-<form class="form-horizontal" id="reclaimForm" name="forms.reclaim" novalidate ng-submit="reclaimRequest()">
+<form class="form-horizontal" id="reclaimForm" name="formNames.reclaim" novalidate ng-submit="reclaimRequest()">
     <div class="form_group" ng-class="reclaimerror">
         <label for="observations">{{'Observations'}}</label>
-        <textarea class="form-control" ng-model="observations" name="observations" id="observations" required></textarea>
+        <textarea class="form-control" ng-model="forms.reclaim.observations" name="observations" id="observations" required></textarea>
     </div>
 </form>

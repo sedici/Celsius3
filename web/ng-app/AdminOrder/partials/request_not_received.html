@@ -1,12 +1,12 @@
 <div class="panel2 col-md-1"></div>
 <div class="panel3 col-md-4">
     <div class="relojito">
-        <a class="modal-link" ng-click="receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
             <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
         </a>
     </div>
     <div class="fecha_relojito">
-        <a class="modal-link" ng-click="receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
             {{request.date|date:'dd-MM-yyyy'}}
         </a>
     </div>
@@ -14,10 +14,10 @@
 <div class="panel3 col-md-1 panel3_last">
     <ul class="list-unstyled request-actions">
         <li>
-            <a href bs-tooltip="cancelTooltip" ng-click="cancel.request = request.id" data-target="#cancel-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></a>
+            <a href bs-tooltip="cancelTooltip" ng-click="forms.cancel.request = request.id" data-target="#cancel-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></a>
         </li>
         <li>
-            <a href bs-tooltip="reclaimTooltip" ng-click="cancel.reclaim = request.id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
+            <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.request = request.id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
         </li>
     </ul>
 </div>

@@ -206,32 +206,26 @@ class EventManager
         }
 
         if ($httpRequest->request->has('request')) {
-            $request = $dm->getRepository('Celsius3CoreBundle:Event')
-                    ->find($request->request->get('request'));
-
-            if (!$request) {
-                $this->container->get('session')->getFlashBag()
-                        ->add('error', 'There was an error changing the state.');
-
-                throw new NotFoundHttpException();
-            }
-
-            $extraData['request'] = $request;
+            $key = 'request';
+            $id = $httpRequest->request->get('request');
         } else {
-            $receive = $dm->getRepository('Celsius3CoreBundle:Event')
-                    ->find($request->request->get('receive'));
-
-            if (!$receive) {
-                $this->container->get('session')->getFlashBag()
-                        ->add('error', 'There was an error changing the state.');
-
-                throw new NotFoundHttpException();
-            }
-
-            $extraData['receive'] = $receive;
+            $key = 'receive';
+            $id = $httpRequest->request->get('receive');
         }
 
-        if (!$httpRequest->request->has('observations')) {
+        $event = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->find($id);
+
+        if (!$request) {
+            $this->container->get('session')->getFlashBag()
+                    ->add('error', 'There was an error changing the state.');
+
+            throw new NotFoundHttpException();
+        }
+
+        $extraData[$key] = $event;
+
+        if (!$httpRequest->request->has('observations') || $httpRequest->request->get('observations') === '') {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 

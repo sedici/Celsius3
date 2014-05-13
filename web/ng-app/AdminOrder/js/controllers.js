@@ -93,13 +93,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "trigger": "hover"
     };
 
-    $scope.actionsTooltip = {
-        "title": "sakdjhgsk skdfhgsdkjf kjsdfglsjfls.",
-    }
-
     $scope.advanced = false;
-
-    $scope.observations = '';
 
     $scope.search_results = [
         {value: 'found', text: 'Found'},
@@ -111,17 +105,16 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     // Data for the request form
     $scope.select = {};
 
-    // Data for the receive form
-    $scope.receive = {};
-
-    // Data for the cancel form
-    $scope.cancel = {};
+    // Form data
+    $scope.forms = {
+        request: {},
+        receive: {},
+        cancel: {},
+        reclaim: {}
+    };
     
-    // Data for the reclaim form
-    $scope.reclaim = {};
-
     // Form container for validation
-    $scope.forms = {};
+    $scope.formNames = {};
 
     /**
      * Resource load
@@ -225,7 +218,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.updateReceive = function(id) {
-        $scope.receive.request = id;
+        $scope.forms.receive.request = id;
     };
 
     $scope.deleteSearch = function(catalog) {
@@ -258,7 +251,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.submitRequest = function() {
         var institution = findInstitution($scope.select.tree);
         var data = {
-            observations: $scope.observations,
+            observations: $scope.forms.request.observations,
             provider: institution
         };
 
@@ -273,7 +266,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.formatReceiveData = function() {
-        return _.pairs($scope.receive).map(function(item) {
+        return _.pairs($scope.forms.receive).map(function(item) {
             return _.object([item]);
         });
     };
@@ -281,7 +274,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.validateReceive = function() {
         $scope.delivery_type_error = '';
         $scope.files_error = '';
-        if ($scope.forms.receive.$valid) {
+        if ($scope.formNames.receive.$valid) {
             $scope.submitReceive();
         } else {
             if (_.isUndefined($scope.receive.delivery_type)) {
@@ -302,7 +295,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.validateCancel = function() {
-        if ($scope.forms.cancel.$valid) {
+        if ($scope.formNames.cancel.$valid) {
             $scope.cancelerror = '';
             $scope.cancelRequest();
         } else {
@@ -312,8 +305,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.cancelRequest = function() {
         var data = {
-            observations: $scope.observations,
-            request: $scope.cancel.request
+            observations: $scope.forms.cancel.observations,
+            request: $scope.forms.cancel.request
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function(response) {
@@ -324,7 +317,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.validateReclaim = function() {
-        if ($scope.forms.reclaim.$valid) {
+        if ($scope.formNames.reclaim.$valid) {
             $scope.reclaimerror = '';
             $scope.reclaimRequest();
         } else {
@@ -334,8 +327,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.reclaimRequest = function() {
         var data = {
-            observations: $scope.observations,
-            request: $scope.reclaim.request
+            observations: $scope.forms.reclaim.observations,
+            request: $scope.forms.reclaim.request
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function(response) {
