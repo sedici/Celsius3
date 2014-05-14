@@ -66,6 +66,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return item.request_event.id === request.id;
         }).length > 0;
     };
+    
+    $scope.hasApprove = function(receive) {
+        return !_.isUndefined($scope.approvals) && $scope.approvals.filter(function(item) {
+            return item.receive_event.id === receive.id;
+        }).length > 0;
+    };
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
@@ -95,6 +101,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.reclaimTooltip = {
         "title": "Reclaim",
+        "placement": "right",
+        "trigger": "hover"
+    };
+    
+    $scope.reclaimTooltip = {
+        "title": "Approve",
         "placement": "right",
         "trigger": "hover"
     };
@@ -205,6 +217,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
             $scope.reclaims = events.filter(function(event) {
                 return event.type === 'reclaim';
+            });
+            
+            $scope.approvals = events.filter(function(event) {
+                return event.type === 'approve';
             });
 
             $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function(item) {
@@ -345,6 +361,16 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.updateTables();
             $('#reclaimForm').get(0).reset();
             $('.modal').modal('hide');
+        });
+    };
+    
+    $scope.approve = function(receive) {
+        var data = {
+            receive: receive.id
+        };
+        
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data).success(function(response) {
+            $scope.updateTables();
         });
     };
 });

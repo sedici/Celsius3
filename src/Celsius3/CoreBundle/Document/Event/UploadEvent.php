@@ -7,6 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
+use Celsius3\CoreBundle\Document\Mixin\ApprovableTrait;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
@@ -15,7 +16,8 @@ use Celsius3\CoreBundle\Document\Request;
 class UploadEvent extends MultiInstanceEvent
 {
 
-    use ReclaimableTrait;
+    use ReclaimableTrait,
+        ApprovableTrait;
 
     /**
      * @Assert\NotNull

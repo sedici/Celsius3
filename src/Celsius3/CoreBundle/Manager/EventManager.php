@@ -166,17 +166,17 @@ class EventManager
 
     private function prepareExtraDataForApprove(Request $request, array $extraData, Instance $instance)
     {
-        if (!$this->container->get('request_stack')->getCurrentRequest()->query->has('receive')) {
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        if (!$httpRequest->request->has('receive')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
             throw new NotFoundHttpException();
         }
 
-        $extraData['receive'] = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('Celsius3CoreBundle:Event')
-                ->find($this->container->get('request_stack')->getCurrentRequest()->query->get('receive'));
+        $extraData['receive'] = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->find($httpRequest->request->get('receive'));
 
         if (!$extraData['receive']) {
             throw new NotFoundHttpException();

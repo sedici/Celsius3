@@ -9,6 +9,8 @@
 </div>
 <div class="panel3_ok col-md-1 panel3_last_ok">
     <ul class="list-unstyled request-actions">
-        
+        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+            <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
+        </li>
     </ul>
 </div>
