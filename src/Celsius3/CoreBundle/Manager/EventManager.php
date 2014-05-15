@@ -47,7 +47,8 @@ class EventManager
         self::EVENT__RECLAIM => 'ReclaimEvent',
         self::EVENT__MULTI_INSTANCE_RECEIVE => 'MultiInstanceReceiveEvent',
         self::EVENT__SINGLE_INSTANCE_RECEIVE => 'SingleInstanceReceiveEvent',
-        self::EVENT__DELIVER => 'Deliver', self::EVENT__CANCEL => 'CancelEvent',
+        self::EVENT__DELIVER => 'DeliverEvent',
+        self::EVENT__CANCEL => 'CancelEvent',
         self::EVENT__LOCAL_CANCEL => 'LocalCancelEvent',
         self::EVENT__REMOTE_CANCEL => 'RemoteCancelEvent',
         self::EVENT__ANNUL => 'AnnulEvent',
@@ -185,15 +186,6 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForDeliver(Request $request, array $extraData, Instance $instance)
-    {
-        if ($request->getType() === OrderManager::TYPE__PROVISION && $request->getCurrentState()->getType() === StateManager::STATE__TAKEN) {
-            $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
-            $extraData['files'] = $httpRequest->files->all();
-        }
-        return $extraData;
-    }
-
     private function prepareExtraDataForReclaim(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
@@ -216,7 +208,7 @@ class EventManager
         $event = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($id);
 
-        if (!$request) {
+        if (!$event) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 

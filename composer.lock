@@ -1094,12 +1094,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "a1763eb9c8d3988d607b4448a1a24197f7bcf8cb"
+                "reference": "68ba59b11d5e1cf8e83aa0bf684b6a4f2d0050b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/a1763eb9c8d3988d607b4448a1a24197f7bcf8cb",
-                "reference": "a1763eb9c8d3988d607b4448a1a24197f7bcf8cb",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/68ba59b11d5e1cf8e83aa0bf684b6a4f2d0050b7",
+                "reference": "68ba59b11d5e1cf8e83aa0bf684b6a4f2d0050b7",
                 "shasum": ""
             },
             "require": {
@@ -1164,7 +1164,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-04-28 21:08:53"
+            "time": "2014-05-15 16:34:45"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1241,12 +1241,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "a47e8c188d6b6b69ce0211a1347947a620729a42"
+                "reference": "5476642acfe1e2851b55debc3f4b6d972338f2a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/a47e8c188d6b6b69ce0211a1347947a620729a42",
-                "reference": "a47e8c188d6b6b69ce0211a1347947a620729a42",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/5476642acfe1e2851b55debc3f4b6d972338f2a0",
+                "reference": "5476642acfe1e2851b55debc3f4b6d972338f2a0",
                 "shasum": ""
             },
             "require": {
@@ -1283,7 +1283,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-05-09 10:12:47"
+            "time": "2014-05-14 21:18:42"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3079,17 +3079,17 @@
         },
         {
             "name": "sp/bower-bundle",
-            "version": "v0.9",
+            "version": "v0.10",
             "target-dir": "Sp/BowerBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spea/SpBowerBundle.git",
-                "reference": "fda2f8049422c91180d4b736d3c57cc21f71d9ab"
+                "reference": "03cd141efbf76a632369bc2f6b90d59d62fdce37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/fda2f8049422c91180d4b736d3c57cc21f71d9ab",
-                "reference": "fda2f8049422c91180d4b736d3c57cc21f71d9ab",
+                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/03cd141efbf76a632369bc2f6b90d59d62fdce37",
+                "reference": "03cd141efbf76a632369bc2f6b90d59d62fdce37",
                 "shasum": ""
             },
             "require": {
@@ -3107,7 +3107,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.9-dev"
+                    "dev-master": "0.10-dev"
                 }
             },
             "autoload": {
@@ -3137,7 +3137,7 @@
                 "bower manager",
                 "dependencies"
             ],
-            "time": "2014-01-15 22:44:59"
+            "time": "2014-05-15 21:19:16"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

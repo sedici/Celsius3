@@ -373,4 +373,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.updateTables();
         });
     };
+    
+    $scope.deliver = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver').success(function(response) {
+            $scope.updateTables();
+        });
+    }
 });
