@@ -137,11 +137,9 @@ class StateManager
             ),
             'previousStates' => array(
                 self::STATE__REQUESTED,
-                self::STATE__TAKEN,
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__MULTI_INSTANCE_RECEIVE,
-                EventManager::EVENT__UPLOAD,
             ),
         ),
         self::STATE__RECEIVED => array(
@@ -155,10 +153,12 @@ class StateManager
             ),
             'previousStates' => array(
                 self::STATE__REQUESTED,
+                self::STATE__TAKEN,
                 self::STATE__APPROVAL_PENDING,
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__SINGLE_INSTANCE_RECEIVE,
+                EventManager::EVENT__UPLOAD,
                 EventManager::EVENT__APPROVE,
             ),
         ),
@@ -205,7 +205,8 @@ class StateManager
             'events' => array(
                 EventManager::EVENT__UPLOAD => array(
                     'weight' => 10,
-                    'destinationState' => self::STATE__APPROVAL_PENDING,
+                    'destinationState' => self::STATE__RECEIVED,
+                    'remoteState' => self::STATE__APPROVAL_PENDING,
                 ),
             ),
             'previousStates' => array(
