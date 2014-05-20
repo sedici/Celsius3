@@ -66,7 +66,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return item.request_event.id === request.id;
         }).length > 0;
     };
-    
+
     $scope.hasApprove = function(receive) {
         return !_.isUndefined($scope.approvals) && $scope.approvals.filter(function(item) {
             return item.receive_event.id === receive.id;
@@ -104,7 +104,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "placement": "right",
         "trigger": "hover"
     };
-    
+
     $scope.reclaimTooltip = {
         "title": "Approve",
         "placement": "right",
@@ -190,55 +190,59 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.updateTables = function() {
-        Event.query({request_id: $scope.request.id}, function(events) {
-            $scope.groupedEvents = $scope.groupEvents(events);
+        Request.get({order_id: $scope.order.id}, function(request) {
+            $scope.request = request;
 
-            $scope.take = events.filter(function(event) {
-                return event.type === 'take';
-            });
+            Event.query({request_id: $scope.request.id}, function(events) {
+                $scope.groupedEvents = $scope.groupEvents(events);
 
-            $scope.searches = _.sortBy(events.filter(function(event) {
-                return event.type === 'search';
-            }), function(event) {
-                return event.date;
-            });
-
-            $scope.requests = _.sortBy(events.filter(function(event) {
-                return event.type === 'sirequest' || event.type === 'mirequest';
-            }), function(event) {
-                return event.date;
-            });
-
-            $scope.receptions = _.sortBy(events.filter(function(event) {
-                return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
-            }), function(event) {
-                return event.date;
-            });
-
-            $scope.reclaims = events.filter(function(event) {
-                return event.type === 'reclaim';
-            });
-            
-            $scope.approvals = events.filter(function(event) {
-                return event.type === 'approve';
-            });
-
-            $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function(item) {
-                item.search = $scope.searches.find(function(search) {
-                    return search.catalog.id === item.id;
+                $scope.take = events.filter(function(event) {
+                    return event.type === 'take';
                 });
-            });
 
-            $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
-                return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
-            });
+                $scope.searches = _.sortBy(events.filter(function(event) {
+                    return event.type === 'search';
+                }), function(event) {
+                    return event.date;
+                });
 
-            $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
-                return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
-            });
+                $scope.requests = _.sortBy(events.filter(function(event) {
+                    return event.type === 'sirequest' || event.type === 'mirequest';
+                }), function(event) {
+                    return event.date;
+                });
 
-            $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
-                return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+                $scope.receptions = _.sortBy(events.filter(function(event) {
+                    return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
+                }), function(event) {
+                    return event.date;
+                });
+
+                $scope.reclaims = events.filter(function(event) {
+                    return event.type === 'reclaim';
+                });
+
+                $scope.approvals = events.filter(function(event) {
+                    return event.type === 'approve';
+                });
+
+                $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function(item) {
+                    item.search = $scope.searches.find(function(search) {
+                        return search.catalog.id === item.id;
+                    });
+                });
+
+                $scope.filterFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                    return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
+                });
+
+                $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                    return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
+                });
+
+                $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
+                    return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+                });
             });
         });
     };
@@ -363,20 +367,38 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $('.modal').modal('hide');
         });
     };
-    
+
     $scope.approve = function(receive) {
         var data = {
             receive: receive.id
         };
-        
+
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data).success(function(response) {
             $scope.updateTables();
         });
     };
-    
+
     $scope.deliver = function() {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver').success(function(response) {
             $scope.updateTables();
         });
     }
+
+    $scope.annul = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul').success(function(response) {
+            $scope.updateTables();
+        });
+    };
+
+    $scope.cancel = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel').success(function(response) {
+            $scope.updateTables();
+        });
+    };
+
+    $scope.undo = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/undo').success(function(response) {
+            $scope.updateTables();
+        });
+    };
 });

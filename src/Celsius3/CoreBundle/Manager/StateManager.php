@@ -341,7 +341,7 @@ class StateManager
     {
         switch ($state->getType()->getName()) {
             case self::STATE__REQUESTED:
-                $extraData = $this->event_manager->prepareExtraData(EventManager::EVENT__CANCEL, $state->getOrder(), $state->getInstance());
+                $extraData = $this->event_manager->prepareExtraData(EventManager::EVENT__CANCEL, $state->getRequest(), $state->getInstance());
                 $this->event_manager->cancelRequests($extraData['sirequests'], $extraData['httprequest']);
                 $this->event_manager->cancelRequests($extraData['mirequests'], $extraData['httprequest']);
                 break;

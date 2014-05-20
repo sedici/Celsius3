@@ -197,23 +197,18 @@ class LifecycleHelper
         return $request;
     }
 
-    public function undoState(Order $order)
+    public function undoState(Request $request)
     {
-        $instance = $this->instance_helper->getSessionInstance();
-        $currentState = $order->getCurrentState($instance);
-        if (!is_null($currentState->getPrevious())) {
-            $previousState = $currentState->getPrevious();
+        $currentState = $request->getCurrentState();
+        if ($previousState = $currentState->getPrevious()) {
             $currentState->setIsCurrent(false);
             $previousState->setIsCurrent(true);
 
             $event = new UndoEvent();
             $event->setDate(date('Y-m-d H:i:s'));
-            $event->setOrder($order);
-            $event
-                    ->setOperator(
-                            $this->container->get('security.context')
-                            ->getToken()->getUser());
-            $event->setInstance($instance);
+            $event->setRequest($request);
+            $event->setOperator($this->container->get('security.context')->getToken()->getUser());
+            $event->setInstance($request->getInstance());
             $event->setState($previousState);
             $previousState->addEvent($event);
 
@@ -221,9 +216,9 @@ class LifecycleHelper
 
             $this->refresh($event);
             $this->refresh($currentState);
-            return true;
+            return $event;
         } else {
-            return false;
+            return null;
         }
     }
 

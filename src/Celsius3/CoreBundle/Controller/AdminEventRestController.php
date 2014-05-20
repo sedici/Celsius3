@@ -81,6 +81,30 @@ class AdminEventRestController extends BaseInstanceDependentRestController
     }
 
     /**
+     * @Post("/{request_id}/undo", name="admin_rest_order_event_undo", options={"expose"=true})
+     */
+    public function undoAction($request_id)
+    {
+        $dm = $this->getDocumentManager();
+
+        $request = $dm->getRepository('Celsius3CoreBundle:Request')
+                ->find($request_id);
+
+        if (!$request) {
+            throw $this->createNotFoundException('Unable to find Request.');
+        }
+
+        $request->setOperator($this->getUser());
+
+        $result = $this->get('celsius3_core.lifecycle_helper')->undoState($request);
+
+        $view = $this->view($result, 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
      * @Post("/{request_id}/{event}", name="admin_rest_order_event", options={"expose"=true})
      */
     public function createEventAction($request_id, $event)

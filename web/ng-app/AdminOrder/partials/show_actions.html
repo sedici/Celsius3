@@ -18,18 +18,12 @@
         <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'Deliver'}}</a>
     </li>
     <li ng-if="['created', 'searched'].indexOf(request.current_state) !== -1">
-        <form action="{{ {path: 'admin_order_event', params: { 'id': order.id, 'event': 'annul' } }|get_url }}" method="post" class="inline-form">
-            <a class="submit-form" href="#"><span class="glyphicon glyphicon-ban-circle"></span> {{'Annul'}}</a>
-        </form>
+        <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'Annul'}}</a>
     </li>
     <li ng-if="['searched', 'requested', 'approval_pending'].indexOf(request.current_state) !== -1">
-        <form action="{{ {path: 'admin_order_event', params: { 'id': order.id, 'event': 'cancel' } }|get_url }}" method="post" class="inline-form">
-            <a class="submit-form" href="#"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
-        </form>
+        <a href ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
     </li>
     <li ng-if="request.current_state !== 'created'">
-        <form action="{{ {path: 'admin_order_undo', params: { 'id': order.id } }|get_url }}" method="post" class="inline-form">
-            <a class="submit-form" href="#"><span class="glyphicon glyphicon-arrow-left"></span> {{'Back to previous state'}}</a>
-        </form>
+        <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'Back to previous state'}}</a>
     </li>
 </ul>
