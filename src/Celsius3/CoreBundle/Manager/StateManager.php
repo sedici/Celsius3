@@ -3,12 +3,10 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Manager\EventManager;
-use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Document\SingleInstanceRequest;
-use Celsius3\CoreBundle\Form\Type\OrderRequestType;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Document\State;
 
@@ -51,6 +49,23 @@ class StateManager
             'previousStates' => array(),
             'originatingEvents' => array(
                 EventManager::EVENT__CREATION,
+            ),
+        ),
+        self::STATE__TAKEN => array(
+            'positive' => true,
+            'mandatory' => true,
+            'events' => array(
+                EventManager::EVENT__UPLOAD => array(
+                    'weight' => 10,
+                    'destinationState' => self::STATE__RECEIVED,
+                    'remoteState' => self::STATE__APPROVAL_PENDING,
+                ),
+            ),
+            'previousStates' => array(
+                self::STATE__CREATED,
+            ),
+            'originatingEvents' => array(
+                EventManager::EVENT__TAKE,
             ),
         ),
         self::STATE__SEARCHED => array(
@@ -199,35 +214,24 @@ class StateManager
                 EventManager::EVENT__ANNUL,
             ),
         ),
-        self::STATE__TAKEN => array(
-            'positive' => true,
-            'mandatory' => true,
-            'events' => array(
-                EventManager::EVENT__UPLOAD => array(
-                    'weight' => 10,
-                    'destinationState' => self::STATE__RECEIVED,
-                    'remoteState' => self::STATE__APPROVAL_PENDING,
-                ),
-            ),
-            'previousStates' => array(
-                self::STATE__CREATED,
-            ),
-            'originatingEvents' => array(
-                EventManager::EVENT__TAKE,
-            ),
-        ),
     );
     private $event_manager;
     private $instance_helper;
     private $form_factory;
     private $document_manager;
+    private $request_stack;
 
-    public function __construct(EventManager $event_manager, InstanceHelper $instance_helper, FormFactoryInterface $form_factory, DocumentManager $document_manager)
+    public function __construct(EventManager $event_manager, InstanceHelper $instance_helper, FormFactoryInterface $form_factory, DocumentManager $document_manager, RequestStack $request_stack)
     {
         $this->event_manager = $event_manager;
         $this->instance_helper = $instance_helper;
         $this->form_factory = $form_factory;
         $this->document_manager = $document_manager;
+        $this->request_stack = $request_stack;
+    }
+    
+    public function isBefore(State $state1, State $state2) {
+        return array_search($state1->getType()->getName(), array_keys($this->graph)) < array_search($state2->getType()->getName(), array_keys($this->graph));
     }
 
     public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
@@ -341,9 +345,12 @@ class StateManager
     {
         switch ($state->getType()->getName()) {
             case self::STATE__REQUESTED:
+                $httpRequest = $this->request_stack->getCurrentRequest();
+                $httpRequest->request->set('observations', 'undo');
                 $extraData = $this->event_manager->prepareExtraData(EventManager::EVENT__CANCEL, $state->getRequest(), $state->getInstance());
                 $this->event_manager->cancelRequests($extraData['sirequests'], $extraData['httprequest']);
                 $this->event_manager->cancelRequests($extraData['mirequests'], $extraData['httprequest']);
+                $httpRequest->request->remove('observations');
                 break;
             default:
                 ;

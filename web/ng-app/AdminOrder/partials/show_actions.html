@@ -14,13 +14,13 @@
             <span class="glyphicon glyphicon-envelope"></span> {{'Send mail'}}
         </a>
     </li>
-    <li ng-if="['received'].indexOf(request.current_state) !== -1">
+    <li ng-if="contains(['received'], request.current_state)">
         <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'Deliver'}}</a>
     </li>
-    <li ng-if="['created', 'searched'].indexOf(request.current_state) !== -1">
+    <li ng-if="contains(['created', 'searched'], request.current_state)">
         <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'Annul'}}</a>
     </li>
-    <li ng-if="['searched', 'requested', 'approval_pending'].indexOf(request.current_state) !== -1">
+    <li ng-if="contains(['searched', 'requested', 'approval_pending'], request.current_state)">
         <a href ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
     </li>
     <li ng-if="request.current_state !== 'created'">

@@ -9,6 +9,7 @@ use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Manager\EventManager;
+use Celsius3\CoreBundle\Manager\StateManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Exception\PreviousStateNotFoundException;
 use Celsius3\CoreBundle\Document\Event\UndoEvent;
@@ -74,6 +75,11 @@ class LifecycleHelper
         if ($request->hasState($data['stateName'])) {
             $state = $request->getState($data['stateName']);
             $state->setRemoteEvent($remoteEvent);
+            if ($this->state_manager->isBefore($currentState, $state)) {
+                $currentState->setIsCurrent(false);
+                $state->setIsCurrent(true);
+                $this->dm->persist($currentState);
+            }
         } else {
             if (!is_null($currentState)) {
                 $currentState->setIsCurrent(false);
@@ -173,6 +179,14 @@ class LifecycleHelper
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
                 } else if ($name === EventManager::EVENT__SEARCH) {
                     $event->setResult($data['extraData']['result']);
+                    $currentState = $request->getCurrentState();
+                    $state = $request->getState(StateManager::STATE__SEARCHED);
+                    if ($this->state_manager->isBefore($currentState, $state)) {
+                        $currentState->setIsCurrent(false);
+                        $state->setIsCurrent(true);
+                        $this->dm->persist($currentState);
+                        $this->dm->persist($state);
+                    }
                 }
             } else {
                 $event = $this->setEventData($request, $data);
@@ -215,6 +229,7 @@ class LifecycleHelper
             $this->state_manager->extraUndoActions($currentState);
 
             $this->refresh($event);
+            $this->dm->refresh($event);
             $this->refresh($currentState);
             return $event;
         } else {

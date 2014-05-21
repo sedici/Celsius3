@@ -12,6 +12,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
         }
     }
+    
+    $scope.contains = function(list, item) {
+        return _.contains(list, item);
+    };
 
     $scope.countSearches = function() {
         if (_.isUndefined($scope.searches)) {

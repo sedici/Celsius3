@@ -4,13 +4,13 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Form\Type\OrderReclaimType;
 
 /**
  * @todo Eliminar el parámetro $instance de los prepareExtraDataFor*
@@ -311,11 +311,12 @@ class EventManager
         return $this->$methodName($request, array(), $instance);
     }
 
-    public function cancelRequests($requests, \Symfony\Component\HttpFoundation\Request $httpRequest)
+    public function cancelRequests($requests, HttpRequest $httpRequest)
     {
         foreach ($requests as $request) {
-            $httpRequest->query->set('request', $request->getId());
+            $httpRequest->request->set('request', $request->getId());
             $this->container->get('celsius3_core.lifecycle_helper')->createEvent(self::EVENT__CANCEL, $request->getRequest());
+            $httpRequest->request->remove('request');
         }
     }
 

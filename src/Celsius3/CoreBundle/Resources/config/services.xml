@@ -243,6 +243,7 @@
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="form.factory"></argument>
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="request_stack"></argument>
         </service>
 
         <service id="celsius3_core.file_manager" class="%celsius3_core.file_manager.class%">
