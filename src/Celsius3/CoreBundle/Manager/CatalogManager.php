@@ -9,7 +9,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 class CatalogManager
 {
 
-    const CATALOG__NOT_SEARCHED = 'not_searched';
+    const CATALOG__NON_SEARCHED = 'non_searched';
     const CATALOG__FOUND = 'found';
     const CATALOG__PARTIALLY_FOUND = 'partially_found';
     const CATALOG__NOT_FOUND = 'not_found';

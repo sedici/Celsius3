@@ -229,8 +229,9 @@ class StateManager
         $this->document_manager = $document_manager;
         $this->request_stack = $request_stack;
     }
-    
-    public function isBefore(State $state1, State $state2) {
+
+    public function isBefore(State $state1, State $state2)
+    {
         return array_search($state1->getType()->getName(), array_keys($this->graph)) < array_search($state2->getType()->getName(), array_keys($this->graph));
     }
 
@@ -344,12 +345,15 @@ class StateManager
     public function extraUndoActions(State $state)
     {
         switch ($state->getType()->getName()) {
+            case self::STATE__SEARCHED:
+                $searches = $this->event_manager->getEvents(EventManager::EVENT__SEARCH, $state->getRequest()->getId());
+                $this->event_manager->cancelSearches($searches);
+                break;
             case self::STATE__REQUESTED:
                 $httpRequest = $this->request_stack->getCurrentRequest();
                 $httpRequest->request->set('observations', 'undo');
                 $extraData = $this->event_manager->prepareExtraData(EventManager::EVENT__CANCEL, $state->getRequest(), $state->getInstance());
-                $this->event_manager->cancelRequests($extraData['sirequests'], $extraData['httprequest']);
-                $this->event_manager->cancelRequests($extraData['mirequests'], $extraData['httprequest']);
+                $this->event_manager->cancelRequests(array_merge($extraData['sirequests'], $extraData['mirequests']), $extraData['httprequest']);
                 $httpRequest->request->remove('observations');
                 break;
             default:

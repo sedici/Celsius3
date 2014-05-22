@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
+use Celsius3\CoreBundle\Document\Event\SingleInstanceReceiveEvent;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
@@ -314,10 +315,33 @@ class EventManager
     public function cancelRequests($requests, HttpRequest $httpRequest)
     {
         foreach ($requests as $request) {
-            $httpRequest->request->set('request', $request->getId());
-            $this->container->get('celsius3_core.lifecycle_helper')->createEvent(self::EVENT__CANCEL, $request->getRequest());
-            $httpRequest->request->remove('request');
+            $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function($reception) use ($request) {
+                /**
+                 * @todo Probar esto mas exhaustivamente.
+                 */
+                if ($reception instanceof SingleInstanceReceiveEvent) {
+                    return $reception->getRequestEvent()->getId() === $request->getId();
+                } else {
+                    return $reception->getRequestEvent()->getId() === $request->getId() ||
+                            $reception->getRequest()->getPreviousRequest() ? $reception->getRequest()->getPreviousRequest()->getId() === $request->getRequest()->getId() : false;
+                }
+            });
+            if (count($receptions) === 0) {
+                $httpRequest->request->set('request', $request->getId());
+                $this->container->get('celsius3_core.lifecycle_helper')->createEvent(self::EVENT__CANCEL, $request->getRequest());
+                $httpRequest->request->remove('request');
+            }
         }
+    }
+
+    public function cancelSearches($searches)
+    {
+        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        foreach ($searches as $search) {
+            $search->setResult(CatalogManager::CATALOG__NON_SEARCHED);
+            $dm->persist($search);
+        }
+        $dm->flush();
     }
 
     public function getEvents($event, $request_id)
@@ -333,6 +357,7 @@ class EventManager
             $repositories = array(
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_RECEIVE],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],
+                $this->event_classes[self::EVENT__UPLOAD],
             );
         } else {
             $repositories = array(
