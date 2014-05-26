@@ -21,9 +21,27 @@
         <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'Annul'}}</a>
     </li>
     <li ng-if="contains(['searched', 'requested', 'approval_pending'], request.current_state)">
-        <a href ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
+        <a href data-target="#cancel-order-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
     </li>
     <li ng-if="request.current_state !== 'created'">
         <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'Back to previous state'}}</a>
     </li>
 </ul>
+
+<div id="cancel-order-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="cancel-modal-label">{{'Cancel'}}</h3>
+            </div>
+            <div class="modal-body" ng-include="'/ng-app/AdminOrder/partials/order_cancel_form.html'" ng-bind-html-unsafe="formResponse">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'Close'}}</button>
+                <button class="btn btn-primary" ng-click="validateCancelOrder()" value="#cancelForm">{{'Save'}}</button>
+            </div>
+        </div>
+    </div>
+</div>

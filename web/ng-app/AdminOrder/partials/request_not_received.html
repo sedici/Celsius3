@@ -1,5 +1,5 @@
 <div class="panel2 col-md-1"></div>
-<div class="panel3 col-md-4">
+<div class="panel3 col-md-4" ng-if="request.type === 'sirequest'">
     <div class="relojito">
         <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
             <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
@@ -10,6 +10,15 @@
         <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
             {{request.date|date:'dd-MM-yyyy'}}
         </a>
+    </div>
+</div>
+<div class="panel3 col-md-4" ng-if="request.type === 'mirequest'">
+    <div class="relojito">
+        <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
+        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+    </div>
+    <div class="fecha_relojito">
+        {{request.date|date:'dd-MM-yyyy'}}
     </div>
 </div>
 <div class="panel3 col-md-1 panel3_last">

@@ -109,7 +109,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "trigger": "hover"
     };
 
-    $scope.reclaimTooltip = {
+    $scope.approveTooltip = {
         "title": "Approve",
         "placement": "right",
         "trigger": "hover"
@@ -336,11 +336,32 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.cancelerror = 'has-error';
         }
     };
+    
+    $scope.validateCancelOrder = function() {
+        if ($scope.formNames.cancel.$valid) {
+            $scope.cancelerror = '';
+            $scope.cancel();
+        } else {
+            $scope.cancelerror = 'has-error';
+        }
+    };
 
     $scope.cancelRequest = function() {
         var data = {
             observations: $scope.forms.cancel.observations,
             request: $scope.forms.cancel.request
+        };
+
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function(response) {
+            $scope.updateTables();
+            $('#cancelForm').get(0).reset();
+            $('.modal').modal('hide');
+        });
+    };
+    
+    $scope.cancel = function() {
+        var data = {
+            observations: $scope.forms.cancel.observations,
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function(response) {
@@ -390,12 +411,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.annul = function() {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul').success(function(response) {
-            $scope.updateTables();
-        });
-    };
-
-    $scope.cancel = function() {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel').success(function(response) {
             $scope.updateTables();
         });
     };

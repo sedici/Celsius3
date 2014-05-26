@@ -101,6 +101,7 @@ class LifecycleHelper
         $state->setType($this->dm->getRepository('Celsius3CoreBundle:StateType')->findOneBy(array('name' => $data['stateName'])));
         $state->setPrevious($currentState);
         $state->setRemoteEvent($remoteEvent);
+        $state->setIsCurrent(true);
 
         return $state;
     }
