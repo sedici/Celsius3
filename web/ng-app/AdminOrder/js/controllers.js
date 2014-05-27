@@ -12,7 +12,15 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
         }
     }
-    
+
+    $scope.updateStateline = function() {
+        var canvas = new fabric.Canvas('stateline');
+
+        fabric.Image.fromURL('/bundles/celsius3core/images/stateline/circulo_gris_claro.png', function(oImg) {
+            canvas.add(oImg);
+        });
+    };
+
     $scope.contains = function(list, item) {
         return _.contains(list, item);
     };
@@ -247,6 +255,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
                     return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
                 });
+                
+                $scope.updateStateline();
             });
         });
     };
@@ -336,7 +346,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.cancelerror = 'has-error';
         }
     };
-    
+
     $scope.validateCancelOrder = function() {
         if ($scope.formNames.cancel.$valid) {
             $scope.cancelerror = '';
@@ -358,7 +368,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $('.modal').modal('hide');
         });
     };
-    
+
     $scope.cancel = function() {
         var data = {
             observations: $scope.forms.cancel.observations,
