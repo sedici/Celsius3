@@ -22,7 +22,7 @@
                 </select>
             </td>
             <td class="catalog-actions">
-                <a href ng-click="requestFromCatalog(catalog)" class="btn">{{'Request'}}</a>
+                <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn">{{'Request'}}</a>
             </td>
         </tr>
     </tbody>
