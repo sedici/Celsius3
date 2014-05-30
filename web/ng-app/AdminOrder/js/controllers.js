@@ -123,6 +123,20 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "trigger": "hover"
     };
 
+    $scope.institutionTooltip = function(institution) {
+        var str = '<p>' + institution.name + '</p>';
+        while (!_.isUndefined(institution.parent)) {
+            institution = institution.parent;
+            str = '<p>' + institution.name + '</p>' + str;
+        }
+        return {
+            "title": str,
+            "placement": "right",
+            "trigger": "hover",
+            "html": "true"
+        };
+    };
+
     $scope.advanced = false;
 
     $scope.search_results = [

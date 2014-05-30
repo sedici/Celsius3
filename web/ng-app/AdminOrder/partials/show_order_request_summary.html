@@ -4,7 +4,7 @@
 </div>
 <div ng-if="requests.length > 0">
     <div ng-repeat="request in requests" class="item1 col-md-6">
-        <div class="panel1 col-md-5">
+        <div class="panel1 col-md-5" bs-tooltip="institutionTooltip(request.provider)">
             <div class="cat_estrella"></div>
             <div class="cat_datos">
                 <div class="cat_titulo">{{request.provider.name}}</div>
