@@ -255,10 +255,16 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
                     return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
                 });
-                
+
                 $scope.updateStateline();
             });
         });
+    };
+
+    $scope.requestFromCatalog = function(catalog) {
+        $('.modal').modal('hide');
+        $scope.$broadcast('preset', catalog.institution);
+        $('#request-modal').modal('show');
     };
 
     $scope.updateReceive = function(id) {
@@ -284,6 +290,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.validateRequest = function() {
+        console.log($scope.select.tree);
         if (!_.isEmpty(findInstitution($scope.select.tree))) {
             $scope.ccierror = '';
             $scope.submitRequest();

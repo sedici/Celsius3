@@ -5,5 +5,6 @@
         <property name="name" type="string" expose="true" access-type="public_method"></property>
         <property name="url" type="string" expose="true" access-type="public_method"></property>
         <property name="comments" type="string" expose="true" access-type="public_method"></property>
+        <property name="institution" type="Celsius3\CoreBundle\Document\Institution" expose="true" access-type="public_method"></property>
     </class>  
 </serializer>

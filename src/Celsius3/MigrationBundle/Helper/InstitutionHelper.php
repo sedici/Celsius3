@@ -29,7 +29,7 @@ class InstitutionHelper
             $institution->setCity($city);
             $institution->setName(mb_convert_encoding($row_institucion['Nombre'], 'UTF-8'));
             $institution->setAbbreviation(mb_convert_encoding($row_institucion['Abreviatura'], 'UTF-8'));
-            $institution->setIsLiblink((bool) $row_institucion['Participa_Proyecto']);
+            //$institution->setIsLiblink((bool) $row_institucion['Participa_Proyecto']);
             if ($row_institucion['Direccion'] != '') {
                 $institution->setAddress(mb_convert_encoding($row_institucion['Direccion'], 'UTF-8'));
             }
@@ -61,7 +61,7 @@ class InstitutionHelper
             $dependency->setParent($institution);
             $dependency->setName(mb_convert_encoding($row_dependencia['Nombre'], 'UTF-8'));
             $dependency->setAbbreviation(mb_convert_encoding($row_dependencia['Abreviatura'], 'UTF-8'));
-            $dependency->setIsLiblink((bool) $row_dependencia['Es_LibLink']);
+            //$dependency->setIsLiblink((bool) $row_dependencia['Es_LibLink']);
             if ($row_dependencia['Direccion'] != '') {
                 $dependency->setAddress(mb_convert_encoding($row_dependencia['Direccion'], 'UTF-8'));
             }

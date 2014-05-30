@@ -36,13 +36,6 @@ class Institution extends Provider
     private $address;
 
     /**
-     * @Assert\NotNull()
-     * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
-     */
-    private $isLiblink = false;
-
-    /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="institution")
      */
     private $users;
@@ -433,28 +426,6 @@ class Institution extends Provider
     public function getCelsiusInstance()
     {
         return $this->celsiusInstance;
-    }
-
-    /**
-     * Set isLiblink
-     *
-     * @param boolean $isLiblink
-     * @return self
-     */
-    public function setIsLiblink($isLiblink)
-    {
-        $this->isLiblink = $isLiblink;
-        return $this;
-    }
-
-    /**
-     * Get isLiblink
-     *
-     * @return boolean $isLiblink
-     */
-    public function getIsLiblink()
-    {
-        return is_null($this->parent) ? $this->isLiblink : $this->isLiblink || $this->getParent()->getIsLiblink();
     }
 
 }

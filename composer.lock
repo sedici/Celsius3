@@ -1097,12 +1097,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "6b384c108fa89a5ace02124d200bd916ab5ac380"
+                "reference": "cc0931cfa5b9f75a15cd3b7ebc1b531a408cff1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/6b384c108fa89a5ace02124d200bd916ab5ac380",
-                "reference": "6b384c108fa89a5ace02124d200bd916ab5ac380",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/cc0931cfa5b9f75a15cd3b7ebc1b531a408cff1e",
+                "reference": "cc0931cfa5b9f75a15cd3b7ebc1b531a408cff1e",
                 "shasum": ""
             },
             "require": {
@@ -1167,7 +1167,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-05-27 08:47:40"
+            "time": "2014-05-30 06:48:29"
         },
         {
             "name": "friendsofsymfony/user-bundle",
