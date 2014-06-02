@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, Order, Request, Catalog, Event) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $sce, Order, Request, Catalog, Event) {
     'use strict';
 
     function findInstitution(tree) {
@@ -124,16 +124,17 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.institutionTooltip = function(institution) {
-        var str = '<p>' + institution.name + '</p>';
+        var str = '<li>' + institution.name + '</li></ul>';
         while (!_.isUndefined(institution.parent)) {
             institution = institution.parent;
-            str = '<p>' + institution.name + '</p>' + str;
+            str = '<li>' + institution.name + '</li>' + str;
         }
+        str = '<ul>' + str;
         return {
-            "title": str,
-            "placement": "right",
-            "trigger": "hover",
-            "html": "true"
+            title: str,
+            placement: "right",
+            trigger: "hover",
+            html: true
         };
     };
 

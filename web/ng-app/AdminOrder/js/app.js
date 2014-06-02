@@ -2,7 +2,7 @@ var orderApp = angular.module('orderApp', [
     'ngRoute',
     'ngResource',
     'ngAnimate',
-    //'ngSanitize',
+    'ngSanitize',
     'ui.sortable',
     'cciWidget',
     'orderControllers',
@@ -11,8 +11,8 @@ var orderApp = angular.module('orderApp', [
     'angularFileUpload'
 ]);
 
-orderApp.config(['$routeProvider',
-    function($routeProvider) {
+orderApp.config(['$routeProvider', '$tooltipProvider',
+    function($routeProvider, $tooltipProvider) {
         $routeProvider.
                 when('/', {
                     templateUrl: '/ng-app/AdminOrder/partials/show.html',
@@ -21,4 +21,7 @@ orderApp.config(['$routeProvider',
                 otherwise({
                     redirectTo: '/'
                 });
+        angular.extend($tooltipProvider.defaults, {
+            html: true
+        });
     }]);
