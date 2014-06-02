@@ -31,9 +31,6 @@ class InstitutionType extends AbstractType
                 ->add('address', null, array(
                     'required' => false
                 ))
-                ->add('isLiblink', null, array(
-                    'required' => false,
-                ))
         ;
 
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent', false, true, true);

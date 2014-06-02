@@ -2,7 +2,7 @@
     <label ng-if="data.id === 'institution0'" for="{{data.id}}">{{'Institution'}}</label>
     <select ui-select2="{placeholder: 'Select an institution', allowClear: true}" ng-model="data.institution" class="institution" name="{{data.name}}" id="{{data.id}}" ng-change="institutionChanged(data)">
         <option></option>
-        <option ng-repeat="i in data.institutions" value="{{i.id}}">{{i.name}}</option>
+        <option ng-repeat="i in data.institutions" value="{{i.id}}">{{i.name}} {{i.celsius_instance ? '- C3' : ''}}</option>
     </select>
     <div ng-repeat="data in data.child" ng-include="'/ng-app/Directives/CCI/partials/institution_select.html'">
 

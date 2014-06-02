@@ -7,5 +7,6 @@
         <property name="parent" type="Celsius3\CoreBundle\Document\Institution" expose="true" access-type="public_method"></property>
         <property name="city" type="Celsius3\CoreBundle\Document\City" expose="true" access-type="public_method"></property>
         <property name="country" type="Celsius3\CoreBundle\Document\Country" expose="true" access-type="public_method"></property>
+        <property name="celsiusInstance" type="Celsius3\CoreBundle\Document\Instance" expose="true" access-type="public_method"></property>
     </class>  
 </serializer>
