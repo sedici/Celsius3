@@ -8,6 +8,19 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
     }
 
     function link(scope, element, attrs) {
+        scope.formatInstitution = function(element) {
+            var institution = JSON.parse(element.text);
+            if (_.isUndefined(institution.celsius_instance)) {
+                return institution.name;
+            } else {
+                return institution.name + ' <span class="glyphicon glyphicon-cloud"></span>';
+            }
+        };
+
+        scope.escape = function(m) {
+            return m;
+        };
+
         scope.select_count = 0;
         scope.countries = Country.query();
         scope.select.country = {};

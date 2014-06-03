@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2f6777d97a0f7a60f83b78735201da5c",
+    "hash": "fae6f239c8cf6a502045b07b24bc96e2",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -1097,12 +1097,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle.git",
-                "reference": "57d9e604c99eb0271ab0d664176523c969295b6a"
+                "reference": "b07203b3895fb30545526a723cc8f5207181b4a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/57d9e604c99eb0271ab0d664176523c969295b6a",
-                "reference": "57d9e604c99eb0271ab0d664176523c969295b6a",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSRestBundle/zipball/b07203b3895fb30545526a723cc8f5207181b4a8",
+                "reference": "b07203b3895fb30545526a723cc8f5207181b4a8",
                 "shasum": ""
             },
             "require": {
@@ -1167,7 +1167,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2014-06-02 11:56:40"
+            "time": "2014-06-03 11:47:03"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1244,12 +1244,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "f9713bb5c0740a1bf2d3fea40c833ceb96c5082c"
+                "reference": "f1ada9daa364eeb8376b2c5089a5ad685dd9e031"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f9713bb5c0740a1bf2d3fea40c833ceb96c5082c",
-                "reference": "f9713bb5c0740a1bf2d3fea40c833ceb96c5082c",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/f1ada9daa364eeb8376b2c5089a5ad685dd9e031",
+                "reference": "f1ada9daa364eeb8376b2c5089a5ad685dd9e031",
                 "shasum": ""
             },
             "require": {
@@ -1286,7 +1286,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-06-01 20:59:03"
+            "time": "2014-06-02 19:37:40"
         },
         {
             "name": "gedmo/doctrine-extensions",
