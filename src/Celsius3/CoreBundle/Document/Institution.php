@@ -80,6 +80,11 @@ class Institution extends Provider
      * @MongoDB\ReferenceOne(targetDocument="LegacyInstance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
+    
+    /**
+     * @MongoDB\ReferenceOne(targetDocument="Hive", inversedBy="institutions")
+     */
+    private $hive;
 
     public function __toString()
     {
@@ -426,6 +431,28 @@ class Institution extends Provider
     public function getCelsiusInstance()
     {
         return $this->celsiusInstance;
+    }
+    
+    /**
+     * Set hive
+     *
+     * @param Celsius3\CoreBundle\Document\Hive $hive
+     * @return self
+     */
+    public function setHive(\Celsius3\CoreBundle\Document\Hive $hive)
+    {
+        $this->hive = $hive;
+        return $this;
+    }
+
+    /**
+     * Get hive
+     *
+     * @return Celsius3\CoreBundle\Document\Hive $hive
+     */
+    public function getHive()
+    {
+        return $this->hive;
     }
 
 }

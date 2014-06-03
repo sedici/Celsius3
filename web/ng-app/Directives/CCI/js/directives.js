@@ -9,6 +9,9 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
 
     function link(scope, element, attrs) {
         scope.formatInstitution = function(element) {
+            if (element.text === '') {
+                return element;
+            }
             var institution = JSON.parse(element.text);
             if (_.isUndefined(institution.celsius_instance)) {
                 return institution.name;
@@ -23,6 +26,7 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
 
         scope.select_count = 0;
         scope.countries = Country.query();
+        scope.select.filter = '';
         scope.select.country = {};
         scope.select.city = {};
         scope.select.tree = [new Node(scope.select_count)];
@@ -51,14 +55,21 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
             scope.select.city = !_.isUndefined(top.city) ? top.city.id : {};
             scope.countryChanged();
         };
+        scope.updateFilter = function() {
+            if (_.isEmpty(scope.select.city)) {
+                scope.countryChanged();
+            } else {
+                scope.cityChanged();
+            }
+        };
         scope.countryChanged = function() {
-            scope.cities = City.query({country_id: scope.select.country.id});
-            scope.institutions = Institution.query({country_id: scope.select.country}, function(institutions) {
+            scope.cities = City.query({country_id: scope.select.country});
+            scope.institutions = Institution.query({country_id: scope.select.country, filter: scope.select.filter}, function(institutions) {
                 _.first(scope.select.tree).institutions = institutions;
             });
         };
         scope.cityChanged = function() {
-            scope.institutions = Institution.query({country_id: scope.select.country, city_id: scope.select.city}, function(institutions) {
+            scope.institutions = Institution.query({country_id: scope.select.country, city_id: scope.select.city, filter: scope.select.filter}, function(institutions) {
                 _.first(scope.select.tree).institutions = institutions;
             });
         };
@@ -68,7 +79,7 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
                     var node = new Node(++scope.select_count);
                     node.institutions = institutions;
                     data.child = [node];
-                } else {
+                } else if (data.child.length > 0) {
                     _.first(data.child).institutions = institutions;
                 }
             });

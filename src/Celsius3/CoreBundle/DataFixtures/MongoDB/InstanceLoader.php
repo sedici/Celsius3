@@ -48,7 +48,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                 return $generator->randomNumber;
             },
                     'setJournal' => function () use ($generator, $manager) {
-                $random = $generator->randomNumber(0, count($manager->getRepository('Celsius3CoreBundle:Journal')->findAll()) - 1);
+                $random = $generator->numberBetween(0, count($manager->getRepository('Celsius3CoreBundle:Journal')->findAll()) - 1);
 
                 return $manager
                                 ->getRepository(
@@ -104,15 +104,12 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             ),
         );
 
-        $hive = new Document\Hive();
-        $hive->setName('LibLink');
-        $manager->persist($hive);
-        $manager->flush();
+        $hive = $this->getReference('hive');
 
         /*
          * Carga de Instancias Legacy
          */
-        for ($i = 0; $i < $generator->randomNumber(5, 20); $i++) {
+        for ($i = 0; $i < $generator->numberBetween(5, 20); $i++) {
             $instance = new Document\LegacyInstance();
             $instance->setName($generator->company);
             $instance->setAbbreviation(strtoupper($generator->word));
@@ -161,7 +158,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             /*
              * Carga de catalogos por instancia
              */
-            for ($j = 0; $j < $generator->randomNumber(5, 20); $j++) {
+            for ($j = 0; $j < $generator->numberBetween(5, 20); $j++) {
                 $catalog = new Document\Catalog();
                 $catalog->setName($generator->company);
                 $catalog->setUrl($generator->url);
@@ -207,7 +204,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
             /*
              * Creacion de usuarios de cada instancia
              */
-            for ($j = 0; $j < $generator->randomNumber(5, 20); $j++) {
+            for ($j = 0; $j < $generator->numberBetween(5, 20); $j++) {
                 $user = new Document\BaseUser();
                 $user->setName($generator->firstName);
                 $user->setSurname($generator->lastName);
@@ -224,15 +221,15 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                  * Creacion de pedidos por instancia
                  */
                 $material_keys = array_keys($material_types);
-                for ($k = 0; $k < $generator->randomNumber(1, 5); $k++) {
-                    $random_material = $generator->randomNumber(0, count($material_keys) - 1);
+                for ($k = 0; $k < $generator->numberBetween(1, 5); $k++) {
+                    $random_material = $generator->numberBetween(0, count($material_keys) - 1);
                     $material_type = $material_types[$material_keys[$random_material]];
                     $order = new Document\Order();
 
                     $material = new $material_type['class'];
                     $material->setAuthors($generator->name);
-                    $material->setEndPage($generator->randomNumber(10,1000));
-                    $material->setStartPage($generator->randomNumber(1, $material->getEndPage()));
+                    $material->setEndPage($generator->numberBetween(10, 1000));
+                    $material->setStartPage($generator->numberBetween(1, $material->getEndPage()));
                     $material->setTitle(str_replace('.', '', $generator->sentence));
                     $material->setYear($generator->year);
 

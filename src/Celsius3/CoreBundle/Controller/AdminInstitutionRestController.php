@@ -2,6 +2,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -37,12 +38,19 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/{country_id}/{city_id}", defaults={"city_id" = null}, name="admin_rest_institution", options={"expose"=true})
      */
-    public function getInstitutionsAction($country_id, $city_id)
+    public function getInstitutionsAction($country_id, $city_id, Request $request)
     {
         $dm = $this->getDocumentManager();
+        
+        $filter = null;
+        if ($request->query->has('filter') && $request->query->get('filter') !== '') {
+            $filter = $request->query->get('filter');
+        }
+        
+        $hive = $this->getInstance()->getHive();
 
         $institutions = $dm->getRepository('Celsius3CoreBundle:Institution')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id, $city_id);
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $hive, $country_id, $city_id, $filter);
 
         $view = $this->view(array_values($institutions), 200)
                 ->setFormat('json');

@@ -10,11 +10,16 @@ class InstitutionHelper
 
     private $dm;
     private $container;
+    private $hive;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $this->hive = $this->dm->getRepository('Celsius3CoreBundle:Hive')
+                ->findOneBy(array(
+            'name' => 'LibLink',
+        ));
     }
 
     public function migrate($conn, $country_id, $country, $city_id, $city = null)
@@ -29,7 +34,9 @@ class InstitutionHelper
             $institution->setCity($city);
             $institution->setName(mb_convert_encoding($row_institucion['Nombre'], 'UTF-8'));
             $institution->setAbbreviation(mb_convert_encoding($row_institucion['Abreviatura'], 'UTF-8'));
-            //$institution->setIsLiblink((bool) $row_institucion['Participa_Proyecto']);
+            if ((bool) $row_institucion['Participa_Proyecto']) {
+                $institution->setHive($this->hive);
+            }
             if ($row_institucion['Direccion'] != '') {
                 $institution->setAddress(mb_convert_encoding($row_institucion['Direccion'], 'UTF-8'));
             }
@@ -61,7 +68,9 @@ class InstitutionHelper
             $dependency->setParent($institution);
             $dependency->setName(mb_convert_encoding($row_dependencia['Nombre'], 'UTF-8'));
             $dependency->setAbbreviation(mb_convert_encoding($row_dependencia['Abreviatura'], 'UTF-8'));
-            //$dependency->setIsLiblink((bool) $row_dependencia['Es_LibLink']);
+            if ((bool) $row_dependencia['Es_LibLink']) {
+                $dependency->setHive($this->hive);
+            }
             if ($row_dependencia['Direccion'] != '') {
                 $dependency->setAddress(mb_convert_encoding($row_dependencia['Direccion'], 'UTF-8'));
             }

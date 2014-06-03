@@ -1,12 +1,12 @@
 <div class="form_group">
     <label>{{'Filter'}}</label>
     <div class="filter-select" id="filter">
-        <input type="radio" checked="checked" value="" name="filter" id="filter_placeholder">
-        <label for="filter_placeholder">All</label>
-        <input type="radio" value="liblink" name="filter" id="filter_0">
-        <label for="filter_0">Liblink</label>
-        <input type="radio" value="celsius3" name="filter" id="filter_1">
-        <label for="filter_1">Celsius3</label>
+        <input type="radio" ng-model="select.filter" value="" name="filter" id="filter_placeholder" ng-change="updateFilter()">
+        <label for="filter_placeholder">{{'All'}}</label>
+        <input type="radio" ng-model="select.filter" value="hive" name="filter" id="filter_hive" ng-change="updateFilter()">
+        <label for="filter_hive">{{'Hive'}}</label>
+        <input type="radio" ng-model="select.filter" value="celsius3" name="filter" id="filter_celsius3" ng-change="updateFilter()">
+        <label for="filter_celsius3">{{'Celsius3'}}</label>
     </div>
 </div>
 <div class="form_group">

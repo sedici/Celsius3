@@ -127,6 +127,13 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $manager->flush();
 
         $this->addReference('directory', $directory);
+        
+        $hive = new Document\Hive();
+        $hive->setName('LibLink');
+        $manager->persist($hive);
+        $manager->flush();
+        
+        $this->addReference('hive', $hive);
 
         /*
          * Configuración del directorio
@@ -151,7 +158,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Creacion de noticias del directorio
          */
-        for ($j = 0; $j < $generator->randomNumber(10, 20); $j++) {
+        for ($j = 0; $j < $generator->numberBetween(10, 20); $j++) {
             $news = new Document\News();
             $news->setDate($generator->date('Y-m-d H:i:s'));
             $news->setTitle(str_replace('.', '', $generator->sentence));

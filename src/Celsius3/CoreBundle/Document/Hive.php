@@ -28,6 +28,11 @@ class Hive
      */
     private $instances;
 
+    /**
+     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="hive")
+     */
+    private $institutions;
+
     public function __toString()
     {
         return $this->name;
@@ -98,6 +103,36 @@ class Hive
     public function getInstances()
     {
         return $this->instances;
+    }
+
+    /**
+     * Add institution
+     *
+     * @param Celsius3\CoreBundle\Document\Institution $institution
+     */
+    public function addInstitution(\Celsius3\CoreBundle\Document\Institution $institution)
+    {
+        $this->institutions[] = $institution;
+    }
+
+    /**
+     * Remove institution
+     *
+     * @param Celsius3\CoreBundle\Document\Institution $institution
+     */
+    public function removeInstitution(\Celsius3\CoreBundle\Document\Institution $institution)
+    {
+        $this->institutions->removeElement($institution);
+    }
+
+    /**
+     * Get institutions
+     *
+     * @return Doctrine\Common\Collections\Collection $institutions
+     */
+    public function getInstitutions()
+    {
+        return $this->institutions;
     }
 
 }
