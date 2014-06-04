@@ -21,3 +21,9 @@ orderApp.factory('Event', ['$resource', function($resource) {
                 {request_id: '@request_id', event: '@event'}
         );
     }]);
+
+orderApp.factory('Contact', ['$resource', function($resource) {
+        return $resource(Routing.generate('admin_rest_contact') + ':institution_id',
+                {institution_id: '@institution_id'}
+        );
+    }]);

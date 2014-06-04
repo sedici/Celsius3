@@ -6,10 +6,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     function findInstitution(tree) {
         var node = _.first(tree);
         if (node.child.length === 0) {
-            return _.isUndefined(node.institution) ? null : node.institution;
+            return _.isEmpty(node.institution) ? null : node.institution;
         } else {
             var institution = findInstitution(node.child);
-            return institution === null ? (_.isUndefined(node.institution) ? null : node.institution) : institution;
+            return institution === null ? (_.isEmpty(node.institution) ? null : node.institution) : institution;
         }
     }
 
@@ -306,6 +306,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.validateRequest = function() {
         console.log($scope.select.tree);
+        console.log(findInstitution($scope.select.tree));
         if (!_.isEmpty(findInstitution($scope.select.tree))) {
             $scope.ccierror = '';
             $scope.submitRequest();
@@ -327,6 +328,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $('#requestForm').get(0).reset();
                 $scope.$broadcast('reset');
                 $('.modal').modal('hide');
+                
+                if (_.isUndefined(response.provider.celsius_instance)) {
+                    $('#email-modal').modal('show');
+                }
             }
         });
     };
