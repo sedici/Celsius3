@@ -23,7 +23,13 @@ orderApp.factory('Event', ['$resource', function($resource) {
     }]);
 
 orderApp.factory('Contact', ['$resource', function($resource) {
-        return $resource(Routing.generate('admin_rest_contact') + ':institution_id',
+        return $resource(Routing.generate('admin_rest_contact') + '/:institution_id',
                 {institution_id: '@institution_id'}
+        );
+    }]);
+
+orderApp.factory('MailTemplate', ['$resource', function($resource) {
+        return $resource(Routing.generate('admin_rest_mail_template') + ':id',
+                {id: '@id'}
         );
     }]);

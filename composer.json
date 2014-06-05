@@ -9,6 +9,12 @@
             "SymfonyStandard": "app/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/amarisi/SpBowerBundle"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "~2.5",
@@ -41,7 +47,7 @@
         "genemu/form-bundle": "dev-master",
         "cboden/Ratchet": "0.2.*",
         "react/zmq": "0.1.*",
-        "sp/bower-bundle": "~0.9"
+        "sp/bower-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

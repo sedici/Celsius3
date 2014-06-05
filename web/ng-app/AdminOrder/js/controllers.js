@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $sce, Order, Request, Catalog, Event) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $sce, Order, Request, Catalog, Event, Contact, MailTemplate) {
     'use strict';
 
     function findInstitution(tree) {
@@ -305,8 +305,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.validateRequest = function() {
-        console.log($scope.select.tree);
-        console.log(findInstitution($scope.select.tree));
         if (!_.isEmpty(findInstitution($scope.select.tree))) {
             $scope.ccierror = '';
             $scope.submitRequest();
@@ -330,6 +328,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $('.modal').modal('hide');
                 
                 if (_.isUndefined(response.provider.celsius_instance)) {
+                    $scope.contacts = Contact.query({institution_id: response.provider.id});
+                    $scope.templates = MailTemplate.query();
                     $('#email-modal').modal('show');
                 }
             }

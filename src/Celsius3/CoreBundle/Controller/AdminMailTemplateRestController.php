@@ -9,25 +9,26 @@ use FOS\RestBundle\Controller\Annotations\Post;
 /**
  * User controller.
  *
- * @Route("/admin/rest/contact")
+ * @Route("/admin/rest/mail_template")
  */
-class AdminContactRestController extends BaseInstanceDependentRestController
+class AdminMailTemplateRestController extends BaseInstanceDependentRestController
 {
 
     /**
      * GET Route annotation.
-     * @Get("/{institution_id}", name="admin_rest_contact", options={"expose"=true})
+     * @Get("/", name="admin_rest_mail_template", options={"expose"=true})
      */
-    public function getContactsAction($institution_id)
+    public function getMailTemplatesAction()
     {
         $dm = $this->getDocumentManager();
 
-        $contacts = $dm->getRepository('Celsius3CoreBundle:Contact')
-                ->findBy(array(
-            'institution.id' => $institution_id,
-        ));
+        $templates = $dm->getRepository('Celsius3CoreBundle:MailTemplate')
+                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory())
+                ->getQuery()
+                ->execute()
+                ->toArray();
 
-        $view = $this->view(array_values($contacts), 200)
+        $view = $this->view(array_values($templates), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

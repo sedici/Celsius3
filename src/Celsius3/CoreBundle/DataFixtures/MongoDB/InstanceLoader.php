@@ -72,7 +72,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
                 return $generator->randomNumber;
             },
                     'setISBN' => function () use ($generator) {
-                return $generator->randomNumber(13);
+                return $generator->randomNumber(8);
             },
                 ),
             ),

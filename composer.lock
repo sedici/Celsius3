@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "fae6f239c8cf6a502045b07b24bc96e2",
+    "hash": "adf386baed3b0e3547b49ed10ddd50e1",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -789,12 +789,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "9828ad004fcbd37f0bd7bb5ade98ec40c3bb7f55"
+                "reference": "1703f4c06ce9935117f8e2918a3354bd6579d39e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/9828ad004fcbd37f0bd7bb5ade98ec40c3bb7f55",
-                "reference": "9828ad004fcbd37f0bd7bb5ade98ec40c3bb7f55",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/1703f4c06ce9935117f8e2918a3354bd6579d39e",
+                "reference": "1703f4c06ce9935117f8e2918a3354bd6579d39e",
                 "shasum": ""
             },
             "require": {
@@ -859,7 +859,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-06-03 20:43:23"
+            "time": "2014-06-05 17:50:41"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -3093,17 +3093,17 @@
         },
         {
             "name": "sp/bower-bundle",
-            "version": "v0.10",
+            "version": "dev-master",
             "target-dir": "Sp/BowerBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Spea/SpBowerBundle.git",
-                "reference": "03cd141efbf76a632369bc2f6b90d59d62fdce37"
+                "url": "https://github.com/amarisi/SpBowerBundle.git",
+                "reference": "8c197b812ad176ca146ba75f8257a7717be657a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/03cd141efbf76a632369bc2f6b90d59d62fdce37",
-                "reference": "03cd141efbf76a632369bc2f6b90d59d62fdce37",
+                "url": "https://api.github.com/repos/amarisi/SpBowerBundle/zipball/8c197b812ad176ca146ba75f8257a7717be657a9",
+                "reference": "8c197b812ad176ca146ba75f8257a7717be657a9",
                 "shasum": ""
             },
             "require": {
@@ -3121,7 +3121,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.10-dev"
+                    "dev-master": "0.11-dev"
                 }
             },
             "autoload": {
@@ -3129,7 +3129,6 @@
                     "Sp\\BowerBundle": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3151,7 +3150,10 @@
                 "bower manager",
                 "dependencies"
             ],
-            "time": "2014-05-15 21:19:16"
+            "support": {
+                "source": "https://github.com/amarisi/SpBowerBundle/tree/master"
+            },
+            "time": "2014-06-05 17:57:34"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
@@ -3836,7 +3838,8 @@
         "jms/i18n-routing-bundle": 20,
         "jms/aop-bundle": 20,
         "fzaninotto/faker": 20,
-        "genemu/form-bundle": 20
+        "genemu/form-bundle": 20,
+        "sp/bower-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"

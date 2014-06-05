@@ -20,24 +20,9 @@ class AdminMailController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
-        $custom = array_map(
-                function ($elem) {
-                    return $elem['code'];
-                }, $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->createQueryBuilder()->hydrate(false)->select('code')
-                        ->field('instance.id')
-                        ->equals($this->getInstance()->getId())->getQuery()
-                        ->execute()->toArray());
-
-        $qb = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder();
-
-        return $qb->addOr($qb->expr()->field('instance.id')->equals($this->getDirectory()->getId())
-                                ->field('code')->notIn($custom)
-                                ->field('enabled')->equals(true))
-                        ->addOr($qb->expr()->field('instance.id')->equals($this->getInstance()->getId()));
+        return $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle' . $name)
+                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
     }
 
     protected function findQuery($name, $id)
