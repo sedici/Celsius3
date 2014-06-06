@@ -155,7 +155,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         request: {},
         receive: {},
         cancel: {},
-        reclaim: {}
+        reclaim: {},
+        email: {}
     };
 
     // Form container for validation
@@ -326,7 +327,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $('#requestForm').get(0).reset();
                 $scope.$broadcast('reset');
                 $('.modal').modal('hide');
-                
+
                 if (_.isUndefined(response.provider.celsius_instance)) {
                     $scope.contacts = Contact.query({institution_id: response.provider.id});
                     $scope.templates = MailTemplate.query();
@@ -444,7 +445,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver').success(function(response) {
             $scope.updateTables();
         });
-    }
+    };
 
     $scope.annul = function() {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul').success(function(response) {
@@ -455,6 +456,37 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.undo = function() {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/undo').success(function(response) {
             $scope.updateTables();
+        });
+    };
+
+    $scope.contactChanged = function() {
+        var contact = _.find($scope.contacts, function(contact) {
+            return contact.id === $scope.forms.email.contact;
+        });
+        $scope.forms.email.address = !_.isUndefined(contact) ? contact.email : '';
+    };
+
+    $scope.templateChanged = function() {
+        var template = _.find($scope.templates, function(template) {
+            return template.id === $scope.forms.email.template;
+        });
+        $scope.forms.email.subject = !_.isUndefined(template) ? template.title : '';
+        $scope.forms.email.text = !_.isUndefined(template) ? template.text : '';
+    };
+
+    $scope.sendEmail = function() {
+        var data = {
+            email: $scope.forms.email.address,
+            subject: $scope.forms.email.subject,
+            text: $scope.forms.email.text
+        };
+
+        $http.post(Routing.generate('admin_rest_email'), data).success(function(response) {
+            if (response) {
+                $scope.updateTables();
+                $('#emailForm').get(0).reset();
+                $('.modal').modal('hide');
+            }
         });
     };
 });

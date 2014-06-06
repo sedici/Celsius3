@@ -1,7 +1,7 @@
 <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
     <div class="form_group">
         <label for="contact">{{'Contact'}}</label>
-        <select ui-select2="{placeholder: 'Select a contact', allowClear: true}" ng-model="contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
+        <select ui-select2="{placeholder: 'Select a contact', allowClear: true}" ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
             <option></option>
             <option ng-repeat="c in contacts" value="{{c.id}}">{{c.surname + ', ' + c.name}} ({{c.type.name}})</option>
         </select>
@@ -12,14 +12,18 @@
     </div>
     <div class="form_group">
         <label for="template">{{'Template'}}</label>
-        <select ui-select2="{placeholder: 'Select a mail template', allowClear: true}" ng-model="contact" class="form-control" name="template" id="template" ng-click="templateChanged()">
+        <select ui-select2="{placeholder: 'Select a mail template', allowClear: true}" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
             <option></option>
             <option ng-repeat="t in templates" value="{{t.id}}">{{t.title}}</option>
         </select>
     </div>
     <div class="form_group">
+        <label for="subject">{{'Subject'}}</label>
+        <input type="text" class="form-control" ng-model="forms.email.subject" name="subject" id="subject" />
+    </div>
+    <div class="form_group">
         <label for="text">{{'Text'}}</label>
-        <textarea class="form-control" name="text" id="text">
+        <textarea class="form-control" name="text" id="text" ng-model="forms.email.text">
             
         </textarea>
     </div>
