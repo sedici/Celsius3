@@ -474,6 +474,25 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         $scope.forms.email.text = !_.isUndefined(template) ? template.text : '';
     };
 
+    $scope.validateEmail = function() {
+        if ($scope.formNames.email.$valid) {
+            $scope.emailerror = '';
+            $scope.subjecterror = '';
+            $scope.texterror = '';
+            $scope.sendEmail();
+        } else {
+            if (_.isUndefined($scope.forms.email.address)) {
+                $scope.emailerror = 'has-error';
+            }
+            if (_.isUndefined($scope.forms.email.subject)) {
+                $scope.subjecterror = 'has-error';
+            }
+            if (_.isUndefined($scope.forms.email.text)) {
+                $scope.texterror = 'has-error';
+            }
+        }
+    };
+
     $scope.sendEmail = function() {
         var data = {
             email: $scope.forms.email.address,

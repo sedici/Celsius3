@@ -789,12 +789,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "a6bd9a83374dcaa6612cadd8bd56b0e8bb8706d9"
+                "reference": "d6110fa6840370fc49c5492cb6a30d8432ddfa8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/a6bd9a83374dcaa6612cadd8bd56b0e8bb8706d9",
-                "reference": "a6bd9a83374dcaa6612cadd8bd56b0e8bb8706d9",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/d6110fa6840370fc49c5492cb6a30d8432ddfa8d",
+                "reference": "d6110fa6840370fc49c5492cb6a30d8432ddfa8d",
                 "shasum": ""
             },
             "require": {
@@ -859,7 +859,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-06-06 15:14:39"
+            "time": "2014-06-06 17:50:20"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1176,12 +1176,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "3969d7fe39fd58398bf9a00110ca349c000fa05e"
+                "reference": "a93c355d70fd57a8171faece7969a13cb9387efb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/3969d7fe39fd58398bf9a00110ca349c000fa05e",
-                "reference": "3969d7fe39fd58398bf9a00110ca349c000fa05e",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/a93c355d70fd57a8171faece7969a13cb9387efb",
+                "reference": "a93c355d70fd57a8171faece7969a13cb9387efb",
                 "shasum": ""
             },
             "require": {
@@ -1236,7 +1236,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2014-05-18 21:15:38"
+            "time": "2014-06-08 14:16:45"
         },
         {
             "name": "fzaninotto/faker",

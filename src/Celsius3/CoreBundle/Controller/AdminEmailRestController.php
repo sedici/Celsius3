@@ -4,6 +4,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraints\Email;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 
@@ -24,6 +25,17 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
             throw new NotFoundHttpException('Error sending email');
         }
         $email = $request->request->get('email');
+
+        $emailConstraint = new Email();
+        $emailConstraint->message = 'Invalid email';
+
+        $errors = $this->get('validator')->validateValue(
+                $email, $emailConstraint
+        );
+        
+        if (count($errors) !== 0) {
+            throw new NotFoundHttpException('Error sending email');
+        }
 
         if (!$request->request->has('subject')) {
             throw new NotFoundHttpException('Error sending email');
