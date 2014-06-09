@@ -20,6 +20,13 @@ class FileManager
         $this->dm = $dm;
     }
 
+    private function countPages($file)
+    {
+        $im = new \Imagick();
+        $im->pingImage($file);
+        return $im->getNumberImages();
+    }
+
     public function uploadFiles(Request $request, Event $event, array $files = array())
     {
         foreach ($files as $uploadedFile) {
@@ -27,6 +34,7 @@ class FileManager
             $file->setFile($uploadedFile);
             $file->setEvent($event);
             $file->setRequest($request);
+            $file->setPages($this->countPages($uploadedFile));
             $this->dm->persist($file);
             $event->addFile($file);
         }

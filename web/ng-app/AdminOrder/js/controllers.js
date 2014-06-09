@@ -191,6 +191,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $('.modal').modal('hide');
         });
 
+        $scope.uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+            var type = $scope.uploader.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
+            type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
+            return 'pdf' === type;
+        });
+
         $scope.uploaderBasic = $fileUploader.create({
             scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload'
@@ -198,6 +204,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
         $scope.uploaderBasic.bind('completeall', function(event, items) {
             $scope.updateTables();
+        });
+
+        $scope.uploaderBasic.filters.push(function pdfFilter(item /*{File|HTMLInputElement}*/) {
+            var type = $scope.uploaderBasic.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
+            type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
+            return 'pdf' === type;
         });
     });
 

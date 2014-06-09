@@ -1,7 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
-use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\MongoDB\GridFSFile;
 
@@ -67,6 +67,11 @@ class File
      */
     private $isDownloaded = false;
 
+    /**
+     * @MongoDB\Int
+     */
+    private $pages = 0;
+
     public function getUploadDir()
     {
         // the absolute directory path where uploaded files should be saved
@@ -82,10 +87,7 @@ class File
         if (!($this->file instanceof GridFSFile)) {
             $this->setName($this->file->getClientOriginalName());
             $this->setMime($this->file->getMimeType());
-            $this
-                    ->setPath(
-                            md5(rand(0, 999999)) . '.'
-                                    . $this->getFile()->guessExtension());
+            $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
             $this->getFile()->move($this->getUploadDir(), $this->getPath());
             $this->setFile($this->getUploadDir() . '/' . $this->getPath());
             $this->setUploaded(date('Y-m-d H:i:s'));
@@ -332,4 +334,27 @@ class File
     {
         return $this->request;
     }
+
+    /**
+     * Set pages
+     *
+     * @param integer $pages
+     * @return self
+     */
+    public function setPages($pages)
+    {
+        $this->pages = $pages;
+        return $this;
+    }
+
+    /**
+     * Get pages
+     *
+     * @return integer $pages
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
 }
