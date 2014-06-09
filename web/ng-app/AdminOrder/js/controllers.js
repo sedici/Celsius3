@@ -428,6 +428,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.updateTables();
             $('#reclaimForm').get(0).reset();
             $('.modal').modal('hide');
+
+            if (_.isUndefined(response.request_event.provider.celsius_instance)) {
+                $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
+                $scope.templates = MailTemplate.query();
+                $('#email-modal').modal('show');
+            }
         });
     };
 
