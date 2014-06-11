@@ -122,6 +122,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "placement": "right",
         "trigger": "hover"
     };
+    
+    $scope.reuploadTooltip = {
+        "title": "Upload more",
+        "placement": "right",
+        "trigger": "hover"
+    };
 
     $scope.institutionTooltip = function(institution) {
         var str = '<li>' + institution.name + '</li></ul>';
@@ -156,11 +162,17 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         receive: {},
         cancel: {},
         reclaim: {},
-        email: {}
+        email: {},
+        reupload: {}
     };
 
     // Form container for validation
     $scope.formNames = {};
+    
+    // Data for the file list modal
+    $scope.files = {
+        list: []
+    };
 
     /**
      * Resource load
@@ -182,7 +194,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         });
 
         $scope.uploader.bind('beforeupload', function(event, item) {
-            item.formData = $scope.formatReceiveData();
+            item.formData = $scope.formatUploadData($scope.forms.receive);
         });
 
         $scope.uploader.bind('completeall', function(event, items) {
@@ -208,6 +220,26 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
         $scope.uploaderBasic.filters.push(function pdfFilter(item /*{File|HTMLInputElement}*/) {
             var type = $scope.uploaderBasic.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
+            type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
+            return 'pdf' === type;
+        });
+        
+        $scope.reuploader = $fileUploader.create({
+            scope: $scope,
+            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload'
+        });
+        
+        $scope.reuploader.bind('beforeupload', function(event, item) {
+            item.formData = $scope.formatUploadData($scope.forms.reupload);
+        });
+
+        $scope.reuploader.bind('completeall', function(event, items) {
+            $scope.updateTables();
+            $('.modal').modal('hide');
+        });
+
+        $scope.reuploader.filters.push(function pdfFilter(item /*{File|HTMLInputElement}*/) {
+            var type = $scope.reuploader.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
             type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
             return 'pdf' === type;
         });
@@ -349,8 +381,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         });
     };
 
-    $scope.formatReceiveData = function() {
-        return _.pairs($scope.forms.receive).map(function(item) {
+    $scope.formatUploadData = function(form) {
+        return _.pairs(form).map(function(item) {
             return _.object([item]);
         });
     };
@@ -368,7 +400,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.files_error = 'has-error';
             }
         }
-    }
+    };
 
     $scope.submitReceive = function() {
         $scope.uploader.uploadAll();
@@ -376,6 +408,10 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.submitUpload = function() {
         $scope.uploaderBasic.uploadAll();
+    };
+    
+    $scope.submitReupload = function() {
+        $scope.reuploader.uploadAll();
     };
 
     $scope.validateCancel = function() {
@@ -411,7 +447,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.cancel = function() {
         var data = {
-            observations: $scope.forms.cancel.observations,
+            observations: $scope.forms.cancel.observations
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function(response) {
@@ -523,6 +559,15 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.updateTables();
                 $('#emailForm').get(0).reset();
                 $('.modal').modal('hide');
+            }
+        });
+    };
+    
+    $scope.changeFileState = function(file) {
+        $http.post(Routing.generate('admin_rest_file_state', {file_id: file.id})).success(function(response) {
+            if (response) {
+                file.enabled = !file.enabled;
+                $scope.updateTables();
             }
         });
     };

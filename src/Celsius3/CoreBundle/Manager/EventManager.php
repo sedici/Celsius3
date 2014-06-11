@@ -34,6 +34,7 @@ class EventManager
     const EVENT__ANNUL = 'annul';
     const EVENT__TAKE = 'take';
     const EVENT__UPLOAD = 'upload';
+    const EVENT__REUPLOAD = 'reupload';
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
@@ -55,6 +56,7 @@ class EventManager
         self::EVENT__ANNUL => 'AnnulEvent',
         self::EVENT__TAKE => 'TakeEvent',
         self::EVENT__UPLOAD => 'UploadEvent',
+        self::EVENT__REUPLOAD => 'ReuploadEvent',
     );
     private $container;
 
@@ -161,6 +163,26 @@ class EventManager
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
+        $extraData['files'] = $httpRequest->files->all();
+
+        return $extraData;
+    }
+    
+    private function prepareExtraDataForReupload(Request $request, array $extraData, Instance $instance)
+    {
+        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+
+        if (!$httpRequest->request->has('receive')) {
+            $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
+
+            throw new NotFoundHttpException();
+        }
+
+        $extraData['observations'] = $httpRequest->request->get('observations', null);
+        $extraData['receive'] = $this->container
+                ->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->find($httpRequest->request->get('receive'));
         $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;

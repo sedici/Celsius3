@@ -165,6 +165,10 @@ class StateManager
                     'weight' => 10,
                     'destinationState' => self::STATE__DELIVERED,
                 ),
+                EventManager::EVENT__REUPLOAD => array(
+                    'weight' => 9,
+                    'destinationState' => self::STATE__RECEIVED,
+                ),
             ),
             'previousStates' => array(
                 self::STATE__REQUESTED,
@@ -175,6 +179,7 @@ class StateManager
                 EventManager::EVENT__SINGLE_INSTANCE_RECEIVE,
                 EventManager::EVENT__UPLOAD,
                 EventManager::EVENT__APPROVE,
+                EventManager::EVENT__REUPLOAD,
             ),
         ),
         self::STATE__DELIVERED => array(

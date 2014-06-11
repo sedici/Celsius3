@@ -1,0 +1,20 @@
+<table class="table table-hover catalog-table">
+    <thead>
+        <tr>
+            <th>{{'Name'}}</th>
+            <th>{{'Pages'}}</th>
+            <th>{{'State'}}</th>
+            <th>{{'Actions'}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="file in files.list">
+            <td>{{file.name}}</td>
+            <td>{{file.pages}}</td>
+            <td>{{file | state}}</td>
+            <td class="catalog-actions">
+                <a href ng-click="changeFileState(file)" class="btn">{{'Change state'}}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

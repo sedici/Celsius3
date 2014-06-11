@@ -275,7 +275,7 @@ class File
      * @param Celsius3\CoreBundle\Document\Event\Event $event
      * @return self
      */
-    public function setEvent(\Celsius3\CoreBundle\Document\Event\Event $event)
+    public function setEvent(\Celsius3\CoreBundle\Document\Event\Event $event = null)
     {
         $this->event = $event;
         return $this;
@@ -319,7 +319,7 @@ class File
      * @param Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
-    public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
+    public function setRequest(\Celsius3\CoreBundle\Document\Request $request = null)
     {
         $this->request = $request;
         return $this;

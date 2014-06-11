@@ -30,7 +30,8 @@ use Celsius3\CoreBundle\Document\Request;
  *   "si"="SingleInstanceEvent",
  *   "mi"="MultiInstanceEvent",
  *   "take"="TakeEvent",
- *   "upload"="UploadEvent"
+ *   "upload"="UploadEvent",
+ *   "reupload"="ReuploadEvent"
  * })
  */
 class Event implements EventInterface

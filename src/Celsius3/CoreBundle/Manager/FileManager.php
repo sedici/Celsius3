@@ -34,6 +34,7 @@ class FileManager
             $file->setFile($uploadedFile);
             $file->setEvent($event);
             $file->setRequest($request);
+            $file->setEnabled(true);
             $file->setPages($this->countPages($uploadedFile));
             $this->dm->persist($file);
             $event->addFile($file);
