@@ -19,6 +19,7 @@
         <parameter key="celsius3_core.catalog_listener.class">Celsius3\CoreBundle\Listener\CatalogListener</parameter>
         <parameter key="celsius3_core.configuration_listener.class">Celsius3\CoreBundle\Listener\ConfigurationListener</parameter>
         <parameter key="celsius3_core.order_listener.class">Celsius3\CoreBundle\Listener\OrderListener</parameter>
+        <parameter key="celsius3_core.search_event_listener.class">Celsius3\CoreBundle\Listener\SearchEventListener</parameter>
         <parameter key="celsius3_core.security.login_listener.class">Celsius3\CoreBundle\EventListener\LoginListener</parameter>
         <parameter key="celsius3_core.locale_choosing_listener.class">Celsius3\CoreBundle\EventListener\LocaleChoosingListener</parameter>
         <parameter key="celsius3_core.instance_listener.class">Celsius3\CoreBundle\EventListener\InstanceListener</parameter>
@@ -126,6 +127,12 @@
             <argument type="service" id="service_container"></argument>
             <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+        </service>
+        
+        <service id="celsius3_core.search_event_listener" class="%celsius3_core.search_event_listener.class%">
+            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+            <tag name="doctrine_mongodb.odm.event_listener" event="preUpdate" />
+            <tag name="doctrine_mongodb.odm.event_listener" event="postUpdate" />
         </service>
 
         <service id="celsius3_core.security.login_listener" class="%celsius3_core.security.login_listener.class%">
