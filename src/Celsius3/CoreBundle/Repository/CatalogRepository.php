@@ -16,8 +16,8 @@ class CatalogRepository extends DocumentRepository
                 ->select('catalog');
 
         $positions = array_map(function($item) {
-                    return $item['catalog']['$id'];
-                }, $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
+            return $item['catalog']['$id'];
+        }, $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
                         ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
                         ->sort('position', 'asc')
                         ->getQuery()

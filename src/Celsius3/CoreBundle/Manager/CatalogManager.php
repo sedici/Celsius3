@@ -2,6 +2,7 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
+use Celsius3\CoreBundle\Document\Catalog;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -36,7 +37,9 @@ class CatalogManager
     public function getCatalogs(Instance $instance = null)
     {
         return $this->dm->getRepository('Celsius3CoreBundle:Catalog')
-                        ->findBy(array('instance.id', $instance));
+                        ->findBy(array(
+                            'instance.id' => $instance->getId(),
+        ));
     }
 
     public function getAllCatalogs(Instance $instance)
@@ -46,7 +49,20 @@ class CatalogManager
 
         return $qb->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
                         ->addOr($qb->expr()->field('instance.id')->equals($this->instance_manager->getDirectory()->getId()))
-                        ->getQuery()->execute();
+                        ->getQuery()
+                        ->execute();
+    }
+
+    public function getCatalogResults($catalogs, $title)
+    {
+        return $this->dm->getRepository('Celsius3CoreBundle:CatalogResult')
+                        ->createQueryBuilder()
+                        ->field('title')->equals($title)
+                        ->field('catalog.id')->in(array_map(function(Catalog $catalog) {
+                                    return $catalog->getId();
+                                }, $catalogs->toArray()))
+                        ->getQuery()
+                        ->execute();
     }
 
 }

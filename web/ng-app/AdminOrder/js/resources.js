@@ -33,3 +33,9 @@ orderApp.factory('MailTemplate', ['$resource', function($resource) {
                 {id: '@id'}
         );
     }]);
+
+orderApp.factory('CatalogResult', ['$resource', function($resource) {
+        return $resource(Routing.generate('admin_rest_catalog') + '/results/:title',
+                {title: '@title'}
+        );
+    }]);

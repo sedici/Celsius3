@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $sce, Order, Request, Catalog, Event, Contact, MailTemplate) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $sce, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
     'use strict';
 
     function findInstitution(tree) {
@@ -83,6 +83,22 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         return !_.isUndefined($scope.approvals) && $scope.approvals.filter(function(item) {
             return item.receive_event.id === receive.id;
         }).length > 0;
+    };
+    
+    $scope.getTitle = function(order) {
+        if (order.material_data.type === 'journal') {
+            return order.material_data.journal.name;
+        } else {
+            return order.material_data.title;
+        }
+    };
+    
+    $scope.hasResult = function(catalog) {
+        var result = _.find($scope.catalogResults, function(result) {
+            return catalog.id === result.catalog.id;
+        });
+        
+        return !_.isUndefined(result) && result.matches > 0;
     };
 
     $scope.sortableOptions = {
@@ -264,6 +280,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.updateTables = function() {
         Request.get({order_id: $scope.order.id}, function(request) {
             $scope.request = request;
+     
+            $scope.catalogResults = CatalogResult.query({title: $scope.getTitle($scope.order)});
 
             Event.query({request_id: $scope.request.id}, function(events) {
                 $scope.groupedEvents = $scope.groupEvents(events);

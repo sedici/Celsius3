@@ -52,7 +52,7 @@ class SearchEventListener
                     }
                 } else if (in_array($old, $this->negative) && in_array($new, $this->positive)) {
                     $result->setMatches($result->getMatches() + 1);
-                    if ($old === CatalogManager::CATALOG__NON_SEARCHED && in_array($changeset['result'][1], $this->negative)) {
+                    if ($old === CatalogManager::CATALOG__NON_SEARCHED) {
                         $result->setSearches($result->getSearches() + 1);
                     }
                 } else if (in_array($old, $this->negative) && in_array($new, $this->negative)) {
