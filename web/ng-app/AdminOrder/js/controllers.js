@@ -58,7 +58,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             if (item.type === 'sireceive') {
                 return item.request_event.id === request.id;
             } else {
-                return item.request.previous_request.id === $scope.request.id || item.request_event.id === request.id;
+                if (!_.isUndefined(request.remote_instance)) {
+                    return item.request.instance.id === request.remote_instance.id;
+                } else if (!_.isUndefined(item.request_event)) {
+                    return item.request_event.id === request.id;
+                }
             }
         }).length > 0;
     };
@@ -68,7 +72,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             if (item.type === 'sireceive') {
                 return item.request_event.id === request.id;
             } else {
-                return item.request.previous_request.id === $scope.request.id || item.request_event.id === request.id;
+                if (!_.isUndefined(request.remote_instance)) {
+                    return item.request.instance.id === request.remote_instance.id;
+                } else if (!_.isUndefined(item.request_event)) {
+                    return item.request_event.id === request.id;
+                }
             }
         }));
     };
@@ -84,7 +92,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return item.receive_event.id === receive.id;
         }).length > 0;
     };
-    
+
     $scope.getTitle = function(order) {
         if (order.material_data.type === 'journal') {
             return order.material_data.journal.name;
@@ -92,12 +100,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             return order.material_data.title;
         }
     };
-    
+
     $scope.hasResult = function(catalog) {
         var result = _.find($scope.catalogResults, function(result) {
             return catalog.id === result.catalog.id;
         });
-        
+
         return !_.isUndefined(result) && result.matches > 0;
     };
 
@@ -138,7 +146,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         "placement": "right",
         "trigger": "hover"
     };
-    
+
     $scope.reuploadTooltip = {
         "title": "Upload more",
         "placement": "right",
@@ -184,7 +192,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     // Form container for validation
     $scope.formNames = {};
-    
+
     // Data for the file list modal
     $scope.files = {
         list: []
@@ -239,12 +247,12 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
             return 'pdf' === type;
         });
-        
+
         $scope.reuploader = $fileUploader.create({
             scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload'
         });
-        
+
         $scope.reuploader.bind('beforeupload', function(event, item) {
             item.formData = $scope.formatUploadData($scope.forms.reupload);
         });
@@ -280,7 +288,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.updateTables = function() {
         Request.get({order_id: $scope.order.id}, function(request) {
             $scope.request = request;
-     
+
             $scope.catalogResults = CatalogResult.query({title: $scope.getTitle($scope.order)});
 
             Event.query({request_id: $scope.request.id}, function(events) {
@@ -411,7 +419,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         if ($scope.formNames.receive.$valid) {
             $scope.submitReceive();
         } else {
-            if (_.isUndefined($scope.receive.delivery_type)) {
+            if (_.isUndefined($scope.formNames.receive.delivery_type)) {
                 $scope.delivery_type_error = 'has-error';
             }
             if ($scope.uploader.queue.length === 0) {
@@ -427,7 +435,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.submitUpload = function() {
         $scope.uploaderBasic.uploadAll();
     };
-    
+
     $scope.submitReupload = function() {
         $scope.reuploader.uploadAll();
     };
@@ -580,7 +588,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             }
         });
     };
-    
+
     $scope.changeFileState = function(file) {
         $http.post(Routing.generate('admin_rest_file_state', {file_id: file.id})).success(function(response) {
             if (response) {

@@ -1,4 +1,4 @@
-<div class="form_group">
+<div class="form-group">
     <label>{{'Filter'}}</label>
     <div class="filter-select" id="filter">
         <input type="radio" ng-model="select.filter" value="" name="filter" id="filter_placeholder" ng-change="updateFilter()">
@@ -9,14 +9,14 @@
         <label for="filter_celsius3">{{'Celsius3'}}</label>
     </div>
 </div>
-<div class="form_group">
+<div class="form-group">
     <label for="country">{{'Country'}}</label>
     <select ui-select2="{placeholder: 'Select a country', allowClear: true}" ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
         <option></option>
         <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
     </select>
 </div>
-<div class="form_group">
+<div class="form-group">
     <label for="city">{{'City'}}</label>
     <select ui-select2="{placeholder: 'Select a city', allowClear: true}" ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
         <option></option>

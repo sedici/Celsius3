@@ -1,4 +1,4 @@
-<div class="form_group" ng-class="ccierror" ng-if="select_count === 0 || data.institutions">
+<div class="form-group" ng-class="ccierror" ng-if="select_count === 0 || data.institutions">
     <label ng-if="data.id === 'institution0'" for="{{data.id}}">{{'Institution'}}</label>
     <select ui-select2="{placeholder: 'Select an institution', allowClear: true, formatResult: formatInstitution, formatSelection: formatInstitution, escapeMarkup: escape}" ng-model="data.institution" class="institution" name="{{data.name}}" id="{{data.id}}" ng-change="institutionChanged(data)">
         <option></option>
