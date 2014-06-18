@@ -81,9 +81,13 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         }));
     };
 
-    $scope.hasReclaim = function(request) {
+    $scope.hasReclaim = function(event) {
         return !_.isUndefined($scope.reclaims) && $scope.reclaims.filter(function(item) {
-            return item.request_event.id === request.id;
+            if (['sirequest', 'mirequest'].indexOf(event.type) !== -1) {
+                return !_.isUndefined(item.request_event) && item.request_event.id === event.id;
+            } else {
+                return !_.isUndefined(item.receive_event) && item.receive_event.id === event.id;
+            }
         }).length > 0;
     };
 
@@ -486,7 +490,11 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     $scope.validateReclaim = function() {
         if ($scope.formNames.reclaim.$valid) {
             $scope.reclaimerror = '';
-            $scope.reclaimRequest();
+            if (!_.isUndefined($scope.forms.reclaim.request)) {
+                $scope.reclaimRequest();
+            } else if (!_.isUndefined($scope.forms.reclaim.receive)) {
+                $scope.reclaimReception();
+            }
         } else {
             $scope.reclaimerror = 'has-error';
         }
@@ -502,8 +510,29 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
             $scope.updateTables();
             $('#reclaimForm').get(0).reset();
             $('.modal').modal('hide');
+            delete $scope.forms.reclaim.request;
 
             if (_.isUndefined(response.request_event.provider.celsius_instance)) {
+                $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
+                $scope.templates = MailTemplate.query();
+                $('#email-modal').modal('show');
+            }
+        });
+    };
+
+    $scope.reclaimReception = function() {
+        var data = {
+            observations: $scope.forms.reclaim.observations,
+            receive: $scope.forms.reclaim.receive
+        };
+
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function(response) {
+            $scope.updateTables();
+            $('#reclaimForm').get(0).reset();
+            $('.modal').modal('hide');
+            delete $scope.forms.reclaim.receive;
+
+            if (_.isUndefined(response.receive_event.provider.celsius_instance)) {
                 $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
                 $scope.templates = MailTemplate.query();
                 $('#email-modal').modal('show');

@@ -1037,12 +1037,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSMessageBundle.git",
-                "reference": "dfab72464303e65f934dcf680b01ec04fc55f09c"
+                "reference": "600a5aef547d63f6baf962ad15ceb38b38e7a224"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/dfab72464303e65f934dcf680b01ec04fc55f09c",
-                "reference": "dfab72464303e65f934dcf680b01ec04fc55f09c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSMessageBundle/zipball/600a5aef547d63f6baf962ad15ceb38b38e7a224",
+                "reference": "600a5aef547d63f6baf962ad15ceb38b38e7a224",
                 "shasum": ""
             },
             "require": {
@@ -1089,7 +1089,7 @@
                 "messaging",
                 "symfony"
             ],
-            "time": "2014-06-13 15:53:40"
+            "time": "2014-06-18 07:48:30"
         },
         {
             "name": "friendsofsymfony/rest-bundle",

@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Document\Event\UploadEvent;
 
 /**
  * @MongoDB\Document
@@ -30,7 +31,9 @@ class ReclaimEvent extends SingleInstanceEvent
             $this->setRequestEvent($data['extraData']['request']);
         } else {
             $this->setReceiveEvent($data['extraData']['receive']);
-            $this->setRequestEvent($this->getReceiveEvent()->getRequestEvent());
+            if (!($data['extraData']['receive'] instanceof UploadEvent)) {
+                $this->setRequestEvent($this->getReceiveEvent()->getRequestEvent());
+            }
         }
         $this->setObservations($data['extraData']['observations']);
     }

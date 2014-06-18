@@ -7,6 +7,7 @@
         <a href title="{{'View all'}}" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
             <span class="glyphicon glyphicon-list-alt"></span>
         </a>
+        <span ng-if="hasReclaim(getReceive(request))" class="glyphicon glyphicon-warning-sign"></span>
     </div>
     <div class="fecha_hoja">{{getReceive(request).date | date:'dd-MM-yyyy'}}</div>
 </div>
