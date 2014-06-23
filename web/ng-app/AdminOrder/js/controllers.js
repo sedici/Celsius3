@@ -13,14 +13,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         }
     }
 
-    $scope.updateStateline = function() {
-        var canvas = new fabric.Canvas('stateline');
-
-        fabric.Image.fromURL('/bundles/celsius3core/images/stateline/circulo_gris_claro.png', function(oImg) {
-            canvas.add(oImg);
-        });
-    };
-
     $scope.contains = function(list, item) {
         return _.contains(list, item);
     };
@@ -345,8 +337,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
                     return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
                 });
-
-                $scope.updateStateline();
             });
         });
     };

@@ -5,6 +5,7 @@ var orderApp = angular.module('orderApp', [
     'ngSanitize',
     'ui.sortable',
     'cciWidget',
+    'stateBar',
     'orderControllers',
     'orderFilters',
     'mgcrea.ngStrap',
