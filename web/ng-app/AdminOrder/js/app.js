@@ -8,7 +8,8 @@ var orderApp = angular.module('orderApp', [
     'orderControllers',
     'orderFilters',
     'mgcrea.ngStrap',
-    'angularFileUpload'
+    'angularFileUpload',
+    'angular-loading-bar'
 ]);
 
 orderApp.config(['$routeProvider', '$tooltipProvider',

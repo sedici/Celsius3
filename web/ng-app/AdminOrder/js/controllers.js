@@ -412,6 +412,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.formatUploadData = function(form) {
+        console.log(form);
         return _.pairs(form).map(function(item) {
             return _.object([item]);
         });

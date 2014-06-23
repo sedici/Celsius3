@@ -76,9 +76,15 @@ class LifecycleHelper
             $state = $request->getState($data['stateName']);
             $state->setRemoteEvent($remoteEvent);
             if ($this->state_manager->isBefore($currentState, $state)) {
-                $currentState->setIsCurrent(false);
                 $state->setIsCurrent(true);
+                $currentState->setIsCurrent(false);
                 $this->dm->persist($currentState);
+
+                if ($data['eventName'] === EventManager::EVENT__LOCAL_CANCEL || $data['eventName'] === EventManager::EVENT__REMOTE_CANCEL) {
+                    $this->dm->persist($state);
+                    $this->dm->flush();
+                    $this->dm->refresh($request);
+                }
             }
         } else {
             if (!is_null($currentState)) {

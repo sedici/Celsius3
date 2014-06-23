@@ -116,11 +116,11 @@ class StateManager
                 ),
                 EventManager::EVENT__LOCAL_CANCEL => array(
                     'weight' => 2,
-                    'destinationState' => self::STATE__CREATED,
+                    'destinationState' => self::STATE__REQUESTED,
                 ),
                 EventManager::EVENT__REMOTE_CANCEL => array(
                     'weight' => 1,
-                    'destinationState' => self::STATE__CREATED,
+                    'destinationState' => self::STATE__REQUESTED,
                 ),
             ),
             'previousStates' => array(
@@ -131,6 +131,8 @@ class StateManager
                 EventManager::EVENT__MULTI_INSTANCE_REQUEST,
                 EventManager::EVENT__SINGLE_INSTANCE_REQUEST,
                 EventManager::EVENT__RECLAIM,
+                EventManager::EVENT__LOCAL_CANCEL,
+                EventManager::EVENT__REMOTE_CANCEL,
             ),
         ),
         self::STATE__APPROVAL_PENDING => array(
@@ -256,14 +258,14 @@ class StateManager
         foreach ($this->graph as $state) {
             if ($state['positive']) {
                 foreach ($state['events'] as $key => $ev) {
-                    if ($key == $event) {
+                    if ($key === $event) {
                         $data = $ev['destinationState'];
                     }
                 }
             }
         }
-
-        if (is_null($data) && $event == EventManager::EVENT__CREATION) {
+        
+        if (is_null($data) && $event === EventManager::EVENT__CREATION) {
             $data = self::STATE__CREATED;
         }
 

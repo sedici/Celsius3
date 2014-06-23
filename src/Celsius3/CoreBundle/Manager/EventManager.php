@@ -7,6 +7,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Event\SingleInstanceReceiveEvent;
+use Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent;
+use Celsius3\CoreBundle\Document\Event\UploadEvent;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
@@ -167,7 +169,7 @@ class EventManager
 
         return $extraData;
     }
-    
+
     private function prepareExtraDataForReupload(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
@@ -334,18 +336,17 @@ class EventManager
         return $this->$methodName($request, array(), $instance);
     }
 
-    public function cancelRequests($requests, HttpRequest $httpRequest)
+    public function cancelRequests(array $requests, HttpRequest $httpRequest)
     {
         foreach ($requests as $request) {
             $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function($reception) use ($request) {
                 /**
                  * @todo Probar esto mas exhaustivamente.
                  */
-                if ($reception instanceof SingleInstanceReceiveEvent) {
+                if ($reception instanceof SingleInstanceReceiveEvent || $reception instanceof MultiInstanceReceiveEvent) {
                     return $reception->getRequestEvent()->getId() === $request->getId();
                 } else {
-                    return $reception->getRequestEvent()->getId() === $request->getId() ||
-                            $reception->getRequest()->getPreviousRequest() ? $reception->getRequest()->getPreviousRequest()->getId() === $request->getRequest()->getId() : false;
+                    return $reception->getRequest()->getInstance()->getId() === $request->getRemoteInstance()->getId();
                 }
             });
             if (count($receptions) === 0) {
