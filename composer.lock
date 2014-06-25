@@ -865,16 +865,15 @@
         {
             "name": "doctrine/mongodb-odm-bundle",
             "version": "dev-master",
-            "target-dir": "Doctrine/Bundle/MongoDBBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "3aafa97ed74bb6e41b7f3c874dfb21a4e06c2169"
+                "reference": "ededdcec1911b1c25f480f52a6f758fe92d25b17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/3aafa97ed74bb6e41b7f3c874dfb21a4e06c2169",
-                "reference": "3aafa97ed74bb6e41b7f3c874dfb21a4e06c2169",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/ededdcec1911b1c25f480f52a6f758fe92d25b17",
+                "reference": "ededdcec1911b1c25f480f52a6f758fe92d25b17",
                 "shasum": ""
             },
             "require": {
@@ -899,8 +898,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Bundle\\MongoDBBundle": ""
+                "psr-4": {
+                    "Doctrine\\Bundle\\MongoDBBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -931,7 +930,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2014-06-18 20:58:26"
+            "time": "2014-06-25 08:06:26"
         },
         {
             "name": "evenement/evenement",
@@ -1376,12 +1375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/genemu/GenemuFormBundle.git",
-                "reference": "9fecbe7a12fba1761228909e843301c4d1a11e7c"
+                "reference": "7c3add87302a2736e9bede87342ba5a383cef491"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/9fecbe7a12fba1761228909e843301c4d1a11e7c",
-                "reference": "9fecbe7a12fba1761228909e843301c4d1a11e7c",
+                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/7c3add87302a2736e9bede87342ba5a383cef491",
+                "reference": "7c3add87302a2736e9bede87342ba5a383cef491",
                 "shasum": ""
             },
             "require": {
@@ -1437,7 +1436,7 @@
                 "extra form",
                 "form"
             ],
-            "time": "2014-03-23 12:12:05"
+            "time": "2014-06-25 16:39:56"
         },
         {
             "name": "guzzle/common",
@@ -3044,17 +3043,17 @@
         },
         {
             "name": "sensio/generator-bundle",
-            "version": "v2.3.4",
+            "version": "v2.3.5",
             "target-dir": "Sensio/Bundle/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "4a7b126e9c22f858e3584b19ddce6e5bdd7677ee"
+                "reference": "8b7a33aa3d22388443b6de0b0cf184122e9f60d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/4a7b126e9c22f858e3584b19ddce6e5bdd7677ee",
-                "reference": "4a7b126e9c22f858e3584b19ddce6e5bdd7677ee",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/8b7a33aa3d22388443b6de0b0cf184122e9f60d2",
+                "reference": "8b7a33aa3d22388443b6de0b0cf184122e9f60d2",
                 "shasum": ""
             },
             "require": {
@@ -3090,7 +3089,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2013-08-21 18:09:35"
+            "time": "2014-04-28 14:01:06"
         },
         {
             "name": "sp/bower-bundle",

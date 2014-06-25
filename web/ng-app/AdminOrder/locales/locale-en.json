@@ -1,0 +1,15 @@
+{
+    "requestTooltipTitle": "You must search before making a request",
+    "cancelTooltipTitle": "Cancel",
+    "reclaimTooltipTitle": "Reclaim",
+    "approveTooltipTitle": "Approve",
+    "reuploadTooltipTitle": "Upload more",
+    "found": "Found",
+    "notFound": "Not found",
+    "partiallyFound": "Partially found",
+    "nonSearched": "Non searched",
+    "catalog": "Catalog",
+    "date": "Date",
+    "result": "Result",
+    "actions": "Actions"
+}

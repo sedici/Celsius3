@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $sce, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
+orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
     'use strict';
 
     function findInstitution(tree) {
@@ -119,35 +119,45 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         items: ">*:not(.sort-disabled)"
     };
 
-    $scope.requestTooltip = {
-        "title": "You must search before making a request.",
-        "placement": "top",
-        "trigger": "hover"
-    };
+    $translate('requestTooltipTitle').then(function(requestTooltipTitle) {
+        $scope.requestTooltip = {
+            "title": requestTooltipTitle,
+            "placement": "top",
+            "trigger": "hover"
+        };
+    });
 
-    $scope.cancelTooltip = {
-        "title": "Cancel",
-        "placement": "right",
-        "trigger": "hover"
-    };
+    $translate('cancelTooltipTitle').then(function(cancelTooltipTitle) {
+        $scope.cancelTooltip = {
+            "title": cancelTooltipTitle,
+            "placement": "right",
+            "trigger": "hover"
+        };
+    });
 
-    $scope.reclaimTooltip = {
-        "title": "Reclaim",
-        "placement": "right",
-        "trigger": "hover"
-    };
+    $translate('reclaimTooltipTitle').then(function(reclaimTooltipTitle) {
+        $scope.reclaimTooltip = {
+            "title": reclaimTooltipTitle,
+            "placement": "right",
+            "trigger": "hover"
+        };
+    });
 
-    $scope.approveTooltip = {
-        "title": "Approve",
-        "placement": "right",
-        "trigger": "hover"
-    };
+    $translate('approveTooltipTitle').then(function(approveTooltipTitle) {
+        $scope.approveTooltip = {
+            "title": approveTooltipTitle,
+            "placement": "right",
+            "trigger": "hover"
+        };
+    });
 
-    $scope.reuploadTooltip = {
-        "title": "Upload more",
-        "placement": "right",
-        "trigger": "hover"
-    };
+    $translate('reuploadTooltipTitle').then(function(reuploadTooltipTitle) {
+        $scope.reuploadTooltip = {
+            "title": reuploadTooltipTitle,
+            "placement": "right",
+            "trigger": "hover"
+        };
+    });
 
     $scope.institutionTooltip = function(institution) {
         var str = '<li>' + institution.name + '</li></ul>';
@@ -166,12 +176,14 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
 
     $scope.advanced = false;
 
-    $scope.search_results = [
-        {value: 'found', text: 'Found'},
-        {value: 'partially_found', text: 'Partially found'},
-        {value: 'not_found', text: 'Not found'},
-        {value: 'non_searched', text: 'Non searched'}
-    ];
+    $translate(['found', 'partiallyFound', 'notFound', 'nonSearched']).then(function(translations) {
+        $scope.search_results = [
+            {value: 'found', text: translations.found},
+            {value: 'partially_found', text: translations.partiallyFound},
+            {value: 'not_found', text: translations.notFound},
+            {value: 'non_searched', text: translations.nonSearched}
+        ];
+    });
 
     // Data for the request form
     $scope.select = {};

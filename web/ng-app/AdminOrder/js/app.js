@@ -10,11 +10,12 @@ var orderApp = angular.module('orderApp', [
     'orderFilters',
     'mgcrea.ngStrap',
     'angularFileUpload',
-    'angular-loading-bar'
+    'angular-loading-bar',
+    'pascalprecht.translate'
 ]);
 
-orderApp.config(['$routeProvider', '$tooltipProvider',
-    function($routeProvider, $tooltipProvider) {
+orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
+    function($routeProvider, $tooltipProvider, $translateProvider) {
         $routeProvider.
                 when('/', {
                     templateUrl: '/ng-app/AdminOrder/partials/show.html',
@@ -26,4 +27,10 @@ orderApp.config(['$routeProvider', '$tooltipProvider',
         angular.extend($tooltipProvider.defaults, {
             html: true
         });
+
+        $translateProvider.useStaticFilesLoader({
+            prefix: '/ng-app/AdminOrder/locales/locale-',
+            suffix: '.json'
+        });
+        $translateProvider.preferredLanguage('en');
     }]);
