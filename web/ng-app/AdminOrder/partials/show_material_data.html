@@ -1,51 +1,51 @@
-<h4>{{'General item information'}}</h4>
+<h4>{{'itemInformation' | translate}}</h4>
 <ul class="list-unstyled">
     <li>
-        <strong>{{'Type'}}</strong> {{order.material_data.type}}
+        <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
     </li>
     <li>
-        <strong>{{'Title'}}</strong> {{order.material_data.title}}
+        <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
     </li>
     <li>
-        <strong>{{'Year'}}</strong> {{order.material_data.year}}
+        <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
     </li>
     <li>
-        <strong>{{'Start page'}}</strong> {{order.material_data.startPage}}
+        <strong>{{'startPage' | translate}}</strong> {{order.material_data.startPage}}
     </li>
     <li>
-        <strong>{{'End page'}}</strong> {{order.material_data.endPage}}
+        <strong>{{'endPage' | translate}}</strong> {{order.material_data.endPage}}
     </li>
     <li ng-if="order.material_data.type === 'journal'">
-        <strong>{{'Volume'}}</strong> {{order.material_data.volume}}
+        <strong>{{'volume' | translate}}</strong> {{order.material_data.volume}}
     </li>
     <li ng-if="order.material_data.type === 'journal'">
-        <strong>{{'Number'}}</strong> {{order.material_data.number}}
+        <strong>{{'number' | translate}}</strong> {{order.material_data.number}}
     </li>
     <li ng-if="order.material_data.type === 'journal'">
-        <strong>{{'Journal'}}</strong> {{order.material_data.journal.name}}
+        <strong>{{'journal' | translate}}</strong> {{order.material_data.journal.name}}
     </li>
     <li ng-if="order.material_data.type === 'book'">
-        <strong>{{'Editor'}}</strong> {{order.material_data.editor}}
+        <strong>{{'editor' | translate}}</strong> {{order.material_data.editor}}
     </li>
     <li ng-if="order.material_data.type === 'book'">
-        <strong>{{'Chapter'}}</strong> {{order.material_data.chapter}}
+        <strong>{{'chapter' | translate}}</strong> {{order.material_data.chapter}}
     </li>
     <li ng-if="order.material_data.type === 'book'">
-        <strong>{{'ISBN'}}</strong> {{order.material_data._i_s_b_n}}
+        <strong>{{'isbn' | translate}}</strong> {{order.material_data._i_s_b_n}}
     </li>
     <li ng-if="order.material_data.type === 'book'">
-        <strong>{{'With index'}}</strong> {{order.material_data.with_index| material_with_index}}
+        <strong>{{'withIndex' | translate}}</strong> {{order.material_data.with_index| material_with_index}}
     </li>
     <li ng-if="order.material_data.type === 'congress'">
-        <strong>{{'Place'}}</strong> {{order.material_data.place}}
+        <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
     </li>
     <li ng-if="order.material_data.type === 'congress'">
-        <strong>{{'Communication'}}</strong> {{order.material_data.communication}}
+        <strong>{{'communication' | translate}}</strong> {{order.material_data.communication}}
     </li>
     <li ng-if="order.material_data.type === 'thesis'">
-        <strong>{{'Director'}}</strong> {{order.material_data.director}}
+        <strong>{{'director' | translate}}</strong> {{order.material_data.director}}
     </li>
     <li ng-if="order.material_data.type === 'thesis'">
-        <strong>{{'Degree'}}</strong> {{order.material_data.degree}}
+        <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
     </li>
 </ul>

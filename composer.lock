@@ -868,12 +868,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "ededdcec1911b1c25f480f52a6f758fe92d25b17"
+                "reference": "a612b9084dd5e29d1f7c51868cca4c004a90190d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/ededdcec1911b1c25f480f52a6f758fe92d25b17",
-                "reference": "ededdcec1911b1c25f480f52a6f758fe92d25b17",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/a612b9084dd5e29d1f7c51868cca4c004a90190d",
+                "reference": "a612b9084dd5e29d1f7c51868cca4c004a90190d",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +930,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2014-06-25 08:06:26"
+            "time": "2014-06-26 15:32:07"
         },
         {
             "name": "evenement/evenement",
@@ -2203,12 +2203,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/knp-components.git",
-                "reference": "ec65f549d46e9a7b7f9872a3ed63db743e077dc0"
+                "reference": "e2c38ab0b105d9ecf05b923305205e8d0d99643f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/ec65f549d46e9a7b7f9872a3ed63db743e077dc0",
-                "reference": "ec65f549d46e9a7b7f9872a3ed63db743e077dc0",
+                "url": "https://api.github.com/repos/KnpLabs/knp-components/zipball/e2c38ab0b105d9ecf05b923305205e8d0d99643f",
+                "reference": "e2c38ab0b105d9ecf05b923305205e8d0d99643f",
                 "shasum": ""
             },
             "require": {
@@ -2256,7 +2256,7 @@
                 "pager",
                 "paginator"
             ],
-            "time": "2014-01-21 11:19:41"
+            "time": "2014-06-26 11:31:09"
         },
         {
             "name": "knplabs/knp-menu",

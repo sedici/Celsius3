@@ -1,8 +1,18 @@
 var orderFilters = angular.module('orderFilters', []);
 
-orderFilters.filter('request_type', function() {
+orderFilters.filter('request_type', function($translate) {
     return function(type) {
-        return type === 'search' ? 'busqueda' : 'provision';
+        var value;
+        if (type === 'search') {
+            $translate('search').then(function(search) {
+                value = search;
+            });
+        } else {
+            $translate('provision').then(function(provision) {
+                value = provision;
+            });
+        }
+        return value;
     };
 });
 

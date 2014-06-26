@@ -6,12 +6,12 @@
     </div>
 
     <div class="panelsecundario row">
-        <h1>{{'Searches'}}</h1>
+        <h1>{{'searches' | translate}}</h1>
         <div ng-include="'/ng-app/AdminOrder/partials/show_order_catalog_results.html'" ng-if="countSearches() > 0">
             
         </div>
         <div ng-if="countSearches() === 0">
-            <p>{{'There are no searches.'}}</p>
+            <p>{{'noSearches' | translate}}</p>
         </div>
     </div>
 </div>

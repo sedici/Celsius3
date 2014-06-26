@@ -1,30 +1,30 @@
 <ul class="list-unstyled">
     <li>
         <a ng-href="{{ {path: 'admin_order'}|get_url}}">
-            <span class="glyphicon glyphicon-home"></span> {{'Go to the list'}}
+            <span class="glyphicon glyphicon-home"></span> {{'goToList' | translate}}
         </a>
     </li>
     <li>
         <a ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}">
-            <span class="glyphicon glyphicon-pencil"></span> {{'Edit'}}
+            <span class="glyphicon glyphicon-pencil"></span> {{'edit' | translate}}
         </a>
     </li>
     <li>
         <a href="{{ {path: 'admin_mails_modal', params: { 'user_id': request.owner.id, 'order_id': order.id } }|get_url }}" data-toggle="modal" data-target="#modal-email">
-            <span class="glyphicon glyphicon-envelope"></span> {{'Send mail'}}
+            <span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | translate}}
         </a>
     </li>
     <li ng-if="contains(['received'], request.current_state)">
-        <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'Deliver'}}</a>
+        <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'deliver' | translate}}</a>
     </li>
     <li ng-if="contains(['created', 'searched'], request.current_state)">
-        <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'Annul'}}</a>
+        <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'annul' | translate}}</a>
     </li>
     <li ng-if="contains(['searched', 'requested', 'approval_pending'], request.current_state)">
-        <a href data-target="#cancel-order-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> {{'Cancel'}}</a>
+        <a href data-target="#cancel-order-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> {{'cancel' | translate}}</a>
     </li>
     <li ng-if="request.current_state !== 'created'">
-        <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'Back to previous state'}}</a>
+        <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'backToPreviousState' | translate}}</a>
     </li>
 </ul>
 

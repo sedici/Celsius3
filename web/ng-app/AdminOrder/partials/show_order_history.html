@@ -1,14 +1,14 @@
 <h1></h1>
 <div ng-if="!groupedEvents">
-    <p>There are no events in the history.</p>
+    <p>{{ 'noEvents' | translate }}</p>
 </div>
 <div ng-if="!_.isEmpty(groupedEvents)" ng-repeat="(key, value) in groupedEvents">
     <h2>{{key}}</h2>
     <div ng-repeat="event in value" ng-if="event.type !== 'creation'">
-        <span>{{event.date|date:'dd-MM'}}</span>
+        <span>{{event.date|date:'shortDate'}}</span>
         <div class="iconhistorial-{{event.type|get_history_icon}}"></div>
         <span>
-            {{'by'}} {{event.operator.name}}
+            {{'by' | translate}} {{event.operator.name}}
         </span>
     </div>
 </div>

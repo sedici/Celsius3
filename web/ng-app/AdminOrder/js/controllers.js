@@ -119,6 +119,20 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         items: ">*:not(.sort-disabled)"
     };
 
+    $translate('selectContact').then(function(selectContact) {
+        $scope.select2Contacts = {
+            placeholder: selectContact,
+            allowClear: true
+        };
+    });
+
+    $translate('selectTemplate').then(function(selectTemplate) {
+        $scope.select2Templates = {
+            placeholder: 'Select a mail template',
+            allowClear: true
+        };
+    });
+
     $translate('requestTooltipTitle').then(function(requestTooltipTitle) {
         $scope.requestTooltip = {
             "title": requestTooltipTitle,

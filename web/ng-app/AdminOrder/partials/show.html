@@ -5,10 +5,10 @@
     <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0">
         <div class="row">
             <div class="col-md-12">
-                <p>{{'Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione Básico, de lo contrario elija avanzado'}}</p>
+                <p>{{'provisionModeText' | translate}}</p>
                 <p>
-                    <button class="btn btn-success" ng-click="basicMode()">{{'Basic'}}</button>
-                    <button class="btn btn-primary" ng-click="advancedMode()">{{'Advanced'}}</button>
+                    <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
+                    <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
                 </p>
             </div>
         </div>

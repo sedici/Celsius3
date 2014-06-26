@@ -8,7 +8,7 @@
     </div>
     <div class="fecha_relojito">
         <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-            {{request.date|date:'dd-MM-yyyy'}}
+            {{request.date|date:'mediumDate'}}
         </a>
     </div>
 </div>
@@ -18,7 +18,7 @@
         <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
     </div>
     <div class="fecha_relojito">
-        {{request.date|date:'dd-MM-yyyy'}}
+        {{request.date|date:'mediumDate'}}
     </div>
 </div>
 <div class="panel3 col-md-1 panel3_last">
