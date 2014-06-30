@@ -16,15 +16,35 @@ orderFilters.filter('request_type', function($translate) {
     };
 });
 
-orderFilters.filter('request_type_abbr', function() {
+orderFilters.filter('request_type_abbr', function($translate) {
     return function(type) {
-        return type === 'search' ? 'B' : 'P';
+        var value;
+        if (type === 'search') {
+            $translate('S').then(function(s) {
+                value = s;
+            });
+        } else {
+            $translate('P').then(function(p) {
+                value = p;
+            });
+        }
+        return value;
     };
 });
 
-orderFilters.filter('material_with_index', function() {
+orderFilters.filter('material_with_index', function($translate) {
     return function(input) {
-        return input === true ? 'Yes' : 'No';
+        var value;
+        if (input === true) {
+            $translate('yes').then(function(yes) {
+                value = yes;
+            });
+        } else {
+            $translate('no').then(function(no) {
+                value = no;
+            });
+        }
+        return value;
     };
 });
 
@@ -34,9 +54,19 @@ orderFilters.filter('get_url', function() {
     };
 });
 
-orderFilters.filter('state', function() {
+orderFilters.filter('state', function($translate) {
     return function(input) {
-        return input.enabled === true ? 'Enabled' : 'Disabled';
+        var value;
+        if (input.enabled === true) {
+            $translate('enabled').then(function(enabled) {
+                value = enabled;
+            });
+        } else {
+            $translate('disabled').then(function(disabled) {
+                value = disabled;
+            });
+        }
+        return value;
     };
 });
 

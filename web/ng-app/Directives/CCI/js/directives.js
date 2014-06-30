@@ -1,4 +1,4 @@
-cciWidget.directive('cciWidget', function(Country, City, Institution) {
+cciWidget.directive('cciWidget', function(Country, City, Institution, $translate) {
     function Node(count) {
         this.id = 'institution' + count;
         this.name = 'institution' + count;
@@ -8,6 +8,30 @@ cciWidget.directive('cciWidget', function(Country, City, Institution) {
     }
 
     function link(scope, element, attrs) {
+        $translate('selectCountry').then(function(selectCountry) {
+            scope.select2Countries = {
+                placeholder: selectCountry,
+                allowClear: true
+            };
+        });
+
+        $translate('selectCity').then(function(selectCity) {
+            scope.select2Cities = {
+                placeholder: selectCity,
+                allowClear: true
+            };
+        });
+
+        $translate('selectInstitution').then(function(selectInstitution) {
+            scope.select2Institutions = {
+                placeholder: selectInstitution,
+                allowClear: true,
+                escapeMarkup: escape,
+                formatResult: formatInstitution,
+                formatSelection: formatInstitution
+            };
+        });
+
         scope.formatInstitution = function(element) {
             if (element.text === '') {
                 return element;

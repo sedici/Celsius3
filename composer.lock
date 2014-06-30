@@ -1244,12 +1244,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "7ae7fbe87088fcc4cc6b8610fcc62463c84ab632"
+                "reference": "51bd895bbe83b91545f56bd99dcc95c0843aa6e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/7ae7fbe87088fcc4cc6b8610fcc62463c84ab632",
-                "reference": "7ae7fbe87088fcc4cc6b8610fcc62463c84ab632",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/51bd895bbe83b91545f56bd99dcc95c0843aa6e9",
+                "reference": "51bd895bbe83b91545f56bd99dcc95c0843aa6e9",
                 "shasum": ""
             },
             "require": {
@@ -1286,7 +1286,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2014-06-19 08:47:08"
+            "time": "2014-06-27 09:03:16"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -1375,12 +1375,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/genemu/GenemuFormBundle.git",
-                "reference": "7c3add87302a2736e9bede87342ba5a383cef491"
+                "reference": "af36b33d798c3ddca2ea475d09beee3385626a73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/7c3add87302a2736e9bede87342ba5a383cef491",
-                "reference": "7c3add87302a2736e9bede87342ba5a383cef491",
+                "url": "https://api.github.com/repos/genemu/GenemuFormBundle/zipball/af36b33d798c3ddca2ea475d09beee3385626a73",
+                "reference": "af36b33d798c3ddca2ea475d09beee3385626a73",
                 "shasum": ""
             },
             "require": {
@@ -1436,7 +1436,7 @@
                 "extra form",
                 "form"
             ],
-            "time": "2014-06-25 16:39:56"
+            "time": "2014-06-26 19:06:37"
         },
         {
             "name": "guzzle/common",
@@ -3098,12 +3098,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spea/SpBowerBundle.git",
-                "reference": "90c38465d462280fd81bc964fbe410a851df7199"
+                "reference": "ccf13093c2309dcd84e6f152193870109421d966"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/90c38465d462280fd81bc964fbe410a851df7199",
-                "reference": "90c38465d462280fd81bc964fbe410a851df7199",
+                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/ccf13093c2309dcd84e6f152193870109421d966",
+                "reference": "ccf13093c2309dcd84e6f152193870109421d966",
                 "shasum": ""
             },
             "require": {
@@ -3151,7 +3151,7 @@
                 "bower manager",
                 "dependencies"
             ],
-            "time": "2014-06-06 08:56:14"
+            "time": "2014-06-27 23:43:52"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

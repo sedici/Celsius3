@@ -1,0 +1,12 @@
+{
+    "filter": "Filter",
+    "all": "All",
+    "hive": "Hive",
+    "celsius3": "Celsius3",
+    "country": "Country",
+    "selectCountry": "Select a country",
+    "city": "City",
+    "selectCity": "Select a city",
+    "institution": "Institution",
+    "selectInstitution": "Select an institution"
+}

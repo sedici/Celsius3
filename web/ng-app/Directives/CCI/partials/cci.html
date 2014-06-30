@@ -1,24 +1,24 @@
 <div class="form-group">
-    <label>{{'Filter'}}</label>
+    <label>{{'filter' | translate}}</label>
     <div class="filter-select" id="filter">
         <input type="radio" ng-model="select.filter" value="" name="filter" id="filter_placeholder" ng-change="updateFilter()">
-        <label for="filter_placeholder">{{'All'}}</label>
+        <label for="filter_placeholder">{{'all' | translate}}</label>
         <input type="radio" ng-model="select.filter" value="hive" name="filter" id="filter_hive" ng-change="updateFilter()">
-        <label for="filter_hive">{{'Hive'}}</label>
+        <label for="filter_hive">{{'hive' | translate}}</label>
         <input type="radio" ng-model="select.filter" value="celsius3" name="filter" id="filter_celsius3" ng-change="updateFilter()">
-        <label for="filter_celsius3">{{'Celsius3'}}</label>
+        <label for="filter_celsius3">{{'celsius3' | translate}}</label>
     </div>
 </div>
 <div class="form-group">
-    <label for="country">{{'Country'}}</label>
-    <select ui-select2="{placeholder: 'Select a country', allowClear: true}" ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
+    <label for="country">{{'country' | translate}}</label>
+    <select ui-select2="select2Countries" ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
         <option></option>
         <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
     </select>
 </div>
 <div class="form-group">
-    <label for="city">{{'City'}}</label>
-    <select ui-select2="{placeholder: 'Select a city', allowClear: true}" ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
+    <label for="city">{{'city' | translate}}</label>
+    <select ui-select2="select2Cities" ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
         <option></option>
         <option ng-repeat="c in cities" value="{{c.id}}">{{c.name}}</option>
     </select>

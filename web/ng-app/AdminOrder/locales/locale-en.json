@@ -78,5 +78,11 @@
     "reclaim": "Reclaim",
     "uploadedFiles": "Uploaded files",
     "search": "search",
-    "provision": "provision"
+    "provision": "provision",
+    "S": "S",
+    "P": "P",
+    "yes": "Yes",
+    "no": "No",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
 }
