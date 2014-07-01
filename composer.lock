@@ -790,12 +790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "f650a3848e26adfb0a6ba91bef94f64c95b50fdc"
+                "reference": "a25006e7e53ff262f0203610e878847e0d31e033"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/f650a3848e26adfb0a6ba91bef94f64c95b50fdc",
-                "reference": "f650a3848e26adfb0a6ba91bef94f64c95b50fdc",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/a25006e7e53ff262f0203610e878847e0d31e033",
+                "reference": "a25006e7e53ff262f0203610e878847e0d31e033",
                 "shasum": ""
             },
             "require": {
@@ -860,7 +860,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-06-20 23:08:43"
+            "time": "2014-07-01 16:41:18"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -3098,12 +3098,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Spea/SpBowerBundle.git",
-                "reference": "ccf13093c2309dcd84e6f152193870109421d966"
+                "reference": "9d0332b0aa3f7b1bc11cca9704fa31207e88bafe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/ccf13093c2309dcd84e6f152193870109421d966",
-                "reference": "ccf13093c2309dcd84e6f152193870109421d966",
+                "url": "https://api.github.com/repos/Spea/SpBowerBundle/zipball/9d0332b0aa3f7b1bc11cca9704fa31207e88bafe",
+                "reference": "9d0332b0aa3f7b1bc11cca9704fa31207e88bafe",
                 "shasum": ""
             },
             "require": {
@@ -3151,7 +3151,7 @@
                 "bower manager",
                 "dependencies"
             ],
-            "time": "2014-06-27 23:43:52"
+            "time": "2014-06-30 19:29:50"
         },
         {
             "name": "stof/doctrine-extensions-bundle",

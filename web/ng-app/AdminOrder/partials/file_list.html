@@ -11,7 +11,7 @@
         <tr ng-repeat="file in files.list">
             <td>{{file.name}}</td>
             <td>{{file.pages}}</td>
-            <td>{{file | state}}</td>
+            <td>{{file | state | translate}}</td>
             <td>
                 <a href ng-click="changeFileState(file)" class="btn">{{'changeState' | translate}}</a>
             </td>

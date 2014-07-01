@@ -34,7 +34,7 @@
         <strong>{{'isbn' | translate}}</strong> {{order.material_data._i_s_b_n}}
     </li>
     <li ng-if="order.material_data.type === 'book'">
-        <strong>{{'withIndex' | translate}}</strong> {{order.material_data.with_index| material_with_index}}
+        <strong>{{'withIndex' | translate}}</strong> {{order.material_data.with_index| material_with_index | translate}}
     </li>
     <li ng-if="order.material_data.type === 'congress'">
         <strong>{{'place' | translate}}</strong> {{order.material_data.place}}

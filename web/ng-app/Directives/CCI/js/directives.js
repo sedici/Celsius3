@@ -1,4 +1,4 @@
-cciWidget.directive('cciWidget', function(Country, City, Institution, $translate) {
+cciWidget.directive('cciWidget', function($translate, Country, City, Institution) {
     function Node(count) {
         this.id = 'institution' + count;
         this.name = 'institution' + count;
@@ -26,9 +26,9 @@ cciWidget.directive('cciWidget', function(Country, City, Institution, $translate
             scope.select2Institutions = {
                 placeholder: selectInstitution,
                 allowClear: true,
-                escapeMarkup: escape,
-                formatResult: formatInstitution,
-                formatSelection: formatInstitution
+                escapeMarkup: scope.escape,
+                formatResult: scope.formatInstitution,
+                formatSelection: scope.formatInstitution
             };
         });
 

@@ -29,7 +29,7 @@ orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
         });
 
         $translateProvider.useStaticFilesLoader({
-            prefix: '/ng-app/AdminOrder/locales/locale-',
+            prefix: '/ng-app/locales/locale-',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage('en');
