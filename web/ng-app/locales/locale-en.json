@@ -95,5 +95,11 @@
     "city": "City",
     "selectCity": "Select a city",
     "institution": "Institution",
-    "selectInstitution": "Select an institution"
+    "selectInstitution": "Select an institution",
+    "created": "Created",
+    "searched": "Searched",
+    "requested": "Requested",
+    "approvalPending": "Approval pending",
+    "received": "Received",
+    "delivered": "Delivered"
 }

@@ -363,6 +363,8 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
                     return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
                 });
+                
+                $scope.$broadcast('updated');
             });
         });
     };
@@ -428,7 +430,6 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
     };
 
     $scope.formatUploadData = function(form) {
-        console.log(form);
         return _.pairs(form).map(function(item) {
             return _.object([item]);
         });

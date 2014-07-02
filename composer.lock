@@ -790,12 +790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "a25006e7e53ff262f0203610e878847e0d31e033"
+                "reference": "c2f6fccd266ca5cce022e0571acf55511dd75741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/a25006e7e53ff262f0203610e878847e0d31e033",
-                "reference": "a25006e7e53ff262f0203610e878847e0d31e033",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/c2f6fccd266ca5cce022e0571acf55511dd75741",
+                "reference": "c2f6fccd266ca5cce022e0571acf55511dd75741",
                 "shasum": ""
             },
             "require": {
@@ -860,7 +860,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-07-01 16:41:18"
+            "time": "2014-07-01 20:32:51"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -868,12 +868,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "a612b9084dd5e29d1f7c51868cca4c004a90190d"
+                "reference": "f01a2ac4ca695356d25562598e3400652f037cff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/a612b9084dd5e29d1f7c51868cca4c004a90190d",
-                "reference": "a612b9084dd5e29d1f7c51868cca4c004a90190d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/f01a2ac4ca695356d25562598e3400652f037cff",
+                "reference": "f01a2ac4ca695356d25562598e3400652f037cff",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +930,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2014-06-26 15:32:07"
+            "time": "2014-07-02 15:18:21"
         },
         {
             "name": "evenement/evenement",
