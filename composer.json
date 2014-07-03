@@ -41,7 +41,8 @@
         "genemu/form-bundle": "dev-master",
         "cboden/Ratchet": "0.2.*",
         "react/zmq": "0.1.*",
-        "sp/bower-bundle": "dev-master"
+        "sp/bower-bundle": "dev-master",
+        "umpirsky/composer-permissions-handler": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
@@ -54,18 +55,19 @@
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
+            "Umpirsky\\PermissionsHandler\\ScriptHandler::setPermissions",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"
         ]
     },
@@ -76,6 +78,7 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
+        "writable-dirs": ["app/cache", "app/logs", "app/spool", "src/Celsius3/CoreBundle/Resources/public/components/cache"],
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         },
