@@ -1,0 +1,31 @@
+# Cache, logs and email
+/app/cache/*
+/app/logs/*
+/app/spool/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+!app/spool/.gitkeep
+
+# Parameters
+/app/config/parameters.ini
+
+# Managed by Composer
+/app/bootstrap.php.cache
+/bin/
+/vendor/
+
+# Bower
+/src/Celsius3/CoreBundle/Resources/public/components/*
+!src/Celsius3/CoreBundle/Resources/public/components/cache/.gitkeep
+
+# Assetic, Assets and user uploads
+/web/assetic/
+/web/bundles/
+/web/css/
+/web/js/
+/web/uploads/temp/*
+!web/uploads/temp/.gitkeep
+
+# PHPUnit
+/app/phpunit.xml
+
