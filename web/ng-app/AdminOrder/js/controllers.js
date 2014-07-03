@@ -347,7 +347,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 });
 
                 $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function(item) {
-                    item.search = $scope.searches.find(function(search) {
+                    item.search = _.find($scope.searches, function(search) {
                         return search.catalog.id === item.id;
                     });
                 });
@@ -363,7 +363,7 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
                 $scope.filterNotFound = $scope.catalogsWithSearches.filter(function(catalog) {
                     return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
                 });
-                
+
                 $scope.$broadcast('updated');
             });
         });

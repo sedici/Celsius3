@@ -1,5 +1,5 @@
 stateBar.directive('stateBar', function($translate) {
-    var states_order = ['searched', 'requested', 'received', 'delivered'];
+    var states_order = ['searched', 'requested', 'approval_pending', 'received', 'delivered'];
     var states = [
         {
             name: 'searched',
