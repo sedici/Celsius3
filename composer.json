@@ -24,6 +24,7 @@
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "doctrine/mongodb-odm": "dev-master",
         "doctrine/mongodb-odm-bundle": "dev-master",
+        "doctrine/annotations": "dev-master",
         "twig/extensions": "~1.0",
         "knplabs/knp-components": "~1.2@dev",
         "knplabs/knp-menu": "2.0.0-alpha1",
