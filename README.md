@@ -14,6 +14,7 @@ a quienes también se les brinda documentación actualizada y asistencia
 personalizada para realizar la instalación y mantenimiento, instalar 
 actualizaciones y formar al equipo de personas que utilizarán esta herramienta 
 en cada institución.
+
 El proyecto Celsius3 tiene como característica principal la gestión centralizada 
 de todas las instancias de Celsius de los miembros de LibLink. Esto implica, 
 por un lado, la creación de instancias a medidas que se incorporan nuevos miembros, 
