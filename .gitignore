@@ -29,3 +29,5 @@
 # PHPUnit
 /app/phpunit.xml
 
+/nbproject/
+/composer.lock
