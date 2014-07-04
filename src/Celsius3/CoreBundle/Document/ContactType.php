@@ -30,7 +30,7 @@ class ContactType
     {
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     public function __toString()
     {
         return $this->name;
@@ -49,12 +49,13 @@ class ContactType
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 

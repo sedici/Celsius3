@@ -9,5 +9,5 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class DeliverEvent extends SingleInstanceEvent
 {
-    
+
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?> 
+<?xml version="1.0" encoding="iso-8859-1"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
         <title>{{instance}}</title>
 	<subtitle>Aqui podra encontrar las noticias recientes.</subtitle>
@@ -7,5 +7,5 @@
             {% for news in lastNews %}
                  {% include 'Celsius3CoreBundle:NewsFeeds:_new_atom.html.twig' %}
             {% endfor %}
-        </entry>        
+        </entry>
 </feed>

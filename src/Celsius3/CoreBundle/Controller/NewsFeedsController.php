@@ -3,7 +3,6 @@
 namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * NewsRss controller.
@@ -13,12 +12,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 class NewsFeedsController extends BaseInstanceDependentController
 {
 
-    function getUrl()
+    public function getUrl()
     {
         $domain = $_SERVER['HTTP_HOST'];
         $name_file = $_SERVER['PHP_SELF'];
         $language = $this->get('request')->get('_locale');
         $url = "http://" . "$domain" . "$name_file" . "/$language";
+
         return $url;
     }
 
@@ -61,6 +61,7 @@ class NewsFeedsController extends BaseInstanceDependentController
                         ->getRepository('Celsius3CoreBundle:News')
                         ->findLastNewsDirectory(),
                 'url' => $url . '/newsFeeds/atom/directory',);
+
         return $array;
     }
 
@@ -79,6 +80,7 @@ class NewsFeedsController extends BaseInstanceDependentController
                         ->getRepository('Celsius3CoreBundle:News')
                         ->findLastNews($this->getInstance()),
                 'url' => $url . '/newsFeeds/rss/' . $urlInstance,);
+
         return $array;
     }
 
@@ -97,6 +99,7 @@ class NewsFeedsController extends BaseInstanceDependentController
                         ->getRepository('Celsius3CoreBundle:News')
                         ->findLastNews($this->getInstance()),
                 'url' => $url . '/newsFeeds/atom/' . $urlInstance,);
+
         return $array;
     }
 }

@@ -6,7 +6,6 @@ use Celsius3\MessageBundle\Document\Message;
 use Celsius3\CoreBundle\Document\BaseUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\NotificationBundle\Document\NotificationTemplate;
 use Symfony\Component\Routing\Router;
 
@@ -37,15 +36,13 @@ class NotificationManager
     {
         return array(
             self::CAUSE__NEW_MESSAGE => array(
-                'template_data' => function (Notification $notification)
-                {
+                'template_data' => function (Notification $notification) {
                     return array(
                         'user' => $notification->getObject()->getSender()
                     );
                 },
                 'route' => 'fos_message_thread_view',
-                'route_params' => function (Notification $notification)
-                {
+                'route_params' => function (Notification $notification) {
                     return array(
                         'threadId' => $notification->getObject()
                             ->getThread()
@@ -54,15 +51,13 @@ class NotificationManager
                 }
             ),
             self::CAUSE__NEW_USER => array(
-                'template_data' => function (Notification $notification)
-                {
+                'template_data' => function (Notification $notification) {
                     return array(
                         'user' => $notification->getObject()
                     );
                 },
                 'route' => 'admin_user',
-                'route_params' => function (Notification $notification)
-                {
+                'route_params' => function (Notification $notification) {
                     return array(
                         'id' => $notification->getObject()->getId()
                     );
@@ -74,6 +69,7 @@ class NotificationManager
     public function getRenderedTemplate(Notification $notification)
     {
         $data = $this->getMap()[$notification->getCause()]['template_data'];
+
         return $this->templating->render($notification->getTemplate()
             ->getText(), $data($notification));
     }
@@ -82,6 +78,7 @@ class NotificationManager
     {
         $route = $this->getMap()[$notification->getCause()]['route'];
         $params = $this->getMap()[$notification->getCause()]['route_params'];
+
         return $this->container->get('router')->generate($route, $params($notification));
     }
 
@@ -90,16 +87,15 @@ class NotificationManager
         $entryData = array(
             'id' => $notification->getObject()->getId(),
             'cause' => $notification->getCause(),
-            'user_ids' => array_map(function ($receiver)
-            {
+            'user_ids' => array_map(function ($receiver) {
                 return $receiver->getId();
             }, $notification->getReceivers()->toArray())
         );
-        
+
         $context = new \ZMQContext();
         $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
         $socket->connect('tcp://' . $this->zmq_host . ':' . $this->zmq_port);
-        
+
         $socket->send(json_encode(array(
             'notification_id' => $notification->getId()
         )));
@@ -117,7 +113,7 @@ class NotificationManager
         $notification->setTemplate($template);
         $dm->persist($notification);
         $dm->flush();
-        
+
         $this->notifyRatchet($notification);
     }
 
@@ -125,8 +121,7 @@ class NotificationManager
     {
         $receivers = new ArrayCollection($message->getThread()->getParticipants());
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
-        $this->notify(self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use($message)
-        {
+        $this->notify(self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use ($message) {
             return ($receiver->getId() != $message->getSender()
                 ->getId());
         }), $dm->getRepository('Celsius3NotificationBundle:NotificationTemplate')
@@ -148,12 +143,14 @@ class NotificationManager
     public function getUnreadNotificationsCount($user_id)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+
         return $dm->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotificationsCount($user_id);
     }
 
     public function getUnreadNotifications($user_id)
     {
         $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+
         return $dm->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
     }
 }

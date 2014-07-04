@@ -1,9 +1,9 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\MaterialType;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\MaterialType;
 
 class MaterialTypeTest extends TestCase
 {
@@ -16,7 +16,7 @@ class MaterialTypeTest extends TestCase
 
         $this->material = $this->getMockForAbstractClass('Celsius\\Celsius3Bundle\\Document\\MaterialType');
     }
-    
+
     public function testToString()
     {
         $title = 'Sample title';

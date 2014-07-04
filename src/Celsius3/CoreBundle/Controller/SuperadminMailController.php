@@ -24,6 +24,7 @@ class SuperadminMailController extends BaseController
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder()
                         ->field('instance.id')->equals($this->getDirectory()->getId());
+
         return $qb;
     }
 

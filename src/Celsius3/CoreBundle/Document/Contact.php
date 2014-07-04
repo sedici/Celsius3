@@ -77,12 +77,13 @@ class Contact
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -99,12 +100,13 @@ class Contact
     /**
      * Set surname
      *
-     * @param string $surname
+     * @param  string $surname
      * @return self
      */
     public function setSurname($surname)
     {
         $this->surname = $surname;
+
         return $this;
     }
 
@@ -121,12 +123,13 @@ class Contact
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
      * @return self
      */
     public function setEmail($email)
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -143,12 +146,13 @@ class Contact
     /**
      * Set address
      *
-     * @param string $address
+     * @param  string $address
      * @return self
      */
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
 
@@ -165,12 +169,13 @@ class Contact
     /**
      * Set user
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $user
+     * @param  Celsius3\CoreBundle\Document\BaseUser $user
      * @return self
      */
     public function setUser(\Celsius3\CoreBundle\Document\BaseUser $user)
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -187,12 +192,13 @@ class Contact
     /**
      * Set type
      *
-     * @param Celsius3\CoreBundle\Document\ContactType $type
+     * @param  Celsius3\CoreBundle\Document\ContactType $type
      * @return self
      */
     public function setType(\Celsius3\CoreBundle\Document\ContactType $type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -209,12 +215,13 @@ class Contact
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -231,12 +238,13 @@ class Contact
     /**
      * Set institution
      *
-     * @param Celsius3\CoreBundle\Document\Institution $institution
+     * @param  Celsius3\CoreBundle\Document\Institution $institution
      * @return self
      */
     public function setInstitution(\Celsius3\CoreBundle\Document\Institution $institution)
     {
         $this->institution = $institution;
+
         return $this;
     }
 
@@ -253,12 +261,13 @@ class Contact
     /**
      * Set owningInstance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $owningInstance
+     * @param  Celsius3\CoreBundle\Document\Instance $owningInstance
      * @return self
      */
     public function setOwningInstance(\Celsius3\CoreBundle\Document\Instance $owningInstance)
     {
         $this->owningInstance = $owningInstance;
+
         return $this;
     }
 

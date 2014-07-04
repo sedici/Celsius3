@@ -133,8 +133,8 @@ class AdminBaseUserController extends BaseUserController
      * @Template()
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -152,8 +152,8 @@ class AdminBaseUserController extends BaseUserController
      * @Template("Celsius3CoreBundle:AdminBaseUser:edit.html.twig")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -207,8 +207,8 @@ class AdminBaseUserController extends BaseUserController
      * @Method("post")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -225,8 +225,8 @@ class AdminBaseUserController extends BaseUserController
      * @Template()
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -244,8 +244,8 @@ class AdminBaseUserController extends BaseUserController
      * @Template("Celsius3CoreBundle:AdminBaseUser:transform.html.twig")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -261,8 +261,8 @@ class AdminBaseUserController extends BaseUserController
      * @Route("/{id}/enable", name="admin_user_enable", options={"expose"=true})
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -306,6 +306,7 @@ class AdminBaseUserController extends BaseUserController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
+
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }
 

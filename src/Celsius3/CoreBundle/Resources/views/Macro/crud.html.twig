@@ -7,15 +7,15 @@
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>
-            
+
         <div class="sorting-group pull-right">
             <span>
-                {{ 'Sort by'|trans }}: 
+                {{ 'Sort by'|trans }}:
             </span>
             {% include folder ~ ':_index_sort.html.twig' %}
         </div>
         <div class="clearfix"></div>
-        
+
         {% if has_batch %}
         {% include 'Celsius3CoreBundle:Layout:_batch.html.twig' %}
         {% endif %}
@@ -24,7 +24,7 @@
         <form class="batch_form" action="{{ path(name ~ '_batch') }}" method="post">
             <input type="hidden" id="batch-action" name="action" value=""></input>
         {% endif %}
-            
+
             {% if custom_element_template %}
             {% for element in pagination %}
                 {% include folder ~ ':_index_element.html.twig' %}

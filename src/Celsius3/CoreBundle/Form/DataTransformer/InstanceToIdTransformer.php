@@ -33,7 +33,7 @@ class InstanceToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (id) to an object (Instance).
      *
-     * @param  string $id
+     * @param  string                        $id
      * @return Instance|null
      * @throws TransformationFailedException if object (Instance) is not found.
      */

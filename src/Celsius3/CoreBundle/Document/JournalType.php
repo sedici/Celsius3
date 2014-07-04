@@ -35,12 +35,13 @@ class JournalType extends MaterialType
     /**
      * Set volume
      *
-     * @param string $volume
+     * @param  string $volume
      * @return self
      */
     public function setVolume($volume)
     {
         $this->volume = $volume;
+
         return $this;
     }
 
@@ -57,12 +58,13 @@ class JournalType extends MaterialType
     /**
      * Set number
      *
-     * @param string $number
+     * @param  string $number
      * @return self
      */
     public function setNumber($number)
     {
         $this->number = $number;
+
         return $this;
     }
 
@@ -79,12 +81,13 @@ class JournalType extends MaterialType
     /**
      * Set journal
      *
-     * @param Celsius3\CoreBundle\Document\Journal $journal
+     * @param  Celsius3\CoreBundle\Document\Journal $journal
      * @return self
      */
     public function setJournal(\Celsius3\CoreBundle\Document\Journal $journal)
     {
         $this->journal = $journal;
+
         return $this;
     }
 
@@ -101,12 +104,13 @@ class JournalType extends MaterialType
     /**
      * Set other
      *
-     * @param string $other
+     * @param  string $other
      * @return self
      */
     public function setOther($other)
     {
         $this->other = $other;
+
         return $this;
     }
 

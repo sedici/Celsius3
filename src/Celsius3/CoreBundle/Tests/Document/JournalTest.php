@@ -1,10 +1,10 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Journal;
-use Celsius\Celsius3Bundle\Document\JournalType;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Journal;
+use Celsius3\CoreBundle\Document\JournalType;
 
 class JournalTest extends TestCase
 {
@@ -19,7 +19,7 @@ class JournalTest extends TestCase
         $this->journal = new Journal();
         $this->material = new JournalType();
     }
-    
+
     public function testGetName()
     {
         $name = 'Sample name';
@@ -28,7 +28,7 @@ class JournalTest extends TestCase
 
         $this->assertEquals($name, $this->journal->getName());
     }
-    
+
     public function testGetAbbreviation()
     {
         $abbreviation = 'SN';
@@ -37,7 +37,7 @@ class JournalTest extends TestCase
 
         $this->assertEquals($abbreviation, $this->journal->getAbbreviation());
     }
-    
+
     public function testGetResponsible()
     {
         $responsible = 'John Doe';
@@ -46,7 +46,7 @@ class JournalTest extends TestCase
 
         $this->assertEquals($responsible, $this->journal->getResponsible());
     }
-    
+
     public function testGetISSN()
     {
         $ISSN = '0123-4567';
@@ -55,7 +55,7 @@ class JournalTest extends TestCase
 
         $this->assertEquals($ISSN, $this->journal->getISSN());
     }
-    
+
     public function testGetISSNE()
     {
         $ISSNE = '0123-4567';
@@ -64,7 +64,7 @@ class JournalTest extends TestCase
 
         $this->assertEquals($ISSNE, $this->journal->getISSNE());
     }
-    
+
     public function testGetFrecuency()
     {
         $frecuency = 'weekly';
@@ -73,14 +73,14 @@ class JournalTest extends TestCase
 
         $this->assertEquals($frecuency, $this->journal->getFrecuency());
     }
-    
+
     public function testGetMaterials()
     {
         $this->journal->addMaterials($this->material);
 
         $this->assertContains($this->material, $this->journal->getMaterials());
     }
-    
+
     public function testGenerateState()
     {
         $name = 'Sample name';

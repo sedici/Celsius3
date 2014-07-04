@@ -32,7 +32,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $errors = $this->get('validator')->validateValue(
                 $email, $emailConstraint
         );
-        
+
         if (count($errors) !== 0) {
             throw new NotFoundHttpException('Error sending email');
         }

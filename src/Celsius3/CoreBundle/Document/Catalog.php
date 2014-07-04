@@ -71,12 +71,13 @@ class Catalog
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -93,12 +94,13 @@ class Catalog
     /**
      * Set url
      *
-     * @param string $url
+     * @param  string $url
      * @return self
      */
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -115,12 +117,13 @@ class Catalog
     /**
      * Set comments
      *
-     * @param string $comments
+     * @param  string $comments
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
+
         return $this;
     }
 
@@ -137,12 +140,13 @@ class Catalog
     /**
      * Set institution
      *
-     * @param Celsius3\CoreBundle\Document\Institution $institution
+     * @param  Celsius3\CoreBundle\Document\Institution $institution
      * @return self
      */
     public function setInstitution(\Celsius3\CoreBundle\Document\Institution $institution)
     {
         $this->institution = $institution;
+
         return $this;
     }
 
@@ -159,12 +163,13 @@ class Catalog
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -220,6 +225,7 @@ class Catalog
                                 function ($entry) use ($instance) {
                                     return $entry->getInstance()->getId() == $instance->getId();
                                 })->first();
+
         return false !== $result ? $result : null;
     }
 }

@@ -18,12 +18,13 @@ trait CancellableTrait
     /**
      * Set isCancelled
      *
-     * @param boolean $isCancelled
+     * @param  boolean $isCancelled
      * @return self
      */
     public function setIsCancelled($isCancelled)
     {
         $this->isCancelled = $isCancelled;
+
         return $this;
     }
 

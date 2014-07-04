@@ -17,7 +17,7 @@ class SearchManager
     /**
      * Detects if any token from $tokenList is present in $keyword
      *
-     * @param String $keyword The raw string to parse
+     * @param  String $keyword The raw string to parse
      * @return array
      */
     private function parseTokens($keyword)
@@ -28,15 +28,16 @@ class SearchManager
                 $where[$repository] = trim(str_replace($token, '', $keyword));
             }
         }
+
         return $where;
     }
 
     /**
      * Performs the search on the specified repository
      *
-     * @param string $repository
-     * @param string $keyword
-     * @param Instance $instance
+     * @param  string   $repository
+     * @param  string   $keyword
+     * @param  Instance $instance
      * @return array
      */
     public function search($repository, $keyword, Instance $instance = null)

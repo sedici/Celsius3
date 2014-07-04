@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\MultiInstanceDeliver;
+use Celsius3\CoreBundle\Document\MultiInstanceDeliver;
 
 class MultiInstanceDeliverTest extends MultiInstanceTest
 {
@@ -13,7 +13,7 @@ class MultiInstanceDeliverTest extends MultiInstanceTest
 
         $this->event = new MultiInstanceDeliver();
     }
-    
+
     public function testGenerateMultiInstanceDeliver()
     {
         $date = date('Y-m-d H:i:s');

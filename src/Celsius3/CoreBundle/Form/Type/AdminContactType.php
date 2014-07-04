@@ -32,7 +32,7 @@ class AdminContactType extends ContactType
                     ),
                 ))
         ;
-        
+
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
         $builder->addEventSubscriber($subscriber);
     }

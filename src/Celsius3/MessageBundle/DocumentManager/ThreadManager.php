@@ -18,9 +18,9 @@ class ThreadManager extends BaseThreadManager
      * matching the given search term
      * ordered by last message not written by this participant in reverse order.
      *
-     * @param ParticipantInterface $participant
-     * @param string $search
-     * @return Builder a query builder suitable for pagination
+     * @param  ParticipantInterface $participant
+     * @param  string               $search
+     * @return Builder              a query builder suitable for pagination
      */
     public function getParticipantThreadsBySearchQueryBuilder(
             ParticipantInterface $participant, $search)

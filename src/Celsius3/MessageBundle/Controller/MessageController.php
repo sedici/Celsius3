@@ -18,6 +18,7 @@ class MessageController extends BaseController
                     ->create($thread);
             $forms[$thread->getId()] = $form->createView();
         }
+
         return $forms;
     }
 
@@ -156,4 +157,3 @@ class MessageController extends BaseController
     }
 
 }
-

@@ -4,7 +4,6 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -43,6 +42,7 @@ class SuperadministrationController extends BaseController
         if (!$this->getRequest()->isXmlHttpRequest()) {
             return $this->createNotFoundException();
         }
+
         return new Response(json_encode($this->get('celsius3_core.statistic_manager')->getOrderUserTableData()));
     }
 

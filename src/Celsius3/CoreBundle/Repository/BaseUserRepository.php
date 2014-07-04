@@ -24,7 +24,7 @@ class BaseUserRepository extends DocumentRepository
                         ->getQuery()
                         ->execute();
     }
-    
+
     public function findPendingUsers(Instance $instance = null)
     {
         $qb = $this->createQueryBuilder()
@@ -108,12 +108,13 @@ class BaseUserRepository extends DocumentRepository
     public function findUsersPerInstance()
     {
         return $this->createQueryBuilder()
-                        ->map('function() { emit(this.instance.$id, 1); }')
-                        ->reduce('function(k, vals) {
+                        ->map('function () { emit(this.instance.$id, 1); }')
+                        ->reduce('function (k, vals) {
                             var sum = 0;
                             for (var i in vals) {
                                 sum += vals[i];
                             }
+
                             return sum;
                         }')
                         ->getQuery()
@@ -124,12 +125,13 @@ class BaseUserRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
                         ->field('enabled')->equals(false)
-                        ->map('function() { emit(this.instance.$id, 1); }')
-                        ->reduce('function(k, vals) {
+                        ->map('function () { emit(this.instance.$id, 1); }')
+                        ->reduce('function (k, vals) {
                             var sum = 0;
                             for (var i in vals) {
                                 sum += vals[i];
                             }
+
                             return sum;
                         }')
                         ->getQuery()

@@ -20,12 +20,13 @@ class MultiInstanceEvent extends Event
     /**
      * Set remoteInstance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $remoteInstance
+     * @param  Celsius3\CoreBundle\Document\Instance $remoteInstance
      * @return self
      */
     public function setRemoteInstance(\Celsius3\CoreBundle\Document\Instance $remoteInstance)
     {
         $this->remoteInstance = $remoteInstance;
+
         return $this;
     }
 

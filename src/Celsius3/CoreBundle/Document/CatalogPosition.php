@@ -54,12 +54,13 @@ class CatalogPosition
     /**
      * Set position
      *
-     * @param int $position
+     * @param  int  $position
      * @return self
      */
     public function setPosition($position)
     {
         $this->position = $position;
+
         return $this;
     }
 
@@ -76,12 +77,13 @@ class CatalogPosition
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return self
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -98,12 +100,13 @@ class CatalogPosition
     /**
      * Set catalog
      *
-     * @param Celsius3\CoreBundle\Document\Catalog $catalog
+     * @param  Celsius3\CoreBundle\Document\Catalog $catalog
      * @return self
      */
     public function setCatalog(\Celsius3\CoreBundle\Document\Catalog $catalog)
     {
         $this->catalog = $catalog;
+
         return $this;
     }
 
@@ -120,12 +123,13 @@ class CatalogPosition
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

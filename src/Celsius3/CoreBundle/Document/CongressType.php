@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
@@ -22,12 +21,13 @@ class CongressType extends MaterialType
     /**
      * Set place
      *
-     * @param string $place
+     * @param  string $place
      * @return self
      */
     public function setPlace($place)
     {
         $this->place = $place;
+
         return $this;
     }
 
@@ -44,12 +44,13 @@ class CongressType extends MaterialType
     /**
      * Set communication
      *
-     * @param string $communication
+     * @param  string $communication
      * @return self
      */
     public function setCommunication($communication)
     {
         $this->communication = $communication;
+
         return $this;
     }
 

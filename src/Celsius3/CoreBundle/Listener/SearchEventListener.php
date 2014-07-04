@@ -50,12 +50,12 @@ class SearchEventListener
                     if ($new === CatalogManager::CATALOG__NON_SEARCHED) {
                         $result->setSearches($result->getSearches() - 1);
                     }
-                } else if (in_array($old, $this->negative) && in_array($new, $this->positive)) {
+                } elseif (in_array($old, $this->negative) && in_array($new, $this->positive)) {
                     $result->setMatches($result->getMatches() + 1);
                     if ($old === CatalogManager::CATALOG__NON_SEARCHED) {
                         $result->setSearches($result->getSearches() + 1);
                     }
-                } else if (in_array($old, $this->negative) && in_array($new, $this->negative)) {
+                } elseif (in_array($old, $this->negative) && in_array($new, $this->negative)) {
                     if ($old === CatalogManager::CATALOG__NON_SEARCHED) {
                         $result->setSearches($result->getSearches() + 1);
                     } else {

@@ -5,8 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius\MigrationBundle\Document\Country;
-use Celsius\MigrationBundle\Document\City;
-use Celsius\MigrationBundle\Document\Institution;
 
 /**
  * @Route("/migration")

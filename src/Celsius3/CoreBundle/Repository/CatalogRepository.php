@@ -15,7 +15,7 @@ class CatalogRepository extends DocumentRepository
                 ->hydrate(false)
                 ->select('catalog');
 
-        $positions = array_map(function($item) {
+        $positions = array_map(function ($item) {
             return $item['catalog']['$id'];
         }, $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
                         ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
@@ -29,6 +29,7 @@ class CatalogRepository extends DocumentRepository
         foreach ($positions as $position) {
             $qb2 = $qb2->addOr($qb2->expr()->field('id')->equals($position));
         }
+
         return $qb2;
     }
 

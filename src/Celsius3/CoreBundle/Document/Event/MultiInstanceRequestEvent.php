@@ -2,7 +2,6 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
@@ -46,12 +45,13 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
     /**
      * Set remoteRequest
      *
-     * @param Celsius3\CoreBundle\Document\Request $remoteRequest
+     * @param  Celsius3\CoreBundle\Document\Request $remoteRequest
      * @return self
      */
     public function setRemoteRequest(\Celsius3\CoreBundle\Document\Request $remoteRequest)
     {
         $this->remoteRequest = $remoteRequest;
+
         return $this;
     }
 

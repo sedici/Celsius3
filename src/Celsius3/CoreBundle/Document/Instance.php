@@ -101,7 +101,7 @@ class Instance extends LegacyInstance
     /**
      * Returns the Configuration object associated with key
      *
-     * @param string $key
+     * @param  string        $key
      * @return Configuration
      */
     public function get($key)
@@ -116,12 +116,13 @@ class Instance extends LegacyInstance
     /**
      * Set url
      *
-     * @param string $url
+     * @param  string $url
      * @return self
      */
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 

@@ -101,12 +101,13 @@ class Request
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string $type
      * @return self
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -123,12 +124,13 @@ class Request
     /**
      * Set comments
      *
-     * @param string $comments
+     * @param  string $comments
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
+
         return $this;
     }
 
@@ -145,12 +147,13 @@ class Request
     /**
      * Set owner
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $owner
+     * @param  Celsius3\CoreBundle\Document\BaseUser $owner
      * @return self
      */
     public function setOwner(\Celsius3\CoreBundle\Document\BaseUser $owner)
     {
         $this->owner = $owner;
+
         return $this;
     }
 
@@ -167,12 +170,13 @@ class Request
     /**
      * Set librarian
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $librarian
+     * @param  Celsius3\CoreBundle\Document\BaseUser $librarian
      * @return self
      */
     public function setLibrarian(\Celsius3\CoreBundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
+
         return $this;
     }
 
@@ -279,12 +283,13 @@ class Request
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -301,12 +306,13 @@ class Request
     /**
      * Set operator
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $operator
+     * @param  Celsius3\CoreBundle\Document\BaseUser $operator
      * @return self
      */
     public function setOperator(\Celsius3\CoreBundle\Document\BaseUser $operator)
     {
         $this->operator = $operator;
+
         return $this;
     }
 
@@ -323,12 +329,13 @@ class Request
     /**
      * Set order
      *
-     * @param Celsius3\CoreBundle\Document\Order $order
+     * @param  Celsius3\CoreBundle\Document\Order $order
      * @return self
      */
     public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
     {
         $this->order = $order;
+
         return $this;
     }
 
@@ -360,6 +367,7 @@ class Request
     public function getFilesForDownload()
     {
         $instance = $this->getOrder()->getOriginalRequest()->getInstance();
+
         return $this->getFiles()
                         ->filter(
                                 function ($entry) use ($instance) {
@@ -373,6 +381,7 @@ class Request
     public function getNotDownloadedFiles()
     {
         $instance = $this->getOrder()->getOriginalRequest()->getInstance();
+
         return $this->getFiles()
                         ->filter(
                                 function ($entry) use ($instance) {
@@ -388,6 +397,7 @@ class Request
         if (!is_array($names)) {
             $names = array($names);
         }
+
         return ($this->getStates()
                         ->filter(
                                 function ($entry) use ($names) {
@@ -406,6 +416,7 @@ class Request
                                 function ($entry) use ($name) {
                             return $entry->getType()->getName() == $name;
                         })->first();
+
         return false !== $result ? $result : null;
     }
 
@@ -419,18 +430,20 @@ class Request
                                 function ($entry) {
                             return $entry->getIsCurrent();
                         })->first();
+
         return false !== $result ? $result : null;
     }
 
     /**
      * Set previousRequest
      *
-     * @param Celsius3\CoreBundle\Document\Request $previousRequest
+     * @param  Celsius3\CoreBundle\Document\Request $previousRequest
      * @return self
      */
     public function setPreviousRequest(\Celsius3\CoreBundle\Document\Request $previousRequest)
     {
         $this->previousRequest = $previousRequest;
+
         return $this;
     }
 

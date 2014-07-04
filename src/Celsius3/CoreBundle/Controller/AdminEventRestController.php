@@ -32,7 +32,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         $remoteEvents = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->createQueryBuilder()
-                ->field('request.id')->in(array_map(function($item) {
+                ->field('request.id')->in(array_map(function ($item) {
                             return $item->getId();
                         }, $requests))
                 ->getQuery()

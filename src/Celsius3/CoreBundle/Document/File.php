@@ -118,12 +118,13 @@ class File
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -140,12 +141,13 @@ class File
     /**
      * Set path
      *
-     * @param string $path
+     * @param  string $path
      * @return self
      */
     public function setPath($path)
     {
         $this->path = $path;
+
         return $this;
     }
 
@@ -162,12 +164,13 @@ class File
     /**
      * Set comments
      *
-     * @param string $comments
+     * @param  string $comments
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
+
         return $this;
     }
 
@@ -184,12 +187,13 @@ class File
     /**
      * Set mime
      *
-     * @param string $mime
+     * @param  string $mime
      * @return self
      */
     public function setMime($mime)
     {
         $this->mime = $mime;
+
         return $this;
     }
 
@@ -206,12 +210,13 @@ class File
     /**
      * Set file
      *
-     * @param file $file
+     * @param  file $file
      * @return self
      */
     public function setFile($file)
     {
         $this->file = $file;
+
         return $this;
     }
 
@@ -228,12 +233,13 @@ class File
     /**
      * Set uploaded
      *
-     * @param date $uploaded
+     * @param  date $uploaded
      * @return self
      */
     public function setUploaded($uploaded)
     {
         $this->uploaded = $uploaded;
+
         return $this;
     }
 
@@ -250,12 +256,13 @@ class File
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return self
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -272,12 +279,13 @@ class File
     /**
      * Set event
      *
-     * @param Celsius3\CoreBundle\Document\Event\Event $event
+     * @param  Celsius3\CoreBundle\Document\Event\Event $event
      * @return self
      */
     public function setEvent(\Celsius3\CoreBundle\Document\Event\Event $event = null)
     {
         $this->event = $event;
+
         return $this;
     }
 
@@ -294,12 +302,13 @@ class File
     /**
      * Set isDownloaded
      *
-     * @param boolean $isDownloaded
+     * @param  boolean $isDownloaded
      * @return self
      */
     public function setIsDownloaded($isDownloaded)
     {
         $this->isDownloaded = $isDownloaded;
+
         return $this;
     }
 
@@ -316,12 +325,13 @@ class File
     /**
      * Set request
      *
-     * @param Celsius3\CoreBundle\Document\Request $request
+     * @param  Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Document\Request $request = null)
     {
         $this->request = $request;
+
         return $this;
     }
 
@@ -338,12 +348,13 @@ class File
     /**
      * Set pages
      *
-     * @param integer $pages
+     * @param  integer $pages
      * @return self
      */
     public function setPages($pages)
     {
         $this->pages = $pages;
+
         return $this;
     }
 

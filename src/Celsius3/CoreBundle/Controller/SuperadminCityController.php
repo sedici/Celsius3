@@ -63,8 +63,8 @@ class SuperadminCityController extends BaseController
      * @Template()
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -82,8 +82,8 @@ class SuperadminCityController extends BaseController
      * @Template("Celsius3CoreBundle:SuperadminCity:edit.html.twig")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -100,8 +100,8 @@ class SuperadminCityController extends BaseController
      * @Method("post")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -140,6 +140,7 @@ class SuperadminCityController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
+
         return $this->baseDoUnion('City', $element_ids, $main_id, 'superadmin_city');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Document\Institution;
 
 class InstitutionExtension extends \Twig_Extension
@@ -21,12 +20,12 @@ class InstitutionExtension extends \Twig_Extension
     {
         return $institution ? $institution->getFullName() : '';
     }
-    
+
     public function getCountry(Institution $institution = null)
     {
         return $institution ? $institution->getCountry() ? $institution->getCountry() : ''  : '';
     }
-    
+
     public function getCity(Institution $institution = null)
     {
         return $institution ? $institution->getCity() ? $institution->getCity() : ''  : '';

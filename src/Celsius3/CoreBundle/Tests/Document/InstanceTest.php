@@ -1,20 +1,20 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Instance;
-use Celsius\Celsius3Bundle\Document\BaseUser;
-use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\News;
-use Celsius\Celsius3Bundle\Document\Contact;
-use Celsius\Celsius3Bundle\Document\Institution;
-use Celsius\Celsius3Bundle\Document\MailTemplate;
-use Celsius\Celsius3Bundle\Document\Configuration;
-use Celsius\Celsius3Bundle\Document\Catalog;
-use Celsius\Celsius3Bundle\Document\Notification;
-use Celsius\Celsius3Bundle\Document\Creation;
-use Celsius\Celsius3Bundle\Document\State;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\News;
+use Celsius3\CoreBundle\Document\Contact;
+use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Document\MailTemplate;
+use Celsius3\CoreBundle\Document\Configuration;
+use Celsius3\CoreBundle\Document\Catalog;
+use Celsius3\CoreBundle\Document\Notification;
+use Celsius3\CoreBundle\Document\Creation;
+use Celsius3\CoreBundle\Document\State;
 
 class InstanceTest extends TestCase
 {
@@ -30,7 +30,7 @@ class InstanceTest extends TestCase
     protected $notification;
     protected $event;
     protected $state;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -48,7 +48,7 @@ class InstanceTest extends TestCase
         $this->event = new Creation();
         $this->state = new State();
     }
-    
+
     public function testToString()
     {
         $name = 'Instance Name';
@@ -57,7 +57,7 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($name, $this->instance->__toString());
     }
-    
+
     public function testGetName()
     {
         $name = 'Instance Name';
@@ -66,7 +66,7 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($name, $this->instance->getName());
     }
-    
+
     public function testGetAbbreviation()
     {
         $abbreviation = 'IN';
@@ -75,7 +75,7 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($abbreviation, $this->instance->getAbbreviation());
     }
-    
+
     public function testGetUrl()
     {
         $url = 'sampleurl';
@@ -84,7 +84,7 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($url, $this->instance->getUrl());
     }
-    
+
     public function testGetWebsite()
     {
         $website = 'http://instance.website.com';
@@ -93,7 +93,7 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($website, $this->instance->getWebsite());
     }
-    
+
     public function testGetEmail()
     {
         $email = 'instance@email.com';
@@ -102,7 +102,7 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($email, $this->instance->getEmail());
     }
-    
+
     public function testGetEnabled()
     {
         $enabled = true;
@@ -111,94 +111,94 @@ class InstanceTest extends TestCase
 
         $this->assertEquals($enabled, $this->instance->getEnabled());
     }
-    
+
     public function testGet()
     {
         $this->configuration->setKey('key');
         $this->configuration->setValue('value');
-        
+
         $this->instance->addConfigurations($this->configuration);
-        
+
         $this->assertEquals($this->configuration, $this->instance->get('key'));
     }
-    
+
     public function testGetUsers()
     {
         $this->instance->addUsers($this->user);
 
         $this->assertContains($this->user, $this->instance->getUsers());
     }
-    
+
     public function testGetOrders()
     {
         $this->instance->addOrders($this->order);
 
         $this->assertContains($this->order, $this->instance->getOrders());
     }
-    
+
     public function testGetNews()
     {
         $this->instance->addNews($this->news);
 
         $this->assertContains($this->news, $this->instance->getNews());
     }
-    
+
     public function testGetContacts()
     {
         $this->instance->addContacts($this->contact);
 
         $this->assertContains($this->contact, $this->instance->getContacts());
     }
-    
+
     public function testGetInstitutions()
     {
         $this->instance->addInstitutions($this->institution);
 
         $this->assertContains($this->institution, $this->instance->getInstitutions());
     }
-    
+
     public function testGetTemplates()
     {
         $this->instance->addTemplates($this->template);
 
         $this->assertContains($this->template, $this->instance->getTemplates());
     }
-    
+
     public function testGetConfigurations()
     {
         $this->instance->addConfigurations($this->configuration);
 
         $this->assertContains($this->configuration, $this->instance->getConfigurations());
     }
-    
+
     public function testGetCatalogs()
     {
         $this->instance->addCatalogs($this->catalog);
 
         $this->assertContains($this->catalog, $this->instance->getCatalogs());
     }
-    
+
     public function testGetNotifications()
     {
         $this->instance->addNotifications($this->notification);
 
         $this->assertContains($this->notification, $this->instance->getNotifications());
     }
-    
+
     public function testGetEvents()
     {
         $this->instance->addEvents($this->event);
 
         $this->assertContains($this->event, $this->instance->getEvents());
     }
-    
+
     public function testGetStates()
     {
         $this->instance->addStates($this->state);
 
         $this->assertContains($this->state, $this->instance->getStates());
     }
-    
+
     public function testGenerateInstance()
     {
         $name = 'Instance Name';
@@ -206,13 +206,13 @@ class InstanceTest extends TestCase
         $url = 'sampleurl';
         $website = 'http://instance.website.com';
         $email = 'instance@email.com';
-        
+
         $this->instance->setName($name);
         $this->instance->setAbbreviation($abbreviation);
         $this->instance->setUrl($url);
         $this->instance->setWebsite($website);
         $this->instance->setEmail($email);
-        
+
         $this->assertNull($this->instance->getId());
 
         $this->documentManager->persist($this->instance);
@@ -220,7 +220,7 @@ class InstanceTest extends TestCase
 
         $this->assertNotNull($this->instance->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();

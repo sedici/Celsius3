@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<serializer>  
-    <class name="Celsius3\CoreBundle\Document\Event\Event" discriminator-field-name="type" exclusion-policy="all">  
+<serializer>
+    <class name="Celsius3\CoreBundle\Document\Event\Event" discriminator-field-name="type" exclusion-policy="all">
         <discriminator-class value="creation">Celsius3\CoreBundle\Document\Event\CreationEvent</discriminator-class>
         <discriminator-class value="search">Celsius3\CoreBundle\Document\Event\SearchEvent</discriminator-class>
         <discriminator-class value="sirequest">Celsius3\CoreBundle\Document\Event\SingleInstanceRequestEvent</discriminator-class>
@@ -20,10 +20,10 @@
         <discriminator-class value="take">Celsius3\CoreBundle\Document\Event\TakeEvent</discriminator-class>
         <discriminator-class value="upload">Celsius3\CoreBundle\Document\Event\UploadEvent</discriminator-class>
         <discriminator-class value="reupload">Celsius3\CoreBundle\Document\Event\ReuploadEvent</discriminator-class>
-        <property name="id" type="string" expose="true" read-only="true"></property>  
+        <property name="id" type="string" expose="true" read-only="true"></property>
         <property name="date" type="DateTime" expose="true" access-type="public_method"></property>
         <property name="observations" type="string" expose="true" access-type="public_method"></property>
         <property name="operator" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
         <property name="request" type="Celsius3\CoreBundle\Document\Request" expose="true" access-type="public_method"></property>
-    </class>  
-</serializer>  
+    </class>
+</serializer>

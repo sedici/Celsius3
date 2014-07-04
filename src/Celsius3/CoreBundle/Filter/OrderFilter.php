@@ -17,6 +17,7 @@ class OrderFilter implements DocumentFilterInterface
     public function applyCustomFilter($field_name, $data, $query, $instance)
     {
         $function = $this->specialFields[$field_name];
+
         return $this->dm->getRepository('Celsius3CoreBundle:Order')
                 ->$function($data, $query, $instance);
     }

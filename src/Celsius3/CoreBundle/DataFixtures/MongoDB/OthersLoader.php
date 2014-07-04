@@ -10,9 +10,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Document;
-use Celsius3\CoreBundle\Manager\MaterialTypeManager;
-use Celsius3\CoreBundle\Manager\OrderManager;
-use Celsius3\CoreBundle\Manager\UserManager;
 
 /**
  * Description of FixtureLoader
@@ -31,7 +28,7 @@ class OthersLoader extends AbstractFixture implements FixtureInterface, Containe
     {
         $generator = Factory::create('en');
         $generator->seed(1113);
-        
+
         /*
          * Carga de contactos
          */
@@ -39,7 +36,7 @@ class OthersLoader extends AbstractFixture implements FixtureInterface, Containe
                 ->findAll();
         $institutions = $manager->getRepository('Celsius3CoreBundle:Institution')
                 ->findAll();
-        
+
         foreach ($institutions as $institution) {
             foreach ($contact_types as $contact_type) {
                 $contact = new Document\Contact();

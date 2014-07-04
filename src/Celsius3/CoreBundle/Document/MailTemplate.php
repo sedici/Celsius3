@@ -31,12 +31,13 @@ class MailTemplate extends Template
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return self
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -53,12 +54,13 @@ class MailTemplate extends Template
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return self
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -75,13 +77,14 @@ class MailTemplate extends Template
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(
             \Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

@@ -18,12 +18,13 @@ trait ApprovableTrait
     /**
      * Set isApproved
      *
-     * @param boolean $isApproved
+     * @param  boolean $isApproved
      * @return self
      */
     public function setIsApproved($isApproved)
     {
         $this->isApproved = $isApproved;
+
         return $this;
     }
 

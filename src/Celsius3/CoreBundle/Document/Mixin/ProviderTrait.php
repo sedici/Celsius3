@@ -17,12 +17,13 @@ trait ProviderTrait
     /**
      * Set provider
      *
-     * @param Celsius3\CoreBundle\Document\Provider $provider
+     * @param  Celsius3\CoreBundle\Document\Provider $provider
      * @return \SingleInstanceRequest
      */
     public function setProvider(\Celsius3\CoreBundle\Document\Provider $provider)
     {
         $this->provider = $provider;
+
         return $this;
     }
 

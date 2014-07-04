@@ -44,12 +44,13 @@ class CustomUserValue
     /**
      * Set value
      *
-     * @param string $value
+     * @param  string $value
      * @return self
      */
     public function setValue($value)
     {
         $this->value = $value;
+
         return $this;
     }
 
@@ -66,12 +67,13 @@ class CustomUserValue
     /**
      * Set field
      *
-     * @param Celsius3\CoreBundle\Document\CustomUserField $field
+     * @param  Celsius3\CoreBundle\Document\CustomUserField $field
      * @return self
      */
     public function setField(\Celsius3\CoreBundle\Document\CustomUserField $field)
     {
         $this->field = $field;
+
         return $this;
     }
 
@@ -88,12 +90,13 @@ class CustomUserValue
     /**
      * Set user
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $user
+     * @param  Celsius3\CoreBundle\Document\BaseUser $user
      * @return self
      */
     public function setUser(\Celsius3\CoreBundle\Document\BaseUser $user)
     {
         $this->user = $user;
+
         return $this;
     }
 

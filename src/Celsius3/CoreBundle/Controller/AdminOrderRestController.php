@@ -4,8 +4,6 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.

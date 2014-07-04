@@ -7,7 +7,6 @@ abstract class BaseInstanceDependentController extends BaseController
 
     protected function listQuery($name)
     {
-
         return parent::listQuery($name)
                         ->field('instance.id')->equals($this->getInstance()->getId());
     }
@@ -42,7 +41,6 @@ abstract class BaseInstanceDependentController extends BaseController
      */
     protected function getInstance()
     {
-
         return $this->get('celsius3_core.instance_helper')->getSessionInstance();
     }
 

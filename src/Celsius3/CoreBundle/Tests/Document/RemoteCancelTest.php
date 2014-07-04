@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\RemoteCancel;
+use Celsius3\CoreBundle\Document\RemoteCancel;
 
 class RemoteCancelTest extends MultiInstanceTest
 {
@@ -13,7 +13,7 @@ class RemoteCancelTest extends MultiInstanceTest
 
         $this->event = new RemoteCancel();
     }
-    
+
     public function testGenerateRemoteCancel()
     {
         $date = date('Y-m-d H:i:s');

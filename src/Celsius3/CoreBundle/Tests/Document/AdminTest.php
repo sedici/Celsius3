@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\Admin;
+use Celsius3\CoreBundle\Document\Admin;
 
 class AdminTest extends UserTest
 {

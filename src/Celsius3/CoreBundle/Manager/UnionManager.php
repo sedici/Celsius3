@@ -81,7 +81,7 @@ class UnionManager
                 }
             }
         }
-        
+
         $this->dm->getRepository('Celsius3CoreBundle:' . $name)
             ->createQueryBuilder()
             ->remove()
@@ -89,7 +89,7 @@ class UnionManager
             ->in(array_keys($elements->toArray()))
             ->getQuery()
             ->execute();
-        
+
         if ($updateInstance) {
             $main->setInstance($this->instance_manager->getDirectory());
             $this->dm->persist($main);

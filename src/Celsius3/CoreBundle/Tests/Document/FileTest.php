@@ -1,10 +1,10 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\File;
-use Celsius\Celsius3Bundle\Document\Order;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\File;
+use Celsius3\CoreBundle\Document\Order;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileTest extends TestCase

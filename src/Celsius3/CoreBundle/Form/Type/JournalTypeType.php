@@ -11,7 +11,7 @@ class JournalTypeType extends MaterialTypeType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        
+
         $builder
                 ->add('volume')
                 ->add('number')

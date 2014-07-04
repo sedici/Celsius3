@@ -1,17 +1,17 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Message;
-use Celsius\Celsius3Bundle\Document\BaseUser;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Message;
+use Celsius3\CoreBundle\Document\BaseUser;
 
 class MessageTest extends TestCase
 {
     protected $message;
     protected $sender;
     protected $receiver;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -20,7 +20,7 @@ class MessageTest extends TestCase
         $this->sender = new BaseUser();
         $this->receiver = new BaseUser();
     }
-    
+
     public function testGetSubject()
     {
         $subject = 'Some subject';
@@ -29,7 +29,7 @@ class MessageTest extends TestCase
 
         $this->assertEquals($subject, $this->message->getSubject());
     }
-    
+
     public function testGetText()
     {
         $text = 'Some text.';
@@ -38,7 +38,7 @@ class MessageTest extends TestCase
 
         $this->assertEquals($text, $this->message->getText());
     }
-    
+
     public function testGetDate()
     {
         $date = date('y-m-d H:i:s');
@@ -47,7 +47,7 @@ class MessageTest extends TestCase
 
         $this->assertEquals($date, $this->message->getDate());
     }
-    
+
     public function testGetViewed()
     {
         $viewed = false;
@@ -56,21 +56,21 @@ class MessageTest extends TestCase
 
         $this->assertEquals($viewed, $this->message->getViewed());
     }
-    
+
     public function testGetSender()
     {
         $this->message->setSender($this->sender);
 
         $this->assertEquals($this->sender, $this->message->getSender());
     }
-    
+
     public function testGetReceiver()
     {
         $this->message->setReceiver($this->receiver);
 
         $this->assertEquals($this->receiver, $this->message->getReceiver());
     }
-    
+
     public function testGenerateContactType()
     {
         $subject = 'Some subject';
@@ -82,7 +82,7 @@ class MessageTest extends TestCase
         $this->message->setText($text);
         $this->message->setDate($date);
         $this->message->setViewed($viewed);
-        
+
         $this->assertNull($this->message->getId());
 
         $this->documentManager->persist($this->message);
@@ -90,7 +90,7 @@ class MessageTest extends TestCase
 
         $this->assertNotNull($this->message->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();

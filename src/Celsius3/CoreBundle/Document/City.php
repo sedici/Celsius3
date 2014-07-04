@@ -66,12 +66,13 @@ class City
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -88,12 +89,13 @@ class City
     /**
      * Set postalCode
      *
-     * @param string $postalCode
+     * @param  string $postalCode
      * @return self
      */
     public function setPostalCode($postalCode)
     {
         $this->postalCode = $postalCode;
+
         return $this;
     }
 
@@ -140,12 +142,13 @@ class City
     /**
      * Set country
      *
-     * @param Celsius3\CoreBundle\Document\Country $country
+     * @param  Celsius3\CoreBundle\Document\Country $country
      * @return self
      */
     public function setCountry(\Celsius3\CoreBundle\Document\Country $country)
     {
         $this->country = $country;
+
         return $this;
     }
 
@@ -162,12 +165,13 @@ class City
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

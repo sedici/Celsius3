@@ -26,6 +26,7 @@ class UserManager
         foreach ($institution->getInstitutions() as $child) {
             $results = array_merge($results, $this->iterateInstitutions($child));
         }
+
         return $results;
     }
 

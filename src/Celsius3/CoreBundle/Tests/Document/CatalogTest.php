@@ -1,18 +1,18 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Catalog;
-use Celsius\Celsius3Bundle\Document\Institution;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Catalog;
+use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Document\Instance;
 
 class CatalogTest extends TestCase
 {
     protected $catalog;
     protected $institution;
     protected $instance;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -21,7 +21,7 @@ class CatalogTest extends TestCase
         $this->institution = new Institution();
         $this->instance = new Instance();
     }
-    
+
     public function testGetName()
     {
         $name = 'Catalog Name';
@@ -30,7 +30,7 @@ class CatalogTest extends TestCase
 
         $this->assertEquals($name, $this->catalog->getName());
     }
-    
+
     public function testGetUrl()
     {
         $url = 'http://catalog.test.com';
@@ -39,7 +39,7 @@ class CatalogTest extends TestCase
 
         $this->assertEquals($url, $this->catalog->getUrl());
     }
-    
+
     public function testGetComments()
     {
         $comments = 'Some comments';
@@ -48,21 +48,21 @@ class CatalogTest extends TestCase
 
         $this->assertEquals($comments, $this->catalog->getComments());
     }
-    
+
     public function testGetInstitution()
     {
         $this->catalog->setInstitution($this->institution);
 
         $this->assertEquals($this->institution, $this->catalog->getInstitution());
     }
-    
+
     public function testGetInstance()
     {
         $this->catalog->setInstance($this->instance);
 
         $this->assertEquals($this->instance, $this->catalog->getInstance());
     }
-    
+
     public function testGenerateCatalog()
     {
         $name = 'Catalog Name';
@@ -72,7 +72,7 @@ class CatalogTest extends TestCase
         $this->catalog->setName($name);
         $this->catalog->setUrl($url);
         $this->catalog->setComments($comments);
-        
+
         $this->assertNull($this->catalog->getId());
 
         $this->documentManager->persist($this->catalog);
@@ -80,7 +80,7 @@ class CatalogTest extends TestCase
 
         $this->assertNotNull($this->catalog->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();
@@ -89,5 +89,5 @@ class CatalogTest extends TestCase
         unset($this->institution);
         unset($this->instance);
     }
-    
+
 }

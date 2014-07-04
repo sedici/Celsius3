@@ -1,10 +1,10 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\MailTemplate;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\MailTemplate;
+use Celsius3\CoreBundle\Document\Instance;
 
 class MailTemplateTest extends TestCase
 {
@@ -19,7 +19,7 @@ class MailTemplateTest extends TestCase
         $this->mailTemplate = new MailTemplate();
         $this->instance = new Instance();
     }
-    
+
     public function testGetTitle()
     {
         $title = 'Sample title';
@@ -28,7 +28,7 @@ class MailTemplateTest extends TestCase
 
         $this->assertEquals($title, $this->mailTemplate->getTitle());
     }
-    
+
     public function testGetText()
     {
         $text = 'Sample text';
@@ -37,14 +37,14 @@ class MailTemplateTest extends TestCase
 
         $this->assertEquals($text, $this->mailTemplate->getText());
     }
-    
+
     public function testGetInstance()
     {
         $this->mailTemplate->setInstance($this->instance);
 
         $this->assertEquals($this->instance, $this->mailTemplate->getInstance());
     }
-    
+
     public function testGenerateMailTemplate()
     {
         $title = 'Sample title';

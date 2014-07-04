@@ -1,16 +1,16 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Configuration;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Configuration;
+use Celsius3\CoreBundle\Document\Instance;
 
 class ConfigurationTest extends TestCase
 {
     protected $configuration;
     protected $instance;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -18,7 +18,7 @@ class ConfigurationTest extends TestCase
         $this->configuration = new Configuration();
         $this->instance = new Instance();
     }
-    
+
     public function testGetKey()
     {
         $key = 'testkey';
@@ -36,7 +36,7 @@ class ConfigurationTest extends TestCase
 
         $this->assertEquals($value, $this->configuration->getValue());
     }
-    
+
     public function testGetName()
     {
         $name = 'Test Name';
@@ -45,7 +45,7 @@ class ConfigurationTest extends TestCase
 
         $this->assertEquals($name, $this->configuration->getName());
     }
-    
+
     public function testGetType()
     {
         $type = 'boolean';
@@ -54,14 +54,14 @@ class ConfigurationTest extends TestCase
 
         $this->assertEquals($type, $this->configuration->getType());
     }
-    
+
     public function testGetInstance()
     {
         $this->configuration->setInstance($this->instance);
 
         $this->assertEquals($this->instance, $this->configuration->getInstance());
     }
-    
+
     public function testGenerateConfiguration()
     {
         $key = 'testkey';
@@ -79,7 +79,7 @@ class ConfigurationTest extends TestCase
 
         $this->assertNotNull($this->configuration->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();

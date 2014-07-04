@@ -109,6 +109,7 @@ class UserOrderController extends OrderController
         } else {
             $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
         }
+
         return $this->baseCreate('Order', new Order(), $type, 'user_order');
     }
 

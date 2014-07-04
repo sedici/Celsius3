@@ -1,6 +1,6 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
 class SingleInstanceTest extends EventTest
 {

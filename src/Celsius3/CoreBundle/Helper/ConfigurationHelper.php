@@ -57,6 +57,7 @@ class ConfigurationHelper
         $new->setKey($original->getKey());
         $new->setValue($original->getValue());
         $new->setType($original->getType());
+
         return $new;
     }
 

@@ -61,12 +61,13 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     /**
      * Set deliveryType
      *
-     * @param string $deliveryType
+     * @param  string $deliveryType
      * @return self
      */
     public function setDeliveryType($deliveryType)
     {
         $this->deliveryType = $deliveryType;
+
         return $this;
     }
 
@@ -113,12 +114,13 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     /**
      * Set remoteState
      *
-     * @param Celsius3\CoreBundle\Document\State $remoteState
+     * @param  Celsius3\CoreBundle\Document\State $remoteState
      * @return self
      */
     public function setRemoteState(\Celsius3\CoreBundle\Document\State $remoteState)
     {
         $this->remoteState = $remoteState;
+
         return $this;
     }
 
@@ -135,12 +137,13 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     /**
      * Set requestEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event\Event $requestEvent
+     * @param  Celsius3\CoreBundle\Document\Event\Event $requestEvent
      * @return self
      */
     public function setRequestEvent(\Celsius3\CoreBundle\Document\Event\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
+
         return $this;
     }
 

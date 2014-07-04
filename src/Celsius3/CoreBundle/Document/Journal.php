@@ -79,12 +79,13 @@ class Journal
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -101,12 +102,13 @@ class Journal
     /**
      * Set abbreviation
      *
-     * @param string $abbreviation
+     * @param  string $abbreviation
      * @return self
      */
     public function setAbbreviation($abbreviation)
     {
         $this->abbreviation = $abbreviation;
+
         return $this;
     }
 
@@ -123,12 +125,13 @@ class Journal
     /**
      * Set responsible
      *
-     * @param string $responsible
+     * @param  string $responsible
      * @return self
      */
     public function setResponsible($responsible)
     {
         $this->responsible = $responsible;
+
         return $this;
     }
 
@@ -145,12 +148,13 @@ class Journal
     /**
      * Set ISSN
      *
-     * @param string $iSSN
+     * @param  string $iSSN
      * @return self
      */
     public function setISSN($iSSN)
     {
         $this->ISSN = $iSSN;
+
         return $this;
     }
 
@@ -167,12 +171,13 @@ class Journal
     /**
      * Set ISSNE
      *
-     * @param string $iSSNE
+     * @param  string $iSSNE
      * @return self
      */
     public function setISSNE($iSSNE)
     {
         $this->ISSNE = $iSSNE;
+
         return $this;
     }
 
@@ -189,12 +194,13 @@ class Journal
     /**
      * Set frecuency
      *
-     * @param string $frecuency
+     * @param  string $frecuency
      * @return self
      */
     public function setFrecuency($frecuency)
     {
         $this->frecuency = $frecuency;
+
         return $this;
     }
 
@@ -241,12 +247,13 @@ class Journal
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

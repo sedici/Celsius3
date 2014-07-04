@@ -92,12 +92,13 @@ class State
     /**
      * Set date
      *
-     * @param date $date
+     * @param  date $date
      * @return self
      */
     public function setDate($date)
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -114,12 +115,13 @@ class State
     /**
      * Set isCurrent
      *
-     * @param boolean $isCurrent
+     * @param  boolean $isCurrent
      * @return self
      */
     public function setIsCurrent($isCurrent)
     {
         $this->isCurrent = $isCurrent;
+
         return $this;
     }
 
@@ -136,12 +138,13 @@ class State
     /**
      * Set type
      *
-     * @param Celsius3\CoreBundle\Document\StateType $type
+     * @param  Celsius3\CoreBundle\Document\StateType $type
      * @return self
      */
     public function setType(\Celsius3\CoreBundle\Document\StateType $type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -164,6 +167,7 @@ class State
     public function setRemoteEvent($remoteEvent)
     {
         $this->remoteEvent = $remoteEvent;
+
         return $this;
     }
 
@@ -180,12 +184,13 @@ class State
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -262,12 +267,13 @@ class State
     /**
      * Set previous
      *
-     * @param Celsius3\CoreBundle\Document\State $previous
+     * @param  Celsius3\CoreBundle\Document\State $previous
      * @return self
      */
     public function setPrevious(\Celsius3\CoreBundle\Document\State $previous = null)
     {
         $this->previous = $previous;
+
         return $this;
     }
 
@@ -284,12 +290,13 @@ class State
     /**
      * Set request
      *
-     * @param Celsius3\CoreBundle\Document\Request $request
+     * @param  Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
     {
         $this->request = $request;
+
         return $this;
     }
 

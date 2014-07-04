@@ -25,7 +25,7 @@ class SearchEvent extends SingleInstanceEvent
      * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Catalog")
      */
     private $catalog;
-    
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setResult($data['extraData']['result']);
@@ -35,12 +35,13 @@ class SearchEvent extends SingleInstanceEvent
     /**
      * Set result
      *
-     * @param string $result
+     * @param  string $result
      * @return self
      */
     public function setResult($result)
     {
         $this->result = $result;
+
         return $this;
     }
 
@@ -57,12 +58,13 @@ class SearchEvent extends SingleInstanceEvent
     /**
      * Set catalog
      *
-     * @param Celsius3\CoreBundle\Document\Catalog $catalog
+     * @param  Celsius3\CoreBundle\Document\Catalog $catalog
      * @return self
      */
     public function setCatalog(\Celsius3\CoreBundle\Document\Catalog $catalog)
     {
         $this->catalog = $catalog;
+
         return $this;
     }
 

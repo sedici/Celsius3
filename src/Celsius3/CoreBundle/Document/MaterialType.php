@@ -67,12 +67,13 @@ abstract class MaterialType
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return self
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -89,12 +90,13 @@ abstract class MaterialType
     /**
      * Set authors
      *
-     * @param string $authors
+     * @param  string $authors
      * @return self
      */
     public function setAuthors($authors)
     {
         $this->authors = $authors;
+
         return $this;
     }
 
@@ -111,12 +113,13 @@ abstract class MaterialType
     /**
      * Set year
      *
-     * @param int $year
+     * @param  int  $year
      * @return self
      */
     public function setYear($year)
     {
         $this->year = $year;
+
         return $this;
     }
 
@@ -133,12 +136,13 @@ abstract class MaterialType
     /**
      * Set startPage
      *
-     * @param int $startPage
+     * @param  int  $startPage
      * @return self
      */
     public function setStartPage($startPage)
     {
         $this->startPage = $startPage;
+
         return $this;
     }
 
@@ -155,12 +159,13 @@ abstract class MaterialType
     /**
      * Set endPage
      *
-     * @param int $endPage
+     * @param  int  $endPage
      * @return self
      */
     public function setEndPage($endPage)
     {
         $this->endPage = $endPage;
+
         return $this;
     }
 

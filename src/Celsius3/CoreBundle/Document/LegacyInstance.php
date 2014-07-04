@@ -54,7 +54,7 @@ class LegacyInstance
      * @MongoDB\Boolean
      */
     protected $enabled = true;
-    
+
     /**
      * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
      */
@@ -89,12 +89,13 @@ class LegacyInstance
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -111,12 +112,13 @@ class LegacyInstance
     /**
      * Set abbreviation
      *
-     * @param string $abbreviation
+     * @param  string $abbreviation
      * @return self
      */
     public function setAbbreviation($abbreviation)
     {
         $this->abbreviation = $abbreviation;
+
         return $this;
     }
 
@@ -133,12 +135,13 @@ class LegacyInstance
     /**
      * Set website
      *
-     * @param string $website
+     * @param  string $website
      * @return self
      */
     public function setWebsite($website)
     {
         $this->website = $website;
+
         return $this;
     }
 
@@ -155,12 +158,13 @@ class LegacyInstance
     /**
      * Set email
      *
-     * @param string $email
+     * @param  string $email
      * @return self
      */
     public function setEmail($email)
     {
         $this->email = $email;
+
         return $this;
     }
 
@@ -177,12 +181,13 @@ class LegacyInstance
     /**
      * Set enabled
      *
-     * @param boolean $enabled
+     * @param  boolean $enabled
      * @return self
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -199,12 +204,13 @@ class LegacyInstance
     /**
      * Set hive
      *
-     * @param Celsius3\CoreBundle\Document\Hive $hive
+     * @param  Celsius3\CoreBundle\Document\Hive $hive
      * @return self
      */
     public function setHive(\Celsius3\CoreBundle\Document\Hive $hive)
     {
         $this->hive = $hive;
+
         return $this;
     }
 

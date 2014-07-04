@@ -30,20 +30,15 @@ $options = array(
 
 $readOnly = false;
 
-if (!class_exists('Mongo'))
-{
+if (!class_exists('Mongo')) {
   die("Mongo support required. Install mongo pecl extension with 'pecl install mongo; echo \"extension=mongo.so\" >> php.ini'");
 }
-try
-{
+try {
   $mongo = new Mongo(getServer($server), $options);
-}
-catch (MongoConnectionException $ex)
-{
+} catch (MongoConnectionException $ex) {
   error_log($ex->getMessage());
   die("Failed to connect to MongoDB");
 }
-
 
 /**
  * Get the current MongoDB server.
@@ -72,6 +67,7 @@ function renderDocumentPreview($mongo, $document)
   $document = prepareMongoDBDocumentForEdit($document);
   $preview = linkDocumentReferences($mongo, $document);
   $preview = print_r($preview, true);
+
   return $preview;
 }
 
@@ -113,6 +109,7 @@ function linkDocumentReferences($mongo, $document)
       }
     }
   }
+
   return $document;
 }
 
@@ -157,6 +154,7 @@ function prepareValueForMongoDB($value)
       $prepared[$k] = $v;
     }
   }
+
   return $prepared;
 }
 
@@ -182,6 +180,7 @@ function prepareMongoDBDocumentForEdit($value)
       $prepared[$key] = $value;
     }
   }
+
   return $prepared;
 }
 

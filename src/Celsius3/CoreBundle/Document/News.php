@@ -58,12 +58,13 @@ class News
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return self
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -80,12 +81,13 @@ class News
     /**
      * Set text
      *
-     * @param string $text
+     * @param  string $text
      * @return self
      */
     public function setText($text)
     {
         $this->text = $text;
+
         return $this;
     }
 
@@ -102,12 +104,13 @@ class News
     /**
      * Set date
      *
-     * @param date $date
+     * @param  date $date
      * @return self
      */
     public function setDate($date)
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -124,12 +127,13 @@ class News
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

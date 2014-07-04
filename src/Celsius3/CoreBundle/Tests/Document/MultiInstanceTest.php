@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Document\Instance;
 
 class MultiInstanceTest extends EventTest
 {

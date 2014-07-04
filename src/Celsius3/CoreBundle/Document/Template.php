@@ -47,12 +47,13 @@ class Template
     /**
      * Set code
      *
-     * @param string $code
+     * @param  string $code
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -69,12 +70,13 @@ class Template
     /**
      * Set text
      *
-     * @param string $text
+     * @param  string $text
      * @return self
      */
     public function setText($text)
     {
         $this->text = $text;
+
         return $this;
     }
 

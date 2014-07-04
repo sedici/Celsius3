@@ -49,6 +49,7 @@ class CatalogExtension extends \Twig_Extension
         $result = $searches->filter(function ($entry) use ($catalog) {
                             return $entry->getCatalog()->getId() == $catalog->getId();
                         })->first();
+
         return false !== $result ? $result : null;
     }
 

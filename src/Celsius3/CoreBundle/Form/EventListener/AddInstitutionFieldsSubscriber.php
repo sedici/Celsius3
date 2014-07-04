@@ -142,7 +142,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
                         if ($city instanceof City) {
                             $qb = $qb->field('city.id')->equals($city->getId());
-                        } else if ($country instanceof Country) {
+                        } elseif ($country instanceof Country) {
                             $qb = $qb->field('country.id')->equals($country->getId())
                                             ->field('city.id')->equals(null);
                         } else {

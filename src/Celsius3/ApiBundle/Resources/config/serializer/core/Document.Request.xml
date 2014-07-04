@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<serializer>  
-    <class name="Celsius3\CoreBundle\Document\Request" exclusion-policy="all">  
-        <property name="id" type="string" expose="true" read-only="true"></property>  
+<serializer>
+    <class name="Celsius3\CoreBundle\Document\Request" exclusion-policy="all">
+        <property name="id" type="string" expose="true" read-only="true"></property>
         <property name="type" type="string" expose="true" access-type="public_method"></property>
         <property name="comments" type="string" expose="true" access-type="public_method"></property>
         <property name="owner" type="Celsius3\CoreBundle\Document\BaseUser" expose="true" access-type="public_method"></property>
@@ -10,5 +10,5 @@
         <property name="instance" type="Celsius3\CoreBundle\Document\Instance" expose="true" access-type="public_method"></property>
         <property name="states" type="array" expose="true" access-type="public_method" read-only="true"></property>
         <virtual-property name="currentState" type="string" expose="true" method="getCurrentState"></virtual-property>
-    </class>  
-</serializer>  
+    </class>
+</serializer>

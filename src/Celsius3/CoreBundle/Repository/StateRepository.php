@@ -17,13 +17,14 @@ class StateRepository extends DocumentRepository
 
         $qb = $this->createQueryBuilder()
                 ->field('isCurrent')->equals(true)
-                ->map('function() { emit(this.type.$id, 1); }')
+                ->map('function () { emit(this.type.$id, 1); }')
                 ->reduce(
-                'function(k, vals) {
+                'function (k, vals) {
                     var sum = 0;
                     for (var i in vals) {
                         sum += vals[i];
                     }
+
                     return sum;
                 }');
 
@@ -54,12 +55,13 @@ class StateRepository extends DocumentRepository
         return $this->createQueryBuilder()
                         ->field('type.id')->equals($state ? $state->getId() : null)
                         ->field('isCurrent')->equals(true)
-                        ->map('function() { emit(this.instance.$id, 1); }')
-                        ->reduce('function(k, vals) {
+                        ->map('function () { emit(this.instance.$id, 1); }')
+                        ->reduce('function (k, vals) {
                             var sum = 0;
                             for (var i in vals) {
                                 sum += vals[i];
                             }
+
                             return sum;
                         }')
                         ->getQuery()
@@ -75,12 +77,13 @@ class StateRepository extends DocumentRepository
         return $this->createQueryBuilder()
                         ->field('type.id')->equals($state ? $state->getId() : null)
                         ->field('isCurrent')->equals(true)
-                        ->map('function() { emit(this.instance.$id, 1); }')
-                        ->reduce('function(k, vals) {
+                        ->map('function () { emit(this.instance.$id, 1); }')
+                        ->reduce('function (k, vals) {
                             var sum = 0;
                             for (var i in vals) {
                                 sum += vals[i];
                             }
+
                             return sum;
                         }')
                         ->getQuery()

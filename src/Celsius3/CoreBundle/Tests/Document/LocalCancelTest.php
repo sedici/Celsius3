@@ -1,9 +1,9 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\LocalCancel;
-use Celsius\Celsius3Bundle\Document\State;
+use Celsius3\CoreBundle\Document\LocalCancel;
+use Celsius3\CoreBundle\Document\State;
 
 class LocalCancelTest extends MultiInstanceTest
 {
@@ -17,14 +17,14 @@ class LocalCancelTest extends MultiInstanceTest
         $this->event = new LocalCancel();
         $this->remoteState = new State();
     }
-    
+
     public function testGetRemoteInstance()
     {
         $this->event->setRemoteState($this->remoteState);
 
         $this->assertEquals($this->remoteState, $this->event->getRemoteState());
     }
-    
+
     public function testGenerateLocalCancel()
     {
         $date = date('Y-m-d H:i:s');

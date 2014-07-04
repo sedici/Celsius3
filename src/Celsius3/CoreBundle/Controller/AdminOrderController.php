@@ -229,7 +229,7 @@ class AdminOrderController extends OrderController
      * @Route("/{id}/event/{event}", name="admin_order_event", options={"expose"=true})
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id    The document ID
      * @param string $event The event name
      *
      * @return array

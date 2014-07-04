@@ -46,12 +46,13 @@ class Association
     /**
      * Set original_id
      *
-     * @param string $originalId
+     * @param  string       $originalId
      * @return \Association
      */
     public function setOriginalId($originalId)
     {
         $this->original_id = $originalId;
+
         return $this;
     }
 
@@ -68,12 +69,13 @@ class Association
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string       $name
      * @return \Association
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -90,12 +92,13 @@ class Association
     /**
      * Set table
      *
-     * @param string $table
+     * @param  string       $table
      * @return \Association
      */
     public function setTable($table)
     {
         $this->table = $table;
+
         return $this;
     }
 
@@ -118,6 +121,7 @@ class Association
     public function setDocument($document)
     {
         $this->document = $document;
+
         return $this;
     }
 

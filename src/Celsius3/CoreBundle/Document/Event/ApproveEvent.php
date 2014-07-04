@@ -29,12 +29,13 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Set receiveEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event\Event $receiveEvent
+     * @param  Celsius3\CoreBundle\Document\Event\Event $receiveEvent
      * @return self
      */
     public function setReceiveEvent(\Celsius3\CoreBundle\Document\Event\Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
+
         return $this;
     }
 

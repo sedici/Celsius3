@@ -80,7 +80,7 @@
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
         </service>
-        
+
         <service id="celsius3_core.twig.extension.institution" class="%celsius3_core.twig.extension.institution.class%">
             <tag name="twig.extension" />
         </service>
@@ -112,7 +112,7 @@
             <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
         </service>
-        
+
         <service id="celsius3_core.catalog_listener" class="%celsius3_core.catalog_listener.class%">
             <argument type="service" id="service_container"></argument>
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
@@ -128,7 +128,7 @@
             <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
         </service>
-        
+
         <service id="celsius3_core.search_event_listener" class="%celsius3_core.search_event_listener.class%">
             <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
             <tag name="doctrine_mongodb.odm.event_listener" event="preUpdate" />
@@ -232,7 +232,7 @@
         <service id="celsius3_core.instance_helper" class="%celsius3_core.instance_helper.class%">
             <argument type="service" id="service_container"></argument>
         </service>
-        
+
         <service id="celsius3_core.database_helper" class="%celsius3_core.database_helper.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
@@ -274,15 +274,15 @@
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
             <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
-        
+
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
-        
+
         <service id="celsius3_core.instance_manager" class="%celsius3_core.instance_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>
-        
+
         <service id="celsius3_core.mail_manager" class="%celsius3_core.mail_manager.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
         </service>

@@ -54,12 +54,13 @@ class CatalogResult
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string $title
      * @return self
      */
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -76,12 +77,13 @@ class CatalogResult
     /**
      * Set searches
      *
-     * @param int $searches
+     * @param  int  $searches
      * @return self
      */
     public function setSearches($searches)
     {
         $this->searches = $searches;
+
         return $this;
     }
 
@@ -98,12 +100,13 @@ class CatalogResult
     /**
      * Set matches
      *
-     * @param int $matches
+     * @param  int  $matches
      * @return self
      */
     public function setMatches($matches)
     {
         $this->matches = $matches;
+
         return $this;
     }
 
@@ -120,12 +123,13 @@ class CatalogResult
     /**
      * Set catalog
      *
-     * @param Celsius3\CoreBundle\Document\Catalog $catalog
+     * @param  Celsius3\CoreBundle\Document\Catalog $catalog
      * @return self
      */
     public function setCatalog(\Celsius3\CoreBundle\Document\Catalog $catalog)
     {
         $this->catalog = $catalog;
+
         return $this;
     }
 

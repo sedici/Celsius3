@@ -1,10 +1,10 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\News;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\News;
+use Celsius3\CoreBundle\Document\Instance;
 
 class NewsTest extends TestCase
 {
@@ -19,7 +19,7 @@ class NewsTest extends TestCase
         $this->news = new News();
         $this->instance = new Instance();
     }
-    
+
     public function testGetTitle()
     {
         $title = 'Some Title';
@@ -28,7 +28,7 @@ class NewsTest extends TestCase
 
         $this->assertEquals($title, $this->news->getTitle());
     }
-    
+
     public function testGetText()
     {
         $text = 'Some Text';
@@ -37,7 +37,7 @@ class NewsTest extends TestCase
 
         $this->assertEquals($text, $this->news->getText());
     }
-    
+
     public function testGetDate()
     {
         $date = date('Y-m-d H:i:s');
@@ -46,14 +46,14 @@ class NewsTest extends TestCase
 
         $this->assertEquals($date, $this->news->getDate());
     }
-    
+
     public function testGetInstance()
     {
         $this->news->setInstance($this->instance);
 
         $this->assertEquals($this->instance, $this->news->getInstance());
     }
-    
+
     public function testGenerateNews()
     {
         $title = 'Some Title';
@@ -63,7 +63,7 @@ class NewsTest extends TestCase
         $this->news->setTitle($title);
         $this->news->setText($text);
         $this->news->setDate($date);
-        
+
         $this->assertNull($this->news->getId());
 
         $this->documentManager->persist($this->news);
@@ -71,7 +71,7 @@ class NewsTest extends TestCase
 
         $this->assertNotNull($this->news->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();

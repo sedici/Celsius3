@@ -26,8 +26,8 @@ class Pusher implements WampServerInterface
         $conn->Chat = new \StdClass;
         $conn->Chat->rooms = array();
         $conn->Chat->name = $conn->WAMP->sessionId;
-        
-        if (isset($conn->WebSocket)) {    
+
+        if (isset($conn->WebSocket)) {
             $conn->Chat->name = $this->escape($conn->WebSocket->request->getCookie('name'));
 
             if (empty($conn->Chat->name)) {
@@ -51,7 +51,7 @@ class Pusher implements WampServerInterface
     /**
      * {@inheritdoc}
      */
-    function onCall(ConnectionInterface $conn, $id, $fn, array $params)
+    public function onCall(ConnectionInterface $conn, $id, $fn, array $params)
     {
         switch ($fn) {
             case 'setName':
@@ -66,16 +66,16 @@ class Pusher implements WampServerInterface
     /**
      * {@inheritdoc}
      */
-    function onSubscribe(ConnectionInterface $conn, $topic)
+    public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         var_dump($conn->WebSocket->request);
         echo $conn->Chat->name . " subscribed\n";
-        
+
         // Room does not exist
         if (!array_key_exists($topic->getId(), $this->rooms)) {
             $this->rooms[$topic->getId()] = new \SplObjectStorage();
         }
-        
+
         // Notify everyone this guy has joined the room they're in
         $this->broadcast($topic->getId(), array('joinRoom', $conn->WAMP->sessionId, $conn->Chat->name), $conn);
 
@@ -97,7 +97,7 @@ class Pusher implements WampServerInterface
     /**
      * {@inheritdoc}
      */
-    function onUnSubscribe(ConnectionInterface $conn, $topic)
+    public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
         unset($conn->Chat->rooms[$topic]);
         $this->rooms[$topic]->detach($conn);
@@ -112,7 +112,7 @@ class Pusher implements WampServerInterface
     /**
      * {@inheritdoc}
      */
-    function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude = array(), array $eligible = array())
+    public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude = array(), array $eligible = array())
     {
         $event = (string) $event;
         if (empty($event)) {
@@ -123,7 +123,6 @@ class Pusher implements WampServerInterface
             // error, can not publish to a room you're not subscribed to
             // not sure how to handle error - WAMP spec doesn't specify
             // for now, we're going to silently fail
-
             return;
         }
 

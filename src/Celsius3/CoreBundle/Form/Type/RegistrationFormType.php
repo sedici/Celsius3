@@ -65,4 +65,3 @@ class RegistrationFormType extends BaseType
     }
 
 }
-

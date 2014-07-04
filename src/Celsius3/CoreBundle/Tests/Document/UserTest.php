@@ -1,13 +1,13 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\Instance;
-use Celsius\Celsius3Bundle\Document\Librarian;
-use Celsius\Celsius3Bundle\Document\Institution;
-use Celsius\Celsius3Bundle\Document\Message;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Document\Librarian;
+use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Document\Message;
 
 abstract class UserTest extends TestCase
 {
@@ -35,7 +35,7 @@ abstract class UserTest extends TestCase
         $this->createdMessage = new Message();
         $this->receivedMessage = new Message();
     }
-    
+
     public function testToString()
     {
         $name = 'John';

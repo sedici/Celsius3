@@ -13,7 +13,7 @@ var instance_url = "{{ app.request.get('url')?app.request.get('url'):app.session
 {% if form is defined %}
 var form_name = '{{ form.vars['name'] }}';
 {% elseif edit_form is defined %}
-var form_name = '{{ edit_form.vars['name'] }}';    
+var form_name = '{{ edit_form.vars['name'] }}';
 {% endif %}
 {% if form is defined and form.vars['name'] == 'celsius3_corebundle_newstype' %}
 var news_date = "{{ form.vars.data.date|localizeddate('medium', 'short') }}";

@@ -64,12 +64,13 @@ class FileDownload
     /**
      * Set ip
      *
-     * @param string $ip
+     * @param  string $ip
      * @return self
      */
     public function setIp($ip)
     {
         $this->ip = $ip;
+
         return $this;
     }
 
@@ -86,12 +87,13 @@ class FileDownload
     /**
      * Set date
      *
-     * @param timestamp $date
+     * @param  timestamp $date
      * @return self
      */
     public function setDate($date)
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -108,12 +110,13 @@ class FileDownload
     /**
      * Set userAgent
      *
-     * @param string $userAgent
+     * @param  string $userAgent
      * @return self
      */
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+
         return $this;
     }
 
@@ -130,12 +133,13 @@ class FileDownload
     /**
      * Set user
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $user
+     * @param  Celsius3\CoreBundle\Document\BaseUser $user
      * @return self
      */
     public function setUser(\Celsius3\CoreBundle\Document\BaseUser $user)
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -152,12 +156,13 @@ class FileDownload
     /**
      * Set file
      *
-     * @param Celsius3\CoreBundle\Document\File $file
+     * @param  Celsius3\CoreBundle\Document\File $file
      * @return self
      */
     public function setFile(\Celsius3\CoreBundle\Document\File $file)
     {
         $this->file = $file;
+
         return $this;
     }
 
@@ -174,12 +179,13 @@ class FileDownload
     /**
      * Set request
      *
-     * @param Celsius3\CoreBundle\Document\Request $request
+     * @param  Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
     {
         $this->request = $request;
+
         return $this;
     }
 

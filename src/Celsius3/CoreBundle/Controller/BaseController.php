@@ -207,6 +207,7 @@ abstract class BaseController extends Controller
         $action = $this->getRequest()->request->get('action');
         $function = 'batch' . ucfirst($action);
         $element_ids = $this->getRequest()->request->get('element', array());
+
         return $this->$function($element_ids);
     }
 

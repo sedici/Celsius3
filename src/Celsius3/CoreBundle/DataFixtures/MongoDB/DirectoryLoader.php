@@ -127,12 +127,12 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $manager->flush();
 
         $this->addReference('directory', $directory);
-        
+
         $hive = new Document\Hive();
         $hive->setName('LibLink');
         $manager->persist($hive);
         $manager->flush();
-        
+
         $this->addReference('hive', $hive);
 
         /*

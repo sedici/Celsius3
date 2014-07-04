@@ -30,7 +30,7 @@ class CatalogType extends AbstractType
                     'required' => false,
                 ))
         ;
-        
+
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'institution', false);
         $builder->addEventSubscriber($subscriber);
 

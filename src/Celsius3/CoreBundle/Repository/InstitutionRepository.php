@@ -22,7 +22,7 @@ class InstitutionRepository extends DocumentRepository
         if (!is_null($city_id)) {
             $qb = $qb->field('city.id')->equals($city_id);
         }
-        
+
         if (!is_null($filter)) {
             if ($filter === 'hive') {
                 $qb = $qb->field('hive.id')->equals($hive->getId());

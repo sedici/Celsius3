@@ -28,7 +28,7 @@ class ThreadRepository extends DocumentRepository
             } else {
                 $builder = $builder->field('createdAt')->gte($between);
             }
-        } else if ($request->query->has('and')
+        } elseif ($request->query->has('and')
                 && $request->query->get('and') != '') {
             $and = new \DateTime($request->query->get('and'));
             $builder = $builder->field('createdAt')->lte($and);

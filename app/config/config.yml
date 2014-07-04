@@ -160,17 +160,17 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: celsius3_corebundle_profile }
-        
+
     jms_serializer.metadata.doctrine_type_driver:
         class:        %jms_serializer.metadata.doctrine_type_driver.class%
         public:       false
         arguments:    ["@jms_serializer.metadata.chain_driver", "@doctrine_mongodb"]
-        
+
     jms_serializer.metadata.doctrine_object_constructor:
         class:        %jms_serializer.doctrine_object_constructor.class%
         public:       false
         arguments:    ["@doctrine_mongodb", "@jms_serializer.unserialize_object_constructor"]
-    
+
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
 
@@ -209,7 +209,7 @@ celsius3_notification:
         host: %notification_host%   #(optional) The host ip to bind to
         zmq_port: %notification_zmq_port%
         zmq_host: %notification_zmq_host%
-        
+
 celsius3_chat:
     web_socket_server:
         port: %chat_port%        #The port the socket server will listen on
@@ -230,7 +230,7 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
-        
+
 jms_serializer:
     metadata:
         auto_detection: true
@@ -241,7 +241,7 @@ jms_serializer:
             Celsius3CoreBundle:
                 namespace_prefix: Celsius3\CoreBundle
                 path: "@Celsius3ApiBundle/Resources/config/serializer/core"
-                
+
 sp_bower:
     install_on_warmup: true
     assetic:

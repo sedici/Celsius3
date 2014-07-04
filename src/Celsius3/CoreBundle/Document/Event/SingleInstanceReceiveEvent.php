@@ -48,12 +48,13 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     /**
      * Set deliveryType
      *
-     * @param string $deliveryType
+     * @param  string $deliveryType
      * @return self
      */
     public function setDeliveryType($deliveryType)
     {
         $this->deliveryType = $deliveryType;
+
         return $this;
     }
 
@@ -100,12 +101,13 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     /**
      * Set requestEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event\Event $requestEvent
+     * @param  Celsius3\CoreBundle\Document\Event\Event $requestEvent
      * @return self
      */
     public function setRequestEvent(\Celsius3\CoreBundle\Document\Event\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
+
         return $this;
     }
 

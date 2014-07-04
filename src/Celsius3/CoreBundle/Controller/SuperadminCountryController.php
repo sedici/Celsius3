@@ -61,10 +61,10 @@ class SuperadminCountryController extends BaseController
      *
      * @Route("/{id}/edit", name="superadmin_country_edit")
      * @Template()
-     * 
+     *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -82,8 +82,8 @@ class SuperadminCountryController extends BaseController
      * @Template("Celsius3CoreBundle:SuperadminCountry:edit.html.twig")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -100,8 +100,8 @@ class SuperadminCountryController extends BaseController
      * @Method("post")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -110,7 +110,7 @@ class SuperadminCountryController extends BaseController
     {
         return $this->baseDelete('Country', $id, 'superadmin_country');
     }
-    
+
     /**
      * Batch actions.
      *
@@ -122,7 +122,7 @@ class SuperadminCountryController extends BaseController
     {
         return $this->baseBatch();
     }
-    
+
     protected function batchUnion($element_ids)
     {
         return $this->render('Celsius3CoreBundle:SuperadminCountry:batchUnion.html.twig', $this->baseUnion('Country', $element_ids));
@@ -140,6 +140,7 @@ class SuperadminCountryController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
+
         return $this->baseDoUnion('Country', $element_ids, $main_id, 'superadmin_country');
     }
 }

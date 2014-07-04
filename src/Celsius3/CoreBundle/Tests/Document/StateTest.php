@@ -1,14 +1,14 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\State;
-use Celsius\Celsius3Bundle\Document\StateType;
-use Celsius\Celsius3Bundle\Document\Creation;
-use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
-use Celsius\Celsius3Bundle\Document\Instance;
-use Celsius\Celsius3Bundle\Document\Order;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\State;
+use Celsius3\CoreBundle\Document\StateType;
+use Celsius3\CoreBundle\Document\Creation;
+use Celsius3\CoreBundle\Document\MultiInstanceRequest;
+use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Document\Order;
 
 class StateTest extends TestCase
 {

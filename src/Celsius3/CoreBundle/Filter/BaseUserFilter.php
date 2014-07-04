@@ -17,6 +17,7 @@ class BaseUserFilter implements DocumentFilterInterface
     public function applyCustomFilter($field_name, $data, $query, $instance)
     {
         $function = $this->specialFields[$field_name];
+
         return $this->dm->getRepository('Celsius3CoreBundle:BaseUser')
                 ->$function($data, $query, $instance);
     }

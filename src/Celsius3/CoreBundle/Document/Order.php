@@ -4,7 +4,6 @@ namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Celsius3\CoreBundle\Document\Instance;
 
 /**
  * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
@@ -61,12 +60,13 @@ class Order
     /**
      * Set code
      *
-     * @param int $code
+     * @param  int  $code
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -83,12 +83,13 @@ class Order
     /**
      * Set materialData
      *
-     * @param Celsius3\CoreBundle\Document\MaterialType $materialData
+     * @param  Celsius3\CoreBundle\Document\MaterialType $materialData
      * @return self
      */
     public function setMaterialData(\Celsius3\CoreBundle\Document\MaterialType $materialData = null)
     {
         $this->materialData = $materialData;
+
         return $this;
     }
 
@@ -105,12 +106,13 @@ class Order
     /**
      * Set originalRequest
      *
-     * @param Celsius3\CoreBundle\Document\Request $originalRequest
+     * @param  Celsius3\CoreBundle\Document\Request $originalRequest
      * @return self
      */
     public function setOriginalRequest(\Celsius3\CoreBundle\Document\Request $originalRequest = null)
     {
         $this->originalRequest = $originalRequest;
+
         return $this;
     }
 
@@ -177,6 +179,7 @@ class Order
                                 function ($entry) use ($instance) {
                                     return $entry->getInstance()->getId() == $instance->getId();
                                 })->first();
+
         return false !== $result ? $result : null;
     }
 

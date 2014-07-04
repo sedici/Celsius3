@@ -1,7 +1,6 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
@@ -23,12 +22,13 @@ class ThesisType extends MaterialType
     /**
      * Set director
      *
-     * @param string $director
+     * @param  string $director
      * @return self
      */
     public function setDirector($director)
     {
         $this->director = $director;
+
         return $this;
     }
 
@@ -45,12 +45,13 @@ class ThesisType extends MaterialType
     /**
      * Set degree
      *
-     * @param string $degree
+     * @param  string $degree
      * @return self
      */
     public function setDegree($degree)
     {
         $this->degree = $degree;
+
         return $this;
     }
 

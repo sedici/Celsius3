@@ -60,12 +60,13 @@ class StateType
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -82,12 +83,13 @@ class StateType
     /**
      * Set position
      *
-     * @param int $position
+     * @param  int  $position
      * @return self
      */
     public function setPosition($position)
     {
         $this->position = $position;
+
         return $this;
     }
 

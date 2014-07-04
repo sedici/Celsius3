@@ -2,12 +2,8 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\File;
-use Celsius3\CoreBundle\Form\Type\FileType;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
 
 /**
@@ -31,7 +27,7 @@ class AdminFileController extends BaseController
         }
 
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         $httpRequest = $this->get('request_stack')->getCurrentRequest();
 
         $this->get('celsius3_core.file_manager')->registerDownload($request, $file, $httpRequest, $user);

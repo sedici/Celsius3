@@ -38,7 +38,7 @@ class Builder extends ContainerAware
                 if (!$user->getAdministeredInstances()->contains($user->getInstance())) {
                     $user->getAdministeredInstances()->add($user->getInstance());
                 }
-                
+
                 $menu->addChild('Others', array(
                             'uri' => '#',
                             'linkAttributes' => array(

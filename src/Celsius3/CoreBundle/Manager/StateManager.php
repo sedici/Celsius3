@@ -6,7 +6,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Exception\NotFoundException;
-use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Document\State;
 
@@ -264,7 +263,7 @@ class StateManager
                 }
             }
         }
-        
+
         if (is_null($data) && $event === EventManager::EVENT__CREATION) {
             $data = self::STATE__CREATED;
         }

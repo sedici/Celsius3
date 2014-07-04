@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\BookType;
+use Celsius3\CoreBundle\Document\BookType;
 
 class BookTypeTest extends MaterialTypeTest
 {
@@ -13,7 +13,7 @@ class BookTypeTest extends MaterialTypeTest
 
         $this->material = new BookType();
     }
-    
+
     public function testGetEditor()
     {
         $editor = 'Sample editor';
@@ -22,7 +22,7 @@ class BookTypeTest extends MaterialTypeTest
 
         $this->assertEquals($editor, $this->material->getEditor());
     }
-    
+
     public function testGetChapter()
     {
         $chapter = 'VII';
@@ -31,7 +31,7 @@ class BookTypeTest extends MaterialTypeTest
 
         $this->assertEquals($chapter, $this->material->getChapter());
     }
-    
+
     public function testGetISBN()
     {
         $ISBN = '978-3-16-148410-0';
@@ -40,7 +40,7 @@ class BookTypeTest extends MaterialTypeTest
 
         $this->assertEquals($ISBN, $this->material->getISBN());
     }
-    
+
     public function testGetWithIndex()
     {
         $withIndex = true;

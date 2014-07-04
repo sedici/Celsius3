@@ -1,9 +1,9 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\MultiInstanceRequest;
-use Celsius\Celsius3Bundle\Document\State;
+use Celsius3\CoreBundle\Document\MultiInstanceRequest;
+use Celsius3\CoreBundle\Document\State;
 
 class MultiInstanceRequestTest extends MultiInstanceTest
 {
@@ -24,7 +24,7 @@ class MultiInstanceRequestTest extends MultiInstanceTest
 
         $this->assertEquals($this->remoteState, $this->event->getRemoteState());
     }
-    
+
     public function testGenerateMultiInstanceRequest()
     {
         $date = date('Y-m-d H:i:s');

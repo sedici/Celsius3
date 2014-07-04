@@ -45,12 +45,13 @@ class Login
     /**
      * Set category
      *
-     * @param string $category
+     * @param  string $category
      * @return self
      */
     public function setCategory($category)
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -67,12 +68,13 @@ class Login
     /**
      * Set date
      *
-     * @param timestamp $date
+     * @param  timestamp $date
      * @return self
      */
     public function setDate($date)
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -89,12 +91,13 @@ class Login
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string $message
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
+
         return $this;
     }
 

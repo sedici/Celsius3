@@ -28,7 +28,7 @@ class AdminFileRestController extends BaseInstanceDependentRestController
         }
 
         $file->setEnabled(!$file->getEnabled());
-        
+
         $dm->persist($file);
         $dm->flush();
 

@@ -6,12 +6,10 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 class SecurityListener
 {
-
     private $dm;
     private $cacheDir;
 
@@ -79,16 +77,6 @@ class SecurityListener
             return false;
         }
 
-        // Validate nonce is unique within 5 minutes
-//        if (file_exists($this->cacheDir . '/' . $nonce) && file_get_contents($this->cacheDir . '/' . $nonce) + 300 > time()) {
-//            throw new NonceExpiredException('Previously used nonce detected');
-//        }
-        // If cache directory does not exist we create it
-//        if (!is_dir($this->cacheDir)) {
-//            mkdir($this->cacheDir, 0777, true);
-//        }
-//        file_put_contents($this->cacheDir . '/' . $nonce, time());
-
         // Validate Secret
         $expected = base64_encode(sha1(base64_decode($nonce) . $created . $secret, true));
 
@@ -101,5 +89,4 @@ class SecurityListener
         $response->setStatusCode(403);
         $event->setResponse($response);
     }
-
 }

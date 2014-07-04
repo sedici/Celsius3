@@ -130,4 +130,3 @@ class RequestType extends AbstractType
     }
 
 }
-

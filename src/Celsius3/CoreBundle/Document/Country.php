@@ -69,12 +69,13 @@ class Country
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -91,12 +92,13 @@ class Country
     /**
      * Set abbreviation
      *
-     * @param string $abbreviation
+     * @param  string $abbreviation
      * @return self
      */
     public function setAbbreviation($abbreviation)
     {
         $this->abbreviation = $abbreviation;
+
         return $this;
     }
 
@@ -173,12 +175,13 @@ class Country
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

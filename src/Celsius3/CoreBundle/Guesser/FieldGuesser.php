@@ -23,18 +23,15 @@ class FieldGuesser
 
     protected function getMetadatas($class = null)
     {
-        if ($class)
-        {
+        if ($class) {
             self::$current_class = $class;
         }
 
-        if (isset($this->metadata[self::$current_class]) || !$class)
-        {
+        if (isset($this->metadata[self::$current_class]) || !$class) {
             return $this->metadata[self::$current_class];
         }
 
-        if (!$this->documentManager->getConfiguration()->getMetadataDriverImpl()->isTransient($class))
-        {
+        if (!$this->documentManager->getConfiguration()->getMetadataDriverImpl()->isTransient($class)) {
             $this->metadata[$class] = $this->documentManager->getClassMetadata($class);
         }
 
@@ -45,10 +42,8 @@ class FieldGuesser
     {
         $fields = array();
 
-        foreach ($this->getMetadatas($class)->fieldMappings as $fieldName => $metadatas)
-        {
-            if (!$this->getMetadatas($class)->hasAssociation($fieldName))
-            {
+        foreach ($this->getMetadatas($class)->fieldMappings as $fieldName => $metadatas) {
+            if (!$this->getMetadatas($class)->hasAssociation($fieldName)) {
                 $fields[] = $fieldName;
             }
         }
@@ -60,21 +55,16 @@ class FieldGuesser
     {
         $metadata = $this->getMetadatas($class);
 
-        if ($metadata->hasAssociation($fieldName))
-        {
+        if ($metadata->hasAssociation($fieldName)) {
 
-            if ($metadata->isSingleValuedAssociation($fieldName))
-            {
+            if ($metadata->isSingleValuedAssociation($fieldName)) {
                 return 'document';
-            } else
-            {
-
+            } else {
                 return 'collection';
             }
         }
 
-        if ($metadata->hasField($fieldName))
-        {
+        if ($metadata->hasField($fieldName)) {
             $mapping = $metadata->getFieldMapping($fieldName);
 
             return $mapping['type'];
@@ -87,8 +77,7 @@ class FieldGuesser
 
     public function getFormType($dbType, $columnName)
     {
-        switch ($dbType)
-        {
+        switch ($dbType) {
             case 'boolean':
                 return 'checkbox';
             case 'datetime':
@@ -139,8 +128,7 @@ class FieldGuesser
 
     public function getFilterType($dbType, $columnName)
     {
-        switch ($dbType)
-        {
+        switch ($dbType) {
             case 'hash':
             case 'text':
                 return 'text';
@@ -164,27 +152,23 @@ class FieldGuesser
 
     public function getFormOptions($formType, $dbType, $columnName)
     {
-        if ('boolean' == $dbType)
-        {
+        if ('boolean' == $dbType) {
             return array('required' => false);
         }
 
-        if ('document' == $dbType)
-        {
+        if ('document' == $dbType) {
             $mapping = $this->getMetadatas()->getFieldMapping($columnName);
 
             return array('class' => $mapping['targetDocument'], 'multiple' => false);
         }
 
-        if ('collection' == $dbType)
-        {
+        if ('collection' == $dbType) {
             $mapping = $this->getMetadatas()->getFieldMapping($columnName);
 
             return array('class' => $mapping['targetDocument']);
         }
 
-        if ('collection' == $formType)
-        {
+        if ('collection' == $formType) {
             return array('allow_add' => true, 'allow_delete' => true);
         }
 
@@ -206,8 +190,7 @@ class FieldGuesser
     {
         $options = array('required' => false);
 
-        if ('boolean' == $dbType)
-        {
+        if ('boolean' == $dbType) {
             $options['choices'] = array(
                 0 => 'No',
                 1 => 'Yes'
@@ -215,18 +198,15 @@ class FieldGuesser
             $options['empty_value'] = 'Yes or No';
         }
 
-        if ('document' == $dbType)
-        {
+        if ('document' == $dbType) {
             return array_merge($this->getFormOptions($formType, $dbType, $ColumnName), $options);
         }
 
-        if ('collection' == $formType)
-        {
+        if ('collection' == $formType) {
             return array('allow_add' => true, 'allow_delete' => true, 'by_reference' => true);
         }
 
-        if ('collection' == $dbType)
-        {
+        if ('collection' == $dbType) {
             return array_merge($this->getFormOptions($formType, $dbType, $ColumnName), $options, array('multiple' => false));
         }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\Search;
+use Celsius3\CoreBundle\Document\Search;
 
 class SearchTest extends SingleInstanceTest
 {
@@ -13,7 +13,7 @@ class SearchTest extends SingleInstanceTest
 
         $this->event = new Search();
     }
-    
+
     public function testGenerateSearch()
     {
         $date = date('Y-m-d H:i:s');

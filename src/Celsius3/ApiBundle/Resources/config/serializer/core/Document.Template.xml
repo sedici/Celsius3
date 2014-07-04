@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<serializer>  
-    <class name="Celsius3\CoreBundle\Document\Template" discriminator-field-name="type" exclusion-policy="all">  
+<serializer>
+    <class name="Celsius3\CoreBundle\Document\Template" discriminator-field-name="type" exclusion-policy="all">
         <discriminator-class value="mail">Celsius3\CoreBundle\Document\MailTemplate</discriminator-class>
         <discriminator-class value="notification">Celsius3\NotificationBundle\Document\NotificationTemplate</discriminator-class>
-        <property name="id" type="string" expose="true" read-only="true"></property>  
+        <property name="id" type="string" expose="true" read-only="true"></property>
         <property name="code" type="string" expose="true" access-type="public_method"></property>
         <property name="text" type="string" expose="true" access-type="public_method"></property>
-    </class>  
-</serializer>  
+    </class>
+</serializer>

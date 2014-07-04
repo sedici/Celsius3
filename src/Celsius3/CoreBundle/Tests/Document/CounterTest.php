@@ -1,10 +1,9 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Counter;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Counter;
 
 class CounterTest extends TestCase
 {
@@ -43,7 +42,7 @@ class CounterTest extends TestCase
 
         $this->counter->setName($name);
         $this->counter->setValue($value);
-        
+
         $this->assertNull($this->counter->getId());
 
         $this->documentManager->persist($this->counter);

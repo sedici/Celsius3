@@ -1,10 +1,10 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\ContactType;
-use Celsius\Celsius3Bundle\Document\Contact;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\ContactType;
+use Celsius3\CoreBundle\Document\Contact;
 
 class ContactTypeTest extends TestCase
 {
@@ -41,7 +41,7 @@ class ContactTypeTest extends TestCase
         $name = 'Librarian';
 
         $this->contactType->setName($name);
-        
+
         $this->assertNull($this->contactType->getId());
 
         $this->documentManager->persist($this->contactType);

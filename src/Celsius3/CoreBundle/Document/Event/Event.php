@@ -78,7 +78,7 @@ class Event implements EventInterface
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
-        
+
     }
 
     /**
@@ -94,12 +94,13 @@ class Event implements EventInterface
     /**
      * Set date
      *
-     * @param date $date
+     * @param  date $date
      * @return self
      */
     public function setDate($date)
     {
         $this->date = $date;
+
         return $this;
     }
 
@@ -116,12 +117,13 @@ class Event implements EventInterface
     /**
      * Set observations
      *
-     * @param string $observations
+     * @param  string $observations
      * @return self
      */
     public function setObservations($observations)
     {
         $this->observations = $observations;
+
         return $this;
     }
 
@@ -138,12 +140,13 @@ class Event implements EventInterface
     /**
      * Set operator
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $operator
+     * @param  Celsius3\CoreBundle\Document\BaseUser $operator
      * @return self
      */
     public function setOperator(\Celsius3\CoreBundle\Document\BaseUser $operator = null)
     {
         $this->operator = $operator;
+
         return $this;
     }
 
@@ -160,12 +163,13 @@ class Event implements EventInterface
     /**
      * Set state
      *
-     * @param Celsius3\CoreBundle\Document\State $state
+     * @param  Celsius3\CoreBundle\Document\State $state
      * @return self
      */
     public function setState(\Celsius3\CoreBundle\Document\State $state)
     {
         $this->state = $state;
+
         return $this;
     }
 
@@ -182,12 +186,13 @@ class Event implements EventInterface
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -204,12 +209,13 @@ class Event implements EventInterface
     /**
      * Set request
      *
-     * @param Celsius3\CoreBundle\Document\Request $request
+     * @param  Celsius3\CoreBundle\Document\Request $request
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Document\Request $request)
     {
         $this->request = $request;
+
         return $this;
     }
 

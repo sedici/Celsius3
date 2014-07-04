@@ -59,7 +59,7 @@ class ConfirmationListener implements EventSubscriberInterface
             $this->mailer->sendConfirmationEmailMessage($user);
 
             $url = $this->router->generate('fos_user_registration_check_email', array('url' => $this->request_stack->getCurrentRequest()->get('url')));
-        } else if ($confirmationType == 'admin') {
+        } elseif ($confirmationType == 'admin') {
             $url = $this->router->generate('fos_user_registration_wait_confirmation', array('url' => $this->request_stack->getCurrentRequest()->get('url')));
         }
 

@@ -79,7 +79,7 @@ class Institution extends Provider
      * @MongoDB\ReferenceOne(targetDocument="LegacyInstance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
-    
+
     /**
      * @MongoDB\ReferenceOne(targetDocument="Hive", inversedBy="institutions")
      */
@@ -112,12 +112,13 @@ class Institution extends Provider
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -134,12 +135,13 @@ class Institution extends Provider
     /**
      * Set abbreviation
      *
-     * @param string $abbreviation
+     * @param  string $abbreviation
      * @return self
      */
     public function setAbbreviation($abbreviation)
     {
         $this->abbreviation = $abbreviation;
+
         return $this;
     }
 
@@ -156,12 +158,13 @@ class Institution extends Provider
     /**
      * Set website
      *
-     * @param string $website
+     * @param  string $website
      * @return self
      */
     public function setWebsite($website)
     {
         $this->website = $website;
+
         return $this;
     }
 
@@ -178,12 +181,13 @@ class Institution extends Provider
     /**
      * Set address
      *
-     * @param string $address
+     * @param  string $address
      * @return self
      */
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
 
@@ -262,13 +266,14 @@ class Institution extends Provider
     /**
      * Set parent
      *
-     * @param Celsius3\CoreBundle\Document\Institution $parent
+     * @param  Celsius3\CoreBundle\Document\Institution $parent
      * @return self
      */
     public function setParent(
     \Celsius3\CoreBundle\Document\Institution $parent)
     {
         $this->parent = $parent;
+
         return $this;
     }
 
@@ -285,12 +290,13 @@ class Institution extends Provider
     /**
      * Set city
      *
-     * @param Celsius3\CoreBundle\Document\City $city
+     * @param  Celsius3\CoreBundle\Document\City $city
      * @return self
      */
     public function setCity(\Celsius3\CoreBundle\Document\City $city = null)
     {
         $this->city = $city;
+
         return $this;
     }
 
@@ -307,12 +313,13 @@ class Institution extends Provider
     /**
      * Set country
      *
-     * @param Celsius3\CoreBundle\Document\Country $country
+     * @param  Celsius3\CoreBundle\Document\Country $country
      * @return self
      */
     public function setCountry(\Celsius3\CoreBundle\Document\Country $country)
     {
         $this->country = $country;
+
         return $this;
     }
 
@@ -391,12 +398,13 @@ class Institution extends Provider
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -413,12 +421,13 @@ class Institution extends Provider
     /**
      * Set celsiusInstance
      *
-     * @param Celsius3\CoreBundle\Document\LegacyInstance $celsiusInstance
+     * @param  Celsius3\CoreBundle\Document\LegacyInstance $celsiusInstance
      * @return self
      */
     public function setCelsiusInstance(\Celsius3\CoreBundle\Document\LegacyInstance $celsiusInstance)
     {
         $this->celsiusInstance = $celsiusInstance;
+
         return $this;
     }
 
@@ -431,16 +440,17 @@ class Institution extends Provider
     {
         return $this->celsiusInstance;
     }
-    
+
     /**
      * Set hive
      *
-     * @param Celsius3\CoreBundle\Document\Hive $hive
+     * @param  Celsius3\CoreBundle\Document\Hive $hive
      * @return self
      */
     public function setHive(\Celsius3\CoreBundle\Document\Hive $hive)
     {
         $this->hive = $hive;
+
         return $this;
     }
 

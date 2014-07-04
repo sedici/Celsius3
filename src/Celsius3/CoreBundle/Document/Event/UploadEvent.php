@@ -77,12 +77,13 @@ class UploadEvent extends MultiInstanceEvent
     /**
      * Set remoteState
      *
-     * @param Celsius3\CoreBundle\Document\State $remoteState
+     * @param  Celsius3\CoreBundle\Document\State $remoteState
      * @return self
      */
     public function setRemoteState(\Celsius3\CoreBundle\Document\State $remoteState)
     {
         $this->remoteState = $remoteState;
+
         return $this;
     }
 

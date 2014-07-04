@@ -1,6 +1,6 @@
 <div class="sorting-group pull-right">
     <span>
-        {{ 'Sort by'|trans }}: 
+        {{ 'Sort by'|trans }}:
     </span>
     {% include 'Celsius3CoreBundle:Order:_index_sort.html.twig' %}
 </div>
@@ -11,14 +11,14 @@
         <div class="accordion-heading">
             <a href="#collapse{{ order.code }}" data-parent="#code{{ order.code }}" data-toggle="collapse" class="accordion-toggle">
                 <span>{{ order.code }} - {{ order.materialData.title }}</span>
-                
+
                 <!-- Esto se coloca a modo de ejemplo! -->
                 {% if (order.isLiblink) %}
                 <span style="float: right; padding-right:3cm;"> ----LIBLINK---- </span>
                 {% else %}
                 <span style="float: right; padding-right:3cm;"> ----NO LIBLINK---- </span>
                 {% endif %}
-                
+
                 {% block extrainfo %}{% endblock %}
             </a>
         </div>

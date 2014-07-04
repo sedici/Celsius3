@@ -53,12 +53,13 @@ class ChatMessage
     /**
      * Set message
      *
-     * @param string $message
+     * @param  string $message
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
+
         return $this;
     }
 
@@ -75,12 +76,13 @@ class ChatMessage
     /**
      * Set sender
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $sender
+     * @param  Celsius3\CoreBundle\Document\BaseUser $sender
      * @return self
      */
     public function setSender(\Celsius3\CoreBundle\Document\BaseUser $sender)
     {
         $this->sender = $sender;
+
         return $this;
     }
 
@@ -97,12 +99,13 @@ class ChatMessage
     /**
      * Set hive
      *
-     * @param Celsius3\CoreBundle\Document\Hive $hive
+     * @param  Celsius3\CoreBundle\Document\Hive $hive
      * @return self
      */
     public function setHive(\Celsius3\CoreBundle\Document\Hive $hive)
     {
         $this->hive = $hive;
+
         return $this;
     }
 

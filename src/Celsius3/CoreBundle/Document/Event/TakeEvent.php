@@ -2,7 +2,6 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
@@ -10,5 +9,5 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
  */
 class TakeEvent extends SingleInstanceEvent
 {
-    
+
 }

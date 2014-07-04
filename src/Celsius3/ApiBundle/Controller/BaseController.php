@@ -6,7 +6,6 @@ use FOS\RestBundle\Controller\FOSRestController;
 
 class BaseController extends FOSRestController
 {
-
     /**
      * Returns the DocumentManager
      *
@@ -19,14 +18,14 @@ class BaseController extends FOSRestController
 
     public function getInstance()
     {
-        $instance = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Instance')
+        $instance = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:Instance')
                 ->find($this->getRequest()->request->get('instance_id'));
 
         if (!$instance) {
             return $this->createNotFoundException('Instance not found');
         }
-        
+
         return $instance;
     }
-
 }

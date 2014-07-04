@@ -131,7 +131,7 @@ class LifecycleHelper
          * @todo Refactorizar estos tres ifs
          */
         if ($name === EventManager::EVENT__RECEIVE) {
-            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function($item) use ($extraData) {
+            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function ($item) use ($extraData) {
                 return $item->getRequestEvent()->getId() === $extraData['request']->getId();
             });
 
@@ -149,7 +149,7 @@ class LifecycleHelper
         }
 
         if ($name === EventManager::EVENT__SEARCH) {
-            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__SEARCH, $request->getId()), function($item) use ($extraData) {
+            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__SEARCH, $request->getId()), function ($item) use ($extraData) {
                 return $item->getCatalog()->getId() === $extraData['catalog']->getId();
             });
 
@@ -169,8 +169,8 @@ class LifecycleHelper
      * Receives the event name and the request document and creates the appropiate
      * event and state
      *
-     * @param string $name The event name
-     * @param Celsius3\CoreBundle\Document\Request $request The Request document
+     * @param string                                $name     The event name
+     * @param Celsius3\CoreBundle\Document\Request  $request  The Request document
      * @param Celsius3\CoreBundle\Document\Instance $instance The Instance document
      */
     public function createEvent($name, Request $request, Instance $instance = null)
@@ -184,7 +184,7 @@ class LifecycleHelper
                 $event = $data['event'];
                 if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
-                } else if ($name === EventManager::EVENT__SEARCH) {
+                } elseif ($name === EventManager::EVENT__SEARCH) {
                     $event->setResult($data['extraData']['result']);
                     $currentState = $request->getCurrentState();
                     $state = $request->getState(StateManager::STATE__SEARCHED);
@@ -200,6 +200,7 @@ class LifecycleHelper
             }
             $this->refresh($request);
             $this->dm->refresh($event);
+
             return $event;
         } catch (PreviousStateNotFoundException $e) {
             return null;
@@ -238,6 +239,7 @@ class LifecycleHelper
             $this->refresh($event);
             $this->dm->refresh($event);
             $this->refresh($currentState);
+
             return $event;
         } else {
             return null;

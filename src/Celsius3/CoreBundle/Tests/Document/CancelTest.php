@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\Cancel;
+use Celsius3\CoreBundle\Document\Cancel;
 
 class CancelTest extends SingleInstanceTest
 {
@@ -13,7 +13,7 @@ class CancelTest extends SingleInstanceTest
 
         $this->event = new Cancel();
     }
-    
+
     public function testGenerateCancel()
     {
         $date = date('Y-m-d H:i:s');

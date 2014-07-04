@@ -57,7 +57,7 @@ class CustomRecipientsDataTransformer extends RecipientsDataTransformer
      *
      * @throws UnexpectedTypeException
      * @throws TransformationFailedException
-     * @return Collection $recipients
+     * @return Collection                    $recipients
      */
     public function reverseTransform($usernames)
     {

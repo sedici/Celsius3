@@ -85,12 +85,13 @@ class Notification
     /**
      * Set cause
      *
-     * @param string $cause
+     * @param  string $cause
      * @return self
      */
     public function setCause($cause)
     {
         $this->cause = $cause;
+
         return $this;
     }
 
@@ -107,12 +108,13 @@ class Notification
     /**
      * Set isViewed
      *
-     * @param boolean $isViewed
+     * @param  boolean $isViewed
      * @return self
      */
     public function setIsViewed($isViewed)
     {
         $this->isViewed = $isViewed;
+
         return $this;
     }
 
@@ -129,12 +131,13 @@ class Notification
     /**
      * Set viewedAt
      *
-     * @param date $viewedAt
+     * @param  date $viewedAt
      * @return self
      */
     public function setViewedAt($viewedAt)
     {
         $this->viewedAt = $viewedAt;
+
         return $this;
     }
 
@@ -157,6 +160,7 @@ class Notification
     public function setObject($object)
     {
         $this->object = $object;
+
         return $this;
     }
 
@@ -173,12 +177,13 @@ class Notification
     /**
      * Set template
      *
-     * @param Celsius3\CoreBundle\Document\Template $template
+     * @param  Celsius3\CoreBundle\Document\Template $template
      * @return self
      */
     public function setTemplate(\Celsius3\CoreBundle\Document\Template $template)
     {
         $this->template = $template;
+
         return $this;
     }
 
@@ -225,12 +230,13 @@ class Notification
     /**
      * Set viewer
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $viewer
+     * @param  Celsius3\CoreBundle\Document\BaseUser $viewer
      * @return self
      */
     public function setViewer(\Celsius3\CoreBundle\Document\BaseUser $viewer)
     {
         $this->viewer = $viewer;
+
         return $this;
     }
 

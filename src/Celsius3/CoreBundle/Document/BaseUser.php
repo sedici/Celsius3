@@ -153,12 +153,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -175,12 +176,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set surname
      *
-     * @param string $surname
+     * @param  string $surname
      * @return self
      */
     public function setSurname($surname)
     {
         $this->surname = $surname;
+
         return $this;
     }
 
@@ -197,12 +199,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set birthdate
      *
-     * @param date $birthdate
+     * @param  date $birthdate
      * @return self
      */
     public function setBirthdate($birthdate)
     {
         $this->birthdate = $birthdate;
+
         return $this;
     }
 
@@ -219,12 +222,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set address
      *
-     * @param string $address
+     * @param  string $address
      * @return self
      */
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
 
@@ -335,13 +339,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(
     \Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
@@ -358,13 +363,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set librarian
      *
-     * @param Celsius3\CoreBundle\Document\BaseUser $librarian
+     * @param  Celsius3\CoreBundle\Document\BaseUser $librarian
      * @return self
      */
     public function setLibrarian(
     \Celsius3\CoreBundle\Document\BaseUser $librarian)
     {
         $this->librarian = $librarian;
+
         return $this;
     }
 
@@ -381,13 +387,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set institution
      *
-     * @param Celsius3\CoreBundle\Document\Institution $institution
+     * @param  Celsius3\CoreBundle\Document\Institution $institution
      * @return self
      */
     public function setInstitution(
     \Celsius3\CoreBundle\Document\Institution $institution)
     {
         $this->institution = $institution;
+
         return $this;
     }
 
@@ -468,12 +475,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Set downloadAuth
      *
-     * @param boolean $downloadAuth
+     * @param  boolean $downloadAuth
      * @return self
      */
     public function setDownloadAuth($downloadAuth)
     {
         $this->downloadAuth = $downloadAuth;
+
         return $this;
     }
 

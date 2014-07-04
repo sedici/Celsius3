@@ -42,6 +42,7 @@ class StatisticManager
                 'data' => $instance['value'],
             );
         }
+
         return $response;
     }
 
@@ -59,6 +60,7 @@ class StatisticManager
                 'data' => $instance['value'],
             );
         }
+
         return $response;
     }
 
@@ -76,6 +78,7 @@ class StatisticManager
                 'data' => $instance['value'],
             );
         }
+
         return $response;
     }
 

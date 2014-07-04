@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
 use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
-use Celsius3\CoreBundle\Manager\MailManager;
 
 /**
  * Order controller.
@@ -180,7 +179,7 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @Route("/{user_id}/modal", name="admin_mails_modal", options={"expose"=true})
      * @Template()
-     * 
+     *
      * @return array
      */
     public function modalAction($user_id)
@@ -199,8 +198,6 @@ class AdminMailController extends BaseInstanceDependentController
         $order_id = $request->query->get('order_id');
         $order = $dm->getRepository('Celsius3CoreBundle:Order')
                 ->find($order_id);
-
-
 
         return array(
             'form' => $form,

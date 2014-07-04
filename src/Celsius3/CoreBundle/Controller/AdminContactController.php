@@ -18,7 +18,6 @@ class AdminContactController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
-
         return $this->getDocumentManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder()

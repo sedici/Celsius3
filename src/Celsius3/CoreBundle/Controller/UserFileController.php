@@ -1,14 +1,9 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\File;
-use Celsius3\CoreBundle\Form\Type\FileType;
-use Celsius3\CoreBundle\Manager\FileManager;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;

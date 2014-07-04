@@ -56,12 +56,13 @@ class Configuration
     /**
      * Set key
      *
-     * @param string $key
+     * @param  string $key
      * @return self
      */
     public function setKey($key)
     {
         $this->key = $key;
+
         return $this;
     }
 
@@ -78,12 +79,13 @@ class Configuration
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -100,12 +102,13 @@ class Configuration
     /**
      * Set value
      *
-     * @param string $value
+     * @param  string $value
      * @return self
      */
     public function setValue($value)
     {
         $this->value = $value;
+
         return $this;
     }
 
@@ -122,12 +125,13 @@ class Configuration
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string $type
      * @return self
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -144,12 +148,13 @@ class Configuration
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

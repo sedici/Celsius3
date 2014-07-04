@@ -1,12 +1,12 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Order;
-use Celsius\Celsius3Bundle\Document\Admin;
-use Celsius\Celsius3Bundle\Document\State;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Document\Admin;
+use Celsius3\CoreBundle\Document\State;
+use Celsius3\CoreBundle\Document\Instance;
 
 class EventTest extends TestCase
 {

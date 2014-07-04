@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\Receive;
+use Celsius3\CoreBundle\Document\Receive;
 
 class ReceiveTest extends SingleInstanceTest
 {
@@ -13,7 +13,7 @@ class ReceiveTest extends SingleInstanceTest
 
         $this->event = new Receive();
     }
-    
+
     public function testGenerateReceive()
     {
         $date = date('Y-m-d H:i:s');

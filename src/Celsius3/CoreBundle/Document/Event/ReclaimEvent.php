@@ -6,7 +6,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Document\Event\UploadEvent;
 
 /**
  * @MongoDB\Document
@@ -41,12 +40,13 @@ class ReclaimEvent extends SingleInstanceEvent
     /**
      * Set requestEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event\Event $requestEvent
+     * @param  Celsius3\CoreBundle\Document\Event\Event $requestEvent
      * @return self
      */
     public function setRequestEvent(\Celsius3\CoreBundle\Document\Event\Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
+
         return $this;
     }
 
@@ -63,12 +63,13 @@ class ReclaimEvent extends SingleInstanceEvent
     /**
      * Set receiveEvent
      *
-     * @param Celsius3\CoreBundle\Document\Event\Event $receiveEvent
+     * @param  Celsius3\CoreBundle\Document\Event\Event $receiveEvent
      * @return self
      */
     public function setReceiveEvent(\Celsius3\CoreBundle\Document\Event\Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
+
         return $this;
     }
 

@@ -54,7 +54,7 @@ class CustomUserField
     {
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
@@ -68,12 +68,13 @@ class CustomUserField
     /**
      * Set key
      *
-     * @param string $key
+     * @param  string $key
      * @return self
      */
     public function setKey($key)
     {
         $this->key = $key;
+
         return $this;
     }
 
@@ -90,12 +91,13 @@ class CustomUserField
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -112,12 +114,13 @@ class CustomUserField
     /**
      * Set private
      *
-     * @param boolean $private
+     * @param  boolean $private
      * @return self
      */
     public function setPrivate($private)
     {
         $this->private = $private;
+
         return $this;
     }
 
@@ -134,12 +137,13 @@ class CustomUserField
     /**
      * Set required
      *
-     * @param boolean $required
+     * @param  boolean $required
      * @return self
      */
     public function setRequired($required)
     {
         $this->required = $required;
+
         return $this;
     }
 
@@ -156,12 +160,13 @@ class CustomUserField
     /**
      * Set instance
      *
-     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @param  Celsius3\CoreBundle\Document\Instance $instance
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 

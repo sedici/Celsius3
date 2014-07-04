@@ -74,6 +74,7 @@ class EventManager
             if (method_exists($this, $name)) {
                 $data = call_user_func_array($this->$name, $arguments);
             }
+
             return $data;
         }
     }
@@ -327,19 +328,21 @@ class EventManager
             default:
                 ;
         }
+
         return $event;
     }
 
     public function prepareExtraData($event, Request $request, Instance $instance)
     {
         $methodName = 'prepareExtraDataFor' . ucfirst($event);
+
         return $this->$methodName($request, array(), $instance);
     }
 
     public function cancelRequests(array $requests, HttpRequest $httpRequest)
     {
         foreach ($requests as $request) {
-            $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function($reception) use ($request) {
+            $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function ($reception) use ($request) {
                 /**
                  * @todo Probar esto mas exhaustivamente.
                  */
@@ -376,7 +379,7 @@ class EventManager
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_REQUEST],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_REQUEST],
             );
-        } else if ($event === self::EVENT__RECEIVE) {
+        } elseif ($event === self::EVENT__RECEIVE) {
             $repositories = array(
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_RECEIVE],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],

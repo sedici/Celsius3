@@ -64,8 +64,8 @@ class SuperadminCatalogController extends BaseController
      * @Template()
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -83,8 +83,8 @@ class SuperadminCatalogController extends BaseController
      * @Template("Celsius3CoreBundle:SuperadminCatalog:edit.html.twig")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -101,8 +101,8 @@ class SuperadminCatalogController extends BaseController
      * @Method("post")
      *
      * @param string $id
-     *            The document ID
-     *            
+     *                   The document ID
+     *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
@@ -143,6 +143,7 @@ class SuperadminCatalogController extends BaseController
     {
         $element_ids = $this->getRequest()->request->get('element');
         $main_id = $this->getRequest()->request->get('main');
+
         return $this->baseDoUnion('Catalog', $element_ids, $main_id, 'superadmin_catalog');
     }
 

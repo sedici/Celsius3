@@ -62,7 +62,7 @@ class CatalogListener
                     ->findBy(array(
                 'instance.id' => $this->container->get('celsius3_core.instance_manager')->getDirectory()->getId(),
             ));
-            
+
             $place = 0;
             foreach ($catalogs as $catalog) {
                 $position = new CatalogPosition();

@@ -1,12 +1,12 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Contact;
-use Celsius\Celsius3Bundle\Document\BaseUser;
-use Celsius\Celsius3Bundle\Document\ContactType;
-use Celsius\Celsius3Bundle\Document\Instance;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Contact;
+use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Document\ContactType;
+use Celsius3\CoreBundle\Document\Instance;
 
 class ContactTest extends TestCase
 {
@@ -25,7 +25,7 @@ class ContactTest extends TestCase
         $this->user = new BaseUser();
         $this->instance = new Instance();
     }
-    
+
     public function testGetName()
     {
         $name = 'John';
@@ -34,7 +34,7 @@ class ContactTest extends TestCase
 
         $this->assertEquals($name, $this->contact->getName());
     }
-    
+
     public function testGetSurname()
     {
         $surname = 'Doe';
@@ -43,7 +43,7 @@ class ContactTest extends TestCase
 
         $this->assertEquals($surname, $this->contact->getSurname());
     }
-    
+
     public function testGetEmail()
     {
         $email = 'johndoe@test.com.ar';
@@ -52,7 +52,7 @@ class ContactTest extends TestCase
 
         $this->assertEquals($email, $this->contact->getEmail());
     }
-    
+
     public function testGetAddress()
     {
         $address = 'Calle x nro 123';
@@ -61,21 +61,21 @@ class ContactTest extends TestCase
 
         $this->assertEquals($address, $this->contact->getAddress());
     }
-    
+
     public function testGetUser()
     {
         $this->contact->setUser($this->user);
 
         $this->assertEquals($this->user, $this->contact->getUser());
     }
-    
+
     public function testGetType()
     {
         $this->contact->setType($this->type);
 
         $this->assertEquals($this->type, $this->contact->getType());
     }
-    
+
     public function testGetInstance()
     {
         $this->contact->setInstance($this->instance);

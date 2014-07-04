@@ -1,9 +1,9 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\JournalType;
-use Celsius\Celsius3Bundle\Document\Journal;
+use Celsius3\CoreBundle\Document\JournalType;
+use Celsius3\CoreBundle\Document\Journal;
 
 class JournalTypeTest extends MaterialTypeTest
 {

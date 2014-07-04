@@ -1,13 +1,13 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Institution;
-use Celsius\Celsius3Bundle\Document\BaseUser;
-use Celsius\Celsius3Bundle\Document\City;
-use Celsius\Celsius3Bundle\Document\Instance;
-use Celsius\Celsius3Bundle\Document\Catalog;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Document\City;
+use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Document\Catalog;
 
 class InstitutionTest extends TestCase
 {
@@ -18,8 +18,7 @@ class InstitutionTest extends TestCase
     protected $city;
     protected $instance;
     protected $catalog;
-    
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -32,7 +31,7 @@ class InstitutionTest extends TestCase
         $this->instance = new Instance();
         $this->catalog = new Catalog();
     }
-    
+
     public function testGetName()
     {
         $name = 'Institution Name';
@@ -41,7 +40,7 @@ class InstitutionTest extends TestCase
 
         $this->assertEquals($name, $this->institution->getName());
     }
-    
+
     public function testGetAbbreviation()
     {
         $abbreviation = 'IN';
@@ -50,7 +49,7 @@ class InstitutionTest extends TestCase
 
         $this->assertEquals($abbreviation, $this->institution->getAbbreviation());
     }
-    
+
     public function testGetWebsite()
     {
         $website = 'http://institution.website.com';
@@ -59,7 +58,7 @@ class InstitutionTest extends TestCase
 
         $this->assertEquals($website, $this->institution->getWebsite());
     }
-    
+
     public function testGetAddress()
     {
         $address = 'Calle x nro 123';
@@ -68,61 +67,61 @@ class InstitutionTest extends TestCase
 
         $this->assertEquals($address, $this->institution->getAddress());
     }
-    
+
     public function testGetUsers()
     {
         $this->institution->addUsers($this->user);
 
         $this->assertContains($this->user, $this->institution->getUsers());
     }
-    
+
     public function testGetInstitutions()
     {
         $this->institution->addInstitutions($this->subinstitution);
 
         $this->assertContains($this->subinstitution, $this->institution->getInstitutions());
     }
-    
+
     public function testGetParent()
     {
         $this->institution->setParent($this->parent);
 
         $this->assertEquals($this->parent, $this->institution->getParent());
     }
-    
+
     public function testGetCity()
     {
         $this->institution->setCity($this->city);
 
         $this->assertEquals($this->city, $this->institution->getCity());
     }
-    
+
     public function testGetCatalog()
     {
         $this->institution->setCatalog($this->catalog);
 
         $this->assertEquals($this->catalog, $this->institution->getCatalog());
     }
-    
+
     public function testGetInstance()
     {
         $this->institution->setInstance($this->instance);
 
         $this->assertEquals($this->instance, $this->institution->getInstance());
     }
-    
+
     public function testGenerateInstance()
     {
         $name = 'Institution Name';
         $abbreviation = 'IN';
         $website = 'http://institution.website.com';
         $address = 'Calle x nro 123';
-        
+
         $this->institution->setName($name);
         $this->institution->setAbbreviation($abbreviation);
         $this->institution->setWebsite($website);
         $this->institution->setAddress($address);
-        
+
         $this->assertNull($this->institution->getId());
 
         $this->documentManager->persist($this->institution);
@@ -130,7 +129,7 @@ class InstitutionTest extends TestCase
 
         $this->assertNotNull($this->institution->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();

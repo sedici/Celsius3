@@ -33,7 +33,7 @@ class UserToIdTransformer implements DataTransformerInterface
     /**
      * Transforms a string (id) to an object (BaseUser).
      *
-     * @param  string $id
+     * @param  string                        $id
      * @return BaseUser|null
      * @throws TransformationFailedException if object (BaseUser) is not found.
      */

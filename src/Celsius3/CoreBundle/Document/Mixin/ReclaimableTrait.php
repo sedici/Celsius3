@@ -18,12 +18,13 @@ trait ReclaimableTrait
     /**
      * Set isReclaimed
      *
-     * @param boolean $isReclaimed
+     * @param  boolean $isReclaimed
      * @return self
      */
     public function setIsReclaimed($isReclaimed)
     {
         $this->isReclaimed = $isReclaimed;
+
         return $this;
     }
 

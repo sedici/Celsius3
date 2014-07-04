@@ -1,16 +1,16 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Tests\TestCase;
-use Celsius\Celsius3Bundle\Document\Country;
-use Celsius\Celsius3Bundle\Document\City;
+use Celsius3\CoreBundle\Tests\TestCase;
+use Celsius3\CoreBundle\Document\Country;
+use Celsius3\CoreBundle\Document\City;
 
 class CountryTest extends TestCase
 {
     protected $country;
     protected $city;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -18,7 +18,7 @@ class CountryTest extends TestCase
         $this->country = new Country();
         $this->city = new City();
     }
-    
+
     public function testGetName()
     {
         $name = 'Argentina';
@@ -42,13 +42,13 @@ class CountryTest extends TestCase
         $this->country->setName($name);
 
         $this->assertNull($this->country->getId());
-        
+
         $this->documentManager->persist($this->country);
         $this->documentManager->flush();
 
         $this->assertNotNull($this->country->getId());
     }
-    
+
     public function tearDown()
     {
         parent::tearDown();

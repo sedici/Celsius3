@@ -4,7 +4,6 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Document\Catalog;
 use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 
 class CatalogManager
@@ -58,7 +57,7 @@ class CatalogManager
         return $this->dm->getRepository('Celsius3CoreBundle:CatalogResult')
                         ->createQueryBuilder()
                         ->field('title')->equals($title)
-                        ->field('catalog.id')->in(array_map(function(Catalog $catalog) {
+                        ->field('catalog.id')->in(array_map(function (Catalog $catalog) {
                                     return $catalog->getId();
                                 }, $catalogs->toArray()))
                         ->getQuery()

@@ -12,7 +12,6 @@ use FOS\RestBundle\Controller\Annotations\Get;
  */
 class OrderController extends BaseController
 {
-
     /**
      * GET Route annotation.
      * @Get("/{user_id}")
@@ -54,7 +53,7 @@ class OrderController extends BaseController
         $orders = $dm->getRepository('Celsius3CoreBundle:Order')
                 ->findByStateType($state, $startDate, null, $this->getInstance())
                 ->toArray();
-        
+
         $this->get('logger')->info(count($orders));
 
         $view = $this->view($orders, 200)
@@ -87,5 +86,4 @@ class OrderController extends BaseController
 
         return $this->handleView($view);
     }
-
 }

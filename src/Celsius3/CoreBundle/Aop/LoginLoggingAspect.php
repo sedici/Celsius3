@@ -47,6 +47,7 @@ class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterfac
 
             $dm->persist($log);
             $dm->flush();
+
             return $token;
         } catch (AuthenticationException $e) {
             $user = $request->request->get('_username');

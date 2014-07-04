@@ -41,8 +41,7 @@ class ScriptHandler
 
         $process = new Process($php . ' ' . $console . ' ' . $cmd, null, null,
                 null, $timeout);
-        $process->run(function ($type, $buffer)
-                {
+        $process->run(function ($type, $buffer) {
                     echo $buffer;
                 });
         if (!$process->isSuccessful()) {

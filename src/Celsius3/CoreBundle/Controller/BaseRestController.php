@@ -16,7 +16,7 @@ class BaseRestController extends FOSRestController
     {
         return $this->get('doctrine.odm.mongodb.document_manager');
     }
-    
+
     protected function getDirectory()
     {
         return $this->get('celsius3_core.instance_manager')->getDirectory();

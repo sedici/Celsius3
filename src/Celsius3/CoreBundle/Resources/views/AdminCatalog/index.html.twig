@@ -21,7 +21,7 @@
     {% set count = pagination.count %}
     {% set first = count is odd ? count/2 + 1 : count/2 %}
     {% set second = count - first + 1 %}
-    <div class="col-md-6">        
+    <div class="col-md-6">
         <div id="main-accordion" class="panel-group main-list connectedSortable firstColumn">
         {% for element in pagination|slice(0, first) %}
             <div class="panel panel-default draggable" data-id="{{ element.id }}">
@@ -42,7 +42,7 @@
         {% endfor %}
         </div>
     </div>
-    <div class="col-md-6">        
+    <div class="col-md-6">
         <div id="main-accordion" class="panel-group main-list connectedSortable secondColumn">
         {% for element in pagination|slice(first, second) %}
             <div class="panel panel-default draggable" data-id="{{ element.id }}">

@@ -1,8 +1,8 @@
 <?php
 
-namespace Celsius\Celsius3Bundle\Tests\Document;
+namespace Celsius3\CoreBundle\Tests\Document;
 
-use Celsius\Celsius3Bundle\Document\SingleInstanceRequest;
+use Celsius3\CoreBundle\Document\SingleInstanceRequest;
 
 class SingleInstanceRequestTest extends SingleInstanceTest
 {
@@ -13,7 +13,7 @@ class SingleInstanceRequestTest extends SingleInstanceTest
 
         $this->event = new SingleInstanceRequest();
     }
-    
+
     public function testGenerateSingleInstanceRequest()
     {
         $date = date('Y-m-d H:i:s');

@@ -40,7 +40,7 @@ class OrderFilterType extends AbstractType
                                         1 => 'Search',),))
                 ->add('state', 'choice',
                        array('required' => false,
-                			 'choices' => array( 
+                             'choices' => array(
                                         /** @Ignore */ StateManager::STATE__CREATED => ucfirst(
                                                 StateManager::STATE__CREATED),
                                         /** @Ignore */ StateManager::STATE__SEARCHED => ucfirst(

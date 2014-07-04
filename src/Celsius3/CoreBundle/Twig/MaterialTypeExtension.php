@@ -34,6 +34,7 @@ class MaterialTypeExtension extends \Twig_Extension
     private function getClassName(MaterialType $material)
     {
         $class = explode('\\', get_class($material));
+
         return end($class);
     }
 

@@ -13,7 +13,6 @@ use FOS\RestBundle\Controller\Annotations\Post;
  */
 class UserController extends BaseController
 {
-
     /**
      * @Get("/")
      */
@@ -121,5 +120,4 @@ class UserController extends BaseController
 
         return $this->handleView($view);
     }
-
 }

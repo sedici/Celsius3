@@ -5,7 +5,6 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
 
 /**
  * User controller.
@@ -41,12 +40,12 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
     public function getInstitutionsAction($country_id, $city_id, Request $request)
     {
         $dm = $this->getDocumentManager();
-        
+
         $filter = null;
         if ($request->query->has('filter') && $request->query->get('filter') !== '') {
             $filter = $request->query->get('filter');
         }
-        
+
         $hive = $this->getInstance()->getHive();
 
         $institutions = $dm->getRepository('Celsius3CoreBundle:Institution')

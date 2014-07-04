@@ -24,6 +24,7 @@ class FileManager
     {
         $im = new \Imagick();
         $im->pingImage($file);
+
         return $im->getNumberImages();
     }
 

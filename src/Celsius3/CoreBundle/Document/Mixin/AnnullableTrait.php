@@ -18,12 +18,13 @@ trait AnnullableTrait
     /**
      * Set isAnnulled
      *
-     * @param boolean $isAnnulled
+     * @param  boolean $isAnnulled
      * @return self
      */
     public function setIsAnnulled($isAnnulled)
     {
         $this->isAnnulled = $isAnnulled;
+
         return $this;
     }
 

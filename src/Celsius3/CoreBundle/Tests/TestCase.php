@@ -4,7 +4,7 @@
  * Base test case for the bundle test suite
  */
 
-namespace Celsius\Celsius3Bundle\Tests;
+namespace Celsius3\CoreBundle\Tests;
 
 require_once dirname(__DIR__) . '/../../../app/AppKernel.php';
 
@@ -61,11 +61,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
-    protected function runConsole($command, Array $options = array())
+    protected function runConsole($command, array $options = array())
     {
         $options["-e"] = "test";
         $options["-q"] = null;
         $options = array_merge($options, array('command' => $command));
+
         return $this->_application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
     }
 

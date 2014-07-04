@@ -12,7 +12,6 @@ class BaseInstanceDependentRestController extends BaseRestController
      */
     protected function getInstance()
     {
-
         return $this->get('celsius3_core.instance_helper')->getSessionInstance();
     }
 

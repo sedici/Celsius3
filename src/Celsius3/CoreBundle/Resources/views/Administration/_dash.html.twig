@@ -12,7 +12,7 @@
         <div class="pull-right">
             <h3>
                 <a href="{{ path('admin_order')~'?state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED') ~'&state[]='~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED') ~'&state[]=' ~ constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED') }}">
-                    {{ 'Delivered'|trans }} 
+                    {{ 'Delivered'|trans }}
                     {{ orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__DELIVERED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CANCELLED')]+orderCount[constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__ANNULLED')] }}
                 </a>
             </h3>

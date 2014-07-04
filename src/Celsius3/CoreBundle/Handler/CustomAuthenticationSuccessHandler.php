@@ -27,7 +27,7 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $response = parent::onAuthenticationSuccess($request, $token);
-        
+
         if ($this->security_context->isGranted(array(UserManager::ROLE_SUPER_ADMIN))) {
             $response->setTargetUrl($this->router->generate('superadministration'));
         } elseif ($this->security_context->isGranted(array(UserManager::ROLE_ADMIN))) {
