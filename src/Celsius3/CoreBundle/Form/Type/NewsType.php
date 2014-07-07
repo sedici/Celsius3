@@ -8,7 +8,6 @@ use Celsius3\CoreBundle\Document\Instance;
 
 class NewsType extends AbstractType
 {
-
     private $instance;
 
     public function __construct(Instance $instance)
@@ -18,8 +17,9 @@ class NewsType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')
-                ->add('text', 'genemu_tinymce')
+        $builder
+                ->add('title')
+                ->add('text', 'textarea')
                 ->add('date', 'datetime', array(
                     'widget' => 'single_text',
                     'format' => 'dd/MM/yyyy HH:mm',
@@ -41,5 +41,4 @@ class NewsType extends AbstractType
     {
         return 'celsius3_corebundle_newstype';
     }
-
 }

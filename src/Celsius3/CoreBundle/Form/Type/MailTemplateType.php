@@ -9,7 +9,6 @@ use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class MailTemplateType extends AbstractType
 {
-
     protected $instance;
 
     public function __construct(Instance $instance)
@@ -22,7 +21,7 @@ class MailTemplateType extends AbstractType
         $builder
                 ->add('title')
                 ->add('code')
-                ->add('text', 'genemu_tinymce')
+                ->add('text', 'textarea')
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
@@ -41,5 +40,4 @@ class MailTemplateType extends AbstractType
     {
         return 'celsius3_corebundle_mailtemplatetype';
     }
-
 }

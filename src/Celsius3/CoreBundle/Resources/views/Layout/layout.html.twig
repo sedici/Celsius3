@@ -15,7 +15,8 @@
                        '@select2'
                        '@datatables_css'
                        '@select2_bootstrap_css'
-                       '@angular_loading_bar_css' %}
+                       '@angular_loading_bar_css'
+                       '@summernote_css' %}
         <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
@@ -110,7 +111,8 @@
                            '@angular_sanitize_js'
                            '@angular_loading_bar_js'
                            '@angular_translate_js'
-                           '@angular_translate_loader_static_files_js' %}
+                           '@angular_translate_loader_static_files_js'
+                           '@summernote_js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
@@ -128,8 +130,6 @@
         {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
         <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/autobahn.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/tinymce.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery.tinymce.min.js') }}"></script>
         {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
         {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
         {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}

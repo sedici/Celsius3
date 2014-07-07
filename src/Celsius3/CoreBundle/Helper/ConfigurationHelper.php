@@ -12,7 +12,7 @@ class ConfigurationHelper
         'boolean' => 'checkbox',
         'integer' => 'integer',
         'email' => 'email',
-        'text' => 'genemu_tinymce',
+        'text' => 'textarea',
         'language' => 'celsius3_corebundle_language_type',
         'confirmation' => 'celsius3_corebundle_confirmation_type',
     );

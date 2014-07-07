@@ -1,4 +1,9 @@
-$.fn.modal.Constructor.prototype.enforceFocus = function () {};
+$.fn.modal.Constructor.prototype.enforceFocus = function() {
+};
+
+$('textarea').summernote({
+    height: 200
+});
 
 function getOldValues() {
     var values = [];
@@ -48,7 +53,7 @@ $('.mark-catalog').click(registerSearch);
 /**
  * Turns default date picker into a jQuery UI widget
  */
-if (_locale != "en") {
+if (_locale !== "en") {
     $.datepicker.setDefaults($.datepicker.regional[_locale]);
 } else {
     $.datepicker.setDefaults($.datepicker.regional[""]);
@@ -123,7 +128,7 @@ if (user_exists) {
     }
 
     $('#celsius3_corebundle_ordertype_target').change(function() {
-        if ($('#celsius3_corebundle_ordertype_target').val() == 'me') {
+        if ($('#celsius3_corebundle_ordertype_target').val() === 'me') {
             noLibrarian(user_id);
         } else {
             librarian(user_id);
@@ -142,7 +147,7 @@ $('.union_link, .enable_link').click(function() {
  * News date edition
  */
 $('#celsius3_corebundle_newstype_date').datetimepicker({
-    showSecond: true,
+    showSecond: true
 });
 var dateWidgets = $('#celsius3_corebundle_newstype_date');
 dateWidgets.hide();
