@@ -1,5 +1,5 @@
 orderApp.factory('Order', ['$resource', function($resource) {
-        return $resource(Routing.generate('admin_rest_order') + ':id',
+        return $resource(Routing.generate('admin_rest_order') + '/:id',
                 {id: '@id'}
         );
     }]);

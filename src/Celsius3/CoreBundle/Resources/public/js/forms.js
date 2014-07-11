@@ -1,7 +1,7 @@
 $.fn.modal.Constructor.prototype.enforceFocus = function() {
 };
 
-$('textarea').summernote({
+$('.summernote').summernote({
     height: 200
 });
 

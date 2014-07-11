@@ -56,7 +56,11 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
 
         $builder
                 ->add('subject', 'text')
-                ->add('body', 'genemu_tinymce')
+                ->add('body', 'textarea', array(
+                    'attr' => array(
+                        'class' => 'summernote'
+                    ),
+                ))
         ;
     }
 

@@ -6,13 +6,13 @@ orderFilters.filter('request_type', function() {
     };
 });
 
-orderFilters.filter('request_type_abbr', function($translate) {
+orderFilters.filter('request_type_abbr', function() {
     return function(type) {
         return type === 'search' ? 's' : 'p';
     };
 });
 
-orderFilters.filter('material_with_index', function($translate) {
+orderFilters.filter('material_with_index', function() {
     return function(input) {
         return input === true ? 'yes' : 'no';
     };

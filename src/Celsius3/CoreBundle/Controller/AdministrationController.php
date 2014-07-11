@@ -21,25 +21,12 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        $orderCount = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:State')
-                ->countOrders($this->getInstance());
-
-        $query = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance());
-
         $pendingUsers = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findPendingUsers($this->getInstance());
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
-
         return array(
-            'pagination' => $pagination,
             'users' => $pendingUsers,
-            'orderCount' => $orderCount,
         );
     }
 

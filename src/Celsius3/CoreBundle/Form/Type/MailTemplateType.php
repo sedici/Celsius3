@@ -21,7 +21,11 @@ class MailTemplateType extends AbstractType
         $builder
                 ->add('title')
                 ->add('code')
-                ->add('text', 'textarea')
+                ->add('text', 'textarea', array(
+                    'attr' => array(
+                        'class' => 'summernote',
+                    ),
+                ))
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder

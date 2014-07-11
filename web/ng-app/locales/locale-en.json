@@ -101,5 +101,8 @@
     "requested": "Requested",
     "approvalPending": "Approval pending",
     "received": "Received",
-    "delivered": "Delivered"
+    "delivered": "Delivered",
+    "addOrder": "Add order",
+    "beingSearched": "Being searched",
+    "myOrders": "My orders"
 }

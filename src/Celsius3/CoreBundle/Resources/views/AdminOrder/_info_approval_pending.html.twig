@@ -1,9 +1,0 @@
-{% if hasState %}
-<div id="{{ 'info_'~state }}" class="collapse {{ isCurrent?'in':'' }}">
-    <div class="well">
-        {% for event in order.getState(constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING'), instance).remoteEvents %}
-            {{ render_receive_event(event, order)|raw }}
-        {% endfor %}
-    </div>
-</div>
-{% endif %}

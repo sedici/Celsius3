@@ -19,7 +19,11 @@ class NewsType extends AbstractType
     {
         $builder
                 ->add('title')
-                ->add('text', 'textarea')
+                ->add('text', 'textarea', array(
+                    'attr' => array(
+                        'class' => 'summernote',
+                    ),
+                ))
                 ->add('date', 'datetime', array(
                     'widget' => 'single_text',
                     'format' => 'dd/MM/yyyy HH:mm',

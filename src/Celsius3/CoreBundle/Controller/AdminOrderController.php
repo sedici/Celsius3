@@ -51,7 +51,7 @@ class AdminOrderController extends OrderController
     /**
      * Finds and displays a Order document.
      *
-     * @Route("/{id}/show", name="admin_order_show")
+     * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
      * @Template()
      *
      * @param string $id The document ID
@@ -68,7 +68,7 @@ class AdminOrderController extends OrderController
     /**
      * Displays a form to create a new Order document.
      *
-     * @Route("/new", name="admin_order_new")
+     * @Route("/new", name="admin_order_new", options={"expose"=true})
      * @Template()
      *
      * @return array

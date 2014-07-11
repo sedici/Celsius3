@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-left">
+            <h3><a href="#/all/{{state}}">{{'all'|translate}}</a></h3>
+        </div>
+        <div class="pull-left">
+            <h3>&nbsp;|&nbsp;</h3>
+        </div>
+        <div class="pull-left">
+            <h3><a href="#/mine/{{state}}">{{'myOrders'|translate}}</a></h3>
+        </div>
+        <div class="pull-right">
+            <h3>
+                <a href="#/{{type}}/delivered">
+                    {{'delivered'|translate}}
+                    {{ orderCount.delivered + orderCount.cancelled + orderCount.anulled}}
+                </a>
+            </h3>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 dash">
+        <ul class="list-unstyled">
+            <li>
+                <h2><a href="{{{
+                        path: 'admin_order_new'
+                    }
+                    |get_url}}"><span class="glyphicon glyphicon-plus"></span> {{'addOrder'|translate}}</a></h2>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="#/{{type}}/created">{{'Created'|translate}}</a></h3>
+                    </li>
+                    <li>
+                        <h2><a href="#/{{type}}/created">{{orderCount.created}}</a></h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="#/{{type}}/searched">{{'beingSearched'|translate}}</a></h3>
+                    </li>
+                    <li>
+                        <h2><a href="#/{{type}}/searched">{{orderCount.searched}}</a></h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="#/{{type}}/requested">{{'requested'|translate}}</a></h3>
+                    </li>
+                    <li>
+                        <h2><a href="#/{{type}}/requested">{{orderCount.requested}}</a></h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="#/{{type}}/approval_pending">{{'approvalPending'|translate}}</a></h3>
+                    </li>
+                    <li>
+                        <h2><a href="#/{{type}}/approval_pending">{{orderCount.approval_pending}}</a></h2>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul class="list-unstyled">
+                    <li>
+                        <h3><a href="#/{{type}}/received">{{'received'|translate}}</a></h3>
+                    </li>
+                    <li>
+                        <h2><a href="#/{{type}}/received">{{orderCount.received}}</a></h2>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

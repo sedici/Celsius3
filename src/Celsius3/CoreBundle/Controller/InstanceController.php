@@ -16,10 +16,14 @@ abstract class InstanceController extends BaseController
         $configureForm = $this->createFormBuilder();
 
         foreach ($document->getConfigurations() as $configuration) {
-            $configureForm->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration), array(
+            $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
+            $configureForm->add($configuration->getKey(), $configurationType, array(
                 'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
                 /** @Ignore */ 'label' => $configuration->getName(),
                 'required' => false,
+                'attr' => array(
+                    'class' => $configurationType === 'textarea' ? 'summernote' : '',
+                ),
             ));
         }
 
@@ -75,5 +79,4 @@ abstract class InstanceController extends BaseController
             'configure_form' => $configureForm->createView(),
         );
     }
-
 }

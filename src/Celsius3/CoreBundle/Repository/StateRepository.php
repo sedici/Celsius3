@@ -3,20 +3,42 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
 
 class StateRepository extends DocumentRepository
 {
+    protected function getRequestIds($value)
+    {
+        return $value['_id'];
+    }
 
-    public function countOrders(Instance $instance = null)
+    public function countOrders(Instance $instance = null, BaseUser $user = null)
     {
         $types = $this->dm->getRepository('Celsius3CoreBundle:StateType')
                         ->createQueryBuilder()->hydrate(false)->select('id', 'name')
                         ->getQuery()->execute()->toArray();
+        
+        $requests = $this->getDocumentManager()
+                        ->getRepository('Celsius3CoreBundle:Request')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('id')
+                        ->field('instance.id')->equals($instance->getId());
+
+        if (!is_null($user)) {
+            $requests = $requests->addOr($requests->expr()->field('operator.id')->equals($user->getId()))
+                    ->addOr($requests->expr()->field('operator.id')->equals(null));
+        }
+
+        $requests = array_map(array($this, 'getRequestIds'), $requests->getQuery()
+                        ->execute()
+                        ->toArray());
 
         $qb = $this->createQueryBuilder()
                 ->field('isCurrent')->equals(true)
+                ->field('request.id')->in($requests)
                 ->map('function () { emit(this.type.$id, 1); }')
                 ->reduce(
                 'function (k, vals) {
@@ -89,5 +111,4 @@ class StateRepository extends DocumentRepository
                         ->getQuery()
                         ->execute();
     }
-
 }

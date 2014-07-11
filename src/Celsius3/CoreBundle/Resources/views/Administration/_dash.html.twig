@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="pull-left">
-            <h3><a href="#">{{ 'All'|trans }}</a></h3>
+            <h3><a href="{{ path('administration')~'?all=true' }}">{{ 'All'|trans }}</a></h3>
         </div>
         <div class="pull-left">
             <h3>&nbsp;|&nbsp;</h3>
         </div>
         <div class="pull-left">
-            <h3><a href="#">{{ 'My Orders'|trans }}</a></h3>
+            <h3><a href="{{ path('administration') }}">{{ 'My Orders'|trans }}</a></h3>
         </div>
         <div class="pull-right">
             <h3>

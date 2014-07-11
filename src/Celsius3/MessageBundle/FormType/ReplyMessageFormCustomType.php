@@ -12,7 +12,11 @@ class ReplyMessageFormCustomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('body', 'genemu_tinymce')
+                ->add('body', 'textarea', array(
+                    'attr' => array(
+                        'class' => 'summernote'
+                    ),
+                ))
         ;
     }
 
@@ -27,5 +31,4 @@ class ReplyMessageFormCustomType extends AbstractType
     {
         return 'celsius3_message_reply_message_custom';
     }
-
 }
