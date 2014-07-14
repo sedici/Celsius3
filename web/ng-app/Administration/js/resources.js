@@ -1,10 +1,13 @@
 administrationApp.factory('Order', ['$resource', function($resource) {
         return $resource(Routing.generate('admin_rest_order') + ':id',
-                {id: '@id'});
+                {id: '@id'}, {
+            withRequests: {url: Routing.generate('admin_rest_order_request_get'), isArray: false}
+        });
     }]);
 
-administrationApp.factory('Request', ['$resource', function($resource) {
-        return $resource(Routing.generate('admin_rest_request') + ':order_id',
-                {order_id: '@order_id'}
-        );
+administrationApp.factory('User', ['$resource', function($resource) {
+        return $resource(Routing.generate('admin_rest_user') + ':id',
+                {id: '@id'}, {
+            pending: {url: Routing.generate('admin_rest_user_pending'), isArray: true}
+        });
     }]);

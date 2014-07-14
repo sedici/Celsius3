@@ -129,7 +129,7 @@ class AdminBaseUserController extends BaseUserController
     /**
      * Displays a form to edit an existing BaseUser document.
      *
-     * @Route("/{id}/edit", name="admin_user_edit")
+     * @Route("/{id}/edit", name="admin_user_edit", options={"expose"=true})
      * @Template()
      *
      * @param string $id

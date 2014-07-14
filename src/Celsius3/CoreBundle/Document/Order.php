@@ -4,12 +4,16 @@ namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
  * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
  */
 class Order
 {
+    use TimestampableDocument;
 
     /**
      * @MongoDB\Id

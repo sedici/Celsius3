@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="col-md-12" ng-if="orders.length > 0">
     <div class="navigation">
         <pagination total-items="total" ng-model="pagination.currentPage" ng-change="pageChanged()"></pagination>
     </div>
@@ -6,6 +6,9 @@
     <div class="sorting-group pull-right">
         <span>
             {{'Sort by'|translate}}:
+            <a href ng-click="sort('createdAt')">{{'Date'|translate}}</a> -
+            <a href ng-click="sort('code')">{{'Code'|translate}}</a> -
+            <a href ng-click="sort('materialData.title')">{{'Title'|translate}}</a>
         </span>
     </div>
     <div class="clearfix"></div>
@@ -22,7 +25,7 @@
                 <div class="status-{{order.request.current_state}}"></div>
                 <div class="uri">{{order.code}}</div>
                 <div class="usuario">
-                    {{request.operator ? request.operator.name : '-'}}
+                    {{order.request.operator ? order.request.operator.name : '-'}}
                 </div>
                 <div class="decoracion"></div>
             </div>
@@ -62,4 +65,8 @@
     <div class="navigation">
         <pagination total-items="total" ng-model="pagination.currentPage" ng-change="pageChanged()"></pagination>
     </div>
+</div>
+
+<div class="col-md-12" ng-if="orders.length === 0">
+    <p>{{'There are no matching orders.' | translate}}</p>
 </div>

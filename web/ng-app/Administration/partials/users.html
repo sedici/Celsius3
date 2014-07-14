@@ -1,0 +1,19 @@
+<h2>{{'Pending users'|translate}}</h2>
+<ul class="list-group" ng-if="users.length > 0">
+    <li class="list-group-item user-item" ng-repeat="user in users">
+        <div class="pull-left user-data">
+            {{user.surname}}, {{user.name}}
+        </div>
+        <div class="pull-right">
+            <ul class="list-unstyled list-inline">
+                <li><a href ng-click="enableUser(user.id)"><span class="glyphicon glyphicon-ok"></span></a></li>
+                <li><a href ng-click="showUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                <li><a ng-href="{{ {path: 'admin_user_edit', params: { 'id': user.id } } | get_url }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </li>
+</ul>
+<p ng-if="users.length === 0">
+    {{ 'There are no pending users'|translate}}
+</p>

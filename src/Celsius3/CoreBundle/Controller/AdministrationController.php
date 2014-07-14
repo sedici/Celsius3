@@ -21,13 +21,7 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        $pendingUsers = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findPendingUsers($this->getInstance());
-
-        return array(
-            'users' => $pendingUsers,
-        );
+        return array();
     }
 
     /**
@@ -77,5 +71,4 @@ class AdministrationController extends BaseInstanceDependentController
 
         return $this->redirect($this->generateUrl('administration'));
     }
-
 }

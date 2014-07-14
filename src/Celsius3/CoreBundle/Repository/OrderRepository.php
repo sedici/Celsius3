@@ -75,16 +75,16 @@ class OrderRepository extends DocumentRepository
         ));
 
         $states = array_map(array($this, 'getRequestIds'), $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:State')
-                ->createQueryBuilder()
-                ->hydrate(false)
-                ->select('request')
-                ->field('isCurrent')->equals(true)
-                ->field('type.id')->equals($type->getId())
-                ->field('instance.id')->equals($instance->getId())
-                ->getQuery()
-                ->execute()
-                ->toArray());
+                        ->getRepository('Celsius3CoreBundle:State')
+                        ->createQueryBuilder()
+                        ->hydrate(false)
+                        ->select('request')
+                        ->field('isCurrent')->equals(true)
+                        ->field('type.id')->equals($type->getId())
+                        ->field('instance.id')->equals($instance->getId())
+                        ->getQuery()
+                        ->execute()
+                        ->toArray());
 
         $requests = $this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:Request')

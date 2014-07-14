@@ -31,7 +31,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $orders = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), $user, $state);
-        
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
@@ -58,6 +58,53 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 ->countOrders($this->getInstance(), $user);
 
         $view = $this->view($orderCount, 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
+     * @Get("/get", name="admin_rest_order_request_get", options={"expose"=true})
+     */
+    public function getOrdersAndRequestsAction(Request $request)
+    {
+        if ($request->query->get('type', null) === 'mine') {
+            $user = $this->getUser();
+        } else {
+            $user = null;
+        }
+
+        $state = $request->query->get('state', null);
+
+        $orders = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), $user, $state);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
+
+        $requests = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->createQueryBuilder()
+                ->field('order.id')->in(array_map(function ($order) {
+                            return $order->getId();
+                        }, $pagination))
+                ->getQuery()
+                ->execute()
+                ->toArray();
+
+        $response = array(
+            'orders' => array_values($pagination),
+            'requests' => array_column(array_map(function($request) {
+                        return array(
+                            'id' => $request->getOrder()->getId(),
+                            'request' => $request,
+                        );
+                    }, $requests), 'request', 'id'),
+        );
+
+        $view = $this->view($response, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
