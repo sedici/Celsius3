@@ -55,6 +55,14 @@ administrationControllers.controller('AdministrationCtrl', function($scope, $rou
         });
         $('#user-modal').modal('show');
     };
+    
+    $scope.isActive = function(state) {
+        return state === $scope.state ? 'active' : '';
+    };
+    
+    $scope.isActiveType = function(type) {
+        return type === $scope.type ? 'active' : '';
+    };
 
     $scope.pagination = {
         currentPage: 1

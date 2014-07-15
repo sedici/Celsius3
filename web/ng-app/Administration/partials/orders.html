@@ -44,10 +44,6 @@
         
         <div class="comments">{{order.request.comments}}</div>
 
-        <div class="order-operator">
-            <a href="#">{{order.request.operator.username}}</a>
-        </div>
-
         <div class="order-actions">
             <ul class="list-unstyled actions">
                 <li>
@@ -68,5 +64,5 @@
 </div>
 
 <div class="col-md-12" ng-if="orders.length === 0">
-    <p>{{'There are no matching orders.' | translate}}</p>
+    <p>{{'noMatchingOrders' | translate}}</p>
 </div>
