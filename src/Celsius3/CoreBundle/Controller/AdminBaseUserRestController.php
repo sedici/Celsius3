@@ -61,7 +61,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $user = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
-            'instance.id' => $this->getInstance(),
+            'instance.id' => $this->getInstance()->getId(),
             'id' => $user_id,
         ));
 
@@ -73,8 +73,8 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $dm = $this->getDocumentManager();
         $dm->persist($user);
         $dm->flush();
-
-        $view = $this->view($user->getEnabled(), 200)
+        
+        $view = $this->view($user->isEnabled(), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);

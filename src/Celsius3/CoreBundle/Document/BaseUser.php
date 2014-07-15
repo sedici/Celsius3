@@ -26,7 +26,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 {
 
     use TimestampableDocument;
-
     /**
      * @MongoDB\Id
      */
@@ -445,8 +444,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *
      * @param Celsius3\CoreBundle\Document\CustomUserValue $customValues
      */
-    public function addCustomValue(
-    \Celsius3\CoreBundle\Document\CustomUserValue $customValues)
+    public function addCustomValue(\Celsius3\CoreBundle\Document\CustomUserValue $customValues)
     {
         $this->customValues[] = $customValues;
     }
@@ -456,8 +454,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *
      * @param Celsius3\CoreBundle\Document\CustomUserValue $customValues
      */
-    public function removeCustomValue(
-    \Celsius3\CoreBundle\Document\CustomUserValue $customValues)
+    public function removeCustomValue(\Celsius3\CoreBundle\Document\CustomUserValue $customValues)
     {
         $this->customValues->removeElement($customValues);
     }
@@ -525,4 +522,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->administeredInstances;
     }
 
+    public function getCountry()
+    {
+        return $this->getInstitution()->getCountry();
+    }
+
+    public function getCity()
+    {
+        return $this->getInstitution()->getCity();
+    }
 }

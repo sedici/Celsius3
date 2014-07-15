@@ -44,12 +44,16 @@ administrationControllers.controller('AdministrationCtrl', function($scope, $rou
                 User.pending(function(users) {
                     $scope.users = users;
                 });
+                $('#user-modal').modal('hide');
             }
         });
     };
 
     $scope.showUserModal = function(user_id) {
-
+        $scope.currentUser = _.find($scope.users, function(user) {
+            return user.id === user_id;
+        });
+        $('#user-modal').modal('show');
     };
 
     $scope.pagination = {

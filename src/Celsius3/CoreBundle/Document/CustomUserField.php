@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -11,7 +12,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class CustomUserField
 {
-
     /**
      * @MongoDB\Id
      */
@@ -50,6 +50,7 @@ class CustomUserField
      * @MongoDB\ReferenceMany(targetDocument="CustomUserValue", mappedBy="field")
      */
     private $values;
+
     public function __construct()
     {
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();

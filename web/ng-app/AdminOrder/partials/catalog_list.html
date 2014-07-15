@@ -13,7 +13,7 @@
                 <p class="{{hasResult(catalog) ? 'lead' : ''}}"><a ng-href="{{catalog.url}}" target="_blank">{{catalog.name}}</a></p>
             </td>
             <td class="catalog-result">
-                {{catalog.search.date|date:'dd-MM-yyyy'}}
+                {{catalog.search.date|date:'mediumDate'}}
             </td>
             <td class="catalog-marker">
                 <select ng-model="catalog.search.result" ng-options="s.value as s.text for s in search_results" ng-change="updateCatalog(catalog)">
