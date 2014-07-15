@@ -108,5 +108,7 @@
     "code": "Code",
     "noMatchingOrders": "There are no matching orders.",
     "enable": "Enable",
-    "noPendingUsers": "There are no pending users."
+    "noPendingUsers": "There are no pending users.",
+    "username": "Username",
+    "birthdate": "Birthdate"
 }
