@@ -104,5 +104,9 @@
     "delivered": "Delivered",
     "addOrder": "Add order",
     "beingSearched": "Being searched",
-    "myOrders": "My orders"
+    "myOrders": "My orders",
+    "code": "Code",
+    "noMatchingOrders": "There are no matching orders.",
+    "enable": "Enable",
+    "noPendingUsers": "There are no pending users."
 }
