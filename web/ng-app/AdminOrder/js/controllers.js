@@ -429,6 +429,13 @@ orderControllers.controller('OrderCtrl', function($scope, $http, $fileUploader, 
         });
     };
 
+    $scope.emailModal = function(email) {
+        $scope.contacts = null;
+        $scope.templates = MailTemplate.query();
+        $scope.forms.email.address = email;
+        $('#email-modal').modal('show');
+    };
+
     $scope.formatUploadData = function(form) {
         return _.pairs(form).map(function(item) {
             return _.object([item]);

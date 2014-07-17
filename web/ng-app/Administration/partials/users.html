@@ -40,7 +40,10 @@
                     <dt>{{'address'|translate}}</dt>
                     <dd>{{currentUser.address?currentUser.address:'-' }}</dd>
                     <dt>{{'email'|translate}}</dt>
-                    <dd>{{currentUser.email}}</dd>
+                    <dd>
+                        {{currentUser.email}}
+                        <a href class="emailModal" data-email="{{currentUser.email}}"><span class="glyphicon glyphicon-envelope"></span></a>
+                    </dd>
                     <dt ng-repeat-start="customValue in currentUser.custom_values">{{customValue.field.name}}</dt>
                     <dd ng-repeat-end>{{customValue.value}}</dd>
                 </dl>

@@ -1,5 +1,5 @@
 <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
-    <div class="form-group">
+    <div class="form-group" ng-if="contacts !== null">
         <label for="contact">{{'contact' | translate}}</label>
         <select ui-select2="select2Contacts" ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
             <option></option>

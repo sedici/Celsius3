@@ -10,9 +10,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ {path: 'admin_mails_modal', params: { 'user_id': request.owner.id, 'order_id': order.id } }|get_url }}" data-toggle="modal" data-target="#modal-email">
-            <span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | translate}}
-        </a>
+        <a href ng-click="emailModal(request.owner.email)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | translate}}</a>
     </li>
     <li ng-if="contains(['received'], request.current_state)">
         <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'deliver' | translate}}</a>

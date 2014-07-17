@@ -1317,7 +1317,9 @@ public function prepare(Request $request)
 $headers = $this->headers;
 if ($this->isInformational() || in_array($this->statusCode, array(204, 304))) {
 $this->setContent(null);
-}
+$headers->remove('Content-Type');
+$headers->remove('Content-Length');
+} else {
 if (!$headers->has('Content-Type')) {
 $format = $request->getRequestFormat();
 if (null !== $format && $mimeType = $request->getMimeType($format)) {
@@ -1326,9 +1328,9 @@ $headers->set('Content-Type', $mimeType);
 }
 $charset = $this->charset ?:'UTF-8';
 if (!$headers->has('Content-Type')) {
-$headers->set('Content-Type','text/html; charset='.$charset);
+$headers->set('Content-Type','text/html; charset='. $charset);
 } elseif (0 === stripos($headers->get('Content-Type'),'text/') && false === stripos($headers->get('Content-Type'),'charset')) {
-$headers->set('Content-Type', $headers->get('Content-Type').'; charset='.$charset);
+$headers->set('Content-Type', $headers->get('Content-Type') .'; charset='. $charset);
 }
 if ($headers->has('Transfer-Encoding')) {
 $headers->remove('Content-Length');
@@ -1338,6 +1340,7 @@ $length = $headers->get('Content-Length');
 $this->setContent(null);
 if ($length) {
 $headers->set('Content-Length', $length);
+}
 }
 }
 if ('HTTP/1.0'!= $request->server->get('SERVER_PROTOCOL')) {
@@ -2241,11 +2244,11 @@ protected $booted = false;
 protected $name;
 protected $startTime;
 protected $loadClassCache;
-const VERSION ='2.5.1';
-const VERSION_ID ='20501';
+const VERSION ='2.5.2';
+const VERSION_ID ='20502';
 const MAJOR_VERSION ='2';
 const MINOR_VERSION ='5';
-const RELEASE_VERSION ='1';
+const RELEASE_VERSION ='2';
 const EXTRA_VERSION ='';
 public function __construct($environment, $debug)
 {
