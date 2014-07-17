@@ -1,0 +1,47 @@
+<?php
+
+namespace Celsius3\CoreBundle\Document;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
+class Email
+{
+    /**
+     * @MongoDB\Id
+     */
+    private $id;
+
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $address;
+
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $subject;
+
+    /**
+     * @Assert\NotBlank()
+     * @MongoDB\String
+     */
+    private $text;
+
+    /**
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     */
+    private $sender;
+
+    /**
+     * @Assert\NotNull
+     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     */
+    private $instance;
+}

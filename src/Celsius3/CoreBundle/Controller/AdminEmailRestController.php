@@ -47,17 +47,11 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         }
         $text = $request->request->get('text');
 
-        $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom($this->getInstance()->get('email_reply_address')->getValue())
-                ->setTo($email)
-                ->setBody($text);
-        $this->get('mailer')->send($message);
+        $result = $this->get('celsius3_core.mailer')->sendEmail($email, $subject, $text, $this->getInstance());
 
-        $view = $this->view(true, 200)
+        $view = $this->view($result, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
     }
-
 }

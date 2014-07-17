@@ -15,6 +15,7 @@
         <parameter key="celsius3_core.twig.extension.events.class">Celsius3\CoreBundle\Twig\EventExtension</parameter>
         <parameter key="celsius3_core.twig.extension.material_type.class">Celsius3\CoreBundle\Twig\MaterialTypeExtension</parameter>
         <parameter key="celsius3_core.twig.extension.catalogs.class">Celsius3\CoreBundle\Twig\CatalogExtension</parameter>
+        <parameter key="celsius3_core.mailer.class">Celsius3\CoreBundle\Mailer\Mailer</parameter>
         <parameter key="celsius3_core.counter_listener.class">Celsius3\CoreBundle\Listener\CounterListener</parameter>
         <parameter key="celsius3_core.catalog_listener.class">Celsius3\CoreBundle\Listener\CatalogListener</parameter>
         <parameter key="celsius3_core.configuration_listener.class">Celsius3\CoreBundle\Listener\ConfigurationListener</parameter>
@@ -106,6 +107,10 @@
         <service id="celsius3_core.twig.extension.catalogs" class="%celsius3_core.twig.extension.catalogs.class%">
         	<argument type="service" id="celsius3_core.catalog_manager"></argument>
             <tag name="twig.extension" />
+        </service>
+        
+        <service id="celsius3_core.mailer" class="%celsius3_core.mailer.class%">
+            <argument type="service" id="service_container"></argument>
         </service>
 
         <service id="celsius3_core.counter_listener" class="%celsius3_core.counter_listener.class%">
