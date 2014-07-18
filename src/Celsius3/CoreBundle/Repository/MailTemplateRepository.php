@@ -15,8 +15,9 @@ class MailTemplateRepository extends DocumentRepository
         }, $this->createQueryBuilder()
                         ->hydrate(false)
                         ->select('code')
-                        ->field('instance.id')
-                        ->equals($instance->getId())->getQuery()
+                        ->field('instance.id')->equals($instance->getId())
+                        ->field('enabled')->equals(true)
+                        ->getQuery()
                         ->execute()
                         ->toArray());
 
@@ -27,5 +28,4 @@ class MailTemplateRepository extends DocumentRepository
                                 ->field('enabled')->equals(true))
                         ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()));
     }
-
 }

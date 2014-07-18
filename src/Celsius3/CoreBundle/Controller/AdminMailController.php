@@ -20,8 +20,8 @@ class AdminMailController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle' . $name)
-                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
     }
 
     protected function findQuery($name, $id)
@@ -158,7 +158,7 @@ class AdminMailController extends BaseInstanceDependentController
     {
         $template = $this->findQuery('MailTemplate', $id);
 
-        if (!$template) {
+        if (!$template || $template->getInstance()->getId() === $this->getDirectory()->getId()) {
             throw $this->createNotFoundException('Unable to find template.');
         }
 
@@ -203,5 +203,4 @@ class AdminMailController extends BaseInstanceDependentController
             'form' => $form,
         );
     }
-
 }
