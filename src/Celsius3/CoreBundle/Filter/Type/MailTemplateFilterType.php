@@ -15,9 +15,6 @@ class MailTemplateFilterType extends AbstractType
                 ->add('title', null, array(
                     'required' => false,
                 ))
-                ->add('enabled', null, array(
-                    'required' => false,
-                ))
         ;
     }
 

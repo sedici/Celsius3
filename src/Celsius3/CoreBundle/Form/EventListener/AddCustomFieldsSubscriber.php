@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Form\EventListener;
+
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -10,14 +11,12 @@ use Celsius3\CoreBundle\Document\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
-
     private $factory;
     private $dm;
     private $instance;
     private $registration;
 
-    public function __construct(FormFactoryInterface $factory,
-            DocumentManager $dm, Instance $instance, $registration)
+    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, Instance $instance, $registration)
     {
         $this->factory = $factory;
         $this->dm = $dm;
@@ -47,7 +46,8 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
         $userId = $data->getId() ? $data->getId() : null;
 
         $query = $this->dm->getRepository('Celsius3CoreBundle:CustomUserField')
-                ->createQueryBuilder()->field('instance.id')
+                ->createQueryBuilder()
+                ->field('instance.id')
                 ->equals($this->instance->getId());
 
         if ($this->registration) {
@@ -61,8 +61,8 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 $value = $this->dm
                         ->getRepository('Celsius3CoreBundle:CustomUserValue')
                         ->findOneBy(
-                                array('field.id' => $field->getId(),
-                                        'user.id' => $userId,));
+                        array('field.id' => $field->getId(),
+                            'user.id' => $userId,));
             } else {
                 $value = null;
             }
@@ -70,16 +70,13 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             $form
                     ->add(
                             $this->factory
-                                    ->createNamed($field->getKey(), 'text',
-                                            $value ? $value->getValue() : null,
-                                            array(
-                                                  /** @Ignore */  'label' => ucfirst(
-                                                            $field->getName()),
-                                                    'required' => $field
-                                                            ->getRequired(),
-                                                    'mapped' => false,
-                                                    'auto_initialize' => false,)));
+                            ->createNamed($field->getKey(), 'text', $value ? $value->getValue() : null, array(
+                                /** @Ignore */ 'label' => ucfirst(
+                                        $field->getName()),
+                                'required' => $field
+                                ->getRequired(),
+                                'mapped' => false,
+                                'auto_initialize' => false,)));
         }
     }
-
 }

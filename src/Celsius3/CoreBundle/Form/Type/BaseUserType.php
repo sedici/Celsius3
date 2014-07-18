@@ -5,6 +5,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Document\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
@@ -54,6 +55,8 @@ class BaseUserType extends RegistrationFormType
         if ($this->editing) {
             $builder->remove('plainPassword');
         }
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, false);
+        $builder->addEventSubscriber($subscriber);
     }
 
     public function getName()
