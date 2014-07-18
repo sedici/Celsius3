@@ -10,7 +10,6 @@ use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
 
 class FosMailer extends DefaultMailer
 {
-
     protected $request_stack;
 
     public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack)
@@ -46,5 +45,4 @@ class FosMailer extends DefaultMailer
         ));
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
-
 }

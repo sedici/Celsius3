@@ -174,7 +174,7 @@ class PublicController extends BaseInstanceDependentController
                         ->toArray();
 
                 $response[] = array(
-                    'value' => $institution['_id'],
+                    'value' => $institution['_id']->{'$id'},
                     'hasChildren' => count($children) > 0,
                     'name' => $institution['name'],
                     'level' => $level,
