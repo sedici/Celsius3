@@ -9,6 +9,7 @@ use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
+use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * BaseUser controller.
@@ -17,7 +18,6 @@ use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
  */
 class AdminBaseUserController extends BaseUserController
 {
-
     /**
      * Lists all BaseUser documents.
      *
@@ -47,8 +47,28 @@ class AdminBaseUserController extends BaseUserController
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
+        $dm = $this->getDocumentManager();
+
+        $activeOrders = $dm->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $document)
+                ->getQuery()
+                ->execute();
+        $readyOrders = $dm->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $document)
+                ->getQuery()
+                ->execute();
+        $historyOrders = $dm->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $document)
+                ->getQuery()
+                ->execute();
+
         return array(
             'element' => $document,
+            'orders' => array(
+                'active' => $activeOrders,
+                'ready' => $readyOrders,
+                'history' => $historyOrders,
+            ),
         );
     }
 
@@ -309,5 +329,4 @@ class AdminBaseUserController extends BaseUserController
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }
-
 }

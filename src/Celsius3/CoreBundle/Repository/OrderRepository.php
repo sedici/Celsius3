@@ -66,23 +66,40 @@ class OrderRepository extends DocumentRepository
         return $qb->getQuery();
     }
 
-    public function findForInstance(Instance $instance, BaseUser $user = null, $state = null)
+    public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null)
     {
-        $type = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:StateType')
-                ->findOneBy(array(
-            'name' => $state,
-        ));
+        if (is_array($state)) {
+            $type = $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:StateType')
+                    ->createQueryBuilder()
+                    ->field('name')->in($state)
+                    ->getQuery()
+                    ->execute()
+                    ->toArray();
+        } else {
+            $type = $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:StateType')
+                    ->findOneBy(array(
+                'name' => $state,
+            ));
+        }
 
-        $states = array_map(array($this, 'getRequestIds'), $this->getDocumentManager()
+        $states = $this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->select('request')
                         ->field('isCurrent')->equals(true)
-                        ->field('type.id')->equals($type->getId())
-                        ->field('instance.id')->equals($instance->getId())
-                        ->getQuery()
+                        ->field('instance.id')->equals($instance->getId());
+        if (is_array($type)) {
+            $states = $states->field('type.id')->in(array_map(function ($e) {
+                        return $e->getId();
+                    }, $type));
+        } else {
+            $states = $states->field('type.id')->equals($type->getId());
+        }
+
+        $states = array_map(array($this, 'getRequestIds'), $states->getQuery()
                         ->execute()
                         ->toArray());
 
@@ -96,6 +113,10 @@ class OrderRepository extends DocumentRepository
         if (!is_null($user)) {
             $requests = $requests->addOr($requests->expr()->field('operator.id')->equals($user->getId()))
                     ->addOr($requests->expr()->field('operator.id')->equals(null));
+        }
+
+        if (!is_null($owner)) {
+            $requests = $requests->field('owner.id')->equals($owner->getId());
         }
 
         $requests = array_map(array($this, 'getIds'), $requests->getQuery()

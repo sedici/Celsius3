@@ -12,7 +12,10 @@
             <dt>{{ 'Address'|trans }}</dt>
             <dd>{{ element.address ? element.address : '-' }}</dd>
             <dt>{{ 'Email'|trans }}</dt>
-            <dd>{{ element.email }}</dd>
+            <dd>
+                {{ element.email }}
+                <a href="#" class="emailModal" data-email="{{ element.email }}"><span class="glyphicon glyphicon-envelope"></span></a>
+            </dd>
             {% for customValue in element.customValues %}
             <dt>{{ customValue.field.name|trans }}</dt>
             <dd>{{ customValue.value }}</dd>

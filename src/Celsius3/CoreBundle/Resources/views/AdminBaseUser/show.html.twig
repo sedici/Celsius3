@@ -8,24 +8,21 @@
 <h2>{{ 'User View'|trans }}</h2>
 
 <div class="row">
-    <h3>{{ 'Personal data'|trans }}</h3>
-    {% include 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
+    <div class="col-md-9">
+        <h3>{{ 'Personal data'|trans }}</h3>
+        {% include 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
 
-    <h3>{{ 'Institutional data'|trans }}</h3>
-    <div class="row">
-        <div class="col-md-8">
+        <h3>{{ 'Institutional data'|trans }}</h3>
+        <div class="row">
             <dl class="dl-horizontal">
                 <dt>{{ 'Institution'|trans }}</dt>
                 <dd>{{ element.institution }}</dd>
-                <dt>...</dt>
-                <dd>...</dd>
+                {% include 'Celsius3CoreBundle:AdminBaseUser:_institution.html.twig' with {'institution': element.institution.parent } only %}
             </dl>
         </div>
-    </div>
 
-    <h3>{{ 'Orders'|trans }}</h3>
-    <div class="row">
-        <div class="col-md-8">
+        <h3>{{ 'Orders'|trans }}</h3>
+        <div class="row">
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#active" data-toggle="tab">{{ 'Active'|trans }}</a></li>
                 <li><a href="#ready" data-toggle="tab">{{ 'Ready'|trans }}</a></li>
@@ -35,13 +32,54 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="active">
-
+                    {% for order in orders.active %}
+                        {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order}%}
+                    {% else %}
+                        <p>{{ 'There are no orders.' | trans }}</p>
+                    {% endfor %}
                 </div>
                 <div class="tab-pane" id="ready">
-
+                    {% for order in orders.ready %}
+                        {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order}%}
+                    {% else %}
+                        <p>{{ 'There are no orders.' | trans }}</p>
+                    {% endfor %}
                 </div>
                 <div class="tab-pane" id="history">
-
+                    {% for order in orders.history %}
+                        {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order}%}
+                    {% else %}
+                        <p>{{ 'There are no orders.' | trans }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div id="accordion" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse in collapse" id="collapseTwo">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{ path('admin_user') }}">
+                                    <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('admin_user_edit', { 'id': element.id }) }}">
+                                    <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
