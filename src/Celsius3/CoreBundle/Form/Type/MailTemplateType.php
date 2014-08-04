@@ -25,6 +25,7 @@ class MailTemplateType extends AbstractType
                     'attr' => array(
                         'class' => 'summernote',
                     ),
+                    'required' => false,
                 ))
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {

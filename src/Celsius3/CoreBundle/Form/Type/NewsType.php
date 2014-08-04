@@ -23,6 +23,7 @@ class NewsType extends AbstractType
                     'attr' => array(
                         'class' => 'summernote',
                     ),
+                    'required' => false,
                 ))
                 ->add('date', 'datetime', array(
                     'widget' => 'single_text',

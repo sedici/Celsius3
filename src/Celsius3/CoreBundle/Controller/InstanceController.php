@@ -23,6 +23,7 @@ abstract class InstanceController extends BaseController
                 'required' => false,
                 'attr' => array(
                     'class' => $configurationType === 'textarea' ? 'summernote' : '',
+                    'required' => $configurationType === 'textarea' ? false : true,
                 ),
             ));
         }
