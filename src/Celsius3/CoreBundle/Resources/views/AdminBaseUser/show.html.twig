@@ -9,6 +9,8 @@
 
 <div class="row">
     <div class="col-md-9">
+        {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+        
         <h3>{{ 'Personal data'|trans }}</h3>
         {% include 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
 
@@ -54,6 +56,28 @@
                 </div>
             </div>
         </div>
+                
+        <h3>{{ 'Messages' | trans }}</h3>
+        <div class="row">
+            {% for thread in messages %}
+                <div id="id{{ thread.id }}">
+                    <div class="message-heading {{ fos_message_is_read(thread)?'message-read':'' }}">
+                        <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
+                            <span class="label label-default message-creator col-md-2">
+                                {{  thread.lastMessage.sender.fullName }}
+                            </span>
+                            <span class="message-subject col-md-7 autoellipsis">
+                                ({{ get_unread_messages(thread) }}) {{ thread.subject }}
+                            </span>
+                            <span class="pull-right">
+                                {{ thread.lastMessage.createdAt|localizeddate }}
+                            </span>
+                            <span class="clearfix"></span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     <div class="col-md-3">
         <div id="accordion" class="panel-group">
@@ -76,6 +100,16 @@
                             <li>
                                 <a href="{{ path('admin_user_edit', { 'id': element.id }) }}">
                                     <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('admin_order_new', { 'user_id': element.id }) }}">
+                                    <span class="glyphicon glyphicon-plus"></span> {{ 'Add order'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('fos_user_resetting_admin', { 'username': element.username }) }}">
+                                    <span class="fa fa-key"></span> {{ 'Reset password'|trans }}
                                 </a>
                             </li>
                         </ul>

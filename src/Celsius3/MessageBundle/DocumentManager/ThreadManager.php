@@ -5,11 +5,6 @@ use FOS\MessageBundle\DocumentManager\ThreadManager as BaseThreadManager;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use Doctrine\ODM\MongoDB\Query\Builder;
 
-/**
- * Default MongoDB ThreadManager.
- *
- * @author Thibault Duplessis <thibault.duplessis@gmail.com>
- */
 class ThreadManager extends BaseThreadManager
 {
 

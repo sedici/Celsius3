@@ -2,6 +2,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -73,9 +74,13 @@ class AdminOrderController extends OrderController
      *
      * @return array
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, null, $this->getUser()));
+        $user = $this->getDocumentManager()
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->find($request->query->get('user_id', null));
+        
+        return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, $user, $this->getUser()));
     }
 
     /**

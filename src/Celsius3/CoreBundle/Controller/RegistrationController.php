@@ -1,6 +1,7 @@
 <?php
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -16,8 +17,7 @@ class RegistrationController extends BaseRegistrationController
     public function registerAction(Request $request)
     {
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
-        $formFactory = $this->container
-                ->get('fos_user.registration.form.factory');
+        $formFactory = $this->container->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
         $userManager = $this->container->get('fos_user.user_manager');
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
@@ -26,9 +26,7 @@ class RegistrationController extends BaseRegistrationController
         $user = $userManager->createUser();
         $user->setEnabled(true);
 
-        $dispatcher
-                ->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE,
-                        new UserEvent($user, $request));
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, new UserEvent($user, $request));
 
         $form = $formFactory->createForm();
         $form->setData($user);
@@ -38,59 +36,43 @@ class RegistrationController extends BaseRegistrationController
 
             if ($form->isValid()) {
                 $event = new FormEvent($form, $request);
-                $dispatcher
-                        ->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
                 $userManager->updateUser($user);
-                $this->container->get('celsius3_core.custom_field_helper')
-                        ->processCustomFields($this->getInstance(), $form,
-                                $user);
+                $this->container->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $user);
 
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')
-                            ->generate('fos_user_registration_confirmed',
-                                    array(
-                                            'url' => $this->container
-                                                    ->get('request')
-                                                    ->get('url')));
+                    $url = $this->container->get('router')->generate('fos_user_registration_confirmed', array(
+                        'url' => $this->container->get('request')->get('url'),
+                    ));
                     $response = new RedirectResponse($url);
                 }
 
-                $dispatcher
-                        ->dispatch(FOSUserEvents::REGISTRATION_COMPLETED,
-                                new FilterUserResponseEvent($user, $request,
-                                        $response));
+                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
                 return $response;
             }
         }
 
-        return $this->container->get('templating')
-                ->renderResponse(
-                        'FOSUserBundle:Registration:register.html.'
-                                . $this->getEngine(),
-                        array('form' => $form->createView(),));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
+                    'form' => $form->createView(),
+        ));
     }
 
     public function waitConfirmationAction()
     {
-        $email = $this->container->get('session')
-                ->get('fos_user_send_confirmation_email/email');
-        $this->container->get('session')
-                ->remove('fos_user_send_confirmation_email/email');
-        $user = $this->container->get('fos_user.user_manager')
-                ->findUserByEmail($email);
+        $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
+        $this->container->get('session')->remove('fos_user_send_confirmation_email/email');
+        $user = $this->container->get('fos_user.user_manager')->findUserByEmail($email);
 
         if (null === $user) {
             throw new NotFoundHttpException(
-                    sprintf('The user with email "%s" does not exist', $email));
+            sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')
-                ->renderResponse(
-                        'FOSUserBundle:Registration:waitConfirmation.html.'
-                                . $this->getEngine(),
-                        array('user' => $user,));
+        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:waitConfirmation.html.' . $this->getEngine(), array(
+                    'user' => $user,
+        ));
     }
 
     /**
@@ -125,10 +107,8 @@ class RegistrationController extends BaseRegistrationController
      *
      * @return NotFoundHttpException
      */
-    public function createNotFoundException($message = 'Not Found',
-            \Exception $previous = null)
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
     {
         return new NotFoundHttpException($message, $previous);
     }
-
 }

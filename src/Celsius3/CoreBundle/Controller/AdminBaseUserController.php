@@ -18,6 +18,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
  */
 class AdminBaseUserController extends BaseUserController
 {
+
     /**
      * Lists all BaseUser documents.
      *
@@ -62,6 +63,11 @@ class AdminBaseUserController extends BaseUserController
                 ->getQuery()
                 ->execute();
 
+        $messages = $this->get('fos_message.thread_manager')
+                ->getParticipantSentThreadsQueryBuilder($document)
+                ->getQuery()
+                ->execute();
+
         return array(
             'element' => $document,
             'orders' => array(
@@ -69,6 +75,7 @@ class AdminBaseUserController extends BaseUserController
                 'ready' => $readyOrders,
                 'history' => $historyOrders,
             ),
+            'messages' => $messages,
         );
     }
 

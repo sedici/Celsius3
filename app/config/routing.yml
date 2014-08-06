@@ -41,8 +41,8 @@ fos_user_register:
     prefix: /{url}/public/register
 
 fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /{url}/public/resetting
+    resource: "@Celsius3CoreBundle/Resources/config/routing/resetting.xml"
+    prefix: /
 
 fos_user_change_password:
     resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"

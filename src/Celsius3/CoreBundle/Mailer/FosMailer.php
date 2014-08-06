@@ -33,11 +33,11 @@ class FosMailer extends DefaultMailer
     }
 
     public function sendResettingEmailMessage(UserInterface $user)
-    {
+    {   
         $template = $this->parameters['resetting.template'];
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),
-            'url' => $this->request_stack->getCurrentRequest()->get('url'),
+            'url' => $user->getInstance()->getUrl(),
                 ), true);
         $rendered = $this->templating->render($template, array(
             'user' => $user,
