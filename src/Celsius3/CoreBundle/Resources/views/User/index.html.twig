@@ -4,8 +4,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    {% include 'Celsius3CoreBundle:User:_orders_span.html.twig' %}
-    {% include 'Celsius3CoreBundle:User:_sidebar_span.html.twig' %}
-</div>
+    <div ng-app="userApp" ng-controller="UserCtrl">
+        <div ng-view>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="/ng-app/User/js/app.js"></script>
+    <script type="text/javascript" src="/ng-app/User/js/resources.js"></script>
+    <script type="text/javascript" src="/ng-app/User/js/controllers.js"></script>
+    <script type="text/javascript" src="/ng-app/User/js/filters.js"></script>
 {% endblock %}

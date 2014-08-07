@@ -1,6 +1,6 @@
 var administrationControllers = angular.module('administrationControllers', []);
 
-administrationControllers.controller('AdministrationCtrl', function($scope, $routeParams, $http, $filter, $translate, Order, User) {
+administrationControllers.controller('AdministrationCtrl', function($scope, $routeParams, $http, Order, User) {
     'use strict';
 
     $scope.type = $routeParams.type;

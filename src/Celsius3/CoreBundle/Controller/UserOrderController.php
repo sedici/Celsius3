@@ -77,7 +77,7 @@ class UserOrderController extends OrderController
     /**
      * Displays a form to create a new Order document.
      *
-     * @Route("/new", name="user_order_new")
+     * @Route("/new", name="user_order_new", options={"expose"=true})
      * @Template()
      *
      * @return array
