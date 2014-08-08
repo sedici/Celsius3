@@ -47,7 +47,7 @@ class UserOrderController extends OrderController
     /**
      * Lists all Order documents.
      *
-     * @Route("/", name="user_order")
+     * @Route("/", name="user_order", options={"expose"=true})
      * @Template()
      *
      * @return array

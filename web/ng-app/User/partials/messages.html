@@ -1,0 +1,15 @@
+<h2 class="pull-left">{{'lastMessages'|translate}}</h2>
+<div class="pull-right user-message-actions">
+    <a class="btn btn-primary" href="{{ {path: 'fos_message_thread_new'}|get_url }}">
+        <span class="glyphicon glyphicon-envelope"></span> {{'new'|translate}}
+    </a>
+    <a class="btn btn-default" href="{{ {path: 'fos_message_inbox'}|get_url }}">
+        <span class="glyphicon glyphicon-inbox"></span> {{'all'|translate}}
+    </a>
+</div>
+<div class="clearfix"></div>
+<ul class="list-group">
+    <li class="list-group-item" ng-repeat="thread in threads">
+        <a href="{{ {path: 'fos_message_thread_view', params: {'threadId': thread.id} }|get_url }}"><span class="label label-default">{{ thread.createdBy.fullName }}</span> {{ thread.subject }}</a>
+    </li>
+</ul>

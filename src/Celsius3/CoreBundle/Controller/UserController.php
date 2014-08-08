@@ -21,10 +21,6 @@ class UserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        $lastOrders = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->findActiveForUser($this->getUser(), $this->getInstance());
-
         $lastMessages = $this->getDocumentManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->createQueryBuilder()
@@ -35,7 +31,6 @@ class UserController extends BaseInstanceDependentController
                 ->execute();
 
         return array(
-            'lastOrders' => $lastOrders,
             'lastMessages' => $lastMessages,
         );
     }

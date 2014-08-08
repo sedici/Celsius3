@@ -110,5 +110,10 @@
     "enable": "Enable",
     "noPendingUsers": "There are no pending users.",
     "username": "Username",
-    "birthdate": "Birthdate"
+    "birthdate": "Birthdate",
+    "new": "New",
+    "editProfile": "Edit profile",
+    "orderHistory": "Order history",
+    "institutionUsers": "Institution users",
+    "lastMessages": "Last messages"
 }

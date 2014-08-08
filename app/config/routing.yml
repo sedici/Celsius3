@@ -33,7 +33,7 @@ fos_user_security:
     prefix: /{url}
 
 fos_user_profile:
-    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    resource: "@Celsius3CoreBundle/Resources/config/routing/profile.xml"
     prefix: /user/profile
 
 fos_user_register:
@@ -49,7 +49,7 @@ fos_user_change_password:
     prefix: /user/profile
 
 fos_message:
-    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    resource: "@Celsius3MessageBundle/Resources/config/routing.xml"
     prefix: /user/message
 
 fos_js_routing:

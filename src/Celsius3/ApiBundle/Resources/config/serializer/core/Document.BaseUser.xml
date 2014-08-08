@@ -14,5 +14,6 @@
         <property name="customValues" type="array" expose="true" access-type="public_method" read-only="true"></property>
         <virtual-property name="country" type="Celsius3\CoreBundle\Document\Country" expose="true" method="getCountry"></virtual-property>
         <virtual-property name="city" type="Celsius3\CoreBundle\Document\City" expose="true" method="getCity"></virtual-property>
+        <virtual-property name="isLibrarian" type="boolean" expose="true" method="getIsLibrarian"></virtual-property>
     </class>
 </serializer>

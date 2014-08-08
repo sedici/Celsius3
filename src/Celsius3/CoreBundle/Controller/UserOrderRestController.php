@@ -64,7 +64,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
+     * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
      */
     public function getOrderAction($id)
     {

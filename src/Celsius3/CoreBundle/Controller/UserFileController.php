@@ -42,13 +42,13 @@ class UserFileController extends BaseController
     /**
      * Downloads the file associated to a File document.
      *
-     * @Route("/{order}/{file}/download", name="user_file_download")
+     * @Route("/{order}/{file}/download", name="user_file_download", options={"expose"=true})
      * @Method("post")
      *
      * @param string $id The document ID
      */
-    public function downloadAction($order, $file)
+    public function downloadAction($request, $file)
     {
-        return $this->download($order, $file);
+        return $this->download($request, $file);
     }
 }

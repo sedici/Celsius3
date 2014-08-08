@@ -30,76 +30,63 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @MongoDB\Id
      */
     protected $id;
-
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
     protected $name;
-
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
     protected $surname;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Date()
      * @MongoDB\Date
      */
     protected $birthdate;
-
     /**
      * @Assert\NotBlank()
      * @MongoDB\String
      */
     protected $address;
-
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @MongoDB\Boolean
      */
     protected $downloadAuth = true;
-
     /**
      * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="owner")
      */
     protected $orders;
-
     /**
      * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="operator")
      */
     protected $operatedOrders;
-
     /**
      * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="creator")
      */
     protected $createdOrders;
-
     /**
      * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Instance")
      */
     protected $instance;
-
     /**
      * @Assert\NotNull
      * @MongoDB\ReferenceOne(targetDocument="Institution")
      */
     protected $institution;
-
     /**
      * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="librarian")
      */
     protected $subordinates;
-
     /**
      * @MongoDB\ReferenceMany(targetDocument="CustomUserValue", mappedBy="user")
      */
     protected $customValues;
-
     /**
      * @MongoDB\ReferenceMany(targetDocument="Instance")
      */
@@ -530,5 +517,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getCity()
     {
         return $this->getInstitution()->getCity();
+    }
+
+    public function getIsLibrarian()
+    {
+        return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles());
     }
 }
