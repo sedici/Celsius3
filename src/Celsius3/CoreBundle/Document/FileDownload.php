@@ -3,51 +3,41 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use Gedmo\Mapping\Annotation\ReferenceOne;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class FileDownload
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank
      * @Assert\Ip
-     * @MongoDB\String
+     * @ODM\String
      */
     private $ip;
-
     /**
      * @Assert\NotBlank
-     * @MongoDB\Timestamp
-     */
-    private $date;
-
-    /**
-     * @Assert\NotBlank
-     * @MongoDB\String
+     * @ODM\String
      */
     private $userAgent;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
      */
     private $user;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="File")
+     * @ODM\ReferenceOne(targetDocument="File")
      */
     private $file;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Request")
+     * @ODM\ReferenceOne(targetDocument="Request")
      */
     private $request;
 
@@ -82,29 +72,6 @@ class FileDownload
     public function getIp()
     {
         return $this->ip;
-    }
-
-    /**
-     * Set date
-     *
-     * @param  timestamp $date
-     * @return self
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return timestamp $date
-     */
-    public function getDate()
-    {
-        return $this->date;
     }
 
     /**
@@ -198,5 +165,4 @@ class FileDownload
     {
         return $this->request;
     }
-
 }

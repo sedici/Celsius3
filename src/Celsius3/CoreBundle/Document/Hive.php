@@ -3,33 +3,32 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class Hive
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank
      * @Assert\NotNull
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="LegacyInstance", mappedBy="hive")
+     * @ODM\ReferenceMany(targetDocument="LegacyInstance", mappedBy="hive")
      */
     private $instances;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="hive")
+     * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="hive")
      */
     private $institutions;
 
@@ -135,5 +134,4 @@ class Hive
     {
         return $this->institutions;
     }
-
 }

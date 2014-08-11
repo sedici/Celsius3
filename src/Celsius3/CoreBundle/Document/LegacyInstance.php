@@ -2,67 +2,62 @@
 
 namespace Celsius3\CoreBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document(collection="Instance")
- * @MongoDB\InheritanceType("SINGLE_COLLECTION")
- * @MongoDB\DiscriminatorField(fieldName="type")
- * @MongoDB\DiscriminatorMap({
+ * @ODM\Document(collection="Instance")
+ * @ODM\InheritanceType("SINGLE_COLLECTION")
+ * @ODM\DiscriminatorField(fieldName="type")
+ * @ODM\DiscriminatorMap({
  *   "legacy"="LegacyInstance",
  *   "current"="Instance"
  * })
  */
 class LegacyInstance
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     protected $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $name;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $abbreviation;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Url()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $website;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $email;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     protected $enabled = true;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
+     * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="celsiusInstance")
      */
     protected $ownerInstitutions;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Hive", inversedBy="instances")
+     * @ODM\ReferenceOne(targetDocument="Hive", inversedBy="instances")
      */
     protected $hive;
 
@@ -223,5 +218,4 @@ class LegacyInstance
     {
         return $this->hive;
     }
-
 }

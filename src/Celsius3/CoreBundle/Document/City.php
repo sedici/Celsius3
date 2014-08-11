@@ -1,45 +1,43 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\CityRepository")
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\CityRepository")
  */
 class City
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $postalCode;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="city")
+     * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="city")
      */
     private $institutions;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="cities")
+     * @ODM\ReferenceOne(targetDocument="Country", inversedBy="cities")
      */
     private $country;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="cities")
+     * @ODM\ReferenceOne(targetDocument="Instance", inversedBy="cities")
      */
     private $instance;
 

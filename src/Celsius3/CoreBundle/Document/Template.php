@@ -3,34 +3,34 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\InheritanceType("SINGLE_COLLECTION")
- * @MongoDB\DiscriminatorField(fieldName="type")
- * @MongoDB\DiscriminatorMap({
+ * @ODM\Document
+ * @ODM\InheritanceType("SINGLE_COLLECTION")
+ * @ODM\DiscriminatorField(fieldName="type")
+ * @ODM\DiscriminatorMap({
  *   "mail"="MailTemplate",
  *   "notification"="Celsius3\NotificationBundle\Document\NotificationTemplate"
  * })
  */
 class Template
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $code;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $text;
 
@@ -89,5 +89,4 @@ class Template
     {
         return $this->text;
     }
-
 }

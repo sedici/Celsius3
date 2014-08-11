@@ -3,33 +3,29 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class SingleInstanceReceiveEvent extends SingleInstanceEvent
 {
-
     use ReclaimableTrait;
-
     /**
      * @Assert\NotBlank
-     * @MongoDB\String
+     * @ODM\String
      */
     private $deliveryType;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\File", mappedBy="event", cascade={"persist"})
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\File", mappedBy="event", cascade={"persist"})
      */
     private $files;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $requestEvent;
 
@@ -120,5 +116,4 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     {
         return $this->requestEvent;
     }
-
 }

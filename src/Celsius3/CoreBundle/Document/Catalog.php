@@ -3,53 +3,49 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
  */
 class Catalog
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank
      * @Assert\NotNull
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
      * @Assert\NotBlank
      * @Assert\Url
      * @Assert\NotNull
-     * @MongoDB\String
+     * @ODM\String
      */
     private $url;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $comments;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="catalogs")
+     * @ODM\ReferenceOne(targetDocument="Institution", inversedBy="catalogs")
      */
     private $institution;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="catalogs")
+     * @ODM\ReferenceOne(targetDocument="Instance", inversedBy="catalogs")
      */
     private $instance;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="CatalogPosition", mappedBy="catalog")
+     * @ODM\ReferenceMany(targetDocument="CatalogPosition", mappedBy="catalog")
      */
     private $positions;
 
@@ -223,8 +219,8 @@ class Catalog
         $result = $this->getPositions()
                         ->filter(
                                 function ($entry) use ($instance) {
-                                    return $entry->getInstance()->getId() == $instance->getId();
-                                })->first();
+                            return $entry->getInstance()->getId() == $instance->getId();
+                        })->first();
 
         return false !== $result ? $result : null;
     }

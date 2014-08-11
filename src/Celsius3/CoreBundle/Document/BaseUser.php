@@ -4,7 +4,6 @@ namespace Celsius3\CoreBundle\Document;
 
 use FOS\UserBundle\Model\User;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
@@ -14,81 +13,80 @@ use Celsius3\NotificationBundle\Document\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @MongoDB\Document
- * @MongoDB\HasLifecycleCallbacks
- * @MongoDB\Indexes({
- *   @MongoDB\Index(keys={"name"="asc"}),
- *   @MongoDB\Index(keys={"surname"="asc"}),
+ * @ODM\Document
+ * @ODM\HasLifecycleCallbacks
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"name"="asc"}),
+ *   @ODM\Index(keys={"surname"="asc"}),
  * })
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable
 {
-
     use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     protected $id;
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $name;
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $surname;
     /**
      * @Assert\NotBlank()
      * @Assert\Date()
-     * @MongoDB\Date
+     * @ODM\Date
      */
     protected $birthdate;
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $address;
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     protected $downloadAuth = true;
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="owner")
+     * @ODM\ReferenceMany(targetDocument="Order", mappedBy="owner")
      */
     protected $orders;
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="operator")
+     * @ODM\ReferenceMany(targetDocument="Order", mappedBy="operator")
      */
     protected $operatedOrders;
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="creator")
+     * @ODM\ReferenceMany(targetDocument="Order", mappedBy="creator")
      */
     protected $createdOrders;
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     protected $instance;
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Institution")
+     * @ODM\ReferenceOne(targetDocument="Institution")
      */
     protected $institution;
     /**
-     * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="librarian")
+     * @ODM\ReferenceMany(targetDocument="BaseUser", mappedBy="librarian")
      */
     protected $subordinates;
     /**
-     * @MongoDB\ReferenceMany(targetDocument="CustomUserValue", mappedBy="user")
+     * @ODM\ReferenceMany(targetDocument="CustomUserValue", mappedBy="user")
      */
     protected $customValues;
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Instance")
+     * @ODM\ReferenceMany(targetDocument="Instance")
      */
     protected $administeredInstances;
 
@@ -108,7 +106,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * @MongoDB\PrePersist
+     * @ODM\PrePersist
      */
     public function prePersist()
     {

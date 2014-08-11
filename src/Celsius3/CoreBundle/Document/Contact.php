@@ -1,66 +1,61 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class Contact
 {
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $surname;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $email;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $address;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
      */
     private $user;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="ContactType")
+     * @ODM\ReferenceOne(targetDocument="ContactType")
      */
     private $type;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     private $instance;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="contacts")
+     * @ODM\ReferenceOne(targetDocument="Institution", inversedBy="contacts")
      */
     private $institution;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     private $owningInstance;
 

@@ -3,41 +3,36 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
  */
 class Order
 {
-    use TimestampableDocument;
 
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\Type(type="integer")
-     * @MongoDB\Int
+     * @ODM\Int
      */
     private $code;
-
     /**
-     * @MongoDB\EmbedOne(targetDocument="MaterialType")
+     * @ODM\EmbedOne(targetDocument="MaterialType")
      */
     private $materialData;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Request", cascade={"persist"})
+     * @ODM\ReferenceOne(targetDocument="Request", cascade={"persist"})
      */
     private $originalRequest;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="order")
+     * @ODM\ReferenceMany(targetDocument="Request", mappedBy="order")
      */
     private $requests;
 
@@ -168,8 +163,8 @@ class Order
         return ($this->getRequests()
                         ->filter(
                                 function ($entry) use ($instance) {
-                                    return $entry->getInstance()->getId() == $instance->getId();
-                                })->count() > 0);
+                            return $entry->getInstance()->getId() == $instance->getId();
+                        })->count() > 0);
     }
 
     /**
@@ -181,10 +176,9 @@ class Order
         $result = $this->getRequests()
                         ->filter(
                                 function ($entry) use ($instance) {
-                                    return $entry->getInstance()->getId() == $instance->getId();
-                                })->first();
+                            return $entry->getInstance()->getId() == $instance->getId();
+                        })->first();
 
         return false !== $result ? $result : null;
     }
-
 }

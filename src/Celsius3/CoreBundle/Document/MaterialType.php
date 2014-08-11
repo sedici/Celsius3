@@ -3,49 +3,46 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\EmbeddedDocument
- * @MongoDB\InheritanceType("SINGLE_COLLECTION")
- * @MongoDB\DiscriminatorField(fieldName="type")
- * @MongoDB\DiscriminatorMap({"journal"="JournalType", "book"="BookType", "congress"="CongressType", "thesis"="ThesisType", "patent"="PatentType"})
+ * @ODM\EmbeddedDocument
+ * @ODM\InheritanceType("SINGLE_COLLECTION")
+ * @ODM\DiscriminatorField(fieldName="type")
+ * @ODM\DiscriminatorMap({"journal"="JournalType", "book"="BookType", "congress"="CongressType", "thesis"="ThesisType", "patent"="PatentType"})
  */
 abstract class MaterialType
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     protected $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $title;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $authors;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
-     * @MongoDB\Int
+     * @ODM\Int
      */
     protected $year;
-
     /**
      * @Assert\Type(type="integer")
-     * @MongoDB\Int
+     * @ODM\Int
      */
     protected $startPage;
-
     /**
      * @Assert\Type(type="integer")
-     * @MongoDB\Int
+     * @ODM\Int
      */
     protected $endPage;
 
@@ -178,5 +175,4 @@ abstract class MaterialType
     {
         return $this->endPage;
     }
-
 }

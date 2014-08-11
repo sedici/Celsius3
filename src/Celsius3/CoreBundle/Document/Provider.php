@@ -1,17 +1,20 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\InheritanceType("COLLECTION_PER_CLASS")
+ * @ODM\Document
+ * @ODM\InheritanceType("COLLECTION_PER_CLASS")
  */
 class Provider
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
 

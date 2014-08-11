@@ -1,30 +1,32 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\MailTemplateRepository")
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\MailTemplateRepository")
  */
 class MailTemplate extends Template
 {
+    use TimestampableDocument;
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $enabled = true;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $title;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     private $instance;
 
@@ -81,7 +83,7 @@ class MailTemplate extends Template
      * @return self
      */
     public function setInstance(
-            \Celsius3\CoreBundle\Document\Instance $instance)
+    \Celsius3\CoreBundle\Document\Instance $instance)
     {
         $this->instance = $instance;
 

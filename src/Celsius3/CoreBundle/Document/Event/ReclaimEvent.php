@@ -3,24 +3,22 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class ReclaimEvent extends SingleInstanceEvent
 {
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $requestEvent;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $receiveEvent;
 
@@ -82,5 +80,4 @@ class ReclaimEvent extends SingleInstanceEvent
     {
         return $this->receiveEvent;
     }
-
 }

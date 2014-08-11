@@ -3,84 +3,70 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class Request
 {
     use TimestampableDocument;
-
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank
      * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\OrderManager", "getTypes"}, message = "Choose a valid type.")
-     * @MongoDB\String
+     * @ODM\String
      */
     private $type;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $comments;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
      */
     private $owner;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
      */
     private $librarian;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="File", mappedBy="order")
+     * @ODM\ReferenceMany(targetDocument="File", mappedBy="order")
      */
     private $files;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="request")
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="request")
      */
     private $events;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="request")
+     * @ODM\ReferenceMany(targetDocument="State", mappedBy="request")
      */
     private $states;
-
     /**
      * @Assert\NotNull(groups={"Default", "newOrder"})
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     private $instance;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="BaseUser")
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
      */
     private $operator;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Order", inversedBy="requests")
+     * @ODM\ReferenceOne(targetDocument="Order", inversedBy="requests")
      */
     private $order;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="requests")
+     * @ODM\ReferenceOne(targetDocument="Request", inversedBy="requests")
      */
     private $previousRequest;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Request", mappedBy="previousRequest")
+     * @ODM\ReferenceMany(targetDocument="Request", mappedBy="previousRequest")
      */
     private $requests;
 
@@ -490,5 +476,4 @@ class Request
     {
         return $this->requests;
     }
-
 }

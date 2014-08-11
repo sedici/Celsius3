@@ -11,62 +11,50 @@ use Doctrine\MongoDB\GridFSFile;
  */
 class File
 {
-
     /**
      * @MongoDB\Id
      */
     private $id;
-
     /**
      * @MongoDB\String
      */
     private $name;
-
     /**
      * @MongoDB\String
      */
     private $path;
-
     /**
      * @MongoDB\String
      */
     private $comments;
-
     /**
      * @MongoDB\String
      */
     private $mime;
-
     /**
      * @MongoDB\File
      */
     private $file;
-
     /**
      * @MongoDB\Date
      */
     private $uploaded;
-
     /**
      * @MongoDB\Boolean
      */
     private $enabled;
-
     /**
      * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="files")
      */
     private $request;
-
     /**
      * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event", inversedBy="files")
      */
     private $event;
-
     /**
      * @MongoDB\Boolean
      */
     private $isDownloaded = false;
-
     /**
      * @MongoDB\Int
      */
@@ -75,7 +63,10 @@ class File
     public function getUploadDir()
     {
         // the absolute directory path where uploaded files should be saved
-        return __DIR__ . '/../../../../web/uploads/temp';
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
+                DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
+                DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' .
+                DIRECTORY_SEPARATOR . 'temp';
     }
 
     /**
@@ -89,7 +80,7 @@ class File
             $this->setMime($this->file->getMimeType());
             $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
             $this->getFile()->move($this->getUploadDir(), $this->getPath());
-            $this->setFile($this->getUploadDir() . '/' . $this->getPath());
+            $this->setFile($this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getPath());
             $this->setUploaded(date('Y-m-d H:i:s'));
         }
     }
@@ -367,5 +358,4 @@ class File
     {
         return $this->pages;
     }
-
 }

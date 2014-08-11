@@ -3,17 +3,16 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class MultiInstanceEvent extends Event
 {
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
      */
     private $remoteInstance;
 
@@ -39,5 +38,4 @@ class MultiInstanceEvent extends Event
     {
         return $this->remoteInstance;
     }
-
 }

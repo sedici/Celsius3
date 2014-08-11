@@ -2,10 +2,10 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class DeliverEvent extends SingleInstanceEvent
 {

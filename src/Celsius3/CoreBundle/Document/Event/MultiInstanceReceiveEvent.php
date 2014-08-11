@@ -3,7 +3,7 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
@@ -11,34 +11,29 @@ use Celsius3\CoreBundle\Document\Mixin\ApprovableTrait;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class MultiInstanceReceiveEvent extends MultiInstanceEvent
 {
-
     use ReclaimableTrait,
         ApprovableTrait;
-
     /**
      * @Assert\NotBlank
-     * @MongoDB\String
+     * @ODM\String
      */
     private $deliveryType;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\File", mappedBy="event")
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\File", mappedBy="event")
      */
     private $files;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
      */
     private $remoteState;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $requestEvent;
 
@@ -156,5 +151,4 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     {
         return $this->requestEvent;
     }
-
 }

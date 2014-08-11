@@ -2,79 +2,81 @@
 
 namespace Celsius3\CoreBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
  */
 class Instance extends LegacyInstance
 {
-
+    use TimestampableDocument;
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $url;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
      */
     protected $users;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Order", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="Order", mappedBy="instance")
      */
     protected $orders;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="News", mappedBy="instance", sort={"date"="desc"})
+     * @ODM\ReferenceMany(targetDocument="News", mappedBy="instance", sort={"date"="desc"})
      */
     protected $news;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Contact", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="Contact", mappedBy="instance")
      */
     protected $contacts;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="instance")
      */
     protected $institutions;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
     protected $templates;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Configuration", mappedBy="instance", sort={"key"="asc"})
+     * @ODM\ReferenceMany(targetDocument="Configuration", mappedBy="instance", sort={"key"="asc"})
      */
     protected $configurations;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="Catalog", mappedBy="instance")
      */
     protected $catalogs;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="instance")
      */
     protected $events;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="State", mappedBy="instance")
      */
     protected $states;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Country", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="Country", mappedBy="instance")
      */
     protected $countries;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="instance")
+     * @ODM\ReferenceMany(targetDocument="City", mappedBy="instance")
      */
     protected $cities;
 

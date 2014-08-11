@@ -1,58 +1,54 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class Journal
 {
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $abbreviation;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $responsible;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $ISSN;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $ISSNE;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $frecuency;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="JournalType", mappedBy="journal")
+     * @ODM\ReferenceMany(targetDocument="JournalType", mappedBy="journal")
      */
     private $materials;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     private $instance;
 

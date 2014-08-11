@@ -3,51 +3,47 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\UniqueIndex(keys={"key"="asc", "instance"="asc"})
+ * @ODM\Document
+ * @ODM\UniqueIndex(keys={"key"="asc", "instance"="asc"})
  */
 class CustomUserField
 {
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Gedmo\Slug(fields={"name"})
-     * @MongoDB\String
+     * @ODM\String
      */
     private $key;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $private = true;
-
     /**
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $required = true;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Instance")
+     * @ODM\ReferenceOne(targetDocument="Instance")
      */
     private $instance;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="CustomUserValue", mappedBy="field")
+     * @ODM\ReferenceMany(targetDocument="CustomUserValue", mappedBy="field")
      */
     private $values;
 

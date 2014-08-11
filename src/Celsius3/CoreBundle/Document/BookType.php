@@ -1,34 +1,31 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @MongoDB\EmbeddedDocument
+ * @ODM\EmbeddedDocument
  */
 class BookType extends MaterialType
 {
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $editor;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $chapter;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $ISBN;
-
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     protected $withIndex = false;
 

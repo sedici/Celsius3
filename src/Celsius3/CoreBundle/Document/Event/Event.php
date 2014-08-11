@@ -3,16 +3,18 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
- * @MongoDB\InheritanceType("SINGLE_COLLECTION")
- * @MongoDB\DiscriminatorField(fieldName="type")
- * @MongoDB\DiscriminatorMap({
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
+ * @ODM\InheritanceType("SINGLE_COLLECTION")
+ * @ODM\DiscriminatorField(fieldName="type")
+ * @ODM\DiscriminatorMap({
  *   "creation"="CreationEvent",
  *   "search"="SearchEvent",
  *   "sirequest"="SingleInstanceRequestEvent",
@@ -36,49 +38,43 @@ use Celsius3\CoreBundle\Document\Request;
  */
 class Event implements EventInterface
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\Date()
-     * @MongoDB\Date
+     * @ODM\Date
      */
     private $date;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $observations;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Request", inversedBy="events")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Request", inversedBy="events")
      */
     private $request;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser", inversedBy="events")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser", inversedBy="events")
      */
     private $operator;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="events", cascade={"persist", "refresh"})
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\State", inversedBy="events", cascade={"persist", "refresh"})
      */
     private $state;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
      */
     private $instance;
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
-
+        
     }
 
     /**
@@ -228,5 +224,4 @@ class Event implements EventInterface
     {
         return $this->request;
     }
-
 }

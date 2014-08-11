@@ -2,16 +2,15 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class AnnulEvent extends SingleInstanceEvent
 {
-
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('request', $data['extraData'])) {
@@ -19,5 +18,4 @@ class AnnulEvent extends SingleInstanceEvent
             $lifecycleHelper->refresh($data['extraData']['request']);
         }
     }
-
 }

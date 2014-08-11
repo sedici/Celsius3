@@ -3,20 +3,19 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Manager\EventManager;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class ApproveEvent extends MultiInstanceEvent
 {
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event")
      */
     private $receiveEvent;
 
@@ -48,5 +47,4 @@ class ApproveEvent extends MultiInstanceEvent
     {
         return $this->receiveEvent;
     }
-
 }

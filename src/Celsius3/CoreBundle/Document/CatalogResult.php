@@ -3,41 +3,39 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class CatalogResult
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank
      * @Assert\NotNull
-     * @MongoDB\String
+     * @ODM\String
      */
     private $title;
-
     /**
      * @Assert\Type(type="integer")
-     * @MongoDB\Int
+     * @ODM\Int
      */
     private $searches = 0;
-
     /**
      * @Assert\Type(type="integer")
-     * @MongoDB\Int
+     * @ODM\Int
      */
     private $matches = 0;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Catalog", inversedBy="positions")
+     * @ODM\ReferenceOne(targetDocument="Catalog", inversedBy="positions")
      */
     private $catalog;
 
@@ -142,5 +140,4 @@ class CatalogResult
     {
         return $this->catalog;
     }
-
 }

@@ -3,26 +3,24 @@
 namespace Celsius3\CoreBundle\Document\Event;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class SearchEvent extends SingleInstanceEvent
 {
-
     /**
      * @Assert\NotBlank
      * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\CatalogManager", "getResults"}, message = "Choose a valid result.")
-     * @MongoDB\String
+     * @ODM\String
      */
     private $result;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Catalog")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Catalog")
      */
     private $catalog;
 
@@ -77,5 +75,4 @@ class SearchEvent extends SingleInstanceEvent
     {
         return $this->catalog;
     }
-
 }

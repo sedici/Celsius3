@@ -2,7 +2,7 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
@@ -13,18 +13,16 @@ use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Manager\OrderManager;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class MultiInstanceRequestEvent extends MultiInstanceEvent
 {
-
     use ReclaimableTrait,
         CancellableTrait,
         AnnullableTrait,
         ProviderTrait;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Request", inversedBy="remoteEvents", cascade={"persist", "refresh"})
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Request", inversedBy="remoteEvents", cascade={"persist", "refresh"})
      */
     private $remoteRequest;
 
@@ -64,5 +62,4 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
     {
         return $this->remoteRequest;
     }
-
 }

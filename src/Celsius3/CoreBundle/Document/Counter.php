@@ -1,27 +1,29 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class Counter
 {
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     protected $id;
-
     /**
      * @Assert\NotBlank
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $name;
-
     /**
-     * @MongoDB\Int
+     * @ODM\Int
      */
     protected $value;
 

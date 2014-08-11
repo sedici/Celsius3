@@ -3,85 +3,75 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstitutionRepository")
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstitutionRepository")
  */
 class Institution extends Provider
 {
 
+    use TimestampableDocument;
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $abbreviation;
-
     /**
      * @Assert\Url()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $website;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $address;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="BaseUser", mappedBy="institution")
+     * @ODM\ReferenceMany(targetDocument="BaseUser", mappedBy="institution")
      */
     private $users;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="parent")
+     * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="parent")
      */
     private $institutions;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Institution", inversedBy="institutions")
+     * @ODM\ReferenceOne(targetDocument="Institution", inversedBy="institutions")
      */
     private $parent;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="City", inversedBy="institutions")
+     * @ODM\ReferenceOne(targetDocument="City", inversedBy="institutions")
      */
     private $city;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Country", inversedBy="institutions")
+     * @ODM\ReferenceOne(targetDocument="Country", inversedBy="institutions")
      */
     private $country;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Catalog", mappedBy="institution")
+     * @ODM\ReferenceMany(targetDocument="Catalog", mappedBy="institution")
      */
     private $catalogs;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Contact", mappedBy="institution")
+     * @ODM\ReferenceMany(targetDocument="Contact", mappedBy="institution")
      */
     private $contacts;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
+     * @ODM\ReferenceOne(targetDocument="Instance", inversedBy="institutions")
      */
     private $instance;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="LegacyInstance", inversedBy="ownerInstitutions")
+     * @ODM\ReferenceOne(targetDocument="LegacyInstance", inversedBy="ownerInstitutions")
      */
     private $celsiusInstance;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Hive", inversedBy="institutions")
+     * @ODM\ReferenceOne(targetDocument="Hive", inversedBy="institutions")
      */
     private $hive;
 
@@ -463,5 +453,4 @@ class Institution extends Provider
     {
         return $this->hive;
     }
-
 }

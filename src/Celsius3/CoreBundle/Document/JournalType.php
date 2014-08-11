@@ -3,32 +3,28 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @MongoDB\EmbeddedDocument
+ * @ODM\EmbeddedDocument
  */
 class JournalType extends MaterialType
 {
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $volume;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $number;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $other;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Journal")
+     * @ODM\ReferenceOne(targetDocument="Journal")
      */
     protected $journal;
 
@@ -123,5 +119,4 @@ class JournalType extends MaterialType
     {
         return $this->other;
     }
-
 }

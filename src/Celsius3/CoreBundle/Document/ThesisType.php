@@ -1,21 +1,20 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @MongoDB\EmbeddedDocument
+ * @ODM\EmbeddedDocument
  */
 class ThesisType extends MaterialType
 {
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $director;
-
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     protected $degree;
 

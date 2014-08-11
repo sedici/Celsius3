@@ -1,39 +1,39 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Indexes({
- *   @MongoDB\Index(keys={"name"="asc"}),
- *   @MongoDB\Index(keys={"position"="asc"}),
+ * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"name"="asc"}),
+ *   @ODM\Index(keys={"position"="asc"}),
  * })
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\StateTypeRepository")
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\StateTypeRepository")
  */
 class StateType
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\Int
+     * @ODM\Int
      */
     private $position;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="State", mappedBy="type")
+     * @ODM\ReferenceMany(targetDocument="State", mappedBy="type")
      */
     private $states;
 

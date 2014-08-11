@@ -2,7 +2,7 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Document\Mixin\CancellableTrait;
@@ -10,11 +10,10 @@ use Celsius3\CoreBundle\Document\Mixin\ProviderTrait;
 use Celsius3\CoreBundle\Document\Request;
 
 /**
- * @MongoDB\Document
+ * @ODM\Document
  */
 class SingleInstanceRequestEvent extends SingleInstanceEvent
 {
-
     use ReclaimableTrait,
         CancellableTrait,
         ProviderTrait;
@@ -24,5 +23,4 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);
     }
-
 }

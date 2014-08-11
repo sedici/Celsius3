@@ -1,47 +1,46 @@
 <?php
 
 namespace Celsius3\CoreBundle\Document;
+
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\CountryRepository")
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\CountryRepository")
  */
 class Country
 {
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
-     * @MongoDB\UniqueIndex(order="asc")
+     * @ODM\String
+     * @ODM\UniqueIndex(order="asc")
      */
     private $name;
-
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
-     * @MongoDB\UniqueIndex(order="asc")
+     * @ODM\String
+     * @ODM\UniqueIndex(order="asc")
      */
     private $abbreviation;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="City", mappedBy="country")
+     * @ODM\ReferenceMany(targetDocument="City", mappedBy="country")
      */
     private $cities;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Institution", mappedBy="country")
+     * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="country")
      */
     private $institutions;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="countries")
+     * @ODM\ReferenceOne(targetDocument="Instance", inversedBy="countries")
      */
     private $instance;
 

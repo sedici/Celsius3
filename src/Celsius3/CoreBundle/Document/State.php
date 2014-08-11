@@ -3,69 +3,62 @@
 namespace Celsius3\CoreBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
  */
 class State
 {
-
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
-
     /**
      * @Assert\NotBlank
      * @Assert\Date
-     * @MongoDB\Date
+     * @ODM\Date
      */
     private $date;
-
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="bool")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $isCurrent = true;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="StateType", inversedBy="states")
+     * @ODM\ReferenceOne(targetDocument="StateType", inversedBy="states")
      */
     private $type;
-
     /**
-     * @MongoDB\ReferenceOne
+     * @ODM\ReferenceOne
      */
     private $remoteEvent;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Instance", inversedBy="states")
+     * @ODM\ReferenceOne(targetDocument="Instance", inversedBy="states")
      */
     private $instance;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="state")
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="state")
      */
     private $events;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent", mappedBy="remoteState")
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent", mappedBy="remoteState")
      */
     private $remoteEvents;
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="State")
+     * @ODM\ReferenceOne(targetDocument="State")
      */
     private $previous;
-
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="states")
+     * @ODM\ReferenceOne(targetDocument="Request", inversedBy="states")
      */
     private $request;
 
@@ -309,5 +302,4 @@ class State
     {
         return $this->request;
     }
-
 }
