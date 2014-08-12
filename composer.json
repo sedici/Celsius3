@@ -1,8 +1,8 @@
 {
-    "name": "symfony/framework-standard-edition",
-    "license": "MIT",
+    "name": "sedici/celsius3",
+    "license": "GPLv3",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "The Celsius3 Project",
     "autoload": {
         "psr-0": {
             "": "src/",
