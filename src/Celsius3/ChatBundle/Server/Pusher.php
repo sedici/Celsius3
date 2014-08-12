@@ -74,7 +74,6 @@ class Pusher implements WampServerInterface
     {
         switch ($fn) {
             case 'setName':
-                var_dump($params);
                 break;
             default:
                 return $conn->callError($id, 'Unknown call');
@@ -87,7 +86,6 @@ class Pusher implements WampServerInterface
      */
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
-        var_dump($conn->WebSocket->request);
         echo $conn->Chat->name . " subscribed\n";
 
         // Room does not exist
