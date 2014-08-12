@@ -178,7 +178,7 @@ class PublicController extends BaseInstanceDependentController
         return new Response(json_encode($response));
     }
 
-    public function getChildrenInstitution($institutions, $level)
+    protected function getChildrenInstitution($institutions, $level)
     {
         $dm = $this->getDocumentManager();
         $response = array();

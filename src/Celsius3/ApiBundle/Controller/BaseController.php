@@ -36,7 +36,7 @@ class BaseController extends FOSRestController
         return $this->get('doctrine.odm.mongodb.document_manager');
     }
 
-    public function getInstance()
+    protected function getInstance()
     {
         $instance = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:Instance')

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -31,7 +33,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class NewsFeedsController extends BaseInstanceDependentController
 {
 
-    public function getUrl()
+    protected function getUrl()
     {
         $domain = $_SERVER['HTTP_HOST'];
         $name_file = $_SERVER['PHP_SELF'];
@@ -57,10 +59,10 @@ class NewsFeedsController extends BaseInstanceDependentController
     {
         $url = $this->getUrl();
         $array = array('instance' => 'Directory',
-                'lastNews' => $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:News')
-                        ->findLastNewsDirectory(),
-                'url' => $url . '/newsFeeds/rss/directory',);
+            'lastNews' => $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:News')
+                    ->findLastNewsDirectory(),
+            'url' => $url . '/newsFeeds/rss/directory',);
 
         return $array;
     }
@@ -76,10 +78,10 @@ class NewsFeedsController extends BaseInstanceDependentController
     {
         $url = $this->getUrl();
         $array = array('instance' => 'Directory',
-                'lastNews' => $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:News')
-                        ->findLastNewsDirectory(),
-                'url' => $url . '/newsFeeds/atom/directory',);
+            'lastNews' => $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:News')
+                    ->findLastNewsDirectory(),
+            'url' => $url . '/newsFeeds/atom/directory',);
 
         return $array;
     }
@@ -95,10 +97,10 @@ class NewsFeedsController extends BaseInstanceDependentController
     {
         $url = $this->getUrl();
         $array = array('instance' => $this->getInstance(),
-                'lastNews' => $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:News')
-                        ->findLastNews($this->getInstance()),
-                'url' => $url . '/newsFeeds/rss/' . $urlInstance,);
+            'lastNews' => $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:News')
+                    ->findLastNews($this->getInstance()),
+            'url' => $url . '/newsFeeds/rss/' . $urlInstance,);
 
         return $array;
     }
@@ -114,10 +116,10 @@ class NewsFeedsController extends BaseInstanceDependentController
     {
         $url = $this->getUrl();
         $array = array('instance' => $this->getInstance(),
-                'lastNews' => $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:News')
-                        ->findLastNews($this->getInstance()),
-                'url' => $url . '/newsFeeds/atom/' . $urlInstance,);
+            'lastNews' => $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:News')
+                    ->findLastNews($this->getInstance()),
+            'url' => $url . '/newsFeeds/atom/' . $urlInstance,);
 
         return $array;
     }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -28,8 +29,7 @@ use FOS\MessageBundle\Controller\MessageController as BaseController;
 
 class MessageController extends BaseController
 {
-
-    public function generateFormsToThreads($threads)
+    protected function generateFormsToThreads($threads)
     {
         $forms = array();
         foreach ($threads as $thread) {
@@ -48,7 +48,7 @@ class MessageController extends BaseController
      *
      * @return object The service
      */
-    public function get($id)
+    protected function get($id)
     {
         return $this->container->get($id);
     }
@@ -63,7 +63,7 @@ class MessageController extends BaseController
         return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
     }
 
-    public function getRequest()
+    protected function getRequest()
     {
         return $this->container->get('request');
     }

@@ -94,7 +94,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseNew($name, $document, $type)
+    protected function baseNew($name, $document, $type)
     {
         $form = $this->createForm($type, $document);
 
@@ -104,14 +104,14 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function persistDocument($document)
+    protected function persistDocument($document)
     {
         $dm = $this->getDocumentManager();
         $dm->persist($document);
         $dm->flush();
     }
 
-    public function baseCreate($name, $document, $type, $route)
+    protected function baseCreate($name, $document, $type, $route)
     {
         $request = $this->getRequest();
         $form = $this->createForm($type, $document);
@@ -136,7 +136,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseEdit($name, $id, $type, $route = null)
+    protected function baseEdit($name, $id, $type, $route = null)
     {
         $document = $this->findQuery($name, $id);
 
@@ -155,7 +155,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseUpdate($name, $id, $type, $route)
+    protected function baseUpdate($name, $id, $type, $route)
     {
         $document = $this->findQuery($name, $id);
 
@@ -195,7 +195,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseDelete($name, $id, $route)
+    protected function baseDelete($name, $id, $route)
     {
         $form = $this->createDeleteForm($id);
         $request = $this->getRequest();
@@ -221,7 +221,7 @@ abstract class BaseController extends Controller
         return $this->redirect($this->generateUrl($route));
     }
 
-    public function baseBatch()
+    protected function baseBatch()
     {
         $action = $this->getRequest()->request->get('action');
         $function = 'batch' . ucfirst($action);
@@ -230,7 +230,7 @@ abstract class BaseController extends Controller
         return $this->$function($element_ids);
     }
 
-    public function baseUnion($name, $ids)
+    protected function baseUnion($name, $ids)
     {
         $dm = $this->getDocumentManager();
         $documents = $dm->getRepository('Celsius3CoreBundle:' . $name)
@@ -245,7 +245,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    public function baseDoUnion($name, $ids, $main_id, $route, $updateInstance = true)
+    protected function baseDoUnion($name, $ids, $main_id, $route, $updateInstance = true)
     {
         $dm = $this->getDocumentManager();
 
