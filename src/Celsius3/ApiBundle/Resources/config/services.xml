@@ -11,7 +11,6 @@
     <services>
         <service id="celsius3_api.security_listener" class="%celsius3_api.security_listener.class%">
             <argument type="service" id="doctrine.odm.mongodb.document_manager" />
-            <argument>%kernel.cache_dir%/security/nonces</argument>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
     </services>

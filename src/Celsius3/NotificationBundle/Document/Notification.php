@@ -22,14 +22,13 @@
 namespace Celsius3\NotificationBundle\Document;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
+ * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
  */
 class Notification
 {
@@ -37,52 +36,52 @@ class Notification
     use TimestampableDocument;
 
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
 
     /**
      * @Assert\NotBlank()
-     * @MongoDB\String
+     * @ODM\String
      */
     private $cause;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $isViewed = false;
 
     /**
-     * @MongoDB\Date
+     * @ODM\Date
      * @Gedmo\Timestampable(on="change", field="isViewed", value="true")
      */
     private $viewedAt;
 
     /**
      * @Assert\NotNull
-     * @MongoDB\ReferenceOne
+     * @ODM\ReferenceOne
      */
     private $object;
 
     /**
-     * @MongoDB\ReferenceOne
+     * @ODM\ReferenceOne
      */
     private $source;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="NotificationTemplate")
+     * @ODM\ReferenceOne(targetDocument="NotificationTemplate")
      */
     private $template;
 
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
+     * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
      */
     private $receivers;
 
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
      */
     private $viewer;
 
@@ -191,6 +190,28 @@ class Notification
     public function getObject()
     {
         return $this->object;
+    }
+    
+    /**
+     * Set source
+     *
+     * @return self
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return $source
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 
     /**

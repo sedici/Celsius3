@@ -36,7 +36,6 @@
         </service>
 
         <service id="celsius3_notification.entry_point" class="%celsius3_notification.entry_point.class%">
-            <argument type="service" id="service_container" />
             <argument type="service" id="celsius3_notification.web_socket_server" />
         </service>
     </services>

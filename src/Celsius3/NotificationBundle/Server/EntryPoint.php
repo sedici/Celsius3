@@ -25,8 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EntryPoint
 {
-
-    private $container;
     private $server;
     private $output;
 
@@ -46,9 +44,8 @@ class EntryPoint
     /**
      *
      */
-    public function __construct($container, $server)
+    public function __construct($server)
     {
-        $this->container = $container;
         $this->server = $server;
     }
 
@@ -57,7 +54,6 @@ class EntryPoint
      */
     public function launch()
     {
-        //$this->server = $this->container->get($this->server);
         if (!$this->server) {
             throw new \Exception("Unable to find Server Service.");
         }

@@ -31,12 +31,10 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 class SecurityListener
 {
     private $dm;
-    private $cacheDir;
 
-    public function __construct(DocumentManager $dm, $cacheDir)
+    public function __construct(DocumentManager $dm)
     {
         $this->dm = $dm;
-        $this->cacheDir = $cacheDir;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -70,15 +68,6 @@ class SecurityListener
 
             throw new AuthenticationException('The WSSE authentication failed.');
         } catch (AuthenticationException $failed) {
-            // ... you might log something here
-            // To deny the authentication clear the token. This will redirect to the login page.
-            // Make sure to only clear your token, not those of other authentication listeners.
-            // $token = $this->securityContext->getToken();
-            // if ($token instanceof WsseUserToken && $this->providerKey === $token->getProviderKey()) {
-            //     $this->securityContext->setToken(null);
-            // }
-            // return;
-            // Deny authentication with a '403 Forbidden' HTTP response
             return $this->generate403Response($event);
         }
 
