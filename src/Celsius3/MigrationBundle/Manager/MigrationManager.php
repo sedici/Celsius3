@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,32 +21,27 @@
  */
 
 namespace Celsius3\MigrationBundle\Manager;
+
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\MigrationBundle\Helper\CountryHelper;
 use Celsius3\MigrationBundle\Document\Association;
 
 class MigrationManager
 {
-
     private $countryHelper;
     private $dm;
 
-    public function __construct(CountryHelper $countryHelper,
-            DocumentManager $dm)
+    public function __construct(CountryHelper $countryHelper, DocumentManager $dm)
     {
         $this->countryHelper = $countryHelper;
         $this->dm = $dm;
     }
 
-    public function migrate($host, $username, $password, $database, $port)
+    public function migrate()
     {
         set_time_limit(0);
 
-        $conn = mysqli_connect($host, $username, $password, $database, $port);
-
-        $this->countryHelper->migrate($conn);
-
-        mysqli_close($conn);
+        $this->countryHelper->migrate();
     }
 
     public function createAssociation($name, $original_id, $table, $document)
@@ -57,7 +53,6 @@ class MigrationManager
         $association->setDocument($document);
 
         $this->dm->persist($association);
-        unset ($association);
+        unset($association);
     }
-
 }

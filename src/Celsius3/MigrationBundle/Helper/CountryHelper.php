@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,43 +24,44 @@ namespace Celsius3\MigrationBundle\Helper;
 
 use Celsius3\CoreBundle\Document\Country;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
 
 class CountryHelper
 {
-
     private $container;
     private $dm;
     private $cityHelper;
     private $institutionHelper;
+    private $conn;
 
-    public function __construct(ContainerInterface $container, CityHelper $cityHelper, InstitutionHelper $institutionHelper)
+    public function __construct(ContainerInterface $container, Connection $conn, CityHelper $cityHelper, InstitutionHelper $institutionHelper)
     {
         $this->container = $container;
         $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
         $this->cityHelper = $cityHelper;
         $this->institutionHelper = $institutionHelper;
+        $this->conn = $conn;
     }
 
-    public function migrate($conn)
+    public function migrate()
     {
-        $query_paises = 'SELECT * FROM paises WHERE Abreviatura <> ""';
-        $result_paises = mysqli_query($conn, $query_paises);
+        $query = 'SELECT * FROM paises WHERE Abreviatura <> ""';
+        $paises = $this->conn->fetchAll($query);
 
-        while ($row_pais = mysqli_fetch_assoc($result_paises)) {
+        foreach ($paises as $pais) {
             $country = new Country();
-            $country->setName(mb_convert_encoding($row_pais['Nombre'], 'UTF-8'));
-            $country->setAbbreviation($row_pais['Abreviatura']);
+            $country->setName(mb_convert_encoding($pais['Nombre'], 'UTF-8'));
+            $country->setAbbreviation($pais['Abreviatura']);
             $country->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($country);
 
-            $this->container->get('celsius3_migration.migration_manager')->createAssociation($country->getName(), $row_pais['Id'], 'paises', $country);
-            $this->cityHelper->migrate($conn, $row_pais['Id'], $country);
-            $this->institutionHelper->migrate($conn, $row_pais['Id'], $country, 0);
-            unset($country, $row_pais);
+            $this->container->get('celsius3_migration.migration_manager')->createAssociation($country->getName(), $pais['Id'], 'paises', $country);
+            $this->cityHelper->migrate($pais['Id'], $country);
+            $this->institutionHelper->migrate($pais['Id'], $country, 0);
+            unset($country, $pais);
         }
         $this->dm->flush();
         $this->dm->clear();
-        unset($query_paises, $result_paises);
+        unset($query, $paises);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,15 +24,16 @@ namespace Celsius3\MigrationBundle\Helper;
 
 use Celsius3\CoreBundle\Document\Institution;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
 
 class InstitutionHelper
 {
-
     private $dm;
     private $container;
     private $hive;
+    private $conn;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, Connection $conn)
     {
         $this->container = $container;
         $this->dm = $this->container->get('doctrine.odm.mongodb.document_manager');
@@ -39,101 +41,98 @@ class InstitutionHelper
                 ->findOneBy(array(
             'name' => 'LibLink',
         ));
+        $this->conn = $conn;
     }
 
-    public function migrate($conn, $country_id, $country, $city_id, $city = null)
+    public function migrate($country_id, $country, $city_id, $city = null)
     {
-        $query_instituciones = 'SELECT * FROM instituciones WHERE Codigo_Localidad = '
-                . $city_id . ' AND Codigo_Pais = ' . $country_id;
-        $result_instituciones = mysqli_query($conn, $query_instituciones);
+        $query = 'SELECT * FROM instituciones WHERE Codigo_Localidad =  ? AND Codigo_Pais = ?';
+        $instituciones = $this->conn->fetchAll($query, array($city_id, $country_id));
 
-        while ($row_institucion = mysqli_fetch_assoc($result_instituciones)) {
+        foreach ($instituciones as $institucion) {
             $institution = new Institution();
             $institution->setCountry($country);
             $institution->setCity($city);
-            $institution->setName(mb_convert_encoding($row_institucion['Nombre'], 'UTF-8'));
-            $institution->setAbbreviation(mb_convert_encoding($row_institucion['Abreviatura'], 'UTF-8'));
-            if ((bool) $row_institucion['Participa_Proyecto']) {
+            $institution->setName(mb_convert_encoding($institucion['Nombre'], 'UTF-8'));
+            $institution->setAbbreviation(mb_convert_encoding($institucion['Abreviatura'], 'UTF-8'));
+            if ((bool) $institucion['Participa_Proyecto']) {
                 $institution->setHive($this->hive);
             }
-            if ($row_institucion['Direccion'] != '') {
-                $institution->setAddress(mb_convert_encoding($row_institucion['Direccion'], 'UTF-8'));
+            if ($institucion['Direccion'] != '') {
+                $institution->setAddress(mb_convert_encoding($institucion['Direccion'], 'UTF-8'));
             }
-            if ($row_institucion['Sitio_Web'] != '') {
-                $institution->setWebsite($row_institucion['Sitio_Web']);
+            if ($institucion['Sitio_Web'] != '') {
+                $institution->setWebsite($institucion['Sitio_Web']);
             }
             $institution->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($institution);
 
-            $this->container->get('celsius3_migration.migration_manager')->createAssociation($institution->getName(), $row_institucion['Codigo'], 'instituciones', $institution);
+            $this->container->get('celsius3_migration.migration_manager')->createAssociation($institution->getName(), $institucion['Codigo'], 'instituciones', $institution);
 
-            $this->migrateDependencies($conn, $row_institucion['Codigo'], $institution, $country, $city);
+            $this->migrateDependencies($institucion['Codigo'], $institution, $country, $city);
 
-            unset($institution, $row_institucion);
+            unset($institution, $institucion);
         }
-        unset($query_instituciones, $result_instituciones);
+        unset($query, $instituciones);
     }
 
-    private function migrateDependencies($conn, $institution_id, $institution, $country, $city)
+    private function migrateDependencies($institution_id, $institution, $country, $city)
     {
-        $query_dependencias = 'SELECT * FROM dependencias WHERE Codigo_Institucion = '
-                . $institution_id;
-        $result_dependencias = mysqli_query($conn, $query_dependencias);
+        $query = 'SELECT * FROM dependencias WHERE Codigo_Institucion = ?';
+        $dependencias = $this->conn->fetchAll($query, array($institution_id));
 
-        while ($row_dependencia = mysqli_fetch_assoc($result_dependencias)) {
+        foreach ($dependencias as $dependencia) {
             $dependency = new Institution();
             $dependency->setCountry($country);
             $dependency->setCity($city);
             $dependency->setParent($institution);
-            $dependency->setName(mb_convert_encoding($row_dependencia['Nombre'], 'UTF-8'));
-            $dependency->setAbbreviation(mb_convert_encoding($row_dependencia['Abreviatura'], 'UTF-8'));
-            if ((bool) $row_dependencia['Es_LibLink']) {
+            $dependency->setName(mb_convert_encoding($dependencia['Nombre'], 'UTF-8'));
+            $dependency->setAbbreviation(mb_convert_encoding($dependencia['Abreviatura'], 'UTF-8'));
+            if ((bool) $dependencia['Es_LibLink']) {
                 $dependency->setHive($this->hive);
             }
-            if ($row_dependencia['Direccion'] != '') {
-                $dependency->setAddress(mb_convert_encoding($row_dependencia['Direccion'], 'UTF-8'));
+            if ($dependencia['Direccion'] != '') {
+                $dependency->setAddress(mb_convert_encoding($dependencia['Direccion'], 'UTF-8'));
             }
-            if ($row_dependencia['Hipervinculo1'] != '') {
-                $dependency->setWebsite($row_dependencia['Hipervinculo1']);
+            if ($dependencia['Hipervinculo1'] != '') {
+                $dependency->setWebsite($dependencia['Hipervinculo1']);
             }
             $dependency->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($dependency);
 
-            $this->container->get('celsius3_migration.migration_manager')->createAssociation($dependency->getName(), $row_dependencia['Id'], 'dependencias', $dependency);
+            $this->container->get('celsius3_migration.migration_manager')->createAssociation($dependency->getName(), $dependencia['Id'], 'dependencias', $dependency);
 
-            $this->migrateUnits($conn, $row_dependencia['Id'], $dependency, $country, $city);
+            $this->migrateUnits($dependencia['Id'], $dependency, $country, $city);
 
-            unset($dependency, $row_dependencia);
+            unset($dependency, $dependencia);
         }
-        unset($query_dependencias, $result_dependencias);
+        unset($query, $dependencias);
     }
 
-    private function migrateUnits($conn, $dependency_id, $dependency, $country, $city)
+    private function migrateUnits($dependency_id, $dependency, $country, $city)
     {
-        $query_unidades = 'SELECT * FROM unidades WHERE Codigo_Dependencia = '
-                . $dependency_id;
-        $result_unidades = mysqli_query($conn, $query_unidades);
+        $query = 'SELECT * FROM unidades WHERE Codigo_Dependencia = ?';
+        $unidades = $this->conn->fetchAll($query, array($dependency_id));
 
-        while ($row_unidad = mysqli_fetch_assoc($result_unidades)) {
+        foreach ($unidades as $unidad) {
             $unit = new Institution();
             $unit->setCountry($country);
             $unit->setCity($city);
             $unit->setParent($dependency);
-            $unit->setName(mb_convert_encoding($row_unidad['Nombre'], 'UTF-8'));
-            if ($row_unidad['Direccion'] != '') {
-                $unit->setAddress(mb_convert_encoding($row_unidad['Direccion'], 'UTF-8'));
+            $unit->setName(mb_convert_encoding($unidad['Nombre'], 'UTF-8'));
+            if ($unidad['Direccion'] != '') {
+                $unit->setAddress(mb_convert_encoding($unidad['Direccion'], 'UTF-8'));
             }
-            if ($row_unidad['Hipervinculo1'] != '') {
-                $unit->setWebsite($row_unidad['Hipervinculo1']);
+            if ($unidad['Hipervinculo1'] != '') {
+                $unit->setWebsite($unidad['Hipervinculo1']);
             }
             $unit->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($unit);
 
-            $this->container->get('celsius3_migration.migration_manager')->createAssociation($unit->getName(), $row_unidad['Id'], 'unidades', $unit);
+            $this->container->get('celsius3_migration.migration_manager')->createAssociation($unit->getName(), $unidad['Id'], 'unidades', $unit);
 
-            unset($unit, $row_unidad);
+            unset($unit, $unidad);
         }
-        unset($query_unidades, $result_unidades);
+        unset($query, $unidades);
     }
-
 }

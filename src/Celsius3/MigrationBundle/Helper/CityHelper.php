@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,39 +24,39 @@ namespace Celsius3\MigrationBundle\Helper;
 
 use Celsius3\CoreBundle\Document\City;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\DBAL\Connection;
 
 class CityHelper
 {
-
     private $dm;
     private $container;
     private $institutionHelper;
+    private $conn;
 
-    public function __construct(ContainerInterface $container, InstitutionHelper $institutionHelper)
+    public function __construct(ContainerInterface $container, Connection $conn, InstitutionHelper $institutionHelper)
     {
         $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
         $this->container = $container;
         $this->institutionHelper = $institutionHelper;
+        $this->conn = $conn;
     }
 
-    public function migrate($conn, $country_id, $country)
+    public function migrate($country_id, $country)
     {
-        $query_localidades = 'SELECT * FROM localidades WHERE Codigo_Pais = '
-                . $country_id;
-        $result_localidades = mysqli_query($conn, $query_localidades);
+        $query = 'SELECT * FROM localidades WHERE Codigo_Pais = ?';
+        $localidades = $this->conn->fetchAll($query, array($country_id));
 
-        while ($row_localidad = mysqli_fetch_assoc($result_localidades)) {
+        foreach ($localidades as $localidad) {
             $city = new City();
             $city->setCountry($country);
-            $city->setName(mb_convert_encoding($row_localidad['Nombre'], 'UTF-8'));
+            $city->setName(mb_convert_encoding($localidad['Nombre'], 'UTF-8'));
             $city->setInstance($this->container->get('celsius3_core.instance_manager')->getDirectory());
             $this->dm->persist($city);
 
-            $this->container->get('celsius3_migration.migration_manager')->createAssociation($city->getName(), $row_localidad['Id'], 'localidades', $city);
-            $this->institutionHelper->migrate($conn, $country_id, $country, $row_localidad['Id'], $city);
-            unset($city, $row_localidad);
+            $this->container->get('celsius3_migration.migration_manager')->createAssociation($city->getName(), $localidad['Id'], 'localidades', $city);
+            $this->institutionHelper->migrate($country_id, $country, $localidad['Id'], $city);
+            unset($city, $localidad);
         }
-        unset($query_localidades, $result_localidades);
+        unset($query, $localidades);
     }
-
 }

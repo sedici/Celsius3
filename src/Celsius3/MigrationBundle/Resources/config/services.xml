@@ -15,17 +15,20 @@
 	<services>
 		<service id="celsius3_migration.country_helper" class="%celsius3_migration.country_helper.class%">
 			<argument type="service" id="service_container"></argument>
+                        <argument type="service" id="database_connection"></argument>
 			<argument type="service" id="celsius3_migration.city_helper"></argument>
 			<argument type="service" id="celsius3_migration.institution_helper"></argument>
 		</service>
 
 		<service id="celsius3_migration.city_helper" class="%celsius3_migration.city_helper.class%">
 			<argument type="service" id="service_container"></argument>
+                        <argument type="service" id="database_connection"></argument>
 			<argument type="service" id="celsius3_migration.institution_helper"></argument>
 		</service>
 
 		<service id="celsius3_migration.institution_helper" class="%celsius3_migration.institution_helper.class%">
 			<argument type="service" id="service_container"></argument>
+                        <argument type="service" id="database_connection"></argument>
 		</service>
 
 		<service id="celsius3_migration.migration_manager" class="%celsius3_migration.migration_manager.class%">

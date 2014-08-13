@@ -76,6 +76,16 @@ assetic:
             filters:
                 - cssrewrite
 
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     %celsius2_host%
+        port:     %celsius2_port%
+        dbname:   %celsius2_database%
+        user:     %celsius2_username%
+        password: %celsius2_password%
+        charset:  UTF8
+
 doctrine_mongodb:
     connections:
         default:
