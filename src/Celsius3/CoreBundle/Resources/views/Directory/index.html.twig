@@ -13,7 +13,6 @@
         <h3>
             {{ 'Latest News'|trans }}
             <a href="{{path('directory_rss_news')}}" class="fa fa-rss" title="RSS"></a>
-            <a href="{{path('directory_atom_news')}}" class="fa fa-rss" title="Atom"></a>
         </h3>
         {% for news in lastNews %}
             {% include 'Celsius3CoreBundle:Public:_news.html.twig' %}

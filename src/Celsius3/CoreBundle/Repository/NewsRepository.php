@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -32,7 +33,6 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class NewsRepository extends DocumentRepository
 {
-
     public function findLastNews(Instance $instance, $limit = 5)
     {
         return $this->createQueryBuilder()
@@ -41,5 +41,4 @@ class NewsRepository extends DocumentRepository
                         ->limit($limit)
                         ->getQuery();
     }
-
 }
