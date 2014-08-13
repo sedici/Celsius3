@@ -21,16 +21,13 @@
 
 namespace Celsius3\CoreBundle\Document\Mixin;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-
 trait ReclaimableTrait
 {
 
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="boolean")
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $isReclaimed = false;
 

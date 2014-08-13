@@ -27,7 +27,6 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Document\Event\SingleInstanceReceiveEvent;
 use Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent;
-use Celsius3\CoreBundle\Document\Event\UploadEvent;
 use Celsius3\CoreBundle\Document\Institution;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;

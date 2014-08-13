@@ -26,7 +26,6 @@ use Celsius3\CoreBundle\Document\BaseUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Celsius3\NotificationBundle\Document\NotificationTemplate;
-use Symfony\Component\Routing\Router;
 
 class NotificationManager
 {

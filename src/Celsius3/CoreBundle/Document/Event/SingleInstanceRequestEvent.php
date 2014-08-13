@@ -21,6 +21,7 @@
 
 namespace Celsius3\CoreBundle\Document\Event;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Document\Mixin\ReclaimableTrait;

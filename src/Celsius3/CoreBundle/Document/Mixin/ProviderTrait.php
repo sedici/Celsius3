@@ -21,15 +21,12 @@
 
 namespace Celsius3\CoreBundle\Document\Mixin;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-
 trait ProviderTrait
 {
 
     /**
      * @Assert\NotNull(groups={"request"})
-     * @MongoDB\ReferenceOne
+     * @ODM\ReferenceOne
      */
     private $provider;
 
