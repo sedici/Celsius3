@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -81,11 +82,11 @@ class File
 
     public function getUploadDir()
     {
-        // the absolute directory path where uploaded files should be saved
-        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
+        $class = new \ReflectionClass($this);
+        return dirname($class->getFileName()) . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
-                DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads' .
-                DIRECTORY_SEPARATOR . 'temp';
+                DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'web' .
+                DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'temp';
     }
 
     /**

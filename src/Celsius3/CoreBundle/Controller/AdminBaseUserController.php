@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -24,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
@@ -95,27 +97,6 @@ class AdminBaseUserController extends BaseUserController
                 'history' => $historyOrders,
             ),
             'messages' => $messages,
-        );
-    }
-
-    /**
-     * Shows the data of a user in a modal
-     *
-     * @Route("/{id}/show/modal", name="admin_user_modal_show")
-     * @Template()
-     *
-     * @return array
-     */
-    public function showModalAction($id)
-    {
-        $document = $this->findQuery('BaseUser', $id);
-
-        if (!$document) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
-        }
-
-        return array(
-            'element' => $document,
         );
     }
 
@@ -247,58 +228,24 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Deletes a BaseUser document.
-     *
-     * @Route("/{id}/delete", name="admin_user_delete")
-     * @Method("post")
-     *
-     * @param string $id
-     *                   The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('BaseUser', $id, 'admin_user');
-    }
-
-    /**
      * Displays a form to transform an existing BaseUser document.
      *
      * @Route("/{id}/transform", name="admin_user_transform")
      * @Template()
      *
-     * @param string $id
-     *                   The document ID
+     * @param string $id The document ID
      *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function transformAction($id)
+    public function transformAction($id, Request $request)
     {
-        return $this->baseTransformAction($id, new UserTransformType($this->getInstance()));
-    }
+        if ($request->getMethod() === 'POST') {
+            return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance()), 'admin_user');
+        }
 
-    /**
-     * Transforms an existing BaseUser document.
-     *
-     * @Route("/{id}/dotransform", name="admin_user_do_transform")
-     * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminBaseUser:transform.html.twig")
-     *
-     * @param string $id
-     *                   The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function doTransformAction($id)
-    {
-        return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance()), 'admin_user');
+        return $this->baseTransformAction($id, new UserTransformType($this->getInstance()));
     }
 
     /**

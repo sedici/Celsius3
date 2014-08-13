@@ -196,7 +196,7 @@
     <div class="col-md-9">
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-        <form action="{{ path(name~'_do_transform', { 'id': document.id }) }}" method="post" {{ form_enctype(transform_form) }} class="form-horizontal">
+        <form action="{{ path(name~'_transform', { 'id': document.id }) }}" method="post" {{ form_enctype(transform_form) }} class="form-horizontal">
               {{ form_widget(transform_form) }}
               <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ 'Transform'|trans }}</button>
         </form>

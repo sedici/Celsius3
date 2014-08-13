@@ -56,8 +56,8 @@ class ConfigurationListener
                 }
 
                 $dm->persist($new);
-                $dm->flush();
             }
+            $dm->flush();
         } elseif ($document instanceof Configuration) {
             if (!$document->getInstance()) {
                 $instances = $dm
@@ -70,9 +70,9 @@ class ConfigurationListener
                 foreach ($instances as $instance) {
                     $new = $this->configuration_helper->duplicate($document);
                     $new->setInstance($instance);
-                    $dm->persist($new);
-                    $dm->flush();
+                    $dm->persist($new);    
                 }
+                $dm->flush();
             }
         }
     }

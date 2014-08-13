@@ -1,6 +1,6 @@
 {
     "name": "sedici/celsius3",
-    "license": "GPLv3",
+    "license": "GPL-3.0",
     "type": "project",
     "description": "The Celsius3 Project",
     "autoload": {
@@ -17,7 +17,6 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
-        "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-bundle": "~1.2",
         "doctrine/data-fixtures": "dev-master",

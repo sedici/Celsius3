@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -24,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Document\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
@@ -36,7 +38,6 @@ use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
  */
 class SuperadminBaseUserController extends BaseUserController
 {
-
     protected function listQuery($name)
     {
         return $this->getDocumentManager()
@@ -165,27 +166,13 @@ class SuperadminBaseUserController extends BaseUserController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function transformAction($id)
+    public function transformAction($id, Request $request)
     {
-        return $this->baseTransformAction($id, new UserTransformType());
-    }
+        if ($request->getMethod() === 'POST') {
+            return $this->baseDoTransformAction($id, new UserTransformType(), 'superadmin_user');
+        }
 
-    /**
-     * Transforms an existing BaseUser document.
-     *
-     * @Route("/{id}/dotransform", name="superadmin_user_do_transform")
-     * @Method("post")
-     * @Template("Celsius3CoreBundle:SuperadminBaseUser:transform.html.twig")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function doTransformAction($id)
-    {
-        return $this->baseDoTransformAction($id, new UserTransformType(), 'superadmin_user');
+        return $this->baseTransformAction($id, new UserTransformType());
     }
 
     /**
@@ -203,5 +190,4 @@ class SuperadminBaseUserController extends BaseUserController
     {
         return $this->baseEnableAction($id);
     }
-
 }

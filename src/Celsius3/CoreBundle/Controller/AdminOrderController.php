@@ -194,23 +194,6 @@ class AdminOrderController extends OrderController
     }
 
     /**
-     * Deletes a Order document.
-     *
-     * @Route("/{id}/delete", name="admin_order_delete")
-     * @Method("post")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Order', $id, 'admin_order');
-    }
-
-    /**
      * Updates de form materialData field.
      *
      * @Route("/change", name="admin_order_change", options={"expose"=true})
@@ -222,93 +205,4 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
-
-    /**
-     * Returns the form to create a new request
-     *
-     * @Route("/request-form/{id}", name="admin_order_request_form", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
-     */
-    public function requestFormAction($id)
-    {
-        $document = $this->findQuery('Order', $id);
-
-        if (!$document) {
-            throw $this->createNotFoundException('Unable to find Order.');
-        }
-
-        $form = $this->createForm(new OrderRequestType($this->getDocumentManager(), $this->get('celsius3_core.event_manager')->getFullClassNameForEvent(EventManager::EVENT__SINGLE_INSTANCE_REQUEST)), new SingleInstanceRequestEvent())->createView();
-
-        return array(
-            'document' => $document,
-            'form' => $form,
-        );
-    }
-
-    /**
-     * Creates an Event for an Order
-     *
-     * @Route("/{id}/event/{event}", name="admin_order_event", options={"expose"=true})
-     * @Method("post")
-     *
-     * @param string $id    The document ID
-     * @param string $event The event name
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function eventAction($id, $event)
-    {
-        $order = $this->findQuery('Order', $id);
-
-        if (!$order) {
-            throw $this->createNotFoundException('Unable to find Order.');
-        }
-
-        if ($this->get('celsius3_core.lifecycle_helper')->createEvent($event, $order->getRequest($this->getInstance()))) {
-            $this->get('session')->getFlashBag()->add('success', 'The state has been successfully changed.');
-        } else {
-            $this->get('session')->getFlashBag()->add('success', 'There was an error processing your request.');
-        }
-
-        return $this->redirect($this->generateUrl('admin_order_show', array('id' => $order->getId())));
-    }
-
-    /**
-     * Undoes the last state change
-     *
-     * @Route("/{id}/undo", name="admin_order_undo", options={"expose"=true})
-     * @Method("post")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function undoStateAction($id)
-    {
-        $order = $this->findQuery('Order', $id);
-
-        if (!$order) {
-            throw $this->createNotFoundException('Unable to find Order.');
-        }
-
-        if ($this->get('celsius3_core.lifecycle_helper')->undoState($order)) {
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'The state has been successfully changed.');
-        } else {
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'There was an error processing your request.');
-        }
-
-        return $this
-                        ->redirect(
-                                $this
-                                ->generateUrl('admin_order_show', array('id' => $order->getId())));
-    }
-
 }

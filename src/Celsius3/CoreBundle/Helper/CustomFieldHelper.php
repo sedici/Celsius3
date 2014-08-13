@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -30,7 +31,6 @@ use Celsius3\CoreBundle\Document\Instance;
 
 class CustomFieldHelper
 {
-
     private $request_stack;
     private $dm;
 
@@ -64,9 +64,8 @@ class CustomFieldHelper
                 }
                 $value->setValue($data[$field->getKey()]);
                 $this->dm->persist($value);
-                $this->dm->flush();
             }
         }
+        $this->dm->flush();
     }
-
 }

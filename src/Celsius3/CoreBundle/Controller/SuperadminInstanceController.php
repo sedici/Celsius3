@@ -200,23 +200,6 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Deletes a Instance document.
-     *
-     * @Route("/{id}/delete", name="superadmin_instance_delete")
-     * @Method("post")
-     *
-     * @param string $id The document ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Instance', $id, 'superadmin_instance');
-    }
-
-    /**
      * Switches the enabled flag of a Instance document.
      *
      * @Route("/{id}/switch", name="superadmin_instance_switch")
