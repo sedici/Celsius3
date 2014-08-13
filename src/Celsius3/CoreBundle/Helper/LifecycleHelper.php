@@ -21,15 +21,17 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Document\Request;
 use Celsius3\CoreBundle\Document\State;
 use Celsius3\CoreBundle\Document\Event\Event;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
+use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Exception\PreviousStateNotFoundException;
 use Celsius3\CoreBundle\Document\Event\UndoEvent;
 
@@ -43,15 +45,13 @@ class LifecycleHelper
     private $instance_helper;
     private $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(DocumentManager $dm, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper)
     {
-        $this->container = $container;
-        $this->dm = $this->container
-                ->get('doctrine.odm.mongodb.document_manager');
-        $this->state_manager = $this->container->get('celsius3_core.state_manager');
-        $this->event_manager = $this->container->get('celsius3_core.event_manager');
-        $this->file_manager = $this->container->get('celsius3_core.file_manager');
-        $this->instance_helper = $this->container->get('celsius3_core.instance_helper');
+        $this->dm = $dm;
+        $this->state_manager = $state_manager;
+        $this->event_manager = $event_manager;
+        $this->file_manager = $file_manager;
+        $this->instance_helper = $instance_helper;
     }
 
     public function getEventManager()

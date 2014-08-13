@@ -102,6 +102,14 @@ class NotificationManager
 
     private function notifyRatchet(Notification $notification)
     {
+        $entryData = array(
+            'id' => $notification->getObject()->getId(),
+            'cause' => $notification->getCause(),
+            'user_ids' => array_map(function ($receiver) {
+                return $receiver->getId();
+            }, $notification->getReceivers()->toArray())
+        );
+
         $context = new \ZMQContext();
         $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'notification pusher');
         $socket->connect('tcp://' . $this->zmq_host . ':' . $this->zmq_port);
