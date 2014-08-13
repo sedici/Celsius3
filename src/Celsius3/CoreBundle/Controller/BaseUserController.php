@@ -34,7 +34,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $dm->flush();
     }
 
-    public function baseTransformAction($id, $transformType)
+    protected function baseTransformAction($id, $transformType)
     {
         $document = $this->findQuery('BaseUser', $id);
 
