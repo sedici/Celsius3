@@ -34,6 +34,3 @@ parameters:
     notification_zmq_host: localhost
     notification_zmq_port: 5555
     notification_limit: 10
-
-    chat_host: 0.0.0.0
-    chat_port: 8081

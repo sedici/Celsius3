@@ -1,8 +1,3 @@
-celsius3_chat:
-    resource: "@Celsius3ChatBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 celsius3_api:
     resource: "@Celsius3ApiBundle/Controller/"
     type:     annotation

@@ -220,11 +220,6 @@ celsius3_notification:
         zmq_port: %notification_zmq_port%
         zmq_host: %notification_zmq_host%
 
-celsius3_chat:
-    web_socket_server:
-        port: %chat_port%        #The port the socket server will listen on
-        host: %chat_host%   #(optional) The host ip to bind to
-
 fos_rest:
     param_fetcher_listener: true
     body_listener: true
