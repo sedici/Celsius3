@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\MigrationBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -29,6 +31,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class MigrationController extends Controller
 {
+
     /**
      * Returns the DocumentManager
      *
@@ -59,14 +62,14 @@ class MigrationController extends Controller
         $password = $this->getRequest()->request->get('password');
         $database = $this->getRequest()->request->get('database');
         $port = $this->getRequest()->request->has('port') ? $this->getRequest()
-                        ->request->has('port') : null;
+                ->request->has('port') : null;
 
         $this->get('celsius3_migration.migration_manager')
                 ->migrate($host, $username, $password, $database, $port);
 
         return array(
-                'countries' => $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:Country')
-                        ->findAll(),);
+            'countries' => $this->getDocumentManager()
+                    ->getRepository('Celsius3CoreBundle:Country')
+                    ->findAll(),);
     }
 }
