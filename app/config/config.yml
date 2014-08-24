@@ -88,8 +88,7 @@ doctrine_mongodb:
     connections:
         default:
             server: mongodb://%mongodb_host%:%mongodb_port%
-            options:
-                connect: true
+            options: {}
     default_database: %mongodb_database%
     document_managers:
         default:
