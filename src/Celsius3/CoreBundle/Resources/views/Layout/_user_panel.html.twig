@@ -11,11 +11,11 @@
                 <a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile'|trans }}</a>
             </li>
             <li>
-                <a href="{{ path('fos_user_security_logout', { 'url': app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
+                <a href="{{ path('celsius3_fos_user_security_logout', { 'url': app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
             </li>
             {% else %}
             <li>
-                <a href="{{ path('fos_user_security_login', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
+                <a href="{{ path('celsius3_fos_user_security_login', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
             </li>
             <li>
                 <a href="{{ path('fos_user_registration_register', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>

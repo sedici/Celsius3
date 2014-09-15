@@ -51,26 +51,26 @@ class OthersLoader extends AbstractFixture implements FixtureInterface, Containe
         /*
          * Carga de contactos
          */
-        $contact_types = $manager->getRepository('Celsius3CoreBundle:ContactType')
-                ->findAll();
-        $institutions = $manager->getRepository('Celsius3CoreBundle:Institution')
-                ->findAll();
-
-        foreach ($institutions as $institution) {
-            foreach ($contact_types as $contact_type) {
-                $contact = new Document\Contact();
-                $contact->setName($generator->firstName);
-                $contact->setSurname($generator->lastName);
-                $contact->setEmail($generator->email);
-                $contact->setAddress($generator->address);
-                $contact->setType($contact_type);
-                $contact->setInstitution($institution);
-                $manager->persist($contact);
-                unset($contact);
-            }
-        }
-        $manager->flush();
-        $manager->clear();
+//        $contact_types = $manager->getRepository('Celsius3CoreBundle:ContactType')
+//                ->findAll();
+//        $institutions = $manager->getRepository('Celsius3CoreBundle:Institution')
+//                ->findAll();
+//
+//        foreach ($institutions as $institution) {
+//            foreach ($contact_types as $contact_type) {
+//                $contact = new Document\Contact();
+//                $contact->setName($generator->firstName);
+//                $contact->setSurname($generator->lastName);
+//                $contact->setEmail($generator->email);
+//                $contact->setAddress($generator->address);
+//                $contact->setType($contact_type);
+//                $contact->setInstitution($institution);
+//                $manager->persist($contact);
+//                unset($contact);
+//            }
+//        }
+//        $manager->flush();
+//        $manager->clear();
     }
 
     public function getOrder()

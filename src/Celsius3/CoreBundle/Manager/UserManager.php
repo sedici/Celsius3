@@ -31,12 +31,14 @@ class UserManager
     const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    const ROLE_MIGRATOR = 'ROLE_MIGRATOR';
 
     private $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
         self::ROLE_ADMIN,
         self::ROLE_SUPER_ADMIN,
+        self::ROLE_MIGRATOR,
     );
 
     private function iterateInstitutions(Institution $institution)

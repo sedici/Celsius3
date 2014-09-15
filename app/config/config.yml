@@ -38,7 +38,7 @@ twig:
 
 # Assetic Configuration
 assetic:
-    bundles:        [Celsius3CoreBundle]
+    bundles:        [Celsius3CoreBundle, Celsius3MigrationBundle]
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java
@@ -88,8 +88,7 @@ doctrine_mongodb:
     connections:
         default:
             server: mongodb://%mongodb_host%:%mongodb_port%
-            options:
-                connect: true
+            options: {}
     default_database: %mongodb_database%
     document_managers:
         default:

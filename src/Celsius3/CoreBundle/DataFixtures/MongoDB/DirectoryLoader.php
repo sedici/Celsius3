@@ -221,19 +221,19 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Listado global de revistas
          */
-        for ($i = 0; $i < 100; $i++) {
-            $journal = new Document\Journal();
-            $journal->setName(str_replace('.', '', $generator->sentence));
-            $journal->setAbbreviation(strtoupper($generator->word));
-            $journal->setISSN($generator->randomNumber(8));
-            $journal->setISSNE($generator->bothify('#######X'));
-            $journal->setFrecuency($generator->randomElement(array('anual', 'semestral', 'mensual')));
-            $journal->setResponsible($generator->name);
-            $journal->setInstance($directory);
-            $manager->persist($journal);
-            unset($journal);
-        }
-        $manager->flush();
+//        for ($i = 0; $i < 100; $i++) {
+//            $journal = new Document\Journal();
+//            $journal->setName(str_replace('.', '', $generator->sentence));
+//            $journal->setAbbreviation(strtoupper($generator->word));
+//            $journal->setISSN($generator->randomNumber(8));
+//            $journal->setISSNE($generator->bothify('#######X'));
+//            $journal->setFrecuency($generator->randomElement(array('anual', 'semestral', 'mensual')));
+//            $journal->setResponsible($generator->name);
+//            $journal->setInstance($directory);
+//            $manager->persist($journal);
+//            unset($journal);
+//        }
+//        $manager->flush();
 
         foreach ($this->contact_types as $contacttype) {
             $ct = new Document\ContactType();
@@ -245,15 +245,15 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Carga de catalogos globales
          */
-        for ($i = 0; $i < 50; $i++) {
-            $catalog = new Document\Catalog();
-            $catalog->setName($generator->company);
-            $catalog->setUrl($generator->url);
-            $catalog->setInstance($directory);
-            $manager->persist($catalog);
-            unset($catalog);
-        }
-        $manager->flush();
+//        for ($i = 0; $i < 50; $i++) {
+//            $catalog = new Document\Catalog();
+//            $catalog->setName($generator->company);
+//            $catalog->setUrl($generator->url);
+//            $catalog->setInstance($directory);
+//            $manager->persist($catalog);
+//            unset($catalog);
+//        }
+//        $manager->flush();
     }
 
     public function getOrder()

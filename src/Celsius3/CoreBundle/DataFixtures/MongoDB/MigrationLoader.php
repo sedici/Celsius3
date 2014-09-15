@@ -50,19 +50,19 @@ class MigrationLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Migracion de PIDU
          */
-        $this->container->get('celsius3_migration.migration_manager')->migrate($this->container->getParameter('celsius2_host'), $this->container->getParameter('celsius2_username'), $this->container->getParameter('celsius2_password'), $this->container->getParameter('celsius2_database'), $this->container->getParameter('celsius2_port'), $manager);
+//        $this->container->get('celsius3_migration.migration_manager')->migrate($this->container->getParameter('celsius2_host'), $this->container->getParameter('celsius2_username'), $this->container->getParameter('celsius2_password'), $this->container->getParameter('celsius2_database'), $this->container->getParameter('celsius2_port'), $manager);
 
         /*
          * Asignación de instituciones a catálogos
          */
-        $catalogs = $manager->getRepository('Celsius3CoreBundle:Catalog')
-                ->findAll();
-        foreach ($catalogs as $catalog) {
-            $catalog->setInstitution($dbhelper->findRandomRecord('Celsius3CoreBundle:Institution'));
-
-            $manager->persist($catalog);
-        }
-        $manager->flush();
+//        $catalogs = $manager->getRepository('Celsius3CoreBundle:Catalog')
+//                ->findAll();
+//        foreach ($catalogs as $catalog) {
+//            $catalog->setInstitution($dbhelper->findRandomRecord('Celsius3CoreBundle:Institution'));
+//
+//            $manager->persist($catalog);
+//        }
+//        $manager->flush();
     }
 
     public function getOrder()

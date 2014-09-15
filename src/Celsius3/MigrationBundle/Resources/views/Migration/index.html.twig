@@ -1,7 +1,7 @@
 {% extends 'Celsius3MigrationBundle:Layout:migration_layout.html.twig' %}
 
 {% block content %}
-<form action="{{ path('migration_process') }}" method="post">
+<form action="{{ path('migration_process') }}" method="post" enctype="">
     <p>
         <label for="host">Host</label>
         <input type="text" name="host" id="host" />

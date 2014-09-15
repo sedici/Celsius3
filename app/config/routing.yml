@@ -24,8 +24,8 @@ celsius3_core:
     prefix:   /
 
 fos_user_security:
-    resource: "@Celsius3CoreBundle/Resources/config/routing/security.xml"
-    prefix: /{url}
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix: /
 
 fos_user_profile:
     resource: "@Celsius3CoreBundle/Resources/config/routing/profile.xml"
