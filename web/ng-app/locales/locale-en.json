@@ -102,6 +102,7 @@
     "approvalPending": "Approval pending",
     "received": "Received",
     "delivered": "Delivered",
+    "finished": "Finished",
     "addOrder": "Add order",
     "beingSearched": "Being searched",
     "myOrders": "My orders",
