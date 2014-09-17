@@ -59,7 +59,7 @@
     </div>
 
     <div class="navigation">
-        <pagination total-items="total" ng-model="pagination.currentPage" ng-change="pageChanged()"></pagination>
+        <pagination total-items="total" max-size="7" boundary-links="true" rotate="false" num-pages="numPages" ng-model="pagination.currentPage" ng-change="pageChanged()"></pagination>
     </div>
 </div>
 
