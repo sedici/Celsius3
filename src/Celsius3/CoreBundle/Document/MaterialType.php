@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -34,31 +35,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class MaterialType
 {
+
     use TimestampableDocument;
+
     /**
      * @ODM\Id
      */
     protected $id;
+
     /**
      * @Assert\NotBlank()
      * @ODM\String
      */
     protected $title;
+
     /**
      * @ODM\String
      */
     protected $authors;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      * @ODM\Int
      */
     protected $year;
+
     /**
      * @Assert\Type(type="integer")
      * @ODM\Int
      */
     protected $startPage;
+
     /**
      * @Assert\Type(type="integer")
      * @ODM\Int
@@ -69,10 +77,10 @@ abstract class MaterialType
     {
         return $this->getTitle();
     }
-    
+
     public function __clone()
     {
-        if($this->id){
+        if ($this->id) {
             $this->id = null;
         }
     }
@@ -201,4 +209,5 @@ abstract class MaterialType
     {
         return $this->endPage;
     }
+
 }
