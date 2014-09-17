@@ -23,7 +23,6 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -31,7 +30,6 @@ use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
-use Celsius3\CoreBundle\Document\Request as C3Request;
 
 /**
  * Order controller.
