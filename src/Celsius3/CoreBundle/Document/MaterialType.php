@@ -69,6 +69,13 @@ abstract class MaterialType
     {
         return $this->getTitle();
     }
+    
+    public function __clone()
+    {
+        if($this->id){
+            $this->id = null;
+        }
+    }
 
     /**
      * Get id

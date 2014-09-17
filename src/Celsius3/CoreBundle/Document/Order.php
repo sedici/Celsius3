@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -29,40 +30,51 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 /**
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
  */
-class Order
-{
+class Order {
 
     use TimestampableDocument;
+
     /**
      * @ODM\Id
      */
     private $id;
+
     /**
      * @Assert\Type(type="integer")
      * @ODM\Int
      */
     private $code;
+
     /**
      * @ODM\EmbedOne(targetDocument="MaterialType")
      */
     private $materialData;
+
     /**
      * @ODM\ReferenceOne(targetDocument="Request", cascade={"persist"})
      */
     private $originalRequest;
+
     /**
      * @ODM\ReferenceMany(targetDocument="Request", mappedBy="order")
      */
     private $requests;
 
-    public function __toString()
-    {
+    public function __toString() {
         return strval($this->getCode());
     }
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __clone() {
+        if ($this->id) {
+            $this->id = null;
+            $this->materialData = clone $this->materialData;
+            $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+            $this->originalRequest = new \Celsius3\CoreBundle\Document\Request();
+        }
     }
 
     /**
@@ -70,8 +82,7 @@ class Order
      *
      * @return id $id
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -81,8 +92,7 @@ class Order
      * @param  int  $code
      * @return self
      */
-    public function setCode($code)
-    {
+    public function setCode($code) {
         $this->code = $code;
 
         return $this;
@@ -93,8 +103,7 @@ class Order
      *
      * @return int $code
      */
-    public function getCode()
-    {
+    public function getCode() {
         return $this->code;
     }
 
@@ -104,8 +113,7 @@ class Order
      * @param  Celsius3\CoreBundle\Document\MaterialType $materialData
      * @return self
      */
-    public function setMaterialData(\Celsius3\CoreBundle\Document\MaterialType $materialData = null)
-    {
+    public function setMaterialData(\Celsius3\CoreBundle\Document\MaterialType $materialData = null) {
         $this->materialData = $materialData;
 
         return $this;
@@ -116,8 +124,7 @@ class Order
      *
      * @return Celsius3\CoreBundle\Document\MaterialType $materialData
      */
-    public function getMaterialData()
-    {
+    public function getMaterialData() {
         return $this->materialData;
     }
 
@@ -127,8 +134,7 @@ class Order
      * @param  Celsius3\CoreBundle\Document\Request $originalRequest
      * @return self
      */
-    public function setOriginalRequest(\Celsius3\CoreBundle\Document\Request $originalRequest = null)
-    {
+    public function setOriginalRequest(\Celsius3\CoreBundle\Document\Request $originalRequest = null) {
         $this->originalRequest = $originalRequest;
 
         return $this;
@@ -139,8 +145,7 @@ class Order
      *
      * @return Celsius3\CoreBundle\Document\Request $originalRequest
      */
-    public function getOriginalRequest()
-    {
+    public function getOriginalRequest() {
         return $this->originalRequest;
     }
 
@@ -149,8 +154,7 @@ class Order
      *
      * @param Celsius3\CoreBundle\Document\Request $request
      */
-    public function addRequest(\Celsius3\CoreBundle\Document\Request $request)
-    {
+    public function addRequest(\Celsius3\CoreBundle\Document\Request $request) {
         $this->requests[] = $request;
     }
 
@@ -159,8 +163,7 @@ class Order
      *
      * @param Celsius3\CoreBundle\Document\Request $request
      */
-    public function removeRequest(\Celsius3\CoreBundle\Document\Request $request)
-    {
+    public function removeRequest(\Celsius3\CoreBundle\Document\Request $request) {
         $this->requests->removeElement($request);
     }
 
@@ -169,16 +172,14 @@ class Order
      *
      * @return Doctrine\Common\Collections\Collection $requests
      */
-    public function getRequests()
-    {
+    public function getRequests() {
         return $this->requests;
     }
 
     /**
      * Retorna si existe o no un request para $instance
      */
-    public function hasRequest(Instance $instance)
-    {
+    public function hasRequest(Instance $instance) {
         return ($this->getRequests()
                         ->filter(
                                 function ($entry) use ($instance) {
@@ -190,8 +191,7 @@ class Order
      * Retorna el Request para la instancia $instance para el Order actual.
      * Antes debería verificarse su existencia con hasRequest.
      */
-    public function getRequest(Instance $instance)
-    {
+    public function getRequest(Instance $instance) {
         $result = $this->getRequests()
                         ->filter(
                                 function ($entry) use ($instance) {
@@ -200,4 +200,5 @@ class Order
 
         return false !== $result ? $result : null;
     }
+
 }

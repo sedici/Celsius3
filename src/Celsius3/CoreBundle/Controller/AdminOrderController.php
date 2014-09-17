@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,12 +23,15 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Document\Request as C3Request;
 
 /**
  * Order controller.
@@ -95,7 +99,7 @@ class AdminOrderController extends OrderController
         $user = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->query->get('user_id', null));
-        
+
         return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, $user, $this->getUser()));
     }
 
@@ -138,6 +142,45 @@ class AdminOrderController extends OrderController
         $deleteForm = $this->createDeleteForm($id);
 
         return array('document' => $document,
+            'edit_form' => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),);
+    }
+
+    /**
+     * Displays a form to edit an duplicated Order document.
+     *
+     * @Route("/{id}/duplicate", name="admin_order_duplicate", options={"expose"=true})
+     * @Method("POST")
+     * @Template("Celsius3CoreBundle:AdminOrder:edit.html.twig")
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     */
+    public function duplicateAction($id)
+    {
+        //Buscar Order
+        $order = $this->findQuery('Order', $id);
+
+        if (!$order) {
+            throw $this->createNotFoundException('Unable to find Order.');
+        }
+
+        //Clonar Orden original
+        $duplicatedOrder = clone $order;
+
+        $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance());
+        $duplicatedOrder->setOriginalRequest($request);
+
+        //Se registra duplicado en la base de datos
+        $document_manager = $this->getDocumentManager();
+        $document_manager->persist($duplicatedOrder);
+        $document_manager->flush();
+
+
+        $materialClass = get_class($duplicatedOrder->getMaterialData());
+
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser()), $duplicatedOrder);
+        $deleteForm = $this->createDeleteForm($id);
+
+        return array('document' => $duplicatedOrder,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),);
     }
@@ -202,4 +245,5 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
+
 }
