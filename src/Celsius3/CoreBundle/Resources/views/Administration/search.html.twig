@@ -20,8 +20,10 @@
             {{ knp_pagination_render(pagination) }}
         </div>
 
-        {% include 'Celsius3CoreBundle:AdminOrder:_index_fields.html.twig' %}
-
+        {% for element in pagination %}
+        {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' %}
+        {% endfor %}
+        
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}
         </div>

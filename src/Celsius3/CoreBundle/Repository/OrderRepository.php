@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -50,14 +51,13 @@ class OrderRepository extends DocumentRepository
     {
         $qb = $this->createQueryBuilder();
 
-        if (!empty($in)) {
+        if (count($in) > 0) {
             $secondary = array();
             foreach ($in as $repository => $term) {
-                $secondary = array_keys(
-                        $this->getDocumentManager()
-                                ->getRepository(
-                                        'Celsius3CoreBundle:' . $repository)
-                                ->findByTerm($term, $instance)->execute()
+                $secondary = array_keys($this->getDocumentManager()
+                                ->getRepository('Celsius3CoreBundle:' . $repository)
+                                ->findByTerm($term, $instance)
+                                ->execute()
                                 ->toArray());
             }
 
@@ -65,22 +65,29 @@ class OrderRepository extends DocumentRepository
         } else {
             $expr = new \MongoRegex('/.*' . $term . '.*/i');
             $qb = $qb->addOr($qb->expr()->field('code')->equals(intval($term)))
-                    ->addOr(
-                            $qb->expr()->field('materialData.title')
-                            ->equals($expr))
-                    ->addOr(
-                            $qb->expr()->field('materialData.authors')
-                            ->equals($expr))
-                    ->addOr(
-                    $qb->expr()->field('materialData.year')
-                    ->equals($expr));
+                    ->addOr($qb->expr()->field('materialData.title')->equals($expr))
+                    ->addOr($qb->expr()->field('materialData.authors')->equals($expr))
+                    ->addOr($qb->expr()->field('materialData.year')->equals($expr));
         }
 
-        if (!is_null($instance))
-            $qb = $qb->field('instance.id')->equals($instance->getId());
+        if (!is_null($instance)) {
+            $requests = array_values(array_map(function($request) {
+                return $request['order']['$id'];
+            },$this->getDocumentManager()->getRepository('Celsius3CoreBundle:Request')
+                            ->createQueryBuilder()
+                            ->select('order.id')
+                            ->hydrate(false)
+                            ->field('instance.id')->equals($instance->getId())
+                            ->getQuery()
+                            ->execute()
+                            ->toArray()));
+            
+            $qb = $qb->field('id')->in($requests);
+        }
 
-        if (!is_null($limit))
-            $qb = $qb->limit(10);
+        if (!is_null($limit)) {
+            $qb = $qb->limit($limit);
+        }
 
         return $qb->getQuery();
     }
