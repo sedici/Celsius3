@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,13 +21,16 @@
  */
 
 namespace Celsius3\CoreBundle\Manager;
+
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\Instance;
 
 class SearchManager
 {
     private $dm;
-    private $tokenList = array('user:' => 'BaseUser',);
+    private $tokenList = array(
+        'user:' => 'BaseUser',
+    );
 
     public function __construct(DocumentManager $dm)
     {
@@ -62,6 +66,6 @@ class SearchManager
     public function search($repository, $keyword, Instance $instance = null)
     {
         return $this->dm->getRepository('Celsius3CoreBundle:' . $repository)
-                ->findByTerm($keyword, $instance, $this->parseTokens($keyword));
+                        ->findByTerm($keyword, $instance, $this->parseTokens($keyword));
     }
 }

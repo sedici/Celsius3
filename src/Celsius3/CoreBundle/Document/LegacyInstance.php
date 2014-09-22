@@ -79,6 +79,11 @@ class LegacyInstance
      * @ODM\ReferenceOne(targetDocument="Hive", inversedBy="instances")
      */
     protected $hive;
+    
+    public function __construct()
+    {
+        $this->ownerInstitutions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -236,5 +241,35 @@ class LegacyInstance
     public function getHive()
     {
         return $this->hive;
+    }
+    
+        /**
+     * Add ownerInstitutions
+     *
+     * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
+     */
+    public function addOwnerInstitution(\Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
+    {
+        $this->ownerInstitutions[] = $ownerInstitutions;
+    }
+
+    /**
+     * Remove ownerInstitutions
+     *
+     * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
+     */
+    public function removeOwnerInstitution(\Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
+    {
+        $this->ownerInstitutions->removeElement($ownerInstitutions);
+    }
+
+    /**
+     * Get ownerInstitutions
+     *
+     * @return Doctrine\Common\Collections\ArrayCollection $ownerInstitutions
+     */
+    public function getOwnerInstitutions()
+    {
+        return $this->ownerInstitutions;
     }
 }

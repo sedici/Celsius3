@@ -66,7 +66,7 @@
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
+            "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerUpdate",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"

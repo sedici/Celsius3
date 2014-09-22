@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -56,7 +57,10 @@ class AdministrationController extends BaseInstanceDependentController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance()), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
 
-        return array('keyword' => $keyword, 'pagination' => $pagination,);
+        return array(
+            'keyword' => $keyword,
+            'pagination' => $pagination,
+        );
     }
 
     /**

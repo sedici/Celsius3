@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <h2>{{ 'Login'|trans }}</h2>
-        <form action="{{ path("fos_user_security_check", { 'url': app.request.get('url') }) }}" method="post" class="form" role="form">
+        <form action="{{ path("celsius3_fos_user_security_check", { 'url': app.request.get('url') }) }}" method="post" class="form" role="form">
             <ul>
                 {% if error %}
                     <li>{{ error|trans }}</li>

@@ -9,9 +9,9 @@
             </li>
         </ul>
         <ul class="nav nav-pills pull-right">
-            <li class="lead" ng-class="isActive('delivered')">
-                <a href="#/{{type}}/delivered">
-                    {{'delivered'|translate}} ({{ orderCount.delivered + orderCount.cancelled + orderCount.anulled}})
+            <li class="lead" ng-class="isActive('finished')">
+                <a href="#/{{type}}/finished">
+                    {{'finished'|translate}} ({{ orderCount.delivered + orderCount.cancelled + orderCount.anulled}})
                 </a>
             </li>
         </ul>

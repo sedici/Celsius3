@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -31,6 +32,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Hive
 {
+
     use TimestampableDocument;
     /**
      * @ODM\Id
@@ -59,6 +61,7 @@ class Hive
     public function __construct()
     {
         $this->instances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

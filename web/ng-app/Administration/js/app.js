@@ -10,7 +10,7 @@ var administrationApp = angular.module('administrationApp', [
 ]);
 
 administrationApp.config(['$routeProvider', '$translateProvider',
-    function($routeProvider, $translateProvider) {
+    function ($routeProvider, $translateProvider) {
         $routeProvider.
                 when('/:type', {
                     templateUrl: '/ng-app/Administration/partials/index.html',
