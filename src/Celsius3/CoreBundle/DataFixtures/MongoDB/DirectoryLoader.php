@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -39,7 +40,6 @@ use Celsius3\CoreBundle\Manager\InstanceManager;
  */
 class DirectoryLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
-
     private $container;
     private $directory_configurations = array(
         'instance_title' => array(
@@ -138,8 +138,8 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $directory = new Document\Instance();
         $directory->setName('Directory');
         $directory->setAbbreviation('Directory');
-        $directory->setWebsite('http://www.celsius3.com.localhost');
-        $directory->setEmail('admin@celsius3.com');
+        $directory->setWebsite('http://celsius3.prebi.unlp.edu.ar');
+        $directory->setEmail('soporte@prebi.unlp.edu.ar');
         $directory->setUrl(InstanceManager::INSTANCE__DIRECTORY);
         $directory->setEnabled(false);
         $manager->persist($directory);
@@ -175,19 +175,6 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $manager->flush();
 
         /*
-         * Creacion de noticias del directorio
-         */
-        for ($j = 0; $j < $generator->numberBetween(10, 20); $j++) {
-            $news = new Document\News();
-            $news->setDate($generator->date('Y-m-d H:i:s'));
-            $news->setTitle(str_replace('.', '', $generator->sentence));
-            $news->setText($generator->text(2000));
-            $news->setInstance($directory);
-            $manager->persist($news);
-            unset($news);
-        }
-
-        /*
          * Configuración modelo para las Instancias
          */
         foreach ($this->configurations as $key => $data) {
@@ -218,47 +205,16 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         }
         $manager->flush();
 
-        /*
-         * Listado global de revistas
-         */
-//        for ($i = 0; $i < 100; $i++) {
-//            $journal = new Document\Journal();
-//            $journal->setName(str_replace('.', '', $generator->sentence));
-//            $journal->setAbbreviation(strtoupper($generator->word));
-//            $journal->setISSN($generator->randomNumber(8));
-//            $journal->setISSNE($generator->bothify('#######X'));
-//            $journal->setFrecuency($generator->randomElement(array('anual', 'semestral', 'mensual')));
-//            $journal->setResponsible($generator->name);
-//            $journal->setInstance($directory);
-//            $manager->persist($journal);
-//            unset($journal);
-//        }
-//        $manager->flush();
-
         foreach ($this->contact_types as $contacttype) {
             $ct = new Document\ContactType();
             $ct->setName($contacttype);
             $manager->persist($ct);
             unset($ct);
         }
-
-        /*
-         * Carga de catalogos globales
-         */
-//        for ($i = 0; $i < 50; $i++) {
-//            $catalog = new Document\Catalog();
-//            $catalog->setName($generator->company);
-//            $catalog->setUrl($generator->url);
-//            $catalog->setInstance($directory);
-//            $manager->persist($catalog);
-//            unset($catalog);
-//        }
-//        $manager->flush();
     }
 
     public function getOrder()
     {
         return 1;
     }
-
 }

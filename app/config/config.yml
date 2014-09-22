@@ -38,7 +38,7 @@ twig:
 
 # Assetic Configuration
 assetic:
-    bundles:        [Celsius3CoreBundle, Celsius3MigrationBundle]
+    bundles:        [Celsius3CoreBundle]
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java

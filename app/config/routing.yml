@@ -13,11 +13,6 @@ celsius3_message:
     type:     annotation
     prefix:   /
 
-celsius3_migration:
-    resource: "@Celsius3MigrationBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 celsius3_core:
     resource: "@Celsius3CoreBundle/Controller/"
     type:     annotation
