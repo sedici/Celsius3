@@ -1,0 +1,13 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+{{ 'Country Creation'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
+
+{% block content %}
+<h2>{{ 'Country Creation'|trans }}</h2>
+
+{{ new('admin_country', form) }}
+{% endblock %}
