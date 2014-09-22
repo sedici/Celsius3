@@ -27,7 +27,6 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ODM\Document
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
  */
 class Catalog

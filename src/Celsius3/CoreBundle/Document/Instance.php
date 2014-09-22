@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -38,62 +39,50 @@ class Instance extends LegacyInstance
      * @ODM\String
      */
     protected $url;
-
     /**
      * @ODM\ReferenceMany(targetDocument="BaseUser", mappedBy="instance")
      */
     protected $users;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Order", mappedBy="instance")
      */
     protected $orders;
-
     /**
      * @ODM\ReferenceMany(targetDocument="News", mappedBy="instance", sort={"date"="desc"})
      */
     protected $news;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Contact", mappedBy="instance")
      */
     protected $contacts;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Institution", mappedBy="instance")
      */
     protected $institutions;
-
     /**
      * @ODM\ReferenceMany(targetDocument="MailTemplate", mappedBy="instance")
      */
     protected $templates;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Configuration", mappedBy="instance", sort={"key"="asc"})
      */
     protected $configurations;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Catalog", mappedBy="instance")
      */
     protected $catalogs;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\Event\Event", mappedBy="instance")
      */
     protected $events;
-
     /**
      * @ODM\ReferenceMany(targetDocument="State", mappedBy="instance")
      */
     protected $states;
-
     /**
      * @ODM\ReferenceMany(targetDocument="Country", mappedBy="instance")
      */
     protected $countries;
-
     /**
      * @ODM\ReferenceMany(targetDocument="City", mappedBy="instance")
      */
@@ -101,12 +90,12 @@ class Instance extends LegacyInstance
 
     public function __construct()
     {
+        parent::__construct();
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->news = new \Doctrine\Common\Collections\ArrayCollection();
         $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
         $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ownerInstitutions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->templates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
         $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
@@ -308,38 +297,6 @@ class Instance extends LegacyInstance
     public function getInstitutions()
     {
         return $this->institutions;
-    }
-
-    /**
-     * Add ownerInstitutions
-     *
-     * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
-     */
-    public function addOwnerInstitution(
-    \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
-    {
-        $this->ownerInstitutions[] = $ownerInstitutions;
-    }
-
-    /**
-     * Remove ownerInstitutions
-     *
-     * @param Celsius3\CoreBundle\Document\Institution $ownerInstitutions
-     */
-    public function removeOwnerInstitution(
-    \Celsius3\CoreBundle\Document\Institution $ownerInstitutions)
-    {
-        $this->ownerInstitutions->removeElement($ownerInstitutions);
-    }
-
-    /**
-     * Get ownerInstitutions
-     *
-     * @return Doctrine\Common\Collections\ArrayCollection $ownerInstitutions
-     */
-    public function getOwnerInstitutions()
-    {
-        return $this->ownerInstitutions;
     }
 
     /**
@@ -558,5 +515,4 @@ class Instance extends LegacyInstance
     {
         return $this->cities;
     }
-
 }

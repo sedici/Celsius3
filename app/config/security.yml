@@ -7,18 +7,31 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     firewalls:
-        main:
-            pattern: ^/
+        migration:
+            pattern: ^/migration/
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
                 login_path: fos_user_security_login
                 check_path: fos_user_security_check
+                default_target_path: migration
+            logout:
+                path:   fos_user_security_logout
+                target: directory
+            anonymous:    false
+        
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                login_path: celsius3_fos_user_security_login
+                check_path: celsius3_fos_user_security_check
                 failure_handler: celsius3_core.security.authentication_failure_handler
                 success_handler: celsius3_core.security.authentication_success_handler
                 default_target_path: user_index
             logout:
-                path:   fos_user_security_logout
+                path:   celsius3_fos_user_security_logout
                 target: public_index
                 success_handler: celsius3_core.security.logout_success_handler
             anonymous:    true
@@ -29,13 +42,15 @@ security:
             security: false
 
     access_control:
-        - { path: ^/public/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/user/, role: ROLE_USER }
-        - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/superadmin/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/api/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/.*/public, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/.*/user, role: ROLE_USER }
+        - { path: ^/.*/admin, role: ROLE_ADMIN }
+        - { path: ^/.*/superadmin, role: ROLE_SUPER_ADMIN }
+        - { path: ^/.*/migration, role: ROLE_MIGRATOR }
+        - { path: ^/.*/api/, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
     role_hierarchy:
         ROLE_LIBRARIAN:   ROLE_USER
         ROLE_ADMIN:       ROLE_LIBRARIAN
         ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_MIGRATOR:    ROLE_SUPER_ADMIN

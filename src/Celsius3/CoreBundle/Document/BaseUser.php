@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -42,6 +43,7 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable
 {
+
     use TimestampableDocument;
     /**
      * @ODM\Id
@@ -74,6 +76,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @ODM\Boolean
      */
     protected $downloadAuth = true;
+    /**
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
+     * @ODM\Boolean
+     */
+    protected $wrongEmail = false;
     /**
      * @ODM\ReferenceMany(targetDocument="Order", mappedBy="owner")
      */
@@ -539,5 +547,27 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getIsLibrarian()
     {
         return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles());
+    }
+
+    /**
+     * Set wrongEmail
+     *
+     * @param boolean $wrongEmail
+     * @return self
+     */
+    public function setWrongEmail($wrongEmail)
+    {
+        $this->wrongEmail = $wrongEmail;
+        return $this;
+    }
+
+    /**
+     * Get wrongEmail
+     *
+     * @return boolean $wrongEmail
+     */
+    public function getWrongEmail()
+    {
+        return $this->wrongEmail;
     }
 }

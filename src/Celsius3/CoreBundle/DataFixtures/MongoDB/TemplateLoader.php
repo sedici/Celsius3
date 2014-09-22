@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -40,7 +41,6 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class TemplateLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
-
     private $notification_templates = array(
         NotificationManager::CAUSE__NEW_MESSAGE => array(
             'class' => '\\Celsius3\\NotificationBundle\\Document\\NotificationTemplate',
@@ -147,5 +147,4 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
     {
         return 2;
     }
-
 }

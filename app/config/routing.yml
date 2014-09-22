@@ -13,19 +13,14 @@ celsius3_message:
     type:     annotation
     prefix:   /
 
-celsius3_migration:
-    resource: "@Celsius3MigrationBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 celsius3_core:
     resource: "@Celsius3CoreBundle/Controller/"
     type:     annotation
     prefix:   /
 
 fos_user_security:
-    resource: "@Celsius3CoreBundle/Resources/config/routing/security.xml"
-    prefix: /{url}
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix: /
 
 fos_user_profile:
     resource: "@Celsius3CoreBundle/Resources/config/routing/profile.xml"
