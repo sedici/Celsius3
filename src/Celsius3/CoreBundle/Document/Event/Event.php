@@ -55,7 +55,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "reupload"="ReuploadEvent"
  * })
  */
-class Event implements EventInterface
+abstract class Event implements EventInterface
 {
     use TimestampableDocument;
     /**

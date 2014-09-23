@@ -27,9 +27,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
- * @ODM\InheritanceType("COLLECTION_PER_CLASS")
+ * @ODM\InheritanceType("SINGLE_COLLECTION")
+ * @ODM\DiscriminatorField(fieldName="type")
+ * @ODM\DiscriminatorMap({
+ *   "author"="Author",
+ *   "institution"="Institution",
+ *   "web"="Web",
+ * })
  */
-class Provider
+abstract class Provider
 {
     use TimestampableDocument;
     /**
