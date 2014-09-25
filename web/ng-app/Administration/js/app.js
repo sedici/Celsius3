@@ -20,6 +20,10 @@ administrationApp.config(['$routeProvider', '$translateProvider',
                     templateUrl: '/ng-app/Administration/partials/index.html',
                     controller: 'AdministrationCtrl'
                 }).
+                when('/:type/:state/:orderType', {
+                    templateUrl: '/ng-app/Administration/partials/index.html',
+                    controller: 'AdministrationCtrl'
+                }).
                 when('/', {
                     redirectTo: '/mine',
                 }).

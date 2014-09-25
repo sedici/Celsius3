@@ -92,7 +92,7 @@ class OrderRepository extends DocumentRepository
         return $qb->getQuery();
     }
 
-    public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null)
+    public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null )
     {
         if (is_array($state)) {
             $type = $this->getDocumentManager()
@@ -128,13 +128,17 @@ class OrderRepository extends DocumentRepository
         $states = array_map(array($this, 'getRequestIds'), $states->getQuery()
                         ->execute()
                         ->toArray());
-
+        
         $requests = $this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:Request')
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->select('order')
                         ->field('id')->in($states);
+        
+        if(!($orderType == 'allTypes') && !($orderType == null)) {
+            $requests = $requests->field('type')->equals($orderType);
+        }
 
         if (!is_null($user)) {
             $requests = $requests->addOr($requests->expr()->field('operator.id')->equals($user->getId()))

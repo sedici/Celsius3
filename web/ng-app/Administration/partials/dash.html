@@ -1,16 +1,29 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-2">
         <ul class="nav nav-pills pull-left">
             <li ng-class="isActiveType('all')">
-                <a href="#/all/{{state}}">{{'all'|translate}}</a></h3>
+                <a href="#/all/{{state}}/{{orderType}}">{{'all'|translate}}</a>
             </li>
             <li ng-class="isActiveType('mine')">
-                <a href="#/mine/{{state}}">{{'myOrders'|translate}}</a>
+                <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-10">
+        <ul class="nav nav-pills pull-left">
+            <li ng-class="isActiveOrderType('allTypes')">
+                <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|translate}}</a>
+            </li>
+            <li ng-class="isActiveOrderType('provision')">
+                <a href="#/{{type}}/{{state}}/provision">{{'provision'|translate}}</a>
+            </li>
+            <li ng-class="isActiveOrderType('search')">
+                <a href="#/{{type}}/{{state}}/search">{{'search'|translate}}</a>
             </li>
         </ul>
         <ul class="nav nav-pills pull-right">
             <li class="lead" ng-class="isActive('finished')">
-                <a href="#/{{type}}/finished">
+                <a href="#/{{type}}/finished/{{orderType}}">
                     {{'finished'|translate}} ({{ orderCount.delivered + orderCount.cancelled + orderCount.anulled}})
                 </a>
             </li>
@@ -26,19 +39,19 @@
         </div>
         <ul class="nav nav-pills pull-right">
             <li class="lead" ng-class="isActive('created')">
-                <a href="#/{{type}}/created">{{'created'|translate}} ({{orderCount.created}})</a>
+                <a href="#/{{type}}/created/{{orderType}}">{{'created'|translate}} ({{orderCount.created}})</a>
             </li>
             <li class="lead" ng-class="isActive('searched')">
-                <a href="#/{{type}}/searched">{{'beingSearched'|translate}} ({{orderCount.searched}})</a>
+                <a href="#/{{type}}/searched/{{orderType}}">{{'beingSearched'|translate}} ({{orderCount.searched}})</a>
             </li>
             <li class="lead" ng-class="isActive('requested')">
-                <a href="#/{{type}}/requested">{{'requested'|translate}} ({{orderCount.requested}})</a>
+                <a href="#/{{type}}/requested/{{orderType}}">{{'requested'|translate}} ({{orderCount.requested}})</a>
             </li>
             <li class="lead" ng-class="isActive('approval_pending')">
-                <a href="#/{{type}}/approval_pending">{{'approvalPending'|translate}} ({{orderCount.approval_pending}})</a>
+                <a href="#/{{type}}/approval_pending/{{orderType}}">{{'approvalPending'|translate}} ({{orderCount.approval_pending}})</a>
             </li>
             <li class="lead" ng-class="isActive('received')">
-                <a href="#/{{type}}/received">{{'received'|translate}} ({{orderCount.received}})</a>
+                <a href="#/{{type}}/received/{{orderType}}">{{'received'|translate}} ({{orderCount.received}})</a>
             </li>
         </ul>
         <div class="clearfix"></div>
