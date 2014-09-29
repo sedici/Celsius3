@@ -60,7 +60,7 @@ assetic:
                 - cssrewrite
         font_awesome:
             inputs:
-                - "bundles/celsius3core/components/font-awesome/css/font-awesome.min.css"
+                - "bundles/celsius3core/components/fontawesome/css/font-awesome.min.css"
             filters:
                 - cssrewrite
         select2:

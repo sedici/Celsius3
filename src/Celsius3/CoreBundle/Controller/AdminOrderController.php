@@ -29,7 +29,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Document\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 
 /**
  * Order controller.
@@ -172,15 +171,16 @@ class AdminOrderController extends OrderController
         $document_manager->persist($duplicatedOrder);
         $document_manager->flush();
 
-
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser()), $duplicatedOrder);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array('document' => $duplicatedOrder,
+        return array(
+            'document' => $duplicatedOrder,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),);
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
     /**
@@ -226,9 +226,11 @@ class AdminOrderController extends OrderController
             return $this->redirect($this->generateUrl('admin_order_edit', array('id' => $id)));
         }
 
-        return array('document' => $document,
+        return array(
+            'document' => $document,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),);
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
     /**
@@ -243,5 +245,4 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
-
 }

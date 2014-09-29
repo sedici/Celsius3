@@ -52,6 +52,11 @@
                 <li>
                     <a ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}"><span class="glyphicon glyphicon-pencil"></span></a>
                 </li>
+                <li>
+                    <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
+                    <a href class="submit-form"><span class="fa fa-files-o"></span></a>
+                    </form>
+                </li>
             </ul>
         </div>
         

@@ -133,12 +133,11 @@ class OrderRepository extends DocumentRepository
                         ->getRepository('Celsius3CoreBundle:Request')
                         ->createQueryBuilder()
                         ->hydrate(false)
-                        ->select('order')
-                        ->field('id')->in($states);
-        
-        if(!($orderType == 'allTypes') && !($orderType == null)) {
+                        ->select('order');
+        if(!($orderType == 'allTypes') && !is_null($orderType)) {
             $requests = $requests->field('type')->equals($orderType);
         }
+        $requests = $requests->field('id')->in($states);
 
         if (!is_null($user)) {
             $requests = $requests->addOr($requests->expr()->field('operator.id')->equals($user->getId()))

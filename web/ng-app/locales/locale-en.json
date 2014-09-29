@@ -116,5 +116,8 @@
     "editProfile": "Edit profile",
     "orderHistory": "Order history",
     "institutionUsers": "Institution users",
-    "lastMessages": "Last messages"
+    "lastMessages": "Last messages",
+    "provision": "Provision",
+    "search": "Search",
+    "allTypes": "All Types"
 }

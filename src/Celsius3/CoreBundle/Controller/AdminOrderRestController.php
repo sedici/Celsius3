@@ -75,7 +75,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $orderCount = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:State')
                 ->countOrders($this->getInstance(), $user);
-
+        
         $view = $this->view($orderCount, 200)
                 ->setFormat('json');
 

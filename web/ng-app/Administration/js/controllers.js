@@ -19,7 +19,6 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
 
         Order.withRequests({type: $scope.type, "state[]": state, page: $scope.pagination.currentPage, sort: $scope.sortData.sort, direction: $scope.sortData.direction, orderType: $scope.orderType}, function (response) {
             $scope.orders = response.orders;
-            
             if ($scope.state === 'finished') {
                 $scope.total = $scope.orderCount.delivered + $scope.orderCount.cancelled + $scope.orderCount.annulled;
             } else {
@@ -96,7 +95,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
             $scope.orderCount = response;
             $scope.loadOrders();
         });
-
+        
         User.pending(function (users) {
             $scope.users = users;
         });
