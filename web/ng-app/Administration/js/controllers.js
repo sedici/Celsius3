@@ -25,8 +25,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
             } else {
                 $scope.total = $scope.orderCount[state];
             }
-            console.log($scope.orderCount);
-            console.log($scope.total);
+            
             $scope.numPages = Math.ceil($scope.total / 10);
 
             $scope.orders.forEach(function (order) {

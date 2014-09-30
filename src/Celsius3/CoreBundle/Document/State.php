@@ -27,8 +27,10 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ODM\Document
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"isCurrent"="asc", "type"="asc", "requestType"="asc", "instance.id"="asc", "owner.id"="asc", "operator.id"="asc", "librarian.id"="asc"}),
+ * })
  */
 class State
 {
@@ -51,9 +53,15 @@ class State
     private $isCurrent = true;
     /**
      * @Assert\NotNull
-     * @ODM\ReferenceOne(targetDocument="StateType", inversedBy="states")
+     * @ODM\String
      */
     private $type;
+    /**
+     * @Assert\NotBlank
+     * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\OrderManager", "getTypes"}, message = "Choose a valid type.")
+     * @ODM\String
+     */
+    private $requestType;
     /**
      * @ODM\ReferenceOne
      */
@@ -80,6 +88,23 @@ class State
      * @ODM\ReferenceOne(targetDocument="Request", inversedBy="states")
      */
     private $request;
+    /**
+     * @Assert\NotNull
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
+     */
+    private $owner;
+    /**
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
+     */
+    private $librarian;
+    /**
+     * @ODM\ReferenceOne(targetDocument="BaseUser")
+     */
+    private $operator;
+    /**
+     * @ODM\ReferenceOne(targetDocument="Order")
+     */
+    private $order;
 
     public function __construct()
     {
@@ -88,7 +113,7 @@ class State
 
     public function __toString()
     {
-        return $this->getType()->__toString();
+        return $this->getType();
     }
 
     /**
@@ -150,10 +175,10 @@ class State
     /**
      * Set type
      *
-     * @param  Celsius3\CoreBundle\Document\StateType $type
+     * @param  string $type
      * @return self
      */
-    public function setType(\Celsius3\CoreBundle\Document\StateType $type)
+    public function setType($type)
     {
         $this->type = $type;
 
@@ -163,7 +188,7 @@ class State
     /**
      * Get type
      *
-     * @return Celsius3\CoreBundle\Document\StateType $type
+     * @return string $type
      */
     public function getType()
     {
@@ -320,5 +345,115 @@ class State
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $owner
+     * @return self
+     */
+    public function setOwner(\Celsius3\CoreBundle\Document\BaseUser $owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return Celsius3\CoreBundle\Document\BaseUser $owner
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set librarian
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $librarian
+     * @return self
+     */
+    public function setLibrarian(\Celsius3\CoreBundle\Document\BaseUser $librarian)
+    {
+        $this->librarian = $librarian;
+        return $this;
+    }
+
+    /**
+     * Get librarian
+     *
+     * @return Celsius3\CoreBundle\Document\BaseUser $librarian
+     */
+    public function getLibrarian()
+    {
+        return $this->librarian;
+    }
+
+    /**
+     * Set operator
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $operator
+     * @return self
+     */
+    public function setOperator(\Celsius3\CoreBundle\Document\BaseUser $operator)
+    {
+        $this->operator = $operator;
+        return $this;
+    }
+
+    /**
+     * Get operator
+     *
+     * @return Celsius3\CoreBundle\Document\BaseUser $operator
+     */
+    public function getOperator()
+    {
+        return $this->operator;
+    }
+
+    /**
+     * Set order
+     *
+     * @param Celsius3\CoreBundle\Document\Order $order
+     * @return self
+     */
+    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Celsius3\CoreBundle\Document\Order $order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set requestType
+     *
+     * @param string $requestType
+     * @return self
+     */
+    public function setRequestType($requestType)
+    {
+        $this->requestType = $requestType;
+        return $this;
+    }
+
+    /**
+     * Get requestType
+     *
+     * @return string $requestType
+     */
+    public function getRequestType()
+    {
+        return $this->requestType;
     }
 }

@@ -88,11 +88,13 @@ doctrine_mongodb:
     connections:
         default:
             server: mongodb://%mongodb_host%:%mongodb_port%
-            options: {}
+            options:
+                connect: true
     default_database: %mongodb_database%
     document_managers:
         default:
             auto_mapping: true
+            logging: false
             mappings:
                 gedmo_translatable:
                     type: annotation
@@ -235,7 +237,6 @@ fos_rest:
 
 jms_serializer:
     metadata:
-        auto_detection: true
         directories:
             FOSUserBundle:
                 namespace_prefix: FOS\UserBundle
