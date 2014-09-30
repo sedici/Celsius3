@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -30,7 +31,6 @@ use Celsius3\CoreBundle\Document\State;
 
 class StateManager
 {
-
     const STATE__CREATED = 'created';
     const STATE__SEARCHED = 'searched';
     const STATE__REQUESTED = 'requested';
@@ -40,7 +40,17 @@ class StateManager
     const STATE__CANCELLED = 'cancelled';
     const STATE__ANNULLED = 'annulled';
     const STATE__TAKEN = 'taken';
-
+    public static $stateTypes = array(
+        self::STATE__CREATED,
+        self::STATE__SEARCHED,
+        self::STATE__REQUESTED,
+        self::STATE__RECEIVED,
+        self::STATE__CANCELLED,
+        self::STATE__ANNULLED,
+        self::STATE__DELIVERED,
+        self::STATE__APPROVAL_PENDING,
+        self::STATE__TAKEN,
+    );
     private $graph = array(
         self::STATE__CREATED => array(
             'positive' => true,
@@ -385,5 +395,4 @@ class StateManager
                 ;
         }
     }
-
 }

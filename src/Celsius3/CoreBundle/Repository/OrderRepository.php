@@ -42,9 +42,9 @@ class OrderRepository extends DocumentRepository
         return $value['order']['$id'];
     }
 
-    protected function getRequestIds($value)
+    protected function getOrdersIds($value)
     {
-        return $value['request']['$id'];
+        return $value['order']['$id'];
     }
 
     public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null)
@@ -94,65 +94,33 @@ class OrderRepository extends DocumentRepository
 
     public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null )
     {
-        if (is_array($state)) {
-            $type = $this->getDocumentManager()
-                    ->getRepository('Celsius3CoreBundle:StateType')
-                    ->createQueryBuilder()
-                    ->field('name')->in($state)
-                    ->getQuery()
-                    ->execute()
-                    ->toArray();
-        } else {
-            $type = $this->getDocumentManager()
-                    ->getRepository('Celsius3CoreBundle:StateType')
-                    ->findOneBy(array(
-                'name' => $state,
-            ));
-        }
-
         $states = $this->getDocumentManager()
                         ->getRepository('Celsius3CoreBundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
-                        ->select('request')
+                        ->select('order.id')
                         ->field('isCurrent')->equals(true)
                         ->field('instance.id')->equals($instance->getId());
-        if (is_array($type)) {
-            $states = $states->field('type.id')->in(array_map(function ($e) {
-                        return $e->getId();
-                    }, $type));
+        if (is_array($state)) {
+            $states = $states->field('type')->in($state);
         } else {
-            $states = $states->field('type.id')->equals($type->getId());
+            $states = $states->field('type')->equals($state);
         }
-
-        $states = array_map(array($this, 'getRequestIds'), $states->getQuery()
-                        ->execute()
-                        ->toArray());
         
-        $requests = $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:Request')
-                        ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->select('order');
-        if(!($orderType == 'allTypes') && !is_null($orderType)) {
-            $requests = $requests->field('type')->equals($orderType);
+        if(!($orderType == 'allTypes') && !($orderType == null)) {
+            $states = $states->field('requestType')->equals($orderType);
         }
-        $requests = $requests->field('id')->in($states);
-
+        
         if (!is_null($user)) {
-            $requests = $requests->addOr($requests->expr()->field('operator.id')->equals($user->getId()))
-                    ->addOr($requests->expr()->field('operator.id')->equals(null));
+            $states = $states->addOr($states->expr()->field('operator.id')->equals($user->getId()))
+                    ->addOr($states->expr()->field('operator.id')->equals(null));
         }
-
+        
         if (!is_null($owner)) {
-            $requests = $requests->field('owner.id')->equals($owner->getId());
+            $states = $states->field('owner.id')->equals($owner->getId());
         }
 
-        $requests = array_map(array($this, 'getIds'), $requests->getQuery()
-                        ->execute()
-                        ->toArray());
-
-        return $this->createQueryBuilder()->field('id')->in($requests);
+        return $states;
     }
 
     public function findOneForInstance($id, Instance $instance)

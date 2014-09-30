@@ -29,8 +29,10 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ODM\Document
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"requestType"="asc", "stateType"="asc", "instance.id"="asc", "owner.id"="asc", "operator.id"="asc", "librarian.id"="asc"}),
+ * })
  * @ODM\InheritanceType("SINGLE_COLLECTION")
  * @ODM\DiscriminatorField(fieldName="type")
  * @ODM\DiscriminatorMap({
@@ -90,6 +92,30 @@ abstract class Event implements EventInterface
      * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance", inversedBy="events")
      */
     private $instance;
+    /**
+     * @Assert\NotNull
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
+     */
+    private $owner;
+    /**
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
+     */
+    private $librarian;
+    /**
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Order")
+     */
+    private $order;
+    /**
+     * @Assert\NotBlank
+     * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\OrderManager", "getTypes"}, message = "Choose a valid type.")
+     * @ODM\String
+     */
+    private $requestType;
+    /**
+     * @Assert\NotBlank
+     * @ODM\String
+     */
+    private $stateType;
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
@@ -242,5 +268,115 @@ abstract class Event implements EventInterface
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $owner
+     * @return self
+     */
+    public function setOwner(\Celsius3\CoreBundle\Document\BaseUser $owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return Celsius3\CoreBundle\Document\BaseUser $owner
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set librarian
+     *
+     * @param Celsius3\CoreBundle\Document\BaseUser $librarian
+     * @return self
+     */
+    public function setLibrarian(\Celsius3\CoreBundle\Document\BaseUser $librarian)
+    {
+        $this->librarian = $librarian;
+        return $this;
+    }
+
+    /**
+     * Get librarian
+     *
+     * @return Celsius3\CoreBundle\Document\BaseUser $librarian
+     */
+    public function getLibrarian()
+    {
+        return $this->librarian;
+    }
+
+    /**
+     * Set order
+     *
+     * @param Celsius3\CoreBundle\Document\Order $order
+     * @return self
+     */
+    public function setOrder(\Celsius3\CoreBundle\Document\Order $order)
+    {
+        $this->order = $order;
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Celsius3\CoreBundle\Document\Order $order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Set requestType
+     *
+     * @param string $requestType
+     * @return self
+     */
+    public function setRequestType($requestType)
+    {
+        $this->requestType = $requestType;
+        return $this;
+    }
+
+    /**
+     * Get requestType
+     *
+     * @return string $requestType
+     */
+    public function getRequestType()
+    {
+        return $this->requestType;
+    }
+
+    /**
+     * Set stateType
+     *
+     * @param string $stateType
+     * @return self
+     */
+    public function setStateType($stateType)
+    {
+        $this->stateType = $stateType;
+        return $this;
+    }
+
+    /**
+     * Get stateType
+     *
+     * @return string $stateType
+     */
+    public function getStateType()
+    {
+        return $this->stateType;
     }
 }

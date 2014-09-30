@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -28,6 +29,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
 
 class StateRepository extends DocumentRepository
 {
+
     protected function getRequestIds($value)
     {
         return $value['_id'];
@@ -35,53 +37,25 @@ class StateRepository extends DocumentRepository
 
     public function countOrders(Instance $instance = null, BaseUser $user = null)
     {
-        $types = $this->dm->getRepository('Celsius3CoreBundle:StateType')
-                        ->createQueryBuilder()->hydrate(false)->select('id', 'name')
-                        ->getQuery()->execute()->toArray();
-        
-        $requests = $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:Request')
-                        ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->select('id')
-                        ->field('instance.id')->equals($instance->getId());
-
-        if (!is_null($user)) {
-            $requests = $requests->addOr($requests->expr()->field('operator.id')->equals($user->getId()))
-                    ->addOr($requests->expr()->field('operator.id')->equals(null));
-        }
-
-        $requests = array_map(array($this, 'getRequestIds'), $requests->getQuery()
-                        ->execute()
-                        ->toArray());
-
-        $qb = $this->createQueryBuilder()
-                ->field('isCurrent')->equals(true)
-                ->field('request.id')->in($requests)
-                ->map('function () { emit(this.type.$id, 1); }')
-                ->reduce(
-                'function (k, vals) {
-                    var sum = 0;
-                    for (var i in vals) {
-                        sum += vals[i];
-                    }
-
-                    return sum;
-                }');
-
-        if (!is_null($instance))
-            $qb = $qb->field('instance.id')->equals($instance->getId());
-
-        $qb = $qb->getQuery()->execute()->toArray();
+        $types = StateManager::$stateTypes;
 
         $result = array();
         foreach ($types as $type) {
-            $result[$type['name']] = 0;
-            foreach ($qb as $count) {
-                if ($count['_id'] == $type['_id']) {
-                    $result[$type['name']] = $count['value'];
-                }
+            $qb = $this->createQueryBuilder()
+                            ->hydrate(false)
+                            ->field('isCurrent')->equals(true)
+                            ->field('type')->equals($type);
+
+            if (!is_null($instance)) {
+                $qb = $qb->field('instance.id')->equals($instance->getId());
             }
+
+            if (!is_null($user)) {
+                $qb = $qb->addOr($qb->expr()->field('operator.id')->equals($user->getId()))
+                        ->addOr($qb->expr()->field('operator.id')->equals(null));
+            }
+
+            $result[$type] = $qb->getQuery()->execute()->count();
         }
 
         return $result;
