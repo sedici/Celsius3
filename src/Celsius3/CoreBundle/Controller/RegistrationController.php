@@ -126,7 +126,7 @@ class RegistrationController extends BaseRegistrationController
      *
      * @return NotFoundHttpException
      */
-    protected function createNotFoundException($message = 'Not Found', \Exception $previous = null)
+    public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
     {
         return new NotFoundHttpException($message, $previous);
     }

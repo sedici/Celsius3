@@ -107,7 +107,7 @@ class OrderRepository extends DocumentRepository
             $states = $states->field('type')->equals($state);
         }
         
-        if(!($orderType == 'allTypes') && !($orderType == null)) {
+        if(!($orderType === 'allTypes') && !(is_null($orderType))) {
             $states = $states->field('requestType')->equals($orderType);
         }
         
