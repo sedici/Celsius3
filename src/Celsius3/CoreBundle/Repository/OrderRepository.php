@@ -98,7 +98,7 @@ class OrderRepository extends DocumentRepository
                         ->getRepository('Celsius3CoreBundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
-                        ->select('order.id')
+                        ->select('order')
                         ->field('isCurrent')->equals(true)
                         ->field('instance.id')->equals($instance->getId());
         if (is_array($state)) {
