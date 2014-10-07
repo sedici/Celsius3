@@ -28,6 +28,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc", "request.id"="asc", "user.id"="asc"}),
+ *   @ODM\Index(keys={"file.id"="asc"}),
+ * })
  */
 class FileDownload
 {
@@ -59,6 +63,10 @@ class FileDownload
      * @ODM\ReferenceOne(targetDocument="Request")
      */
     private $request;
+    /**
+     * @ODM\ReferenceOne(targetDocument="Instance")
+     */
+    private $instance;
 
     /**
      * Get id
@@ -183,5 +191,27 @@ class FileDownload
     public function getRequest()
     {
         return $this->request;
+    }
+
+    /**
+     * Set instance
+     *
+     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @return self
+     */
+    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
+    {
+        $this->instance = $instance;
+        return $this;
+    }
+
+    /**
+     * Get instance
+     *
+     * @return Celsius3\CoreBundle\Document\Instance $instance
+     */
+    public function getInstance()
+    {
+        return $this->instance;
     }
 }

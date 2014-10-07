@@ -29,6 +29,9 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"code"="asc"}),
+ * })
  */
 class Order
 {

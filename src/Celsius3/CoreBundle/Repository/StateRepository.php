@@ -63,12 +63,8 @@ class StateRepository extends DocumentRepository
 
     public function findOrdersPerStatePerInstance($state)
     {
-        $state = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:StateType')
-                ->findOneBy(array('name' => $state));
-
         return $this->createQueryBuilder()
-                        ->field('type.id')->equals($state ? $state->getId() : null)
+                        ->field('type')->equals($state)
                         ->field('isCurrent')->equals(true)
                         ->map('function () { emit(this.instance.$id, 1); }')
                         ->reduce('function (k, vals) {
@@ -85,12 +81,7 @@ class StateRepository extends DocumentRepository
 
     public function findTotalOrdersPerInstance()
     {
-        $state = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:StateType')
-                ->findOneBy(array('name' => StateManager::STATE__CREATED));
-
         return $this->createQueryBuilder()
-                        ->field('type.id')->equals($state ? $state->getId() : null)
                         ->field('isCurrent')->equals(true)
                         ->map('function () { emit(this.instance.$id, 1); }')
                         ->reduce('function (k, vals) {
@@ -103,5 +94,41 @@ class StateRepository extends DocumentRepository
                         }')
                         ->getQuery()
                         ->execute();
+    }
+
+    public function findTotalTime($first = StateManager::STATE__CREATED, $last = StateManager::STATE__REQUESTED, Instance $instance = null)
+    {
+        $qb = $this->createQueryBuilder()
+                ->map('function () {
+                            emit(this.request.$id, {date: this.date.getTime(), type: this.type});
+                        }')
+                ->reduce('function (key, values) {
+                            var datos = {};
+                            values.forEach(function(value) {
+                                datos[value.type] = value.date;
+                            });
+                            return datos;
+                        }')
+                ->finalize('function (key, value) {
+                            if (value.hasOwnProperty("date")) {
+                                return null;
+                            }
+                            return Math.ceil(Math.abs((value["' . $last . '"] - value["' . $first . '"]) / (1000 * 60 * 60 * 24)));
+                        }');
+
+        if (!is_null($instance)) {
+            $qb = $qb->field('instance.id')->equals($instance->getId());
+        }
+
+        $qb = array_filter($qb->addOr($qb->expr()->field('type')->equals($first))
+                        ->addOr($qb->expr()->field('type')->equals($last))
+                        ->getQuery()
+                        ->execute()
+                        ->toArray(), function($item) {
+            return !is_null($item['value']);
+        });
+
+        var_dump($qb);
+        die();
     }
 }

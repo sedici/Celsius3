@@ -34,6 +34,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "mail"="MailTemplate",
  *   "notification"="Celsius3\NotificationBundle\Document\NotificationTemplate"
  * })
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"code"="asc"}),
+ * })
  */
 class Template
 {

@@ -28,6 +28,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstitutionRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc", "country.id"="asc", "city.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "parent.id"="asc"}),
+ *   @ODM\Index(keys={"hive.id"="asc"}),
+ * })
  */
 class Institution extends Provider
 {

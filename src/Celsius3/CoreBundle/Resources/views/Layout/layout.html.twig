@@ -16,7 +16,8 @@
                        '@datatables_css'
                        '@select2_bootstrap_css'
                        '@angular_loading_bar_css'
-                       '@summernote_css' %}
+                       '@summernote_css'
+                       '@c3_css' %}
         <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
         {% endstylesheets %}
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
@@ -113,7 +114,8 @@
                            '@angular_translate_js'
                            '@angular_translate_loader_static_files_js'
                            '@summernote_js'
-                           '@angular_bootstrap_js' %}
+                           '@angular_bootstrap_js'
+                           '@c3_js' %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}

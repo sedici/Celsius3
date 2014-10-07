@@ -29,7 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
  * @ODM\Indexes({
- *   @ODM\Index(keys={"isCurrent"="asc", "type"="asc", "requestType"="asc", "instance.id"="asc", "owner.id"="asc", "operator.id"="asc", "librarian.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "request.id"="asc", "owner.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "request.id"="asc", "operator.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "isCurrent"="asc", "type"="asc", "requestType"="asc", "owner.id"="asc", "operator.id"="asc", "librarian.id"="asc"}),
  * })
  */
 class State

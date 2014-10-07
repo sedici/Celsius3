@@ -28,7 +28,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
- * @ODM\UniqueIndex(keys={"key"="asc", "instance"="asc"})
+ * @ODM\Indexes({
+ *   @ODM\UniqueIndex(keys={"key"="asc", "instance.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "key"="asc"}),
+ * })
  */
 class CustomUserField
 {

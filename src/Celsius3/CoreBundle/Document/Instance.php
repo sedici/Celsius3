@@ -28,8 +28,10 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ODM\Document
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"url"="asc"}),
+ * })
  */
 class Instance extends LegacyInstance
 {

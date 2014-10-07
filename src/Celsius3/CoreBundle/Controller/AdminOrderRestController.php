@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -76,7 +77,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $orderCount = $this->getDocumentManager()
                 ->getRepository('Celsius3CoreBundle:State')
                 ->countOrders($this->getInstance(), $user);
-        
+
         $view = $this->view($orderCount, 200)
                 ->setFormat('json');
 
@@ -133,6 +134,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
                 $view = $this->view($response, 200)
                         ->setFormat('json');
+                //$view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
 
                 return $this->handleView($view);
             }

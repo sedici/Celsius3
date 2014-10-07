@@ -22,61 +22,71 @@
 
 namespace Celsius3\CoreBundle\Document;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Doctrine\MongoDB\GridFSFile;
+use Gedmo\Timestampable\Traits\TimestampableDocument;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @MongoDB\Document
- * @MongoDB\HasLifecycleCallbacks
+ * @ODM\Document
+ * @ODM\HasLifecycleCallbacks
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc", "request.id"="asc"}),
+ * })
  */
 class File
 {
+    use TimestampableDocument;
     /**
-     * @MongoDB\Id
+     * @ODM\Id
      */
     private $id;
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $name;
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $path;
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $comments;
     /**
-     * @MongoDB\String
+     * @ODM\String
      */
     private $mime;
     /**
-     * @MongoDB\File
+     * @ODM\File
      */
     private $file;
     /**
-     * @MongoDB\Date
+     * @ODM\Date
      */
     private $uploaded;
     /**
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $enabled;
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Request", inversedBy="files")
+     * @ODM\ReferenceOne(targetDocument="Request", inversedBy="files")
      */
     private $request;
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event", inversedBy="files")
+     * @ODM\ReferenceOne(targetDocument="Instance", inversedBy="files")
+     */
+    private $instance;
+    /**
+     * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Event\Event", inversedBy="files")
      */
     private $event;
     /**
-     * @MongoDB\Boolean
+     * @ODM\Boolean
      */
     private $isDownloaded = false;
     /**
-     * @MongoDB\Int
+     * @ODM\Int
      */
     private $pages = 0;
 
@@ -90,8 +100,8 @@ class File
     }
 
     /**
-     * @MongoDB\PrePersist()
-     * @MongoDB\PreUpdate()
+     * @ODM\PrePersist()
+     * @ODM\PreUpdate()
      */
     public function prePersist()
     {
@@ -106,8 +116,8 @@ class File
     }
 
     /**
-     * @MongoDB\PostPersist()
-     * @MongoDB\PostUpdate()
+     * @ODM\PostPersist()
+     * @ODM\PostUpdate()
      */
     public function postPersist()
     {
@@ -377,5 +387,27 @@ class File
     public function getPages()
     {
         return $this->pages;
+    }
+
+    /**
+     * Set instance
+     *
+     * @param Celsius3\CoreBundle\Document\Instance $instance
+     * @return self
+     */
+    public function setInstance(\Celsius3\CoreBundle\Document\Instance $instance)
+    {
+        $this->instance = $instance;
+        return $this;
+    }
+
+    /**
+     * Get instance
+     *
+     * @return Celsius3\CoreBundle\Document\Instance $instance
+     */
+    public function getInstance()
+    {
+        return $this->instance;
     }
 }

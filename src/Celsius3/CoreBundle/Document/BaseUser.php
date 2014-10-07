@@ -33,13 +33,12 @@ use Celsius3\NotificationBundle\Document\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ODM\Document
+ * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
  * @ODM\HasLifecycleCallbacks
  * @ODM\Indexes({
  *   @ODM\Index(keys={"name"="asc"}),
  *   @ODM\Index(keys={"surname"="asc"}),
  * })
- * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable
 {

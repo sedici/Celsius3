@@ -29,6 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"name"="asc"}),
+ * })
  */
 class Hive
 {

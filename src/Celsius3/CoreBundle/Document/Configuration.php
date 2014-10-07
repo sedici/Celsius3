@@ -28,6 +28,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc", "key"="asc"}),
+ * })
  */
 class Configuration
 {

@@ -28,6 +28,11 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc", "order.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "order.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "owner.id"="asc", "operator.id"="asc", "type"="asc", "order.id"="asc", "librarian.id"="asc"}),
+ * })
  */
 class Request
 {

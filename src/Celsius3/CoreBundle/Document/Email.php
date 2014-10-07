@@ -28,6 +28,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc"}),
+ *   @ODM\Index(keys={"sender.id"="asc"}),
+ * })
  */
 class Email
 {

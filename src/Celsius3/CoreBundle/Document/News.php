@@ -27,8 +27,10 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ODM\Document
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\NewsRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc"}),
+ * })
  */
 class News
 {

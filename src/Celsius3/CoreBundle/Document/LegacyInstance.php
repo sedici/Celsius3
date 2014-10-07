@@ -34,6 +34,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "legacy"="LegacyInstance",
  *   "current"="Instance"
  * })
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"hive.id"="asc"}),
+ * })
  */
 class LegacyInstance
 {

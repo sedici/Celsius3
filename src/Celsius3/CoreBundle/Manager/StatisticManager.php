@@ -125,11 +125,15 @@ class StatisticManager
                     ->getRepository($this->statistic_data['usersPerInstance']['repository'])
                     ->findUsersPerInstance(),
         );
+        
+        $this->dm->getRepository('Celsius3CoreBundle:State')
+                    ->findTotalTime();
+        
         $response = array();
         foreach ($instances as $instance) {
             $response[$instance->getId()] = array(
                 'name' => $instance->getName(),
-                'country' => $instance->getOwnerInstitutions()->first()->getCountry() ? $instance->getOwnerInstitutions()->first()->getCountry()->getName() : '',
+                'country' => $instance->getOwnerInstitutions()->first() ? ( $instance->getOwnerInstitutions()->first()->getCountry() ? $instance->getOwnerInstitutions()->first()->getCountry()->getName() : '') : '',
             );
         }
         foreach ($data as $key => $item) {

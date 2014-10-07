@@ -28,6 +28,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"user.id"="asc", "field.id"="asc"}),
+ * })
  */
 class CustomUserValue
 {

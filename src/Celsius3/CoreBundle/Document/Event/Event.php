@@ -31,7 +31,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
  * @ODM\Indexes({
- *   @ODM\Index(keys={"requestType"="asc", "stateType"="asc", "instance.id"="asc", "owner.id"="asc", "operator.id"="asc", "librarian.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "request.id"="asc"}),
+ *   @ODM\Index(keys={"instance.id"="asc", "requestType"="asc", "stateType"="asc", "owner.id"="asc", "operator.id"="asc", "librarian.id"="asc"}),
  * })
  * @ODM\InheritanceType("SINGLE_COLLECTION")
  * @ODM\DiscriminatorField(fieldName="type")

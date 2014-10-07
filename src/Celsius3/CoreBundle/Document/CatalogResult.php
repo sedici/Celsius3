@@ -28,6 +28,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"title"="asc"}),
+ *   @ODM\Index(keys={"catalog.id"="asc"}),
+ * })
  */
 class CatalogResult
 {

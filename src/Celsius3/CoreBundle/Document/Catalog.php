@@ -28,6 +28,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ODM\Document(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
+ * @ODM\Indexes({
+ *   @ODM\Index(keys={"instance.id"="asc"}),
+ * })
  */
 class Catalog
 {
