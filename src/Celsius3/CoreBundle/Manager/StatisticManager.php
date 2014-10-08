@@ -22,11 +22,14 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class StatisticManager
 {
 
     private $dm;
+    private $instanceManager;
     private $statistic_data = array(
         'usersPerInstance' => array(
             'repository' => 'Celsius3CoreBundle:BaseUser',
@@ -42,9 +45,10 @@ class StatisticManager
         ),
     );
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(DocumentManager $dm,InstanceManager $instanceManager)
     {
         $this->dm = $dm;
+        $this->instanceManager = $instanceManager;
     }
 
     public function usersPerInstance()
@@ -144,5 +148,25 @@ class StatisticManager
 
         return array_values($response);
     }
+    
+    public function calculateOrdersAnalytics(Instance $instance)
+    {
+        //Recorrer paises, instituciones, usuarios llamando calculateOrdersCounters()
+        $countries = $this->dm->getRepository('Celsius3CoreBundle:Country')
+                ->findForInstanceAndGlobal($instance,$this->instanceManager->getDirectory());
+        
+        foreach($countries as $country){
+            $institutions = $this->dm->getRepository('Celsius3CoreBundle:Institution')->findForInstanceAndGlobal($instance,$this->instanceManager->getDirectory(),null,$country->getId());
+            foreach($institutions as $institution){
+                
+            }
+        }
+    }
 
+
+    public function calculateOrdersCounters(Instance $instance)
+    {
+        $count = $this->dm->getRepository('Celsius3CoreBundle:State')->countByYear();
+        
+    }
 }

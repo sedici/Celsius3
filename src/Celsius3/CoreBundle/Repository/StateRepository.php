@@ -131,4 +131,19 @@ class StateRepository extends DocumentRepository
         var_dump($qb);
         die();
     }
+    
+    public function countByYear(Instance $instance, $users) {
+        $qb = $this->createQueryBuilder();
+        $counters = $qb->map('function(){ emit({year: this.date.getFullYear(), month: this.date.getMonth(), requestType: this.requestType, stateType: this.type},1) }')
+        ->reduce('function(k,vals){
+            sum = 0;
+            for(i in vals){
+                sum += vals[i];
+            }
+            return sum;
+        }')
+        ->field('owner.id')->in($users);
+        
+        return $qb->getQuery()->execute();
+    }
 }
