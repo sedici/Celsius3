@@ -170,28 +170,6 @@ class StatisticManager
         
     }
     
-    /*public function calculateUsersAnalytics()
-    {
-        $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')->createQueryBuilder()->getQuery()->execute();
-        
-        $qb = $this->dm->createQueryBuilder('Celsius3CoreBundle:Analytics\\UserAnalytics');
-        
-        foreach($instances as $instance){
-            $counters = $this->calculateUsersCounters($instance);
-            //var_dump($counters);
-            echo 'Inicia: ' . $instance->getName() . "\n";
-            $total = 0;
-            foreach($counters as $counter) {
-                $total += $counter['value'];
-                echo $instance->getName() . ' - ' . $counter['_id']['year'] . ' - ' . $counter['_id']['month'] . ' - ' . $counter['value'] . ' - ' . $total . "\n";
-            }
-        }
-    }
-    
-    public function calculateUsersCounters(Instance $instance) {
-        return $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->countUsersPerInstance($instance);
-    }*/
-    
     public function calculateUsersAnalytics()
     {
         $inicio = microtime(true);

@@ -158,21 +158,6 @@ class BaseUserRepository extends DocumentRepository
                         ->execute();
     }
 
-    /*public function countUsersPerInstance(Instance $instance)
-    {
-        return $this->createQueryBuilder()
-        ->field('instance.id')->equals($instance->getId())
-        ->map('function(){ emit({year: this.createdAt.getFullYear(), month: this.createdAt.getMonth()},1) }')
-        ->reduce('function(k,vals){
-            sum = 0;
-            for(i in vals){
-                sum += vals[i];
-            }
-            return sum;
-        }')
-        ->getQuery()->execute();
-    }*/
-    
     public function countUsersPerInstance()
     {
         return $this->createQueryBuilder()
