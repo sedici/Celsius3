@@ -169,4 +169,48 @@ class StatisticManager
         $count = $this->dm->getRepository('Celsius3CoreBundle:State')->countByYear();
         
     }
+    
+    /*public function calculateUsersAnalytics()
+    {
+        $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')->createQueryBuilder()->getQuery()->execute();
+        
+        $qb = $this->dm->createQueryBuilder('Celsius3CoreBundle:Analytics\\UserAnalytics');
+        
+        foreach($instances as $instance){
+            $counters = $this->calculateUsersCounters($instance);
+            //var_dump($counters);
+            echo 'Inicia: ' . $instance->getName() . "\n";
+            $total = 0;
+            foreach($counters as $counter) {
+                $total += $counter['value'];
+                echo $instance->getName() . ' - ' . $counter['_id']['year'] . ' - ' . $counter['_id']['month'] . ' - ' . $counter['value'] . ' - ' . $total . "\n";
+            }
+        }
+    }
+    
+    public function calculateUsersCounters(Instance $instance) {
+        return $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->countUsersPerInstance($instance);
+    }*/
+    
+    public function calculateUsersAnalytics()
+    {
+        $inicio = microtime(true);
+        
+        $counts = $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->countUsersPerInstance();
+        
+        $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')->createQueryBuilder()->getQuery()->execute();
+        foreach($instances as $instance){
+            $instancesArray[$instance->getId()] = $instance->getName();
+        }
+        
+        foreach($counts as $count){
+            echo $count['_id']['instance_id'] . ' - ' . $instancesArray[(String) $count['_id']['instance_id']] . ' - ' . $count['_id']['year'] . ' - ' . $count['_id']['month'] . ' - ' . $count['value'] . "\n";
+        }
+        
+        $final = microtime(true);
+        
+        $tiempo = $final - $inicio;
+        
+        echo 'Tiempo de la consulta: ' . $tiempo . "\n";
+    }
 }

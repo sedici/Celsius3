@@ -10,5 +10,36 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class UserAnalytics extends Analytics
 {
+    /**
+     * @ODM\Int
+     */
+    private $year;
+    /**
+     * Este campo contiene un array asociativo de 
+     * meses que a su vez contiene un array asociativo 
+     * de tipos de usuarios
+     * 
+     * @ODM\Field(type="collection")
+     */
+    private $counters;
+    
+    function getYear()
+    {
+        return $this->year;
+    }
 
+    function getCounters()
+    {
+        return $this->counters;
+    }
+
+    function setYear($year)
+    {
+        $this->year = $year;
+    }
+
+    function setCounters($counters)
+    {
+        $this->counters = $counters;
+    }
 }

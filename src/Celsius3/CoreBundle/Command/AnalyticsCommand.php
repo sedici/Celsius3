@@ -37,8 +37,11 @@ class AnalyticsCommand extends ContainerAwareCommand
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $an = $this->getContainer()->get('celsius3_core.statistic_manager')->calculateOrdersCounters();
-        $output->writeln($an);
+        /*$an = $this->getContainer()->get('celsius3_core.statistic_manager')->calculateOrdersCounters();
+        $output->writeln($an);*/
+        
+        $users = $this->getContainer()->get('celsius3_core.statistic_manager')->calculateUsersAnalytics();
+        $output->writeln($users);
     }
 
 }
