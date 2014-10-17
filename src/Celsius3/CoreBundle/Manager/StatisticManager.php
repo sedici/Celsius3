@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -45,7 +46,7 @@ class StatisticManager
         ),
     );
 
-    public function __construct(DocumentManager $dm,InstanceManager $instanceManager)
+    public function __construct(DocumentManager $dm, InstanceManager $instanceManager)
     {
         $this->dm = $dm;
         $this->instanceManager = $instanceManager;
@@ -129,10 +130,10 @@ class StatisticManager
                     ->getRepository($this->statistic_data['usersPerInstance']['repository'])
                     ->findUsersPerInstance(),
         );
-        
+
         $this->dm->getRepository('Celsius3CoreBundle:State')
-                    ->findTotalTime();
-        
+                ->findTotalTime();
+
         $response = array();
         foreach ($instances as $instance) {
             $response[$instance->getId()] = array(
@@ -148,47 +149,52 @@ class StatisticManager
 
         return array_values($response);
     }
-    
+
     public function calculateOrdersAnalytics(Instance $instance)
     {
         //Recorrer paises, instituciones, usuarios llamando calculateOrdersCounters()
         $countries = $this->dm->getRepository('Celsius3CoreBundle:Country')
-                ->findForInstanceAndGlobal($instance,$this->instanceManager->getDirectory());
-        
-        foreach($countries as $country){
-            $institutions = $this->dm->getRepository('Celsius3CoreBundle:Institution')->findForInstanceAndGlobal($instance,$this->instanceManager->getDirectory(),null,$country->getId());
-            foreach($institutions as $institution){
+                ->findForInstanceAndGlobal($instance, $this->instanceManager->getDirectory());
+
+        foreach ($countries as $country) {
+            $institutions = $this->dm->getRepository('Celsius3CoreBundle:Institution')->findForInstanceAndGlobal($instance, $this->instanceManager->getDirectory(), null, $country->getId());
+            foreach ($institutions as $institution) {
                 
             }
         }
     }
 
-
     public function calculateOrdersCounters(Instance $instance)
     {
         $count = $this->dm->getRepository('Celsius3CoreBundle:State')->countByYear();
-        
     }
-    
+
     public function calculateUsersAnalytics()
     {
         $inicio = microtime(true);
         
-        $counts = $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->countUsersPerInstance();
-        
+        $usersCounts = $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->countUsersPerInstance();
+        $activeUsersCount = $this->dm->getRepository('Celsius3CoreBundle:Request')->countActiveUsers();
+
         $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')->createQueryBuilder()->getQuery()->execute();
-        foreach($instances as $instance){
+        foreach ($instances as $instance) {
             $instancesArray[$instance->getId()] = $instance->getName();
         }
         
-        foreach($counts as $count){
-            echo $count['_id']['instance_id'] . ' - ' . $instancesArray[(String) $count['_id']['instance_id']] . ' - ' . $count['_id']['year'] . ' - ' . $count['_id']['month'] . ' - ' . $count['value'] . "\n";
+        $activeUsers = array();
+        foreach($activeUsersCount as $count){
+          $activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']] = $count['value'];
+        }
+        
+        echo 'Iinstance ID - Instance Name - Year - Month - New Users - Active Users' . "\n";
+        foreach($usersCounts as $count){
+          $active = (isset($activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]))?$activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]['count']:'undefined';
+          echo $count['_id']['instance_id'] . ' - ' . $instancesArray[(String) $count['_id']['instance_id']] . ' - ' . $count['_id']['year'] . ' - ' . $count['_id']['month'] . ' - ' . $count['value']['count']. ' - ' .$active. "\n";
         }
         
         $final = microtime(true);
-        
         $tiempo = $final - $inicio;
-        
+
         echo 'Tiempo de la consulta: ' . $tiempo . "\n";
     }
 }

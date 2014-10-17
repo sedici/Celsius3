@@ -161,14 +161,17 @@ class BaseUserRepository extends DocumentRepository
     public function countUsersPerInstance()
     {
         return $this->createQueryBuilder()
-        ->map('function(){ emit({instance_id: this.instance.$id, year: this.createdAt.getFullYear(), month: this.createdAt.getMonth()},1) }')
+        ->map('function(){ emit({
+                instance_id: this.instance.$id, 
+                year: this.createdAt.getFullYear(), 
+                month: this.createdAt.getMonth()},{ count: 1 }) }')
         ->reduce('function(k,vals){
-            sum = 0;
+            ret = { count: 0 };
             for(i in vals){
-                sum += vals[i];
+                ret.count += vals[i].count;
             }
-            return sum;
+            return ret;
         }')
-        ->getQuery()->execute();
+        ->getQuery()->execute()->toArray();
     }
 }
