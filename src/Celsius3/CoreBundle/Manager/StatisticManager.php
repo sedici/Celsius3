@@ -180,15 +180,14 @@ class StatisticManager
         foreach ($instances as $instance) {
             $instancesArray[$instance->getId()] = $instance->getName();
         }
-        
         $activeUsers = array();
         foreach($activeUsersCount as $count){
-          $activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']] = $count['value'];
+          $activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']] = (Integer) count( array_unique($count['value']['users']) );
         }
         
         echo 'Iinstance ID - Instance Name - Year - Month - New Users - Active Users' . "\n";
         foreach($usersCounts as $count){
-          $active = (isset($activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]))?$activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]['count']:'undefined';
+          $active = (isset($activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]))?$activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]:'undefined';
           echo $count['_id']['instance_id'] . ' - ' . $instancesArray[(String) $count['_id']['instance_id']] . ' - ' . $count['_id']['year'] . ' - ' . $count['_id']['month'] . ' - ' . $count['value']['count']. ' - ' .$active. "\n";
         }
         
