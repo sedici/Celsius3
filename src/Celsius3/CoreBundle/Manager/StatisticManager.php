@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Manager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\CoreBundle\Document\Analytics\UserAnalytics;
 
 class StatisticManager
 {
@@ -171,29 +172,60 @@ class StatisticManager
 
     public function calculateUsersAnalytics()
     {
-        $inicio = microtime(true);
-        
         $usersCounts = $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->countUsersPerInstance();
         $activeUsersCount = $this->dm->getRepository('Celsius3CoreBundle:Request')->countActiveUsers();
+        $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')->findAllExceptDirectory();
 
-        $instances = $this->dm->getRepository('Celsius3CoreBundle:Instance')->createQueryBuilder()->getQuery()->execute();
-        foreach ($instances as $instance) {
-            $instancesArray[$instance->getId()] = $instance->getName();
-        }
-        $activeUsers = array();
-        foreach($activeUsersCount as $count){
-          $activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']] = (Integer) count( array_unique($count['value']['users']) );
-        }
-        
-        echo 'Iinstance ID - Instance Name - Year - Month - New Users - Active Users' . "\n";
-        foreach($usersCounts as $count){
-          $active = (isset($activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]))?$activeUsers[(String) $count['_id']['instance_id']][$count['_id']['year']][$count['_id']['month']]:'undefined';
-          echo $count['_id']['instance_id'] . ' - ' . $instancesArray[(String) $count['_id']['instance_id']] . ' - ' . $count['_id']['year'] . ' - ' . $count['_id']['month'] . ' - ' . $count['value']['count']. ' - ' .$active. "\n";
-        }
-        
-        $final = microtime(true);
-        $tiempo = $final - $inicio;
-
-        echo 'Tiempo de la consulta: ' . $tiempo . "\n";
+        $usersCountsArray = array();
+        $this->collectActiveUsersCounts($activeUsersCount, $usersCountsArray);
+        $this->collectUsersCounts($usersCounts, $usersCountsArray);
+        $this->updateCounts($instances, $usersCountsArray);
     }
+
+    private function collectActiveUsersCounts($activeUsersCount, &$usersCountArray)
+    {
+        foreach ($activeUsersCount as $count) {
+            $usersCountArray[(String) $count['_id']['instance_id']][$count['_id']['year']]['months'][$count['_id']['month']]['activeUsers'] = (Integer) count(array_unique($count['value']['users']));
+            $usersCountArray[(String) $count['_id']['instance_id']][$count['_id']['year']]['months'][$count['_id']['month']]['activeUsersIds'] = array_unique($count['value']['users']);
+        }
+    }
+
+    private function collectUsersCounts($usersCounts, &$usersCountArray)
+    {
+        foreach ($usersCounts as $count) {
+            $usersCountArray[(String) $count['_id']['instance_id']][$count['_id']['year']]['months'][$count['_id']['month']]['newUsers'] = (Integer) $count['value']['count'];
+        }
+    }
+
+    private function updateCounts($instances, &$usersCountArray)
+    {
+        foreach ($usersCountArray as $instance => $instanceValue) {
+            foreach ($instanceValue as $year => $yearValue) {
+                $totalActiveUsers = array();
+                foreach ($yearValue as $monthsValue) {
+                    foreach ($monthsValue as $month => $counts) {
+                        $monthsValue[$month]['month'] = $month + 1;
+                        $totalActiveUsers = (isset($counts['activeUsersIds'])) ? array_merge($totalActiveUsers, $counts['activeUsersIds']) : $totalActiveUsers;
+
+                        $time = new \DateTime($year . '-' . ($month + 1));
+                        $time->add(date_interval_create_from_date_string('1 months'));
+                        $date = new \MongoDate($time->getTimestamp());
+                        $monthsValue[$month]['totalUsers'] = $this->dm->getRepository('Celsius3CoreBundle:BaseUser')->newUsersCountLT($date);
+                    }
+                }
+                $userAnalytics = $this->dm->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->findOneBy(array('instance.id' => $instance, 'year' => $year));
+                $userAnalytics = ($userAnalytics === NULL) ? new UserAnalytics() : $userAnalytics;
+
+                $userAnalytics->setInstance($this->dm->getRepository('Celsius3CoreBundle:Instance')->findOneBy(array('id' => $instance)));
+                $userAnalytics->setYear($year);
+                $userAnalytics->setCounters($monthsValue);
+                $userAnalytics->setYearNewUsers($monthsValue[max(array_keys($monthsValue))]['totalUsers']);
+                $userAnalytics->setYearActiveUsers(count(array_unique($totalActiveUsers)));
+                
+                $this->dm->persist($userAnalytics);
+                $this->dm->flush();
+            }
+        }
+    }
+
 }

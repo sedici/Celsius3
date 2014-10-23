@@ -10,10 +10,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  */
 class UserAnalytics extends Analytics
 {
+
     /**
      * @ODM\Int
      */
     private $year;
+
     /**
      * Este campo contiene un array asociativo de 
      * meses que a su vez contiene un array asociativo 
@@ -22,7 +24,17 @@ class UserAnalytics extends Analytics
      * @ODM\Field(type="collection")
      */
     private $counters;
-    
+
+    /**
+     * @ODM\Int
+     */
+    private $yearActiveUsers;
+
+    /**
+     * @ODM\Int
+     */
+    private $yearNewUsers;
+
     function getYear()
     {
         return $this->year;
@@ -31,6 +43,16 @@ class UserAnalytics extends Analytics
     function getCounters()
     {
         return $this->counters;
+    }
+
+    function getYearActiveUsers()
+    {
+        return $this->yearActiveUsers;
+    }
+
+    function getYearNewUsers()
+    {
+        return $this->yearNewUsers;
     }
 
     function setYear($year)
@@ -42,4 +64,15 @@ class UserAnalytics extends Analytics
     {
         $this->counters = $counters;
     }
+
+    function setYearActiveUsers($yearActiveUsers)
+    {
+        $this->yearActiveUsers = $yearActiveUsers;
+    }
+
+    function setYearNewUsers($yearNewUsers)
+    {
+        $this->yearNewUsers = $yearNewUsers;
+    }
+
 }
