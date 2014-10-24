@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @ODM\Document(db="celsius_analytics")
+ * @ODM\Document(db="celsius_analytics",repositoryClass="Celsius3\CoreBundle\Repository\AnalyticsRepository")
  */
 class UserAnalytics extends Analytics
 {
@@ -33,7 +33,7 @@ class UserAnalytics extends Analytics
     /**
      * @ODM\Int
      */
-    private $yearNewUsers;
+    private $yearTotalUsers;
 
     function getYear()
     {
@@ -50,9 +50,9 @@ class UserAnalytics extends Analytics
         return $this->yearActiveUsers;
     }
 
-    function getYearNewUsers()
+    function getYearTotalUsers()
     {
-        return $this->yearNewUsers;
+        return $this->yearTotalUsers;
     }
 
     function setYear($year)
@@ -70,9 +70,9 @@ class UserAnalytics extends Analytics
         $this->yearActiveUsers = $yearActiveUsers;
     }
 
-    function setYearNewUsers($yearNewUsers)
+    function setYearTotalUsers($yearTotalUsers)
     {
-        $this->yearNewUsers = $yearNewUsers;
+        $this->yearTotalUsers = $yearTotalUsers;
     }
 
 }

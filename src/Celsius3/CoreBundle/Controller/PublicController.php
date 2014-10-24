@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -78,7 +79,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/statistics", name="public_statistics")
+     * @Route("/statistics", name="public_statistics", options={"expose"=true})
      * @Template()
      */
     public function statisticsAction()
@@ -117,7 +118,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
+     * @Route("/institutionsFull", name="public_institutions_full")
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists

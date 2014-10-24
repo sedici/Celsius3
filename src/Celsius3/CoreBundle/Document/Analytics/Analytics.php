@@ -21,12 +21,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Analytics
 {
+
     use TimestampableDocument;
+
     /**
      * @ODM\Id
      */
     private $id;
-    
+
     /**
      * @ODM\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\Instance")
      */
@@ -41,7 +43,7 @@ abstract class Analytics
     {
         return $this->id;
     }
-    
+
     /**
      * Set instance
      *
@@ -63,4 +65,5 @@ abstract class Analytics
     {
         return $this->instance;
     }
+
 }

@@ -219,7 +219,7 @@ class StatisticManager
                 $userAnalytics->setInstance($this->dm->getRepository('Celsius3CoreBundle:Instance')->findOneBy(array('id' => $instance)));
                 $userAnalytics->setYear($year);
                 $userAnalytics->setCounters($monthsValue);
-                $userAnalytics->setYearNewUsers($monthsValue[max(array_keys($monthsValue))]['totalUsers']);
+                $userAnalytics->setYearTotalUsers($monthsValue[max(array_keys($monthsValue))]['totalUsers']);
                 $userAnalytics->setYearActiveUsers(count(array_unique($totalActiveUsers)));
                 
                 $this->dm->persist($userAnalytics);
