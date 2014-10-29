@@ -32,7 +32,43 @@ class AnalyticsRepository extends DocumentRepository
 
     public function getyearUsersCounts()
     {
-        return $this->findBy(array('type' => 'user'));
+        return $this->createQueryBuilder()->field('type')->equals('user')
+                        ->sort('year')->getQuery()->execute();
+    }
+
+    public function getMonthUsersCountsFor($year)
+    {
+        return $this->createQueryBuilder()
+                        ->field('type')->equals('user')
+                        ->field('year')->equals($year)
+                        ->getQuery()->execute();
+    }
+
+    public function getYears()
+    {
+        return $this->createQueryBuilder()
+                        ->field('type')->equals('user')
+                        ->select('year')
+                        ->sort('year')->getQuery()->execute();
+    }
+
+    public function getUsersCountDataForYearsInterval($initialYear, $finalYear)
+    {
+        return $this->createQueryBuilder()
+                        //->field('instance.id')->equals($instance)
+                        ->field('type')->equals('user')
+                        ->field('year')->gte(intval($initialYear))->lte(intval($finalYear))
+                        ->sort('year')
+                        ->getQuery()->execute();
+    }
+
+    public function getUsersCountDataForYear($year)
+    {
+        return $this->createQueryBuilder()
+                        //->field('instance.id')->equals($instance)
+                        ->field('type')->equals('user')
+                        ->field('year')->equals(intval($year))
+                        ->getQuery()->execute()->getSingleResult();
     }
 
 }
