@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ODM\Entity
+ * @ORM\Entity
  */
 class JournalType extends MaterialType
 {
@@ -44,7 +44,7 @@ class JournalType extends MaterialType
      */
     protected $other;
     /**
-     * @ODM\ManyToOne(targetEntity="Journal")
+     * @ORM\ManyToOne(targetEntity="Journal")
      * @ORM\JoinColumn(name="journal_id", referencedColumnName="id")
      */
     protected $journal;

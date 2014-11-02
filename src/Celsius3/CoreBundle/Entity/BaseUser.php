@@ -114,7 +114,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $customValues;
     /**
      * @ORM\ManyToMany(targetEntity="Instance")
-     * @ORM\JoinTable(name="notification_receiver",
+     * @ORM\JoinTable(name="admin_instance",
      *      joinColumns={@ORM\JoinColumn(name="instance_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )

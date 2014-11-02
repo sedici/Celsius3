@@ -30,7 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="material_type")
- * @ORM\InheritanceType("SINGLE_COLLECTION")
+ * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *   "journal"="JournalType",
@@ -77,7 +77,7 @@ class MaterialType
     protected $endPage;
     /**
      * @Assert\NotNull
-     * @ORM\OneToOne(targetEntity="Order", invertedBy="materialData")
+     * @ORM\OneToOne(targetEntity="Order", inversedBy="materialData")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=true)
      */
     protected $order;

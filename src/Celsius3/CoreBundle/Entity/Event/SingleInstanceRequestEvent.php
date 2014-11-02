@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;

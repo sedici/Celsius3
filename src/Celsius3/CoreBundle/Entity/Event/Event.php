@@ -32,7 +32,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
  * @ORM\Table(name="event")
- * @ORM\InheritanceType("SINGLE_COLLECTION")
+ * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *   "creation"="CreationEvent",

@@ -24,16 +24,12 @@ namespace Celsius3\CoreBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\MailTemplateRepository")
  */
 class MailTemplate extends Template
 {
-
-    use TimestampableEntity;
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")

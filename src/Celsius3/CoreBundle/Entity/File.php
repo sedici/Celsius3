@@ -57,7 +57,7 @@ class File
      */
     private $mime;
     /**
-     * @ORM\File
+     * 
      */
     private $file;
     /**

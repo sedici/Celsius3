@@ -29,8 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="custom_user_field")
- * @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})})
+ * @ORM\Table(name="custom_user_field", uniqueConstraints={
+ *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})})
+ * })
  */
 class CustomUserField
 {

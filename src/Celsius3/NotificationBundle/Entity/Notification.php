@@ -79,7 +79,11 @@ class Notification
      */
     private $receivers;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\JoinTable(name="notification_viewer",
+     *      joinColumns={@ORM\JoinColumn(name="notification_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="receiver_id", referencedColumnName="id", unique=true)}
+     *      )
      */
     private $viewer;
 

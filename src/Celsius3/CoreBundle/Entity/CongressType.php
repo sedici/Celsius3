@@ -21,7 +21,7 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Doctrine\ORM\MongoDB\Mapping\Annotations as ORM;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

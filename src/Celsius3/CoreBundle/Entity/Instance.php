@@ -46,7 +46,7 @@ class Instance extends LegacyInstance
      */
     protected $orders;
     /**
-     * @ORM\OneToMany(targetEntity="News", mappedBy="instance", sort={"date"="desc"})
+     * @ORM\OneToMany(targetEntity="News", mappedBy="instance")
      */
     protected $news;
     /**
