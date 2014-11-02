@@ -1,4 +1,11 @@
 parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: celsius3
+    database_user: root
+    database_password: root
+
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_port: 1025
@@ -9,12 +16,6 @@ parameters:
     secret: Celsius3hfaksjdhfkajs
 
     max_per_page: 10
-
-    mongodb_host: localhost
-    mongodb_port: 27017
-    mongodb_database: celsius
-    mongodb_database_test: celsius_test
-    mongodb_log_collection: Log
 
     celsius2_host: localhost
     celsius2_port: 3306

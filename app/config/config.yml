@@ -18,11 +18,11 @@ framework:
     session:         ~
 
 # Monolog Configuration
-monolog:
-    handlers:
-        custom:
-            type:                service
-            id:                  celsius3_core.mongodb_logger_wrapper_handler
+#monolog:
+#    handlers:
+#        custom:
+#            type:                service
+#            id:                  celsius3_core.mongodb_logger_wrapper_handler
 
 # Twig Configuration
 twig:
@@ -76,51 +76,49 @@ assetic:
 
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     %celsius2_host%
-        port:     %celsius2_port%
-        dbname:   %celsius2_database%
-        user:     %celsius2_username%
-        password: %celsius2_password%
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
         charset:  UTF8
 
-doctrine_mongodb:
-    connections:
-        default:
-            server: mongodb://%mongodb_host%:%mongodb_port%
-            options:
-                connect: true
-    default_database: %mongodb_database%
-    document_managers:
-        default:
-            auto_mapping: true
-            logging: false
-            mappings:
-                gedmo_translatable:
-                    type: annotation
-                    prefix: Gedmo\Translatable\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Document"
-                    alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
-                    is_bundle: false
-                gedmo_translator:
-                    type: annotation
-                    prefix: Gedmo\Translator\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Document"
-                    alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
-                    is_bundle: false
-                gedmo_loggable:
-                    type: annotation
-                    prefix: Gedmo\Loggable\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Document"
-                    alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
-                    is_bundle: false
-                gedmo_tree:
-                    type: annotation
-                    prefix: Gedmo\Tree\Document
-                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Document"
-                    alias: GedmoTree # this one is optional and will default to the name set for the mapping
-                    is_bundle: false
-
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            default:
+                auto_mapping: true
+                mappings:
+                    gedmo_translatable:
+                        type: annotation
+                        prefix: Gedmo\Translatable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+                        alias: GedmoTranslatable # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_translator:
+                        type: annotation
+                        prefix: Gedmo\Translator\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+                        alias: GedmoTranslator # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_loggable:
+                        type: annotation
+                        prefix: Gedmo\Loggable\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+                        alias: GedmoLoggable # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+                filters:
+                    softdeleteable:
+                        class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
+                        enabled: true
+                        
 # Swiftmailer Configuration
 swiftmailer:
     spool:
@@ -144,9 +142,9 @@ knp_paginator:
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
 fos_user:
-    db_driver: mongodb # 'orm', 'mongodb', 'couchdb' and 'propel'
+    db_driver: orm # 'orm', 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: Celsius3\CoreBundle\Document\BaseUser
+    user_class: Celsius3\CoreBundle\Entity\BaseUser
     profile:
         form:
             type: celsius3_corebundle_profile
@@ -173,12 +171,12 @@ services:
     jms_serializer.metadata.doctrine_type_driver:
         class:        %jms_serializer.metadata.doctrine_type_driver.class%
         public:       false
-        arguments:    ["@jms_serializer.metadata.chain_driver", "@doctrine_mongodb"]
+        arguments:    ["@jms_serializer.metadata.chain_driver", "@doctrine"]
 
     jms_serializer.metadata.doctrine_object_constructor:
         class:        %jms_serializer.doctrine_object_constructor.class%
         public:       false
-        arguments:    ["@doctrine_mongodb", "@jms_serializer.unserialize_object_constructor"]
+        arguments:    ["@doctrine", "@jms_serializer.unserialize_object_constructor"]
 
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
@@ -189,9 +187,9 @@ jms_i18n_routing:
     strategy: prefix
 
 fos_message:
-    db_driver: mongodb
-    thread_class: Celsius3\MessageBundle\Document\Thread
-    message_class: Celsius3\MessageBundle\Document\Message
+    db_driver: orm
+    thread_class: Celsius3\MessageBundle\Entity\Thread
+    message_class: Celsius3\MessageBundle\Entity\Message
     provider: celsius3_message.provider.default
     new_thread_form:
         type:               celsius3_message.new_thread_form.type.custom
@@ -202,7 +200,7 @@ fos_message:
 
 stof_doctrine_extensions:
     default_locale: %locale%
-    mongodb:
+    orm:
         default:
             timestampable: true
             sluggable: true

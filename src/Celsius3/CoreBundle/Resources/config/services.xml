@@ -150,7 +150,7 @@
             <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
         </service>
 
@@ -160,12 +160,12 @@
         </service>
 
         <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_user_selector" />
         </service>
 
         <service id="celsius3_core.form.instance_selector" class="%celsius3_core.form.instance_selector.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_instance_selector" />
         </service>
 
@@ -219,11 +219,11 @@
         </service>
 
         <service id="celsius3_core.field.guesser" class="%celsius3_core.field.guesser.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.lifecycle_helper" class="%celsius3_core.lifecycle_helper.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.state_manager"></argument>
             <argument type="service" id="celsius3_core.event_manager"></argument>
             <argument type="service" id="celsius3_core.file_manager"></argument>
@@ -235,7 +235,7 @@
 
         <service id="celsius3_core.custom_field_helper" class="%celsius3_core.custom_field_helper.class%">
             <argument type="service" id="request_stack"></argument>
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.instance_helper" class="%celsius3_core.instance_helper.class%">
@@ -243,7 +243,7 @@
         </service>
 
         <service id="celsius3_core.database_helper" class="%celsius3_core.database_helper.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.event_manager" class="%celsius3_core.event_manager.class%">
@@ -251,23 +251,23 @@
         </service>
 
         <service id="celsius3_core.search_manager" class="%celsius3_core.search_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.state_manager" class="%celsius3_core.state_manager.class%">
             <argument type="service" id="celsius3_core.event_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="form.factory"></argument>
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="request_stack"></argument>
         </service>
 
         <service id="celsius3_core.file_manager" class="%celsius3_core.file_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.filter_manager" class="%celsius3_core.filter_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.field.guesser"></argument>
         </service>
 
@@ -275,26 +275,26 @@
         </service>
 
         <service id="celsius3_core.union_manager" class="%celsius3_core.union_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.catalog_manager" class="%celsius3_core.catalog_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.instance_manager" class="%celsius3_core.instance_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.mail_manager" class="%celsius3_core.mail_manager.class%">
-            <argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.listener.confirmation" class="%celsius3_core.listener.confirmation.class%">

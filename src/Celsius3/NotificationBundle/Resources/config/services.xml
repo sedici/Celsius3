@@ -26,7 +26,7 @@
 
         <service id="celsius3_notification.wamp_server" class="%celsius3_notification.wamp_server.class%">
         	<argument type="service" id="celsius3_notification.notification_manager"></argument>
-        	<argument type="service" id="doctrine.odm.mongodb.document_manager"></argument>
+        	<argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_notification.web_socket_server" class="%celsius3_notification.web_socket_server.class%">
