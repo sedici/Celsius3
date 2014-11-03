@@ -28,7 +28,7 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function listQuery($name)
     {
         return parent::listQuery($name)
-                        ->andWhere('e.instance_id = :instance_id')
+                        ->andWhere('e_instance_id = :instance_id')
                         ->setParameter('instance_id', $this->getInstance()->getId());
     }
 
@@ -37,8 +37,8 @@ abstract class BaseInstanceDependentController extends BaseController
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder('e')
-                        ->andWhere('e.instance_id = :instance_id')
-                        ->andWhere('e.id = :id')
+                        ->andWhere('e_instance_id = :instance_id')
+                        ->andWhere('e_id = :id')
                         ->setParameter('instance_id', $this->getInstance()->getId())
                         ->setParameter('id', $id)
                         ->getQuery()
@@ -54,7 +54,7 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name, $this->getInstance());
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name, $this->getInstance());
     }
 
     /**

@@ -40,10 +40,10 @@ class UserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        $lastMessages = $this->getDocumentManager()
+        $lastMessages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->createQueryBuilder()
-                ->field('participants.id')->equals($this->getUser()->getId())
+                ->field('participants_id')->equals($this->getUser()->getId())
                 ->sort('lastMessageDate', 'desc')
                 ->limit(3)
                 ->getQuery()

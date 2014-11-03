@@ -39,19 +39,19 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function getAllEventsAction($request_id)
     {
-        $events = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\Event')
+        $events = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->findBy(array(
-            'request.id' => $request_id,
+            'request_id' => $request_id,
         ));
 
-        $requests = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Request')
+        $requests = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')
                 ->findBy(array(
-            'previousRequest.id' => $request_id,
+            'previousRequest_id' => $request_id,
         ));
 
-        $remoteEvents = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
+        $remoteEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->createQueryBuilder()
-                ->field('request.id')->in(array_map(function ($item) {
+                ->field('request_id')->in(array_map(function ($item) {
                             return $item->getId();
                         }, $requests))
                 ->getQuery()
@@ -84,7 +84,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function getEventAction($id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $event = $em->getRepository('Celsius3CoreBundle:Event')
                 ->find($id);
@@ -104,7 +104,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function undoAction($request_id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->find($request_id);
@@ -128,7 +128,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function createEventAction($request_id, $event)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->find($request_id);

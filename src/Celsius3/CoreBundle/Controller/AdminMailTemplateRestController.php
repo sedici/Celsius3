@@ -38,7 +38,7 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
      */
     public function getMailTemplatesAction()
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $templates = $em->getRepository('Celsius3CoreBundle:MailTemplate')
                 ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory())
@@ -58,7 +58,7 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
      */
     public function getContactAction($id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $contact = $em->getRepository('Celsius3CoreBundle:Contact')
                 ->find($id);

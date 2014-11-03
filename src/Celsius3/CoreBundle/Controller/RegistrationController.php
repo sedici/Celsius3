@@ -95,11 +95,11 @@ class RegistrationController extends BaseRegistrationController
     }
 
     /**
-     * Returns the DocumentManager
+     * Returns the EntityManager
      *
-     * @return DocumentManager
+     * @return EntityManager
      */
-    protected function getDocumentManager()
+    protected function getEntityManager()
     {
         return $this->container->get('doctrine.odm.mongodb.document_manager');
     }

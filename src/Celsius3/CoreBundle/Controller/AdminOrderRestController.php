@@ -49,7 +49,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
         $state = $request->query->get('state', null);
 
-        $orders = $this->getDocumentManager()
+        $orders = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), $user, $state);
 
@@ -74,7 +74,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             $user = null;
         }
 
-        $orderCount = $this->getDocumentManager()
+        $orderCount = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:State')
                 ->countOrders($this->getInstance(), $user);
 
@@ -99,14 +99,14 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $state = $request->query->get('state', null);
         $orderType = $request->query->get('orderType', null);
 
-        $states = $this->getDocumentManager()
+        $states = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($states, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-        $orders = $this->getDocumentManager()
+        $orders = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->createQueryBuilder()
                 ->field('id')->in(array_column(array_column($pagination, 'order'), '$id'))
@@ -114,10 +114,10 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 ->execute()
                 ->toArray();
 
-        $requests = $this->getDocumentManager()
+        $requests = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:Request')
                 ->createQueryBuilder()
-                ->field('order.id')->in(array_column(array_column($pagination, 'order'), '$id'))
+                ->field('order_id')->in(array_column(array_column($pagination, 'order'), '$id'))
                 ->getQuery()
                 ->execute()
                 ->toArray();
@@ -145,7 +145,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
              */
             public function getOrderAction($id)
             {
-                $em = $this->getDocumentManager();
+                $em = $this->getEntityManager();
 
                 $order = $em->getRepository('Celsius3CoreBundle:Order')
                         ->find($id);

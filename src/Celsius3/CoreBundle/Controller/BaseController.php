@@ -232,7 +232,7 @@ abstract class BaseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder('e')
-                ->where('e.id IN (:ids)')
+                ->where('e_id IN (:ids)')
                 ->setParameter('ids', $ids)
                 ->getQuery()
                 ->getResult();
@@ -254,8 +254,8 @@ abstract class BaseController extends Controller
 
         $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder('e')
-                ->where('e.id IN (:ids)')
-                ->andWhere('e.id <> :id')
+                ->where('e_id IN (:ids)')
+                ->andWhere('e_id <> :id')
                 ->setParameter('ids', $ids)
                 ->setParameter('id', $main->getId())
                 ->getQuery()

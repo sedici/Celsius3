@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\MailTemplate;
+use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
 use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
 
@@ -38,14 +38,14 @@ class AdminMailController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
     }
 
@@ -103,7 +103,7 @@ class AdminMailController extends BaseInstanceDependentController
     }
 
     /**
-     * Creates a new Mail Document.
+     * Creates a new Mail Entity.
      *
      * @Route("/create", name="admin_mails_create")
      * @Method("post")
@@ -183,7 +183,7 @@ class AdminMailController extends BaseInstanceDependentController
 
         $template->setEnabled(!$template->getEnabled());
 
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($template);
         $em->flush();
 
@@ -203,7 +203,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function modalAction($user_id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($user_id);

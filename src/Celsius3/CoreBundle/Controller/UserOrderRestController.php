@@ -43,7 +43,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
         
         $states = explode(',', $request->query->get('state', ''));
 
-        $orders = $this->getDocumentManager()
+        $orders = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), null, $states, $this->getUser());
 
@@ -51,10 +51,10 @@ class UserOrderRestController extends BaseInstanceDependentRestController
         $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
         if ($withRequest) {
-            $requests = $this->getDocumentManager()
+            $requests = $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:Request')
                     ->createQueryBuilder()
-                    ->field('order.id')->in(array_map(function ($order) {
+                    ->field('order_id')->in(array_map(function ($order) {
                                 return $order->getId();
                             }, $pagination))
                     ->getQuery()
@@ -87,7 +87,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
      */
     public function getOrderAction($id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $order = $em->getRepository('Celsius3CoreBundle:Order')
                 ->find($id);

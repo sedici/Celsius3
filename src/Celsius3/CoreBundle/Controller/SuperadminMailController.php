@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\MailTemplate;
+use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
 use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
 
@@ -39,10 +39,10 @@ class SuperadminMailController extends BaseController
     protected function listQuery($name)
     {
         //Se obtienen los templetes del directorio.
-        $qb = $this->getDocumentManager()
+        $qb = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder()
-                        ->field('instance.id')->equals($this->getDirectory()->getId());
+                        ->field('instance_id')->equals($this->getDirectory()->getId());
 
         return $qb;
     }
@@ -91,7 +91,7 @@ class SuperadminMailController extends BaseController
     }
 
     /**
-     * Creates a new Mail Document.
+     * Creates a new Mail Entity.
      *
      * @Route("/create", name="superadmin_mails_create")
      * @Method("post")
@@ -164,7 +164,7 @@ class SuperadminMailController extends BaseController
 
         $template->setEnabled(!$template->getEnabled());
 
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($template);
         $em->flush();
 

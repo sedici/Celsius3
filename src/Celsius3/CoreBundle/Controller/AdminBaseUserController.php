@@ -69,7 +69,7 @@ class AdminBaseUserController extends BaseUserController
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $em = $this->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
 
         $activeOrders = $em->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity)
@@ -130,7 +130,7 @@ class AdminBaseUserController extends BaseUserController
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -168,7 +168,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance(), true));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance(), true));
     }
 
     /**
@@ -193,7 +193,7 @@ class AdminBaseUserController extends BaseUserController
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
 
-        $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance(), true), $entity);
+        $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance(), true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -201,7 +201,7 @@ class AdminBaseUserController extends BaseUserController
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em = $this->getDocumentManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 

@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 use Celsius3\CoreBundle\Manager\UserManager;
@@ -39,26 +39,26 @@ class UserOrderController extends OrderController
 
     protected function listQuery($name)
     {
-        $qb = $this->getDocumentManager()
+        $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder()
-                ->field('instance.id')->equals($this->getInstance()->getId());
+                ->field('instance_id')->equals($this->getInstance()->getId());
 
-        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
-        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('owner_id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('librarian_id')->equals($this->getUser()->getId()));
 
         return $qb;
     }
 
     protected function findQuery($name, $id)
     {
-        $qb = $this->getDocumentManager()
+        $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder()
-                ->field('instance.id')->equals($this->getInstance()->getId());
+                ->field('instance_id')->equals($this->getInstance()->getId());
 
-        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
-        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('owner_id')->equals($this->getUser()->getId()));
+        $qb = $qb->addOr($qb->expr()->field('librarian_id')->equals($this->getUser()->getId()));
 
         return $qb->field('id')->equals($id)->getQuery()->getSingleResult();
     }

@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Form\Type\InstitutionType;
 use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
 
@@ -59,7 +59,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
@@ -73,7 +73,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getInstance()), 'admin_institution');
+        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_institution');
     }
 
     /**
@@ -89,7 +89,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
@@ -107,7 +107,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getInstance()), 'admin_institution');
+        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_institution');
     }
 
     /**

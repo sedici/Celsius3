@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Catalog;
+use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
 
 /**
@@ -38,7 +38,7 @@ class AdminCatalogController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->get('celsius3_core.instance_manager')->getDirectory());
     }
@@ -70,7 +70,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
@@ -84,7 +84,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getInstance()), 'admin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_catalog');
     }
 
     /**
@@ -100,7 +100,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
@@ -118,7 +118,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getInstance()), 'admin_catalog');
+        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_catalog');
     }
 
     /**
@@ -149,14 +149,14 @@ class AdminCatalogController extends BaseInstanceDependentController
     public function persistAction()
     {
         $ids = $this->getRequest()->request->get('ids');
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($ids) {
             foreach ($ids as $key => $id) {
                 $position = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
                         ->findOneBy(array(
-                    'catalog.id' => $id,
-                    'instance.id' => $this->getInstance()->getId(),
+                    'catalog_id' => $id,
+                    'instance_id' => $this->getInstance()->getId(),
                 ));
                 if ($position) {
                     $position->setPosition($key);

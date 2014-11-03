@@ -40,10 +40,10 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getUsersAction()
     {
-        $users = $this->getDocumentManager()
+        $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findBy(array(
-            'instance.id' => $this->getInstance(),
+            'instance_id' => $this->getInstance(),
         ));
 
         $view = $this->view(array_values($users), 200)
@@ -58,7 +58,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getPendingUsersAction()
     {
-        $users = $this->getDocumentManager()
+        $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findPendingUsers($this->getInstance())
                 ->toArray();
@@ -77,10 +77,10 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     {
         $user_id = $request->request->get('id', null);
 
-        $user = $this->getDocumentManager()
+        $user = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
-            'instance.id' => $this->getInstance()->getId(),
+            'instance_id' => $this->getInstance()->getId(),
             'id' => $user_id,
         ));
 
@@ -89,7 +89,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         }
 
         $user->setEnabled(true);
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
         
@@ -105,7 +105,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getUserAction($id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($id);

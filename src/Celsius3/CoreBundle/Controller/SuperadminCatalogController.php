@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Catalog;
+use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
 use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
 
@@ -59,7 +59,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getDirectory()));
+        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()));
     }
 
     /**
@@ -73,7 +73,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getDirectory()), 'superadmin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()), 'superadmin_catalog');
     }
 
     /**
@@ -91,7 +91,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getDirectory()));
+        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()));
     }
 
     /**
@@ -110,7 +110,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getDirectory()), 'superadmin_catalog');
+        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()), 'superadmin_catalog');
     }
 
     /**

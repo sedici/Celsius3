@@ -37,7 +37,7 @@ class AdminFileRestController extends BaseInstanceDependentRestController
      */
     public function changeStateAction($file_id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $file = $em->getRepository('Celsius3CoreBundle:File')
                 ->find($file_id);

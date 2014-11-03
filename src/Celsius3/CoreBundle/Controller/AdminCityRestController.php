@@ -38,7 +38,7 @@ class AdminCityRestController extends BaseInstanceDependentRestController
      */
     public function getCitiesAction($country_id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $countries = $em->getRepository('Celsius3CoreBundle:City')
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id);
@@ -55,7 +55,7 @@ class AdminCityRestController extends BaseInstanceDependentRestController
      */
     public function getCityAction($id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $institution = $em->getRepository('Celsius3CoreBundle:City')
                 ->find($id);

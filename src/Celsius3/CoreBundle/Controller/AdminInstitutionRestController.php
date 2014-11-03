@@ -39,11 +39,11 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionByParentAction($parent_id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->findBy(array(
-            'parent.id' => $parent_id,
+            'parent_id' => $parent_id,
         ));
 
         $view = $this->view(array_values($institutions), 200)
@@ -58,7 +58,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionsAction($country_id, $city_id, Request $request)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $filter = null;
         if ($request->query->has('filter') && $request->query->get('filter') !== '') {
@@ -82,7 +82,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionAction($id)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $institution = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->find($id);

@@ -22,7 +22,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Celsius3\CoreBundle\Document\File;
+use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
 
 /**

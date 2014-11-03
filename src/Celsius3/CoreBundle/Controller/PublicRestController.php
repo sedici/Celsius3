@@ -42,7 +42,7 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getUsersCountData()
     {
 
-        $counts = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->getYearUsersCounts();
+        $counts = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->getYearUsersCounts();
 
         $data['total_users'][] = 'Total Users';
         $data['active_users'][] = 'Active Users';
@@ -67,7 +67,7 @@ class PublicRestController extends BaseInstanceDependentRestController
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
 
-        $interval = $this->getDocumentManager()
+        $interval = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')
                 ->getUsersCountDataForYearsInterval($initialYear, $finalYear);
 
@@ -99,7 +99,7 @@ class PublicRestController extends BaseInstanceDependentRestController
         //Falta filtrar por instancia
         $year = $request->query->get('year');
 
-        $yearCounts = $this->getDocumentManager()
+        $yearCounts = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')
                 ->getUsersCountDataForYear($year);
 
@@ -126,7 +126,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getYearsData()
     {
-        $years = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->getYears();
+        $years = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->getYears();
 
         foreach ($years as $year) {
             $data[] = $year->getYear();

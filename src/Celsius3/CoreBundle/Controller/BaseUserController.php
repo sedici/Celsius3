@@ -21,7 +21,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
@@ -29,7 +29,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
     protected function enableUser(BaseUser $user)
     {
         $user->setEnabled(true);
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
     }
@@ -79,7 +79,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
                 }
             }
 
-            $em = $this->getDocumentManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
@@ -117,7 +117,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
     protected function baseBatchEnable($element_ids)
     {
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->createQueryBuilder()
                 ->field('id')

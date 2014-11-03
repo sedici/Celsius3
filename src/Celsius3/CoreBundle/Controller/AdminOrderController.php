@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 
@@ -40,14 +40,14 @@ class AdminOrderController extends OrderController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findOneForInstance($id, $this->getInstance())->getQuery()
                         ->getSingleResult();
@@ -93,7 +93,7 @@ class AdminOrderController extends OrderController
      */
     public function newAction(Request $request)
     {
-        $user = $this->getDocumentManager()
+        $user = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->query->get('user_id', null));
 
@@ -167,7 +167,7 @@ class AdminOrderController extends OrderController
         $duplicatedOrder->setOriginalRequest($request);
 
         //Se registra duplicado en la base de datos
-        $entity_manager = $this->getDocumentManager();
+        $entity_manager = $this->getDoctrine()->getManager();
         $entity_manager->persist($duplicatedOrder);
         $entity_manager->flush();
 
@@ -210,7 +210,7 @@ class AdminOrderController extends OrderController
         $request = $this->getRequest();
 
         // Se extrae el usuario del request y se setea en la construccion del form
-        $user = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
 
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $entity);
@@ -219,7 +219,7 @@ class AdminOrderController extends OrderController
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em = $this->getDocumentManager();
+            $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 

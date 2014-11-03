@@ -20,7 +20,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 
 abstract class OrderController extends BaseInstanceDependentController

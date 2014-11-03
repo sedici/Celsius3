@@ -90,7 +90,7 @@ abstract class InstanceController extends BaseController
         $configureForm->bind($request);
 
         if ($configureForm->isValid()) {
-            $em = $this->getDocumentManager();
+            $em = $this->getDoctrine()->getManager();
             $values = $configureForm->getData();
 
             foreach ($entity->getConfigurations() as $configuration) {

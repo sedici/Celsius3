@@ -26,7 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
@@ -40,14 +40,14 @@ class SuperadminBaseUserController extends BaseUserController
 {
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder();
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
     }
 
@@ -59,7 +59,7 @@ class SuperadminBaseUserController extends BaseUserController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     /**
@@ -85,7 +85,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory()));
     }
 
     /**
@@ -99,7 +99,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory()), 'superadmin_user');
+        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory()), 'superadmin_user');
     }
 
     /**
@@ -116,7 +116,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory(), true));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory(), true));
     }
 
     /**
@@ -134,7 +134,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory(), true), 'superadmin_user');
+        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory(), true), 'superadmin_user');
     }
 
     /**

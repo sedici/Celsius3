@@ -58,7 +58,7 @@ class NewsFeedsController extends BaseInstanceDependentController
     {
         $full_url = $this->getUrl($request);
         $array = array('instance' => 'Directory',
-            'lastNews' => $this->getDocumentManager()
+            'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getDirectory()),
             'url' => $full_url . '/newsFeeds/rss/directory',
@@ -78,7 +78,7 @@ class NewsFeedsController extends BaseInstanceDependentController
     {
         $full_url = $this->getUrl($request);
         $array = array('instance' => $this->getInstance(),
-            'lastNews' => $this->getDocumentManager()
+            'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getInstance()),
             'url' => $full_url . '/newsFeeds/rss/' . $url,

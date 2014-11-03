@@ -43,7 +43,7 @@ class DirectoryController extends BaseController
     {
         return array(
             'directory' => $this->getDirectory(),
-            'lastNews' => $this->getDocumentManager()
+            'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getDirectory()),
         );
@@ -57,14 +57,14 @@ class DirectoryController extends BaseController
      */
     public function instancesAction()
     {
-        $instances = $this->getDocumentManager()
+        $instances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->createQueryBuilder()
                 ->field('enabled')->equals(true)
                 ->getQuery()
                 ->execute();
 
-        $legacyInstances = $this->getDocumentManager()
+        $legacyInstances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:LegacyInstance')
                 ->createQueryBuilder()
                 ->field('enabled')->equals(true)

@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceType;
 use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
 
@@ -132,7 +132,7 @@ class SuperadminInstanceController extends InstanceController
 
         $entity->setEnabled(!$entity->getEnabled());
 
-        $em = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $em->persist($entity);
         $em->flush();
 
