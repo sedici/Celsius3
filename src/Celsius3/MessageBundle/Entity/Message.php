@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,41 +19,51 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Celsius3\MessageBundle\Document;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use FOS\MessageBundle\Document\Message as BaseMessage;
-use Celsius3\NotificationBundle\Document\Notifiable;
+
+namespace Celsius3\MessageBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\MessageBundle\Entity\Message as BaseMessage;
+use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @MongoDB\Document
+ * @ORM\Entity
  */
 class Message extends BaseMessage implements Notifiable
 {
-
     /**
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
-     * @MongoDB\EmbedMany(targetDocument="Celsius3\MessageBundle\Document\MessageMetadata")
+     * @ORM\ManyToOne(
+     *   targetEntity="Celsius3\MessageBundle\Entity\Thread",
+     *   inversedBy="messages"
+     * )
+     * @var \FOS\MessageBundle\Model\ThreadInterface
+     */
+    protected $thread;
+    /**
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
+     */
+    protected $sender;
+    /**
+     * @ORM\OneToMany(
+     *   targetEntity="Celsius3\MessageBundle\Entity\MessageMetadata",
+     *   mappedBy="message",
+     *   cascade={"all"}
+     * )
+     * @var MessageMetadata
      */
     protected $metadata;
 
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\MessageBundle\Document\Thread")
-     */
-    protected $thread;
-
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
-     */
-    protected $sender;
-
     public function __toString()
     {
-        return $this->getSender() . ' - ' .$this->getThread()->getSubject();
+        return $this->getSender() . ' - ' . $this->getThread()->getSubject();
     }
 
     public function notify(NotificationManager $manager)

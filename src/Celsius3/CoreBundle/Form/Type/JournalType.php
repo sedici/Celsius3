@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,12 +24,11 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class JournalType extends AbstractType
 {
-
     private $instance;
 
     public function __construct(Instance $instance)
@@ -38,8 +38,14 @@ class JournalType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('abbreviation')->add('responsible')
-                ->add('ISSN')->add('ISSNE')->add('frecuency');
+        $builder
+                ->add('name')
+                ->add('abbreviation')
+                ->add('responsible')
+                ->add('ISSN')
+                ->add('ISSNE')
+                ->add('frecuency')
+        ;
 
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder->add('instance');
@@ -58,5 +64,4 @@ class JournalType extends AbstractType
     {
         return 'celsius3_corebundle_journaltype';
     }
-
 }

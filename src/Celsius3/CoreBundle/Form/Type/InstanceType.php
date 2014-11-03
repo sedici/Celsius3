@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -38,5 +39,4 @@ class InstanceType extends LegacyInstanceType
     {
         return 'celsius3_corebundle_instancetype';
     }
-
 }

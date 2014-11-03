@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -19,40 +20,33 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\MessageBundle\Document;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use FOS\MessageBundle\Document\Thread as BaseThread;
+namespace Celsius3\MessageBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
 /**
- * @MongoDB\Document
- * @MongoDB\Document(repositoryClass="Celsius3\MessageBundle\Repository\ThreadRepository")
+ * @ORM\Entity
  */
-class Thread extends BaseThread
+class ThreadMetadata extends BaseThreadMetadata
 {
-
     /**
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\MessageBundle\Document\Message")
+     * @ORM\ManyToOne(
+     *   targetEntity="Celsius3\MessageBundle\Entity\Thread",
+     *   inversedBy="metadata"
+     * )
+     * @var \FOS\MessageBundle\Model\ThreadInterface
      */
-    protected $messages;
-
+    protected $thread;
     /**
-     * @MongoDB\EmbedMany(targetDocument="Celsius3\MessageBundle\Document\ThreadMetadata")
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
-    protected $metadata;
-
-    /**
-     * @MongoDB\ReferenceMany(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
-     */
-    protected $participants;
-
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
-     */
-    protected $createdBy;
-
+    protected $participant;
 }

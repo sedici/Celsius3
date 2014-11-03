@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,19 +19,34 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Celsius3\MessageBundle\Document;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
-use FOS\MessageBundle\Document\ThreadMetadata as BaseThreadMetadata;
+
+namespace Celsius3\MessageBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
 
 /**
- * @MongoDB\EmbeddedDocument
+ * @ORM\Entity
  */
-class ThreadMetadata extends BaseThreadMetadata
+class MessageMetadata extends BaseMessageMetadata
 {
-
     /**
-     * @MongoDB\ReferenceOne(targetDocument="Celsius3\CoreBundle\Document\BaseUser")
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+    /**
+     * @ORM\ManyToOne(
+     *   targetEntity="Celsius3\MessageBundle\Entity\Message",
+     *   inversedBy="metadata"
+     * )
+     * @var \FOS\MessageBundle\Model\MessageInterface
+     */
+    protected $message;
+    /**
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,7 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace Celsius3\CoreBundle\Filter\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -29,20 +32,16 @@ class NewsFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('title', null,
-                        array('required' => false,));
+                ->add('title', null, array('required' => false,));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array('csrf_protection' => false,));
+        $resolver->setDefaults(array('csrf_protection' => false,));
     }
 
     public function getName()
     {
         return 'celsius3_corebundle_newstype';
     }
-
 }

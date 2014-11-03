@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -29,9 +30,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RegistrationFormType extends BaseType
 {
-
     protected $instance;
-    protected $dm;
+    protected $em;
 
     /**
      * @param string $class The User class name
@@ -40,9 +40,9 @@ class RegistrationFormType extends BaseType
     {
         parent::__construct($class);
 
-        $this->dm = $container->get('doctrine.odm.mongodb.document_manager');
+        $this->em = $container->get('doctrine.orm.entity_manager');
         $url = $container->get('request_stack')->getCurrentRequest()->get('url');
-        $this->instance = $this->dm
+        $this->instance = $this->em
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array('url' => $url));
     }
@@ -72,9 +72,9 @@ class RegistrationFormType extends BaseType
                     ),
                 ))
         ;
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, true);
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance, true);
         $builder->addEventSubscriber($subscriber);
-        $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
+        $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);
     }
 
@@ -82,5 +82,4 @@ class RegistrationFormType extends BaseType
     {
         return 'celsius3_corebundle_registration';
     }
-
 }

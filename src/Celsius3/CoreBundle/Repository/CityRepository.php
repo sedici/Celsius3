@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,27 +22,25 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Document\Instance;
 
-class CityRepository extends DocumentRepository
+class CityRepository extends EntityRepository
 {
 
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $country_id = null)
     {
-        $qb = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:City')
-                ->createQueryBuilder();
-
-        $qb = $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
-                ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()));
+        $qb = $this->createQueryBuilder('c')
+                ->where('c.instance_id = :instance_id')
+                ->orWhere('c.instance_id = :directory_id')
+                ->setParameter('instance_id', $instance->getId())
+                ->setParameter('directory_id', $directory->getId());
 
         if (!is_null($country_id)) {
-            $qb = $qb->field('country.id')->equals($country_id);
+            $qb = $qb->andWhere('c.country_id = :country_id')
+                    ->setParameter('country_id', $country_id);
         }
 
-        return $qb->getQuery()
-                        ->execute()
-                        ->toArray();
+        return $qb->getQuery()->getResult();
     }
-
 }

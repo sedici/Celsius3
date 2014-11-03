@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class LocaleChoosingListener
@@ -37,15 +37,15 @@ class LocaleChoosingListener
     private $locales;
     private $locale_resolver;
     private $instance_helper;
-    private $dm;
+    private $em;
 
-    public function __construct($default_locale, array $locales, LocaleResolverInterface $locale_resolver, InstanceHelper $instance_helper, DocumentManager $dm)
+    public function __construct($default_locale, array $locales, LocaleResolverInterface $locale_resolver, InstanceHelper $instance_helper, EntityManager $em)
     {
         $this->default_locale = $default_locale;
         $this->locales = $locales;
         $this->locale_resolver = $locale_resolver;
         $this->instance_helper = $instance_helper;
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)

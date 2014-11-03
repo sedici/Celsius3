@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,40 +21,40 @@
  */
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Form\DataTransformer\InstanceToIdTransformer;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class InstanceSelectorType extends AbstractType
 {
-
     /**
      * @var DocumentManager
      */
-    private $dm;
+    private $em;
 
     /**
-     * @param DocumentManager $dm
+     * @param EntityManager $em
      */
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new InstanceToIdTransformer($this->dm);
+        $transformer = new InstanceToIdTransformer($this->em);
         $builder->addModelTransformer($transformer);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array('data_class' => null,
-                                'invalid_message' => 'The selected Instance does not exist',));
+        $resolver->setDefaults(array(
+            'data_class' => null,
+            'invalid_message' => 'The selected Instance does not exist',
+        ));
     }
 
     public function getParent()
@@ -65,5 +66,4 @@ class InstanceSelectorType extends AbstractType
     {
         return 'celsius3_corebundle_instance_selector';
     }
-
 }

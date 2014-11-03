@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -25,13 +26,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
-use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 class OrderType extends AbstractType
 {
-
     protected $instance;
     protected $material;
     protected $preferredMaterial;
@@ -77,7 +77,7 @@ class OrderType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Document\\Order',
+            'data_class' => 'Celsius3\\CoreBundle\\Entity\\Order',
             'cascade_validation' => true,
         ));
     }
@@ -86,5 +86,4 @@ class OrderType extends AbstractType
     {
         return 'celsius3_corebundle_ordertype';
     }
-
 }

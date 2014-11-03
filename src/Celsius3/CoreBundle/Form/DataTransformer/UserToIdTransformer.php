@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,18 +21,18 @@
  */
 
 namespace Celsius3\CoreBundle\Form\DataTransformer;
+
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 class UserToIdTransformer implements DataTransformerInterface
 {
+    private $em;
 
-    private $dm;
-
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     /**
@@ -62,15 +63,14 @@ class UserToIdTransformer implements DataTransformerInterface
             return null;
         }
 
-        $user = $this->dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $this->em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array('id' => $id));
 
         if (null === $user) {
             throw new TransformationFailedException(
-                    sprintf('A user with id "%s" does not exist!', $id));
+            sprintf('A user with id "%s" does not exist!', $id));
         }
 
         return $user;
     }
-
 }

@@ -40,14 +40,14 @@ abstract class BaseController extends Controller
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder();
+                        ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->find($id);
     }
@@ -59,7 +59,7 @@ abstract class BaseController extends Controller
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
+        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     protected function baseIndex($name, $filter_form = null)
@@ -81,45 +81,45 @@ abstract class BaseController extends Controller
 
     protected function baseShow($name, $id)
     {
-        $document = $this->findQuery($name, $id);
+        $entity = $this->findQuery($name, $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView()
         );
     }
 
-    protected function baseNew($name, $document, $type)
+    protected function baseNew($name, $entity, $type)
     {
-        $form = $this->createForm($type, $document);
+        $form = $this->createForm($type, $entity);
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'form' => $form->createView()
         );
     }
 
-    protected function persistDocument($document)
+    protected function persistEntity($entity)
     {
-        $dm = $this->getDocumentManager();
-        $dm->persist($document);
-        $dm->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($entity);
+        $em->flush();
     }
 
-    protected function baseCreate($name, $document, $type, $route)
+    protected function baseCreate($name, $entity, $type, $route)
     {
         $request = $this->getRequest();
-        $form = $this->createForm($type, $document);
+        $form = $this->createForm($type, $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $this->persistDocument($document);
+            $this->persistEntity($entity);
             $this->get('session')
                     ->getFlashBag()
                     ->add('success', 'The ' . $name . ' was successfully created.');
@@ -132,24 +132,24 @@ abstract class BaseController extends Controller
                 ->add('error', 'There were errors creating the ' . $name . '.');
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'form' => $form->createView()
         );
     }
 
     protected function baseEdit($name, $id, $type, $route = null)
     {
-        $document = $this->findQuery($name, $id);
+        $entity = $this->findQuery($name, $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $editForm = $this->createForm($type, $document);
+        $editForm = $this->createForm($type, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'route' => $route
@@ -158,13 +158,13 @@ abstract class BaseController extends Controller
 
     protected function baseUpdate($name, $id, $type, $route)
     {
-        $document = $this->findQuery($name, $id);
+        $entity = $this->findQuery($name, $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $editForm = $this->createForm($type, $document);
+        $editForm = $this->createForm($type, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -172,9 +172,7 @@ abstract class BaseController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $this->persistEntity($entity);
 
             $this->get('session')
                     ->getFlashBag()
@@ -190,7 +188,7 @@ abstract class BaseController extends Controller
                 ->add('error', 'There were errors editing the ' . $name . '.');
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         );
@@ -204,15 +202,13 @@ abstract class BaseController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $document = $this->findQuery($name, $id);
+            $entity = $this->findQuery($name, $id);
 
-            if (!$document) {
+            if (!$entity) {
                 throw $this->createNotFoundException('Unable to find ' . $name . '.');
             }
 
-            $dm = $this->getDocumentManager();
-            $dm->remove($document);
-            $dm->flush();
+            $this->persistEntity($entity);
 
             $this->get('session')
                     ->getFlashBag()
@@ -233,43 +229,43 @@ abstract class BaseController extends Controller
 
     protected function baseUnion($name, $ids)
     {
-        $dm = $this->getDocumentManager();
-        $documents = $dm->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->field('id')
-                ->in($ids)
+        $em = $this->getDoctrine()->getManager();
+        $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
+                ->createQueryBuilder('e')
+                ->where('e.id IN (:ids)')
+                ->setParameter('ids', $ids)
                 ->getQuery()
-                ->execute();
+                ->getResult();
 
         return array(
-            'documents' => $documents
+            'entities' => $entities,
         );
     }
 
     protected function baseDoUnion($name, $ids, $main_id, $route, $updateInstance = true)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $main = $dm->getRepository('Celsius3CoreBundle:' . $name)->find($main_id);
+        $main = $em->getRepository('Celsius3CoreBundle:' . $name)->find($main_id);
 
         if (!$main) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $documents = $dm->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->field('id')
-                ->in($ids)
-                ->field('id')
-                ->notEqual($main->getId())
+        $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
+                ->createQueryBuilder('e')
+                ->where('e.id IN (:ids)')
+                ->andWhere('e.id <> :id')
+                ->setParameter('ids', $ids)
+                ->setParameter('id', $main->getId())
                 ->getQuery()
-                ->execute();
+                ->getResult();
 
-        if ($documents->count() != count($ids) - 1) {
+        if ($entities->count() !== count($ids) - 1) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $this->get('celsius3_core.union_manager')->union($name, $main, $documents, $updateInstance);
+        $this->get('celsius3_core.union_manager')->union($name, $main, $entities, $updateInstance);
 
         $this->get('session')
                 ->getFlashBag()
@@ -281,20 +277,10 @@ abstract class BaseController extends Controller
     protected function createDeleteForm($id)
     {
         return $this->createFormBuilder(array(
-                            'id' => $id
+                            'id' => $id,
                         ))
                         ->add('id', 'hidden')
                         ->getForm();
-    }
-
-    /**
-     * Returns the DocumentManager
-     *
-     * @return DocumentManager
-     */
-    protected function getDocumentManager()
-    {
-        return $this->get('doctrine.odm.mongodb.document_manager');
     }
 
     protected function addFlash($type, $message)
@@ -311,7 +297,7 @@ abstract class BaseController extends Controller
         $target = $this->getRequest()->query->get('target');
         $term = $this->getRequest()->query->get('term');
 
-        $result = $this->getDocumentManager()
+        $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $target)
                 ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions($librarian))
                 ->execute();

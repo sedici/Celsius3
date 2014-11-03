@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,30 +22,27 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Document\Instance;
 
-class MailTemplateRepository extends DocumentRepository
+class MailTemplateRepository extends EntityRepository
 {
 
     public function findGlobalAndForInstance(Instance $instance, Instance $directory)
     {
-        $custom = array_map(function ($elem) {
-            return $elem['code'];
-        }, $this->createQueryBuilder()
-                        ->hydrate(false)
-                        ->select('code')
-                        ->field('instance.id')->equals($instance->getId())
-                        ->field('enabled')->equals(true)
-                        ->getQuery()
-                        ->execute()
-                        ->toArray());
+        $custom = $this->createQueryBuilder('c')
+                ->select('c.code')
+                ->where('c.instance_id = :instance_id')
+                ->andWhere('enabled = true')
+                ->setParameter('instance_id', $instance->getId())
+                ->getQuery()
+                ->getResult();
 
-        $qb = $this->createQueryBuilder();
-
-        return $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId())
-                                ->field('code')->notIn($custom)
-                                ->field('enabled')->equals(true))
-                        ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()));
+        return $this->createQueryBuilder('c')
+                ->where('(c.instance_id = :directory_id AND c.code NOT IN (:ids) AND c.enabled = true)')
+                ->orWhere('c.instance_id = :instance_id')
+                ->setParameter('directory_id', $directory->getId())
+                ->setParameter('ids', $custom)
+                ->setParameter('instance_id', $instance->getId());
     }
 }

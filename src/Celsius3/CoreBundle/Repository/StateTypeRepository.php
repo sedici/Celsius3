@@ -21,9 +21,9 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 
-class StateTypeRepository extends DocumentRepository
+class StateTypeRepository extends EntityRepository
 {
 
 }

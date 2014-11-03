@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,15 +22,14 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Manager\UserManager;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class UserTransformType extends AbstractType
 {
-
     protected $instance;
 
     public function __construct(Instance $instance = null)
@@ -62,7 +62,7 @@ class UserTransformType extends AbstractType
                     ->add('instances', 'document', array(
                         'class' => 'Celsius3CoreBundle:Instance',
                         'multiple' => true,
-                        'query_builder' => function (DocumentRepository $repository) {
+                        'query_builder' => function (EntityRepository $repository) {
                             return $repository->findAllExceptDirectory();
                         },
                     ))
@@ -74,5 +74,4 @@ class UserTransformType extends AbstractType
     {
         return 'celsius3_corebundle_transformusertype';
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,40 +21,39 @@
  */
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Form\DataTransformer\UserToIdTransformer;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class UserSelectorType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $em;
 
     /**
-     * @var DocumentManager
+     * @param EntityManager $dm
      */
-    private $dm;
-
-    /**
-     * @param DocumentManager $dm
-     */
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new UserToIdTransformer($this->dm);
+        $transformer = new UserToIdTransformer($this->em);
         $builder->addModelTransformer($transformer);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array(
-                                'invalid_message' => 'The selected User does not exist',));
+        $resolver->setDefaults(array(
+            'invalid_message' => 'The selected User does not exist',
+        ));
     }
 
     public function getParent()
@@ -65,5 +65,4 @@ class UserSelectorType extends AbstractType
     {
         return 'celsius3_corebundle_user_selector';
     }
-
 }

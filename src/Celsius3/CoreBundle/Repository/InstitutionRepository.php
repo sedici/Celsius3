@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,38 +22,38 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Document\Instance;
 use Celsius3\CoreBundle\Document\Hive;
 
-class InstitutionRepository extends DocumentRepository
+class InstitutionRepository extends EntityRepository
 {
 
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, Hive $hive, $country_id, $city_id = null, $filter = null)
     {
-        $qb = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Institution')
-                ->createQueryBuilder();
-
-        $qb = $qb->addOr($qb->expr()->field('instance.id')->equals($directory->getId()))
-                        ->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
-                        ->field('country.id')->equals($country_id)
-                        ->field('parent.id')->equals(null);
+        $qb = $this->createQueryBuilder('i')
+                ->where('c.instance_id = :instance_id')
+                ->orWhere('c.instance_id = :directory_id')
+                ->andWhere('i.country_id = :country_id')
+                ->andWhere('i.parent_id IS NULL')
+                ->setParameter('instance_id', $instance->getId())
+                ->setParameter('directory_id', $directory->getId())
+                ->setParameter('country_id', $country_id);
 
         if (!is_null($city_id)) {
-            $qb = $qb->field('city.id')->equals($city_id);
+            $qb = $qb->andWhere('i.city_id = :city_id')
+                    ->setParameter('city_id', $city_id);
         }
 
         if (!is_null($filter)) {
             if ($filter === 'hive') {
-                $qb = $qb->field('hive.id')->equals($hive->getId());
+                $qb = $qb->andWhere('i.hive_id')
+                        ->setParameter('hive_id', $hive->getId());
             } elseif ($filter === 'celsius3') {
-                $qb = $qb->field('celsiusInstance.id')->notEqual(null);
+                $qb = $qb->andWhere('i.celsius_instance_id IS NOT NULL');
             }
         }
 
-        return $qb->getQuery()
-                        ->execute()
-                        ->toArray();
+        return $qb->getQuery()->getResult();
     }
-
 }

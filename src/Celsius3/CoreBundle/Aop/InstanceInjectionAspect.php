@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,15 +21,14 @@
  */
 
 namespace Celsius3\CoreBundle\Aop;
+
 use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 
-class InstanceInjectionAspect implements MethodInterceptorInterface,
-        PointcutInterface
+class InstanceInjectionAspect implements MethodInterceptorInterface, PointcutInterface
 {
-
     private $instance_helper;
 
     public function __construct(InstanceHelper $instance_helper)
@@ -52,5 +52,4 @@ class InstanceInjectionAspect implements MethodInterceptorInterface,
 
         return $invocation->proceed();
     }
-
 }

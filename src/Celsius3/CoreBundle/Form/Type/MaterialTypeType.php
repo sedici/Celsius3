@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -43,7 +44,7 @@ class MaterialTypeType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Document\\MaterialType',
+            'data_class' => 'Celsius3\\CoreBundle\\Entity\\MaterialType',
         ));
     }
 
@@ -51,5 +52,4 @@ class MaterialTypeType extends AbstractType
     {
         return 'celsius3_corebundle_materialtypetype';
     }
-
 }

@@ -44,7 +44,7 @@ class BookTypeType extends MaterialTypeType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Document\\BookType',
+            'data_class' => 'Celsius3\\CoreBundle\\Entity\\BookType',
         ));
     }
 

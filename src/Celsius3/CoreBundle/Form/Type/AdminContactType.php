@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,21 +23,20 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Instance;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class AdminContactType extends ContactType
 {
-
     private $owningInstance;
-    private $dm;
+    private $em;
 
-    public function __construct(Instance $owningInstance, DocumentManager $dm)
+    public function __construct(Instance $owningInstance, EntityManager $em)
     {
         parent::__construct();
         $this->owningInstance = $owningInstance;
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -52,8 +52,7 @@ class AdminContactType extends ContactType
                 ))
         ;
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber);
     }
-
 }

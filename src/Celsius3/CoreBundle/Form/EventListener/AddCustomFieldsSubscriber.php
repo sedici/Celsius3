@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -25,20 +26,20 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Instance;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
     private $factory;
-    private $dm;
+    private $em;
     private $instance;
     private $registration;
 
-    public function __construct(FormFactoryInterface $factory, DocumentManager $dm, Instance $instance, $registration)
+    public function __construct(FormFactoryInterface $factory, EntityManager $em, Instance $instance, $registration)
     {
         $this->factory = $factory;
-        $this->dm = $dm;
+        $this->em = $em;
         $this->instance = $instance;
         $this->registration = $registration;
     }
@@ -64,38 +65,34 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
 
         $userId = $data->getId() ? $data->getId() : null;
 
-        $query = $this->dm->getRepository('Celsius3CoreBundle:CustomUserField')
-                ->createQueryBuilder()
-                ->field('instance.id')
-                ->equals($this->instance->getId());
+        $query = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
+                ->createQueryBuilder('cuf')
+                ->where('cuf.instance_id = :instance_id')
+                ->setParameter('instance_id', $this->instance->getId());
 
         if ($this->registration) {
-            $query = $query->field('private')->equals(false);
+            $query = $query->andWhere('cuf.private = true');
         }
 
-        $fields = $query->getQuery()->execute();
+        $fields = $query->getQuery()->getResult();
 
         foreach ($fields as $field) {
             if ($userId) {
-                $value = $this->dm
-                        ->getRepository('Celsius3CoreBundle:CustomUserValue')
-                        ->findOneBy(
-                        array('field.id' => $field->getId(),
-                            'user.id' => $userId,));
+                $value = $this->em->getRepository('Celsius3CoreBundle:CustomUserValue')
+                        ->findOneBy(array(
+                    'field_id' => $field->getId(),
+                    'user_id' => $userId,
+                ));
             } else {
                 $value = null;
             }
 
-            $form
-                    ->add(
-                            $this->factory
-                            ->createNamed($field->getKey(), 'text', $value ? $value->getValue() : null, array(
-                                /** @Ignore */ 'label' => ucfirst(
-                                        $field->getName()),
-                                'required' => $field
-                                ->getRequired(),
-                                'mapped' => false,
-                                'auto_initialize' => false,)));
+            $form->add($this->factory->createNamed($field->getKey(), 'text', $value ? $value->getValue() : null, array(
+                        /** @Ignore */ 'label' => ucfirst($field->getName()),
+                        'required' => $field->getRequired(),
+                        'mapped' => false,
+                        'auto_initialize' => false,
+            )));
         }
     }
 }

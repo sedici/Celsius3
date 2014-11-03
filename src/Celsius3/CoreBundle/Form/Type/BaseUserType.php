@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,15 +23,14 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 
 class BaseUserType extends RegistrationFormType
 {
-
     private $editing;
 
     public function __construct(ContainerInterface $container, $class, Instance $instance, $editing = false)
@@ -54,7 +54,7 @@ class BaseUserType extends RegistrationFormType
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
                     ->add('instance', null, array(
-                        'query_builder' => function (DocumentRepository $repository) {
+                        'query_builder' => function (EntityRepository $repository) {
                             return $repository->findAllExceptDirectory();
                         },
                     ))
@@ -74,7 +74,7 @@ class BaseUserType extends RegistrationFormType
         if ($this->editing) {
             $builder->remove('plainPassword');
         }
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->dm, $this->instance, false);
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance, false);
         $builder->addEventSubscriber($subscriber);
     }
 
@@ -82,5 +82,4 @@ class BaseUserType extends RegistrationFormType
     {
         return 'celsius3_corebundle_baseusertype';
     }
-
 }
