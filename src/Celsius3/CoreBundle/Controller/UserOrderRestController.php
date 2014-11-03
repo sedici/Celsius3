@@ -87,9 +87,9 @@ class UserOrderRestController extends BaseInstanceDependentRestController
      */
     public function getOrderAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $order = $dm->getRepository('Celsius3CoreBundle:Order')
+        $order = $em->getRepository('Celsius3CoreBundle:Order')
                 ->find($id);
 
         if (!$order) {

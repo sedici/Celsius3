@@ -45,7 +45,7 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Lists all News documents.
+     * Lists all News entities.
      *
      * @Route("/", name="superadmin_news")
      * @Template()
@@ -58,16 +58,16 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Finds and displays a News document.
+     * Finds and displays a News entity.
      *
      * @Route("/{id}/show", name="superadmin_news_show")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
     {
@@ -75,7 +75,7 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Displays a form to create a new News document.
+     * Displays a form to create a new News entity.
      *
      * @Route("/new", name="superadmin_news_new")
      * @Template()
@@ -88,7 +88,7 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Creates a new News document.
+     * Creates a new News entity.
      *
      * @Route("/create", name="superadmin_news_create")
      * @Method("post")
@@ -102,16 +102,16 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing News document.
+     * Displays a form to edit an existing News entity.
      *
      * @Route("/{id}/edit", name="superadmin_news_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -119,17 +119,17 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Edits an existing News document.
+     * Edits an existing News entity.
      *
      * @Route("/{id}/update", name="superadmin_news_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminNews:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -137,16 +137,16 @@ class SuperadminNewsController extends BaseController
     }
 
     /**
-     * Deletes a News document.
+     * Deletes a News entity.
      *
      * @Route("/{id}/delete", name="superadmin_news_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

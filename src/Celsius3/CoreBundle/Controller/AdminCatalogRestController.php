@@ -52,9 +52,9 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
      */
     public function getCatalogAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $catalog = $dm->getRepository('Celsius3CoreBundle:Catalog')
+        $catalog = $em->getRepository('Celsius3CoreBundle:Catalog')
                 ->find($id);
 
         if (!$catalog) {

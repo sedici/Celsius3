@@ -35,7 +35,7 @@ class AdminFileDownloadController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all FileDownload documents.
+     * Lists all FileDownload entities.
      *
      * @Route("/", name="admin_file_download")
      * @Template()

@@ -38,9 +38,9 @@ class AdminContactRestController extends BaseInstanceDependentRestController
      */
     public function getContactsAction($institution_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $contacts = $dm->getRepository('Celsius3CoreBundle:Contact')
+        $contacts = $em->getRepository('Celsius3CoreBundle:Contact')
                 ->findBy(array(
             'institution.id' => $institution_id,
         ));
@@ -57,9 +57,9 @@ class AdminContactRestController extends BaseInstanceDependentRestController
      */
     public function getContactAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $contact = $dm->getRepository('Celsius3CoreBundle:Contact')
+        $contact = $em->getRepository('Celsius3CoreBundle:Contact')
                 ->find($id);
 
         if (!$contact) {

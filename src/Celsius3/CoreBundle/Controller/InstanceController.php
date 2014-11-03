@@ -37,15 +37,15 @@ abstract class InstanceController extends BaseController
     
     protected function baseConfigureAction($id)
     {
-        $document = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery('Instance', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
         $configureForm = $this->createFormBuilder();
 
-        foreach ($document->getConfigurations() as $configuration) {
+        foreach ($entity->getConfigurations() as $configuration) {
             $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
             $configureForm->add($configuration->getKey(), $configurationType, array(
                 'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
@@ -59,22 +59,22 @@ abstract class InstanceController extends BaseController
         }
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'configure_form' => $configureForm->getForm()->createView(),
         );
     }
 
     protected function baseConfigureUpdateAction($id, $route)
     {
-        $document = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery('Instance', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
         $builder = $this->createFormBuilder();
 
-        foreach ($document->getConfigurations() as $configuration) {
+        foreach ($entity->getConfigurations() as $configuration) {
             $builder->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration), array(
                 'attr' => array(
                     'value' => $configuration->getValue(),
@@ -90,15 +90,15 @@ abstract class InstanceController extends BaseController
         $configureForm->bind($request);
 
         if ($configureForm->isValid()) {
-            $dm = $this->getDocumentManager();
+            $em = $this->getDocumentManager();
             $values = $configureForm->getData();
 
-            foreach ($document->getConfigurations() as $configuration) {
+            foreach ($entity->getConfigurations() as $configuration) {
                 $configuration->setValue($values[$configuration->getKey()]);
-                $dm->persist($document);
+                $em->persist($entity);
             }
 
-            $dm->flush();
+            $em->flush();
 
             $this->addFlash('success', 'The instance was successfully configured.');
 
@@ -106,7 +106,7 @@ abstract class InstanceController extends BaseController
         }
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'configure_form' => $configureForm->createView(),
         );
     }

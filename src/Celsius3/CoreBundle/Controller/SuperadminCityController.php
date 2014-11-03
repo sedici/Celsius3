@@ -36,7 +36,7 @@ class SuperadminCityController extends BaseController
 {
 
     /**
-     * Lists all City documents.
+     * Lists all City entities.
      *
      * @Route("/", name="superadmin_city")
      * @Template()
@@ -49,7 +49,7 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Displays a form to create a new City document.
+     * Displays a form to create a new City entity.
      *
      * @Route("/new", name="superadmin_city_new")
      * @Template()
@@ -62,7 +62,7 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Creates a new City document.
+     * Creates a new City entity.
      *
      * @Route("/create", name="superadmin_city_create")
      * @Method("post")
@@ -76,17 +76,17 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing City document.
+     * Displays a form to edit an existing City entity.
      *
      * @Route("/{id}/edit", name="superadmin_city_edit")
      * @Template()
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -94,18 +94,18 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Edits an existing City document.
+     * Edits an existing City entity.
      *
      * @Route("/{id}/update", name="superadmin_city_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCity:edit.html.twig")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -113,17 +113,17 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Deletes a City document.
+     * Deletes a City entity.
      *
      * @Route("/{id}/delete", name="superadmin_city_delete")
      * @Method("post")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -148,7 +148,7 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Unifies a group of City documents.
+     * Unifies a group of City entities.
      *
      * @Route("/doUnion", name="superadmin_city_doUnion")
      * @Method("post")

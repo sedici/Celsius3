@@ -53,11 +53,11 @@ class AdminFileController extends BaseController
     }
 
     /**
-     * Downloads the file associated to a File document.
+     * Downloads the file associated to a File entity.
      *
      * @Route("/{request}/{file}/download", name="admin_file_download", options={"expose"=true})
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      */
     public function downloadAction($request, $file)
     {

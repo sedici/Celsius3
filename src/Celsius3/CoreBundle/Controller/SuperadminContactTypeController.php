@@ -35,7 +35,7 @@ class SuperadminContactTypeController extends BaseController
 {
 
     /**
-     * Lists all ContactType documents.
+     * Lists all ContactType entities.
      *
      * @Route("/", name="superadmin_contacttype")
      * @Template()
@@ -48,7 +48,7 @@ class SuperadminContactTypeController extends BaseController
     }
 
     /**
-     * Displays a form to create a new ContactType document.
+     * Displays a form to create a new ContactType entity.
      *
      * @Route("/new", name="superadmin_contacttype_new")
      * @Template()
@@ -63,7 +63,7 @@ class SuperadminContactTypeController extends BaseController
     }
 
     /**
-     * Creates a new ContactType document.
+     * Creates a new ContactType entity.
      *
      * @Route("/create", name="superadmin_contacttype_create")
      * @Method("post")
@@ -79,16 +79,16 @@ class SuperadminContactTypeController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing ContactType document.
+     * Displays a form to edit an existing ContactType entity.
      *
      * @Route("/{id}/edit", name="superadmin_contacttype_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -96,17 +96,17 @@ class SuperadminContactTypeController extends BaseController
     }
 
     /**
-     * Edits an existing ContactType document.
+     * Edits an existing ContactType entity.
      *
      * @Route("/{id}/update", name="superadmin_contacttype_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminContactType:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -116,16 +116,16 @@ class SuperadminContactTypeController extends BaseController
     }
 
     /**
-     * Deletes a ContactType document.
+     * Deletes a ContactType entity.
      *
      * @Route("/{id}/delete", name="superadmin_contacttype_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

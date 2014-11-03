@@ -37,9 +37,9 @@ class AdminFileRestController extends BaseInstanceDependentRestController
      */
     public function changeStateAction($file_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $file = $dm->getRepository('Celsius3CoreBundle:File')
+        $file = $em->getRepository('Celsius3CoreBundle:File')
                 ->find($file_id);
 
         if (!$file) {
@@ -48,8 +48,8 @@ class AdminFileRestController extends BaseInstanceDependentRestController
 
         $file->setEnabled(!$file->getEnabled());
 
-        $dm->persist($file);
-        $dm->flush();
+        $em->persist($file);
+        $em->flush();
 
         $view = $this->view($file, 200)
                 ->setFormat('json');

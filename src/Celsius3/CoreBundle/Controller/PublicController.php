@@ -91,7 +91,7 @@ class PublicController extends BaseInstanceDependentController
      * @Route("/cities", name="public_cities", options={"expose"=true})
      * @Template()
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function citiesAction()
     {
@@ -121,7 +121,7 @@ class PublicController extends BaseInstanceDependentController
      * @Route("/institutionsFull", name="public_institutions_full")
      * @Template()
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function institutionsFullAction()
     {
@@ -131,8 +131,8 @@ class PublicController extends BaseInstanceDependentController
             throw $this->createNotFoundException();
         }
 
-        $dm = $this->getDocumentManager();
-        $qb = $dm->getRepository('Celsius3CoreBundle:Institution')
+        $em = $this->getDocumentManager();
+        $qb = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->createQueryBuilder()
                 ->hydrate(false);
 
@@ -158,7 +158,7 @@ class PublicController extends BaseInstanceDependentController
                     ($request->query->get('filter') == 'celsius3' && $institution['celsiusInstance']) ||
                     ($request->query->get('filter') == '')) {
 
-                $children = $dm->getRepository('Celsius3CoreBundle:Institution')
+                $children = $em->getRepository('Celsius3CoreBundle:Institution')
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->field('parent.id')->equals($institution['_id'])
@@ -181,11 +181,11 @@ class PublicController extends BaseInstanceDependentController
 
     protected function getChildrenInstitution($institutions, $level)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
         $response = array();
         if (count($institutions) > 0) {
             foreach ($institutions as $institution) {
-                $children = $dm->getRepository('Celsius3CoreBundle:Institution')
+                $children = $em->getRepository('Celsius3CoreBundle:Institution')
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->field('parent.id')->equals($institution['_id'])

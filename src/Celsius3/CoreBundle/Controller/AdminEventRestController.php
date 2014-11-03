@@ -84,9 +84,9 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function getEventAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $event = $dm->getRepository('Celsius3CoreBundle:Event')
+        $event = $em->getRepository('Celsius3CoreBundle:Event')
                 ->find($id);
 
         if (!$event) {
@@ -104,9 +104,9 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function undoAction($request_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $request = $dm->getRepository('Celsius3CoreBundle:Request')
+        $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->find($request_id);
 
         if (!$request) {
@@ -128,9 +128,9 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function createEventAction($request_id, $event)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $request = $dm->getRepository('Celsius3CoreBundle:Request')
+        $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->find($request_id);
 
         if (!$request) {

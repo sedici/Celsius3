@@ -37,7 +37,7 @@ use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
 class SuperadminInstanceController extends InstanceController
 {
     /**
-     * Lists all Instance documents.
+     * Lists all Instance entities.
      *
      * @Route("/", name="superadmin_instance")
      * @Template()
@@ -50,7 +50,7 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Displays a form to create a new Instance document.
+     * Displays a form to create a new Instance entity.
      *
      * @Route("/new", name="superadmin_instance_new")
      * @Template()
@@ -63,7 +63,7 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Creates a new Instance document.
+     * Creates a new Instance entity.
      *
      * @Route("/create", name="superadmin_instance_create")
      * @Method("post")
@@ -77,16 +77,16 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Displays a form to edit an existing Instance document.
+     * Displays a form to edit an existing Instance entity.
      *
      * @Route("/{id}/edit", name="superadmin_instance_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -94,17 +94,17 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Edits an existing Instance document.
+     * Edits an existing Instance entity.
      *
      * @Route("/{id}/update", name="superadmin_instance_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminInstance:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -112,33 +112,33 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Switches the enabled flag of a Instance document.
+     * Switches the enabled flag of a Instance entity.
      *
      * @Route("/{id}/switch", name="superadmin_instance_switch")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function switchAction($id)
     {
-        $document = $this->findQuery('LegacyInstance', $id);
+        $entity = $this->findQuery('LegacyInstance', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
-        $document->setEnabled(!$document->getEnabled());
+        $entity->setEnabled(!$entity->getEnabled());
 
-        $dm = $this->getDocumentManager();
-        $dm->persist($document);
-        $dm->flush();
+        $em = $this->getDocumentManager();
+        $em->persist($entity);
+        $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($document->getEnabled()) ? 'enabled' : 'disabled'));
+        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($entity->getEnabled()) ? 'enabled' : 'disabled'));
 
-        return $this->redirect($this->generateUrl($document->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
+        return $this->redirect($this->generateUrl($entity->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
     }
 
     /**
@@ -147,11 +147,11 @@ class SuperadminInstanceController extends InstanceController
      * @Route("/directory/configure", name="superadmin_directory_configure")
      * @Template("Celsius3CoreBundle:SuperadminInstance:configure.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function configureDirectoryAction()
     {
@@ -164,11 +164,11 @@ class SuperadminInstanceController extends InstanceController
      * @Route("/{id}/configure", name="superadmin_instance_configure")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function configureAction($id)
     {
@@ -182,11 +182,11 @@ class SuperadminInstanceController extends InstanceController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminInstance:configure.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function configureUpdateAction($id)
     {
@@ -194,26 +194,26 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Redirects to the administration of an Instance document.
+     * Redirects to the administration of an Instance entity.
      *
      * @Route("/{id}/admin", name="superadmin_instance_admin")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function adminAction($id)
     {
-        $document = $this->findQuery('Instance', $id);
+        $entity = $this->findQuery('Instance', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
-        $this->get('session')->set('instance_id', $document->getId());
-        $this->get('session')->set('instance_url', $document->getUrl());
+        $this->get('session')->set('instance_id', $entity->getId());
+        $this->get('session')->set('instance_url', $entity->getUrl());
 
         return $this->redirect($this->generateUrl('administration'));
     }

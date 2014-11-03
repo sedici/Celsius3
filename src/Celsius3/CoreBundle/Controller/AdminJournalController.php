@@ -36,7 +36,7 @@ class AdminJournalController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all Journal documents.
+     * Lists all Journal entities.
      *
      * @Route("/", name="admin_journal")
      * @Template()
@@ -54,7 +54,7 @@ class AdminJournalController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to create a new Journal document.
+     * Displays a form to create a new Journal entity.
      *
      * @Route("/new", name="admin_journal_new")
      * @Template()
@@ -69,7 +69,7 @@ class AdminJournalController extends BaseInstanceDependentController
     }
 
     /**
-     * Creates a new Journal document.
+     * Creates a new Journal entity.
      *
      * @Route("/create", name="admin_journal_create")
      * @Method("post")
@@ -85,15 +85,15 @@ class AdminJournalController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to edit an existing Journal document.
+     * Displays a form to edit an existing Journal entity.
      *
      * @Route("/{id}/edit", name="admin_journal_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -103,17 +103,17 @@ class AdminJournalController extends BaseInstanceDependentController
     }
 
     /**
-     * Edits an existing Journal document.
+     * Edits an existing Journal entity.
      *
      * @Route("/{id}/update", name="admin_journal_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminJournal:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -123,16 +123,16 @@ class AdminJournalController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a Journal document.
+     * Deletes a Journal entity.
      *
      * @Route("/{id}/delete", name="admin_journal_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

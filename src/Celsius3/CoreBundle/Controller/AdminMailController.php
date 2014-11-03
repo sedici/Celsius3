@@ -85,7 +85,7 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -123,11 +123,11 @@ class AdminMailController extends BaseInstanceDependentController
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminMail:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -140,11 +140,11 @@ class AdminMailController extends BaseInstanceDependentController
      * @Route("/{id}/delete", name="admin_mails_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -167,11 +167,11 @@ class AdminMailController extends BaseInstanceDependentController
      *
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function changeStateAction($id)
     {
@@ -183,9 +183,9 @@ class AdminMailController extends BaseInstanceDependentController
 
         $template->setEnabled(!$template->getEnabled());
 
-        $dm = $this->getDocumentManager();
-        $dm->persist($template);
-        $dm->flush();
+        $em = $this->getDocumentManager();
+        $em->persist($template);
+        $em->flush();
 
         $this->get('session')->getFlashBag()
                 ->add('success', 'The Template was successfully '
@@ -203,9 +203,9 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function modalAction($user_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($user_id);
 
         if (!$user) {
@@ -215,7 +215,7 @@ class AdminMailController extends BaseInstanceDependentController
         $request = $this->getRequest();
 
         $order_id = $request->query->get('order_id');
-        $order = $dm->getRepository('Celsius3CoreBundle:Order')
+        $order = $em->getRepository('Celsius3CoreBundle:Order')
                 ->find($order_id);
 
         return array(

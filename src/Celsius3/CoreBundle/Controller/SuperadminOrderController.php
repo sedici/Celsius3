@@ -60,7 +60,7 @@ class SuperadminOrderController extends OrderController
     }
 
     /**
-     * Lists all Order documents.
+     * Lists all Order entities.
      *
      * @Route("/", name="superadmin_order")
      * @Template()
@@ -73,16 +73,16 @@ class SuperadminOrderController extends OrderController
     }
 
     /**
-     * Finds and displays a Order document.
+     * Finds and displays a Order entity.
      *
      * @Route("/{id}/show", name="superadmin_order_show")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
     {
@@ -90,7 +90,7 @@ class SuperadminOrderController extends OrderController
     }
 
     /**
-     * Displays a form to create a new Order document.
+     * Displays a form to create a new Order entity.
      *
      * @Route("/new", name="superadmin_order_new")
      * @Template()
@@ -103,7 +103,7 @@ class SuperadminOrderController extends OrderController
     }
 
     /**
-     * Creates a new Order document.
+     * Creates a new Order entity.
      *
      * @Route("/create", name="superadmin_order_create")
      * @Method("post")
@@ -117,59 +117,59 @@ class SuperadminOrderController extends OrderController
     }
 
     /**
-     * Displays a form to edit an existing Order document.
+     * Displays a form to edit an existing Order entity.
      *
      * @Route("/{id}/edit", name="superadmin_order_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        $document = $this->findQuery('Order', $id);
+        $entity = $this->findQuery('Order', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
-        $materialClass = get_class($document->getMaterialData());
+        $materialClass = get_class($entity->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($entity->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array('document' => $document,
+        return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),);
     }
 
     /**
-     * Edits an existing Order document.
+     * Edits an existing Order entity.
      *
      * @Route("/{id}/update", name="superadmin_order_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminOrder:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        $document = $this->findQuery('Order', $id);
+        $entity = $this->findQuery('Order', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this
                     ->createNotFoundException('Unable to find ' . 'Order' . '.');
         }
 
-        $document->setMaterialData(null);
+        $entity->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($document->getInstance(), $this->getMaterialType(), $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($entity->getInstance(), $this->getMaterialType(), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -177,29 +177,29 @@ class SuperadminOrderController extends OrderController
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $em = $this->getDocumentManager();
+            $em->persist($entity);
+            $em->flush();
 
             return $this->redirect($this->generateUrl('superadmin_order_edit', array('id' => $id)));
         }
 
-        return array('document' => $document,
+        return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),);
     }
 
     /**
-     * Deletes a Order document.
+     * Deletes a Order entity.
      *
      * @Route("/{id}/delete", name="superadmin_order_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

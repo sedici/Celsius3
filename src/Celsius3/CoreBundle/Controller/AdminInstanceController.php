@@ -39,11 +39,11 @@ class AdminInstanceController extends InstanceController
      * @Route("/configure", name="admin_instance_configure")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function configureAction()
     {
@@ -57,11 +57,11 @@ class AdminInstanceController extends InstanceController
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminInstance:configure.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function configureUpdateAction($id)
     {

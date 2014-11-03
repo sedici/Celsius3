@@ -38,9 +38,9 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
      */
     public function getCountriesAction()
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $countries = $dm->getRepository('Celsius3CoreBundle:Country')
+        $countries = $em->getRepository('Celsius3CoreBundle:Country')
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
 
         $view = $this->view(array_values($countries), 200)
@@ -55,9 +55,9 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
      */
     public function getCountryAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $country = $dm->getRepository('Celsius3CoreBundle:Country')
+        $country = $em->getRepository('Celsius3CoreBundle:Country')
                 ->find($id);
 
         if (!$country) {

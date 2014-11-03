@@ -36,7 +36,7 @@ class AdminCityController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all City documents.
+     * Lists all City entities.
      *
      * @Route("/", name="admin_city")
      * @Template()
@@ -53,7 +53,7 @@ class AdminCityController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to create a new City document.
+     * Displays a form to create a new City entity.
      *
      * @Route("/new", name="admin_city_new")
      * @Template()
@@ -68,7 +68,7 @@ class AdminCityController extends BaseInstanceDependentController
     }
 
     /**
-     * Creates a new City document.
+     * Creates a new City entity.
      *
      * @Route("/create", name="admin_city_create")
      * @Method("post")
@@ -84,15 +84,15 @@ class AdminCityController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to edit an existing City document.
+     * Displays a form to edit an existing City entity.
      *
      * @Route("/{id}/edit", name="admin_city_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -100,17 +100,17 @@ class AdminCityController extends BaseInstanceDependentController
     }
 
     /**
-     * Edits an existing City document.
+     * Edits an existing City entity.
      *
      * @Route("/{id}/update", name="admin_city_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminCity:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -120,16 +120,16 @@ class AdminCityController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a City document.
+     * Deletes a City entity.
      *
      * @Route("/{id}/delete", name="admin_city_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

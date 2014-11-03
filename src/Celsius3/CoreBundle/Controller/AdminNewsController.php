@@ -36,7 +36,7 @@ class AdminNewsController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all News documents.
+     * Lists all News entities.
      *
      * @Route("/", name="admin_news")
      * @Template()
@@ -50,16 +50,16 @@ class AdminNewsController extends BaseInstanceDependentController
     }
 
     /**
-     * Finds and displays a News document.
+     * Finds and displays a News entity.
      *
      * @Route("/{id}/show", name="admin_news_show")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
     {
@@ -67,7 +67,7 @@ class AdminNewsController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to create a new News document.
+     * Displays a form to create a new News entity.
      *
      * @Route("/new", name="admin_news_new")
      * @Template()
@@ -82,7 +82,7 @@ class AdminNewsController extends BaseInstanceDependentController
     }
 
     /**
-     * Creates a new News document.
+     * Creates a new News entity.
      *
      * @Route("/create", name="admin_news_create")
      * @Method("post")
@@ -98,16 +98,16 @@ class AdminNewsController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to edit an existing News document.
+     * Displays a form to edit an existing News entity.
      *
      * @Route("/{id}/edit", name="admin_news_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -115,17 +115,17 @@ class AdminNewsController extends BaseInstanceDependentController
     }
 
     /**
-     * Edits an existing News document.
+     * Edits an existing News entity.
      *
      * @Route("/{id}/update", name="admin_news_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminNews:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -135,16 +135,16 @@ class AdminNewsController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a News document.
+     * Deletes a News entity.
      *
      * @Route("/{id}/delete", name="admin_news_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

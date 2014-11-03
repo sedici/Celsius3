@@ -37,7 +37,7 @@ class SuperadminCatalogController extends BaseController
 {
 
     /**
-     * Lists all Catalog documents.
+     * Lists all Catalog entities.
      *
      * @Route("/", name="superadmin_catalog")
      * @Template()
@@ -50,7 +50,7 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Displays a form to create a new Catalog document.
+     * Displays a form to create a new Catalog entity.
      *
      * @Route("/new", name="superadmin_catalog_new")
      * @Template()
@@ -63,7 +63,7 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Creates a new Catalog document.
+     * Creates a new Catalog entity.
      *
      * @Route("/create", name="superadmin_catalog_create")
      * @Method("post")
@@ -77,17 +77,17 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing Catalog document.
+     * Displays a form to edit an existing Catalog entity.
      *
      * @Route("/{id}/edit", name="superadmin_catalog_edit")
      * @Template()
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -95,18 +95,18 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Edits an existing Catalog document.
+     * Edits an existing Catalog entity.
      *
      * @Route("/{id}/update", name="superadmin_catalog_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCatalog:edit.html.twig")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -114,17 +114,17 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Deletes a Catalog document.
+     * Deletes a Catalog entity.
      *
      * @Route("/{id}/delete", name="superadmin_catalog_delete")
      * @Method("post")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -138,7 +138,7 @@ class SuperadminCatalogController extends BaseController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function batchAction()
     {
@@ -151,7 +151,7 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Unifies a group of Catalog documents.
+     * Unifies a group of Catalog entities.
      *
      * @Route("/doUnion", name="superadmin_catalog_doUnion")
      * @Method("post")
