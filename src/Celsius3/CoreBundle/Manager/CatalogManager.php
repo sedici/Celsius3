@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,24 +22,22 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Celsius3\CoreBundle\Document\Catalog;
-use Celsius3\CoreBundle\Document\Instance;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Entity\Instance;
+use Doctrine\ORM\EntityManager;
 
 class CatalogManager
 {
-
     const CATALOG__NON_SEARCHED = 'non_searched';
     const CATALOG__FOUND = 'found';
     const CATALOG__PARTIALLY_FOUND = 'partially_found';
     const CATALOG__NOT_FOUND = 'not_found';
-
-    private $dm;
+    private $em;
     private $instance_manager;
 
-    public function __construct(DocumentManager $dm, InstanceManager $instance_manager)
+    public function __construct(EntityManager $em, InstanceManager $instance_manager)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->instance_manager = $instance_manager;
     }
 
@@ -54,33 +53,35 @@ class CatalogManager
 
     public function getCatalogs(Instance $instance = null)
     {
-        return $this->dm->getRepository('Celsius3CoreBundle:Catalog')
+        return $this->em->getRepository('Celsius3CoreBundle:Catalog')
                         ->findBy(array(
-                            'instance.id' => $instance->getId(),
+                            'instance_id' => $instance->getId(),
         ));
     }
 
     public function getAllCatalogs(Instance $instance)
     {
-        $qb = $this->dm->getRepository('Celsius3CoreBundle:Catalog')
-                ->createQueryBuilder();
-
-        return $qb->addOr($qb->expr()->field('instance.id')->equals($instance->getId()))
-                        ->addOr($qb->expr()->field('instance.id')->equals($this->instance_manager->getDirectory()->getId()))
+        return $this->em->getRepository('Celsius3CoreBundle:Catalog')
+                        ->createQueryBuilder('c')
+                        ->where('c.instance_id = :instance_id')
+                        ->orWhere('c.instance_id = :directory_id')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->setParameter('directory_id', $this->instance_manager->getDirectory()->getId())
                         ->getQuery()
-                        ->execute();
+                        ->getResult();
     }
 
     public function getCatalogResults($catalogs, $title)
     {
-        return $this->dm->getRepository('Celsius3CoreBundle:CatalogResult')
-                        ->createQueryBuilder()
-                        ->field('title')->equals($title)
-                        ->field('catalog.id')->in(array_map(function (Catalog $catalog) {
+        return $this->em->getRepository('Celsius3CoreBundle:CatalogResult')
+                        ->createQueryBuilder('cr')
+                        ->where('cr.title = :title')
+                        ->andWhere('cr.catalog_id IN (:catalog_ids)')
+                        ->setParameter('title', $title)
+                        ->setParameter('catalog_ids', array_map(function (Catalog $catalog) {
                                     return $catalog->getId();
                                 }, $catalogs->toArray()))
                         ->getQuery()
-                        ->execute();
+                        ->getResult();
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,29 +22,27 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 class DatabaseHelper
 {
+    private $em;
 
-    private $dm;
-
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function findRandomRecord($repository)
     {
-        $rand = rand(0, $this->dm->getRepository($repository)
-                        ->createQueryBuilder()->getQuery()->count() - 1);
+        $counter = (int) $this->em->createQuery(
+                        'SELECT COUNT(c) FROM ' . $repository . ' c'
+                )->getSingleScalarResult();
 
-        return $this->dm->getRepository($repository)
-                        ->createQueryBuilder()
-                        ->limit(-1)
-                        ->skip($rand)
-                        ->getQuery()
-                        ->getSingleResult();
+        return $this->em->createQuery('SELECT c FROM ' . $repository . ' c ORDER BY c.id ASC')
+                        ->setMaxResults(1)
+                        ->setFirstResult(mt_rand(0, $counter - 1))
+                        ->getSingleResult()
+        ;
     }
-
 }

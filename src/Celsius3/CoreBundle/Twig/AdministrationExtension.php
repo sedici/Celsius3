@@ -22,7 +22,7 @@
 namespace Celsius3\CoreBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class AdministrationExtension extends \Twig_Extension
 {
@@ -50,7 +50,7 @@ class AdministrationExtension extends \Twig_Extension
     public function countUsers(Instance $instance)
     {
         return $this->container
-                        ->get('doctrine.odm.mongodb.document_manager')
+                        ->get('doctrine.orm.entity_manager')
                         ->getRepository('Celsius3CoreBundle:BaseUser')
                         ->countUsers($instance);
     }

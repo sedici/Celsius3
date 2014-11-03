@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,33 +22,32 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Document\State;
-use Celsius3\CoreBundle\Document\Event\Event;
-use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\BaseUser;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Entity\State;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Exception\PreviousStateNotFoundException;
-use Celsius3\CoreBundle\Document\Event\UndoEvent;
+use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 
 class LifecycleHelper
 {
-
-    private $dm;
+    private $em;
     private $state_manager;
     private $event_manager;
     private $file_manager;
     private $instance_helper;
     private $container;
 
-    public function __construct(DocumentManager $dm, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper)
+    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->state_manager = $state_manager;
         $this->event_manager = $event_manager;
         $this->file_manager = $file_manager;
@@ -61,8 +61,8 @@ class LifecycleHelper
 
     public function refresh($document)
     {
-        $this->dm->persist($document);
-        $this->dm->flush();
+        $this->em->persist($document);
+        $this->em->flush();
     }
 
     public function uploadFiles(Request $request, Event $event, array $files)
@@ -80,7 +80,7 @@ class LifecycleHelper
         $event->setRequest($request);
         $event->setState($this->getState($request, $event, $data));
         $event->applyExtraData($request, $data, $this, $data['date']);
-        $this->dm->persist($event);
+        $this->em->persist($event);
 
         return $event;
     }
@@ -97,18 +97,18 @@ class LifecycleHelper
             if ($this->state_manager->isBefore($currentState, $state)) {
                 $state->setIsCurrent(true);
                 $currentState->setIsCurrent(false);
-                $this->dm->persist($currentState);
+                $this->em->persist($currentState);
 
                 if ($data['eventName'] === EventManager::EVENT__LOCAL_CANCEL || $data['eventName'] === EventManager::EVENT__REMOTE_CANCEL) {
-                    $this->dm->persist($state);
-                    $this->dm->flush();
-                    $this->dm->refresh($request);
+                    $this->em->persist($state);
+                    $this->em->flush();
+                    $this->em->refresh($request);
                 }
             }
         } else {
             if (!is_null($currentState)) {
                 $currentState->setIsCurrent(false);
-                $this->dm->persist($currentState);
+                $this->em->persist($currentState);
             }
             $state = $this->createState($request, $instance, $data, $currentState, $remoteEvent);
         }
@@ -123,7 +123,7 @@ class LifecycleHelper
         $state->setDate($data['date']);
         $state->setInstance($instance);
         $state->setRequest($request);
-        $state->setType($this->dm->getRepository('Celsius3CoreBundle:StateType')->findOneBy(array('name' => $data['stateName'])));
+        $state->setType($data['stateName']);
         $state->setPrevious($currentState);
         $state->setRemoteEvent($remoteEvent);
         $state->setIsCurrent(true);
@@ -189,8 +189,8 @@ class LifecycleHelper
      * event and state
      *
      * @param string                                $name     The event name
-     * @param Celsius3\CoreBundle\Document\Request  $request  The Request document
-     * @param Celsius3\CoreBundle\Document\Instance $instance The Instance document
+     * @param Celsius3\CoreBundle\Entity\Request  $request  The Request document
+     * @param Celsius3\CoreBundle\Entity\Instance $instance The Instance document
      */
     public function createEvent($name, Request $request, Instance $instance = null)
     {
@@ -210,15 +210,15 @@ class LifecycleHelper
                     if ($this->state_manager->isBefore($currentState, $state)) {
                         $currentState->setIsCurrent(false);
                         $state->setIsCurrent(true);
-                        $this->dm->persist($currentState);
-                        $this->dm->persist($state);
+                        $this->em->persist($currentState);
+                        $this->em->persist($state);
                     }
                 }
             } else {
                 $event = $this->setEventData($request, $data);
             }
             $this->refresh($request);
-            $this->dm->refresh($event);
+            $this->em->refresh($event);
 
             return $event;
         } catch (PreviousStateNotFoundException $e) {
@@ -233,7 +233,7 @@ class LifecycleHelper
         $request->setType($type);
         $request->setInstance($instance);
         $request->setOrder($order);
-        $this->dm->persist($request);
+        $this->em->persist($request);
 
         return $request;
     }
@@ -256,7 +256,7 @@ class LifecycleHelper
             $this->state_manager->extraUndoActions($currentState);
 
             $this->refresh($event);
-            $this->dm->refresh($event);
+            $this->em->refresh($event);
             $this->refresh($currentState);
 
             return $event;
@@ -264,5 +264,4 @@ class LifecycleHelper
             return null;
         }
     }
-
 }

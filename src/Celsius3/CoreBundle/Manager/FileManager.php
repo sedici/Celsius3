@@ -21,22 +21,22 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Event\Event;
-use Celsius3\CoreBundle\Document\File;
-use Celsius3\CoreBundle\Document\Request;
-use Celsius3\CoreBundle\Document\FileDownload;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\File;
+use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Entity\FileDownload;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Celsius3\CoreBundle\Document\BaseUser;
 
 class FileManager
 {
 
-    private $dm;
+    private $em;
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(DocumentManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     private function countPages($file)
@@ -56,7 +56,7 @@ class FileManager
             $file->setRequest($request);
             $file->setEnabled(true);
             $file->setPages($this->countPages($uploadedFile));
-            $this->dm->persist($file);
+            $this->em->persist($file);
             $event->addFile($file);
         }
     }
@@ -71,9 +71,9 @@ class FileManager
         $download->setUserAgent($httpRequest->headers->get('user-agent'));
         $download->setFile($file);
         $download->setRequest($request);
-        $this->dm->persist($file);
-        $this->dm->persist($download);
-        $this->dm->flush();
+        $this->em->persist($file);
+        $this->em->persist($download);
+        $this->em->flush();
     }
 
 }

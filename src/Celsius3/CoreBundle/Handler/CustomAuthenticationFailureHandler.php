@@ -31,9 +31,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
-class CustomAuthenticationFailureHandler extends
-DefaultAuthenticationFailureHandler implements
-AuthenticationFailureHandlerInterface
+class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHandler implements AuthenticationFailureHandlerInterface
 {
     private $router;
 

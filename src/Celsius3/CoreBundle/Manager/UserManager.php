@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -26,13 +27,11 @@ use Celsius3\CoreBundle\Document\Institution;
 
 class UserManager
 {
-
     const ROLE_USER = 'ROLE_USER';
     const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
     const ROLE_MIGRATOR = 'ROLE_MIGRATOR';
-
     private $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
@@ -82,5 +81,4 @@ class UserManager
             return array();
         }
     }
-
 }

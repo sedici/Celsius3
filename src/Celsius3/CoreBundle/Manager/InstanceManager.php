@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,24 +22,21 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 class InstanceManager
 {
-
     const INSTANCE__DIRECTORY = 'directory';
+    private $em;
 
-    private $dm;
-
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function getDirectory()
     {
-        return $this->dm->getRepository('Celsius3CoreBundle:Instance')
+        return $this->em->getRepository('Celsius3CoreBundle:Instance')
                         ->findOneBy(array('url' => self::INSTANCE__DIRECTORY));
     }
-
 }

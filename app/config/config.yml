@@ -17,13 +17,6 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     session:         ~
 
-# Monolog Configuration
-#monolog:
-#    handlers:
-#        custom:
-#            type:                service
-#            id:                  celsius3_core.mongodb_logger_wrapper_handler
-
 # Twig Configuration
 twig:
     debug:            %kernel.debug%

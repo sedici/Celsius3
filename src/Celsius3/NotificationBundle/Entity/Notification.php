@@ -59,6 +59,7 @@ class Notification
     private $viewedAt;
     /**
      * @Assert\NotNull
+     * 
      */
     private $object;
     /**
@@ -66,7 +67,7 @@ class Notification
      */
     private $source;
     /**
-     * @ORM\ManyToOne(targetEntity="NotificationTemplate")
+     * @ORM\ManyToOne(targetEntity="x")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=false)
      */
     private $template;

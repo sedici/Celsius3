@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class UnionManager
@@ -72,9 +72,9 @@ class UnionManager
         )
     );
 
-    public function __construct(DocumentManager $dm, InstanceManager $instance_manager)
+    public function __construct(EntityManager $em, InstanceManager $instance_manager)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->instance_manager = $instance_manager;
     }
 
@@ -83,7 +83,7 @@ class UnionManager
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
-                    $this->dm->getRepository($key)
+                    $this->em->getRepository($key)
                             ->createQueryBuilder()
                             ->update()
                             ->field($field . '.id')
@@ -98,7 +98,7 @@ class UnionManager
             }
         }
 
-        $this->dm->getRepository('Celsius3CoreBundle:' . $name)
+        $this->em->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder()
                 ->remove()
                 ->field('id')
@@ -108,8 +108,8 @@ class UnionManager
 
         if ($updateInstance) {
             $main->setInstance($this->instance_manager->getDirectory());
-            $this->dm->persist($main);
-            $this->dm->flush();
+            $this->em->persist($main);
+            $this->em->flush();
         }
     }
 }
