@@ -37,7 +37,7 @@ use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
 class SuperadminLegacyInstanceController extends InstanceController
 {
     /**
-     * Lists all Instance documents.
+     * Lists all Instance entities.
      *
      * @Route("/", name="superadmin_instance_legacy")
      * @Template()
@@ -50,7 +50,7 @@ class SuperadminLegacyInstanceController extends InstanceController
     }
 
     /**
-     * Displays a form to create a new LegacyInstance document.
+     * Displays a form to create a new LegacyInstance entity.
      *
      * @Route("/new", name="superadmin_instance_legacy_new")
      * @Template()
@@ -63,7 +63,7 @@ class SuperadminLegacyInstanceController extends InstanceController
     }
 
     /**
-     * Creates a new LegacyInstance document.
+     * Creates a new LegacyInstance entity.
      *
      * @Route("/create", name="superadmin_instance_legacy_create")
      * @Method("post")
@@ -77,16 +77,16 @@ class SuperadminLegacyInstanceController extends InstanceController
     }
 
     /**
-     * Displays a form to edit an existing LegacyInstance document.
+     * Displays a form to edit an existing LegacyInstance entity.
      *
      * @Route("/{id}/edit", name="superadmin_instance_legacy_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -94,17 +94,17 @@ class SuperadminLegacyInstanceController extends InstanceController
     }
 
     /**
-     * Edits an existing Instance document.
+     * Edits an existing Instance entity.
      *
      * @Route("/{id}/update", name="superadmin_instance_legacy_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminInstance:legacyEdit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {

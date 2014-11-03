@@ -64,7 +64,7 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Lists all Order documents.
+     * Lists all Order entities.
      *
      * @Route("/", name="user_order", options={"expose"=true})
      * @Template()
@@ -77,16 +77,16 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Finds and displays a Order document.
+     * Finds and displays a Order entity.
      *
      * @Route("/{id}/show", name="user_order_show")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
     {
@@ -94,7 +94,7 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Displays a form to create a new Order document.
+     * Displays a form to create a new Order entity.
      *
      * @Route("/new", name="user_order_new", options={"expose"=true})
      * @Template()
@@ -113,7 +113,7 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Creates a new Order document.
+     * Creates a new Order entity.
      *
      * @Route("/create", name="user_order_create")
      * @Method("post")

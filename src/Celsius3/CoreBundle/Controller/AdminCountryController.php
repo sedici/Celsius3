@@ -36,7 +36,7 @@ class AdminCountryController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all Country documents.
+     * Lists all Country entities.
      *
      * @Route("/", name="admin_country")
      * @Template()
@@ -54,7 +54,7 @@ class AdminCountryController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to create a new Country document.
+     * Displays a form to create a new Country entity.
      *
      * @Route("/new", name="admin_country_new")
      * @Template()
@@ -69,7 +69,7 @@ class AdminCountryController extends BaseInstanceDependentController
     }
 
     /**
-     * Creates a new Country document.
+     * Creates a new Country entity.
      *
      * @Route("/create", name="admin_country_create")
      * @Method("post")
@@ -85,15 +85,15 @@ class AdminCountryController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to edit an existing Country document.
+     * Displays a form to edit an existing Country entity.
      *
      * @Route("/{id}/edit", name="admin_country_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -103,17 +103,17 @@ class AdminCountryController extends BaseInstanceDependentController
     }
 
     /**
-     * Edits an existing Country document.
+     * Edits an existing Country entity.
      *
      * @Route("/{id}/update", name="admin_country_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminCountry:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -123,16 +123,16 @@ class AdminCountryController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a Country document.
+     * Deletes a Country entity.
      *
      * @Route("/{id}/delete", name="admin_country_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

@@ -38,9 +38,9 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
      */
     public function getRequestsAction()
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $requests = $dm->getRepository('Celsius3CoreBundle:Request')
+        $requests = $em->getRepository('Celsius3CoreBundle:Request')
                 ->findBy(array('instance.id' => $this->getInstance()->getId(),));
 
         $view = $this->view(array_values($requests), 200)
@@ -55,9 +55,9 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
      */
     public function getRequestAction($order_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDocumentManager();
 
-        $request = $dm->getRepository('Celsius3CoreBundle:Request')
+        $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->findOneBy(array(
             'order.id' => $order_id,
             'instance.id' => $this->getInstance()->getId(),

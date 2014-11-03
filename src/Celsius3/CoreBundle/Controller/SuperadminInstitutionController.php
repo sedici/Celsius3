@@ -37,7 +37,7 @@ class SuperadminInstitutionController extends BaseController
 {
 
     /**
-     * Lists all Institution documents.
+     * Lists all Institution entities.
      *
      * @Route("/", name="superadmin_institution")
      * @Template()
@@ -50,7 +50,7 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Displays a form to create a new Institution document.
+     * Displays a form to create a new Institution entity.
      *
      * @Route("/new", name="superadmin_institution_new")
      * @Template()
@@ -63,7 +63,7 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Creates a new Institution document.
+     * Creates a new Institution entity.
      *
      * @Route("/create", name="superadmin_institution_create")
      * @Method("post")
@@ -77,17 +77,17 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing Institution document.
+     * Displays a form to edit an existing Institution entity.
      *
      * @Route("/{id}/edit", name="superadmin_institution_edit")
      * @Template()
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -95,18 +95,18 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Edits an existing Institution document.
+     * Edits an existing Institution entity.
      *
      * @Route("/{id}/update", name="superadmin_institution_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminInstitution:edit.html.twig")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -114,17 +114,17 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Deletes a Institution document.
+     * Deletes a Institution entity.
      *
      * @Route("/{id}/delete", name="superadmin_institution_delete")
      * @Method("post")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -149,7 +149,7 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Unifies a group of Institution documents.
+     * Unifies a group of Institution entities.
      *
      * @Route("/doUnion", name="superadmin_institution_doUnion")
      * @Method("post")

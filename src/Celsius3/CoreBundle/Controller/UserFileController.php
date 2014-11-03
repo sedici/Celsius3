@@ -59,12 +59,12 @@ class UserFileController extends BaseController
     }
 
     /**
-     * Downloads the file associated to a File document.
+     * Downloads the file associated to a File entity.
      *
      * @Route("/{order}/{file}/download", name="user_file_download", options={"expose"=true})
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      */
     public function downloadAction($request, $file)
     {

@@ -36,7 +36,7 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all CustomUserField documents.
+     * Lists all CustomUserField entities.
      *
      * @Route("/", name="admin_customuserfield")
      * @Template()
@@ -54,7 +54,7 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to create a new CustomUserField document.
+     * Displays a form to create a new CustomUserField entity.
      *
      * @Route("/new", name="admin_customuserfield_new")
      * @Template()
@@ -69,7 +69,7 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
     }
 
     /**
-     * Creates a new CustomUserField document.
+     * Creates a new CustomUserField entity.
      *
      * @Route("/create", name="admin_customuserfield_create")
      * @Method("post")
@@ -86,15 +86,15 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to edit an existing CustomUserField document.
+     * Displays a form to edit an existing CustomUserField entity.
      *
      * @Route("/{id}/edit", name="admin_customuserfield_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -104,17 +104,17 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
     }
 
     /**
-     * Edits an existing CustomUserField document.
+     * Edits an existing CustomUserField entity.
      *
      * @Route("/{id}/update", name="admin_customuserfield_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminCustomUserField:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -125,16 +125,16 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a CustomUserField document.
+     * Deletes a CustomUserField entity.
      *
      * @Route("/{id}/delete", name="admin_customuserfield_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

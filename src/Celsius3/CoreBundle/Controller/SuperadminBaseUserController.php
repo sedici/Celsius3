@@ -63,7 +63,7 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Lists all BaseUser documents.
+     * Lists all BaseUser entities.
      *
      * @Route("/", name="superadmin_user")
      * @Template()
@@ -76,7 +76,7 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to create a new BaseUser document.
+     * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="superadmin_user_new")
      * @Template()
@@ -89,7 +89,7 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Creates a new BaseUser document.
+     * Creates a new BaseUser entity.
      *
      * @Route("/create", name="superadmin_user_create")
      * @Method("post")
@@ -103,16 +103,16 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to edit an existing BaseUser document.
+     * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="superadmin_user_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -120,17 +120,17 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Edits an existing BaseUser document.
+     * Edits an existing BaseUser entity.
      *
      * @Route("/{id}/update", name="superadmin_user_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminBaseUser:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -138,16 +138,16 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Deletes a BaseUser document.
+     * Deletes a BaseUser entity.
      *
      * @Route("/{id}/delete", name="superadmin_user_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -155,16 +155,16 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to transform an existing BaseUser document.
+     * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="superadmin_user_transform")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function transformAction($id, Request $request)
     {
@@ -176,15 +176,15 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Enables a BaseUser document.
+     * Enables a BaseUser entity.
      *
      * @Route("/{id}/enable", name="superadmin_user_enable")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function enableAction($id)
     {

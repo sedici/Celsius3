@@ -26,7 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
@@ -41,7 +41,7 @@ class AdminBaseUserController extends BaseUserController
 {
 
     /**
-     * Lists all BaseUser documents.
+     * Lists all BaseUser entities.
      *
      * @Route("/", name="admin_user")
      * @Template()
@@ -63,34 +63,34 @@ class AdminBaseUserController extends BaseUserController
      */
     public function showAction($id)
     {
-        $document = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $dm = $this->getDocumentManager();
+        $em = $this->getEntityManager();
 
-        $activeOrders = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $document)
+        $activeOrders = $em->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity)
                 ->getQuery()
                 ->execute();
-        $readyOrders = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $document)
+        $readyOrders = $em->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity)
                 ->getQuery()
                 ->execute();
-        $historyOrders = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $document)
+        $historyOrders = $em->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity)
                 ->getQuery()
                 ->execute();
 
         $messages = $this->get('fos_message.thread_manager')
-                ->getParticipantSentThreadsQueryBuilder($document)
+                ->getParticipantSentThreadsQueryBuilder($entity)
                 ->getQuery()
                 ->execute();
 
         return array(
-            'element' => $document,
+            'element' => $entity,
             'orders' => array(
                 'active' => $activeOrders,
                 'ready' => $readyOrders,
@@ -101,7 +101,7 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to create a new BaseUser document.
+     * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="admin_user_new")
      * @Template()
@@ -110,11 +110,11 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance()));
     }
 
     /**
-     * Creates a new BaseUser document.
+     * Creates a new BaseUser entity.
      *
      * @Route("/create", name="admin_user_create")
      * @Method("post")
@@ -125,16 +125,16 @@ class AdminBaseUserController extends BaseUserController
     public function createAction()
     {
         $request = $this->getRequest();
-        $document = new BaseUser();
-        $form = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance()), $document);
+        $entity = new BaseUser();
+        $form = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance()), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $em = $this->getEntityManager();
+            $em->persist($entity);
+            $em->flush();
 
-            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $document);
+            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $entity);
 
             $this->get('session')
                     ->getFlashBag()
@@ -148,23 +148,23 @@ class AdminBaseUserController extends BaseUserController
                 ->add('error', 'There were errors creating the BaseUser.');
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'form' => $form->createView()
         );
     }
 
     /**
-     * Displays a form to edit an existing BaseUser document.
+     * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="admin_user_edit", options={"expose"=true})
      * @Template()
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -172,28 +172,28 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Edits an existing BaseUser document.
+     * Edits an existing BaseUser entity.
      *
      * @Route("/{id}/update", name="admin_user_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminBaseUser:edit.html.twig")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        $document = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
 
-        $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance(), true), $document);
+        $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getInstance(), true), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
@@ -201,11 +201,11 @@ class AdminBaseUserController extends BaseUserController
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $em = $this->getDocumentManager();
+            $em->persist($entity);
+            $em->flush();
 
-            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $document);
+            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $entity);
 
             $this->get('session')
                     ->getFlashBag()
@@ -221,23 +221,23 @@ class AdminBaseUserController extends BaseUserController
                 ->add('error', 'There were errors editing the BaseUser.');
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView()
         );
     }
 
     /**
-     * Displays a form to transform an existing BaseUser document.
+     * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="admin_user_transform")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function transformAction($id, Request $request)
     {
@@ -249,16 +249,16 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Enables a BaseUser document.
+     * Enables a BaseUser entity.
      *
      * @Route("/{id}/enable", name="admin_user_enable", options={"expose"=true})
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function enableAction($id)
     {
@@ -288,7 +288,7 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Unifies a group of Journal documents.
+     * Unifies a group of Journal entities.
      *
      * @Route("/batch/doUnion", name="admin_user_doUnion")
      * @Method("post")
