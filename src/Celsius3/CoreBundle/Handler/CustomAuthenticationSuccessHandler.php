@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -32,7 +33,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-
     private $router;
     private $security_context;
 
@@ -59,5 +59,4 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
 
         return $response;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,41 +22,53 @@
 
 namespace Celsius3\CoreBundle\Listener;
 
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
-use Celsius3\CoreBundle\Document\Counter;
-use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\Order;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Celsius3\CoreBundle\Entity\Counter;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\Order;
 
 class CounterListener
 {
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($document instanceof Order) {
-            $document->setCode($dm->createQueryBuilder('Celsius3CoreBundle:Counter')
-                            ->findAndUpdate()->refresh(true)
-                            ->field('name')
-                            ->equals($document->getOriginalRequest()->getInstance()->getId())
-                            ->field('value')->inc(1)->getQuery()
-                            ->execute()->getValue());
+        if ($entity instanceof Order) {
+            $em->beginTransaction();
+            try {
+                $code = $em->createQueryBuilder('Celsius3CoreBundle:Counter')
+                            ->findOneBy(array(
+                                'name' => $entity->getOriginalRequest()->getInstance()->getId(),
+                            ));
+                $entity->setCode($code->getValue());
+                $em->persist($entity);
+                
+                $code->setValue($code->getValue() + 1);
+                $em->persist($code);
+                
+                $em->flush();
+                
+                $em->commit();
+            } catch(Exception $e) {
+                $em->rollback();
+                throw $e;
+            }
         }
     }
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($document instanceof Instance) {
+        if ($entity instanceof Instance) {
             $counter = new Counter();
-            $counter->setName($document->getId());
+            $counter->setName($entity->getId());
             $counter->setValue(1);
-            $dm->persist($counter);
-            $dm->flush();
+            $em->persist($counter);
+            $em->flush($counter);
         }
     }
-
 }

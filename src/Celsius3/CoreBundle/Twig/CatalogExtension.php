@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,16 +22,14 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\CatalogManager;
-use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Entity\Request;
 use Doctrine\Common\Collections\ArrayCollection;
-use Celsius3\CoreBundle\Document\Catalog;
-use Doctrine\ODM\MongoDB\Cursor;
+use Celsius3\CoreBundle\Entity\Catalog;
 
 class CatalogExtension extends \Twig_Extension
 {
-
     private $catalog_manager;
 
     public function __construct(CatalogManager $catalog_manager)
@@ -62,12 +61,12 @@ class CatalogExtension extends \Twig_Extension
         return $this->catalog_manager->getSearches($request, $result);
     }
 
-    public function searchExists(Cursor $searches, Catalog $catalog)
+    public function searchExists($searches, Catalog $catalog)
     {
-        $searches = new ArrayCollection($searches->toArray());
+        $searches = new ArrayCollection($searches);
         $result = $searches->filter(function ($entry) use ($catalog) {
-                            return $entry->getCatalog()->getId() == $catalog->getId();
-                        })->first();
+                    return $entry->getCatalog()->getId() == $catalog->getId();
+                })->first();
 
         return false !== $result ? $result : null;
     }
@@ -76,5 +75,4 @@ class CatalogExtension extends \Twig_Extension
     {
         return 'celsius3_core.catalog_extension';
     }
-
 }

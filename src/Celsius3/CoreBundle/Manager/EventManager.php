@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -24,21 +25,20 @@ namespace Celsius3\CoreBundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
-use Celsius3\CoreBundle\Document\Event\SingleInstanceReceiveEvent;
-use Celsius3\CoreBundle\Document\Event\MultiInstanceReceiveEvent;
-use Celsius3\CoreBundle\Document\Institution;
-use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequest;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\NotFoundException;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 /**
  * @todo Eliminar el parámetro $instance de los prepareExtraDataFor*
  */
 class EventManager
 {
-
     const EVENT__CREATION = 'creation';
     const EVENT__SEARCH = 'search';
     const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
@@ -58,8 +58,7 @@ class EventManager
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
-
-    private $class_prefix = 'Celsius3\\CoreBundle\\Document\\Event\\';
+    private $class_prefix = 'Celsius3\\CoreBundle\\Entity\\Event\\';
     public $event_classes = array(
         self::EVENT__CREATION => 'CreationEvent',
         self::EVENT__SEARCH => 'SearchEvent',
@@ -127,8 +126,8 @@ class EventManager
         $extraData['result'] = $httpRequest->request->get('result', null);
 
         if ($httpRequest->request->has('catalog_id')) {
-            $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
-            $extraData['catalog'] = $dm->getRepository('Celsius3CoreBundle:Catalog')
+            $em = $this->container->get('doctrine.orm.entity_manager');
+            $extraData['catalog'] = $em->getRepository('Celsius3CoreBundle:Catalog')
                     ->find($httpRequest->request->get('catalog_id'));
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
@@ -145,8 +144,8 @@ class EventManager
 
         $extraData['observations'] = $httpRequest->request->get('observations', null);
 
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
-        $provider = $dm->getRepository('Celsius3CoreBundle:Institution')
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $provider = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->find($httpRequest->request->get('provider'));
 
         if ($provider) {
@@ -172,7 +171,7 @@ class EventManager
 
         $extraData['observations'] = $httpRequest->request->get('observations', null);
         $extraData['request'] = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
+                ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($httpRequest->request->get('request'));
         $extraData['files'] = $httpRequest->files->all();
@@ -201,7 +200,7 @@ class EventManager
 
         $extraData['observations'] = $httpRequest->request->get('observations', null);
         $extraData['receive'] = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
+                ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($httpRequest->request->get('receive'));
         $extraData['files'] = $httpRequest->files->all();
@@ -212,7 +211,7 @@ class EventManager
     private function prepareExtraDataForApprove(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
         if (!$httpRequest->request->has('receive')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
@@ -220,7 +219,7 @@ class EventManager
             throw new NotFoundHttpException();
         }
 
-        $extraData['receive'] = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
+        $extraData['receive'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($httpRequest->request->get('receive'));
 
         if (!$extraData['receive']) {
@@ -233,7 +232,7 @@ class EventManager
     private function prepareExtraDataForReclaim(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
         if (!$httpRequest->request->has('request') && !$httpRequest->request->has('receive')) {
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
@@ -249,7 +248,7 @@ class EventManager
             $id = $httpRequest->request->get('receive');
         }
 
-        $event = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
+        $event = $em->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($id);
 
         if (!$event) {
@@ -276,10 +275,10 @@ class EventManager
     private function prepareExtraDataForCancel(Request $request, array $extraData, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         if ($httpRequest->request->has('request')) {
-            $extraData['request'] = $dm->getRepository('Celsius3CoreBundle:Event\\Event')
+            $extraData['request'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
                     ->find($httpRequest->request->get('request'));
 
             $httpRequest->query->remove('request');
@@ -294,17 +293,17 @@ class EventManager
                         ->getState(StateManager::STATE__CREATED)
                         ->getRemoteEvent();
             }
-            $extraData['sirequests'] = $dm->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
+            $extraData['sirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
                     ->findBy(array(
-                'request.id' => $request->getId(),
+                'request_id' => $request->getId(),
                 'isCancelled' => false,
-                'instance.id' => $instance->getId(),
+                'instance_id' => $instance->getId(),
             ));
-            $extraData['mirequests'] = $dm->getRepository('Celsius3CoreBundle:Event\\MultiInstanceRequestEvent')
+            $extraData['mirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceRequestEvent')
                     ->findBy(array(
-                'request.id' => $request->getId(),
+                'request_id' => $request->getId(),
                 'isCancelled' => false,
-                'instance.id' => $instance->getId(),
+                'instance_id' => $instance->getId(),
             ));
         }
 
@@ -380,17 +379,17 @@ class EventManager
 
     public function cancelSearches($searches)
     {
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
         foreach ($searches as $search) {
             $search->setResult(CatalogManager::CATALOG__NON_SEARCHED);
-            $dm->persist($search);
+            $em->persist($search);
         }
-        $dm->flush();
+        $em->flush();
     }
 
     public function getEvents($event, $request_id)
     {
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         if ($event === self::EVENT__REQUEST) {
             $repositories = array(
@@ -412,11 +411,10 @@ class EventManager
         $results = array();
 
         foreach ($repositories as $repository) {
-            $results = array_merge($results, $dm->getRepository('Celsius3CoreBundle:Event\\' . $repository)
-                            ->findBy(array('request.id' => $request_id)));
+            $results = array_merge($results, $em->getRepository('Celsius3CoreBundle:Event\\' . $repository)
+                            ->findBy(array('request_id' => $request_id)));
         }
 
         return $results;
     }
-
 }

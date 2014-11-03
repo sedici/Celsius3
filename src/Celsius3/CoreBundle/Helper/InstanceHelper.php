@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -26,7 +27,6 @@ use Celsius3\CoreBundle\Exception\InstanceNotFoundException;
 
 class InstanceHelper
 {
-
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -37,7 +37,7 @@ class InstanceHelper
     public function getSessionInstance()
     {
         $instance = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
+                ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->find($this->container->get('session')->get('instance_id'));
 
@@ -53,7 +53,7 @@ class InstanceHelper
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
         $instance = $this->container
-                ->get('doctrine.odm.mongodb.document_manager')
+                ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array(
             'url' => $request->attributes->get('url'),
@@ -72,7 +72,7 @@ class InstanceHelper
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
-        return $this->container->get('doctrine.odm.mongodb.document_manager')
+        return $this->container->get('doctrine.orm.entity_manager')
                         ->getRepository('Celsius3CoreBundle:Instance')
                         ->findOneBy(array('url' => $instance_url));
     }
@@ -83,9 +83,8 @@ class InstanceHelper
 
         $instance_url = $this->container->get('session')->has('instance_url') ? $this->container->get('session')->get('instance_url') : $request->attributes->get('url');
 
-        return $this->container->get('doctrine.odm.mongodb.document_manager')
+        return $this->container->get('doctrine.orm.entity_manager')
                         ->getRepository('Celsius3CoreBundle:Instance')
                         ->findOneBy(array('url' => $instance_url));
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,22 +23,19 @@
 namespace Celsius3\CoreBundle\Guesser;
 
 use Celsius3\CoreBundle\Exception\NotImplementedException;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
-/**
- * Clase tomada de AdmingeneratorGeneratorBundle
- * https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle
- */
-class FieldGuesser
+class FieldGuesser extends ContainerAware
 {
-
-    private $documentManager;
+    private $doctrine;
     private $metadata;
     private static $current_class;
 
-    public function __construct(DocumentManager $documentManager)
+    public function __construct(Registry $doctrine)
     {
-        $this->documentManager = $documentManager;
+        $this->doctrine = $doctrine;
     }
 
     protected function getMetadatas($class = null)
@@ -45,127 +43,94 @@ class FieldGuesser
         if ($class) {
             self::$current_class = $class;
         }
-
         if (isset($this->metadata[self::$current_class]) || !$class) {
             return $this->metadata[self::$current_class];
         }
-
-        if (!$this->documentManager->getConfiguration()->getMetadataDriverImpl()->isTransient($class)) {
-            $this->metadata[$class] = $this->documentManager->getClassMetadata($class);
+        if (!$this->doctrine->getManagerForClass(self::$current_class)->getConfiguration()->getMetadataDriverImpl()->isTransient($class)) {
+            $this->metadata[self::$current_class] = $this->doctrine->getManagerForClass(self::$current_class)->getClassMetadata($class);
         }
-
-        return $this->metadata[$class];
+        return $this->metadata[self::$current_class];
     }
 
     public function getAllFields($class)
     {
-        $fields = array();
-
-        foreach ($this->getMetadatas($class)->fieldMappings as $fieldName => $metadatas) {
-            if (!$this->getMetadatas($class)->hasAssociation($fieldName)) {
-                $fields[] = $fieldName;
-            }
-        }
-
-        return $fields;
+        return $this->getMetadatas($class)->getFieldNames();
     }
 
     public function getDbType($class, $fieldName)
     {
         $metadata = $this->getMetadatas($class);
-
         if ($metadata->hasAssociation($fieldName)) {
-
             if ($metadata->isSingleValuedAssociation($fieldName)) {
-                return 'document';
+                return 'entity';
             } else {
                 return 'collection';
             }
         }
-
         if ($metadata->hasField($fieldName)) {
-            $mapping = $metadata->getFieldMapping($fieldName);
-
-            return $mapping['type'];
+            return $metadata->getTypeOfField($fieldName);
         }
-
         return 'virtual';
+    }
 
-        //return $metadata->getTypeOfField($fieldName);//Not Yet implemented by doctrine
+    public function getModelType($class, $fieldName)
+    {
+        $metadata = $this->getMetadatas($class);
+        if ($metadata->hasAssociation($fieldName)) {
+            return $metadata->getAssociationTargetClass($fieldName);
+        }
+        if ($metadata->hasField($fieldName)) {
+            return $metadata->getTypeOfField($fieldName);
+        }
+        return 'virtual';
+    }
+
+    public function getSortType($dbType)
+    {
+        $alphabeticTypes = array(
+            'string',
+            'text',
+        );
+        $numericTypes = array(
+            'decimal',
+            'float',
+            'integer',
+            'bigint',
+            'smallint',
+        );
+        if (in_array($dbType, $alphabeticTypes)) {
+            return 'alphabetic';
+        }
+        if (in_array($dbType, $numericTypes)) {
+            return 'numeric';
+        }
+        return 'default';
     }
 
     public function getFormType($dbType, $columnName)
     {
-        switch ($dbType) {
-            case 'boolean':
-                return 'checkbox';
-            case 'datetime':
-            case 'vardatetime':
-            case 'datetimetz':
-                return 'datetime';
-            case 'date':
-                return 'datetime';
-                break;
-            case 'decimal':
-            case 'float':
-                return 'number';
-                break;
-            case 'int':
-            case 'integer':
-            case 'bigint':
-            case 'smallint':
-                return 'integer';
-                break;
-            case 'id':
-            case 'custom_id':
-            case 'string':
-                return 'text';
-                break;
-            case 'text':
-                return 'textarea';
-                break;
-            case 'time':
-                return 'time';
-                break;
-            case 'document':
-                return 'document';
-                break;
-            case 'collection':
-                return 'doctrine_odm_double_list';
-                break;
-            case 'hash':
-                return 'collection';
-                break;
-            case 'virtual':
-                throw new NotImplementedException('The dbType "' . $dbType . '" is only for list implemented (column "' . $columnName . '") ');
-                break;
-            default:
-                throw new NotImplementedException('The dbType "' . $dbType . '" is not yet implemented (column "' . $columnName . '")');
-                break;
+        $formTypes = $this->container->getParameter('admingenerator.doctrine_form_types');
+        if (array_key_exists($dbType, $formTypes)) {
+            return $formTypes[$dbType];
+        } elseif ('virtual' === $dbType) {
+            throw new NotImplementedException(
+            'The dbType "' . $dbType . '" is only for list implemented '
+            . '(column "' . $columnName . '" in "' . self::$current_class . '")'
+            );
+        } else {
+            throw new NotImplementedException(
+            'The dbType "' . $dbType . '" is not yet implemented '
+            . '(column "' . $columnName . '" in "' . self::$current_class . '")'
+            );
         }
     }
 
     public function getFilterType($dbType, $columnName)
     {
-        switch ($dbType) {
-            case 'hash':
-            case 'text':
-                return 'text';
-                break;
-            case 'boolean':
-                return 'choice';
-                break;
-            case 'datetime':
-            case 'vardatetime':
-            case 'datetimetz':
-            case 'date':
-                return 'date_range';
-                break;
-            case 'collection':
-                return 'document';
-                break;
+        $filterTypes = $this->container->getParameter('admingenerator.doctrine_filter_types');
+        if (array_key_exists($dbType, $filterTypes)) {
+            return $filterTypes[$dbType];
         }
-
         return $this->getFormType($dbType, $columnName);
     }
 
@@ -174,70 +139,82 @@ class FieldGuesser
         if ('boolean' == $dbType) {
             return array('required' => false);
         }
-
-        if ('document' == $dbType) {
+        if ('number' == $formType) {
             $mapping = $this->getMetadatas()->getFieldMapping($columnName);
-
-            return array('class' => $mapping['targetDocument'], 'multiple' => false);
+            if (isset($mapping['scale'])) {
+                $precision = $mapping['scale'];
+            }
+            if (isset($mapping['precision'])) {
+                $precision = $mapping['precision'];
+            }
+            return array(
+                'precision' => isset($precision) ? $precision : '',
+                'required' => $this->isRequired($columnName)
+            );
         }
-
-        if ('collection' == $dbType) {
-            $mapping = $this->getMetadatas()->getFieldMapping($columnName);
-
-            return array('class' => $mapping['targetDocument']);
+        if (preg_match("#^entity#i", $formType) || preg_match("#entity$#i", $formType)) {
+            $mapping = $this->getMetadatas()->getAssociationMapping($columnName);
+            return array(
+                'multiple' => ($mapping['type'] === ClassMetadataInfo::MANY_TO_MANY || $mapping['type'] === ClassMetadataInfo::ONE_TO_MANY),
+                'em' => 'default', // TODO: shouldn't this be configurable?
+                'class' => $mapping['targetEntity'],
+                'required' => $this->isRequired($columnName),
+            );
         }
-
-        if ('collection' == $formType) {
-            return array('allow_add' => true, 'allow_delete' => true);
+        if (preg_match("#^collection#i", $formType) || preg_match("#collection$#i", $formType)) {
+            return array(
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            );
         }
-
-        return array('required' => $this->isRequired($columnName));
+        return array(
+            'required' => $this->isRequired($columnName)
+        );
     }
 
     protected function isRequired($fieldName)
     {
-        if ($this->getMetadatas()->hasField($fieldName) &&
-                (!$this->getMetadatas()->hasAssociation($fieldName) || $this->getMetadatas()->isSingleValuedAssociation($fieldName)))
-        {
+        $hasField = $this->getMetadatas()->hasField($fieldName);
+        $hasAssociation = $this->getMetadatas()->hasAssociation($fieldName);
+        $isSingleValAssoc = $this->getMetadatas()->isSingleValuedAssociation($fieldName);
+        if ($hasField && (!$hasAssociation || $isSingleValAssoc)) {
             return !$this->getMetadatas()->isNullable($fieldName);
         }
-
         return false;
     }
 
     public function getFilterOptions($formType, $dbType, $ColumnName)
     {
         $options = array('required' => false);
-
         if ('boolean' == $dbType) {
             $options['choices'] = array(
-                0 => 'No',
-                1 => 'Yes'
+                0 => $this->container->get('translator')
+                        ->trans('boolean.no', array(), 'Admingenerator'),
+                1 => $this->container->get('translator')
+                        ->trans('boolean.yes', array(), 'Admingenerator')
             );
-            $options['empty_value'] = 'Yes or No';
+            $options['empty_value'] = $this->container->get('translator')
+                    ->trans('boolean.yes_or_no', array(), 'Admingenerator');
         }
-
-        if ('document' == $dbType) {
-            return array_merge($this->getFormOptions($formType, $dbType, $ColumnName), $options);
+        if (preg_match("#^entity#i", $formType) || preg_match("#entity$#i", $formType)) {
+            return array_merge(
+                    $this->getFormOptions($formType, $dbType, $ColumnName), $options
+            );
         }
-
-        if ('collection' == $formType) {
-            return array('allow_add' => true, 'allow_delete' => true, 'by_reference' => true);
+        if (preg_match("#^collection#i", $formType) || preg_match("#collection$#i", $formType)) {
+            return array_merge(
+                    $this->getFormOptions($formType, $dbType, $ColumnName), $options
+            );
         }
-
-        if ('collection' == $dbType) {
-            return array_merge($this->getFormOptions($formType, $dbType, $ColumnName), $options, array('multiple' => false));
-        }
-
         return $options;
     }
 
     /**
      * Find the pk name
      */
-    public function getModelPrimaryKeyName()
+    public function getModelPrimaryKeyName($class = null)
     {
-        return $this->getMetadatas()->getIdentifier();
+        return $this->getMetadatas($class)->getSingleIdentifierFieldName();
     }
-
 }

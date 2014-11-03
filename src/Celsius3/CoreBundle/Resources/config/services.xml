@@ -32,7 +32,6 @@
         <parameter key="celsius3_core.security.authentication_failure_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationFailureHandler</parameter>
         <parameter key="celsius3_core.security.logout_success_handler.class">Celsius3\CoreBundle\Handler\CustomLogoutSuccessHandler</parameter>
         <parameter key="celsius3_core.security.authentication_success_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationSuccessHandler</parameter>
-        <parameter key="celsius3_core.mongodb_logger_wrapper_handler.class">Celsius3\CoreBundle\Handler\MongoDBWrapperHandler</parameter>
         <parameter key="celsius3_core.login_logging_aspect.class">Celsius3\CoreBundle\Aop\LoginLoggingAspect</parameter>
         <parameter key="celsius3_core.instance_injection_aspect.class">Celsius3\CoreBundle\Aop\InstanceInjectionAspect</parameter>
         <parameter key="celsius3_core.menu.voter.exact.class">Celsius3\CoreBundle\Voter\ExactRequestVoter</parameter>
@@ -179,7 +178,7 @@
             <tag name="form.type" alias="celsius3_corebundle_confirmation_type" />
         </service>
 
-		<service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">
+	<service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">
             <tag name="monolog.logger" channel="security" />
             <argument type="service" id="router"></argument>
             <argument type="service" id="http_kernel" />
@@ -199,10 +198,6 @@
             <argument type="service" id="router"></argument>
         </service>
 
-        <service id="celsius3_core.mongodb_logger_wrapper_handler" class="%celsius3_core.mongodb_logger_wrapper_handler.class%">
-            <argument type="service" id="service_container"></argument>
-        </service>
-
         <service id="celsius3_core.login_logging_aspect" class="%celsius3_core.login_logging_aspect.class%">
             <tag name="jms_aop.pointcut" interceptor="celsius3_core.login_logging_aspect" />
             <argument type="service" id="service_container"></argument>
@@ -219,7 +214,7 @@
         </service>
 
         <service id="celsius3_core.field.guesser" class="%celsius3_core.field.guesser.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="doctrine"></argument>
         </service>
 
         <service id="celsius3_core.lifecycle_helper" class="%celsius3_core.lifecycle_helper.class%">
@@ -258,7 +253,6 @@
             <argument type="service" id="celsius3_core.event_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="form.factory"></argument>
-            <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="request_stack"></argument>
         </service>
 

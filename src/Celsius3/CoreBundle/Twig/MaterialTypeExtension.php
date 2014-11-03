@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,11 +22,10 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Celsius3\CoreBundle\Document\MaterialType;
+use Celsius3\CoreBundle\Entity\MaterialType;
 
 class MaterialTypeExtension extends \Twig_Extension
 {
-
     private $environment;
     private $materials = array(
         'BookType' => array(
@@ -85,5 +85,4 @@ class MaterialTypeExtension extends \Twig_Extension
     {
         return 'celsius3_core.material_type_extension';
     }
-
 }

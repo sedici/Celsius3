@@ -36,7 +36,7 @@ class Mailer
 
     public function saveEmail($address, $subject, $text, Instance $instance)
     {
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $dm = $this->container->get('doctrine.orm.entity_manager');
 
         $email = new Email();
         $email->setAddress($address);
@@ -46,7 +46,7 @@ class Mailer
         $email->setInstance($instance);
 
         $dm->persist($email);
-        $dm->flush();
+        $dm->flush($email);
     }
 
     public function sendEmail($address, $subject, $text, Instance $instance)

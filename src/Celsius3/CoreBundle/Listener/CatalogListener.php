@@ -21,10 +21,10 @@
 
 namespace Celsius3\CoreBundle\Listener;
 
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
-use Celsius3\CoreBundle\Document\Catalog;
-use Celsius3\CoreBundle\Document\CatalogPosition;
-use Celsius3\CoreBundle\Document\Instance;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Entity\CatalogPosition;
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CatalogListener
@@ -39,58 +39,58 @@ class CatalogListener
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($document instanceof Catalog) {
+        if ($entity instanceof Catalog) {
             $directory = $this->container->get('celsius3_core.instance_manager')
                     ->getDirectory();
-            if ($document->getInstance()->getId() == $directory->getId()) {
-                $instances = $dm->getRepository('Celsius3CoreBundle:Instance')
+            if ($entity->getInstance()->getId() == $directory->getId()) {
+                $instances = $em->getRepository('Celsius3CoreBundle:Instance')
                         ->findAllExceptDirectory()
                         ->getQuery()
                         ->execute();
                 foreach ($instances as $instance) {
-                    $place = count($dm->getRepository('Celsius3CoreBundle:CatalogPosition')
+                    $place = count($em->getRepository('Celsius3CoreBundle:CatalogPosition')
                                     ->findBy(array(
-                                        'instance.id' => $instance->getId(),
+                                        'instance_id' => $instance->getId(),
                     )));
 
                     $position = new CatalogPosition();
-                    $position->setCatalog($document);
+                    $position->setCatalog($entity);
                     $position->setInstance($instance);
                     $position->setPosition($place);
-                    $dm->persist($position);
+                    $em->persist($position);
                 }
-                $dm->flush();
+                $em->flush();
             } else {
-                $place = count($dm->getRepository('Celsius3CoreBundle:CatalogPosition')
+                $place = count($em->getRepository('Celsius3CoreBundle:CatalogPosition')
                                 ->findBy(array(
-                                    'instance.id' => $document->getInstance()->getId(),
+                                    'instance_id' => $entity->getInstance()->getId(),
                 )));
 
                 $position = new CatalogPosition();
-                $position->setCatalog($document);
-                $position->setInstance($document->getInstance());
+                $position->setCatalog($entity);
+                $position->setInstance($entity->getInstance());
                 $position->setPosition($place);
-                $dm->persist($position);
-                $dm->flush();
+                $em->persist($position);
+                $em->flush();
             }
-        } elseif ($document instanceof Instance) {
-            $catalogs = $dm->getRepository('Celsius3CoreBundle:Catalog')
+        } elseif ($entity instanceof Instance) {
+            $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
                     ->findBy(array(
-                'instance.id' => $this->container->get('celsius3_core.instance_manager')->getDirectory()->getId(),
+                'instance_id' => $this->container->get('celsius3_core.instance_manager')->getDirectory()->getId(),
             ));
 
             $place = 0;
             foreach ($catalogs as $catalog) {
                 $position = new CatalogPosition();
                 $position->setCatalog($catalog);
-                $position->setInstance($document);
+                $position->setInstance($entity);
                 $position->setPosition($place++);
-                $dm->persist($position);
+                $em->persist($position);
             }
-            $dm->flush();
+            $em->flush();
         }
     }
 
