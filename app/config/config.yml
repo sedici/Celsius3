@@ -170,6 +170,13 @@ services:
         class:        %jms_serializer.doctrine_object_constructor.class%
         public:       false
         arguments:    ["@doctrine", "@jms_serializer.unserialize_object_constructor"]
+        
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
 
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop

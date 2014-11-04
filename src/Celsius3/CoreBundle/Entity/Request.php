@@ -51,17 +51,23 @@ class Request
     private $comments;
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="BaseUser")
+     * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="orders")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
      */
     private $owner;
+    /**
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="createdOrders")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     */
+    private $creator;
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="librarian_id", referencedColumnName="id")
      */
     private $librarian;
     /**
-     * @ORM\OneToMany(targetEntity="File", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="File", mappedBy="request")
      */
     private $files;
     /**
@@ -74,12 +80,12 @@ class Request
     private $states;
     /**
      * @Assert\NotNull(groups={"Default", "newOrder"})
-     * @ORM\ManyToOne(targetEntity="Instance")
+     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="orders")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
     /**
-     * @ORM\ManyToOne(targetEntity="BaseUser")
+     * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="operatedOrders")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;
@@ -184,6 +190,29 @@ class Request
     public function getOwner()
     {
         return $this->owner;
+    }
+    
+    /**
+     * Set creator
+     *
+     * @param  Celsius3\CoreBundle\Entity\BaseUser $creator
+     * @return self
+     */
+    public function setCreator(\Celsius3\CoreBundle\Entity\BaseUser $creator)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get creator
+     *
+     * @return Celsius3\CoreBundle\Entity\BaseUser $creator
+     */
+    public function getCreator()
+    {
+        return $this->creator;
     }
 
     /**

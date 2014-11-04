@@ -113,30 +113,30 @@
         </service>
 
         <service id="celsius3_core.counter_listener" class="%celsius3_core.counter_listener.class%">
-            <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
-            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="prePersist" />
+            <tag name="doctrine.event_listener" event="postPersist" />
         </service>
 
         <service id="celsius3_core.catalog_listener" class="%celsius3_core.catalog_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postPersist" />
         </service>
 
         <service id="celsius3_core.configuration_listener" class="%celsius3_core.configuration_listener.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postPersist" />
         </service>
 
         <service id="celsius3_core.order_listener" class="%celsius3_core.order_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="doctrine_mongodb.odm.event_listener" event="prePersist" />
-            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="prePersist" />
+            <tag name="doctrine.event_listener" event="postPersist" />
         </service>
 
         <service id="celsius3_core.search_event_listener" class="%celsius3_core.search_event_listener.class%">
-            <tag name="doctrine_mongodb.odm.event_listener" event="postPersist" />
-            <tag name="doctrine_mongodb.odm.event_listener" event="preUpdate" />
-            <tag name="doctrine_mongodb.odm.event_listener" event="postUpdate" />
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="preUpdate" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
         </service>
 
         <service id="celsius3_core.security.login_listener" class="%celsius3_core.security.login_listener.class%">

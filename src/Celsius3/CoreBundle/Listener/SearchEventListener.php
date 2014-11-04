@@ -21,7 +21,7 @@
 
 namespace Celsius3\CoreBundle\Listener;
 
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\CoreBundle\Entity\CatalogResult;

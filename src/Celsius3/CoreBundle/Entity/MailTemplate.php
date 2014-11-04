@@ -43,8 +43,8 @@ class MailTemplate extends Template
     private $title;
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="templates")
+     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
 

@@ -29,7 +29,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
- * @ORM\Table(name="order")
+ * @ORM\Table(name="`order`")
  */
 class Order
 {

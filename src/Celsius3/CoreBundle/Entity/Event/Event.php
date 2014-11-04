@@ -77,7 +77,7 @@ class Event implements EventInterface
      */
     private $request;
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;

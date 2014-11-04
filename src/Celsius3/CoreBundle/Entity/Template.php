@@ -54,7 +54,7 @@ class Template
     private $code;
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $text;
 

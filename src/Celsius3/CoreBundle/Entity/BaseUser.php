@@ -81,15 +81,15 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $wrongEmail = false;
     /**
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="owner")
      */
     protected $orders;
     /**
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="operator")
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="operator")
      */
     protected $operatedOrders;
     /**
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="creator")
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="creator")
      */
     protected $createdOrders;
     /**
@@ -104,10 +104,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
      */
     protected $institution;
-    /**
-     * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="librarian")
-     */
-    protected $subordinates;
     /**
      * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user")
      */
@@ -150,7 +146,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->subordinates = new \Doctrine\Common\Collections\ArrayCollection();
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->administeredInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -421,38 +416,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getInstitution()
     {
         return $this->institution;
-    }
-
-    /**
-     * Add subordinates
-     *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $subordinates
-     */
-    public function addSubordinate(
-    \Celsius3\CoreBundle\Entity\BaseUser $subordinates)
-    {
-        $this->subordinates[] = $subordinates;
-    }
-
-    /**
-     * Remove subordinates
-     *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $subordinates
-     */
-    public function removeSubordinate(
-    \Celsius3\CoreBundle\Entity\BaseUser $subordinates)
-    {
-        $this->subordinates->removeElement($subordinates);
-    }
-
-    /**
-     * Get subordinates
-     *
-     * @return Doctrine\Common\Collections\Collection $subordinates
-     */
-    public function getSubordinates()
-    {
-        return $this->subordinates;
     }
 
     /**

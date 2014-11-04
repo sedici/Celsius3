@@ -26,15 +26,15 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 class SecurityListener
 {
-    private $dm;
+    private $em;
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -56,7 +56,7 @@ class SecurityListener
             return $this->generate403Response($event);
         }
 
-        $instance = $this->dm->getRepository('Celsius3CoreBundle:Instance')
+        $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array('url' => $matches[1]));
 
         try {

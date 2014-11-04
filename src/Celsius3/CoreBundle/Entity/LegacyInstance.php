@@ -80,7 +80,7 @@ class LegacyInstance
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Hive", inversedBy="instances")
-     * @ORM\JoinColumn(name="hive_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
      */
     protected $hive;
     

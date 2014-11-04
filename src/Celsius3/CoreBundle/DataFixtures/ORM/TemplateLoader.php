@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\DataFixtures\MongoDB;
+namespace Celsius3\CoreBundle\DataFixtures\ORM;
 
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -30,8 +30,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Manager\MailManager;
-use Celsius3\CoreBundle\Document\MailTemplate;
-use Celsius3\NotificationBundle\Document\NotificationTemplate;
+use Celsius3\CoreBundle\Entity\MailTemplate;
+use Celsius3\NotificationBundle\Entity\NotificationTemplate;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
@@ -43,11 +43,11 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
 {
     private $notification_templates = array(
         NotificationManager::CAUSE__NEW_MESSAGE => array(
-            'class' => '\\Celsius3\\NotificationBundle\\Document\\NotificationTemplate',
+            'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
             'text' => 'You have a new message from {{ user }}.',
         ),
         NotificationManager::CAUSE__NEW_USER => array(
-            'class' => '\\Celsius3\\NotificationBundle\\Document\\NotificationTemplate',
+            'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
             'text' => 'There\'s a new registered user called {{ user }}.',
         ),
     );

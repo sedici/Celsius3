@@ -61,7 +61,7 @@ class News
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Instance")
+     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="news")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;

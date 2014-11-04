@@ -42,7 +42,7 @@ class Instance extends LegacyInstance
      */
     protected $users;
     /**
-     * @ORM\OneToMany(targetEntity="Order", mappedBy="instance")
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="instance")
      */
     protected $orders;
     /**

@@ -67,7 +67,7 @@ class Notification
      */
     private $source;
     /**
-     * @ORM\ManyToOne(targetEntity="x")
+     * @ORM\ManyToOne(targetEntity="Celsius3\NotificationBundle\Entity\NotificationTemplate")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=false)
      */
     private $template;

@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\DataFixtures\MongoDB;
+namespace Celsius3\CoreBundle\DataFixtures\ORM;
 
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -29,7 +29,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document;
+use Celsius3\CoreBundle\Entity;
 
 /**
  * Description of FixtureLoader
@@ -51,7 +51,7 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
 
         $hive = $this->getReference('hive');
 
-        $instance = new Document\Instance();
+        $instance = new Entity\Instance();
         $instance->setName('PrEBi');
         $instance->setAbbreviation('PRB');
         $instance->setWebsite('http://www.prebi.unlp.edu.ar/celsius');

@@ -43,7 +43,7 @@ class Configuration
     private $id;
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="`key`", type="string", length=255)
      */
     private $key;
     /**
@@ -52,7 +52,7 @@ class Configuration
      */
     private $name;
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $value;
     /**

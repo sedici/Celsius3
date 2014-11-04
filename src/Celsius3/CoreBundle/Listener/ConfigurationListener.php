@@ -41,11 +41,16 @@ class ConfigurationListener
     {
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
-
+        
         if ($entity instanceof Instance) {
             $default = $em
                     ->getRepository('Celsius3CoreBundle:Configuration')
-                    ->findBy(array('instance_id' => null));
+                    ->createQueryBuilder('c')
+                    ->join('c.instance', 'i')
+                    ->where('i.url = :url')
+                    ->setParameter(':url', InstanceManager::INSTANCE__DIRECTORY)
+                    ->getQuery()
+                    ->getResult();
 
             foreach ($default as $configuration) {
                 $new = $this->configuration_helper->duplicate($configuration);

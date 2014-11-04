@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\DataFixtures\MongoDB;
+namespace Celsius3\CoreBundle\DataFixtures\ORM;
 
 use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -29,7 +29,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document;
+use Celsius3\CoreBundle\Entity;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
@@ -135,7 +135,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Instancia que representa al directorio
          */
-        $directory = new Document\Instance();
+        $directory = new Entity\Instance();
         $directory->setName('Directory');
         $directory->setAbbreviation('Directory');
         $directory->setWebsite('http://celsius3.prebi.unlp.edu.ar');
@@ -147,7 +147,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
 
         $this->addReference('directory', $directory);
 
-        $hive = new Document\Hive();
+        $hive = new Entity\Hive();
         $hive->setName('LibLink');
         $manager->persist($hive);
         $manager->flush();
@@ -158,7 +158,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
          * Configuración del directorio
          */
         foreach ($this->directory_configurations as $key => $data) {
-            $configuration = new Document\Configuration();
+            $configuration = new Entity\Configuration();
             $configuration->setName($data['name']);
             $configuration->setKey($key);
             $configuration->setValue($data['value']);
@@ -178,7 +178,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
          * Configuración modelo para las Instancias
          */
         foreach ($this->configurations as $key => $data) {
-            $configuration = new Document\Configuration();
+            $configuration = new Entity\Configuration();
             $configuration->setName($data['name']);
             $configuration->setKey($key);
             $configuration->setValue($data['value']);
@@ -192,21 +192,8 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
             unset($configuration);
         }
 
-        /*
-         * Tipos de estado para los pedidos
-         * Revisar si esto sigue siendo necesario o se puede reemplazar por la constante en el objeto
-         */
-        foreach ($this->state_types as $key => $value) {
-            $state_type = new Document\StateType();
-            $state_type->setName($value);
-            $state_type->setPosition($key);
-            $manager->persist($state_type);
-            unset($state_type);
-        }
-        $manager->flush();
-
         foreach ($this->contact_types as $contacttype) {
-            $ct = new Document\ContactType();
+            $ct = new Entity\ContactType();
             $ct->setName($contacttype);
             $manager->persist($ct);
             unset($ct);
