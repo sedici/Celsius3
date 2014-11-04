@@ -73,6 +73,7 @@ class Country
 
     public function __construct()
     {
+        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->cities = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
