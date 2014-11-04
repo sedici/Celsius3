@@ -41,13 +41,9 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
         $em = $this->getDoctrine()->getManager();
 
         $templates = $em->getRepository('Celsius3CoreBundle:MailTemplate')
-                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory())
-                ->getQuery()
-                ->execute()
-                ->toArray();
+                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
 
-        $view = $this->view(array_values($templates), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($templates), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -60,15 +56,13 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contact = $em->getRepository('Celsius3CoreBundle:Contact')
-                ->find($id);
+        $contact = $em->getRepository('Celsius3CoreBundle:Contact')->find($id);
 
         if (!$contact) {
             return $this->createNotFoundException('Contact not found.');
         }
 
-        $view = $this->view($contact, 200)
-                ->setFormat('json');
+        $view = $this->view($contact, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

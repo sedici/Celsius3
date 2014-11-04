@@ -42,11 +42,10 @@ class AdminContactRestController extends BaseInstanceDependentRestController
 
         $contacts = $em->getRepository('Celsius3CoreBundle:Contact')
                 ->findBy(array(
-            'institution_id' => $institution_id,
-        ));
+                    'institution_id' => $institution_id,
+                ));
 
-        $view = $this->view(array_values($contacts), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($contacts), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -59,15 +58,13 @@ class AdminContactRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $contact = $em->getRepository('Celsius3CoreBundle:Contact')
-                ->find($id);
+        $contact = $em->getRepository('Celsius3CoreBundle:Contact')->find($id);
 
         if (!$contact) {
             return $this->createNotFoundException('Contact not found.');
         }
 
-        $view = $this->view($contact, 200)
-                ->setFormat('json');
+        $view = $this->view($contact, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

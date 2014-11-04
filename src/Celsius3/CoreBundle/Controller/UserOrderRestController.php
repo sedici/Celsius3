@@ -54,12 +54,10 @@ class UserOrderRestController extends BaseInstanceDependentRestController
             $requests = $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:Request')
                     ->createQueryBuilder()
-                    ->field('order_id')->in(array_map(function ($order) {
-                                return $order->getId();
-                            }, $pagination))
-                    ->getQuery()
-                    ->execute()
-                    ->toArray();
+                    // *** Pasar a ORM *** //
+                    ->field('order_id')->in(array_map(function ($order) {return $order->getId();}, $pagination))
+                    // *** *** //
+                    ->getQuery()->getResult();
 
             $response = array(
                 'orders' => array_values($pagination),
@@ -71,11 +69,9 @@ class UserOrderRestController extends BaseInstanceDependentRestController
                         }, $requests), 'request', 'id'),
             );
 
-            $view = $this->view($response, 200)
-                    ->setFormat('json');
+            $view = $this->view($response, 200)->setFormat('json');
         } else {
-            $view = $this->view(array_values($pagination), 200)
-                    ->setFormat('json');
+            $view = $this->view(array_values($pagination), 200)->setFormat('json');
         }
 
         return $this->handleView($view);
@@ -89,15 +85,13 @@ class UserOrderRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $order = $em->getRepository('Celsius3CoreBundle:Order')
-                ->find($id);
+        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
         if (!$order) {
             return $this->createNotFoundException('Order not found.');
         }
 
-        $view = $this->view($order, 200)
-                ->setFormat('json');
+        $view = $this->view($order, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

@@ -48,8 +48,8 @@ abstract class BaseController extends Controller
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository($this->getBundle() . ':' . $name)
-                        ->find($id);
+                ->getRepository($this->getBundle() . ':' . $name)
+                ->find($id);
     }
 
     protected function getResultsPerPage()
@@ -121,8 +121,8 @@ abstract class BaseController extends Controller
         if ($form->isValid()) {
             $this->persistEntity($entity);
             $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The ' . $name . ' was successfully created.');
+                ->getFlashBag()
+                ->add('success', 'The ' . $name . ' was successfully created.');
 
             return $this->redirect($this->generateUrl($route));
         }
@@ -178,13 +178,10 @@ abstract class BaseController extends Controller
                     ->getFlashBag()
                     ->add('success', 'The ' . $name . ' was successfully edited.');
 
-            return $this->redirect($this->generateUrl($route . '_edit', array(
-                                'id' => $id
-            )));
+            return $this->redirect($this->generateUrl($route . '_edit', array('id' => $id)));
         }
 
-        $this->get('session')
-                ->getFlashBag()
+        $this->get('session')->getFlashBag()
                 ->add('error', 'There were errors editing the ' . $name . '.');
 
         return array(
@@ -210,8 +207,7 @@ abstract class BaseController extends Controller
 
             $this->persistEntity($entity);
 
-            $this->get('session')
-                    ->getFlashBag()
+            $this->get('session')->getFlashBag()
                     ->add('success', 'The ' . $name . ' was successfully deleted.');
         }
 
@@ -300,7 +296,7 @@ abstract class BaseController extends Controller
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $target)
                 ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions($librarian))
-                ->execute();
+                ->getResutl();
 
         $json = array();
         foreach ($result as $element) {

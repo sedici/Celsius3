@@ -45,12 +45,7 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Journal',
-                        $this
-                                ->createForm(
-                                        new JournalFilterType(
-                                                $this->getInstance())));
+        return $this->baseIndex('Journal',$this->createForm(new JournalFilterType($this->getInstance())));
     }
 
     /**
@@ -63,9 +58,7 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Journal', new Journal(),
-                        new JournalType($this->getInstance()));
+        return $this->baseNew('Journal', new Journal(),new JournalType($this->getInstance()));
     }
 
     /**
@@ -79,9 +72,7 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Journal', new Journal(),
-                        new JournalType($this->getInstance()), 'admin_journal');
+        return $this->baseCreate('Journal', new Journal(),new JournalType($this->getInstance()), 'admin_journal');
     }
 
     /**
@@ -97,9 +88,7 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('Journal', $id,
-                        new JournalType($this->getInstance()));
+        return $this->baseEdit('Journal', $id,new JournalType($this->getInstance()));
     }
 
     /**
@@ -117,9 +106,7 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Journal', $id,
-                        new JournalType($this->getInstance()), 'admin_journal');
+        return $this->baseUpdate('Journal', $id,new JournalType($this->getInstance()), 'admin_journal');
     }
 
     /**

@@ -42,12 +42,9 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->findBy(array(
-            'parent_id' => $parent_id,
-        ));
+                ->findBy(array('parent_id' => $parent_id,));
 
-        $view = $this->view(array_values($institutions), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($institutions), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -70,8 +67,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $hive, $country_id, $city_id, $filter);
 
-        $view = $this->view(array_values($institutions), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($institutions), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -84,15 +80,13 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $institution = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->find($id);
+        $institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($id);
 
         if (!$institution) {
             return $this->createNotFoundException('Institution not found.');
         }
 
-        $view = $this->view($institution, 200)
-                ->setFormat('json');
+        $view = $this->view($institution, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

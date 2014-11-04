@@ -83,8 +83,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')
-                    ->getFlashBag()
+            $this->get('session')->getFlashBag()
                     ->add('success', 'The User was successfully transformed.');
 
             return $this->redirect($this->generateUrl($route . '_transform', array(
@@ -92,8 +91,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             )));
         }
 
-        $this->get('session')
-                ->getFlashBag()
+        $this->get('session')->getFlashBag()
                 ->add('error', 'There were errors transforming the User.');
 
         return array(
@@ -120,10 +118,11 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->createQueryBuilder()
-                ->field('id')
-                ->in($element_ids)
+                // *** Pasar a ORM *** //
+                ->field('id')->in($element_ids)
+                // *** *** //
                 ->getQuery()
-                ->execute();
+                ->getResutl();
 
         foreach ($users as $user) {
             $this->enableUser($user);

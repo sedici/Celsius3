@@ -43,8 +43,7 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
         $countries = $em->getRepository('Celsius3CoreBundle:Country')
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
 
-        $view = $this->view(array_values($countries), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($countries), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -57,15 +56,13 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $country = $em->getRepository('Celsius3CoreBundle:Country')
-                ->find($id);
+        $country = $em->getRepository('Celsius3CoreBundle:Country')->find($id);
 
         if (!$country) {
             return $this->createNotFoundException('Country not found.');
         }
 
-        $view = $this->view($country, 200)
-                ->setFormat('json');
+        $view = $this->view($country, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

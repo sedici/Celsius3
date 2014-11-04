@@ -132,7 +132,7 @@ class SuperadminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ' . 'Order' . '.');
+            throw $this->createNotFoundException('Unable to find Order.');
         }
 
         $materialClass = get_class($entity->getMaterialData());
@@ -163,8 +163,7 @@ class SuperadminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this
-                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
+            throw $this->createNotFoundException('Unable to find Order.');
         }
 
         $entity->setMaterialData(null);

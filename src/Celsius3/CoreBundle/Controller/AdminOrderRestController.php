@@ -49,15 +49,14 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
         $state = $request->query->get('state', null);
 
-        $orders = $this->getEntityManager()
+        $orders = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), $user, $state);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-        $view = $this->view(array_values($pagination), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($pagination), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -74,12 +73,11 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             $user = null;
         }
 
-        $orderCount = $this->getEntityManager()
+        $orderCount = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')
                 ->countOrders($this->getInstance(), $user);
 
-        $view = $this->view($orderCount, 200)
-                ->setFormat('json');
+        $view = $this->view($orderCount, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -99,28 +97,25 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $state = $request->query->get('state', null);
         $orderType = $request->query->get('orderType', null);
 
-        $states = $this->getEntityManager()
+        $states = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($states, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-        $orders = $this->getEntityManager()
+        $orders = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->createQueryBuilder()
                 ->field('id')->in(array_column(array_column($pagination, 'order'), '$id'))
-                ->getQuery()
-                ->execute()
-                ->toArray();
+                ->getQuery()->getResult();
 
-        $requests = $this->getEntityManager()
+        $requests = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Request')
                 ->createQueryBuilder()
                 ->field('order_id')->in(array_column(array_column($pagination, 'order'), '$id'))
                 ->getQuery()
-                ->execute()
-                ->toArray();
+                ->getResutl();
 
         $response = array(
             'orders' => array_values($orders),
@@ -132,8 +127,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                             }, $requests), 'request', 'id'),
                 );
 
-                $view = $this->view($response, 200)
-                        ->setFormat('json');
+                $view = $this->view($response, 200)->setFormat('json');
                 //$view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
 
                 return $this->handleView($view);
@@ -145,17 +139,15 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
              */
             public function getOrderAction($id)
             {
-                $em = $this->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
 
-                $order = $em->getRepository('Celsius3CoreBundle:Order')
-                        ->find($id);
+                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
                 if (!$order) {
                     return $this->createNotFoundException('Order not found.');
                 }
 
-                $view = $this->view($order, 200)
-                        ->setFormat('json');
+                $view = $this->view($order, 200)->setFormat('json');
 
                 return $this->handleView($view);
             }

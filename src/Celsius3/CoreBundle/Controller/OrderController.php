@@ -28,6 +28,7 @@ abstract class OrderController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
+        // *** Pasar a ORM *** //
         return parent::listQuery($name)->field('currentState')->prime(true);
     }
 
@@ -42,25 +43,18 @@ abstract class OrderController extends BaseInstanceDependentController
         $type = new OrderType($this->getInstance(), new $material);
         $form = $this->createForm($type, new Order());
 
-        return $this
-                ->render(
-                        'Celsius3CoreBundle:Order:_materialData.html.twig',
-                        array('form' => $form->createView()));
+        return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig',array('form' => $form->createView()));
     }
 
     protected function getMaterialType($materialData = null)
     {
         if (is_null($materialData)) {
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'
-                    . ucfirst(
-                            $this->getRequest()->request
-                                    ->get(
-                                            'celsius3_corebundle_ordertype[materialDataType]',
-                                            null, true)) . 'TypeType';
+                    . ucfirst($this->getRequest()->request
+                            ->get('celsius3_corebundle_ordertype[materialDataType]',null, true)) . 'TypeType';
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'
-                    . end($class) . 'Type';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
 
         return new $materialTypeName;

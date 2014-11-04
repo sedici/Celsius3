@@ -38,10 +38,9 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
      */
     public function getCatalogsAction()
     {
-        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance())->toArray();
+        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance());
 
-        $view = $this->view(array_values($catalogs), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($catalogs), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -54,15 +53,13 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $catalog = $em->getRepository('Celsius3CoreBundle:Catalog')
-                ->find($id);
+        $catalog = $em->getRepository('Celsius3CoreBundle:Catalog')->find($id);
 
         if (!$catalog) {
             return $this->createNotFoundException('Catalog not found.');
         }
 
-        $view = $this->view($catalog, 200)
-                ->setFormat('json');
+        $view = $this->view($catalog, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -74,12 +71,9 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
     public function getCatalogResultsAction($title)
     {
         $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance());
-        $results = $this->get('celsius3_core.catalog_manager')
-                ->getCatalogResults($catalogs, $title)
-                ->toArray();
+        $results = $this->get('celsius3_core.catalog_manager')->getCatalogResults($catalogs, $title);
 
-        $view = $this->view(array_values($results), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($results), 200)->setFormat('json');
 
         return $this->handleView($view);
     }

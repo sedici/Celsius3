@@ -40,7 +40,7 @@ class AdminContactController extends BaseInstanceDependentController
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder()
-                        ->field('owningInstance_id')->equals($this->getInstance()->getId());
+                        ->where('owningInstance_id = :owning')->setParameter('owning',$this->getInstance()->getId());
     }
 
     protected function findQuery($name, $id)
@@ -48,8 +48,8 @@ class AdminContactController extends BaseInstanceDependentController
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder()
-                        ->field('owningInstance_id')->equals($this->getInstance()->getId())
-                        ->field('id')->equals($id)
+                        ->where('owningInstance_id = :owning')->setParameter('owning',$this->getInstance()->getId())
+                        ->andWhere('id = :id')->setParameter('id',$id)
                         ->getQuery()
                         ->getSingleResult();
     }

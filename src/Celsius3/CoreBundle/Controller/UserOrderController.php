@@ -42,10 +42,10 @@ class UserOrderController extends OrderController
         $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder()
-                ->field('instance_id')->equals($this->getInstance()->getId());
+                ->where('instance = :instance')->setParameter('instance',$this->getInstance()->getId());
 
-        $qb = $qb->addOr($qb->expr()->field('owner_id')->equals($this->getUser()->getId()));
-        $qb = $qb->addOr($qb->expr()->field('librarian_id')->equals($this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('owner = :owner')->setParameter('owner',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('librarian = :librarian')->equals('librarian',$this->getUser()->getId()));
 
         return $qb;
     }
@@ -55,12 +55,12 @@ class UserOrderController extends OrderController
         $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder()
-                ->field('instance_id')->equals($this->getInstance()->getId());
+                ->where('instance = :instance')->setParameter('instance',$this->getInstance()->getId());
 
-        $qb = $qb->addOr($qb->expr()->field('owner_id')->equals($this->getUser()->getId()));
-        $qb = $qb->addOr($qb->expr()->field('librarian_id')->equals($this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('owner = :owner')->setParameter('owner',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('librarian = :librarian')->setParameter('librarian',$this->getUser()->getId()));
 
-        return $qb->field('id')->equals($id)->getQuery()->getSingleResult();
+        return $qb->andWhere('id = :id')->setParameter('id',$id)->getQuery()->getSingleResult();
     }
 
     /**

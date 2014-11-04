@@ -66,28 +66,23 @@ class AdminBaseUserController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+            throw $this->createNotFoundException('Unable to find BaseUser.');
         }
 
         $em = $this->getDoctrine()->getManager();
 
         $activeOrders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity)
-                ->getQuery()
-                ->execute();
+                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity);
+        
         $readyOrders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity)
-                ->getQuery()
-                ->execute();
+                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
+        
         $historyOrders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity)
-                ->getQuery()
-                ->execute();
+                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity);
 
         $messages = $this->get('fos_message.thread_manager')
                 ->getParticipantSentThreadsQueryBuilder($entity)
-                ->getQuery()
-                ->execute();
+                ->getQuery()->getResutl();
 
         return array(
             'element' => $entity,

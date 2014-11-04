@@ -42,7 +42,7 @@ class SuperadminMailController extends BaseController
         $qb = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder()
-                        ->field('instance_id')->equals($this->getDirectory()->getId());
+                        ->where('instance = :instance')->setParameter('instance',$this->getDirectory()->getId());
 
         return $qb;
     }
@@ -101,8 +101,7 @@ class SuperadminMailController extends BaseController
      */
     public function createAction()
     {
-        return $this
-                        ->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getDirectory()), 'superadmin_mails');
+        return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getDirectory()), 'superadmin_mails');
     }
 
     /**
@@ -120,8 +119,7 @@ class SuperadminMailController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this
-                        ->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getDirectory()), 'superadmin_mails');
+        return $this->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getDirectory()), 'superadmin_mails');
     }
 
     /**

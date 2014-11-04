@@ -103,15 +103,15 @@ class PublicController extends BaseInstanceDependentController
 
         $cities = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:City')
-                ->createQueryBuilder()->field('country_id')
-                ->equals($request->query->get('country_id'))->getQuery()
-                ->execute();
+                ->createQueryBuilder()
+                ->where('country_id = :cid')
+                ->setParameter('cid',$request->query->get('country_id'))
+                ->getQuery()->getResutl();
 
         $response = array();
 
         foreach ($cities as $city) {
-            $response[] = array('value' => $city->getId(),
-                'name' => $city->getName());
+            $response[] = array('value' => $city->getId(),'name' => $city->getName());
         }
 
         return new Response(json_encode($response));
@@ -127,29 +127,25 @@ class PublicController extends BaseInstanceDependentController
     {
         $request = $this->container->get('request');
 
-        if (!$request->query->has('country_id') && !$request->query->has('city_id') && !$request->query->has('institution_id')) {
+        if (!$request->query->has('country') && !$request->query->has('city') && !$request->query->has('institution_id')) {
             throw $this->createNotFoundException();
         }
 
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->createQueryBuilder()
-                ->hydrate(false);
+        $qb = $em->getRepository('Celsius3CoreBundle:Institution')->createQueryBuilder();
 
-        if ($request->query->has('city_id')) {
-            $qb = $qb->field('city_id')->equals($request->query->get('city_id'));
+        if ($request->query->has('city')) {
+            $qb = $qb->where('city = :cid')->setParameter('cid',$request->query->get('city_id'));
         } elseif ($request->query->has('country_id')) {
-            $qb = $qb->field('country_id')->equals($request->query->get('country_id'))
-                            ->field('city_id')->equals(null);
+            $qb = $qb->where('country = :country')->setParameter('country',$request->query->get('country_id'))
+                     ->andWhere('city = :city')->setParameter('city',null);
         }
 
         if ($request->query->get('filter') == '') {
-            $qb = $qb->field('parent_id')->equals(null);
+            $qb = $qb->andWhere('parent = :parent')->setParameter('parent',null);
         }
 
-        $qb->getQuery()->execute();
-
-        $institutions = $qb->getQuery()->execute()->toArray();
+        $institutions = $qb->getQuery()->getResutl();
 
         $response = array();
         foreach ($institutions as $institution) {
@@ -160,11 +156,8 @@ class PublicController extends BaseInstanceDependentController
 
                 $children = $em->getRepository('Celsius3CoreBundle:Institution')
                         ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->field('parent_id')->equals($institution['_id'])
-                        ->getQuery()
-                        ->execute()
-                        ->toArray();
+                        ->where('parent = :parent')->setParameter('parent',$institution['_id'])
+                        ->getQuery()->getResutl();
 
                 $response[] = array(
                     'value' => $institution['_id']->{'$id'},
@@ -187,11 +180,8 @@ class PublicController extends BaseInstanceDependentController
             foreach ($institutions as $institution) {
                 $children = $em->getRepository('Celsius3CoreBundle:Institution')
                         ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->field('parent_id')->equals($institution['_id'])
-                        ->getQuery()
-                        ->execute()
-                        ->toArray();
+                        ->where('parent = :parent')->setParameter('parent',$institution['_id'])
+                        ->getQuery()->getResutl();
 
                 $response[] = array(
                     'value' => $institution['_id']->{'$id'},

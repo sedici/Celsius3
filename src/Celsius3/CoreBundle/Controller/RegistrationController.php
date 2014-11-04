@@ -73,9 +73,9 @@ class RegistrationController extends BaseRegistrationController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
-                    'form' => $form->createView(),
-        ));
+        return $this->container->get('templating')
+                ->renderResponse('FOSUserBundle:Registration:register.html.' 
+                        . $this->getEngine(), array('form' => $form->createView(),));
     }
 
     public function waitConfirmationAction()
@@ -89,9 +89,9 @@ class RegistrationController extends BaseRegistrationController
             sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:waitConfirmation.html.' . $this->getEngine(), array(
-                    'user' => $user,
-        ));
+        return $this->container->get('templating')
+                ->renderResponse('FOSUserBundle:Registration:waitConfirmation.html.' 
+                        . $this->getEngine(), array('user' => $user,));
     }
 
     /**

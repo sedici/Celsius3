@@ -24,8 +24,8 @@ namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Celsius3\CoreBundle\Document\BaseUser;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
@@ -44,14 +44,14 @@ class OrderRepository extends EntityRepository
         if (count($in) > 0) {
             $secondary = array();
             foreach ($in as $repository => $term) {
-                $secondary = array_keys($this->getDocumentManager()
+                $secondary = array_keys($this->getEntityManager()
                                 ->getRepository('Celsius3CoreBundle:' . $repository)
                                 ->findByTerm($term, $instance)
                                 ->execute()
                                 ->toArray());
             }
 
-            $qb = $qb->field('owner.id')->in($secondary);
+            $qb = $qb->field('owner')->in($secondary);
         } else {
             $expr = new \MongoRegex('/.*' . $term . '.*/i');
             $qb = $qb->addOr($qb->expr()->field('code')->equals(intval($term)))
@@ -63,11 +63,11 @@ class OrderRepository extends EntityRepository
         if (!is_null($instance)) {
             $requests = array_values(array_map(function($request) {
                         return $request['order']['$id'];
-                    }, $this->getDocumentManager()->getRepository('Celsius3CoreBundle:Request')
+                    }, $this->getEntityManager()->getRepository('Celsius3CoreBundle:Request')
                                     ->createQueryBuilder()
-                                    ->select('order.id')
+                                    ->select('order')
                                     ->hydrate(false)
-                                    ->field('instance.id')->equals($instance->getId())
+                                    ->field('instance')->equals($instance->getId())
                                     ->getQuery()
                                     ->execute()
                                     ->toArray()));
@@ -84,44 +84,51 @@ class OrderRepository extends EntityRepository
 
     public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null)
     {
-        $states = $this->getDocumentManager()
+        $states = $this->getEntityManager()
                         ->getRepository('Celsius3CoreBundle:State')
-                        ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->select('order')
-                        ->field('isCurrent')->equals(true)
-                        ->field('instance.id')->equals($instance->getId());
+                        ->createQueryBuilder('s')
+                        ->select('s.order')
+                        ->where('s.isCurrent = :current')
+                        ->andWhere('s.instance = :instance')
+                        ->setParameter('current', true)
+                        ->setParameter('instance', $instance->getId());
+                
         if (is_array($state)) {
+            // *** Pasar a ORM *** //
             $states = $states->field('type')->in($state);
+            // *** *** //
         } else {
-            $states = $states->field('type')->equals($state);
+            $states = $states->andWhere('s.type = :type')
+                             ->setParameter('type', $state);
         }
 
         if (!($orderType === 'allTypes') && !(is_null($orderType))) {
-            $states = $states->field('requestType')->equals($orderType);
+            $states = $states->andWhere('requestType = :requestType')
+                            ->setParameter('requestType', $orderType);
         }
 
         if (!is_null($user)) {
-            $states = $states->addOr($states->expr()->field('operator.id')->equals($user->getId()))
-                    ->addOr($states->expr()->field('operator.id')->equals(null));
+            $states = $states->orWhere(
+                                $states->expr()->where('operator = :operatorA')->setParameter('operatorA',$user->getId()))
+                            ->orWhere($states->expr()->where('operator = :operatorB')->setParameter('operatorB',null));
         }
 
         if (!is_null($owner)) {
-            $states = $states->field('owner.id')->equals($owner->getId());
+            $states = $states->andWhere('owner = :owner')->setParameter('owner',$owner->getId());
         }
 
-        return $states;
+        return $states->getQuery()->getResult();
     }
 
     public function findOneForInstance($id, Instance $instance)
     {
-        $order_id = $this->getDocumentManager()
+        $order_id = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:Request')
                 ->createQueryBuilder()
                 ->hydrate(false)
                 ->select('order')
-                ->field('order.id')->equals($id)
-                ->field('instance.id')->equals($instance->getId())
+                ->field('order')->equals($id)
+                ->field('instance')->equals($instance->getId())
                 ->getQuery()
                 ->getSingleResult();
 
@@ -130,13 +137,13 @@ class OrderRepository extends EntityRepository
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
-        $states = $this->getDocumentManager()
+        $states = $this->getEntityManager()
                         ->getRepository('Celsius3CoreBundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->select('order')
                         ->field('type')->equals($type)
-                        ->field('owner.id')->equals($user->getId())
+                        ->field('owner')->equals($user->getId())
                         ->field('date')->gte(new \DateTime($startDate));
 
         $qb = $this->createQueryBuilder()
@@ -147,21 +154,21 @@ class OrderRepository extends EntityRepository
 
     public function addFindByStateType(array $types, Builder $query, Instance $instance = null, BaseUser $user = null)
     {
-        $states = $this->getDocumentManager()
+        $states = $this->getEntityManager()
                         ->getRepository('Celsius3CoreBundle:State')
                         ->createQueryBuilder()
                         ->hydrate(false)
                         ->select('order')
                         ->field('isCurrent')->equals(true)
-                        ->field('type.id')->in($types);
+                        ->field('type')->in($types);
 
         if (!is_null($instance)) {
-            $states = $states->field('instance.id')->equals($instance->getId());
+            $states = $states->field('instance')->equals($instance->getId());
         }
 
         if ($user) {
-            $states = $states->addOr($states->expr()->field('owner.id')->equals($user->getId()))
-                    ->addOr($states->expr()->field('librarian.id')->equals($user->getId()));
+            $states = $states->addOr($states->expr()->field('owner')->equals($user->getId()))
+                    ->addOr($states->expr()->field('librarian')->equals($user->getId()));
         }
 
         return $query->field('id')->in(array_map(array($this, 'getIds'), $states->getQuery()->execute()->toArray()));

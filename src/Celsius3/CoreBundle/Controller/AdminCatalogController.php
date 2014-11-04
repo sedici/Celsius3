@@ -56,7 +56,7 @@ class AdminCatalogController extends BaseInstanceDependentController
         $query = $this->listQuery('Catalog');
 
         return array(
-            'pagination' => $query->getQuery()->execute(),
+            'pagination' => $query->getQuery()->getResult(),
         );
     }
 
@@ -155,9 +155,9 @@ class AdminCatalogController extends BaseInstanceDependentController
             foreach ($ids as $key => $id) {
                 $position = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
                         ->findOneBy(array(
-                    'catalog_id' => $id,
-                    'instance_id' => $this->getInstance()->getId(),
-                ));
+                            'catalog_id' => $id,
+                            'instance_id' => $this->getInstance()->getId(),
+                        ));
                 if ($position) {
                     $position->setPosition($key);
                     $em->persist($position);

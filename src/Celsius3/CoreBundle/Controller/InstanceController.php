@@ -27,9 +27,9 @@ abstract class InstanceController extends BaseController
     protected function listQuery($name)
     {
         $qb = parent::listQuery($name)
-                        ->field('id')->notEqual($this->getDirectory()->getId());
+                        ->where('id != :id')->setParameter('id',$this->getDirectory()->getId());
         if ($name == 'LegacyInstance') {
-            return $qb->field('type')->equals('legacy');
+            return $qb->andWhere('type = :type')->setParameter('type','legacy');
         } else {
             return $qb;
         }

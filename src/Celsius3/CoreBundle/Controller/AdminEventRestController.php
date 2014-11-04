@@ -40,26 +40,22 @@ class AdminEventRestController extends BaseInstanceDependentRestController
     public function getAllEventsAction($request_id)
     {
         $events = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\Event')
-                ->findBy(array(
-            'request_id' => $request_id,
-        ));
+                ->findBy(array('request_id' => $request_id,));
 
         $requests = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')
-                ->findBy(array(
-            'previousRequest_id' => $request_id,
-        ));
+                ->findBy(array('previousRequest_id' => $request_id,));
 
         $remoteEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->createQueryBuilder()
+                // *** Pasar a ORM *** //
                 ->field('request_id')->in(array_map(function ($item) {
                             return $item->getId();
                         }, $requests))
+                // *** *** //
                 ->getQuery()
-                ->execute()
-                ->toArray();
+                ->getResult();
 
-        $view = $this->view(array_values(array_merge($events, $remoteEvents)), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values(array_merge($events, $remoteEvents)), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -72,8 +68,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
     {
         $events = $this->get('celsius3_core.event_manager')->getEvents($event, $request_id);
 
-        $view = $this->view(array_values($events), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($events), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -93,8 +88,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Event not found.');
         }
 
-        $view = $this->view($event, 200)
-                ->setFormat('json');
+        $view = $this->view($event, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -106,8 +100,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $request = $em->getRepository('Celsius3CoreBundle:Request')
-                ->find($request_id);
+        $request = $em->getRepository('Celsius3CoreBundle:Request')->find($request_id);
 
         if (!$request) {
             throw $this->createNotFoundException('Unable to find Request.');
@@ -117,8 +110,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         $result = $this->get('celsius3_core.lifecycle_helper')->undoState($request);
 
-        $view = $this->view($result, 200)
-                ->setFormat('json');
+        $view = $this->view($result, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -130,8 +122,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $request = $em->getRepository('Celsius3CoreBundle:Request')
-                ->find($request_id);
+        $request = $em->getRepository('Celsius3CoreBundle:Request')->find($request_id);
 
         if (!$request) {
             throw $this->createNotFoundException('Unable to find Request.');
@@ -141,8 +132,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request);
 
-        $view = $this->view($result, 200)
-                ->setFormat('json');
+        $view = $this->view($result, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

@@ -188,8 +188,7 @@ class AdminMailController extends BaseInstanceDependentController
         $em->flush();
 
         $this->get('session')->getFlashBag()
-                ->add('success', 'The Template was successfully '
-                        . (($template->getEnabled()) ? 'enabled' : 'disabled'));
+                ->add('success', 'The Template was successfully ' . (($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }
@@ -205,8 +204,7 @@ class AdminMailController extends BaseInstanceDependentController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($user_id);
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($user_id);
 
         if (!$user) {
             return $this->createNotFoundException('User not found');
@@ -215,11 +213,8 @@ class AdminMailController extends BaseInstanceDependentController
         $request = $this->getRequest();
 
         $order_id = $request->query->get('order_id');
-        $order = $em->getRepository('Celsius3CoreBundle:Order')
-                ->find($order_id);
+        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($order_id);
 
-        return array(
-            'form' => $form,
-        );
+        return array('form' => $form,);
     }
 }

@@ -35,14 +35,14 @@ class MailTemplateRepository extends EntityRepository
                 ->where('c.instance_id = :instance_id')
                 ->andWhere('enabled = true')
                 ->setParameter('instance_id', $instance->getId())
-                ->getQuery()
-                ->getResult();
+                ->getQuery()->getResult();
 
         return $this->createQueryBuilder('c')
                 ->where('(c.instance_id = :directory_id AND c.code NOT IN (:ids) AND c.enabled = true)')
                 ->orWhere('c.instance_id = :instance_id')
                 ->setParameter('directory_id', $directory->getId())
                 ->setParameter('ids', $custom)
-                ->setParameter('instance_id', $instance->getId());
+                ->setParameter('instance_id', $instance->getId())
+                ->getQuery()->getResult();
     }
 }

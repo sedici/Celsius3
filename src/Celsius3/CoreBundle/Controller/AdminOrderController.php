@@ -201,8 +201,7 @@ class AdminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this
-                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
+            throw $this->createNotFoundException('Unable to find Order.');
         }
 
         $entity->setMaterialData(null);
