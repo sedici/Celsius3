@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -40,8 +41,10 @@ class NotificationController extends BaseController
 
     protected function listQuery($name)
     {
-        return parent::listQuery($name)->field('receivers.id')
-                        ->equals($this->getUser()->getId());
+        return parent::listQuery($name)
+                        ->join('e.receivers', 'r')
+                        ->where('r.id = :user_id')
+                        ->setParameter('user_id', $this->getUser()->getId());
     }
 
     /**
@@ -67,9 +70,8 @@ class NotificationController extends BaseController
      */
     public function viewAction($id)
     {
-        $dm = $this->getDocumentManager();
-        $notification = $dm
-                ->getRepository('Celsius3NotificationBundle:Notification')
+        $em = $this->getDoctrine()->getManager();
+        $notification = $em->getRepository('Celsius3NotificationBundle:Notification')
                 ->find($id);
 
         if (!$notification) {
@@ -77,10 +79,9 @@ class NotificationController extends BaseController
         }
 
         $notification->setIsViewed(true);
-        $dm->persist($notification);
-        $dm->flush();
+        $em->persist($notification);
+        $em->flush($notification);
 
         return $this->redirect($this->get('celsius3_notification.notification_manager')->generateUrl($notification));
     }
-
 }

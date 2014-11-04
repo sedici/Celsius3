@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Celsius3\CoreBundle\Entity\Event\Event" discriminator-field-name="type" exclusion-policy="all">
+        <discriminator-class value="creation">Celsius3\CoreBundle\Entity\Event\CreationEvent</discriminator-class>
+        <discriminator-class value="search">Celsius3\CoreBundle\Entity\Event\SearchEvent</discriminator-class>
+        <discriminator-class value="sirequest">Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent</discriminator-class>
+        <discriminator-class value="mirequest">Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent</discriminator-class>
+        <discriminator-class value="cancel">Celsius3\CoreBundle\Entity\Event\CancelEvent</discriminator-class>
+        <discriminator-class value="annul">Celsius3\CoreBundle\Entity\AnnulEvent</discriminator-class>
+        <discriminator-class value="sireceive">Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent</discriminator-class>
+        <discriminator-class value="mireceive">Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent</discriminator-class>
+        <discriminator-class value="deliver">Celsius3\CoreBundle\Entity\Event\DeliverEvent</discriminator-class>
+        <discriminator-class value="localcancel">Celsius3\CoreBundle\Entity\Event\LocalCancelEvent</discriminator-class>
+        <discriminator-class value="remotecancel">Celsius3\CoreBundle\Entity\Event\RemoteCancelEvent</discriminator-class>
+        <discriminator-class value="reclaim">Celsius3\CoreBundle\Entity\Event\ReclaimEvent</discriminator-class>
+        <discriminator-class value="approve">Celsius3\CoreBundle\Entity\Event\ApproveEvent</discriminator-class>
+        <discriminator-class value="undo">Celsius3\CoreBundle\Entity\Event\UndoEvent</discriminator-class>
+        <discriminator-class value="si">Celsius3\CoreBundle\Entity\Event\SingleInstanceEvent</discriminator-class>
+        <discriminator-class value="mi">Celsius3\CoreBundle\Entity\Event\MultiInstanceEvent</discriminator-class>
+        <discriminator-class value="take">Celsius3\CoreBundle\Entity\Event\TakeEvent</discriminator-class>
+        <discriminator-class value="upload">Celsius3\CoreBundle\Entity\Event\UploadEvent</discriminator-class>
+        <discriminator-class value="reupload">Celsius3\CoreBundle\Entity\Event\ReuploadEvent</discriminator-class>
+        <property name="id" type="string" expose="true" read-only="true"></property>
+        <property name="createdAt" type="DateTime" expose="true" access-type="public_method"></property>
+        <property name="observations" type="string" expose="true" access-type="public_method"></property>
+        <property name="operator" type="Celsius3\CoreBundle\Entity\BaseUser" expose="true" access-type="public_method"></property>
+        <property name="request" type="Celsius3\CoreBundle\Entity\Request" expose="true" access-type="public_method"></property>
+    </class>
+</serializer>

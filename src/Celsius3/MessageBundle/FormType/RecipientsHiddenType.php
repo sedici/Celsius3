@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,7 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace Celsius3\MessageBundle\FormType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -52,11 +55,10 @@ class RecipientsHiddenType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array(
-                                'invalid_message' => 'The selected recipient does not exist',
-                                'data_class' => null,));
+        $resolver->setDefaults(array(
+            'invalid_message' => 'The selected recipient does not exist',
+            'data_class' => null,
+        ));
     }
 
     /**

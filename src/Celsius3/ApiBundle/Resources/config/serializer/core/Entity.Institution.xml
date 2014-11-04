@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Celsius3\CoreBundle\Entity\Institution" exclusion-policy="all">
+        <property name="id" type="string" expose="true" read-only="true"></property>
+        <property name="name" type="string" expose="true" access-type="public_method"></property>
+        <property name="abbreviation" type="string" expose="true" access-type="public_method"></property>
+        <property name="parent" type="Celsius3\CoreBundle\Entity\Institution" expose="true" access-type="public_method"></property>
+        <property name="city" type="Celsius3\CoreBundle\Entity\City" expose="true" access-type="public_method"></property>
+        <property name="country" type="Celsius3\CoreBundle\Entity\Country" expose="true" access-type="public_method"></property>
+        <property name="celsiusInstance" type="Celsius3\CoreBundle\Entity\Instance" expose="true" access-type="public_method"></property>
+    </class>
+</serializer>

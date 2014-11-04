@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,21 +24,20 @@ namespace Celsius3\MessageBundle\FormType;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
-use Doctrine\ODM\MongoDB\DocumentRepository;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
 use Celsius3\CoreBundle\Manager\UserManager;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
-
     private $context;
-    private $dm;
+    private $em;
 
-    public function __construct(SecurityContextInterface $context, DocumentManager $dm)
+    public function __construct(SecurityContextInterface $context, EntityManager $em)
     {
         $this->context = $context;
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -47,24 +47,28 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
         if ($isAdmin) {
             $builder
                     ->add('recipients', 'celsius3_messagebundle_recipients_selector_custom', array(
-                        'class' => 'Celsius3\\CoreBundle\\Document\\BaseUser',
+                        'class' => 'Celsius3\\CoreBundle\\Entity\\BaseUser',
                         'property' => 'username',
                         'multiple' => true,
-                        'query_builder' => function (DocumentRepository $dr) use ($user) {
-                            return $dr->createQueryBuilder()
-                                    ->field('id')
-                                    ->notEqual($user->getId())
-                                    ->sort('username', 'asc');
+                        'query_builder' => function (EntityRepository $er) use ($user) {
+                            return $er->createQueryBuilder('u')
+                                    ->where('u.id <> :id')
+                                    ->setParameter('id', $user->getId())
+                                    ->orderBy('u.username', 'asc');
                         },
                     ))
             ;
         } else {
-            $usernames = $this->dm
-                            ->getRepository('Celsius3CoreBundle:BaseUser')
-                            ->createQueryBuilder()->field('id')
-                            ->notEqual($user->getId())->field('instance.id')
-                            ->equals($user->getInstance()->getId())->field('roles')
-                            ->in(array(UserManager::ROLE_ADMIN))->getQuery()->execute();
+            $usernames = $this->em->getRepository('Celsius3CoreBundle:BaseUser')
+                    ->createQueryBuilder('u')
+                    ->where('u.id <> :id')
+                    ->andWhere('u.instance = :instance_id')
+                    ->andWhere('u.roles LIKE :role')
+                    ->setParameter('id', $user->getId())
+                    ->setParameter('instance_id', $user->getInstance()->getId())
+                    ->setParameter('role', '%' . UserManager::ROLE_ADMIN . '%')
+                    ->getQuery()
+                    ->getResult();
 
             $builder
                     ->add('recipients', 'celsius3_messagebundle_recipients_selector_hidden', array(
@@ -82,5 +86,4 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
                 ))
         ;
     }
-
 }

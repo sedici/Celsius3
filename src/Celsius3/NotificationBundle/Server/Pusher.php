@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -24,22 +25,21 @@ namespace Celsius3\NotificationBundle\Server;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 class Pusher implements WampServerInterface
 {
-
     /**
      * A lookup of all the topics clients have subscribed to
      */
     private $subscribedTopics = array();
     private $notification_manager;
-    private $dm;
+    private $em;
 
-    public function __construct(NotificationManager $notification_manager, DocumentManager $dm)
+    public function __construct(NotificationManager $notification_manager, EntityManager $em)
     {
         $this->notification_manager = $notification_manager;
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     private function getNotificationData($count, $notifications)
@@ -74,17 +74,17 @@ class Pusher implements WampServerInterface
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
-
+        
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
-
+        
     }
 
     public function onClose(ConnectionInterface $conn)
     {
-
+        
     }
 
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params)
@@ -101,7 +101,7 @@ class Pusher implements WampServerInterface
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-
+        
     }
 
     /**
@@ -111,7 +111,7 @@ class Pusher implements WampServerInterface
     {
         $entryData = json_decode($entry, true);
 
-        $notification = $this->dm
+        $notification = $this->em
                 ->getRepository('Celsius3NotificationBundle:Notification')
                 ->find($entryData['notification_id']);
 
@@ -134,5 +134,4 @@ class Pusher implements WampServerInterface
             $topic->broadcast($data);
         }
     }
-
 }

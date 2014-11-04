@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<serializer>
-    <class name="Celsius3\CoreBundle\Document\Event\MultiInstanceRequestEvent" exclusion-policy="all">
-        <property name="provider" expose="true" access-type="public_method"></property>
-        <property name="isCancelled" expose="true" access-type="public_method"></property>
-    </class>
-</serializer>
