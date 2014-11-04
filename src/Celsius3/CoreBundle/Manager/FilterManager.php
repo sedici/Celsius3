@@ -47,7 +47,7 @@ class FilterManager
 
         $filter = null;
         if (class_exists($filterClass)) {
-            $filter = new $filterClass($this->dm);
+            $filter = new $filterClass($this->em);
         }
 
         return $filter;

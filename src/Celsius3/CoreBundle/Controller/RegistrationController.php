@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -101,7 +102,7 @@ class RegistrationController extends BaseRegistrationController
      */
     protected function getEntityManager()
     {
-        return $this->container->get('doctrine.odm.mongodb.document_manager');
+        return $this->container->get('doctrine.orm.entity_manager');
     }
 
     /**

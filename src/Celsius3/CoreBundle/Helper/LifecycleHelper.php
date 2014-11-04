@@ -59,10 +59,10 @@ class LifecycleHelper
         return $this->event_manager;
     }
 
-    public function refresh($document)
+    public function refresh($entity)
     {
-        $this->em->persist($document);
-        $this->em->flush();
+        $this->em->persist($entity);
+        $this->em->flush($entity);
     }
 
     public function uploadFiles(Request $request, Event $event, array $files)

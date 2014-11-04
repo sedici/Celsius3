@@ -50,17 +50,17 @@ class UserManager
         return $results;
     }
 
-    public function transform($type, BaseUser $document)
+    public function transform($type, BaseUser $entity)
     {
         if (in_array($type, $this->types)) {
-            $document->setRoles(array());
-            $document->addRole($type);
+            $entity->setRoles(array());
+            $entity->addRole($type);
         };
     }
 
-    public function getCurrentRole(BaseUser $document)
+    public function getCurrentRole(BaseUser $entity)
     {
-        $roles = $document->getRoles();
+        $roles = $entity->getRoles();
 
         $default = self::ROLE_USER;
 
