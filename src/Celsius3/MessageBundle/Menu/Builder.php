@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\MessageBundle\Menu;
+
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
@@ -31,14 +33,9 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $menu
-                ->addChild('Inbox',
-                        array('route' => 'fos_message_inbox',));
-        $menu
-                ->addChild('Sent',
-                        array('route' => 'fos_message_sent',));
+        $menu->addChild('Inbox', array('route' => 'fos_message_inbox',));
+        $menu->addChild('Sent', array('route' => 'fos_message_sent',));
 
         return $menu;
     }
-
 }

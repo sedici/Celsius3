@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Celsius3\CoreBundle\Entity\Event\SearchEvent" exclusion-policy="all">
+        <property name="result" type="string" expose="true" access-type="public_method"></property>
+        <property name="catalog" type="Celsius3\CoreBundle\Entity\Catalog" expose="true" access-type="public_method"></property>
+    </class>
+</serializer>

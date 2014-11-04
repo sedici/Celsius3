@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -59,13 +60,9 @@ class EntryPoint
         }
 
         if ($this->getOutput()) {
-            $this->getOutput()
-                    ->writeln(
-                            "Launching " . $this->server->getName() . " on: "
-                            . $this->server->getAddress());
+            $this->getOutput()->writeln("Launching " . $this->server->getName() . " on: " . $this->server->getAddress());
         }
         //launch server into background process?
         $this->server->launch();
     }
-
 }

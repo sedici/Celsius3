@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Celsius3\CoreBundle\Entity\Journal" exclusion-policy="all">
+        <property name="id" type="string" expose="true" read-only="true"></property>
+        <property name="name" type="string" expose="true" access-type="public_method"></property>
+        <property name="abbreviation" type="string" expose="true" access-type="public_method"></property>
+        <property name="responsible" type="string" expose="true" access-type="public_method"></property>
+        <property name="ISSN" type="string" expose="true" access-type="public_method"></property>
+        <property name="ISSNE" type="string" expose="true" access-type="public_method"></property>
+        <property name="frecuency" type="string" expose="true" access-type="public_method"></property>
+    </class>
+</serializer>

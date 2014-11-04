@@ -40,7 +40,7 @@ class CustomFieldHelper
         $this->em = $em;
     }
 
-    public function processCustomFields(Instance $instance, FormInterface $form, BaseUser $document)
+    public function processCustomFields(Instance $instance, FormInterface $form, BaseUser $entity)
     {
         $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
                 ->findBy(array('instance_id' => $instance->getId()));
@@ -53,13 +53,13 @@ class CustomFieldHelper
                         ->getRepository('Celsius3CoreBundle:CustomUserValue')
                         ->findOneBy(array(
                     'field_id' => $field->getId(),
-                    'user_id' => $document->getId(),
+                    'user_id' => $entity->getId(),
                 ));
 
                 if (!$value) {
                     $value = new CustomUserValue();
                     $value->setField($field);
-                    $value->setUser($document);
+                    $value->setUser($entity);
                 }
                 $value->setValue($data[$field->getKey()]);
                 $this->em->persist($value);

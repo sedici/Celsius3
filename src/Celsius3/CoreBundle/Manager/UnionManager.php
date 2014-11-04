@@ -27,7 +27,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class UnionManager
 {
-    private $dm;
+    private $em;
     private $instance_manager;
     private $references = array(
         'Celsius3CoreBundle:Country' => array(

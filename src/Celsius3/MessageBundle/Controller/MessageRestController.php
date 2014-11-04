@@ -44,7 +44,8 @@ class MessageRestController extends FOSRestController
         $messages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->createQueryBuilder('t')
-                ->where('t.participants_id = :id')
+                ->join('t.participants', 'p')
+                ->where('p.id = :id')
                 ->setParameter('id', $this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');

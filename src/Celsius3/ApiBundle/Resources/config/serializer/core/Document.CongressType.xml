@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<serializer>
-    <class name="Celsius3\CoreBundle\Document\CongressType" exclusion-policy="all">
-        <property name="place" type="string" expose="true" read-only="true"></property>
-        <property name="communication" type="string" expose="true" access-type="public_method"></property>
-    </class>
-</serializer>

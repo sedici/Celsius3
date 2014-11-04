@@ -144,7 +144,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $directory->setEnabled(false);
         $manager->persist($directory);
         $manager->flush();
-
+        
         $this->addReference('directory', $directory);
 
         $hive = new Entity\Hive();

@@ -39,21 +39,20 @@ class OrderController extends BaseController
      */
     public function ordersAction($user_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($user_id);
 
         if (!$user) {
             return $this->createNotFoundException('User not found.');
         }
 
-        $orders = $dm->getRepository('Celsius3CoreBundle:Order')
+        $orders = $em->getRepository('Celsius3CoreBundle:Order')
                 ->findBy(array(
-                    'owner.id' => $user->getId(),
-                    'instance.id' => $this->getInstance()->getId(),
-                ))
-                ->toArray();
+                    'owner' => $user->getId(),
+                    'instance' => $this->getInstance()->getId(),
+                ));
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');
@@ -67,15 +66,12 @@ class OrderController extends BaseController
      */
     public function ordersByStateAction($state)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $startDate = $this->getRequest()->query->get('startDate');
 
-        $orders = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->findByStateType($state, $startDate, null, $this->getInstance())
-                ->toArray();
-
-        $this->get('logger')->info(count($orders));
+        $orders = $em->getRepository('Celsius3CoreBundle:Order')
+                ->findByStateType($state, $startDate, null, $this->getInstance());
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');
@@ -89,18 +85,17 @@ class OrderController extends BaseController
      */
     public function ordersByUserAndStateAction($user_id, $state)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($user_id);
 
         if (!$user) {
             return $this->createNotFoundException('User not found.');
         }
 
-        $orders = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->findByStateType($state, $user, $this->getInstance())
-                ->toArray();
+        $orders = $em->getRepository('Celsius3CoreBundle:Order')
+                ->findByStateType($state, $user, $this->getInstance());
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');

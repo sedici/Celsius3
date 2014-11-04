@@ -36,7 +36,7 @@ class UserSelectorType extends AbstractType
     private $em;
 
     /**
-     * @param EntityManager $dm
+     * @param EntityManager $em
      */
     public function __construct(EntityManager $em)
     {

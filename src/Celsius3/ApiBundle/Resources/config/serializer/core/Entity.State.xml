@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Celsius3\CoreBundle\Entity\State" exclusion-policy="all">
+        <property name="id" type="string" expose="true" read-only="true"></property>
+        <property name="createdAt" type="DateTime" expose="true" access-type="public_method"></property>
+        <property name="isCurrent" type="boolean" expose="true" access-type="public_method"></property>
+        <property name="type" type="string" expose="true" access-type="public_method"></property>
+        <property name="remoteEvent" expose="true" access-type="public_method"></property>
+        <property name="instance" type="Celsius3\CoreBundle\Entity\Instance" expose="true" access-type="public_method"></property>
+    </class>
+</serializer>

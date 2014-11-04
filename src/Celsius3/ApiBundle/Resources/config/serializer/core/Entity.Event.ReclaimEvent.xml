@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Celsius3\CoreBundle\Entity\Event\ReclaimEvent" exclusion-policy="all">
+        <property name="requestEvent" expose="true" access-type="public_method"></property>
+        <property name="receiveEvent" expose="true" access-type="public_method"></property>
+    </class>
+</serializer>

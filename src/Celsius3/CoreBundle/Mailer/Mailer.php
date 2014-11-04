@@ -36,7 +36,7 @@ class Mailer
 
     public function saveEmail($address, $subject, $text, Instance $instance)
     {
-        $dm = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         $email = new Email();
         $email->setAddress($address);
@@ -45,8 +45,8 @@ class Mailer
         $email->setSender($this->container->get('security.context')->getToken()->getUser());
         $email->setInstance($instance);
 
-        $dm->persist($email);
-        $dm->flush($email);
+        $em->persist($email);
+        $em->flush($email);
     }
 
     public function sendEmail($address, $subject, $text, Instance $instance)
