@@ -53,10 +53,9 @@ class UserOrderRestController extends BaseInstanceDependentRestController
         if ($withRequest) {
             $requests = $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:Request')
-                    ->createQueryBuilder()
-                    // *** Pasar a ORM *** //
-                    ->field('order_id')->in(array_map(function ($order) {return $order->getId();}, $pagination))
-                    // *** *** //
+                    ->createQueryBuilder('r')
+                    ->where('r.order IN (:orders)')
+                    ->setParameter('orders',array_map(function ($order) {return $order->getId();}, $pagination))
                     ->getQuery()->getResult();
 
             $response = array(

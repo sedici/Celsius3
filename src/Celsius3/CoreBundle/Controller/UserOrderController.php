@@ -41,11 +41,11 @@ class UserOrderController extends OrderController
     {
         $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->where('instance = :instance')->setParameter('instance',$this->getInstance()->getId());
+                ->createQueryBuilder('e')
+                ->where('e.instance = :instance')->setParameter('instance',$this->getInstance()->getId());
 
-        $qb = $qb->orWhere($qb->expr()->where('owner = :owner')->setParameter('owner',$this->getUser()->getId()));
-        $qb = $qb->orWhere($qb->expr()->where('librarian = :librarian')->equals('librarian',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->equals('librarian',$this->getUser()->getId()));
 
         return $qb;
     }
@@ -54,13 +54,13 @@ class UserOrderController extends OrderController
     {
         $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->where('instance = :instance')->setParameter('instance',$this->getInstance()->getId());
+                ->createQueryBuilder('e')
+                ->where('e.instance = :instance')->setParameter('instance',$this->getInstance()->getId());
 
-        $qb = $qb->orWhere($qb->expr()->where('owner = :owner')->setParameter('owner',$this->getUser()->getId()));
-        $qb = $qb->orWhere($qb->expr()->where('librarian = :librarian')->setParameter('librarian',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->setParameter('librarian',$this->getUser()->getId()));
 
-        return $qb->andWhere('id = :id')->setParameter('id',$id)->getQuery()->getSingleResult();
+        return $qb->andWhere('e.id = :id')->setParameter('id',$id)->getQuery()->getSingleResult();
     }
 
     /**

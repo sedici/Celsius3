@@ -39,16 +39,16 @@ class AdminContactController extends BaseInstanceDependentController
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder()
-                        ->where('owningInstance_id = :owning')->setParameter('owning',$this->getInstance()->getId());
+                        ->createQueryBuilder('e')
+                        ->where('e.owningInstance = :owning')->setParameter('owning',$this->getInstance()->getId());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder()
-                        ->where('owningInstance_id = :owning')->setParameter('owning',$this->getInstance()->getId())
+                        ->createQueryBuilder('e')
+                        ->where('e.owningInstance = :owning')->setParameter('owning',$this->getInstance()->getId())
                         ->andWhere('id = :id')->setParameter('id',$id)
                         ->getQuery()
                         ->getSingleResult();

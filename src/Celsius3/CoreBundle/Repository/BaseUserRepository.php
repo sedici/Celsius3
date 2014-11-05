@@ -39,12 +39,12 @@ class BaseUserRepository extends EntityRepository
     public function findAdmins(Instance $instance)
     {
         return $this->createQueryBuilder('u')
-                        ->where('u.instance_id = :instance_id')
-                        ->andWhere('u.roles LIKE :roles')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
-                        ->getQuery()
-                        ->getResult();
+                ->where('u.instance_id = :instance_id')
+                ->andWhere('u.roles LIKE :roles')
+                ->setParameter('instance_id', $instance->getId())
+                ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
+                ->getQuery()
+                ->getResult();
     }
 
     public function findPendingUsers(Instance $instance = null)

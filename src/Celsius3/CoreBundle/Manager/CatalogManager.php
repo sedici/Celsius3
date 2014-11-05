@@ -54,9 +54,7 @@ class CatalogManager
     public function getCatalogs(Instance $instance = null)
     {
         return $this->em->getRepository('Celsius3CoreBundle:Catalog')
-                        ->findBy(array(
-                            'instance_id' => $instance->getId(),
-        ));
+                        ->findBy(array('instance_id' => $instance->getId(),));
     }
 
     public function getAllCatalogs(Instance $instance)

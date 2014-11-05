@@ -42,9 +42,9 @@ class UserController extends BaseInstanceDependentController
     {
         $lastMessages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
-                ->createQueryBuilder()
-                ->where('participants = :participants')->setParameter('participants',$this->getUser()->getId())
-                ->sort('lastMessageDate', 'desc')
+                ->createQueryBuilder('t')
+                ->where('t.participants = :participants')->setParameter('participants',$this->getUser()->getId())
+                ->sort('t.lastMessageDate', 'desc')
                 ->limit(3)
                 ->getQuery()->getResult();
 

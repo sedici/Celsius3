@@ -40,8 +40,8 @@ class SuperadminNewsController extends BaseController
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->createQueryBuilder()
-                        ->where('instance = :instance')->setParameter('instance',$this->getDirectory()->getId());
+                        ->createQueryBuilder('e')
+                        ->where('e.instance = :instance')->setParameter('instance',$this->getDirectory()->getId());
     }
 
     /**

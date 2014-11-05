@@ -117,10 +117,9 @@ abstract class BaseUserController extends BaseInstanceDependentController
     {
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->createQueryBuilder()
-                // *** Pasar a ORM *** //
-                ->field('id')->in($element_ids)
-                // *** *** //
+                ->createQueryBuilder('u')
+                ->where('u.id IN (:elements)')
+                ->setParameter('elements',$element_ids)
                 ->getQuery()
                 ->getResutl();
 

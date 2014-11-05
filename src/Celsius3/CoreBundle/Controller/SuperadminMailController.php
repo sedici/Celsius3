@@ -41,8 +41,8 @@ class SuperadminMailController extends BaseController
         //Se obtienen los templetes del directorio.
         $qb = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->createQueryBuilder()
-                        ->where('instance = :instance')->setParameter('instance',$this->getDirectory()->getId());
+                        ->createQueryBuilder('e')
+                        ->where('e.instance = :instance')->setParameter('instance',$this->getDirectory()->getId());
 
         return $qb;
     }

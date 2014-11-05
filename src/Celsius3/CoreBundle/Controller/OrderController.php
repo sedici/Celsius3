@@ -26,12 +26,6 @@ use Celsius3\CoreBundle\Form\Type\OrderType;
 abstract class OrderController extends BaseInstanceDependentController
 {
 
-    protected function listQuery($name)
-    {
-        // *** Pasar a ORM *** //
-        return parent::listQuery($name)->field('currentState')->prime(true);
-    }
-
     protected function change()
     {
         $material = 'Celsius3\\CoreBundle\\Form\\Type\\'
