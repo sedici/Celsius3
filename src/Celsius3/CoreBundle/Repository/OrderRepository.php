@@ -84,40 +84,38 @@ class OrderRepository extends EntityRepository
 
     public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null)
     {
-        $states = $this->getEntityManager()
-                        ->getRepository('Celsius3CoreBundle:State')
-                        ->createQueryBuilder('s')
-                        ->select('s.order')
-                        ->where('s.isCurrent = :current')
-                        ->andWhere('s.instance = :instance')
-                        ->setParameter('current', true)
-                        ->setParameter('instance', $instance->getId());
-                
+        $qb = $this->createQueryBuilder('o')
+                ->join('o.requests', 'r')
+                ->join('r.states', 's')
+                ->where('s.isCurrent = :current')
+                ->andWhere('s.instance = :instance')
+                ->setParameter('current', true)
+                ->setParameter('instance', $instance->getId());
+
         if (is_array($state)) {
-            // *** Pasar a ORM *** //
-            $states = $states->field('type')->in($state);
-            // *** *** //
+            $qb = $qb->andWhere('s.type IN (:state_types)')
+                    ->setParameter('state_types', $state);
         } else {
-            $states = $states->andWhere('s.type = :type')
-                             ->setParameter('type', $state);
+            $qb = $qb->andWhere('s.type = :state_type')
+                    ->setParameter('state_type', $state);
         }
 
         if (!($orderType === 'allTypes') && !(is_null($orderType))) {
-            $states = $states->andWhere('requestType = :requestType')
-                            ->setParameter('requestType', $orderType);
+            $qb = $qb->andWhere('r.type = :order_type')
+                    ->setParameter('order_type', $orderType);
         }
 
         if (!is_null($user)) {
-            $states = $states->orWhere(
-                                $states->expr()->where('operator = :operatorA')->setParameter('operatorA',$user->getId()))
-                            ->orWhere($states->expr()->where('operator = :operatorB')->setParameter('operatorB',null));
+            $qb = $qb->andWhere('(r.operator = :user_id OR r.operator IS NULL)')
+                    ->setParameter('user_id', $user->getId());
         }
 
         if (!is_null($owner)) {
-            $states = $states->andWhere('owner = :owner')->setParameter('owner',$owner->getId());
+            $qb = $qb->andWhere('r.owner = :owner')
+                    ->setParameter('owner', $owner->getId());
         }
 
-        return $states->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
     }
 
     public function findOneForInstance($id, Instance $instance)

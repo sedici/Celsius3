@@ -23,41 +23,38 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Celsius3\CoreBundle\Document\BaseUser;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
 
 class StateRepository extends EntityRepository
 {
 
-    protected function getRequestIds($value)
-    {
-        return $value['_id'];
-    }
-
     public function countOrders(Instance $instance = null, BaseUser $user = null)
     {
         $types = StateManager::$stateTypes;
+        $qb = $this->createQueryBuilder('s')
+                ->select('s.type, COUNT(s.id) as c')
+                ->where('s.isCurrent = true')
+                ->andWhere('s.type IN (:types)')
+                ->groupBy('s.type')
+                ->setParameter('types', $types);
 
-        $result = array();
-        foreach ($types as $type) {
-            $qb = $this->createQueryBuilder()
-                            ->hydrate(false)
-                            ->field('isCurrent')->equals(true)
-                            ->field('type')->equals($type);
-
-            if (!is_null($instance)) {
-                $qb = $qb->field('instance.id')->equals($instance->getId());
-            }
-
-            if (!is_null($user)) {
-                $qb = $qb->addOr($qb->expr()->field('operator.id')->equals($user->getId()))
-                        ->addOr($qb->expr()->field('operator.id')->equals(null));
-            }
-
-            $result[$type] = $qb->getQuery()->execute()->count();
+        if (!is_null($instance)) {
+            $qb = $qb->andWhere('s.instance = :instance_id')
+                    ->setParameter('instance_id', $instance->getId());
         }
 
+        if (!is_null($user)) {
+            $qb = $qb->andWhere('(s.operator = :user_id OR s.operator IS NULL)')
+                    ->setParameter('user_id', $user->getId());
+        }
+        
+        $result = array();
+        foreach ($qb->getQuery()->getResult() as $type) {
+            $result[$type['type']] = intval($type['c']);
+        }
+        
         return $result;
     }
 

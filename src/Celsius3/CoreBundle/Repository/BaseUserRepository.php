@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\UserManager;
 
 /**
@@ -39,12 +39,12 @@ class BaseUserRepository extends EntityRepository
     public function findAdmins(Instance $instance)
     {
         return $this->createQueryBuilder('u')
-                ->where('u.instance_id = :instance_id')
-                ->andWhere('u.roles LIKE :roles')
-                ->setParameter('instance_id', $instance->getId())
-                ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
-                ->getQuery()
-                ->getResult();
+            ->where('u.instance = :instance_id')
+            ->andWhere('u.roles LIKE :roles')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findPendingUsers(Instance $instance = null)
@@ -54,7 +54,7 @@ class BaseUserRepository extends EntityRepository
                 ->andWhere('u.locked = false');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('u.instance_id = :instance_id')
+            $qb = $qb->andWhere('u.instance = :instance_id')
                     ->setParameter('instance_id', $instance->getId());
         }
 
@@ -68,7 +68,7 @@ class BaseUserRepository extends EntityRepository
                 ->andWhere('u.locked = false');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('u.instance_id = :instance_id')
+            $qb = $qb->andWhere('u.instance = :instance_id')
                     ->setParameter('instance_id', $instance->getId());
         }
 
@@ -89,12 +89,12 @@ class BaseUserRepository extends EntityRepository
                 ->setParameter('term', '%' . $term . '%');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('u.instance_id = :instance_id')
+            $qb = $qb->andWhere('u.instance = :instance_id')
                     ->setParameter('instance_id', $instance->getId());
         }
 
         if (count($institutions) > 0) {
-            $qb = $qb->andWhere('u.institution_id IN (:institution_ids)')
+            $qb = $qb->andWhere('u.institution IN (:institution_ids)')
                     ->setParameter('institution_ids', $institutions);
         }
 
@@ -125,7 +125,7 @@ class BaseUserRepository extends EntityRepository
         }
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('u.instance_id = :instance_id')
+            $qb = $qb->andWhere('u.instance = :instance_id')
                     ->setParameter('instance_id', $instance->getId());
         }
 

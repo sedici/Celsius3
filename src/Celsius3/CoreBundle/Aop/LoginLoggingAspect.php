@@ -55,9 +55,9 @@ class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterfac
 
         $log = new Login();
         $log->setCategory('login');
-        $log->setDate(time());
+        $log->setDate(new \DateTime());
 
-        $em = $this->container->get('doctrine.orm.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         try {
             $token = $invocation->proceed();
