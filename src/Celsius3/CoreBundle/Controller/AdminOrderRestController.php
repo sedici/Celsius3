@@ -104,21 +104,16 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($states, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-        $orders = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->createQueryBuilder()
-                ->field('id')->in(array_column(array_column($pagination, 'order'), '$id'))
-                ->getQuery()->getResult();
-
         $requests = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Request')
-                ->createQueryBuilder()
-                ->field('order_id')->in(array_column(array_column($pagination, 'order'), '$id'))
+                ->createQueryBuilder('r')
+                ->where('r.order IN (:orders)')
+                ->setParameter('orders', $pagination)
                 ->getQuery()
-                ->getResutl();
+                ->getResult();
 
         $response = array(
-            'orders' => array_values($orders),
+            'orders' => array_values($pagination),
             'requests' => array_column(array_map(function($request) {
                                 return array(
                                     'id' => $request->getOrder()->getId(),

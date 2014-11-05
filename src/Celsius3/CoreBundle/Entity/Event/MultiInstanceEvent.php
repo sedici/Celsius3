@@ -32,8 +32,8 @@ class MultiInstanceEvent extends Event
 {
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Instance", inversedBy="events")
-     * @ORM\JoinColumn(name="remote_instance_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Instance")
+     * @ORM\JoinColumn(name="remote_instance_id", referencedColumnName="id")
      */
     private $remoteInstance;
 
