@@ -28,6 +28,8 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\NotificationBundle\Entity\NotificationTemplate;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Celsius3\NotificationBundle\Entity\BaseUserNotification;
+use Celsius3\NotificationBundle\Entity\MessageNotification;
 
 class NotificationManager
 {
@@ -115,10 +117,9 @@ class NotificationManager
                         )));
                     }
 
-                    private function notify($cause, $object, $receivers, NotificationTemplate $template)
+                    private function notify(Notification $notification,$cause, $object, $receivers, NotificationTemplate $template)
                     {
                         $em = $this->container->get('doctrine.orm.entity_manager');
-                        $notification = new Notification();
                         $notification->setCause($cause);
                         foreach ($receivers as $receiver) {
                             $notification->addReceiver($receiver);
@@ -135,7 +136,7 @@ class NotificationManager
                     {
                         $receivers = new ArrayCollection($message->getThread()->getParticipants());
                         $em = $this->container->get('doctrine.orm.entity_manager');
-                        $this->notify(self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use ($message) {
+                        $this->notify(new MessageNotification(),self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use ($message) {
                                     return ($receiver->getId() != $message->getSender()->getId());
                                 }), $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array(
@@ -147,7 +148,7 @@ class NotificationManager
                     {
                         $em = $this->container->get('doctrine.orm.entity_manager');
                         $admins = $em->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($user->getInstance());
-                        $this->notify(self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                        $this->notify(new BaseUser(),self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array(
                                             'code' => self::CAUSE__NEW_USER
                         )));

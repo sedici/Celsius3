@@ -30,6 +30,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
  * @ORM\Table(name="notification")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *   "message"="MessageNotification",
+ *   "baseuser"="BaseUserNotification",
+ * })
  */
 class Notification
 {
@@ -57,15 +63,6 @@ class Notification
      * @Gedmo\Timestampable(on="change", field="isViewed", value="true")
      */
     private $viewedAt;
-    /**
-     * @Assert\NotNull
-     * 
-     */
-    private $object;
-    /**
-     * 
-     */
-    private $source;
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\NotificationBundle\Entity\NotificationTemplate")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=false)
