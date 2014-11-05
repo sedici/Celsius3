@@ -36,7 +36,7 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
-     * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
      */
     private $receiveEvent;
 

@@ -27,7 +27,7 @@ trait ProviderTrait
     /**
      * @Assert\NotNull(groups={"request"})
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Provider")
-     * @ORM\JoinColumn(name="provider_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="provider_id", referencedColumnName="id")
      */
     private $provider;
 

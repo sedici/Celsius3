@@ -36,23 +36,23 @@ class CounterListener
         $em = $args->getEntityManager();
 
         if ($entity instanceof Order) {
-            $em->beginTransaction();
+            $em->getConnection()->beginTransaction();
             try {
-                $code = $em->createQueryBuilder('Celsius3CoreBundle:Counter')
-                            ->findOneBy(array(
-                                'name' => $entity->getOriginalRequest()->getInstance()->getId(),
-                            ));
+                $code = $em->getRepository('Celsius3CoreBundle:Counter')
+                        ->findOneBy(array(
+                    'name' => $entity->getOriginalRequest()->getInstance()->getId(),
+                ));
                 $entity->setCode($code->getValue());
                 $em->persist($entity);
-                
+
                 $code->setValue($code->getValue() + 1);
                 $em->persist($code);
-                
-                $em->flush();
-                
-                $em->commit();
-            } catch(Exception $e) {
-                $em->rollback();
+
+                $em->flush($code);
+
+                $em->getConnection()->commit();
+            } catch (Exception $e) {
+                $em->getConnection()->rollback();
                 throw $e;
             }
         }

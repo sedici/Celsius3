@@ -60,7 +60,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * @Assert\NotBlank()
      * @Assert\Date()
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     protected $birthdate;
     /**

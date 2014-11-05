@@ -41,7 +41,7 @@ class SearchEvent extends SingleInstanceEvent
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Catalog")
-     * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id")
      */
     private $catalog;
 

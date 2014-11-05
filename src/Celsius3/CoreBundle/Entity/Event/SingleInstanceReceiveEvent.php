@@ -47,7 +47,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
-     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
      */
     private $requestEvent;
 
@@ -122,7 +122,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
      * @param  Celsius3\CoreBundle\Entity\Event\Event $requestEvent
      * @return self
      */
-    public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent)
+    public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent = null)
     {
         $this->requestEvent = $requestEvent;
 

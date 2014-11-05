@@ -35,7 +35,7 @@ class ReclaimEvent extends SingleInstanceEvent
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
-     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="request_event_id", referencedColumnName="id")
      */
     private $requestEvent;
     /**

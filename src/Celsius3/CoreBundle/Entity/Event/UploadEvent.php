@@ -39,7 +39,7 @@ class UploadEvent extends MultiInstanceEvent
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
-     * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
      */
     private $remoteState;
     /**

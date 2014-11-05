@@ -34,7 +34,7 @@ class ReuploadEvent extends SingleInstanceEvent
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
-     * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
      */
     private $receiveEvent;
 

@@ -53,7 +53,7 @@ class Order
     /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Request", cascade={"persist"})
-     * @ORM\JoinColumn(name="original_request_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="original_request_id", referencedColumnName="id")
      */
     private $originalRequest;
     /**
