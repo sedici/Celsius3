@@ -23,7 +23,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Country;
+use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Form\Type\CountryType;
 use Celsius3\CoreBundle\Filter\Type\CountryFilterType;
 

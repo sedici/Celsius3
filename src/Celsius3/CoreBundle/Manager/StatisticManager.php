@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ORM\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
@@ -129,6 +129,9 @@ class StatisticManager
                     ->getRepository($this->statistic_data['usersPerInstance']['repository'])
                     ->findUsersPerInstance(),
         );
+        
+        var_dump($data);
+        die();
 
         $response = array();
         foreach ($instances as $instance) {

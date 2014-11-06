@@ -48,8 +48,8 @@ abstract class BaseController extends Controller
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                ->getRepository($this->getBundle() . ':' . $name)
-                ->find($id);
+                        ->getRepository($this->getBundle() . ':' . $name)
+                        ->find($id);
     }
 
     protected function getResultsPerPage()
@@ -121,8 +121,8 @@ abstract class BaseController extends Controller
         if ($form->isValid()) {
             $this->persistEntity($entity);
             $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The ' . $name . ' was successfully created.');
+                    ->getFlashBag()
+                    ->add('success', 'The ' . $name . ' was successfully created.');
 
             return $this->redirect($this->generateUrl($route));
         }
@@ -228,7 +228,7 @@ abstract class BaseController extends Controller
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder('e')
-                ->where('e_id IN (:ids)')
+                ->where('e.id IN (:ids)')
                 ->setParameter('ids', $ids)
                 ->getQuery()
                 ->getResult();
@@ -250,22 +250,20 @@ abstract class BaseController extends Controller
 
         $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder('e')
-                ->where('e_id IN (:ids)')
-                ->andWhere('e_id <> :id')
+                ->where('e.id IN (:ids)')
+                ->andWhere('e.id <> :id')
                 ->setParameter('ids', $ids)
                 ->setParameter('id', $main->getId())
                 ->getQuery()
                 ->getResult();
 
-        if ($entities->count() !== count($ids) - 1) {
+        if (count($entities) !== count($ids) - 1) {
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $this->get('celsius3_core.union_manager')->union($name, $main, $entities, $updateInstance);
+        $this->get('celsius3_core.union_manager')->union($this->getBundle() . ':' . $name, $main, $entities, $updateInstance);
 
-        $this->get('session')
-                ->getFlashBag()
-                ->add('success', 'The elements were successfully joined.');
+        $this->get('session')->getFlashBag()->add('success', 'The elements were successfully joined.');
 
         return $this->redirect($this->generateUrl($route));
     }

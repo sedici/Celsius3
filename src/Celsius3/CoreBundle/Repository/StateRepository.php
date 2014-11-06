@@ -49,47 +49,35 @@ class StateRepository extends EntityRepository
             $qb = $qb->andWhere('(s.operator = :user_id OR s.operator IS NULL)')
                     ->setParameter('user_id', $user->getId());
         }
-        
+
         $result = array();
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }
-        
+
         return $result;
     }
 
     public function findOrdersPerStatePerInstance($state)
     {
-        return $this->createQueryBuilder()
-                        ->field('type')->equals($state)
-                        ->field('isCurrent')->equals(true)
-                        ->map('function () { emit(this.instance.$id, 1); }')
-                        ->reduce('function (k, vals) {
-                            var sum = 0;
-                            for (var i in vals) {
-                                sum += vals[i];
-                            }
-
-                            return sum;
-                        }')
+        return $this->createQueryBuilder('s')
+                        ->select('IDENTITY(s.instance), COUNT(s.id) as c')
+                        ->where('s.type = :state_type')
+                        ->andWhere('s.isCurrent = true')
+                        ->groupBy('s.instance')
+                        ->addGroupBy('s.type')
+                        ->setParameter('state_type', $state)
                         ->getQuery()
-                        ->execute();
+                        ->getResult();
     }
 
     public function findTotalOrdersPerInstance()
     {
-        return $this->createQueryBuilder()
-                        ->field('isCurrent')->equals(true)
-                        ->map('function () { emit(this.instance.$id, 1); }')
-                        ->reduce('function (k, vals) {
-                            var sum = 0;
-                            for (var i in vals) {
-                                sum += vals[i];
-                            }
-
-                            return sum;
-                        }')
+        return $this->createQueryBuilder('s')
+                        ->select('IDENTITY(s.instance), COUNT(s.id) as c')
+                        ->where('s.isCurrent = true')
+                        ->groupBy('s.instance')
                         ->getQuery()
-                        ->execute();
+                        ->getResult();
     }
 }

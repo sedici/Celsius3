@@ -33,12 +33,15 @@ class UnionManager
         'Celsius3CoreBundle:Country' => array(
             'Celsius3CoreBundle:City' => array(
                 'country'
-            )
+            ),
+            'Celsius3CoreBundle:Institution' => array(
+                'country'
+            ),
         ),
         'Celsius3CoreBundle:City' => array(
             'Celsius3CoreBundle:Institution' => array(
                 'city'
-            )
+            ),
         ),
         'Celsius3CoreBundle:Institution' => array(
             'Celsius3CoreBundle:BaseUser' => array(
@@ -49,11 +52,25 @@ class UnionManager
             ),
             'Celsius3CoreBundle:Catalog' => array(
                 'institution'
-            )
+            ),
+            'Celsius3CoreBundle:Event\\SingleInstanceRequestEvent' => array(
+                'provider'
+            ),
+            'Celsius3CoreBundle:Event\\MultiInstanceRequestEvent' => array(
+                'provider'
+            ),
+        ),
+        'Celsius3CoreBundle:Catalog' => array(
+            'Celsius3CoreBundle:Event\\SearchEvent' => array(
+                'catalog'
+            ),
+            'Celsius3CoreBundle:CatalogPosition' => array(
+                'catalog'
+            ),
         ),
         'Celsius3CoreBundle:Journal' => array(
-            'Celsius3CoreBundle:Order' => array(
-                'materialData.journal'
+            'Celsius3CoreBundle:JournalType' => array(
+                'journal'
             )
         ),
         'Celsius3CoreBundle:BaseUser' => array(
@@ -78,38 +95,36 @@ class UnionManager
         $this->instance_manager = $instance_manager;
     }
 
-    public function union($name, $main, ArrayCollection $elements, $updateInstance)
+    public function union($name, $main, array $elements, $updateInstance)
     {
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
                     $this->em->getRepository($key)
-                            ->createQueryBuilder()
+                            ->createQueryBuilder('e')
                             ->update()
-                            ->field($field . '.id')
-                            ->in(array_keys($elements->toArray()))
-                            ->field($field . '.id')
-                            ->set($main->getId())
-                            ->getQuery(array(
-                                'multiple' => true
-                            ))
-                            ->execute();
+                            ->set('e.' . $field, ':main_id')
+                            ->where('e.' . $field . ' IN (:ids)')
+                            ->setParameter('ids', $elements)
+                            ->setParameter('main_id', $main->getId())
+                            ->getQuery()
+                            ->getResult();
                 }
             }
         }
 
-        $this->em->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->remove()
-                ->field('id')
-                ->in(array_keys($elements->toArray()))
+        $this->em->getRepository($name)
+                ->createQueryBuilder('e')
+                ->delete()
+                ->where('e.id IN (:ids)')
+                ->setParameter('ids', $elements)
                 ->getQuery()
-                ->execute();
+                ->getResult();
 
         if ($updateInstance) {
             $main->setInstance($this->instance_manager->getDirectory());
             $this->em->persist($main);
-            $this->em->flush();
+            $this->em->flush($main);
         }
     }
 }

@@ -27,7 +27,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\City;
 
@@ -121,7 +121,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'query_builder' => function (EntityRepository $er) {
                         return $er
                                         ->createQueryBuilder('c')
-                                        ->orderBy('name', 'asc');
+                                        ->orderBy('c.name', 'asc');
                     },
                     'attr' => array(
                         'class' => 'country-select'
@@ -138,13 +138,13 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         $qb = $repository->createQueryBuilder('c');
 
                         if ($country instanceof Country) {
-                            $qb = $qb->where('c.country_id = :country_id')
+                            $qb = $qb->where('c.country = :country_id')
                                     ->setParameter('country_id', $country->getId());
                         } else {
-                            $qb = $qb->where('c.country.id IS NULL');
+                            $qb = $qb->where('c.country IS NULL');
                         }
 
-                        return $qb->orderBy('name', 'asc');
+                        return $qb->orderBy('c.name', 'asc');
                     },
                     'attr' => array(
                         'class' => 'city-select'
@@ -162,18 +162,18 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         $qb = $repository->createQueryBuilder('i');
 
                         if ($city instanceof City) {
-                            $qb = $qb->where('i.city_id = :city_id')
+                            $qb = $qb->where('i.city = :city_id')
                                     ->setParameter('city_id', $city->getId());
                         } elseif ($country instanceof Country) {
-                            $qb = $qb->where('i.country_id = :country_id')
-                                    ->andWhere('i.city_id IS NULL')
+                            $qb = $qb->where('i.country = :country_id')
+                                    ->andWhere('i.city IS NULL')
                                     ->setParameter('country_id', $country->getId());
                         } else {
-                            $qb = $qb->where('i.city_id IS NULL')
-                                            ->andWhere('i.country_id IS NULL');
+                            $qb = $qb->where('i.city IS NULL')
+                                            ->andWhere('i.country IS NULL');
                         }
 
-                        return $qb->orderBy('name', 'asc');
+                        return $qb->orderBy('i.name', 'asc');
                     },
                     'attr' => array(
                         'class' => 'institution-select'

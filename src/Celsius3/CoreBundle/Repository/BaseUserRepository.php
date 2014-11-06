@@ -39,12 +39,12 @@ class BaseUserRepository extends EntityRepository
     public function findAdmins(Instance $instance)
     {
         return $this->createQueryBuilder('u')
-            ->where('u.instance = :instance_id')
-            ->andWhere('u.roles LIKE :roles')
-            ->setParameter('instance_id', $instance->getId())
-            ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
-            ->getQuery()
-            ->getResult();
+                        ->where('u.instance = :instance_id')
+                        ->andWhere('u.roles LIKE :roles')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
+                        ->getQuery()
+                        ->getResult();
     }
 
     public function findPendingUsers(Instance $instance = null)
@@ -130,5 +130,24 @@ class BaseUserRepository extends EntityRepository
         }
 
         return $query;
+    }
+
+    public function findUsersPerInstance()
+    {
+        return $this->createQueryBuilder('u')
+                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+                        ->groupBy('u.instance')
+                        ->getQuery()
+                        ->getResult();
+    }
+
+    public function findNewUsersPerInstance()
+    {
+        return $this->createQueryBuilder('u')
+                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+                        ->where('u.enabled = true')
+                        ->groupBy('u.instance')
+                        ->getQuery()
+                        ->getResult();
     }
 }

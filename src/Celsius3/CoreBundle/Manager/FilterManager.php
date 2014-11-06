@@ -84,7 +84,7 @@ class FilterManager
         return $query;
     }
 
-    public function filter(Builder $query, FormInterface $form, $class, Instance $instance = null)
+    public function filter(QueryBuilder $query, FormInterface $form, $class, Instance $instance = null)
     {
         $customFilter = $this->getCustomFilterClass($class);
 
