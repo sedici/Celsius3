@@ -25,6 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 /**
  * @ORM\Entity
@@ -33,6 +36,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class File
 {
+    
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -57,7 +61,7 @@ class File
      */
     private $mime;
     /**
-     * 
+     * @Assert\File(maxSize="6000000")
      */
     private $file;
     /**
@@ -84,6 +88,8 @@ class File
      * @ORM\Column(type="integer")
      */
     private $pages = 0;
+    
+    private $temp;
 
     public function getUploadDir()
     {
@@ -100,13 +106,10 @@ class File
      */
     public function prePersist()
     {
-        if (!($this->file instanceof GridFSFile)) {
-            $this->setName($this->file->getClientOriginalName());
-            $this->setMime($this->file->getMimeType());
+        if ($this->getFile() !== null) {
+            $this->setName($this->getFile()->getClientOriginalName());
+            $this->setMime($this->getFile()->getMimeType());
             $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
-            $this->getFile()->move($this->getUploadDir(), $this->getPath());
-            $this->setFile($this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getPath());
-            $this->setUploaded(date('Y-m-d H:i:s'));
         }
     }
 
@@ -116,11 +119,30 @@ class File
      */
     public function postPersist()
     {
-        if (file_exists($this->getUploadDir() . '/' . $this->getPath())) {
-            unlink($this->getUploadDir() . '/' . $this->getPath());
+        if (null === $this->getFile()) {
+            return;
+        }
+        
+        $this->getFile()->move($this->getUploadDir(), $this->getPath());
+        $this->setFile($this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getPath());
+        $this->setUploaded(date('Y-m-d H:i:s'));
+        
+        if (file_exists($this->getUploadDir() . '/' . $this->getTemp())) {
+            unlink($this->getUploadDir() . '/' . $this->getTemp());
+            $this->setTemp(null);
         }
     }
 
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        if ($this->getFile() === ($this->getUploadDir() .'/'. $this->getPath())) {
+            unlink($this->getFile());
+        }
+    }
+    
     /**
      * Get id
      *
@@ -229,10 +251,17 @@ class File
      * @param  file $file
      * @return self
      */
-    public function setFile($file)
+    public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-
+        
+        if (isset($this->getPath())) {
+            $this->setTemp($this->getPath());
+            $this->setPath(null);
+        } else {
+            $this->setPath('initial');
+        }
+        
         return $this;
     }
 
@@ -405,4 +434,15 @@ class File
     {
         return $this->instance;
     }
+
+    function getTemp()
+    {
+        return $this->temp;
+    }
+
+    function setTemp($temp)
+    {
+        $this->temp = $temp;
+    }
+    
 }

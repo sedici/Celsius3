@@ -21,8 +21,8 @@
 
 namespace Celsius3\CoreBundle\Controller\Mixin;
 
-use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\File;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\File;
 use Symfony\Component\HttpFoundation\Response;
 
 trait FileControllerTrait
@@ -30,10 +30,10 @@ trait FileControllerTrait
 
     protected function download($request, $file)
     {
-        $request = $this->getDocumentManager()
+        $request = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:Request')->find($request);
 
-        $file = $this->getDocumentManager()
+        $file = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:File')->find($file);
 
         $this->validate($request, $file);
