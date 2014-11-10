@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -40,13 +41,14 @@ class SuperadminOrderController extends OrderController
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->createQueryBuilder();
+                        ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->find($id);
     }
 
     protected function getResultsPerPage()
@@ -113,7 +115,8 @@ class SuperadminOrderController extends OrderController
      */
     public function createAction()
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getDirectory(), $this->getMaterialType(), $this->getUser()), 'superadmin_order');
+        $entity = new Order();
+        return $this->baseCreate('Order', $entity, new OrderType($this->getDirectory(), $this->getMaterialType($entity), $this->getUser()), 'superadmin_order');
     }
 
     /**
@@ -137,7 +140,7 @@ class SuperadminOrderController extends OrderController
 
         $materialClass = get_class($entity->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($entity->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $entity);
+        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($entity, $materialClass), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('entity' => $entity,
@@ -168,12 +171,12 @@ class SuperadminOrderController extends OrderController
 
         $entity->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($entity->getInstance(), $this->getMaterialType(), $this->getUser()), $entity);
+        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($entity), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -185,7 +188,8 @@ class SuperadminOrderController extends OrderController
 
         return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),);
+            'delete_form' => $deleteForm->createView(),
+        );
     }
 
     /**
@@ -217,5 +221,4 @@ class SuperadminOrderController extends OrderController
     {
         return $this->change();
     }
-
 }

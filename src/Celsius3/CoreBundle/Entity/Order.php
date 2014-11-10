@@ -47,7 +47,8 @@ class Order
      */
     private $code;
     /**
-     * @ORM\OneToOne(targetEntity="MaterialType", mappedBy="order")
+     * @ORM\OneToOne(targetEntity="MaterialType", inversedBy="order")
+     * @ORM\JoinColumn(name="material_data_id", referencedColumnName="id", nullable=true)
      */
     private $materialData;
     /**

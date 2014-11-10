@@ -121,7 +121,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
                 ->where('u.id IN (:elements)')
                 ->setParameter('elements',$element_ids)
                 ->getQuery()
-                ->getResutl();
+                ->getResult();
 
         foreach ($users as $user) {
             $this->enableUser($user);

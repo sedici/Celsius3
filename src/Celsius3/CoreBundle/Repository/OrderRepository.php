@@ -87,10 +87,10 @@ class OrderRepository extends EntityRepository
         $qb = $this->createQueryBuilder('o')
                 ->join('o.requests', 'r')
                 ->join('r.states', 's')
-                ->where('s.isCurrent = :current')
-                ->andWhere('s.instance = :instance')
-                ->setParameter('current', true)
-                ->setParameter('instance', $instance->getId());
+                ->join('o.materialData', 'm')
+                ->where('s.isCurrent = true')
+                ->andWhere('s.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
 
         if (is_array($state)) {
             $qb = $qb->andWhere('s.type IN (:state_types)')
@@ -115,22 +115,19 @@ class OrderRepository extends EntityRepository
                     ->setParameter('owner', $owner->getId());
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery();
     }
 
     public function findOneForInstance($id, Instance $instance)
     {
-        $order_id = $this->getEntityManager()
-                ->getRepository('Celsius3CoreBundle:Request')
-                ->createQueryBuilder()
-                ->hydrate(false)
-                ->select('order')
-                ->field('order')->equals($id)
-                ->field('instance')->equals($instance->getId())
-                ->getQuery()
-                ->getSingleResult();
-
-        return $this->createQueryBuilder()->field('id')->equals($order_id['order']['$id']);
+        return $this->getEntityManager()
+                        ->getRepository('Celsius3CoreBundle:Order')
+                        ->createQueryBuilder('o')
+                        ->join('o.requests', 'r')
+                        ->where('o.id = :id')
+                        ->andWhere('r.instance = :instance_id')
+                        ->setParameter('id', $id)
+                        ->setParameter('instance_id', $instance->getId());
     }
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)

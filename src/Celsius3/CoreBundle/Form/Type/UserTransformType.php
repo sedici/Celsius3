@@ -59,7 +59,7 @@ class UserTransformType extends AbstractType
                             UserManager::ROLE_SUPER_ADMIN => 'Superadmin',),
                         'expanded' => true,
                     ))
-                    ->add('instances', 'document', array(
+                    ->add('instances', 'entity', array(
                         'class' => 'Celsius3CoreBundle:Instance',
                         'multiple' => true,
                         'query_builder' => function (EntityRepository $repository) {

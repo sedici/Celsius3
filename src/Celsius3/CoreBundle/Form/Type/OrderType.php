@@ -28,6 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Order;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 class OrderType extends AbstractType
@@ -42,7 +43,7 @@ class OrderType extends AbstractType
     public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null, $librarian = false)
     {
         $this->instance = $instance;
-        $this->material = (is_null($material)) ? new JournalTypeType() : $material;
+        $this->material = (is_null($material)) ? new JournalTypeType(new Order()) : $material;
 
         $class = explode('\\', get_class($this->material));
         $this->preferredMaterial = lcfirst(str_replace('Type', '', end($class)));

@@ -38,17 +38,19 @@ use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
  */
 class SuperadminBaseUserController extends BaseUserController
 {
+
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:' . $name)
-                    ->createQueryBuilder();
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->find($id);
     }
 
     protected function getResultsPerPage()
@@ -59,7 +61,7 @@ class SuperadminBaseUserController extends BaseUserController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                    ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     /**

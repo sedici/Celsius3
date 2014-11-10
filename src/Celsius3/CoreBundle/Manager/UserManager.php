@@ -22,8 +22,8 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Celsius3\CoreBundle\Document\BaseUser;
-use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Institution;
 
 class UserManager
 {
