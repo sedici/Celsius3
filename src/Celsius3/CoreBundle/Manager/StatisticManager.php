@@ -129,9 +129,6 @@ class StatisticManager
                     ->getRepository($this->statistic_data['usersPerInstance']['repository'])
                     ->findUsersPerInstance(),
         );
-        
-        var_dump($data);
-        die();
 
         $response = array();
         foreach ($instances as $instance) {
