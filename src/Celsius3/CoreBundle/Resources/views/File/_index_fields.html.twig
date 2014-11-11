@@ -8,21 +8,21 @@
         </tr>
     </thead>
     <tbody>
-    {% for document in pagination %}
+    {% for entity in pagination %}
         <tr>
-            <td>{{ document.name }}</td>
-            <td>{{ document.comments }}</td>
-            <td>{% if document.uploaded %}{{ document.uploaded|localizeddate() }}{% endif%}</td>
+            <td>{{ entity.name }}</td>
+            <td>{{ entity.comments }}</td>
+            <td>{% if entity.uploaded %}{{ entity.uploaded|localizeddate() }}{% endif%}</td>
             <td>
                 <ul class="unstyled">
                     <li>
-                        <a href="{{ path('file_show', { 'id': document.id }) }}"><i class="icon-book"></i> {{ 'Show'|trans }}</a>
+                        <a href="{{ path('file_show', { 'id': entity.id }) }}"><i class="icon-book"></i> {{ 'Show'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('file_edit', { 'id': document.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
+                        <a href="{{ path('file_edit', { 'id': entity.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('file_download', { 'id': document.id }) }}"><i class="icon-download-alt"></i> {{ 'Download'|trans }}</a>
+                        <a href="{{ path('file_download', { 'id': entity.id }) }}"><i class="icon-download-alt"></i> {{ 'Download'|trans }}</a>
                     </li>
                 </ul>
             </td>

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,9 +21,10 @@
  */
 
 namespace Celsius3\NotificationBundle\Listener;
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
+
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
-use Celsius3\NotificationBundle\Document\Notifiable;
+use Celsius3\NotificationBundle\Entity\Notifiable;
 
 class NotificationListener
 {
@@ -35,10 +37,10 @@ class NotificationListener
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
+        $entity = $args->getEntity();
 
-        if ($document instanceof Notifiable) {
-            $document->notify($this->notification_manager);
+        if ($entity instanceof Notifiable) {
+            $entity->notify($this->notification_manager);
         }
     }
 }

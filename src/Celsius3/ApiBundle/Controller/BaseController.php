@@ -26,19 +26,9 @@ use FOS\RestBundle\Controller\FOSRestController;
 
 class BaseController extends FOSRestController
 {
-    /**
-     * Returns the DocumentManager
-     *
-     * @return DocumentManager
-     */
-    protected function getDocumentManager()
-    {
-        return $this->get('doctrine.odm.mongodb.document_manager');
-    }
-
     protected function getInstance()
     {
-        $instance = $this->getDocumentManager()
+        $instance = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->find($this->getRequest()->request->get('instance_id'));
 

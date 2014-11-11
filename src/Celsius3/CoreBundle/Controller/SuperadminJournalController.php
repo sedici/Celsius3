@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Journal;
+use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\CoreBundle\Form\Type\JournalType;
 use Celsius3\CoreBundle\Filter\Type\JournalFilterType;
 
@@ -37,7 +37,7 @@ class SuperadminJournalController extends BaseController
 {
 
     /**
-     * Lists all Journal documents.
+     * Lists all Journal entities.
      *
      * @Route("/", name="superadmin_journal")
      * @Template()
@@ -50,7 +50,7 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Displays a form to create a new Journal document.
+     * Displays a form to create a new Journal entity.
      *
      * @Route("/new", name="superadmin_journal_new")
      * @Template()
@@ -63,7 +63,7 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Creates a new Journal document.
+     * Creates a new Journal entity.
      *
      * @Route("/create", name="superadmin_journal_create")
      * @Method("post")
@@ -77,17 +77,17 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing Journal document.
+     * Displays a form to edit an existing Journal entity.
      *
      * @Route("/{id}/edit", name="superadmin_journal_edit")
      * @Template()
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -95,18 +95,18 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Edits an existing Journal document.
+     * Edits an existing Journal entity.
      *
      * @Route("/{id}/update", name="superadmin_journal_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminJournal:edit.html.twig")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -114,17 +114,17 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Deletes a Journal document.
+     * Deletes a Journal entity.
      *
      * @Route("/{id}/delete", name="superadmin_journal_delete")
      * @Method("post")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -149,7 +149,7 @@ class SuperadminJournalController extends BaseController
     }
 
     /**
-     * Unifies a group of Journal documents.
+     * Unifies a group of Journal entities.
      *
      * @Route("/doUnion", name="superadmin_journal_doUnion")
      * @Method("post")

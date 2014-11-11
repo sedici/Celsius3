@@ -22,19 +22,19 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Instance;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class SearchManager
 {
-    private $dm;
+    private $em;
     private $tokenList = array(
         'user:' => 'BaseUser',
     );
 
-    public function __construct(DocumentManager $dm)
+    public function __construct(EntityManager $em)
     {
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     /**
@@ -65,7 +65,7 @@ class SearchManager
      */
     public function search($repository, $keyword, Instance $instance = null)
     {
-        return $this->dm->getRepository('Celsius3CoreBundle:' . $repository)
+        return $this->em->getRepository('Celsius3CoreBundle:' . $repository)
                         ->findByTerm($keyword, $instance, $this->parseTokens($keyword));
     }
 }

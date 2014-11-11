@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -25,23 +26,22 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 
 class OrderRequestType extends AbstractType
 {
-
-    private $dm;
+    private $em;
     private $data_class;
 
-    public function __construct(DocumentManager $dm, $data_class)
+    public function __construct(EntityManager $em, $data_class)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->data_class = $data_class;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'provider', true, false, false, true);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'provider', true, false, false, true);
         $builder->addEventSubscriber($subscriber);
         $builder
                 ->add('observations', 'textarea', array(
@@ -64,5 +64,4 @@ class OrderRequestType extends AbstractType
     {
         return 'celsius3_corebundle_orderrequesttype';
     }
-
 }

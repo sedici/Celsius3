@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -39,5 +40,4 @@ class Provider extends BaseProvider
 
         return $this->threadManager->getParticipantSentThreadsQueryBuilder($participant);
     }
-
 }

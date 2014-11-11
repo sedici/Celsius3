@@ -2,15 +2,15 @@
     <tbody>
         <tr>
             <th>{{ 'Name'|trans }}</th>
-            <td>{{ document.name }}</td>
+            <td>{{ entity.name }}</td>
         </tr>
         <tr>
             <th>{{ 'Comments'|trans }}</th>
-            <td>{{ document.comments }}</td>
+            <td>{{ entity.comments }}</td>
         </tr>
         <tr>
             <th>{{ 'Uploaded'|trans }}</th>
-            <td>{{ document.uploaded|localizeddate() }}</td>
+            <td>{{ entity.uploaded|localizeddate() }}</td>
         </tr>
     </tbody>
 </table>

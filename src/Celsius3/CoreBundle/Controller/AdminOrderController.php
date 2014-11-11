@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 
@@ -40,21 +40,21 @@ class AdminOrderController extends OrderController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findOneForInstance($id, $this->getInstance())->getQuery()
                         ->getSingleResult();
     }
 
     /**
-     * Lists all Order documents.
+     * Lists all Order entities.
      *
      * @Route("/", name="admin_order", options={"expose"=true})
      * @Template()
@@ -67,16 +67,16 @@ class AdminOrderController extends OrderController
     }
 
     /**
-     * Finds and displays a Order document.
+     * Finds and displays a Order entity.
      *
      * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
     {
@@ -84,7 +84,7 @@ class AdminOrderController extends OrderController
     }
 
     /**
-     * Displays a form to create a new Order document.
+     * Displays a form to create a new Order entity.
      *
      * @Route("/new", name="admin_order_new", options={"expose"=true})
      * @Template()
@@ -93,7 +93,7 @@ class AdminOrderController extends OrderController
      */
     public function newAction(Request $request)
     {
-        $user = $this->getDocumentManager()
+        $user = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->query->get('user_id', null));
 
@@ -101,7 +101,7 @@ class AdminOrderController extends OrderController
     }
 
     /**
-     * Creates a new Order document.
+     * Creates a new Order entity.
      *
      * @Route("/create", name="admin_order_create")
      * @Method("post")
@@ -115,41 +115,41 @@ class AdminOrderController extends OrderController
     }
 
     /**
-     * Displays a form to edit an existing Order document.
+     * Displays a form to edit an existing Order entity.
      *
      * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        $document = $this->findQuery('Order', $id);
+        $entity = $this->findQuery('Order', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find Order.');
         }
 
-        $materialClass = get_class($document->getMaterialData());
+        $materialClass = get_class($entity->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $document->getOriginalRequest()->getOwner(), $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $entity->getOriginalRequest()->getOwner(), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array('document' => $document,
+        return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),);
     }
 
     /**
-     * Displays a form to edit an duplicated Order document.
+     * Displays a form to edit an duplicated Order entity.
      *
      * @Route("/{id}/duplicate", name="admin_order_duplicate", options={"expose"=true})
      * @Method("POST")
      * @Template("Celsius3CoreBundle:AdminOrder:edit.html.twig")
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function duplicateAction($id)
     {
@@ -167,9 +167,9 @@ class AdminOrderController extends OrderController
         $duplicatedOrder->setOriginalRequest($request);
 
         //Se registra duplicado en la base de datos
-        $document_manager = $this->getDocumentManager();
-        $document_manager->persist($duplicatedOrder);
-        $document_manager->flush();
+        $entity_manager = $this->getDoctrine()->getManager();
+        $entity_manager->persist($duplicatedOrder);
+        $entity_manager->flush();
 
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
@@ -177,57 +177,56 @@ class AdminOrderController extends OrderController
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'document' => $duplicatedOrder,
+            'entity' => $duplicatedOrder,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-     * Edits an existing Order document.
+     * Edits an existing Order entity.
      *
      * @Route("/{id}/update", name="admin_order_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminOrder:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        $document = $this->findQuery('Order', $id);
+        $entity = $this->findQuery('Order', $id);
 
-        if (!$document) {
-            throw $this
-                    ->createNotFoundException('Unable to find ' . 'Order' . '.');
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Order.');
         }
 
-        $document->setMaterialData(null);
+        $entity->setMaterialData(null);
 
         $request = $this->getRequest();
 
         // Se extrae el usuario del request y se setea en la construccion del form
-        $user = $this->getDocumentManager()->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $document);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
 
             return $this->redirect($this->generateUrl('admin_order_edit', array('id' => $id)));
         }
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );

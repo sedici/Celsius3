@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Entity\Institution;
 
 class InstitutionExtension extends \Twig_Extension
 {
@@ -42,17 +43,16 @@ class InstitutionExtension extends \Twig_Extension
 
     public function getCountry(Institution $institution = null)
     {
-        return $institution ? $institution->getCountry() ? $institution->getCountry() : ''  : '';
+        return $institution ? $institution->getCountry() ? $institution->getCountry() : '' : '';
     }
 
     public function getCity(Institution $institution = null)
     {
-        return $institution ? $institution->getCity() ? $institution->getCity() : ''  : '';
+        return $institution ? $institution->getCity() ? $institution->getCity() : '' : '';
     }
 
     public function getName()
     {
         return 'celsius3_core.institution_extension';
     }
-
 }

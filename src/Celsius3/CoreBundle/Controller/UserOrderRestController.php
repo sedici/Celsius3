@@ -43,7 +43,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
         
         $states = explode(',', $request->query->get('state', ''));
 
-        $orders = $this->getDocumentManager()
+        $orders = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->findForInstance($this->getInstance(), null, $states, $this->getUser());
 
@@ -51,15 +51,12 @@ class UserOrderRestController extends BaseInstanceDependentRestController
         $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
         if ($withRequest) {
-            $requests = $this->getDocumentManager()
+            $requests = $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:Request')
-                    ->createQueryBuilder()
-                    ->field('order.id')->in(array_map(function ($order) {
-                                return $order->getId();
-                            }, $pagination))
-                    ->getQuery()
-                    ->execute()
-                    ->toArray();
+                    ->createQueryBuilder('r')
+                    ->where('r.order IN (:orders)')
+                    ->setParameter('orders',array_map(function ($order) {return $order->getId();}, $pagination))
+                    ->getQuery()->getResult();
 
             $response = array(
                 'orders' => array_values($pagination),
@@ -71,11 +68,9 @@ class UserOrderRestController extends BaseInstanceDependentRestController
                         }, $requests), 'request', 'id'),
             );
 
-            $view = $this->view($response, 200)
-                    ->setFormat('json');
+            $view = $this->view($response, 200)->setFormat('json');
         } else {
-            $view = $this->view(array_values($pagination), 200)
-                    ->setFormat('json');
+            $view = $this->view(array_values($pagination), 200)->setFormat('json');
         }
 
         return $this->handleView($view);
@@ -87,17 +82,15 @@ class UserOrderRestController extends BaseInstanceDependentRestController
      */
     public function getOrderAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $order = $dm->getRepository('Celsius3CoreBundle:Order')
-                ->find($id);
+        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
         if (!$order) {
             return $this->createNotFoundException('Order not found.');
         }
 
-        $view = $this->view($order, 200)
-                ->setFormat('json');
+        $view = $this->view($order, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

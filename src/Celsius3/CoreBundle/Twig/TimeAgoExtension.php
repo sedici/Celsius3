@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -37,7 +38,7 @@ class TimeAgoExtension extends \Twig_Extension
      *
      * @param TranslatorInterface $translator
      */
-    public function __construct(Translator  $translator)
+    public function __construct(Translator $translator)
     {
         $this->translator = $translator;
     }
@@ -45,8 +46,8 @@ class TimeAgoExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            'distance_of_time_in_words'  => new Twig_Filter_Method($this, 'distanceOfTimeInWordsFilter'),
-            'time_ago_in_words'          => new Twig_Filter_Method($this, 'timeAgoInWordsFilter')
+            'distance_of_time_in_words' => new Twig_Filter_Method($this, 'distanceOfTimeInWordsFilter'),
+            'time_ago_in_words' => new Twig_Filter_Method($this, 'timeAgoInWordsFilter')
         );
     }
 
@@ -104,7 +105,7 @@ class TimeAgoExtension extends \Twig_Extension
             $to_time = $timestamp_transformer->transform($to_time);
         }
 
-        $distance_in_minutes = round((abs($to_time - $from_time))/60);
+        $distance_in_minutes = round((abs($to_time - $from_time)) / 60);
         $distance_in_seconds = round(abs($to_time - $from_time));
 
         if ($distance_in_minutes <= 1) {
@@ -124,17 +125,17 @@ class TimeAgoExtension extends \Twig_Extension
                 }
             }
 
-            return ($distance_in_minutes===0) ? $this->translator->trans('less than a minute ago', array()) : $this->translator->trans('1 minute ago', array());
+            return ($distance_in_minutes === 0) ? $this->translator->trans('less than a minute ago', array()) : $this->translator->trans('1 minute ago', array());
         } elseif ($distance_in_minutes <= 45) {
             return $this->translator->trans('%minutes minutes ago', array('%minutes' => $distance_in_minutes));
         } elseif ($distance_in_minutes <= 90) {
             return $this->translator->trans('about 1 hour ago');
         } elseif ($distance_in_minutes <= 1440) {
-            return $this->translator->trans('about %hours hours ago', array('%hours' => round($distance_in_minutes/60)));
+            return $this->translator->trans('about %hours hours ago', array('%hours' => round($distance_in_minutes / 60)));
         } elseif ($distance_in_minutes <= 2880) {
             return $this->translator->trans('1 day ago');
         } else {
-            return $this->translator->trans('%days days ago', array('%days' => round($distance_in_minutes/1440)));
+            return $this->translator->trans('%days days ago', array('%days' => round($distance_in_minutes / 1440)));
         }
     }
 
@@ -147,5 +148,4 @@ class TimeAgoExtension extends \Twig_Extension
     {
         return 'time_ago';
     }
-
 }

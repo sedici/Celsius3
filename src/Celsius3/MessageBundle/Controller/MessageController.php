@@ -29,6 +29,7 @@ use FOS\MessageBundle\Controller\MessageController as BaseController;
 
 class MessageController extends BaseController
 {
+
     protected function generateFormsToThreads($threads)
     {
         $forms = array();
@@ -60,7 +61,7 @@ class MessageController extends BaseController
      */
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     protected function getRequest()
@@ -71,16 +72,6 @@ class MessageController extends BaseController
     protected function getResultsPerPage()
     {
         return $this->container->getParameter('max_per_page');
-    }
-
-    /**
-     * Returns the DocumentManager
-     *
-     * @return DocumentManager
-     */
-    protected function getDocumentManager()
-    {
-        return $this->get('doctrine.odm.mongodb.document_manager');
     }
 
     /**
@@ -149,7 +140,7 @@ class MessageController extends BaseController
     public function searchAction()
     {
         $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
-        $threads = $this->getDocumentManager()
+        $threads = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->applyExtraFilters($this->container->get('fos_message.search_finder')->getQueryBuilder($query), $this->getRequest(), $this->get('security.context')->getToken()->getUser());
 

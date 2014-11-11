@@ -7,7 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Custom User Field Edit'|trans }} - {{ document.name }}</h2>
+<h2>{{ 'Custom User Field Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('admin_customuserfield', document, edit_form, delete_form) }}
+{{ edit('admin_customuserfield', entity, edit_form, delete_form) }}
 {% endblock %}

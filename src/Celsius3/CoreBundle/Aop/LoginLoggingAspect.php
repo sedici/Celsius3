@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -26,11 +27,10 @@ use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Celsius3\CoreBundle\Document\Login;
+use Celsius3\CoreBundle\Entity\Login;
 
 class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterface
 {
-
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -55,27 +55,26 @@ class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterfac
 
         $log = new Login();
         $log->setCategory('login');
-        $log->setDate(time());
+        $log->setDate(new \DateTime());
 
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         try {
             $token = $invocation->proceed();
             $user = $token->getUsername();
             $log->setMessage(sprintf('%s - User "%s" is now logged in from the IP "%s".', date('Y-m-d H:i:s'), $user, $ip));
 
-            $dm->persist($log);
-            $dm->flush();
+            $em->persist($log);
+            $em->flush();
 
             return $token;
         } catch (AuthenticationException $e) {
             $user = $request->request->get('_username');
             $password = $request->request->get('_password');
             $log->setMessage(sprintf('%s - User "%s" tried to login with the password "%s" from the IP "%s".', date('Y-m-d H:i:s'), $user, $password, $ip));
-            $dm->persist($log);
-            $dm->flush();
+            $em->persist($log);
+            $em->flush();
             throw $e;
         }
     }
-
 }

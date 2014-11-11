@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\MessageBundle\DataTransformer;
+
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Doctrine\Common\Collections\Collection;
@@ -29,7 +31,6 @@ use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
 
 class CustomRecipientsDataTransformer extends RecipientsDataTransformer
 {
-
     /**
      * @var UserToUsernameTransformer
      */
@@ -38,8 +39,7 @@ class CustomRecipientsDataTransformer extends RecipientsDataTransformer
     /**
      * @param UserToUsernameTransformer $userToUsernameTransformer
      */
-    public function __construct(
-            UserToUsernameTransformer $userToUsernameTransformer)
+    public function __construct(UserToUsernameTransformer $userToUsernameTransformer)
     {
         $this->userToUsernameTransformer = $userToUsernameTransformer;
     }
@@ -60,10 +60,7 @@ class CustomRecipientsDataTransformer extends RecipientsDataTransformer
         $usernames = new ArrayCollection();
 
         foreach ($recipients as $recipient) {
-            $usernames
-                    ->add(
-                            $this->userToUsernameTransformer
-                                    ->transform($recipient));
+            $usernames->add($this->userToUsernameTransformer->transform($recipient));
         }
 
         return $usernames;
@@ -82,5 +79,4 @@ class CustomRecipientsDataTransformer extends RecipientsDataTransformer
     {
         return $usernames;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,22 +22,21 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class CatalogType extends AbstractType
 {
-
-    private $dm;
+    private $em;
     private $instance;
 
-    public function __construct(DocumentManager $dm, Instance $instance)
+    public function __construct(EntityManager $em, Instance $instance)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->instance = $instance;
     }
 
@@ -50,7 +50,7 @@ class CatalogType extends AbstractType
                 ))
         ;
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'institution', false);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'institution', false);
         $builder->addEventSubscriber($subscriber);
 
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
@@ -70,5 +70,4 @@ class CatalogType extends AbstractType
     {
         return 'celsius3_corebundle_catalogtype';
     }
-
 }

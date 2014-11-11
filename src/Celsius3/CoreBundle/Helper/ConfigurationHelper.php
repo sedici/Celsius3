@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,11 +22,10 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
-use Celsius3\CoreBundle\Document\Configuration;
+use Celsius3\CoreBundle\Entity\Configuration;
 
 class ConfigurationHelper
 {
-
     private $equivalences = array(
         'string' => 'text',
         'boolean' => 'checkbox',
@@ -79,5 +79,4 @@ class ConfigurationHelper
 
         return $new;
     }
-
 }

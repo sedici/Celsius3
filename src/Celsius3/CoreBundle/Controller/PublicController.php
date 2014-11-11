@@ -47,7 +47,7 @@ class PublicController extends BaseInstanceDependentController
     {
         return array(
             'instance' => $this->getInstance(),
-            'lastNews' => $this->getDocumentManager()
+            'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getInstance()),
         );
@@ -91,7 +91,7 @@ class PublicController extends BaseInstanceDependentController
      * @Route("/cities", name="public_cities", options={"expose"=true})
      * @Template()
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function citiesAction()
     {
@@ -101,27 +101,27 @@ class PublicController extends BaseInstanceDependentController
             throw $this->createNotFoundException();
         }
 
-        $cities = $this->getDocumentManager()
-                ->getRepository('Celsius3CoreBundle:City')
-                ->createQueryBuilder()->field('country.id')
-                ->equals($request->query->get('country_id'))->getQuery()
-                ->execute();
+        $cities = $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:City')
+                        ->createQueryBuilder('c')
+                        ->where('c.country = :cid')
+                        ->setParameter('cid', $request->query->get('country_id'))
+                        ->getQuery()->getResult();
 
         $response = array();
 
         foreach ($cities as $city) {
-            $response[] = array('value' => $city->getId(),
-                'name' => $city->getName());
+            $response[] = array('value' => $city->getId(), 'name' => $city->getName());
         }
 
         return new Response(json_encode($response));
     }
-
+    
     /**
-     * @Route("/institutionsFull", name="public_institutions_full")
+     * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
      * @Template()
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function institutionsFullAction()
     {
@@ -131,25 +131,23 @@ class PublicController extends BaseInstanceDependentController
             throw $this->createNotFoundException();
         }
 
-        $dm = $this->getDocumentManager();
-        $qb = $dm->getRepository('Celsius3CoreBundle:Institution')
-                ->createQueryBuilder()
-                ->hydrate(false);
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->getRepository('Celsius3CoreBundle:Institution')->createQueryBuilder('i');
 
         if ($request->query->has('city_id')) {
-            $qb = $qb->field('city.id')->equals($request->query->get('city_id'));
+            $qb = $qb->where('i.city = :cid')
+                    ->setParameter('cid', $request->query->get('city_id'));
         } elseif ($request->query->has('country_id')) {
-            $qb = $qb->field('country.id')->equals($request->query->get('country_id'))
-                            ->field('city.id')->equals(null);
+            $qb = $qb->where('i.country = :country')
+                    ->andWhere('i.city IS NULL')
+                    ->setParameter('country', $request->query->get('country_id'));
         }
 
-        if ($request->query->get('filter') == '') {
-            $qb = $qb->field('parent.id')->equals(null);
+        if ($request->query->get('filter') === '') {
+            $qb = $qb->andWhere('i.parent IS NULL');
         }
 
-        $qb->getQuery()->execute();
-
-        $institutions = $qb->getQuery()->execute()->toArray();
+        $institutions = $qb->getQuery()->getResult();
 
         $response = array();
         foreach ($institutions as $institution) {
@@ -158,18 +156,15 @@ class PublicController extends BaseInstanceDependentController
                     ($request->query->get('filter') == 'celsius3' && $institution['celsiusInstance']) ||
                     ($request->query->get('filter') == '')) {
 
-                $children = $dm->getRepository('Celsius3CoreBundle:Institution')
-                        ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->field('parent.id')->equals($institution['_id'])
-                        ->getQuery()
-                        ->execute()
-                        ->toArray();
+                $children = $em->getRepository('Celsius3CoreBundle:Institution')
+                                ->createQueryBuilder('i')
+                                ->where('i.parent = :parent')->setParameter('parent', $institution->getId())
+                                ->getQuery()->getResult();
 
                 $response[] = array(
-                    'value' => $institution['_id']->{'$id'},
+                    'value' => $institution->getId(),
                     'hasChildren' => count($children) > 0,
-                    'name' => $institution['name'],
+                    'name' => $institution->getName(),
                     'level' => $level,
                     'children' => $this->getChildrenInstitution($children, $level + 1),
                 );
@@ -181,22 +176,19 @@ class PublicController extends BaseInstanceDependentController
 
     protected function getChildrenInstitution($institutions, $level)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
         $response = array();
         if (count($institutions) > 0) {
             foreach ($institutions as $institution) {
-                $children = $dm->getRepository('Celsius3CoreBundle:Institution')
-                        ->createQueryBuilder()
-                        ->hydrate(false)
-                        ->field('parent.id')->equals($institution['_id'])
-                        ->getQuery()
-                        ->execute()
-                        ->toArray();
+                $children = $em->getRepository('Celsius3CoreBundle:Institution')
+                                ->createQueryBuilder('i')
+                                ->where('i.parent = :parent')->setParameter('parent', $institution->getId())
+                                ->getQuery()->getResult();
 
                 $response[] = array(
-                    'value' => $institution['_id']->{'$id'},
+                    'value' => $institution->getId(),
                     'hasChildren' => count($children) > 0,
-                    'name' => $institution['name'],
+                    'name' => $institution->getName(),
                     'level' => $level,
                     'children' => $this->getChildrenInstitution($children, $level + 1),
                 );
@@ -205,5 +197,4 @@ class PublicController extends BaseInstanceDependentController
 
         return $response;
     }
-
 }

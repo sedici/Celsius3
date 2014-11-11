@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -27,7 +28,6 @@ use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class LanguageType extends AbstractType
 {
-
     private $configuration_helper;
 
     public function __construct(ConfigurationHelper $configuration_helper)
@@ -52,5 +52,4 @@ class LanguageType extends AbstractType
     {
         return 'celsius3_corebundle_language_type';
     }
-
 }

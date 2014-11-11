@@ -21,10 +21,10 @@
 
 namespace Celsius3\CoreBundle\Listener;
 
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Document\Configuration;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Configuration;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class ConfigurationListener
@@ -39,28 +39,33 @@ class ConfigurationListener
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
-
-        if ($document instanceof Instance) {
-            $default = $dm
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
+        
+        if ($entity instanceof Instance) {
+            $default = $em
                     ->getRepository('Celsius3CoreBundle:Configuration')
-                    ->findBy(array('instance' => null));
+                    ->createQueryBuilder('c')
+                    ->join('c.instance', 'i')
+                    ->where('i.url = :url')
+                    ->setParameter(':url', InstanceManager::INSTANCE__DIRECTORY)
+                    ->getQuery()
+                    ->getResult();
 
             foreach ($default as $configuration) {
                 $new = $this->configuration_helper->duplicate($configuration);
-                $new->setInstance($document);
+                $new->setInstance($entity);
 
                 if ($new->getKey() == 'api_key') {
-                    $new->setValue(sha1($document->getUrl() . $document->getName()));
+                    $new->setValue(sha1($entity->getUrl() . $entity->getName()));
                 }
 
-                $dm->persist($new);
+                $em->persist($new);
             }
-            $dm->flush();
-        } elseif ($document instanceof Configuration) {
-            if (!$document->getInstance()) {
-                $instances = $dm
+            $em->flush();
+        } elseif ($entity instanceof Configuration) {
+            if (!$entity->getInstance()) {
+                $instances = $em
                         ->getRepository('Celsius3CoreBundle:Instance')
                         ->createQueryBuilder()
                         ->field('url')->notEqual(InstanceManager::INSTANCE__DIRECTORY)
@@ -68,11 +73,11 @@ class ConfigurationListener
                         ->execute();
 
                 foreach ($instances as $instance) {
-                    $new = $this->configuration_helper->duplicate($document);
+                    $new = $this->configuration_helper->duplicate($entity);
                     $new->setInstance($instance);
-                    $dm->persist($new);    
+                    $em->persist($new);    
                 }
-                $dm->flush();
+                $em->flush();
             }
         }
     }

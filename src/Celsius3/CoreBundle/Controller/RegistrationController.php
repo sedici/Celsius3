@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -73,7 +74,7 @@ class RegistrationController extends BaseRegistrationController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
+        return $this->render('FOSUserBundle:Registration:register.html.twig', array(
                     'form' => $form->createView(),
         ));
     }
@@ -89,19 +90,19 @@ class RegistrationController extends BaseRegistrationController
             sprintf('The user with email "%s" does not exist', $email));
         }
 
-        return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:waitConfirmation.html.' . $this->getEngine(), array(
+        return $this->render('FOSUserBundle:Registration:waitConfirmation.html.twig', array(
                     'user' => $user,
         ));
     }
 
     /**
-     * Returns the DocumentManager
+     * Returns the EntityManager
      *
-     * @return DocumentManager
+     * @return EntityManager
      */
-    protected function getDocumentManager()
+    protected function getEntityManager()
     {
-        return $this->container->get('doctrine.odm.mongodb.document_manager');
+        return $this->container->get('doctrine.orm.entity_manager');
     }
 
     /**

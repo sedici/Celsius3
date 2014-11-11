@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,12 +21,12 @@
  */
 
 namespace Celsius3\MessageBundle\Twig;
+
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use FOS\MessageBundle\Model\ThreadInterface;
 
 class ThreadExtension extends \Twig_Extension
 {
-
     private $container;
     private $environment;
 
@@ -42,16 +43,14 @@ class ThreadExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-                'form_to_thread' => new \Twig_Function_Method($this,
-                        'formToThread'),
-                'get_unread_messages' => new \Twig_Function_Method($this,
-                        'getUnreadMessages'),);
+            'form_to_thread' => new \Twig_Function_Method($this, 'formToThread'),
+            'get_unread_messages' => new \Twig_Function_Method($this, 'getUnreadMessages'),);
     }
 
     public function formToThread(ThreadInterface $thread)
     {
         return $this->container->get('fos_message.reply_form.factory')
-                ->create($thread)->createView();
+                        ->create($thread)->createView();
     }
 
     public function getUnreadMessages(ThreadInterface $thread)
@@ -61,9 +60,7 @@ class ThreadExtension extends \Twig_Extension
 
         $count = 0;
         foreach ($thread->getMessages() as $message) {
-            if (!$message
-                    ->isReadByParticipant(
-                            $participantProvider->getAuthenticatedParticipant())) {
+            if (!$message->isReadByParticipant($participantProvider->getAuthenticatedParticipant())) {
                 $count++;
             }
         }
@@ -75,5 +72,4 @@ class ThreadExtension extends \Twig_Extension
     {
         return 'celsius3_message.thread_extension';
     }
-
 }

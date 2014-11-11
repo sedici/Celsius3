@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,18 +22,16 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Celsius3\CoreBundle\Document\BaseUser;
-use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Institution;
 
 class UserManager
 {
-
     const ROLE_USER = 'ROLE_USER';
     const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
     const ROLE_MIGRATOR = 'ROLE_MIGRATOR';
-
     private $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
@@ -51,17 +50,17 @@ class UserManager
         return $results;
     }
 
-    public function transform($type, BaseUser $document)
+    public function transform($type, BaseUser $entity)
     {
         if (in_array($type, $this->types)) {
-            $document->setRoles(array());
-            $document->addRole($type);
+            $entity->setRoles(array());
+            $entity->addRole($type);
         };
     }
 
-    public function getCurrentRole(BaseUser $document)
+    public function getCurrentRole(BaseUser $entity)
     {
-        $roles = $document->getRoles();
+        $roles = $entity->getRoles();
 
         $default = self::ROLE_USER;
 
@@ -82,5 +81,4 @@ class UserManager
             return array();
         }
     }
-
 }

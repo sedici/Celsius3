@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Catalog;
+use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
 
 /**
@@ -38,13 +38,13 @@ class AdminCatalogController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->get('celsius3_core.instance_manager')->getDirectory());
     }
 
     /**
-     * Lists all Catalog documents.
+     * Lists all Catalog entities.
      *
      * @Route("/", name="admin_catalog")
      * @Template()
@@ -56,12 +56,12 @@ class AdminCatalogController extends BaseInstanceDependentController
         $query = $this->listQuery('Catalog');
 
         return array(
-            'pagination' => $query->getQuery()->execute(),
+            'pagination' => $query->getQuery()->getResult(),
         );
     }
 
     /**
-     * Displays a form to create a new Catalog document.
+     * Displays a form to create a new Catalog entity.
      *
      * @Route("/new", name="admin_catalog_new")
      * @Template()
@@ -70,11 +70,11 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
-     * Creates a new Catalog document.
+     * Creates a new Catalog entity.
      *
      * @Route("/create", name="admin_catalog_create")
      * @Method("post")
@@ -84,54 +84,54 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDocumentManager(), $this->getInstance()), 'admin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_catalog');
     }
 
     /**
-     * Displays a form to edit an existing Catalog document.
+     * Displays a form to edit an existing Catalog entity.
      *
      * @Route("/{id}/edit", name="admin_catalog_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
-     * Edits an existing Catalog document.
+     * Edits an existing Catalog entity.
      *
      * @Route("/{id}/update", name="admin_catalog_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminCatalog:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDocumentManager(), $this->getInstance()), 'admin_catalog');
+        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_catalog');
     }
 
     /**
-     * Deletes a Catalog document.
+     * Deletes a Catalog entity.
      *
      * @Route("/{id}/delete", name="admin_catalog_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -144,26 +144,26 @@ class AdminCatalogController extends BaseInstanceDependentController
      * @Route("/persist", name="admin_catalog_persist", options={"expose"=true})
      * @Method("post")
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function persistAction()
     {
         $ids = $this->getRequest()->request->get('ids');
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         if ($ids) {
             foreach ($ids as $key => $id) {
-                $position = $dm->getRepository('Celsius3CoreBundle:CatalogPosition')
+                $position = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
                         ->findOneBy(array(
-                    'catalog.id' => $id,
-                    'instance.id' => $this->getInstance()->getId(),
-                ));
+                            'catalog_id' => $id,
+                            'instance_id' => $this->getInstance()->getId(),
+                        ));
                 if ($position) {
                     $position->setPosition($key);
-                    $dm->persist($position);
+                    $em->persist($position);
                 }
             }
-            $dm->flush();
+            $em->flush();
         }
 
         return new Response(json_encode(array(

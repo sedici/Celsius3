@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -39,9 +40,7 @@ class MailTemplateFilterType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array('csrf_protection' => false,));
+        $resolver->setDefaults(array('csrf_protection' => false,));
     }
 
     public function getName()

@@ -7,7 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Contact Type Edit'|trans }} - {{ document.name }}</h2>
+<h2>{{ 'Contact Type Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('superadmin_contacttype', document, edit_form, delete_form) }}
+{{ edit('superadmin_contacttype', entity, edit_form, delete_form) }}
 {% endblock %}

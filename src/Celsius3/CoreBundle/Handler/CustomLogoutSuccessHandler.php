@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Handler;
+
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,7 +40,6 @@ class CustomLogoutSuccessHandler implements LogoutSuccessHandlerInterface
     {
         $url = $request->getSession()->get('instance_url');
 
-        return new RedirectResponse(
-                $this->router->generate('public_index', array('url' => $url)));
+        return new RedirectResponse($this->router->generate('public_index', array('url' => $url)));
     }
 }

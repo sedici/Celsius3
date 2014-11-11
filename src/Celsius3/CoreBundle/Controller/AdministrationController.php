@@ -76,9 +76,8 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function changeContextAction($id)
     {
-        $dm = $this->getDocumentManager();
-        $instance = $dm->getRepository('Celsius3CoreBundle:Instance')
-                ->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $instance = $em->getRepository('Celsius3CoreBundle:Instance')->find($id);
 
         $user = $this->getUser();
         if (!$user->getAdministeredInstances()->contains($user->getInstance())) {

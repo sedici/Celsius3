@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,13 +23,12 @@
 namespace Celsius3\CoreBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Event\Event;
-use Celsius3\CoreBundle\Document\Event\MultiInstanceRequest;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequest;
+use Celsius3\CoreBundle\Entity\Order;
 
 class EventExtension extends \Twig_Extension
 {
-
     private $environment;
     private $container;
 
@@ -69,5 +69,4 @@ class EventExtension extends \Twig_Extension
     {
         return 'celsius3_core.event_extension';
     }
-
 }

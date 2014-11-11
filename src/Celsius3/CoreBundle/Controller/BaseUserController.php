@@ -21,7 +21,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
@@ -29,26 +29,26 @@ abstract class BaseUserController extends BaseInstanceDependentController
     protected function enableUser(BaseUser $user)
     {
         $user->setEnabled(true);
-        $dm = $this->getDocumentManager();
-        $dm->persist($user);
-        $dm->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
     }
 
     protected function baseTransformAction($id, $transformType)
     {
-        $document = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find User.');
         }
 
         $transformForm = $this->createForm($transformType, array(
-            'type' => $this->get('celsius3_core.user_manager')->getCurrentRole($document),
-            'instances' => $document->getAdministeredInstances(),
+            'type' => $this->get('celsius3_core.user_manager')->getCurrentRole($entity),
+            'instances' => $entity->getAdministeredInstances(),
         ));
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'transform_form' => $transformForm->createView(),
             'route' => null
         );
@@ -56,9 +56,9 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
     protected function baseDoTransformAction($id, $transformType, $route)
     {
-        $document = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find User.');
         }
 
@@ -70,21 +70,20 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         if ($transformForm->isValid()) {
             $data = $transformForm->getData();
-            $this->get('celsius3_core.user_manager')->transform($data['type'], $document);
+            $this->get('celsius3_core.user_manager')->transform($data['type'], $entity);
 
             if (array_key_exists('instances', $data)) {
-                $document->getAdministeredInstances()->clear();
+                $entity->getAdministeredInstances()->clear();
                 foreach ($data['instances'] as $instance) {
-                    $document->addAdministeredInstance($instance);
+                    $entity->addAdministeredInstance($instance);
                 }
             }
 
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
 
-            $this->get('session')
-                    ->getFlashBag()
+            $this->get('session')->getFlashBag()
                     ->add('success', 'The User was successfully transformed.');
 
             return $this->redirect($this->generateUrl($route . '_transform', array(
@@ -92,38 +91,37 @@ abstract class BaseUserController extends BaseInstanceDependentController
             )));
         }
 
-        $this->get('session')
-                ->getFlashBag()
+        $this->get('session')->getFlashBag()
                 ->add('error', 'There were errors transforming the User.');
 
         return array(
-            'document' => $document,
+            'entity' => $entity,
             'edit_form' => $transformForm->createView()
         );
     }
 
     protected function baseEnableAction($id)
     {
-        $document = $this->findQuery('BaseUser', $id);
+        $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$document) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find User.');
         }
 
-        $this->enableUser($document);
+        $this->enableUser($entity);
 
         return $this->redirect($this->get('request')->headers->get('referer'));
     }
 
     protected function baseBatchEnable($element_ids)
     {
-        $dm = $this->getDocumentManager();
-        $users = $dm->getRepository('Celsius3CoreBundle:BaseUser')
-                ->createQueryBuilder()
-                ->field('id')
-                ->in($element_ids)
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
+                ->createQueryBuilder('u')
+                ->where('u.id IN (:elements)')
+                ->setParameter('elements',$element_ids)
                 ->getQuery()
-                ->execute();
+                ->getResult();
 
         foreach ($users as $user) {
             $this->enableUser($user);

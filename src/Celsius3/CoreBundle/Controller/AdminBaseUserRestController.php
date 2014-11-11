@@ -40,14 +40,13 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getUsersAction()
     {
-        $users = $this->getDocumentManager()
+        $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findBy(array(
-            'instance.id' => $this->getInstance(),
-        ));
+                    'instance_id' => $this->getInstance(),
+                ));
 
-        $view = $this->view(array_values($users), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($users), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -58,13 +57,11 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getPendingUsersAction()
     {
-        $users = $this->getDocumentManager()
+        $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findPendingUsers($this->getInstance())
-                ->toArray();
+                ->findPendingUsers($this->getInstance());
 
-        $view = $this->view(array_values($users), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($users), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -77,24 +74,23 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     {
         $user_id = $request->request->get('id', null);
 
-        $user = $this->getDocumentManager()
+        $user = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
-            'instance.id' => $this->getInstance()->getId(),
-            'id' => $user_id,
-        ));
+                    'instance_id' => $this->getInstance()->getId(),
+                    'id' => $user_id,
+                ));
 
         if (!$user) {
             return $this->createNotFoundException('User not found.');
         }
 
         $user->setEnabled(true);
-        $dm = $this->getDocumentManager();
-        $dm->persist($user);
-        $dm->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
         
-        $view = $this->view($user->isEnabled(), 200)
-                ->setFormat('json');
+        $view = $this->view($user->isEnabled(), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -105,17 +101,15 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getUserAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($id);
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
 
         if (!$user) {
             return $this->createNotFoundException('User not found.');
         }
 
-        $view = $this->view($user, 200)
-                ->setFormat('json');
+        $view = $this->view($user, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Contact;
+use Celsius3\CoreBundle\Entity\Contact;
 use Celsius3\CoreBundle\Form\Type\AdminContactType;
 
 /**
@@ -37,19 +37,19 @@ class AdminContactController extends BaseInstanceDependentController
 
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder()
-                        ->field('owningInstance.id')->equals($this->getInstance()->getId());
+                        ->createQueryBuilder('e')
+                        ->where('e.owningInstance = :owning')->setParameter('owning',$this->getInstance()->getId());
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder()
-                        ->field('owningInstance.id')->equals($this->getInstance()->getId())
-                        ->field('id')->equals($id)
+                        ->createQueryBuilder('e')
+                        ->where('e.owningInstance = :owning')->setParameter('owning',$this->getInstance()->getId())
+                        ->andWhere('id = :id')->setParameter('id',$id)
                         ->getQuery()
                         ->getSingleResult();
     }
@@ -94,7 +94,7 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Contact', new Contact(), new AdminContactType($this->getInstance(), $this->getDocumentManager()));
+        return $this->baseNew('Contact', new Contact(), new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()));
     }
 
     /**
@@ -108,7 +108,7 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Contact', new Contact(), new AdminContactType($this->getInstance(), $this->getDocumentManager()), 'admin_contact');
+        return $this->baseCreate('Contact', new Contact(), new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()), 'admin_contact');
     }
 
     /**
@@ -125,7 +125,7 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Contact', $id, new AdminContactType($this->getInstance(), $this->getDocumentManager()));
+        return $this->baseEdit('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()));
     }
 
     /**
@@ -143,7 +143,7 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Contact', $id, new AdminContactType($this->getInstance(), $this->getDocumentManager()), 'admin_contact');
+        return $this->baseUpdate('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()), 'admin_contact');
     }
 
     /**

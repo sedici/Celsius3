@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,7 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace Celsius3\CoreBundle\EventListener;
+
 use Celsius3\CoreBundle\Exception\InstanceNotFoundException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
@@ -37,8 +40,7 @@ class InstanceListener
     {
         $exception = $event->getException();
         if ($exception instanceof InstanceNotFoundException) {
-            $response = new RedirectResponse(
-                    $this->router->generate('directory'));
+            $response = new RedirectResponse($this->router->generate('directory'));
             $event->setResponse($response);
         }
     }

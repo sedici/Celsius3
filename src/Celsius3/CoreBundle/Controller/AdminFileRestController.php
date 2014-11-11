@@ -37,10 +37,9 @@ class AdminFileRestController extends BaseInstanceDependentRestController
      */
     public function changeStateAction($file_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $file = $dm->getRepository('Celsius3CoreBundle:File')
-                ->find($file_id);
+        $file = $em->getRepository('Celsius3CoreBundle:File')->find($file_id);
 
         if (!$file) {
             throw $this->createNotFoundException('Unable to find File.');
@@ -48,11 +47,10 @@ class AdminFileRestController extends BaseInstanceDependentRestController
 
         $file->setEnabled(!$file->getEnabled());
 
-        $dm->persist($file);
-        $dm->flush();
+        $em->persist($file);
+        $em->flush();
 
-        $view = $this->view($file, 200)
-                ->setFormat('json');
+        $view = $this->view($file, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

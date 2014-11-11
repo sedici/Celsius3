@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,13 +21,13 @@
  */
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class ConfirmationType extends AbstractType
 {
-
     private $configuration_helper;
 
     public function __construct(ConfigurationHelper $configuration_helper)
@@ -36,12 +37,11 @@ class ConfirmationType extends AbstractType
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver
-                ->setDefaults(
-                        array(
-                                'choices' => $this->configuration_helper
-                                        ->confirmation, 'required' => true,
-                                'expanded' => true,));
+        $resolver->setDefaults(array(
+            'choices' => $this->configuration_helper->confirmation,
+            'required' => true,
+            'expanded' => true,
+        ));
     }
 
     public function getParent()
@@ -53,5 +53,4 @@ class ConfirmationType extends AbstractType
     {
         return 'celsius3_corebundle_confirmation_type';
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -34,21 +35,18 @@ use FOS\RestBundle\Controller\Annotations\Get;
 class MessageRestController extends FOSRestController
 {
 
-    protected function getDocumentManager()
-    {
-        return $this->get('doctrine.odm.mongodb.document_manager');
-    }
-
     /**
      * GET Route annotation.
      * @Get("", name="rest_message", options={"expose"=true})
      */
     public function getMessagesAction(Request $request)
     {
-        $messages = $this->getDocumentManager()
-                        ->getRepository('Celsius3MessageBundle:Thread')
-                        ->createQueryBuilder()
-                        ->field('participants.id')->equals($this->getUser()->getId());
+        $messages = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3MessageBundle:Thread')
+                ->createQueryBuilder('t')
+                ->join('t.participants', 'p')
+                ->where('p.id = :id')
+                ->setParameter('id', $this->getUser()->getId());
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($messages, $this->get('request')->query->get('page', 1)/* page number */, $this->get('request')->query->get('count', 10)/* limit per page */)->getItems();
@@ -66,9 +64,8 @@ class MessageRestController extends FOSRestController
      */
     public function getOrderAction($id)
     {
-        $dm = $this->getDocumentManager();
-
-        $order = $dm->getRepository('Celsius3CoreBundle:Order')
+        $order = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Order')
                 ->find($id);
 
         if (!$order) {

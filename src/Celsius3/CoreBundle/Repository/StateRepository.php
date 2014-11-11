@@ -22,40 +22,37 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
-use Celsius3\CoreBundle\Document\BaseUser;
-use Celsius3\CoreBundle\Document\Instance;
+use Doctrine\ORM\EntityRepository;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
 
-class StateRepository extends DocumentRepository
+class StateRepository extends EntityRepository
 {
-
-    protected function getRequestIds($value)
-    {
-        return $value['_id'];
-    }
 
     public function countOrders(Instance $instance = null, BaseUser $user = null)
     {
         $types = StateManager::$stateTypes;
+        $qb = $this->createQueryBuilder('s')
+                ->select('s.type, COUNT(s.id) as c')
+                ->where('s.isCurrent = true')
+                ->andWhere('s.type IN (:types)')
+                ->groupBy('s.type')
+                ->setParameter('types', $types);
+
+        if (!is_null($instance)) {
+            $qb = $qb->andWhere('s.instance = :instance_id')
+                    ->setParameter('instance_id', $instance->getId());
+        }
+
+        if (!is_null($user)) {
+            $qb = $qb->andWhere('(s.operator = :user_id OR s.operator IS NULL)')
+                    ->setParameter('user_id', $user->getId());
+        }
 
         $result = array();
-        foreach ($types as $type) {
-            $qb = $this->createQueryBuilder()
-                            ->hydrate(false)
-                            ->field('isCurrent')->equals(true)
-                            ->field('type')->equals($type);
-
-            if (!is_null($instance)) {
-                $qb = $qb->field('instance.id')->equals($instance->getId());
-            }
-
-            if (!is_null($user)) {
-                $qb = $qb->addOr($qb->expr()->field('operator.id')->equals($user->getId()))
-                        ->addOr($qb->expr()->field('operator.id')->equals(null));
-            }
-
-            $result[$type] = $qb->getQuery()->execute()->count();
+        foreach ($qb->getQuery()->getResult() as $type) {
+            $result[$type['type']] = intval($type['c']);
         }
 
         return $result;
@@ -63,87 +60,24 @@ class StateRepository extends DocumentRepository
 
     public function findOrdersPerStatePerInstance($state)
     {
-        return $this->createQueryBuilder()
-                        ->field('type')->equals($state)
-                        ->field('isCurrent')->equals(true)
-                        ->map('function () { emit(this.instance.$id, 1); }')
-                        ->reduce('function (k, vals) {
-                            var sum = 0;
-                            for (var i in vals) {
-                                sum += vals[i];
-                            }
-
-                            return sum;
-                        }')
+        return $this->createQueryBuilder('s')
+                        ->select('IDENTITY(s.instance), COUNT(s.id) as c')
+                        ->where('s.type = :state_type')
+                        ->andWhere('s.isCurrent = true')
+                        ->groupBy('s.instance')
+                        ->addGroupBy('s.type')
+                        ->setParameter('state_type', $state)
                         ->getQuery()
-                        ->execute();
+                        ->getResult();
     }
 
     public function findTotalOrdersPerInstance()
     {
-        return $this->createQueryBuilder()
-                        ->field('isCurrent')->equals(true)
-                        ->map('function () { emit(this.instance.$id, 1); }')
-                        ->reduce('function (k, vals) {
-                            var sum = 0;
-                            for (var i in vals) {
-                                sum += vals[i];
-                            }
-
-                            return sum;
-                        }')
+        return $this->createQueryBuilder('s')
+                        ->select('IDENTITY(s.instance), COUNT(s.id) as c')
+                        ->where('s.isCurrent = true')
+                        ->groupBy('s.instance')
                         ->getQuery()
-                        ->execute();
-    }
-
-    public function findTotalTime($first = StateManager::STATE__CREATED, $last = StateManager::STATE__REQUESTED, Instance $instance = null)
-    {
-        $qb = $this->createQueryBuilder()
-                ->map('function () {
-                            emit(this.request.$id, {date: this.date.getTime(), type: this.type});
-                        }')
-                ->reduce('function (key, values) {
-                            var datos = {};
-                            values.forEach(function(value) {
-                                datos[value.type] = value.date;
-                            });
-                            return datos;
-                        }')
-                ->finalize('function (key, value) {
-                            if (value.hasOwnProperty("date")) {
-                                return null;
-                            }
-                            return Math.ceil(Math.abs((value["' . $last . '"] - value["' . $first . '"]) / (1000 * 60 * 60 * 24)));
-                        }');
-
-        if (!is_null($instance)) {
-            $qb = $qb->field('instance.id')->equals($instance->getId());
-        }
-
-        $qb = array_filter($qb->addOr($qb->expr()->field('type')->equals($first))
-                        ->addOr($qb->expr()->field('type')->equals($last))
-                        ->getQuery()
-                        ->execute()
-                        ->toArray(), function($item) {
-            return !is_null($item['value']);
-        });
-
-        var_dump($qb);
-        die();
-    }
-    
-    public function countByYear(Instance $instance, $users) {
-        $qb = $this->createQueryBuilder();
-        $counters = $qb->map('function(){ emit({year: this.date.getFullYear(), month: this.date.getMonth(), requestType: this.requestType, stateType: this.type},1) }')
-        ->reduce('function(k,vals){
-            sum = 0;
-            for(i in vals){
-                sum += vals[i];
-            }
-            return sum;
-        }')
-        ->field('owner.id')->in($users);
-        
-        return $qb->getQuery()->execute();
+                        ->getResult();
     }
 }

@@ -23,7 +23,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Country;
+use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Form\Type\CountryType;
 use Celsius3\CoreBundle\Filter\Type\CountryFilterType;
 
@@ -36,7 +36,7 @@ class SuperadminCountryController extends BaseController
 {
 
     /**
-     * Lists all Country documents.
+     * Lists all Country entities.
      *
      * @Route("/", name="superadmin_country")
      * @Template()
@@ -49,7 +49,7 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Displays a form to create a new Country document.
+     * Displays a form to create a new Country entity.
      *
      * @Route("/new", name="superadmin_country_new")
      * @Template()
@@ -62,7 +62,7 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Creates a new Country document.
+     * Creates a new Country entity.
      *
      * @Route("/create", name="superadmin_country_create")
      * @Method("post")
@@ -76,17 +76,17 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing Country document.
+     * Displays a form to edit an existing Country entity.
      *
      * @Route("/{id}/edit", name="superadmin_country_edit")
      * @Template()
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -94,18 +94,18 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Edits an existing Country document.
+     * Edits an existing Country entity.
      *
      * @Route("/{id}/update", name="superadmin_country_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCountry:edit.html.twig")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -113,17 +113,17 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Deletes a Country document.
+     * Deletes a Country entity.
      *
      * @Route("/{id}/delete", name="superadmin_country_delete")
      * @Method("post")
      *
      * @param string $id
-     *                   The document ID
+     *                   The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -148,7 +148,7 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Unifies a group of Country documents.
+     * Unifies a group of Country entities.
      *
      * @Route("/doUnion", name="superadmin_country_doUnion")
      * @Method("post")

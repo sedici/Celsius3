@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -21,15 +22,14 @@
 
 namespace Celsius3\CoreBundle\Listener;
 
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\EventManager;
 
 class OrderListener
 {
-
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -39,20 +39,19 @@ class OrderListener
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
+        $entity = $args->getEntity();
 
-        if ($document instanceof Order) {
-            $document->getOriginalRequest()->setOrder($document);
+        if ($entity instanceof Order) {
+            $entity->getOriginalRequest()->setOrder($entity);
         }
     }
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
+        $entity = $args->getEntity();
 
-        if ($document instanceof Request) {
-            $this->container->get('celsius3_core.lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $document, $document->getInstance());
+        if ($entity instanceof Request) {
+            $this->container->get('celsius3_core.lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $entity, $entity->getInstance());
         }
     }
-
 }

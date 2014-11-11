@@ -22,23 +22,26 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class UnionManager
 {
-    private $dm;
+    private $em;
     private $instance_manager;
     private $references = array(
         'Celsius3CoreBundle:Country' => array(
             'Celsius3CoreBundle:City' => array(
                 'country'
-            )
+            ),
+            'Celsius3CoreBundle:Institution' => array(
+                'country'
+            ),
         ),
         'Celsius3CoreBundle:City' => array(
             'Celsius3CoreBundle:Institution' => array(
                 'city'
-            )
+            ),
         ),
         'Celsius3CoreBundle:Institution' => array(
             'Celsius3CoreBundle:BaseUser' => array(
@@ -49,11 +52,25 @@ class UnionManager
             ),
             'Celsius3CoreBundle:Catalog' => array(
                 'institution'
-            )
+            ),
+            'Celsius3CoreBundle:Event\\SingleInstanceRequestEvent' => array(
+                'provider'
+            ),
+            'Celsius3CoreBundle:Event\\MultiInstanceRequestEvent' => array(
+                'provider'
+            ),
+        ),
+        'Celsius3CoreBundle:Catalog' => array(
+            'Celsius3CoreBundle:Event\\SearchEvent' => array(
+                'catalog'
+            ),
+            'Celsius3CoreBundle:CatalogPosition' => array(
+                'catalog'
+            ),
         ),
         'Celsius3CoreBundle:Journal' => array(
-            'Celsius3CoreBundle:Order' => array(
-                'materialData.journal'
+            'Celsius3CoreBundle:JournalType' => array(
+                'journal'
             )
         ),
         'Celsius3CoreBundle:BaseUser' => array(
@@ -72,44 +89,42 @@ class UnionManager
         )
     );
 
-    public function __construct(DocumentManager $dm, InstanceManager $instance_manager)
+    public function __construct(EntityManager $em, InstanceManager $instance_manager)
     {
-        $this->dm = $dm;
+        $this->em = $em;
         $this->instance_manager = $instance_manager;
     }
 
-    public function union($name, $main, ArrayCollection $elements, $updateInstance)
+    public function union($name, $main, array $elements, $updateInstance)
     {
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
-                    $this->dm->getRepository($key)
-                            ->createQueryBuilder()
+                    $this->em->getRepository($key)
+                            ->createQueryBuilder('e')
                             ->update()
-                            ->field($field . '.id')
-                            ->in(array_keys($elements->toArray()))
-                            ->field($field . '.id')
-                            ->set($main->getId())
-                            ->getQuery(array(
-                                'multiple' => true
-                            ))
-                            ->execute();
+                            ->set('e.' . $field, ':main_id')
+                            ->where('e.' . $field . ' IN (:ids)')
+                            ->setParameter('ids', $elements)
+                            ->setParameter('main_id', $main->getId())
+                            ->getQuery()
+                            ->getResult();
                 }
             }
         }
 
-        $this->dm->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->remove()
-                ->field('id')
-                ->in(array_keys($elements->toArray()))
+        $this->em->getRepository($name)
+                ->createQueryBuilder('e')
+                ->delete()
+                ->where('e.id IN (:ids)')
+                ->setParameter('ids', $elements)
                 ->getQuery()
-                ->execute();
+                ->getResult();
 
         if ($updateInstance) {
             $main->setInstance($this->instance_manager->getDirectory());
-            $this->dm->persist($main);
-            $this->dm->flush();
+            $this->em->persist($main);
+            $this->em->flush($main);
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -44,7 +45,7 @@ class BookTypeType extends MaterialTypeType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Document\\BookType',
+            'data_class' => 'Celsius3\\CoreBundle\\Entity\\BookType',
         ));
     }
 
@@ -52,5 +53,4 @@ class BookTypeType extends MaterialTypeType
     {
         return 'celsius3_corebundle_booktype';
     }
-
 }

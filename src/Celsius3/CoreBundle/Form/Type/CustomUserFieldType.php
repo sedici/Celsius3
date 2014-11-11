@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,13 +21,13 @@
  */
 
 namespace Celsius3\CoreBundle\Form\Type;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class CustomUserFieldType extends AbstractType
 {
-
     private $instance;
 
     public function __construct(Instance $instance = null)
@@ -36,22 +37,25 @@ class CustomUserFieldType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')
-                ->add('private', null,
-                        array('required' => false,))
-                ->add('required', null,
-                        array('required' => false,));
+        $builder
+                ->add('name')
+                ->add('private', null, array('required' => false,))
+                ->add('required', null, array('required' => false,))
+        ;
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', null,
-                            array('required' => false,));
+                    ->add('instance', null, array('required' => false,))
+            ;
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector',
-                            array('data' => $this->instance,
-                                    'attr' => array(
-                                            'value' => $this->instance->getId(),
-                                            'readonly' => 'readonly',),));
+                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                        'data' => $this->instance,
+                        'attr' => array(
+                            'value' => $this->instance->getId(),
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+            ;
         }
     }
 
@@ -59,5 +63,4 @@ class CustomUserFieldType extends AbstractType
     {
         return 'celsius3_corebundle_customuserfieldtype';
     }
-
 }

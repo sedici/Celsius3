@@ -39,21 +39,22 @@ class UserController extends BaseController
      */
     public function usersAction()
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $startDate = $this->getRequest()->query->get('startDate');
 
-        $qb = $dm->getRepository('Celsius3CoreBundle:BaseUser')
-                        ->createQueryBuilder()
-                        ->field('instance.id')->equals($this->getInstance()->getId());
+        $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
+                ->createQueryBuilder('u')
+                ->where('u.instance = :instance_id')
+                ->setParameter('instance_id', $this->getInstance()->getId());
 
         if (!is_null($startDate)) {
-            $qb = $qb->field('createdAt')->gte(new \DateTime($startDate));
+            $qb = $qb->andWhere('u.createdAt >= :date')
+                    ->setParameter('date', $startDate);
         }
 
         $users = $qb->getQuery()
-                ->execute()
-                ->toArray();
+                ->getResult();
 
         $view = $this->view($users, 200)
                 ->setFormat('json');
@@ -66,12 +67,12 @@ class UserController extends BaseController
      */
     public function userAction($user_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
             'id' => $user_id,
-            'instance.id' => $this->getInstance()->getId(),
+            'instance' => $this->getInstance()->getId(),
         ));
 
         if (!$user) {
@@ -89,12 +90,12 @@ class UserController extends BaseController
      */
     public function disableDownloadAction($user_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
             'id' => $user_id,
-            'instance.id' => $this->getInstance()->getId(),
+            'instance' => $this->getInstance()->getId(),
         ));
 
         if (!$user) {
@@ -102,8 +103,8 @@ class UserController extends BaseController
         }
 
         $user->setDownloadAuth(false);
-        $dm->persist($user);
-        $dm->flush();
+        $em->persist($user);
+        $em->flush($user);
 
         $view = $this->view(array(
                     'result' => true
@@ -118,12 +119,12 @@ class UserController extends BaseController
      */
     public function enableDownloadAction($user_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $user = $dm->getRepository('Celsius3CoreBundle:BaseUser')
+        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
             'id' => $user_id,
-            'instance.id' => $this->getInstance()->getId(),
+            'instance' => $this->getInstance()->getId(),
         ));
 
         if (!$user) {
@@ -131,8 +132,8 @@ class UserController extends BaseController
         }
 
         $user->setDownloadAuth(true);
-        $dm->persist($user);
-        $dm->flush();
+        $em->persist($user);
+        $em->flush($user);
 
         $view = $this->view(array(
                     'result' => true

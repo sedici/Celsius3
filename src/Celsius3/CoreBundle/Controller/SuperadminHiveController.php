@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Hive;
+use Celsius3\CoreBundle\Entity\Hive;
 use Celsius3\CoreBundle\Form\Type\HiveType;
 
 /**
@@ -36,7 +36,7 @@ class SuperadminHiveController extends BaseController
 {
 
     /**
-     * Lists all Hive documents.
+     * Lists all Hive entities.
      *
      * @Route("/", name="superadmin_hive")
      * @Template()
@@ -49,7 +49,7 @@ class SuperadminHiveController extends BaseController
     }
 
     /**
-     * Displays a form to create a new Hive document.
+     * Displays a form to create a new Hive entity.
      *
      * @Route("/new", name="superadmin_hive_new")
      * @Template()
@@ -62,7 +62,7 @@ class SuperadminHiveController extends BaseController
     }
 
     /**
-     * Creates a new Hive document.
+     * Creates a new Hive entity.
      *
      * @Route("/create", name="superadmin_hive_create")
      * @Method("post")
@@ -76,16 +76,16 @@ class SuperadminHiveController extends BaseController
     }
 
     /**
-     * Displays a form to edit an existing Hive document.
+     * Displays a form to edit an existing Hive entity.
      *
      * @Route("/{id}/edit", name="superadmin_hive_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
@@ -93,17 +93,17 @@ class SuperadminHiveController extends BaseController
     }
 
     /**
-     * Edits an existing Hive document.
+     * Edits an existing Hive entity.
      *
      * @Route("/{id}/update", name="superadmin_hive_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminHive:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
@@ -111,16 +111,16 @@ class SuperadminHiveController extends BaseController
     }
 
     /**
-     * Deletes a Hive document.
+     * Deletes a Hive entity.
      *
      * @Route("/{id}/delete", name="superadmin_hive_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

@@ -39,15 +39,12 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionByParentAction($parent_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $institutions = $dm->getRepository('Celsius3CoreBundle:Institution')
-                ->findBy(array(
-            'parent.id' => $parent_id,
-        ));
+        $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
+                ->findBy(array('parent_id' => $parent_id,));
 
-        $view = $this->view(array_values($institutions), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($institutions), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -58,7 +55,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionsAction($country_id, $city_id, Request $request)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
         $filter = null;
         if ($request->query->has('filter') && $request->query->get('filter') !== '') {
@@ -67,11 +64,10 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
         $hive = $this->getInstance()->getHive();
 
-        $institutions = $dm->getRepository('Celsius3CoreBundle:Institution')
+        $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $hive, $country_id, $city_id, $filter);
 
-        $view = $this->view(array_values($institutions), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($institutions), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -82,17 +78,15 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionAction($id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $institution = $dm->getRepository('Celsius3CoreBundle:Institution')
-                ->find($id);
+        $institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($id);
 
         if (!$institution) {
             return $this->createNotFoundException('Institution not found.');
         }
 
-        $view = $this->view($institution, 200)
-                ->setFormat('json');
+        $view = $this->view($institution, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

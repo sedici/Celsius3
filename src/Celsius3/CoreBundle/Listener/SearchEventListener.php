@@ -21,10 +21,10 @@
 
 namespace Celsius3\CoreBundle\Listener;
 
-use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
-use Celsius3\CoreBundle\Document\Event\SearchEvent;
-use Celsius3\CoreBundle\Document\JournalType;
-use Celsius3\CoreBundle\Document\CatalogResult;
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Celsius3\CoreBundle\Entity\Event\SearchEvent;
+use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\CoreBundle\Entity\CatalogResult;
 use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class SearchEventListener
@@ -42,23 +42,23 @@ class SearchEventListener
 
     public function preUpdate(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($document instanceof SearchEvent) {
-            $uow = $dm->getUnitOfWork();
-            $changeset = $uow->getDocumentChangeSet($document);
+        if ($entity instanceof SearchEvent) {
+            $uow = $em->getUnitOfWork();
+            $changeset = $uow->getEntityChangeSet($entity);
 
-            if ($document->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
-                $title = $document->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
+            if ($entity->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
+                $title = $entity->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
             } else {
-                $title = $document->getRequest()->getOrder()->getMaterialData()->getTitle();
+                $title = $entity->getRequest()->getOrder()->getMaterialData()->getTitle();
             }
 
             if (array_key_exists('result', $changeset) && $changeset['result'][0] !== $changeset['result'][1]) {
-                $result = $dm->getRepository('Celsius3CoreBundle:CatalogResult')
+                $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
                         ->findOneBy(array(
-                    'catalog.id' => $document->getCatalog()->getId(),
+                    'catalog_id' => $entity->getCatalog()->getId(),
                     'title' => $title,
                 ));
                 $old = $changeset['result'][0];
@@ -88,48 +88,48 @@ class SearchEventListener
 
     public function postPersist(LifecycleEventArgs $args)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($document instanceof SearchEvent) {
-            if ($document->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
-                $title = $document->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
+        if ($entity instanceof SearchEvent) {
+            if ($entity->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
+                $title = $entity->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
             } else {
-                $title = $document->getRequest()->getOrder()->getMaterialData()->getTitle();
+                $title = $entity->getRequest()->getOrder()->getMaterialData()->getTitle();
             }
 
-            $result = $dm->getRepository('Celsius3CoreBundle:CatalogResult')
+            $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
                     ->findOneBy(array(
-                'catalog.id' => $document->getCatalog()->getId(),
+                'catalog_id' => $entity->getCatalog()->getId(),
                 'title' => $title,
             ));
 
             if (!$result) {
                 $result = new CatalogResult();
-                $result->setCatalog($document->getCatalog());
+                $result->setCatalog($entity->getCatalog());
                 $result->setTitle($title);
             }
-            if ($document->getResult() !== CatalogManager::CATALOG__NON_SEARCHED) {
+            if ($entity->getResult() !== CatalogManager::CATALOG__NON_SEARCHED) {
                 $result->setSearches($result->getSearches() + 1);
             }
-            if (in_array($document->getResult(), $this->positive)) {
+            if (in_array($entity->getResult(), $this->positive)) {
                 $result->setMatches($result->getMatches() + 1);
             }
 
-            $dm->persist($result);
-            $dm->flush();
+            $em->persist($result);
+            $em->flush();
         }
     }
 
     public function postUpdate(LifecycleEventArgs $args, $update = false)
     {
-        $document = $args->getDocument();
-        $dm = $args->getDocumentManager();
+        $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
-        if ($document instanceof SearchEvent) {
+        if ($entity instanceof SearchEvent) {
             if ($this->result) {
-                $dm->persist($this->result);
-                $dm->flush();
+                $em->persist($this->result);
+                $em->flush();
             }
         }
     }

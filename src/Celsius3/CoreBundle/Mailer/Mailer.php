@@ -22,8 +22,8 @@
 namespace Celsius3\CoreBundle\Mailer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\Email;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\Email;
 
 class Mailer
 {
@@ -36,7 +36,7 @@ class Mailer
 
     public function saveEmail($address, $subject, $text, Instance $instance)
     {
-        $dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         $email = new Email();
         $email->setAddress($address);
@@ -45,8 +45,8 @@ class Mailer
         $email->setSender($this->container->get('security.context')->getToken()->getUser());
         $email->setInstance($instance);
 
-        $dm->persist($email);
-        $dm->flush();
+        $em->persist($email);
+        $em->flush($email);
     }
 
     public function sendEmail($address, $subject, $text, Instance $instance)

@@ -23,7 +23,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Country;
+use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Form\Type\CountryType;
 use Celsius3\CoreBundle\Filter\Type\CountryFilterType;
 
@@ -36,7 +36,7 @@ class AdminCountryController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all Country documents.
+     * Lists all Country entities.
      *
      * @Route("/", name="admin_country")
      * @Template()
@@ -45,16 +45,11 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this
-                ->baseIndex('Country',
-                        $this
-                                ->createForm(
-                                        new CountryFilterType(
-                                                $this->getInstance())));
+        return $this->baseIndex('Country',$this->createForm(new CountryFilterType($this->getInstance())));
     }
 
     /**
-     * Displays a form to create a new Country document.
+     * Displays a form to create a new Country entity.
      *
      * @Route("/new", name="admin_country_new")
      * @Template()
@@ -63,13 +58,11 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this
-                ->baseNew('Country', new Country(),
-                        new CountryType($this->getInstance()));
+        return $this->baseNew('Country', new Country(),new CountryType($this->getInstance()));
     }
 
     /**
-     * Creates a new Country document.
+     * Creates a new Country entity.
      *
      * @Route("/create", name="admin_country_create")
      * @Method("post")
@@ -79,60 +72,54 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this
-                ->baseCreate('Country', new Country(),
-                        new CountryType($this->getInstance()), 'admin_country');
+        return $this->baseCreate('Country', new Country(), new CountryType($this->getInstance()), 'admin_country');
     }
 
     /**
-     * Displays a form to edit an existing Country document.
+     * Displays a form to edit an existing Country entity.
      *
      * @Route("/{id}/edit", name="admin_country_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        return $this
-                ->baseEdit('Country', $id,
-                        new CountryType($this->getInstance()));
+        return $this->baseEdit('Country', $id,new CountryType($this->getInstance()));
     }
 
     /**
-     * Edits an existing Country document.
+     * Edits an existing Country entity.
      *
      * @Route("/{id}/update", name="admin_country_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminCountry:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        return $this
-                ->baseUpdate('Country', $id,
-                        new CountryType($this->getInstance()), 'admin_country');
+        return $this->baseUpdate('Country', $id,new CountryType($this->getInstance()), 'admin_country');
     }
 
     /**
-     * Deletes a Country document.
+     * Deletes a Country entity.
      *
      * @Route("/{id}/delete", name="admin_country_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

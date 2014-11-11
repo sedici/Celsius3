@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Order;
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 use Celsius3\CoreBundle\Manager\UserManager;
@@ -39,32 +39,32 @@ class UserOrderController extends OrderController
 
     protected function listQuery($name)
     {
-        $qb = $this->getDocumentManager()
+        $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->field('instance.id')->equals($this->getInstance()->getId());
+                ->createQueryBuilder('e')
+                ->where('e.instance = :instance')->setParameter('instance',$this->getInstance()->getId());
 
-        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
-        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->equals('librarian',$this->getUser()->getId()));
 
         return $qb;
     }
 
     protected function findQuery($name, $id)
     {
-        $qb = $this->getDocumentManager()
+        $qb = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder()
-                ->field('instance.id')->equals($this->getInstance()->getId());
+                ->createQueryBuilder('e')
+                ->where('e.instance = :instance')->setParameter('instance',$this->getInstance()->getId());
 
-        $qb = $qb->addOr($qb->expr()->field('owner.id')->equals($this->getUser()->getId()));
-        $qb = $qb->addOr($qb->expr()->field('librarian.id')->equals($this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->setParameter('librarian',$this->getUser()->getId()));
 
-        return $qb->field('id')->equals($id)->getQuery()->getSingleResult();
+        return $qb->andWhere('e.id = :id')->setParameter('id',$id)->getQuery()->getSingleResult();
     }
 
     /**
-     * Lists all Order documents.
+     * Lists all Order entities.
      *
      * @Route("/", name="user_order", options={"expose"=true})
      * @Template()
@@ -77,16 +77,16 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Finds and displays a Order document.
+     * Finds and displays a Order entity.
      *
      * @Route("/{id}/show", name="user_order_show")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
     {
@@ -94,7 +94,7 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Displays a form to create a new Order document.
+     * Displays a form to create a new Order entity.
      *
      * @Route("/new", name="user_order_new", options={"expose"=true})
      * @Template()
@@ -113,7 +113,7 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Creates a new Order document.
+     * Creates a new Order entity.
      *
      * @Route("/create", name="user_order_create")
      * @Method("post")

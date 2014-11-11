@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -25,15 +26,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Manager\OrderManager;
-use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ORM\EntityRepository;
 
 class RequestType extends AbstractType
 {
-
     private $instance;
     private $user;
     private $operator;
@@ -118,7 +118,7 @@ class RequestType extends AbstractType
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
                     ->add('instance', null, array(
-                        'query_builder' => function (DocumentRepository $repository) {
+                        'query_builder' => function (EntityRepository $repository) {
                             return $repository->findAllExceptDirectory();
                         },
                     ))
@@ -139,7 +139,7 @@ class RequestType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Document\\Request',
+            'data_class' => 'Celsius3\\CoreBundle\\Entity\\Request',
         ));
     }
 
@@ -147,5 +147,4 @@ class RequestType extends AbstractType
     {
         return 'celsius3_corebundle_requesttype';
     }
-
 }

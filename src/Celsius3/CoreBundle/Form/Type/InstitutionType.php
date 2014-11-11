@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,27 +24,27 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Celsius3\CoreBundle\Document\Instance;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class InstitutionType extends AbstractType
 {
-
     private $instance;
-    private $dm;
+    private $em;
 
-    public function __construct(DocumentManager $dm, Instance $instance)
+    public function __construct(EntityManager $em, Instance $instance)
     {
         $this->instance = $instance;
-        $this->dm = $dm;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('name')->add('abbreviation')
+                ->add('name')
+                ->add('abbreviation')
                 ->add('website', null, array(
                     'required' => false
                 ))
@@ -52,7 +53,7 @@ class InstitutionType extends AbstractType
                 ))
         ;
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->dm, 'parent', false, true, true);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'parent', false, true, true);
         $builder->addEventSubscriber($subscriber);
 
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
@@ -82,5 +83,4 @@ class InstitutionType extends AbstractType
     {
         return 'celsius3_corebundle_institutiontype';
     }
-
 }

@@ -21,9 +21,8 @@
         "doctrine/doctrine-bundle": "~1.2",
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "doctrine/mongodb-odm": "dev-master",
-        "doctrine/mongodb-odm-bundle": "dev-master",
         "doctrine/annotations": "dev-master",
+        "doctrine/orm": "~2.2,>=2.2.3",
         "twig/extensions": "~1.0",
         "knplabs/knp-components": "~1.2@dev",
         "knplabs/knp-menu": "2.0.0-alpha1",
@@ -43,7 +42,7 @@
         "react/zmq": "0.1.*",
         "sp/bower-bundle": "dev-master",
         "umpirsky/composer-permissions-handler": "~1.0",
-        "ocramius/proxy-manager": "0.5.*"
+        "beberlei/DoctrineExtensions": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

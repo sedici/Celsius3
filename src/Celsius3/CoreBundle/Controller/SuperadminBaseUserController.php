@@ -26,7 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\CoreBundle\Document\BaseUser;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
@@ -38,17 +38,19 @@ use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
  */
 class SuperadminBaseUserController extends BaseUserController
 {
+
     protected function listQuery($name)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->createQueryBuilder();
+                        ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+        return $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->find($id);
     }
 
     protected function getResultsPerPage()
@@ -59,11 +61,11 @@ class SuperadminBaseUserController extends BaseUserController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     /**
-     * Lists all BaseUser documents.
+     * Lists all BaseUser entities.
      *
      * @Route("/", name="superadmin_user")
      * @Template()
@@ -76,7 +78,7 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to create a new BaseUser document.
+     * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="superadmin_user_new")
      * @Template()
@@ -85,11 +87,11 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory()));
+        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory()));
     }
 
     /**
-     * Creates a new BaseUser document.
+     * Creates a new BaseUser entity.
      *
      * @Route("/create", name="superadmin_user_create")
      * @Method("post")
@@ -99,55 +101,55 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory()), 'superadmin_user');
+        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory()), 'superadmin_user');
     }
 
     /**
-     * Displays a form to edit an existing BaseUser document.
+     * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="superadmin_user_edit")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory(), true));
+        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory(), true));
     }
 
     /**
-     * Edits an existing BaseUser document.
+     * Edits an existing BaseUser entity.
      *
      * @Route("/{id}/update", name="superadmin_user_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminBaseUser:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Document\BaseUser', $this->getDirectory(), true), 'superadmin_user');
+        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory(), true), 'superadmin_user');
     }
 
     /**
-     * Deletes a BaseUser document.
+     * Deletes a BaseUser entity.
      *
      * @Route("/{id}/delete", name="superadmin_user_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {
@@ -155,16 +157,16 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Displays a form to transform an existing BaseUser document.
+     * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="superadmin_user_transform")
      * @Template()
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function transformAction($id, Request $request)
     {
@@ -176,15 +178,15 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Enables a BaseUser document.
+     * Enables a BaseUser entity.
      *
      * @Route("/{id}/enable", name="superadmin_user_enable")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function enableAction($id)
     {

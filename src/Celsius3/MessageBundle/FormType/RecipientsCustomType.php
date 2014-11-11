@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,6 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace Celsius3\MessageBundle\FormType;
 
 use Symfony\Component\Form\AbstractType;
@@ -63,7 +65,7 @@ class RecipientsCustomType extends AbstractType
      */
     public function getParent()
     {
-        return 'genemu_jqueryselect2_document';
+        return 'genemu_jqueryselect2_entity';
     }
 
     /**

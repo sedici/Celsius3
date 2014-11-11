@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -27,16 +28,19 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function listQuery($name)
     {
         return parent::listQuery($name)
-                        ->field('instance.id')->equals($this->getInstance()->getId());
+                        ->andWhere('e.instance = :instance_id')
+                        ->setParameter('instance_id', $this->getInstance()->getId());
     }
 
     protected function findQuery($name, $id)
     {
-        return $this->getDocumentManager()
+        return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder()
-                        ->field('instance.id')->equals($this->getInstance()->getId())
-                        ->field('id')->equals($id)
+                        ->createQueryBuilder('e')
+                        ->andWhere('e.instance = :instance_id')
+                        ->andWhere('e.id = :id')
+                        ->setParameter('instance_id', $this->getInstance()->getId())
+                        ->setParameter('id', $id)
                         ->getQuery()
                         ->getSingleResult();
     }
@@ -50,7 +54,7 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name, $this->getInstance());
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name, $this->getInstance());
     }
 
     /**
@@ -62,5 +66,4 @@ abstract class BaseInstanceDependentController extends BaseController
     {
         return $this->get('celsius3_core.instance_helper')->getSessionInstance();
     }
-
 }

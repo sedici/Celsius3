@@ -40,18 +40,15 @@ class UserController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        $lastMessages = $this->getDocumentManager()
+        $lastMessages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
-                ->createQueryBuilder()
-                ->field('participants.id')->equals($this->getUser()->getId())
-                ->sort('lastMessageDate', 'desc')
+                ->createQueryBuilder('t')
+                ->where('t.participants = :participants')->setParameter('participants',$this->getUser()->getId())
+                ->sort('t.lastMessageDate', 'desc')
                 ->limit(3)
-                ->getQuery()
-                ->execute();
+                ->getQuery()->getResult();
 
-        return array(
-            'lastMessages' => $lastMessages,
-        );
+        return array('lastMessages' => $lastMessages);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -23,7 +24,6 @@ namespace Celsius3\CoreBundle\Manager;
 
 class OrderManager
 {
-
     const TYPE__SEARCH = 'search';
     const TYPE__PROVISION = 'provision';
 
@@ -34,5 +34,4 @@ class OrderManager
             self::TYPE__PROVISION,
         );
     }
-
 }

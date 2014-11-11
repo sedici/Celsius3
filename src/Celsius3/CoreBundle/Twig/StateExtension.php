@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,11 +23,10 @@
 namespace Celsius3\CoreBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Entity\Request;
 
 class StateExtension extends \Twig_Extension
 {
-
     private $container;
     private $environment;
 
@@ -56,7 +56,7 @@ class StateExtension extends \Twig_Extension
 
     public function renderStateBody($state, Request $request)
     {
-        return $this->environment->render('Celsius3CoreBundle:AdminOrder:_info_' . $state. '.html.twig', $this->container->get('celsius3_core.state_manager')->getDataForBodyRendering($state, $request));
+        return $this->environment->render('Celsius3CoreBundle:AdminOrder:_info_' . $state . '.html.twig', $this->container->get('celsius3_core.state_manager')->getDataForBodyRendering($state, $request));
     }
 
     public function getPositiveStates()
@@ -68,5 +68,4 @@ class StateExtension extends \Twig_Extension
     {
         return 'celsius3_core.state_extension';
     }
-
 }

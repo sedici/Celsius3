@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Document\Institution;
+use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Form\Type\InstitutionType;
 use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
 
@@ -37,7 +37,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
 {
 
     /**
-     * Lists all Institution documents.
+     * Lists all Institution entities.
      *
      * @Route("/", name="admin_institution")
      * @Template()
@@ -50,7 +50,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     }
 
     /**
-     * Displays a form to create a new Institution document.
+     * Displays a form to create a new Institution entity.
      *
      * @Route("/new", name="admin_institution_new")
      * @Template()
@@ -59,11 +59,11 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
-     * Creates a new Institution document.
+     * Creates a new Institution entity.
      *
      * @Route("/create", name="admin_institution_create")
      * @Method("post")
@@ -73,54 +73,54 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDocumentManager(), $this->getInstance()), 'admin_institution');
+        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_institution');
     }
 
     /**
-     * Displays a form to edit an existing Institution document.
+     * Displays a form to edit an existing Institution entity.
      *
      * @Route("/{id}/edit", name="admin_institution_edit")
      * @Template()
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getInstance()));
+        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()));
     }
 
     /**
-     * Edits an existing Institution document.
+     * Edits an existing Institution entity.
      *
      * @Route("/{id}/update", name="admin_institution_update")
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminInstitution:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDocumentManager(), $this->getInstance()), 'admin_institution');
+        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_institution');
     }
 
     /**
-     * Deletes a Institution document.
+     * Deletes a Institution entity.
      *
      * @Route("/{id}/delete", name="admin_institution_delete")
      * @Method("post")
      *
-     * @param string $id The document ID
+     * @param string $id The entity ID
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function deleteAction($id)
     {

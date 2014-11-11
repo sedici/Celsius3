@@ -38,13 +38,12 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
      */
     public function getRequestsAction()
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $requests = $dm->getRepository('Celsius3CoreBundle:Request')
-                ->findBy(array('instance.id' => $this->getInstance()->getId(),));
+        $requests = $em->getRepository('Celsius3CoreBundle:Request')
+                ->findBy(array('instance_id' => $this->getInstance()->getId()));
 
-        $view = $this->view(array_values($requests), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($requests), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -55,20 +54,19 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
      */
     public function getRequestAction($order_id)
     {
-        $dm = $this->getDocumentManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $request = $dm->getRepository('Celsius3CoreBundle:Request')
+        $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->findOneBy(array(
-            'order.id' => $order_id,
-            'instance.id' => $this->getInstance()->getId(),
-        ));
+                    'order_id' => $order_id,
+                    'instance_id' => $this->getInstance()->getId(),
+                ));
 
         if (!$request) {
             return $this->createNotFoundException('Request not found.');
         }
 
-        $view = $this->view($request, 200)
-                ->setFormat('json');
+        $view = $this->view($request, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

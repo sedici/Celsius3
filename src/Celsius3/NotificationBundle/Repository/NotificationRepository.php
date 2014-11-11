@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -18,24 +19,32 @@
  * You should have received a copy of the GNU General Public License
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Celsius3\NotificationBundle\Repository;
-use Doctrine\ODM\MongoDB\DocumentRepository;
 
-class NotificationRepository extends DocumentRepository
+namespace Celsius3\NotificationBundle\Repository;
+
+use Doctrine\ORM\EntityRepository;
+
+class NotificationRepository extends EntityRepository
 {
+
     public function getUnreadNotificationsCount($user_id)
     {
-        return $this->createQueryBuilder()->field('receivers.id')
-                ->equals($user_id)->field('isViewed')->equals(false)
-                ->getQuery()->execute()->count();
+        return $this->createQueryBuilder('n')
+                        ->select('COUNT(u.id)')
+                        ->where(':user_id MEMBER OF n.receivers')
+                        ->andWhere('u.isViewed = false')
+                        ->setParameter('user_ud', $user_id)
+                        ->getQuery()
+                        ->getSingleScalarResult();
     }
 
     public function getUnreadNotifications($user_id, $limit)
     {
-        return $this->createQueryBuilder()->field('receivers.id')
-                ->equals($user_id)->field('isViewed')->equals(false)
-                ->sort('createdAt', 'desc')
-                ->limit($limit)
-                ->getQuery()->execute();
+        return $this->createQueryBuilder('n')
+                        ->where(':user_id MEMBER OF n.receivers')
+                        ->andWhere('u.isViewed = false')
+                        ->setParameter('user_ud', $user_id)
+                        ->getQuery()
+                        ->getResult();
     }
 }

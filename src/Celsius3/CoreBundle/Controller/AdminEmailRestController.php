@@ -48,9 +48,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
 
-        $errors = $this->get('validator')->validateValue(
-                $email, $emailConstraint
-        );
+        $errors = $this->get('validator')->validateValue($email, $emailConstraint);
 
         if (count($errors) !== 0) {
             throw new NotFoundHttpException('Error sending email');
@@ -68,8 +66,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
 
         $result = $this->get('celsius3_core.mailer')->sendEmail($email, $subject, $text, $this->getInstance());
 
-        $view = $this->view($result, 200)
-                ->setFormat('json');
+        $view = $this->view($result, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

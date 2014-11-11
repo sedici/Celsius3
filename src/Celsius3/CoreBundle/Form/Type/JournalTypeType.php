@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -41,13 +42,14 @@ class JournalTypeType extends MaterialTypeType
                 ->add('other', null, array(
                     'required' => false,
                     'property_path' => 'other',
-                ));
+                ))
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Document\\JournalType',
+            'data_class' => 'Celsius3\\CoreBundle\\Entity\\JournalType',
         ));
     }
 
@@ -55,5 +57,4 @@ class JournalTypeType extends MaterialTypeType
     {
         return 'celsius3_corebundle_journaltype';
     }
-
 }

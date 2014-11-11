@@ -38,8 +38,7 @@ class UserBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getUsersAction()
     {
-        $view = $this->view(array(), 200)
-                ->setFormat('json');
+        $view = $this->view(array(), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
@@ -52,8 +51,7 @@ class UserBaseUserRestController extends BaseInstanceDependentRestController
     {
         $user = $this->getUser()->getId() === $id ? $this->getUser() : null;
 
-        $view = $this->view($user, 200)
-                ->setFormat('json');
+        $view = $this->view($user, 200)->setFormat('json');
 
         return $this->handleView($view);
     }

@@ -7,7 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Country Edit'|trans }} - {{ document.name }}</h2>
+<h2>{{ 'Country Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('admin_country', document, edit_form, delete_form) }}
+{{ edit('admin_country', entity, edit_form, delete_form) }}
 {% endblock %}
