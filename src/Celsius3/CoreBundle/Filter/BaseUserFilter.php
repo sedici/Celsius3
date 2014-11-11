@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Filter;
 
 use Doctrine\ORM\EntityManager;
 
-class BaseUserFilter implements DocumentFilterInterface
+class BaseUserFilter implements EntityFilterInterface
 {
     private $em;
     private $specialFields = array('state' => 'addFindByStateType',);

@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class CityRepository extends EntityRepository
 {

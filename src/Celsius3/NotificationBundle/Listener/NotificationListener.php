@@ -24,7 +24,7 @@ namespace Celsius3\NotificationBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
-use Celsius3\NotificationBundle\Document\Notifiable;
+use Celsius3\NotificationBundle\Entity\Notifiable;
 
 class NotificationListener
 {

@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class CountryFilterType extends AbstractType
 {
@@ -42,9 +42,10 @@ class CountryFilterType extends AbstractType
                 ->add('name', null, array('required' => false,))
                 ->add('abbreviation', null, array('required' => false,));
         if (is_null($this->instance)) {
-            $builder
-                    ->add('instance', 'entity', array('required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',));
+            $builder->add('instance', 'entity', array(
+                'required' => false,
+                'class' => 'Celsius3CoreBundle:Instance',
+            ));
         }
     }
 

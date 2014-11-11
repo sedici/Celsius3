@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class SearchManager
 {

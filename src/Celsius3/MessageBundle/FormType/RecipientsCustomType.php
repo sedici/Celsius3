@@ -65,7 +65,7 @@ class RecipientsCustomType extends AbstractType
      */
     public function getParent()
     {
-        return 'genemu_jqueryselect2_document';
+        return 'genemu_jqueryselect2_entity';
     }
 
     /**

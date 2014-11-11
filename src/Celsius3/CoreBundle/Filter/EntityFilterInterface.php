@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -19,30 +20,12 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Tests\Document;
+namespace Celsius3\CoreBundle\Filter;
 
-use Celsius3\CoreBundle\Document\Search;
-
-class SearchTest extends SingleInstanceTest
+interface EntityFilterInterface
 {
 
-    public function setUp()
-    {
-        parent::setUp();
+    public function hasCustomFilter($field_name);
 
-        $this->event = new Search();
-    }
-
-    public function testGenerateSearch()
-    {
-        $date = date('Y-m-d H:i:s');
-
-        $this->event->setDate($date);
-
-        $this->documentManager->persist($this->event);
-        $this->documentManager->flush();
-
-        $this->assertNotNull($this->event->getId());
-    }
-
+    public function applyCustomFilter($field_name, $data, $query, $instance);
 }

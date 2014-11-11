@@ -61,7 +61,7 @@ class MessageController extends BaseController
      */
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Document\\' . $name);
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
     protected function getRequest()

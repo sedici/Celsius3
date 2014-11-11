@@ -31,7 +31,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class InstanceSelectorType extends AbstractType
 {
     /**
-     * @var DocumentManager
+     * @var EntityManager
      */
     private $em;
 

@@ -22,8 +22,8 @@
 namespace Celsius3\CoreBundle\Mailer;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Instance;
-use Celsius3\CoreBundle\Document\Email;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\Email;
 
 class Mailer
 {

@@ -25,9 +25,9 @@ namespace Celsius3\CoreBundle\Helper;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Celsius3\CoreBundle\Document\BaseUser;
-use Celsius3\CoreBundle\Document\CustomUserValue;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\CustomUserValue;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class CustomFieldHelper
 {
@@ -43,7 +43,7 @@ class CustomFieldHelper
     public function processCustomFields(Instance $instance, FormInterface $form, BaseUser $entity)
     {
         $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
-                ->findBy(array('instance_id' => $instance->getId()));
+                ->findBy(array('instance' => $instance->getId()));
 
         $data = $this->request_stack->getCurrentRequest()->get($form->getName());
 

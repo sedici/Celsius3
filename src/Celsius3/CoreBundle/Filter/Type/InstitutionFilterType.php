@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class InstitutionFilterType extends AbstractType
 {
@@ -41,18 +41,28 @@ class InstitutionFilterType extends AbstractType
         $builder
                 ->add('name', null, array('required' => false,))
                 ->add('abbreviation', null, array('required' => false,))
-                ->add('parent', 'entity', array('required' => false,
-                    'class' => 'Celsius3CoreBundle:Institution',))
-                ->add('city', 'entity', array('required' => false,
-                    'class' => 'Celsius3CoreBundle:City',));
+                ->add('parent', 'entity', array(
+                    'required' => false,
+                    'class' => 'Celsius3CoreBundle:Institution',
+                ))
+                ->add('city', 'entity', array(
+                    'required' => false,
+                    'class' => 'Celsius3CoreBundle:City',
+                ))
+        ;
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', 'entity', array('required' => false,
+                    ->add('instance', 'entity', array(
+                        'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
-                        'label' => 'Owning Instance',))
-                    ->add('celsiusInstance', 'entity', array('required' => false,
+                        'label' => 'Owning Instance',
+                    ))
+                    ->add('celsiusInstance', 'entity', array(
+                        'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
-                        'label' => 'Celsius Instance',));
+                        'label' => 'Celsius Instance',
+                    ))
+            ;
         }
     }
 

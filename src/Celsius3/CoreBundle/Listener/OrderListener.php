@@ -24,8 +24,8 @@ namespace Celsius3\CoreBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Document\Order;
-use Celsius3\CoreBundle\Document\Request;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\EventManager;
 
 class OrderListener

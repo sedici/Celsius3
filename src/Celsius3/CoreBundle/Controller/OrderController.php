@@ -38,14 +38,13 @@ abstract class OrderController extends BaseInstanceDependentController
             $this->createNotFoundException('Inexistent Material Type');
         }
 
-        $entity = new Order();
-        $type = new OrderType($this->getInstance(), new $material($entity));
-        $form = $this->createForm($type, $entity);
+        $type = new OrderType($this->getInstance(), new $material);
+        $form = $this->createForm($type, new Order());
 
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array('form' => $form->createView()));
     }
 
-    protected function getMaterialType(Order $order, $materialData = null)
+    protected function getMaterialType($materialData = null)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
         
@@ -56,6 +55,6 @@ abstract class OrderController extends BaseInstanceDependentController
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
 
-        return new $materialTypeName($order);
+        return new $materialTypeName;
     }
 }

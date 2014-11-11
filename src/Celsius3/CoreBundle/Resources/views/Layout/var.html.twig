@@ -2,7 +2,7 @@
 var _locale = '{{ app.request.get('_locale') }}';
 var ajax_message = '{{ 'Please wait...'|trans }}';
 var instance_id = '{{ (instance is defined and instance)?instance.id:'' }}';
-var document_id = '{{ (document is defined and document)?document.id:'' }}';
+var entity_id = '{{ (entity is defined and entity)?entity.id:'' }}';
 var ajax_path = '{{ (ajax_path is defined)?path(ajax_path):'' }}';
 var user_exists = {{ (app.user is defined)?'true':'false' }};
 var user_id = '{{ app.user?app.user.id:'' }}';

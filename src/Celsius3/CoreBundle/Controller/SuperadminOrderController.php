@@ -140,7 +140,7 @@ class SuperadminOrderController extends OrderController
 
         $materialClass = get_class($entity->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($entity, $materialClass), $this->getUser()), $entity);
+        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('entity' => $entity,
@@ -171,7 +171,7 @@ class SuperadminOrderController extends OrderController
 
         $entity->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($entity), $this->getUser()), $entity);
+        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType(), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->get('request_stack')->getCurrentRequest();

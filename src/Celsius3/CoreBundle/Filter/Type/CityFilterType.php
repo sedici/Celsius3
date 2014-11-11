@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Celsius3\CoreBundle\Document\Instance;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class CityFilterType extends AbstractType
 {
@@ -41,12 +41,16 @@ class CityFilterType extends AbstractType
         $builder
                 ->add('name', null, array('required' => false,))
                 ->add('postalCode', null, array('required' => false,))
-                ->add('country', 'entity', array('required' => false,
-                    'class' => 'Celsius3CoreBundle:Country'));
+                ->add('country', 'entity', array(
+                    'required' => false,
+                    'class' => 'Celsius3CoreBundle:Country',
+                ))
+        ;
         if (is_null($this->instance)) {
-            $builder
-                    ->add('instance', 'entity', array('required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',));
+            $builder->add('instance', 'entity', array(
+                'required' => false,
+                'class' => 'Celsius3CoreBundle:Instance',
+            ));
         }
     }
 
