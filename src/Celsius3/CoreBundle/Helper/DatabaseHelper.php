@@ -35,11 +35,12 @@ class DatabaseHelper
 
     public function findRandomRecord($repository)
     {
-        $counter = (int) $this->em->createQuery(
-                        'SELECT COUNT(c) FROM ' . $repository . ' c'
-                )->getSingleScalarResult();
+        $counter = (int) $this->em->createQuery('SELECT COUNT(r) FROM :repository r')
+                        ->setParameter('repository', $repository)
+                        ->getSingleScalarResult();
 
-        return $this->em->createQuery('SELECT c FROM ' . $repository . ' c ORDER BY c.id ASC')
+        return $this->em->createQuery('SELECT r FROM :repository r ORDER BY r.id ASC')
+                        ->setParameter('repository', $repository)
                         ->setMaxResults(1)
                         ->setFirstResult(mt_rand(0, $counter - 1))
                         ->getSingleResult()
