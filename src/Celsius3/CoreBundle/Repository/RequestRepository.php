@@ -55,25 +55,17 @@ class RequestRepository extends EntityRepository
         return $string;
     }
     
-    public function countActiveUsers() {
-        $qb = $this->createQueryBuilder();
-        $query = $qb->hydrate(false)
-                ->map('function(){emit({
-                        instance_id: this.instance.$id,
-                            year: this.createdAt.getFullYear(),
-                            month:this.createdAt.getMonth()}, 
-                        { count: 1 , users: [this.owner.$id]})}')
-                ->reduce('function(k,v){ 
-                            var ret = { count: 0 , users: []};
-                            for ( var i = 0; i < v.length; i++ ) {
-                                 ret.count += v[i].count;
-                                 v[i].users.forEach(function(val) {
-                                     ret.users.push(val);
-                                 });
-                            }
-                            return ret;
-                        }')
-                ->getQuery();
-        return $query->execute()->toArray();
+    public function countActiveUsersForInterval($initialYear,$finalYear) {
+        return $this->getEntityManager()
+            ->createQueryBuilder('request')
+            ->select('YEAR(request.createdAt) year')
+            ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
+            ->where('year >= :initialYear')->setParameter('initialYear', $initialYear)
+            ->andWhere('year <= :finalYear')->setParameter('finalYear', $finalYear)
+            ->groupBy('year')
+            ->orderBy('year','ASC')
+            ->getQuery()
+            ->getResult();
     }
+    
 }

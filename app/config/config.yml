@@ -111,7 +111,11 @@ doctrine:
                     softdeleteable:
                         class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                         enabled: true
-                        
+                dql:
+                    string_functions:
+                        MONTH: DoctrineExtensions\Query\Mysql\Month
+                        YEAR: DoctrineExtensions\Query\Mysql\Year
+                
 # Swiftmailer Configuration
 swiftmailer:
     spool:

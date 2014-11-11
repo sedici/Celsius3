@@ -116,7 +116,7 @@ class PublicController extends BaseInstanceDependentController
 
         return new Response(json_encode($response));
     }
-
+    
     /**
      * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
      * @Template()

@@ -23,10 +23,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.getUsersCountDataForInterval = function (initialYear, finalYear) {
-        $http.get(Routing.generate('public_rest_get_users_count_data_for_interval') + '?initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear)).success(function (response) {
-            $scope.data = response;
-            $scope.generateChart(response);
-        });
+        $http.get(Routing.generate('public_rest_get_users_count_data_for_interval') + '?initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+                .success(function (response) {
+                    $scope.data = response;
+                    $scope.generateChart(response);
+                }).error(function(response){
+                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=no, resizable=no, top=10, left=10, width=800, height=800");
+                    ventana.document.write(response);
+                });
     };
 
     $scope.getUsersCountDataForYear = function (year) {
@@ -42,12 +46,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             bindto: '#chart',
             data: {
                 columns: [
-                    response.total_users,
-                    response.active_users,
-                    response.new_users
+                    response.totalUsers,
+                    response.activeUsers,
+                    response.newUsers
                 ],
                 types: {
-                    
                     'Total Users': 'line',
                     'Active Users': 'bar',
                     'New Users': 'bar'
@@ -61,7 +64,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             }
         });
     };
-
+      
     $scope.initialYearChange = function () {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.initialYear = $scope.finalYear;

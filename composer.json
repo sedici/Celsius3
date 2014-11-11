@@ -41,7 +41,8 @@
         "cboden/Ratchet": "0.2.*",
         "react/zmq": "0.1.*",
         "sp/bower-bundle": "dev-master",
-        "umpirsky/composer-permissions-handler": "~1.0"
+        "umpirsky/composer-permissions-handler": "~1.0",
+        "beberlei/DoctrineExtensions": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

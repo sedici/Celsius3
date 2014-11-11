@@ -135,19 +135,33 @@ class BaseUserRepository extends EntityRepository
     public function findUsersPerInstance()
     {
         return $this->createQueryBuilder('u')
-                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-                        ->groupBy('u.instance')
-                        ->getQuery()
-                        ->getResult();
+            ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+            ->groupBy('u.instance')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findNewUsersPerInstance()
     {
         return $this->createQueryBuilder('u')
-                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-                        ->where('u.enabled = true')
-                        ->groupBy('u.instance')
-                        ->getQuery()
-                        ->getResult();
+            ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+            ->where('u.enabled = true')
+            ->groupBy('u.instance')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    public function countNewUsersForInterval($initialYear,$finalYear) {
+        return $this->getEntityManager()
+            ->createQueryBuilder('u')
+            ->select('YEAR(u.createdAt) year')
+            ->addSelect('COUNT(u.id) newUsers')
+            //->from('Celsius3CoreBundle:BaseUser', 'u')
+            ->where('YEAR(u.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+            ->andWhere('YEAR(u.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear)
+            ->groupBy('u.year')
+            ->orderBy('u.year','ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -255,7 +255,7 @@ class File
     {
         $this->file = $file;
         
-        if (isset($this->getPath())) {
+        if ($this->getPath() !== null) {
             $this->setTemp($this->getPath());
             $this->setPath(null);
         } else {
