@@ -76,9 +76,7 @@ class MaterialType
      */
     protected $endPage;
     /**
-     * @Assert\NotNull
-     * @ORM\OneToOne(targetEntity="Order", inversedBy="materialData")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=true)
+     * @ORM\OneToOne(targetEntity="Order", mappedBy="materialData")
      */
     protected $order;
 
@@ -217,5 +215,28 @@ class MaterialType
     public function getEndPage()
     {
         return $this->endPage;
+    }
+
+    /**
+     * Set order
+     *
+     * @param  Celsius3\CoreBundle\Entity\Order $order
+     * @return self
+     */
+    public function setOrder(\Celsius3\CoreBundle\Entity\Order $order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return Celsius3\CoreBundle\Entity\Order $order
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

@@ -82,7 +82,7 @@ class AdminBaseUserController extends BaseUserController
 
         $messages = $this->get('fos_message.thread_manager')
                 ->getParticipantSentThreadsQueryBuilder($entity)
-                ->getQuery()->getResutl();
+                ->getQuery()->getResult();
 
         return array(
             'element' => $entity,

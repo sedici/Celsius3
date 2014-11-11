@@ -167,7 +167,7 @@ abstract class BaseController extends Controller
         $editForm = $this->createForm($type, $entity);
         $deleteForm = $this->createDeleteForm($id);
 
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
 
         $editForm->bind($request);
 
@@ -294,7 +294,7 @@ abstract class BaseController extends Controller
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $target)
                 ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions($librarian))
-                ->getResutl();
+                ->getResult();
 
         $json = array();
         foreach ($result as $element) {

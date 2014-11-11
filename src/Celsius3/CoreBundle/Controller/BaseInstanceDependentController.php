@@ -28,7 +28,7 @@ abstract class BaseInstanceDependentController extends BaseController
     protected function listQuery($name)
     {
         return parent::listQuery($name)
-                        ->andWhere('e_instance_id = :instance_id')
+                        ->andWhere('e.instance = :instance_id')
                         ->setParameter('instance_id', $this->getInstance()->getId());
     }
 
@@ -37,8 +37,8 @@ abstract class BaseInstanceDependentController extends BaseController
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder('e')
-                        ->andWhere('e_instance_id = :instance_id')
-                        ->andWhere('e_id = :id')
+                        ->andWhere('e.instance = :instance_id')
+                        ->andWhere('e.id = :id')
                         ->setParameter('instance_id', $this->getInstance()->getId())
                         ->setParameter('id', $id)
                         ->getQuery()

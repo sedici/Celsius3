@@ -22,35 +22,47 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Celsius3\CoreBundle\Form\DataTransformer\OrderToIdTransformer;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BookTypeType extends MaterialTypeType
+class OrderSelectorType extends AbstractType
 {
+    /**
+     * @var EntityManager
+     */
+    private $em;
+
+    /**
+     * @param EntityManager $em
+     */
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
-        $builder
-                ->add('editor')
-                ->add('chapter')
-                ->add('ISBN')
-                ->add('withIndex', null, array(
-                    'required' => false,
-                ))
-        ;
+        $transformer = new OrderToIdTransformer($this->em);
+        $builder->addModelTransformer($transformer);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Entity\\BookType',
+            'invalid_message' => 'The selected User does not exist',
         ));
+    }
+
+    public function getParent()
+    {
+        return 'hidden';
     }
 
     public function getName()
     {
-        return 'celsius3_corebundle_booktype';
+        return 'celsius3_corebundle_order_selector';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 
@@ -28,30 +30,32 @@ abstract class OrderController extends BaseInstanceDependentController
 
     protected function change()
     {
-        $material = 'Celsius3\\CoreBundle\\Form\\Type\\'
-                . ucfirst($this->getRequest()->get('material')) . 'TypeType';
+        $request = $this->get('request_stack')->getCurrentRequest();
 
-        if (!class_exists($material))
+        $material = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
+
+        if (!class_exists($material)) {
             $this->createNotFoundException('Inexistent Material Type');
+        }
 
-        $type = new OrderType($this->getInstance(), new $material);
-        $form = $this->createForm($type, new Order());
+        $entity = new Order();
+        $type = new OrderType($this->getInstance(), new $material($entity));
+        $form = $this->createForm($type, $entity);
 
-        return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig',array('form' => $form->createView()));
+        return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array('form' => $form->createView()));
     }
 
-    protected function getMaterialType($materialData = null)
+    protected function getMaterialType(Order $order, $materialData = null)
     {
+        $request = $this->get('request_stack')->getCurrentRequest();
+        
         if (is_null($materialData)) {
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'
-                    . ucfirst($this->getRequest()->request
-                            ->get('celsius3_corebundle_ordertype[materialDataType]',null, true)) . 'TypeType';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('celsius3_corebundle_ordertype[materialDataType]', null, true)) . 'TypeType';
         } else {
             $class = explode('\\', $materialData);
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
 
-        return new $materialTypeName;
+        return new $materialTypeName($order);
     }
-
 }

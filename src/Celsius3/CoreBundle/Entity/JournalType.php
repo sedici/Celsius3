@@ -44,7 +44,7 @@ class JournalType extends MaterialType
      */
     protected $other;
     /**
-     * @ORM\ManyToOne(targetEntity="Journal")
+     * @ORM\ManyToOne(targetEntity="Journal", inversedBy="materials")
      * @ORM\JoinColumn(name="journal_id", referencedColumnName="id")
      */
     protected $journal;
@@ -101,7 +101,7 @@ class JournalType extends MaterialType
      * @param  Celsius3\CoreBundle\Entity\Journal $journal
      * @return self
      */
-    public function setJournal(\Celsius3\CoreBundle\Entity\Journal $journal)
+    public function setJournal(\Celsius3\CoreBundle\Entity\Journal $journal = null)
     {
         $this->journal = $journal;
 

@@ -7,9 +7,9 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'News Edit'|trans }} - {{ document.title }}</h2>
+<h2>{{ 'News Edit'|trans }} - {{ entity.title }}</h2>
 
-{{ edit('superadmin_news', document, edit_form, delete_form) }}
+{{ edit('superadmin_news', entity, edit_form, delete_form) }}
 {% endblock %}
 
 {% block javascripts %}

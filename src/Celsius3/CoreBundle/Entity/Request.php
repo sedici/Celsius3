@@ -449,7 +449,7 @@ class Request
         return ($this->getStates()
                         ->filter(
                                 function ($entry) use ($names) {
-                            return in_array($entry->getType()->getName(), $names);
+                            return in_array($entry->getType(), $names);
                         })->count() > 0);
     }
 
@@ -462,7 +462,7 @@ class Request
         $result = $this->getStates()
                         ->filter(
                                 function ($entry) use ($name) {
-                            return $entry->getType()->getName() == $name;
+                            return $entry->getType() === $name;
                         })->first();
 
         return false !== $result ? $result : null;
