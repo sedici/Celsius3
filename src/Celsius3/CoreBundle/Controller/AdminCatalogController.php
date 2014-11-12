@@ -156,8 +156,8 @@ class AdminCatalogController extends BaseInstanceDependentController
             foreach ($ids as $key => $id) {
                 $position = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
                         ->findOneBy(array(
-                    'catalog_id' => $id,
-                    'instance_id' => $this->getInstance()->getId(),
+                    'catalog' => $id,
+                    'instance' => $this->getInstance()->getId(),
                 ));
                 if ($position) {
                     $position->setPosition($key);

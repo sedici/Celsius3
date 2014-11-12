@@ -50,7 +50,7 @@ class AdminContactController extends BaseInstanceDependentController
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder('e')
                         ->where('e.owningInstance = :owning')->setParameter('owning', $this->getInstance()->getId())
-                        ->andWhere('id = :id')->setParameter('id', $id)
+                        ->andWhere('e.id = :id')->setParameter('id', $id)
                         ->getQuery()
                         ->getSingleResult();
     }

@@ -43,7 +43,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->findBy(array('parent_id' => $parent_id,));
+                ->findBy(array('parent' => $parent_id,));
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
 

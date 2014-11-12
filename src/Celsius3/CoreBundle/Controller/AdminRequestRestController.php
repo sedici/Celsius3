@@ -59,8 +59,8 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
         $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->findOneBy(array(
-            'order_id' => $order_id,
-            'instance_id' => $this->getInstance()->getId(),
+            'order' => $order_id,
+            'instance' => $this->getInstance()->getId(),
         ));
 
         if (!$request) {

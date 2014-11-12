@@ -224,11 +224,11 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $fileUploader,
      * Resource load
      */
 
-    Order.get({id: document_id}, function (order) {
+    Order.get({id: entity_id}, function (order) {
         $scope.order = order;
     });
 
-    $scope.request = Request.get({order_id: document_id}, function (request) {
+    $scope.request = Request.get({order_id: entity_id}, function (request) {
         Catalog.query(function (catalogs) {
             $scope.catalogs = catalogs;
             $scope.updateTables();

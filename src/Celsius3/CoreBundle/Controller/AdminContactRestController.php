@@ -43,7 +43,7 @@ class AdminContactRestController extends BaseInstanceDependentRestController
 
         $contacts = $em->getRepository('Celsius3CoreBundle:Contact')
                 ->findBy(array(
-            'institution_id' => $institution_id,
+            'institution' => $institution_id,
         ));
 
         $view = $this->view(array_values($contacts), 200)->setFormat('json');

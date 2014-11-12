@@ -44,7 +44,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findBy(array(
-            'instance_id' => $this->getInstance(),
+            'instance' => $this->getInstance(),
         ));
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
@@ -78,7 +78,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $user = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
-            'instance_id' => $this->getInstance()->getId(),
+            'instance' => $this->getInstance()->getId(),
             'id' => $user_id,
         ));
 

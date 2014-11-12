@@ -37,10 +37,11 @@ class NewsRepository extends EntityRepository
     public function findLastNews(Instance $instance, $limit = 5)
     {
         return $this->createQueryBuilder('n')
-                        ->where('n.instance_id = :instance_id')
+                        ->where('n.instance = :instance_id')
                         ->setParameter('instance_id', $instance->getId())
                         ->orderBy('n.date', 'desc')
                         ->setMaxResults($limit)
-                        ->getQuery();
+                        ->getQuery()
+                        ->getResult();
     }
 }

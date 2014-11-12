@@ -54,15 +54,15 @@ class CatalogManager
     public function getCatalogs(Instance $instance = null)
     {
         return $this->em->getRepository('Celsius3CoreBundle:Catalog')
-                        ->findBy(array('instance_id' => $instance->getId(),));
+                        ->findBy(array('instance' => $instance->getId(),));
     }
 
     public function getAllCatalogs(Instance $instance)
     {
         return $this->em->getRepository('Celsius3CoreBundle:Catalog')
                         ->createQueryBuilder('c')
-                        ->where('c.instance_id = :instance_id')
-                        ->orWhere('c.instance_id = :directory_id')
+                        ->where('c.instance = :instance_id')
+                        ->orWhere('c.instance = :directory_id')
                         ->setParameter('instance_id', $instance->getId())
                         ->setParameter('directory_id', $this->instance_manager->getDirectory()->getId())
                         ->getQuery()
@@ -74,11 +74,11 @@ class CatalogManager
         return $this->em->getRepository('Celsius3CoreBundle:CatalogResult')
                         ->createQueryBuilder('cr')
                         ->where('cr.title = :title')
-                        ->andWhere('cr.catalog_id IN (:catalog_ids)')
+                        ->andWhere('cr.catalog IN (:catalog_ids)')
                         ->setParameter('title', $title)
                         ->setParameter('catalog_ids', array_map(function (Catalog $catalog) {
                                     return $catalog->getId();
-                                }, $catalogs->toArray()))
+                                }, $catalogs))
                         ->getQuery()
                         ->getResult();
     }
