@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -67,5 +68,4 @@ class AdminInstanceController extends InstanceController
     {
         return $this->baseConfigureUpdateAction($id, 'admin_instance');
     }
-
 }

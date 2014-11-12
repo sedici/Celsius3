@@ -6,7 +6,7 @@ function loadCities(json) {
     };
     $('select.city-select').append(ich.city(city_data));
 
-    $.each(json, function(i, val) {
+    $.each(json, function (i, val) {
         var city_data;
         city_data = {
             value: val.value,
@@ -28,7 +28,7 @@ function loadInstitutions(json) {
     };
     $('select.institution-select').append(ich.institution(institution_data));
 
-    $.each(json, function(i, val) {
+    $.each(json, function (i, val) {
         var institution_data;
         institution_data = {
             value: val.value,
@@ -42,7 +42,7 @@ function loadInstitutions(json) {
     refresh();
 }
 
-$(document).on('change', 'select.country-select', function() {
+$(document).on('change', 'select.country-select', function () {
     $('select.institution-select').children().remove();
     $('.institution-select').select2('val', '');
     $('select.city-select').children().remove();
@@ -55,7 +55,7 @@ $(document).on('change', 'select.country-select', function() {
             url: Routing.generate('public_cities', {
                 url: instance_url
             }),
-            success: function(data) {
+            success: function (data) {
                 loadCities(JSON.parse(data));
             }
         });
@@ -66,14 +66,14 @@ $(document).on('change', 'select.country-select', function() {
             url: Routing.generate('public_institutions_full', {
                 'url': instance_url
             }),
-            success: function(data) {
+            success: function (data) {
                 loadInstitutions(JSON.parse(data));
             }
         });
     }
 });
 
-$(document).on('change', 'select.city-select', function() {
+$(document).on('change', 'select.city-select', function () {
     $('select.institution-select').children().remove();
     $('.institution-select').select2('val', '');
     if ($(this).val()) {
@@ -83,14 +83,14 @@ $(document).on('change', 'select.city-select', function() {
             url: Routing.generate('public_institutions_full', {
                 'url': instance_url
             }),
-            success: function(data) {
+            success: function (data) {
                 loadInstitutions(JSON.parse(data));
             }
         });
     }
 });
 
-$(document).on('change', '.filter-select', function() {
+$(document).on('change', '.filter-select', function () {
     filter = $(this).val();
     if ($('select.city-select').val() !== '') {
         $('select.city-select').change();
@@ -111,7 +111,7 @@ $(".institution-select").select2();
 var value = $('select.institution-select').val();
 var done = false;
 var filter = '';
-var refresh = function() {
+var refresh = function () {
     if (!done) {
         done = true;
         $('.institution-select').select2('val', value);

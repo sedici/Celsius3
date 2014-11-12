@@ -1,37 +1,37 @@
 {% extends 'Celsius3CoreBundle:Order:_index_order_fields.html.twig' %}
 
 {% block extrafields %}
-<dt>{{ 'Current state'|trans }}</dt>
-<dd>{{ order.getCurrentState(instance).type.name|capitalize }} {{ 'since'|trans }} {{ order.getCurrentState(instance).date|localizeddate }} ({{ order.getCurrentState(instance).date|time_ago_in_words }})</dd>
-<dt>{{ 'User'|trans }}</dt>
-<dd><a href="{{ path('admin_user',{ 'id': order.owner.id }) }}">{{ order.owner.username }}</a></dd>
-{% endblock %}
+    <dt>{{ 'Current state'|trans }}</dt>
+    <dd>{{ order.getCurrentState(instance).type.name|capitalize }} {{ 'since'|trans }} {{ order.getCurrentState(instance).date|localizeddate }} ({{ order.getCurrentState(instance).date|time_ago_in_words }})</dd>
+    <dt>{{ 'User'|trans }}</dt>
+    <dd><a href="{{ path('admin_user',{ 'id': order.owner.id }) }}">{{ order.owner.username }}</a></dd>
+    {% endblock %}
 
 {% block orderactions %}
-<div class="span2 pull-right">
-    <ul class="unstyled pull-right">
-        <li>
-            <a href="{{ path('admin_order_show', { 'id': order.id }) }}"><i class="icon-file"></i> {{ 'Full view'|trans }}</a>
-        </li>
-        <li>
-            <a href="{{ path('admin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
-        </li>
-        {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] %}
-        <li>
-            <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
-                <a class="submit-annul-form" href="#"><i class="icon-ban-circle"></i> {{ 'annul'|capitalize|trans }}</a>
-            </form>
-        </li>
-        {% endif %}
+    <div class="span2 pull-right">
+        <ul class="unstyled pull-right">
+            <li>
+                <a href="{{ path('admin_order_show', { 'id': order.id }) }}"><i class="icon-file"></i> {{ 'Full view'|trans }}</a>
+            </li>
+            <li>
+                <a href="{{ path('admin_order_edit', { 'id': order.id }) }}"><i class="icon-pencil"></i> {{ 'Edit'|trans }}</a>
+            </li>
+            {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__CREATED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED')] %}
+                <li>
+                    <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__ANNUL') }) }}" method="post" class="inline-form">
+                        <a class="submit-annul-form" href="#"><i class="icon-ban-circle"></i> {{ 'annul'|capitalize|trans }}</a>
+                    </form>
+                </li>
+            {% endif %}
 
-        {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED'),
+            {% if order.getCurrentState(instance).type.name in [constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__SEARCHED'), constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__REQUESTED'),
         constant('Celsius3\\CoreBundle\\Manager\\StateManager::STATE__APPROVAL_PENDING')] %}
-        <li>
-            <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
-                <a class="submit-cancel-form" href="#"><i class="icon-remove"></i> {{ 'cancel'|capitalize|trans }}</a>
-            </form>
-        </li>
-        {% endif %}
-    </ul>
-</div>
-{% endblock %}
+            <li>
+                <form action="{{ path('admin_order_event', { 'id': order.id, 'event': constant('Celsius3\\CoreBundle\\Manager\\EventManager::EVENT__CANCEL') }) }}" method="post" class="inline-form">
+                    <a class="submit-cancel-form" href="#"><i class="icon-remove"></i> {{ 'cancel'|capitalize|trans }}</a>
+                </form>
+            </li>
+            {% endif %}
+            </ul>
+        </div>
+        {% endblock %}

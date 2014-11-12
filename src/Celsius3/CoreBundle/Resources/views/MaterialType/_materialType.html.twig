@@ -1,16 +1,16 @@
 <ul class="list-unstyled">
-    {% block dataType %}{% endblock %}
-    <li>
-        <strong>{{ 'Title'|trans }}</strong> {{ materialData.title?materialData.title:'-' }}
-    </li>
-    <li>
-        <strong>{{ 'Year'|trans }}</strong> {{ materialData.year?materialData.year:'-' }}
-    </li>
-    <li>
-        <strong>{{ 'Start page'|trans }}</strong> {{ materialData.startPage?materialData.startPage:'-' }}
-    </li>
-    <li>
-        <strong>{{ 'End page'|trans }}</strong> {{ materialData.endPage?materialData.endPage:'-' }}
-    </li>
-    {% block extraData %}{% endblock %}
+{% block dataType %}{% endblock %}
+<li>
+    <strong>{{ 'Title'|trans }}</strong> {{ materialData.title?materialData.title:'-' }}
+</li>
+<li>
+    <strong>{{ 'Year'|trans }}</strong> {{ materialData.year?materialData.year:'-' }}
+</li>
+<li>
+    <strong>{{ 'Start page'|trans }}</strong> {{ materialData.startPage?materialData.startPage:'-' }}
+</li>
+<li>
+    <strong>{{ 'End page'|trans }}</strong> {{ materialData.endPage?materialData.endPage:'-' }}
+</li>
+{% block extraData %}{% endblock %}
 </ul>

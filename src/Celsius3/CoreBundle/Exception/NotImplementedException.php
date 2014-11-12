@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -22,10 +23,11 @@
 namespace Celsius3\CoreBundle\Exception;
 
 /**
-* Throw when the functionnality is not implemented
-*
-* @author Cedric LOMBARDOT
-*/
+ * Throw when the functionnality is not implemented
+ *
+ * @author Cedric LOMBARDOT
+ */
 class NotImplementedException extends \LogicException
 {
+    
 }

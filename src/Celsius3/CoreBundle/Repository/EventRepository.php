@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -25,5 +26,5 @@ use Doctrine\ORM\EntityRepository;
 
 class EventRepository extends EntityRepository
 {
-
+    
 }

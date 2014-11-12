@@ -15,7 +15,7 @@ var orderApp = angular.module('orderApp', [
 ]);
 
 orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
-    function($routeProvider, $tooltipProvider, $translateProvider) {
+    function ($routeProvider, $tooltipProvider, $translateProvider) {
         $routeProvider.
                 when('/', {
                     templateUrl: '/ng-app/AdminOrder/partials/show.html',

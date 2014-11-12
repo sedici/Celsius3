@@ -24,7 +24,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
             } else {
                 $scope.total = $scope.orderCount[state];
             }
-            
+
             $scope.numPages = Math.ceil($scope.total / 10);
 
             $scope.orders.forEach(function (order) {
@@ -76,7 +76,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     $scope.isActiveType = function (type) {
         return type === $scope.type ? 'active' : '';
     };
-    
+
     $scope.isActiveOrderType = function (orderType) {
         return orderType === $scope.orderType ? 'active' : '';
     };
@@ -84,17 +84,17 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     $scope.pagination = {
         currentPage: 1
     };
-    
+
     $scope.state = _.isUndefined($routeParams.state) ? 'created' : $routeParams.state;
-    
+
     $scope.orderType = _.isUndefined($routeParams.orderType) ? 'allTypes' : $routeParams.orderType;
-    
+
     if (!_.isUndefined($scope.type)) {
         $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type).success(function (response) {
             $scope.orderCount = response;
             $scope.loadOrders();
         });
-        
+
         User.pending(function (users) {
             $scope.users = users;
         });

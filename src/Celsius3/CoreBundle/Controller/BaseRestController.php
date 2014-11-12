@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -30,5 +31,4 @@ class BaseRestController extends FOSRestController
     {
         return $this->get('celsius3_core.instance_manager')->getDirectory();
     }
-
 }

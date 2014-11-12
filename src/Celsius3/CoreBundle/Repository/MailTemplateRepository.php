@@ -31,18 +31,18 @@ class MailTemplateRepository extends EntityRepository
     public function findGlobalAndForInstance(Instance $instance, Instance $directory)
     {
         $custom = $this->createQueryBuilder('c')
-                ->select('c.code')
-                ->where('c.instance_id = :instance_id')
-                ->andWhere('enabled = true')
-                ->setParameter('instance_id', $instance->getId())
-                ->getQuery()->getResult();
+                        ->select('c.code')
+                        ->where('c.instance_id = :instance_id')
+                        ->andWhere('enabled = true')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->getQuery()->getResult();
 
         return $this->createQueryBuilder('c')
-                ->where('(c.instance_id = :directory_id AND c.code NOT IN (:ids) AND c.enabled = true)')
-                ->orWhere('c.instance_id = :instance_id')
-                ->setParameter('directory_id', $directory->getId())
-                ->setParameter('ids', $custom)
-                ->setParameter('instance_id', $instance->getId())
-                ->getQuery()->getResult();
+                        ->where('(c.instance_id = :directory_id AND c.code NOT IN (:ids) AND c.enabled = true)')
+                        ->orWhere('c.instance_id = :instance_id')
+                        ->setParameter('directory_id', $directory->getId())
+                        ->setParameter('ids', $custom)
+                        ->setParameter('instance_id', $instance->getId())
+                        ->getQuery()->getResult();
     }
 }

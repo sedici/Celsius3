@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -32,6 +33,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class CustomUserValue
 {
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")

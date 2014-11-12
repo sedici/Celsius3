@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -163,5 +164,4 @@ class SuperadminInstitutionController extends BaseController
 
         return $this->baseDoUnion('Institution', $element_ids, $main_id, 'superadmin_institution');
     }
-
 }

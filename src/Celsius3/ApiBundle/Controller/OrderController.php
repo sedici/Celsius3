@@ -50,9 +50,9 @@ class OrderController extends BaseController
 
         $orders = $em->getRepository('Celsius3CoreBundle:Order')
                 ->findBy(array(
-                    'owner' => $user->getId(),
-                    'instance' => $this->getInstance()->getId(),
-                ));
+            'owner' => $user->getId(),
+            'instance' => $this->getInstance()->getId(),
+        ));
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');

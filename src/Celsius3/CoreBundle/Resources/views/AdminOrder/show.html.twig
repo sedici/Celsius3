@@ -1,26 +1,26 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Order View'|trans }}
+    {{ 'Order View'|trans }}
 {% endblock %}
 
 {% block content %}
-<div ng-app="orderApp">
-    <div id="cuerpo_pedido" ng-view>
+    <div ng-app="orderApp">
+        <div id="cuerpo_pedido" ng-view>
 
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="/ng-app/Directives/CCI/js/app.js"></script>
-<script type="text/javascript" src="/ng-app/Directives/CCI/js/directives.js"></script>
-<script type="text/javascript" src="/ng-app/Directives/CCI/js/resources.js"></script>
-<script type="text/javascript" src="/ng-app/Directives/StateBar/js/app.js"></script>
-<script type="text/javascript" src="/ng-app/Directives/StateBar/js/directives.js"></script>
-<script type="text/javascript" src="/ng-app/AdminOrder/js/app.js"></script>
-<script type="text/javascript" src="/ng-app/AdminOrder/js/resources.js"></script>
-<script type="text/javascript" src="/ng-app/AdminOrder/js/controllers.js"></script>
-<script type="text/javascript" src="/ng-app/AdminOrder/js/filters.js"></script>
+    {{ parent() }}
+    <script type="text/javascript" src="/ng-app/Directives/CCI/js/app.js"></script>
+    <script type="text/javascript" src="/ng-app/Directives/CCI/js/directives.js"></script>
+    <script type="text/javascript" src="/ng-app/Directives/CCI/js/resources.js"></script>
+    <script type="text/javascript" src="/ng-app/Directives/StateBar/js/app.js"></script>
+    <script type="text/javascript" src="/ng-app/Directives/StateBar/js/directives.js"></script>
+    <script type="text/javascript" src="/ng-app/AdminOrder/js/app.js"></script>
+    <script type="text/javascript" src="/ng-app/AdminOrder/js/resources.js"></script>
+    <script type="text/javascript" src="/ng-app/AdminOrder/js/controllers.js"></script>
+    <script type="text/javascript" src="/ng-app/AdminOrder/js/filters.js"></script>
 {% endblock %}

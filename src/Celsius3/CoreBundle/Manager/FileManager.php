@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -31,7 +32,6 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class FileManager
 {
-
     private $em;
 
     public function __construct(EntityManager $em)
@@ -75,5 +75,4 @@ class FileManager
         $this->em->persist($download);
         $this->em->flush();
     }
-
 }

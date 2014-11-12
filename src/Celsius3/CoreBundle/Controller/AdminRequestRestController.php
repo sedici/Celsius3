@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -58,9 +59,9 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
         $request = $em->getRepository('Celsius3CoreBundle:Request')
                 ->findOneBy(array(
-                    'order_id' => $order_id,
-                    'instance_id' => $this->getInstance()->getId(),
-                ));
+            'order_id' => $order_id,
+            'instance_id' => $this->getInstance()->getId(),
+        ));
 
         if (!$request) {
             return $this->createNotFoundException('Request not found.');
@@ -70,5 +71,4 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
 }

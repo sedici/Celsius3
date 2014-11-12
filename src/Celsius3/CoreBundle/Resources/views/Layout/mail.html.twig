@@ -21,18 +21,18 @@
         <div class="form-group">
             <label for="address">{{ 'Address'|trans }}</label>
             {% raw %}
-            <input type="email" class="form-control" id="emailAddress" name="address" value="{{address}}" required />
+                <input type="email" class="form-control" id="emailAddress" name="address" value="{{address}}" required />
             {% endraw %}
         </div>
         <div class="form-group">
             <label for="template">{{ 'Template'|trans }}</label>
             {% raw %}
-            <select class="form-control select2" id="templateSelect" name="template">
-                <option></option>
-                {{#templates}}
-                <option value="{{id}}">{{title}}</option>
-                {{/templates}}
-            </select>
+                <select class="form-control select2" id="templateSelect" name="template">
+                    <option></option>
+                    {{#templates}}
+                    <option value="{{id}}">{{title}}</option>
+                    {{/templates}}
+                </select>
             {% endraw %}
         </div>
         <div class="form-group">

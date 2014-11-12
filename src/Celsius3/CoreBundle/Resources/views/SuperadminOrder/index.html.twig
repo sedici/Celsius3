@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Order List'|trans }}
+    {{ 'Order List'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-<h2>{{ 'Order List'|trans }}</h2>
+    <h2>{{ 'Order List'|trans }}</h2>
 
-{{ index('superadmin_order', pagination, 'Celsius3CoreBundle:SuperadminOrder', filter_form, null, false, true) }}
+    {{ index('superadmin_order', pagination, 'Celsius3CoreBundle:SuperadminOrder', filter_form, null, false, true) }}
 {% endblock %}

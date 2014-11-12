@@ -1,31 +1,31 @@
 {% extends 'Celsius3CoreBundle:Layout:superadministration_layout.html.twig' %}
 
 {% block title %}
-{{ 'Network Administration'|trans }}
+    {{ 'Network Administration'|trans }}
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-12">
-        {% include 'Celsius3CoreBundle:Superadministration:_shared_span.html.twig' %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'Celsius3CoreBundle:Superadministration:_shared_span.html.twig' %}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        {% include 'Celsius3CoreBundle:Superadministration:_global_span.html.twig' %}
+    <div class="row">
+        <div class="col-md-6">
+            {% include 'Celsius3CoreBundle:Superadministration:_global_span.html.twig' %}
+        </div>
+        <div class="col-md-6">
+            {% include 'Celsius3CoreBundle:Superadministration:_other_span.html.twig' %}
+        </div>
     </div>
-    <div class="col-md-6">
-        {% include 'Celsius3CoreBundle:Superadministration:_other_span.html.twig' %}
+    <div class="row">
+        <div class="col-md-12">
+            {% include 'Celsius3CoreBundle:Superadministration:_dash.html.twig' %}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        {% include 'Celsius3CoreBundle:Superadministration:_dash.html.twig' %}
-    </div>
-</div>
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-<script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dash_table.js') }}"></script>
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dash_table.js') }}"></script>
 {% endblock %}

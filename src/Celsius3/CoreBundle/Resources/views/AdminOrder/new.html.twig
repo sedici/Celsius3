@@ -2,11 +2,11 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Order Creation'|trans }}
+    {{ 'Order Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-{{ new('admin_order', form) }}
+    {{ new('admin_order', form) }}
 {% endblock %}

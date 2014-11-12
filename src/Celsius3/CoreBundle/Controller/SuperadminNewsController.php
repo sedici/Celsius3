@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -41,7 +42,7 @@ class SuperadminNewsController extends BaseController
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder('e')
-                        ->where('e.instance = :instance')->setParameter('instance',$this->getDirectory()->getId());
+                        ->where('e.instance = :instance')->setParameter('instance', $this->getDirectory()->getId());
     }
 
     /**
@@ -152,5 +153,4 @@ class SuperadminNewsController extends BaseController
     {
         return $this->baseDelete('News', $id, 'superadmin_news');
     }
-
 }

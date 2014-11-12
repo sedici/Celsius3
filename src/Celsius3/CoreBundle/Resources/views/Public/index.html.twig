@@ -1,23 +1,23 @@
 {% extends 'Celsius3CoreBundle:Public:public.html.twig' %}
 
 {% block title %}
-{{ 'Home'|trans }}
+    {{ 'Home'|trans }}
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div id="description" class="col-md-6">
-        {{ instance.get('instance_description').value|raw }}
+    <div class="row">
+        <div id="description" class="col-md-6">
+            {{ instance.get('instance_description').value|raw }}
+        </div>
+        <div id="news" class="col-md-6">
+            <h3>
+                {{ 'Latest News'|trans }}
+                <a href="{{path('instance_rss_news', {'url': instance.url })}}" class="fa fa-rss" title="RSS"></a>
+            </h3>
+            {% for news in lastNews %}
+                {% include 'Celsius3CoreBundle:Public:_news.html.twig' %}
+                {% include 'Celsius3CoreBundle:Public:_news_modal.html.twig' %}
+            {% endfor %}
+        </div>
     </div>
-    <div id="news" class="col-md-6">
-        <h3>
-            {{ 'Latest News'|trans }}
-            <a href="{{path('instance_rss_news', {'url': instance.url })}}" class="fa fa-rss" title="RSS"></a>
-        </h3>
-        {% for news in lastNews %}
-        {% include 'Celsius3CoreBundle:Public:_news.html.twig' %}
-        {% include 'Celsius3CoreBundle:Public:_news_modal.html.twig' %}
-        {% endfor %}
-    </div>
-</div>
 {% endblock %}

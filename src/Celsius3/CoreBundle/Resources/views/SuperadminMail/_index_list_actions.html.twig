@@ -5,9 +5,9 @@
     <li>
         <a href="{{ path('superadmin_mails_change_state', { 'id': element.id }) }}">
             {% if element.enabled %}
-            <span class="glyphicon glyphicon-remove"></span> {{ 'Disable'|trans }}
+                <span class="glyphicon glyphicon-remove"></span> {{ 'Disable'|trans }}
             {% else %}
-            <span class="glyphicon glyphicon-ok"></span> {{ 'Enable'|trans }}
+                <span class="glyphicon glyphicon-ok"></span> {{ 'Enable'|trans }}
             {% endif %}
         </a>
     </li>

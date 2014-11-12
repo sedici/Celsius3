@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Country Edit'|trans }}
+    {{ 'Country Edit'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Country Edit'|trans }} - {{ entity.name }}</h2>
+    <h2>{{ 'Country Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('superadmin_country', entity, edit_form, 'Celsius3CoreBundle:SuperadminCountry') }}
+    {{ edit('superadmin_country', entity, edit_form, 'Celsius3CoreBundle:SuperadminCountry') }}
 {% endblock %}

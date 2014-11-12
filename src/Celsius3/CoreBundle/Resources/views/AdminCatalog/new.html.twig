@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Catalog Creation'|trans }}
+    {{ 'Catalog Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'Catalog Creation'|trans }}</h2>
+    <h2>{{ 'Catalog Creation'|trans }}</h2>
 
-{{ new('admin_catalog', form) }}
+    {{ new('admin_catalog', form) }}
 {% endblock %}

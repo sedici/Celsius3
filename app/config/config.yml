@@ -38,7 +38,7 @@ assetic:
     filters:
         cssrewrite: ~
         less:
-            node: /usr/bin/nodejs
+            node: %node_path%
             node_paths: [/usr/lib/node_modules]
             apply_to:   "\.less$"
         # closure:

@@ -1,4 +1,4 @@
-$.fn.modal.Constructor.prototype.enforceFocus = function() {
+$.fn.modal.Constructor.prototype.enforceFocus = function () {
 };
 
 $('.summernote').summernote({
@@ -43,7 +43,7 @@ function registerSearch() {
         data: 'order_id=' + document_id + '&instance_id='
                 + instance_id + '&catalog_id=' + catalogId + '&result='
                 + input.val()
-    }).done(function(data) {
+    }).done(function (data) {
         input.parent().siblings('.catalog-result').text(data.date);
     });
 }
@@ -70,7 +70,7 @@ $('.date').datepicker({
  * Autocomplete fields related event
  */
 $('input.autocomplete').autocomplete({
-    source: function(request, response) {
+    source: function (request, response) {
         var field = $(this);
         $.ajax({
             url: ajax_path,
@@ -79,13 +79,13 @@ $('input.autocomplete').autocomplete({
                 term: request.term,
                 target: field[0].element.attr('target')
             },
-            success: function(data) {
+            success: function (data) {
                 response(data);
             }
         });
     },
     minLength: 2,
-    select: function(event, ui) {
+    select: function (event, ui) {
         var id = $(this).attr('id').replace('_autocomplete', '', 'gi');
         $('#' + id).val(ui.item.id);
     }
@@ -95,7 +95,7 @@ $('input.autocomplete').autocomplete({
  * Material type change related event
  */
 $('#celsius3_corebundle_ordertype_materialDataType').change(
-        function() {
+        function () {
             var oldValues = getOldValues();
             $.ajax({
                 type: 'POST',
@@ -105,7 +105,7 @@ $('#celsius3_corebundle_ordertype_materialDataType').change(
                             '#celsius3_corebundle_ordertype_materialDataType')
                             .val()
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#celsius3_corebundle_ordertype_materialData_title')
                             .parent().parent().parent().html(data);
                     for (key in oldValues) {
@@ -115,7 +115,7 @@ $('#celsius3_corebundle_ordertype_materialDataType').change(
             });
         });
 
-$('#celsius3_corebundle_ordertype_instance').change(function() {
+$('#celsius3_corebundle_ordertype_instance').change(function () {
     $('#celsius3_corebundle_ordertype_owner_autocomplete').val('');
     $('#celsius3_corebundle_ordertype_owner').val('');
 });
@@ -127,7 +127,7 @@ if (user_exists) {
         noLibrarian(user_id);
     }
 
-    $('#celsius3_corebundle_ordertype_target').change(function() {
+    $('#celsius3_corebundle_ordertype_target').change(function () {
         if ($('#celsius3_corebundle_ordertype_target').val() === 'me') {
             noLibrarian(user_id);
         } else {
@@ -136,7 +136,7 @@ if (user_exists) {
     });
 }
 
-$('.union_link, .enable_link').click(function() {
+$('.union_link, .enable_link').click(function () {
     $('#batch-action').val($(this).attr('class').split('_')[0]);
     if ($('input[type=checkbox]:checked').length >= 2) {
         $('.batch_form').submit();
@@ -155,7 +155,7 @@ $('.news-date').parent().append(
         '<div class="date-text form-control">' + news_date
         + '</div><div><a class="show-date-widget btn btn-default">'
         + news_text_change + '</a></div>');
-$(document).on('click', '.show-date-widget', function() {
+$(document).on('click', '.show-date-widget', function () {
     $('.news-date').parent().children('div').hide();
     dateWidgets.show();
 });
@@ -164,7 +164,7 @@ $(document).on('click', '.show-date-widget', function() {
  * Como no se utiliza accordion-group hay que ocultar "a mano" los elementos
  * mostrados cuando se presiona otro link en el flujo de Order
  */
-$('.state-list a.pointer').click(function(e) {
+$('.state-list a.pointer').click(function (e) {
     $('#state-info .in').collapse('hide');
 });
 
@@ -172,7 +172,7 @@ $('.state-list a.pointer').click(function(e) {
  * Agregado de campos extra para la subida de archivos al recibir un Order
  */
 $('.add-file').click(
-        function() {
+        function () {
             var collectionHolder = $(this).parents('form').find(
                     '#celsius3_corebundle_orderreceivetype_files');
             console.log(collectionHolder);
@@ -199,7 +199,7 @@ $('#message_recipients').select2({
  */
 $('#celsius3_corebundle_ordertype_materialData_journal').select2();
 
-$('#celsius3_corebundle_ordertype_materialData_journal').on('change', function() {
+$('#celsius3_corebundle_ordertype_materialData_journal').on('change', function () {
     if ($('#celsius3_corebundle_ordertype_materialData_journal').val() === '') {
         $('#celsius3_corebundle_ordertype_materialData_other').prop('disabled', false);
     } else {
@@ -212,31 +212,31 @@ $('#celsius3_corebundle_ordertype_materialData_journal').change();
 /*
  * Form submission
  */
-$('.delete-message').click(function() {
+$('.delete-message').click(function () {
     $(this).parent('form').submit();
 });
 
-$('.submit-download-form').click(function() {
+$('.submit-download-form').click(function () {
     var form = $(this).parent();
     form.submit();
     form.remove();
 });
 
-$(document).on('click', '.submit-form', function() {
+$(document).on('click', '.submit-form', function () {
     $(this).parent().submit();
 });
 
-$(document).on('click', '.doSubmit', function() {
+$(document).on('click', '.doSubmit', function () {
     $($(this).attr('value')).submit();
 });
 
 /*
  * Form batch selection
  */
-$('.check-all').click(function() {
+$('.check-all').click(function () {
     $('.batch-checkbox').prop('checked', 'checked');
 });
 
-$('.uncheck-all').click(function() {
+$('.uncheck-all').click(function () {
     $('.batch-checkbox').prop('checked', '');
 });

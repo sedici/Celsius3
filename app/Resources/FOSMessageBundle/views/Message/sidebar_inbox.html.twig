@@ -1,21 +1,21 @@
 <div id="accordion" class="panel-group">
     {% if filter_form %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                    <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
-                </a>
-            </h4>
-        </div>
-        <div class="panel-collapse collapse" id="collapseOne">
-            <div class="panel-body">
-                {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                        <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
+                    </a>
+                </h4>
+            </div>
+            <div class="panel-collapse collapse" id="collapseOne">
+                <div class="panel-body">
+                    {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %}
 
-                {{ filter('fos_message_search', filter_form) }}
+                    {{ filter('fos_message_search', filter_form) }}
+                </div>
             </div>
         </div>
-    </div>
     {% endif %}
     <div class="panel panel-default">
         <div class="panel-heading">

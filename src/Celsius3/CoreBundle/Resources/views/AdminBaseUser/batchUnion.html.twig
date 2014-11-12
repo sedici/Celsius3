@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'User Union'|trans }}
+    {{ 'User Union'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import union as union %}
 
 {% block content %}
-<h2>{{ 'User Union'|trans }}</h2>
+    <h2>{{ 'User Union'|trans }}</h2>
 
-{{ union('admin_user', entities, 'Celsius3CoreBundle:AdminBaseUser') }}
+    {{ union('admin_user', entities, 'Celsius3CoreBundle:AdminBaseUser') }}
 {% endblock %}

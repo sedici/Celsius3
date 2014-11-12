@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -48,7 +49,9 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $remoteEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->createQueryBuilder('e')
                 ->where('e.request IN (:requests)')
-                ->setParameter('requests', array_map(function ($item) {return $item->getId();}, $requests))
+                ->setParameter('requests', array_map(function ($item) {
+                            return $item->getId();
+                        }, $requests))
                 ->getQuery()
                 ->getResult();
 
@@ -133,5 +136,4 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
 }

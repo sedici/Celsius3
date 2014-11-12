@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -29,7 +30,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CatalogListener
 {
-
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -93,5 +93,4 @@ class CatalogListener
             $em->flush();
         }
     }
-
 }

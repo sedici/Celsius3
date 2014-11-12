@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Contacts List'|trans }}
+    {{ 'Contacts List'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-<h2>{{ 'Contact List'|trans }}</h2>
+    <h2>{{ 'Contact List'|trans }}</h2>
 
-{{ index('admin_contact', pagination, 'Celsius3CoreBundle:AdminContact') }}
+    {{ index('admin_contact', pagination, 'Celsius3CoreBundle:AdminContact') }}
 {% endblock %}

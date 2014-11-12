@@ -1,17 +1,17 @@
 {% raw %}
-<script id="city" type="text/html">
-    <option value="{{value}}">{{name}}</option>
-</script>
+    <script id="city" type="text/html">
+        <option value="{{value}}">{{name}}</option>
+    </script>
 
-<script id="institution" type="text/html">
-    {{#hasChildren}}
+    <script id="institution" type="text/html">
+        {{#hasChildren}}
         <option value="{{value}}" class="root_option level{{level}}" >{{name}}</option>
         {{#children}}
-            {{>institution}}
+        {{> institution}}
         {{/children}}
-    {{/hasChildren}}
-    {{^hasChildren}}
+        {{/hasChildren}}
+        {{^ hasChildren}}
         <option value="{{value}}" class="children_option level{{level}}">{{name}}</option>
-    {{/hasChildren}}
-</script>
+        {{/hasChildren}}
+    </script>
 {% endraw %}

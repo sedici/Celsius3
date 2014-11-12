@@ -27,10 +27,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateChart(response);
-                }).error(function(response){
-                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=no, resizable=no, top=10, left=10, width=800, height=800");
-                    ventana.document.write(response);
-                });
+                }).error(function (response) {
+            var ventana = window.open("", "_blank", "toolbar=no, scrollbars=no, resizable=no, top=10, left=10, width=800, height=800");
+            ventana.document.write(response);
+        });
     };
 
     $scope.getUsersCountDataForYear = function (year) {
@@ -64,7 +64,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             }
         });
     };
-      
+
     $scope.initialYearChange = function () {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.initialYear = $scope.finalYear;

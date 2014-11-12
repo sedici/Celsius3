@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -41,12 +42,12 @@ class UserController extends BaseInstanceDependentController
     public function indexAction()
     {
         $lastMessages = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3MessageBundle:Thread')
-                ->createQueryBuilder('t')
-                ->where('t.participants = :participants')->setParameter('participants',$this->getUser()->getId())
-                ->sort('t.lastMessageDate', 'desc')
-                ->limit(3)
-                ->getQuery()->getResult();
+                        ->getRepository('Celsius3MessageBundle:Thread')
+                        ->createQueryBuilder('t')
+                        ->where('t.participants = :participants')->setParameter('participants', $this->getUser()->getId())
+                        ->sort('t.lastMessageDate', 'desc')
+                        ->limit(3)
+                        ->getQuery()->getResult();
 
         return array('lastMessages' => $lastMessages);
     }
@@ -58,5 +59,4 @@ class UserController extends BaseInstanceDependentController
     {
         return $this->ajax($this->getInstance(), $this->getUser());
     }
-
 }

@@ -9,7 +9,7 @@ var userApp = angular.module('userApp', [
 ]);
 
 userApp.config(['$routeProvider', '$translateProvider',
-    function($routeProvider, $translateProvider) {
+    function ($routeProvider, $translateProvider) {
         $routeProvider.
                 when('/', {
                     templateUrl: '/ng-app/User/partials/index.html',

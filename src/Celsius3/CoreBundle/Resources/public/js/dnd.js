@@ -3,7 +3,7 @@ var secondColumn = $('.secondColumn > .draggable').length;
 
 $('.connectedSortable').sortable({
     connectWith: '.connectedSortable',
-    update: function(event, ui) {
+    update: function (event, ui) {
         var actualFC = $('.firstColumn > .draggable').length;
         var actualSC = $('.secondColumn > .draggable').length;
         if (firstColumn > actualFC) {
@@ -17,13 +17,13 @@ $('.connectedSortable').sortable({
     }
 }).disableSelection();
 
-$('.submit-catalog-data.disabled').on('click', function(e) {
+$('.submit-catalog-data.disabled').on('click', function (e) {
     e.preventDefault();
 });
 
-$(document).on('click', '.submit-catalog-data.enabled', function() {
+$(document).on('click', '.submit-catalog-data.enabled', function () {
     var ids = new Array();
-    $('.draggable').each(function(i, elem) {
+    $('.draggable').each(function (i, elem) {
         ids.push($(elem).data('id'));
     });
     $.ajax({
@@ -35,7 +35,7 @@ $(document).on('click', '.submit-catalog-data.enabled', function() {
         url: Routing.generate('admin_catalog_persist', {
             url: instance_url
         }),
-        success: function(data) {
+        success: function (data) {
             $('.flashes').empty().append('<div class="alert alert-success">' +
                     '<button data-dismiss="alert" class="close" type="button">×</button>' +
                     'The Catalogs were successfully sorted.' +

@@ -1,7 +1,7 @@
 <div class="pagination-celsius">
-{% include 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig' %}
+    {% include 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig' %}
 
-{% if pageCount > 1 %}
-    <p class="pull-left pagination-data">{{ firstItemNumber }} {{ 'to'|trans }} {{ lastItemNumber }} {{ 'of'|trans }} {{ totalCount }}</p>
-{% endif %}
+    {% if pageCount > 1 %}
+        <p class="pull-left pagination-data">{{ firstItemNumber }} {{ 'to'|trans }} {{ lastItemNumber }} {{ 'of'|trans }} {{ totalCount }}</p>
+    {% endif %}
 </div>

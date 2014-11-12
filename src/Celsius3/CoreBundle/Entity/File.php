@@ -28,7 +28,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-
 /**
  * @ORM\Entity
  * @ORM\Table(name="file")
@@ -36,7 +35,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class File
 {
-    
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -88,7 +87,6 @@ class File
      * @ORM\Column(type="integer")
      */
     private $pages = 0;
-    
     private $temp;
 
     public function getUploadDir()
@@ -122,11 +120,11 @@ class File
         if (null === $this->getFile()) {
             return;
         }
-        
+
         $this->getFile()->move($this->getUploadDir(), $this->getPath());
         $this->setFile($this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getPath());
         $this->setUploaded(date('Y-m-d H:i:s'));
-        
+
         if (file_exists($this->getUploadDir() . '/' . $this->getTemp())) {
             unlink($this->getUploadDir() . '/' . $this->getTemp());
             $this->setTemp(null);
@@ -138,11 +136,11 @@ class File
      */
     public function removeUpload()
     {
-        if ($this->getFile() === ($this->getUploadDir() .'/'. $this->getPath())) {
+        if ($this->getFile() === ($this->getUploadDir() . '/' . $this->getPath())) {
             unlink($this->getFile());
         }
     }
-    
+
     /**
      * Get id
      *
@@ -254,14 +252,14 @@ class File
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-        
+
         if ($this->getPath() !== null) {
             $this->setTemp($this->getPath());
             $this->setPath(null);
         } else {
             $this->setPath('initial');
         }
-        
+
         return $this;
     }
 
@@ -444,5 +442,4 @@ class File
     {
         $this->temp = $temp;
     }
-    
 }

@@ -8,6 +8,7 @@ use FOS\MessageBundle\EntityManager\ThreadManager as BaseThreadManager;
 
 class ThreadManager extends BaseThreadManager
 {
+
     /**
      * Finds not deleted threads for a participant,
      * matching the given search term

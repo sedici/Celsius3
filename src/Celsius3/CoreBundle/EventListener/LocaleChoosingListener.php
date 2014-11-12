@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -32,7 +33,6 @@ use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class LocaleChoosingListener
 {
-
     private $default_locale;
     private $locales;
     private $locale_resolver;
@@ -78,5 +78,4 @@ class LocaleChoosingListener
 
         $event->setResponse(new RedirectResponse($request->getBaseUrl() . '/' . $locale . $request->getPathInfo() . ($params ? '?' . http_build_query($params) : '')));
     }
-
 }

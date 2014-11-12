@@ -29,14 +29,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class MessageNotification extends Notification {
+class MessageNotification extends Notification
+{
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\MessageBundle\Entity\Message")
      * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id", nullable=false)
      */
     private $object;
-    
+
     function __construct()
     {
         parent::__construct();
@@ -51,6 +52,4 @@ class MessageNotification extends Notification {
     {
         $this->object = $object;
     }
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -33,7 +34,6 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class Celsius3NotificationExtension extends Extension
 {
-
     private $container;
 
     /**
@@ -76,5 +76,4 @@ class Celsius3NotificationExtension extends Extension
             $this->container->setParameter('celsius3_notification.web_socket_server.zmq_host', $config['zmq_host']);
         }
     }
-
 }

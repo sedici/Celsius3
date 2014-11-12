@@ -146,4 +146,5 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
                 return $this->handleView($view);
             }
-        }        
+        }
+        

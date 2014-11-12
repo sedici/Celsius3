@@ -1,24 +1,24 @@
 {% extends 'Celsius3CoreBundle:Layout:directory_layout.html.twig' %}
 
 {% block title %}
-{{ 'Instances'|trans }}
+    {{ 'Instances'|trans }}
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <h2>{{ 'Celsius3 Instances'|trans }}</h2>
-    <ul class="list-unstyled">
-        {% for instance in instances %}
-        {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
-        {% endfor %}
-    </ul>
-</div>
-<div class="row">
-    <h2>{{ 'Legacy Instances'|trans }}</h2>
-    <ul class="list-unstyled">
-        {% for instance in legacyInstances %}
-        {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
-        {% endfor %}
-    </ul>
-</div>
+    <div class="row">
+        <h2>{{ 'Celsius3 Instances'|trans }}</h2>
+        <ul class="list-unstyled">
+            {% for instance in instances %}
+                {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="row">
+        <h2>{{ 'Legacy Instances'|trans }}</h2>
+        <ul class="list-unstyled">
+            {% for instance in legacyInstances %}
+                {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

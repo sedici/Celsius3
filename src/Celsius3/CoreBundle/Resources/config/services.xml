@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-    	<parameter key="twig.extension.text.class">Twig_Extensions_Extension_Text</parameter>
+        <parameter key="twig.extension.text.class">Twig_Extensions_Extension_Text</parameter>
         <parameter key="twig.extension.intl.class">Twig_Extensions_Extension_Intl</parameter>
         <parameter key="twig.extension.string_loader.class">Twig_Extension_StringLoader</parameter>
         <parameter key="celsius3_core.twig.extension.timeago_extension.class">Celsius3\CoreBundle\Twig\TimeAgoExtension</parameter>
@@ -105,7 +105,7 @@
         </service>
 
         <service id="celsius3_core.twig.extension.catalogs" class="%celsius3_core.twig.extension.catalogs.class%">
-        	<argument type="service" id="celsius3_core.catalog_manager"></argument>
+            <argument type="service" id="celsius3_core.catalog_manager"></argument>
             <tag name="twig.extension" />
         </service>
         
@@ -184,7 +184,7 @@
             <tag name="form.type" alias="celsius3_corebundle_confirmation_type" />
         </service>
 
-	<service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">
+        <service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">
             <tag name="monolog.logger" channel="security" />
             <argument type="service" id="router"></argument>
             <argument type="service" id="http_kernel" />

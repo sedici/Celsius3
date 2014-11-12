@@ -36,6 +36,7 @@ use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
  */
 class SuperadminLegacyInstanceController extends InstanceController
 {
+
     /**
      * Lists all Instance entities.
      *

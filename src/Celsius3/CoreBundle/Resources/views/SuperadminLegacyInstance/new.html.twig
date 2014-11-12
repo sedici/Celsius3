@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Legacy Instance Creation'|trans }}
+    {{ 'Legacy Instance Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'Legacy Instance Creation'|trans }}</h2>
+    <h2>{{ 'Legacy Instance Creation'|trans }}</h2>
 
-{{ new('superadmin_instance_legacy', form) }}
+    {{ new('superadmin_instance_legacy', form) }}
 {% endblock %}

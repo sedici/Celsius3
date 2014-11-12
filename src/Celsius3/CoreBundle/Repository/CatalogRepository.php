@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -30,12 +31,11 @@ class CatalogRepository extends EntityRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('c')
-                ->join('c.CatalogPosition', 'cp')
-                ->where('c.instance_id = :instance_id')
-                ->orWhere('c.instance_id = :directory_id')
-                ->orderBy('cp.position', 'asc')
-                ->setParameter('instance_id', $instance->getId())
-                ->setParameter('directory_id', $directory->getId());
+                        ->join('c.CatalogPosition', 'cp')
+                        ->where('c.instance_id = :instance_id')
+                        ->orWhere('c.instance_id = :directory_id')
+                        ->orderBy('cp.position', 'asc')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->setParameter('directory_id', $directory->getId());
     }
-
 }

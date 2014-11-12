@@ -1,11 +1,11 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'File List'|trans }}
+    {{ 'File List'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-{{ index('file', pagination, 'Celsius3CoreBundle:File') }}
+    {{ index('file', pagination, 'Celsius3CoreBundle:File') }}
 {% endblock %}

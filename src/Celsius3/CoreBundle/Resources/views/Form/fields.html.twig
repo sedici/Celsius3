@@ -1,13 +1,13 @@
 {% block form_row %}
-{% spaceless %}
-    {% set class = (form.vars.attr.class is defined ? form.vars.attr.class : '') %}
-    {% if form.count == 0 %}
-    {% set class = class ~ ' form-control' %}
-    {% endif %}
-    <div class="form_group">
-        {{ form_label(form) }}
-        {{ form_errors(form) }}
-        {{ form_widget(form, { 'attr': { 'class': class } }) }}
-    </div>
-{% endspaceless %}
+    {% spaceless %}
+        {% set class = (form.vars.attr.class is defined ? form.vars.attr.class : '') %}
+        {% if form.count == 0 %}
+            {% set class = class ~ ' form-control' %}
+        {% endif %}
+        <div class="form_group">
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form, { 'attr': { 'class': class } }) }}
+        </div>
+    {% endspaceless %}
 {% endblock form_row %}

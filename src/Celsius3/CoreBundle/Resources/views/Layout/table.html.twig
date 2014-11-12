@@ -1,13 +1,13 @@
 {% raw %}
-<script id="orderuser" type="text/html">
-    <tr>
-        <td>{{name}}</td>
-        <td>{{country}}</td>
-        <td>{{#pendingOrders}}{{pendingOrders}}{{/pendingOrders}}{{^pendingOrders}}0{{/pendingOrders}}</td>
-        <td>{{#deliveredOrders}}{{deliveredOrders}}{{/deliveredOrders}}{{^deliveredOrders}}0{{/deliveredOrders}}</td>
-        <td>{{#totalOrders}}{{totalOrders}}{{/totalOrders}}{{^totalOrders}}0{{/totalOrders}}</td>
-        <td>{{#pendingUsers}}{{pendingUsers}}{{/pendingUsers}}{{^pendingUsers}}0{{/pendingUsers}}</td>
-        <td>{{#totalUsers}}{{totalUsers}}{{/totalUsers}}{{^totalUsers}}0{{/totalUsers}}</td>
-    </tr>
-</script>
+    <script id="orderuser" type="text/html">
+        <tr>
+            <td>{{name}}</td>
+            <td>{{country}}</td>
+            <td>{{#pendingOrders}}{{pendingOrders}}{{/pendingOrders}}{{^ pendingOrders}}0{{/pendingOrders}}</td>
+            <td>{{#deliveredOrders}}{{deliveredOrders}}{{/deliveredOrders}}{{^ deliveredOrders}}0{{/deliveredOrders}}</td>
+            <td>{{#totalOrders}}{{totalOrders}}{{/totalOrders}}{{^ totalOrders}}0{{/totalOrders}}</td>
+            <td>{{#pendingUsers}}{{pendingUsers}}{{/pendingUsers}}{{^ pendingUsers}}0{{/pendingUsers}}</td>
+            <td>{{#totalUsers}}{{totalUsers}}{{/totalUsers}}{{^totalUsers}}0{{/totalUsers}}</td>
+        </tr>
+    </script>
 {% endraw %}

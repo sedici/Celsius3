@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -40,7 +41,7 @@ class AdminContactController extends BaseInstanceDependentController
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder('e')
-                        ->where('e.owningInstance = :owning')->setParameter('owning',$this->getInstance()->getId());
+                        ->where('e.owningInstance = :owning')->setParameter('owning', $this->getInstance()->getId());
     }
 
     protected function findQuery($name, $id)
@@ -48,8 +49,8 @@ class AdminContactController extends BaseInstanceDependentController
         return $this->getDoctrine()->getManager()
                         ->getRepository($this->getBundle() . ':' . $name)
                         ->createQueryBuilder('e')
-                        ->where('e.owningInstance = :owning')->setParameter('owning',$this->getInstance()->getId())
-                        ->andWhere('id = :id')->setParameter('id',$id)
+                        ->where('e.owningInstance = :owning')->setParameter('owning', $this->getInstance()->getId())
+                        ->andWhere('id = :id')->setParameter('id', $id)
                         ->getQuery()
                         ->getSingleResult();
     }
@@ -162,5 +163,4 @@ class AdminContactController extends BaseInstanceDependentController
     {
         return $this->baseDelete('Contact', $id, 'admin_contact');
     }
-
 }

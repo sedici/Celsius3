@@ -1,4 +1,4 @@
-cciWidget.directive('cciWidget', function($translate, Country, City, Institution) {
+cciWidget.directive('cciWidget', function ($translate, Country, City, Institution) {
     function Node(count) {
         this.id = 'institution' + count;
         this.name = 'institution' + count;
@@ -8,21 +8,21 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
     }
 
     function link(scope, element, attrs) {
-        $translate('selectCountry').then(function(selectCountry) {
+        $translate('selectCountry').then(function (selectCountry) {
             scope.select2Countries = {
                 placeholder: selectCountry,
                 allowClear: true
             };
         });
 
-        $translate('selectCity').then(function(selectCity) {
+        $translate('selectCity').then(function (selectCity) {
             scope.select2Cities = {
                 placeholder: selectCity,
                 allowClear: true
             };
         });
 
-        $translate('selectInstitution').then(function(selectInstitution) {
+        $translate('selectInstitution').then(function (selectInstitution) {
             scope.select2Institutions = {
                 placeholder: selectInstitution,
                 allowClear: true,
@@ -32,7 +32,7 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
             };
         });
 
-        scope.formatInstitution = function(element) {
+        scope.formatInstitution = function (element) {
             if (element.text === '') {
                 return element;
             }
@@ -44,7 +44,7 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
             }
         };
 
-        scope.escape = function(m) {
+        scope.escape = function (m) {
             return m;
         };
 
@@ -54,7 +54,7 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
         scope.select.country = {};
         scope.select.city = {};
         scope.select.tree = [new Node(scope.select_count)];
-        scope.buildTree = function(node, institution, count) {
+        scope.buildTree = function (node, institution, count) {
             node.institution = institution.id;
             scope.institutionChanged(node);
             if (_.isUndefined(institution.parent)) {
@@ -66,7 +66,7 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
                 return [parentNode];
             }
         };
-        scope.setInstitutionFromPreset = function(institution) {
+        scope.setInstitutionFromPreset = function (institution) {
             var count = 0;
             var top = institution;
             while (!_.isUndefined(top.parent)) {
@@ -79,26 +79,26 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
             scope.select.city = !_.isUndefined(top.city) ? top.city.id : {};
             scope.countryChanged();
         };
-        scope.updateFilter = function() {
+        scope.updateFilter = function () {
             if (_.isEmpty(scope.select.city)) {
                 scope.countryChanged();
             } else {
                 scope.cityChanged();
             }
         };
-        scope.countryChanged = function() {
+        scope.countryChanged = function () {
             scope.cities = City.query({country_id: scope.select.country});
-            scope.institutions = Institution.query({country_id: scope.select.country, filter: scope.select.filter}, function(institutions) {
+            scope.institutions = Institution.query({country_id: scope.select.country, filter: scope.select.filter}, function (institutions) {
                 _.first(scope.select.tree).institutions = institutions;
             });
         };
-        scope.cityChanged = function() {
-            scope.institutions = Institution.query({country_id: scope.select.country, city_id: scope.select.city, filter: scope.select.filter}, function(institutions) {
+        scope.cityChanged = function () {
+            scope.institutions = Institution.query({country_id: scope.select.country, city_id: scope.select.city, filter: scope.select.filter}, function (institutions) {
                 _.first(scope.select.tree).institutions = institutions;
             });
         };
-        scope.institutionChanged = function(data) {
-            Institution.parent({parent_id: data.institution}, function(institutions) {
+        scope.institutionChanged = function (data) {
+            Institution.parent({parent_id: data.institution}, function (institutions) {
                 if (data.child.length === 0 && institutions.length > 0) {
                     var node = new Node(++scope.select_count);
                     node.institutions = institutions;
@@ -108,14 +108,14 @@ cciWidget.directive('cciWidget', function($translate, Country, City, Institution
                 }
             });
         };
-        scope.$on('reset', function() {
+        scope.$on('reset', function () {
             scope.select_count = 0;
             scope.cities = [];
             scope.select.country = {};
             scope.select.city = {};
             scope.select.tree = [new Node(scope.select_count)];
         });
-        scope.$on('preset', function(event, institution) {
+        scope.$on('preset', function (event, institution) {
             scope.setInstitutionFromPreset(institution);
         });
     }

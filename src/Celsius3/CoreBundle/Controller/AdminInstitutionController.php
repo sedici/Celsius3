@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -126,5 +127,4 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->baseDelete('Institution', $id, 'admin_institution');
     }
-
 }

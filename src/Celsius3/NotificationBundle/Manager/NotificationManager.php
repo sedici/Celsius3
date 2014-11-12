@@ -117,7 +117,7 @@ class NotificationManager
                         )));
                     }
 
-                    private function notify(Notification $notification,$cause, $object, $receivers, NotificationTemplate $template)
+                    private function notify(Notification $notification, $cause, $object, $receivers, NotificationTemplate $template)
                     {
                         $em = $this->container->get('doctrine.orm.entity_manager');
                         $notification->setCause($cause);
@@ -136,7 +136,7 @@ class NotificationManager
                     {
                         $receivers = new ArrayCollection($message->getThread()->getParticipants());
                         $em = $this->container->get('doctrine.orm.entity_manager');
-                        $this->notify(new MessageNotification(),self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use ($message) {
+                        $this->notify(new MessageNotification(), self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use ($message) {
                                     return ($receiver->getId() != $message->getSender()->getId());
                                 }), $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array(
@@ -148,7 +148,7 @@ class NotificationManager
                     {
                         $em = $this->container->get('doctrine.orm.entity_manager');
                         $admins = $em->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($user->getInstance());
-                        $this->notify(new BaseUser(),self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                        $this->notify(new BaseUser(), self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array(
                                             'code' => self::CAUSE__NEW_USER
                         )));
@@ -167,4 +167,5 @@ class NotificationManager
 
                         return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                     }
-                }                
+                }
+                

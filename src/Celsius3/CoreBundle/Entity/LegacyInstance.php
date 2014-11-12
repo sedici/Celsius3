@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -38,6 +39,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class LegacyInstance
 {
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -83,7 +85,7 @@ class LegacyInstance
      * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
      */
     protected $hive;
-    
+
     public function __construct()
     {
         $this->ownerInstitutions = new \Doctrine\Common\Collections\ArrayCollection();
@@ -246,8 +248,8 @@ class LegacyInstance
     {
         return $this->hive;
     }
-    
-        /**
+
+    /**
      * Add ownerInstitutions
      *
      * @param Celsius3\CoreBundle\Entity\Institution $ownerInstitutions

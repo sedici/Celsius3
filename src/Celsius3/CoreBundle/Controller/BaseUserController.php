@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -119,7 +120,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->createQueryBuilder('u')
                 ->where('u.id IN (:elements)')
-                ->setParameter('elements',$element_ids)
+                ->setParameter('elements', $element_ids)
                 ->getQuery()
                 ->getResult();
 
@@ -129,5 +130,4 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         return $this->redirect($this->get('request')->headers->get('referer'));
     }
-
 }

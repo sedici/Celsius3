@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -90,5 +91,4 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
 }

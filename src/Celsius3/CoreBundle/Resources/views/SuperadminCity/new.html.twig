@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'City Creation'|trans }}
+    {{ 'City Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'City Creation'|trans }}</h2>
+    <h2>{{ 'City Creation'|trans }}</h2>
 
-{{ new('superadmin_city', form) }}
+    {{ new('superadmin_city', form) }}
 {% endblock %}

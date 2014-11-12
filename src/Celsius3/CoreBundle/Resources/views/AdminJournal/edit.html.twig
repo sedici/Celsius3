@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Journal Edit'|trans }}
+    {{ 'Journal Edit'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Journal Edit'|trans }} - {{ entity.name }}</h2>
+    <h2>{{ 'Journal Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('admin_journal', entity, edit_form, delete_form) }}
+    {{ edit('admin_journal', entity, edit_form, delete_form) }}
 {% endblock %}

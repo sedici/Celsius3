@@ -9,6 +9,6 @@ function checkRole() {
 
 checkRole();
 
-$('input:radio[name ="celsius3_corebundle_transformusertype[type]"]').on('change', function(e) {
+$('input:radio[name ="celsius3_corebundle_transformusertype[type]"]').on('change', function (e) {
     checkRole();
 });

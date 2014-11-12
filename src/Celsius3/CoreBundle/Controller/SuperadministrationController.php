@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -64,5 +65,4 @@ class SuperadministrationController extends BaseController
 
         return new Response(json_encode($this->get('celsius3_core.statistic_manager')->getOrderUserTableData()));
     }
-
 }

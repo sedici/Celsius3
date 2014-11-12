@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -57,7 +59,7 @@ class SuperadminContactTypeController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('ContactType', new ContactType(),new ContactTypeType());
+        return $this->baseNew('ContactType', new ContactType(), new ContactTypeType());
     }
 
     /**
@@ -71,7 +73,7 @@ class SuperadminContactTypeController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('ContactType', new ContactType(),new ContactTypeType(), 'superadmin_contacttype');
+        return $this->baseCreate('ContactType', new ContactType(), new ContactTypeType(), 'superadmin_contacttype');
     }
 
     /**
@@ -106,7 +108,7 @@ class SuperadminContactTypeController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('ContactType', $id, new ContactTypeType(),'superadmin_contacttype');
+        return $this->baseUpdate('ContactType', $id, new ContactTypeType(), 'superadmin_contacttype');
     }
 
     /**

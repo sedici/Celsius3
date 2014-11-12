@@ -1,22 +1,22 @@
 {% extends 'Celsius3CoreBundle:MaterialType:_materialType.html.twig' %}
 
 {% block dataType %}
-<li>
-    <strong>{{ 'Type'|trans }}</strong> {{ 'Book'|trans }}
-</li>
+    <li>
+        <strong>{{ 'Type'|trans }}</strong> {{ 'Book'|trans }}
+    </li>
 {% endblock %}
 
 {% block extraData %}
-<li>
-    <strong>{{ 'Editor'|trans }}</strong> {{ materialData.editor?materialData.editor:'-' }}
-</li>
-<li>
-    <strong>{{ 'Chapter'|trans }}</strong> {{ materialData.chapter?materialData.chapter:'-' }}
-</li>
-<li>
-    <strong>{{ 'ISBN'|trans }}</strong> {{ materialData.ISBN?materialData.ISBN:'-' }}
-</li>
-<li>
-    <strong>{{ 'With index'|trans }}</strong> {{ (materialData.withIndex?'Yes':'No')|trans }}
-</li>
+    <li>
+        <strong>{{ 'Editor'|trans }}</strong> {{ materialData.editor?materialData.editor:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Chapter'|trans }}</strong> {{ materialData.chapter?materialData.chapter:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'ISBN'|trans }}</strong> {{ materialData.ISBN?materialData.ISBN:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'With index'|trans }}</strong> {{ (materialData.withIndex?'Yes':'No')|trans }}
+    </li>
 {% endblock %}

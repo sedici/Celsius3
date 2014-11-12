@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'User Creation'|trans }}
+    {{ 'User Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'User Creation'|trans }}</h2>
+    <h2>{{ 'User Creation'|trans }}</h2>
 
-{{ new('superadmin_user', form) }}
+    {{ new('superadmin_user', form) }}
 {% endblock %}

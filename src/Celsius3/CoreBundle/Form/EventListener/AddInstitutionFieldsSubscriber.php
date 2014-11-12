@@ -170,7 +170,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                                     ->setParameter('country_id', $country->getId());
                         } else {
                             $qb = $qb->where('i.city IS NULL')
-                                            ->andWhere('i.country IS NULL');
+                                    ->andWhere('i.country IS NULL');
                         }
 
                         return $qb->orderBy('i.name', 'asc');

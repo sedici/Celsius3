@@ -35,37 +35,39 @@ use Celsius3\CoreBundle\Manager\UserManager;
  */
 class RequestRepository extends EntityRepository
 {
-    public function countByMonthAndYear() {
-        
+
+    public function countByMonthAndYear()
+    {
+
         $qb = $this->createQueryBuilder();
         $requests = $qb
-            ->map('function() { emit( , 1) }')    
-            ->reduce('function(k, vals) {
+                        ->map('function() { emit( , 1) }')
+                        ->reduce('function(k, vals) {
                 var sum = 0;
                 for (var i in vals) {
                     sum += vals[i];
                 }
                 return sum;
             }')->getQuery()->execute()->toArray();
-        
+
         $string = '';
         foreach ($requests as $r) {
             $string .= $r['_id'] . '-' . $r['value'] . '<br>';
         }
         return $string;
     }
-    
-    public function countActiveUsersForInterval($initialYear,$finalYear) {
+
+    public function countActiveUsersForInterval($initialYear, $finalYear)
+    {
         return $this->getEntityManager()
-            ->createQueryBuilder('request')
-            ->select('YEAR(request.createdAt) year')
-            ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
-            ->where('year >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andWhere('year <= :finalYear')->setParameter('finalYear', $finalYear)
-            ->groupBy('year')
-            ->orderBy('year','ASC')
-            ->getQuery()
-            ->getResult();
+                        ->createQueryBuilder('request')
+                        ->select('YEAR(request.createdAt) year')
+                        ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
+                        ->where('year >= :initialYear')->setParameter('initialYear', $initialYear)
+                        ->andWhere('year <= :finalYear')->setParameter('finalYear', $finalYear)
+                        ->groupBy('year')
+                        ->orderBy('year', 'ASC')
+                        ->getQuery()
+                        ->getResult();
     }
-    
 }

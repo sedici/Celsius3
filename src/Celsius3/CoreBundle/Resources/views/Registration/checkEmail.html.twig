@@ -1,14 +1,14 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Check your email'|trans }}
+    {{ 'Check your email'|trans }}
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>{{ 'Check your email'|trans }}</h2>
-        <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>{{ 'Check your email'|trans }}</h2>
+            <p>{{ 'registration.check_email'|trans({'%email%': user.email}, 'FOSUserBundle') }}</p>
+        </div>
     </div>
-</div>
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Catalog Edit'|trans }}
+    {{ 'Catalog Edit'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Catalog Edit'|trans }} - {{ entity.name }}</h2>
+    <h2>{{ 'Catalog Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('admin_catalog', entity, edit_form, delete_form) }}
+    {{ edit('admin_catalog', entity, edit_form, delete_form) }}
 {% endblock %}

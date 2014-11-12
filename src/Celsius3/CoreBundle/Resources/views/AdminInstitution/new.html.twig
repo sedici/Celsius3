@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Institution Creation'|trans }}
+    {{ 'Institution Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'Institution Creation'|trans }}</h2>
+    <h2>{{ 'Institution Creation'|trans }}</h2>
 
-{{ new('admin_institution', form) }}
+    {{ new('admin_institution', form) }}
 {% endblock %}

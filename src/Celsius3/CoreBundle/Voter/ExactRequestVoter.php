@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -46,5 +47,4 @@ class ExactRequestVoter extends RequestVoter
 
         return null;
     }
-
 }

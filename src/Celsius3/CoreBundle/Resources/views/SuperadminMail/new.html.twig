@@ -1,18 +1,18 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Mail Template Creation'|trans }}
+    {{ 'Mail Template Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'Mail Template Creation'|trans }}</h2>
+    <h2>{{ 'Mail Template Creation'|trans }}</h2>
 
-{{ new('superadmin_mails', form) }}
+    {{ new('superadmin_mails', form) }}
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-{{ form_javascript(form) }}
+    {{ parent() }}
+    {{ form_javascript(form) }}
 {% endblock %}

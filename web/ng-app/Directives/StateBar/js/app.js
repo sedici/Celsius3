@@ -1,1 +1,1 @@
-var stateBar = angular.module('stateBar',[]);
+var stateBar = angular.module('stateBar', []);

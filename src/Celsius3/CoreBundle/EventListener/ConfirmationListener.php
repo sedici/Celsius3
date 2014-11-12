@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -34,7 +35,6 @@ use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class ConfirmationListener implements EventSubscriberInterface
 {
-
     private $mailer;
     private $tokenGenerator;
     private $router;
@@ -84,5 +84,4 @@ class ConfirmationListener implements EventSubscriberInterface
 
         $event->setResponse(new RedirectResponse($url));
     }
-
 }

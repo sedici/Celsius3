@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Instance Edit'|trans }}
+    {{ 'Instance Edit'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Instance Edit'|trans }} - {{ entity.name }}</h2>
+    <h2>{{ 'Instance Edit'|trans }} - {{ entity.name }}</h2>
 
-{{ edit('superadmin_instance', entity, edit_form, delete_form) }}
+    {{ edit('superadmin_instance', entity, edit_form, delete_form) }}
 {% endblock %}

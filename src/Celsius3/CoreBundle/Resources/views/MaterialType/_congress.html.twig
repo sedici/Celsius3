@@ -1,16 +1,16 @@
 {% extends 'Celsius3CoreBundle:MaterialType:_materialType.html.twig' %}
 
 {% block dataType %}
-<li>
-    <strong>{{ 'Type'|trans }}</strong> {{ 'Congress'|trans }}
-</li>
+    <li>
+        <strong>{{ 'Type'|trans }}</strong> {{ 'Congress'|trans }}
+    </li>
 {% endblock %}
 
 {% block extraData %}
-<li>
-    <strong>{{ 'Place'|trans }}</strong> {{ materialData.place?materialData.place:'-' }}
-</li>
-<li>
-    <strong>{{ 'Communication'|trans }}</strong> {{ materialData.communication?materialData.communication:'-' }}
-</li>
+    <li>
+        <strong>{{ 'Place'|trans }}</strong> {{ materialData.place?materialData.place:'-' }}
+    </li>
+    <li>
+        <strong>{{ 'Communication'|trans }}</strong> {{ materialData.communication?materialData.communication:'-' }}
+    </li>
 {% endblock %}

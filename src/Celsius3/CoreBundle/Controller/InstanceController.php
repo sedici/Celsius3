@@ -24,17 +24,18 @@ namespace Celsius3\CoreBundle\Controller;
 
 abstract class InstanceController extends BaseController
 {
+
     protected function listQuery($name)
     {
         $qb = parent::listQuery($name)
-                        ->where('id != :id')->setParameter('id',$this->getDirectory()->getId());
+                        ->where('id != :id')->setParameter('id', $this->getDirectory()->getId());
         if ($name == 'LegacyInstance') {
-            return $qb->andWhere('type = :type')->setParameter('type','legacy');
+            return $qb->andWhere('type = :type')->setParameter('type', 'legacy');
         } else {
             return $qb;
         }
     }
-    
+
     protected function baseConfigureAction($id)
     {
         $entity = $this->findQuery('Instance', $id);

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -75,7 +77,7 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('News', new News(),new NewsType($this->getInstance()));
+        return $this->baseNew('News', new News(), new NewsType($this->getInstance()));
     }
 
     /**
@@ -89,7 +91,7 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('News', new News(),new NewsType($this->getInstance()), 'admin_news');
+        return $this->baseCreate('News', new News(), new NewsType($this->getInstance()), 'admin_news');
     }
 
     /**
@@ -124,7 +126,7 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('News', $id, new NewsType($this->getInstance()),'admin_news');
+        return $this->baseUpdate('News', $id, new NewsType($this->getInstance()), 'admin_news');
     }
 
     /**

@@ -47,7 +47,7 @@ abstract class OrderController extends BaseInstanceDependentController
     protected function getMaterialType($materialData = null)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
-        
+
         if (is_null($materialData)) {
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('celsius3_corebundle_ordertype[materialDataType]', null, true)) . 'TypeType';
         } else {

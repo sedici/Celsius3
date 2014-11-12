@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -26,7 +27,6 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class AdministrationExtension extends \Twig_Extension
 {
-
     private $container;
     private $environment;
 
@@ -59,5 +59,4 @@ class AdministrationExtension extends \Twig_Extension
     {
         return 'celsius3_core.administration_extension';
     }
-
 }

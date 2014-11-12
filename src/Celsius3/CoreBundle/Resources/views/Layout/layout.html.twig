@@ -10,7 +10,7 @@
         <title>{% block title %}{% endblock %} - Celsius3</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         {% block stylesheets %}
-        {% stylesheets '@bootstrap'
+            {% stylesheets '@bootstrap'
                        '@font_awesome'
                        '@select2'
                        '@datatables_css'
@@ -18,19 +18,19 @@
                        '@angular_loading_bar_css'
                        '@summernote_css'
                        '@c3_css' %}
-        <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
-        {% endstylesheets %}
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css') }}"/>
-        {% stylesheets filter='less' output='bundles/celsius3core/css/celsius3-compiled.css'
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+            {% endstylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
+            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css') }}"/>
+            {% stylesheets filter='less' output='bundles/celsius3core/css/celsius3-compiled.css'
             '@Celsius3CoreBundle/Resources/public/less/*' %}
-        <link href="{{ asset_url }}" rel="stylesheet" media="all" />
-        {% endstylesheets %}
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/html5shiv.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/respond.min.js') }}"></script>
-        <![endif]-->
+            <link href="{{ asset_url }}" rel="stylesheet" media="all" />
+            {% endstylesheets %}
+            <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!--[if lt IE 9]>
+                <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/html5shiv.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/respond.min.js') }}"></script>
+            <![endif]-->
         {% endblock %}
     </head>
     <body>
@@ -38,61 +38,61 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
         {% block header %}
-        <div id="header">
-            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('directory') }}">Celsius3</a>
-                </div>
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    {% block navigation_top %}
-                    {{ knp_menu_render('Celsius3CoreBundle:Builder:topMenu', { 'allow_safe_labels': true }) }}
-                    {% endblock %}
-                    {% block instance_panels %}
-                        {% include 'Celsius3CoreBundle:Layout:_user_panel.html.twig' %}
-                        {% include 'Celsius3MessageBundle:Layout:_message_panel.html.twig' %}
-                        {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
-                    {% endblock %}
-                    {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}
-                    {% include 'Celsius3CoreBundle:Layout:_activity.html.twig' %}
-                </div>
-            </nav>
-        </div>
+            <div id="header">
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('directory') }}">Celsius3</a>
+                    </div>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        {% block navigation_top %}
+                            {{ knp_menu_render('Celsius3CoreBundle:Builder:topMenu', { 'allow_safe_labels': true }) }}
+                        {% endblock %}
+                        {% block instance_panels %}
+                            {% include 'Celsius3CoreBundle:Layout:_user_panel.html.twig' %}
+                            {% include 'Celsius3MessageBundle:Layout:_message_panel.html.twig' %}
+                            {% include 'Celsius3NotificationBundle:Layout:_notification_panel.html.twig' %}
+                        {% endblock %}
+                        {% include 'Celsius3CoreBundle:Layout:_lang_panel.html.twig' %}
+                        {% include 'Celsius3CoreBundle:Layout:_activity.html.twig' %}
+                    </div>
+                </nav>
+            </div>
         {% endblock %}
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     {% block body_title %}
-                    <div class="row">
-                        <div class="jumbotron page-header">
-                            <h1 class="pull-left">{{ instance.get('instance_title').value }}</h1>
-                            <div class="pull-right">
+                        <div class="row">
+                            <div class="jumbotron page-header">
+                                <h1 class="pull-left">{{ instance.get('instance_title').value }}</h1>
+                                <div class="pull-right">
                                 {% block adminpanel %}{% endblock %}
                             </div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    {% endblock %}
-                    {% block navigation_content %}{% endblock %}
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
-            <div class="row">
-                {% block footer %}
-                <footer class="footer">
-                    <p>&copy;PrEBi {{ date()|date('Y') }}</p>
-                </footer>
                 {% endblock %}
-            </div>
-        </div>
-        {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
-        {% block javascripts %}
-            {% javascripts '@jquery_js'
+            {% block navigation_content %}{% endblock %}
+        {% block content %}{% endblock %}
+    </div>
+</div>
+<div class="row">
+    {% block footer %}
+        <footer class="footer">
+            <p>&copy;PrEBi {{ date()|date('Y') }}</p>
+        </footer>
+    {% endblock %}
+</div>
+</div>
+{% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
+{% block javascripts %}
+    {% javascripts '@jquery_js'
                            '@jqueryui_js'
                            '@bootstrap_js'
                            '@jQuery_dotdotdot_js'
@@ -116,27 +116,27 @@
                            '@summernote_js'
                            '@angular_bootstrap_js'
                            '@c3_js' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui-timepicker-addon.js') }}"></script>
-        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
-        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-        {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cosmetics.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/forms.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cci.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/admin.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dnd.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/mail.js') }}"></script>
-        {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
-        <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/autobahn.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>
-        {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
-        {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
-        {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}
-        {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
-        {% endblock %}
-    </body>
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui-timepicker-addon.js') }}"></script>
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
+    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+    {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cosmetics.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/forms.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cci.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/admin.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dnd.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/mail.js') }}"></script>
+    {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
+    <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/autobahn.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>
+    {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
+    {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
+    {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}
+    {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
+{% endblock %}
+</body>
 </html>

@@ -2,7 +2,7 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Code'|trans }}</dt>
     <dd>{{ element.code }}</dd>
-    {% block extrafields %}{% endblock %}
+{% block extrafields %}{% endblock %}
 </dl>
 <div class="thumbnail">
     {{ render_material(element.materialData)|raw }}

@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Instance Creation'|trans }}
+    {{ 'Instance Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'Instance Creation'|trans }}</h2>
+    <h2>{{ 'Instance Creation'|trans }}</h2>
 
-{{ new('superadmin_instance', form) }}
+    {{ new('superadmin_instance', form) }}
 {% endblock %}

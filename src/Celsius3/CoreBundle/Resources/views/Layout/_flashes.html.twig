@@ -1,12 +1,12 @@
 <div class="flashes">
-{% set flashes = { 'warning': '', 'notice': 'alert-info', 'error': 'alert-error', 'success': 'alert-success' } %}
+    {% set flashes = { 'warning': '', 'notice': 'alert-info', 'error': 'alert-error', 'success': 'alert-success' } %}
 
-{% for key, messages in app.session.getFlashBag().all() %}
-    {% for message in messages %}
-    <div class="alert {{ (flashes[key] is defined)?flashes[key]:'alert-info' }}">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {{ message|trans }}
-    </div>
+    {% for key, messages in app.session.getFlashBag().all() %}
+        {% for message in messages %}
+            <div class="alert {{ (flashes[key] is defined)?flashes[key]:'alert-info' }}">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ message|trans }}
+            </div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -42,8 +43,8 @@ class AdminContactRestController extends BaseInstanceDependentRestController
 
         $contacts = $em->getRepository('Celsius3CoreBundle:Contact')
                 ->findBy(array(
-                    'institution_id' => $institution_id,
-                ));
+            'institution_id' => $institution_id,
+        ));
 
         $view = $this->view(array_values($contacts), 200)->setFormat('json');
 
@@ -68,5 +69,4 @@ class AdminContactRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
 }

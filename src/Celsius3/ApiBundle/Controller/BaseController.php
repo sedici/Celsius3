@@ -26,6 +26,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 
 class BaseController extends FOSRestController
 {
+
     protected function getInstance()
     {
         $instance = $this->getDoctrine()->getManager()

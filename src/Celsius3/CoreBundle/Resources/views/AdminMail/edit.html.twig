@@ -1,18 +1,18 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-{{ 'Mail Template Edit' |trans }}
+    {{ 'Mail Template Edit' |trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Mail Template Edit'|trans }} - {{ entity.title }}</h2>
+    <h2>{{ 'Mail Template Edit'|trans }} - {{ entity.title }}</h2>
 
-{{ edit('admin_mails', entity, edit_form, delete_form) }}
+    {{ edit('admin_mails', entity, edit_form, delete_form) }}
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-{{ form_javascript(edit_form) }}
+    {{ parent() }}
+    {{ form_javascript(edit_form) }}
 {% endblock %}

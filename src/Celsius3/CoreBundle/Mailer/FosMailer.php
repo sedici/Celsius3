@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -52,7 +53,7 @@ class FosMailer extends DefaultMailer
     }
 
     public function sendResettingEmailMessage(UserInterface $user)
-    {   
+    {
         $template = $this->parameters['resetting.template'];
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),

@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'City List'|trans }}
+    {{ 'City List'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-<h2>{{ 'City List'|trans }}</h2>
+    <h2>{{ 'City List'|trans }}</h2>
 
-{{ index('superadmin_city', pagination, 'Celsius3CoreBundle:SuperadminCity', filter_form, null, true) }}
+    {{ index('superadmin_city', pagination, 'Celsius3CoreBundle:SuperadminCity', filter_form, null, true) }}
 {% endblock %}

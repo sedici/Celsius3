@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -32,6 +33,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class News
 {
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -39,26 +41,22 @@ class News
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $title;
-
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="text")
      */
     private $text;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Date()
      * @ORM\Column(type="datetime")
      */
     private $date;
-
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="news")

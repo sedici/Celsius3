@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -29,7 +30,6 @@ use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class SearchEventListener
 {
-
     private $negative = array(
         CatalogManager::CATALOG__NOT_FOUND,
         CatalogManager::CATALOG__NON_SEARCHED,
@@ -133,5 +133,4 @@ class SearchEventListener
             }
         }
     }
-
 }

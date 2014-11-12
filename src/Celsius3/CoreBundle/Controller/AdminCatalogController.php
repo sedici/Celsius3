@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -155,9 +156,9 @@ class AdminCatalogController extends BaseInstanceDependentController
             foreach ($ids as $key => $id) {
                 $position = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
                         ->findOneBy(array(
-                            'catalog_id' => $id,
-                            'instance_id' => $this->getInstance()->getId(),
-                        ));
+                    'catalog_id' => $id,
+                    'instance_id' => $this->getInstance()->getId(),
+                ));
                 if ($position) {
                     $position->setPosition($key);
                     $em->persist($position);
@@ -167,8 +168,7 @@ class AdminCatalogController extends BaseInstanceDependentController
         }
 
         return new Response(json_encode(array(
-            'success' => 'Success',
+                    'success' => 'Success',
         )));
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -40,12 +41,12 @@ class UserOrderController extends OrderController
     protected function listQuery($name)
     {
         $qb = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder('e')
-                ->where('e.instance = :instance')->setParameter('instance',$this->getInstance()->getId());
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder('e')
+                        ->where('e.instance = :instance')->setParameter('instance', $this->getInstance()->getId());
 
-        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner',$this->getUser()->getId()));
-        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->equals('librarian',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner', $this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->equals('librarian', $this->getUser()->getId()));
 
         return $qb;
     }
@@ -53,14 +54,14 @@ class UserOrderController extends OrderController
     protected function findQuery($name, $id)
     {
         $qb = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder('e')
-                ->where('e.instance = :instance')->setParameter('instance',$this->getInstance()->getId());
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->createQueryBuilder('e')
+                        ->where('e.instance = :instance')->setParameter('instance', $this->getInstance()->getId());
 
-        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner',$this->getUser()->getId()));
-        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->setParameter('librarian',$this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner', $this->getUser()->getId()));
+        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->setParameter('librarian', $this->getUser()->getId()));
 
-        return $qb->andWhere('e.id = :id')->setParameter('id',$id)->getQuery()->getSingleResult();
+        return $qb->andWhere('e.id = :id')->setParameter('id', $id)->getQuery()->getSingleResult();
     }
 
     /**
@@ -144,5 +145,4 @@ class UserOrderController extends OrderController
     {
         return $this->change();
     }
-
 }

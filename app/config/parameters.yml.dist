@@ -22,3 +22,5 @@ parameters:
     notification_zmq_host: localhost
     notification_zmq_port: 5555
     notification_limit: 10
+
+    node_path: /usr/bin/nodejs

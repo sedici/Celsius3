@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -29,7 +30,6 @@ use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class ConfigurationListener
 {
-
     private $configuration_helper;
 
     public function __construct(ConfigurationHelper $configuration_helper)
@@ -41,7 +41,7 @@ class ConfigurationListener
     {
         $entity = $args->getEntity();
         $em = $args->getEntityManager();
-        
+
         if ($entity instanceof Instance) {
             $default = $em
                     ->getRepository('Celsius3CoreBundle:Configuration')
@@ -75,11 +75,10 @@ class ConfigurationListener
                 foreach ($instances as $instance) {
                     $new = $this->configuration_helper->duplicate($entity);
                     $new->setInstance($instance);
-                    $em->persist($new);    
+                    $em->persist($new);
                 }
                 $em->flush();
             }
         }
     }
-
 }

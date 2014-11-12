@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -30,7 +31,6 @@ use Knp\Menu\Matcher\Voter\VoterInterface;
  */
 class RequestVoter implements VoterInterface
 {
-
     protected $request_stack;
 
     public function __construct(RequestStack $request_stack)
@@ -55,5 +55,4 @@ class RequestVoter implements VoterInterface
 
         return null;
     }
-
 }

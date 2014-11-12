@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -43,8 +44,8 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findBy(array(
-                    'instance_id' => $this->getInstance(),
-                ));
+            'instance_id' => $this->getInstance(),
+        ));
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
 
@@ -77,9 +78,9 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $user = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findOneBy(array(
-                    'instance_id' => $this->getInstance()->getId(),
-                    'id' => $user_id,
-                ));
+            'instance_id' => $this->getInstance()->getId(),
+            'id' => $user_id,
+        ));
 
         if (!$user) {
             return $this->createNotFoundException('User not found.');
@@ -89,7 +90,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-        
+
         $view = $this->view($user->isEnabled(), 200)->setFormat('json');
 
         return $this->handleView($view);

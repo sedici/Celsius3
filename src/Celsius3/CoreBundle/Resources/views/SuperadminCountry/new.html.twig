@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Country Creation'|trans }}
+    {{ 'Country Creation'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<h2>{{ 'Country Creation'|trans }}</h2>
+    <h2>{{ 'Country Creation'|trans }}</h2>
 
-{{ new('superadmin_country', form, 'Celsius3CoreBundle:SuperadminCountry') }}
+    {{ new('superadmin_country', form, 'Celsius3CoreBundle:SuperadminCountry') }}
 {% endblock %}

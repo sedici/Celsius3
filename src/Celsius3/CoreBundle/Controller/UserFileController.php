@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\File;
@@ -34,6 +36,7 @@ use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
  */
 class UserFileController extends BaseController
 {
+
     use FileControllerTrait;
 
     protected function validate(Order $order, File $file)
@@ -44,8 +47,7 @@ class UserFileController extends BaseController
 
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if (!$file || $file->getIsDownloaded()
-                || $order->getOwner()->getId() != $user->getId()) {
+        if (!$file || $file->getIsDownloaded() || $order->getOwner()->getId() != $user->getId()) {
             return $this->createNotFoundException('File not found.');
         }
 

@@ -1,14 +1,14 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Password Reset'|trans }}
+    {{ 'Password Reset'|trans }}
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>{{ 'Password Reset'|trans }}</h2>
-        {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h2>{{ 'Password Reset'|trans }}</h2>
+            {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+        </div>
     </div>
-</div>
 {% endblock %}

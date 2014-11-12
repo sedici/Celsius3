@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -40,7 +41,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
     public function getOrdersAction(Request $request)
     {
         $withRequest = $request->query->get('withRequest', false);
-        
+
         $states = explode(',', $request->query->get('state', ''));
 
         $orders = $this->getDoctrine()->getManager()
@@ -52,46 +53,49 @@ class UserOrderRestController extends BaseInstanceDependentRestController
 
         if ($withRequest) {
             $requests = $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:Request')
-                    ->createQueryBuilder('r')
-                    ->where('r.order IN (:orders)')
-                    ->setParameter('orders',array_map(function ($order) {return $order->getId();}, $pagination))
-                    ->getQuery()->getResult();
+                            ->getRepository('Celsius3CoreBundle:Request')
+                            ->createQueryBuilder('r')
+                            ->where('r.order IN (:orders)')
+                            ->setParameter('orders', array_map(function ($order) {
+                                        return $order->getId();
+                                    }, $pagination))
+                            ->getQuery()->getResult();
 
             $response = array(
                 'orders' => array_values($pagination),
                 'requests' => array_column(array_map(function($request) {
-                            return array(
-                                'id' => $request->getOrder()->getId(),
-                                'request' => $request,
-                            );
-                        }, $requests), 'request', 'id'),
-            );
+                                    return array(
+                                        'id' => $request->getOrder()->getId(),
+                                        'request' => $request,
+                                    );
+                                }, $requests), 'request', 'id'),
+                    );
 
-            $view = $this->view($response, 200)->setFormat('json');
-        } else {
-            $view = $this->view(array_values($pagination), 200)->setFormat('json');
+                    $view = $this->view($response, 200)->setFormat('json');
+                } else {
+                    $view = $this->view(array_values($pagination), 200)->setFormat('json');
+                }
+
+                return $this->handleView($view);
+            }
+
+            /**
+             * GET Route annotation.
+             * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
+             */
+            public function getOrderAction($id)
+            {
+                $em = $this->getDoctrine()->getManager();
+
+                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
+
+                if (!$order) {
+                    return $this->createNotFoundException('Order not found.');
+                }
+
+                $view = $this->view($order, 200)->setFormat('json');
+
+                return $this->handleView($view);
+            }
         }
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
-     * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
-     */
-    public function getOrderAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
-
-        if (!$order) {
-            return $this->createNotFoundException('Order not found.');
-        }
-
-        $view = $this->view($order, 200)->setFormat('json');
-
-        return $this->handleView($view);
-    }
-}
+        

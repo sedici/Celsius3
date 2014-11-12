@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -126,5 +127,4 @@ class SuperadminHiveController extends BaseController
     {
         return $this->baseDelete('Hive', $id, 'superadmin_hive');
     }
-
 }

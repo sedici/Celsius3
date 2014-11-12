@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -45,7 +47,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Country',$this->createForm(new CountryFilterType($this->getInstance())));
+        return $this->baseIndex('Country', $this->createForm(new CountryFilterType($this->getInstance())));
     }
 
     /**
@@ -58,7 +60,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Country', new Country(),new CountryType($this->getInstance()));
+        return $this->baseNew('Country', new Country(), new CountryType($this->getInstance()));
     }
 
     /**
@@ -88,7 +90,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Country', $id,new CountryType($this->getInstance()));
+        return $this->baseEdit('Country', $id, new CountryType($this->getInstance()));
     }
 
     /**
@@ -106,7 +108,7 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Country', $id,new CountryType($this->getInstance()), 'admin_country');
+        return $this->baseUpdate('Country', $id, new CountryType($this->getInstance()), 'admin_country');
     }
 
     /**
@@ -125,5 +127,4 @@ class AdminCountryController extends BaseInstanceDependentController
     {
         return $this->baseDelete('Country', $id, 'admin_country');
     }
-
 }

@@ -1,11 +1,11 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{% trans from 'FOSMessageBundle' %}messenger{% endtrans %}
+    {% trans from 'FOSMessageBundle' %}messenger{% endtrans %}
 {% endblock %}
 
 {% block content %}
     <h2>{{ 'Messages'|trans }}</h2>
     {{ knp_menu_render('Celsius3MessageBundle:Builder:messageMenu', { 'currentClass': 'active' }) }}
-    {% block fos_message_content %}{% endblock %}
+{% block fos_message_content %}{% endblock %}
 {% endblock %}

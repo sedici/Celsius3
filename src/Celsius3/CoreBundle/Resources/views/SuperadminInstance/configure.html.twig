@@ -1,18 +1,18 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Instance Configuration'|trans }}
+    {{ 'Instance Configuration'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import configure as configure %}
 
 {% block content %}
-<h2>{{ 'Instance Configuration' }}</h2>
+    <h2>{{ 'Instance Configuration' }}</h2>
 
-{{ configure('superadmin_instance', configure_form, 'Celsius3CoreBundle:SuperadminInstance', entity) }}
+    {{ configure('superadmin_instance', configure_form, 'Celsius3CoreBundle:SuperadminInstance', entity) }}
 {% endblock %}
 
 {% block javascripts %}
-{{ parent() }}
-{{ form_javascript(configure_form) }}
+    {{ parent() }}
+    {{ form_javascript(configure_form) }}
 {% endblock %}

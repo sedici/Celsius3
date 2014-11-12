@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -32,6 +33,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Request
 {
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -191,7 +193,7 @@ class Request
     {
         return $this->owner;
     }
-    
+
     /**
      * Set creator
      *

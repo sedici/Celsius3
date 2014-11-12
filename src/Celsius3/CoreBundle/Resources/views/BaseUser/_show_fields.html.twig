@@ -17,13 +17,13 @@
                 <a href="#" class="emailModal" data-email="{{ element.email }}"><span class="glyphicon glyphicon-envelope"></span></a>
             </dd>
             {% for customValue in element.customValues %}
-            <dt>{{ customValue.field.name|trans }}</dt>
-            <dd>{{ customValue.value }}</dd>
+                <dt>{{ customValue.field.name|trans }}</dt>
+                <dd>{{ customValue.value }}</dd>
             {% endfor %}
-            {% block extrainfo %}{% endblock %}
-        </dl>
-    </div>
-    <div class="col-md-4">
-        {% block actions %}{% endblock %}
-    </div>
+        {% block extrainfo %}{% endblock %}
+    </dl>
+</div>
+<div class="col-md-4">
+{% block actions %}{% endblock %}
+</div>
 </div>

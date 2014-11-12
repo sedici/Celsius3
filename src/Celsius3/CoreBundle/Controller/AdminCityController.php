@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Celsius3 - Order management
  * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
@@ -20,6 +21,7 @@
  */
 
 namespace Celsius3\CoreBundle\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -45,7 +47,7 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('City',$this->createForm(new CityFilterType($this->getInstance())));
+        return $this->baseIndex('City', $this->createForm(new CityFilterType($this->getInstance())));
     }
 
     /**
@@ -106,7 +108,7 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('City', $id, new CityType($this->getInstance()),'admin_city');
+        return $this->baseUpdate('City', $id, new CityType($this->getInstance()), 'admin_city');
     }
 
     /**
@@ -125,5 +127,4 @@ class AdminCityController extends BaseInstanceDependentController
     {
         return $this->baseDelete('City', $id, 'admin_city');
     }
-
 }

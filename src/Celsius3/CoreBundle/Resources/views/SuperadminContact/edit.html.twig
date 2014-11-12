@@ -1,13 +1,13 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ 'Contact Edit'|trans }}
+    {{ 'Contact Edit'|trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-<h2>{{ 'Contact Edit'|trans }} - {{ entity.surname ~ ', ' ~ entity.name }}</h2>
+    <h2>{{ 'Contact Edit'|trans }} - {{ entity.surname ~ ', ' ~ entity.name }}</h2>
 
-{{ edit('superadmin_contact', entity, edit_form, delete_form) }}
+    {{ edit('superadmin_contact', entity, edit_form, delete_form) }}
 {% endblock %}
