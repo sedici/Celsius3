@@ -152,16 +152,34 @@ class BaseUserRepository extends EntityRepository
     }
     
     public function countNewUsersForInterval($initialYear,$finalYear) {
-        return $this->getEntityManager()
-            ->createQueryBuilder('u')
-            ->select('YEAR(u.createdAt) year')
-            ->addSelect('COUNT(u.id) newUsers')
-            //->from('Celsius3CoreBundle:BaseUser', 'u')
-            ->where('YEAR(u.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andWhere('YEAR(u.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear)
-            ->groupBy('u.year')
-            ->orderBy('u.year','ASC')
+        return $this->createQueryBuilder('user')
+            ->select('YEAR(user.createdAt) year')
+            ->addSelect('COUNT(user.id) newUsers')
+            ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
+            ->andHaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
+            ->groupBy('year')
+            ->orderBy('year','ASC')
             ->getQuery()
             ->getResult();
+    }
+    
+    public function countNewUsersForYear($year) {
+        return $this->createQueryBuilder('user')
+            ->select('MONTH(user.createdAt) month')
+            ->addSelect('COUNT(user.id) newUsers')
+            ->where('YEAR(user.createdAt) >= :y')->setParameter('y', $year)
+            ->groupBy('month')
+            ->orderBy('month','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getYears() {
+        return $this->createQueryBuilder('user')
+                ->select('YEAR(user.createdAt) year')
+                ->groupBy('year')
+                ->orderBy('year')
+                ->getQuery()
+                ->getResult();
     }
 }

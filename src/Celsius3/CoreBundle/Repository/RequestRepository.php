@@ -56,16 +56,34 @@ class RequestRepository extends EntityRepository
     }
     
     public function countActiveUsersForInterval($initialYear,$finalYear) {
-        return $this->getEntityManager()
-            ->createQueryBuilder('request')
+        return $this->createQueryBuilder('request')
             ->select('YEAR(request.createdAt) year')
             ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
-            ->where('year >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andWhere('year <= :finalYear')->setParameter('finalYear', $finalYear)
+            ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
+            ->andhaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
             ->groupBy('year')
             ->orderBy('year','ASC')
             ->getQuery()
             ->getResult();
     }
     
+    public function countActiveUsersForYear($year) {
+        return $this->createQueryBuilder('request')
+            ->select('MONTH(request.createdAt) month')
+            ->addSelect('COUNT(request.owner) activeUsers')
+            ->where('YEAR(request.createdAt) >= :year')->setParameter('year', $year)
+            ->groupBy('month')
+            ->orderBy('month','ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    public function getYears() {
+        return $this->createQueryBuilder('request')
+                ->select('YEAR(request.createdAt) year')
+                ->groupBy('year')
+                ->orderBy('year')
+                ->getQuery()
+                ->getResult();
+    }
 }

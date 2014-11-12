@@ -6,8 +6,6 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.getYears = function () {
         $http.get(Routing.generate('public_rest_get_years_data')).success(function (response) {
             $scope.years = response;
-        }).error(function () {
-            $scope.years = "YEARS ERROR";
         });
     };
 
@@ -28,7 +26,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     $scope.data = response;
                     $scope.generateChart(response);
                 }).error(function(response){
-                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=no, resizable=no, top=10, left=10, width=800, height=800");
+                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
                     ventana.document.write(response);
                 });
     };
@@ -38,6 +36,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateChart(response);
+                }).error(function(response){
+                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
+                    ventana.document.write(response);
                 });
     };
 
@@ -54,7 +55,8 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     'Total Users': 'line',
                     'Active Users': 'bar',
                     'New Users': 'bar'
-                }
+                },
+                onclick: function (d, i) { $scope. }
             },
             axis: {
                 x: {

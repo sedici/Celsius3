@@ -34,66 +34,13 @@ use JMS\Serializer\SerializationContext;
  */
 class PublicRestController extends BaseInstanceDependentRestController
 {
-    
-    /**
-     * GET Route annotation.
-     * @Get("/", name="public_rest_get_users_count_data", options={"expose"=true})
-     */
-    public function getUsersCountData()
-    {
-        //Al no crear una entidad estadistica. No es necesario pedir en la misma
-        //consulta mes y año. Separarlas en dos consultas para usar cuando se
-        //visualicen los años y otra para cuando se visualice un año especifico.
-        //***Cantidad de usuarios nuevos por mes y año
-        $em = $this->getDoctrine()->getManager();
-        
-        $qb = $em->createQueryBuilder();
-        $qb->select('u.createdAt.getFullYear(), COUNT(DISTINCT(u.id))')
-            ->from('User','u')
-            ->groupBy('u.createdAt.getFullYear()')
-            ->orderBy('u.createdAt.getFullYear()','ASC');
-        $resultQB = $qb->getQuery()->getResult();
-                
-        $dql = "SELECT u.createdAt.getFullYear(), u.createdAt.getMonth(), COUNT(u.id)
-        FROM Celsius3CoreBundle:BaseUser u
-        GROUP BY u.createdAt.getFullYear(), u.createdAt.getMonth()";
-        $query = $em->createQuery($dql);
-        $resultDQL = $query->getResult();
-        //***********************//
-        
-        //***Consulta de usuarios activos por mes y año***//
-        $qb = $em->createQueryBuilder();
-        $qb->select('r.createdAt.getFullYear(), r.createdAt.getMonth(), u.id')
-            ->from('User','u')
-            ->distinct('u.id')
-            ->groupBy('u.createdAt.getFullYear()')
-            ->addGroupBy('u.createdAt.getMonth()')
-            ->orderBy('u.createdAt.getFullYear()','ASC')
-            ->addOrderBy('u.createdAt.getMonth()','ASC');
-        $resultQB = $qb->getQuery()->getResult();
-        //*************************************//
-        
-
-        $data['total_users'][] = 'Total Users';
-        $data['active_users'][] = 'Active Users';
-        foreach ($counts as $count) {
-            $data['categories'][] = $count->getYear();
-            $data['total_users'][] = $count->getYearTotalUsers();
-            $data['active_users'][] = $count->getYearActiveUsers();
-        }
-
-        $view = $this->view($data, 200)->setFormat('json');
-
-        return $this->handleView($view);
-    }
-
     /**
      * GET Route annotation.
      * @Get("/years_interval", name="public_rest_get_users_count_data_for_interval", options={"expose"=true})
      */
     public function getUsersCountDataForInterval(Request $request)
     {
-        //Falta filtrar por instancia
+        //falta filtrar por instancia
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
         
@@ -135,25 +82,35 @@ class PublicRestController extends BaseInstanceDependentRestController
     {
         //Falta filtrar por instancia
         $year = $request->query->get('year');
-
-        $yearCounts = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')
-                ->getUsersCountDataForYear($year);
-
-        $counts = $yearCounts->getCounters();
-
-        $data['total_users'][] = 'Total Users';
-        $data['active_users'][] = 'Active Users';
-        $data['new_users'][] = 'New Users';
-        foreach ($counts as $count) {
-            $data['categories'][] = \DateTime::createFromFormat('!m', $count['month'])->format('F');
-            $data['total_users'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
-            $data['active_users'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
-            $data['new_users'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
+        
+        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($year);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($year);
+        
+        
+        $result = array();
+        $suma = 0;
+        foreach($newUsers as $count) {
+            $result[$count['month']]['newUsers'] = $count['newUsers'];
+            $result[$count['month']]['totalUsers'] = $suma += $count['newUsers'];
         }
-
-        $view = $this->view($data, 200)->setFormat('json');
-
+        foreach($activeUsers as $count) {
+            $result[$count['month']]['activeUsers'] = $count['activeUsers'];
+        }
+        
+        ksort($result);
+        
+        $values = array();
+        $values['newUsers'][] = 'New Users';
+        $values['activeUsers'][] = 'Active Users';
+        $values['totalUsers'][] = 'Total Users';
+        foreach($result as $month => $count){
+            $values['categories'][] = \DateTime::createFromFormat('!m', $month)->format('F');
+            $values['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
+            $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
+            $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
+        }
+        
+        $view = $this->view($values, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
@@ -163,14 +120,21 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getYearsData()
     {
-        $years = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->getYears();
+        $userYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getYears();
 
-        foreach ($years as $year) {
-            $data[] = $year->getYear();
+        $requestYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->getYears();
+
+        foreach ($userYears as $year) {
+            $data[] = $year['year'];
         }
-
+        foreach ($requestYears as $year) {
+            $data[] = $year['year'];
+        }
+        
+        $data = array_unique($data);
+        sort($data);
+        
         $view = $this->view($data, 200)->setFormat('json');
-
         return $this->handleView($view);
     }
 
