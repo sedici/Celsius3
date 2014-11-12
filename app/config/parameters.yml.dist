@@ -24,3 +24,4 @@ parameters:
     notification_limit: 10
 
     node_path: /usr/bin/nodejs
+    node_modules: /usr/lib/node_modules
