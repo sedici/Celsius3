@@ -33,7 +33,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class PublicController extends BaseInstanceDependentController
 {
-    
     protected function getInstance()
     {
         return $this->get('celsius3_core.instance_helper')->getUrlInstance();

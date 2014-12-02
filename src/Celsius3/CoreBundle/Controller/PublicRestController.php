@@ -40,12 +40,12 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getUsersCountDataForInterval(Request $request)
     {
-        //falta filtrar por instancia
+        $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
         
-        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($initialYear,$finalYear);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($initialYear,$finalYear);
+        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($instance,$initialYear,$finalYear);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance,$initialYear,$finalYear);
         
         $result = array();
         $suma = 0;
@@ -80,11 +80,11 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getUsersCountDataForYear(Request $request)
     {
-        //Falta filtrar por instancia
+        $instance = $request->query->get('instance');
         $year = $request->query->get('year');
         
-        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($year);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($year);
+        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($instance,$year);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance,$year);
         
         
         $result = array();
@@ -118,11 +118,13 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/years", name="public_rest_get_years_data", options={"expose"=true})
      */
-    public function getYearsData()
+    public function getYearsData(Request $request)
     {
-        $userYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getYears();
+        $instance = $request->query->get('instance');
+        
+        $userYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getYears($instance);
 
-        $requestYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->getYears();
+        $requestYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->getYears($instance);
 
         foreach ($userYears as $year) {
             $data[] = $year['year'];
@@ -137,5 +139,45 @@ class PublicRestController extends BaseInstanceDependentRestController
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
+    
+    /**
+     * GET Route annotation.
+     * @Get("/", name="public_rest_get_requests_origin_data", options={"expose"=true})
+     */
+    public function getOriginRequestsCountData(Request $request) {
+        $instance = $request->query->get('instance');
+        $type = $request->query->get('type');
+        $country = $request->query->get('country');
+        $institution = $request->query->get('institution');
+        
+        
+        $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
 
+        $counts = $requestRepository->countRequestsOrigin($instance,$type,$country,$institution);
+        
+        uasort($counts,function($a, $b) {
+            if ($a['requestsCount'] == $b['requestsCount']) {
+                return 0;
+            }
+            return ($a['requestsCount'] > $b['requestsCount']) ? -1 : 1;
+        });
+        
+        $data = array();
+        $data['requestsCount'][] = 'Requests';
+        $i = 0;
+        while($i < 10){
+            list(,$count) = each($counts);
+            $data['requestsCount'][] = $count['requestsCount'];
+            $data['countries'][] = (Integer) $count['institutionCountry'];
+            $data['categories'][] = $count['name'];
+            $data['ids'][] = (Integer) $count['id'];
+            
+            $i++;
+        }
+        
+        $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+    
+    
 }
