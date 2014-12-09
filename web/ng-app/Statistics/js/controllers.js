@@ -3,10 +3,19 @@ var statisticsControllers = angular.module('statisticsControllers', []);
 statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.title = "Statistics";
     $scope.subtitle = "";
-    $scope.section = "";
+    $scope.searchForm = true;
+    $scope.years;
     
-    $scope.getYears = function () {
-        $http.get(Routing.generate('public_rest_get_years_data') + '?instance=' + instance_id).success(function (response) {
+    $scope.getUsersCountYears = function () {
+        $http.get(Routing.generate('public_rest_get_users_count_years_data') + '?instance=' + instance_id)
+                .success(function (response) {
+            $scope.years = response;
+        });
+    };
+    
+    $scope.getRequestsCountYears = function () {
+        $http.get(Routing.generate('public_rest_get_requests_count_years_data') + '?instance=' + instance_id)
+                .success(function (response) {
             $scope.years = response;
         });
     };
@@ -15,18 +24,22 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.initialYear = $scope.finalYear;
         }
-    }
+    };
 
     $scope.finalYearChange = function () {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.finalYear = $scope.initialYear;
         }
-    }
+    };
     
     $scope.updateUsersCountChart = function () {
         $scope.getUsersCountDataFor($scope.initialYear, $scope.finalYear);
     };
-
+    
+    $scope.updateRequestsCountChart = function () {
+        $scope.getRequestsCountDataFor($scope.initialYear, $scope.finalYear);
+    };
+    
     $scope.getUsersCountDataFor = function (initialYear, finalYear) {
         if (initialYear < finalYear)
             $scope.getUsersCountDataForInterval(initialYear, finalYear);
@@ -39,20 +52,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateUsersCountChart(response);
-                }).error(function(response){
-                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
-                    ventana.document.write(response);
                 });
     };
 
     $scope.getUsersCountDataForYear = function (year) {
         $http.get(Routing.generate('public_rest_get_users_count_data_for_year') + '?instance=' + instance_id + '&year=' + parseInt(year))
                 .success(function (response) {
-                    $scope.data = response;
                     $scope.generateUsersCountChart(response);
-                }).error(function(response){
-                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
-                    ventana.document.write(response);
+                    $scope.data = response;
                 });
     };
 
@@ -124,24 +131,83 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     };
     
+    $scope.getRequestsCountDataFor = function(initialYear,finalYear) {
+        if (initialYear < finalYear)
+            $scope.getRequestsCountDataForInterval(initialYear, finalYear);
+        if (initialYear === finalYear)
+            $scope.getRequestsCountDataForYear(initialYear);
+    }
+    
+    $scope.getRequestsCountDataForInterval = function (initialYear, finalYear) {
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for_interval') + '?instance=' + instance_id + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+            .success(function (response) {
+                $scope.data = response;
+                $scope.generateRequestsCountChart(response);
+            });
+    };
+    
+    $scope.getRequestsCountDataForYear = function (year) {
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for_year') + '?instance=' + instance_id + '&year=' + parseInt(year))
+            .success(function (response) {
+                $scope.generateRequestsCountChart(response);
+                $scope.data = response;
+            });
+    };
+    
+    $scope.generateRequestsCountChart = function(data) {
+        var chart = c3.generate({
+            bindto: '#chart',
+            data: {
+                columns: [
+                    data.cancelled,
+                    data.created,
+                    data.delivered
+                ],
+                type: 'bar',
+//                groups: [
+//                    ['Cancelled', 'Delivered','Created']
+//                ]
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: $.unique(data.categories)
+                }
+            },
+            grid: {
+                y: {
+                    lines: [{value:0}]
+                }
+            }
+        });
+    }
+    
     //Funciones de inicialización//
     
     $scope.getUsersCountData = function(){
-        $scope.getYears();
+        $scope.getUsersCountYears();
         $scope.getUsersCountDataFor(0, 3000);
-        $scope.section = '/ng-app/Statistics/partials/usersCount.html';
         $scope.subtitle = 'Users count';
+        $scope.searchForm = true;
     };
     
     $scope.getRequestsOriginData = function(){
         $scope.getRequestsOrigin('search');
-        $scope.section = '/ng-app/Statistics/partials/requestsOrigin.html';
         $scope.subtitle = 'Requests origin';
+        $scope.searchForm = false;
+    };
+    
+    $scope.getRequestsCountData = function() {
+        $scope.getRequestsCountYears();
+        $scope.getRequestsCountDataFor(0, 3000);
+        $scope.subtitle = 'Requests count';
+        $scope.searchForm = true;
     };
     
     $scope.start = function (){
         $scope.getUsersCountData();
     };
-
+    
     $scope.start();
+    
 });

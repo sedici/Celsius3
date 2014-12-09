@@ -135,54 +135,58 @@ class BaseUserRepository extends EntityRepository
     public function findUsersPerInstance()
     {
         return $this->createQueryBuilder('u')
-            ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-            ->groupBy('u.instance')
-            ->getQuery()
-            ->getResult();
+                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+                        ->groupBy('u.instance')
+                        ->getQuery()
+                        ->getResult();
     }
 
     public function findNewUsersPerInstance()
     {
         return $this->createQueryBuilder('u')
-            ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-            ->where('u.enabled = true')
-            ->groupBy('u.instance')
-            ->getQuery()
-            ->getResult();
-    }
-    
-    public function countNewUsersForInterval($instance,$initialYear,$finalYear) {
-        return $this->createQueryBuilder('user')
-            ->select('YEAR(user.createdAt) year')
-            ->addSelect('COUNT(user.id) newUsers')
-            ->where('user.instance = :instance')->setParameter('instance', $instance)
-            ->groupBy('year')
-            ->orderBy('year','ASC')
-            ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andHaving('year <= :finalYear')->setParameter('finalYear', $finalYear)    
-            ->getQuery()
-            ->getResult();
-    }
-    
-    public function countNewUsersForYear($instance,$year) {
-        return $this->createQueryBuilder('user')
-            ->select('MONTH(user.createdAt) month')
-            ->addSelect('COUNT(user.id) newUsers')
-            ->where('YEAR(user.createdAt) >= :y')->setParameter('y', $year)
-            ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
-            ->groupBy('month')
-            ->orderBy('month','ASC')
-            ->getQuery()
-            ->getResult();
+                        ->select('IDENTITY(u.instance), COUNT(u.id) as c')
+                        ->where('u.enabled = true')
+                        ->groupBy('u.instance')
+                        ->getQuery()
+                        ->getResult();
     }
 
-    public function getYears($instance) {
+    public function countNewUsersForInterval($instance, $initialYear, $finalYear)
+    {
         return $this->createQueryBuilder('user')
-                ->select('YEAR(user.createdAt) year')
-                ->where('user.instance = :instance')->setParameter('instance',$instance)
-                ->groupBy('year')
-                ->orderBy('year')
-                ->getQuery()
-                ->getResult();
+                        ->select('YEAR(user.createdAt) year')
+                        ->addSelect('COUNT(user.id) newUsers')
+                        ->where('user.instance = :instance')->setParameter('instance', $instance)
+                        ->groupBy('year')
+                        ->orderBy('year', 'ASC')
+                        ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
+                        ->andHaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
+                        ->getQuery()
+                        ->getResult();
     }
+
+    public function countNewUsersForYear($instance, $year)
+    {
+        return $this->createQueryBuilder('user')
+                        ->select('MONTH(user.createdAt) month')
+                        ->addSelect('COUNT(user.id) newUsers')
+                        ->where('YEAR(user.createdAt) >= :y')->setParameter('y', $year)
+                        ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
+                        ->groupBy('month')
+                        ->orderBy('month', 'ASC')
+                        ->getQuery()
+                        ->getResult();
+    }
+    
+    public function getYears($instance)
+    {
+        return $this->createQueryBuilder('user')
+                        ->select('YEAR(user.createdAt) year')
+                        ->where('user.instance = :instance')->setParameter('instance', $instance)
+                        ->groupBy('year')
+                        ->orderBy('year')
+                        ->getQuery()
+                        ->getResult();
+    }
+
 }
