@@ -11,7 +11,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.5",
+        "symfony/symfony": "~2.6",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
@@ -78,12 +78,13 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
         "writable-dirs": ["app/cache", "app/logs", "app/spool", "src/Celsius3/CoreBundle/Resources/public/components/cache"],
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.5-dev"
+            "dev-master": "2.6-dev"
         }
     }
 }

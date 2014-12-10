@@ -57,16 +57,40 @@ class RequestRepository extends EntityRepository
         return $string;
     }
 
-    public function countActiveUsersForInterval($initialYear, $finalYear)
+    public function countActiveUsersForInterval($instance, $initialYear, $finalYear)
     {
-        return $this->getEntityManager()
-                        ->createQueryBuilder('request')
+        return $this->createQueryBuilder('request')
                         ->select('YEAR(request.createdAt) year')
                         ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
-                        ->where('year >= :initialYear')->setParameter('initialYear', $initialYear)
-                        ->andWhere('year <= :finalYear')->setParameter('finalYear', $finalYear)
+                        ->where('request.instance = :instance')->setParameter('instance', $instance)
                         ->groupBy('year')
                         ->orderBy('year', 'ASC')
+                        ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
+                        ->andhaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
+                        ->getQuery()
+                        ->getResult();
+    }
+
+    public function countActiveUsersForYear($instance, $year)
+    {
+        return $this->createQueryBuilder('request')
+                        ->select('MONTH(request.createdAt) month')
+                        ->addSelect('COUNT(request.owner) activeUsers')
+                        ->where('YEAR(request.createdAt) >= :year')->setParameter('year', $year)
+                        ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
+                        ->groupBy('month')
+                        ->orderBy('month', 'ASC')
+                        ->getQuery()
+                        ->getResult();
+    }
+
+    public function getYears($instance)
+    {
+        return $this->createQueryBuilder('request')
+                        ->select('YEAR(request.createdAt) year')
+                        ->where('request.instance = :instance')->setParameter('instance', $instance)
+                        ->groupBy('year')
+                        ->orderBy('year')
                         ->getQuery()
                         ->getResult();
     }

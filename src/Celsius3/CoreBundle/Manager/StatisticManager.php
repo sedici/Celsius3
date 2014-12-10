@@ -139,7 +139,7 @@ class StatisticManager
         }
         foreach ($data as $key => $item) {
             foreach ($item as $instance) {
-                $response[(string) $instance['id']][$key] = $instance['value'];
+                $response[$instance[1]][$key] = $instance['c'];
             }
         }
 

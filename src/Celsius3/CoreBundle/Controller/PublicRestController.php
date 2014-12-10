@@ -13,11 +13,11 @@
  *
  * Celsius3 is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Celsius3. If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Celsius3\CoreBundle\Controller;
@@ -37,68 +37,15 @@ class PublicRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/", name="public_rest_get_users_count_data", options={"expose"=true})
-     */
-    public function getUsersCountData()
-    {
-        //Al no crear una entidad estadistica. No es necesario pedir en la misma
-        //consulta mes y año. Separarlas en dos consultas para usar cuando se
-        //visualicen los años y otra para cuando se visualice un año especifico.
-        //***Cantidad de usuarios nuevos por mes y año
-        $em = $this->getDoctrine()->getManager();
-
-        $qb = $em->createQueryBuilder();
-        $qb->select('u.createdAt.getFullYear(), COUNT(DISTINCT(u.id))')
-                ->from('User', 'u')
-                ->groupBy('u.createdAt.getFullYear()')
-                ->orderBy('u.createdAt.getFullYear()', 'ASC');
-        $resultQB = $qb->getQuery()->getResult();
-
-        $dql = "SELECT u.createdAt.getFullYear(), u.createdAt.getMonth(), COUNT(u.id)
-        FROM Celsius3CoreBundle:BaseUser u
-        GROUP BY u.createdAt.getFullYear(), u.createdAt.getMonth()";
-        $query = $em->createQuery($dql);
-        $resultDQL = $query->getResult();
-        //***********************//
-        //***Consulta de usuarios activos por mes y año***//
-        $qb = $em->createQueryBuilder();
-        $qb->select('r.createdAt.getFullYear(), r.createdAt.getMonth(), u.id')
-                ->from('User', 'u')
-                ->distinct('u.id')
-                ->groupBy('u.createdAt.getFullYear()')
-                ->addGroupBy('u.createdAt.getMonth()')
-                ->orderBy('u.createdAt.getFullYear()', 'ASC')
-                ->addOrderBy('u.createdAt.getMonth()', 'ASC');
-        $resultQB = $qb->getQuery()->getResult();
-        //*************************************//
-
-
-        $data['total_users'][] = 'Total Users';
-        $data['active_users'][] = 'Active Users';
-        foreach ($counts as $count) {
-            $data['categories'][] = $count->getYear();
-            $data['total_users'][] = $count->getYearTotalUsers();
-            $data['active_users'][] = $count->getYearActiveUsers();
-        }
-
-        $view = $this->view($data, 200)->setFormat('json');
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
      * @Get("/years_interval", name="public_rest_get_users_count_data_for_interval", options={"expose"=true})
      */
     public function getUsersCountDataForInterval(Request $request)
     {
-        //Falta filtrar por instancia
+        $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
-
-        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($initialYear, $finalYear);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($initialYear, $finalYear);
-
+        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($instance, $initialYear, $finalYear);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $initialYear, $finalYear);
         $result = array();
         $suma = 0;
         foreach ($newUsers as $count) {
@@ -108,9 +55,7 @@ class PublicRestController extends BaseInstanceDependentRestController
         foreach ($activeUsers as $count) {
             $result[$count['year']]['activeUsers'] = $count['activeUsers'];
         }
-
         ksort($result, SORT_NUMERIC);
-
         $values = array();
         $values['newUsers'][] = 'New Users';
         $values['activeUsers'][] = 'Active Users';
@@ -121,7 +66,6 @@ class PublicRestController extends BaseInstanceDependentRestController
             $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
             $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
         }
-
         $view = $this->view($values, 200)->setFormat('json');
         return $this->handleView($view);
     }
@@ -132,27 +76,31 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getUsersCountDataForYear(Request $request)
     {
-        //Falta filtrar por instancia
+        $instance = $request->query->get('instance');
         $year = $request->query->get('year');
-
-        $yearCounts = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')
-                ->getUsersCountDataForYear($year);
-
-        $counts = $yearCounts->getCounters();
-
-        $data['total_users'][] = 'Total Users';
-        $data['active_users'][] = 'Active Users';
-        $data['new_users'][] = 'New Users';
-        foreach ($counts as $count) {
-            $data['categories'][] = \DateTime::createFromFormat('!m', $count['month'])->format('F');
-            $data['total_users'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
-            $data['active_users'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
-            $data['new_users'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
+        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($instance, $year);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $year);
+        $result = array();
+        $suma = 0;
+        foreach ($newUsers as $count) {
+            $result[$count['month']]['newUsers'] = $count['newUsers'];
+            $result[$count['month']]['totalUsers'] = $suma += $count['newUsers'];
         }
-
-        $view = $this->view($data, 200)->setFormat('json');
-
+        foreach ($activeUsers as $count) {
+            $result[$count['month']]['activeUsers'] = $count['activeUsers'];
+        }
+        ksort($result);
+        $values = array();
+        $values['newUsers'][] = 'New Users';
+        $values['activeUsers'][] = 'Active Users';
+        $values['totalUsers'][] = 'Total Users';
+        foreach ($result as $month => $count) {
+            $values['categories'][] = \DateTime::createFromFormat('!m', $month)->format('F');
+            $values['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
+            $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
+            $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
+        }
+        $view = $this->view($values, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
@@ -160,16 +108,53 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/years", name="public_rest_get_years_data", options={"expose"=true})
      */
-    public function getYearsData()
+    public function getYearsData(Request $request)
     {
-        $years = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Analytics\\UserAnalytics')->getYears();
-
-        foreach ($years as $year) {
-            $data[] = $year->getYear();
+        $instance = $request->query->get('instance');
+        $userYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getYears($instance);
+        $requestYears = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->getYears($instance);
+        foreach ($userYears as $year) {
+            $data[] = $year['year'];
         }
-
+        foreach ($requestYears as $year) {
+            $data[] = $year['year'];
+        }
+        $data = array_unique($data);
+        sort($data);
         $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
 
+    /**
+     * GET Route annotation.
+     * @Get("/", name="public_rest_get_requests_origin_data", options={"expose"=true})
+     */
+    public function getOriginRequestsCountData(Request $request)
+    {
+        $instance = $request->query->get('instance');
+        $type = $request->query->get('type');
+        $country = $request->query->get('country');
+        $institution = $request->query->get('institution');
+        $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
+        $counts = $requestRepository->countRequestsOrigin($instance, $type, $country, $institution);
+        uasort($counts, function($a, $b) {
+            if ($a['requestsCount'] == $b['requestsCount']) {
+                return 0;
+            }
+            return ($a['requestsCount'] > $b['requestsCount']) ? -1 : 1;
+        });
+        $data = array();
+        $data['requestsCount'][] = 'Requests';
+        $i = 0;
+        while ($i < 10) {
+            list(, $count) = each($counts);
+            $data['requestsCount'][] = $count['requestsCount'];
+            $data['countries'][] = (Integer) $count['institutionCountry'];
+            $data['categories'][] = $count['name'];
+            $data['ids'][] = (Integer) $count['id'];
+            $i++;
+        }
+        $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
 }
