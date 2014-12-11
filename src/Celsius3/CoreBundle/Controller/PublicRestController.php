@@ -157,4 +157,110 @@ class PublicRestController extends BaseInstanceDependentRestController
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
+
+    /**
+     * GET Route annotation.
+     * @Get("/requests_count_for_interval", name="public_rest_get_requests_count_data_for_interval", options={"expose"=true})
+     */
+    public function getRequestsCountDataForInterval(Request $request)
+    {
+        $instance = $request->query->get('instance');
+                
+        $initialYear = $request->query->get('initialYear');
+        $finalYear = $request->query->get('finalYear');
+        
+        $result = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:State')
+                ->findRequestsStateCountForInterval($instance,$initialYear,$finalYear);
+        
+        $values = array();
+        foreach ($result as $count) {
+            $values[$count['year']][$count['stateType']][] = $count['requestsCount'];
+            if(isset($values[$count['year']]['totalPages'])){
+                $values[$count['year']]['totalPages'] += $count['totalPages'];
+            } else {
+                $values[$count['year']]['totalPages'] = $count['totalPages'];
+            }
+        }
+        
+        ksort($values);
+        
+        $data = array();
+        $data['created'][] = 'Created';
+        $data['cancelled'][] = 'Cancelled';
+        $data['delivered'][] = 'Delivered';
+        $data['totalPages'][] = 'Total Pages';
+        foreach ($values as $key => $val){
+            $data['categories'][] = $key;
+            $data['created'][] = $val['created'];
+            $data['cancelled'][] = $val['cancelled'];
+            $data['delivered'][] = $val['delivered'];
+            $data['totalPages'][] = $val['totalPages'];
+        }
+        
+        $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
+     * @Get("/requests_count_for_year", name="public_rest_get_requests_count_data_for_year", options={"expose"=true})
+     */
+    public function getRequestsCountDataForYear(Request $request)
+    {
+        $instance = $request->query->get('instance');
+        $year = $request->query->get('year');
+        
+        $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->findRequestsStateCountForYear($instance,$year);
+
+        $values = array();
+        $values['created'][] = 'Created';
+        $values['cancelled'][] = 'Cancelled';
+        $values['delivered'][] = 'Delivered';
+        foreach ($result as $count) {
+            $values['categories'][] = $count['year'];
+            $values[$count['stateType']][] = $count['requestsCount'];
+        }
+        
+        $view = $this->view($values, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+    
+    
+    
+    /**
+     * GET Route annotation.
+     * @Get("/requests_destiny_distribution_for_interval", name="public_rest_get_requests_destiny_distribution_data_for_interval", options={"expose"=true})
+     */
+    public function getRequestsDestinyDistributionDataForInterval(Request $request){
+        $instance = $request->query->get('instance');
+        $initialYear = $request->query->get('initialYear');
+        $finalYear = $request->query->get('finalYear');
+        $type = $request->query->get('type');
+        
+        $result = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:State')
+                ->findRequestsDestinyDistributionForInterval($instance,$type,$initialYear,$finalYear);
+        
+        $values = array();
+        foreach ($result as $count) {
+            $values[$count['countryName']][$count['stateType']][] = $count['requestsCount'];
+        }
+        
+        ksort($values);
+        
+        $data = array();
+        $data['created'][] = 'Created';
+        $data['cancelled'][] = 'Cancelled';
+        $data['delivered'][] = 'Delivered';
+        foreach ($values as $key => $val){
+            $data['categories'][] = $key;
+            $data['created'][] = (isset($val['created'])) ? $val['created'] : 0;
+            $data['cancelled'][] = (isset($val['cancelled'])) ? $val['cancelled'] : 0;
+            $data['delivered'][] = (isset($val['delivered'])) ? $val['delivered'] : 0;
+        }
+        
+        $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
 }
