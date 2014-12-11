@@ -1,14 +1,23 @@
 <div class="row">
-    <h1>{{ title }} - {{ subtitle }}</h1>
+    <h1>{{ title}} - {{ subtitle}}</h1>
     <div class="col-sm-3">
-<!--        <div ng-include="'/ng-app/Statistics/partials/menu.html'"></div>-->
-    <ul class="nav nav-pills nav-stacked">
-      <li role="presentation" class="" style="cursor:pointer" ng-click="getUsersCountData()"><a>Users count</a></li>
-      <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsOriginData()"><a>Requests Origin</a></li>
-    </ul>
+        <!--<div ng-include="'/ng-app/Statistics/partials/menu.html'"></div>-->
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" class="" style="cursor:pointer" ng-click="getUsersCountData()"><a>Users count</a></li>
+            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsOriginData()"><a>Requests origin</a></li>
+            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsCountData()"><a>Requests count</a></li>
+        </ul>
     </div>
     <div class="col-sm-9">
-        <div ng-include="section"></div>
+        <form ng-show="searchForm">
+            <label for="initialYear">Initial year: </label>
+            <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
+
+            <label for="finalYear">Final year: </label>
+            <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+
+            <button ng-click="updateRequestsCountChart()">Show</button>
+        </form>
         <div id="chart"></div>
     </div>
 </div>
