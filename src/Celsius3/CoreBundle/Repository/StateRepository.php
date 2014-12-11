@@ -85,7 +85,7 @@ class StateRepository extends EntityRepository
     public function findRequestsStateCountForInterval($instance, $initialYear, $finalYear)
     {
         $query = $this->createQueryBuilder('x')
-                        ->select('x')
+                        ->select()
                         ->andWhere('x.type = :type')->setParameter('type', 'annulled')
                         ->andWhere('x.instance = :instance')->setParameter('instance', $instance)
                         ->innerJoin('x.request', 'r')
@@ -95,10 +95,6 @@ class StateRepository extends EntityRepository
         return $qb->addSelect('YEAR(s.createdAt) year')
                         ->addSelect('s.type stateType')
                         ->addSelect('COUNT(s.request) requestsCount')
-                        ->addSelect('( SUM(md.endPage) - SUM(md.startPage) ) totalPages')
-                        ->innerJoin('s.request', 'r')
-                        ->innerJoin('r.order','o')
-                        ->innerJoin('o.materialData','md', Join::ON, $qb->expr()->eq('md.orderId', 'o.id'))
                         ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                         ->andWhere($qb->expr()->notIn('s.request', $query))
                         ->andHaving('year >= :initialYear')->setParameter('initialYear', $initialYear)
@@ -132,9 +128,6 @@ class StateRepository extends EntityRepository
         return $qb->addSelect('MONTH(s.createdAt) year')
                         ->addSelect('s.type stateType')
                         ->addSelect('COUNT(s.request) requestsCount')
-                        ->innerJoin('s.request', 'r')
-                        ->innerJoin('r.order','o')
-                        ->innerJoin('o.materialData','md')
                         ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                         ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $year)
                         ->andWhere($qb->expr()->notIn('s.request', $query))
@@ -162,38 +155,5 @@ class StateRepository extends EntityRepository
                         ->groupBy('year')
                         ->orderBy('year', 'ASC')
                         ->getQuery()->getResult();
-    }
-    
-    public function findRequestsDestinyDistributionForInterval($instance,$type,$initialYear,$finalYear){
-        $query = $this->createQueryBuilder('x')
-            ->select('x')
-            ->andWhere('x.type = :type')->setParameter('type', 'annulled')
-            ->andWhere('x.instance = :instance')->setParameter('instance', $instance)
-            ->innerJoin('x.request', 'r')
-            ->getQuery()->getResult();
-
-        $qb = $this->createQueryBuilder('s');
-        
-        return $qb->addSelect('c.id countryId')
-            ->addSelect('c.name countryName')
-            ->addSelect('YEAR(s.createdAt) year')
-            ->addSelect('s.type stateType')
-            ->addSelect('COUNT(s.request) requestsCount')
-            ->innerJoin('s.request', 'r',Join::ON, $qb->expr()->eq('IFNULL(r.state,"")', 's'))
-            ->innerJoin('r.events','e',Join::ON, $qb->expr()->andX(
-                $qb->expr()->eq('IFNULL(e.request,"")', 'r'),
-                $qb->expr()->eq('IFNULL(e.type,"")', '"sirequest"')
-            ))
-            ->innerJoin('IFNULL(e.provider,"")','p')
-            ->innerJoin('p.country','c')
-            ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
-            ->andWhere('r.type = :type')->setParameter('type', $type)
-            ->andWhere($qb->expr()->notIn('s.request', $query))
-            ->andHaving('year >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andHaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
-            ->groupBy('countryId')
-            ->addGroupBy('stateType')
-            ->orderBy('requestsCount', 'ASC')
-            ->getQuery()->getResult();
     }
 }

@@ -2,11 +2,8 @@ var statisticsControllers = angular.module('statisticsControllers', []);
 statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.title = "Statistics";
     $scope.subtitle = "";
-    $scope.section = "";
     $scope.searchForm = true;
     $scope.years;
-    
-    //Métodos para los formularios de busqueda//
     
     $scope.getUsersCountYears = function () {
         $http.get(Routing.generate('public_rest_get_users_count_years_data') + '?instance=' + instance_id)
@@ -22,24 +19,26 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     };
     
-    $scope.getRequestsDestinyDistributionYears = function(){
-        // IMPL
-    };
-    
     $scope.initialYearChange = function () {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.initialYear = $scope.finalYear;
         }
-    }
-    
+    };
+
     $scope.finalYearChange = function () {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.finalYear = $scope.initialYear;
         }
-    }
-        
-    //Métodos de solicitud de los datos//
-
+    };
+    
+    $scope.updateUsersCountChart = function () {
+        $scope.getUsersCountDataFor($scope.initialYear, $scope.finalYear);
+    };
+    
+    $scope.updateRequestsCountChart = function () {
+        $scope.getRequestsCountDataFor($scope.initialYear, $scope.finalYear);
+    };
+    
     $scope.getUsersCountDataFor = function (initialYear, finalYear) {
         if (initialYear < finalYear)
             $scope.getUsersCountDataForInterval(initialYear, finalYear);
@@ -52,36 +51,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateUsersCountChart(response);
-                }).error(function (response) {
-            var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
-            ventana.document.write(response);
-        });
+                });
     };
     
     $scope.getUsersCountDataForYear = function (year) {
         $http.get(Routing.generate('public_rest_get_users_count_data_for_year') + '?instance=' + instance_id + '&year=' + parseInt(year))
                 .success(function (response) {
-                    $scope.data = response;
                     $scope.generateUsersCountChart(response);
-                }).error(function (response) {
-            var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
-            ventana.document.write(response);
-        });
-    };
-    
-    $scope.getRequestsOrigin = function(type,country,institution) {
-        var parameters = '';
-        if(country !== undefined) parameters += '&country=' + country;
-        if(institution !== undefined && institution !== country) parameters += '&institution=' + institution;
-        $http.get(Routing.generate('public_rest_get_requests_origin_data') + '?instance=' + instance_id + '&type=' + type + parameters)
-                .success(function (response) {
-                    if(response.ids !== undefined && response.ids.length > 0 && response.categories.length > 0){
-                        $scope.ids = response.ids;
-                        $scope.countries = response.countries;
-                        $scope.generateRequestsOriginChart(response);
-                    } else {
-                        alert('No hay Sub-Dependencias');
-                    }
+                    $scope.data = response;
                 });
     }
     
@@ -157,6 +134,25 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     };
     
+    $scope.getRequestsOrigin = function(type,country,institution) {
+        var parameters = '';
+        if(country !== undefined) parameters += '&country=' + country;
+        if(institution !== undefined && institution !== country) parameters += '&institution=' + institution;
+        $http.get(Routing.generate('public_rest_get_requests_origin_data') + '?instance=' + instance_id + '&type=' + type + parameters)
+                .success(function (response) {
+                    if(response.ids !== undefined && response.ids.length > 0 && response.categories.length > 0){
+                        $scope.ids = response.ids;
+                        $scope.countries = response.countries;
+                        $scope.generateRequestsOriginChart(response);
+                    } else {
+                        alert('No hay Sub-Dependencias');
+                    }
+                }).error(function(response){
+                    var ventana = window.open("", "_blank", "toolbar=no, scrollbars=yes, resizable=yes, top=10, left=10, width=1000, height=800");
+                    ventana.document.write(response);
+                });
+    }
+    
     $scope.generateRequestsOriginChart = function(data) {
         var chart = c3.generate({
             bindto: '#chart',
@@ -165,8 +161,8 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     data.requestsCount
                 ],
                 type: 'bar',
-                onclick: function (d) {
-                    $scope.getRequestsOrigin('search', $scope.countries[d.index], $scope.ids[d.index]);
+                onclick: function(d) {
+                    $scope.getRequestsOrigin('search',$scope.countries[d.index],$scope.ids[d.index]);
                 }
             },
             axis: {
@@ -182,6 +178,29 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     };
     
+    $scope.getRequestsCountDataFor = function(initialYear,finalYear) {
+        if (initialYear < finalYear)
+            $scope.getRequestsCountDataForInterval(initialYear, finalYear);
+        if (initialYear === finalYear)
+            $scope.getRequestsCountDataForYear(initialYear);
+    }
+    
+    $scope.getRequestsCountDataForInterval = function (initialYear, finalYear) {
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for_interval') + '?instance=' + instance_id + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+            .success(function (response) {
+                $scope.data = response;
+                $scope.generateRequestsCountChart(response);
+            });
+    };
+    
+    $scope.getRequestsCountDataForYear = function (year) {
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for_year') + '?instance=' + instance_id + '&year=' + parseInt(year))
+            .success(function (response) {
+                $scope.generateRequestsCountChart(response);
+                $scope.data = response;
+            });
+    };
+    
     $scope.generateRequestsCountChart = function(data) {
         var chart = c3.generate({
             bindto: '#chart',
@@ -189,13 +208,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                 columns: [
                     data.cancelled,
                     data.created,
-                    data.delivered,
-                    data.totalPages
+                    data.delivered
                 ],
                 type: 'bar',
-                types: {
-                    'Total Pages': line
-                }
 //                groups: [
 //                    ['Cancelled', 'Delivered','Created']
 //                ]
@@ -214,70 +229,32 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     }
     
-    $scope.generateRequestsDestinyDistributionChart = function(data) {
-        var chart = c3.generate({
-            bindto: '#chart',
-            data: {
-                columns: [
-                    data.cancelled,
-                    data.created,
-                    data.delivered
-                ],
-                type: 'bar',
-//                groups: [
-//                    ['Cancelled', 'Delivered','Created']
-//                ]
-            },
-            axis: {
-                x: {
-                    type: 'category',
-                    categories: data.categories
-                }
-            },
-            grid: {
-                y: {
-                    lines: [{value:0}]
-                }
-            }
-        });
-    }
-    
-    //Métodos de actualización del grafico//
-    
-    $scope.updateUsersCountChart = function () {
-        $scope.getUsersCountDataFor($scope.initialYear, $scope.finalYear);
-    };
-    
-    $scope.updateRequestsCountChart = function () {
-        $scope.getRequestsCountDataFor($scope.initialYear, $scope.finalYear);
-    };
-    
-    //Métodos de inicialización//
+    //Funciones de inicialización//
     
     $scope.getUsersCountData = function(){
         $scope.getUsersCountYears();
         $scope.getUsersCountDataFor(0, 3000);
-        $scope.section = '/ng-app/Statistics/partials/usersCount.html';
         $scope.subtitle = 'Users count';
+        $scope.searchForm = true;
     };
     
-    $scope.getRequestsOriginData = function () {
+    $scope.getRequestsOriginData = function(){
         $scope.getRequestsOrigin('search');
-        $scope.section = '/ng-app/Statistics/partials/requestsOrigin.html';
         $scope.subtitle = 'Requests origin';
+        $scope.searchForm = false;
     };
     
-    $scope.getRequestsDestinyDistributionData = function(){
-        $scope.getRequestsDestinyDistributionYears();
-        $scope.getRequestsDestinyDistributionDataFor('search',0,3000);
-        $scope.subtitle = 'Requests destiny distribution';
+    $scope.getRequestsCountData = function() {
+        $scope.getRequestsCountYears();
+        $scope.getRequestsCountDataFor(0, 3000);
+        $scope.subtitle = 'Requests count';
         $scope.searchForm = true;
     };
     
     $scope.start = function (){
-//        $scope.getUsersCountData();
-        $scope.getRequestsDestinyDistributionData();
+        $scope.getUsersCountData();
     };
     
     $scope.start();
+    
 });

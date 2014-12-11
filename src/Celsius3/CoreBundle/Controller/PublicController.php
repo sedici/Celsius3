@@ -172,7 +172,7 @@ class PublicController extends BaseInstanceDependentController
 
         return new Response(json_encode($response));
     }
-
+    
     protected function getChildrenInstitution($institutions, $level)
     {
         $em = $this->getDoctrine()->getManager();
