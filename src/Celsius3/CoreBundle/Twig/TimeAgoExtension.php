@@ -26,7 +26,7 @@ use Twig_Extension;
 use Twig_Filter_Method;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToTimestampTransformer;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\LoggingTranslator AS Translator;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 class TimeAgoExtension extends \Twig_Extension
