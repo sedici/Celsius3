@@ -36,10 +36,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         if ($scope.finalYear < $scope.initialYear) {
             $scope.finalYear = $scope.initialYear;
         }
-    }
-        
-    //Métodos de solicitud de los datos//
 
+    };
+    
+    //Métodos de solicitud de los datos//
+    
     $scope.getUsersCountDataFor = function (initialYear, finalYear) {
         if (initialYear < finalYear)
             $scope.getUsersCountDataForInterval(initialYear, finalYear);
@@ -69,6 +70,53 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     };
     
+    $scope.getRequestsOrigin = function(type,country,institution) {
+        var parameters = '';
+        if(country !== undefined) parameters += '&country=' + country;
+        if(institution !== undefined && institution !== country) parameters += '&institution=' + institution;
+        $http.get(Routing.generate('public_rest_get_requests_origin_data') + '?instance=' + instance_id + '&type=' + type + parameters)
+                .success(function (response) {
+                    if(response.ids !== undefined && response.ids.length > 0 && response.categories.length > 0){
+                        $scope.ids = response.ids;
+                        $scope.countries = response.countries;
+                        $scope.generateRequestsOriginChart(response);
+                    } else {
+                        alert('No hay Sub-Dependencias');
+                    }
+                });
+    }
+    
+    $scope.getRequestsCountDataFor = function(initialYear,finalYear) {
+        if (initialYear < finalYear)
+            $scope.getRequestsCountDataForInterval(initialYear, finalYear);
+        if (initialYear === finalYear)
+            $scope.getRequestsCountDataForYear(initialYear);
+    }
+    
+    $scope.getRequestsCountDataForInterval = function (initialYear, finalYear) {
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for_interval') + '?instance=' + instance_id + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+            .success(function (response) {
+                $scope.data = response;
+                $scope.generateRequestsCountChart(response);
+            });
+    };
+    
+    $scope.getRequestsCountDataForYear = function (year) {
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for_year') + '?instance=' + instance_id + '&year=' + parseInt(year))
+            .success(function (response) {
+                $scope.generateRequestsCountChart(response);
+                $scope.data = response;
+            });
+    };
+    
+    $scope.getRequestsDestinyDistributionDataFor = function(type,initialYear,finalYear){
+        if (initialYear < finalYear)
+            $scope.getRequestsDestinyDistributionDataForInterval(type,initialYear, finalYear);
+        if (initialYear === finalYear)
+            $scope.getRequestsDestinyDistributionDataForYear(type,initialYear);
+    };
+    
+
     $scope.getRequestsOrigin = function(type,country,institution) {
         var parameters = '';
         if(country !== undefined) parameters += '&country=' + country;
@@ -265,6 +313,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.getRequestsOrigin('search');
         $scope.section = '/ng-app/Statistics/partials/requestsOrigin.html';
         $scope.subtitle = 'Requests origin';
+    };
+    
+    $scope.getRequestsDestinyDistributionData = function(){
+        $scope.getRequestsDestinyDistributionYears();
+        $scope.getRequestsDestinyDistributionDataFor('search',0,3000);
+        $scope.subtitle = 'Requests destiny distribution';
+        $scope.searchForm = true;
     };
     
     $scope.getRequestsDestinyDistributionData = function(){
