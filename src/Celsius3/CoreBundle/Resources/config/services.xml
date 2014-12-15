@@ -8,7 +8,7 @@
         <parameter key="twig.extension.text.class">Twig_Extensions_Extension_Text</parameter>
         <parameter key="twig.extension.intl.class">Twig_Extensions_Extension_Intl</parameter>
         <parameter key="twig.extension.string_loader.class">Twig_Extension_StringLoader</parameter>
-        <parameter key="celsius3_core.twig.extension.timeago_extension.class">Celsius3\CoreBundle\Twig\TimeAgoExtension</parameter>
+        <parameter key="salavert.twig.time_ago.class">Salavert\Twig\Extension\TimeAgoExtension</parameter>
         <parameter key="celsius3_core.twig.extension.administration.class">Celsius3\CoreBundle\Twig\AdministrationExtension</parameter>
         <parameter key="celsius3_core.twig.extension.institution.class">Celsius3\CoreBundle\Twig\InstitutionExtension</parameter>
         <parameter key="celsius3_core.twig.extension.states.class">Celsius3\CoreBundle\Twig\StateExtension</parameter>
@@ -72,7 +72,7 @@
             <tag name="twig.extension" />
         </service>
 
-        <service id="celsius3_core.twig.extension.timeago_extension" class="%celsius3_core.twig.extension.timeago_extension.class%">
+        <service id="salavert.twig.time_ago" class="%salavert.twig.time_ago.class%">
             <argument type="service" id="translator"></argument>
             <tag name="twig.extension" />
         </service>

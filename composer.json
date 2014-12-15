@@ -42,7 +42,8 @@
         "react/zmq": "0.1.*",
         "sp/bower-bundle": "dev-master",
         "umpirsky/composer-permissions-handler": "~1.0",
-        "beberlei/DoctrineExtensions": "*"
+        "beberlei/DoctrineExtensions": "*",
+        "salavert/time-ago-in-words": "1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
