@@ -94,4 +94,46 @@ class RequestRepository extends EntityRepository
                         ->getQuery()
                         ->getResult();
     }
+
+    public function findRequestsDestinyDistributionForInterval($instance, $type, $initialYear, $finalYear)
+    {
+        $this->createQueryBuilder('p')
+                ->addSelect('c.id countryId')
+                ->addSelect('c.name countryName')
+                ->addSelect('YEAR(s.createdAt) year')
+                ->addSelect('s.type stateType')
+                ->addSelect('COUNT(s.request) requestsCount')
+                ->innerJoin();
+    }
+
+    public function findRequestsNumberByPublicationYearForInterval($instance, $type, $initialYear, $finalYear)
+    {
+        return $this->createQueryBuilder('r')
+            ->addSelect('md.year materialDataYear')
+            ->addSelect('COUNT(md.id) materialDataCount')
+            ->innerJoin('r.order', 'o')
+            ->innerJoin('o.materialData', 'md')
+            ->andWhere('r.instance = :instance')->setParameter('instance',$instance)
+            ->andWhere('r.type = :type')->setParameter('type',$type)
+            ->groupBy('materialDataYear')
+            ->orderBy('materialDataYear', 'ASC')
+            ->andHaving('YEAR(r.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+            ->andHaving('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear)
+            ->getQuery()->getResult();
+    }
+
+    public function findRequestsNumberByPublicationYearForYear($instance, $type, $year)
+    {
+        return $this->createQueryBuilder('r')
+            ->addSelect('md.year materialDataYear')
+            ->addSelect('COUNT(md.id) materialDataCount')
+            ->innerJoin('r.order', 'o')
+            ->innerJoin('o.materialData', 'md')
+            ->andWhere('r.instance = :instance')->setParameter('instance',$instance)
+            ->andWhere('r.type = :type')->setParameter('type',$type)
+            ->andWhere('YEAR(r.cratedAt) = :year')->setParameter('year', $year)
+            ->groupBy('materialDataYear')
+            ->orderBy('materialDataYear', 'ASC')
+            ->getQuery()->getResult();
+    }
 }

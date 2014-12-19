@@ -182,6 +182,27 @@ class PublicRestController extends BaseInstanceDependentRestController
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
+    
+    /**
+     * GET Route annotation.
+     * @Get("/requests_number_years", name="public_rest_get_requests_number_by_publication_year_years_data", options={"expose"=true})
+     */
+    public function getRequestsNumberByPublicationYearYearsData(Request $request)
+    {
+        $instance = $request->query->get('instance');
+
+        $years = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->getYears($instance);//Cambiar método
+
+        foreach ($years as $year) {
+            $data[] = $year['year'];
+        }
+
+        $data = array_unique($data);
+        sort($data);
+
+        $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
 
     /**
      * GET Route annotation.
@@ -230,21 +251,31 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getRequestsCountDataForInterval(Request $request)
     {
         $instance = $request->query->get('instance');
-
+        $type = $request->query->get('type');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
 
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')
-                ->findRequestsStateCountForInterval($instance, $initialYear, $finalYear);
-
+                ->findRequestsStateCountForInterval($instance,$type,$initialYear, $finalYear);
+        
+        $rows = array();
+        foreach ($result as $count) {
+            $rows[$count['year']][$count['stateType']]['requestCount'] = $count['requestsCount'];
+            $rows[$count['year']][$count['stateType']]['totalPages'] = intval($count['endPage']) - intval($count['startPage']);
+        }
+        
         $values = array();
         $values['created'][] = 'Created';
         $values['cancelled'][] = 'Cancelled';
         $values['delivered'][] = 'Delivered';
-        foreach ($result as $count) {
-            $values['categories'][] = $count['year'];
-            $values[$count['stateType']][] = $count['requestsCount'];
+        $values['totalPages'][] = 'Total Pages';
+        foreach ($rows as $key => $row) {
+            $values['categories'][] = $key;
+            $values['created'][] = (isset($row['created']))? $row['created']['requestCount'] : 0;
+            $values['cancelled'][] = (isset($row['cancelled']))? $row['cancelled']['requestCount'] : 0;
+            $values['delivered'][] = (isset($row['delivered']))? $row['delivered']['requestCount'] : 0;
+            $values['totalPages'][] = (isset($row['delivered']))? $row['delivered']['totalPages'] : 0;
         }
 
         $view = $this->view($values, 200)->setFormat('json');
@@ -258,6 +289,7 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getRequestsCountDataForYear(Request $request)
     {
         $instance = $request->query->get('instance');
+        $type = $request->query->get('type');
         $year = $request->query->get('year');
 
         $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->findRequestsStateCountForYear($instance, $year);
@@ -307,9 +339,66 @@ class PublicRestController extends BaseInstanceDependentRestController
             $data['cancelled'][] = (isset($val['cancelled'])) ? $val['cancelled'] : 0;
             $data['delivered'][] = (isset($val['delivered'])) ? $val['delivered'] : 0;
         }
-
+        
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
-
+    
+    /**
+     * GET Route annotation.
+     * @Get("/requests_number_publication_year_for_interval", name="public_rest_get_requests_number_by_publication_year_data_for_interval", options={"expose"=true})
+     */
+    public function getRequestsNumberByPublicationYearDataForInterval(Request $request)
+    {
+        $instance = $request->query->get('instance');
+        $initialYear = $request->query->get('initialYear');
+        $finalYear = $request->query->get('finalYear');
+        $type = $request->query->get('type');
+        
+        $result = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->findRequestsNumberByPublicationYearForInterval($instance, $type, $initialYear, $finalYear);
+        
+        $data = array();
+        $data['categories'][] = 'Cantidad';
+        foreach ($result as $row) {
+            $data['categories'][] = $row['materialDataYear'];
+            $data['counts'][] = $row['materialDataCount'];
+        }
+        for ($i=1; $i <= ( count($data['categories']) / 15 ); $i++){
+            $data['tickValue'][] = $i * 15;
+        }
+        
+        $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+    
+    /**
+     * GET Route annotation.
+     * @Get("/requests_number_publication_year_for_year", name="public_rest_get_requests_number_by_publication_year_data_for_year", options={"expose"=true})
+     */
+    public function getRequestsNumberByPublicationYearDataForYear(Request $request)
+    {
+        $instance = $request->query->get('instance');
+        $year = $request->query->get('year');
+        $type = $request->query->get('type');
+        
+        $result = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->findRequestsNumberByPublicationYearForYear($instance, $type, $year);
+        
+        $data = array();
+        $data['categories'][] = 'Cantidad';
+        foreach ($result as $row) {
+            $data['categories'][] = $row['materialDataYear'];
+            $data['counts'][] = $row['materialDataCount'];
+        }
+        
+        for ($i=1; $i <= ( count($data['categories']) / 15 ); $i++){
+                $data['tickValue'][] = $i * 15;
+        }
+        
+        $view = $this->view($data, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
 }

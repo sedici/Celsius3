@@ -6,17 +6,19 @@
             <li role="presentation" class="" style="cursor:pointer" ng-click="getUsersCountData()"><a>Users count</a></li>
             <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsOriginData()"><a>Requests origin</a></li>
             <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsCountData()"><a>Requests count</a></li>
+            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsDestinyDistributionData()"><a>Requests destiny distribution</a></li>
+            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsNumberByPublicationYearData()"><a>Number of requests by publication year</a></li>
         </ul>
     </div>
-    <div class="col-sm-9">
+    <div class="col-sm-9" >
         <form ng-show="searchForm">
             <label for="initialYear">Initial year: </label>
             <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
 
             <label for="finalYear">Final year: </label>
             <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
-
-            <button ng-click="updateRequestsCountChart()">Show</button>
+            
+            <button id="updateChart" ng-click="updateChart()">Show</button>
         </form>
         <div id="chart"></div>
     </div>
