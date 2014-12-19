@@ -50,10 +50,10 @@ class PublicRestController extends BaseInstanceDependentRestController
         $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $type, $initialYear, $finalYear);
 
         $result = array();
-        $suma = 0;
         foreach ($newUsers as $count) {
             $result[$count['year']]['newUsers'] = $count['newUsers'];
-            $result[$count['year']]['totalUsers'] = $suma += $count['newUsers'];
+            $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getTotalUsersUntilYear($instance,$count['year']);
+            $result[$count['year']]['totalUsers'] = $newUsers['newUsers'];
         }
         foreach ($activeUsers as $count) {
             $result[$count['year']]['activeUsers'] = $count['activeUsers'];
