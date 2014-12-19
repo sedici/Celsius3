@@ -6,6 +6,8 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.years;
     $scope.requestType = 'search';
     $scope.actualMethod = '';
+    $scope.provisionClass = '';
+    $scope.searchClass = 'active';
 
     $scope.getUsersCountYears = function () {
         $http.get(Routing.generate('public_rest_get_users_count_years_data') + '?instance=' + instance_id)
@@ -47,25 +49,47 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         }
     };
 
+    $scope.setTypeSearch = function () {
+        $scope.searchClass = 'active';
+        $scope.provisionClass = '';
+        $scope.requestType = 'search';
+        $scope.updateChart();
+    }
+
+    $scope.setTypeProvision = function () {
+        $scope.searchClass = '';
+        $scope.provisionClass = 'active';
+        $scope.requestType = 'provision';
+        $scope.updateChart();
+    }
+
     //Métodos de solicitud de los datos//
 
-    $scope.getUsersCountDataFor = function (initialYear, finalYear) {
+    //Pasar los años final e inicial siempre y realizar el control de los años
+    //en la creación de la consulta para reducir la cantidad de funciones en el
+    //cliente yen el servidor reduciendo tambien e codigo repetido y simplificar
+    //la generalización del codigo.
+
+    $scope.getUsersCountDataFor = function (type, initialYear, finalYear) {
+        initialYear = (initialYear === undefined) ? 0 : initialYear;
+        finalYear = (finalYear === undefined) ? 3000 : finalYear;
+
         if (initialYear < finalYear)
-            $scope.getUsersCountDataForInterval(initialYear, finalYear);
+            $scope.getUsersCountDataForInterval(type, initialYear, finalYear);
         if (initialYear === finalYear)
-            $scope.getUsersCountDataForYear(initialYear);
+            $scope.getUsersCountDataForYear(type, initialYear);
     };
 
-    $scope.getUsersCountDataForInterval = function (initialYear, finalYear) {
-        $http.get(Routing.generate('public_rest_get_users_count_data_for_interval') + '?instance=' + instance_id + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+    $scope.getUsersCountDataForInterval = function (type, initialYear, finalYear) {
+        $http.get(Routing.generate('public_rest_get_users_count_data_for_interval') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateUsersCountChart(response);
                 });
     };
 
-    $scope.getUsersCountDataForYear = function (year) {
-        $http.get(Routing.generate('public_rest_get_users_count_data_for_year') + '?instance=' + instance_id + '&year=' + parseInt(year))
+    $scope.getUsersCountDataForYear = function (type, year) {
+        $http.get(Routing.generate('public_rest_get_users_count_data_for_year') + '?instance=' + instance_id + '&type=' + type + '&year=' + parseInt(year))
                 .success(function (response) {
                     $scope.generateUsersCountChart(response);
                     $scope.data = response;
@@ -91,6 +115,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     }
 
     $scope.getRequestsCountDataFor = function (type, initialYear, finalYear) {
+        initialYear = (initialYear === undefined) ? 0 : initialYear;
+        finalYear = (finalYear === undefined) ? 3000 : finalYear;
+        
         if (initialYear < finalYear)
             $scope.getRequestsCountDataForInterval(type, initialYear, finalYear);
         if (initialYear === finalYear)
@@ -138,8 +165,8 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.getRequestsNumberByPublicationYearDataFor = function (type, initialYear, finalYear) {
-        initialYear = (initialYear === undefined)? 0 : initialYear;
-        finalYear = (finalYear === undefined)? 3000 : finalYear;
+        initialYear = (initialYear === undefined) ? 0 : initialYear;
+        finalYear = (finalYear === undefined) ? 3000 : finalYear;
         if (initialYear < finalYear)
             $scope.getRequestsNumberByPublicationYearDataForInterval(type, initialYear, finalYear);
         if (initialYear == finalYear)
@@ -220,15 +247,15 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                 columns: [
                     data.cancelled,
                     data.created,
-                    data.delivered,
-                    data.totalPages
+                    data.delivered
                 ],
-                types: {
-                    'Total Pages': 'line',
-                    'Cancelled': 'bar',
-                    'Created': 'bar',
-                    'Delivered': 'bar'
-                },
+                type: 'bar'
+//                types: {
+//                    'Total Pages': 'line',
+//                    'Cancelled': 'bar',
+//                    'Created': 'bar',
+//                    'Delivered': 'bar'
+//                },
 //                axes: {
 //                    'Total Pages': 'TP'
 //                }
@@ -236,15 +263,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             axis: {
                 x: {
                     type: 'category',
-                    categories: $.unique(data.categories),
-                    label: 'Años'
+                    categories: data.categories,
+                    label: 'Years'
                 },
                 y: {
                     label: 'Requests count for type'
-                },
-                y2: {
-                    show: true,
-                    label: 'Total Pages'
                 }
             },
             grid: {
@@ -278,21 +301,21 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     }
 
     //Métodos de actualización de gráfico//
-    
-    $scope.updateChart = function() {
+
+    $scope.updateChart = function () {
         eval($scope.actualMethod);
     };
-    
+
     $scope.updateUsersCountChart = function () {
-        $scope.getUsersCountDataFor($scope.initialYear, $scope.finalYear);
+        $scope.getUsersCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
     };
 
     $scope.updateRequestsCountChart = function () {
-        $scope.getRequestsCountDataFor($scope.initialYear, $scope.finalYear);
+        $scope.getRequestsCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
     };
-    
+
     $scope.updateRequestsNumberByPublicationYearChart = function () {
-        $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType,$scope.initialYear, $scope.finalYear);
+        $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
     };
 
     //Funciones de inicialización//
@@ -300,12 +323,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.getUsersCountData = function () {
         $scope.actualMethod = '$scope.updateUsersCountChart()';
         $scope.getUsersCountYears();
-        $scope.getUsersCountDataFor(0, 3000);
+        $scope.getUsersCountDataFor($scope.requestType, $scope.initialYear,$scope.finalYear);
         $scope.subtitle = 'Users count';
         $scope.searchForm = true;
     };
 
     $scope.getRequestsOriginData = function () {
+        $scope.actualMethod = '$scope.getRequestsOrigin($scope.requestType)';
         $scope.getRequestsOrigin($scope.requestType);
         $scope.subtitle = 'Requests origin';
         $scope.searchForm = false;
@@ -314,14 +338,15 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.getRequestsCountData = function () {
         $scope.actualMethod = '$scope.updateRequestsCountChart()';
         $scope.getRequestsCountYears();
-        $scope.getRequestsCountDataFor('search', 0, 3000);
+        $scope.getRequestsCountDataFor($scope.requestType, $scope.initialYear,$scope.finalYear);
         $scope.subtitle = 'Requests count';
         $scope.searchForm = true;
     };
 
     $scope.getRequestsDestinyDistributionData = function () {
+        $scope.actualMethod = '$scope.getRequestsDestinyDistributionDataFor($scope.requestType, 0, 3000)';
         $scope.getRequestsDestinyDistributionYears();
-        $scope.getRequestsDestinyDistributionDataFor($scope.requestType,0,3000);
+        $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear,$scope.finalYear);
         $scope.subtitle = 'Requests destiny distribution';
         $scope.searchForm = true;
     };
@@ -329,7 +354,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.getRequestsNumberByPublicationYearData = function () {
         $scope.actualMethod = '$scope.updateRequestsNumberByPublicationYearChart()';
         $scope.getRequestsNumberByPublicationYearYears();
-        $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType,0,3000);
+        $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType, $scope.initialYear,$scope.finalYear);
         $scope.subtitle = 'Number of requests by publication year';
         $scope.searchForm = true;
     }

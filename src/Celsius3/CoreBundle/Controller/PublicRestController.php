@@ -42,11 +42,12 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getUsersCountDataForInterval(Request $request)
     {
         $instance = $request->query->get('instance');
+        $type = $request->query->get('type');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
 
         $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($instance, $initialYear, $finalYear);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $initialYear, $finalYear);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $type, $initialYear, $finalYear);
 
         $result = array();
         $suma = 0;
@@ -82,10 +83,11 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getUsersCountDataForYear(Request $request)
     {
         $instance = $request->query->get('instance');
+        $type = $request->query->get('type');
         $year = $request->query->get('year');
 
         $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($instance, $year);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $year);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $type, $year);
 
 
         $result = array();
@@ -292,7 +294,7 @@ class PublicRestController extends BaseInstanceDependentRestController
         $type = $request->query->get('type');
         $year = $request->query->get('year');
 
-        $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->findRequestsStateCountForYear($instance, $year);
+        $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->findRequestsStateCountForYear($instance,$type, $year);
 
         $values = array();
         $values['created'][] = 'Created';

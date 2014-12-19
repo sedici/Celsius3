@@ -1,5 +1,13 @@
 <div class="row">
     <h1>{{ title}} - {{ subtitle}}</h1>
+    <div class="row">
+        <div class="col-sm-9 col-sm-offset-3">
+            <ul class="nav nav-tabs">
+                <li class="{{ searchClass }}" ng-click="setTypeSearch()" style="cursor:pointer"><a>Search</a></li>
+                <li class="{{ provisionClass }}" ng-click="setTypeProvision()" style="cursor:pointer"><a>Provision</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="col-sm-3">
         <!--<div ng-include="'/ng-app/Statistics/partials/menu.html'"></div>-->
         <ul class="nav nav-pills nav-stacked">
@@ -11,13 +19,14 @@
         </ul>
     </div>
     <div class="col-sm-9" >
+
         <form ng-show="searchForm">
             <label for="initialYear">Initial year: </label>
             <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
 
             <label for="finalYear">Final year: </label>
             <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
-            
+
             <button id="updateChart" ng-click="updateChart()">Show</button>
         </form>
         <div id="chart"></div>

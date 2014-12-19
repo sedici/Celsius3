@@ -57,12 +57,13 @@ class RequestRepository extends EntityRepository
         return $string;
     }
 
-    public function countActiveUsersForInterval($instance, $initialYear, $finalYear)
+    public function countActiveUsersForInterval($instance, $type, $initialYear, $finalYear)
     {
         return $this->createQueryBuilder('request')
                         ->select('YEAR(request.createdAt) year')
                         ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
                         ->where('request.instance = :instance')->setParameter('instance', $instance)
+                        ->andWhere('request.type = :type')->setParameter('type', $type)
                         ->groupBy('year')
                         ->orderBy('year', 'ASC')
                         ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
@@ -71,13 +72,14 @@ class RequestRepository extends EntityRepository
                         ->getResult();
     }
 
-    public function countActiveUsersForYear($instance, $year)
+    public function countActiveUsersForYear($instance, $type, $year)
     {
         return $this->createQueryBuilder('request')
                         ->select('MONTH(request.createdAt) month')
                         ->addSelect('COUNT(request.owner) activeUsers')
                         ->where('YEAR(request.createdAt) >= :year')->setParameter('year', $year)
                         ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
+                        ->andWhere('request.type = :type')->setParameter('type', $type)
                         ->groupBy('month')
                         ->orderBy('month', 'ASC')
                         ->getQuery()

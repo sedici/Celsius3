@@ -112,7 +112,7 @@ class StateRepository extends EntityRepository
                         ->getQuery()->getResult();
     }
 
-    public function findRequestsStateCountForYear($instance, $year)
+    public function findRequestsStateCountForYear($instance, $type, $year)
     {
         $query = $this->createQueryBuilder('x')
                         ->select()
@@ -135,7 +135,7 @@ class StateRepository extends EntityRepository
                         ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                         ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $year)
                         ->andWhere($qb->expr()->notIn('s.request', $query))
-                        ->andWhere('r.type = :type')->setParameter('type', 'provision')
+                        ->andWhere('r.type = :type')->setParameter('type', $type)
                         ->addGroupBy('year')
                         ->addGroupBy('s.type')
                         ->addOrderBy('year', 'ASC')
