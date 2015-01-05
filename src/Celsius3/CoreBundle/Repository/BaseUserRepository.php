@@ -155,11 +155,11 @@ class BaseUserRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('user');
         
-        if($initialYear === $finalYear){
+        if($initialYear === $finalYear) {
             $qb = $qb->select('MONTH(user.createdAt) axisValue')
                     ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
         }
-        if($initialYear < $finalYear){
+        if($initialYear < $finalYear) {
             $qb = $qb->addSelect('YEAR(user.createdAt) axisValue')
                     ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                     ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
@@ -173,15 +173,21 @@ class BaseUserRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getTotalUsersUntilYear($instance, $year)
+    public function getTotalUsersUntil($instance, $initialYear, $finalYear, $axisValue)
     {
+        $date = \DateTime::createFromFormat('Y',$axisValue);
+        if ($initialYear === $finalYear) {
+            $date = \DateTime::createFromFormat('Y', $initialYear);
+            $date->add(new \DateInterval('P'.$axisValue.'M'));
+        }
+        
         return $this->createQueryBuilder('user')
                         ->select('COUNT(user.id) newUsers')
                         ->where('user.instance = :instance')->setParameter('instance', $instance)
-                        ->andWhere('YEAR(user.createdAt) <= :year')->setParameter('year', $year)
+                        ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
                         ->getQuery()->getSingleResult();
     }
-
+    
     public function getYears($instance)
     {
         return $this->createQueryBuilder('user')

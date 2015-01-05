@@ -14,6 +14,8 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.years;
     $scope.currentYear = new Date().getFullYear();
     $scope.requestType = 'search';
+    $scope.initialYear = 0;
+    $scope.finalYear = 3000;
     $scope.actualMethod = function() {};
     $scope.provisionClass = '';
     $scope.searchClass = 'active';
@@ -254,6 +256,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     //Métodos de actualización de gráfico//
 
     $scope.updateChart = function () {
+//        $scope.actualMethod();
         $scope.actualMethod();
     };
 
