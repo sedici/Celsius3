@@ -42,12 +42,11 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getUsersCountDataForInterval(Request $request)
     {
         $instance = $request->query->get('instance');
-        $type = $request->query->get('type');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
 
         $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($instance, $initialYear, $finalYear);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $type, $initialYear, $finalYear);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $initialYear, $finalYear);
 
         $result = array();
         foreach ($newUsers as $count) {
@@ -83,11 +82,10 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getUsersCountDataForYear(Request $request)
     {
         $instance = $request->query->get('instance');
-        $type = $request->query->get('type');
         $year = $request->query->get('year');
 
         $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($instance, $year);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $type, $year);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $year);
 
 
         $result = array();

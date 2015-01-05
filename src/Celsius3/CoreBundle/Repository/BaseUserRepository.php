@@ -168,16 +168,19 @@ class BaseUserRepository extends EntityRepository
     public function countNewUsersForYear($instance, $year)
     {
         return $this->createQueryBuilder('user')
-                        ->select('MONTH(user.createdAt) month')
+                        ->select('YEAR(user.createdAt) year')
+                        ->addSelect('MONTH(user.createdAt) month')
                         ->addSelect('COUNT(user.id) newUsers')
-                        ->where('YEAR(user.createdAt) >= :y')->setParameter('y', $year)
+                        ->where('YEAR(user.createdAt) = :y')->setParameter('y', $year)
                         ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
-                        ->groupBy('month')
-                        ->orderBy('month', 'ASC')
+                        ->groupBy('year')
+                        ->addGroupBy('month')
+                        ->orderBy('year', 'ASC')
+                        ->addOrderBy('month', 'ASC')
                         ->getQuery()
                         ->getResult();
     }
-    
+
     public function getTotalUsersUntilYear($instance, $year)
     {
         return $this->createQueryBuilder('user')
@@ -186,7 +189,7 @@ class BaseUserRepository extends EntityRepository
                         ->andWhere('YEAR(user.createdAt) <= :year')->setParameter('year', $year)
                         ->getQuery()->getSingleResult();
     }
-    
+
     public function getYears($instance)
     {
         return $this->createQueryBuilder('user')
