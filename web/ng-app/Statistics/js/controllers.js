@@ -74,37 +74,17 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
     //Métodos de solicitud de los datos//
 
-    //Pasar los años final e inicial siempre y realizar el control de los años
-    //en la creación de la consulta para reducir la cantidad de funciones en el
-    //cliente yen el servidor reduciendo tambien e codigo repetido y simplificar
-    //la generalización del codigo.
-
     $scope.getUsersCountDataFor = function (type, initialYear, finalYear) {
+        
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
-
-        if (initialYear < finalYear) {
-            $scope.getUsersCountDataForInterval(type, initialYear, finalYear);
-        } else if (initialYear === finalYear) {
-            $scope.getUsersCountDataForYear(type, initialYear);
-        }
-    };
-
-    $scope.getUsersCountDataForInterval = function (type, initialYear, finalYear) {
-        $http.get(Routing.generate('public_rest_get_users_count_data_for_interval') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+        type = _.isUndefined(type) ? 'search' : type;
+        
+        $http.get(Routing.generate('public_rest_get_users_count_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
-                    $scope.data = response;
                     $scope.generateUsersCountChart(response);
                 });
     };
-
-    $scope.getUsersCountDataForYear = function (type, year) {
-        $http.get(Routing.generate('public_rest_get_users_count_data_for_year') + '?instance=' + instance_id + '&type=' + type + '&year=' + parseInt(year))
-                .success(function (response) {
-                    $scope.data = response;
-                    $scope.generateUsersCountChart(response);
-                });
-    }
 
     $scope.getRequestsOrigin = function (type, country, institution) {
         var parameters = '';
@@ -129,79 +109,31 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.getRequestsCountDataFor = function (type, initialYear, finalYear) {
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
-
-        if (initialYear < finalYear) {
-            $scope.getRequestsCountDataForInterval(type, initialYear, finalYear);
-        } else if (initialYear === finalYear) {
-            $scope.getRequestsCountDataForYear(type, initialYear);
-        }
-    }
-
-    $scope.getRequestsCountDataForInterval = function (type, initialYear, finalYear) {
-        $http.get(Routing.generate('public_rest_get_requests_count_data_for_interval') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
-                .success(function (response) {
-                    $scope.data = response;
-                    $scope.generateRequestsCountChart(response);
-                });
-    };
-
-    $scope.getRequestsCountDataForYear = function (type, year) {
-        $http.get(Routing.generate('public_rest_get_requests_count_data_for_year') + '?instance=' + instance_id + '&type=' + type + '&year=' + parseInt(year))
+        type = _.isUndefined(type) ? 'search' : type;
+        
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
                     $scope.generateRequestsCountChart(response);
-                    $scope.data = response;
                 });
     };
 
     $scope.getRequestsDestinyDistributionDataFor = function (type, initialYear, finalYear) {
-        if (initialYear < finalYear) {
-            $scope.getRequestsDestinyDistributionDataForInterval(type, initialYear, finalYear);
-        } else if (initialYear === finalYear) {
-            $scope.getRequestsDestinyDistributionDataForYear(type, initialYear);
-        }
-    };
-
-    $scope.getRequestsDestinyDistributionDataForInterval = function (type, initialYear, finalYear) {
-        $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for_interval') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
-                .success(function (response) {
-                    $scope.data = response;
-                    $scope.generateRequestsDestinyDistributionChart(response);
-                });
-    }
-
-    $scope.getRequestsDestinyDistributionDataForYear = function (type, year) {
-        $http.get(Routing.generate('public_rest_get_requests_destiny_distribuion_data_for_year') + '?instance=' + instance_id + '&type=' + type + '&year=' + parseInt(year))
-                .success(function (response) {
-                    $scope.data = response;
-                    $scope.generateRequestsDestinyDistributionChart(response);
-                });
-    };
-
-    $scope.getRequestsNumberByPublicationYearDataFor = function (type, initialYear, finalYear) {
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
-        if (initialYear < finalYear) {
-            $scope.getRequestsNumberByPublicationYearDataForInterval(type, initialYear, finalYear);
-        } else if (initialYear === finalYear) {
-            $scope.getRequestsNumberByPublicationYearDataForYear(type, initialYear);
-        }
-    };
-
-    $scope.getRequestsNumberByPublicationYearDataForInterval = function (type, initialYear, finalYear) {
-        $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for_interval') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+        type = _.isUndefined(type) ? 'search' : type;
+        
+        $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
-                    $scope.data = response;
-                    $scope.generateRequestsNumberByPublicationYearChart(response);
+                    $scope.generateRequestsDestinyDistributionChart(response);
                 });
     }
 
-    $scope.getRequestsNumberByPublicationYearDataForYear = function (type, year) {
-        $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for_year') + '?instance=' + instance_id + '&type=' + type + '&year=' + parseInt(year))
+    $scope.getRequestsNumberByPublicationYearDataFor = function (type, initialYear, finalYear) {
+        $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
-                    $scope.data = response;
                     $scope.generateRequestsNumberByPublicationYearChart(response);
                 });
-    };
+    }
 
     //Métodos de creación del gráfico//
 
@@ -293,6 +225,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsNumberByPublicationYearChart = function (data) {
+        console.log(data.counts);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
