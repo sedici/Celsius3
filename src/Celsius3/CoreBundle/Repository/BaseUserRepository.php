@@ -151,31 +151,26 @@ class BaseUserRepository extends EntityRepository
                         ->getResult();
     }
 
-    public function countNewUsersForInterval($instance, $initialYear, $finalYear)
+    public function countNewUsersFor($instance, $initialYear, $finalYear)
     {
-        return $this->createQueryBuilder('user')
-                        ->select('YEAR(user.createdAt) year')
-                        ->addSelect('COUNT(user.id) newUsers')
-                        ->where('user.instance = :instance')->setParameter('instance', $instance)
-                        ->groupBy('year')
-                        ->orderBy('year', 'ASC')
-                        ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
-                        ->andHaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
-                        ->getQuery()
-                        ->getResult();
-    }
-
-    public function countNewUsersForYear($instance, $year)
-    {
-        return $this->createQueryBuilder('user')
-                        ->select('MONTH(user.createdAt) month')
-                        ->addSelect('COUNT(user.id) newUsers')
-                        ->where('YEAR(user.createdAt) >= :y')->setParameter('y', $year)
-                        ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
-                        ->groupBy('month')
-                        ->orderBy('month', 'ASC')
-                        ->getQuery()
-                        ->getResult();
+        $qb = $this->createQueryBuilder('user');
+        
+        if($initialYear === $finalYear){
+            $qb = $qb->select('MONTH(user.createdAt) axisValue')
+                    ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
+        }
+        if($initialYear < $finalYear){
+            $qb = $qb->addSelect('YEAR(user.createdAt) axisValue')
+                    ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
+                    ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+        
+        $qb = $qb->addSelect('COUNT(user.id) newUsers')
+                ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
+                ->groupBy('axisValue')
+                ->orderBy('axisValue', 'ASC');
+        
+        return $qb->getQuery()->getResult();
     }
     
     public function getTotalUsersUntilYear($instance, $year)

@@ -57,33 +57,28 @@ class RequestRepository extends EntityRepository
         return $string;
     }
 
-    public function countActiveUsersForInterval($instance, $type, $initialYear, $finalYear)
+    public function countActiveUsersFor($instance, $type, $initialYear, $finalYear)
     {
-        return $this->createQueryBuilder('request')
-                        ->select('YEAR(request.createdAt) year')
-                        ->addSelect('COUNT(DISTINCT request.owner) activeUsers')
-                        ->where('request.instance = :instance')->setParameter('instance', $instance)
-                        ->andWhere('request.type = :type')->setParameter('type', $type)
-                        ->groupBy('year')
-                        ->orderBy('year', 'ASC')
-                        ->having('year >= :initialYear')->setParameter('initialYear', $initialYear)
-                        ->andhaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
-                        ->getQuery()
-                        ->getResult();
-    }
-
-    public function countActiveUsersForYear($instance, $type, $year)
-    {
-        return $this->createQueryBuilder('request')
-                        ->select('MONTH(request.createdAt) month')
-                        ->addSelect('COUNT(request.owner) activeUsers')
-                        ->where('YEAR(request.createdAt) >= :year')->setParameter('year', $year)
-                        ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
-                        ->andWhere('request.type = :type')->setParameter('type', $type)
-                        ->groupBy('month')
-                        ->orderBy('month', 'ASC')
-                        ->getQuery()
-                        ->getResult();
+        $qb = $this->createQueryBuilder('request');
+        
+        if($initialYear === $finalYear){
+            $qb = $qb->select('MONTH(request.createdAt) axisValue')
+                ->andWhere('YEAR(request.createdAt) >= :year')->setParameter('year', $initialYear);
+        }
+        
+        if($initialYear < $finalYear){
+            $qb = $qb->select('YEAR(request.createdAt) axisValue')
+                ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
+                ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+        
+        $qb = $qb->addSelect('COUNT(DISTINCT request.owner) activeUsers')
+            ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
+            ->andWhere('request.type = :type')->setParameter('type', $type)
+            ->groupBy('axisValue')
+            ->orderBy('axisValue', 'ASC');
+                
+        return $qb->getQuery()->getResult();
     }
 
     public function getYears($instance)
@@ -108,34 +103,27 @@ class RequestRepository extends EntityRepository
                 ->innerJoin();
     }
 
-    public function findRequestsNumberByPublicationYearForInterval($instance, $type, $initialYear, $finalYear)
+    public function findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear)
     {
-        return $this->createQueryBuilder('r')
-            ->addSelect('md.year materialDataYear')
+        $qb = $this->createQueryBuilder('r');
+        
+        $qb = $qb->addSelect('md.year materialDataYear')
             ->addSelect('COUNT(md.id) materialDataCount')
             ->innerJoin('r.order', 'o')
             ->innerJoin('o.materialData', 'md')
             ->andWhere('r.instance = :instance')->setParameter('instance',$instance)
             ->andWhere('r.type = :type')->setParameter('type',$type)
             ->groupBy('materialDataYear')
-            ->orderBy('materialDataYear', 'ASC')
-            ->andHaving('YEAR(r.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andHaving('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear)
-            ->getQuery()->getResult();
-    }
-
-    public function findRequestsNumberByPublicationYearForYear($instance, $type, $year)
-    {
-        return $this->createQueryBuilder('r')
-            ->addSelect('md.year materialDataYear')
-            ->addSelect('COUNT(md.id) materialDataCount')
-            ->innerJoin('r.order', 'o')
-            ->innerJoin('o.materialData', 'md')
-            ->andWhere('r.instance = :instance')->setParameter('instance',$instance)
-            ->andWhere('r.type = :type')->setParameter('type',$type)
-            ->andWhere('YEAR(r.cratedAt) = :year')->setParameter('year', $year)
-            ->groupBy('materialDataYear')
-            ->orderBy('materialDataYear', 'ASC')
-            ->getQuery()->getResult();
+            ->orderBy('materialDataYear', 'ASC');
+                
+        if($initialYear === $finalYear){
+            $qb = $qb->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear);
+        }
+        if($initialYear < $finalYear){
+            $qb = $qb->andWhere('YEAR(r.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+                    ->andWhere('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+            
+        return $qb->getQuery()->getResult();
     }
 }

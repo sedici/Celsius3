@@ -37,26 +37,26 @@ class PublicRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/years_interval", name="public_rest_get_users_count_data_for_interval", options={"expose"=true})
+     * @Get("/users_count", name="public_rest_get_users_count_data_for", options={"expose"=true})
      */
-    public function getUsersCountDataForInterval(Request $request)
+    public function getUsersCountDataFor(Request $request)
     {
         $instance = $request->query->get('instance');
         $type = $request->query->get('type');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
 
-        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($instance, $initialYear, $finalYear);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $type, $initialYear, $finalYear);
+        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersFor($instance, $initialYear, $finalYear);
+        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
 
         $result = array();
         foreach ($newUsers as $count) {
-            $result[$count['year']]['newUsers'] = $count['newUsers'];
-            $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getTotalUsersUntilYear($instance,$count['year']);
-            $result[$count['year']]['totalUsers'] = $newUsers['newUsers'];
+            $result[$count['axisValue']]['newUsers'] = $count['newUsers'];
+            $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->getTotalUsersUntilYear($instance,$count['axisValue']);
+            $result[$count['axisValue']]['totalUsers'] = $newUsers['newUsers'];
         }
         foreach ($activeUsers as $count) {
-            $result[$count['year']]['activeUsers'] = $count['activeUsers'];
+            $result[$count['axisValue']]['activeUsers'] = $count['activeUsers'];
         }
 
         ksort($result, SORT_NUMERIC);
@@ -67,47 +67,6 @@ class PublicRestController extends BaseInstanceDependentRestController
         $values['totalUsers'][] = 'Total Users';
         foreach ($result as $year => $count) {
             $values['categories'][] = $year;
-            $values['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
-            $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
-            $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
-        }
-
-        $view = $this->view($values, 200)->setFormat('json');
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
-     * @Get("/year", name="public_rest_get_users_count_data_for_year", options={"expose"=true})
-     */
-    public function getUsersCountDataForYear(Request $request)
-    {
-        $instance = $request->query->get('instance');
-        $type = $request->query->get('type');
-        $year = $request->query->get('year');
-
-        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($instance, $year);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $type, $year);
-
-
-        $result = array();
-        $suma = 0;
-        foreach ($newUsers as $count) {
-            $result[$count['month']]['newUsers'] = $count['newUsers'];
-            $result[$count['month']]['totalUsers'] = $suma += $count['newUsers'];
-        }
-        foreach ($activeUsers as $count) {
-            $result[$count['month']]['activeUsers'] = $count['activeUsers'];
-        }
-
-        ksort($result);
-
-        $values = array();
-        $values['newUsers'][] = 'New Users';
-        $values['activeUsers'][] = 'Active Users';
-        $values['totalUsers'][] = 'Total Users';
-        foreach ($result as $month => $count) {
-            $values['categories'][] = \DateTime::createFromFormat('!m', $month)->format('F');
             $values['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
             $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
             $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
@@ -248,9 +207,9 @@ class PublicRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/requests_count_for_interval", name="public_rest_get_requests_count_data_for_interval", options={"expose"=true})
+     * @Get("/requests_count", name="public_rest_get_requests_count_data_for", options={"expose"=true})
      */
-    public function getRequestsCountDataForInterval(Request $request)
+    public function getRequestsCountDataFor(Request $request)
     {
         $instance = $request->query->get('instance');
         $type = $request->query->get('type');
@@ -259,12 +218,12 @@ class PublicRestController extends BaseInstanceDependentRestController
 
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')
-                ->findRequestsStateCountForInterval($instance,$type,$initialYear, $finalYear);
+                ->findRequestsStateCountFor($instance,$type,$initialYear, $finalYear);
         
         $rows = array();
         foreach ($result as $count) {
-            $rows[$count['year']][$count['stateType']]['requestCount'] = $count['requestsCount'];
-            $rows[$count['year']][$count['stateType']]['totalPages'] = intval($count['endPage']) - intval($count['startPage']);
+            $rows[$count['axisValue']][$count['stateType']]['requestCount'] = $count['requestsCount'];
+            $rows[$count['axisValue']][$count['stateType']]['totalPages'] = intval($count['endPage']) - intval($count['startPage']);
         }
         
         $values = array();
@@ -286,34 +245,9 @@ class PublicRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/requests_count_for_year", name="public_rest_get_requests_count_data_for_year", options={"expose"=true})
+     * @Get("/requests_destiny_distribution", name="public_rest_get_requests_destiny_distribution_data_for", options={"expose"=true})
      */
-    public function getRequestsCountDataForYear(Request $request)
-    {
-        $instance = $request->query->get('instance');
-        $type = $request->query->get('type');
-        $year = $request->query->get('year');
-
-        $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->findRequestsStateCountForYear($instance,$type, $year);
-
-        $values = array();
-        $values['created'][] = 'Created';
-        $values['cancelled'][] = 'Cancelled';
-        $values['delivered'][] = 'Delivered';
-        foreach ($result as $count) {
-            $values['categories'][] = $count['year'];
-            $values[$count['stateType']][] = $count['requestsCount'];
-        }
-
-        $view = $this->view($values, 200)->setFormat('json');
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
-     * @Get("/requests_destiny_distribution_for_interval", name="public_rest_get_requests_destiny_distribution_data_for_interval", options={"expose"=true})
-     */
-    public function getRequestsDestinyDistributionDataForInterval(Request $request)
+    public function getRequestsDestinyDistributionDataFor(Request $request)
     {
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
@@ -322,7 +256,7 @@ class PublicRestController extends BaseInstanceDependentRestController
 
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')
-                ->findRequestsDestinyDistributionForInterval($instance, $type, $initialYear, $finalYear);
+                ->findRequestsDestinyDistributionFor($instance, $type, $initialYear, $finalYear);
 
         $values = array();
         foreach ($result as $count) {
@@ -348,9 +282,9 @@ class PublicRestController extends BaseInstanceDependentRestController
     
     /**
      * GET Route annotation.
-     * @Get("/requests_number_publication_year_for_interval", name="public_rest_get_requests_number_by_publication_year_data_for_interval", options={"expose"=true})
+     * @Get("/requests_number_by_publication_year", name="public_rest_get_requests_number_by_publication_year_data_for", options={"expose"=true})
      */
-    public function getRequestsNumberByPublicationYearDataForInterval(Request $request)
+    public function getRequestsNumberByPublicationYearDataFor(Request $request)
     {
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
@@ -359,45 +293,17 @@ class PublicRestController extends BaseInstanceDependentRestController
         
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Request')
-                ->findRequestsNumberByPublicationYearForInterval($instance, $type, $initialYear, $finalYear);
+                ->findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear);
         
         $data = array();
-        $data['categories'][] = 'Cantidad';
+        $data['counts'][] = 'Cantidad';
         foreach ($result as $row) {
             $data['categories'][] = $row['materialDataYear'];
             $data['counts'][] = $row['materialDataCount'];
         }
-        for ($i=1; $i <= ( count($data['categories']) / 15 ); $i++){
-            $data['tickValue'][] = $i * 15;
-        }
-        
-        $view = $this->view($data, 200)->setFormat('json');
-        return $this->handleView($view);
-    }
-    
-    /**
-     * GET Route annotation.
-     * @Get("/requests_number_publication_year_for_year", name="public_rest_get_requests_number_by_publication_year_data_for_year", options={"expose"=true})
-     */
-    public function getRequestsNumberByPublicationYearDataForYear(Request $request)
-    {
-        $instance = $request->query->get('instance');
-        $year = $request->query->get('year');
-        $type = $request->query->get('type');
-        
-        $result = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Request')
-                ->findRequestsNumberByPublicationYearForYear($instance, $type, $year);
-        
-        $data = array();
-        $data['categories'][] = 'Cantidad';
-        foreach ($result as $row) {
-            $data['categories'][] = $row['materialDataYear'];
-            $data['counts'][] = $row['materialDataCount'];
-        }
-        
-        for ($i=1; $i <= ( count($data['categories']) / 15 ); $i++){
-                $data['tickValue'][] = $i * 15;
+        $div = count($data['categories']) * 0.1;
+        for ($i=1; $i <= (count($data['categories']) / $div ); $i++){
+            $data['tickValue'][] = $i * $div;
         }
         
         $view = $this->view($data, 200)->setFormat('json');
