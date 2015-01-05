@@ -1,34 +1,32 @@
 <div class="row">
-    <h1>{{ title}} - {{ subtitle}}</h1>
-    <div class="row">
-        <div class="col-sm-9 col-sm-offset-3">
-            <ul class="nav nav-tabs">
-                <li class="{{ searchClass }}" ng-click="setTypeSearch()" style="cursor:pointer"><a>Search</a></li>
-                <li class="{{ provisionClass }}" ng-click="setTypeProvision()" style="cursor:pointer"><a>Provision</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="col-sm-3">
-        <!--<div ng-include="'/ng-app/Statistics/partials/menu.html'"></div>-->
+    <h1>{{title}} - {{subtitle}}</h1>
+    <div class="col-md-3">
         <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" class="" style="cursor:pointer" ng-click="getUsersCountData()"><a>Users count</a></li>
-            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsOriginData()"><a>Requests origin</a></li>
-            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsCountData()"><a>Requests count</a></li>
-            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsDestinyDistributionData()"><a>Requests destiny distribution</a></li>
-            <li role="presentation" class="" style="cursor:pointer" ng-click="getRequestsNumberByPublicationYearData()"><a>Number of requests by publication year</a></li>
+            <li role="presentation"><a href ng-click="getUsersCountData()">{{'usersCount'|translate}}</a></li>
+            <li role="presentation"><a href ng-click="getRequestsOriginData()">{{'requestsOrigin'|translate}}</a></li>
+            <li role="presentation"><a href ng-click="getRequestsCountData()">{{'requestsCount'|translate}}</a></li>
+            <li role="presentation"><a href ng-click="getRequestsDestinyDistributionData()">{{'requestsDestinyDistribution'|translate}}</a></li>
+            <li role="presentation"><a href ng-click="getRequestsNumberByPublicationYearData()">{{'requestsPublicationYear'|translate}}</a></li>
         </ul>
     </div>
-    <div class="col-sm-9" >
+    <div class="col-md-9" >
+        <div class="row" ng-if="searchProvision">
+            <ul class="nav nav-tabs">
+                <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|translate}}</a></li>
+                <li class="{{provisionClass}}"><a href ng-click="setTypeProvision()">{{'provision'|translate}}</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <form ng-show="searchForm">
+                <label for="initialYear">{{'initialYear'|translate}}:</label>
+                <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
 
-        <form ng-show="searchForm">
-            <label for="initialYear">Initial year: </label>
-            <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
+                <label for="finalYear">{{'finalYear'|translate}}:</label>
+                <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
 
-            <label for="finalYear">Final year: </label>
-            <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
-
-            <button id="updateChart" ng-click="updateChart()">Show</button>
-        </form>
-        <div id="chart"></div>
+                <button id="updateChart" ng-click="updateChart()">{{'update'|translate}}</button>
+            </form>
+        </div>
+        <div id="chart" class="row"></div>
     </div>
 </div>
