@@ -129,6 +129,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     }
 
     $scope.getRequestsNumberByPublicationYearDataFor = function (type, initialYear, finalYear) {
+        initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
+        finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
+        type = _.isUndefined(type) ? 'search' : type;
+        
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
                     $scope.generateRequestsNumberByPublicationYearChart(response);

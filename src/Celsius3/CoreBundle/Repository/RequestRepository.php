@@ -56,7 +56,7 @@ class RequestRepository extends EntityRepository
         }
         return $string;
     }
-
+    
     public function countActiveUsersFor($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('request');

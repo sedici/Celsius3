@@ -172,7 +172,7 @@ class BaseUserRepository extends EntityRepository
         
         return $qb->getQuery()->getResult();
     }
-    
+
     public function getTotalUsersUntilYear($instance, $year)
     {
         return $this->createQueryBuilder('user')
@@ -181,7 +181,7 @@ class BaseUserRepository extends EntityRepository
                         ->andWhere('YEAR(user.createdAt) <= :year')->setParameter('year', $year)
                         ->getQuery()->getSingleResult();
     }
-    
+
     public function getYears($instance)
     {
         return $this->createQueryBuilder('user')

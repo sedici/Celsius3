@@ -42,12 +42,17 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getUsersCountDataFor(Request $request)
     {
         $instance = $request->query->get('instance');
-        $type = $request->query->get('type');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
-
+        $type = $request->query->get('type');
+        
+        
         $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersFor($instance, $initialYear, $finalYear);
         $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
+//=======
+//        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForInterval($instance, $initialYear, $finalYear);
+//        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForInterval($instance, $initialYear, $finalYear);
+//>>>>>>> 6a51a0e419b54ffa57b68edf72412dbbd215ad9b
 
         $result = array();
         foreach ($newUsers as $count) {
@@ -75,6 +80,46 @@ class PublicRestController extends BaseInstanceDependentRestController
         $view = $this->view($values, 200)->setFormat('json');
         return $this->handleView($view);
     }
+
+//    /**
+//     * GET Route annotation.
+//     * @Get("/year", name="public_rest_get_users_count_data_for_year", options={"expose"=true})
+//     */
+//    public function getUsersCountDataForYear(Request $request)
+//    {
+//        $instance = $request->query->get('instance');
+//        $year = $request->query->get('year');
+//
+//        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersForYear($instance, $year);
+//        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersForYear($instance, $year);
+//
+//
+//        $result = array();
+//        $suma = 0;
+//        foreach ($newUsers as $count) {
+//            $result[$count['month']]['newUsers'] = $count['newUsers'];
+//            $result[$count['month']]['totalUsers'] = $suma += $count['newUsers'];
+//        }
+//        foreach ($activeUsers as $count) {
+//            $result[$count['month']]['activeUsers'] = $count['activeUsers'];
+//        }
+//
+//        ksort($result);
+//
+//        $values = array();
+//        $values['newUsers'][] = 'New Users';
+//        $values['activeUsers'][] = 'Active Users';
+//        $values['totalUsers'][] = 'Total Users';
+//        foreach ($result as $month => $count) {
+//            $values['categories'][] = \DateTime::createFromFormat('!m', $month)->format('F');
+//            $values['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
+//            $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
+//            $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
+//        }
+//
+//        $view = $this->view($values, 200)->setFormat('json');
+//        return $this->handleView($view);
+//    }
 
     /**
      * GET Route annotation.
