@@ -63,10 +63,8 @@ class RequestRepository extends EntityRepository
         
         if($initialYear === $finalYear){
             $qb = $qb->select('MONTH(request.createdAt) axisValue')
-                ->andWhere('YEAR(request.createdAt) >= :year')->setParameter('year', $initialYear);
-        }
-        
-        if($initialYear < $finalYear){
+                ->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+        } else if($initialYear < $finalYear){
             $qb = $qb->select('YEAR(request.createdAt) axisValue')
                 ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                 ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
@@ -118,8 +116,7 @@ class RequestRepository extends EntityRepository
                 
         if($initialYear === $finalYear){
             $qb = $qb->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear);
-        }
-        if($initialYear < $finalYear){
+        } else if($initialYear < $finalYear){
             $qb = $qb->andWhere('YEAR(r.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
                     ->andWhere('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }

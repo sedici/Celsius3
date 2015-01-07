@@ -154,40 +154,39 @@ class BaseUserRepository extends EntityRepository
     public function countNewUsersFor($instance, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('user');
-        
-        if($initialYear === $finalYear) {
+
+        if ($initialYear === $finalYear) {
             $qb = $qb->select('MONTH(user.createdAt) axisValue')
-                    ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
-        }
-        if($initialYear < $finalYear) {
+                            ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
+        } else if ($initialYear < $finalYear) {
             $qb = $qb->addSelect('YEAR(user.createdAt) axisValue')
-                    ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
-                    ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
+                            ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
-        
+
         $qb = $qb->addSelect('COUNT(user.id) newUsers')
                 ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
                 ->groupBy('axisValue')
                 ->orderBy('axisValue', 'ASC');
-        
+
         return $qb->getQuery()->getResult();
     }
 
     public function getTotalUsersUntil($instance, $initialYear, $finalYear, $axisValue)
     {
-        $date = \DateTime::createFromFormat('Y',$axisValue);
+        $date = \DateTime::createFromFormat('Y', $axisValue);
         if ($initialYear === $finalYear) {
             $date = \DateTime::createFromFormat('Y', $initialYear);
-            $date->add(new \DateInterval('P'.$axisValue.'M'));
+            $date->add(new \DateInterval('P' . $axisValue . 'M'));
         }
-        
+
         return $this->createQueryBuilder('user')
                         ->select('COUNT(user.id) newUsers')
                         ->where('user.instance = :instance')->setParameter('instance', $instance)
                         ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
                         ->getQuery()->getSingleResult();
     }
-    
+
     public function getYears($instance)
     {
         return $this->createQueryBuilder('user')

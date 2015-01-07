@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -33,6 +34,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  */
 class PublicController extends BaseInstanceDependentController
 {
+
     protected function getInstance()
     {
         return $this->get('celsius3_core.instance_helper')->getUrlInstance();
@@ -87,15 +89,34 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
+     * @Route("/countries", name="public_countries", options={"expose"=true})
+     * @Template()
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function countriesAction()
+    {
+        $countries = $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:Country')
+                        ->createQueryBuilder('c')
+                        ->getQuery()->getResult();
+
+        $response = array();
+        foreach ($countries as $country) {
+            $response[] = array('value' => $country->getId(), 'name' => $country->getName());
+        }
+
+        return new Response(json_encode($response));
+    }
+
+    /**
      * @Route("/cities", name="public_cities", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function citiesAction()
+    public function citiesAction(Request $request)
     {
-        $request = $this->container->get('request');
-
         if (!$request->query->has('country_id')) {
             throw $this->createNotFoundException();
         }
@@ -117,15 +138,43 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
+     * @Route("/institutions", name="public_institutions", options={"expose"=true})
+     * @Template()
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function institutionsAction(Request $request)
+    {
+        if (!$request->query->has('country_id')) {
+            throw $this->createNotFoundException();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->getRepository('Celsius3CoreBundle:Institution')->createQueryBuilder('i')
+                ->where('i.country = :country')->setParameter('country', $request->query->get('country_id'))
+                ->andWhere('i.parent IS NULL');
+
+        $institutions = $qb->getQuery()->getResult();
+
+        $response = array();
+        foreach ($institutions as $institution) {
+            $response[] = array(
+                'value' => $institution->getId(),
+                'name' => $institution->getName(),
+            );
+        }
+
+        return new Response(json_encode($response));
+    }
+
+    /**
      * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function institutionsFullAction()
+    public function institutionsFullAction(Request $request)
     {
-        $request = $this->container->get('request');
-
         if (!$request->query->has('country_id') && !$request->query->has('city_id') && !$request->query->has('institution_id')) {
             throw $this->createNotFoundException();
         }
@@ -172,7 +221,7 @@ class PublicController extends BaseInstanceDependentController
 
         return new Response(json_encode($response));
     }
-    
+
     protected function getChildrenInstitution($institutions, $level)
     {
         $em = $this->getDoctrine()->getManager();

@@ -175,14 +175,14 @@ class PublicRestController extends BaseInstanceDependentRestController
         $type = $request->query->get('type');
         $country = $request->query->get('country');
         $institution = $request->query->get('institution');
+        $initialYear = $request->query->get('initialYear');
+        $finalYear = $request->query->get('finalYear');
 
-
-        $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
-
-        $counts = $requestRepository->countRequestsOrigin($instance, $type, $country, $institution);
+        $counts = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')
+                ->countRequestsOrigin($instance, $type, $initialYear, $finalYear, $country, $institution);
 
         uasort($counts, function($a, $b) {
-            if ($a['requestsCount'] == $b['requestsCount']) {
+            if ($a['requestsCount'] === $b['requestsCount']) {
                 return 0;
             }
             return ($a['requestsCount'] > $b['requestsCount']) ? -1 : 1;

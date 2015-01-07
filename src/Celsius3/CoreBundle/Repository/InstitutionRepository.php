@@ -58,23 +58,23 @@ class InstitutionRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function countRequestsOrigin($instance, $type, $country = null, $institution = null)
+    public function countRequestsOrigin($instance, $type, $initialYear, $finalYear, $country = null, $institution = null)
     {
         if (!is_null($institution)) {
-            $base = $this->countInstitutionRequestsOriginPerInstitution($instance, $type, $institution);
+            $base = $this->countInstitutionRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $institution);
             foreach ($base as $key => $count) {
                 $base[$key]['requestsCount'] += $this->total($instance, $type, $count['id']);
             }
             return $base;
         } else {
             if (!is_null($country)) {
-                $base = $this->countCountryRequestsOriginPerInstitution($instance, $type, $country);
+                $base = $this->countCountryRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $country);
                 foreach ($base as $key => $count) {
                     $base[$key]['requestsCount'] += $this->total($instance, $type, $count['id']);
                 }
                 return $base;
             } else {
-                $base = $this->countTotalRequestsOriginPerCountry($instance, $type);
+                $base = $this->countTotalRequestsOriginPerCountry($instance, $type, $initialYear, $finalYear);
                 foreach ($base as $key => $count) {
                     $base[$key]['requestsCount'] += $this->total($instance, $type, $count['id']);
                 }
@@ -83,7 +83,7 @@ class InstitutionRepository extends EntityRepository
         }
     }
 
-    private function countTotalRequestsOriginPerCountry($instance, $type)
+    private function countTotalRequestsOriginPerCountry($instance, $type, $initialYear, $finalYear)
     {
         $query = $this->createQueryBuilder('institution')
                 ->select('country.name name')
@@ -97,10 +97,17 @@ class InstitutionRepository extends EntityRepository
                 ->andWhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
                 ->groupBy('country.id');
 
+        if ($initialYear === $finalYear) {
+            $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+        } else if ($initialYear < $finalYear) {
+            $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+
         return $query->getQuery()->getResult();
     }
 
-    private function countCountryRequestsOriginPerInstitution($instance, $type, $country)
+    private function countCountryRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $country)
     {
         $query = $this->createQueryBuilder('institution')
                 ->select('institution.name name')
@@ -115,10 +122,17 @@ class InstitutionRepository extends EntityRepository
                 ->andwhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
                 ->groupBy('institution.id');
 
+        if ($initialYear === $finalYear) {
+            $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+        } else if ($initialYear < $finalYear) {
+            $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+
         return $query->getQuery()->getResult();
     }
 
-    public function countInstitutionRequestsOriginPerInstitution($instance, $type, $institution)
+    public function countInstitutionRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $institution)
     {
         $qb = $this->createQueryBuilder('institution');
         $query = $qb->addSelect('institution.name name')
@@ -131,6 +145,14 @@ class InstitutionRepository extends EntityRepository
                 ->andWhere('institution.parent = :parent')->setParameter('parent', $institution)
                 ->andWhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
                 ->groupBy('institution.id');
+
+        if ($initialYear === $finalYear) {
+            $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+        } else if ($initialYear < $finalYear) {
+            $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+
         return $query->getQuery()->getResult();
     }
 

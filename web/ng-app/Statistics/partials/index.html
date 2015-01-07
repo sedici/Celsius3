@@ -17,13 +17,27 @@
             </ul>
         </div>
         <div class="row">
-            <form ng-show="searchForm">
-                <label for="initialYear">{{'initialYear'|translate}}:</label>
-                <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
+            <form>
+                <p>
+                    <label for="initialYear">{{'initialYear'|translate}}:</label>
+                    <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
 
-                <label for="finalYear">{{'finalYear'|translate}}:</label>
-                <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+                    <label for="finalYear">{{'finalYear'|translate}}:</label>
+                    <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+                </p>
+                <p ng-if="locationFields">
+                    <label for="country">{{'country'|translate}}:</label>
+                    <select ng-model="location.country" id="country" ng-change="countryChanged()">
+                        <option></option>
+                        <option ng-repeat="c in allCountries" value="{{c.value}}">{{c.name}}</option>
+                    </select>
 
+                    <label for="institution">{{'institution'|translate}}:</label>
+                    <select ng-model="location.institution" id="institution">
+                        <option></option>
+                        <option ng-repeat="i in institutions" value="{{i.value}}">{{i.name}}</option>
+                    </select>
+                </p>
                 <button id="updateChart" ng-click="updateChart()">{{'update'|translate}}</button>
             </form>
         </div>
