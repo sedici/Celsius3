@@ -116,6 +116,7 @@ doctrine:
                         MONTH: DoctrineExtensions\Query\Mysql\Month
                         YEAR: DoctrineExtensions\Query\Mysql\Year
                         IFNULL: DoctrineExtensions\Query\Mysql\IfNull
+                        DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
                 
 # Swiftmailer Configuration
 swiftmailer:

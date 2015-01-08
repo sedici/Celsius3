@@ -26,6 +26,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * RequestRepository
@@ -56,26 +57,26 @@ class RequestRepository extends EntityRepository
         }
         return $string;
     }
-    
+
     public function countActiveUsersFor($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('request');
-        
-        if($initialYear === $finalYear){
+
+        if ($initialYear === $finalYear) {
             $qb = $qb->select('MONTH(request.createdAt) axisValue')
-                ->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
-        } else if($initialYear < $finalYear){
+                            ->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+        } else if ($initialYear < $finalYear) {
             $qb = $qb->select('YEAR(request.createdAt) axisValue')
-                ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
-                ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
+                            ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
-        
+
         $qb = $qb->addSelect('COUNT(DISTINCT request.owner) activeUsers')
-            ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
-            ->andWhere('request.type = :type')->setParameter('type', $type)
-            ->groupBy('axisValue')
-            ->orderBy('axisValue', 'ASC');
-                
+                ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
+                ->andWhere('request.type = :type')->setParameter('type', $type)
+                ->groupBy('axisValue')
+                ->orderBy('axisValue', 'ASC');
+
         return $qb->getQuery()->getResult();
     }
 
@@ -104,23 +105,70 @@ class RequestRepository extends EntityRepository
     public function findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('r');
-        
+
         $qb = $qb->addSelect('md.year materialDataYear')
-            ->addSelect('COUNT(md.id) materialDataCount')
-            ->innerJoin('r.order', 'o')
-            ->innerJoin('o.materialData', 'md')
-            ->andWhere('r.instance = :instance')->setParameter('instance',$instance)
-            ->andWhere('r.type = :type')->setParameter('type',$type)
-            ->groupBy('materialDataYear')
-            ->orderBy('materialDataYear', 'ASC');
-                
-        if($initialYear === $finalYear){
+                ->addSelect('COUNT(md.id) materialDataCount')
+                ->innerJoin('r.order', 'o')
+                ->innerJoin('o.materialData', 'md')
+                ->andWhere('r.instance = :instance')->setParameter('instance', $instance)
+                ->andWhere('r.type = :type')->setParameter('type', $type)
+                ->groupBy('materialDataYear')
+                ->orderBy('materialDataYear', 'ASC');
+
+        if ($initialYear === $finalYear) {
             $qb = $qb->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear);
-        } else if($initialYear < $finalYear){
+        } else if ($initialYear < $finalYear) {
             $qb = $qb->andWhere('YEAR(r.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-                    ->andWhere('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+                            ->andWhere('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
-            
+
         return $qb->getQuery()->getResult();
     }
+
+    public function findRequestTotalDelay($instance, $type, $initialYear, $finalYear)
+    {
+        $dql = "SELECT YEAR(r.createdAt) cYear, DATEDIFF(sB.createdAt,sA.createdAt) delay, COUNT(r.id) rCount
+                FROM Celsius3\CoreBundle\Entity\Request r
+                JOIN Celsius3\CoreBundle\Entity\State sA WITH r = sA.request
+                LEFT JOIN Celsius3\CoreBundle\Entity\State sB WITH sA.request = sB.request
+                WHERE r NOT IN (
+                    SELECT rs 
+                    FROM Celsius3\CoreBundle\Entity\Request rs 
+                    JOIN Celsius3\CoreBundle\Entity\State st WITH rs = st.request
+                    WHERE st.type = 'annulled' OR st.type = 'cancelled'
+                )
+                AND r.instance = :instance
+                AND r.type = :type
+                AND sA.type = 'created' 
+                AND sB.type = 'delivered' ";
+
+        if ($initialYear === $finalYear) {
+            $dql .= "AND r.createdAt = :year ";
+        }
+
+        $dql .= "GROUP BY cYear,delay ";
+
+        if ($initialYear < $finalYear) {
+            $dql .= "HAVING cYear >= :rAyear
+                     AND cYear <= :rByear ";
+        }
+
+        $dql .= "ORDER BY cYear,delay";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query = $query->setParameter('instance', $instance)
+                ->setParameter('type', $type);
+
+        if ($initialYear === $finalYear) {
+            $query = $query->setParameter('year', $initialYear);
+        }
+
+        if ($initialYear < $finalYear) {
+            $query = $query->setParameter('rAyear', $initialYear)
+                    ->setParameter('rByear', $finalYear);
+        }
+
+        return $query->getResult();
+    }
+
 }

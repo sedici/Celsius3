@@ -157,7 +157,18 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     $scope.generateRequestsNumberByPublicationYearChart(response);
                 });
     };
+    
+    $scope.getRequestsTotalDelayDataFor = function (type, initialYear, finalYear) {
+        initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
+        finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
+        type = _.isUndefined(type) ? 'search' : type;
 
+        $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+                .success(function (response) {
+                    $scope.generateRequestsTotalDelayChart(response);
+                });
+    };
+    
     //Métodos de creación del gráfico//
 
     $scope.generateUsersCountChart = function (response) {
@@ -271,6 +282,33 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             }
         });
     };
+    
+    $scope.generateRequestsTotalDelayChart = function(data){
+        var chart = c3.generate({
+            data: {
+                columns: [
+                    data.delay0,
+                    data.delay1,
+                    data.delay2,
+                    data.delay3,
+                    data.delay4,
+                    data.delay5,
+                    data.delay6,
+                    data.delay7,
+                    data.delay8,
+                    data.delay9
+                ],
+                type: 'area-spline',
+                groups: [['Delay 0','Delay 1','Delay 2','Delay 3','Delay 4','Delay 5','Delay 6','Delay 7']]
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: data.categories
+                }
+            }
+        });
+    }
 
     //Métodos de actualización de gráfico//
 
@@ -345,6 +383,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.locationFields = false;
         $scope.searchProvision = true;
     };
+
+    $scope.getRequestsTotalDelayData = function() {
+        $scope.actualMethod = function () {
+            return function(){};//$scope.updateRequestsNumberByPublicationYearChart();
+        };
+        $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
+        $scope.subtitle = 'Requests total delay.';
+    }
 
     $scope.start = function () {
         $scope.getUsersCountData();
