@@ -1,0 +1,18 @@
+<hr>
+<div class="row table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td></td>
+                <td ng-repeat="categorie in data.categories">
+                    {{ categorie }}
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="column in data.columns">
+                <td ng-repeat="v in column track by $index">{{ v }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

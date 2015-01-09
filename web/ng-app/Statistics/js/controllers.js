@@ -22,6 +22,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.searchClass = 'active';
     $scope.allCountries = [];
     $scope.institutions = [];
+    $scope.data;
     $scope.location = {};
 
     $scope.countryChanged = function () {
@@ -85,6 +86,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.updateChart();
     };
 
+    $scope.columnsToArray = function(data){
+        var columns = $.map(data, function(value, index) {
+            return [value];
+        });
+        
+        return columns;
+    }
+
     //Métodos de solicitud de los datos//
 
     $scope.getUsersCountDataFor = function (type, initialYear, finalYear) {
@@ -95,6 +104,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
         $http.get(Routing.generate('public_rest_get_users_count_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
+                    $scope.data = response;
                     $scope.generateUsersCountChart(response);
                 });
     };
@@ -115,13 +125,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         }
         $http.get(Routing.generate('public_rest_get_requests_origin_data') + '?instance=' + instance_id + '&type=' + type + parameters)
                 .success(function (response) {
-//                    if (!_.isUndefined(response.ids) && response.ids.length > 0 && response.categories.length > 0) {
-                        $scope.ids = response.ids;
-                        $scope.countries = response.countries;
-                        $scope.generateRequestsOriginChart(response);
-//                    } else {
-//                        console.log('No hay Sub-Dependencias');
-//                    }
+                    $scope.data = response;
+                    $scope.ids = response.ids;
+                    $scope.countries = response.countries;
+                    $scope.generateRequestsOriginChart(response);
                 });
     };
 
@@ -132,6 +139,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
         $http.get(Routing.generate('public_rest_get_requests_count_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
+                    $scope.data = response;
                     $scope.generateRequestsCountChart(response);
                 });
     };
@@ -143,6 +151,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
         $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
+                    $scope.data = response;
                     $scope.generateRequestsDestinyDistributionChart(response);
                 });
     };
@@ -154,6 +163,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
+                    $scope.data = response;
                     $scope.generateRequestsNumberByPublicationYearChart(response);
                 });
     };
@@ -165,21 +175,19 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
+                    $scope.data = response;
                     $scope.generateRequestsTotalDelayChart(response);
                 });
     };
     
     //Métodos de creación del gráfico//
 
-    $scope.generateUsersCountChart = function (response) {
+    $scope.generateUsersCountChart = function (data) {
+        var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
-                columns: [
-                    response.totalUsers,
-                    response.activeUsers,
-                    response.newUsers
-                ],
+                columns: columns,
                 types: {
                     'Total Users': 'line',
                     'Active Users': 'bar',
@@ -189,19 +197,18 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             axis: {
                 x: {
                     type: 'category',
-                    categories: response.categories
+                    categories: data.categories
                 }
             }
         });
     };
 
     $scope.generateRequestsOriginChart = function (data) {
+        var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
-                columns: [
-                    data.requestsCount
-                ],
+                columns: columns,
                 type: 'bar',
                 onclick: function (d) {
                     $scope.location.country = $scope.countries[d.index];
@@ -224,14 +231,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsCountChart = function (data) {
+        var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
-                columns: [
-                    data.cancelled,
-                    data.created,
-                    data.delivered
-                ],
+                columns: columns,
                 type: 'bar'
 //                types: {
 //                    'Total Pages': 'line',
@@ -262,12 +266,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsNumberByPublicationYearChart = function (data) {
+        var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
-                columns: [
-                    data.counts
-                ],
+                columns: columns,
                 type: 'area'
             },
             axis: {
@@ -284,22 +287,12 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
     
     $scope.generateRequestsTotalDelayChart = function(data){
+        var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
             data: {
-                columns: [
-                    data.delay0,
-                    data.delay1,
-                    data.delay2,
-                    data.delay3,
-                    data.delay4,
-                    data.delay5,
-                    data.delay6,
-                    data.delay7,
-                    data.delay8,
-                    data.delay9
-                ],
+                columns: columns,
                 type: 'area-spline',
-                groups: [['Delay 0','Delay 1','Delay 2','Delay 3','Delay 4','Delay 5','Delay 6','Delay 7']]
+                groups: [['Delay 0','Delay 1','Delay 2','Delay 3','Delay 4','Delay 5','Delay 6','Delay 7','Delay 8','Delay 9']]
             },
             axis: {
                 x: {

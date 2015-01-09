@@ -63,14 +63,14 @@ class PublicRestController extends BaseInstanceDependentRestController
         ksort($result, SORT_NUMERIC);
 
         $values = array();
-        $values['newUsers'][] = 'New Users';
-        $values['activeUsers'][] = 'Active Users';
-        $values['totalUsers'][] = 'Total Users';
+        $values['columns']['newUsers'][] = 'New Users';
+        $values['columns']['activeUsers'][] = 'Active Users';
+        $values['columns']['totalUsers'][] = 'Total Users';
         foreach ($result as $year => $count) {
             $values['categories'][] = $year;
-            $values['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
-            $values['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
-            $values['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
+            $values['columns']['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
+            $values['columns']['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
+            $values['columns']['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
         }
 
         $view = $this->view($values, 200)->setFormat('json');
@@ -189,11 +189,11 @@ class PublicRestController extends BaseInstanceDependentRestController
         });
 
         $data = array();
-        $data['requestsCount'][] = 'Requests';
+        $data['columns']['requestsCount'][] = 'Requests';
         $i = 0;
         while ($i < 10) {
             list(, $count) = each($counts);
-            $data['requestsCount'][] = $count['requestsCount'];
+            $data['columns']['requestsCount'][] = $count['requestsCount'];
             $data['countries'][] = (Integer) $count['institutionCountry'];
             $data['categories'][] = $count['name'];
             $data['ids'][] = (Integer) $count['id'];
@@ -227,16 +227,16 @@ class PublicRestController extends BaseInstanceDependentRestController
         }
 
         $values = array();
-        $values['created'][] = 'Created';
-        $values['cancelled'][] = 'Cancelled';
-        $values['delivered'][] = 'Delivered';
-        $values['totalPages'][] = 'Total Pages';
+        $values['columns']['created'][] = 'Created';
+        $values['columns']['cancelled'][] = 'Cancelled';
+        $values['columns']['delivered'][] = 'Delivered';
+        //$values['columns']['totalPages'][] = 'Total Pages';
         foreach ($rows as $key => $row) {
             $values['categories'][] = $key;
-            $values['created'][] = (isset($row['created'])) ? $row['created']['requestCount'] : 0;
-            $values['cancelled'][] = (isset($row['cancelled'])) ? $row['cancelled']['requestCount'] : 0;
-            $values['delivered'][] = (isset($row['delivered'])) ? $row['delivered']['requestCount'] : 0;
-            $values['totalPages'][] = (isset($row['delivered'])) ? $row['delivered']['totalPages'] : 0;
+            $values['columns']['created'][] = (isset($row['created'])) ? $row['created']['requestCount'] : 0;
+            $values['columns']['cancelled'][] = (isset($row['cancelled'])) ? $row['cancelled']['requestCount'] : 0;
+            $values['columns']['delivered'][] = (isset($row['delivered'])) ? $row['delivered']['requestCount'] : 0;
+            //$values['columns']['totalPages'][] = (isset($row['delivered'])) ? $row['delivered']['totalPages'] : 0;
         }
 
         $view = $this->view($values, 200)->setFormat('json');
@@ -266,14 +266,14 @@ class PublicRestController extends BaseInstanceDependentRestController
         ksort($values);
 
         $data = array();
-        $data['created'][] = 'Created';
-        $data['cancelled'][] = 'Cancelled';
-        $data['delivered'][] = 'Delivered';
+        $data['columns']['created'][] = 'Created';
+        $data['columns']['cancelled'][] = 'Cancelled';
+        $data['columns']['delivered'][] = 'Delivered';
         foreach ($values as $key => $val) {
             $data['categories'][] = $key;
-            $data['created'][] = (isset($val['created'])) ? $val['created'] : 0;
-            $data['cancelled'][] = (isset($val['cancelled'])) ? $val['cancelled'] : 0;
-            $data['delivered'][] = (isset($val['delivered'])) ? $val['delivered'] : 0;
+            $data['columns']['created'][] = (isset($val['created'])) ? $val['created'] : 0;
+            $data['columns']['cancelled'][] = (isset($val['cancelled'])) ? $val['cancelled'] : 0;
+            $data['columns']['delivered'][] = (isset($val['delivered'])) ? $val['delivered'] : 0;
         }
 
         $view = $this->view($data, 200)->setFormat('json');
@@ -296,10 +296,10 @@ class PublicRestController extends BaseInstanceDependentRestController
                 ->findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear);
 
         $data = array();
-        $data['counts'][] = 'Cantidad';
+        $data['columns']['counts'][] = 'Cantidad';
         foreach ($result as $row) {
             $data['categories'][] = $row['materialDataYear'];
-            $data['counts'][] = $row['materialDataCount'];
+            $data['columns']['counts'][] = $row['materialDataCount'];
         }
         $div = count($data['categories']) * 0.1;
         for ($i = 1; $i <= (count($data['categories']) / $div ); $i++) {
@@ -334,28 +334,28 @@ class PublicRestController extends BaseInstanceDependentRestController
             }
         }
 
-        $data['delay0'][] = 'Delay 0';
-        $data['delay1'][] = 'Delay 1';
-        $data['delay2'][] = 'Delay 2';
-        $data['delay3'][] = 'Delay 3';
-        $data['delay4'][] = 'Delay 4';
-        $data['delay5'][] = 'Delay 5';
-        $data['delay6'][] = 'Delay 6';
-        $data['delay7'][] = 'Delay 7';
-        $data['delay8'][] = 'Delay 8';
-        $data['delay9'][] = 'Delay 9';
+        $data['columns']['delay0'][] = 'Delay 0';
+        $data['columns']['delay1'][] = 'Delay 1';
+        $data['columns']['delay2'][] = 'Delay 2';
+        $data['columns']['delay3'][] = 'Delay 3';
+        $data['columns']['delay4'][] = 'Delay 4';
+        $data['columns']['delay5'][] = 'Delay 5';
+        $data['columns']['delay6'][] = 'Delay 6';
+        $data['columns']['delay7'][] = 'Delay 7';
+        $data['columns']['delay8'][] = 'Delay 8';
+        $data['columns']['delay9'][] = 'Delay 9';
         foreach ($order as $k => $d) {
             $data['categories'][] = $k;
-            $data['delay0'][] = isset($d[0]) ? $d[0] : 0;
-            $data['delay1'][] = isset($d[1]) ? $d[1] : 0;
-            $data['delay2'][] = isset($d[2]) ? $d[2] : 0;
-            $data['delay3'][] = isset($d[3]) ? $d[3] : 0;
-            $data['delay4'][] = isset($d[4]) ? $d[4] : 0;
-            $data['delay5'][] = isset($d[5]) ? $d[5] : 0;
-            $data['delay6'][] = isset($d[6]) ? $d[6] : 0;
-            $data['delay7'][] = isset($d[7]) ? $d[7] : 0;
-            $data['delay8'][] = isset($d[8]) ? $d[8] : 0;
-            $data['delay9'][] = isset($d[9]) ? $d[9] : 0;
+            $data['columns']['delay0'][] = isset($d[0]) ? $d[0] : 0;
+            $data['columns']['delay1'][] = isset($d[1]) ? $d[1] : 0;
+            $data['columns']['delay2'][] = isset($d[2]) ? $d[2] : 0;
+            $data['columns']['delay3'][] = isset($d[3]) ? $d[3] : 0;
+            $data['columns']['delay4'][] = isset($d[4]) ? $d[4] : 0;
+            $data['columns']['delay5'][] = isset($d[5]) ? $d[5] : 0;
+            $data['columns']['delay6'][] = isset($d[6]) ? $d[6] : 0;
+            $data['columns']['delay7'][] = isset($d[7]) ? $d[7] : 0;
+            $data['columns']['delay8'][] = isset($d[8]) ? $d[8] : 0;
+            $data['columns']['delay9'][] = isset($d[9]) ? $d[9] : 0;
         }
 
         $view = $this->view($data, 200)->setFormat('json');
