@@ -4,14 +4,13 @@
         <thead>
             <tr>
                 <td></td>
-                <td ng-repeat="categorie in data.categories">
-                    {{ categorie }}
-                </td>
+                <td ng-repeat="v in data.columns">{{ v[0] }}</td>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="column in data.columns">
-                <td ng-repeat="v in column track by $index">{{ v }}</td>
+            <tr ng-repeat="(key, value) in data.categories">
+                <td>{{ value }}</td>
+                <td ng-if="key > 0" ng-repeat="v in data.columns">{{ v[key] }}</td>
             </tr>
         </tbody>
     </table>
