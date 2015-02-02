@@ -39,6 +39,11 @@
                         <option ng-repeat="i in institutions" value="{{i.value}}">{{i.name}}</option>
                     </select>
                 </p>
+                <p ng-show="selectDelayType">
+                    <input type="radio" ng-model="delayType" value="totalDelay">{{'totalDelay'|translate}}
+                    <input type="radio" ng-model="delayType" value="locationDelay">{{'locationDelay'|translate}}
+                    <input type="radio" ng-model="delayType" value="responseDelay">{{'responseDelay'|translate}}
+                </p>
                 <button id="updateChart" ng-click="updateChart()">{{'update'|translate}}</button>
             </form>
         </div>

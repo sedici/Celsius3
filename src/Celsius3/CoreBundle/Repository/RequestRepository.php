@@ -125,7 +125,7 @@ class RequestRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findRequestTotalDelay($instance, $type, $initialYear, $finalYear)
+    public function findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType)
     {
         $dql = "SELECT YEAR(r.createdAt) cYear, DATEDIFF(sB.createdAt,sA.createdAt) delay, COUNT(r.id) rCount
                 FROM Celsius3\CoreBundle\Entity\Request r
@@ -138,12 +138,24 @@ class RequestRepository extends EntityRepository
                     WHERE st.type = 'annulled' OR st.type = 'cancelled'
                 )
                 AND r.instance = :instance
-                AND r.type = :type
-                AND sA.type = 'created' 
-                AND sB.type = 'delivered' ";
+                AND r.type = :type ";
+
+        if ($delayType === 'totalDelay') {
+            $dql .= "AND sA.type = 'created' 
+                AND sB.type = 'received' ";
+        } elseif ($delayType === 'locationDelay') {
+            $dql .= "AND sA.type = 'created' 
+                AND sB.type = 'requested' ";
+        } elseif ($delayType === 'responseDelay') {
+            $dql .= "AND sA.type = 'requested' 
+                AND sB.type = 'received' ";
+        } else {
+            $dql .= "AND sA.type = 'created' 
+                AND sB.type = 'received' ";
+        }
 
         if ($initialYear === $finalYear) {
-            $dql .= "AND r.createdAt = :year ";
+            $dql .= "AND YEAR(r.createdAt) = :year ";
         }
 
         $dql .= "GROUP BY cYear,delay ";

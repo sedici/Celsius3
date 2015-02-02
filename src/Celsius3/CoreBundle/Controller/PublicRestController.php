@@ -232,8 +232,8 @@ class PublicRestController extends BaseInstanceDependentRestController
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
         $type = $request->query->get('type');
-
-        $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->findRequestTotalDelay($instance, $type, $initialYear, $finalYear);
+        $delayType = $request->query->get('delayType');
+        $result = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType);
 
         $order = array();
         foreach ($result as $row) {
