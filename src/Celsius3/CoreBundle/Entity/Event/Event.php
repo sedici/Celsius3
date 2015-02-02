@@ -60,33 +60,39 @@ class Event implements EventInterface
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $observations;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", inversedBy="events")
      * @ORM\JoinColumn(name="request_id", referencedColumnName="id", nullable=false)
      */
     private $request;
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="events", cascade={"persist", "refresh"})
      * @ORM\JoinColumn(name="state_id", referencedColumnName="id", nullable=false)
      */
     private $state;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Instance", inversedBy="events")
@@ -223,4 +229,5 @@ class Event implements EventInterface
     {
         return $this->request;
     }
+
 }
