@@ -86,11 +86,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.updateChart();
     };
 
-    $scope.columnsToArray = function(data){
-        var columns = $.map(data, function(value, index) {
+    $scope.columnsToArray = function (data) {
+        var columns = $.map(data, function (value, index) {
             return [value];
         });
-        
+
         return columns;
     }
 
@@ -167,7 +167,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     $scope.generateRequestsNumberByPublicationYearChart(response);
                 });
     };
-    
+
     $scope.getRequestsTotalDelayDataFor = function (type, initialYear, finalYear) {
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
@@ -179,7 +179,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     $scope.generateRequestsTotalDelayChart(response);
                 });
     };
-    
+
     //Métodos de creación del gráfico//
 
     $scope.generateUsersCountChart = function (data) {
@@ -204,7 +204,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsOriginChart = function (data) {
-        var columns = $scope.columnsToArray(data.columns);
+        var columns = {};
+        columns.requestsCount = data.columns.requestsCount.slice(0, 11);
+        var columns = $scope.columnsToArray(columns);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
@@ -220,7 +222,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             axis: {
                 x: {
                     type: 'category',
-                    categories: data.categories,
+                    categories: data.categories.slice(0, 11),
                     tick: {
                         rotate: 20
                     },
@@ -265,6 +267,36 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         });
     };
 
+    $scope.generateRequestsDestinyDistributionChart = function (data) {
+        var columns = {};
+        columns.created = data.columns.created.slice(0, 11);
+        columns.cancelled = data.columns.cancelled.slice(0, 11);
+        columns.delivered = data.columns.delivered.slice(0, 11);
+        columns = $scope.columnsToArray(columns);
+        var chart = c3.generate({
+            bindto: '#chart',
+            data: {
+                columns: columns,
+                type: 'bar'
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: data.categories.slice(0, 10),
+                    label: 'Countries'
+                },
+                y: {
+                    label: 'Requests count for country'
+                }
+            },
+            grid: {
+                y: {
+                    lines: [{value: 0}]
+                }
+            }
+        });
+    }
+
     $scope.generateRequestsNumberByPublicationYearChart = function (data) {
         var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
@@ -285,14 +317,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             }
         });
     };
-    
-    $scope.generateRequestsTotalDelayChart = function(data){
+
+    $scope.generateRequestsTotalDelayChart = function (data) {
         var columns = $scope.columnsToArray(data.columns);
         var chart = c3.generate({
             data: {
                 columns: columns,
                 type: 'area-spline',
-                groups: [['Delay 0','Delay 1','Delay 2','Delay 3','Delay 4','Delay 5','Delay 6','Delay 7','Delay 8','Delay 9']]
+                groups: [['Delay 0', 'Delay 1', 'Delay 2', 'Delay 3', 'Delay 4', 'Delay 5', 'Delay 6', 'Delay 7', 'Delay 8', 'Delay 9']]
             },
             axis: {
                 x: {
@@ -377,9 +409,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.searchProvision = true;
     };
 
-    $scope.getRequestsTotalDelayData = function() {
+    $scope.getRequestsTotalDelayData = function () {
         $scope.actualMethod = function () {
-            return function(){};//$scope.updateRequestsNumberByPublicationYearChart();
+            return function () {
+            };//$scope.updateRequestsNumberByPublicationYearChart();
         };
         $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Requests total delay.';

@@ -110,7 +110,8 @@ class PublicRestController extends BaseInstanceDependentRestController
     {
         $instance = $request->query->get('instance');
 
-        $years = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')->getYears($instance);
+        $years = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:State')
+                ->getYears($instance);
 
         foreach ($years as $year) {
             $data[] = $year['year'];
@@ -190,15 +191,11 @@ class PublicRestController extends BaseInstanceDependentRestController
 
         $data = array();
         $data['columns']['requestsCount'][] = 'Requests';
-        $i = 0;
-        while ($i < 10) {
-            list(, $count) = each($counts);
+        foreach ($counts as $count) {
             $data['columns']['requestsCount'][] = $count['requestsCount'];
             $data['countries'][] = (Integer) $count['institutionCountry'];
             $data['categories'][] = $count['name'];
             $data['ids'][] = (Integer) $count['id'];
-
-            $i++;
         }
 
         $view = $this->view($data, 200)->setFormat('json');
@@ -223,20 +220,20 @@ class PublicRestController extends BaseInstanceDependentRestController
         $rows = array();
         foreach ($result as $count) {
             $rows[$count['axisValue']][$count['stateType']]['requestCount'] = $count['requestsCount'];
-            $rows[$count['axisValue']][$count['stateType']]['totalPages'] = intval($count['endPage']) - intval($count['startPage']);
+            $rows[$count['axisValue']][$count['stateType']]['totalPages'] = intval($count['pages']);
         }
 
         $values = array();
         $values['columns']['created'][] = 'Created';
         $values['columns']['cancelled'][] = 'Cancelled';
-        $values['columns']['delivered'][] = 'Delivered';
-        //$values['columns']['totalPages'][] = 'Total Pages';
+        $values['columns']['satisfied'][] = 'Satisfied';
+        //$values['totalPages'][] = 'Total Pages';
         foreach ($rows as $key => $row) {
             $values['categories'][] = $key;
             $values['columns']['created'][] = (isset($row['created'])) ? $row['created']['requestCount'] : 0;
             $values['columns']['cancelled'][] = (isset($row['cancelled'])) ? $row['cancelled']['requestCount'] : 0;
-            $values['columns']['delivered'][] = (isset($row['delivered'])) ? $row['delivered']['requestCount'] : 0;
-            //$values['columns']['totalPages'][] = (isset($row['delivered'])) ? $row['delivered']['totalPages'] : 0;
+            $values['columns']['satisfied'][] = (isset($row['received'])) ? $row['received']['requestCount'] : 0;
+            //$values['totalPages'][] = (isset($row['delivered'])) ? $row['delivered']['totalPages'] : 0;
         }
 
         $view = $this->view($values, 200)->setFormat('json');
@@ -263,7 +260,12 @@ class PublicRestController extends BaseInstanceDependentRestController
             $values[$count['countryName']][$count['stateType']][] = $count['requestsCount'];
         }
 
-        ksort($values);
+        uasort($values, function($a, $b) {
+            if ($a['created'] === $b['created']) {
+                return 0;
+            }
+            return ($a['created'] > $b['created']) ? -1 : 1;
+        });
 
         $data = array();
         $data['columns']['created'][] = 'Created';
@@ -361,5 +363,4 @@ class PublicRestController extends BaseInstanceDependentRestController
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
-
 }
