@@ -152,6 +152,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.getRequestsTotalDelayDataFor = function (type, initialYear, finalYear, delayType) {
+
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
@@ -188,7 +189,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsOriginChart = function (data) {
-        var columns = $scope.columnsToArray(data.columns);
+        var columns = {};
+        columns.requestsCount = data.columns.requestsCount.slice(0, 11);
+        var columns = $scope.columnsToArray(columns);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
@@ -204,7 +207,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             axis: {
                 x: {
                     type: 'category',
-                    categories: data.categories,
+                    categories: data.categories.slice(0, 11),
                     tick: {
                         rotate: 20
                     },
@@ -248,6 +251,36 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             }
         });
     };
+
+    $scope.generateRequestsDestinyDistributionChart = function (data) {
+        var columns = {};
+        columns.created = data.columns.created.slice(0, 11);
+        columns.cancelled = data.columns.cancelled.slice(0, 11);
+        columns.delivered = data.columns.delivered.slice(0, 11);
+        columns = $scope.columnsToArray(columns);
+        var chart = c3.generate({
+            bindto: '#chart',
+            data: {
+                columns: columns,
+                type: 'bar'
+            },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: data.categories.slice(0, 10),
+                    label: 'Countries'
+                },
+                y: {
+                    label: 'Requests count for country'
+                }
+            },
+            grid: {
+                y: {
+                    lines: [{value: 0}]
+                }
+            }
+        });
+    }
 
     $scope.generateRequestsNumberByPublicationYearChart = function (data) {
         var columns = $scope.columnsToArray(data.columns);

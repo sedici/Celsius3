@@ -84,61 +84,41 @@ class StateRepository extends EntityRepository
 
     public function findRequestsStateCountFor($instance, $type, $initialYear, $finalYear)
     {
-        $query = $this->createQueryBuilder('x')
-                        ->select('xr')
-                        ->innerJoin('x.request', 'xr')
-                        ->andWhere('x.type = :type')->setParameter('type', 'annulled')
-                        ->andWhere('x.instance = :instance')->setParameter('instance', $instance)
-                        ->getQuery()->getDQL();
-
-        $qb = $this->createQueryBuilder('s');
-        $qb = $qb->addSelect('s.type stateType')
-                ->addSelect('COUNT(s.request) requestsCount')
-                ->addSelect('SUM(md.endPage) endPage')
-                ->addSelect('SUM(md.startPage) startPage')
-                
-                ->innerJoin('s.request','r')
-                ->innerJoin('r.order','o')
-                ->innerJoin('o.materialData','md')
-
+        $qb = $this->createQueryBuilder('s')
+                ->select('s.type stateType')
+                ->addSelect('COUNT(r.id) requestsCount')
+                ->addSelect('(SUM(md.endPage) - SUM(md.startPage)) pages')
+                ->innerJoin('s.request', 'r')
+                ->innerJoin('r.order', 'o')
+                ->innerJoin('o.materialData', 'md')
                 ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
-                ->andWhere($qb->expr()->notIn('s.request', $query))
+                ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
                 ->andWhere('r.type = :type')->setParameter('type', $type)
-                ->andWhere('s.type <> :stateType')->setParameter('stateType','annulled');
-                        
-        if($initialYear === $finalYear){
-            $qb = $qb->addSelect('MONTH(s.createdAt) axisValue')
-                    ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $initialYear);
-        }
-        
-        if($initialYear < $finalYear){
+                ->groupBy('stateType');
+
+        if ($initialYear === $finalYear) {
+            $qb = $qb->addSelect('YEAR(s.createdAt) year')
+                    ->addSelect('MONTH(s.createdAt) axisValue')
+                    ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $initialYear)
+                    ->addGroupBy('year');
+        } else if ($initialYear < $finalYear) {
             $qb = $qb->addSelect('YEAR(s.createdAt) axisValue')
-                    ->andHaving('axisValue >= :initialYear')->setParameter('initialYear',$initialYear)
-                    ->andHaving('axisValue <= :finalYear')->setParameter('finalYear',$finalYear);
+                            ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
-        
+
         $qb = $qb->addGroupBy('axisValue')
-                ->addGroupBy('stateType')
-                ->orderBy('axisValue','ASC');
-        
+                ->orderBy('axisValue', 'ASC');
+
         return $qb->getQuery()->getResult();
     }
 
     public function getYears($instance)
     {
-        $query = $this->createQueryBuilder('x')
-                        ->select()
-                        ->andWhere('x.type = :type')
-                        ->setParameter('type', 'annulled')
-                        ->andWhere('x.instance = :instance')
-                        ->setParameter('instance', $instance)
-                        ->innerJoin('x.request', 'r')
-                        ->getQuery()->getResult();
-
-        $qb = $this->createQueryBuilder('s');
-        return $qb->addSelect('YEAR(s.createdAt) year')
-                        ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
-                        ->andWhere($qb->expr()->notIn('s.request', $query))
+        return $this->createQueryBuilder('s')
+                        ->select('DISTINCT(YEAR(s.createdAt)) year')
+                        ->where('s.instance = :instance')->setParameter('instance', $instance)
+                        ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
                         ->groupBy('year')
                         ->orderBy('year', 'ASC')
                         ->getQuery()->getResult();
@@ -146,42 +126,30 @@ class StateRepository extends EntityRepository
 
     public function findRequestsDestinyDistributionFor($instance, $type, $initialYear, $finalYear)
     {
-        $query = $this->createQueryBuilder('x')
-                        ->select('r')
-                        ->innerJoin('x.request', 'r')
-                        ->andWhere('x.type = :type')->setParameter('type', 'annulled')
-                        ->andWhere('x.instance = :instance')->setParameter('instance', $instance)
-                        ->getQuery()->getResult();
-
-
-        $qb = $this->createQueryBuilder('s');
-        return $qb->addSelect('c.id countryId')
-            ->addSelect('c.name countryName')
-            ->addSelect('YEAR(s.createdAt) year')
-            ->addSelect('s.type stateType')
-            ->addSelect('COUNT(s.request) requestsCount')
-            ->innerJoin('s.request', 'r')
-            ->innerJoin('r.events', 'e', Join::ON, 'e.type = :etype')->setParameter('etype', 'sirequest')
-            ->innerJoin('e.provider', 'p')
-            ->innerJoin('p.country', 'c')
-            ->where('e INSTANCE OF Celsius3CoreBundle:SingleInstanceRequestEvent')
-            ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
-            ->andWhere('r.type = :type')->setParameter('type', $type)
-            ->andWhere($qb->expr()->notIn('s.request', $query))
-            ->andHaving('year >= :initialYear')->setParameter('initialYear', $initialYear)
-            ->andHaving('year <= :finalYear')->setParameter('finalYear', $finalYear)
-            ->groupBy('countryId')
-            ->addGroupBy('stateType')
-            ->orderBy('requestsCount', 'ASC')
-            ->getQuery()->getResult();
-
-//        $this->getEntityManager()->createQuery('SELECT
-//                FROM Celsius3CoreBundle:Entity:State s
-//                INNER JOIN s.request r
-//                INNER JOIN r.events e ON e.type 
-//                INNER JOIN e.provider p ON 
-//                
-//            ');
+        $rsm = new \Doctrine\ORM\Query\ResultSetMapping();
+        $rsm->addScalarResult('countryId', 'countryId')
+                ->addScalarResult('countryName', 'countryName')
+                ->addScalarResult('stateType', 'stateType')
+                ->addScalarResult('year', 'year')
+                ->addScalarResult('requestsCount', 'requestsCount');
+        return $this->getEntityManager()
+                        ->createNativeQuery('SELECT c.id countryId, c.name countryName, YEAR(s.createdAt) year, s.type stateType, COUNT(r.id) requestsCount'
+                                . ' FROM state s'
+                                . ' INNER JOIN request r ON r.id = s.request_id'
+                                . ' INNER JOIN event e ON e.request_id = r.id'
+                                . ' INNER JOIN provider p ON p.id = e.provider_id'
+                                . ' INNER JOIN country c ON c.id = p.country_id'
+                                . ' WHERE s.instance_id = :instance'
+                                . ' AND r.type = :type'
+                                . ' AND s.type <> :stateType'
+                                . ' GROUP BY c.id, stateType'
+                                . ' HAVING year >= :initialYear AND year <= :finalYear'
+                                . ' ORDER BY requestsCount ASC', $rsm)
+                        ->setParameter('instance', $instance)
+                        ->setParameter('type', $type)
+                        ->setParameter('stateType', 'annulled')
+                        ->setParameter('initialYear', $initialYear)
+                        ->setParameter('finalYear', $finalYear)
+                        ->getResult();
     }
-
 }
