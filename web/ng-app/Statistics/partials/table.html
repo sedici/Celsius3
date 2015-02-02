@@ -10,7 +10,7 @@
         <tbody>
             <tr ng-repeat="(key, value) in data.categories">
                 <td>{{ value }}</td>
-                <td ng-if="key > 0" ng-repeat="v in data.columns">{{ v[key] }}</td>
+                <td ng-repeat="v in data.columns">{{ v[key + 1] }}</td>
             </tr>
         </tbody>
     </table>

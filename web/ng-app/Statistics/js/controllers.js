@@ -14,7 +14,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.years;
     $scope.currentYear = new Date().getFullYear();
     $scope.requestType = 'search';
-    $scope.initialYear = 0;
+    $scope.initialYear = 2001;
     $scope.finalYear = $scope.currentYear;
     $scope.actualMethod = function () {
     };
@@ -31,34 +31,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
                     $scope.institutions = response;
                 });
     };
-
-    $scope.getUsersCountYears = function () {
-        $http.get(Routing.generate('public_rest_get_users_count_years_data') + '?instance=' + instance_id)
-                .success(function (response) {
-                    $scope.years = filterYears(response);
-                });
-    };
-
-    $scope.getRequestsCountYears = function () {
-        $http.get(Routing.generate('public_rest_get_requests_count_years_data') + '?instance=' + instance_id)
-                .success(function (response) {
-                    $scope.years = response;
-                });
-    };
-
-    $scope.getRequestsDestinyDistributionYears = function () {
-        $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_years_data') + '?instance=' + instance_id)
-                .success(function (response) {
-                    $scope.years = response;
-                });
-    };
-
-    $scope.getRequestsNumberByPublicationYearYears = function () {
-        $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_years_data') + '?instance=' + instance_id)
-                .success(function (response) {
-                    $scope.years = response;
-                });
-    };
+    
+    $scope.generateYears = function(){
+        var years = new Array();
+        for (i=2001;i <= $scope.currentYear;i++){
+            years.push(i);
+        }
+        $scope.years = years;
+    }
 
     $scope.initialYearChange = function () {
         if ($scope.finalYear < $scope.initialYear) {
@@ -320,6 +300,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.updateRequestsNumberByPublicationYearChart = function () {
         $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
     };
+    
+    $scope.updateRequestsTotalDelay = function(){
+        $scope.getRequestsTotalDelayDataFor($scope.requestType,$scope.initialYear,$scope.finalYear);
+    }
 
     //Funciones de inicialización//
 
@@ -327,7 +311,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.actualMethod = function () {
             return $scope.updateUsersCountChart();
         };
-        $scope.getUsersCountYears();
+        //$scope.getUsersCountYears();
         $scope.getUsersCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Users count';
         $scope.locationFields = false;
@@ -348,7 +332,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.actualMethod = function () {
             return $scope.updateRequestsCountChart();
         };
-        $scope.getRequestsCountYears();
+//        $scope.getRequestsCountYears();
         $scope.getRequestsCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Requests count';
         $scope.locationFields = false;
@@ -359,7 +343,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.actualMethod = function () {
             return $scope.getRequestsDestinyDistributionDataFor($scope.requestType, 0, $scope.currentYear);
         };
-        $scope.getRequestsDestinyDistributionYears();
+//        $scope.getRequestsDestinyDistributionYears();
         $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Requests destiny distribution';
         $scope.locationFields = false;
@@ -370,7 +354,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.actualMethod = function () {
             return $scope.updateRequestsNumberByPublicationYearChart();
         };
-        $scope.getRequestsNumberByPublicationYearYears();
+//        $scope.getRequestsNumberByPublicationYearYears();
         $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Number of requests by publication year';
         $scope.locationFields = false;
@@ -379,13 +363,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
     $scope.getRequestsTotalDelayData = function() {
         $scope.actualMethod = function () {
-            return function(){};//$scope.updateRequestsNumberByPublicationYearChart();
+            return $scope.updateRequestsTotalDelay();
         };
         $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Requests total delay.';
     }
 
     $scope.start = function () {
+        $scope.generateYears();
         $scope.getUsersCountData();
     };
 
