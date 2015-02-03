@@ -93,9 +93,13 @@ class AdminOrderController extends OrderController
      */
     public function newAction(Request $request)
     {
-        $user = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($request->query->get('user_id', null));
+        if ($request->query->has('user_id')) {
+            $user = $this->getDoctrine()->getManager()
+                    ->getRepository('Celsius3CoreBundle:BaseUser')
+                    ->find($request->query->get('user_id'));
+        } else {
+            $user = null;
+        }
 
         return $this->baseNew('Order', new Order(), new OrderType($this->getInstance(), null, $user, $this->getUser()));
     }
