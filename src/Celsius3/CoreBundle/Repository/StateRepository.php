@@ -55,6 +55,13 @@ class StateRepository extends EntityRepository
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }
+        
+        $states = StateManager::$stateTypes;
+        foreach ($states as $state) {
+            if (!array_key_exists($state, $result)) {
+                $result[$state] = 0;
+            }
+        }
 
         return $result;
     }
