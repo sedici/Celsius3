@@ -17,14 +17,11 @@
                        '@select2_bootstrap_css'
                        '@angular_loading_bar_css'
                        '@summernote_css'
-                       '@c3_css' %}
+                       '@c3_css'
+                       'bundles/celsius3core/css/timepicker.css'
+                       'bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css'
+                       '@Celsius3CoreBundle/Resources/public/less/*' filter='?uglifycss' filter='?cssrewrite' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
-            {% endstylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/timepicker.css') }}"/>
-            <link rel="stylesheet" type="text/css" href="{{ asset('bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css') }}"/>
-            {% stylesheets filter='less' output='bundles/celsius3core/css/celsius3-compiled.css'
-            '@Celsius3CoreBundle/Resources/public/less/*' %}
-            <link href="{{ asset_url }}" rel="stylesheet" media="all" />
             {% endstylesheets %}
             <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!--[if lt IE 9]>
@@ -92,6 +89,8 @@
 </div>
 {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
 {% block javascripts %}
+    {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
+    {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
     {% javascripts '@jquery_js'
                            '@jqueryui_js'
                            '@bootstrap_js'
@@ -116,24 +115,22 @@
                            '@summernote_js'
                            '@angular_bootstrap_js'
                            '@d3_js'
-                           '@c3_js' %}
+                           '@c3_js' 
+                           'bundles/celsius3core/js/jquery-ui-timepicker-addon.js'
+                           'bundles/fosjsrouting/js/router.js'
+                           'bundles/celsius3core/js/cosmetics.js'
+                           'bundles/celsius3core/js/forms.js'
+                           'bundles/celsius3core/js/cci.js'
+                           'bundles/celsius3core/js/admin.js'
+                           'bundles/celsius3core/js/dnd.js'
+                           'bundles/celsius3core/js/mail.js'
+                           'bundles/celsius3notification/js/autobahn.min.js'
+                           'bundles/celsius3notification/js/notification.js' filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/jquery-ui-timepicker-addon.js') }}"></script>
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
-    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
     <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-    {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cosmetics.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/forms.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/cci.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/admin.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/dnd.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/mail.js') }}"></script>
-    {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
-    <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/autobahn.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/celsius3notification/js/notification.js') }}"></script>
     {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
     {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
     {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}

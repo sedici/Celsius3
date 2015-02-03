@@ -53,9 +53,12 @@ class LocaleChoosingListener
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
-
+        
         $request = $event->getRequest();
-
+        if ('' !== rtrim($request->getPathInfo(), '/')) {
+            return;
+        }
+        
         $ex = $event->getException();
         if (!$ex instanceof NotFoundHttpException || !$ex->getPrevious() instanceof ResourceNotFoundException) {
             return;
