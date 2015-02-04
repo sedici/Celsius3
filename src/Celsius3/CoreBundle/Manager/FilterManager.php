@@ -55,28 +55,29 @@ class FilterManager
 
     private function applyStandardFilter($class, $key, $data, QueryBuilder $query)
     {
+        $alias = $query->getRootAliases()[0];
         switch ($this->field_guesser->getDbType($class, $key)) {
             case 'string':
-                $query = $query->where($key . ' LIKE :data')
+                $query = $query->andWhere($alias . '.' . $key . ' LIKE :data')
                         ->setParameter('data', '%' . $data . '%');
                 break;
             case 'boolean':
                 if ("" !== $data) {
-                    $query = $query->where($key . ' = :data')
+                    $query = $query->andWhere($alias . '.' . $key . ' = :data')
                             ->setParameter('data', (boolean) $data);
                 }
                 break;
             case 'integer':
-                $query = $query->where($key . ' = :data')
+                $query = $query->andWhere($alias . '.' . $key . ' = :data')
                         ->setParameter('data', (int) $data);
                 break;
             case 'entity':
             case 'collection':
-                $query = $query->field($key . '_id = :id')
-                        ->setParameter(':id', $data->getId()); //$data; data.$id
+                $query = $query->andWhere($alias . '.' . $key . ' = :id')
+                        ->setParameter('id', $data->getId()); //$data; data.$id
                 break;
             default:
-                $query = $query->where($key . ' = :data')
+                $query = $query->andWhere($alias . '.' . $key . ' = :data')
                         ->setParameter('data', $data);
                 break;
         }

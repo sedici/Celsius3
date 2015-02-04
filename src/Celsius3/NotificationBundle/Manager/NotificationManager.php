@@ -148,7 +148,7 @@ class NotificationManager
                     {
                         $em = $this->container->get('doctrine.orm.entity_manager');
                         $admins = $em->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($user->getInstance());
-                        $this->notify(new BaseUser(), self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                        $this->notify(new BaseUserNotification(), self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array(
                                             'code' => self::CAUSE__NEW_USER
                         )));

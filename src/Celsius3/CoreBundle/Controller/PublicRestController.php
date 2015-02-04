@@ -173,6 +173,15 @@ class PublicRestController extends BaseInstanceDependentRestController
         }
 
         uasort($values, function($a, $b) {
+            if (!array_key_exists('created', $a) && !array_key_exists('created', $b)) {
+                return 0;
+            }
+            if (!array_key_exists('created', $a) && array_key_exists('created', $b)) {
+                return 1;
+            }
+            if (array_key_exists('created', $a) && !array_key_exists('created', $b)) {
+                return -1;
+            }
             if ($a['created'] === $b['created']) {
                 return 0;
             }
@@ -185,9 +194,9 @@ class PublicRestController extends BaseInstanceDependentRestController
         $data['columns']['delivered'][] = 'Delivered';
         foreach ($values as $key => $val) {
             $data['categories'][] = $key;
-            $data['columns']['created'][] = (isset($val['created'])) ? $val['created'] : 0;
-            $data['columns']['cancelled'][] = (isset($val['cancelled'])) ? $val['cancelled'] : 0;
-            $data['columns']['delivered'][] = (isset($val['delivered'])) ? $val['delivered'] : 0;
+            $data['columns']['created'][] = (isset($val['created'])) ? $val['created'][0] : 0;
+            $data['columns']['cancelled'][] = (isset($val['cancelled'])) ? $val['cancelled'][0] : 0;
+            $data['columns']['delivered'][] = (isset($val['delivered'])) ? $val['delivered'][0] : 0;
         }
 
         $view = $this->view($data, 200)->setFormat('json');

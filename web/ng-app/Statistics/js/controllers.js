@@ -254,6 +254,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsDestinyDistributionChart = function (data) {
+        console.log(data);
         var columns = {};
         columns.created = data.columns.created.slice(0, 11);
         columns.cancelled = data.columns.cancelled.slice(0, 11);
@@ -374,7 +375,6 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.actualMethod = function () {
             return $scope.updateRequestsCountChart();
         };
-//        $scope.getRequestsCountYears();
         $scope.getRequestsCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Requests count';
         $scope.locationFields = false;
@@ -385,9 +385,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
     $scope.getRequestsDestinyDistributionData = function () {
         $scope.actualMethod = function () {
-            return $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.currentYear);
+            return $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         };
-        $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.currentYear);
+        $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Requests destiny distribution';
         $scope.locationFields = false;
         $scope.searchProvision = true;

@@ -69,7 +69,7 @@ class Contact
     private $user;
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="ContactType")
+     * @ORM\ManyToOne(targetEntity="ContactType", inversedBy="contacts")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
     private $type;

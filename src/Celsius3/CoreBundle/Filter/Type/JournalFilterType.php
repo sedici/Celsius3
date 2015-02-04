@@ -43,12 +43,16 @@ class JournalFilterType extends AbstractType
                 ->add('responsible', null, array('required' => false,))
                 ->add('ISSN', null, array('required' => false,))
                 ->add('ISSNE', null, array('required' => false,))
-                ->add('frecuency', null, array('required' => false,));
+                ->add('frecuency', null, array('required' => false,))
+        ;
 
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', 'entity', array('required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',));
+                    ->add('instance', 'entity', array(
+                        'required' => false,
+                        'class' => 'Celsius3CoreBundle:Instance',
+                    ))
+            ;
         }
     }
 

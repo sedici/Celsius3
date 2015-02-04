@@ -18,7 +18,7 @@
         {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
     </div>
     <div class="row">
-        {% set count = pagination.count %}
+        {% set count = pagination|length %}
         {% set first = count is odd ? count/2 + 1 : count/2 %}
         {% set second = count - first + 1 %}
         <div class="col-md-6">

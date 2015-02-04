@@ -34,7 +34,7 @@ class MessageNotification extends Notification
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\MessageBundle\Entity\Message")
-     * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id")
      */
     private $object;
 

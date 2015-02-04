@@ -59,7 +59,7 @@ class Notification
      */
     private $isViewed = false;
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="change", field="isViewed", value="true")
      */
     private $viewedAt;
