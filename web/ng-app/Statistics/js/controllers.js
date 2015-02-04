@@ -26,6 +26,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     $scope.allCountries = [];
     $scope.institutions = [];
     $scope.data;
+    $scope.firstColumnTitle = '';
     $scope.location = {};
 
     $scope.countryChanged = function () {
@@ -354,6 +355,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.locationFields = false;
         $scope.searchProvision = false;
         $scope.selectDelayType = false;
+        $scope.firstColumnTitle = 'Year';
     };
 
     $scope.getRequestsOriginData = function () {
@@ -365,6 +367,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.locationFields = true;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
+        $scope.firstColumnTitle = 'Country';
     };
 
     $scope.getRequestsCountData = function () {
@@ -377,6 +380,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
+        $scope.firstColumnTitle = 'Year';
     };
 
     $scope.getRequestsDestinyDistributionData = function () {
@@ -388,6 +392,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
+        $scope.firstColumnTitle = 'Country';
     };
 
     $scope.getRequestsNumberByPublicationYearData = function () {
@@ -400,6 +405,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
+        $scope.firstColumnTitle = 'Publication year';
     };
 
     $scope.getRequestsTotalDelayData = function () {
@@ -411,6 +417,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         $scope.selectDelayType = true;
         $scope.locationFields = false;
         $scope.searchProvision = true;
+        $scope.firstColumnTitle = 'Year';
     };
 
     $scope.start = function () {

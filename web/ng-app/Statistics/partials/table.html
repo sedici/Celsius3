@@ -3,8 +3,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td></td>
-                <td ng-repeat="v in data.columns">{{ v[0] }}</td>
+                <td><b>{{ firstColumnTitle }}</b></td>
+                <td ng-repeat="v in data.columns"><b>{{ v[0] }}</b></td>
             </tr>
         </thead>
         <tbody>
