@@ -102,6 +102,7 @@ class PublicRestController extends BaseInstanceDependentRestController
 
         $data = array();
         $data['columns']['requestsCount'][] = 'Requests';
+        $data['categories'] = Array();
         foreach ($counts as $count) {
             $data['columns']['requestsCount'][] = $count['requestsCount'];
             $data['countries'][] = (Integer) $count['institutionCountry'];

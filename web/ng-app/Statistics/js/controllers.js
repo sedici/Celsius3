@@ -1,4 +1,4 @@
-var statisticsControllers = angular.module('statisticsControllers', []);
+    var statisticsControllers = angular.module('statisticsControllers', []);
 statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
     function filterYears(years) {
@@ -131,7 +131,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-
+        
         $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
                 .success(function (response) {
                     $scope.data = response;
@@ -157,7 +157,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
         delayType = _.isUndefined(delayType) ? 'totalDelay' : delayType;
-
+        
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType)
                 .success(function (response) {
                     $scope.data = response;
@@ -381,10 +381,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
 
     $scope.getRequestsDestinyDistributionData = function () {
         $scope.actualMethod = function () {
-            return $scope.getRequestsDestinyDistributionDataFor($scope.requestType, 0, $scope.currentYear);
+            return $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.currentYear);
         };
-//        $scope.getRequestsDestinyDistributionYears();
-        $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
+        $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.currentYear);
         $scope.subtitle = 'Requests destiny distribution';
         $scope.locationFields = false;
         $scope.searchProvision = true;
