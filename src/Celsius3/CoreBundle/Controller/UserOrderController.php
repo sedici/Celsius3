@@ -43,10 +43,10 @@ class UserOrderController extends OrderController
         $qb = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->createQueryBuilder('e')
-                        ->where('e.instance = :instance')->setParameter('instance', $this->getInstance()->getId());
-
-        $qb = $qb->orWhere($qb->expr()->where('e.owner = :owner')->setParameter('owner', $this->getUser()->getId()));
-        $qb = $qb->orWhere($qb->expr()->where('e.librarian = :librarian')->equals('librarian', $this->getUser()->getId()));
+                        ->join('e.originalRequest','r')
+                        ->where('r.instance = :instance')->setParameter('instance', $this->getInstance()->getId())
+                        ->orWhere('r.owner = :owner')->setParameter('owner', $this->getUser()->getId())
+                        ->orWhere('r.librarian = :librarian')->setParameter('librarian', $this->getUser()->getId());
 
         return $qb;
     }
@@ -145,4 +145,5 @@ class UserOrderController extends OrderController
     {
         return $this->change();
     }
+
 }
