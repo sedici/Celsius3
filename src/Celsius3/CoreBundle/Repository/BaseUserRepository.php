@@ -111,21 +111,21 @@ class BaseUserRepository extends EntityRepository
         foreach ($data as $value) {
             switch ($value) {
                 case 'enabled':
-                    $query = $query->orWhere($alias . 'enabled = true')
-                            ->orWhere($alias . 'locked = false');
+                    $query = $query->orWhere($alias . '.enabled = true')
+                            ->orWhere($alias . '.locked = false');
                     break;
                 case 'pending':
-                    $query = $query->orWhere($alias . 'enabled = false')
-                            ->orWhere($alias . 'locked = false');
+                    $query = $query->orWhere($alias . '.enabled = false')
+                            ->orWhere($alias . '.locked = false');
                     break;
                 case 'rejected':
-                    $query = $query->orWhere($alias . 'locked = true');
+                    $query = $query->orWhere($alias . '.locked = true');
                     break;
             }
         }
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('u.instance = :instance_id')
+            $query = $query->andWhere($alias . '.instance = :instance_id')
                     ->setParameter('instance_id', $instance->getId());
         }
 
