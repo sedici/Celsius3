@@ -47,36 +47,31 @@ class OrderRepository extends EntityRepository
                 $secondary = array_keys($this->getEntityManager()
                                 ->getRepository('Celsius3CoreBundle:' . $repository)
                                 ->findByTerm($term, $instance)
-                                ->execute()
-                                ->toArray());
+                                ->getQuery()->getResult());
             }
-
-            $qb = $qb->field('owner')->in($secondary);
+            $qb->andWhere($qb->expr()->in('owner', $secundary));
         } else {
-            $expr = new \MongoRegex('/.*' . $term . '.*/i');
-            $qb = $qb->addOr($qb->expr()->field('code')->equals(intval($term)))
-                    ->addOr($qb->expr()->field('materialData.title')->equals($expr))
-                    ->addOr($qb->expr()->field('materialData.authors')->equals($expr))
-                    ->addOr($qb->expr()->field('materialData.year')->equals($expr));
+            $qb = $qb->join('o.materialData','md')
+                    ->orWhere($qb->expr()->like('o.code',$qb->expr()->literal('%'.$term.'%')))
+                    ->orWhere($qb->expr()->like('md.title',$qb->expr()->literal('%'.$term.'%')))
+                    ->orWhere($qb->expr()->like('md.authors',$qb->expr()->literal('%'.$term.'%')))
+                    ->orWhere($qb->expr()->like('md.year',$qb->expr()->literal('%'.$term.'%')));
         }
 
         if (!is_null($instance)) {
             $requests = array_values(array_map(function($request) {
-                        return $request['order']['$id'];
+                        return $request['orderp'];
                     }, $this->getEntityManager()->getRepository('Celsius3CoreBundle:Request')
-                                    ->createQueryBuilder()
-                                    ->select('order')
-                                    ->hydrate(false)
-                                    ->field('instance')->equals($instance->getId())
-                                    ->getQuery()
-                                    ->execute()
-                                    ->toArray()));
+                                    ->createQueryBuilder('r')
+                                    ->select('IDENTITY(r.order) orderp ')
+                                    ->where('r.instance = :instance')->setParameter('instance',$instance)
+                                    ->getQuery()->getResult()));
 
-            $qb = $qb->field('id')->in($requests);
+            $qb = $qb->join('o.requests','rs')->andWhere($qb->expr()->in('rs',$requests));
         }
 
         if (!is_null($limit)) {
-            $qb = $qb->limit($limit);
+            $qb = $qb->setMaxResults($limit);
         }
 
         return $qb->getQuery();
