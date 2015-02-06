@@ -52,13 +52,11 @@ class Request
      */
     private $comments;
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="orders")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
      */
     private $owner;
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="createdOrders")
      * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
      */
@@ -92,7 +90,6 @@ class Request
      */
     private $operator;
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Order", inversedBy="requests")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=false)
      */

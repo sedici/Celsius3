@@ -47,18 +47,14 @@ class MailTemplateType extends AbstractType
                     ),
                     'required' => false,
                 ))
+                ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                    'data' => $this->instance,
+                    'attr' => array(
+                        'value' => $this->instance->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ))
         ;
-        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-            $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
-                        'data' => $this->instance,
-                        'attr' => array(
-                            'value' => $this->instance->getId(),
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
-        }
     }
 
     public function getName()

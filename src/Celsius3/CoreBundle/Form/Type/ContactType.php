@@ -24,16 +24,9 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class ContactType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance = null)
-    {
-        $this->instance = $instance;
-    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -44,17 +37,8 @@ class ContactType extends AbstractType
                 ->add('address')
                 ->add('user')
                 ->add('type')
+                ->add('instance')
         ;
-
-        if (!is_null($this->instance)) {
-            $builder->add('instance', null, array(
-                'data' => $this->instance,
-                'attr' => array(
-                    'value' => $this->instance->getId(),
-                    'readonly' => 'readonly',
-                ),
-            ));
-        }
     }
 
     public function getName()

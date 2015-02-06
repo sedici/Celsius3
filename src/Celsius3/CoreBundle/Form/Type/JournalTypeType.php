@@ -35,9 +35,19 @@ class JournalTypeType extends MaterialTypeType
         $builder
                 ->add('volume')
                 ->add('number')
-                ->add('journal', null, array(
-                    'empty_value' => 'Other',
-                    'required' => false,
+                ->add('journal', 'celsius3_corebundle_journal_selector', array(
+                    'attr' => array(
+                        'class' => 'container',
+                        'readonly' => 'readonly',
+                    ),
+                ))
+                ->add('journal_autocomplete', 'text', array(
+                    'attr' => array(
+                        'class' => 'autocomplete',
+                        'target' => 'Journal',
+                    ),
+                    'mapped' => false,
+                    'label' => 'Journal',
                 ))
                 ->add('other', null, array(
                     'required' => false,

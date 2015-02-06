@@ -51,7 +51,7 @@ class ConfigurationHelper
                 ->equivalences[$configuration->getType()] : 'text';
     }
 
-    public function getCastedValue($configuration)
+    public function getCastedValue(Configuration $configuration)
     {
         $value = null;
 

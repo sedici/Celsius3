@@ -43,12 +43,9 @@ class CounterListener
                     'name' => $entity->getOriginalRequest()->getInstance()->getId(),
                 ));
                 $entity->setCode($code->getValue());
-                $em->persist($entity);
 
                 $code->setValue($code->getValue() + 1);
                 $em->persist($code);
-
-                $em->flush($code);
 
                 $em->getConnection()->commit();
             } catch (Exception $e) {

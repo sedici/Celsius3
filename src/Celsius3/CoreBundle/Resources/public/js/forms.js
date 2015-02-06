@@ -69,26 +69,28 @@ $('.date').datepicker({
 /**
  * Autocomplete fields related event
  */
-$('input.autocomplete').autocomplete({
-    source: function (request, response) {
-        var field = $(this);
-        $.ajax({
-            url: ajax_path,
-            dataType: "json",
-            data: {
-                term: request.term,
-                target: field[0].element.attr('target')
-            },
-            success: function (data) {
-                response(data);
-            }
-        });
-    },
-    minLength: 2,
-    select: function (event, ui) {
-        var id = $(this).attr('id').replace('_autocomplete', '', 'gi');
-        $('#' + id).val(ui.item.id);
-    }
+$(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", function () {
+    $(this).autocomplete({
+        source: function (request, response) {
+            var field = $(this);
+            $.ajax({
+                url: ajax_path,
+                dataType: "json",
+                data: {
+                    term: request.term,
+                    target: field[0].element.attr('target')
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 2,
+        select: function (event, ui) {
+            var id = $(this).attr('id').replace('_autocomplete', '', 'gi');
+            $('#' + id).val(ui.item.id);
+        }
+    });
 });
 
 /**
@@ -193,21 +195,6 @@ $('.add-file').click(
 $('#message_recipients').select2({
     placeholder: ''
 });
-
-/*
- * Select especial para journals
- */
-$('#celsius3_corebundle_ordertype_materialData_journal').select2();
-
-$('#celsius3_corebundle_ordertype_materialData_journal').on('change', function () {
-    if ($('#celsius3_corebundle_ordertype_materialData_journal').val() === '') {
-        $('#celsius3_corebundle_ordertype_materialData_other').prop('disabled', false);
-    } else {
-        $('#celsius3_corebundle_ordertype_materialData_other').prop('disabled', true);
-    }
-});
-
-$('#celsius3_corebundle_ordertype_materialData_journal').change();
 
 /*
  * Form submission

@@ -113,8 +113,12 @@ class AdminOrderController extends OrderController
      *
      * @return array
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
+//        $data = $request->request->get("celsius3_corebundle_ordertype");
+//        $data['originalRequest']['creator'] = $this->getUser()->getId();
+//        $request->request->set("celsius3_corebundle_ordertype", $data);
+
         return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), 'admin_order');
     }
 

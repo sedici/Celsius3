@@ -41,28 +41,28 @@ use Celsius3\CoreBundle\Manager\InstanceManager;
 class DirectoryLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
-    private $directory_configurations = array(
-        'instance_title' => array(
-            'name' => 'Title',
-            'value' => 'Celsius3 Directory',
-            'type' => 'string',
-        ),
-        'results_per_page' => array(
-            'name' => 'Results per page',
-            'value' => '10',
-            'type' => 'integer',
-        ),
-        'instance_description' => array(
-            'name' => 'Instance description',
-            'value' => '',
-            'type' => 'text',
-        ),
-        'default_language' => array(
-            'name' => 'Default language',
-            'value' => 'es',
-            'type' => 'language',
-        ),
-    );
+//    private $directory_configurations = array(
+//        'instance_title' => array(
+//            'name' => 'Title',
+//            'value' => 'Celsius3 Directory',
+//            'type' => 'string',
+//        ),
+//        'results_per_page' => array(
+//            'name' => 'Results per page',
+//            'value' => '10',
+//            'type' => 'integer',
+//        ),
+//        'instance_description' => array(
+//            'name' => 'Instance description',
+//            'value' => '',
+//            'type' => 'text',
+//        ),
+//        'default_language' => array(
+//            'name' => 'Default language',
+//            'value' => 'es',
+//            'type' => 'language',
+//        ),
+//    );
     private $configurations = array(
         'instance_title' => array(
             'name' => 'Title',
@@ -157,7 +157,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Configuración del directorio
          */
-        foreach ($this->directory_configurations as $key => $data) {
+        foreach ($this->configurations as $key => $data) {
             $configuration = new Entity\Configuration();
             $configuration->setName($data['name']);
             $configuration->setKey($key);
@@ -177,20 +177,20 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Configuración modelo para las Instancias
          */
-        foreach ($this->configurations as $key => $data) {
-            $configuration = new Entity\Configuration();
-            $configuration->setName($data['name']);
-            $configuration->setKey($key);
-            $configuration->setValue($data['value']);
-            $configuration->setType($data['type']);
-
-            if ($key == 'instance_description') {
-                $configuration->setValue($generator->text(1000));
-            }
-
-            $manager->persist($configuration);
-            unset($configuration);
-        }
+//        foreach ($this->configurations as $key => $data) {
+//            $configuration = new Entity\Configuration();
+//            $configuration->setName($data['name']);
+//            $configuration->setKey($key);
+//            $configuration->setValue($data['value']);
+//            $configuration->setType($data['type']);
+//
+//            if ($key == 'instance_description') {
+//                $configuration->setValue($generator->text(1000));
+//            }
+//
+//            $manager->persist($configuration);
+//            unset($configuration);
+//        }
 
         foreach ($this->contact_types as $contacttype) {
             $ct = new Entity\ContactType();

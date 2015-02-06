@@ -32,17 +32,18 @@ class MailTemplateRepository extends EntityRepository
     {
         $custom = $this->createQueryBuilder('c')
                         ->select('c.code')
-                        ->where('c.instance_id = :instance_id')
-                        ->andWhere('enabled = true')
+                        ->where('c.instance = :instance_id')
+                        ->andWhere('c.enabled = true')
                         ->setParameter('instance_id', $instance->getId())
                         ->getQuery()->getResult();
 
         return $this->createQueryBuilder('c')
-                        ->where('(c.instance_id = :directory_id AND c.code NOT IN (:ids) AND c.enabled = true)')
-                        ->orWhere('c.instance_id = :instance_id')
+                        ->where('c.instance = :directory_id')
+                        ->andWhere('c.code NOT IN (:codes)')
+                        ->andWhere('c.enabled = true')
+                        ->orWhere('c.instance = :instance_id')
                         ->setParameter('directory_id', $directory->getId())
-                        ->setParameter('ids', $custom)
-                        ->setParameter('instance_id', $instance->getId())
-                        ->getQuery()->getResult();
+                        ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
+                        ->setParameter('instance_id', $instance->getId());
     }
 }

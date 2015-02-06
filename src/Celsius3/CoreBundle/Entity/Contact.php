@@ -74,9 +74,8 @@ class Contact
      */
     private $type;
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="contacts")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
     /**

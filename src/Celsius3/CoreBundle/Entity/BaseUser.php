@@ -48,23 +48,23 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $id;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $surname;
     /**
-     * @Assert\NotBlank()
-     * @Assert\Date()
+     * @Assert\NotBlank(groups={"Default"})
+     * @Assert\Date(groups={"Default"})
      * @ORM\Column(type="date", nullable=true)
      */
     protected $birthdate;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $address;

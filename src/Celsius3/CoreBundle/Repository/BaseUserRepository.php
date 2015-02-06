@@ -79,8 +79,6 @@ class BaseUserRepository extends EntityRepository
 
     public function findByTerm($term, $instance = null, $limit = null, array $institutions = array())
     {
-        $expr = new \MongoRegex('/.*' . $term . '.*/i');
-
         $qb = $this->createQueryBuilder('u')
                 ->where('u.name LIKE :term')
                 ->orWhere('u.surname LIKE :term')

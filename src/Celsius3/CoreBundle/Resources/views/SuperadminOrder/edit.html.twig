@@ -11,3 +11,8 @@
 
     {{ edit('superadmin_order', entity, edit_form, delete_form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}

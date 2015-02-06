@@ -103,7 +103,7 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @Route("/create", name="admin_contact_create")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:Contact:new.html.twig")
+     * @Template("Celsius3CoreBundle:AdminContact:new.html.twig")
      *
      * @return array
      */
@@ -134,7 +134,7 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @Route("/{id}/update", name="admin_contact_update")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:Contact:edit.html.twig")
+     * @Template("Celsius3CoreBundle:AdminContact:edit.html.twig")
      *
      * @param string $id The document ID
      *

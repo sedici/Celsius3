@@ -72,15 +72,15 @@ class Order
         $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function __clone()
-    {
-        if ($this->id) {
-            $this->id = null;
-            $this->materialData = clone $this->materialData;
-            $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
-            $this->originalRequest = new \Celsius3\CoreBundle\Entity\Request();
-        }
-    }
+//    public function __clone()
+//    {
+//        if ($this->id) {
+//            $this->id = null;
+//            $this->materialData = clone $this->materialData;
+//            $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+//            $this->originalRequest = new \Celsius3\CoreBundle\Entity\Request();
+//        }
+//    }
 
     /**
      * Get id

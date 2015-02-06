@@ -22,36 +22,47 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Celsius3\CoreBundle\Form\DataTransformer\JournalToIdTransformer;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AdminContactType extends ContactType
+class JournalSelectorType extends AbstractType
 {
-    private $owningInstance;
+    /**
+     * @var EntityManager
+     */
     private $em;
 
-    public function __construct(Instance $owningInstance, EntityManager $em)
+    /**
+     * @param EntityManager $em
+     */
+    public function __construct(EntityManager $em)
     {
-        $this->owningInstance = $owningInstance;
         $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        $builder
-                ->add('owningInstance', 'celsius3_corebundle_instance_selector', array(
-                    'data' => $this->owningInstance,
-                    'attr' => array(
-                        'value' => $this->owningInstance->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ))
-        ;
+        $transformer = new JournalToIdTransformer($this->em);
+        $builder->addModelTransformer($transformer);
+    }
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
-        $builder->addEventSubscriber($subscriber);
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'invalid_message' => 'The selected Journal does not exist',
+        ));
+    }
+
+    public function getParent()
+    {
+        return 'hidden';
+    }
+
+    public function getName()
+    {
+        return 'celsius3_corebundle_journal_selector';
     }
 }
