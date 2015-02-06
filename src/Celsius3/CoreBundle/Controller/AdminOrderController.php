@@ -167,16 +167,19 @@ class AdminOrderController extends OrderController
         if (!$order) {
             throw $this->createNotFoundException('Unable to find Order.');
         }
-
+        
+        $entity_manager = $this->getDoctrine()->getManager();
+        
         //Clonar Orden original
         $duplicatedOrder = clone $order;
-
-        $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance());
+        
+        $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance(), $order->getOriginalRequest()->getCreator());
         $duplicatedOrder->setOriginalRequest($request);
-
+        $duplicatedOrder->setMaterialData(clone $order->getMaterialData());
+        
         //Se registra duplicado en la base de datos
-        $entity_manager = $this->getDoctrine()->getManager();
         $entity_manager->persist($duplicatedOrder);
+        $entity_manager->persist($request);
         $entity_manager->flush();
 
         $materialClass = get_class($duplicatedOrder->getMaterialData());

@@ -44,37 +44,44 @@ class MaterialType
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     protected $title;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $authors;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     protected $year;
+
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     protected $startPage;
+
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     protected $endPage;
+
     /**
      * @ORM\OneToOne(targetEntity="Order", mappedBy="materialData")
      */
@@ -87,9 +94,7 @@ class MaterialType
 
     public function __clone()
     {
-        if ($this->id) {
-            $this->id = null;
-        }
+        $this->id = null;
     }
 
     /**
@@ -239,4 +244,5 @@ class MaterialType
     {
         return $this->order;
     }
+
 }

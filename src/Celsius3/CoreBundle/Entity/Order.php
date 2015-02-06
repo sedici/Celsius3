@@ -35,28 +35,33 @@ class Order
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     private $code;
+
     /**
      * @ORM\OneToOne(targetEntity="MaterialType", inversedBy="order", cascade={"all"})
      * @ORM\JoinColumn(name="material_data_id", referencedColumnName="id", nullable=true)
      */
     private $materialData;
+
     /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Request", cascade={"persist"})
      * @ORM\JoinColumn(name="original_request_id", referencedColumnName="id")
      */
     private $originalRequest;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="order")
      */
@@ -72,15 +77,13 @@ class Order
         $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-//    public function __clone()
-//    {
-//        if ($this->id) {
-//            $this->id = null;
-//            $this->materialData = clone $this->materialData;
-//            $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
-//            $this->originalRequest = new \Celsius3\CoreBundle\Entity\Request();
-//        }
-//    }
+    public function __clone()
+    {
+        $this->id = null;
+        $this->materialData = null;
+        $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->originalRequest = null;
+    }
 
     /**
      * Get id
@@ -217,4 +220,5 @@ class Order
 
         return false !== $result ? $result : null;
     }
+
 }

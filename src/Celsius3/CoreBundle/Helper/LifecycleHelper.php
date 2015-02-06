@@ -74,7 +74,6 @@ class LifecycleHelper
     {
         /* @var $event Event */
         $event = new $data['eventClassName'];
-        $event->setDate($data['date']);
         $event->setOperator($request->getOperator());
         $event->setInstance($data['instance']);
         $event->setRequest($request);
@@ -120,7 +119,6 @@ class LifecycleHelper
     private function createState(Request $request, Instance $instance, array $data, State $currentState = null, Event $remoteEvent = null)
     {
         $state = new State();
-        $state->setDate($data['date']);
         $state->setInstance($instance);
         $state->setRequest($request);
         $state->setType($data['stateName']);
@@ -234,7 +232,6 @@ class LifecycleHelper
         $request->setInstance($instance);
         $request->setOrder($order);
         $request->setCreator($creator);
-        $this->em->persist($request);
 
         return $request;
     }
@@ -247,7 +244,6 @@ class LifecycleHelper
             $previousState->setIsCurrent(true);
 
             $event = new UndoEvent();
-            $event->setDate(date('Y-m-d H:i:s'));
             $event->setRequest($request);
             $event->setOperator($this->container->get('security.context')->getToken()->getUser());
             $event->setInstance($request->getInstance());
