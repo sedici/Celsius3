@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', []);
 
-orderControllers.controller('OrderCtrl', function ($scope, $http, $fileUploader, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
+orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
     'use strict';
 
     function findInstitution(tree) {
@@ -234,20 +234,20 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $fileUploader,
             $scope.updateTables();
         });
 
-        $scope.uploader = $fileUploader.create({
+        $scope.uploader = new FileUploader({
             scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
         });
 
-        $scope.uploader.bind('beforeupload', function (event, item) {
+        $scope.uploader.beforeupload = function (event, item) {
             item.formData = $scope.formatUploadData($scope.forms.receive);
-        });
+        };
 
-        $scope.uploader.bind('completeall', function (event, items) {
+        $scope.uploader.completeall = function (event, items) {
             // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
             $scope.updateTables();
             $('.modal').modal('hide');
-        });
+        };
 
         $scope.uploader.filters.push(function (item /*{File|HTMLInputElement}*/) {
             var type = $scope.uploader.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
@@ -255,14 +255,14 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $fileUploader,
             return 'pdf' === type;
         });
 
-        $scope.uploaderBasic = $fileUploader.create({
+        $scope.uploaderBasic = new FileUploader({
             scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload'
         });
 
-        $scope.uploaderBasic.bind('completeall', function (event, items) {
+        $scope.uploaderBasic.completeall = function (event, items) {
             $scope.updateTables();
-        });
+        };
 
         $scope.uploaderBasic.filters.push(function pdfFilter(item /*{File|HTMLInputElement}*/) {
             var type = $scope.uploaderBasic.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
@@ -270,19 +270,19 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $fileUploader,
             return 'pdf' === type;
         });
 
-        $scope.reuploader = $fileUploader.create({
+        $scope.reuploader = new FileUploader({
             scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload'
         });
 
-        $scope.reuploader.bind('beforeupload', function (event, item) {
+        $scope.reuploader.beforeupload = function (event, item) {
             item.formData = $scope.formatUploadData($scope.forms.reupload);
-        });
+        };
 
-        $scope.reuploader.bind('completeall', function (event, items) {
+        $scope.reuploader.completeall = function (event, items) {
             $scope.updateTables();
             $('.modal').modal('hide');
-        });
+        };
 
         $scope.reuploader.filters.push(function pdfFilter(item /*{File|HTMLInputElement}*/) {
             var type = $scope.reuploader.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
