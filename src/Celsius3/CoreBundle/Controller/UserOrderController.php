@@ -45,8 +45,7 @@ class UserOrderController extends OrderController
                         ->createQueryBuilder('e')
                         ->join('e.originalRequest','r')
                         ->where('r.instance = :instance')->setParameter('instance', $this->getInstance()->getId())
-                        ->orWhere('r.owner = :owner')->setParameter('owner', $this->getUser()->getId())
-                        ->orWhere('r.librarian = :librarian')->setParameter('librarian', $this->getUser()->getId());
+                        ->andWhere('r.owner = :owner OR r.librarian = :owner')->setParameter('owner', $this->getUser()->getId());
 
         return $qb;
     }

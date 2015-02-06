@@ -66,6 +66,13 @@ class RequestType extends AbstractType
                         'readonly' => 'readonly',
                     ),
                 ))
+                ->add('creator', 'celsius3_corebundle_user_selector', array(
+                    'attr' => array(
+                        'value' => (!is_null($this->operator)) ? $this->operator->getId() : ((!is_null($this->user)) ? $this->user->getId() : ''),
+                        'class' => 'container',
+                        'readonly' => 'readonly',
+                    ),
+                ))
         ;
 
         if ($this->librarian) {
