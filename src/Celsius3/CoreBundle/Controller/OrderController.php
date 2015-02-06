@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
+use Celsius3\CoreBundle\Entity\Journal;
 
 abstract class OrderController extends BaseInstanceDependentController
 {
@@ -44,7 +45,7 @@ abstract class OrderController extends BaseInstanceDependentController
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array('form' => $form->createView()));
     }
 
-    protected function getMaterialType($materialData = null)
+    protected function getMaterialType($materialData = null, Journal $journal = null)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -54,7 +55,7 @@ abstract class OrderController extends BaseInstanceDependentController
             $class = explode('\\', $materialData);
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
-
-        return new $materialTypeName;
+        
+        return new $materialTypeName($journal);
     }
 }

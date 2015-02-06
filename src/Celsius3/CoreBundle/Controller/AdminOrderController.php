@@ -142,8 +142,14 @@ class AdminOrderController extends OrderController
         }
 
         $materialClass = get_class($entity->getMaterialData());
+        
+        if ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType){
+            $journal = $entity->getMaterialData()->getJournal();
+        } else {
+            $journal = null;
+        }
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $entity->getOriginalRequest()->getOwner(), $this->getUser()), $entity);
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass, $journal), $entity->getOriginalRequest()->getOwner(), $this->getUser()), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array('entity' => $entity,

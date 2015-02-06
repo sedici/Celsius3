@@ -43,7 +43,7 @@ class OrderType extends AbstractType
     public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null, $librarian = false)
     {
         $this->instance = $instance;
-        $this->material = (is_null($material)) ? new JournalTypeType(new Order()) : $material;
+        $this->material = (is_null($material)) ? new JournalTypeType() : $material;
 
         $class = explode('\\', get_class($this->material));
         $this->preferredMaterial = lcfirst(str_replace('Type', '', end($class)));

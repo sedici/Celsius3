@@ -12,8 +12,3 @@
 
     {{ new('superadmin_order', form) }}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ form_javascript(form) }}
-{% endblock %}
