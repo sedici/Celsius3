@@ -52,13 +52,9 @@ class File
      */
     private $path;
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $comments;
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mime;
     /**
      * @Assert\File(maxSize="6000000")
      */
@@ -89,25 +85,30 @@ class File
     private $pages = 0;
     private $temp;
 
-    public function getUploadDir()
+    public function getUploadRootDir()
     {
         $class = new \ReflectionClass($this);
         return dirname($class->getFileName()) . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'web' .
-                DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . 'temp';
+                DIRECTORY_SEPARATOR . 'uploads';
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads';
     }
 
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function prePersist()
+    public function preUpload()
     {
-        if ($this->getFile() !== null) {
-            $this->setName($this->getFile()->getClientOriginalName());
-            $this->setMime($this->getFile()->getMimeType());
-            $this->setPath(md5(rand(0, 999999)) . '.' . $this->getFile()->guessExtension());
+        if (null !== $this->getFile()) {
+            // do whatever you want to generate a unique name
+            $filename = sha1(uniqid(mt_rand(), true));
+            $this->path = $filename . '.' . $this->getFile()->guessExtension();
         }
     }
 
@@ -115,20 +116,25 @@ class File
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function postPersist()
+    public function upload()
     {
         if (null === $this->getFile()) {
             return;
         }
 
-        $this->getFile()->move($this->getUploadDir(), $this->getPath());
-        $this->setFile($this->getUploadDir() . DIRECTORY_SEPARATOR . $this->getPath());
-        $this->setUploaded(date('Y-m-d H:i:s'));
+        // if there is an error when moving the file, an exception will
+        // be automatically thrown by move(). This will properly prevent
+        // the entity from being persisted to the database on error
+        $this->getFile()->move($this->getUploadRootDir(), $this->path);
 
-        if (file_exists($this->getUploadDir() . '/' . $this->getTemp())) {
-            unlink($this->getUploadDir() . '/' . $this->getTemp());
-            $this->setTemp(null);
+        // check if we have an old image
+        if (isset($this->temp)) {
+            // delete the old image
+            unlink($this->getUploadRootDir() . '/' . $this->temp);
+            // clear the temp image path
+            $this->temp = null;
         }
+        $this->file = null;
     }
 
     /**
@@ -136,8 +142,9 @@ class File
      */
     public function removeUpload()
     {
-        if ($this->getFile() === ($this->getUploadDir() . '/' . $this->getPath())) {
-            unlink($this->getFile());
+        $file = $this->getAbsolutePath();
+        if ($file) {
+            unlink($file);
         }
     }
 
@@ -252,15 +259,14 @@ class File
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-
-        if ($this->getPath() !== null) {
-            $this->setTemp($this->getPath());
-            $this->setPath(null);
+        // check if we have an old image path
+        if (isset($this->path)) {
+            // store the old name to delete after the update
+            $this->temp = $this->path;
+            $this->path = null;
         } else {
-            $this->setPath('initial');
+            $this->path = 'initial';
         }
-
-        return $this;
     }
 
     /**

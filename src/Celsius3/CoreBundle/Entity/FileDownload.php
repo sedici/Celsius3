@@ -48,8 +48,7 @@ class FileDownload
      */
     private $ip;
     /**
-     * @Assert\NotBlank
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $userAgent;
     /**
