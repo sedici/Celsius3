@@ -34,7 +34,7 @@ class AdministrationController extends BaseInstanceDependentController
 {
 
     /**
-     * @Route("/", name="administration")
+     * @Route("/", name="administration", options={"expose"=true})
      * @Template()
      *
      * @return array
