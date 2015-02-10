@@ -41,7 +41,11 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
      */
     private $deliveryType;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\File", mappedBy="event", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\JoinTable(name="sirequests_files",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
+     *      )
      */
     private $files;
     /**
