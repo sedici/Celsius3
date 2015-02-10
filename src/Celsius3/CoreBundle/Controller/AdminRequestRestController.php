@@ -42,7 +42,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $requests = $em->getRepository('Celsius3CoreBundle:Request')
-                ->findBy(array('instance_id' => $this->getInstance()->getId()));
+                ->findBy(array('instance' => $this->getInstance()->getId()));
 
         $view = $this->view(array_values($requests), 200)->setFormat('json');
 

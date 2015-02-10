@@ -31,13 +31,13 @@ class CityRepository extends EntityRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $country_id = null)
     {
         $qb = $this->createQueryBuilder('c')
-                ->where('c.instance_id = :instance_id')
-                ->orWhere('c.instance_id = :directory_id')
+                ->where('c.instance = :instance_id')
+                ->orWhere('c.instance = :directory_id')
                 ->setParameter('instance_id', $instance->getId())
                 ->setParameter('directory_id', $directory->getId());
 
         if (!is_null($country_id)) {
-            $qb = $qb->andWhere('c.country_id = :country_id')
+            $qb = $qb->andWhere('c.country = :country_id')
                     ->setParameter('country_id', $country_id);
         }
 

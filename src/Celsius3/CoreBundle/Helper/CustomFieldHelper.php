@@ -52,8 +52,8 @@ class CustomFieldHelper
                 $value = $this->em
                         ->getRepository('Celsius3CoreBundle:CustomUserValue')
                         ->findOneBy(array(
-                    'field_id' => $field->getId(),
-                    'user_id' => $entity->getId(),
+                    'field' => $field->getId(),
+                    'user' => $entity->getId(),
                 ));
 
                 if (!$value) {
