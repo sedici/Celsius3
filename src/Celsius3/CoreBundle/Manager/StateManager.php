@@ -265,7 +265,7 @@ class StateManager
 
     public function isBefore(State $state1, State $state2)
     {
-        return array_search($state1->getType()->getName(), array_keys($this->graph)) < array_search($state2->getType()->getName(), array_keys($this->graph));
+        return array_search($state1->getType(), array_keys($this->graph)) < array_search($state2->getType(), array_keys($this->graph));
     }
 
     public function createNotFoundException($message = 'Not Found', \Exception $previous = null)
@@ -377,7 +377,7 @@ class StateManager
 
     public function extraUndoActions(State $state)
     {
-        switch ($state->getType()->getName()) {
+        switch ($state->getType()) {
             case self::STATE__SEARCHED:
                 $searches = $this->event_manager->getEvents(EventManager::EVENT__SEARCH, $state->getRequest()->getId());
                 $this->event_manager->cancelSearches($searches);

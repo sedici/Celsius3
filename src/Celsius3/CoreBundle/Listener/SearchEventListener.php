@@ -58,7 +58,7 @@ class SearchEventListener
             if (array_key_exists('result', $changeset) && $changeset['result'][0] !== $changeset['result'][1]) {
                 $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
                         ->findOneBy(array(
-                    'catalog_id' => $entity->getCatalog()->getId(),
+                    'catalog' => $entity->getCatalog()->getId(),
                     'title' => $title,
                 ));
                 $old = $changeset['result'][0];
@@ -100,7 +100,7 @@ class SearchEventListener
 
             $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
                     ->findOneBy(array(
-                'catalog_id' => $entity->getCatalog()->getId(),
+                'catalog' => $entity->getCatalog()->getId(),
                 'title' => $title,
             ));
 

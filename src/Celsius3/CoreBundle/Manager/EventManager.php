@@ -295,15 +295,15 @@ class EventManager
             }
             $extraData['sirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
                     ->findBy(array(
-                'request_id' => $request->getId(),
+                'request' => $request->getId(),
                 'isCancelled' => false,
-                'instance_id' => $instance->getId(),
+                'instance' => $instance->getId(),
             ));
             $extraData['mirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceRequestEvent')
                     ->findBy(array(
-                'request_id' => $request->getId(),
+                'request' => $request->getId(),
                 'isCancelled' => false,
-                'instance_id' => $instance->getId(),
+                'instance' => $instance->getId(),
             ));
         }
 
@@ -412,7 +412,7 @@ class EventManager
 
         foreach ($repositories as $repository) {
             $results = array_merge($results, $em->getRepository('Celsius3CoreBundle:Event\\' . $repository)
-                            ->findBy(array('request_id' => $request_id)));
+                            ->findBy(array('request' => $request_id)));
         }
 
         return $results;
