@@ -33,22 +33,22 @@ class InstitutionRepository extends EntityRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, Hive $hive, $country_id, $city_id = null, $filter = null)
     {
         $qb = $this->createQueryBuilder('i')
-                ->where('c.instance_id = :instance_id')
-                ->orWhere('c.instance_id = :directory_id')
-                ->andWhere('i.country_id = :country_id')
-                ->andWhere('i.parent_id IS NULL')
+                ->where('i.instance = :instance_id')
+                ->orWhere('i.instance = :directory_id')
+                ->andWhere('i.country = :country_id')
+                ->andWhere('i.parent IS NULL')
                 ->setParameter('instance_id', $instance->getId())
                 ->setParameter('directory_id', $directory->getId())
                 ->setParameter('country_id', $country_id);
 
         if (!is_null($city_id)) {
-            $qb = $qb->andWhere('i.city_id = :city_id')
+            $qb = $qb->andWhere('i.city = :city_id')
                     ->setParameter('city_id', $city_id);
         }
 
         if (!is_null($filter)) {
             if ($filter === 'hive') {
-                $qb = $qb->andWhere('i.hive_id')
+                $qb = $qb->andWhere('i.hive = :hive_id')
                         ->setParameter('hive_id', $hive->getId());
             } elseif ($filter === 'celsius3') {
                 $qb = $qb->andWhere('i.celsius_instance_id IS NOT NULL');

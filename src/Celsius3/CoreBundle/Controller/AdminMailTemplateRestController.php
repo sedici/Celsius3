@@ -42,7 +42,9 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
         $em = $this->getDoctrine()->getManager();
 
         $templates = $em->getRepository('Celsius3CoreBundle:MailTemplate')
-                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
+                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory())
+                ->getQuery()
+                ->getResult();
 
         $view = $this->view(array_values($templates), 200)->setFormat('json');
 

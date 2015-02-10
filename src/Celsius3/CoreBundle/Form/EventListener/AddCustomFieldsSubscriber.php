@@ -80,8 +80,8 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             if ($userId) {
                 $value = $this->em->getRepository('Celsius3CoreBundle:CustomUserValue')
                         ->findOneBy(array(
-                    'field_id' => $field->getId(),
-                    'user_id' => $userId,
+                    'field' => $field->getId(),
+                    'user' => $userId,
                 ));
             } else {
                 $value = null;
