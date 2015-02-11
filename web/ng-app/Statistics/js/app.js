@@ -12,18 +12,6 @@ var statisticsApp = angular.module('statisticsApp', [
 statisticsApp.config(['$routeProvider', '$translateProvider',
     function ($routeProvider, $translateProvider) {
         $routeProvider.
-//                when('/requests/count', {
-//                    templateUrl: '/ng-app/Statistics/partials/requests/requestsCount.html',
-//                    controller: 'StatisticsCtrl'
-//                }).
-//                when('/users/requests_origin', {
-//                    templateUrl: '/ng-app/Statistics/partials/requests/requestsOrigin.html',
-//                    controller: 'StatisticsCtrl'
-//                }).
-//                when('/users/count', {
-//                    templateUrl: '/ng-app/Statistics/partials/usersCount.html',
-//                    controller: 'StatisticsCtrl'
-//                }).
                 when('/', {
                     templateUrl: '/ng-app/Statistics/partials/index.html',
                     controller: 'StatisticsCtrl'

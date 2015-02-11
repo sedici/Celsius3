@@ -1,15 +1,6 @@
 <div class="row">
-    <h1>{{title}} - {{subtitle}}</h1>
-    <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-            <li role="presentation"><a href ng-click="getUsersCountData()">{{'usersCount'|translate}}</a></li>
-            <li role="presentation"><a href ng-click="getRequestsOriginData()">{{'requestsOrigin'|translate}}</a></li>
-            <li role="presentation"><a href ng-click="getRequestsCountData()">{{'requestsCount'|translate}}</a></li>
-            <li role="presentation"><a href ng-click="getRequestsDestinyDistributionData()">{{'requestsDestinyDistribution'|translate}}</a></li>
-            <li role="presentation"><a href ng-click="getRequestsNumberByPublicationYearData()">{{'requestsPublicationYear'|translate}}</a></li>
-            <li role="presentation"><a href ng-click="getRequestsTotalDelayData()">{{'requestsTotalDelay'|translate}}</a></li>
-        </ul>
-    </div>
+    <h1>{{ title | translate }} - {{ subtitle | translate }}</h1>
+    <div class="col-md-3" ng-include="'/ng-app/Statistics/partials/menu.html'"></div>
     <div class="col-md-9" >
         <div class="row" ng-if="searchProvision">
             <ul class="nav nav-tabs">

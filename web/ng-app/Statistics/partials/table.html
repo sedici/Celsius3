@@ -3,7 +3,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td><b>{{ firstColumnTitle }}</b></td>
+                <td><b>{{ firstColumnTitle | translate }}</b></td>
                 <td ng-repeat="v in data.columns"><b>{{ v[0] }}</b></td>
             </tr>
         </thead>

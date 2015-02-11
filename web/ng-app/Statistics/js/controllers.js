@@ -1,5 +1,5 @@
-    var statisticsControllers = angular.module('statisticsControllers', []);
-statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
+var statisticsControllers = angular.module('statisticsControllers', []);
+statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $translate) {
 
     function filterYears(years) {
         return _.filter(years, function (year) {
@@ -75,6 +75,19 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
             return [value];
         });
 
+        return columns;
+    };
+    
+    $scope.columnsForOneYear = function(data,year){
+        var columns = new Array();
+        
+        columns.push(year);
+        data = $scope.columnsToArray(data);
+        
+        for (var i = 0; i < data.length; i++) {
+            columns.push(data[i][1]);
+        }
+        
         return columns;
     };
 
@@ -306,17 +319,23 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http) {
     };
 
     $scope.generateRequestsTotalDelayChart = function (data) {
-        var columns = $scope.columnsToArray(data.columns);
+        console.log(data);
+        var groups = ['Delay 0', 'Delay 1', 'Delay 2', 'Delay 3', 'Delay 4', 'Delay 5', 'Delay 6', 'Delay 7', 'Delay 8', 'Delay 9'];
+        var columns = (data.categories.length > 1)? $scope.columnsToArray(data.columns) : [$scope.columnsForOneYear(data.columns,data.categories[0])];
+        var chartType = (data.categories.length > 1)? 'area-spline':'bar';
+        var chartGroups = (data.categories.length > 1)? groups : [];
+        var chartCategories = (data.categories.length > 1)? data.categories : groups;
+        console.log(chartCategories);
         var chart = c3.generate({
             data: {
                 columns: columns,
-                type: 'area-spline',
-                groups: [['Delay 0', 'Delay 1', 'Delay 2', 'Delay 3', 'Delay 4', 'Delay 5', 'Delay 6', 'Delay 7', 'Delay 8', 'Delay 9']]
+                type: chartType,
+                groups: [chartGroups]
             },
             axis: {
                 x: {
                     type: 'category',
-                    categories: data.categories
+                    categories: chartCategories
                 }
             }
         });

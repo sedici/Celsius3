@@ -1,0 +1,87 @@
+<div id="accordion" class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    {{ 'ordersAmounts'| translate }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseOne">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li role="presentation">
+                        <a href ng-click="getRequestsCountData()">
+                            {{'requestsCount'|translate}}
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href ng-click="getRequestsDestinyDistributionData()">
+                            {{'requestsDestinyDistribution'|translate}}
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    {{ 'requestsDelay'|translate }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseTwo">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li role="presentation">
+                        <a href ng-click="getRequestsTotalDelayData()">
+                            {{'requestsTotalDelay'|translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    {{ 'usersStatistics'|translate }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseThree">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li role="presentation">
+                        <a href ng-click="getUsersCountData()">
+                            {{'usersCount'|translate}}
+                        </a>
+                    </li>
+                    <li role="presentation">
+                        <a href ng-click="getRequestsOriginData()">
+                            {{'requestsOrigin'|translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseFour" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                    {{ 'bibliograficMaterial'|translate }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapseFour">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li role="presentation">
+                        <a href ng-click="getRequestsNumberByPublicationYearData()">
+                            {{'requestsPublicationYear'|translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
