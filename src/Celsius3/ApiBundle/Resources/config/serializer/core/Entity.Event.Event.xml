@@ -6,7 +6,7 @@
         <discriminator-class value="sirequest">Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent</discriminator-class>
         <discriminator-class value="mirequest">Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent</discriminator-class>
         <discriminator-class value="cancel">Celsius3\CoreBundle\Entity\Event\CancelEvent</discriminator-class>
-        <discriminator-class value="annul">Celsius3\CoreBundle\Entity\AnnulEvent</discriminator-class>
+        <discriminator-class value="annul">Celsius3\CoreBundle\Entity\Event\AnnulEvent</discriminator-class>
         <discriminator-class value="sireceive">Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent</discriminator-class>
         <discriminator-class value="mireceive">Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent</discriminator-class>
         <discriminator-class value="deliver">Celsius3\CoreBundle\Entity\Event\DeliverEvent</discriminator-class>

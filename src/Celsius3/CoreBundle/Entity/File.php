@@ -68,11 +68,11 @@ class File
      */
     private $request;
     /**
-     * @ORM\ManyToOne(targetEntity="Instance", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="Instance")
      */
     private $instance;
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
      */
     private $event;
     /**
