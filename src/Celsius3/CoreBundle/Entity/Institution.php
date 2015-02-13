@@ -284,8 +284,7 @@ class Institution extends Provider
      * @param  Celsius3\CoreBundle\Entity\Institution $parent
      * @return self
      */
-    public function setParent(
-    \Celsius3\CoreBundle\Entity\Institution $parent)
+    public function setParent(\Celsius3\CoreBundle\Entity\Institution $parent = null)
     {
         $this->parent = $parent;
 

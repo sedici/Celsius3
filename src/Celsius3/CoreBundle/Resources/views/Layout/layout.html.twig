@@ -91,6 +91,8 @@
 {% block javascripts %}
     {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
     {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
+    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     {% javascripts '@jquery_js'
                            '@jqueryui_js'
                            '@bootstrap_js'
@@ -117,7 +119,6 @@
                            '@d3_js'
                            '@c3_js' 
                            'bundles/celsius3core/js/jquery-ui-timepicker-addon.js'
-                           'bundles/fosjsrouting/js/router.js'
                            'bundles/celsius3core/js/cosmetics.js'
                            'bundles/celsius3core/js/forms.js'
                            'bundles/celsius3core/js/cci.js'
@@ -130,7 +131,6 @@
     {% endjavascripts %}
     {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
-    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
     {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
     {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
     {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}

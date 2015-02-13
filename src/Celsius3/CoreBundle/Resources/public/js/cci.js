@@ -18,7 +18,6 @@ function loadCities(json) {
 
 function loadInstitutions(json) {
     var institution_data;
-    console.log(json);
     institution_data = {
         value: '',
         name: '',

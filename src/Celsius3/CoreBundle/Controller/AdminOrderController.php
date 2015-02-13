@@ -63,7 +63,8 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
+        //return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
+        return $this->redirect($this->generateUrl('administration'));
     }
 
     /**
