@@ -90,10 +90,6 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         
         return columns;
     };
-    
-    $scope.collapse = function(elementId) {
-        $(elementId).collapse('toggle');
-    }
 
     //Métodos de solicitud de los datos//
 
