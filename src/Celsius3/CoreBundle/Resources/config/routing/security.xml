@@ -4,28 +4,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="celsius3_fos_user_security_login" pattern="/{url}/public/login">
+    <route id="fos_user_security_login" pattern="/{url}/public/login">
         <default key="_controller">FOSUserBundle:Security:login</default>
     </route>
 
-    <route id="celsius3_fos_user_security_check" pattern="/{url}/public/login_check">
+    <route id="fos_user_security_check" pattern="/{url}/public/login_check">
         <default key="_controller">FOSUserBundle:Security:check</default>
     </route>
 
-    <route id="celsius3_fos_user_security_logout" pattern="/{url}/user/logout">
-        <default key="_controller">FOSUserBundle:Security:logout</default>
-    </route>
-    
-    <route id="fos_user_security_login" pattern="/migration/login">
-        <default key="_controller">FOSUserBundle:Security:login</default>
-    </route>
-
-    <route id="fos_user_security_check" pattern="/migration/login_check">
-        <default key="_controller">FOSUserBundle:Security:check</default>
-        <requirement key="_method">POST</requirement>
-    </route>
-
-    <route id="fos_user_security_logout" pattern="/migration/logout">
+    <route id="fos_user_security_logout" pattern="/{url}/user/logout">
         <default key="_controller">FOSUserBundle:Security:logout</default>
     </route>
 

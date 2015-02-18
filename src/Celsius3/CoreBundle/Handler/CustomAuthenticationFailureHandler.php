@@ -46,7 +46,7 @@ class CustomAuthenticationFailureHandler extends DefaultAuthenticationFailureHan
         $url = $request->attributes->get('url');
 
         $response = parent::onAuthenticationFailure($request, $exception);
-        $response->setTargetUrl($this->router->generate('ceslisu3_fos_user_security_login', array('url' => $url)));
+        $response->setTargetUrl($this->router->generate('fos_user_security_login', array('url' => $url)));
 
         return $response;
     }
