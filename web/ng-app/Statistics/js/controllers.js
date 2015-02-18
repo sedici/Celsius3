@@ -1,13 +1,13 @@
 var statisticsControllers = angular.module('statisticsControllers', []);
-statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $translate) {
 
+statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $routeParams) {
+    
     function filterYears(years) {
         return _.filter(years, function (year) {
             return year <= $scope.currentYear;
         });
-    }
-    ;
-
+    };
+    $scope.statistic = (_.isUndefined($routeParams.statistic))? 'request_count' : $routeParams.statistic;
     $scope.title = "Statistics";
     $scope.subtitle = "";
     $scope.locationFields = false;
@@ -90,6 +90,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $tra
         
         return columns;
     };
+    
+    $scope.collapse = function(elementId) {
+        $(elementId).collapse('toggle');
+    }
 
     //Métodos de solicitud de los datos//
 
@@ -438,10 +442,22 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $tra
         $scope.searchProvision = true;
         $scope.firstColumnTitle = 'Year';
     };
+    
+    $scope.getAverageDelayByDestinyCountryData = function () {
+        $scope.actualMethod = function () {
+            return $scope.updateAverageDelayByDestinyCountry();
+        };
+        $scope.getAverageDelayByDestinyCountryFor($scope.requestType, $scope.initialYear, $scope.finalYear, $scope.delayType);
+        $scope.subtitle = 'Average delay by destiny country.';
+        $scope.selectDelayType = false;
+        $scope.locationFields = false;
+        $scope.searchProvision = true;
+        $scope.firstColumnTitle = 'Year';
+    };
 
     $scope.start = function () {
         $scope.generateYears();
-        $scope.getUsersCountData();
+        $scope.getRequestsCountData();
     };
 
     $scope.start();
