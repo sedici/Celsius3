@@ -51,6 +51,7 @@ class FileManager
     {
         foreach ($files as $uploadedFile) {
             $file = new File();
+            $file->setName($uploadedFile->getClientOriginalName());   
             $file->setFile($uploadedFile);
             $file->setEvent($event);
             $file->setRequest($request);

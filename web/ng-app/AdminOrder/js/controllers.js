@@ -235,6 +235,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
         });
 
         $scope.uploader = new FileUploader({
+            scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
         });
 
@@ -468,7 +469,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
     $scope.submitReceive = function () {
         $scope.uploader.uploadAll();
     };
-
+    
     $scope.submitUpload = function () {
         $scope.uploaderBasic.uploadAll();
     };

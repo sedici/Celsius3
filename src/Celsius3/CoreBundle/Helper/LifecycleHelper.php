@@ -108,8 +108,10 @@ class LifecycleHelper
             if (!is_null($currentState)) {
                 $currentState->setIsCurrent(false);
                 $this->em->persist($currentState);
+                $this->em->flush($currentState);
             }
             $state = $this->createState($request, $instance, $data, $currentState, $remoteEvent);
+            $this->em->persist($state);
         }
         $state->addEvent($event);
 
