@@ -112,6 +112,7 @@ class LifecycleHelper
             }
             $state = $this->createState($request, $instance, $data, $currentState, $remoteEvent);
             $this->em->persist($state);
+            $this->em->flush($state);
         }
         $state->addEvent($event);
 
