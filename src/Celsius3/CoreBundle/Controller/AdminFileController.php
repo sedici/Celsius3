@@ -56,7 +56,7 @@ class AdminFileController extends BaseController
     /**
      * Downloads the file associated to a File entity.
      *
-     * @Route("/{request}/{file}/download", name="admin_file_download", options={"expose"=true})
+     * @Route("/{request}/{file}/download", name="admin_file_download_file", options={"expose"=true})
      *
      * @param string $id The entity ID
      */

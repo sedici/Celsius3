@@ -42,7 +42,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
     };
 
     $scope.getFileDownloadRoute = function (file) {
-        return Routing.generate('admin_file_download', {request: $scope.request.id, file: file.id});
+        return Routing.generate('admin_file_download_file', {request: $scope.request.id, file: file.id});
     };
 
     $scope.hasReceive = function (request) {
@@ -235,7 +235,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
         });
 
         $scope.uploader = new FileUploader({
-            scope: $scope,
             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
         });
 

@@ -228,29 +228,6 @@ class File
     }
 
     /**
-     * Set mime
-     *
-     * @param  string $mime
-     * @return self
-     */
-    public function setMime($mime)
-    {
-        $this->mime = $mime;
-
-        return $this;
-    }
-
-    /**
-     * Get mime
-     *
-     * @return string $mime
-     */
-    public function getMime()
-    {
-        return $this->mime;
-    }
-
-    /**
      * Set file
      *
      * @param  file $file
@@ -277,29 +254,6 @@ class File
     public function getFile()
     {
         return $this->file;
-    }
-
-    /**
-     * Set uploaded
-     *
-     * @param  date $uploaded
-     * @return self
-     */
-    public function setUploaded($uploaded)
-    {
-        $this->uploaded = $uploaded;
-
-        return $this;
-    }
-
-    /**
-     * Get uploaded
-     *
-     * @return date $uploaded
-     */
-    public function getUploaded()
-    {
-        return $this->uploaded;
     }
 
     /**

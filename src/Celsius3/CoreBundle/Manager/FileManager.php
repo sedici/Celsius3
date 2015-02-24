@@ -51,7 +51,7 @@ class FileManager
     {
         foreach ($files as $uploadedFile) {
             $file = new File();
-            $file->setName($uploadedFile->getClientOriginalName());   
+            $file->setName($uploadedFile->getClientOriginalName());
             $file->setFile($uploadedFile);
             $file->setEvent($event);
             $file->setRequest($request);
@@ -66,12 +66,12 @@ class FileManager
     {
         $file->setIsDownloaded(true);
         $download = new FileDownload();
-        $download->setDate(time());
         $download->setIp($httpRequest->getClientIp());
         $download->setUser($user);
         $download->setUserAgent($httpRequest->headers->get('user-agent'));
         $download->setFile($file);
         $download->setRequest($request);
+        $download->setInstance($user->getInstance());
         $this->em->persist($file);
         $this->em->persist($download);
         $this->em->flush();

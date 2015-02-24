@@ -38,11 +38,15 @@ trait FileControllerTrait
                         ->getRepository('Celsius3CoreBundle:File')->find($file);
 
         $this->validate($request, $file);
+        
+        $filename = $file->getUploadRootDir() . '/' . $file->getPath();
 
         $response = new Response();
-        $response->headers->set('Content-type', $file->getMime() . ';');
+        $response->headers->set('Content-type', mime_content_type($filename));
         $response->headers->set('Content-Disposition', 'attachment;filename="' . $file->getName() . '"');
-        $response->setContent($file->getFile()->getBytes());
+        $response->headers->set('Content-length', filesize($filename));
+        $response->sendHeaders();
+        $response->setContent(readfile($filename));
 
         return $response;
     }
