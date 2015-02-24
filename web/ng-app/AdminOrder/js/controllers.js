@@ -36,7 +36,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
             return null;
         } else {
             return _.groupBy(interesting, function (event) {
-                return $filter('date')(event.date, 'yyyy');
+                return $filter('date')(event.created_at, 'yyyy');
             });
         }
     };

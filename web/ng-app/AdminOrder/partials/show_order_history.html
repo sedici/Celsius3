@@ -5,7 +5,7 @@
 <div ng-if="!_.isEmpty(groupedEvents)" ng-repeat="(key, value) in groupedEvents">
     <h2>{{key}}</h2>
     <div ng-repeat="event in value" ng-if="event.type !== 'creation'">
-        <span>{{event.date|date:'shortDate'}}</span>
+        <span>{{event.created_at|date:'shortDate'}}</span>
         <div class="iconhistorial-{{event.type|get_history_icon}}"></div>
         <span>
             {{'by' | translate}} {{event.operator.name}}
