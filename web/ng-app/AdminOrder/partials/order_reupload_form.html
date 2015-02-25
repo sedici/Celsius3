@@ -1,6 +1,9 @@
 <form class="form-horizontal" id="reuploadForm">
     <div class="form-group">
         <label for="files">{{'files' | translate}}</label>
-        <input ng-file-select="" type="file" multiple="multiple" id="files" name="files" />
+        <button ng-file-select="" ng-file-change="addFilesToReupload($files)" ng-multiple="true" id="files" name="files">{{ 'addFiles' | translate }}</button>
+        <ul>
+            <li ng-repeat="(key, file) in filesToReupload">{{ file.name }}</li>
+        </ul>
     </div>
 </form>

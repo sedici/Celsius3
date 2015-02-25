@@ -1,4 +1,4 @@
-<form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate ng-submit="submitReceive()">
+<form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate >
     <div class="form-group" ng-class="delivery_type_error">
         <label for="delivery_type">{{'deliveryType' | translate}}</label>
         <select ui-select2 ng-model="forms.receive.delivery_type" name="delivery_type" id="delivery_type" required>
@@ -13,6 +13,9 @@
     </div>
     <div class="form-group" ng-class="files_error">
         <label for="files">{{'files' | translate}}</label>
-        <input type="file"  uploader="uploader" id="files" name="files" nv-file-select />
+        <button ng-file-select ng-file-change="addFilesToUpload($files)" ng-multiple="true">{{ 'addFiles' | translate }}</button>
+        <ul>
+            <li ng-repeat="(key, file) in filesToUpload">{{ file.name }}</li>
+        </ul>
     </div>
 </form>

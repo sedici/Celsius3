@@ -1,6 +1,6 @@
 var orderControllers = angular.module('orderControllers', ['angularFileUpload']);
 
-orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
+orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
     'use strict';
 
     function findInstitution(tree) {
@@ -234,69 +234,97 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
             $scope.updateTables();
         });
 
-        $scope.uploader = new FileUploader({
-            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive'
-        });
+        $scope.filesToUpload = new Array();
 
-        $scope.uploader.onBeforeUploadItem = function (item) {
-            item.formData = $scope.formatUploadData($scope.forms.receive);
-        };
+        $scope.addFilesToUpload = function (files) {
 
-        $scope.uploader.onCompleteAll = function () {
-            // Se recupera el ultimo response, se lo convierte a objeto y se lo agrega a las recepciones.
-            $scope.updateTables();
-            $('.modal').modal('hide');
-        };
-
-        $scope.uploader.filters.push({
-            name:'uploaderFilter',
-            fn: function (item /*{File|HTMLInputElement}*/) {
-                var type = $scope.uploader.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
-                type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
-                return 'pdf' === type;
+            for (var i = 0; i < files.length; i++) {
+                $scope.filesToUpload.push(files[i]);
             }
-        });
+            console.log($scope.filesToUpload);
+        }
 
-        $scope.uploaderBasic = new FileUploader({
-            scope: $scope,
-            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload'
-        });
-
-        $scope.uploaderBasic.onCompleteAll = function (event, items) {
-            $scope.updateTables();
-        };
-
-        $scope.uploaderBasic.filters.push({
-            name:'uploaderBasicFilter',
-            fn: function pdfFilter(item /*{File|HTMLInputElement}*/) {
-                var type = $scope.uploaderBasic.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
-                type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
-                return 'pdf' === type;
+        $scope.upload = function (files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    $upload.upload({
+                        url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive',
+                        fields: {
+                            'request': $scope.forms.receive.request
+                        },
+                        file: file
+                    }).progress(function (evt) {
+                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.atualFileName = evt.config.file.name;
+                    }).success(function (data, status, headers, config) {
+                        $scope.updateTables();
+                        $('.modal').modal('hide');
+                    });
+                }
             }
-        });
-
-        $scope.reuploader = new FileUploader({
-            scope: $scope,
-            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload'
-        });
-
-        $scope.reuploader.onBeforeUploadItem = function (item) {
-            item.formData = $scope.formatUploadData($scope.forms.reupload);
         };
 
-        $scope.reuploader.onCompleteAll = function () {
-            $scope.updateTables();
-            $('.modal').modal('hide');
-        };
+        $scope.filesToUploadBasic = new Array();
 
-        $scope.reuploader.filters.push({
-            name:'reuploaderFilter',
-            fn: function pdfFilter(item /*{File|HTMLInputElement}*/) {
-                var type = $scope.reuploader.isHTML5 ? item.type : item.value.slice(item.value.lastIndexOf('.') + 1);
-                type = type.toLowerCase().slice(type.lastIndexOf('/') + 1);
-                return 'pdf' === type;
+        $scope.addFilesToUploadBasic = function (files) {
+            for (var i = 0; i < files.length; i++) {
+                $scope.filesToReupload.push(files[i]);
             }
-        });
+        }
+
+        $scope.uploadBasic = function (files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    $upload.upload({
+                        url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload',
+                        fields: {
+                            'request': $scope.forms.reupload.request
+                        },
+                        file: file
+                    }).progress(function (evt) {
+                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.atualFileName = evt.config.file.name;
+                    }).success(function (data, status, headers, config) {
+                        $scope.updateTables();
+                        $('.modal').modal('hide');
+                    });
+                }
+            }
+        };
+
+        $scope.filesToReupload = new Array();
+
+        $scope.addFilesToReupload = function (files) {
+
+            for (var i = 0; i < files.length; i++) {
+                $scope.filesToReupload.push(files[i]);
+            }
+        }
+
+        $scope.reupload = function (files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    $upload.upload({
+                        url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload',
+                        fields: {
+                            'request': $scope.forms.reupload.request,
+                            'receive': $scope.forms.reupload.receive,
+                        },
+                        file: file
+                    }).progress(function (evt) {
+                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.atualFileName = evt.config.file.name;
+                    }).success(function (data, status, headers, config) {
+                        $scope.updateTables();
+                        $('.modal').modal('hide');
+                    });
+                }
+            }
+        };
+
     });
 
     /**
@@ -450,31 +478,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
         });
     };
 
-    $scope.validateReceive = function () {
-        $scope.delivery_type_error = '';
-        $scope.files_error = '';
-        if ($scope.formNames.receive.$valid) {
-            $scope.submitReceive();
-        } else {
-            if (_.isUndefined($scope.formNames.receive.delivery_type)) {
-                $scope.delivery_type_error = 'has-error';
-            }
-            if ($scope.uploader.queue.length === 0) {
-                $scope.files_error = 'has-error';
-            }
-        }
+    $scope.submitReceive = function () {
+        $scope.upload($scope.filesToUpload);
     };
 
-    $scope.submitReceive = function () {
-        $scope.uploader.uploadAll();
-    };
-    
     $scope.submitUpload = function () {
-        $scope.uploaderBasic.uploadAll();
+        $scope.uploadBasic($scope.filesToUploadBasic);
     };
 
     $scope.submitReupload = function () {
-        $scope.reuploader.uploadAll();
+        $scope.reupload($scope.filesToReupload);
     };
 
     $scope.validateCancel = function () {
@@ -659,5 +672,5 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, FileUploader, 
             }
         });
     };
-    
+
 });
