@@ -58,18 +58,18 @@ class FilterManager
         $alias = $query->getRootAliases()[0];
         switch ($this->field_guesser->getDbType($class, $key)) {
             case 'string':
-                $query = $query->andWhere($alias . '.' . $key . ' LIKE :data')
-                        ->setParameter('data', '%' . $data . '%');
+                $query = $query->andWhere($alias . '.' . $key . " LIKE :$key")
+                        ->setParameter("$key", '%' . $data . '%');
                 break;
             case 'boolean':
                 if ("" !== $data) {
-                    $query = $query->andWhere($alias . '.' . $key . ' = :data')
-                            ->setParameter('data', (boolean) $data);
+                    $query = $query->andWhere($alias . '.' . $key . " = :$key")
+                            ->setParameter("$key", (boolean) $data);
                 }
                 break;
             case 'integer':
-                $query = $query->andWhere($alias . '.' . $key . ' = :data')
-                        ->setParameter('data', (int) $data);
+                $query = $query->andWhere($alias . '.' . $key . " = :$key")
+                        ->setParameter("$key", (int) $data);
                 break;
             case 'entity':
             case 'collection':
@@ -77,8 +77,8 @@ class FilterManager
                         ->setParameter('id', $data->getId()); //$data; data.$id
                 break;
             default:
-                $query = $query->andWhere($alias . '.' . $key . ' = :data')
-                        ->setParameter('data', $data);
+                $query = $query->andWhere($alias . '.' . $key . " = :$key")
+                        ->setParameter("$key", $data);
                 break;
         }
 
@@ -98,7 +98,7 @@ class FilterManager
                 }
             }
         }
-
+        
         return $query;
     }
 }
