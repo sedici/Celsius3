@@ -3,7 +3,7 @@ var userControllers = angular.module('userControllers', []);
 userControllers.controller('UserCtrl', function ($scope, Order, Message, User) {
     'use strict';
 
-    Order.query({state: 'created,searched,requested,approval_pending,received', withRequest: true, sort: 'updated_at', direction: 'desc'}, function (response) {
+    Order.query({state: 'created,searched,requested,approval_pending,received', withRequest: true, sort: 'o.updatedAt', direction: 'desc'}, function (response) {
         $scope.orders = response.orders;
 
         $scope.orders.forEach(function (order) {
@@ -11,7 +11,7 @@ userControllers.controller('UserCtrl', function ($scope, Order, Message, User) {
         });
     });
 
-    Message.query({sort: 'lastMessageDate', direction: 'desc', count: 3}, function (response) {
+    Message.query({sort: 'm.lastMessageDate', direction: 'desc', count: 3}, function (response) {
         $scope.threads = response;
     });
 

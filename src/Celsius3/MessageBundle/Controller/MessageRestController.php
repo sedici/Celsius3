@@ -44,7 +44,8 @@ class MessageRestController extends FOSRestController
         $messages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->createQueryBuilder('t')
-                ->join('t.participants', 'p')
+                ->join('t.metadata', 'm')
+                ->join('m.participant', 'p')
                 ->where('p.id = :id')
                 ->setParameter('id', $this->getUser()->getId());
 
@@ -53,26 +54,6 @@ class MessageRestController extends FOSRestController
 
 
         $view = $this->view(array_values($pagination), 200)
-                ->setFormat('json');
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
-     */
-    public function getOrderAction($id)
-    {
-        $order = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->find($id);
-
-        if (!$order) {
-            return $this->createNotFoundException('Order not found.');
-        }
-
-        $view = $this->view($order, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
