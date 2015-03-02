@@ -39,7 +39,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/users_count", name="public_rest_get_users_count_data_for", options={"expose"=true})
      */
-    public function getUsersCountDataFor(Request $request)
+    public function getUsersCountDataForAction(Request $request)
     {
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
@@ -81,7 +81,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/requests_origin", name="public_rest_get_requests_origin_data", options={"expose"=true})
      */
-    public function getRequestsOriginCountData(Request $request)
+    public function getRequestsOriginCountDataAction(Request $request)
     {
         $instance = $request->query->get('instance');
         $type = $request->query->get('type');
@@ -118,7 +118,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/requests_count", name="public_rest_get_requests_count_data_for", options={"expose"=true})
      */
-    public function getRequestsCountDataFor(Request $request)
+    public function getRequestsCountDataForAction(Request $request)
     {
         $instance = $request->query->get('instance');
         $type = $request->query->get('type');
@@ -156,7 +156,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/requests_destiny_distribution", name="public_rest_get_requests_destiny_distribution_data_for", options={"expose"=true})
      */
-    public function getRequestsDestinyDistributionDataFor(Request $request)
+    public function getRequestsDestinyDistributionDataForAction(Request $request)
     {
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
@@ -207,7 +207,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/requests_number_by_publication_year", name="public_rest_get_requests_number_by_publication_year_data_for", options={"expose"=true})
      */
-    public function getRequestsNumberByPublicationYearDataFor(Request $request)
+    public function getRequestsNumberByPublicationYearDataForAction(Request $request)
     {
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
@@ -237,7 +237,7 @@ class PublicRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/requests_total_delay", name="public_rest_get_requests_total_delay_data_for", options={"expose"=true})
      */
-    public function getRequestsTotalDelayDataFor(Request $request)
+    public function getRequestsTotalDelayDataForAction(Request $request)
     {
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
