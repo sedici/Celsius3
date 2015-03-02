@@ -326,6 +326,7 @@
                 </argument>
             </argument>
             <argument type="service" id="request_stack"></argument>
+            <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>   
     </services>
 </container>

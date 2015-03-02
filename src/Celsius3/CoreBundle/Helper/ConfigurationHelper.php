@@ -26,6 +26,16 @@ use Celsius3\CoreBundle\Entity\Configuration;
 
 class ConfigurationHelper
 {
+    
+    const CONF__INSTANCE_TITLE = 'instance_title';
+    const CONF__RESULTS_PER_PAGE = 'results_per_page';
+    const CONF__EMAIL_REPLY_ADDRESS = 'email_reply_address';
+    const CONF__INSTANCE_DESCRIPTION = 'instance_description';
+    const CONF__DEFAULT_LANGUAGE = 'default_language';
+    const CONF__CONFIRMATION_TYPE = 'confirmation_type';
+    const CONF__MAIL_SIGNATURE = 'mail_signature';
+    const CONF__API_KEY = 'api_key';
+    
     private $equivalences = array(
         'string' => 'text',
         'boolean' => 'checkbox',

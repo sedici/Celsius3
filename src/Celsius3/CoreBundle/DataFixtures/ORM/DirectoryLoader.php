@@ -32,6 +32,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Entity;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 /**
  * Description of FixtureLoader
@@ -41,65 +42,43 @@ use Celsius3\CoreBundle\Manager\InstanceManager;
 class DirectoryLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
-//    private $directory_configurations = array(
-//        'instance_title' => array(
-//            'name' => 'Title',
-//            'value' => 'Celsius3 Directory',
-//            'type' => 'string',
-//        ),
-//        'results_per_page' => array(
-//            'name' => 'Results per page',
-//            'value' => '10',
-//            'type' => 'integer',
-//        ),
-//        'instance_description' => array(
-//            'name' => 'Instance description',
-//            'value' => '',
-//            'type' => 'text',
-//        ),
-//        'default_language' => array(
-//            'name' => 'Default language',
-//            'value' => 'es',
-//            'type' => 'language',
-//        ),
-//    );
     private $configurations = array(
-        'instance_title' => array(
+        ConfigurationHelper::CONF__INSTANCE_TITLE => array(
             'name' => 'Title',
             'value' => 'Default title',
             'type' => 'string',
         ),
-        'results_per_page' => array(
+        ConfigurationHelper::CONF__RESULTS_PER_PAGE => array(
             'name' => 'Results per page',
             'value' => '10',
             'type' => 'integer',
         ),
-        'email_reply_address' => array(
+        ConfigurationHelper::CONF__EMAIL_REPLY_ADDRESS => array(
             'name' => 'Reply to',
             'value' => 'sample@instance.edu',
             'type' => 'email',
         ),
-        'instance_description' => array(
+        ConfigurationHelper::CONF__INSTANCE_DESCRIPTION => array(
             'name' => 'Instance description',
             'value' => '',
             'type' => 'text',
         ),
-        'default_language' => array(
+        ConfigurationHelper::CONF__DEFAULT_LANGUAGE => array(
             'name' => 'Default language',
             'value' => 'es',
             'type' => 'language',
         ),
-        'confirmation_type' => array(
+        ConfigurationHelper::CONF__CONFIRMATION_TYPE => array(
             'name' => 'Confirmation type',
             'value' => 'email',
             'type' => 'confirmation',
         ),
-        'mail_signature' => array(
+        ConfigurationHelper::CONF__MAIL_SIGNATURE => array(
             'name' => 'Mail signature',
             'value' => '',
             'type' => 'text',
         ),
-        'api_key' => array(
+        ConfigurationHelper::CONF__API_KEY => array(
             'name' => 'Api Key',
             'value' => '',
             'type' => 'string',

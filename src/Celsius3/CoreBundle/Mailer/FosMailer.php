@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class FosMailer extends DefaultMailer
 {
@@ -40,6 +41,8 @@ class FosMailer extends DefaultMailer
 
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
+        $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        
         $template = $this->parameters['confirmation.template'];
         $url = $this->router->generate('fos_user_registration_confirm', array(
             'token' => $user->getConfirmationToken(),
@@ -48,12 +51,14 @@ class FosMailer extends DefaultMailer
         $rendered = $this->templating->render($template, array(
             'user' => $user,
             'confirmationUrl' => $url,
-        ));
+        )) . "\n" . $signature;
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['confirmation'], $user->getEmail());
     }
 
     public function sendResettingEmailMessage(UserInterface $user)
     {
+        $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        
         $template = $this->parameters['resetting.template'];
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),
@@ -62,7 +67,7 @@ class FosMailer extends DefaultMailer
         $rendered = $this->templating->render($template, array(
             'user' => $user,
             'confirmationUrl' => $url,
-        ));
+        )) . "\n" . $signature;
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
 }

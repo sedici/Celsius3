@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Mailer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Email;
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class Mailer
 {
@@ -52,11 +53,13 @@ class Mailer
 
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
+        $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom($instance->get('email_reply_address')->getValue())
                 ->setTo($address)
-                ->setBody($text);
+                ->setBody($text . "\n" . $signature);
         $this->container->get('mailer')->send($message);
 
         $this->saveEmail($address, $subject, $text, $instance);
