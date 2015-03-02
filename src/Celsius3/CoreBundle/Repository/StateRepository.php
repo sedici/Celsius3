@@ -36,14 +36,14 @@ class StateRepository extends EntityRepository
         $types = StateManager::$stateTypes;
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type, COUNT(s.id) as c')
+                ->leftJoin('s.request','r')
                 ->andWhere('s.isCurrent = true')
                 ->andWhere('s.type IN (:types) OR s.type IS NULL')
                 ->groupBy('s.type')
                 ->setParameter('types', $types);
         
         if (!is_null($orderType)) {
-            $qb = $qb->leftJoin('s.request','r')
-                    ->andWhere('r.type = :orderType')
+            $qb = $qb->andWhere('r.type = :orderType')
                     ->setParameter('orderType', $orderType);
         }
         
@@ -53,7 +53,7 @@ class StateRepository extends EntityRepository
         }
 
         if (!is_null($user)) {
-            $qb = $qb->andWhere('(s.operator = :user)')
+            $qb = $qb->andWhere('(r.operator = :user)')
                     ->setParameter('user', $user);
         }
         

@@ -83,9 +83,9 @@ class OrderRepository extends EntityRepository
                 ->join('o.requests', 'r')
                 ->join('r.states', 's')
                 ->join('o.materialData', 'm')
-                ->where('s.isCurrent = true')
-                ->andWhere('s.instance = :instance_id')
-                ->setParameter('instance_id', $instance->getId());
+                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.instance = :instance')
+                ->setParameter('instance', $instance);
 
         if (is_array($state) && count($state) > 0) {
             $qb = $qb->andWhere('s.type IN (:state_types)')
@@ -95,19 +95,19 @@ class OrderRepository extends EntityRepository
                     ->setParameter('state_type', $state);
         }
 
-        if (!($orderType === 'allTypes') && !(is_null($orderType))) {
+        if ((!is_null($orderType) && !($orderType === 'allTypes'))) {
             $qb = $qb->andWhere('r.type = :order_type')
                     ->setParameter('order_type', $orderType);
         }
 
         if (!is_null($user)) {
-            $qb = $qb->andWhere('(r.operator = :user_id OR r.operator IS NULL)')
-                    ->setParameter('user_id', $user->getId());
+            $qb = $qb->andWhere('(r.operator = :user)')
+                    ->setParameter('user', $user);
         }
 
         if (!is_null($owner)) {
             $qb = $qb->andWhere('r.owner = :owner')
-                    ->setParameter('owner', $owner->getId());
+                    ->setParameter('owner', $owner);
         }
 
         return $qb;
