@@ -72,10 +72,13 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         } else {
             $user = null;
         }
-
+        
+        $orderType = $request->query->get('orderType', null);
+        if($orderType === 'allTypes') $orderType = null;
+        
         $orderCount = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')
-                ->countOrders($this->getInstance(), $user);
+                ->countOrders($this->getInstance(), $user, $orderType);
 
         $view = $this->view($orderCount, 200)->setFormat('json');
 
@@ -128,23 +131,23 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 return $this->handleView($view);
             }
 
-            /**
-             * GET Route annotation.
-             * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
-             */
-            public function getOrderAction($id)
-            {
-                $em = $this->getDoctrine()->getManager();
+    /**
+     * GET Route annotation.
+     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
+     */
+    public function getOrderAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
 
-                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
+        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
-                if (!$order) {
-                    return $this->createNotFoundException('Order not found.');
-                }
-
-                $view = $this->view($order, 200)->setFormat('json');
-
-                return $this->handleView($view);
-            }
+        if (!$order) {
+            return $this->createNotFoundException('Order not found.');
         }
+
+        $view = $this->view($order, 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
+}
         

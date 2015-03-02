@@ -31,26 +31,32 @@ use Doctrine\ORM\Query\Expr\Join;
 class StateRepository extends EntityRepository
 {
 
-    public function countOrders(Instance $instance = null, BaseUser $user = null)
+    public function countOrders(Instance $instance = null, BaseUser $user = null, $orderType = null)
     {
         $types = StateManager::$stateTypes;
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type, COUNT(s.id) as c')
-                ->where('s.isCurrent = true')
-                ->andWhere('s.type IN (:types)')
+                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.type IN (:types) OR s.type IS NULL')
                 ->groupBy('s.type')
                 ->setParameter('types', $types);
-
+        
+        if (!is_null($orderType)) {
+            $qb = $qb->leftJoin('s.request','r')
+                    ->andWhere('r.type = :orderType')
+                    ->setParameter('orderType', $orderType);
+        }
+        
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('s.instance = :instance_id')
-                    ->setParameter('instance_id', $instance->getId());
+            $qb = $qb->andWhere('s.instance = :instance')
+                    ->setParameter('instance', $instance);
         }
 
         if (!is_null($user)) {
-            $qb = $qb->andWhere('(s.operator = :user_id OR s.operator IS NULL)')
-                    ->setParameter('user_id', $user->getId());
+            $qb = $qb->andWhere('(s.operator = :user)')
+                    ->setParameter('user', $user);
         }
-
+        
         $result = array();
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);

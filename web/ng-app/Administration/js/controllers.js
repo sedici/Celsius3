@@ -90,7 +90,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     $scope.orderType = _.isUndefined($routeParams.orderType) ? 'allTypes' : $routeParams.orderType;
 
     if (!_.isUndefined($scope.type)) {
-        $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type).success(function (response) {
+        $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type + '&state=' + $scope.state + '&orderType=' + $scope.orderType).success(function (response) {
             $scope.orderCount = response;
             $scope.loadOrders();
         });
