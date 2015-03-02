@@ -1,4 +1,10 @@
 <dl class="dl-horizontal">
-    <dt>{{ 'Abbreviation'|trans }}</dt>
-    <dd>{{ element.abbreviation }}</dd>
+    <dt>{{ 'IP'|trans }}</dt>
+    <dd>{{ element.ip }}</dd>
+    <dt>{{ 'User Agent'|trans }}</dt>
+    <dd>{{ element.userAgent ? element.userAgent : '-' }}</dd>
+    <dt>{{ 'IP'|trans }}</dt>
+    <dd>{{ element.user.username }}</dd>
+    <dt>{{ 'Date'|trans }}</dt>
+    <dd>{{ element.createdAt|localizeddate }}</dd>
 </dl>
