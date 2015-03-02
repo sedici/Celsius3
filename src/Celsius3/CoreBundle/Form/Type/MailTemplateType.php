@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class MailTemplateType extends AbstractType
 {

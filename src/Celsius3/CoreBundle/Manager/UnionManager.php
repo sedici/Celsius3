@@ -23,7 +23,6 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\ArrayCollection;
 
 class UnionManager
 {

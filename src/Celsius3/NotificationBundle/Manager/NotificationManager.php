@@ -103,7 +103,7 @@ class NotificationManager
                         $entryData = array(
                             'id' => $notification->getObject()->getId(),
                             'cause' => $notification->getCause(),
-                            'user_ids' => array_map(function ($receiver) {
+                            'user_ids' => array_map(function (BaseUser $receiver) {
                                         return $receiver->getId();
                                     }, $notification->getReceivers()->toArray())
                         );
@@ -136,7 +136,7 @@ class NotificationManager
                     {
                         $receivers = new ArrayCollection($message->getThread()->getParticipants());
                         $em = $this->container->get('doctrine.orm.entity_manager');
-                        $this->notify(new MessageNotification(), self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function ($receiver) use ($message) {
+                        $this->notify(new MessageNotification(), self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function (BaseUser $receiver) use ($message) {
                                     return ($receiver->getId() != $message->getSender()->getId());
                                 }), $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array(
@@ -168,4 +168,3 @@ class NotificationManager
                         return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                     }
                 }
-                

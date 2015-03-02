@@ -63,7 +63,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
 
             $response = array(
                 'orders' => array_values($pagination),
-                'requests' => array_column(array_map(function($request) {
+                'requests' => array_column(array_map(function(\Celsius3\CoreBundle\Entity\Request $request) {
                                     return array(
                                         'id' => $request->getOrder()->getId(),
                                         'request' => $request,
@@ -98,4 +98,3 @@ class UserOrderRestController extends BaseInstanceDependentRestController
                 return $this->handleView($view);
             }
         }
-        

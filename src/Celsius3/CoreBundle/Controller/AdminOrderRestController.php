@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -72,10 +71,12 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         } else {
             $user = null;
         }
-        
+
         $orderType = $request->query->get('orderType', null);
-        if($orderType === 'allTypes') $orderType = null;
-        
+        if ($orderType === 'allTypes') {
+            $orderType = null;
+        }
+
         $orderCount = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')
                 ->countOrders($this->getInstance(), $user, $orderType);
@@ -117,7 +118,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
         $response = array(
             'orders' => array_values($pagination),
-            'requests' => array_column(array_map(function($request) {
+            'requests' => array_column(array_map(function(\Celsius3\CoreBundle\Entity\Request $request) {
                                 return array(
                                     'id' => $request->getOrder()->getId(),
                                     'request' => $request,
@@ -126,28 +127,26 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 );
 
                 $view = $this->view($response, 200)->setFormat('json');
-                //$view->setSerializationContext(SerializationContext::create()->setGroups(array('list')));
 
                 return $this->handleView($view);
             }
 
-    /**
-     * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
-     */
-    public function getOrderAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
+            /**
+             * GET Route annotation.
+             * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
+             */
+            public function getOrderAction($id)
+            {
+                $em = $this->getDoctrine()->getManager();
 
-        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
+                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
-        if (!$order) {
-            return $this->createNotFoundException('Order not found.');
+                if (!$order) {
+                    return $this->createNotFoundException('Order not found.');
+                }
+
+                $view = $this->view($order, 200)->setFormat('json');
+
+                return $this->handleView($view);
+            }
         }
-
-        $view = $this->view($order, 200)->setFormat('json');
-
-        return $this->handleView($view);
-    }
-}
-        

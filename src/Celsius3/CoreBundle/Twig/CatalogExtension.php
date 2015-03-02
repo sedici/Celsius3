@@ -64,7 +64,7 @@ class CatalogExtension extends \Twig_Extension
     public function searchExists($searches, Catalog $catalog)
     {
         $searches = new ArrayCollection($searches);
-        $result = $searches->filter(function ($entry) use ($catalog) {
+        $result = $searches->filter(function (\Celsius3\CoreBundle\Entity\Event\SearchEvent $entry) use ($catalog) {
                     return $entry->getCatalog()->getId() == $catalog->getId();
                 })->first();
 

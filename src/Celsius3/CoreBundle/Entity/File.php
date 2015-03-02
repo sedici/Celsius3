@@ -62,7 +62,7 @@ class File
     /**
      * @ORM\Column(type="boolean")
      */
-    private $enabled;
+    private $enabled = true;
     /**
      * @ORM\ManyToOne(targetEntity="Request", inversedBy="files")
      */

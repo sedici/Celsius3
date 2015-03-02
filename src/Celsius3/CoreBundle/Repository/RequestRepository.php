@@ -23,10 +23,6 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\UserManager;
-use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * RequestRepository
@@ -36,27 +32,6 @@ use Doctrine\ORM\Query\Expr\Join;
  */
 class RequestRepository extends EntityRepository
 {
-
-    public function countByMonthAndYear()
-    {
-
-        $qb = $this->createQueryBuilder();
-        $requests = $qb
-                        ->map('function() { emit( , 1) }')
-                        ->reduce('function(k, vals) {
-                var sum = 0;
-                for (var i in vals) {
-                    sum += vals[i];
-                }
-                return sum;
-            }')->getQuery()->execute()->toArray();
-
-        $string = '';
-        foreach ($requests as $r) {
-            $string .= $r['_id'] . '-' . $r['value'] . '<br>';
-        }
-        return $string;
-    }
 
     public function countActiveUsersFor($instance, $type, $initialYear, $finalYear)
     {
@@ -182,5 +157,4 @@ class RequestRepository extends EntityRepository
 
         return $query->getResult();
     }
-
 }

@@ -49,7 +49,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $remoteEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->createQueryBuilder('e')
                 ->where('e.request IN (:requests)')
-                ->setParameter('requests', array_map(function ($item) {
+                ->setParameter('requests', array_map(function (\Celsius3\CoreBundle\Entity\Request $item) {
                             return $item->getId();
                         }, $requests))
                 ->getQuery()

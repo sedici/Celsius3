@@ -151,7 +151,7 @@ class LifecycleHelper
          * @todo Refactorizar estos tres ifs
          */
         if ($name === EventManager::EVENT__RECEIVE) {
-            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function ($item) use ($extraData) {
+            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function (Event $item) use ($extraData) {
                 return $item->getRequestEvent()->getId() === $extraData['request']->getId();
             });
 
@@ -169,7 +169,7 @@ class LifecycleHelper
         }
 
         if ($name === EventManager::EVENT__SEARCH) {
-            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__SEARCH, $request->getId()), function ($item) use ($extraData) {
+            $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__SEARCH, $request->getId()), function (Event $item) use ($extraData) {
                 return $item->getCatalog()->getId() === $extraData['catalog']->getId();
             });
 

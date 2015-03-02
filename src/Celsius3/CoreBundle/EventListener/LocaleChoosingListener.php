@@ -37,15 +37,13 @@ class LocaleChoosingListener
     private $locales;
     private $locale_resolver;
     private $instance_helper;
-    private $em;
 
-    public function __construct($default_locale, array $locales, LocaleResolverInterface $locale_resolver, InstanceHelper $instance_helper, EntityManager $em)
+    public function __construct($default_locale, array $locales, LocaleResolverInterface $locale_resolver, InstanceHelper $instance_helper)
     {
         $this->default_locale = $default_locale;
         $this->locales = $locales;
         $this->locale_resolver = $locale_resolver;
         $this->instance_helper = $instance_helper;
-        $this->em = $em;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)

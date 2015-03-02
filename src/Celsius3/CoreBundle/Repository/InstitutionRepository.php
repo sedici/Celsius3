@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Hive;
-use Doctrine\ORM\Query\ResultSetMapping;
 
 class InstitutionRepository extends EntityRepository
 {

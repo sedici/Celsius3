@@ -243,7 +243,7 @@ class Catalog
     {
         $result = $this->getPositions()
                         ->filter(
-                                function ($entry) use ($instance) {
+                                function (CatalogPosition $entry) use ($instance) {
                             return $entry->getInstance()->getId() == $instance->getId();
                         })->first();
 

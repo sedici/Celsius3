@@ -28,7 +28,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
 
 /**
  * Order controller.
@@ -63,7 +62,6 @@ class AdminOrderController extends OrderController
      */
     public function indexAction()
     {
-        //return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance())));
         return $this->redirect($this->generateUrl('administration'));
     }
 
@@ -116,10 +114,6 @@ class AdminOrderController extends OrderController
      */
     public function createAction(Request $request)
     {
-//        $data = $request->request->get("celsius3_corebundle_ordertype");
-//        $data['originalRequest']['creator'] = $this->getUser()->getId();
-//        $request->request->set("celsius3_corebundle_ordertype", $data);
-
         return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser()), 'administration');
     }
 

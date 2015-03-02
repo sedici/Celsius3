@@ -151,9 +151,9 @@ class AdminMailController extends BaseInstanceDependentController
     {
         //Se permitira borrar un template, solo si el mismo le pertence a la instancia
         $template = $this->findQuery('MailTemplate', $id);
-        $idInstanceTempalte = $template->getInstance();
+        $idInstanceTemplate = $template->getInstance();
 
-        if ($idInstanceTempalte == null) {
+        if (is_null($idInstanceTemplate)) {
             //El template pertenece al directorio
             throw $this->createNotFoundException('Unable to delete template.');
         } else {

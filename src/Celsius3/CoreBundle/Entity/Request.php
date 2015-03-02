@@ -403,7 +403,7 @@ class Request
     {
         return $this->getFiles()
                         ->filter(
-                                function ($entry) use ($event) {
+                                function (File $entry) use ($event) {
                             return ($entry->getEvent()->getId() == $event->getId());
                         });
     }
@@ -417,7 +417,7 @@ class Request
 
         return $this->getFiles()
                         ->filter(
-                                function ($entry) use ($instance) {
+                                function (File $entry) use ($instance) {
                             return ($entry->getEvent()->getInstance()->getId() == $instance->getId());
                         });
     }
@@ -431,7 +431,7 @@ class Request
 
         return $this->getFiles()
                         ->filter(
-                                function ($entry) use ($instance) {
+                                function (File $entry) use ($instance) {
                             return ($entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->getIsDownloaded());
                         });
     }
@@ -447,7 +447,7 @@ class Request
 
         return ($this->getStates()
                         ->filter(
-                                function ($entry) use ($names) {
+                                function (State $entry) use ($names) {
                             return in_array($entry->getType(), $names);
                         })->count() > 0);
     }
@@ -460,7 +460,7 @@ class Request
     {
         $result = $this->getStates()
                         ->filter(
-                                function ($entry) use ($name) {
+                                function (State $entry) use ($name) {
                             return $entry->getType() === $name;
                         })->first();
 
@@ -474,7 +474,7 @@ class Request
     {
         $result = $this->getStates()
                         ->filter(
-                                function ($entry) {
+                                function (State $entry) {
                             return $entry->getIsCurrent();
                         })->first();
 

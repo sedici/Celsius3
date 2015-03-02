@@ -24,7 +24,6 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Entity\State;
@@ -251,15 +250,11 @@ class StateManager
         ),
     );
     private $event_manager;
-    private $instance_helper;
-    private $form_factory;
     private $request_stack;
 
-    public function __construct(EventManager $event_manager, InstanceHelper $instance_helper, FormFactoryInterface $form_factory, RequestStack $request_stack)
+    public function __construct(EventManager $event_manager, RequestStack $request_stack)
     {
         $this->event_manager = $event_manager;
-        $this->instance_helper = $instance_helper;
-        $this->form_factory = $form_factory;
         $this->request_stack = $request_stack;
     }
 

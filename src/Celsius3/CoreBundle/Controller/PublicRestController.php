@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
-use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -139,13 +138,13 @@ class PublicRestController extends BaseInstanceDependentRestController
         $values['columns']['created'][] = 'Created';
         $values['columns']['cancelled'][] = 'Cancelled';
         $values['columns']['satisfied'][] = 'Satisfied';
-        //$values['totalPages'][] = 'Total Pages';
+        $values['totalPages'][] = 'Total Pages';
         foreach ($rows as $key => $row) {
             $values['categories'][] = $key;
             $values['columns']['created'][] = (isset($row['created'])) ? $row['created']['requestCount'] : 0;
             $values['columns']['cancelled'][] = (isset($row['cancelled'])) ? $row['cancelled']['requestCount'] : 0;
             $values['columns']['satisfied'][] = (isset($row['received'])) ? $row['received']['requestCount'] : 0;
-            //$values['totalPages'][] = (isset($row['delivered'])) ? $row['delivered']['totalPages'] : 0;
+            $values['totalPages'][] = (isset($row['received'])) ? $row['received']['totalPages'] : 0;
         }
 
         $view = $this->view($values, 200)->setFormat('json');

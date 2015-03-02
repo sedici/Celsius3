@@ -28,16 +28,10 @@ use Celsius3\CoreBundle\Entity\Instance;
 class AdministrationExtension extends \Twig_Extension
 {
     private $container;
-    private $environment;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
-
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
     }
 
     public function getFunctions()

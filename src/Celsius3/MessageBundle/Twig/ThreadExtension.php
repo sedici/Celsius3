@@ -28,16 +28,10 @@ use FOS\MessageBundle\Model\ThreadInterface;
 class ThreadExtension extends \Twig_Extension
 {
     private $container;
-    private $environment;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-    }
-
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
     }
 
     public function getFunctions()

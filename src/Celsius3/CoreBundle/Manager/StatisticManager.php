@@ -23,13 +23,10 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class StatisticManager
 {
     private $em;
-    private $instanceManager;
     private $statistic_data = array(
         'usersPerInstance' => array(
             'repository' => 'Celsius3CoreBundle:BaseUser',
@@ -45,7 +42,7 @@ class StatisticManager
         ),
     );
 
-    public function __construct(EntityManager $em, InstanceManager $instanceManager)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
         $this->instanceManager = $instanceManager;

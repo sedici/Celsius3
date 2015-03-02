@@ -201,7 +201,7 @@ class Order
     {
         return ($this->getRequests()
                         ->filter(
-                                function ($entry) use ($instance) {
+                                function (Request $entry) use ($instance) {
                             return $entry->getInstance()->getId() == $instance->getId();
                         })->count() > 0);
     }
@@ -214,7 +214,7 @@ class Order
     {
         $result = $this->getRequests()
                         ->filter(
-                                function ($entry) use ($instance) {
+                                function (Request $entry) use ($instance) {
                             return $entry->getInstance()->getId() == $instance->getId();
                         })->first();
 

@@ -116,7 +116,7 @@ class Instance extends LegacyInstance
     {
         return $this->getConfigurations()
                         ->filter(
-                                function ($entry) use ($key) {
+                                function (Configuration $entry) use ($key) {
                             return ($entry->getKey() == $key);
                         })->first();
     }

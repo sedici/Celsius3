@@ -28,7 +28,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Order;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 class OrderType extends AbstractType

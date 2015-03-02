@@ -26,7 +26,6 @@ use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Doctrine\ORM\Query\Expr\Join;
 
 class StateRepository extends EntityRepository
 {
@@ -100,10 +99,11 @@ class StateRepository extends EntityRepository
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type stateType')
                 ->addSelect('COUNT(r.id) requestsCount')
-                ->addSelect('(SUM(md.endPage) - SUM(md.startPage)) pages')
+                ->addSelect('SUM(f.pages) pages')
                 ->innerJoin('s.request', 'r')
                 ->innerJoin('r.order', 'o')
                 ->innerJoin('o.materialData', 'md')
+                ->leftJoin('r.files', 'f')
                 ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
                 ->andWhere('r.type = :type')->setParameter('type', $type)

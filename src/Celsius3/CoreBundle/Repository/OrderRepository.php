@@ -49,7 +49,7 @@ class OrderRepository extends EntityRepository
                                 ->findByTerm($term, $instance)
                                 ->getQuery()->getResult());
             }
-            $qb->andWhere($qb->expr()->in('owner', $secundary));
+            $qb->andWhere($qb->expr()->in('owner', $secondary));
         } else {
             $qb = $qb->join('o.materialData', 'md')
                     ->orWhere($qb->expr()->like('o.code', $qb->expr()->literal('%' . $term . '%')))

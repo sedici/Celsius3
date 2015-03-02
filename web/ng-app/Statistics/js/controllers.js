@@ -233,20 +233,20 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
     $scope.generateRequestsCountChart = function (data) {
         var columns = $scope.columnsToArray(data.columns);
+        columns.push(data.totalPages);
         var chart = c3.generate({
             bindto: '#chart',
             data: {
                 columns: columns,
-                type: 'bar'
-//                types: {
-//                    'Total Pages': 'line',
-//                    'Cancelled': 'bar',
-//                    'Created': 'bar',
-//                    'Delivered': 'bar'
-//                },
-//                axes: {
-//                    'Total Pages': 'TP'
-//                }
+                types: {
+                    'Total Pages': 'line',
+                    'Cancelled': 'bar',
+                    'Created': 'bar',
+                    'Satisfied': 'bar'
+                },
+                axes: {
+                    'Total Pages': 'TP'
+                }
             },
             axis: {
                 x: {
@@ -255,7 +255,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
                     label: 'Years'
                 },
                 y: {
-                    label: 'Requests count for type'
+                    label: 'Requests count for type',
+                    min: 0,
+                    max: 15000
                 }
             },
             grid: {
