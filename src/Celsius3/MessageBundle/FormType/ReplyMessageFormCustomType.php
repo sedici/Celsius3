@@ -36,6 +36,7 @@ class ReplyMessageFormCustomType extends AbstractType
                     'attr' => array(
                         'class' => 'summernote'
                     ),
+                    'required' => false
                 ))
         ;
     }

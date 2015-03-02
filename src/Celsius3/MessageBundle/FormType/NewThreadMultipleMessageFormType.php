@@ -83,6 +83,7 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
                     'attr' => array(
                         'class' => 'summernote'
                     ),
+                    'required' => false
                 ))
         ;
     }
