@@ -30,7 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Public controller
  *
- * @Route("/{url}/public")
+ * @Route("/{url}")
  */
 class PublicController extends BaseInstanceDependentController
 {
@@ -40,7 +40,8 @@ class PublicController extends BaseInstanceDependentController
     }
     
     /**
-     * @Route("/", name="public_index")
+     * @Route("/")
+     * @Route("/public", name="public_index")
      * @Template()
      */
     public function indexAction()
@@ -54,7 +55,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/information", name="public_information")
+     * @Route("/public/information", name="public_information")
      * @Template()
      */
     public function informationAction()
@@ -63,7 +64,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/news", name="public_news")
+     * @Route("/public/news", name="public_news")
      * @Template()
      */
     public function newsAction()
@@ -79,7 +80,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/statistics", name="public_statistics", options={"expose"=true})
+     * @Route("/public/statistics", name="public_statistics", options={"expose"=true})
      * @Template()
      */
     public function statisticsAction()
@@ -88,7 +89,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/countries", name="public_countries", options={"expose"=true})
+     * @Route("/public/countries", name="public_countries", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
@@ -109,7 +110,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/cities", name="public_cities", options={"expose"=true})
+     * @Route("/public/cities", name="public_cities", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
@@ -137,7 +138,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/institutions", name="public_institutions", options={"expose"=true})
+     * @Route("/public/institutions", name="public_institutions", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
@@ -167,7 +168,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/institutionsFull", name="public_institutions_full", options={"expose"=true})
+     * @Route("/public/institutionsFull", name="public_institutions_full", options={"expose"=true})
      * @Template()
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
