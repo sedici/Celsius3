@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\DataFixtures\ORM;
 
-use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -116,9 +115,6 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
 
     public function load(ObjectManager $manager)
     {
-        $generator = Factory::create('en');
-        $generator->seed(1113);
-
         $directory = $this->getReference('directory');
 
         foreach ($this->mail_templates as $key => $value) {

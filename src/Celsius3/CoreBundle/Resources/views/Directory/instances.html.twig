@@ -10,6 +10,8 @@
         <ul class="list-unstyled">
             {% for instance in instances %}
                 {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
+            {% else %}
+                {{ 'There are no instances.'|trans }}
             {% endfor %}
         </ul>
     </div>
@@ -18,6 +20,8 @@
         <ul class="list-unstyled">
             {% for instance in legacyInstances %}
                 {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
+            {% else %}
+                {{ 'There are no instances.'|trans }}
             {% endfor %}
         </ul>
     </div>

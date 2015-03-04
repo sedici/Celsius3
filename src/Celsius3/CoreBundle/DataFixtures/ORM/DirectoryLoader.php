@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\DataFixtures\ORM;
 
-use Faker\Factory;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -108,9 +107,6 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
 
     public function load(ObjectManager $manager)
     {
-        $generator = Factory::create('en');
-        $generator->seed(1113);
-
         /*
          * Instancia que representa al directorio
          */
@@ -145,31 +141,13 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
             $configuration->setInstance($directory);
 
             if ($key == 'instance_description') {
-                $configuration->setValue($generator->text(1000));
+                $configuration->setValue("Enter your instance description here.");
             }
 
             $manager->persist($configuration);
             unset($configuration);
         }
         $manager->flush();
-
-        /*
-         * Configuración modelo para las Instancias
-         */
-//        foreach ($this->configurations as $key => $data) {
-//            $configuration = new Entity\Configuration();
-//            $configuration->setName($data['name']);
-//            $configuration->setKey($key);
-//            $configuration->setValue($data['value']);
-//            $configuration->setType($data['type']);
-//
-//            if ($key == 'instance_description') {
-//                $configuration->setValue($generator->text(1000));
-//            }
-//
-//            $manager->persist($configuration);
-//            unset($configuration);
-//        }
 
         foreach ($this->contact_types as $contacttype) {
             $ct = new Entity\ContactType();

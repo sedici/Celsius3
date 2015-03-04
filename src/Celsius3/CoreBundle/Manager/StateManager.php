@@ -22,10 +22,8 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Celsius3\CoreBundle\Exception\NotFoundException;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Entity\State;
 
 class StateManager

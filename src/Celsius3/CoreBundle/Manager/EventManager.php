@@ -34,9 +34,6 @@ use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Entity\Instance;
 
-/**
- * @todo Eliminar el parámetro $instance de los prepareExtraDataFor*
- */
 class EventManager
 {
     const EVENT__CREATION = 'creation';

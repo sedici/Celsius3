@@ -28,7 +28,6 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class LocaleChoosingListener
