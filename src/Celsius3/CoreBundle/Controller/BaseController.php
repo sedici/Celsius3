@@ -24,6 +24,8 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Celsius3\CoreBundle\Entity\Instance;
 
 abstract class BaseController extends Controller
 {
@@ -282,14 +284,14 @@ abstract class BaseController extends Controller
         $this->get('session')->getFlashBag()->add($type, $message);
     }
 
-    protected function ajax($instance = null, $librarian = null)
+    protected function ajax(Request $request, Instance $instance = null, $librarian = null)
     {
-        if (!$this->getRequest()->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
             return $this->createNotFoundException();
         }
 
-        $target = $this->getRequest()->query->get('target');
-        $term = $this->getRequest()->query->get('term');
+        $target = $request->query->get('target');
+        $term = $request->query->get('term');
 
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $target)

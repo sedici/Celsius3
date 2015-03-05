@@ -256,6 +256,7 @@ class PublicRestController extends BaseInstanceDependentRestController
             }
         }
 
+        $data = array();
         $data['columns']['delay0'][] = 'Delay 0';
         $data['columns']['delay1'][] = 'Delay 1';
         $data['columns']['delay2'][] = 'Delay 2';

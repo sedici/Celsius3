@@ -17,6 +17,10 @@ celsius3_core:
     resource: "@Celsius3CoreBundle/Controller/"
     type:     annotation
     prefix:   /
+    
+blog_show:
+    path:      /{url}
+    defaults:  { _controller: Celsius3CoreBundle:Public:index }
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

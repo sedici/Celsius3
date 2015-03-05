@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Administration controller
@@ -66,9 +67,9 @@ class AdministrationController extends BaseInstanceDependentController
     /**
      * @Route("/ajax", name="admin_ajax")
      */
-    public function ajaxAction()
+    public function ajaxAction(Request $request)
     {
-        return $this->ajax($this->getInstance());
+        return $this->ajax($request, $this->getInstance());
     }
 
     /**
