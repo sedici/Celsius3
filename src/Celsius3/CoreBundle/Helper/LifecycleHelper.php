@@ -62,7 +62,7 @@ class LifecycleHelper
     public function refresh($entity)
     {
         $this->em->persist($entity);
-        $this->em->flush($entity);
+        $this->em->flush();
     }
 
     public function uploadFiles(Request $request, Event $event, array $files)
@@ -80,6 +80,7 @@ class LifecycleHelper
         $event->setState($this->getState($request, $event, $data));
         $event->applyExtraData($request, $data, $this, $data['date']);
         $this->em->persist($event);
+        $this->em->persist($event->getState());
 
         return $event;
     }
@@ -143,7 +144,6 @@ class LifecycleHelper
             'instance' => $instance,
             'date' => date('Y-m-d H:i:s'),
             'extraData' => $extraData,
-            'orderDateMethod' => 'set' . ucfirst($this->state_manager->getStateForEvent($eventName)),
             'eventClassName' => $this->event_manager->getFullClassNameForEvent($eventName),
         );
 

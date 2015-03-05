@@ -49,6 +49,12 @@ class State
     private $isCurrent = true;
     /**
      * @Assert\NotBlank
+     * @Assert\Type(type="boolean")
+     * @ORM\Column(type="boolean")
+     */
+    private $searchPending = false;
+    /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $type;
@@ -130,6 +136,29 @@ class State
     public function getIsCurrent()
     {
         return $this->isCurrent;
+    }
+    
+    /**
+     * Set searchPending
+     *
+     * @param  boolean $searchPending
+     * @return self
+     */
+    public function setSearchPending($searchPending)
+    {
+        $this->searchPending = $searchPending;
+
+        return $this;
+    }
+
+    /**
+     * Get searchPending
+     *
+     * @return boolean $searchPending
+     */
+    public function getSearchPending()
+    {
+        return $this->searchPending;
     }
 
     /**

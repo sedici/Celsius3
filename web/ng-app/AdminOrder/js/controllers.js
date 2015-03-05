@@ -16,6 +16,12 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     $scope.contains = function (list, item) {
         return _.contains(list, item);
     };
+    
+    $scope.currentState = function (request) {
+        return _.first(request.states.filter(function (item) {
+            return item.is_current === true;
+        }));
+    };
 
     $scope.countSearches = function () {
         if (_.isUndefined($scope.searches)) {
@@ -604,6 +610,18 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
 
     $scope.annul = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul').success(function (response) {
+            $scope.updateTables();
+        });
+    };
+    
+    $scope.pendingSearch = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/searchpendings').success(function (response) {
+            $scope.updateTables();
+        });
+    };
+    
+    $scope.noPendingSearch = function() {
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/nosearchpendings').success(function (response) {
             $scope.updateTables();
         });
     };

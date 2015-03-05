@@ -53,7 +53,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "mi"="MultiInstanceEvent",
  *   "take"="TakeEvent",
  *   "upload"="UploadEvent",
- *   "reupload"="ReuploadEvent"
+ *   "reupload"="ReuploadEvent",
+ *   "searchpendings"="SearchPendingsEvent",
+ *   "nosearchpendings"="NoSearchPendingsEvent"
  * })
  */
 class Event implements EventInterface

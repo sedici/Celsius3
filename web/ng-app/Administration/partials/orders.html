@@ -46,6 +46,9 @@
 
         <div class="order-actions">
             <ul class="list-unstyled actions">
+                <li ng-if="searchPending(order.request)">
+                    <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" />
+                </li>
                 <li>
                     <a ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}"><span class="glyphicon glyphicon-file"></span></a>
                 </li>

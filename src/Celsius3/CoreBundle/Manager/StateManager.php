@@ -135,6 +135,14 @@ class StateManager
                     'destinationState' => self::STATE__RECEIVED,
                     'remoteState' => self::STATE__APPROVAL_PENDING,
                 ),
+                EventManager::EVENT__SEARCH_PENDINGS => array(
+                    'weight' => 8,
+                    'destinationState' => self::STATE__REQUESTED,
+                ),
+                EventManager::EVENT__NO_SEARCH_PENDINGS => array(
+                    'weight' => 7,
+                    'destinationState' => self::STATE__REQUESTED,
+                ),
                 EventManager::EVENT__CANCEL => array(
                     'weight' => 3,
                     'destinationState' => self::STATE__CANCELLED,
@@ -155,6 +163,8 @@ class StateManager
             'originatingEvents' => array(
                 EventManager::EVENT__MULTI_INSTANCE_REQUEST,
                 EventManager::EVENT__SINGLE_INSTANCE_REQUEST,
+                EventManager::EVENT__SEARCH_PENDINGS,
+                EventManager::EVENT__NO_SEARCH_PENDINGS,
                 EventManager::EVENT__RECLAIM,
                 EventManager::EVENT__LOCAL_CANCEL,
                 EventManager::EVENT__REMOTE_CANCEL,

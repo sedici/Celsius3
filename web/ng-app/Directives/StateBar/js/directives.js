@@ -18,10 +18,12 @@ stateBar.directive('stateBar', function ($translate) {
             max_image: 'circulo_gris_oscuro.png',
             current_image: 'circulo_celeste.png',
             final_image: 'circulo_verde.png',
+            search_pending_image: 'circulo_con_exclamacion.png',
             left: 280,
             top: 60,
             text_left: 265,
-            text_top: 25, line: {
+            text_top: 25,
+            line: {
                 back_image: 'linea_gris_claro.png',
                 max_image: 'linea_gris_oscuro.png',
                 current_image: 'linea_celeste.png',
@@ -119,8 +121,17 @@ stateBar.directive('stateBar', function ($translate) {
                         });
                     }
                     if (scope.request.current_state !== 'created') {
+                        var image = state.current_image;
+                        if (state.name === 'requested') {
+                            var requested = _.first(scope.request.states.filter(function (item) {
+                                return item.type === 'requested';
+                            }));
+                            if (!_.isUndefined(requested) && requested.search_pending) {
+                                image = state.search_pending_image;
+                            }
+                        }
                         if (states_order.indexOf(scope.request.current_state) >= states_order.indexOf(state.name)) {
-                            fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + state.current_image, function (oImg) {
+                            fabric.Image.fromURL('/bundles/celsius3core/images/stateline/' + image, function (oImg) {
                                 oImg.setTop(state.top);
                                 oImg.setLeft(state.left);
                                 canvas.add(oImg);

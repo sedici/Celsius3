@@ -9,6 +9,12 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         direction: 'desc'
     };
 
+    $scope.searchPending = function (request) {
+        return request.states.filter(function (item) {
+            return item.type === 'requested' && item.search_pending;
+        }).length > 0;
+    };
+
     $scope.loadOrders = function () {
         var state;
         if ($scope.state === 'finished') {

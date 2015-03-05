@@ -88,11 +88,23 @@ class OrderRepository extends EntityRepository
                 ->setParameter('instance', $instance);
 
         if (is_array($state) && count($state) > 0) {
-            $qb = $qb->andWhere('s.type IN (:state_types)')
-                    ->setParameter('state_types', $state);
+            if (in_array(StateManager::STATE__SEARCHED, $state)) {
+                $qb = $qb->andWhere('(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = true))')
+                        ->setParameter('state_types', $state)
+                        ->setParameter('requested', StateManager::STATE__REQUESTED);
+            } else {
+                $qb = $qb->andWhere('s.type IN (:state_types)')
+                        ->setParameter('state_types', $state);
+            }
         } elseif (!is_null($state)) {
-            $qb = $qb->andWhere('s.type = :state_type')
-                    ->setParameter('state_type', $state);
+            if (StateManager::STATE__SEARCHED === $state) {
+                $qb = $qb->andWhere('(s.type = :state_type OR (s.type = :requested AND s.searchPending = true))')
+                        ->setParameter('state_type', $state)
+                        ->setParameter('requested', StateManager::STATE__REQUESTED);
+            } else {
+                $qb = $qb->andWhere('s.type = :state_type')
+                        ->setParameter('state_type', $state);
+            }
         }
 
         if ((!is_null($orderType) && !($orderType === 'allTypes'))) {

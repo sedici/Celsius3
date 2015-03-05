@@ -16,6 +16,18 @@
     </button>
 </div>
 
+<div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && !currentState(request).search_pending">
+    <button type="button" class="btn btn-default btn-block" role="button" ng-click="pendingSearch()">
+        {{'pendingSearch' | translate}}
+    </button>
+</div>
+
+<div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && currentState(request).search_pending">
+    <button type="button" class="btn btn-default btn-block" role="button" ng-click="noPendingSearch()">
+        {{'noPendingSearch' | translate}}
+    </button>
+</div>
+
 <div id="search-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -61,12 +61,23 @@ class StateRepository extends EntityRepository
             $result[$type['type']] = intval($type['c']);
         }
         
-        $states = StateManager::$stateTypes;
-        foreach ($states as $state) {
+        foreach ($types as $state) {
             if (!array_key_exists($state, $result)) {
                 $result[$state] = 0;
             }
         }
+        
+        // Se cuentan aquellos que tienen busquedas pendientes
+        $qb2 = $this->createQueryBuilder('s')
+                ->select('COUNT(s.id) as c')
+                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.type = :type')
+                ->andWhere('s.searchPending = true')
+                ->groupBy('s.type')
+                ->setParameter('type', StateManager::STATE__REQUESTED)
+                ->getQuery()->getSingleResult();
+        
+        $result[StateManager::STATE__SEARCHED] += intval($qb2['c']);
 
         return $result;
     }

@@ -52,6 +52,8 @@ class EventManager
     const EVENT__TAKE = 'take';
     const EVENT__UPLOAD = 'upload';
     const EVENT__REUPLOAD = 'reupload';
+    const EVENT__SEARCH_PENDINGS = 'searchpendings';
+    const EVENT__NO_SEARCH_PENDINGS = 'nosearchpendings';
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
@@ -73,6 +75,8 @@ class EventManager
         self::EVENT__TAKE => 'TakeEvent',
         self::EVENT__UPLOAD => 'UploadEvent',
         self::EVENT__REUPLOAD => 'ReuploadEvent',
+        self::EVENT__SEARCH_PENDINGS => 'SearchPendingsEvent',
+        self::EVENT__NO_SEARCH_PENDINGS => 'NoSearchPendingsEvent',
     );
     private $container;
 
