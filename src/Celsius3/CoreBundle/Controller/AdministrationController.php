@@ -94,4 +94,13 @@ class AdministrationController extends BaseInstanceDependentController
 
         return $this->redirect($this->generateUrl('administration'));
     }
+    
+    protected function validateAjax($target) {
+        $allowedTargets = array(
+            'Journal',
+            'BaseUser',
+        );
+        
+        return in_array($target, $allowedTargets);
+    }
 }

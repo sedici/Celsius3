@@ -66,4 +66,13 @@ class SuperadministrationController extends BaseController
 
         return new Response(json_encode($this->get('celsius3_core.statistic_manager')->getOrderUserTableData()));
     }
+    
+    protected function validateAjax($target) {
+        $allowedTargets = array(
+            'Journal',
+            'BaseUser',
+        );
+        
+        return in_array($target, $allowedTargets);
+    }
 }

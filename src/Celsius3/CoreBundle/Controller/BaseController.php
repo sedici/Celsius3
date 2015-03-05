@@ -291,6 +291,10 @@ abstract class BaseController extends Controller
         }
 
         $target = $request->query->get('target');
+        if (!$this->validateAjax($target)) {
+            return $this->createNotFoundException();
+        }
+        
         $term = $request->query->get('term');
 
         $result = $this->getDoctrine()->getManager()
@@ -310,5 +314,9 @@ abstract class BaseController extends Controller
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
+    }
+    
+    protected function validateAjax($target) {
+        return false;
     }
 }

@@ -61,4 +61,12 @@ class UserController extends BaseInstanceDependentController
     {
         return $this->ajax($request, $this->getInstance(), $this->getUser());
     }
+    
+    protected function validateAjax($target) {
+        $allowedTargets = array(
+            'Journal',
+        );
+        
+        return in_array($target, $allowedTargets);
+    }
 }
