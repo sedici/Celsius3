@@ -149,5 +149,41 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-}
+    
+    /**
+     * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
+     */
+    public function getInteraction($id) {
+        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
+        $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
         
+        $baseInstitution = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getBaseInstitution($institution);
+        $instance = $this->getInstance();
+        
+        $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
+        $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance,$baseInstitution);
+        $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance,$baseInstitution);
+        
+        $interaction['institution'] = $baseInstitution->getName();
+        $interaction['instance'] = $instance->getName();
+        
+        $interaction['instanceInteraction']['data']['created'] = 0;
+        $interaction['instanceInteraction']['data']['delivered'] = 0;
+        $interaction['instanceInteraction']['data']['annulled'] = 0;
+        $interaction['instanceInteraction']['data']['cancelled'] = 0;
+        foreach($response['institutionInteraction'] as $res) {
+            $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
+        }
+        
+        $interaction['instanceInteraction']['data']['created'] = 0;
+        $interaction['instanceInteraction']['data']['delivered'] = 0;
+        $interaction['instanceInteraction']['data']['annulled'] = 0;
+        $interaction['instanceInteraction']['data']['cancelled'] = 0;
+        foreach($response['instanceInteraction'] as $res) {
+            $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
+        }
+                
+        $view = $this->view($interaction, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+}

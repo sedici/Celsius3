@@ -27,6 +27,7 @@ use Doctrine\ORM\QueryBuilder;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * RequestRepository
@@ -179,6 +180,45 @@ class RequestRepository extends EntityRepository
             $query = $query->setParameter('rAyear', $initialYear)
                     ->setParameter('rByear', $finalYear);
         }
+
+        return $query->getResult();
+    }
+
+    public function getInteractionOfInstitutionWithInstance($instance, $institution)
+    {
+        $institutions = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
+
+        $qb = $this->createQueryBuilder('r');
+
+        $qb = $qb->addSelect('s.type st')
+                ->addSelect('COUNT(r.id) c')
+                ->leftJoin('r.owner', 'o')
+                ->leftJoin('r.states', 's')
+                ->andWhere('r.instance = :instance')
+                ->setParameter('instance', $instance)
+                ->andWhere('o.institution IN (:institutions)')
+                ->setParameter('institutions', $institutions)
+                ->addGroupBy('s.type');
+
+        return $qb->getQuery()->getArrayResult();
+    }
+
+    public function getInteractionOfInstanceWithInstitution($instance, $institution)
+    {
+        $institutions = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
+
+        $query = $this->getEntityManager()
+                ->createQuery(
+                'SELECT s.type st, COUNT(r.id) c '
+                . 'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
+                . 'JOIN e.request r '
+                . 'JOIN r.states s '
+                . 'WHERE e.provider IN (:institutions) '
+                . 'AND r.instance = :instance '
+                . 'GROUP BY s.type');
+
+        $query->setParameter('institutions', $institutions);
+        $query->setParameter('instance', $instance->getId());
 
         return $query->getResult();
     }

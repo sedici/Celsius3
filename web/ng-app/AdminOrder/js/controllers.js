@@ -673,4 +673,12 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
         });
     };
 
+    $scope.getInteraction = function() {
+        $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
+                .success(function (response) {
+                    console.log(response);
+                    $scope.interaction = response;
+                });
+    }
+    $scope.getInteraction();
 });
