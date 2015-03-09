@@ -32,7 +32,8 @@ class Builder extends ContainerAware
     public function topMenu(FactoryInterface $factory, array $options)
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-        $securityContext = $this->container->get('security.context');
+        $authChecker = $this->container->get('security.authorization_checker');
+        $tokenStorage = $this->container->get('security.token_storage');
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
@@ -49,11 +50,11 @@ class Builder extends ContainerAware
                 'url' => $instance_url,
             ),
         ));
-        if ($securityContext->isGranted(UserManager::ROLE_ADMIN) !== false && $local) {
+        if ($authChecker->isGranted(UserManager::ROLE_ADMIN) !== false && $local) {
             $menu->addChild('Administration', array(
                 'route' => 'administration',
             ));
-            $user = $securityContext->getToken()->getUser();
+            $user = $tokenStorage->getToken()->getUser();
             if ($user->getAdministeredInstances()->count() > 0) {
                 if (!$user->getAdministeredInstances()->contains($user->getInstance())) {
                     $user->getAdministeredInstances()->add($user->getInstance());
@@ -88,17 +89,17 @@ class Builder extends ContainerAware
                 }
             }
         }
-        if ($securityContext->isGranted(UserManager::ROLE_SUPER_ADMIN) !== false && $local) {
+        if ($authChecker->isGranted(UserManager::ROLE_SUPER_ADMIN) !== false && $local) {
             $menu->addChild('Network Administration', array(
                 'route' => 'superadministration',
             ));
         }
-        if ($securityContext->isGranted(UserManager::ROLE_USER) !== false && $local) {
+        if ($authChecker->isGranted(UserManager::ROLE_USER) !== false && $local) {
             $menu->addChild('My Site', array(
                 'route' => 'user_index',
             ));
         }
-        if ($securityContext->isGranted(UserManager::ROLE_USER) !== false && !$local) {
+        if ($authChecker->isGranted(UserManager::ROLE_USER) !== false && !$local) {
             $menu->addChild('My Instance', array(
                 'route' => 'public_index',
                 'routeParameters' => array(

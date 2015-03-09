@@ -46,7 +46,7 @@ class AdminFileController extends BaseController
             return $this->createNotFoundException('File not found.');
         }
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $httpRequest = $this->get('request_stack')->getCurrentRequest();
 

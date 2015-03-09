@@ -35,17 +35,17 @@ class StateRepository extends EntityRepository
         $types = StateManager::$stateTypes;
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type, COUNT(s.id) as c')
-                ->leftJoin('s.request','r')
+                ->leftJoin('s.request', 'r')
                 ->andWhere('s.isCurrent = true')
                 ->andWhere('s.type IN (:types) OR s.type IS NULL')
                 ->groupBy('s.type')
                 ->setParameter('types', $types);
-        
+
         if (!is_null($orderType)) {
             $qb = $qb->andWhere('r.type = :orderType')
                     ->setParameter('orderType', $orderType);
         }
-        
+
         if (!is_null($instance)) {
             $qb = $qb->andWhere('s.instance = :instance')
                     ->setParameter('instance', $instance);
@@ -55,29 +55,31 @@ class StateRepository extends EntityRepository
             $qb = $qb->andWhere('(r.operator = :user)')
                     ->setParameter('user', $user);
         }
-        
+
         $result = array();
         foreach ($qb->getQuery()->getResult() as $type) {
             $result[$type['type']] = intval($type['c']);
         }
-        
+
         foreach ($types as $state) {
             if (!array_key_exists($state, $result)) {
                 $result[$state] = 0;
             }
         }
-        
+
         // Se cuentan aquellos que tienen busquedas pendientes
         $qb2 = $this->createQueryBuilder('s')
-                ->select('COUNT(s.id) as c')
-                ->andWhere('s.isCurrent = true')
-                ->andWhere('s.type = :type')
-                ->andWhere('s.searchPending = true')
-                ->groupBy('s.type')
-                ->setParameter('type', StateManager::STATE__REQUESTED)
-                ->getQuery()->getSingleResult();
-        
-        $result[StateManager::STATE__SEARCHED] += intval($qb2['c']);
+                        ->select('COUNT(s.id) as c')
+                        ->andWhere('s.isCurrent = true')
+                        ->andWhere('s.type = :type')
+                        ->andWhere('s.searchPending = true')
+                        ->groupBy('s.type')
+                        ->setParameter('type', StateManager::STATE__REQUESTED)
+                        ->getQuery()->getResult();
+
+        if (count($qb2) > 0) {
+            $result[StateManager::STATE__SEARCHED] += intval($qb2['c']);
+        }
 
         return $result;
     }

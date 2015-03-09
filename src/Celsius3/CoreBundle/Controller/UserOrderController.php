@@ -103,7 +103,7 @@ class UserOrderController extends OrderController
      */
     public function newAction()
     {
-        if ($this->get('security.context')->isGranted(UserManager::ROLE_LIBRARIAN)) {
+        if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
             $type = new OrderType($this->getInstance(), null, $this->getUser(), null, true);
         } else {
             $type = new OrderType($this->getInstance(), null, $this->getUser());
@@ -123,7 +123,7 @@ class UserOrderController extends OrderController
      */
     public function createAction()
     {
-        if ($this->get('security.context')->isGranted(UserManager::ROLE_LIBRARIAN)) {
+        if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
             $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, true);
         } else {
             $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());

@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\Request;
@@ -43,15 +44,16 @@ class LifecycleHelper
     private $event_manager;
     private $file_manager;
     private $instance_helper;
-    private $container;
+    private $security_token_storage;
 
-    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper)
+    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper, TokenStorage $security_token_storage)
     {
         $this->em = $em;
         $this->state_manager = $state_manager;
         $this->event_manager = $event_manager;
         $this->file_manager = $file_manager;
         $this->instance_helper = $instance_helper;
+        $this->security_token_storage = $security_token_storage;
     }
 
     public function getEventManager()
@@ -195,6 +197,7 @@ class LifecycleHelper
      */
     public function createEvent($name, Request $request, Instance $instance = null)
     {
+        $this->em->beginTransaction();
         try {
             $data = $this->preValidate($name, $request, $instance);
             if (array_key_exists('event', $data)) {
@@ -221,8 +224,11 @@ class LifecycleHelper
             $this->refresh($request);
             $this->em->refresh($event);
 
+            $this->em->commit();
+
             return $event;
         } catch (PreviousStateNotFoundException $e) {
+            $this->em->rollback();
             return null;
         }
     }
@@ -241,26 +247,34 @@ class LifecycleHelper
 
     public function undoState(Request $request)
     {
-        $currentState = $request->getCurrentState();
-        if ($previousState = $currentState->getPrevious()) {
-            $currentState->setIsCurrent(false);
-            $previousState->setIsCurrent(true);
+        $this->em->beginTransaction();
+        try {
+            $currentState = $request->getCurrentState();
+            if ($previousState = $currentState->getPrevious()) {
+                $currentState->setIsCurrent(false);
+                $previousState->setIsCurrent(true);
 
-            $event = new UndoEvent();
-            $event->setRequest($request);
-            $event->setOperator($this->container->get('security.context')->getToken()->getUser());
-            $event->setInstance($request->getInstance());
-            $event->setState($previousState);
-            $previousState->addEvent($event);
+                $event = new UndoEvent();
+                $event->setRequest($request);
+                $event->setOperator($this->security_token_storage->getToken()->getUser());
+                $event->setInstance($request->getInstance());
+                $event->setState($previousState);
+                $previousState->addEvent($event);
 
-            $this->state_manager->extraUndoActions($currentState);
+                $this->state_manager->extraUndoActions($currentState);
 
-            $this->refresh($event);
-            $this->em->refresh($event);
-            $this->refresh($currentState);
+                $this->refresh($event);
+                $this->em->refresh($event);
+                $this->refresh($currentState);
+                
+                $this->em->commit();
 
-            return $event;
-        } else {
+                return $event;
+            } else {
+                return null;
+            }
+        } catch (Exception $ex) {
+            $this->em->rollback();
             return null;
         }
     }

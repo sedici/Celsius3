@@ -234,6 +234,7 @@
             <argument type="service" id="celsius3_core.event_manager"></argument>
             <argument type="service" id="celsius3_core.file_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="service" id="security.token_storage"></argument>
         </service>
 
         <service id="celsius3_core.configuration_helper" class="%celsius3_core.configuration_helper.class%">

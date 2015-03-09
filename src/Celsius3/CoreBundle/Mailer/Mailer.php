@@ -44,7 +44,7 @@ class Mailer
         $email->setAddress($address);
         $email->setSubject($subject);
         $email->setText($text);
-        $email->setSender($this->container->get('security.context')->getToken()->getUser());
+        $email->setSender($this->container->get('security.token_storage')->getToken()->getUser());
         $email->setInstance($instance);
 
         $em->persist($email);

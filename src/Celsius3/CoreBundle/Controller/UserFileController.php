@@ -45,7 +45,7 @@ class UserFileController extends BaseController
             return $this->createNotFoundException('Order not found.');
         }
 
-        $user = $this->get('security.context')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if (!$file || $file->getIsDownloaded() || $order->getOwner()->getId() != $user->getId()) {
             return $this->createNotFoundException('File not found.');
