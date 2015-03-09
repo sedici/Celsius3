@@ -175,4 +175,45 @@ class InstitutionRepository extends EntityRepository
         }
         return $total;
     }
+
+    public function getBaseInstitution($institution)
+    {
+        $parent = $institution->getParent();
+        while ($parent <> null) {
+            $institution = $parent;
+            $parent = $institution->getParent();
+        }
+
+        return $institution;
+    }
+
+    private function getChilds($institution)
+    {
+        $qb = $this->createQueryBuilder('i');
+
+        $qb = $qb->select('i')
+                ->where('i.parent = :institution')
+                ->setParameter('institution', $institution);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getInstitutionsTree($institution)
+    {
+        $institutions = array();
+        $ids = array();
+
+        array_push($institutions, $institution);
+        while (COUNT($institutions) > 0) {
+            $ins = array_shift($institutions);
+            array_push($ids, $ins);
+            $childs = $this->getChilds($ins);
+            if (COUNT($childs) > 0) {
+                $institutions = array_merge($institutions, $childs);
+            }
+        }
+
+        return $ids;
+    }
+
 }
