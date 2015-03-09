@@ -117,7 +117,6 @@ class LifecycleHelper
             $this->em->persist($state);
             $this->em->flush($state);
         }
-        $state->addEvent($event);
 
         return $state;
     }
@@ -219,6 +218,7 @@ class LifecycleHelper
                     }
                 }
             } else {
+                $this->em->refresh($request);
                 $event = $this->setEventData($request, $data);
             }
             $this->refresh($request);

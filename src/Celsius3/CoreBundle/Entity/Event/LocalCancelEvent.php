@@ -35,6 +35,5 @@ class LocalCancelEvent extends MultiInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $data['extraData']['request']->setIsCancelled(true);
-        $lifecycleHelper->refresh($data['extraData']['request']);
     }
 }
