@@ -5,5 +5,7 @@
 {% endblock %}
 
 {% block content %}
-
+    <div class="row">
+        {{ instance.get('instance_information').value|raw }}
+    </div>
 {% endblock %}

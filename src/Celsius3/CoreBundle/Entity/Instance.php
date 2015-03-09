@@ -115,10 +115,23 @@ class Instance extends LegacyInstance
     public function get($key)
     {
         return $this->getConfigurations()
-                        ->filter(
-                                function (Configuration $entry) use ($key) {
-                            return ($entry->getKey() == $key);
+                        ->filter(function (Configuration $entry) use ($key) {
+                            return ($entry->getKey() === $key);
                         })->first();
+    }
+
+    /**
+     * Returns the if the instance has a Configuration with $key
+     *
+     * @param  string        $key
+     * @return boolean
+     */
+    public function has($key)
+    {
+        return $this->getConfigurations()
+                        ->filter(function (Configuration $entry) use ($key) {
+                            return ($entry->getKey() === $key);
+                        })->count() > 0;
     }
 
     /**

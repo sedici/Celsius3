@@ -194,6 +194,14 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
+            
+    kernel.listener.command_dispatch:
+        class: Celsius3\CoreBundle\EventListener\ConsoleLoggingListener
+        arguments:
+            logger: "@logger"
+        tags:
+            - { name: kernel.event_listener, event: console.exception }
+            - { name: kernel.event_listener, event: console.terminate }
 
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop

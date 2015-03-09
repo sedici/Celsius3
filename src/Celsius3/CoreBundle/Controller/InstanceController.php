@@ -22,6 +22,8 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+
 abstract class InstanceController extends BaseController
 {
 
@@ -48,13 +50,15 @@ abstract class InstanceController extends BaseController
 
         foreach ($entity->getConfigurations() as $configuration) {
             $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
+            $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
             $configureForm->add($configuration->getKey(), $configurationType, array(
                 'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
                 /** @Ignore */ 'label' => $configuration->getName(),
                 'required' => false,
                 'attr' => array(
                     'class' => $configurationType === 'textarea' ? 'summernote' : '',
-                    'required' => $configurationType === 'textarea' ? false : true,
+                    'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? false : true,
+                    'readonly' => $readonly,
                 ),
             ));
         }

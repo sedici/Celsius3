@@ -41,65 +41,12 @@ use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 class DirectoryLoader extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
-    private $configurations = array(
-        ConfigurationHelper::CONF__INSTANCE_TITLE => array(
-            'name' => 'Title',
-            'value' => 'Default title',
-            'type' => 'string',
-        ),
-        ConfigurationHelper::CONF__RESULTS_PER_PAGE => array(
-            'name' => 'Results per page',
-            'value' => '10',
-            'type' => 'integer',
-        ),
-        ConfigurationHelper::CONF__EMAIL_REPLY_ADDRESS => array(
-            'name' => 'Reply to',
-            'value' => 'sample@instance.edu',
-            'type' => 'email',
-        ),
-        ConfigurationHelper::CONF__INSTANCE_DESCRIPTION => array(
-            'name' => 'Instance description',
-            'value' => '',
-            'type' => 'text',
-        ),
-        ConfigurationHelper::CONF__DEFAULT_LANGUAGE => array(
-            'name' => 'Default language',
-            'value' => 'es',
-            'type' => 'language',
-        ),
-        ConfigurationHelper::CONF__CONFIRMATION_TYPE => array(
-            'name' => 'Confirmation type',
-            'value' => 'email',
-            'type' => 'confirmation',
-        ),
-        ConfigurationHelper::CONF__MAIL_SIGNATURE => array(
-            'name' => 'Mail signature',
-            'value' => '',
-            'type' => 'text',
-        ),
-        ConfigurationHelper::CONF__API_KEY => array(
-            'name' => 'Api Key',
-            'value' => '',
-            'type' => 'string',
-        ),
-    );
     private $contact_types = array(
         'Director',
         'Librarian',
         'Technician',
     );
-    private $state_types = array(
-        StateManager::STATE__CREATED,
-        StateManager::STATE__SEARCHED,
-        StateManager::STATE__REQUESTED,
-        StateManager::STATE__APPROVAL_PENDING,
-        StateManager::STATE__RECEIVED,
-        StateManager::STATE__DELIVERED,
-        StateManager::STATE__CANCELLED,
-        StateManager::STATE__ANNULLED,
-        StateManager::STATE__TAKEN,
-    );
-
+    
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
@@ -132,7 +79,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         /*
          * Configuración del directorio
          */
-        foreach ($this->configurations as $key => $data) {
+        foreach ($this->container->get('celsius3_core.configuration_helper')->configurations as $key => $data) {
             $configuration = new Entity\Configuration();
             $configuration->setName($data['name']);
             $configuration->setKey($key);

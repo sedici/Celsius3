@@ -29,7 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="configuration")
+ * @ORM\Table(name="configuration", uniqueConstraints={
+ *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})})
+ * })
  */
 class Configuration
 {

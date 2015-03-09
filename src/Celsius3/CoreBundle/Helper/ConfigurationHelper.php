@@ -23,19 +23,19 @@
 namespace Celsius3\CoreBundle\Helper;
 
 use Celsius3\CoreBundle\Entity\Configuration;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigurationHelper
 {
-    
     const CONF__INSTANCE_TITLE = 'instance_title';
     const CONF__RESULTS_PER_PAGE = 'results_per_page';
     const CONF__EMAIL_REPLY_ADDRESS = 'email_reply_address';
     const CONF__INSTANCE_DESCRIPTION = 'instance_description';
+    const CONF__INSTANCE_INFORMATION = 'instance_information';
     const CONF__DEFAULT_LANGUAGE = 'default_language';
     const CONF__CONFIRMATION_TYPE = 'confirmation_type';
     const CONF__MAIL_SIGNATURE = 'mail_signature';
     const CONF__API_KEY = 'api_key';
-    
     private $equivalences = array(
         'string' => 'text',
         'boolean' => 'checkbox',
@@ -54,6 +54,59 @@ class ConfigurationHelper
         'admin' => 'Administrator confirmation',
         'email' => 'Email confirmation',
     );
+    public $configurations = array(
+        self::CONF__INSTANCE_TITLE => array(
+            'name' => 'Title',
+            'value' => 'Default title',
+            'type' => 'string',
+        ),
+        self::CONF__RESULTS_PER_PAGE => array(
+            'name' => 'Results per page',
+            'value' => '10',
+            'type' => 'integer',
+        ),
+        self::CONF__EMAIL_REPLY_ADDRESS => array(
+            'name' => 'Reply to',
+            'value' => 'sample@instance.edu',
+            'type' => 'email',
+        ),
+        self::CONF__INSTANCE_DESCRIPTION => array(
+            'name' => 'Instance description',
+            'value' => '',
+            'type' => 'text',
+        ),
+        self::CONF__INSTANCE_INFORMATION => array(
+            'name' => 'Instance information',
+            'value' => '',
+            'type' => 'text',
+        ),
+        self::CONF__DEFAULT_LANGUAGE => array(
+            'name' => 'Default language',
+            'value' => 'es',
+            'type' => 'language',
+        ),
+        self::CONF__CONFIRMATION_TYPE => array(
+            'name' => 'Confirmation type',
+            'value' => 'email',
+            'type' => 'confirmation',
+        ),
+        self::CONF__MAIL_SIGNATURE => array(
+            'name' => 'Mail signature',
+            'value' => '',
+            'type' => 'text',
+        ),
+        self::CONF__API_KEY => array(
+            'name' => 'Api Key',
+            'value' => '',
+            'type' => 'string',
+        ),
+    );
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     public function guessConfigurationType(Configuration $configuration)
     {
@@ -88,5 +141,27 @@ class ConfigurationHelper
         $new->setType($original->getType());
 
         return $new;
+    }
+
+    public function updateConfigurations()
+    {
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $instances = $em->getRepository('Celsius3CoreBundle:Instance')
+                ->findAll();
+
+        foreach ($this->configurations as $key => $configuration) {
+            foreach ($instances as $instance) {
+                if (!$instance->has($key)) {
+                    $new = new Configuration();
+                    $new->setKey($key);
+                    $new->setName($configuration['name']);
+                    $new->setValue($configuration['value']);
+                    $new->setType($configuration['type']);
+                    $new->setInstance($instance);
+                    $em->persist($new);
+                }
+            }
+        }
+        $em->flush();
     }
 }

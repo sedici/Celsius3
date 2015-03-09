@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 /**
  * Public controller
@@ -59,7 +60,9 @@ class PublicController extends BaseInstanceDependentController
      */
     public function informationAction()
     {
-        return array();
+        return array(
+            'instance' => $this->getInstance(),
+        );
     }
 
     /**
@@ -68,9 +71,17 @@ class PublicController extends BaseInstanceDependentController
      */
     public function newsAction()
     {
+        $news = $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:News')
+                        ->createQueryBuilder('n')
+                        ->where('n.instance = :instance_id')
+                        ->orderBy('n.createdAt', 'desc')
+                        ->setParameter(':instance_id', $this->getInstance()->getId())
+                        ->getQuery();
+        
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator
-                ->paginate($this->getInstance()->getNews(), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
+                ->paginate($news, $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
         );
 
         return array(
