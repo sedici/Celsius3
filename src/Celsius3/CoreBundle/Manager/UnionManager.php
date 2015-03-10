@@ -73,18 +73,18 @@ class UnionManager
             )
         ),
         'Celsius3CoreBundle:BaseUser' => array(
-            'Celsius3CoreBundle:Order' => array(
+            'Celsius3CoreBundle:Request' => array(
                 'owner',
                 'operator',
-                'creator'
-            ),
-            'Celsius3CoreBundle:BaseUser' => array(
+                'creator',
                 'librarian'
             ),
             'Celsius3MessageBundle:Message' => array(
-                'sender',
-                'receiver'
-            )
+                'sender'
+            ),
+            'Celsius3MessageBundle:ThreadMetadata' => array(
+                'participant'
+            ),
         )
     );
 
