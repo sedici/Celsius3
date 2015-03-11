@@ -2,7 +2,7 @@
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\CustomUserField" exclusion-policy="all">
         <property name="id" type="string" expose="true" read-only="true"></property>
-        <property name="keycuf" type="string" expose="true" access-type="public_method"></property>
+        <property name="key" type="string" expose="true" access-type="public_method"></property>
         <property name="name" type="string" expose="true" access-type="public_method"></property>
     </class>
 </serializer>

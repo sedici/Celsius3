@@ -30,7 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="custom_user_field", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="unique_idx", columns={"keycuf", "instance_id"})})
+ *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})})
  * })
  */
 class CustomUserField
@@ -45,9 +45,9 @@ class CustomUserField
     private $id;
     /**
      * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(type="string", length=255, name="keycuf")
+     * @ORM\Column(type="string", length=255, name="`key`")
      */
-    private $keycuf;
+    private $key;
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
@@ -94,9 +94,9 @@ class CustomUserField
      * @param  string $key
      * @return self
      */
-    public function setKeycuf($key)
+    public function setKey($key)
     {
-        $this->keycuf = $key;
+        $this->key = $key;
 
         return $this;
     }
@@ -106,9 +106,9 @@ class CustomUserField
      *
      * @return string $key
      */
-    public function getKeycuf()
+    public function getKey()
     {
-        return $this->keycuf;
+        return $this->key;
     }
 
     /**
