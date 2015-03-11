@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Celsius3\CoreBundle\Filter\Type\FileDownloadFilterType;
 
 /**
  * FileDownload controller.
@@ -43,6 +44,6 @@ class AdminFileDownloadController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('FileDownload');
+        return $this->baseIndex('FileDownload',$this->createForm(new FileDownloadFilterType($this->getInstance())));
     }
 }
