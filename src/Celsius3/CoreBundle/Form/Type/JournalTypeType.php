@@ -44,6 +44,7 @@ class JournalTypeType extends MaterialTypeType
                 ->add('number')
                 ->add('journal', 'celsius3_corebundle_journal_selector', array(
                     'attr' => array(
+                        'required' => true,
                         'value' => (!is_null($this->journal)) ? $this->journal->getId() : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
@@ -51,6 +52,7 @@ class JournalTypeType extends MaterialTypeType
                 ))
                 ->add('journal_autocomplete', 'text', array(
                     'attr' => array(
+                        'required' => true,
                         'class' => 'autocomplete',
                         'target' => 'Journal',
                         'value' => $this->journal,
