@@ -38,7 +38,8 @@ orderFilters.filter('get_history_icon', function () {
             mirequest: 'reloj2',
             sireceive: 'papel1',
             mireceive: 'papel2',
-            deliver: 'ok'
+            deliver: 'ok',
+            undo: 'undo'
         };
         return icons[input];
     };
