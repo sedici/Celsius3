@@ -126,7 +126,12 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()));
+        $entity = $this->findQuery('Contact', $id);
+        if (!$entity) {
+            $this->createNotFoundException();
+        }
+        
+        return $this->baseEdit('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager(), $entity->getUser()));
     }
 
     /**
@@ -144,7 +149,12 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()), 'admin_contact');
+        $entity = $this->findQuery('Contact', $id);
+        if (!$entity) {
+            $this->createNotFoundException();
+        }
+        
+        return $this->baseUpdate('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager(), $entity->getUser()), 'admin_contact');
     }
 
     /**

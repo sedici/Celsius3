@@ -29,9 +29,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Entity;
-use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 /**
  * Description of FixtureLoader
@@ -102,6 +100,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
             $manager->persist($ct);
             unset($ct);
         }
+        $manager->flush();
     }
 
     public function getOrder()

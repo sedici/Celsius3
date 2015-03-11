@@ -24,9 +24,16 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 class ContactType extends AbstractType
 {
+    private $user;
+    
+    public function __construct(BaseUser $user = null)
+    {
+        $this->user = $user;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -35,7 +42,22 @@ class ContactType extends AbstractType
                 ->add('surname')
                 ->add('email')
                 ->add('address')
-                ->add('user')
+                ->add('user', 'celsius3_corebundle_user_selector', array(
+                    'attr' => array(
+                        'class' => 'container',
+                        'readonly' => 'readonly',
+                        'value' => (!is_null($this->user)) ? $this->user->getId() : '',
+                    ),
+                ))
+                ->add('user_autocomplete', 'text', array(
+                    'attr' => array(
+                        'value' => $this->user,
+                        'class' => 'autocomplete',
+                        'target' => 'BaseUser',
+                    ),
+                    'mapped' => false,
+                    'label' => 'User',
+                ))
                 ->add('type')
                 ->add('instance')
         ;

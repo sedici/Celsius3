@@ -23,15 +23,36 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class SuperadminContactType extends ContactType
 {
+    private $owningInstance;
+    private $em;
+
+    public function __construct(EntityManager $em, Instance $owningInstance = null, BaseUser $user = null)
+    {
+        parent::__construct($user);
+        $this->owningInstance = $owningInstance;
+        $this->em = $em;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
         $builder
-                ->add('instance')
+                ->add('owningInstance', null, array(
+                    'data' => $this->owningInstance,
+                    'attr' => array(
+                        'value' => (!is_null($this->owningInstance)) ? $this->owningInstance->getId() : '',
+                    ),
+                ))
         ;
+
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
+        $builder->addEventSubscriber($subscriber);
     }
 }

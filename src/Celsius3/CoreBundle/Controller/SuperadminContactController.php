@@ -76,7 +76,7 @@ class SuperadminContactController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Contact', new Contact(), new SuperadminContactType());
+        return $this->baseNew('Contact', new Contact(), new SuperadminContactType($this->getDoctrine()->getManager()));
     }
 
     /**
@@ -90,7 +90,7 @@ class SuperadminContactController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Contact', new Contact(), new SuperadminContactType(), 'superadmin_contact');
+        return $this->baseCreate('Contact', new Contact(), new SuperadminContactType($this->getDoctrine()->getManager()), 'superadmin_contact');
     }
 
     /**
@@ -107,7 +107,12 @@ class SuperadminContactController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Contact', $id, new SuperadminContactType());
+        $entity = $this->findQuery('Contact', $id);
+        if (!$entity) {
+            $this->createNotFoundException();
+        }
+        
+        return $this->baseEdit('Contact', $id, new SuperadminContactType($this->getDoctrine()->getManager(), $entity->getOwningInstance(), $entity->getUser()));
     }
 
     /**
@@ -125,7 +130,12 @@ class SuperadminContactController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Contact', $id, new SuperadminContactType(), 'superadmin_contact');
+        $entity = $this->findQuery('Contact', $id);
+        if (!$entity) {
+            $this->createNotFoundException();
+        }
+        
+        return $this->baseUpdate('Contact', $id, new SuperadminContactType($this->getDoctrine()->getManager(), $entity->getOwningInstance(), $entity->getUser()), 'superadmin_contact');
     }
 
     /**

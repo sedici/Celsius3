@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class AdminContactType extends ContactType
@@ -32,8 +33,9 @@ class AdminContactType extends ContactType
     private $owningInstance;
     private $em;
 
-    public function __construct(Instance $owningInstance, EntityManager $em)
+    public function __construct(Instance $owningInstance, EntityManager $em, BaseUser $user = null)
     {
+        parent::__construct($user);
         $this->owningInstance = $owningInstance;
         $this->em = $em;
     }

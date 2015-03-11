@@ -15,6 +15,9 @@
                         <a href="{{ path('superadmin_news_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </li>
+                <li>
+                    <a href="{{ path('superadmin_directory_configure') }}" class="btn btn-default btn-group-alone"><span class="glyphicon glyphicon-list"></span> {{ 'Configure Directory'|trans }}</a>
+                </li>
             </ul>
         </div>
         <div class="col-md-6">
@@ -26,7 +29,10 @@
                     </div>
                 </li>
                 <li>
-                    <a href="{{ path('superadmin_directory_configure') }}" class="btn btn-default btn-group-alone"><span class="glyphicon glyphicon-list"></span> {{ 'Configure Directory'|trans }}</a>
+                    <div class="btn-group">
+                        <a href="{{ path('superadmin_contact') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Contacts'|trans }}</a>
+                        <a href="{{ path('superadmin_contact_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
                 </li>
             </ul>
         </div>
