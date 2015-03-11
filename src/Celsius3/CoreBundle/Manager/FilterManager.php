@@ -73,8 +73,8 @@ class FilterManager
                 break;
             case 'entity':
             case 'collection':
-                $query = $query->andWhere($alias . '.' . $key . ' = :id')
-                        ->setParameter('id', $data->getId()); //$data; data.$id
+                $query = $query->andWhere($alias . '.' . $key . " = :$key")
+                        ->setParameter("$key", $data);
                 break;
             default:
                 $query = $query->andWhere($alias . '.' . $key . " = :$key")
