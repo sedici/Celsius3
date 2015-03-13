@@ -84,15 +84,19 @@ class InstitutionRepository extends EntityRepository
 
     private function countTotalRequestsOriginPerCountry($instance, $type, $initialYear, $finalYear)
     {
-        $query = $this->createQueryBuilder('institution')
-                ->select('country.name name')
+        $qb = $this->createQueryBuilder('institution');
+        
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+        }
+        
+        $query = $qb->select('country.name name')
                 ->addSelect('country.id id')
                 ->addSelect('IDENTITY(institution.country) institutionCountry')
                 ->addSelect('COUNT(request) requestsCount')
                 ->leftJoin('institution.users', 'user')
                 ->leftJoin('user.orders', 'request')
                 ->leftJoin('institution.country', 'country')
-                ->andWhere('institution.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
                 ->groupBy('country.id');
 
@@ -108,14 +112,18 @@ class InstitutionRepository extends EntityRepository
 
     private function countCountryRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $country)
     {
-        $query = $this->createQueryBuilder('institution')
-                ->select('institution.name name')
+        $qb = $this->createQueryBuilder('institution');
+        
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+        }
+        
+        $query = $qb->select('institution.name name')
                 ->addSelect('institution.id id')
                 ->addSelect('IDENTITY(institution.country) institutionCountry')
                 ->addSelect('COUNT(request.id) requestsCount')
                 ->leftJoin('institution.users', 'user')
                 ->leftJoin('user.orders', 'request')
-                ->andWhere('institution.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('institution.country = :country')->setParameter('country', $country)
                 ->andWhere('institution.parent IS NULL')
                 ->andwhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
@@ -134,13 +142,17 @@ class InstitutionRepository extends EntityRepository
     public function countInstitutionRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $institution)
     {
         $qb = $this->createQueryBuilder('institution');
+        
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+        }
+        
         $query = $qb->addSelect('institution.name name')
                 ->addSelect('institution.id id')
                 ->addSelect('COUNT(request.id) requestsCount')
                 ->addSelect('IDENTITY(institution.country) institutionCountry')
                 ->leftJoin('institution.users', 'user')
                 ->leftJoin('user.orders', 'request')
-                ->andWhere('institution.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('institution.parent = :parent')->setParameter('parent', $institution)
                 ->andWhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
                 ->groupBy('institution.id');
@@ -157,12 +169,16 @@ class InstitutionRepository extends EntityRepository
 
     public function total($instance, $type, $institution)
     {
-        $counts = $this->createQueryBuilder('institution')
-                ->addSelect('institution.id id')
+        $qb = $this->createQueryBuilder('institution');
+        
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+        }
+        
+        $counts = $qb->addSelect('institution.id id')
                 ->addSelect('COUNT(request.id) requestsCount')
                 ->leftJoin('institution.users', 'user')
                 ->leftJoin('user.orders', 'request')
-                ->andWhere('institution.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('institution.parent = :parent')->setParameter('parent', $institution)
                 ->andWhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
                 ->groupBy('institution.id')

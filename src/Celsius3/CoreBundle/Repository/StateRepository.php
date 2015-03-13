@@ -109,15 +109,19 @@ class StateRepository extends EntityRepository
 
     public function findRequestsStateCountFor($instance, $type, $initialYear, $finalYear)
     {
-        $qb = $this->createQueryBuilder('s')
-                ->select('s.type stateType')
+        $qb = $this->createQueryBuilder('s');
+
+        if (!is_null($instance)) {
+            $qb = $qb->andWhere('s.instance = :instance')->setParameter('instance', $instance);
+        }
+
+        $qb = $qb->select('s.type stateType')
                 ->addSelect('COUNT(r.id) requestsCount')
                 ->addSelect('SUM(f.pages) pages')
                 ->innerJoin('s.request', 'r')
                 ->innerJoin('r.order', 'o')
                 ->innerJoin('o.materialData', 'md')
                 ->leftJoin('r.files', 'f')
-                ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
                 ->andWhere('r.type = :type')->setParameter('type', $type)
                 ->groupBy('stateType');
@@ -139,17 +143,6 @@ class StateRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function getYears($instance)
-    {
-        return $this->createQueryBuilder('s')
-                        ->select('DISTINCT(YEAR(s.createdAt)) year')
-                        ->where('s.instance = :instance')->setParameter('instance', $instance)
-                        ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
-                        ->groupBy('year')
-                        ->orderBy('year', 'ASC')
-                        ->getQuery()->getResult();
-    }
-
     public function findRequestsDestinyDistributionFor($instance, $type, $initialYear, $finalYear)
     {
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping();
@@ -158,24 +151,37 @@ class StateRepository extends EntityRepository
                 ->addScalarResult('stateType', 'stateType')
                 ->addScalarResult('year', 'year')
                 ->addScalarResult('requestsCount', 'requestsCount');
-        return $this->getEntityManager()
-                        ->createNativeQuery('SELECT c.id countryId, c.name countryName, YEAR(s.createdAt) year, s.type stateType, COUNT(r.id) requestsCount'
-                                . ' FROM state s'
-                                . ' INNER JOIN request r ON r.id = s.request_id'
-                                . ' INNER JOIN event e ON e.request_id = r.id'
-                                . ' INNER JOIN provider p ON p.id = e.provider_id'
-                                . ' INNER JOIN country c ON c.id = p.country_id'
-                                . ' WHERE s.instance_id = :instance'
-                                . ' AND r.type = :type'
-                                . ' AND s.type <> :stateType'
-                                . ' GROUP BY c.id, stateType'
-                                . ' HAVING year >= :initialYear AND year <= :finalYear'
-                                . ' ORDER BY requestsCount ASC', $rsm)
-                        ->setParameter('instance', $instance)
-                        ->setParameter('type', $type)
-                        ->setParameter('stateType', 'annulled')
-                        ->setParameter('initialYear', $initialYear)
-                        ->setParameter('finalYear', $finalYear)
-                        ->getResult();
+
+        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(s.createdAt) year, s.type stateType, COUNT(r.id) requestsCount'
+                . ' FROM state s'
+                . ' INNER JOIN request r ON r.id = s.request_id'
+                . ' INNER JOIN event e ON e.request_id = r.id'
+                . ' INNER JOIN provider p ON p.id = e.provider_id'
+                . ' INNER JOIN country c ON c.id = p.country_id'
+                . ' WHERE ';
+
+        if (!is_null($instance)) {
+            $sql .= ' s.instance_id = :instance'
+                    . ' AND';
+        }
+
+        $sql .= ' r.type = :type'
+                . ' AND s.type <> :stateType'
+                . ' GROUP BY c.id, stateType'
+                . ' HAVING year >= :initialYear AND year <= :finalYear'
+                . ' ORDER BY requestsCount ASC';
+
+        $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+        if (!is_null($instance)) {
+            $query = $query->setParameter('instance', $instance);
+        }
+
+        return $query->setParameter('type', $type)
+                ->setParameter('stateType', 'annulled')
+                ->setParameter('initialYear', $initialYear)
+                ->setParameter('finalYear', $finalYear)
+                ->getResult();
     }
+
 }

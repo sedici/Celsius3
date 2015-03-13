@@ -122,6 +122,9 @@ class Builder extends ContainerAware
         $menu->addChild('Instances', array(
             'route' => 'directory_instances',
         ));
+        $menu->addChild('Statistics', array(
+            'route' => 'directory_statistics',
+        ));
 
         return $menu;
     }

@@ -79,4 +79,15 @@ class DirectoryController extends BaseController
             'legacyInstances' => $legacyInstances,
         );
     }
+    
+    /**
+     * @Route("/directory/statistics", name="directory_statistics", options={"expose"=true})
+     * @Template()
+     */
+    public function statisticsAction()
+    {
+        return array(
+            'directory' => $this->getDirectory()
+        );
+    }
 }

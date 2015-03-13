@@ -51,24 +51,16 @@ class RequestRepository extends EntityRepository
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('request.instance = :instance')->setParameter('instance', $instance);
+        }
+        
         $qb = $qb->addSelect('COUNT(DISTINCT request.owner) activeUsers')
-                ->andWhere('request.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('request.type = :type')->setParameter('type', $type)
                 ->groupBy('axisValue')
                 ->orderBy('axisValue', 'ASC');
 
         return $qb->getQuery()->getResult();
-    }
-
-    public function getYears($instance)
-    {
-        return $this->createQueryBuilder('request')
-                        ->select('YEAR(request.createdAt) year')
-                        ->where('request.instance = :instance')->setParameter('instance', $instance)
-                        ->groupBy('year')
-                        ->orderBy('year')
-                        ->getQuery()
-                        ->getResult();
     }
 
     public function findRequestsDestinyDistributionForInterval($instance, $type, $initialYear, $finalYear)
@@ -85,12 +77,15 @@ class RequestRepository extends EntityRepository
     public function findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('r');
-
+        
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
+        }
+        
         $qb = $qb->addSelect('md.year materialDataYear')
                 ->addSelect('COUNT(md.id) materialDataCount')
                 ->innerJoin('r.order', 'o')
                 ->innerJoin('o.materialData', 'md')
-                ->andWhere('r.instance = :instance')->setParameter('instance', $instance)
                 ->andWhere('r.type = :type')->setParameter('type', $type)
                 ->groupBy('materialDataYear')
                 ->orderBy('materialDataYear', 'ASC');
@@ -116,9 +111,12 @@ class RequestRepository extends EntityRepository
                     FROM Celsius3\CoreBundle\Entity\Request rs 
                     JOIN Celsius3\CoreBundle\Entity\State st WITH rs = st.request
                     WHERE st.type = 'annulled' OR st.type = 'cancelled'
-                )
-                AND r.instance = :instance
-                AND r.type = :type ";
+                )";
+        if(!is_null($instance)){
+            $dql .= " AND r.instance = :instance";
+        }
+        
+        $dql .= " AND r.type = :type ";
 
         if ($delayType === 'totalDelay') {
             $dql .= "AND sA.type = 'created' 
@@ -148,8 +146,12 @@ class RequestRepository extends EntityRepository
         $dql .= "ORDER BY cYear,delay";
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query = $query->setParameter('instance', $instance)
-                ->setParameter('type', $type);
+        
+        if(!is_null($instance)){
+            $query = $query->setParameter('instance', $instance);
+        }
+        
+        $query = $query->setParameter('type', $type);
 
         if ($initialYear === $finalYear) {
             $query = $query->setParameter('year', $initialYear);
@@ -168,13 +170,15 @@ class RequestRepository extends EntityRepository
         $institutions = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
 
         $qb = $this->createQueryBuilder('r');
+        
+        if(!is_null($instance)){
+            $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
+        }
 
         $qb = $qb->addSelect('s.type st')
                 ->addSelect('COUNT(r.id) c')
                 ->leftJoin('r.owner', 'o')
                 ->leftJoin('r.states', 's')
-                ->andWhere('r.instance = :instance')
-                ->setParameter('instance', $instance)
                 ->andWhere('o.institution IN (:institutions)')
                 ->setParameter('institutions', $institutions)
                 ->addGroupBy('s.type');
@@ -186,18 +190,23 @@ class RequestRepository extends EntityRepository
     {
         $institutions = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
 
-        $query = $this->getEntityManager()
-                ->createQuery(
-                'SELECT s.type st, COUNT(r.id) c '
+        $dql = 'SELECT s.type st, COUNT(r.id) c '
                 . 'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
                 . 'JOIN e.request r '
                 . 'JOIN r.states s '
-                . 'WHERE e.provider IN (:institutions) '
-                . 'AND r.instance = :instance '
-                . 'GROUP BY s.type');
+                . 'WHERE e.provider IN (:institutions) ';
+        
+        $dql .= 'AND r.instance = :instance ';
+        
+        $dql .= 'GROUP BY s.type';
+        
+        $query = $this->getEntityManager()
+                ->createQuery($dql);
 
         $query->setParameter('institutions', $institutions);
-        $query->setParameter('instance', $instance->getId());
+        if(!is_null($instance)){
+            $query->setParameter('instance', $instance->getId());
+        }
 
         return $query->getResult();
     }

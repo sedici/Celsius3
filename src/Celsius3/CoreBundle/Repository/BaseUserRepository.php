@@ -161,9 +161,12 @@ class BaseUserRepository extends EntityRepository
                             ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
-
+        
+        if(!is_null($instance)) {
+            $qb = $qb->andWhere('user.instance = :instance')->setParameter('instance', $instance);
+        }
+        
         $qb = $qb->addSelect('COUNT(user.id) newUsers')
-                ->andWhere('user.instance = :instance')->setParameter('instance', $instance)
                 ->groupBy('axisValue')
                 ->orderBy('axisValue', 'ASC');
 
@@ -178,9 +181,14 @@ class BaseUserRepository extends EntityRepository
             $date->add(new \DateInterval('P' . $axisValue . 'M'));
         }
 
-        return $this->createQueryBuilder('user')
-                        ->select('COUNT(user.id) newUsers')
-                        ->where('user.instance = :instance')->setParameter('instance', $instance)
+        
+        $qb = $this->createQueryBuilder('user');
+        
+        if(!is_null($instance)){
+            $qb = $qb->where('user.instance = :instance')->setParameter('instance', $instance);
+        }
+        
+        return  $qb->select('COUNT(user.id) newUsers')
                         ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
                         ->getQuery()->getSingleResult();
     }
