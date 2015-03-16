@@ -13,10 +13,10 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
     <script type="text/javascript">
         directory = true;
     </script>
-    {{ parent() }}
     <script type="text/javascript" src="/ng-app/Statistics/js/app.js"></script>
     <script type="text/javascript" src="/ng-app/Statistics/js/controllers.js"></script>
     <script type="text/javascript" src="/ng-app/Statistics/js/filters.js"></script>

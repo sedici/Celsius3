@@ -28,7 +28,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     $scope.data;
     $scope.firstColumnTitle = '';
     $scope.location = {};
-
+    
+    if(directory){
+        instance_id = null;
+        instance_url = 'directory';
+    }
     $scope.countryChanged = function () {
         $http.get(Routing.generate('public_institutions', {url: instance_url}) + '?country_id=' + $scope.location.country)
                 .success(function (response) {
@@ -98,8 +102,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-
-        $http.get(Routing.generate('public_rest_get_users_count_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+        
+        var params = '?';
+        if (!_.isNull(instance_id)) {
+            params += 'instance=' + instance_id + '&';
+        }
+        params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
+        
+        $http.get(Routing.generate('public_rest_get_users_count_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateUsersCountChart(response);
@@ -120,7 +130,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         if (!_.isUndefined(finalYear)) {
             parameters += '&finalYear=' + parseInt(finalYear);
         }
-        $http.get(Routing.generate('public_rest_get_requests_origin_data') + '?instance=' + instance_id + '&type=' + type + parameters)
+        
+        var params = '?';
+        if (!_.isNull(instance_id)) {
+            params += 'instance=' + instance_id + '&';
+        };
+        params += 'type=' + type + parameters;
+        
+        $http.get(Routing.generate('public_rest_get_requests_origin_data') + params)
                 .success(function (response) {
                     $scope.data = response;
                     $scope.ids = response.ids;
@@ -133,8 +150,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-
-        $http.get(Routing.generate('public_rest_get_requests_count_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+        
+        var params = '?';
+        if (!_.isNull(instance_id)) {
+            params += 'instance=' + instance_id + '&';
+        };
+        params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
+        
+        $http.get(Routing.generate('public_rest_get_requests_count_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateRequestsCountChart(response);
@@ -146,7 +169,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
         
-        $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+        var params = '?';
+        if (!_.isNull(instance_id)) {
+            params += 'instance=' + instance_id + '&';
+        };
+        params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
+        
+        $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateRequestsDestinyDistributionChart(response);
@@ -157,8 +186,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-
-        $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear))
+        
+        var params = '?';
+        if (!_.isNull(instance_id)) {
+            params += 'instance=' + instance_id + '&';
+        };
+        params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
+        
+        $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateRequestsNumberByPublicationYearChart(response);
@@ -172,7 +207,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         type = _.isUndefined(type) ? 'search' : type;
         delayType = _.isUndefined(delayType) ? 'totalDelay' : delayType;
         
-        $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + '?instance=' + instance_id + '&type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType)
+        var params = '?';
+        if (!_.isNull(instance_id)) {
+            params += 'instance=' + instance_id + '&';
+        };
+        params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType;
+        
+        $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
                     $scope.generateRequestsTotalDelayChart(response);
@@ -459,7 +500,6 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     };
 
     $scope.start();
-
     $http.get(Routing.generate('public_countries', {url: instance_url}))
             .success(function (response) {
                 $scope.allCountries = response;
