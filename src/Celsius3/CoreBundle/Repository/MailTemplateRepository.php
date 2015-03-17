@@ -37,11 +37,11 @@ class MailTemplateRepository extends EntityRepository
                         ->setParameter('instance_id', $instance->getId())
                         ->getQuery()->getResult();
 
-        return $this->createQueryBuilder('c')
-                        ->where('c.instance = :directory_id')
-                        ->andWhere('c.code NOT IN (:codes)')
-                        ->andWhere('c.enabled = true')
-                        ->orWhere('c.instance = :instance_id')
+        return $this->createQueryBuilder('e')
+                        ->where('e.instance = :directory_id')
+                        ->andWhere('e.code NOT IN (:codes)')
+                        ->andWhere('e.enabled = true')
+                        ->orWhere('e.instance = :instance_id')
                         ->setParameter('directory_id', $directory->getId())
                         ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
                         ->setParameter('instance_id', $instance->getId());
