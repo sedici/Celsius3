@@ -52,6 +52,9 @@ class UnionManager
             'Celsius3CoreBundle:Catalog' => array(
                 'institution'
             ),
+            'Celsius3CoreBundle:Contact' => array(
+                'institution'
+            ),
             'Celsius3CoreBundle:Event\\SingleInstanceRequestEvent' => array(
                 'provider'
             ),
@@ -78,6 +81,24 @@ class UnionManager
                 'operator',
                 'creator',
                 'librarian'
+            ),
+            'Celsius3CoreBundle:FileDownload' => array(
+                'user',
+            ),
+            'Celsius3CoreBundle:Contact' => array(
+                'user',
+            ),
+            'Celsius3CoreBundle:CustomUserValue' => array(
+                'user',
+            ),
+            'Celsius3CoreBundle:Email' => array(
+                'sender',
+            ),
+            'Celsius3CoreBundle:Event\\Event' => array(
+                'operator',
+            ),
+            'Celsius3CoreBundle:State' => array(
+                'operator',
             ),
             'Celsius3MessageBundle:Message' => array(
                 'sender'
