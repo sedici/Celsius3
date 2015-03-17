@@ -98,14 +98,14 @@ class FilterManager
                 }
             } else {
                 $type = $this->field_guesser->getDbType($class, $key);
-                if($type === 'entity'){
+                if ($type === 'entity') {
                     $alias = $query->getRootAliases()[0];
                     $query = $query->addSelect("$key")
-                        ->leftJoin("$alias.$key","$key");
+                            ->leftJoin("$alias.$key", "$key");
                 }
             }
         }
-        
+
         return $query;
     }
 }

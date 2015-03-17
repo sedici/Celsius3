@@ -106,21 +106,24 @@ class BaseUserRepository extends EntityRepository
     public function addFindByStateType(array $data, QueryBuilder $query, Instance $instance = null)
     {
         $alias = $query->getRootAliases()[0];
+        $condition = '';
         foreach ($data as $value) {
+            if ($condition !== '') {
+                $condition .= ' OR ';
+            }
             switch ($value) {
                 case 'enabled':
-                    $query = $query->orWhere($alias . '.enabled = true')
-                            ->orWhere($alias . '.locked = false');
+                    $condition .= '(' . $alias . '.enabled = true AND ' . $alias . '.locked = false)';
                     break;
                 case 'pending':
-                    $query = $query->orWhere($alias . '.enabled = false')
-                            ->orWhere($alias . '.locked = false');
+                    $condition .= '(' . $alias . '.enabled = false AND ' . $alias . '.locked = false)';
                     break;
                 case 'rejected':
-                    $query = $query->orWhere($alias . '.locked = true');
+                    $condition .= '(' . $alias . '.locked = true)';
                     break;
             }
         }
+        $query = $query->andWhere($condition);
 
         if (!is_null($instance)) {
             $query = $query->andWhere($alias . '.instance = :instance_id')
@@ -161,11 +164,11 @@ class BaseUserRepository extends EntityRepository
                             ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
-        
-        if(!is_null($instance)) {
+
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('user.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $qb = $qb->addSelect('COUNT(user.id) newUsers')
                 ->groupBy('axisValue')
                 ->orderBy('axisValue', 'ASC');
@@ -181,14 +184,14 @@ class BaseUserRepository extends EntityRepository
             $date->add(new \DateInterval('P' . $axisValue . 'M'));
         }
 
-        
+
         $qb = $this->createQueryBuilder('user');
-        
-        if(!is_null($instance)){
+
+        if (!is_null($instance)) {
             $qb = $qb->where('user.instance = :instance')->setParameter('instance', $instance);
         }
-        
-        return  $qb->select('COUNT(user.id) newUsers')
+
+        return $qb->select('COUNT(user.id) newUsers')
                         ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
                         ->getQuery()->getSingleResult();
     }
