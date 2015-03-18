@@ -29,7 +29,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="instance")
+ * @ORM\Table(name="instance", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_website", columns={"website"}),
+ *   @ORM\Index(name="idx_hive", columns={"hive_id"}),
+ *   @ORM\Index(name="idx_url", columns={"url"}),
+ *   @ORM\Index(name="idx_type", columns={"type"})
+ * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
@@ -70,7 +76,6 @@ class LegacyInstance
      */
     protected $email;
     /**
-     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
@@ -80,7 +85,6 @@ class LegacyInstance
      */
     protected $ownerInstitutions;
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Hive", inversedBy="instances")
      * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
      */

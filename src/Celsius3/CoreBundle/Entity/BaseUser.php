@@ -34,7 +34,14 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", indexes={
+ *   @ORM\Index(name="idx_username", columns={"username"}),
+ *   @ORM\Index(name="idx_email", columns={"email"}),
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_surname", columns={"surname"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
+ *   @ORM\Index(name="idx_institution", columns={"institution_id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable

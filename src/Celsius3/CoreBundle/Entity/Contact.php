@@ -29,7 +29,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="contact")
+ * @ORM\Table(name="contact", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_surname", columns={"surname"}),
+ *   @ORM\Index(name="idx_email", columns={"email"}),
+ *   @ORM\Index(name="idx_user", columns={"user_id"}),
+ *   @ORM\Index(name="idx_institution", columns={"institution_id"}),
+ *   @ORM\Index(name="idx_owning_instance", columns={"owning_instance_id"})
+ * })
  */
 class Contact
 {

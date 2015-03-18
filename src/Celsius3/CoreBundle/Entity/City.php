@@ -29,7 +29,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CityRepository")
- * @ORM\Table(name="city")
+ * @ORM\Table(name="city", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_country", columns={"country_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"})
+ * })
  */
 class City
 {

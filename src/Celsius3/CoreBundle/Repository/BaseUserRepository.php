@@ -146,7 +146,7 @@ class BaseUserRepository extends EntityRepository
     {
         return $this->createQueryBuilder('u')
                         ->select('IDENTITY(u.instance), COUNT(u.id) as c')
-                        ->where('u.enabled = true')
+                        ->where('u.enabled = false')
                         ->groupBy('u.instance')
                         ->getQuery()
                         ->getResult();

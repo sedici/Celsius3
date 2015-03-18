@@ -29,7 +29,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
- * @ORM\Table(name="catalog")
+ * @ORM\Table(name="catalog", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_url", columns={"url"}),
+ *   @ORM\Index(name="idx_institution", columns={"institution_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"})
+ * })
  */
 class Catalog
 {

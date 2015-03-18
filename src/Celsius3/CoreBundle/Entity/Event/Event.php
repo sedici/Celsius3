@@ -31,7 +31,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
- * @ORM\Table(name="event")
+ * @ORM\Table(name="event", indexes={
+ *   @ORM\Index(name="idx_request", columns={"request_id"}),
+ *   @ORM\Index(name="idx_operator", columns={"operator_id"}),
+ *   @ORM\Index(name="idx_state", columns={"state_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
+ *   @ORM\Index(name="idx_type", columns={"type"})
+ * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({

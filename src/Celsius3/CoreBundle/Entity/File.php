@@ -30,7 +30,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="file")
+ * @ORM\Table(name="file", indexes={
+ *   @ORM\Index(name="idx_event", columns={"event_id"}),
+ *   @ORM\Index(name="idx_request", columns={"request_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"})
+ * })
  * @ORM\HasLifecycleCallbacks
  */
 class File

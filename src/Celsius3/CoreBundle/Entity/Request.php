@@ -29,7 +29,16 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\RequestRepository")
- * @ORM\Table(name="request")
+ * @ORM\Table(name="request", indexes={
+ *   @ORM\Index(name="idx_type", columns={"type"}),
+ *   @ORM\Index(name="idx_owner", columns={"owner_id"}),
+ *   @ORM\Index(name="idx_creator", columns={"creator_id"}),
+ *   @ORM\Index(name="idx_librarian", columns={"librarian_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
+ *   @ORM\Index(name="idx_operator", columns={"operator_id"}),
+ *   @ORM\Index(name="idx_order", columns={"order_id"}),
+ *   @ORM\Index(name="idx_previous_request", columns={"previous_request_id"}),
+ * })
  */
 class Request
 {

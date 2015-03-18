@@ -96,13 +96,6 @@ class FilterManager
                 } else {
                     $query = $this->applyStandardFilter($class, $key, $data, $query);
                 }
-            } else {
-                $type = $this->field_guesser->getDbType($class, $key);
-                if ($type === 'entity') {
-                    $alias = $query->getRootAliases()[0];
-                    $query = $query->addSelect("$key")
-                            ->leftJoin("$alias.$key", "$key");
-                }
             }
         }
 

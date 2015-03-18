@@ -28,7 +28,16 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="provider")
+ * @ORM\Table(name="provider", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_city", columns={"city_id"}),
+ *   @ORM\Index(name="idx_country", columns={"country_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
+ *   @ORM\Index(name="idx_celsius_instance", columns={"celsius_instance_id"}),
+ *   @ORM\Index(name="idx_parent", columns={"parent_id"}),
+ *   @ORM\Index(name="idx_hive", columns={"hive_id"}),
+ *   @ORM\Index(name="idx_type", columns={"type"})
+ * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({

@@ -44,7 +44,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
         AnnullableTrait,
         ProviderTrait;
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", inversedBy="remoteEvents", cascade={"persist", "refresh"})
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", cascade={"persist", "refresh"})
      * @ORM\JoinColumn(name="remote_request_id", referencedColumnName="id")
      */
     private $remoteRequest;

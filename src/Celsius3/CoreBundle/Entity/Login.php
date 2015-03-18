@@ -29,7 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="login")
+ * @ORM\Table(name="login", indexes={
+ *   @ORM\Index(name="idx_category", columns={"category"})
+ * })
  */
 class Login
 {

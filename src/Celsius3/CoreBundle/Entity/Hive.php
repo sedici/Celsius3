@@ -29,7 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="hive")
+ * @ORM\Table(name="hive", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"})
+ * })
  */
 class Hive
 {

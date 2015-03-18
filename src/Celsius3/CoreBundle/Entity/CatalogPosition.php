@@ -29,7 +29,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="catalog_position")
+ * @ORM\Table(name="catalog_position", indexes={
+ *   @ORM\Index(name="idx_position", columns={"position"}),
+ *   @ORM\Index(name="idx_catalog", columns={"catalog_id"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"})
+ * })
  */
 class CatalogPosition
 {

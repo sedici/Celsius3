@@ -45,7 +45,11 @@ class UploadEvent extends MultiInstanceEvent
      */
     private $remoteState;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\File", mappedBy="event")
+     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\JoinTable(name="uploads_files",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
+     *      )
      */
     private $files;
 

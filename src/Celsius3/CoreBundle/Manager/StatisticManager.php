@@ -45,7 +45,6 @@ class StatisticManager
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->instanceManager = $instanceManager;
     }
 
     public function usersPerInstance()

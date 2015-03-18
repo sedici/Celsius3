@@ -29,7 +29,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
- * @ORM\Table(name="notification")
+ * @ORM\Table(name="notification", indexes={
+ *   @ORM\Index(name="idx_viewed", columns={"isViewed"}),
+ *   @ORM\Index(name="idx_template", columns={"template_id"}),
+ *   @ORM\Index(name="idx_object_user", columns={"base_user_notification_id"}),
+ *   @ORM\Index(name="idx_object_message", columns={"message_notification_id"})
+ * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({

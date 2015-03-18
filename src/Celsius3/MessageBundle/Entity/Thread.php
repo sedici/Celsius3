@@ -27,6 +27,10 @@ use FOS\MessageBundle\Entity\Thread as BaseThread;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="thread", indexes={
+ *   @ORM\Index(name="idx_created_by", columns={"createdBy_id"}),
+ *   @ORM\Index(name="idx_created_at", columns={"createdAt"})
+ * })
  */
 class Thread extends BaseThread
 {
