@@ -165,9 +165,9 @@ class RequestRepository extends EntityRepository
         return $query->getResult();
     }
 
-    public function getInteractionOfInstitutionWithInstance($instance, $institution)
+    public function getInteractionOfInstitutionWithInstance($instance, $institutions)
     {
-        $institutions = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
+        
 
         $qb = $this->createQueryBuilder('r');
         
@@ -186,10 +186,8 @@ class RequestRepository extends EntityRepository
         return $qb->getQuery()->getArrayResult();
     }
 
-    public function getInteractionOfInstanceWithInstitution($instance, $institution)
+    public function getInteractionOfInstanceWithInstitution($instance, $institutions)
     {
-        $institutions = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
-
         $dql = 'SELECT s.type st, COUNT(r.id) c '
                 . 'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
                 . 'JOIN e.request r '

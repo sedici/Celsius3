@@ -118,12 +118,14 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
         $response = array(
             'orders' => array_values($pagination),
-            'requests' => array_column(array_map(function(\Celsius3\CoreBundle\Entity\Request $request) {
+            'requests' => array_column(
+                    array_map(
+                            function(\Celsius3\CoreBundle\Entity\Request $request) {
                                 return array(
                                     'id' => $request->getOrder()->getId(),
                                     'request' => $request,
                                 );
-                            }, $requests), 'request', 'id'),
+                            }, $requests), 'request', 'id')
                 );
 
                 $view = $this->view($response, 200)->setFormat('json');
@@ -131,59 +133,62 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 return $this->handleView($view);
             }
 
-            /**
-             * GET Route annotation.
-             * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
-             */
-            public function getOrderAction($id)
-            {
-                $em = $this->getDoctrine()->getManager();
+    /**
+     * GET Route annotation.
+     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
+     */
+    public function getOrderAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
 
-                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
+        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
-                if (!$order) {
-                    return $this->createNotFoundException('Order not found.');
-                }
+        if (!$order) {
+            return $this->createNotFoundException('Order not found.');
+        }
 
-                $view = $this->view($order, 200)->setFormat('json');
+        $view = $this->view($order, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
-    
+
     /**
      * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
      */
-    public function getInteraction($id) {
+    public function getInteraction($id)
+    {
         $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
         $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
-        
+
         $baseInstitution = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getBaseInstitution($institution);
+        $institutions = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($baseInstitution);
         $instance = $this->getInstance();
-        
+
         $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
-        $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance,$baseInstitution);
-        $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance,$baseInstitution);
-        
+        $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions);
+        $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions);
+
         $interaction['institution'] = $baseInstitution->getName();
         $interaction['instance'] = $instance->getName();
-        
+
         $interaction['instanceInteraction']['data']['created'] = 0;
         $interaction['instanceInteraction']['data']['delivered'] = 0;
         $interaction['instanceInteraction']['data']['annulled'] = 0;
         $interaction['instanceInteraction']['data']['cancelled'] = 0;
-        foreach($response['institutionInteraction'] as $res) {
+        foreach ($response['institutionInteraction'] as $res) {
             $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
         }
-        
+
         $interaction['instanceInteraction']['data']['created'] = 0;
         $interaction['instanceInteraction']['data']['delivered'] = 0;
         $interaction['instanceInteraction']['data']['annulled'] = 0;
         $interaction['instanceInteraction']['data']['cancelled'] = 0;
-        foreach($response['instanceInteraction'] as $res) {
+        foreach ($response['instanceInteraction'] as $res) {
             $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
         }
-                
+
         $view = $this->view($interaction, 200)->setFormat('json');
         return $this->handleView($view);
     }
+
 }
