@@ -110,21 +110,4 @@ class SuperadminHiveController extends BaseController
     {
         return $this->baseUpdate('Hive', $id, new HiveType(), 'superadmin_hive');
     }
-
-    /**
-     * Deletes a Hive entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_hive_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Hive', $id, 'superadmin_hive');
-    }
 }

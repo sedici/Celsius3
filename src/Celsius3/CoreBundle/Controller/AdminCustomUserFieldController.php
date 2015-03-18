@@ -110,21 +110,4 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
     {
         return $this->baseUpdate('CustomUserField', $id, new CustomUserFieldType($this->getInstance()), 'admin_customuserfield');
     }
-
-    /**
-     * Deletes a CustomUserField entity.
-     *
-     * @Route("/{id}/delete", name="admin_customuserfield_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('CustomUserField', $id, 'admin_customuserfield');
-    }
 }

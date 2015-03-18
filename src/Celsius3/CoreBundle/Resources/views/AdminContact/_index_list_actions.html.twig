@@ -1,5 +1,11 @@
-<ul class="list-unstyled pull-right actions">
+<ul class="list-unstyled list-horizontal pull-right actions">
     <li>
         <a href="{{ path('admin_contact_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
+    </li>
+    <li>
+        <form action="{{ path('admin_contact_delete', { 'id': element.id }) }}" method="post">
+            {{ form_widget(context.deleteForms[element.id]) }}
+            <a href="#" class="submit-form"><span class="glyphicon glyphicon-remove"></span> {{ 'Delete'|trans }}</a>
+        </form>
     </li>
 </ul>

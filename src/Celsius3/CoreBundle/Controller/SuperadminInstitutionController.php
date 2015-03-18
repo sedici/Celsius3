@@ -115,24 +115,6 @@ class SuperadminInstitutionController extends BaseController
     }
 
     /**
-     * Deletes a Institution entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_institution_delete")
-     * @Method("post")
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Institution', $id, 'superadmin_institution');
-    }
-
-    /**
      * Batch actions.
      *
      * @Route("/batch", name="superadmin_institution_batch")

@@ -141,11 +141,10 @@ class SuperadminOrderController extends OrderController
         $materialClass = get_class($entity->getMaterialData());
 
         $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),);
+        );
     }
 
     /**
@@ -172,7 +171,6 @@ class SuperadminOrderController extends OrderController
         $entity->setMaterialData(null);
 
         $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType(), $this->getUser()), $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -188,25 +186,7 @@ class SuperadminOrderController extends OrderController
 
         return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
-    }
-
-    /**
-     * Deletes a Order entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_order_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Order', $id, 'superadmin_order');
     }
 
     /**

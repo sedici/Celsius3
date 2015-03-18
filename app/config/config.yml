@@ -229,6 +229,7 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             sluggable: true
+            softdeleteable: true
 
 genemu_form:
     select2: ~

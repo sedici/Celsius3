@@ -25,9 +25,11 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  * @ORM\Entity
  * @ORM\Table(name="contact", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
@@ -42,6 +44,7 @@ class Contact
 {
 
     use TimestampableEntity;
+    use SoftDeleteableEntity;
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id

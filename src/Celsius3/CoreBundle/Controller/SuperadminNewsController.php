@@ -136,21 +136,4 @@ class SuperadminNewsController extends BaseController
     {
         return $this->baseUpdate('News', $id, new NewsType($this->getDirectory()), 'superadmin_news');
     }
-
-    /**
-     * Deletes a News entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_news_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('News', $id, 'superadmin_news');
-    }
 }

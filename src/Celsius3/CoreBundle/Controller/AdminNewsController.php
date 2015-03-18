@@ -128,21 +128,4 @@ class AdminNewsController extends BaseInstanceDependentController
     {
         return $this->baseUpdate('News', $id, new NewsType($this->getInstance()), 'admin_news');
     }
-
-    /**
-     * Deletes a News entity.
-     *
-     * @Route("/{id}/delete", name="admin_news_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('News', $id, 'admin_news');
-    }
 }

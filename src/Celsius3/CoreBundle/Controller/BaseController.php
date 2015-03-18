@@ -89,11 +89,8 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
             'entity' => $entity,
-            'delete_form' => $deleteForm->createView()
         );
     }
 
@@ -148,12 +145,10 @@ abstract class BaseController extends Controller
         }
 
         $editForm = $this->createForm($type, $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
             'route' => $route
         );
     }
@@ -167,7 +162,6 @@ abstract class BaseController extends Controller
         }
 
         $editForm = $this->createForm($type, $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -189,14 +183,13 @@ abstract class BaseController extends Controller
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView()
         );
     }
 
     protected function baseDelete($name, $id, $route)
     {
         $form = $this->createDeleteForm($id);
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
 
         $form->bind($request);
 
@@ -207,7 +200,9 @@ abstract class BaseController extends Controller
                 throw $this->createNotFoundException('Unable to find ' . $name . '.');
             }
 
-            $this->persistEntity($entity);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($entity);
+            $em->flush();
 
             $this->get('session')->getFlashBag()
                     ->add('success', 'The ' . $name . ' was successfully deleted.');

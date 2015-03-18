@@ -65,7 +65,16 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Contact');
+        $data = $this->baseIndex('Contact');
+        $deleteForms = array();
+        
+        foreach ($data['pagination'] as $entity) {
+            $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
+        }
+        
+        $data['deleteForms'] = $deleteForms;
+        
+        return $data;
     }
 
     /**

@@ -115,24 +115,6 @@ class SuperadminCityController extends BaseController
     }
 
     /**
-     * Deletes a City entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_city_delete")
-     * @Method("post")
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('City', $id, 'superadmin_city');
-    }
-
-    /**
      * Batch actions.
      *
      * @Route("/batch", name="superadmin_city_batch")

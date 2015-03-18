@@ -189,7 +189,6 @@ class AdminBaseUserController extends BaseUserController
         }
 
         $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance(), true), $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         $request = $this->getRequest();
 
@@ -218,7 +217,6 @@ class AdminBaseUserController extends BaseUserController
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView()
         );
     }
 
