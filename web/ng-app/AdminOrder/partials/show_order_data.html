@@ -26,12 +26,21 @@
 </div>
 
 <div id="pedido_tope" class="row">
-    <div id="columna1" class="col-md-4" ng-include="'/ng-app/AdminOrder/partials/show_material_data.html'">
+    <div id="columna1" class="col-md-4">
+        <!--<div ng-include="'/ng-app/AdminOrder/partials/show_user_information.html'"></div>-->
+        <div ng-include="'/ng-app/AdminOrder/partials/show_material_data.html'"></div>
     </div>
 
     <div id="columna2" class="col-md-5" ng-include="'/ng-app/AdminOrder/partials/show_interaction.html'">
     </div>
 
     <div id="columna3" class="col-md-3" ng-include="'/ng-app/AdminOrder/partials/show_actions.html'">
+    </div>
+</div>
+
+<div class="owner_info">
+    <div class="owner_and_institution">
+        <div class="owner">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }})</div>
+        <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
     </div>
 </div>

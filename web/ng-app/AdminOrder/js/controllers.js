@@ -699,4 +699,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
                 });
     }
     $scope.getInteraction();
+    
+    $scope.printInstitutions = function(ins){
+        var txt = '';
+        if(! _.isUndefined(ins)) {
+            if(! _.isUndefined(ins.parent)){
+                txt += $scope.printInstitutions(ins.parent) + ' - ' + ins.name;
+            } else {
+                txt += ins.name; 
+            }
+        } 
+        return txt;
+    }
 });
