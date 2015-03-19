@@ -90,6 +90,8 @@ doctrine:
         entity_managers:
             default:
                 auto_mapping: true
+                metadata_cache_driver: redis
+                query_cache_driver: redis
                 mappings:
                     gedmo_translatable:
                         type: annotation
@@ -276,3 +278,26 @@ sp_bower:
         nest_dependencies: false
     bundles:
         Celsius3CoreBundle: ~
+
+snc_redis:
+    clients:
+        session:
+            type: predis
+            alias: session
+            dsn: redis://localhost
+        cache:
+            type: predis
+            alias: cache
+            dsn: redis://localhost
+    session:
+        client: session
+    doctrine:
+        metadata_cache:
+            client: cache
+            entity_manager: default          # the name of your entity_manager connection
+        result_cache:
+            client: cache
+            entity_manager: default
+        query_cache:
+            client: cache
+            entity_manager: default

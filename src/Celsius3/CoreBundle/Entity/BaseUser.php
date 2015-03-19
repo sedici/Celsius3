@@ -39,6 +39,8 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  *   @ORM\Index(name="idx_email", columns={"email"}),
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_surname", columns={"surname"}),
+ *   @ORM\Index(name="idx_enabled", columns={"enabled"}),
+ *   @ORM\Index(name="idx_locked", columns={"locked"}),
  *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
  *   @ORM\Index(name="idx_institution", columns={"institution_id"})
  * })

@@ -80,11 +80,11 @@ class Request
      */
     private $files;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="request")
+     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="request", fetch="EAGER")
      */
     private $events;
     /**
-     * @ORM\OneToMany(targetEntity="State", mappedBy="request")
+     * @ORM\OneToMany(targetEntity="State", mappedBy="request", fetch="EAGER")
      */
     private $states;
     /**

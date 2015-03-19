@@ -170,12 +170,12 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
         $interaction['institution'] = $baseInstitution->getName();
         $interaction['instance'] = $instance->getName();
-
-        $interaction['instanceInteraction']['data']['created'] = 0;
-        $interaction['instanceInteraction']['data']['delivered'] = 0;
-        $interaction['instanceInteraction']['data']['annulled'] = 0;
-        $interaction['instanceInteraction']['data']['cancelled'] = 0;
-        foreach ($response['institutionInteraction'] as $res) {
+        
+        $interaction['institutionInteraction']['data']['created'] = 0;
+        $interaction['institutionInteraction']['data']['delivered'] = 0;
+        $interaction['institutionInteraction']['data']['annulled'] = 0;
+        $interaction['institutionInteraction']['data']['cancelled'] = 0;
+        foreach($response['institutionInteraction'] as $res) {
             $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
         }
 

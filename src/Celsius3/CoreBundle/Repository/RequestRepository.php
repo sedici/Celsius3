@@ -51,10 +51,10 @@ class RequestRepository extends EntityRepository
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('request.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $qb = $qb->addSelect('COUNT(DISTINCT request.owner) activeUsers')
                 ->andWhere('request.type = :type')->setParameter('type', $type)
                 ->groupBy('axisValue')
@@ -63,25 +63,14 @@ class RequestRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findRequestsDestinyDistributionForInterval($instance, $type, $initialYear, $finalYear)
-    {
-        $this->createQueryBuilder('p')
-                ->addSelect('c.id countryId')
-                ->addSelect('c.name countryName')
-                ->addSelect('YEAR(s.createdAt) year')
-                ->addSelect('s.type stateType')
-                ->addSelect('COUNT(s.request) requestsCount')
-                ->innerJoin();
-    }
-
     public function findRequestsNumberByPublicationYearFor($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('r');
-        
-        if(!is_null($instance)){
+
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $qb = $qb->addSelect('md.year materialDataYear')
                 ->addSelect('COUNT(md.id) materialDataCount')
                 ->innerJoin('r.order', 'o')
@@ -112,10 +101,10 @@ class RequestRepository extends EntityRepository
                     JOIN Celsius3\CoreBundle\Entity\State st WITH rs = st.request
                     WHERE st.type = 'annulled' OR st.type = 'cancelled'
                 )";
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $dql .= " AND r.instance = :instance";
         }
-        
+
         $dql .= " AND r.type = :type ";
 
         if ($delayType === 'totalDelay') {
@@ -146,11 +135,11 @@ class RequestRepository extends EntityRepository
         $dql .= "ORDER BY cYear,delay";
 
         $query = $this->getEntityManager()->createQuery($dql);
-        
-        if(!is_null($instance)){
+
+        if (!is_null($instance)) {
             $query = $query->setParameter('instance', $instance);
         }
-        
+
         $query = $query->setParameter('type', $type);
 
         if ($initialYear === $finalYear) {
@@ -171,17 +160,18 @@ class RequestRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('r');
         
-        if(!is_null($instance)){
+        $qb = $qb->select('s.type st')
+                ->addSelect('COUNT(r.id) c')
+                ->innerJoin('r.owner', 'o', Join::WITH, $qb->expr()->in('o.institution', $institutions))
+                ->innerJoin('r.states', 's')
+                //->innerJoin('o.institution', 'i', Join::WITH, $qb->expr()->in('i.id', $institutions))
+                //->andWhere('o.institution IN (:institutions)')
+                //->setParameter('institutions', $institutions)
+                ->addGroupBy('s.type');
+
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
-
-        $qb = $qb->addSelect('s.type st')
-                ->addSelect('COUNT(r.id) c')
-                ->leftJoin('r.owner', 'o')
-                ->leftJoin('r.states', 's')
-                ->andWhere('o.institution IN (:institutions)')
-                ->setParameter('institutions', $institutions)
-                ->addGroupBy('s.type');
 
         return $qb->getQuery()->getArrayResult();
     }
@@ -190,23 +180,22 @@ class RequestRepository extends EntityRepository
     {
         $dql = 'SELECT s.type st, COUNT(r.id) c '
                 . 'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
-                . 'JOIN e.request r '
-                . 'JOIN r.states s '
-                . 'WHERE e.provider IN (:institutions) ';
-        
-        $dql .= 'AND r.instance = :instance ';
-        
+                . 'JOIN e.state s WITH e.provider IN (:institutions) ';
+        //. 'JOIN r.states s ';
+        //. 'WHERE e.provider IN (:institutions) ';
+
+        $dql .= 'WHERE e.instance = :instance ';
+
         $dql .= 'GROUP BY s.type';
-        
+
         $query = $this->getEntityManager()
                 ->createQuery($dql);
 
         $query->setParameter('institutions', $institutions);
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $query->setParameter('instance', $instance->getId());
         }
 
         return $query->getResult();
     }
-
 }

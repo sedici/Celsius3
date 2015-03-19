@@ -5,6 +5,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+
     public function registerBundles()
     {
         $bundles = array(
@@ -30,6 +31,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Sp\BowerBundle\SpBowerBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
             new Celsius3\CoreBundle\Celsius3CoreBundle(),
             new Celsius3\NotificationBundle\Celsius3NotificationBundle(),
             new Celsius3\MessageBundle\Celsius3MessageBundle(),

@@ -80,9 +80,8 @@ class OrderRepository extends EntityRepository
         $qb = $this->createQueryBuilder('o')
                 ->join('o.requests', 'r')
                 ->join('r.states', 's')
-                ->join('o.materialData', 'm')
                 ->andWhere('s.isCurrent = true')
-                ->andWhere('s.instance = :instance')
+                ->andWhere('r.instance = :instance')
                 ->setParameter('instance', $instance);
 
         if (is_array($state) && count($state) > 0) {

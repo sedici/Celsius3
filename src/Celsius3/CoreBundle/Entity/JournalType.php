@@ -44,7 +44,7 @@ class JournalType extends MaterialType
      */
     protected $other;
     /**
-     * @ORM\ManyToOne(targetEntity="Journal", inversedBy="materials")
+     * @ORM\ManyToOne(targetEntity="Journal", inversedBy="materials", fetch="EAGER")
      * @ORM\JoinColumn(name="journal_id", referencedColumnName="id")
      */
     protected $journal;

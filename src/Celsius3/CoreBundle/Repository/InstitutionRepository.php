@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Hive;
 
@@ -203,30 +204,23 @@ class InstitutionRepository extends EntityRepository
         return $institution;
     }
 
-    private function getChilds($institution)
+    private function getChilds(array $institutions)
     {
-        $qb = $this->createQueryBuilder('i');
-
-        $qb = $qb->select('i')
-                ->where('i.parent = :institution')
-                ->setParameter('institution', $institution);
-
-        return $qb->getQuery()->getResult();
+        return array_map('current', $this->createQueryBuilder('i')
+                ->select('i.id')
+                ->where('i.parent IN (:institutions)')
+                ->setParameter('institutions', $institutions)
+                ->getQuery()->getArrayResult());
     }
 
-    public function getInstitutionsTree($institution)
+    public function getInstitutionsTree(Institution $institution)
     {
-        $institutions = array();
+        $institutions = array($institution->getId());
         $ids = array();
 
-        array_push($institutions, $institution);
-        while (COUNT($institutions) > 0) {
-            $ins = array_shift($institutions);
-            array_push($ids, $ins);
-            $childs = $this->getChilds($ins);
-            if (COUNT($childs) > 0) {
-                $institutions = array_merge($institutions, $childs);
-            }
+        while (count($institutions) > 0) {
+            $ids = array_merge($ids, $institutions);
+            $institutions = $this->getChilds($institutions);
         }
 
         return $ids;

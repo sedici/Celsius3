@@ -37,9 +37,7 @@ class StateRepository extends EntityRepository
                 ->select('s.type, COUNT(s.id) as c')
                 ->leftJoin('s.request', 'r')
                 ->andWhere('s.isCurrent = true')
-                ->andWhere('s.type IN (:types) OR s.type IS NULL')
-                ->groupBy('s.type')
-                ->setParameter('types', $types);
+                ->groupBy('s.type');
 
         if (!is_null($orderType)) {
             $qb = $qb->andWhere('r.type = :orderType')

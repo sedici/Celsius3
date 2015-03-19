@@ -55,20 +55,20 @@ class Order
     private $code;
 
     /**
-     * @ORM\OneToOne(targetEntity="MaterialType", inversedBy="order", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="MaterialType", inversedBy="order", cascade={"all"}, fetch="EAGER")
      * @ORM\JoinColumn(name="material_data_id", referencedColumnName="id", nullable=true)
      */
     private $materialData;
 
     /**
      * @Assert\NotNull
-     * @ORM\OneToOne(targetEntity="Request", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Request", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(name="original_request_id", referencedColumnName="id")
      */
     private $originalRequest;
 
     /**
-     * @ORM\OneToMany(targetEntity="Request", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="Request", mappedBy="order", fetch="EAGER")
      */
     private $requests;
 
