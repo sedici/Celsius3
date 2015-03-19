@@ -79,6 +79,21 @@ class StateRepository extends EntityRepository
             $result[StateManager::STATE__SEARCHED] += intval($qb2['c']);
         }
 
+        // Se cuentan como propios los que no tienen administrador
+        if (!is_null($user)) {
+            $qb3 = $this->createQueryBuilder('s')
+                            ->select('COUNT(s.id) as c')
+                            ->andWhere('s.isCurrent = true')
+                            ->andWhere('s.type = :type')
+                            ->groupBy('s.type')
+                            ->setParameter('type', StateManager::STATE__CREATED)
+                            ->getQuery()->getResult();
+
+            if (count($qb3) > 0) {
+                $result[StateManager::STATE__CREATED] += intval($qb3[0]['c']);
+            }
+        }
+
         return $result;
     }
 
@@ -176,10 +191,9 @@ class StateRepository extends EntityRepository
         }
 
         return $query->setParameter('type', $type)
-                ->setParameter('stateType', 'annulled')
-                ->setParameter('initialYear', $initialYear)
-                ->setParameter('finalYear', $finalYear)
-                ->getResult();
+                        ->setParameter('stateType', 'annulled')
+                        ->setParameter('initialYear', $initialYear)
+                        ->setParameter('finalYear', $finalYear)
+                        ->getResult();
     }
-
 }

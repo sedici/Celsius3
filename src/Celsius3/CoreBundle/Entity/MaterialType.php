@@ -30,7 +30,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="material_type", indexes={
- *   @ORM\Index(name="idx_type", columns={"type"})
+ *   @ORM\Index(name="idx_type", columns={"type"}),
+ *   @ORM\Index(name="idx_title", columns={"title"})
  * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
