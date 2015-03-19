@@ -115,24 +115,6 @@ class SuperadminCountryController extends BaseController
     }
 
     /**
-     * Deletes a Country entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_country_delete")
-     * @Method("post")
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Country', $id, 'superadmin_country');
-    }
-
-    /**
      * Batch actions.
      *
      * @Route("/batch", name="superadmin_country_batch")

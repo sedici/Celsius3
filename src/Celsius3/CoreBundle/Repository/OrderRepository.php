@@ -39,17 +39,22 @@ class OrderRepository extends EntityRepository
 
     public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null)
     {
-        $qb = $this->createQueryBuilder('o');
+        $qb = $this->createQueryBuilder('o')
+                ->join('o.requests', 'r');
 
         if (count($in) > 0) {
             $secondary = array();
             foreach ($in as $repository => $term) {
-                $secondary = array_keys($this->getEntityManager()
+                $secondary = array_map(function ($user) {
+                    return $user->getId();
+                }, $this->getEntityManager()
                                 ->getRepository('Celsius3CoreBundle:' . $repository)
                                 ->findByTerm($term, $instance)
-                                ->getQuery()->getResult());
+                                ->getResult());
+                if ($repository === 'BaseUser' && count($secondary) > 0) {
+                    $qb->andWhere($qb->expr()->in('r.owner', $secondary));
+                }
             }
-            $qb->andWhere($qb->expr()->in('owner', $secondary));
         } else {
             $qb = $qb->join('o.materialData', 'md')
                     ->orWhere($qb->expr()->like('o.code', $qb->expr()->literal('%' . $term . '%')))
@@ -59,15 +64,8 @@ class OrderRepository extends EntityRepository
         }
 
         if (!is_null($instance)) {
-            $requests = array_values(array_map(function($request) {
-                        return $request['orderp'];
-                    }, $this->getEntityManager()->getRepository('Celsius3CoreBundle:Request')
-                                    ->createQueryBuilder('r')
-                                    ->select('IDENTITY(r.order) orderp ')
-                                    ->where('r.instance = :instance')->setParameter('instance', $instance)
-                                    ->getQuery()->getResult()));
-
-            $qb = $qb->join('o.requests', 'rs')->andWhere($qb->expr()->in('rs', $requests));
+            $qb = $qb->andWhere('r.instance = :instance')
+                    ->setParameter('instance', $instance);
         }
 
         if (!is_null($limit)) {

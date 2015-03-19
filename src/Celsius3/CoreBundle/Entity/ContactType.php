@@ -29,7 +29,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="contact_type")
+ * @ORM\Table(name="contact_type", indexes={
+ *   @ORM\Index(name="idx_name", columns={"name"})
+ * })
  */
 class ContactType
 {

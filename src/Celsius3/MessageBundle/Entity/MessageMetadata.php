@@ -27,6 +27,11 @@ use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="message_metadata", indexes={
+ *   @ORM\Index(name="idx_message", columns={"message_id"}),
+ *   @ORM\Index(name="idx_participant", columns={"participant_id"}),
+ *   @ORM\Index(name="idx_read", columns={"is_read"})
+ * })
  */
 class MessageMetadata extends BaseMessageMetadata
 {

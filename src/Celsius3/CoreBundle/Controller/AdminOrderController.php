@@ -145,11 +145,10 @@ class AdminOrderController extends OrderController
         }
 
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass, $journal), $entity->getOriginalRequest()->getOwner(), $this->getUser()), $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),);
+        );
     }
 
     /**
@@ -186,12 +185,10 @@ class AdminOrderController extends OrderController
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser()), $duplicatedOrder);
-        $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity' => $duplicatedOrder,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 
@@ -225,7 +222,6 @@ class AdminOrderController extends OrderController
                 ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
 
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $entity);
-        $deleteForm = $this->createDeleteForm($id);
 
         $editForm->bind($request);
 
@@ -240,7 +236,6 @@ class AdminOrderController extends OrderController
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         );
     }
 

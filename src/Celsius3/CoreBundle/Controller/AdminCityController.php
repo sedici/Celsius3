@@ -110,21 +110,4 @@ class AdminCityController extends BaseInstanceDependentController
     {
         return $this->baseUpdate('City', $id, new CityType($this->getInstance()), 'admin_city');
     }
-
-    /**
-     * Deletes a City entity.
-     *
-     * @Route("/{id}/delete", name="admin_city_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('City', $id, 'admin_city');
-    }
 }

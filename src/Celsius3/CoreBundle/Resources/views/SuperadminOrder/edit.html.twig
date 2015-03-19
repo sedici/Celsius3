@@ -9,5 +9,5 @@
 {% block content %}
     <h2>{{ 'Order Edit'|trans }} - {{ entity.code ~ ' - ' ~ entity.materialData.title }}</h2>
 
-    {{ edit('superadmin_order', entity, edit_form, delete_form) }}
+    {{ edit('superadmin_order', entity, edit_form) }}
 {% endblock %}

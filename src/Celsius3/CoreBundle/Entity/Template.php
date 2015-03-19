@@ -29,7 +29,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="template")
+ * @ORM\Table(name="template", indexes={
+ *   @ORM\Index(name="idx_code", columns={"code"}),
+ *   @ORM\Index(name="idx_title", columns={"title"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"}),
+ *   @ORM\Index(name="idx_type", columns={"type"})
+ * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({

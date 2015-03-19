@@ -136,32 +136,6 @@ class AdminMailController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a Mails Template
-     *
-     * @Route("/{id}/delete", name="admin_mails_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        //Se permitira borrar un template, solo si el mismo le pertence a la instancia
-        $template = $this->findQuery('MailTemplate', $id);
-        $idInstanceTemplate = $template->getInstance();
-
-        if (is_null($idInstanceTemplate)) {
-            //El template pertenece al directorio
-            throw $this->createNotFoundException('Unable to delete template.');
-        } else {
-            return $this->baseDelete('MailTemplate', $id, 'admin_mails');
-        }
-    }
-
-    /**
      * Change state an existing Mail TEmplate.
      *
      * @Route("/{id}/change_state", name="admin_mails_change_state")

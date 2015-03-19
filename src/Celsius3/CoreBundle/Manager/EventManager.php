@@ -320,10 +320,10 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForAnnul(Order $order, array $extraData, Instance $instance)
+    private function prepareExtraDataForAnnul(Request $request, array $extraData, Instance $instance)
     {
-        if ($order->getInstance()->getId() != $instance->getId()) {
-            $extraData['request'] = $order
+        if ($request->getInstance()->getId() !== $instance->getId()) {
+            $extraData['request'] = $request
                     ->getState(StateManager::STATE__CREATED, $instance)
                     ->getRemoteEvent();
         }

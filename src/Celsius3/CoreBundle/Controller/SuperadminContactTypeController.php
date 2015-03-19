@@ -110,21 +110,4 @@ class SuperadminContactTypeController extends BaseController
     {
         return $this->baseUpdate('ContactType', $id, new ContactTypeType(), 'superadmin_contacttype');
     }
-
-    /**
-     * Deletes a ContactType entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_contacttype_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('ContactType', $id, 'superadmin_contacttype');
-    }
 }

@@ -30,7 +30,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity
  * @ORM\Table(name="custom_user_field", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})})
+ *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
+ * }, indexes={
+ *   @ORM\Index(name="idx_key", columns={"key"}),
+ *   @ORM\Index(name="idx_name", columns={"name"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"})
  * })
  */
 class CustomUserField

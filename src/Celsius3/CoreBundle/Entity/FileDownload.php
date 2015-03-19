@@ -29,7 +29,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="file_download")
+ * @ORM\Table(name="file_download", indexes={
+ *   @ORM\Index(name="idx_request", columns={"request_id"}),
+ *   @ORM\Index(name="idx_user", columns={"user_id"}),
+ *   @ORM\Index(name="idx_ip", columns={"ip"}),
+ *   @ORM\Index(name="idx_instance", columns={"instance_id"})
+ * })
  */
 class FileDownload
 {

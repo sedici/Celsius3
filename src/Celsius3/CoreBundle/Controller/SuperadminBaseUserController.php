@@ -140,23 +140,6 @@ class SuperadminBaseUserController extends BaseUserController
     }
 
     /**
-     * Deletes a BaseUser entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_user_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('BaseUser', $id, 'superadmin_user');
-    }
-
-    /**
      * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="superadmin_user_transform")

@@ -115,24 +115,6 @@ class SuperadminCatalogController extends BaseController
     }
 
     /**
-     * Deletes a Catalog entity.
-     *
-     * @Route("/{id}/delete", name="superadmin_catalog_delete")
-     * @Method("post")
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Catalog', $id, 'superadmin_catalog');
-    }
-
-    /**
      * Batch actions.
      *
      * @Route("/batch", name="superadmin_catalog_batch")

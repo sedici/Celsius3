@@ -29,7 +29,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
- * @ORM\Table(name="`order`")
+ * @ORM\Table(name="`order`", indexes={
+ *   @ORM\Index(name="idx_code", columns={"code"}),
+ *   @ORM\Index(name="idx_created_at", columns={"createdAt"}),
+ *   @ORM\Index(name="idx_material_data", columns={"material_data_id"}),
+ *   @ORM\Index(name="idx_original_request", columns={"original_request_id"})
+ * })
  */
 class Order
 {

@@ -29,7 +29,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="custom_user_value")
+ * @ORM\Table(name="custom_user_value", indexes={
+ *   @ORM\Index(name="idx_field", columns={"field_id"}),
+ *   @ORM\Index(name="idx_user", columns={"user_id"})
+ * })
  */
 class CustomUserValue
 {

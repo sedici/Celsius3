@@ -1,5 +1,5 @@
 {# index #}
-{% macro index(name, pagination, folder, filter_form, instance, has_batch = false, custom_element_template = false) %}
+{% macro index(name, pagination, folder, filter_form, instance, has_batch = false, custom_element_template = false, context = null) %}
     <div class="row">
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
@@ -149,7 +149,7 @@
 {% endmacro %}
 
 {# show #}
-{% macro show(name, element, delete_form, folder, instance, notEdit) %}
+{% macro show(name, element, folder, instance, notEdit) %}
     <div class="row">
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}

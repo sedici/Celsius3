@@ -110,21 +110,4 @@ class AdminCountryController extends BaseInstanceDependentController
     {
         return $this->baseUpdate('Country', $id, new CountryType($this->getInstance()), 'admin_country');
     }
-
-    /**
-     * Deletes a Country entity.
-     *
-     * @Route("/{id}/delete", name="admin_country_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Country', $id, 'admin_country');
-    }
 }

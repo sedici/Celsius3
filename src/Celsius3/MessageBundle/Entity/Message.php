@@ -29,6 +29,10 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="message", indexes={
+ *   @ORM\Index(name="idx_thread", columns={"thread_id"}),
+ *   @ORM\Index(name="idx_sender", columns={"sender_id"})
+ * })
  */
 class Message extends BaseMessage implements Notifiable
 {

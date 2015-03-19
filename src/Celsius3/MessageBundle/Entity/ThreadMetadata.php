@@ -27,6 +27,11 @@ use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="thread_metadata", indexes={
+ *   @ORM\Index(name="idx_thread", columns={"thread_id"}),
+ *   @ORM\Index(name="idx_participant", columns={"participant_id"}),
+ *   @ORM\Index(name="idx_last_message_date", columns={"last_message_date"})
+ * })
  */
 class ThreadMetadata extends BaseThreadMetadata
 {

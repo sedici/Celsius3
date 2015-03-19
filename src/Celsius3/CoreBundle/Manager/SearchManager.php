@@ -47,7 +47,7 @@ class SearchManager
     {
         $where = array();
         foreach ($this->tokenList as $token => $repository) {
-            if (preg_match('/\b' . $token . ' \b/i', $keyword)) {
+            if (preg_match('/' . $token . '/i', $keyword)) {
                 $where[$repository] = trim(str_replace($token, '', $keyword));
             }
         }

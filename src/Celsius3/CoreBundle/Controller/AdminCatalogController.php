@@ -123,23 +123,6 @@ class AdminCatalogController extends BaseInstanceDependentController
     }
 
     /**
-     * Deletes a Catalog entity.
-     *
-     * @Route("/{id}/delete", name="admin_catalog_delete")
-     * @Method("post")
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function deleteAction($id)
-    {
-        return $this->baseDelete('Catalog', $id, 'admin_catalog');
-    }
-
-    /**
      * Updates de order of each Catalog
      *
      * @Route("/persist", name="admin_catalog_persist", options={"expose"=true})
