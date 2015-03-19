@@ -156,8 +156,6 @@ class RequestRepository extends EntityRepository
 
     public function getInteractionOfInstitutionWithInstance($instance, $institutions)
     {
-        
-
         $qb = $this->createQueryBuilder('r');
         
         $qb = $qb->select('s.type st')
@@ -178,10 +176,10 @@ class RequestRepository extends EntityRepository
 
     public function getInteractionOfInstanceWithInstitution($instance, $institutions)
     {
-        $dql = 'SELECT s.type st, COUNT(r.id) c '
+        $dql = 'SELECT s.type st, COUNT(s.request) c '
                 . 'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
-                . 'JOIN e.state s WITH e.provider IN (:institutions) ';
-        //. 'JOIN r.states s ';
+                . 'JOIN e.request r WITH e.provider IN (:institutions) '
+                . 'JOIN r.states s ';
         //. 'WHERE e.provider IN (:institutions) ';
 
         $dql .= 'WHERE e.instance = :instance ';
