@@ -80,6 +80,7 @@ class OrderRepository extends EntityRepository
         $qb = $this->createQueryBuilder('o')
                 ->join('o.requests', 'r')
                 ->join('r.states', 's')
+                ->join('o.materialData', 'm')
                 ->andWhere('s.isCurrent = true')
                 ->andWhere('r.instance = :instance')
                 ->setParameter('instance', $instance);
@@ -110,8 +111,10 @@ class OrderRepository extends EntityRepository
         }
 
         if (!is_null($user)) {
-            $qb = $qb->andWhere('(r.operator = :user)')
-                    ->setParameter('user', $user);
+            if (!(is_array($state) && in_array(StateManager::STATE__CREATED, $state)) && !(!is_null($state) && $state === StateManager::STATE__CREATED)) {
+                $qb = $qb->andWhere('(r.operator = :user)')
+                        ->setParameter('user', $user);
+            }
         }
 
         if (!is_null($owner)) {
