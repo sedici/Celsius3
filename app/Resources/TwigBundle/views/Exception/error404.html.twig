@@ -1,0 +1,28 @@
+{% extends 'TwigBundle::layout.html.twig' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+        <div class="jumbotron">
+            <h1 class="text-center">{{ 'An Error Occurred' | trans }}</h1>
+            <h2 class="text-center">{{ 'The resource was not found.' | trans }}</h2>
+
+            <div>
+                <p class="text-center"><a id="back" class="btn btn-default">{{ 'return' | trans }}</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('a#back').click(function(){
+                parent.history.back();
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
