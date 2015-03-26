@@ -67,7 +67,7 @@ class State
     private $type;
     /**
      * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
-     * @ORM\JoinColumn(name="remove_event_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="remote_event_id", referencedColumnName="id")
      */
     private $remoteEvent;
     /**
@@ -85,7 +85,7 @@ class State
      */
     private $remoteEvents;
     /**
-     * @ORM\OneToOne(targetEntity="State")
+     * @ORM\ManyToOne(targetEntity="State")
      * @ORM\JoinColumn(name="previous_id", referencedColumnName="id")
      */
     private $previous;

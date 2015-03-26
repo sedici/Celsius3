@@ -146,8 +146,16 @@ class EventManager
         $extraData['observations'] = $httpRequest->request->get('observations', null);
 
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $provider = $em->getRepository('Celsius3CoreBundle:Institution')
+        if ($httpRequest->request->get('provider') === 'web') {
+            $provider = $em->getRepository('Celsius3CoreBundle:Web')
+                    ->findOneBy(array());
+        } else if ($httpRequest->request->get('provider') === 'author') {
+            $provider = $em->getRepository('Celsius3CoreBundle:Author')
+                    ->findOneBy(array());
+        } else {
+            $provider = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->find($httpRequest->request->get('provider'));
+        }
 
         if ($provider) {
             $extraData['provider'] = $provider;

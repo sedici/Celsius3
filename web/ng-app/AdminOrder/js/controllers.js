@@ -180,6 +180,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     });
 
     $scope.institutionTooltip = function (institution) {
+        if (institution.type !== 'institution') {
+            return {};
+        }
         var str = '<li>' + institution.name + '</li></ul>';
         while (!_.isUndefined(institution.parent)) {
             institution = institution.parent;
@@ -440,7 +443,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     };
 
     $scope.validateRequest = function () {
-        if (!_.isEmpty(findInstitution($scope.select.tree))) {
+        if ($scope.forms.request.provider === 'web' || $scope.forms.request.provider === 'author' || !_.isEmpty(findInstitution($scope.select.tree))) {
             $scope.ccierror = '';
             $scope.submitRequest();
         } else {
@@ -449,10 +452,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     };
 
     $scope.submitRequest = function () {
-        var institution = findInstitution($scope.select.tree);
+        var provider;
+        if ($scope.forms.request.provider === 'institution') {
+            provider = findInstitution($scope.select.tree);
+        } else {
+            provider = $scope.forms.request.provider;
+        }
         var data = {
             observations: $scope.forms.request.observations,
-            provider: institution
+            provider: provider
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data).success(function (response) {

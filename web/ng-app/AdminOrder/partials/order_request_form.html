@@ -3,7 +3,18 @@
         <label for="observations">{{'observations' | translate}}</label>
         <textarea class=" form-control" ng-model="forms.request.observations" name="observations" id="observations"></textarea>
     </div>
-    <cci-widget>
+    <div class="form-group">
+        <label>{{'provider' | translate}}</label>
+        <div class="filter-select" id="filter">
+            <input type="radio" ng-model="forms.request.provider" value="institution" name="provider" id="provider_institution" />
+            <label for="provider_institution">{{'institution' | translate}}</label>
+            <input type="radio" ng-model="forms.request.provider" value="web" name="provider" id="provider_web" />
+            <label for="provider_web">{{'web' | translate}}</label>
+            <input type="radio" ng-model="forms.request.provider" value="author" name="provider" id="provider_author" />
+            <label for="provider_author">{{'author' | translate}}</label>
+        </div>
+    </div>
+    <cci-widget ng-if="forms.request.provider === 'institution'">
         
     </cci-widget>
 </form>
