@@ -16,7 +16,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     $scope.contains = function (list, item) {
         return _.contains(list, item);
     };
-    
+
     $scope.currentState = function (request) {
         return _.first(request.states.filter(function (item) {
             return item.is_current === true;
@@ -250,7 +250,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             for (var i = 0; i < files.length; i++) {
                 $scope.filesToUpload.push(files[i]);
             }
-            console.log($scope.filesToUpload);
         }
 
         $scope.upload = function (files) {
@@ -340,6 +339,21 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
      * Functions
      */
 
+    $scope.searchCatalog = function (term) {
+        $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
+            var regex = new RegExp(term, 'i');
+            var cond = false;
+            if (!_.isUndefined(catalog.institution)) {
+                cond = regex.test(catalog.institution.name);
+            }
+            return regex.test(catalog.name) || cond;
+        }), function (item) {
+            item.search = _.find($scope.searches, function (search) {
+                return search.catalog.id === item.id;
+            });
+        });
+    };
+
     $scope.basicMode = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take').success(function (response) {
             if (response) {
@@ -416,6 +430,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
 
     $scope.requestFromCatalog = function (catalog) {
         $('.modal').modal('hide');
+        $scope.forms.request.provider = 'institution';
         $scope.$broadcast('preset', catalog.institution);
         $('#request-modal').modal('show');
     };
@@ -621,14 +636,14 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             $scope.updateTables();
         });
     };
-    
-    $scope.pendingSearch = function() {
+
+    $scope.pendingSearch = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/searchpendings').success(function (response) {
             $scope.updateTables();
         });
     };
-    
-    $scope.noPendingSearch = function() {
+
+    $scope.noPendingSearch = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/nosearchpendings').success(function (response) {
             $scope.updateTables();
         });
@@ -699,24 +714,23 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
         });
     };
 
-    $scope.getInteraction = function() {
+    $scope.getInteraction = function () {
         $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
                 .success(function (response) {
-                    console.log(response);
                     $scope.interaction = response;
                 });
     }
     $scope.getInteraction();
-    
-    $scope.printInstitutions = function(ins){
+
+    $scope.printInstitutions = function (ins) {
         var txt = '';
-        if(! _.isUndefined(ins)) {
-            if(! _.isUndefined(ins.parent)){
+        if (!_.isUndefined(ins)) {
+            if (!_.isUndefined(ins.parent)) {
                 txt += $scope.printInstitutions(ins.parent) + ' - ' + ins.name;
             } else {
-                txt += ins.name; 
+                txt += ins.name;
             }
-        } 
+        }
         return txt;
     }
 });

@@ -1,6 +1,12 @@
 <table class="table table-hover catalog-table">
     <thead>
         <tr>
+            <th colspan="4">
+                <label for="search">{{'search' | translate}}:</label>
+                <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
+            </th>
+        </tr>
+        <tr>
             <th>{{'catalog' | translate}}</th>
             <th>{{'date' | translate}}</th>
             <th>{{'result' | translate}}</th>
