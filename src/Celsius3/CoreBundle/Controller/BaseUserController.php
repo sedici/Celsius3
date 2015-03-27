@@ -65,9 +65,9 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         $transformForm = $this->createForm($transformType);
 
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
 
-        $transformForm->bind($request);
+        $transformForm->handleRequest($request);
 
         if ($transformForm->isValid()) {
             $data = $transformForm->getData();

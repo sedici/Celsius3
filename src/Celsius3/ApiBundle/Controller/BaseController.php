@@ -31,7 +31,7 @@ class BaseController extends FOSRestController
     {
         $instance = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Instance')
-                ->find($this->getRequest()->request->get('instance_id'));
+                ->find($this->get('request_stack')->getCurrentRequest()->request->get('instance_id'));
 
         if (!$instance) {
             return $this->createNotFoundException('Instance not found');

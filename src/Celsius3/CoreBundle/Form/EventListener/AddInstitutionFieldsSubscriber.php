@@ -56,7 +56,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     {
         return array(
             FormEvents::PRE_SET_DATA => 'preSetData',
-            FormEvents::PRE_BIND => 'preBind',
+            FormEvents::POST_SUBMIT => 'preBind',
         );
     }
 
@@ -116,7 +116,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $form->add($this->factory->createNamed('country', 'entity', $country, array(
                     'class' => 'Celsius3CoreBundle:Country',
                     'mapped' => $this->country_mapped,
-                    'empty_value' => '',
+                    'placeholder' => '',
                     'required' => false,
                     'query_builder' => function (EntityRepository $er) {
                         return $er
@@ -132,7 +132,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $form->add($this->factory->createNamed('city', 'entity', $city, array(
                     'class' => 'Celsius3CoreBundle:City',
                     'mapped' => $this->city_mapped,
-                    'empty_value' => '',
+                    'placeholder' => '',
                     'required' => false,
                     'query_builder' => function (EntityRepository $repository) use ($country) {
                         $qb = $repository->createQueryBuilder('c');
@@ -156,7 +156,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'class' => 'Celsius3CoreBundle:Institution',
                     'property_path' => $this->property_path,
                     'label' => ucfirst($this->property_path),
-                    'empty_value' => '',
+                    'placeholder' => '',
                     'required' => $this->required,
                     'query_builder' => function (EntityRepository $repository) use ($city, $country) {
                         $qb = $repository->createQueryBuilder('i');

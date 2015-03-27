@@ -47,7 +47,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType()));
+        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType($this->getDoctrine()->getManager())));
     }
 
     /**
@@ -143,8 +143,9 @@ class SuperadminCatalogController extends BaseController
      */
     public function doUnionAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        $main_id = $this->getRequest()->request->get('main');
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $element_ids = $request->request->get('element');
+        $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('Catalog', $element_ids, $main_id, 'superadmin_catalog');
     }

@@ -141,8 +141,9 @@ class SuperadminCountryController extends BaseController
      */
     public function doUnionAction()
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        $main_id = $this->getRequest()->request->get('main');
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $element_ids = $request->request->get('element');
+        $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('Country', $element_ids, $main_id, 'superadmin_country');
     }

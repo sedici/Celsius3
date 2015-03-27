@@ -174,7 +174,7 @@ class SuperadminOrderController extends OrderController
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();

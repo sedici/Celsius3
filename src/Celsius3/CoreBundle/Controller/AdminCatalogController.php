@@ -23,11 +23,13 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
+use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
 
 /**
  * Location controller.
@@ -52,12 +54,16 @@ class AdminCatalogController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $query = $this->listQuery('Catalog');
+        $filter_form = $this->createForm(new CatalogFilterType($this->getDoctrine()->getManager(), $this->getInstance()));
+
+        $filter_form->handleRequest($request);
+        $query = $this->filter('Catalog', $filter_form, $this->listQuery('Catalog'));
 
         return array(
             'pagination' => $query->getQuery()->getResult(),
+            'filter_form' => $filter_form->createView(),
         );
     }
 
@@ -130,9 +136,9 @@ class AdminCatalogController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function persistAction()
+    public function persistAction(Request $request)
     {
-        $ids = $this->getRequest()->request->get('ids');
+        $ids = $request->request->get('ids');
         $em = $this->getDoctrine()->getManager();
 
         if ($ids) {

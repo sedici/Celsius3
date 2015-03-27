@@ -58,9 +58,9 @@ class SuperadministrationController extends BaseController
      * @Route("/orderusertable", name="superadmin_orderusertable", options={"expose"=true})
      * @Template()
      */
-    public function orderUserTableAction()
+    public function orderUserTableAction(Request $request)
     {
-        if (!$this->getRequest()->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
             return $this->createNotFoundException();
         }
 

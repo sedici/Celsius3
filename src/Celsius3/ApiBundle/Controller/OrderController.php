@@ -24,6 +24,7 @@ namespace Celsius3\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -64,11 +65,11 @@ class OrderController extends BaseController
      * GET Route annotation.
      * @Get("/state/{state}")
      */
-    public function ordersByStateAction($state)
+    public function ordersByStateAction($state, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $startDate = $this->getRequest()->query->get('startDate');
+        $startDate = $request->query->get('startDate');
 
         $orders = $em->getRepository('Celsius3CoreBundle:Order')
                 ->findByStateType($state, $startDate, null, $this->getInstance());

@@ -117,12 +117,11 @@ class AdminBaseUserController extends BaseUserController
      *
      * @return array
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        $request = $this->getRequest();
         $entity = new BaseUser();
         $form = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance()), $entity);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -180,7 +179,7 @@ class AdminBaseUserController extends BaseUserController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function updateAction($id)
+    public function updateAction($id, Request $request)
     {
         $entity = $this->findQuery('BaseUser', $id);
 
@@ -190,9 +189,7 @@ class AdminBaseUserController extends BaseUserController
 
         $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance(), true), $entity);
 
-        $request = $this->getRequest();
-
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -288,10 +285,10 @@ class AdminBaseUserController extends BaseUserController
      *
      * @return array
      */
-    public function doUnionAction()
+    public function doUnionAction(Request $request)
     {
-        $element_ids = $this->getRequest()->request->get('element');
-        $main_id = $this->getRequest()->request->get('main');
+        $element_ids = $request->request->get('element');
+        $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }

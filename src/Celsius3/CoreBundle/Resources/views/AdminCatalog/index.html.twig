@@ -9,8 +9,28 @@
 {% block content %}
     <h2>{{ 'Catalog List'|trans }}</h2>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             {% include 'Celsius3CoreBundle:AdminCatalog:_index_actions.html.twig' %}
+        </div>
+        <div class="col-md-6">
+            <div id="accordion" class="panel-group">
+                {% if filter_form %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                                    <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
+                                </a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse" id="collapseOne">
+                            <div class="panel-body">
+                                {% include 'Celsius3CoreBundle:AdminCatalog:_index_filters.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 

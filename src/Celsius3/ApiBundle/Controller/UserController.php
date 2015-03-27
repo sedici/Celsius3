@@ -25,6 +25,7 @@ namespace Celsius3\ApiBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -37,11 +38,11 @@ class UserController extends BaseController
     /**
      * @Get("/")
      */
-    public function usersAction()
+    public function usersAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $startDate = $this->getRequest()->query->get('startDate');
+        $startDate = $request->query->get('startDate');
 
         $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
                 ->createQueryBuilder('u')
