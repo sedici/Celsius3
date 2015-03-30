@@ -32,6 +32,22 @@
         <div class="form-group">
             <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control" />
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></i></button>
+            <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
+                    data-content="
+                        You can search by:
+                        <li>
+                            Order code.
+                        </li>
+                        <li>
+                            Keywords like title, authors or publication year
+                        </li>
+                        <li>
+                            User fields like name, surname, username and email. Example: user:username.
+                        </li>
+                        </ul>
+                    ">
+                <span class="glyphicon glyphicon-question-sign"></span>
+            </button>
         </div>
     </form>
 {% endblock %}
