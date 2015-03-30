@@ -39,7 +39,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$entity) {
+        if (!$entity || $this->get('celsius3_core.user_manager')->hasHigherRoles($entity, $this->getUser())) {
             throw $this->createNotFoundException('Unable to find User.');
         }
 

@@ -7,8 +7,10 @@
     <li>
         <a href="{{ path(name~'_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
     </li>
-    <li>
-        <a href="{{ path(name~'_transform', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Transform'|trans }}</a>
-    </li>
+    {% if not has_higher_roles(element, app.user) %}
+        <li>
+            <a href="{{ path(name~'_transform', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Transform'|trans }}</a>
+        </li>
+    {% endif %}
 {% block extraactions %}{% endblock %}
 </ul>
