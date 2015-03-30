@@ -155,7 +155,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
     /**
      * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
      */
-    public function getInteraction($id)
+    public function getInteractionAction($id)
     {
         $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
         $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
