@@ -23,11 +23,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Manager\UserManager;
 use Doctrine\ORM\Query\Expr\Join;
-use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * RequestRepository
@@ -162,9 +158,6 @@ class RequestRepository extends EntityRepository
                 ->addSelect('COUNT(r.id) c')
                 ->innerJoin('r.owner', 'o', Join::WITH, $qb->expr()->in('o.institution', $institutions))
                 ->innerJoin('r.states', 's')
-                //->innerJoin('o.institution', 'i', Join::WITH, $qb->expr()->in('i.id', $institutions))
-                //->andWhere('o.institution IN (:institutions)')
-                //->setParameter('institutions', $institutions)
                 ->addGroupBy('s.type');
 
         if (!is_null($instance)) {
@@ -180,7 +173,6 @@ class RequestRepository extends EntityRepository
                 . 'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
                 . 'JOIN e.request r WITH e.provider IN (:institutions) '
                 . 'JOIN r.states s ';
-        //. 'WHERE e.provider IN (:institutions) ';
 
         $dql .= 'WHERE e.instance = :instance ';
 

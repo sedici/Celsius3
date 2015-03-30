@@ -45,7 +45,7 @@ class OrderRepository extends EntityRepository
         if (count($in) > 0) {
             $secondary = array();
             foreach ($in as $repository => $term) {
-                $secondary = array_map(function ($user) {
+                $secondary = array_map(function (BaseUser $user) {
                     return $user->getId();
                 }, $this->getEntityManager()
                                 ->getRepository('Celsius3CoreBundle:' . $repository)

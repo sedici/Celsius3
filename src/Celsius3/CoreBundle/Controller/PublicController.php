@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 /**
  * Public controller

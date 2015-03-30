@@ -196,7 +196,7 @@ class InstitutionRepository extends EntityRepository
     public function getBaseInstitution($institution)
     {
         $parent = $institution->getParent();
-        while ($parent <> null) {
+        while (!is_null($parent)) {
             $institution = $parent;
             $parent = $institution->getParent();
         }

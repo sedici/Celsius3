@@ -29,7 +29,6 @@ use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequest;
 use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Institution;
-use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Entity\Instance;
