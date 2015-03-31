@@ -158,6 +158,8 @@ class OrderRepository extends EntityRepository
 
     public function addFindByStateType(array $types, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
     {
+        $query = $query->innerJoin('r.states', 's');
+        
         if (count($types) > 0) {
             $query = $query->andWhere('s.type IN (:state_types)')
                     ->setParameter('state_types', $types);

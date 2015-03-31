@@ -699,7 +699,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
         $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {
             if (response) {
                 $scope.updateTables();
-                $('#emailForm').get(0).reset();
                 $('.modal').modal('hide');
             }
         });

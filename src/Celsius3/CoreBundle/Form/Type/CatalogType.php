@@ -44,7 +44,11 @@ class CatalogType extends AbstractType
     {
         $builder
                 ->add('name')
-                ->add('url')
+                ->add('url', null, array(
+                    'attr' => array(
+                        'value' => 'http://'
+                    ),
+                ))
                 ->add('comments', 'textarea', array(
                     'required' => false,
                 ))

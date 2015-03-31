@@ -31,7 +31,11 @@ class InstanceType extends LegacyInstanceType
     {
         parent::buildForm($builder, $options);
         $builder
-                ->add('url')
+                ->add('url', null, array(
+                    'attr' => array(
+                        'value' => 'http://'
+                    ),
+                ))
         ;
     }
 

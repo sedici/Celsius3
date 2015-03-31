@@ -29,7 +29,7 @@ use Celsius3\CoreBundle\Entity\Journal;
 class JournalTypeType extends MaterialTypeType
 {
     private $journal;
-    
+
     public function __construct(Journal $journal = null)
     {
         $this->journal = $journal;
@@ -37,11 +37,7 @@ class JournalTypeType extends MaterialTypeType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $builder
-                ->add('volume')
-                ->add('number')
                 ->add('journal', 'celsius3_corebundle_journal_selector', array(
                     'attr' => array(
                         'required' => true,
@@ -65,6 +61,13 @@ class JournalTypeType extends MaterialTypeType
                     'required' => false,
                     'property_path' => 'other',
                 ))
+        ;
+        
+        parent::buildForm($builder, $options);
+
+        $builder
+                ->add('volume')
+                ->add('number')
         ;
     }
 
