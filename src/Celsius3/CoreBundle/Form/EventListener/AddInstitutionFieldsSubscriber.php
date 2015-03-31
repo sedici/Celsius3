@@ -56,7 +56,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     {
         return array(
             FormEvents::PRE_SET_DATA => 'preSetData',
-            FormEvents::POST_SUBMIT => 'preBind',
+            FormEvents::PRE_SUBMIT => 'preBind',
         );
     }
 

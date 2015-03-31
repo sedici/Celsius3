@@ -37,6 +37,7 @@ class InstitutionRepository extends EntityRepository
                 ->orWhere('i.instance = :directory_id')
                 ->andWhere('i.country = :country_id')
                 ->andWhere('i.parent IS NULL')
+                ->orderBy('i.name', 'asc')
                 ->setParameter('instance_id', $instance->getId())
                 ->setParameter('directory_id', $directory->getId())
                 ->setParameter('country_id', $country_id);
@@ -51,7 +52,7 @@ class InstitutionRepository extends EntityRepository
                 $qb = $qb->andWhere('i.hive = :hive_id')
                         ->setParameter('hive_id', $hive->getId());
             } elseif ($filter === 'celsius3') {
-                $qb = $qb->andWhere('i.celsius_instance_id IS NOT NULL');
+                $qb = $qb->andWhere('i.celsiusInstance IS NOT NULL');
             }
         }
 
