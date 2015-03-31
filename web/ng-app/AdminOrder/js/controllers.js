@@ -485,7 +485,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
                 $scope.$broadcast('reset');
                 $('.modal').modal('hide');
 
-                if (_.isUndefined(response.provider.celsius_instance)) {
+                if (_.isUndefined(response.provider.celsius_instance) && response.provider.type !== 'web') {
                     $scope.contacts = Contact.query({institution_id: response.provider.id});
                     $scope.templates = MailTemplate.query();
                     $('#email-modal').modal('show');
