@@ -38,13 +38,11 @@ class FileDownloadFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+        
         $builder
                 ->add('ip', null, array('required' => false))
                 ->add('userAgent', null, array('required' => false))
-//                ->add('file', 'entity', array(
-//                    'required' => false,
-//                    'class' => 'Celsius3CoreBundle:File'
-//                ))
         ;
         if (is_null($this->instance)) {
             $builder->add('instance', 'entity', array(

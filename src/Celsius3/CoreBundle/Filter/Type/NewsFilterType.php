@@ -31,8 +31,13 @@ class NewsFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+
         $builder
-                ->add('title', null, array('required' => false,));
+                ->add('title', null, array(
+                    'required' => false,
+                ))
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

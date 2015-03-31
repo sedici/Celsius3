@@ -31,6 +31,8 @@ class MailTemplateFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+
         $builder
                 ->add('title', null, array(
                     'required' => false,

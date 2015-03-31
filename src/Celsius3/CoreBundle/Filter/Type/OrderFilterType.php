@@ -44,6 +44,8 @@ class OrderFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+
         if (is_null($this->owner)) {
             $builder
                     ->add('owner', 'entity', array('required' => false,

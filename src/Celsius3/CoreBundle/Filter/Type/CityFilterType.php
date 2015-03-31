@@ -38,6 +38,8 @@ class CityFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+        
         $builder
                 ->add('name', null, array('required' => false,))
                 ->add('postalCode', null, array('required' => false,))

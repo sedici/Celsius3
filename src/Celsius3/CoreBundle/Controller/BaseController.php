@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormInterface;
 use Celsius3\CoreBundle\Entity\Instance;
 
 abstract class BaseController extends Controller
@@ -64,11 +65,11 @@ abstract class BaseController extends Controller
         return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
-    protected function baseIndex($name, $filter_form = null)
+    protected function baseIndex($name, FormInterface $filter_form = null)
     {
         $query = $this->listQuery($name);
         if (!is_null($filter_form)) {
-            $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());
+            $filter_form = $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());
             $query = $this->filter($name, $filter_form, $query);
         }
 
