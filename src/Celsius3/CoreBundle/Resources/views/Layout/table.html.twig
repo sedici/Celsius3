@@ -3,9 +3,12 @@
         <tr>
             <td>{{name}}</td>
             <td>{{country}}</td>
-            <td>{{#pendingOrders}}{{pendingOrders}}{{/pendingOrders}}{{^ pendingOrders}}0{{/pendingOrders}}</td>
-            <td>{{#deliveredOrders}}{{deliveredOrders}}{{/deliveredOrders}}{{^ deliveredOrders}}0{{/deliveredOrders}}</td>
             <td>{{#totalOrders}}{{totalOrders}}{{/totalOrders}}{{^ totalOrders}}0{{/totalOrders}}</td>
+            <td>{{#provisionOrders}}{{provisionOrders}}{{/provisionOrders}}{{^ provisionOrders}}0{{/provisionOrders}}</td>
+            <td>{{#pendingOrders}}{{pendingOrders}}{{/pendingOrders}}{{^ pendingOrders}}0{{/pendingOrders}}</td>
+            <td>{{#searchedOrders}}{{searchedOrders}}{{/searchedOrders}}{{^ searchedOrders}}0{{/searchedOrders}}</td>
+            <td>{{#requestedOrders}}{{requestedOrders}}{{/requestedOrders}}{{^ requestedOrders}}0{{/requestedOrders}}</td>
+            <td>{{#satisfiedOrders}}{{satisfiedOrders}}{{/satisfiedOrders}}{{^ satisfiedOrders}}0{{/satisfiedOrders}}</td>
             <td>{{#pendingUsers}}{{pendingUsers}}{{/pendingUsers}}{{^ pendingUsers}}0{{/pendingUsers}}</td>
             <td>{{#totalUsers}}{{totalUsers}}{{/totalUsers}}{{^totalUsers}}0{{/totalUsers}}</td>
         </tr>

@@ -205,7 +205,7 @@ class AdminOrderController extends OrderController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function updateAction($id)
+    public function updateAction($id, Request $request)
     {
         $entity = $this->findQuery('Order', $id);
 
@@ -215,15 +215,13 @@ class AdminOrderController extends OrderController
 
         $entity->setMaterialData(null);
 
-        $request = $this->getRequest();
-
         // Se extrae el usuario del request y se setea en la construccion del form
         $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
 
         $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $entity);
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();

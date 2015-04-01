@@ -31,13 +31,11 @@ class UserManager
     const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
-    const ROLE_MIGRATOR = 'ROLE_MIGRATOR';
     private $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
         self::ROLE_ADMIN,
         self::ROLE_SUPER_ADMIN,
-        self::ROLE_MIGRATOR,
     );
 
     private function iterateInstitutions(Institution $institution)
@@ -80,5 +78,19 @@ class UserManager
         } else {
             return array();
         }
+    }
+
+    public function hasHigherRoles(BaseUser $user1, BaseUser $user2)
+    {
+        $user1Roles = $user1->getRoles();
+        $user2Roles = $user2->getRoles();
+
+        foreach (array_reverse($this->types) as $type) {
+            if (in_array($type, $user1Roles) && !in_array($type, $user2Roles)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

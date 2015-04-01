@@ -38,6 +38,8 @@ class BaseUserFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+        
         $builder
                 ->add('id', 'hidden', array('required' => false,))
                 ->add('name', null, array('required' => false,))

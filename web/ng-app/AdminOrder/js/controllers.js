@@ -16,7 +16,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     $scope.contains = function (list, item) {
         return _.contains(list, item);
     };
-    
+
     $scope.currentState = function (request) {
         return _.first(request.states.filter(function (item) {
             return item.is_current === true;
@@ -180,6 +180,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     });
 
     $scope.institutionTooltip = function (institution) {
+        if (institution.type !== 'institution') {
+            return {};
+        }
         var str = '<li>' + institution.name + '</li></ul>';
         while (!_.isUndefined(institution.parent)) {
             institution = institution.parent;
@@ -247,7 +250,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             for (var i = 0; i < files.length; i++) {
                 $scope.filesToUpload.push(files[i]);
             }
-            console.log($scope.filesToUpload);
         }
 
         $scope.upload = function (files) {
@@ -337,6 +339,21 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
      * Functions
      */
 
+    $scope.searchCatalog = function (term) {
+        $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
+            var regex = new RegExp(term, 'i');
+            var cond = false;
+            if (!_.isUndefined(catalog.institution)) {
+                cond = regex.test(catalog.institution.name);
+            }
+            return regex.test(catalog.name) || cond;
+        }), function (item) {
+            item.search = _.find($scope.searches, function (search) {
+                return search.catalog.id === item.id;
+            });
+        });
+    };
+
     $scope.basicMode = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take').success(function (response) {
             if (response) {
@@ -413,6 +430,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
 
     $scope.requestFromCatalog = function (catalog) {
         $('.modal').modal('hide');
+        $scope.forms.request.provider = 'institution';
         $scope.$broadcast('preset', catalog.institution);
         $('#request-modal').modal('show');
     };
@@ -440,7 +458,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     };
 
     $scope.validateRequest = function () {
-        if (!_.isEmpty(findInstitution($scope.select.tree))) {
+        if ($scope.forms.request.provider === 'web' || $scope.forms.request.provider === 'author' || !_.isEmpty(findInstitution($scope.select.tree))) {
             $scope.ccierror = '';
             $scope.submitRequest();
         } else {
@@ -449,10 +467,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
     };
 
     $scope.submitRequest = function () {
-        var institution = findInstitution($scope.select.tree);
+        var provider;
+        if ($scope.forms.request.provider === 'institution') {
+            provider = findInstitution($scope.select.tree);
+        } else {
+            provider = $scope.forms.request.provider;
+        }
         var data = {
             observations: $scope.forms.request.observations,
-            provider: institution
+            provider: provider
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data).success(function (response) {
@@ -462,7 +485,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
                 $scope.$broadcast('reset');
                 $('.modal').modal('hide');
 
-                if (_.isUndefined(response.provider.celsius_instance)) {
+                if (_.isUndefined(response.provider.celsius_instance) && response.provider.type !== 'web') {
                     $scope.contacts = Contact.query({institution_id: response.provider.id});
                     $scope.templates = MailTemplate.query();
                     $('#email-modal').modal('show');
@@ -613,14 +636,14 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             $scope.updateTables();
         });
     };
-    
-    $scope.pendingSearch = function() {
+
+    $scope.pendingSearch = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/searchpendings').success(function (response) {
             $scope.updateTables();
         });
     };
-    
-    $scope.noPendingSearch = function() {
+
+    $scope.noPendingSearch = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/nosearchpendings').success(function (response) {
             $scope.updateTables();
         });
@@ -676,7 +699,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
         $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {
             if (response) {
                 $scope.updateTables();
-                $('#emailForm').get(0).reset();
                 $('.modal').modal('hide');
             }
         });
@@ -691,24 +713,23 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
         });
     };
 
-    $scope.getInteraction = function() {
+    $scope.getInteraction = function () {
         $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
                 .success(function (response) {
-                    console.log(response);
                     $scope.interaction = response;
                 });
     }
     $scope.getInteraction();
-    
-    $scope.printInstitutions = function(ins){
+
+    $scope.printInstitutions = function (ins) {
         var txt = '';
-        if(! _.isUndefined(ins)) {
-            if(! _.isUndefined(ins.parent)){
+        if (!_.isUndefined(ins)) {
+            if (!_.isUndefined(ins.parent)) {
                 txt += $scope.printInstitutions(ins.parent) + ' - ' + ins.name;
             } else {
-                txt += ins.name; 
+                txt += ins.name;
             }
-        } 
+        }
         return txt;
     }
 });

@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 class AdministrationExtension extends \Twig_Extension
 {
@@ -38,6 +39,7 @@ class AdministrationExtension extends \Twig_Extension
     {
         return array(
             'count_users' => new \Twig_Function_Method($this, 'countUsers'),
+            'has_higher_roles' => new \Twig_Function_Method($this, 'hasHigherRoles'),
         );
     }
 
@@ -47,6 +49,12 @@ class AdministrationExtension extends \Twig_Extension
                         ->get('doctrine.orm.entity_manager')
                         ->getRepository('Celsius3CoreBundle:BaseUser')
                         ->countUsers($instance);
+    }
+
+    public function hasHigherRoles(BaseUser $user1, BaseUser $user2)
+    {
+        return $this->container->get('celsius3_core.user_manager')
+                        ->hasHigherRoles($user1, $user2);
     }
 
     public function getName()

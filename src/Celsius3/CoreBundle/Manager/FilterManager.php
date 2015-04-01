@@ -89,12 +89,14 @@ class FilterManager
     {
         $customFilter = $this->getCustomFilterClass($class);
 
-        foreach ($form->getData() as $key => $data) {
-            if (!is_null($data) && count($data) > 0) {
-                if (!is_null($customFilter) && $customFilter->hasCustomFilter($key)) {
-                    $query = $customFilter->applyCustomFilter($key, $data, $query, $instance);
-                } else {
-                    $query = $this->applyStandardFilter($class, $key, $data, $query);
+        if ($form->getData()) {
+            foreach ($form->getData() as $key => $data) {
+                if (!is_null($data) && count($data) > 0) {
+                    if (!is_null($customFilter) && $customFilter->hasCustomFilter($key)) {
+                        $query = $customFilter->applyCustomFilter($key, $data, $query, $instance);
+                    } else {
+                        $query = $this->applyStandardFilter($class, $key, $data, $query);
+                    }
                 }
             }
         }

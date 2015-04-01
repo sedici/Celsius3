@@ -70,7 +70,7 @@ class Institution extends Provider
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="institutions")
-     * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
      */
     private $country;
     /**
@@ -84,7 +84,7 @@ class Institution extends Provider
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="institutions")
-     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
     /**

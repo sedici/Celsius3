@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormInterface;
 use Celsius3\CoreBundle\Entity\Instance;
 
 abstract class BaseController extends Controller
@@ -64,11 +65,11 @@ abstract class BaseController extends Controller
         return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
     }
 
-    protected function baseIndex($name, $filter_form = null)
+    protected function baseIndex($name, FormInterface $filter_form = null)
     {
         $query = $this->listQuery($name);
         if (!is_null($filter_form)) {
-            $filter_form->bind($this->getRequest());
+            $filter_form = $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());
             $query = $this->filter($name, $filter_form, $query);
         }
 
@@ -113,9 +114,9 @@ abstract class BaseController extends Controller
 
     protected function baseCreate($name, $entity, $type, $route)
     {
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $this->persistEntity($entity);
@@ -165,7 +166,7 @@ abstract class BaseController extends Controller
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $editForm->bind($request);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
             $this->persistEntity($entity);
@@ -191,7 +192,7 @@ abstract class BaseController extends Controller
         $form = $this->createDeleteForm($id);
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $entity = $this->findQuery($name, $id);
@@ -213,9 +214,10 @@ abstract class BaseController extends Controller
 
     protected function baseBatch()
     {
-        $action = $this->getRequest()->request->get('action');
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $action = $request->request->get('action');
         $function = 'batch' . ucfirst($action);
-        $element_ids = $this->getRequest()->request->get('element', array());
+        $element_ids = $request->request->get('element', array());
 
         return $this->$function($element_ids);
     }
@@ -289,7 +291,7 @@ abstract class BaseController extends Controller
         if (!$this->validateAjax($target)) {
             return $this->createNotFoundException();
         }
-        
+
         $term = $request->query->get('term');
 
         $result = $this->getDoctrine()->getManager()
@@ -310,8 +312,9 @@ abstract class BaseController extends Controller
 
         return $response;
     }
-    
-    protected function validateAjax($target) {
+
+    protected function validateAjax($target)
+    {
         return false;
     }
 }

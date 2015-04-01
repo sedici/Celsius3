@@ -65,6 +65,7 @@ class UserController extends BaseInstanceDependentController
     protected function validateAjax($target) {
         $allowedTargets = array(
             'Journal',
+            'BaseUser',
         );
         
         return in_array($target, $allowedTargets);

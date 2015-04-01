@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
@@ -97,15 +98,15 @@ class StateRepository extends EntityRepository
         return $result;
     }
 
-    public function findOrdersPerStatePerInstance($state)
+    public function findOrdersPerStatesPerInstance(array $states, $request_type = 'search')
     {
-        return $this->createQueryBuilder('s')
-                        ->select('IDENTITY(s.instance), COUNT(s.id) as c')
-                        ->where('s.type = :state_type')
-                        ->andWhere('s.isCurrent = true')
+        $qb = $this->createQueryBuilder('s');
+        return $qb->select('IDENTITY(s.instance), COUNT(s.id) as c')
+                        ->innerJoin('s.request', 'r', Join::WITH, $qb->expr()->in('s.type', $states))
+                        ->where('s.isCurrent = true')
+                        ->andWhere('r.type = :request_type')
                         ->groupBy('s.instance')
-                        ->addGroupBy('s.type')
-                        ->setParameter('state_type', $state)
+                        ->setParameter('request_type', $request_type)
                         ->getQuery()
                         ->getResult();
     }

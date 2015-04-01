@@ -38,11 +38,13 @@ class CustomUserFieldFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+        
         $builder
-                ->add('key', null, array('required' => false,))
-                ->add('name', null, array('required' => false,))
-                ->add('type', null, array('required' => false,))
-                ->add('private', null, array('required' => false,));
+                ->add('name', null, array(
+                    'required' => false,
+                ))
+        ;
         if (is_null($this->instance)) {
             $builder->add('instance', 'entity', array(
                 'required' => false,

@@ -52,7 +52,7 @@ class UserFileController extends BaseController
         }
 
         $this->get('celsius3_core.file_manager')
-                ->registerDownload($order, $file, $this->getRequest(), $user);
+                ->registerDownload($order, $file, $this->get('request_stack')->getCurrentRequest(), $user);
 
         if ($order->getNotDownloadedFiles()->count() == 0) {
             $this->get('celsius3_core.lifecycle_helper')

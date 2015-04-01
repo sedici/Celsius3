@@ -52,9 +52,9 @@ class AdministrationController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function searchAction()
+    public function searchAction(Request $request)
     {
-        $keyword = $this->getRequest()->query->get('keyword');
+        $keyword = $request->query->get('keyword');
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance()), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);

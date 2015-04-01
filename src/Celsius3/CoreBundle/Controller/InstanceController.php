@@ -90,9 +90,9 @@ abstract class InstanceController extends BaseController
 
         $configureForm = $builder->getForm();
 
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
 
-        $configureForm->bind($request);
+        $configureForm->handleRequest($request);
 
         if ($configureForm->isValid()) {
             $em = $this->getDoctrine()->getManager();

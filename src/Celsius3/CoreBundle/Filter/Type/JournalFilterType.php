@@ -37,6 +37,8 @@ class JournalFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+        
         $builder
                 ->add('name', null, array('required' => false,))
                 ->add('abbreviation', null, array('required' => false,))
@@ -63,6 +65,6 @@ class JournalFilterType extends AbstractType
 
     public function getName()
     {
-        return 'celsius3_corebundle_journalFiltertype';
+        return 'celsius3_corebundle_journalfiltertype';
     }
 }

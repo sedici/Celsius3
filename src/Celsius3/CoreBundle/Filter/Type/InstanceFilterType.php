@@ -31,12 +31,17 @@ class InstanceFilterType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+
         $builder
                 ->add('name', null, array('required' => false,))
                 ->add('abbreviation', null, array('required' => false,))
                 ->add('email', null, array('required' => false,))
-                ->add('institution', 'entity', array('required' => false,
-                    'class' => 'Celsius3CoreBundle:Institution'));
+                ->add('institution', 'entity', array(
+                    'required' => false,
+                    'class' => 'Celsius3CoreBundle:Institution'
+                ))
+        ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

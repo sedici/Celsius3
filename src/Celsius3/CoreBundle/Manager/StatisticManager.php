@@ -109,15 +109,31 @@ class StatisticManager
         ));
 
         $data = array(
-            'pendingOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatePerInstance(StateManager::STATE__CREATED),
-            'deliveredOrders' => $this->em
-                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
-                    ->findOrdersPerStatePerInstance(StateManager::STATE__DELIVERED),
             'totalOrders' => $this->em
                     ->getRepository($this->statistic_data['totalOrdersPerInstance']['repository'])
                     ->findTotalOrdersPerInstance(),
+            'provisionOrders' => $this->em
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatesPerInstance(array(
+                        StateManager::STATE__CREATED,
+                        StateManager::STATE__SEARCHED,
+                        StateManager::STATE__REQUESTED,
+                            ), 'provision'),
+            'pendingOrders' => $this->em
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatesPerInstance(array(StateManager::STATE__CREATED)),
+            'searchedOrders' => $this->em
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatesPerInstance(array(StateManager::STATE__SEARCHED)),
+            'requestedOrders' => $this->em
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatesPerInstance(array(StateManager::STATE__REQUESTED)),
+            'satisfiedOrders' => $this->em
+                    ->getRepository($this->statistic_data['ordersPerStatePerInstance']['repository'])
+                    ->findOrdersPerStatesPerInstance(array(
+                        StateManager::STATE__RECEIVED,
+                        StateManager::STATE__DELIVERED,
+                    )),
             'pendingUsers' => $this->em
                     ->getRepository($this->statistic_data['newUsersPerInstance']['repository'])
                     ->findNewUsersPerInstance(),

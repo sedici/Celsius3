@@ -25,32 +25,46 @@ namespace Celsius3\CoreBundle\Filter\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class CatalogFilterType extends AbstractType
 {
     private $instance;
+    private $em;
 
-    public function __construct($instance = null)
+    public function __construct(EntityManager $em, Instance $instance = null)
     {
         $this->instance = $instance;
+        $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->setMethod('GET');
+        
         $builder
-                ->add('name', null, array('required' => false,))
-                ->add('institution', 'entity', array('required' => false,
-                    'class' => 'Celsius3CoreBundle:Institution',));
+                ->add('name', null, array(
+                    'required' => false,
+                ))
+        ;
+        
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', 'entity', array('required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',));
+                    ->add('instance', 'entity', array(
+                        'required' => false,
+                        'class' => 'Celsius3CoreBundle:Instance',
+                    ))
+            ;
         }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false,));
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
     }
 
     public function getName()

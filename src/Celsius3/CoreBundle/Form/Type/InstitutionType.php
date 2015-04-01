@@ -46,7 +46,10 @@ class InstitutionType extends AbstractType
                 ->add('name')
                 ->add('abbreviation')
                 ->add('website', null, array(
-                    'required' => false
+                    'required' => false,
+                    'attr' => array(
+                        'value' => 'http://'
+                    ),
                 ))
                 ->add('address', null, array(
                     'required' => false

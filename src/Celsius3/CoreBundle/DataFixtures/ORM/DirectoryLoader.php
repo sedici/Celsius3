@@ -101,6 +101,13 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
             unset($ct);
         }
         $manager->flush();
+        
+        $author = new Entity\Author();
+        $manager->persist($author);
+        $web = new Entity\Web();
+        $manager->persist($web);
+        
+        $manager->flush();
     }
 
     public function getOrder()

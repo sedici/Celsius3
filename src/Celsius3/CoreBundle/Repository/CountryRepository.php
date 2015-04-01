@@ -33,6 +33,7 @@ class CountryRepository extends EntityRepository
         return $this->createQueryBuilder('c')
                         ->where('c.instance = :instance_id')
                         ->orWhere('c.instance = :directory_id')
+                        ->orderBy('c.name', 'asc')
                         ->setParameter('instance_id', $instance->getId())
                         ->setParameter('directory_id', $directory->getId())
                         ->getQuery()

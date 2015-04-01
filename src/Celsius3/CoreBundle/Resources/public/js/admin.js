@@ -16,3 +16,7 @@ $(document).on('click', '.user-enable-modal', function (e) {
     link.click();
     $('#myModal').modal('hide');
 });
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})

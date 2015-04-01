@@ -39,7 +39,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$entity) {
+        if (!$entity || $this->get('celsius3_core.user_manager')->hasHigherRoles($entity, $this->getUser())) {
             throw $this->createNotFoundException('Unable to find User.');
         }
 
@@ -65,9 +65,9 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         $transformForm = $this->createForm($transformType);
 
-        $request = $this->getRequest();
+        $request = $this->get('request_stack')->getCurrentRequest();
 
-        $transformForm->bind($request);
+        $transformForm->handleRequest($request);
 
         if ($transformForm->isValid()) {
             $data = $transformForm->getData();

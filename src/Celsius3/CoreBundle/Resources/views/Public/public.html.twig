@@ -1,5 +1,20 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block navigation_content %}
-    {{ knp_menu_render('Celsius3CoreBundle:Builder:publicMenu', { 'currentClass': 'active' }) }}
+    <div class="pull-left">
+        {{ knp_menu_render('Celsius3CoreBundle:Builder:publicMenu', { 'currentClass': 'active' }) }}
+    </div>
+    
+    {% if not app.user %}
+    <ul class="list-unstyled list-horizontal pull-right">
+        <li>
+            <a href="{{ path('fos_user_registration_register', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}" class="btn btn-lg btn-success">{{ 'Register'|trans }}</a>
+        </li>
+        <li>
+            <a href="{{ path('fos_user_security_login', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}" class="btn btn-lg btn-primary">{{ 'Login'|trans }}</a>
+        </li>
+    </ul>
+    {% endif %}
+            
+    <div class="clearfix"></div>
 {% endblock %}

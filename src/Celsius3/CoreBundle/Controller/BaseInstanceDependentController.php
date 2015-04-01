@@ -42,7 +42,7 @@ abstract class BaseInstanceDependentController extends BaseController
                         ->setParameter('instance_id', $this->getInstance()->getId())
                         ->setParameter('id', $id)
                         ->getQuery()
-                        ->getSingleResult();
+                        ->getOneOrNullResult();
     }
 
     protected function getResultsPerPage()
