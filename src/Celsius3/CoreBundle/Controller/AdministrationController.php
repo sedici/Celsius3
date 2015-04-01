@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -94,13 +95,97 @@ class AdministrationController extends BaseInstanceDependentController
 
         return $this->redirect($this->generateUrl('administration'));
     }
-    
-    protected function validateAjax($target) {
+
+    protected function validateAjax($target)
+    {
         $allowedTargets = array(
             'Journal',
             'BaseUser',
         );
-        
+
         return in_array($target, $allowedTargets);
     }
+
+    /**
+     * GET Route annotation.
+     * @Route("/send_reminder_emails", name="admin_send_reminder_emails")
+     * @Template("Celsius3CoreBundle:Administration:send_reminder_emails.html.twig")
+     */
+    public function sendReminderEmailsAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $usersWithPendingRequets = $em->getRepository('Celsius3CoreBundle:State')
+                ->countUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
+
+        $emailTemplate = $em->createQueryBuilder()
+                        ->from('Celsius3CoreBundle:Template', 't')
+                        ->select('t')
+                        ->andWhere('t.code = :code')->setParameter('code', 'reminder_mail')
+                        ->andWhere('t INSTANCE OF Celsius3CoreBundle:MailTemplate')
+                        ->getQuery()->getSingleResult();
+
+        $users = array();
+        foreach ($usersWithPendingRequets as $x) {
+            $users[$x['id']] = array(
+                'username' => $x['username'],
+                'surname' => $x['surname'],
+                'name' => $x['name'],
+                'requestsCount' => $x['requestsCount']);
+        }
+
+        return array(
+            'users' => $users,
+            'subject' => $emailTemplate->getTitle(),
+            'text' => $emailTemplate->getText()
+        );
+    }
+
+    /**
+     * @Route("/send_reminder_emails_batch", name="admin_send_reminder_emails_batch")
+     * @Method("post")
+     */
+    public function sendReminderEmailsBatchAction(Request $request)
+    {
+        $subject = $request->request->get('subject');
+        $text = $request->request->get('text');
+        $fromEmail = $this->getInstance()->get('email_reply_address')->getValue();
+
+        $usersRequests = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:State')
+                ->getUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
+
+        $i = 0;
+        while ($i < count($usersRequests)) {
+            $users[$usersRequests[$i]['id']] = array(
+                'username' => $usersRequests[$i]['username'],
+                'surname' => $usersRequests[$i]['surname'],
+                'name' => $usersRequests[$i]['name'],
+                'email' => $usersRequests[$i]['email']);
+
+            $actual = $usersRequests[$i]['id'];
+            while ($i < count($usersRequests) && $actual === $usersRequests[$i]['id']) {
+                $users[$usersRequests[$i]['id']]['requests'][] = $usersRequests[$i]['request'];
+                $i++;
+            }
+        }
+
+        $mailer = $this->get('mailer');
+        $message = $mailer->createMessage();
+
+        $message = $message->setSubject($subject)
+                ->setFrom($fromEmail);
+
+        $twig = clone $this->get('twig');
+        $twig->setLoader(new \Twig_Loader_String());
+
+        foreach ($users as $user) {
+            $message = $message->setTo($user['email'])
+                    ->setBody($twig->render("$text", array('user' => $user)), 'text/html');
+
+            $mailer->send($message);
+        }
+
+        return $this->redirectToRoute('administration');
+    }
+
 }

@@ -1,0 +1,61 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+    {{ 'Send reminder email' | trans }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <form method="post" action="{{ path('admin_send_reminder_emails_batch') }}">
+            <div class="col-xs-9">
+                <div class="form-group">
+                    <label for="subject">{{'Subject' | trans }}</label>
+                    <input class="form-control" type="text" name="subject" id="subject" required value="{{ subject }}">
+                </div>
+                <div class="form-group">
+                    <label for="text">{{'Email content' | trans }}</label>
+                    <textarea class="form-control" name="text" id="text" required>
+                        {{ text }}
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-default" type="submit" value="Send email">
+                </div>
+                <div class="form-group"> 
+                    <label>{{ 'Users with pending requests' | trans }}</label>
+                    <ul class="list-group">
+                        {% for u in users %}
+                            <li class="list-group-item">{{u.surname}}, {{u.name}} ({{u.username}}) <span class="pull-right">[{{u.requestsCount}} {{ 'pending' | trans }}]</span></li>
+                            {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </form>
+        <div class="col-md-3">
+            <div id="accordion" class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                                <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse in collapse" id="collapseTwo">
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('administration') }}">
+                                        <span class="glyphicon glyphicon-plus"></span> {{ 'Go to Administration'|trans }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

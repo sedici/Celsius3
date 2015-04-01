@@ -196,4 +196,63 @@ class StateRepository extends EntityRepository
                         ->setParameter('finalYear', $finalYear)
                         ->getResult();
     }
+
+    public function getUsersWithPendingRequests($instance, $minDays, $maxDays)
+    {
+        $today = new \DateTime();
+        
+        return $this->createQueryBuilder('s')
+                        ->addSelect('ow.id id')
+                        ->addSelect('ow.username username')
+                        ->addSelect('ow.surname surname')
+                        ->addSelect('ow.name name')
+                        ->addSelect('ow.email email')
+                        ->addSelect('md.title request')
+                        ->addSelect('DATEDIFF(:today,es.createdAt) as days')->setParameter('today', $today)
+                
+                        ->leftJoin('s.request', 'r')
+                        ->leftJoin('r.owner', 'ow')
+                        ->leftJoin('r.order', 'or')
+                        ->leftJoin('or.materialData', 'md')
+                        ->leftJoin('r.events', 'es')
+                
+                        ->andWhere('s.type = :type')->setParameter('type', 'received')
+                        ->andWhere('s.isCurrent = :current')->setParameter('current', TRUE)
+                        ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
+                        ->andWhere('es INSTANCE OF Celsius3CoreBundle:Event\SingleInstanceReceiveEvent')
+                        ->andWhere('ow.wrongEmail = false')
+                        ->orderBy('ow.id')
+                        ->andHaving('days >= :minDays')->setParameter('minDays', $minDays)
+                        ->andHaving('days <= :maxDays')->setParameter('maxDays', $maxDays)
+                        ->getQuery()->getResult();
+    }
+
+    public function countUsersWithPendingRequests($instance, $minDays, $maxDays)
+    {
+        $today = new \DateTime();
+
+        return $this->createQueryBuilder('s')
+                        ->addSelect('ow.id')
+                        ->addSelect('ow.username')
+                        ->addSelect('ow.surname')
+                        ->addSelect('ow.name')
+                        ->addSelect('count(md.id) requestsCount')
+                        ->addSelect('DATEDIFF(:today,es.createdAt) as days')->setParameter('today', $today)
+                        ->leftJoin('s.request', 'r')
+                        ->leftJoin('r.order', 'or')
+                        ->leftJoin('or.materialData', 'md')
+                        ->leftJoin('r.events', 'es')
+                        ->leftJoin('r.owner', 'ow')
+                        ->andWhere('s.type = :type')->setParameter('type', 'received')
+                        ->andWhere('s.isCurrent = :current')->setParameter('current', TRUE)
+                        ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
+                        ->andWhere('es INSTANCE OF Celsius3CoreBundle:Event\SingleInstanceReceiveEvent')
+                        ->andWhere('ow.wrongEmail = :wrongEmail')->setParameter('wrongEmail', FALSE)
+                        ->orderBy('ow.id')
+                        ->groupBy('ow.id')
+                        ->andHaving('days >= :minDays')->setParameter('minDays', $minDays)
+                        ->andHaving('days <= :maxDays')->setParameter('maxDays', $maxDays)
+                        ->getQuery()->getResult();
+    }
+
 }

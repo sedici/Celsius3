@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ConfigurationHelper
 {
+
     const CONF__INSTANCE_TITLE = 'instance_title';
     const CONF__RESULTS_PER_PAGE = 'results_per_page';
     const CONF__EMAIL_REPLY_ADDRESS = 'email_reply_address';
@@ -36,6 +37,9 @@ class ConfigurationHelper
     const CONF__CONFIRMATION_TYPE = 'confirmation_type';
     const CONF__MAIL_SIGNATURE = 'mail_signature';
     const CONF__API_KEY = 'api_key';
+    const CONF__MIN_DAYS_FOR_SEND_MAIL = 'min_days_for_send_mail';
+    const CONF__MAX_DAYS_FOR_SEND_MAIL = 'max_days_for_send_mail';
+
     private $equivalences = array(
         'string' => 'text',
         'boolean' => 'checkbox',
@@ -99,6 +103,16 @@ class ConfigurationHelper
             'name' => 'Api Key',
             'value' => '',
             'type' => 'string',
+        ),
+        self::CONF__MIN_DAYS_FOR_SEND_MAIL => array(
+            'name' => 'Minimun days for send emails',
+            'value' => '5',
+            'type' => 'integer',
+        ),
+        self::CONF__MAX_DAYS_FOR_SEND_MAIL => array(
+            'name' => 'Maximun days for send emails',
+            'value' => '10',
+            'type' => 'integer',
         ),
     );
     private $container;
@@ -164,4 +178,5 @@ class ConfigurationHelper
         }
         $em->flush();
     }
+
 }
