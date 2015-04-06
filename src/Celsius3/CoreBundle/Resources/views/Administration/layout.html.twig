@@ -35,20 +35,70 @@
             <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></i></button>
             <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
                     data-content="
-                        You can search by:
-                        <li>
-                            Order code.
-                        </li>
-                        <li>
-                            Keywords like title, authors or publication year
-                        </li>
-                        <li>
-                            User fields like name, surname, username and email. Example: user:username.
-                        </li>
-                        </ul>
+                    You can search by:
+                    <li>
+                    Order code.
+                    </li>
+                    <li>
+                    Keywords like title, authors or publication year
+                    </li>
+                    <li>
+                    User fields like name, surname, username and email. Example: user:username.
+                    </li>
+                    </ul>
                     ">
                 <span class="glyphicon glyphicon-question-sign"></span>
             </button>
         </div>
     </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if($('#' + idJournalAutocomplete).val() === '' && $('#' + idOtherJournal).val() !== ''){
+                $('#' + idJournalAutocomplete).attr('disabled','disabled');
+            }
+            
+            if($('#' + idOtherJournal).val() === '' && $('#' + idJournalAutocomplete).val() !== ''){
+                $('#' + idOtherJournal).attr('disabled','disabled');
+            }
+            
+            $('#' + idJournalAutocomplete).change(function () {
+                if ($(this).val() !== '') {
+                    $('#' + idOtherJournal)
+                            .attr('value','')
+                            .attr('required', false)
+                            .attr('disabled', 'disabled');
+                } else {
+                    $('#' + idJournalAutocomplete)
+                            .attr('required', true);
+
+                    $('#' + idOtherJournal)
+                            .attr('disabled', false);
+                }
+            });
+
+            $('#' + idOtherJournal).change(function () {
+                if ($(this).val() !== '') {
+                    $('#' + idJournal)
+                            .attr('value',null);
+                    
+                    $('#' + idJournalAutocomplete)
+                            .attr('value','')
+                            .attr('required', false)
+                            .attr('disabled','disabled');
+                } else {
+                    $('#' + idOtherJournal)
+                            .attr('required', false);
+
+                    $('#' + idJournalAutocomplete)
+                            .attr('required', true)
+                            .attr('disabled', false);
+                }
+            });
+        });
+    </script>
 {% endblock %}

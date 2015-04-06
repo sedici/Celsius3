@@ -10,3 +10,11 @@
 {% block content %}
     {{ new('admin_order', form) }}
 {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var idJournalAutocomplete = '{{ form.materialData.journal_autocomplete.vars.id }}';
+        var idOtherJournal = '{{ form.materialData.other_journal.vars.id }}';
+    </script>
+    {{ parent() }}
+{% endblock %}

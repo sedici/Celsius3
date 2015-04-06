@@ -97,7 +97,11 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
 
     $scope.getTitle = function (order) {
         if (order.material_data.type === 'journal') {
-            return order.material_data.journal.name;
+            if (!_.isUndefined(order.material_data.journal)) {
+                return order.material_data.journal.name;
+            } else {
+                return order.material_data.other;
+            }
         } else {
             return order.material_data.title;
         }
