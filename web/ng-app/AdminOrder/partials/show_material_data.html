@@ -22,7 +22,8 @@
         <strong>{{'number' | translate}}</strong> {{order.material_data.number}}
     </li>
     <li ng-if="order.material_data.type === 'journal'">
-        <strong>{{'journal' | translate}}</strong> {{order.material_data.journal.name}}
+        <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.journal.name}}</span>
+        <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}}</span>
     </li>
     <li ng-if="order.material_data.type === 'book'">
         <strong>{{'editor' | translate}}</strong> {{order.material_data.editor}}

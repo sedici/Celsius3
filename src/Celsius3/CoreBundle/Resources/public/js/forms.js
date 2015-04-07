@@ -227,3 +227,49 @@ $('.check-all').click(function () {
 $('.uncheck-all').click(function () {
     $('.batch-checkbox').prop('checked', '');
 });
+
+function otherField() {
+    $(document).ready(function () {
+        if ($('#' + idJournalAutocomplete).val() === '' && $('#' + idOtherJournal).val() !== '') {
+            $('#' + idJournalAutocomplete).attr('disabled', 'disabled');
+        }
+
+        if ($('#' + idOtherJournal).val() === '' && $('#' + idJournalAutocomplete).val() !== '') {
+            $('#' + idOtherJournal).attr('disabled', 'disabled');
+        }
+
+        $('#' + idJournalAutocomplete).change(function () {
+            if ($(this).val() !== '') {
+                $('#' + idOtherJournal)
+                        .attr('value', '')
+                        .attr('required', false)
+                        .attr('disabled', 'disabled');
+            } else {
+                $('#' + idJournalAutocomplete)
+                        .attr('required', true);
+
+                $('#' + idOtherJournal)
+                        .attr('disabled', false);
+            }
+        });
+
+        $('#' + idOtherJournal).change(function () {
+            if ($(this).val() !== '') {
+                $('#' + idJournal)
+                        .attr('value', null);
+
+                $('#' + idJournalAutocomplete)
+                        .attr('value', '')
+                        .attr('required', false)
+                        .attr('disabled', 'disabled');
+            } else {
+                $('#' + idOtherJournal)
+                        .attr('required', false);
+
+                $('#' + idJournalAutocomplete)
+                        .attr('required', true)
+                        .attr('disabled', false);
+            }
+        });
+    });
+}

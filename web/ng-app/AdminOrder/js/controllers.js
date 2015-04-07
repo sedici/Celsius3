@@ -13,6 +13,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
         }
     }
 
+    $scope._ = _;
+
     $scope.contains = function (list, item) {
         return _.contains(list, item);
     };
