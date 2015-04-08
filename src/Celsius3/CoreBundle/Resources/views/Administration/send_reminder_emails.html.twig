@@ -5,18 +5,30 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="row">
+        <h3>{{ 'sendReminderEmail' | trans }}</h3>
         <form method="post" action="{{ path('admin_send_reminder_emails_batch') }}">
             <div class="col-xs-9">
                 <div class="form-group">
                     <label for="subject">{{'Subject' | trans }}</label>
-                    <input class="form-control" type="text" name="subject" id="subject" required value="{{ subject }}">
+                    <input class="form-control" type="text" name="subject" id="subject" required >
                 </div>
                 <div class="form-group">
+                    <label for="template">{{ 'template' | trans }}</label>
+                    <select ui-select2="select2Templates" class="form-control" name="template" id="template">
+                        <option></option>
+                        {% for t in templates %}
+                            <option id="{{t.id}}" value="{{t.id}}" data-text="{{t.text}}">{{t.title}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group {% if error %}has-error{% endif %}">
                     <label for="text">{{'Email content' | trans }}</label>
-                    <textarea class="form-control" name="text" id="text" required>
-                        {{ text }}
+                    <span>[<a href id="addUser" >Add user</a>]</span>
+                    <span>[<a href id="addRequests" >Add requests</a>]</span>
+                    <br>{% if error %}<p class="text-danger">{{ errorMessage }}</p>{% endif %}
+                    <textarea class="form-control" name="text" id="text" required style="height: 140px;" >
+                        
                     </textarea>
                 </div>
                 <div class="form-group">
@@ -57,5 +69,34 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#template').on('change', function () {
+                $('#subject').val($('option#' + $(this).val()).text());
+                $('#text').val($('option#' + $(this).val()).attr('data-text'));
+            });
+
+            $('#addUser').click(function () {
+                $('#text').val(
+                    $('#text').val() + '{{ '{{ user.surname }}'  }} {{ '{{ user.name }}' }}'
+                );
+
+                return false;
+            });
+
+            $('#addRequests').click(function () {
+                $('#text').val(
+                    $('#text').val() + '{{ '{% for request in user.requests %}'  }} {{ '{{ request }}' }} {{ '{% endfor %}' }}'
+                );
+
+                return false;
+            });
+
+        });
+    </script>
 {% endblock %}

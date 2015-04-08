@@ -46,4 +46,14 @@ class MailTemplateRepository extends EntityRepository
                         ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
                         ->setParameter('instance_id', $instance->getId());
     }
+
+    public function findAllEnabled()
+    {
+        return $this->createQueryBuilder('t')
+                        ->select('t')
+                        ->where('t.enabled = :enabled')
+                        ->setParameter('enabled', true)
+                        ->getQuery()->getResult();
+    }
+
 }

@@ -117,12 +117,16 @@ class AdministrationController extends BaseInstanceDependentController
         $usersWithPendingRequets = $em->getRepository('Celsius3CoreBundle:State')
                 ->countUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
 
-        $emailTemplate = $em->createQueryBuilder()
-                        ->from('Celsius3CoreBundle:Template', 't')
-                        ->select('t')
-                        ->andWhere('t.code = :code')->setParameter('code', 'reminder_mail')
-                        ->andWhere('t INSTANCE OF Celsius3CoreBundle:MailTemplate')
-                        ->getQuery()->getSingleResult();
+        $templates = $em->getRepository('Celsius3CoreBundle:MailTemplate')->findAllEnabled();
+
+        $errors = $this->get('session')->getFlashBag()->get('errors', array());
+
+        $error = false;
+        $errorMessage = '';
+        if (isset($errors[0])) {
+            $error = true;
+            $errorMessage = $errors[0];
+        }
 
         $users = array();
         foreach ($usersWithPendingRequets as $x) {
@@ -135,8 +139,9 @@ class AdministrationController extends BaseInstanceDependentController
 
         return array(
             'users' => $users,
-            'subject' => $emailTemplate->getTitle(),
-            'text' => $emailTemplate->getText()
+            'templates' => $templates,
+            'error' => $error,
+            'errorMessage' => $errorMessage
         );
     }
 
@@ -179,9 +184,14 @@ class AdministrationController extends BaseInstanceDependentController
         $twig->setLoader(new \Twig_Loader_String());
 
         foreach ($users as $user) {
+            try {
+                $body = $twig->render($text, array('user' => $user));
+            } catch (\Twig_Error_Runtime $e) {
+                $this->get('session')->getFlashBag()->set('errors', 'Invalid Template');
+                return $this->redirectToRoute('admin_send_reminder_emails');
+            }
             $message = $message->setTo($user['email'])
-                    ->setBody($twig->render("$text", array('user' => $user)), 'text/html');
-
+                    ->setBody($body, 'text/html');
             $mailer->send($message);
         }
 
