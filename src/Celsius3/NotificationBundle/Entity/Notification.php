@@ -42,7 +42,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *   "baseuser"="BaseUserNotification",
  * })
  */
-class Notification
+abstract class Notification
 {
 
     use TimestampableEntity;

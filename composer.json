@@ -70,7 +70,8 @@
             "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerUpdate",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"
+            "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump",
+            "Celsius3\\CoreBundle\\Composer\\ScriptHandler::redisFlushAll"
         ]
     },
     "config": {

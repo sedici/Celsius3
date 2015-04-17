@@ -43,7 +43,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "patent"="PatentType"
  * })
  */
-class MaterialType
+abstract class MaterialType
 {
 
     use TimestampableEntity;

@@ -42,7 +42,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "notification"="Celsius3\NotificationBundle\Entity\NotificationTemplate"
  * })
  */
-class Template
+abstract class Template
 {
 
     use TimestampableEntity;

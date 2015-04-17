@@ -49,6 +49,22 @@ class ScriptHandler
 
         static::executeCommand($event, $appDir, 'assetic:dump', $options['process-timeout']);
     }
+    
+    public static function redisFlushAll(CommandEvent $event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        if (!is_dir($appDir)) {
+            echo 'The symfony-app-dir (' . $appDir
+            . ') specified in composer.json was not found in '
+            . getcwd() . ', can not clear the cache.' . PHP_EOL;
+
+            return;
+        }
+
+        static::executeCommand($event, $appDir, 'redis:flushall -n --client cache --env dev', $options['process-timeout']);
+    }
 
     protected static function executeCommand(CommandEvent $event, $appDir, $cmd, $timeout = 300)
     {

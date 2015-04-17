@@ -53,7 +53,7 @@ class Email
     private $subject;
     /**
      * @Assert\NotBlank()
-     * @ORM\Column(type="longtext")
+     * @ORM\Column(type="text")
      */
     private $text;
     /**

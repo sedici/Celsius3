@@ -64,7 +64,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "nosearchpendings"="NoSearchPendingsEvent"
  * })
  */
-class Event implements EventInterface
+abstract class Event implements EventInterface
 {
 
     use TimestampableEntity;
