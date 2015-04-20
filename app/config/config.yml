@@ -301,3 +301,12 @@ snc_redis:
         query_cache:
             client: cache
             entity_manager: default
+
+fos_oauth_server:
+    db_driver: orm       # Driver availables: orm, mongodb, or propel
+    client_class: Celsius3\ApiBundle\Entity\Client
+    access_token_class: Celsius3\ApiBundle\Entity\AccessToken
+    refresh_token_class: Celsius3\ApiBundle\Entity\RefreshToken
+    auth_code_class: Celsius3\ApiBundle\Entity\AuthCode
+    service:
+        user_provider: fos_user.user_manager

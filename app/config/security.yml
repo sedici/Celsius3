@@ -40,6 +40,25 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            
+        oauth_token:
+            pattern:    ^/oauth/v2/token
+            security:   false
+
+        oauth_authorize:
+            pattern:    ^/oauth/v2/auth
+            # Add your favorite authentication process here
+            form_login:
+                provider: fos_userbundle
+                check_path: /oauth/v2/auth_login_check
+                login_path: /oauth/v2/auth_login
+            anonymous: true
+
+        api:
+            pattern:    ^/api
+            fos_oauth:  true
+            stateless:  true
+            anonymous:  true # can be omitted as its default value
 
     access_control:
         - { path: ^/.*/public, role: IS_AUTHENTICATED_ANONYMOUSLY }
