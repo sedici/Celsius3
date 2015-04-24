@@ -31,6 +31,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Celsius3\ApiBundle\Entity\Client;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
@@ -125,6 +126,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *      )
      */
     protected $administeredInstances;
+    /**
+     * @ORM\ManyToMany(targetEntity="Celsius3\ApiBundle\Entity\Client")
+     * @ORM\JoinTable(name="user_client",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="client_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $clientApplications;
 
     public function __toString()
     {
@@ -157,6 +166,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->administeredInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->clientApplications = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -545,5 +555,34 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getWrongEmail()
     {
         return $this->wrongEmail;
+    }
+    
+    /**
+     * @param Client $client
+     * @return boolean
+     */
+    public function isAuthorizedClient(Client $client){
+        return $this->clientApplications->contains($client);
+    }
+    
+    /**
+     * @param Client $client
+     */
+    public function addClientApplication(Client $client){
+        $this->clientApplications->add($client);
+    }
+    
+    /**
+     * @param Client $client
+     */
+    public function removeClientApplication(Client $client){
+        $this->clientApplications->removeElement($client);
+    }
+    
+    /**
+     * @return ArrayCollection
+     */
+    public function getClientApplications(){
+        return $this->clientApplications;
     }
 }

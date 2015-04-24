@@ -204,6 +204,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: console.exception }
             - { name: kernel.event_listener, event: console.terminate }
+    
+    oauth_event_listener:
+        class:  Celsius3\ApiBundle\EventListener\OAuthEventListener
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+            userManager: "@fos_user.user_manager"
+        tags:
+            - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
+            - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
 
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
@@ -310,3 +319,5 @@ fos_oauth_server:
     auth_code_class: Celsius3\ApiBundle\Entity\AuthCode
     service:
         user_provider: fos_user.user_manager
+        options:
+            supported_scopes: admin superadmin
