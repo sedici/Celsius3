@@ -32,6 +32,7 @@ class Instance extends LegacyInstance
 {
     /**
      * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^[a-zA-Z]+$/")
      * @ORM\Column(type="string", length=255, unique=true)
      */
     protected $url;

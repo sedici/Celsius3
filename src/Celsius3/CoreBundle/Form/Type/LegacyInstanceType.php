@@ -30,10 +30,21 @@ class LegacyInstanceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if ($builder->getData()->getWebsite()) {
+            $website = $builder->getData()->getWebsite();
+        } else {
+            $website = 'http://';
+        }
+            
+        
         $builder
                 ->add('name')
                 ->add('abbreviation')
-                ->add('website')
+                ->add('website', null, array(
+                    'attr' => array(
+                        'value' => $website,
+                    ),
+                ))
                 ->add('email')
                 ->add('hive')
         ;
