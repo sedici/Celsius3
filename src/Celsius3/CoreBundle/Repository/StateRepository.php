@@ -47,7 +47,7 @@ class StateRepository extends EntityRepository
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('s.instance = :instance')
-                    ->setParameter('instance', $instance);
+                    ->setParameter('instance', $instance->getId());
         }
 
         if (!is_null($user)) {
@@ -69,11 +69,13 @@ class StateRepository extends EntityRepository
         // Se cuentan aquellos que tienen busquedas pendientes
         $qb2 = $this->createQueryBuilder('s')
                         ->select('COUNT(s.id) as c')
+                        ->andWhere('s.instance = :instance')
                         ->andWhere('s.isCurrent = true')
                         ->andWhere('s.type = :type')
                         ->andWhere('s.searchPending = true')
                         ->groupBy('s.type')
                         ->setParameter('type', StateManager::STATE__REQUESTED)
+                        ->setParameter('instance', $instance->getId())
                         ->getQuery()->getResult();
 
         if (count($qb2) > 0) {
@@ -84,14 +86,16 @@ class StateRepository extends EntityRepository
         if (!is_null($user)) {
             $qb3 = $this->createQueryBuilder('s')
                             ->select('COUNT(s.id) as c')
+                            ->andWhere('s.instance = :instance')
                             ->andWhere('s.isCurrent = true')
                             ->andWhere('s.type = :type')
                             ->groupBy('s.type')
                             ->setParameter('type', StateManager::STATE__CREATED)
+                            ->setParameter('instance', $instance->getId())
                             ->getQuery()->getResult();
 
             if (count($qb3) > 0) {
-                $result[StateManager::STATE__CREATED] += intval($qb3[0]['c']);
+                $result[StateManager::STATE__CREATED] = intval($qb3[0]['c']);
             }
         }
 
@@ -201,7 +205,7 @@ class StateRepository extends EntityRepository
     public function getUsersWithPendingRequests($instance, $minDays, $maxDays)
     {
         $today = new \DateTime();
-        
+
         return $this->createQueryBuilder('s')
                         ->addSelect('ow.id id')
                         ->addSelect('ow.username username')
@@ -210,13 +214,11 @@ class StateRepository extends EntityRepository
                         ->addSelect('ow.email email')
                         ->addSelect('md.title request')
                         ->addSelect('DATEDIFF(:today,es.createdAt) as days')->setParameter('today', $today)
-                
                         ->leftJoin('s.request', 'r')
                         ->leftJoin('r.owner', 'ow')
                         ->leftJoin('r.order', 'or')
                         ->leftJoin('or.materialData', 'md')
                         ->leftJoin('r.events', 'es')
-                
                         ->andWhere('s.type = :type')->setParameter('type', 'received')
                         ->andWhere('s.isCurrent = :current')->setParameter('current', TRUE)
                         ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
@@ -255,5 +257,4 @@ class StateRepository extends EntityRepository
                         ->andHaving('days <= :maxDays')->setParameter('maxDays', $maxDays)
                         ->getQuery()->getResult();
     }
-
 }
