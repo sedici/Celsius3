@@ -82,7 +82,7 @@ class OrderController extends BaseController
             $startDate = $request->query->get('startDate');
 
             $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findByStateType($state, $startDate, null, $this->getInstance());
+                    ->findOrdersByStateType($state, $startDate, null, $this->getInstance());
         }
 
         $view = $this->view($orders, 200)
@@ -112,7 +112,7 @@ class OrderController extends BaseController
             }
 
             $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findByStateType($state, $user, $this->getInstance());
+                    ->findOrdersByStateType($state, $user, $this->getInstance());
         }
 
         $view = $this->view($orders, 200)
