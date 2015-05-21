@@ -139,6 +139,25 @@ class OrderRepository extends EntityRepository
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
+        return $this->getEntityManager()
+                        ->getRepository('Celsius3CoreBundle:Order')
+                        ->createQueryBuilder('o')
+                        ->join('o.requests', 'r')
+                        ->join('r.states', 's')
+                        ->where('s.type = :type')
+                        ->andWhere('r.instance = :instance_id')
+                        ->andWhere('r.owner = :owner_id')
+                        ->andWhere('s.createdAt >= :date')
+                        ->setParameter('type', $type)
+                        ->setParameter('instance_id', $instance->getId())
+                        ->setParameter('owner_id', $user->getId())
+                        ->setParameter('date', $startDate)
+                        ->getQuery()
+                        ->getResult();
+    }
+
+    public function findOrdersByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
+    {
         $qb = $this->getEntityManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->createQueryBuilder('o');
