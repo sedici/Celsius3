@@ -33,6 +33,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
+
     private $router;
     private $security_context;
 
@@ -47,6 +48,10 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
     {
         $response = parent::onAuthenticationSuccess($request, $token);
 
+        if (!(strpos($response->getTargetUrl(), 'redirect') === false)) {
+            return $response;
+        }
+
         if ($this->security_context->isGranted(array(UserManager::ROLE_SUPER_ADMIN))) {
             $response->setTargetUrl($this->router->generate('superadministration'));
         } elseif ($this->security_context->isGranted(array(UserManager::ROLE_ADMIN))) {
@@ -57,4 +62,5 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
 
         return $response;
     }
+
 }

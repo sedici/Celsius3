@@ -36,24 +36,29 @@ class OrderController extends BaseController
 
     /**
      * GET Route annotation.
-     * @Get("/{user_id}")
+     * @Get("/{token}")
      */
-    public function ordersAction($user_id)
+    public function ordersAction($token)
     {
-        $em = $this->getDoctrine()->getManager();
+        $accessToken = $this->getAccessTokenByToken($token);
+        $isValidToken = $this->validateAccessToken($accessToken);
 
-        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($user_id);
+        $orders = array();
+        if ($isValidToken) {
+            $em = $this->getDoctrine()->getManager();
 
-        if (!$user) {
-            return $this->createNotFoundException('User not found.');
+            $user = $accessToken->getUser();
+
+            if (!$user) {
+                return $this->createNotFoundException('User not found.');
+            }
+
+            $orders = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->findBy(array(
+                'owner' => $user->getId(),
+                'instance' => $user->getInstance(),
+            ));
         }
-
-        $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findBy(array(
-            'owner' => $user->getId(),
-            'instance' => $this->getInstance()->getId(),
-        ));
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');
@@ -67,12 +72,18 @@ class OrderController extends BaseController
      */
     public function ordersByStateAction($state, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
+        $isValidToken = $this->validateAccessToken($accessToken);
 
-        $startDate = $request->query->get('startDate');
+        $orders = array();
+        if ($isValidToken) {
+            $em = $this->getDoctrine()->getManager();
 
-        $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findByStateType($state, $startDate, null, $this->getInstance());
+            $startDate = $request->query->get('startDate');
+
+            $orders = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->findByStateType($state, $startDate, null, $this->getInstance());
+        }
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');
@@ -86,21 +97,28 @@ class OrderController extends BaseController
      */
     public function ordersByUserAndStateAction($user_id, $state)
     {
-        $em = $this->getDoctrine()->getManager();
+        $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
+        $isValidToken = $this->validateAccessToken($accessToken);
 
-        $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($user_id);
+        $orders = array();
+        if ($isValidToken) {
+            $em = $this->getDoctrine()->getManager();
 
-        if (!$user) {
-            return $this->createNotFoundException('User not found.');
+            $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
+                    ->find($user_id);
+
+            if (!$user) {
+                return $this->createNotFoundException('User not found.');
+            }
+
+            $orders = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->findByStateType($state, $user, $this->getInstance());
         }
-
-        $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findByStateType($state, $user, $this->getInstance());
 
         $view = $this->view($orders, 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
     }
+
 }

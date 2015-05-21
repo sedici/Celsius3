@@ -1,7 +1,7 @@
 celsius3_api:
     resource: "@Celsius3ApiBundle/Controller/"
     type:     annotation
-    prefix:   /api
+    prefix:   /{url}/api
 
 celsius3_notification:
     resource: "@Celsius3NotificationBundle/Controller/"

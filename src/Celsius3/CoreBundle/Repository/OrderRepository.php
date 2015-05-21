@@ -139,27 +139,51 @@ class OrderRepository extends EntityRepository
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
-        return $this->getEntityManager()
-                        ->getRepository('Celsius3CoreBundle:Order')
-                        ->createQueryBuilder('o')
-                        ->join('o.requests', 'r')
-                        ->join('r.states', 's')
-                        ->where('s.type = :type')
-                        ->andWhere('r.instance = :instance_id')
-                        ->andWhere('r.owner = :owner_id')
-                        ->andWhere('s.createdAt >= :date')
-                        ->setParameter('type', $type)
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('owner_id', $user->getId())
-                        ->setParameter('date', $startDate)
-                        ->getQuery()
-                        ->getResult();
+        $qb = $this->getEntityManager()
+                ->getRepository('Celsius3CoreBundle:Order')
+                ->createQueryBuilder('o');
+
+        $qb->select('o.code')
+                ->addSelect('ow.id owner_id')
+                ->addSelect('ow.name owner_name')
+                ->addSelect('ow.surname owner_surname')
+                ->addSelect('ow.email owner_email')
+                ->addSelect('md.startPage start_page')
+                ->addSelect('md.endPage end_page')
+                ->join('o.requests', 'r')
+                ->join('o.materialData', 'md')
+                ->join('o.originalRequest', 'or')
+                ->join('or.owner', 'ow')
+                ->join('r.states', 's')
+                ->where('s.type = :type')
+                ->setParameter('type', $type);
+
+
+        if (!is_null($startDate)) {
+            $qb->andWhere('s.createdAt >= :date')
+                    ->setParameter('date', $startDate);
+        } else {
+            $qb->setMaxResults(10)
+                    ->orderBy('r.createdAt', 'DESC');
+        }
+
+        if (!is_null($instance)) {
+            $qb->andWhere('r.instance = :instance')
+                    ->setParameter('instance', $instance);
+        }
+
+        if (!is_null($user)) {
+            $qb->andWhere('r.owner = :owner')
+                    ->setParameter('owner', $user);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     public function addFindByStateType(array $types, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
     {
         $query = $query->innerJoin('r.states', 's');
-        
+
         if (count($types) > 0) {
             $query = $query->andWhere('s.type IN (:state_types)')
                     ->setParameter('state_types', $types);
@@ -170,7 +194,7 @@ class OrderRepository extends EntityRepository
                     ->setParameter('instance_id', $instance->getId());
         }
 
-        if ($user) {
+        if (!is_null($user)) {
             $query = $query->andWhere('r.owner = :user_id OR r.librarian = :user_id')
                     ->setParameter('user_ud', $user->getId());
         }
@@ -192,4 +216,5 @@ class OrderRepository extends EntityRepository
                         ->getQuery()
                         ->execute();
     }
+
 }

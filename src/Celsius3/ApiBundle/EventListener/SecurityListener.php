@@ -27,75 +27,85 @@ use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Doctrine\ORM\EntityManager;
+use FOS\OAuthServerBundle\Entity\AccessTokenManager;
+use Symfony\Component\DependencyInjection\Container;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use OAuth2\OAuth2ServerException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityListener
 {
-    private $em;
 
-    public function __construct(EntityManager $em)
+    private $entityManager;
+    private $tokenManager;
+    private $container;
+
+    public function __construct(EntityManager $entityManager, AccessTokenManager $tokenManager, Container $container)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
+        $this->tokenManager = $tokenManager;
+        $this->container = $container;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (HttpKernel::MASTER_REQUEST != $event->getRequestType()) {
-            // don't do anything if it's not the master request
-            return;
-        }
-
         $request = $event->getRequest();
 
-        if (1 !== preg_match('/ApiBundle/', $request->attributes->get('_controller'))) {
-            // don't do anything if it's not an api request
-            return;
-        }
+        $url = $request->attributes->get('url');
+        $instance = $this->entityManager->getRepository('Celsius3CoreBundle:Instance')
+                ->findOneBy(array('url' => $url));
+        $request->request->set('instance_id', $instance);
 
-        $wsseRegex = '/UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Nonce="([^"]+)", Created="([^"]+)"/';
-        if (!$request->headers->has('x-wsse') || 1 !== preg_match($wsseRegex, $request->headers->get('x-wsse'), $matches)) {
-            return $this->generate403Response($event);
-        }
+        $uri = $request->getUri();
 
-        $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
-                ->findOneBy(array('url' => $matches[1]));
+        $user = $this->container->get('security.context')->getToken()->getUser();
 
-        try {
-            if ($instance && $instance->getEnabled() && $this->validateDigest($matches[2], $matches[3], $matches[4], $instance->get('api_key')->getValue())) {
-                $request->request->set('instance_id', $instance->getId());
-                // everything cool
+        if ((false !== strpos($uri, '/oauth/v2/auth')) && ($user instanceof BaseUser)) {
+
+            if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPERADMIN', $user->getRoles())) {
                 return;
             }
 
-            throw new AuthenticationException('The WSSE authentication failed.');
-        } catch (AuthenticationException $failed) {
-            return $this->generate403Response($event);
+            $this->generateErrorResponse($event, 401);
+            return;
         }
 
-        return $this->generate403Response($event);
+        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos($uri, '/oauth/v2/token') || false !== strpos($uri, '/users/current_user'))) {
+            $access_token = $request->query->get('access_token');
+
+            if (is_null($access_token)) {
+                $this->generateErrorResponse($event, 403);
+                return;
+            }
+
+            if (!$this->validateToken($access_token)) {
+                $event->setResponse((new JsonResponse())->setData(array('validAccessToken' => false)));
+                return;
+            }
+        }
+
+        return;
     }
 
-    private function validateDigest($digest, $nonce, $created, $secret)
+    private function validateToken($accessToken)
     {
-        // Check created time is not in the future
-        if (strtotime($created) > time()) {
-            return false;
+        $token = $this->tokenManager->findTokenByToken($accessToken);
+
+        if (!is_null($token)) {
+            $tokenExpires = (new \DateTime())->setTimestamp($token->getExpiresAt());
+            $actualDateTime = new \DateTime();
+
+            return ($actualDateTime < $tokenExpires);
         }
 
-        // Expire timestamp after 5 minutes
-        if (time() - strtotime($created) > 300) {
-            return false;
-        }
-
-        // Validate Secret
-        $expected = base64_encode(sha1(base64_decode($nonce) . $created . $secret, true));
-
-        return $digest === $expected;
+        return FALSE;
     }
 
-    private function generate403Response(GetResponseEvent $event)
+    private function generateErrorResponse(GetResponseEvent $event, $statusCode)
     {
         $response = new Response();
-        $response->setStatusCode(403);
+        $response->setStatusCode($statusCode);
         $event->setResponse($response);
     }
+
 }

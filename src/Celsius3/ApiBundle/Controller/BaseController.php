@@ -23,6 +23,7 @@
 namespace Celsius3\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use Celsius3\ApiBundle\Entity\AccessToken;
 
 class BaseController extends FOSRestController
 {
@@ -39,4 +40,28 @@ class BaseController extends FOSRestController
 
         return $instance;
     }
+
+    protected function validateAccessToken(AccessToken $token)
+    {
+
+        if (is_null($token)) {
+            return false;
+        }
+
+        $actualDateTime = new \DateTime();
+        $accessTokenExpires = (new \DateTime())->setTimestamp($token->getExpiresAt());
+
+        if ($actualDateTime > $accessTokenExpires) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function getAccessTokenByToken($token)
+    {
+        $tokenManager = $this->get('fos_oauth_server.access_token_manager.default');
+        return $tokenManager->findTokenByToken($token);
+    }
+
 }

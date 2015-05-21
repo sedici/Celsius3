@@ -26,6 +26,8 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
+use JMS\Serializer\SerializationContext;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
@@ -34,6 +36,32 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UserController extends BaseController
 {
+
+    /**
+     * @Get("/current_user")
+     */
+    public function currentUserAction(Request $request)
+    {
+
+        $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
+
+        $isValidToken = false;
+        if (!is_null($accessToken)) {
+            $isValidToken = $this->validateAccessToken($accessToken);
+        }
+
+        if ($isValidToken) {
+            $serializer = $this->get('jms_serializer');
+            $user = $accessToken->getUser();
+
+            $serializeUser = $serializer->serialize($user, 'json', SerializationContext::create()->setGroups(array('current_user')));
+
+            return new Response($serializeUser);
+        }
+
+        $view = $this->view(array(), 200)->setFormat('json');
+        return $this->handleView($view);
+    }
 
     /**
      * @Get("/")
@@ -143,4 +171,20 @@ class UserController extends BaseController
 
         return $this->handleView($view);
     }
+
+    /**
+     * @Get("/check_token")
+     */
+    public function checkAccessToken(Request $request)
+    {
+        $response = new JsonResponse();
+
+        $response->setData(array('validAccessToken' => false));
+        if ($this->validateAccessToken($requests->query->get('access_token'))) {
+            $response->setData(array('validAccessToken' => true));
+        }
+
+        return $response;
+    }
+
 }

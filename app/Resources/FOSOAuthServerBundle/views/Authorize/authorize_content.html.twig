@@ -1,0 +1,16 @@
+{% extends  'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block content %}
+    <h3>OAuth connect confirmation</h3>
+    <form action="{{ path('fos_oauth_server_authorize',{'url':'prebi'}) }}" method="POST" class="fos_oauth_server_authorize" {{ form_enctype(form) }}>
+        <input class="btn btn-success" type="submit" name="accepted" value="{{ 'authorize.accept'|trans({}, 'FOSOAuthServerBundle') }}" />
+        <input class="btn btn-default" type="submit" name="rejected" value="{{ 'authorize.reject'|trans({}, 'FOSOAuthServerBundle') }}" />
+
+        {{ form_row(form.client_id) }}
+        {{ form_row(form.response_type) }}
+        {{ form_row(form.redirect_uri) }}
+        {{ form_row(form.state) }}
+        {{ form_row(form.scope) }}
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

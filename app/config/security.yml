@@ -16,9 +16,9 @@ security:
                 check_path: fos_user_security_check
                 default_target_path: migration
             logout:
-                path:   fos_user_security_logout
+                path: fos_user_security_logout
                 target: directory
-            anonymous:    false
+            anonymous: false
         
         main:
             pattern: ^/
@@ -30,6 +30,7 @@ security:
                 failure_handler: celsius3_core.security.authentication_failure_handler
                 success_handler: celsius3_core.security.authentication_success_handler
                 default_target_path: user_index
+                use_referer: true
             logout:
                 path:   fos_user_security_logout
                 target: public_index
@@ -51,17 +52,17 @@ security:
                 provider: fos_userbundle
                 check_path: fos_user_security_check
                 login_path: fos_user_security_login
-            anonymous: true
+            anonymous: false
 
         api:
             pattern:    ^/.*/api
             fos_oauth:  true
             stateless:  true
-            anonymous:  true # can be omitted as its default value
+            anonymous:  false
 
     access_control:
         - { path: ^/.*/api/oauth, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/.*/api/resource, roles: [ROLE_ADMIN, ROLE_SUPERADMIN] }
+        - { path: ^/.*/api, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*/public, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*/user, role: ROLE_USER }
         - { path: ^/.*/admin, role: ROLE_ADMIN }
