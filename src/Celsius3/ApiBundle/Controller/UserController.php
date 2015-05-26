@@ -175,7 +175,7 @@ class UserController extends BaseController
     /**
      * @Get("/check_token")
      */
-    public function checkAccessToken(Request $request)
+    public function checkAccessTokenAction(Request $request)
     {
         $response = new JsonResponse();
 
