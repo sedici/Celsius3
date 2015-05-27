@@ -22,6 +22,9 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
+
 class OrderManager
 {
     const TYPE__SEARCH = 'search';
@@ -33,5 +36,14 @@ class OrderManager
             self::TYPE__SEARCH,
             self::TYPE__PROVISION,
         );
+    }
+
+    public static function getTypeForUser(Instance $instance, BaseUser $user)
+    {
+        if (!is_null($user)) {
+            return in_array($user->getBaseInstitution(), $instance->getOwnerInstitutions()->toArray()) ? self::TYPE__SEARCH : self::TYPE__PROVISION;
+        } else {
+            return self::TYPE__PROVISION;
+        }
     }
 }

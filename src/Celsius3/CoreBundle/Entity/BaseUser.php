@@ -115,6 +115,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $institution;
     /**
+     * @ORM\ManyToMany(targetEntity="Instance")
+     * @ORM\JoinTable(name="user_instance",
+     *      joinColumns={@ORM\JoinColumn(name="instance_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $secondaryInstances;
+    /**
      * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user")
      */
     protected $customValues;
@@ -164,6 +172,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->secondaryInstances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->administeredInstances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clientApplications = new \Doctrine\Common\Collections\ArrayCollection();
@@ -395,8 +404,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @param  Celsius3\CoreBundle\Entity\BaseUser $librarian
      * @return self
      */
-    public function setLibrarian(
-    \Celsius3\CoreBundle\Entity\BaseUser $librarian)
+    public function setLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
     {
         $this->librarian = $librarian;
 
@@ -491,6 +499,36 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Add secondaryInstance
+     *
+     * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
+     */
+    public function addSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
+    {
+        $this->secondaryInstances[] = $secondaryInstance;
+    }
+
+    /**
+     * Remove secondaryInstance
+     *
+     * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
+     */
+    public function removeSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
+    {
+        $this->secondaryInstances->removeElement($secondaryInstance);
+    }
+
+    /**
+     * Get secondaryInstances
+     *
+     * @return Doctrine\Common\Collections\Collection $secondaryInstances
+     */
+    public function getSecondaryInstances()
+    {
+        return $this->secondaryInstances;
+    }
+
+    /**
      * Add administeredInstance
      *
      * @param Celsius3\CoreBundle\Entity\Instance $administeredInstance
@@ -556,33 +594,51 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->wrongEmail;
     }
-    
+
     /**
      * @param Client $client
      * @return boolean
      */
-    public function isAuthorizedClient(Client $client){
+    public function isAuthorizedClient(Client $client)
+    {
         return $this->clientApplications->contains($client);
     }
-    
+
     /**
      * @param Client $client
      */
-    public function addClientApplication(Client $client){
+    public function addClientApplication(Client $client)
+    {
         $this->clientApplications->add($client);
     }
-    
+
     /**
      * @param Client $client
      */
-    public function removeClientApplication(Client $client){
+    public function removeClientApplication(Client $client)
+    {
         $this->clientApplications->removeElement($client);
     }
-    
+
     /**
      * @return ArrayCollection
      */
-    public function getClientApplications(){
+    public function getClientApplications()
+    {
         return $this->clientApplications;
+    }
+
+    public function getBaseInstitution()
+    {
+        return $this->getBaseInstitutionRec($this->getInstitution());
+    }
+
+    private function getBaseInstitutionRec(Institution $institution)
+    {
+        if (is_null($institution->getParent())) {
+            return $institution;
+        } else {
+            return $this->getBaseInstitutionRec($institution->getParent());
+        }
     }
 }

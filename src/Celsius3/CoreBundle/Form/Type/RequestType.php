@@ -49,13 +49,24 @@ class RequestType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-                ->add('type', 'choice', array(
+        if ($this->operator) {
+            $builder->add('type', 'choice', array(
                     'choices' => array(
                         /** @Ignore */ OrderManager::TYPE__SEARCH => ucfirst(OrderManager::TYPE__SEARCH),
                         /** @Ignore */ OrderManager::TYPE__PROVISION => ucfirst(OrderManager::TYPE__PROVISION),
                     ),
-                ))
+                ));
+        } else {
+            $builder->add('type', 'hidden', array(
+                    'data' => OrderManager::getTypeForUser($this->instance, $this->user),
+                    'attr' => array(
+                        'readonly' => 'readonly',
+                        'value' => OrderManager::getTypeForUser($this->instance, $this->user),
+                    )
+                ));
+        }
+        
+        $builder
                 ->add('comments', 'textarea', array(
                     'required' => false,
                 ))
