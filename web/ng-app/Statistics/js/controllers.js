@@ -1,15 +1,16 @@
 var statisticsControllers = angular.module('statisticsControllers', []);
 
 statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $routeParams) {
-    
+
     function filterYears(years) {
         return _.filter(years, function (year) {
             return year <= $scope.currentYear;
         });
     };
-    $scope.statistic = (_.isUndefined($routeParams.statistic))? 'request_count' : $routeParams.statistic;
+    $scope.statistic = (_.isUndefined($routeParams.statistic)) ? 'request_count' : $routeParams.statistic;
     $scope.title = "Statistics";
     $scope.subtitle = "";
+    $scope.description = "";
     $scope.locationFields = false;
     $scope.searchProvision = false;
     $scope.selectDelayType = false;
@@ -28,8 +29,8 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     $scope.data;
     $scope.firstColumnTitle = '';
     $scope.location = {};
-    
-    if(directory){
+
+    if (directory) {
         instance_id = null;
         instance_url = 'directory';
     }
@@ -81,17 +82,17 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         return columns;
     };
-    
-    $scope.columnsForOneYear = function(data,year){
+
+    $scope.columnsForOneYear = function (data, year) {
         var columns = new Array();
-        
+
         columns.push(year);
         data = $scope.columnsToArray(data);
-        
+
         for (var i = 0; i < data.length; i++) {
             columns.push(data[i][1]);
         }
-        
+
         return columns;
     };
 
@@ -102,13 +103,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-        
+
         var params = '?';
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
         }
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
-        
+
         $http.get(Routing.generate('public_rest_get_users_count_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
@@ -130,13 +131,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         if (!_.isUndefined(finalYear)) {
             parameters += '&finalYear=' + parseInt(finalYear);
         }
-        
+
         var params = '?';
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
-        };
+        }
+        ;
         params += 'type=' + type + parameters;
-        
+
         $http.get(Routing.generate('public_rest_get_requests_origin_data') + params)
                 .success(function (response) {
                     $scope.data = response;
@@ -150,13 +152,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-        
+
         var params = '?';
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
-        };
+        }
+        ;
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
-        
+
         $http.get(Routing.generate('public_rest_get_requests_count_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
@@ -168,13 +171,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-        
+
         var params = '?';
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
-        };
+        }
+        ;
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
-        
+
         $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
@@ -186,13 +190,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
-        
+
         var params = '?';
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
-        };
+        }
+        ;
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
-        
+
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
@@ -206,13 +211,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
         type = _.isUndefined(type) ? 'search' : type;
         delayType = _.isUndefined(delayType) ? 'totalDelay' : delayType;
-        
+
         var params = '?';
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
-        };
+        }
+        ;
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType;
-        
+
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
@@ -364,10 +370,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     $scope.generateRequestsTotalDelayChart = function (data) {
         console.log(data);
         var groups = ['Delay 0', 'Delay 1', 'Delay 2', 'Delay 3', 'Delay 4', 'Delay 5', 'Delay 6', 'Delay 7', 'Delay 8', 'Delay 9'];
-        var columns = (data.categories.length > 1)? $scope.columnsToArray(data.columns) : [$scope.columnsForOneYear(data.columns,data.categories[0])];
-        var chartType = (data.categories.length > 1)? 'area-spline':'bar';
-        var chartGroups = (data.categories.length > 1)? groups : [];
-        var chartCategories = (data.categories.length > 1)? data.categories : groups;
+        var columns = (data.categories.length > 1) ? $scope.columnsToArray(data.columns) : [$scope.columnsForOneYear(data.columns, data.categories[0])];
+        var chartType = (data.categories.length > 1) ? 'area-spline' : 'bar';
+        var chartGroups = (data.categories.length > 1) ? groups : [];
+        var chartCategories = (data.categories.length > 1) ? data.categories : groups;
         console.log(chartCategories);
         var chart = c3.generate({
             data: {
@@ -412,13 +418,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.actualMethod = function () {
             return $scope.updateUsersCountChart();
         };
-        //$scope.getUsersCountYears();
         $scope.getUsersCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         $scope.subtitle = 'Users count';
         $scope.locationFields = false;
         $scope.searchProvision = false;
         $scope.selectDelayType = false;
         $scope.firstColumnTitle = 'Year';
+        $scope.description = 'usersCountDescription';
     };
 
     $scope.getRequestsOriginData = function () {
@@ -431,6 +437,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
         $scope.firstColumnTitle = 'Country';
+        $scope.description = 'requestsOriginDescription';
     };
 
     $scope.getRequestsCountData = function () {
@@ -443,6 +450,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
         $scope.firstColumnTitle = 'Year';
+        $scope.description = 'requestsCountDescription';
     };
 
     $scope.getRequestsDestinyDistributionData = function () {
@@ -455,6 +463,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
         $scope.firstColumnTitle = 'Country';
+        $scope.description = 'requestsDestinyDistributionDescription';
     };
 
     $scope.getRequestsNumberByPublicationYearData = function () {
@@ -468,6 +477,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
         $scope.firstColumnTitle = 'Publication year';
+        $scope.description = 'requestsPublicationYearDescription';
     };
 
     $scope.getRequestsTotalDelayData = function () {
@@ -480,8 +490,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.firstColumnTitle = 'Year';
+        $scope.description = 'serviceEfficiencyDescription';
     };
-    
+
     $scope.getAverageDelayByDestinyCountryData = function () {
         $scope.actualMethod = function () {
             return $scope.updateAverageDelayByDestinyCountry();
@@ -492,6 +503,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.firstColumnTitle = 'Year';
+        $scope.description = ''
     };
 
     $scope.start = function () {

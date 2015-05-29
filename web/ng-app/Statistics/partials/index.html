@@ -2,6 +2,9 @@
     <h1>{{ title | translate }} - {{ subtitle | translate }}</h1>
     <div class="col-md-3" ng-include="'/ng-app/Statistics/partials/menu.html'"></div>
     <div class="col-md-9" >
+        <div class="row">
+            <p>{{ description | translate }}</p>
+        </div>
         <div class="row" ng-if="searchProvision">
             <ul class="nav nav-tabs">
                 <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|translate}}</a></li>

@@ -1,3 +1,12 @@
 {
-    "provisionModeText": "Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione Básico, de lo contrario elija avanzado"
+    "provisionModeText": "Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione Básico, de lo contrario elija avanzado",
+    
+    
+    
+    "requestsPublicationYearDescription":"Esta estadística clasifica y totaliza los pedidos dependiendo el año de publicación del material involucrado en los mismos (revista, libro, acta).",
+    "requestsOriginDescription":"Esta estadística presenta la cantidad de pedidos cargados por el país elegido. Al seleccionar una institucion en particular, accederemos a datos de sus dependencias.",
+    "usersCountDescription":"Esta estadística presenta la cantidad de usuarios nuevos incorporados al sistema mes a mes. El gráfico nos muestra dos barras: la barra azul muestra el número de usuarios dados de alta , mientras que la barra verde muestra el número de usuarios activos, es decir, quienes efectivamente utilizan el servicio. Por otro lado, la línea roja muestra la cantidad de usuarios nuevos en forma acumulativa, desde el año 2000 hasta el año seleccionado (por defecto, será el año actual). ",
+    "serviceEfficiencyDescription":"Esta estadística muestra la demora de los pedidos, la cual se clasifica en tres categorias:\n -La demora total, que es el tiempo transcurrido desde que el usuario carga su pedido hasta que lo descarga o imprime.\n -La demora en localización, que es el tiempo transcurrido desde que el usuario carga el pedido hasta que un administrador del sistema lo atiende, lo busca en los catálogos, lo localiza y lo solicita a la institución correspondiente.\n -La demora en respuesta, que es el tiempo desde que los pedidos son solicitados por un operador a una institución externa, hasta que el pedido está listo para ser descargado, una vez que dicha institución lo ha enviado.",
+    "requestsDestinyDistributionDescription":"Esta estadística nos brinda la posibilidad de observar la cantidad de pedidos iniciados, satisfechos y cancelados por país durante un período determinado. Al seleccionar un país, accederemos a datos de sus instituciones. Similarmente, al seleccionar una institución, podremos ver estadisticas de sus dependencias.",
+    "requestsCountDescription":"Esta estadística nos muestra el número de pedidos iniciados, satisfechos y cancelados por año durante el período temporal elegido, el cual será por defecto el año actual. Se muestra ademas el número de páginas impresas durante dicho periodo. En caso de que el periodo de tiempo elegido sea sólo un año, se mostrara la distribución de pedidos detallada mes a mes."
 }

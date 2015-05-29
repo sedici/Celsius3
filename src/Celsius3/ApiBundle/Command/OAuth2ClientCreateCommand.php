@@ -64,7 +64,7 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
         $client = $clientManager->createClient();
         $client->setInstance($instance);
         $client->setRedirectUris(array($redirectUri));
-        $client->setAllowedGrantTypes(array('authorization_code'));
+        $client->setAllowedGrantTypes(array('authorization_code','refresh_token','token'));
 
         $clientManager->updateClient($client);
 
