@@ -69,7 +69,7 @@ class PublicController extends BaseInstanceDependentController
      * @Route("/news", name="public_news")
      * @Template()
      */
-    public function newsAction()
+    public function newsAction(Request $request)
     {
         $news = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:News')
@@ -81,7 +81,7 @@ class PublicController extends BaseInstanceDependentController
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator
-                ->paginate($news, $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
+                ->paginate($news, $request->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
         );
 
         return array(
