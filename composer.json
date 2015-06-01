@@ -34,6 +34,7 @@
         "jms/serializer-bundle": "dev-master",
         "jms/i18n-routing-bundle": "dev-master",
         "jms/aop-bundle": "dev-master",
+        "jms/translation-bundle": "dev-master",
         "genemu/form-bundle": "~2.2",
         "cboden/Ratchet": "0.2.*",
         "react/zmq": "0.1.*",
