@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class ConfirmationType extends AbstractType
@@ -35,7 +35,7 @@ class ConfirmationType extends AbstractType
         $this->configuration_helper = $configuration_helper;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'choices' => $this->configuration_helper->confirmation,

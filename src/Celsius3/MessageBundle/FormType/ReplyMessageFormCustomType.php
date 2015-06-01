@@ -24,7 +24,7 @@ namespace Celsius3\MessageBundle\FormType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReplyMessageFormCustomType extends AbstractType
 {
@@ -41,7 +41,7 @@ class ReplyMessageFormCustomType extends AbstractType
         ;
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'intention' => 'reply',

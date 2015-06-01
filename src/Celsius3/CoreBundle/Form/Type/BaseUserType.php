@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ORM\EntityRepository;
@@ -79,7 +79,7 @@ class BaseUserType extends RegistrationFormType
         $builder->addEventSubscriber($subscriber);
     }
 
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'validation_groups' => array('Registration', 'Profile'),

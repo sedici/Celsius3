@@ -58,7 +58,7 @@ class FileDownloadType extends AbstractType
         }
     }
     
-//    public function setDefaultOptions(OptionsResolverInterface $resolver)
+//    public function configureOptions(OptionsResolver $resolver)
 //    {
 //        $resolver->setDefaults(array(
 //            'data_class' => 'Celsius3\\CoreBundle\\Entity\\FileDownload',

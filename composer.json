@@ -4,30 +4,28 @@
     "type": "project",
     "description": "The Celsius3 Project",
     "autoload": {
-        "psr-0": {
-            "": "src/",
-            "SymfonyStandard": "app/"
-        }
+        "psr-4": { "": "src/", "SymfonyStandard\\": "app/SymfonyStandard/" }
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.6",
+        "symfony/symfony": "~2.7",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0",
-        "sensio/framework-extra-bundle": "~3.0",
+        "sensio/distribution-bundle": "~3.0,>=3.0.12",
+        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "doctrine/doctrine-bundle": "~1.2",
+        "doctrine/doctrine-bundle": "~1.4",
         "doctrine/data-fixtures": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "doctrine/annotations": "~1.2",
-        "doctrine/orm": "~2.2,>=2.2.3",
-        "twig/extensions": "~1.0",
+        "doctrine/dbal": "<2.5",
+        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
+        "twig/extensions": "~1.2",
         "knplabs/knp-components": "~1.2@dev",
         "knplabs/knp-menu": "2.0.0-alpha1",
         "knplabs/knp-menu-bundle": "2.0.0alpha1",
-        "knplabs/knp-paginator-bundle": "~2.4",
+        "knplabs/knp-paginator-bundle": "2.4.*@dev",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "friendsofsymfony/message-bundle": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "~1.1",
@@ -39,7 +37,7 @@
         "genemu/form-bundle": "~2.2",
         "cboden/Ratchet": "0.2.*",
         "react/zmq": "0.1.*",
-        "sp/bower-bundle": "dev-master",
+        "sp/bower-bundle": "0.11",
         "umpirsky/composer-permissions-handler": "~1.0",
         "beberlei/DoctrineExtensions": "*",
         "salavert/time-ago-in-words": "1.*",
@@ -61,6 +59,8 @@
             "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerInstall",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
             "Umpirsky\\PermissionsHandler\\ScriptHandler::setPermissions",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump"
         ],
@@ -71,6 +71,8 @@
             "Sp\\BowerBundle\\Composer\\ScriptHandler::bowerUpdate",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::asseticDump",
             "Celsius3\\CoreBundle\\Composer\\ScriptHandler::redisFlushAll"
         ]
@@ -88,7 +90,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.6-dev"
+            "dev-master": "2.7-dev"
         }
     }
 }

@@ -48,7 +48,7 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
             $builder
                     ->add('recipients', 'celsius3_messagebundle_recipients_selector_custom', array(
                         'class' => 'Celsius3\\CoreBundle\\Entity\\BaseUser',
-                        'property' => 'username',
+                        'choice_label' => 'username',
                         'multiple' => true,
                         'query_builder' => function (EntityRepository $er) use ($user) {
                             return $er->createQueryBuilder('u')
