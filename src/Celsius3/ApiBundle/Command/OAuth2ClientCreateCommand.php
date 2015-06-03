@@ -47,17 +47,21 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
         $url = $input->getArgument('instance');
         $instance = $entityManager->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array('url' => $url));
+        
+        $error = false;
         if (is_null($instance)) {
             $output->writeln('The instance with the url ' . $url . ' does not exists');
-            exit;
+            $argumentError = true;
         }
 
         $redirectUri = $input->getArgument('redirect_uri');
         if (!filter_var($redirectUri, FILTER_VALIDATE_URL)) {
             $output->writeln('The redirect uri ' . $redirectUri . ' is not valid.');
-            exit;
+            $argumentError = true;
         }
-
+        
+        if($argumentError) return;
+        
         $output->writeln('');
         $output->writeln('Creating client');
 
