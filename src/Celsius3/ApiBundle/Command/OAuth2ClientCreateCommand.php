@@ -48,7 +48,7 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
         $instance = $entityManager->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array('url' => $url));
         
-        $error = false;
+        $argumentError = false;
         if (is_null($instance)) {
             $output->writeln('The instance with the url ' . $url . ' does not exists');
             $argumentError = true;
