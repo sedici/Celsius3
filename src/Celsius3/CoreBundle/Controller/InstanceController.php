@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class InstanceController extends BaseController
 {
@@ -38,6 +39,31 @@ abstract class InstanceController extends BaseController
         }
     }
 
+    private function getConfigurationForm($id, $entity)
+    {
+
+        $builder = $this->createFormBuilder();
+
+        foreach ($entity->getConfigurations() as $configuration) {
+            $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
+            $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
+            $builder->add($configuration->getKey(), $configurationType, array(
+                'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
+                'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
+                /** @Ignore */ 'label' => $configuration->getName(),
+                'required' => false,
+                'attr' => array(
+                    'value' => $configuration->getValue(),
+                    'class' => $configurationType === 'textarea' ? 'summernote' : '',
+                    'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO ? false : true,
+                    'readonly' => $readonly,
+                ),
+            ));
+        }
+
+        return $builder->getForm();
+    }
+
     protected function baseConfigureAction($id)
     {
         $entity = $this->findQuery('Instance', $id);
@@ -46,26 +72,11 @@ abstract class InstanceController extends BaseController
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
-        $configureForm = $this->createFormBuilder();
-
-        foreach ($entity->getConfigurations() as $configuration) {
-            $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
-            $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
-            $configureForm->add($configuration->getKey(), $configurationType, array(
-                'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
-                /** @Ignore */ 'label' => $configuration->getName(),
-                'required' => false,
-                'attr' => array(
-                    'class' => $configurationType === 'textarea' ? 'summernote' : '',
-                    'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? false : true,
-                    'readonly' => $readonly,
-                ),
-            ));
-        }
+        $configureForm = $this->getConfigurationForm($id, $entity);
 
         return array(
             'entity' => $entity,
-            'configure_form' => $configureForm->getForm()->createView(),
+            'configure_form' => $configureForm->createView(),
         );
     }
 
@@ -77,26 +88,23 @@ abstract class InstanceController extends BaseController
             throw $this->createNotFoundException('Unable to find Instance.');
         }
 
-        $builder = $this->createFormBuilder();
-
-        foreach ($entity->getConfigurations() as $configuration) {
-            $builder->add($configuration->getKey(), $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration), array(
-                'attr' => array(
-                    'value' => $configuration->getValue(),
-                ),
-                /** @Ignore */ 'label' => $configuration->getName(),
-            ));
-        }
-
-        $configureForm = $builder->getForm();
+        $configureForm = $this->getConfigurationForm($id, $entity);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
         $configureForm->handleRequest($request);
 
         if ($configureForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $values = $configureForm->getData();
+
+            $uploadedFile = $configureForm['instance_logo']->getData();
+            if (!is_null($uploadedFile)) {
+                $randomName = md5(uniqid(mt_rand(), true));
+                $uploadedFile->move(__DIR__ . '/../../../../web/uploads/logos/', $randomName . '.' . $uploadedFile->guessClientExtension());
+                $values['instance_logo'] = $randomName . '.' . $uploadedFile->guessClientExtension();
+            }
+
+            $em = $this->getDoctrine()->getManager();
 
             foreach ($entity->getConfigurations() as $configuration) {
                 $configuration->setValue($values[$configuration->getKey()]);
@@ -115,4 +123,5 @@ abstract class InstanceController extends BaseController
             'configure_form' => $configureForm->createView(),
         );
     }
+
 }

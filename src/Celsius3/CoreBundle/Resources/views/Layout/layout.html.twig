@@ -84,7 +84,9 @@
                         <div class="row">
                             <div class="jumbotron page-header">
                                 <div class="col-xs-12 col-sm-8">
-                                <h1 class="pull-left instance-title" >{{ instance.get('instance_title').value }}</h1>
+                                <h1 class="pull-left instance-title" >
+                                    <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt=""/>
+                                    {{ instance.get('instance_title').value }}</h1>
                                 </div>
                                 <div class="col-xs-12 col-sm-4">
                                 {% block adminpanel %}{% endblock %}

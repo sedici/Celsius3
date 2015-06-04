@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Helper;
 
 use Celsius3\CoreBundle\Entity\Configuration;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ConfigurationHelper
 {
@@ -39,6 +40,7 @@ class ConfigurationHelper
     const CONF__API_KEY = 'api_key';
     const CONF__MIN_DAYS_FOR_SEND_MAIL = 'min_days_for_send_mail';
     const CONF__MAX_DAYS_FOR_SEND_MAIL = 'max_days_for_send_mail';
+    const CONF__INSTANCE_LOGO = 'instance_logo';
 
     private $equivalences = array(
         'string' => 'text',
@@ -48,6 +50,7 @@ class ConfigurationHelper
         'text' => 'textarea',
         'language' => 'celsius3_corebundle_language_type',
         'confirmation' => 'celsius3_corebundle_confirmation_type',
+        'file' => 'file'
     );
     public $languages = array(
         'es' => 'Spanish',
@@ -114,12 +117,19 @@ class ConfigurationHelper
             'value' => '10',
             'type' => 'integer',
         ),
+        self::CONF__INSTANCE_LOGO => array(
+            'name' => 'Instance Logo',
+            'value' => '',
+            'type' => 'image',
+        )
     );
     private $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+
+        $this->configureConstraints();
     }
 
     public function guessConfigurationType(Configuration $configuration)
@@ -138,6 +148,9 @@ class ConfigurationHelper
                 break;
             case 'integer':
                 $value = (integer) $configuration->getValue();
+                break;
+            case 'file':
+                $value = null;
                 break;
             default:
                 $value = $configuration->getValue();
@@ -177,6 +190,31 @@ class ConfigurationHelper
             }
         }
         $em->flush();
+    }
+
+    public function getConstraints(Configuration $configuration)
+    {
+        return (isset($this->configurations[$configuration->getKey()]['constraints'])) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
+    }
+
+    private function configureConstraints()
+    {
+        $imageConstraints = new Image(
+                array(
+                    'mimeTypes' => array('image/png', 'image/jpg', 'image/jpge'),
+                    'mimeTypesMessage' => 'Invalid image type. It accepts PNG, JPG and JPEG.',
+                    'minWidth' => 60,
+                    'maxWidth' => 60,
+                    'minHeight' => 60,
+                    'maxHeight' => 60,
+                    'maxWidthMessage' => 'Invalid image size. It accepts 60x60.',
+                    'minWidthMessage' => 'Invalid image size. It accepts 60x60.',
+                    'maxHeightMessage' => 'Invalid image size. It accepts 60x60.',
+                    'minHeightMessage' => 'Invalid image size. It accepts 60x60.',
+                )
+        );
+
+        $this->configurations['instance_logo']['constraints'] = array($imageConstraints);
     }
 
 }
