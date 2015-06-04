@@ -382,6 +382,8 @@ list($headers['PHP_AUTH_USER'], $headers['PHP_AUTH_PW']) = $exploded;
 } elseif (empty($this->parameters['PHP_AUTH_DIGEST']) && (0 === stripos($authorizationHeader,'digest '))) {
 $headers['PHP_AUTH_DIGEST'] = $authorizationHeader;
 $this->parameters['PHP_AUTH_DIGEST'] = $authorizationHeader;
+} elseif (0 === stripos($authorizationHeader,'bearer ')) {
+$headers['AUTHORIZATION'] = $authorizationHeader;
 }
 }
 }
@@ -1177,7 +1179,7 @@ $requestUri = $this->getRequestUri();
 if ($baseUrl && false !== $prefix = $this->getUrlencodedPrefix($requestUri, $baseUrl)) {
 return $prefix;
 }
-if ($baseUrl && false !== $prefix = $this->getUrlencodedPrefix($requestUri, dirname($baseUrl).'/')) {
+if ($baseUrl && false !== $prefix = $this->getUrlencodedPrefix($requestUri, rtrim(dirname($baseUrl),'/').'/')) {
 return rtrim($prefix,'/');
 }
 $truncatedRequestUri = $requestUri;
@@ -2023,6 +2025,7 @@ protected $scopeChildren = array();
 protected $scopedServices = array();
 protected $scopeStacks = array();
 protected $loading = array();
+private $underscoreMap = array('_'=>'','.'=>'_','\\'=>'_');
 public function __construct(ParameterBagInterface $parameterBag = null)
 {
 $this->parameterBag = $parameterBag ?: new ParameterBag();
@@ -2068,7 +2071,7 @@ throw new RuntimeException(sprintf('You cannot set service "%s" of inactive scop
 $this->scopedServices[$scope][$id] = $service;
 }
 $this->services[$id] = $service;
-if (method_exists($this, $method ='synchronize'.strtr($id, array('_'=>'','.'=>'_','\\'=>'_')).'Service')) {
+if (method_exists($this, $method ='synchronize'.strtr($id, $this->underscoreMap).'Service')) {
 $this->$method();
 }
 if (null === $service) {
@@ -2080,22 +2083,24 @@ unset($this->services[$id]);
 }
 public function has($id)
 {
-$id = strtolower($id);
-if ('service_container'=== $id) {
+for ($i = 2;;) {
+if ('service_container'=== $id
+|| isset($this->aliases[$id])
+|| isset($this->services[$id])
+|| array_key_exists($id, $this->services)
+) {
 return true;
 }
-return isset($this->services[$id])
-|| array_key_exists($id, $this->services)
-|| isset($this->aliases[$id])
-|| method_exists($this,'get'.strtr($id, array('_'=>'','.'=>'_','\\'=>'_')).'Service')
-;
+if (--$i && $id !== $lcId = strtolower($id)) {
+$id = $lcId;
+} else {
+return method_exists($this,'get'.strtr($id, $this->underscoreMap).'Service');
+}
+}
 }
 public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
 {
-foreach (array(false, true) as $strtolower) {
-if ($strtolower) {
-$id = strtolower($id);
-}
+for ($i = 2;;) {
 if ('service_container'=== $id) {
 return $this;
 }
@@ -2105,13 +2110,15 @@ $id = $this->aliases[$id];
 if (isset($this->services[$id]) || array_key_exists($id, $this->services)) {
 return $this->services[$id];
 }
-}
 if (isset($this->loading[$id])) {
 throw new ServiceCircularReferenceException($id, array_keys($this->loading));
 }
 if (isset($this->methodMap[$id])) {
 $method = $this->methodMap[$id];
-} elseif (method_exists($this, $method ='get'.strtr($id, array('_'=>'','.'=>'_','\\'=>'_')).'Service')) {
+} elseif (--$i && $id !== $lcId = strtolower($id)) {
+$id = $lcId;
+continue;
+} elseif (method_exists($this, $method ='get'.strtr($id, $this->underscoreMap).'Service')) {
 } else {
 if (self::EXCEPTION_ON_INVALID_REFERENCE === $invalidBehavior) {
 if (!$id) {
@@ -2143,6 +2150,7 @@ throw $e;
 }
 unset($this->loading[$id]);
 return $service;
+}
 }
 public function initialized($id)
 {
@@ -2340,12 +2348,12 @@ protected $booted = false;
 protected $name;
 protected $startTime;
 protected $loadClassCache;
-const VERSION ='2.8.0-DEV';
-const VERSION_ID ='20800';
+const VERSION ='2.7.0';
+const VERSION_ID ='20700';
 const MAJOR_VERSION ='2';
-const MINOR_VERSION ='8';
+const MINOR_VERSION ='7';
 const RELEASE_VERSION ='0';
-const EXTRA_VERSION ='DEV';
+const EXTRA_VERSION ='';
 const END_OF_MAINTENANCE ='05/2018';
 const END_OF_LIFE ='05/2019';
 public function __construct($environment, $debug)
@@ -2859,6 +2867,9 @@ if (null === $this->extension) {
 $class = $this->getContainerExtensionClass();
 if (class_exists($class)) {
 $extension = new $class();
+if (!$extension instanceof ExtensionInterface) {
+throw new \LogicException(sprintf('Extension %s must implement Symfony\Component\DependencyInjection\Extension\ExtensionInterface.', $class));
+}
 $basename = preg_replace('/Bundle$/','', $this->getName());
 $expectedAlias = Container::underscore($basename);
 if ($expectedAlias != $extension->getAlias()) {
@@ -3177,9 +3188,12 @@ use Symfony\Component\DependencyInjection\Scope;
 class ContainerAwareHttpKernel extends HttpKernel
 {
 protected $container;
-public function __construct(EventDispatcherInterface $dispatcher, ContainerInterface $container, ControllerResolverInterface $controllerResolver, RequestStack $requestStack = null)
+public function __construct(EventDispatcherInterface $dispatcher, ContainerInterface $container, ControllerResolverInterface $controllerResolver, RequestStack $requestStack = null, $triggerDeprecation = true)
 {
 parent::__construct($dispatcher, $controllerResolver, $requestStack);
+if ($triggerDeprecation) {
+trigger_error('The '.__CLASS__.' class is deprecated since version 2.7 and will be removed in 3.0. Use the Symfony\Component\HttpKernel\HttpKernel class instead.', E_USER_DEPRECATED);
+}
 $this->container = $container;
 if (!$container->hasScope('request')) {
 $container->addScope(new Scope('request'));

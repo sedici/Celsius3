@@ -37,7 +37,7 @@
         "genemu/form-bundle": "~2.2",
         "cboden/Ratchet": "0.2.*",
         "react/zmq": "0.1.*",
-        "sp/bower-bundle": "dev-master",
+        "sp/bower-bundle": "0.11.*@dev",
         "umpirsky/composer-permissions-handler": "~1.0",
         "beberlei/DoctrineExtensions": "*",
         "salavert/time-ago-in-words": "1.*",
@@ -80,8 +80,7 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "minimum-stability": "stable",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
