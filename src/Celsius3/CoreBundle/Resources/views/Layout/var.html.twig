@@ -5,10 +5,9 @@
     var directory = false;
     var entity_id = '{{ (entity is defined and entity)?entity.id:'' }}';
     var ajax_path = '{{ (ajax_path is defined)?path(ajax_path):'' }}';
-    var user_exists
-    = {{ (app.user is defined)?'true':'false' }};
-            var user_id = '{{ app.user?app.user.id:'' }}';
-    var username = '{{ app.user?app.user.username:'' }}'
+    var user_exists = {{ (app.user is defined)?'true':'false' }};
+    var user_id = '{{ app.user?app.user.id:'' }}';
+    var username = '{{ app.user?app.user.username:'' }}';
     var news_date = '';
     var news_text_change = '{{ 'Change'|trans }}';
     var instance_url = "{{ app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }}";

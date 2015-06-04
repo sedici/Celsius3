@@ -32,5 +32,5 @@ orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
             prefix: '/ng-app/locales/locale-',
             suffix: '.json'
         });
-        $translateProvider.preferredLanguage('en');
+        $translateProvider.preferredLanguage(_locale);
     }]);

@@ -23,5 +23,5 @@ userApp.config(['$routeProvider', '$translateProvider',
             prefix: '/ng-app/locales/locale-',
             suffix: '.json'
         });
-        $translateProvider.preferredLanguage('en');
+        $translateProvider.preferredLanguage(_locale);
     }]);
