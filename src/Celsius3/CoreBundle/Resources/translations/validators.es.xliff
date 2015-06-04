@@ -8,25 +8,25 @@
     <body>
       <trans-unit id="d1bd7035cfddee4f203b40b83e82aadfa17afa34" resname="Choose a valid result.">
         <source>Choose a valid result.</source>
-        <target state="new">Choose a valid result.</target>
+        <target state="new">Elija un resultado válido.</target>
       </trans-unit>
       <trans-unit id="ef5e435717bbf19e7b350ab85290a7c654f11791" resname="Choose a valid type.">
         <source>Choose a valid type.</source>
-        <target state="new">Choose a valid type.</target>
+        <target state="new">Elija un tipo válido.</target>
       </trans-unit>
       <trans-unit id="7c79355accf20f7c065db0b1045b85e045a0e85a" resname="The selected Instance does not exist">
         <source>The selected Instance does not exist</source>
-        <target state="new">The selected Instance does not exist</target>
+        <target state="new">La Instancia seleccionada no existe</target>
         <jms:reference-file line="56">Form/Type/InstanceSelectorType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="dd2c90e66d9509d785e47f6e6563fe0156a2358a" resname="The selected Journal does not exist">
         <source>The selected Journal does not exist</source>
-        <target state="new">The selected Journal does not exist</target>
+        <target state="new">La revista seleccionada no existe</target>
         <jms:reference-file line="55">Form/Type/JournalSelectorType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="7eb4c61a4ccd8ee9abd4ddb318f27662da7f06d7" resname="The selected User does not exist">
         <source>The selected User does not exist</source>
-        <target state="new">The selected User does not exist</target>
+        <target state="new">El usuario seleccionado no existe</target>
         <jms:reference-file line="55">Form/Type/OrderSelectorType.php</jms:reference-file>
         <jms:reference-file line="55">Form/Type/UserSelectorType.php</jms:reference-file>
       </trans-unit>
