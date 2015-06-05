@@ -199,8 +199,8 @@ class ConfigurationHelper
 
     private function configureConstraints()
     {
-        $message = 'Invalid image size. It accepts 80x80.';
-        $size = 80;
+        $message = 'Invalid image size. It accepts 100x100.';
+        $size = 100;
 
         $imageConstraints = new Image(
                 array(
