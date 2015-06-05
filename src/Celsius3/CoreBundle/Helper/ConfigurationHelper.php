@@ -199,18 +199,21 @@ class ConfigurationHelper
 
     private function configureConstraints()
     {
+        $message = 'Invalid image size. It accepts 80x80.';
+        $size = 80;
+
         $imageConstraints = new Image(
                 array(
-                    'mimeTypes' => array('image/png', 'image/jpg', 'image/jpge'),
-                    'mimeTypesMessage' => 'Invalid image type. It accepts PNG, JPG and JPEG.',
-                    'minWidth' => 60,
-                    'maxWidth' => 60,
-                    'minHeight' => 60,
-                    'maxHeight' => 60,
-                    'maxWidthMessage' => 'Invalid image size. It accepts 60x60.',
-                    'minWidthMessage' => 'Invalid image size. It accepts 60x60.',
-                    'maxHeightMessage' => 'Invalid image size. It accepts 60x60.',
-                    'minHeightMessage' => 'Invalid image size. It accepts 60x60.',
+                    'mimeTypes' => array('image/png', 'image/pjpeg'),
+                    'mimeTypesMessage' => 'Invalid image type. It accepts PNG, JPG',
+                    'minWidth' => $size,
+                    'maxWidth' => $size,
+                    'minHeight' => $size,
+                    'maxHeight' => $size,
+                    'maxWidthMessage' => $message,
+                    'minWidthMessage' => $message,
+                    'maxHeightMessage' => $message,
+                    'minHeightMessage' => $message,
                 )
         );
 

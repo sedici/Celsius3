@@ -107,6 +107,10 @@ abstract class InstanceController extends BaseController
             $em = $this->getDoctrine()->getManager();
 
             foreach ($entity->getConfigurations() as $configuration) {
+                if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
+
+                    unlink(__DIR__ . '/../../../../web/uploads/logos/' . $configuration->getValue());
+                }
                 $configuration->setValue($values[$configuration->getKey()]);
                 $em->persist($entity);
             }
