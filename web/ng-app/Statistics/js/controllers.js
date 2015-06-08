@@ -419,7 +419,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
             return $scope.updateUsersCountChart();
         };
         $scope.getUsersCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
-        $scope.subtitle = 'Users count';
+        $scope.subtitle = 'usersCount';
         $scope.locationFields = false;
         $scope.searchProvision = false;
         $scope.selectDelayType = false;
@@ -432,7 +432,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
             return $scope.getRequestsOrigin($scope.requestType, $scope.initialYear, $scope.finalYear, $scope.location.country, $scope.location.institution);
         };
         $scope.getRequestsOrigin($scope.requestType, $scope.initialYear, $scope.finalYear, $scope.location.country, $scope.location.institution);
-        $scope.subtitle = 'Requests origin';
+        $scope.subtitle = 'requestsOrigin';
         $scope.locationFields = true;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
@@ -445,7 +445,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
             return $scope.updateRequestsCountChart();
         };
         $scope.getRequestsCountDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
-        $scope.subtitle = 'Requests count';
+        $scope.subtitle = 'requestsCount';
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
@@ -458,7 +458,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
             return $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
         };
         $scope.getRequestsDestinyDistributionDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
-        $scope.subtitle = 'Requests destiny distribution';
+        $scope.subtitle = 'requestsDestinyDistribution';
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
@@ -472,7 +472,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         };
 //        $scope.getRequestsNumberByPublicationYearYears();
         $scope.getRequestsNumberByPublicationYearDataFor($scope.requestType, $scope.initialYear, $scope.finalYear);
-        $scope.subtitle = 'Number of requests by publication year';
+        $scope.subtitle = 'requestsPublicationYear';
         $scope.locationFields = false;
         $scope.searchProvision = true;
         $scope.selectDelayType = false;
@@ -485,7 +485,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
             return $scope.updateRequestsTotalDelay();
         };
         $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.initialYear, $scope.finalYear, $scope.delayType);
-        $scope.subtitle = 'Requests total delay.';
+        $scope.subtitle = 'requestsTotalDelay.';
         $scope.selectDelayType = true;
         $scope.locationFields = false;
         $scope.searchProvision = true;
