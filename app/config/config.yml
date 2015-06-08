@@ -324,3 +324,7 @@ fos_oauth_server:
             access_token_lifetime: 3600 # Una hora
             refresh_token_lifetime: 43200 # Un día
             auth_code_lifetime: 60 # Un minuto
+            
+knp_menu:
+    twig:
+        template: Celsius3CoreBundle:Default:knp_menu.html.twig
