@@ -34,3 +34,7 @@
 /nbproject/
 /composer.lock
 *~
+
+# Maintenance Mode
+/app/mode/*
+!/app/mode/.gitkeep
