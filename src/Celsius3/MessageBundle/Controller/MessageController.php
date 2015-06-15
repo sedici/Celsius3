@@ -142,7 +142,7 @@ class MessageController extends BaseController
         $query = $this->container->get('fos_message.search_query_factory')->createFromRequest();
         $threads = $this->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3MessageBundle:Thread')
-                ->applyExtraFilters($this->container->get('fos_message.search_finder')->getQueryBuilder($query), $this->get('request_stack')->getCurrentRequest(), $this->get('security.context')->getToken()->getUser());
+                ->applyExtraFilters($this->container->get('fos_message.search_finder')->getQueryBuilder($query), $this->get('request_stack')->getCurrentRequest(), $this->get('security.token_storage')->getToken()->getUser());
 
         $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
         $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());

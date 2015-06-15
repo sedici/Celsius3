@@ -201,7 +201,7 @@
 
         <service id="celsius3_core.security.authentication_success_handler" class="%celsius3_core.security.authentication_success_handler.class%">
             <argument type="service" id="router"></argument>
-            <argument type="service" id="security.context" />
+            <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="security.http_utils" />
             <argument type="collection" /> <!-- Options -->
         </service>

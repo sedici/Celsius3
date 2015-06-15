@@ -23,7 +23,8 @@
 namespace Celsius3\MessageBundle\FormType;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
@@ -31,19 +32,21 @@ use Celsius3\CoreBundle\Manager\UserManager;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
-    private $context;
+    private $authorization_checker;
+    private $token_storage;
     private $em;
 
-    public function __construct(SecurityContextInterface $context, EntityManager $em)
+    public function __construct(AuthorizationChecker $authorization_checker, TokenStorage $token_storage, EntityManager $em)
     {
-        $this->context = $context;
+        $this->authorization_checker = $authorization_checker;
+        $this->token_storage = $token_storage;
         $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $isAdmin = $this->context->isGranted('ROLE_ADMIN');
-        $user = $this->context->getToken()->getUser();
+        $isAdmin = $this->authorization_checker->isGranted('ROLE_ADMIN');
+        $user = $this->token_storage->getToken()->getUser();
         if ($isAdmin) {
             $builder
                     ->add('recipients', 'celsius3_messagebundle_recipients_selector_custom', array(

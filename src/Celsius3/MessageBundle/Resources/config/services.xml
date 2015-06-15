@@ -22,7 +22,8 @@
         </service>
 
         <service id="celsius3_message.new_thread_form.type.custom" class="%celsius3_message.new_thread_form.type.custom.class%" public="false">
-            <argument type="service" id="security.context"></argument>
+            <argument type="service" id="security.authorization_checker"></argument>
+            <argument type="service" id="security.token_storage"></argument>
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 

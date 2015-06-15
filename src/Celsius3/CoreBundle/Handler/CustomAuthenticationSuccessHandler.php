@@ -27,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -35,13 +35,13 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
 {
 
     private $router;
-    private $security_context;
+    private $authorization_checker;
 
-    public function __construct(Router $router, SecurityContextInterface $security_context, HttpUtils $httpUtils, array $options)
+    public function __construct(Router $router, AuthorizationChecker $authorization_checker, HttpUtils $httpUtils, array $options)
     {
         parent::__construct($httpUtils, $options);
         $this->router = $router;
-        $this->security_context = $security_context;
+        $this->authorization_checker = $authorization_checker;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
@@ -52,9 +52,9 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
             return $response;
         }
 
-        if ($this->security_context->isGranted(array(UserManager::ROLE_SUPER_ADMIN))) {
+        if ($this->authorization_checker->isGranted(array(UserManager::ROLE_SUPER_ADMIN))) {
             $response->setTargetUrl($this->router->generate('superadministration'));
-        } elseif ($this->security_context->isGranted(array(UserManager::ROLE_ADMIN))) {
+        } elseif ($this->authorization_checker->isGranted(array(UserManager::ROLE_ADMIN))) {
             $response->setTargetUrl($this->router->generate('administration'));
         } else {
             $response->setTargetUrl($this->router->generate('user_index'));
