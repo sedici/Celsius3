@@ -13,5 +13,6 @@ web_profiler:
 swiftmailer:
     disable_delivery: true
 
-doctrine_mongodb:
-    default_database: %mongodb_database_test%
+doctrine:
+    dbal:
+        dbname:   "%database_name_test%"

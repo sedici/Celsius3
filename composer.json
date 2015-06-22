@@ -46,7 +46,13 @@
         "friendsofsymfony/oauth-server-bundle": "dev-master"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "phpunit/phpunit": "~4.7",
+        "behat/behat": "~3.0",
+        "behat/symfony2-extension": "~2.0",
+        "behat/mink": "~1.6",
+        "behat/mink-extension": "~2.0",
+        "behat/mink-browserkit-driver": "~1.2"
     },
     "scripts": {
         "post-root-package-install": [

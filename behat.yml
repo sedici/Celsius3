@@ -1,0 +1,11 @@
+default:
+    extensions:
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            sessions:
+                default:
+                    symfony2: ~
+    suites:
+        core_suite:
+            type: symfony_bundle
+            bundle: Celsius3CoreBundle

@@ -3,6 +3,7 @@ parameters:
     database_host: 127.0.0.1
     database_port: null
     database_name: celsius3
+    database_name_test: celsius3_test
     database_user: root
     database_password: root
 
