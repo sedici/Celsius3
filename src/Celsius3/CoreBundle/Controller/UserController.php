@@ -61,13 +61,53 @@ class UserController extends BaseInstanceDependentController
     {
         return $this->ajax($request, $this->getInstance(), $this->getUser());
     }
-    
-    protected function validateAjax($target) {
+
+    /**
+     * @Route("/instance/{id}/change", name="user_change_context")
+     */
+    public function changeContextAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $instance = $em->getRepository('Celsius3CoreBundle:Instance')->find($id);
+        $user = $this->getUser();
+
+        if (array_key_exists($id, $user->getSecondaryInstances()) || ($user->getInstance()->getId() === intval($id))) {
+
+            if (!array_key_exists($user->getInstance()->getId(), $user->getSecondaryInstances())) {
+                $user->addSecondaryInstance($user->getInstance(), $user->getRoles());
+            }
+
+            if (!$instance || !array_key_exists($id, $user->getSecondaryInstances())) {
+                return $this->createNotFoundException('Instance not found');
+            }
+
+            $this->get('session')->set('instance_id', $instance->getId());
+            $this->get('session')->set('instance_url', $instance->getUrl());
+
+            $user->setRoles($user->getSecondaryInstances()[$id]['roles']);
+
+            $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken(
+                    $user, null, 'main', $user->getRoles()
+            );
+            $this->container->get('security.context')->setToken($token);
+            
+        }
+        
+        if (isset($user->getRoles()['ROLE_ADMIN'])) {
+            return $this->redirect($this->generateUrl('administration'));
+        } else {
+            return $this->redirect($this->generateUrl('public_index', array('url' => $this->get('session')->get('instance_url'))));
+        }
+    }
+
+    protected function validateAjax($target)
+    {
         $allowedTargets = array(
             'Journal',
             'BaseUser',
         );
-        
+
         return in_array($target, $allowedTargets);
     }
+
 }

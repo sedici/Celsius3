@@ -51,89 +51,92 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $surname;
+
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @Assert\Date(groups={"Default"})
      * @ORM\Column(type="date", nullable=true)
      */
     protected $birthdate;
+
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $address;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     protected $downloadAuth = true;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     protected $wrongEmail = false;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="owner")
      */
     protected $orders;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="operator")
      */
     protected $operatedOrders;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="creator")
      */
     protected $createdOrders;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="users")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     protected $instance;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="users")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
      */
     protected $institution;
+
     /**
-     * @ORM\ManyToMany(targetEntity="Instance")
-     * @ORM\JoinTable(name="user_instance",
-     *      joinColumns={@ORM\JoinColumn(name="instance_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     *      )
+     * @ORM\Column(type="array", name="secondary_instances")
      */
-    protected $secondaryInstances;
+    protected $secondaryInstances = array();
+
     /**
      * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user")
      */
     protected $customValues;
-    /**
-     * @ORM\ManyToMany(targetEntity="Instance")
-     * @ORM\JoinTable(name="admin_instance",
-     *      joinColumns={@ORM\JoinColumn(name="instance_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
-     *      )
-     */
-    protected $administeredInstances;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\ApiBundle\Entity\Client")
      * @ORM\JoinTable(name="user_client",
@@ -142,7 +145,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *      )
      */
     protected $clientApplications;
-
+    
     public function __toString()
     {
         return $this->getSurname() . ', ' . $this->getName();
@@ -172,9 +175,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->operatedOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->secondaryInstances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->administeredInstances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clientApplications = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -502,60 +503,31 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * Add secondaryInstance
      *
      * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
+     * @param array $roles
      */
-    public function addSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
+    public function addSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance, array $roles)
     {
-        $this->secondaryInstances[] = $secondaryInstance;
+        $this->secondaryInstances[$secondaryInstance->getId()] = array('roles' => $roles,'url' => $secondaryInstance->getUrl());
     }
 
     /**
      * Remove secondaryInstance
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
+     * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
      */
     public function removeSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
     {
-        $this->secondaryInstances->removeElement($secondaryInstance);
+        unset($this->secondaryInstances[$secondaryInstance->getId()]);
     }
 
     /**
      * Get secondaryInstances
      *
-     * @return Doctrine\Common\Collections\Collection $secondaryInstances
+     * @return array $secondaryInstances
      */
     public function getSecondaryInstances()
     {
         return $this->secondaryInstances;
-    }
-
-    /**
-     * Add administeredInstance
-     *
-     * @param Celsius3\CoreBundle\Entity\Instance $administeredInstance
-     */
-    public function addAdministeredInstance(\Celsius3\CoreBundle\Entity\Instance $administeredInstance)
-    {
-        $this->administeredInstances[] = $administeredInstance;
-    }
-
-    /**
-     * Remove administeredInstance
-     *
-     * @param Celsius3\CoreBundle\Entity\Instance $administeredInstance
-     */
-    public function removeAdministeredInstance(\Celsius3\CoreBundle\Entity\Instance $administeredInstance)
-    {
-        $this->administeredInstances->removeElement($administeredInstance);
-    }
-
-    /**
-     * Get administeredInstances
-     *
-     * @return Doctrine\Common\Collections\Collection $administeredInstances
-     */
-    public function getAdministeredInstances()
-    {
-        return $this->administeredInstances;
     }
 
     public function getCountry()
@@ -641,4 +613,5 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
             return $this->getBaseInstitutionRec($institution->getParent());
         }
     }
+
 }

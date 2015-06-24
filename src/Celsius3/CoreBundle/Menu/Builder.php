@@ -55,39 +55,6 @@ class Builder extends ContainerAware
                 'route' => 'administration',
             ));
             $user = $tokenStorage->getToken()->getUser();
-            if ($user->getAdministeredInstances()->count() > 0) {
-                if (!$user->getAdministeredInstances()->contains($user->getInstance())) {
-                    $user->getAdministeredInstances()->add($user->getInstance());
-                }
-
-                $menu->addChild('Others', array(
-                            'uri' => '#',
-                            'linkAttributes' => array(
-                                'class' => 'dropdown-toggle',
-                                'data-toggle' => 'dropdown',
-                            ),
-                            'label' => '<b class="caret"></b>',
-                            'extras' => array(
-                                'safe_label' => true,
-                            ),
-                        ))
-                        ->setChildrenAttributes(array(
-                            'class' => 'dropdown-menu',
-                ));
-
-                foreach ($user->getAdministeredInstances() as $instance) {
-                    $class = $instance->getUrl() == $instance_url ? 'active' : '';
-                    $menu['Others']->addChild($instance->getName(), array(
-                        'route' => 'administration_change_context',
-                        'routeParameters' => array(
-                            'id' => $instance->getId(),
-                        ),
-                        'attributes' => array(
-                            'class' => $class,
-                        ),
-                    ));
-                }
-            }
         }
         if ($authChecker->isGranted(UserManager::ROLE_SUPER_ADMIN) !== false && $local) {
             $menu->addChild('Network Administration', array(

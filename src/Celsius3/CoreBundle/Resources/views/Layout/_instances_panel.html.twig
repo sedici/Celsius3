@@ -1,0 +1,26 @@
+{% set secondaryInstances = app.user ? app.user.getSecondaryInstances() : null %}
+
+{% if secondaryInstances is not empty %}
+    <ul class="pull-right nav navbar-nav">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                {{ app.session.get('instance_url') | upper }}
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                {% for id,instance in secondaryInstances %}
+                    {% if app.session.get('instance_id') != app.user.getInstance().getId() %}
+                        <li>
+                            <a href="{{ path('user_change_context',{'id':app.user.getInstance().getId()}) }}">{{ app.user.getInstance().getUrl() | upper }}</a>
+                        </li>
+                    {% endif %}
+                    {% if app.session.get('instance_id') != id %}
+                        <li>
+                            <a href="{{ path('user_change_context',{'id':id}) }}">{{ instance.url | upper }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+{% endif %}

@@ -73,29 +73,6 @@ class AdministrationController extends BaseInstanceDependentController
         return $this->ajax($request, $this->getInstance());
     }
 
-    /**
-     * @Route("/{id}/change", name="administration_change_context")
-     */
-    public function changeContextAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $instance = $em->getRepository('Celsius3CoreBundle:Instance')->find($id);
-
-        $user = $this->getUser();
-        if (!$user->getAdministeredInstances()->contains($user->getInstance())) {
-            $user->getAdministeredInstances()->add($user->getInstance());
-        }
-
-        if (!$instance || !$user->getAdministeredInstances()->contains($instance)) {
-            return $this->createNotFoundException('Instance not found');
-        }
-
-        $this->get('session')->set('instance_id', $instance->getId());
-        $this->get('session')->set('instance_url', $instance->getUrl());
-
-        return $this->redirect($this->generateUrl('administration'));
-    }
-
     protected function validateAjax($target)
     {
         $allowedTargets = array(
