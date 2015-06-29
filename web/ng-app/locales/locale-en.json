@@ -144,5 +144,20 @@
     "usersCountDescription": "This statistic presents the number of users added to system each month. The chart displays two bars: the blue bar shows the number of new users registered, and the green bar shows the number of active users, the ones who actually use the service. On the other hand, the red line shows the amount new users cumulatively, from the year 2000.",
     "serviceEfficiencyDescription": "This statistic shows the delay of orders, which is measured in three categories: \n - The total delay, time elapsed since the user made the request until it is ready to be downloaded or printed \n - The delay in location, time elapsed since the user creates its order until an operator requests it to a foreign institution. During that period, the order had been normalised, searched into all catalogs and located \n - The delay in response, time elapsed since the orders are requested by the operators to foreign institutions, until they ready to be downloaded or printed, once the institution has sent it.",
     "requestsDestinyDistributionDescription": "This statistic shows the number of started, satisfied and canceled orders by country during the chosen time period. We may select a single country to access to statistics about its institutions. Similarly, we can choose an institution and see data from its dependences.",
-    "requestsCountDescription": "This statistic shows the number of orders started, satisfied and canceled per year during the chosen time period, which by default is set to the current year. It also shows the number of pages printed for a selected time period. In case of a single-year period, you will see detailed data month by month."
+    "requestsCountDescription": "This statistic shows the number of orders started, satisfied and canceled per year during the chosen time period, which by default is set to the current year. It also shows the number of pages printed for a selected time period. In case of a single-year period, you will see detailed data month by month.",
+    "pendingUsersTitle": "Pending Users",
+    "Year": "Year",
+    "Cancelled": "Cancelled",
+    "Created": "Created",
+    "Satisfied": "Satisfied",
+    "Delivered": "Delivered",
+    "totalDelay": "Total Delay",
+    "locationDelay": "Location Delay",
+    "responseDelay": "Response Delay",
+    "Active Users": "Active Users",
+    "New Users": "New Users",
+    "Total Users": "Total Users",
+    "Country": "Country",
+    "Requests": "Requests",
+    "Publication year": "Publication Year"
 }
