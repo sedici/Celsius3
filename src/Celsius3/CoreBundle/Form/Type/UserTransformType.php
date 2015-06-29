@@ -27,46 +27,52 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 class UserTransformType extends AbstractType
 {
+
     protected $instance;
 
-    public function __construct(Instance $instance = null)
+    public function __construct(Instance $instance = null, BaseUser $user)
     {
         $this->instance = $instance;
+        $this->user = $user;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = array(
+            UserManager::ROLE_USER => 'User',
+            UserManager::ROLE_LIBRARIAN => 'Librarian',
+            UserManager::ROLE_ADMIN => 'Admin',
+        );
+
         if (!is_null($this->instance)) {
-            $builder
-                    ->add('type', 'choice', array(
-                        'choices' => array(
-                            UserManager::ROLE_USER => 'User',
-                            UserManager::ROLE_LIBRARIAN => 'Librarian',
-                            UserManager::ROLE_ADMIN => 'Admin',),
-                        'expanded' => true,
-                    ))
-            ;
+            $builder->add($this->user->getInstance()->getUrl(), 'choice', array(
+                'choices' => $choices,
+                'expanded' => true,
+                'multiple' => true,
+                'data' => $this->user->getRoles()
+            ));
         } else {
-            $builder
-                    ->add('type', 'choice', array(
-                        'choices' => array(
-                            UserManager::ROLE_USER => 'User',
-                            UserManager::ROLE_LIBRARIAN => 'Librarian',
-                            UserManager::ROLE_ADMIN => 'Admin',
-                            UserManager::ROLE_SUPER_ADMIN => 'Superadmin',),
-                        'expanded' => true,
-                    ))
-                    ->add('instances', 'entity', array(
-                        'class' => 'Celsius3CoreBundle:Instance',
-                        'multiple' => true,
-                        'query_builder' => function (EntityRepository $repository) {
-                            return $repository->findAllExceptDirectory();
-                        },
-                    ))
-            ;
+            $choices[UserManager::ROLE_SUPER_ADMIN] = 'Superadmin';
+
+            $builder->add($this->user->getInstance()->getUrl(), 'choice', array(
+                'choices' => $choices,
+                'expanded' => true,
+                'multiple' => true,
+                'data' => $this->user->getRoles()
+            ));
+
+            foreach ($this->user->getSecondaryInstances() as $instance) {
+                $builder->add($instance['url'], 'choice', array(
+                    'choices' => $choices,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'data' => $instance['roles']
+                ));
+            }
         }
     }
 
@@ -74,4 +80,5 @@ class UserTransformType extends AbstractType
     {
         return 'celsius3_corebundle_transformusertype';
     }
+
 }

@@ -153,11 +153,13 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function transformAction($id, Request $request)
     {
+        $entity = $this->findQuery('BaseUser', $id);
+        
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, new UserTransformType(), 'superadmin_user');
+            return $this->baseDoTransformAction($id, new UserTransformType(null,$entity), 'superadmin_user');
         }
 
-        return $this->baseTransformAction($id, new UserTransformType());
+        return $this->baseTransformAction($id, new UserTransformType(null, $entity));
     }
 
     /**
@@ -174,5 +176,9 @@ class SuperadminBaseUserController extends BaseUserController
     public function enableAction($id)
     {
         return $this->baseEnableAction($id);
+    }
+    
+    protected function getUserListRoute(){
+        return 'superadmin_user';
     }
 }

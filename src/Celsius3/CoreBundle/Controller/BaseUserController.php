@@ -39,14 +39,15 @@ abstract class BaseUserController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery('BaseUser', $id);
 
-        if (!$entity || $this->get('celsius3_core.user_manager')->hasHigherRoles($entity, $this->getUser())) {
+        if (!$entity) {
             throw $this->createNotFoundException('Unable to find User.');
         }
 
-        $transformForm = $this->createForm($transformType, array(
-            'type' => $this->get('celsius3_core.user_manager')->getCurrentRole($entity),
-            'instances' => $entity->getAdministeredInstances(),
-        ));
+        if ($this->get('celsius3_core.user_manager')->hasHigherRoles($entity, $this->getUser())) {
+            return $this->redirectToRoute($this->getUserListRoute());
+        }
+
+        $transformForm = $this->createForm($transformType);
 
         return array(
             'entity' => $entity,
@@ -71,12 +72,12 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         if ($transformForm->isValid()) {
             $data = $transformForm->getData();
-            $this->get('celsius3_core.user_manager')->transform($data['type'], $entity);
+            $this->get('celsius3_core.user_manager')->transform($data[$entity->getInstance()->getUrl()], $entity);
 
-            if (array_key_exists('instances', $data)) {
-                $entity->getAdministeredInstances()->clear();
-                foreach ($data['instances'] as $instance) {
-                    $entity->addAdministeredInstance($instance);
+            foreach ($entity->getSecondaryInstances() as $key => $value) {
+                $instance = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Instance')->find($key);
+                if (array_key_exists($instance->getUrl(), $data)) {
+                    $entity->addSecondaryInstance($instance, $data[$instance->getUrl()]);
                 }
             }
 
@@ -84,12 +85,9 @@ abstract class BaseUserController extends BaseInstanceDependentController
             $em->persist($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'The User was successfully transformed.');
+            $this->get('session')->getFlashBag()->add('success', 'The User was successfully transformed.');
 
-            return $this->redirect($this->generateUrl($route . '_transform', array(
-                                'id' => $id
-            )));
+            return $this->redirect($this->generateUrl($route . '_transform', array('id' => $id)));
         }
 
         $this->get('session')->getFlashBag()
@@ -130,4 +128,5 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         return $this->redirect($this->get('request')->headers->get('referer'));
     }
+
 }

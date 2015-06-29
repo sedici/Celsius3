@@ -27,10 +27,12 @@ use Celsius3\CoreBundle\Entity\Institution;
 
 class UserManager
 {
+
     const ROLE_USER = 'ROLE_USER';
     const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+
     private $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
@@ -48,12 +50,14 @@ class UserManager
         return $results;
     }
 
-    public function transform($type, BaseUser $entity)
+    public function transform($types, BaseUser $entity)
     {
-        if (in_array($type, $this->types)) {
-            $entity->setRoles(array());
-            $entity->addRole($type);
-        };
+        $entity->setRoles(array());
+        foreach ($types as $type) {
+            if (in_array($type, $this->types)) {
+                $entity->addRole($type);
+            };
+        }
     }
 
     public function getCurrentRole(BaseUser $entity)
@@ -82,15 +86,15 @@ class UserManager
 
     public function hasHigherRoles(BaseUser $user1, BaseUser $user2)
     {
-        $user1Roles = $user1->getRoles();
-        $user2Roles = $user2->getRoles();
-
-        foreach (array_reverse($this->types) as $type) {
-            if (in_array($type, $user1Roles) && !in_array($type, $user2Roles)) {
-                return true;
-            }
+        if ($user1->hasRole('ROLE_SUPER_ADMIN')){
+            return true;
         }
-
+        
+        if ($user1->hasRole('ROLE_ADMIN') && !$user2->hasRole('ROLE_SUPER_ADMIN')){
+            return true;
+        }
+        
         return false;
     }
+
 }

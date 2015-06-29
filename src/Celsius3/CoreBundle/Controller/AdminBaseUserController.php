@@ -231,11 +231,13 @@ class AdminBaseUserController extends BaseUserController
      */
     public function transformAction($id, Request $request)
     {
+        $entity = $this->findQuery('BaseUser', $id);
+        
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance()), 'admin_user');
+            return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance(),$entity), 'admin_user');
         }
 
-        return $this->baseTransformAction($id, new UserTransformType($this->getInstance()));
+        return $this->baseTransformAction($id, new UserTransformType($this->getInstance(),$entity));
     }
 
     /**
@@ -291,5 +293,9 @@ class AdminBaseUserController extends BaseUserController
         $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
+    }
+    
+    protected function getUserListRoute(){
+        return 'admin_user';
     }
 }

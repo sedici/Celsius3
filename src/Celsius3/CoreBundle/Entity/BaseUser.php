@@ -145,7 +145,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *      )
      */
     protected $clientApplications;
-    
+
     public function __toString()
     {
         return $this->getSurname() . ', ' . $this->getName();
@@ -507,7 +507,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     public function addSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance, array $roles)
     {
-        $this->secondaryInstances[$secondaryInstance->getId()] = array('roles' => $roles,'url' => $secondaryInstance->getUrl());
+        $this->secondaryInstances[$secondaryInstance->getId()] = array('roles' => $roles, 'url' => $secondaryInstance->getUrl());
     }
 
     /**
@@ -528,6 +528,17 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getSecondaryInstances()
     {
         return $this->secondaryInstances;
+    }
+
+    /**
+     * Has secondaryInstances
+     *
+     * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
+     * @return boolean 
+     */
+    public function hasSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
+    {
+        return array_key_exists($secondaryInstance->getId(), $this->secondaryInstances);
     }
 
     public function getCountry()

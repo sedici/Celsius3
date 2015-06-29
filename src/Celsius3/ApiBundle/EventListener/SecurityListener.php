@@ -58,7 +58,7 @@ class SecurityListener
 
         $uri = $request->getUri();
 
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $user = (!is_null($this->container->get('security.token_storage')->getToken()))? $this->container->get('security.token_storage')->getToken()->getUser() : null;
 
         if ((false !== strpos($uri, '/oauth/v2/auth')) && ($user instanceof BaseUser)) {
 
