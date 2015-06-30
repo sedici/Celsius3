@@ -292,7 +292,10 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
                     'Satisfied': 'bar'
                 },
                 axes: {
-                    'Total Pages': 'TP'
+                    'Cancelled': 'y',
+                    'Created': 'y',
+                    'Satisfied': 'y',
+                    'Total Pages': 'y2'
                 }
             },
             axis: {
@@ -303,8 +306,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
                 },
                 y: {
                     label: 'Requests count for type',
-                    min: 0,
-                    max: 15000
+                },
+                y2: {
+                    show: true
                 }
             },
             grid: {
