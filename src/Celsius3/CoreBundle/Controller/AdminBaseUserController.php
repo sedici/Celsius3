@@ -232,12 +232,12 @@ class AdminBaseUserController extends BaseUserController
     public function transformAction($id, Request $request)
     {
         $entity = $this->findQuery('BaseUser', $id);
-        
+
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance(),$entity), 'admin_user');
+            return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance(), $entity), 'admin_user');
         }
 
-        return $this->baseTransformAction($id, new UserTransformType($this->getInstance(),$entity));
+        return $this->baseTransformAction($id, new UserTransformType($this->getInstance(), $entity));
     }
 
     /**
@@ -294,8 +294,38 @@ class AdminBaseUserController extends BaseUserController
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }
-    
-    protected function getUserListRoute(){
+
+    protected function mergeSecondaryInstances(BaseUser $main, array $entities)
+    {
+        foreach ($entities as $entity) {
+            if ($main->getInstance() === $entity->getInstance()) {
+                $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
+            } else if ($main->hasSecondaryInstance($entity->getInstance())) {
+                $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
+            } else {
+                $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
+            }
+
+            foreach ($entity->getSecondaryInstances() as $id => $secondaryInstance) {
+                $instance = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Instance')->find($id);
+
+                if ($main->getInstance() === $instance) {
+                    $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
+                } else if ($main->hasSecondaryInstance($instance)) {
+                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
+                } else {
+                    $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
+                }
+            }
+        }
+
+        $this->getDoctrine()->getManager()->persist($main);
+        $this->getDoctrine()->getManager()->flush($main);
+    }
+
+    protected function getUserListRoute()
+    {
         return 'admin_user';
     }
+
 }

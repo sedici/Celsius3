@@ -260,6 +260,10 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
+        if ($name === 'BaseUser') {
+            $this->mergeSecondaryInstances($main,$entities);
+        }
+
         $this->get('celsius3_core.union_manager')->union($this->getBundle() . ':' . $name, $main, $entities, $updateInstance);
 
         $this->get('session')->getFlashBag()->add('success', 'The elements were successfully joined.');
@@ -317,4 +321,5 @@ abstract class BaseController extends Controller
     {
         return false;
     }
+
 }
