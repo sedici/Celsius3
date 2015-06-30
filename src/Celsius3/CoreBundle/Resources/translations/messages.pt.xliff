@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2015-06-01T17:41:59Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+  <file date="2015-06-30T17:26:27Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -10,11 +10,6 @@
         <source></source>
         <target state="new"></target>
         <jms:reference-file line="58">Filter/Type/OrderFilterType.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="e203276582b3c97cdb85f9a94442ec79fef384ef" resname="&lt;b class=&quot;caret&quot;&gt;&lt;/b&gt;">
-        <source><![CDATA[<b class="caret"></b>]]></source>
-        <target state="new"><![CDATA[<b class="caret"></b>]]></target>
-        <jms:reference-file line="69">CoreBundle/Menu/Builder.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cd437865cbac7655f8b86519aea764f378093804" resname="Abbreviation">
         <source>Abbreviation</source>
@@ -64,8 +59,6 @@
       <trans-unit id="4e7afebcfbae000b22c7c85e5560f89a2a0280b4" resname="Admin">
         <source>Admin</source>
         <target state="new">Admin</target>
-        <jms:reference-file line="48">Form/Type/UserTransformType.php</jms:reference-file>
-        <jms:reference-file line="58">Form/Type/UserTransformType.php</jms:reference-file>
         <jms:reference-file line="4">views/SuperadminInstance/_index_list_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b8be3d1264310c3b8c848d4b90d5206179a40cc4" resname="Administration">
@@ -153,7 +146,7 @@
       <trans-unit id="64fbd995d3b6b156ee26ae3c03e6516434c34c12" resname="Change">
         <source>Change</source>
         <target state="new">Change</target>
-        <jms:reference-file line="13">views/Layout/var.html.twig</jms:reference-file>
+        <jms:reference-file line="12">views/Layout/var.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="49289db43e663a3df5e2c70714722ecc54895565" resname="Change Password">
         <source>Change Password</source>
@@ -272,7 +265,7 @@
       <trans-unit id="b37456c4530be810dc040f50da72eda09addfb0a" resname="Contact">
         <source>Contact</source>
         <target state="new">Contact</target>
-        <jms:reference-file line="14">views/Directory/_instance.html.twig</jms:reference-file>
+        <jms:reference-file line="17">views/Directory/_instance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="212db7fc221ae5dd7824152a11e17683e99fe493" resname="Contact Creation">
         <source>Contact Creation</source>
@@ -919,7 +912,7 @@
         <source>Institutions</source>
         <target state="new">Institutions</target>
         <jms:reference-file line="25">views/Administration/layout.html.twig</jms:reference-file>
-        <jms:reference-file line="8">views/Directory/_instance.html.twig</jms:reference-file>
+        <jms:reference-file line="11">views/Directory/_instance.html.twig</jms:reference-file>
         <jms:reference-file line="10">views/SuperadminInstance/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="24">views/Superadministration/_shared_span.html.twig</jms:reference-file>
         <jms:reference-file line="8">views/SuperadminLegacyInstance/_show_fields.html.twig</jms:reference-file>
@@ -1006,12 +999,6 @@
         <source>Liblink</source>
         <target state="new">Liblink</target>
         <jms:reference-file line="102">Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="cba71e2bf7209bc1b0442fdc245383e65041d42f" resname="Librarian">
-        <source>Librarian</source>
-        <target state="new">Librarian</target>
-        <jms:reference-file line="47">Form/Type/UserTransformType.php</jms:reference-file>
-        <jms:reference-file line="57">Form/Type/UserTransformType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="4e5a2893bdcc7d239c1db72e4c4ffbe4bea73174" resname="Login">
         <source>Login</source>
@@ -1435,11 +1422,12 @@
         <target state="new">Send</target>
         <jms:reference-file line="13">views/Layout/mail.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="1e9a4919915a3354e41379205d481f2d3dc11d60" resname="Send reminder email">
-        <source>Send reminder email</source>
-        <target state="new">Send reminder email</target>
+      <trans-unit id="ef48ef2c2db8145058d32999450f157c9834eafb" resname="Send Reminder Email">
+        <source>Send Reminder Email</source>
+        <target state="new">Send Reminder Email</target>
         <jms:reference-file line="27">views/Administration/layout.html.twig</jms:reference-file>
         <jms:reference-file line="4">views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="9">views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0617ee64c47923969f5aa6ce740f9481ee13fd23" resname="Shared Elements">
         <source>Shared Elements</source>
@@ -1468,11 +1456,6 @@
         <target state="new">Subject</target>
         <jms:reference-file line="13">views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="39">views/Layout/mail.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="8fc2130c51bff1d42832210e3b91964a71632924" resname="Superadmin">
-        <source>Superadmin</source>
-        <target state="new">Superadmin</target>
-        <jms:reference-file line="59">Form/Type/UserTransformType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="77dfca2a56f9b1ffc2b6687e230088cf86fbc074" resname="Surname">
         <source>Surname</source>
@@ -1594,8 +1577,6 @@
         <source>User</source>
         <target state="new">User</target>
         <jms:reference-file line="59">Form/Type/ContactType.php</jms:reference-file>
-        <jms:reference-file line="46">Form/Type/UserTransformType.php</jms:reference-file>
-        <jms:reference-file line="56">Form/Type/UserTransformType.php</jms:reference-file>
         <jms:reference-file line="8">views/AdminContact/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="6">views/AdminOrder/_index_order_fields.html.twig</jms:reference-file>
         <jms:reference-file line="8">views/SuperadminContact/_show_fields.html.twig</jms:reference-file>
@@ -1694,7 +1675,7 @@
         <source>Website</source>
         <target state="new">Website</target>
         <jms:reference-file line="6">views/AdminInstitution/_show_fields.html.twig</jms:reference-file>
-        <jms:reference-file line="11">views/Directory/_instance.html.twig</jms:reference-file>
+        <jms:reference-file line="14">views/Directory/_instance.html.twig</jms:reference-file>
         <jms:reference-file line="4">views/SuperadminInstance/_index_sort.html.twig</jms:reference-file>
         <jms:reference-file line="6">views/SuperadminInstitution/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="4">views/SuperadminLegacyInstance/_index_sort.html.twig</jms:reference-file>
@@ -1725,11 +1706,6 @@
         <target state="new">pending</target>
         <jms:reference-file line="41">views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="0026b52cc5cb87ea7749f80c540576eb181c59ef" resname="sendReminderEmail">
-        <source>Send Reminder Email</source>
-        <target state="new">Send Reminder Email</target>
-        <jms:reference-file line="9">views/Administration/send_reminder_emails.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="2eb888e95f113117c63e0d526f68ad90267a45e6" resname="since">
         <source>since</source>
         <target state="new">since</target>
@@ -1750,6 +1726,14 @@
         <source>userAgent</source>
         <target state="new">userAgent</target>
         <jms:reference-file line="4">views/AdminFileDownload/_index_sort.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>Statistics</source>
+        <target>Statistics</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Information</source>
+        <target>Information</target>
       </trans-unit>
     </body>
   </file>

@@ -85,13 +85,13 @@ class Builder extends ContainerAware
 
         $menu->addChild('Home', array(
             'route' => 'directory',
-        ));
+        ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Instances', array(
             'route' => 'directory_instances',
-        ));
+        ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Statistics', array(
             'route' => 'directory_statistics',
-        ));
+        ))->setExtra('translation_domain', 'messages');
 
         return $menu;
     }
@@ -110,25 +110,25 @@ class Builder extends ContainerAware
             'routeParameters' => array(
                 'url' => $instance_url,
             ),
-        ));
+        ))->setExtra('translation_domain', 'messages');
         $menu->addChild('News', array(
             'route' => 'public_news',
             'routeParameters' => array(
                 'url' => $instance_url,
             ),
-        ));
+        ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Information', array(
             'route' => 'public_information',
             'routeParameters' => array(
                 'url' => $instance_url,
             ),
-        ));
+        ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Statistics', array(
             'route' => 'public_statistics',
             'routeParameters' => array(
                 'url' => $instance_url,
             ),
-        ));
+        ))->setExtra('translation_domain', 'messages');
 
         return $menu;
     }
