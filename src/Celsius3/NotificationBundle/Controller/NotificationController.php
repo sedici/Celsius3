@@ -22,9 +22,11 @@
 
 namespace Celsius3\NotificationBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\CoreBundle\Controller\BaseController;
+use Celsius3\NotificationBundle\Form\Type\SubscriptionType;
 
 /**
  * Notification controller.
@@ -58,6 +60,30 @@ class NotificationController extends BaseController
     public function indexAction()
     {
         return $this->baseIndex('Notification');
+    }
+    
+    /**
+     * Lists all Notification documents.
+     *
+     * @Route("/subscriptions", name="user_notification_subscriptions")
+     * @Template()
+     *
+     * @return array
+     */
+    public function subscriptionsAction(Request $request)
+    {
+        // Falta levantar la configuración de la db para mostrar en el form
+        $form = $this->createForm(new SubscriptionType(), array());
+        
+        if ($request->getMethod() === 'POST') {
+            $form->submit($request);
+            
+            // Acá va el procesamiento del forms
+        }
+
+        return array(
+            'form' => $form->createView()
+        );
     }
 
     /**
