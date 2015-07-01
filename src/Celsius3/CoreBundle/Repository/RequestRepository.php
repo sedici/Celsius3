@@ -73,7 +73,9 @@ class RequestRepository extends EntityRepository
                 ->innerJoin('o.materialData', 'md')
                 ->andWhere('r.type = :type')->setParameter('type', $type)
                 ->groupBy('materialDataYear')
-                ->orderBy('materialDataYear', 'ASC');
+                ->orderBy('materialDataYear', 'ASC')
+                ->having('materialDataYear >= :iYear')->setParameter('iYear', 1500)
+                ->andHaving('materialDataYear <= :fYear')->setParameter('fYear',date("Y"));
 
         if ($initialYear === $finalYear) {
             $qb = $qb->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear);
