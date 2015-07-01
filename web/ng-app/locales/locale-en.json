@@ -55,7 +55,6 @@
     "congress": "Congress",
     "thesis": "Thesis",
     "patent": "Patent",
-    "First": "Primero",
     "editor": "Editor",
     "chapter": "Chapter",
     "isbn": "ISBN",
@@ -159,5 +158,9 @@
     "Total Users": "Total Users",
     "Country": "Country",
     "Requests": "Requests",
-    "Publication year": "Publication Year"
+    "Publication year": "Publication Year",
+    "Previous":"Previous",
+    "Next":"Next",
+    "First":"First",
+    "Last":"Last"
 }

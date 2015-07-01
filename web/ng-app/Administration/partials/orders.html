@@ -1,7 +1,5 @@
 <div class="col-md-12" ng-if="orders.length > 0">
-    <div class="navigation">
-        <pagination total-items="total" max-size="7" boundary-links="true" rotate="false" num-pages="numPages" ng-model="pagination.currentPage" ng-change="pageChanged()"></pagination>
-    </div>
+    <div ng-include="'/ng-app/Administration/partials/pagination.html'"></div>
 
     <div class="sorting-group pull-right">
         <span>
@@ -65,10 +63,7 @@
         
         <div class="clearfix"></div>
     </div>
-
-    <div class="navigation">
-        <pagination total-items="total" max-size="7" boundary-links="true" rotate="false" num-pages="numPages" ng-model="pagination.currentPage" ng-change="pageChanged()"></pagination>
-    </div>
+    <div ng-include="'/ng-app/Administration/partials/pagination.html'"></div>
 </div>
 
 <div class="col-md-12" ng-if="orders.length === 0">

@@ -55,7 +55,6 @@
     "congress": "Congreso",
     "thesis":"Tesis",
     "patent":"Patente",
-    "First":"Primero",
     "editor": "Editor",
     "chapter": "Capítulo",
     "isbn": "ISBN",
@@ -160,5 +159,9 @@
     "Total Users": "Usuarios Totales",
     "Country": "País",
     "Requests": "Pedidos",
-    "Publication year": "Año de Publicación"
+    "Publication year": "Año de Publicación",
+    "Previous":"Anterior",
+    "Next":"Siguiente",
+    "First":"Primero",
+    "Last":"Último"
 }
