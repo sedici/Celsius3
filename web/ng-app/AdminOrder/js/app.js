@@ -9,7 +9,7 @@ var orderApp = angular.module('orderApp', [
     'orderControllers',
     'orderFilters',
     'mgcrea.ngStrap',
-    'angularFileUpload',
+    'ngFileUpload',
     'angular-loading-bar',
     'pascalprecht.translate'
 ]);

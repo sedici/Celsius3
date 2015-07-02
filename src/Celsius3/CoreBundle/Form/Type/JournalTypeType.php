@@ -57,10 +57,6 @@ class JournalTypeType extends MaterialTypeType
                     'label' => 'Journal',
                     'required' => false,
                 ))
-                ->add('other_journal', null, array(
-                    'required' => false,
-                    'property_path' => 'other',
-                ))
         ;
         
         parent::buildForm($builder, $options);

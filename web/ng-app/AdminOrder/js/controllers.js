@@ -1,6 +1,6 @@
-var orderControllers = angular.module('orderControllers', ['angularFileUpload']);
+var orderControllers = angular.module('orderControllers', ['ngFileUpload']);
 
-orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
+orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filter, $translate, Order, Request, Catalog, Event, Contact, MailTemplate, CatalogResult) {
     'use strict';
 
     function findInstitution(tree) {
@@ -262,7 +262,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
-                    $upload.upload({
+                    Upload.upload({
                         url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive',
                         fields: {
                             'request': $scope.forms.receive.request
@@ -291,7 +291,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
-                    $upload.upload({
+                    Upload.upload({
                         url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload',
                         fields: {
                             'request': $scope.forms.reupload.request
@@ -321,7 +321,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, $upload, $filt
             if (files && files.length) {
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
-                    $upload.upload({
+                    Upload.upload({
                         url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload',
                         fields: {
                             'request': $scope.forms.reupload.request,

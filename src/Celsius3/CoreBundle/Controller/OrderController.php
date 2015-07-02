@@ -28,6 +28,35 @@ use Celsius3\CoreBundle\Entity\Journal;
 
 abstract class OrderController extends BaseInstanceDependentController
 {
+    
+    protected function baseCreate($name, $entity, $type, $route)
+    {
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $form = $this->createForm($type, $entity);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            if ($request->request->get($form->getName() . '[materialData][journal]', null, true) === '') {
+                $entity->getMaterialData()->setOther($request->request->get($form->getName() . '[materialData][journal_autocomplete]', null, true));
+            }
+            
+            $this->persistEntity($entity);
+            $this->get('session')
+                    ->getFlashBag()
+                    ->add('success', 'The ' . $name . ' was successfully created.');
+
+            return $this->redirect($this->generateUrl($route));
+        }
+
+        $this->get('session')
+                ->getFlashBag()
+                ->add('error', 'There were errors creating the ' . $name . '.');
+
+        return array(
+            'entity' => $entity,
+            'form' => $form->createView()
+        );
+    }
 
     protected function change()
     {

@@ -10,15 +10,3 @@
 {% block content %}
     {{ new('admin_order', form) }}
 {% endblock %}
-
-{% block javascripts %}
-    <script type="text/javascript">
-        var idJournalAutocomplete = '{{ form.materialData.journal_autocomplete.vars.id }}';
-        var idJournal = '{{ form.materialData.journal.vars.id }}';
-        var idOtherJournal = '{{ form.materialData.other_journal.vars.id }}';
-    </script>
-    {{ parent() }}
-    <script type="text/javascript">
-        otherField();
-    </script>
-{% endblock %}
