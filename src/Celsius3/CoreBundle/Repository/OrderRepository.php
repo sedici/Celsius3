@@ -235,5 +235,4 @@ class OrderRepository extends EntityRepository
                         ->getQuery()
                         ->execute();
     }
-
 }

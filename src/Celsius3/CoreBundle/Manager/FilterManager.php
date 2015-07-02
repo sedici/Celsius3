@@ -91,7 +91,7 @@ class FilterManager
 
         if ($form->getData()) {
             foreach ($form->getData() as $key => $data) {
-                if (!is_null($data) && count($data) > 0) {
+                if (!is_null($data) && $data !== '' && count($data) > 0) {
                     if (!is_null($customFilter) && $customFilter->hasCustomFilter($key)) {
                         $query = $customFilter->applyCustomFilter($key, $data, $query, $instance);
                     } else {
