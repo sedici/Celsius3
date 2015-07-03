@@ -23,14 +23,11 @@
 namespace Celsius3\ApiBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Doctrine\ORM\EntityManager;
 use FOS\OAuthServerBundle\Entity\AccessTokenManager;
 use Symfony\Component\DependencyInjection\Container;
 use Celsius3\CoreBundle\Entity\BaseUser;
-use OAuth2\OAuth2ServerException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityListener

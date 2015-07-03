@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Manager\UserManager;

@@ -10,15 +10,3 @@
 {% block content %}
     {{ edit('admin_order', entity, edit_form) }}
 {% endblock %}
-
-{% block javascripts %}
-    <script type="text/javascript">
-        var idJournalAutocomplete = '{{ edit_form.materialData.journal_autocomplete.vars.id }}';
-        var idJournal = '{{ edit_form.materialData.journal.vars.id }}';
-        var idOtherJournal = '{{ edit_form.materialData.other_journal.vars.id }}';
-    </script>
-    {{ parent() }}
-    <script type="text/javascript">
-        otherField();
-    </script>
-{% endblock %}

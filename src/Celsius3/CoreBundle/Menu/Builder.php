@@ -33,7 +33,6 @@ class Builder extends ContainerAware
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $authChecker = $this->container->get('security.authorization_checker');
-        $tokenStorage = $this->container->get('security.token_storage');
 
         $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
 
@@ -54,7 +53,6 @@ class Builder extends ContainerAware
             $menu->addChild('Administration', array(
                 'route' => 'administration',
             ));
-            $user = $tokenStorage->getToken()->getUser();
         }
         if ($authChecker->isGranted(UserManager::ROLE_SUPER_ADMIN) !== false && $local) {
             $menu->addChild('Network Administration', array(
