@@ -41,7 +41,8 @@ class MaintenanceModeCommand extends ContainerAwareCommand
     {
         $status = $input->getArgument('status');
 
-        $basedir = __DIR__ . '/../../../..';
+        $class = new \ReflectionClass($this);
+        $basedir = dirname($class->getFileName()) . '/../../../..';
         $modedir = $basedir . $this->getContainer()->getParameter('maintenance_mode_dir');
         $filename = $modedir . $this->getContainer()->getParameter('maintenance_mode_file');
 

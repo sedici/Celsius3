@@ -39,7 +39,9 @@ class MaintenanceModeListener
     {
         $filename = $this->container->getParameter('maintenance_mode_file');
         $modedir = $this->container->getParameter('maintenance_mode_dir');
-        $file = __DIR__ . '/../../../..' . $modedir . $filename;
+        $class = new \ReflectionClass($this);
+        $basedir = dirname($class->getFileName()) . '/../../../..';
+        $file = $basedir . $modedir . $filename;
                 
         if (file_exists($file)) {
             $template = $this->container->getParameter('maintenance_mode_template');

@@ -23,7 +23,6 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Symfony\Component\Validator\Constraints as Assert;
 
 abstract class InstanceController extends BaseController
 {
@@ -96,11 +95,13 @@ abstract class InstanceController extends BaseController
 
         if ($configureForm->isValid()) {
             $values = $configureForm->getData();
+            $class = new \ReflectionClass($this);
+            $basedir = dirname($class->getFileName()) . '/../../../..';
 
             $uploadedFile = $configureForm['instance_logo']->getData();
             if (!is_null($uploadedFile)) {
                 $randomName = md5(uniqid(mt_rand(), true));
-                $uploadedFile->move(__DIR__ . '/../../../../web/uploads/logos/', $randomName . '.' . $uploadedFile->guessClientExtension());
+                $uploadedFile->move($basedir . '/web/uploads/logos/', $randomName . '.' . $uploadedFile->guessClientExtension());
                 $values['instance_logo'] = $randomName . '.' . $uploadedFile->guessClientExtension();
             }
 
@@ -109,7 +110,7 @@ abstract class InstanceController extends BaseController
             foreach ($entity->getConfigurations() as $configuration) {
                 if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
 
-                    unlink(__DIR__ . '/../../../../web/uploads/logos/' . $configuration->getValue());
+                    unlink($basedir . '/web/uploads/logos/' . $configuration->getValue());
                 }
                 $configuration->setValue($values[$configuration->getKey()]);
                 $em->persist($entity);

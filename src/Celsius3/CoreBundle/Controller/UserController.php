@@ -89,7 +89,7 @@ class UserController extends BaseInstanceDependentController
             $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken(
                     $user, null, 'main', $user->getRoles()
             );
-            $this->container->get('security.context')->setToken($token);
+            $this->container->get('security.token_storage')->setToken($token);
             
         }
         
