@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Entity;
+namespace Celsius3\NotificationBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

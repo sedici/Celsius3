@@ -155,7 +155,7 @@ class NotificationManager
                         $em = $this->container->get('doctrine.orm.entity_manager');
 
                         $users = $em->getRepository('Celsius3NotificationBundle:NotificationSettings')
-                                ->getUsersSuscribedToInterfaceNotificationsFor($type,$this->container->get('instance_helper')->getSessionInstance());
+                                ->getUsersSuscribedToInterfaceNotificationsFor($type, $this->container->get('celsius3_core.instance_helper')->getSessionInstance());
                         $this->notify(new EventNotification(), $type, $event, $users, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
                                         ->findOneBy(array('code' => 'event_template')));
                     }
