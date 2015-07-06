@@ -20,21 +20,36 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\NotificationBundle\Entity;
 
+use Celsius3\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\Mapping as ORM;
-use Celsius3\NotificationBundle\Entity\Notifiable;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  */
-class DeliverEvent extends SingleInstanceEvent implements Notifiable
+class EventNotification extends Notification
 {
+    /**
+     * @Assert\NotNull
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\JoinColumn(name="event_notification_id", referencedColumnName="id")
+     */
+    private $object;
 
-    public function notify(NotificationManager $manager)
+    function __construct()
     {
-        $manager->notifyEvent($this,'deliver_event');
+        parent::__construct();
     }
 
+    function getObject()
+    {
+        return $this->object;
+    }
+
+    function setObject($object)
+    {
+        $this->object = $object;
+    }
 }

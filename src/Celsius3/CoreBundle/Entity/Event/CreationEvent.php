@@ -23,11 +23,18 @@
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Doctrine\ORM\Mapping as ORM;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class CreationEvent extends SingleInstanceEvent
+class CreationEvent extends SingleInstanceEvent implements Notifiable
 {
-    
+
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'creation_event');
+    }
+
 }

@@ -30,11 +30,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Celsius3\NotificationBundle\Entity\BaseUserNotification;
 use Celsius3\NotificationBundle\Entity\MessageNotification;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\NotificationBundle\Entity\EventNotification;
 
 class NotificationManager
 {
+
     const CAUSE__NEW_MESSAGE = 'new_message';
     const CAUSE__NEW_USER = 'new_user';
+
     private $container;
     private $zmq_port;
     private $zmq_host;
@@ -146,6 +150,16 @@ class NotificationManager
                         )));
                     }
 
+                    public function notifyEvent(Event $event, $type)
+                    {
+                        $em = $this->container->get('doctrine.orm.entity_manager');
+
+                        $users = $em->getRepository('Celsius3NotificationBundle:NotificationSettings')
+                                ->getUsersSuscribedToInterfaceNotificationsFor($type,$this->container->get('instance_helper')->getSessionInstance());
+                        $this->notify(new EventNotification(), $type, $event, $users, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                                        ->findOneBy(array('code' => 'event_template')));
+                    }
+
                     public function getUnreadNotificationsCount($user_id)
                     {
                         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -159,4 +173,6 @@ class NotificationManager
 
                         return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                     }
+
                 }
+                

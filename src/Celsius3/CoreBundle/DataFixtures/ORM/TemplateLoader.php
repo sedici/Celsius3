@@ -49,6 +49,10 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
             'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
             'text' => 'There\'s a new registered user called {{ user }}.',
         ),
+        'event_template' => array(
+            'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
+            'text' => 'Prueba',
+        )
     );
     private $mail_templates = array(
         MailManager::MAIL__ORDER_PRINTED => array(

@@ -25,11 +25,13 @@ namespace Celsius3\CoreBundle\Entity\Event;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class AnnulEvent extends SingleInstanceEvent
+class AnnulEvent extends SingleInstanceEvent implements Notifiable
 {
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
@@ -39,4 +41,10 @@ class AnnulEvent extends SingleInstanceEvent
             $lifecycleHelper->refresh($data['extraData']['request']);
         }
     }
+
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'annul_event');
+    }
+
 }

@@ -33,46 +33,54 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *   @ORM\Index(name="idx_viewed", columns={"isViewed"}),
  *   @ORM\Index(name="idx_template", columns={"template_id"}),
  *   @ORM\Index(name="idx_object_user", columns={"base_user_notification_id"}),
- *   @ORM\Index(name="idx_object_message", columns={"message_notification_id"})
+ *   @ORM\Index(name="idx_object_message", columns={"message_notification_id"}),
+ *   @ORM\Index(name="idx_object_event", columns={"event_notification_id"})
  * })
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({
  *   "message"="MessageNotification",
  *   "baseuser"="BaseUserNotification",
+ *   "event"="EventNotification",
  * })
  */
 abstract class Notification
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $cause;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     private $isViewed = false;
+
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="change", field="isViewed", value="true")
      */
     private $viewedAt;
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\NotificationBundle\Entity\NotificationTemplate")
      * @ORM\JoinColumn(name="template_id", referencedColumnName="id", nullable=false)
      */
     private $template;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
      * @ORM\JoinTable(name="notification_receiver",
@@ -81,6 +89,7 @@ abstract class Notification
      *      )
      */
     private $receivers;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
      * @ORM\JoinTable(name="notification_viewer",
@@ -294,4 +303,5 @@ abstract class Notification
     {
         return $this->viewer;
     }
+
 }

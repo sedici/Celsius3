@@ -29,11 +29,13 @@ use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class MultiInstanceReceiveEvent extends MultiInstanceEvent
+class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 {
 
     use ReclaimableTrait,
@@ -178,4 +180,10 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent
     {
         return $this->requestEvent;
     }
+    
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'receive_event');
+    }
+
 }

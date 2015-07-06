@@ -27,19 +27,23 @@ use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class SingleInstanceReceiveEvent extends SingleInstanceEvent
+class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiable
 {
 
     use ReclaimableTrait;
+
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $deliveryType;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="sirequests_files",
@@ -48,6 +52,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
      *      )
      */
     private $files;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
@@ -142,4 +147,10 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent
     {
         return $this->requestEvent;
     }
+
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'receive_event');
+    }
+
 }

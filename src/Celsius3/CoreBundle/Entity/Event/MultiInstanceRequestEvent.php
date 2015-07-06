@@ -32,17 +32,20 @@ use Celsius3\CoreBundle\Entity\Mixin\ProviderTrait;
 use Celsius3\CoreBundle\Entity\Mixin\AnnullableTrait;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\OrderManager;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class MultiInstanceRequestEvent extends MultiInstanceEvent
+class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 {
 
     use ReclaimableTrait,
         CancellableTrait,
         AnnullableTrait,
         ProviderTrait;
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", cascade={"persist", "refresh"})
      * @ORM\JoinColumn(name="remote_request_id", referencedColumnName="id")
@@ -85,4 +88,10 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent
     {
         return $this->remoteRequest;
     }
+
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'request_event');
+    }
+
 }

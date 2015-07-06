@@ -29,11 +29,13 @@ use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\CancellableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ProviderTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class SingleInstanceRequestEvent extends SingleInstanceEvent
+class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiable
 {
 
     use ReclaimableTrait,
@@ -45,4 +47,10 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);
     }
+
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'request_event');
+    }
+
 }

@@ -26,18 +26,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class SearchEvent extends SingleInstanceEvent
+class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
+
     /**
      * @Assert\NotBlank
      * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\CatalogManager", "getResults"}, message = "Choose a valid result.")
      * @ORM\Column(type="string", length=255)
      */
     private $result;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Catalog")
@@ -96,4 +100,10 @@ class SearchEvent extends SingleInstanceEvent
     {
         return $this->catalog;
     }
+    
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyEvent($this,'search_event');
+    }
+
 }

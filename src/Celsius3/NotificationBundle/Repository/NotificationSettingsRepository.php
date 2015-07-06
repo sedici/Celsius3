@@ -20,21 +20,23 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Entity\Event;
+namespace Celsius3\NotificationBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\NotificationBundle\Entity\Notifiable;
-use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\EntityRepository;
 
 /**
- * @ORM\Entity
+ * NotificationSettingsRepository
  */
-class DeliverEvent extends SingleInstanceEvent implements Notifiable
+class NotificationSettingsRepository extends EntityRepository
 {
 
-    public function notify(NotificationManager $manager)
+    public function getUsersSuscribedToInterfaceNotificationsFor($type, $instance)
     {
-        $manager->notifyEvent($this,'deliver_event');
+        return $this->createQueryBuilder('ns')
+                        ->select('ns.user')
+                        ->where('ns.type = :type')->setParameter('type', $type)
+                        ->andWhere('ns.instance = :instance')->setParameter('instance', $instance)
+                        ->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameters('uin', TRUE);
     }
 
 }
