@@ -183,7 +183,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'receive_event');
+        $manager->notifyEvent($this,'receive');
     }
 
 }

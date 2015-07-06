@@ -44,7 +44,7 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'annul_event');
+        $manager->notifyEvent($this,'annul');
     }
 
 }

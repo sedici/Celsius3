@@ -91,7 +91,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'request_event');
+        $manager->notifyEvent($this,'request');
     }
 
 }

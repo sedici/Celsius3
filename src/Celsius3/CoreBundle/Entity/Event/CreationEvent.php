@@ -34,7 +34,7 @@ class CreationEvent extends SingleInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'creation_event');
+        $manager->notifyEvent($this,'creation');
     }
 
 }

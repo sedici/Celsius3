@@ -150,7 +150,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'receive_event');
+        $manager->notifyEvent($this,'receive');
     }
 
 }

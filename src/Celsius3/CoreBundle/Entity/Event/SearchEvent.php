@@ -103,7 +103,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'search_event');
+        $manager->notifyEvent($this,'search');
     }
 
 }

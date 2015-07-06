@@ -34,7 +34,7 @@ class DeliverEvent extends SingleInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'deliver_event');
+        $manager->notifyEvent($this,'deliver');
     }
 
 }

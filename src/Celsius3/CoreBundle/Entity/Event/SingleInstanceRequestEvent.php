@@ -50,7 +50,7 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiab
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'request_event');
+        $manager->notifyEvent($this,'request');
     }
 
 }
