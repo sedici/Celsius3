@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\CoreBundle\Controller\BaseController;
 use Celsius3\NotificationBundle\Form\Type\SubscriptionType;
+use Celsius3\NotificationBundle\Entity\NotificationSettings;
 
 /**
  * Notification controller.
@@ -61,7 +62,7 @@ class NotificationController extends BaseController
     {
         return $this->baseIndex('Notification');
     }
-    
+
     /**
      * Lists all Notification documents.
      *
@@ -74,16 +75,54 @@ class NotificationController extends BaseController
     {
         // Falta levantar la configuración de la db para mostrar en el form
         $form = $this->createForm(new SubscriptionType(), array());
-        
+
         if ($request->getMethod() === 'POST') {
             $form->submit($request);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $data = $form->getData();
             
-            // Acá va el procesamiento del forms
+            $this->setNotificationTypes('user_notification', $data['user_notification']);
+            $this->setNotificationTypes('message_notification', $data['message_notification']);
+            foreach ($data['event_notification'] as $notification => $types) {
+                $this->setNotificationTypes($notification, $types);
+            }
+            
+            $em->flush();
         }
 
         return array(
             'form' => $form->createView()
         );
+    }
+
+    private function setNotificationTypes($notification, $types)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('Celsius3NotificationBundle:NotificationSettings');
+        $instance = $this->get('celsius3_core.instance_helper')->getSessionInstance();
+
+        $notificationSettings = $repository->findOneBy(
+                array(
+                    'user' => $this->getUser(),
+                    'instance' => $instance,
+                    'type' => $notification
+                )
+        );
+
+        if (!$notificationSettings) {
+            $notificationSettings = new NotificationSettings();
+            $notificationSettings
+                    ->setUser($this->getUser())
+                    ->setInstance($instance)
+                    ->setType($notification);
+        }
+
+        $notificationSettings->setSubscribedToEmailNotifiations(in_array('email', $types));
+        $notificationSettings->setSubscribedToInterfaceNotifications(in_array('notification', $types));
+
+        $em->persist($notificationSettings);
     }
 
     /**
@@ -110,4 +149,5 @@ class NotificationController extends BaseController
 
         return $this->redirect($this->get('celsius3_notification.notification_manager')->generateUrl($notification));
     }
+
 }
