@@ -55,8 +55,6 @@ class PusherType
      */
     private function setupServer()
     {
-        $this->setupApp();
-
         /** @var $loop \React\EventLoop\LoopInterface */
         $this->loop = \React\EventLoop\Factory::create();
 
@@ -75,18 +73,15 @@ class PusherType
         } else {
             $this->socket->listen($this->port);
         }
-
-        $this->server = new \Ratchet\Server\IoServer($this->app, $this->socket, $this->loop);
-    }
-
-    /**
-     * Sets up clank app to bootstrap Ratchet and handle socket requests
-     */
-    private function setupApp()
-    {
-        $serverStack = new WampServer($this->container->get('celsius3_notification.wamp_server'));
-
-        $this->app = new WsServer($serverStack);
+        $this->server = new \Ratchet\Server\IoServer(
+                new \Ratchet\Http\HttpServer(
+                new \Ratchet\WebSocket\WsServer(
+                new \Ratchet\Wamp\WampServer(
+                $this->container->get('celsius3_notification.wamp_server')
+                )
+                )
+                ), $this->socket
+        );
     }
 
     public function getAddress()
