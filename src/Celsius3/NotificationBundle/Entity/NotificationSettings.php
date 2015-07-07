@@ -55,9 +55,9 @@ class NotificationSettings
     /**
      * @var boolean
      *
-     * @ORM\Column(name="subscribedToEmailNotifiations", type="boolean")
+     * @ORM\Column(name="subscribedToEmailNotifications", type="boolean")
      */
-    private $subscribedToEmailNotifiations;
+    private $subscribedToEmailNotifications;
 
     /**
      * Get id
@@ -124,9 +124,9 @@ class NotificationSettings
      *
      * @return NotificationSettings
      */
-    public function setSubscribedToEmailNotifiations($subscribedToEmailNotifiations)
+    public function setSubscribedToEmailNotifications($subscribedToEmailNotifications)
     {
-        $this->subscribedToEmailNotifiations = $subscribedToEmailNotifiations;
+        $this->subscribedToEmailNotifications = $subscribedToEmailNotifications;
 
         return $this;
     }
@@ -136,9 +136,9 @@ class NotificationSettings
      *
      * @return boolean
      */
-    public function getSubscribedToEmailNotifiations()
+    public function getSubscribedToEmailNotifications()
     {
-        return $this->subscribedToEmailNotifiations;
+        return $this->subscribedToEmailNotifications;
     }
 
     /**

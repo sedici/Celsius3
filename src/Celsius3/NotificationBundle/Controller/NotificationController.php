@@ -73,22 +73,44 @@ class NotificationController extends BaseController
      */
     public function subscriptionsAction(Request $request)
     {
-        // Falta levantar la configuración de la db para mostrar en el form
-        $form = $this->createForm(new SubscriptionType(), array());
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('Celsius3NotificationBundle:NotificationSettings');
+
+        $settings = $repository->findBy(
+                array(
+                    'user' => $this->getUser(),
+                    'instance' => $this->get('celsius3_core.instance_helper')->getSessionInstance()
+                )
+        );
+        
+        $form = $this->createForm(new SubscriptionType());
+
+        foreach ($settings as $value) {
+            $data = array();
+            if($value->getSubscribedToInterfaceNotifications()){
+                $data[] = 'notification';
+            }
+            if($value->getSubscribedToEmailNotifications()){
+                $data[] = 'email';
+            }
+            
+            if (!(strpos($value->getType(), 'user') === FALSE) || !(strpos($value->getType(), 'message') === FALSE)) {
+                $form->get($value->getType())->setData($data);
+            } else {
+                $form->get('event_notification')->get($value->getType())->setData($data);
+            }
+        }
 
         if ($request->getMethod() === 'POST') {
             $form->submit($request);
-
-            $em = $this->getDoctrine()->getManager();
-
             $data = $form->getData();
-            
+
             $this->setNotificationTypes('user_notification', $data['user_notification']);
             $this->setNotificationTypes('message_notification', $data['message_notification']);
             foreach ($data['event_notification'] as $notification => $types) {
                 $this->setNotificationTypes($notification, $types);
             }
-            
+
             $em->flush();
         }
 
@@ -119,7 +141,7 @@ class NotificationController extends BaseController
                     ->setType($notification);
         }
 
-        $notificationSettings->setSubscribedToEmailNotifiations(in_array('email', $types));
+        $notificationSettings->setSubscribedToEmailNotifications(in_array('email', $types));
         $notificationSettings->setSubscribedToInterfaceNotifications(in_array('notification', $types));
 
         $em->persist($notificationSettings);
