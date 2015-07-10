@@ -145,6 +145,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *      )
      */
     protected $clientApplications;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="\Celsius3\NotificationBundle\Entity\NotificationSettings", mappedBy="user")
+     */
+    protected $notificationSettings;
 
     public function __toString()
     {
@@ -624,5 +629,53 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
             return $this->getBaseInstitutionRec($institution->getParent());
         }
     }
+  
 
+    /**
+     * Set secondaryInstances
+     *
+     * @param array $secondaryInstances
+     *
+     * @return BaseUser
+     */
+    public function setSecondaryInstances($secondaryInstances)
+    {
+        $this->secondaryInstances = $secondaryInstances;
+
+        return $this;
+    }
+
+    /**
+     * Add notificationSetting
+     *
+     * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
+     *
+     * @return BaseUser
+     */
+    public function addNotificationSetting(\Celsius3\NotificationBundle\Entity\NotificationSettings $notificationSetting)
+    {
+        $this->notificationSettings[] = $notificationSetting;
+
+        return $this;
+    }
+
+    /**
+     * Remove notificationSetting
+     *
+     * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
+     */
+    public function removeNotificationSetting(\Celsius3\NotificationBundle\Entity\NotificationSettings $notificationSetting)
+    {
+        $this->notificationSettings->removeElement($notificationSetting);
+    }
+
+    /**
+     * Get notificationSettings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotificationSettings()
+    {
+        return $this->notificationSettings;
+    }
 }

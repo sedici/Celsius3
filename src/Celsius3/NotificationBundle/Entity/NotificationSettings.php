@@ -25,7 +25,7 @@ class NotificationSettings
     /**
      * @var \Celsius3\CoreBundle\Entity\BaseUser
      *
-     * @ORM\ManyToOne(targetEntity="\Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="\Celsius3\CoreBundle\Entity\BaseUser", inversedBy="notificationSettings")
      * @ORM\JoinColumn(name="user", referencedColumnName="id")
      */
     private $user;

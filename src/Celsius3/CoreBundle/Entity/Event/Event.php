@@ -107,6 +107,14 @@ abstract class Event implements EventInterface
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
+    
+    public function __toString()
+    {
+        $title = $this->getRequest()->getOrder()->getMaterialData()->getTitle();
+        $code = $this->getRequest()->getOrder()->getCode();
+        
+        return  "($code) $title";
+    }
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
