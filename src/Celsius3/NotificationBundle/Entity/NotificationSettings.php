@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * NotificationSettings
  *
  * @ORM\Table(name="notification_settings")
- * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationSettingsRepository")
+ * @ORM\Entity()
  */
 class NotificationSettings
 {
