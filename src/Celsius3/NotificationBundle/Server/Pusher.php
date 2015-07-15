@@ -29,6 +29,7 @@ use Doctrine\ORM\EntityManager;
 
 class Pusher implements WampServerInterface
 {
+
     /**
      * A lookup of all the topics clients have subscribed to
      */
@@ -67,7 +68,7 @@ class Pusher implements WampServerInterface
             echo "User " . $topic->getId() . " subscribed.\n";
         }
 
-        $data = $this->getNotificationData($this->notification_manager->getUnreadNotificationsCount($topic->getId()), array_reverse($this->notification_manager->getUnreadNotifications($topic->getId())->toArray()));
+        $data = $this->getNotificationData($this->notification_manager->getUnreadNotificationsCount($topic->getId()), array_reverse($this->notification_manager->getUnreadNotifications($topic->getId())));
 
         $topic->broadcast($data);
     }
@@ -101,7 +102,7 @@ class Pusher implements WampServerInterface
 
     public function onError(ConnectionInterface $conn, \Exception $e)
     {
-        
+        echo $e->getCode();
     }
 
     /**
@@ -110,6 +111,8 @@ class Pusher implements WampServerInterface
     public function onNotificationEntry($entry)
     {
         $entryData = json_decode($entry, true);
+
+        usleep(10000); // Utilizado para dar tiempo a que la notificación se persista y la búsqueda no resulte nula.
 
         $notification = $this->em
                 ->getRepository('Celsius3NotificationBundle:Notification')
@@ -134,4 +137,5 @@ class Pusher implements WampServerInterface
             $topic->broadcast($data);
         }
     }
+
 }

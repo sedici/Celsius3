@@ -31,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class EventNotification extends Notification
 {
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
@@ -38,9 +39,13 @@ class EventNotification extends Notification
      */
     private $object;
 
-    function __construct()
+    function __construct($cause, $object, $template)
     {
         parent::__construct();
+
+        $this->setCause($cause);
+        $this->setObject($object);
+        $this->setTemplate($template);
     }
 
     function getObject()
@@ -52,4 +57,5 @@ class EventNotification extends Notification
     {
         $this->object = $object;
     }
+
 }

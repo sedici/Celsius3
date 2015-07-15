@@ -25,12 +25,14 @@ namespace Celsius3\NotificationBundle\Entity;
 use Celsius3\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 /**
  * @ORM\Entity
  */
 class BaseUserNotification extends Notification
 {
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
@@ -38,9 +40,13 @@ class BaseUserNotification extends Notification
      */
     private $object;
 
-    function __construct()
+    function __construct($cause, BaseUser $object, $template)
     {
         parent::__construct();
+
+        $this->setCause($cause);
+        $this->setObject($object);
+        $this->setTemplate($template);
     }
 
     function getObject()
@@ -52,4 +58,5 @@ class BaseUserNotification extends Notification
     {
         $this->object = $object;
     }
+
 }

@@ -206,4 +206,65 @@ class BaseUserRepository extends EntityRepository
                         ->getQuery()
                         ->getResult();
     }
+
+    public function getUsersWithMessageNotification($type, $receivers)
+    {
+        $qb = $this->createQueryBuilder('u')
+                        ->select('u')
+                        ->join('u.notificationSettings', 'ns')
+                        ->where('u IN (:receivers)')->setParameter('receivers', $receivers)
+                        ->andWhere('ns.type = :type')->setParameter('type', 'message_notification');
+
+        if ($type === 'interface') {
+            $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE);
+        }
+
+        if ($type === 'email') {
+            $qb->andWhere('ns.subscribedToEmailNotifications = :ein')->setParameter('ein', TRUE);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function getAdminsWithUserNotification($type, $instance)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb = $qb->select('u')
+                        ->join('u.notificationSettings', 'ns')
+                        ->where('u.roles LIKE :roles')
+                        ->setParameter('roles', '%ROLE_ADMIN%')
+                        ->andWhere('ns.type = :type')->setParameter('type', 'user_notification')
+                        ->andWhere('ns.instance = :instance')->setParameter('instance', $instance);
+        if ($type === 'interface') {
+            $qb = $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE);
+        }
+        if ($type === 'email') {
+            $qb = $qb->andWhere('ns.subscribedToEmailNotifications = :uen')->setParameter('uen', TRUE);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function getUsersWithEventNotification($type, $event, $event_type)
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        $qb = $qb->select('u')
+                        ->join('u.notificationSettings', 'ns')
+                        ->where('u.roles LIKE :roles')
+                        ->setParameter('roles', '%ROLE_ADMIN%')
+                        ->andWhere('ns.type = :type')->setParameter('type', $event_type . '_notification')
+                        ->andWhere('ns.instance = :instance')->setParameter('instance', $event->getInstance());
+
+        if ($type === 'interface') {
+            $qb = $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE);
+        }
+        if ($type === 'email') {
+
+            $qb = $qb->andWhere('ns.subscribedToEmailNotifications = :uen')->setParameter('uen', TRUE);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
 }

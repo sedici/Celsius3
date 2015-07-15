@@ -64,7 +64,7 @@ class NotificationManager
         $eventArray = array(
             'template_data' => function (Notification $notification) {
                 return array(
-                    'order' => $notification->getObject(),
+                    'order' => $notification->getObject()->getRequest(),
                     'event' => $notification->getCause()
                 );
             },
@@ -142,19 +142,41 @@ class NotificationManager
                                 )));
                             }
 
-                            private function notify(Notification $notification, $cause, $object, $receivers, NotificationTemplate $template)
+                            private function notifyInterface(Notification $notification, $receivers)
                             {
                                 $em = $this->container->get('doctrine.orm.entity_manager');
-                                $notification->setCause($cause);
+
                                 foreach ($receivers as $receiver) {
                                     $notification->addReceiver($receiver);
                                 }
-                                $notification->setObject($object);
-                                $notification->setTemplate($template);
-                                $em->persist($notification);
-                                $em->flush($notification);
+                                $em->beginTransaction();
+                                try {
+                                    $em->persist($notification);
+                                    $em->flush($notification);
+                                    $em->commit();
+                                } catch (Exception $e) {
+                                    $em->rollback();
+                                }
 
                                 $this->notifyRatchet($notification);
+                            }
+
+                            private function notifyEmail(Notification $notification, $receivers, $instance)
+                            {
+                                $mailer = $this->container->get('celsius3_core.mailer');
+                                $function = $this->getMap()[$notification->getCause()]['template_data'];
+                                $data = $function($notification);
+
+                                $twig = clone $this->container->get('twig');
+                                $twig->setLoader(new \Twig_Loader_String());
+
+                                $text = $twig->render($notification->getTemplate()->getText(), $data);
+
+                                foreach ($receivers as $user) {
+                                    if (!$user->getWrongEmail()) {
+                                        $mailer->sendEmail($user->getEmail(), 'Celsius 3 ' . $notification->getCause(), $text, $instance);
+                                    }
+                                }
                             }
 
                             public function notifyNewMessage(Message $message)
@@ -162,66 +184,57 @@ class NotificationManager
                                 $receivers = new ArrayCollection($message->getThread()->getParticipants());
                                 $em = $this->container->get('doctrine.orm.entity_manager');
 
-                                $users = $em->createQueryBuilder()
-                                                ->select('u')
-                                                ->from('Celsius3CoreBundle:BaseUser', 'u')
-                                                ->join('u.notificationSettings', 'ns')
-                                                ->where('u IN (:receivers)')->setParameter('receivers', $receivers)
-                                                ->andWhere('ns.type = :type')->setParameter('type', 'message_notification')
-                                                ->andWhere('ns.instance = :instance')->setParameter('instance', $this->container->get('celsius3_core.instance_helper')->getSessionInstance())
-                                                ->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE)
-                                                ->getQuery()->execute();
+                                $usersInterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithMessageNotification('interface', $receivers);
+                                $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithMessageNotification('email', $receivers);
 
+                                $receiversInterfaceNotification = $receivers->filter(function (BaseUser $receiver) use ($message, $usersInterfaceNotification) {
+                                    return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $usersInterfaceNotification));
+                                });
+                                $receiversEmailNotification = $receivers->filter(function (BaseUser $receiver) use ($message, $usersEmailNotification) {
+                                    return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $usersEmailNotification));
+                                });
 
-                                $this->notify(new MessageNotification(), self::CAUSE__NEW_MESSAGE, $message, $receivers->filter(function (BaseUser $receiver) use ($message, $users) {
-                                            return ($receiver->getId() != $message->getSender()->getId()) && (in_array($receiver, $users));
-                                        }), $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
-                                                ->findOneBy(array(
-                                                    'code' => self::CAUSE__NEW_MESSAGE
-                                )));
+                                $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                                        ->findOneBy(array('code' => self::CAUSE__NEW_MESSAGE));
+
+                                $notification = new MessageNotification(self::CAUSE__NEW_MESSAGE, $message, $template);
+
+                                $this->notifyInterface($notification, $receiversInterfaceNotification);
+                                $this->notifyEmail($notification, $receiversEmailNotification, $message->getSender()->getInstance());
                             }
 
                             public function notifyNewUser(BaseUser $user)
                             {
                                 $em = $this->container->get('doctrine.orm.entity_manager');
 
-                                $admins = $em->createQueryBuilder()
-                                                ->select('u')
-                                                ->from('Celsius3CoreBundle:BaseUser', 'u')
-                                                ->join('u.notificationSettings', 'ns')
-                                                ->where('u.roles LIKE :roles')
-                                                ->setParameter('roles', '%ROLE_ADMIN%')
-                                                ->andWhere('ns.type = :type')->setParameter('type', 'user_notification')
-                                                ->andWhere('ns.instance = :instance')->setParameter('instance', $user->getInstance())
-                                                ->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE)
-                                                ->getQuery()->execute();
+                                $adminsInterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getAdminsWithUserNotification('interface', $user->getInstance());
+                                $adminsEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getAdminsWithUserNotification('email', $user->getInstance());
 
-                                $this->notify(new BaseUserNotification(), self::CAUSE__NEW_USER, $user, $admins, $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
-                                                ->findOneBy(array(
-                                                    'code' => self::CAUSE__NEW_USER
-                                )));
+                                $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                                        ->findOneBy(array('code' => self::CAUSE__NEW_USER));
+
+                                $notification = new BaseUserNotification(self::CAUSE__NEW_USER, $user, $template);
+
+                                $this->notifyInterface($notification, $adminsInterfaceNotification);
+                                $this->notifyEmail($notification, $adminsEmailNotification, $user->getInstance());
                             }
 
                             public function notifyEvent(Event $event, $type)
                             {
                                 $em = $this->container->get('doctrine.orm.entity_manager');
 
-                                $users = $em->createQueryBuilder()
-                                                ->select('u')
-                                                ->from('Celsius3CoreBundle:BaseUser', 'u')
-                                                ->join('u.notificationSettings', 'ns')
-                                                ->where('u.roles LIKE :roles OR u.id = :uid')
-                                                ->setParameter('roles', '%ROLE_ADMIN%')
-                                                ->setParameter('uid', $event->getRequest()->getOwner()->getId())
-                                                ->andWhere('ns.type = :type')->setParameter('type', $type . '_notification')
-                                                ->andWhere('ns.instance = :instance')->setParameter('instance', $event->getInstance())
-                                                ->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE)
-                                                ->getQuery()->execute();
+                                $usersInsterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('interface', $event, $type);
+                                $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('email', $event, $type);
 
-                                foreach ($users as $user) {
-                                    $this->notify(new EventNotification(), $type, $event, array($user), $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
-                                                    ->findOneBy(array('code' => 'event_template')));
+                                $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+                                        ->findOneBy(array('code' => 'event_template'));
+
+                                $notification = new EventNotification($type, $event, $template);
+
+                                foreach ($usersInsterfaceNotification as $user) {
+                                    $this->notifyInterface($notification, array($user));
                                 }
+                                $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance());
                             }
 
                             public function getUnreadNotificationsCount($user_id)
