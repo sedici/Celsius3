@@ -51,7 +51,7 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
         ),
         'order_event' => array(
             'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
-            'text' => 'El pedido <b>{{ request.order.materialData.title }} ({{ request.order.id }})</b> cambio al estado "{{ event }}". {{ link }}',
+            'text' => 'El pedido {{ request.order.id }} cambio al estado "{{ event }}".',
         )
     );
     private $mail_templates = array(

@@ -62,13 +62,11 @@ class NotificationManager
     private function getMap()
     {
         $translator = $this->container->get('translator');
-        $router = $this->container->get('router');
         $eventArray = array(
-            'template_data' => function (Notification $notification) use ($translator, $router) {
+            'template_data' => function (Notification $notification) use ($translator) {
                 return array(
                     'request' => $notification->getObject()->getRequest(),
                     'event' => $translator->trans($notification->getCause()),
-                    'link' => $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), true  )
                 );
             },
                     'route' => 'admin_order_show',
@@ -164,10 +162,11 @@ class NotificationManager
                                 $this->notifyRatchet($notification);
                             }
 
-                            private function notifyEmail(Notification $notification, $receivers, $instance)
+                            private function notifyEmail(Notification $notification, $receivers, $instance, $otherText = '')
                             {
                                 $mailer = $this->container->get('celsius3_core.mailer');
                                 $translator = $this->container->get('translator');
+
                                 $function = $this->getMap()[$notification->getCause()]['template_data'];
                                 $data = $function($notification);
 
@@ -176,7 +175,8 @@ class NotificationManager
 
                                 $text = 'Celsius3 - ' . $notification->getObject()->getInstance();
                                 $text .= "\n\n";
-                                $text .= $twig->render($notification->getTemplate()->getText(), $data);
+                                $text .= $twig->render($notification->getTemplate()->getText(), $data) . ' ';
+                                $text .= $otherText;
 
                                 foreach ($receivers as $user) {
                                     if (!$user->getWrongEmail()) {
@@ -228,6 +228,7 @@ class NotificationManager
                             public function notifyEvent(Event $event, $type)
                             {
                                 $em = $this->container->get('doctrine.orm.entity_manager');
+                                $router = $this->container->get('router');
 
                                 $usersInsterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('interface', $event, $type);
                                 $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('email', $event, $type);
@@ -240,7 +241,11 @@ class NotificationManager
                                 foreach ($usersInsterfaceNotification as $user) {
                                     $this->notifyInterface($notification, array($user));
                                 }
-                                $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance());
+
+                                $otherText = "\n\nPara acceder al pedido ingrese al siguiente enlace.\n";
+                                $otherText .= $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), true);
+
+                                $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance(), $otherText);
                             }
 
                             public function getUnreadNotificationsCount($user_id)
