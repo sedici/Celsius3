@@ -112,12 +112,12 @@ class Pusher implements WampServerInterface
     {
         $entryData = json_decode($entry, true);
 
-        usleep(10000); // Utilizado para dar tiempo a que la notificación se persista y la búsqueda no resulte nula.
+        usleep(100000); // Utilizado para dar tiempo a que la notificación se persista y la búsqueda no resulte nula.
 
         $notification = $this->em
                 ->getRepository('Celsius3NotificationBundle:Notification')
                 ->find($entryData['notification_id']);
-
+        
         if (!$notification) {
             return;
         }

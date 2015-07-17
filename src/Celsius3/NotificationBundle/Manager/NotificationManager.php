@@ -61,11 +61,14 @@ class NotificationManager
 
     private function getMap()
     {
+        $translator = $this->container->get('translator');
+        $router = $this->container->get('router');
         $eventArray = array(
-            'template_data' => function (Notification $notification) {
+            'template_data' => function (Notification $notification) use ($translator, $router) {
                 return array(
-                    'order' => $notification->getObject()->getRequest(),
-                    'event' => $notification->getCause()
+                    'request' => $notification->getObject()->getRequest(),
+                    'event' => $translator->trans($notification->getCause()),
+                    'link' => $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), true  )
                 );
             },
                     'route' => 'admin_order_show',
@@ -164,17 +167,20 @@ class NotificationManager
                             private function notifyEmail(Notification $notification, $receivers, $instance)
                             {
                                 $mailer = $this->container->get('celsius3_core.mailer');
+                                $translator = $this->container->get('translator');
                                 $function = $this->getMap()[$notification->getCause()]['template_data'];
                                 $data = $function($notification);
 
                                 $twig = clone $this->container->get('twig');
                                 $twig->setLoader(new \Twig_Loader_String());
 
-                                $text = $twig->render($notification->getTemplate()->getText(), $data);
+                                $text = 'Celsius3 - ' . $notification->getObject()->getInstance();
+                                $text .= "\n\n";
+                                $text .= $twig->render($notification->getTemplate()->getText(), $data);
 
                                 foreach ($receivers as $user) {
                                     if (!$user->getWrongEmail()) {
-                                        $mailer->sendEmail($user->getEmail(), 'Celsius 3 ' . $notification->getCause(), $text, $instance);
+                                        $mailer->sendEmail($user->getEmail(), 'Celsius 3 ' . $translator->trans($notification->getCause()), $text, $instance);
                                     }
                                 }
                             }
@@ -227,7 +233,7 @@ class NotificationManager
                                 $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('email', $event, $type);
 
                                 $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
-                                        ->findOneBy(array('code' => 'event_template'));
+                                        ->findOneBy(array('code' => 'order_event'));
 
                                 $notification = new EventNotification($type, $event, $template);
 

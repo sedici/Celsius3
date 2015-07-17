@@ -1735,6 +1735,34 @@
         <source>Information</source>
         <target>Información</target>
       </trans-unit>
+      <trans-unit id="3">
+        <source>creation</source>
+        <target>creación</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>search</source>
+        <target>búsqueda</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>annul</source>
+        <target>anulado</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>request</source>
+        <target>solicitado</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>receive</source>
+        <target>recibido</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>cancel</source>
+        <target>cancelado</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>deliver</source>
+        <target>enviado</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
