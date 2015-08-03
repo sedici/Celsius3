@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class Mailer
 {
+
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -54,7 +55,7 @@ class Mailer
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
         $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-        
+
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom($instance->get('email_reply_address')->getValue())
@@ -62,8 +63,11 @@ class Mailer
                 ->setBody($text . "\n" . $signature);
         $this->container->get('mailer')->send($message);
 
-        $this->saveEmail($address, $subject, $text, $instance);
+        if (($this->container->get('security.token_storage')->getToken()->getUser()) instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
+            $this->saveEmail($address, $subject, $text, $instance);
+        }
 
         return true;
     }
+
 }

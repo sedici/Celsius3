@@ -253,6 +253,7 @@ class BaseUserRepository extends EntityRepository
                         ->join('u.notificationSettings', 'ns')
                         ->where('u.roles LIKE :roles')
                         ->setParameter('roles', '%ROLE_ADMIN%')
+                        ->orWhere('u.id = :owner_id')->setParameter('owner_id',$event->getRequest()->getOwner()->getId())
                         ->andWhere('ns.type = :type')->setParameter('type', $event_type . '_notification')
                         ->andWhere('ns.instance = :instance')->setParameter('instance', $event->getInstance());
 
@@ -260,10 +261,9 @@ class BaseUserRepository extends EntityRepository
             $qb = $qb->andWhere('ns.subscribedToInterfaceNotifications = :uin')->setParameter('uin', TRUE);
         }
         if ($type === 'email') {
-
             $qb = $qb->andWhere('ns.subscribedToEmailNotifications = :uen')->setParameter('uen', TRUE);
         }
-
+        
         return $qb->getQuery()->execute();
     }
 

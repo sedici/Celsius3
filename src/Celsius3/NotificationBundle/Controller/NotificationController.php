@@ -82,18 +82,18 @@ class NotificationController extends BaseController
                     'instance' => $this->get('celsius3_core.instance_helper')->getSessionInstance()
                 )
         );
-        
-        $form = $this->createForm(new SubscriptionType());
+
+        $form = $this->createForm(new SubscriptionType($this->getUser()));
 
         foreach ($settings as $value) {
             $data = array();
-            if($value->getSubscribedToInterfaceNotifications()){
+            if ($value->getSubscribedToInterfaceNotifications()) {
                 $data[] = 'notification';
             }
-            if($value->getSubscribedToEmailNotifications()){
+            if ($value->getSubscribedToEmailNotifications()) {
                 $data[] = 'email';
             }
-            
+
             if (!(strpos($value->getType(), 'user') === FALSE) || !(strpos($value->getType(), 'message') === FALSE)) {
                 $form->get($value->getType())->setData($data);
             } else {
@@ -104,9 +104,11 @@ class NotificationController extends BaseController
         if ($request->getMethod() === 'POST') {
             $form->submit($request);
             $data = $form->getData();
-
-            $this->setNotificationTypes('user_notification', $data['user_notification']);
+            if ($this->getUser()->hasRole('ROLE_ADMIN') || $this->getUser()->hasRole('ROLE_SUPERADMIN')) {
+                $this->setNotificationTypes('user_notification', $data['user_notification']);
+            }
             $this->setNotificationTypes('message_notification', $data['message_notification']);
+
             foreach ($data['event_notification'] as $notification => $types) {
                 $this->setNotificationTypes($notification, $types);
             }

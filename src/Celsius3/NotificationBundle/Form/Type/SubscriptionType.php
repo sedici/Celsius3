@@ -29,20 +29,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SubscriptionType extends AbstractType
 {
 
+    private $user;
+
+    function __construct(\Celsius3\CoreBundle\Entity\BaseUser $user)
+    {
+        $this->user = $user;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-                ->add('user_notification', 'choice', array(
-                    'choices' => array(
-                        'notification' => 'Notification',
-                        'email' => 'Email',
-                    ),
-                    'required' => false,
-                    'multiple' => true,
-                    'expanded' => true,
-                    'label' => 'New User',
-                ))
-                ->add('message_notification', 'choice', array(
+        if ($this->user->hasRole('ROLE_ADMIN') || $this->user->hasRole('ROLE_SUPERADMIN')) {
+            $builder
+                    ->add('user_notification', 'choice', array(
+                        'choices' => array(
+                            'notification' => 'Notification',
+                            'email' => 'Email',
+                        ),
+                        'required' => false,
+                        'multiple' => true,
+                        'expanded' => true,
+                        'label' => 'New User',
+            ));
+        }
+        $builder->add('message_notification', 'choice', array(
                     'choices' => array(
                         'notification' => 'Notification',
                         'email' => 'Email',
@@ -69,4 +78,5 @@ class SubscriptionType extends AbstractType
     {
         return 'celsius3_notificationbundle_subscriptiontype';
     }
+
 }
