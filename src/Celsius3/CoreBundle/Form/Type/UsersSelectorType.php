@@ -20,59 +20,49 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\MessageBundle\FormType;
+namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Celsius3\CoreBundle\Form\DataTransformer\UsersToUsernamesTransformer;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
 
-class RecipientsCustomType extends AbstractType
+class UsersSelectorType extends AbstractType
 {
     /**
-     * @var RecipientsDataTransformer
+     * @var EntityManager
      */
-    private $recipientsTransformer;
+    private $em;
 
     /**
-     * @param RecipientsDataTransformer $transformer
+     * @param EntityManager $em
      */
-    public function __construct(RecipientsDataTransformer $transformer)
+    public function __construct(EntityManager $em)
     {
-        $this->recipientsTransformer = $transformer;
+        $this->em = $em;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer($this->recipientsTransformer);
+        $transformer = new UsersToUsernamesTransformer($this->em);
+        $builder->addModelTransformer($transformer);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'The selected recipient does not exist',
+            'invalid_message' => 'The selected User does not exist',
         ));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getParent()
     {
-        return 'genemu_jqueryselect2_entity';
+        return 'text';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
-        return 'celsius3_messagebundle_recipients_selector_custom';
+        return 'celsius3_corebundle_users_selector';
     }
 }

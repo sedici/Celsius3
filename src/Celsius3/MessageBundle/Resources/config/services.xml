@@ -12,7 +12,6 @@
         <parameter key="celsius3_message.twig.extension.threads.class">Celsius3\MessageBundle\Twig\ThreadExtension</parameter>
         <parameter key="celsius3_message.provider.default.class">Celsius3\MessageBundle\Provider\Provider</parameter>
         <parameter key="celsius3_message.thread_manager.default.class">Celsius3\MessageBundle\DocumentManager\ThreadManager</parameter>
-        <parameter key="celsius3_message.recipients_selector.class">Celsius3\MessageBundle\FormType\RecipientsCustomType</parameter>
         <parameter key="celsius3_message.recipients_selector_hidden.class">Celsius3\MessageBundle\FormType\RecipientsHiddenType</parameter>
     </parameters>
 
@@ -51,11 +50,6 @@
             <argument>%fos_message.thread_class%</argument>
             <argument>%fos_message.thread_meta_class%</argument>
             <argument type="service" id="fos_message.message_manager" />
-        </service>
-
-        <service id="celsius3_message.recipients_selector" class="%celsius3_message.recipients_selector.class%" public="true">
-            <argument type="service" id="celsius3_message.custom_recipients_data_transformer" />
-            <tag name="form.type" alias="celsius3_messagebundle_recipients_selector_custom" />
         </service>
 
         <service id="celsius3_message.recipients_selector_hidden" class="%celsius3_message.recipients_selector_hidden.class%" public="true">

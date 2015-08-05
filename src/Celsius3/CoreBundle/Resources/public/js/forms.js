@@ -93,6 +93,56 @@ $(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", functi
     });
 });
 
+$(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", function () {
+    function split(val) {
+        return val.split(/,\s*/);
+    }
+
+    function extractLast(term) {
+        return split(term).pop();
+    }
+
+    $(this).autocomplete({
+        source: function (request, response) {
+            var field = $(this);
+            $.ajax({
+                url: ajax_path,
+                dataType: "json",
+                data: {
+                    term: extractLast(request.term),
+                    target: field[0].element.attr('target')
+                },
+                success: function (data) {
+                    response(data);
+                }
+            });
+        },
+        search: function () {
+            // custom minLength
+            var term = extractLast(this.value);
+            if (term.length < 2) {
+                return false;
+            }
+        },
+        focus: function () {
+            // prevent value inserted on focus
+            return false;
+        },
+        select: function (event, ui) {
+            var terms = split(this.value);
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push(ui.item.id);
+            // add placeholder to get the comma-and-space at the end
+            terms.push("");
+            this.value = terms.join(", ");
+            
+            return false;
+        }
+    });
+});
+
 /**
  * Material type change related event
  */
@@ -192,9 +242,10 @@ $('.add-file').click(
 /*
  * Select especial para mensajes
  */
-$('#message_recipients').select2({
-    placeholder: ''
-});
+//$('#message_recipients_autocomplete').select2({
+//    placeholder: '',
+//    query: function (query) {}
+//});
 
 /*
  * Form submission

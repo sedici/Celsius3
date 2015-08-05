@@ -26,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Administration controller
@@ -71,6 +72,37 @@ class AdministrationController extends BaseInstanceDependentController
     public function ajaxAction(Request $request)
     {
         return $this->ajax($request, $this->getInstance());
+    }
+    
+    /**
+     * @Route("/ajax_username", name="admin_ajax_usernames")
+     */
+    public function usernamesAjaxAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->createNotFoundException();
+        }
+
+        $instance = $this->getInstance();
+        $term = $request->query->get('term');
+
+        $result = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions(null))
+                ->getResult();
+
+        $json = array();
+        foreach ($result as $element) {
+            $json[] = array(
+                'id' => $element->getUsername(),
+                'value' => $element->__toString(),
+            );
+        }
+
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     protected function validateAjax($target)

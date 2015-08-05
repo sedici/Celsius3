@@ -30,7 +30,6 @@ class AppKernel extends Kernel
             new JMS\TranslationBundle\JMSTranslationBundle(),
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new Sp\BowerBundle\SpBowerBundle(),
             new Snc\RedisBundle\SncRedisBundle(),
             new Celsius3\CoreBundle\Celsius3CoreBundle(),

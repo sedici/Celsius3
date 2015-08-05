@@ -25,7 +25,6 @@ namespace Celsius3\MessageBundle\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
 use Celsius3\CoreBundle\Manager\UserManager;
@@ -49,16 +48,11 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
         $user = $this->token_storage->getToken()->getUser();
         if ($isAdmin) {
             $builder
-                    ->add('recipients', 'celsius3_messagebundle_recipients_selector_custom', array(
-                        'class' => 'Celsius3\\CoreBundle\\Entity\\BaseUser',
-                        'choice_label' => 'username',
-                        'multiple' => true,
-                        'query_builder' => function (EntityRepository $er) use ($user) {
-                            return $er->createQueryBuilder('u')
-                                    ->where('u.id <> :id')
-                                    ->setParameter('id', $user->getId())
-                                    ->orderBy('u.username', 'asc');
-                        },
+                    ->add('recipients', 'celsius3_corebundle_users_selector', array(
+                        'attr' => array(
+                            'class' => 'container autocomplete_multi',
+                            'target' => 'BaseUser',
+                        ),
                     ))
             ;
         } else {

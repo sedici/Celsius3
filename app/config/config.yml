@@ -242,12 +242,6 @@ stof_doctrine_extensions:
             sluggable: true
             softdeleteable: true
 
-genemu_form:
-    select2: ~
-    autocomplete: ~
-    tinymce:
-        theme: modern
-
 celsius3_notification:
     web_socket_server:
         port: %notification_port%        #The port the socket server will listen on

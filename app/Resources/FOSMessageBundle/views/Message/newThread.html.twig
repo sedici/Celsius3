@@ -1,3 +1,4 @@
+{% set ajax_path = 'admin_ajax_usernames' %}
 {% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
@@ -13,9 +14,4 @@
             {% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}
         </div>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {{ form_javascript(form) }}
 {% endblock %}

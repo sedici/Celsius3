@@ -26,6 +26,7 @@
         <parameter key="celsius3_core.instance_listener.class">Celsius3\CoreBundle\EventListener\InstanceListener</parameter>
         <parameter key="celsius3_core.registration.form.type.class">Celsius3\CoreBundle\Form\Type\RegistrationFormType</parameter>
         <parameter key="celsius3_core.form.user_selector.class">Celsius3\CoreBundle\Form\Type\UserSelectorType</parameter>
+        <parameter key="celsius3_core.form.users_selector.class">Celsius3\CoreBundle\Form\Type\UsersSelectorType</parameter>
         <parameter key="celsius3_core.form.order_selector.class">Celsius3\CoreBundle\Form\Type\OrderSelectorType</parameter>
         <parameter key="celsius3_core.form.instance_selector.class">Celsius3\CoreBundle\Form\Type\InstanceSelectorType</parameter>
         <parameter key="celsius3_core.form.journal_selector.class">Celsius3\CoreBundle\Form\Type\JournalSelectorType</parameter>
@@ -163,6 +164,11 @@
         <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_user_selector" />
+        </service>
+        
+        <service id="celsius3_core.form.users_selector" class="%celsius3_core.form.users_selector.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <tag name="form.type" alias="celsius3_corebundle_users_selector" />
         </service>
         
         <service id="celsius3_core.form.order_selector" class="%celsius3_core.form.order_selector.class%">
