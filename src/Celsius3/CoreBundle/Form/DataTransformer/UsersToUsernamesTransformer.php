@@ -74,7 +74,7 @@ class UsersToUsernamesTransformer implements DataTransformerInterface
                         ->findOneBy(array('username' => trim($username)));
 
                 if (null === $user) {
-                    throw new TransformationFailedException(sprintf('A user with id "%s" does not exist!', $id));
+                    throw new TransformationFailedException(sprintf('A user with username "%s" does not exist!', $username));
                 } else {
                     $col->add($user);
                 }
