@@ -25,7 +25,6 @@ namespace Celsius3\NotificationBundle\Manager;
 use Celsius3\NotificationBundle\Entity\Notification;
 use Celsius3\MessageBundle\Entity\Message;
 use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\NotificationBundle\Entity\NotificationTemplate;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Celsius3\NotificationBundle\Entity\BaseUserNotification;
@@ -35,7 +34,6 @@ use Celsius3\NotificationBundle\Entity\EventNotification;
 
 class NotificationManager
 {
-
     const CAUSE__NEW_MESSAGE = 'new_message';
     const CAUSE__NEW_USER = 'new_user';
     const CAUSE__CREATE = 'creation';
@@ -45,7 +43,6 @@ class NotificationManager
     const CAUSE__RECEIVE = 'receive';
     const CAUSE__CANCEL = 'cancel';
     const CAUSE__DELIVER = 'deliver';
-
     private $container;
     private $zmq_port;
     private $zmq_host;
@@ -261,6 +258,4 @@ class NotificationManager
 
                                 return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                             }
-
                         }
-                        

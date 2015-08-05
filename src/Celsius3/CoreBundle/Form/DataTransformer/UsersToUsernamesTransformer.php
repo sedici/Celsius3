@@ -26,6 +26,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 class UsersToUsernamesTransformer implements DataTransformerInterface
 {
@@ -48,7 +49,7 @@ class UsersToUsernamesTransformer implements DataTransformerInterface
             return "";
         }
 
-        return implode(', ', $users->map(function($user) {
+        return implode(', ', $users->map(function(BaseUser $user) {
                     return $user->getUsername();
                 })->toArray());
     }
