@@ -170,12 +170,12 @@ class NotificationManager
                                 $twig = clone $this->container->get('twig');
                                 $twig->setLoader(new \Twig_Loader_String());
 
-                                $text = 'Celsius3 - ' . $notification->getObject()->getInstance();
-                                $text .= "\n\n";
-                                $text .= $twig->render($notification->getTemplate()->getText(), $data) . ' ';
-                                $text .= $otherText;
-
                                 foreach ($receivers as $user) {
+                                    $text = 'Celsius3 - ' . $user->getInstance();
+                                    $text .= "\n\n";
+                                    $text .= $twig->render($notification->getTemplate()->getText(), $data) . ' ';
+                                    $text .= $otherText;
+
                                     if (!$user->getWrongEmail()) {
                                         $mailer->sendEmail($user->getEmail(), 'Celsius 3 ' . $translator->trans($notification->getCause()), $text, $instance);
                                     }
@@ -259,3 +259,4 @@ class NotificationManager
                                 return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                             }
                         }
+                        
