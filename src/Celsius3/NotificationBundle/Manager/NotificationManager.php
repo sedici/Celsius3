@@ -259,4 +259,3 @@ class NotificationManager
                                 return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                             }
                         }
-                        
