@@ -162,5 +162,6 @@
     "Previous":"Previous",
     "Next":"Next",
     "First":"First",
-    "Last":"Last"
+    "Last":"Last",
+    "orders": "Orders"
 }
