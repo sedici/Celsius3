@@ -13,7 +13,7 @@
     </div>
     <div class="form-group" ng-class="files_error">
         <label for="files">{{'files' | translate}}</label>
-        <button ng-file-select ng-file-change="addFilesToUpload($files)" ng-multiple="true">{{ 'addFiles' | translate }}</button>
+        <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
         <ul>
             <li ng-repeat="(key, file) in filesToUpload">{{ file.name }}</li>
         </ul>

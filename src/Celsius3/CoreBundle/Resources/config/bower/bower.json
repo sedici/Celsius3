@@ -29,7 +29,7 @@
         "d3": "~3.5.0",
         "c3": "~0.4.0",
         "es5-shim": "~4.1",
-        "ng-file-upload-shim":"~5.0",
-        "ng-file-upload": "~5.0"
+        "ng-file-upload-shim":"~6.0",
+        "ng-file-upload": "~6.0"
     }
 }

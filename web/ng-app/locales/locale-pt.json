@@ -135,5 +135,9 @@
     "Next":"Next",
     "First":"First",
     "Last":"Last",
-    "orders": "Orders"
+    "orders": "Orders",
+    "pendingSearch": "Pending Search",
+    "addFiles": "Add Files",
+    "web": "Web",
+    "author": "Author"
 }

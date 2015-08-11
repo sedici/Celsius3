@@ -164,5 +164,9 @@
     "Next":"Siguiente",
     "First":"Primero",
     "Last":"Último",
-    "orders": "Pedidos"
+    "orders": "Pedidos",
+    "pendingSearch": "Búsquedas Pendientes",
+    "addFiles": "Agregar Archivos",
+    "web": "Web",
+    "author": "Autor"
 }
