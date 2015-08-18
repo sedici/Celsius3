@@ -28,6 +28,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     $scope.institutions = [];
     $scope.data;
     $scope.firstColumnTitle = '';
+    $scope.showTotal;
     $scope.location = {};
 
     if (directory) {
@@ -113,6 +114,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $http.get(Routing.generate('public_rest_get_users_count_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
+            $scope.showTotal = false;
                     $scope.generateUsersCountChart(response);
                 });
     };
@@ -144,6 +146,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
                     $scope.data = response;
                     $scope.ids = response.ids;
                     $scope.countries = response.countries;
+                    $scope.showTotal = false;
                     $scope.generateRequestsOriginChart(response);
                 });
     };
@@ -163,6 +166,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $http.get(Routing.generate('public_rest_get_requests_count_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
+            $scope.showTotal = true;
                     $scope.generateRequestsCountChart(response);
                 });
     };
@@ -182,6 +186,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
+            $scope.showTotal = true;
                     $scope.generateRequestsDestinyDistributionChart(response);
                 });
     };
@@ -201,6 +206,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
+            $scope.showTotal = false;
                     $scope.generateRequestsNumberByPublicationYearChart(response);
                 });
     };
@@ -222,6 +228,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
                 .success(function (response) {
                     $scope.data = response;
+            $scope.showTotal = true;
                     $scope.generateRequestsTotalDelayChart(response);
                 });
     };

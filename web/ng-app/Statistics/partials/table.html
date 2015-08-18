@@ -1,4 +1,3 @@
-<hr>
 <div class="row table-responsive">
     <table class="table table-striped">
         <thead>
@@ -13,5 +12,11 @@
                 <td ng-repeat="v in data.columns">{{ v[key + 1] }}</td>
             </tr>
         </tbody>
+        <tfoot ng-if="showTotal">
+            <tr>
+                <td>{{ 'total' | translate }}</td>
+                <td ng-repeat="v in data.columns">{{ v | totalize_column }}</td>
+            </tr>
+        </tfoot>
     </table>
 </div>
