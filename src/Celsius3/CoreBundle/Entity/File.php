@@ -95,12 +95,12 @@ class File
         return dirname($class->getFileName()) . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
                 DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'web' .
-                DIRECTORY_SEPARATOR . 'uploads';
+                DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $this->getInstance()->getUrl();
     }
 
     protected function getUploadDir()
     {
-        return 'uploads';
+        return 'uploads' . DIRECTORY_SEPARATOR . $this->getInstance()->getUrl();
     }
 
     /**
@@ -139,17 +139,6 @@ class File
             $this->temp = null;
         }
         $this->file = null;
-    }
-
-    /**
-     * @ORM\PostRemove()
-     */
-    public function removeUpload()
-    {
-        $file = $this->getAbsolutePath();
-        if ($file) {
-            unlink($file);
-        }
     }
 
     /**
