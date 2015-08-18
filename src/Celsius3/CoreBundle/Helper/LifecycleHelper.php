@@ -104,7 +104,7 @@ class LifecycleHelper
                 if ($data['eventName'] === EventManager::EVENT__LOCAL_CANCEL || $data['eventName'] === EventManager::EVENT__REMOTE_CANCEL) {
                     $this->em->persist($state);
                     $this->em->flush();
-                    $this->em->refresh($request);
+                    $this->refresh($request);
                 }
             }
         } else {
@@ -218,14 +218,14 @@ class LifecycleHelper
                     }
                 }
             } else {
-                $this->em->refresh($request);
+                $this->refresh($request);
                 $event = $this->setEventData($request, $data);
             }
             $this->refresh($request);
-            $this->em->refresh($event);
+            $this->refresh($event);
 
             $this->em->commit();
-
+            
             return $event;
         } catch (PreviousStateNotFoundException $e) {
             $this->em->rollback();
@@ -264,7 +264,6 @@ class LifecycleHelper
                 $this->state_manager->extraUndoActions($currentState);
 
                 $this->refresh($event);
-                $this->em->refresh($event);
                 $this->refresh($currentState);
                 
                 $this->em->commit();
