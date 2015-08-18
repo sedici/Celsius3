@@ -41,6 +41,10 @@ class ConfigurationHelper
     const CONF__MIN_DAYS_FOR_SEND_MAIL = 'min_days_for_send_mail';
     const CONF__MAX_DAYS_FOR_SEND_MAIL = 'max_days_for_send_mail';
     const CONF__INSTANCE_LOGO = 'instance_logo';
+    const CONF__SMTP_HOST = 'smtp_host';
+    const CONF__SMTP_PORT = 'smtp_port';
+    const CONF__SMTP_USERNAME = 'smtp_username';
+    const CONF__SMTP_PASSWORD = 'smtp_password';
 
     private $equivalences = array(
         'string' => 'text',
@@ -50,7 +54,8 @@ class ConfigurationHelper
         'text' => 'textarea',
         'language' => 'celsius3_corebundle_language_type',
         'confirmation' => 'celsius3_corebundle_confirmation_type',
-        'file' => 'file'
+        'file' => 'file',
+        'password' => 'password'
     );
     public $languages = array(
         'es' => 'Spanish',
@@ -121,6 +126,26 @@ class ConfigurationHelper
             'name' => 'Instance Logo',
             'value' => '',
             'type' => 'image',
+        ),
+        self::CONF__SMTP_HOST => array(
+            'name' => 'SMTP Host',
+            'value' => '',
+            'type' => 'string',
+        ),
+        self::CONF__SMTP_PORT => array(
+            'name' => 'SMTP Port',
+            'value' => '',
+            'type' => 'integer',
+        ),
+        self::CONF__SMTP_USERNAME => array(
+            'name' => 'SMTP Username',
+            'value' => '',
+            'type' => 'string',
+        ),
+        self::CONF__SMTP_PASSWORD => array(
+            'name' => 'SMTP Password',
+            'value' => '',
+            'type' => 'password',
         )
     );
     private $container;

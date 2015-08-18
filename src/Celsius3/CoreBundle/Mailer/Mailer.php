@@ -55,13 +55,20 @@ class Mailer
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
         $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        $transport = \Swift_SmtpTransport::newInstance($instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue())
+                ->setUsername($instance->get('smtp_username')->getValue())
+                ->setPassword($instance->get('smtp_password')->getValue())
+        ;
+        
+        $mailer = \Swift_Mailer::newInstance($transport);
 
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom($instance->get('email_reply_address')->getValue())
                 ->setTo($address)
                 ->setBody($text . "\n" . $signature);
-        $this->container->get('mailer')->send($message);
+        
+        $mailer->send($message);
 
         if (($this->container->get('security.token_storage')->getToken()->getUser()) instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
             $this->saveEmail($address, $subject, $text, $instance);
