@@ -28,46 +28,67 @@ use Symfony\Component\Routing\RouterInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Helper\MailerHelper;
 
 class FosMailer extends DefaultMailer
 {
-    protected $request_stack;
 
-    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack)
+    protected $request_stack;
+    protected $mailerHelper;
+
+    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack, InstanceHelper $instanceHelper, MailerHelper $mailerHelper)
     {
-        parent::__construct($mailer, $router, $templating, $parameters);
+        $instance = $instanceHelper->getSessionInstance();
+        $transport = \Swift_SmtpTransport::newInstance($instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue())
+                ->setUsername($instance->get('smtp_username')->getValue())
+                ->setPassword($instance->get('smtp_password')->getValue())
+        ;
+        $instanceMailer = \Swift_Mailer::newInstance($transport);
+
+        parent::__construct($instanceMailer, $router, $templating, $parameters);
         $this->request_stack = $request_stack;
+        $this->mailerHelper = $mailerHelper;
     }
 
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
+        if (!$this->mailerHelper->validateSmtpServerData($instance)) {
+            return;
+        }
+
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-        
+
         $template = $this->parameters['confirmation.template'];
         $url = $this->router->generate('fos_user_registration_confirm', array(
             'token' => $user->getConfirmationToken(),
             'url' => $this->request_stack->getCurrentRequest()->get('url'),
                 ), true);
         $rendered = $this->templating->render($template, array(
-            'user' => $user,
-            'confirmationUrl' => $url,
-        )) . "\n" . $signature;
+                    'user' => $user,
+                    'confirmationUrl' => $url,
+                )) . "\n" . $signature;
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['confirmation'], $user->getEmail());
     }
 
     public function sendResettingEmailMessage(UserInterface $user)
     {
+        if (!$this->mailerHelper->validateSmtpServerData($instance)) {
+            return;
+        }
+
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-        
+
         $template = $this->parameters['resetting.template'];
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),
             'url' => $user->getInstance()->getUrl(),
                 ), true);
         $rendered = $this->templating->render($template, array(
-            'user' => $user,
-            'confirmationUrl' => $url,
-        )) . "\n" . $signature;
+                    'user' => $user,
+                    'confirmationUrl' => $url,
+                )) . "\n" . $signature;
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
+
 }
