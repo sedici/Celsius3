@@ -36,13 +36,15 @@ class FosMailer extends DefaultMailer
 
     protected $request_stack;
     protected $mailerHelper;
+    protected $instance;
 
     public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack, InstanceHelper $instanceHelper, MailerHelper $mailerHelper)
     {
-        $instance = $instanceHelper->getSessionInstance();
-        $transport = \Swift_SmtpTransport::newInstance($instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue())
-                ->setUsername($instance->get('smtp_username')->getValue())
-                ->setPassword($instance->get('smtp_password')->getValue())
+        $this->instance = $instanceHelper->getSessionOrUrlInstance();
+
+        $transport = \Swift_SmtpTransport::newInstance($this->instance->get('smtp_host')->getValue(), $this->instance->get('smtp_port')->getValue())
+                ->setUsername($this->instance->get('smtp_username')->getValue())
+                ->setPassword($this->instance->get('smtp_password')->getValue())
         ;
         $instanceMailer = \Swift_Mailer::newInstance($transport);
 
@@ -53,7 +55,7 @@ class FosMailer extends DefaultMailer
 
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
-        if (!$this->mailerHelper->validateSmtpServerData($instance)) {
+        if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
             return;
         }
 
@@ -73,7 +75,7 @@ class FosMailer extends DefaultMailer
 
     public function sendResettingEmailMessage(UserInterface $user)
     {
-        if (!$this->mailerHelper->validateSmtpServerData($instance)) {
+        if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
             return;
         }
 

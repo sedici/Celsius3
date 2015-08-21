@@ -29,7 +29,7 @@ class MailerHelper
 
     public function validateSmtpServerData(Instance $instance)
     {
-        return (!empty($instance->get('smtp_host')->getValue()) || !empty($instance->get('smtp_port')->getValue()) || !empty($instance->get('smtp_username')->getValue()) || !empty($instance->get('smtp_password')->getValue()));
+        return (!empty($instance->get('smtp_host')->getValue()) && !empty($instance->get('smtp_port')->getValue()) && !empty($instance->get('smtp_username')->getValue()) && !empty($instance->get('smtp_password')->getValue()));
     }
 
 }
