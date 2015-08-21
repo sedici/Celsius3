@@ -1735,6 +1735,10 @@
         <source>Information</source>
         <target>Information</target>
       </trans-unit>
+      <trans-unit id="10">
+        <source>smtp-message</source>
+        <target>Missing configuration parameters for SMTP server.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

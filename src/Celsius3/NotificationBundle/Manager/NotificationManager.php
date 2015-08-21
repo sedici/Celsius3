@@ -34,6 +34,7 @@ use Celsius3\NotificationBundle\Entity\EventNotification;
 
 class NotificationManager
 {
+
     const CAUSE__NEW_MESSAGE = 'new_message';
     const CAUSE__NEW_USER = 'new_user';
     const CAUSE__CREATE = 'creation';
@@ -43,6 +44,7 @@ class NotificationManager
     const CAUSE__RECEIVE = 'receive';
     const CAUSE__CANCEL = 'cancel';
     const CAUSE__DELIVER = 'deliver';
+
     private $container;
     private $zmq_port;
     private $zmq_host;
@@ -168,12 +170,12 @@ class NotificationManager
                                 $data = $function($notification);
 
                                 $twig = clone $this->container->get('twig');
-                                $twig->setLoader(new \Twig_Loader_String());
+                                $twig->setLoader(new \Twig_Loader_Array(array('notify_template' => $notification->getTemplate()->getText())));
 
                                 foreach ($receivers as $user) {
                                     $text = 'Celsius3 - ' . $user->getInstance();
                                     $text .= "\n\n";
-                                    $text .= $twig->render($notification->getTemplate()->getText(), $data) . ' ';
+                                    $text .= $twig->render('notify_template', $data) . ' ';
                                     $text .= $otherText;
 
                                     if (!$user->getWrongEmail()) {
@@ -258,4 +260,6 @@ class NotificationManager
 
                                 return $em->getRepository('Celsius3NotificationBundle:Notification')->getUnreadNotifications($user_id, $this->container->getParameter('notification_limit'));
                             }
+
                         }
+                        

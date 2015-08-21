@@ -95,6 +95,17 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
+                    {% if( is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% if label == 'configuration' %}
+                                {% for flash in flashes %}
+                                    <div class="alert alert-warning">
+                                        {{ flash }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 {% endblock %}
             {% block navigation_content %}{% endblock %}
         {% block content %}{% endblock %}

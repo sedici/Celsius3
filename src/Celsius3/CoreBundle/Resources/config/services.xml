@@ -61,6 +61,7 @@
         <parameter key="celsius3_core.registration.confirmation.template">FOSUserBundle:Registration:email.txt.twig</parameter>
         <parameter key="celsius3.maintenance_mode_listener.class">Celsius3\CoreBundle\EventListener\MaintenanceModeListener</parameter>
         <parameter key="celsius3_core.mailer_helper.class">Celsius3\CoreBundle\Helper\MailerHelper</parameter>
+        <parameter key="celsius3.instance_configuration_listener.class">Celsius3\CoreBundle\EventListener\InstanceConfigurationListener</parameter>
     </parameters>
 
     <services>
@@ -340,6 +341,11 @@
         <service id="celsius3.maintenance_mode_listener" class="%celsius3.maintenance_mode_listener.class%">
             <argument type="service" id="service_container" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10" />
+        </service>
+        
+        <service id="celsius3.instance_configuration_listener" class="%celsius3.instance_configuration_listener.class%">
+            <argument type="service" id="service_container" />
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
         
         <service id="celsius3_core.mailer_helper" class="%celsius3_core.mailer_helper.class%">
