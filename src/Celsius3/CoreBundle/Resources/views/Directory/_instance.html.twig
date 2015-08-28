@@ -8,7 +8,14 @@
         {% endif %}
         <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
         <p>
-            {{ 'Institutions'|trans }}: "Here goes the Institution Tree"
+            {{ 'Institutions'|trans }}: 
+            <ul>
+                {% for institution in instance.ownerInstitutions %}
+                    <li>{{ institution.name~(institution.parent ? ' ('~institution.parent~')':'')}}</li>
+                {% else %}
+                    <li>-</li>
+                {% endfor %}
+            </ul>
         </p>
         <p>
             <a href="{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
