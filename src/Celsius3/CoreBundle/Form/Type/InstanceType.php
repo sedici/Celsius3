@@ -32,6 +32,7 @@ class InstanceType extends LegacyInstanceType
         parent::buildForm($builder, $options);
         $builder
                 ->add('url')
+                ->add('host')
         ;
     }
 

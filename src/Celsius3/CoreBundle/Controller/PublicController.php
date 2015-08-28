@@ -30,7 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Public controller
  *
- * @Route("/{url}/public")
+ * @Route("/public")
  */
 class PublicController extends BaseInstanceDependentController
 {
@@ -41,7 +41,7 @@ class PublicController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("", name="public_index")
+     * @Route("/", name="public_index")
      * @Template()
      */
     public function indexAction()

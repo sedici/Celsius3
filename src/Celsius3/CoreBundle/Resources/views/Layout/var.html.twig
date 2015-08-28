@@ -10,7 +10,7 @@
     var username = '{{ app.user?app.user.username:'' }}';
     var news_date = '';
     var news_text_change = '{{ 'Change'|trans }}';
-    var instance_url = "{{ app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }}";
+    var instance_host = "{{ app.request.host }}";
     {% if form is defined %}
         var form_name = '{{ form.vars['name'] }}';
     {% elseif edit_form is defined %}

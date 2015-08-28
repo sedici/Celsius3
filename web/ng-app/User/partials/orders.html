@@ -29,8 +29,8 @@
                     <div class="doc_year">{{order.material_data.year}}</div>
                 </div>
                 <div class="doc_and_year">
-                    <a ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
-                        <img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" alt="download link" />
+                    <a class="btn btn-link" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
+                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 
                     </a>
                 </div>
             </div>

@@ -23,10 +23,9 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Manager\EventManager;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
 
 /**
@@ -39,32 +38,31 @@ class UserFileController extends BaseController
 
     use FileControllerTrait;
 
-    protected function validate(Order $order, File $file)
+    protected function validate(Request $request, File $file)
     {
-        if (!$order) {
+        if (!$request) {
             return $this->createNotFoundException('Order not found.');
         }
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        if (!$file || $file->getIsDownloaded() || $order->getOwner()->getId() != $user->getId()) {
+        if (!$file || $file->getIsDownloaded() || $request->getOwner()->getId() != $user->getId()) {
             return $this->createNotFoundException('File not found.');
         }
 
         $this->get('celsius3_core.file_manager')
-                ->registerDownload($order, $file, $this->get('request_stack')->getCurrentRequest(), $user);
+                ->registerDownload($request, $file, $this->get('request_stack')->getCurrentRequest(), $user);
 
-        if ($order->getNotDownloadedFiles()->count() == 0) {
+        if ($request->getNotDownloadedFiles()->count() === 0) {
             $this->get('celsius3_core.lifecycle_helper')
-                    ->createEvent(EventManager::EVENT__DELIVER, $order);
+                    ->createEvent(EventManager::EVENT__DELIVER, $request);
         }
     }
 
     /**
      * Downloads the file associated to a File entity.
      *
-     * @Route("/{order}/{file}/download", name="user_file_download", options={"expose"=true})
-     * @Method("post")
+     * @Route("/{request}/{file}/download", name="user_file_download", options={"expose"=true})
      *
      * @param string $id The entity ID
      */

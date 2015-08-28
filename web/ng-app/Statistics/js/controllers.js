@@ -33,10 +33,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
     if (directory) {
         instance_id = null;
-        instance_url = 'directory';
     }
     $scope.countryChanged = function () {
-        $http.get(Routing.generate('public_institutions', {url: instance_url}) + '?country_id=' + $scope.location.country)
+        $http.get(Routing.generate('public_institutions') + '?country_id=' + $scope.location.country)
                 .success(function (response) {
                     $scope.institutions = response;
                 });
@@ -200,7 +199,6 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
         }
-        ;
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
@@ -222,7 +220,6 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         if (!_.isNull(instance_id)) {
             params += 'instance=' + instance_id + '&';
         }
-        ;
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType;
 
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
@@ -523,7 +520,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     };
 
     $scope.start();
-    $http.get(Routing.generate('public_countries', {url: instance_url}))
+    $http.get(Routing.generate('public_countries'))
             .success(function (response) {
                 $scope.allCountries = response;
             });

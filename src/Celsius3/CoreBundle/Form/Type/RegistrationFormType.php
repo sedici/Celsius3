@@ -41,10 +41,10 @@ class RegistrationFormType extends BaseType
         parent::__construct($class);
 
         $this->em = $container->get('doctrine.orm.entity_manager');
-        $url = $container->get('request_stack')->getCurrentRequest()->get('url');
+        $request = $container->get('request_stack')->getCurrentRequest();
         $this->instance = $this->em
                 ->getRepository('Celsius3CoreBundle:Instance')
-                ->findOneBy(array('url' => $url));
+                ->findOneBy(array('host' => $request->getHost()));
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)

@@ -1,7 +1,24 @@
+directory_homepage:
+    path:   /
+    host:   celsius3.prebi.unlp.edu.ar
+    defaults: { _controller: Celsius3CoreBundle:Directory:index }
+    
+directory_instances:
+    path:   /instances
+    host:   celsius3.prebi.unlp.edu.ar
+    defaults: { _controller: Celsius3CoreBundle:Directory:instances }
+    
+directory_statistics:
+    path:   /statistics
+    host:   celsius3.prebi.unlp.edu.ar
+    defaults: { _controller: Celsius3CoreBundle:Directory:statistics }
+    options:
+        expose: true
+
 celsius3_api:
     resource: "@Celsius3ApiBundle/Controller/"
     type:     annotation
-    prefix:   /{url}/api
+    prefix:   /api
 
 celsius3_notification:
     resource: "@Celsius3NotificationBundle/Controller/"
@@ -19,7 +36,7 @@ celsius3_core:
     prefix:   /
     
 blog_show:
-    path:      /{url}
+    path:      /
     defaults:  { _controller: Celsius3CoreBundle:Public:index }
 
 fos_user_security:
@@ -32,7 +49,7 @@ fos_user_profile:
 
 fos_user_register:
     resource: "@Celsius3CoreBundle/Resources/config/routing/registration.xml"
-    prefix: /{url}/public/register
+    prefix: /public/register
 
 fos_user_resetting:
     resource: "@Celsius3CoreBundle/Resources/config/routing/resetting.xml"
@@ -56,8 +73,8 @@ fos_js_routing:
 
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
-    prefix: /{url}/api
+    prefix: /api
 
 fos_oauth_server_authorize:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
-    prefix: /{url}/api
+    prefix: /api

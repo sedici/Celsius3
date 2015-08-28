@@ -83,6 +83,7 @@ class UserController extends BaseInstanceDependentController
 
             $this->get('session')->set('instance_id', $instance->getId());
             $this->get('session')->set('instance_url', $instance->getUrl());
+            $this->get('session')->set('instance_host', $instance->getHost());
 
             $user->setRoles($user->getSecondaryInstances()[$id]['roles']);
 
@@ -96,7 +97,7 @@ class UserController extends BaseInstanceDependentController
         if (isset($user->getRoles()['ROLE_ADMIN'])) {
             return $this->redirect($this->generateUrl('administration'));
         } else {
-            return $this->redirect($this->generateUrl('public_index', array('url' => $this->get('session')->get('instance_url'))));
+            return $this->redirect($this->generateUrl('public_index'));
         }
     }
 

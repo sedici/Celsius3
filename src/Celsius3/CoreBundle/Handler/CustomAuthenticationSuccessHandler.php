@@ -33,7 +33,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-
     private $router;
     private $authorization_checker;
 
@@ -62,5 +61,4 @@ class CustomAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHan
 
         return $response;
     }
-
 }

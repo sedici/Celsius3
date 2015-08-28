@@ -42,6 +42,7 @@ class LoginListener
         if ($user instanceof UserInterface) {
             $this->session->set('instance_id', $user->getInstance()->getId());
             $this->session->set('instance_url', $user->getInstance()->getUrl());
+            $this->session->set('instance_host', $user->getInstance()->getHost());
         }
     }
 }

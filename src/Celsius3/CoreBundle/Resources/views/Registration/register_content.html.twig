@@ -1,4 +1,4 @@
-<form action="{{ path('fos_user_registration_register', { 'url': app.request.get('url') }) }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'registration.submit'|trans({}, 'FOSUserBundle') }}</button>
 </form>

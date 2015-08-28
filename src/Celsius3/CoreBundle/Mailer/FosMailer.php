@@ -64,7 +64,6 @@ class FosMailer extends DefaultMailer
         $template = $this->parameters['confirmation.template'];
         $url = $this->router->generate('fos_user_registration_confirm', array(
             'token' => $user->getConfirmationToken(),
-            'url' => $this->request_stack->getCurrentRequest()->get('url'),
                 ), true);
         $rendered = $this->templating->render($template, array(
                     'user' => $user,
@@ -84,7 +83,6 @@ class FosMailer extends DefaultMailer
         $template = $this->parameters['resetting.template'];
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),
-            'url' => $user->getInstance()->getUrl(),
                 ), true);
         $rendered = $this->templating->render($template, array(
                     'user' => $user,

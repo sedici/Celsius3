@@ -11,12 +11,12 @@
                 {% for id,instance in secondaryInstances %}
                     {% if app.session.get('instance_id') != app.user.getInstance().getId() %}
                         <li>
-                            <a href="{{ path('user_change_context',{'id':app.user.getInstance().getId()}) }}">{{ app.user.getInstance().getUrl() | upper }}</a>
+                            <a href="{{ path('user_change_context', {'id':app.user.getInstance().getId()}) }}">{{ app.user.getInstance().getUrl() | upper }}</a>
                         </li>
                     {% endif %}
                     {% if app.session.get('instance_id') != id %}
                         <li>
-                            <a href="{{ path('user_change_context',{'id':id}) }}">{{ instance.url | upper }}</a>
+                            <a href="{{ path('user_change_context', {'id':id}) }}">{{ instance.url | upper }}</a>
                         </li>
                     {% endif %}
                 {% endfor %}

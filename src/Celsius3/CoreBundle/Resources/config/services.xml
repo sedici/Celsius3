@@ -62,6 +62,7 @@
         <parameter key="celsius3.maintenance_mode_listener.class">Celsius3\CoreBundle\EventListener\MaintenanceModeListener</parameter>
         <parameter key="celsius3_core.mailer_helper.class">Celsius3\CoreBundle\Helper\MailerHelper</parameter>
         <parameter key="celsius3.instance_configuration_listener.class">Celsius3\CoreBundle\EventListener\InstanceConfigurationListener</parameter>
+        <parameter key="celsius3_core.security.user_provider.username.class">Celsius3\CoreBundle\Security\UserProvider</parameter>
     </parameters>
 
     <services>
@@ -349,7 +350,12 @@
         </service>
         
         <service id="celsius3_core.mailer_helper" class="%celsius3_core.mailer_helper.class%">
+        </service>
             
+        <service id="celsius3_core.security.user_provider.username" class="%celsius3_core.security.user_provider.username.class%">
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="request_stack"></argument>
         </service>
     </services>
 </container>

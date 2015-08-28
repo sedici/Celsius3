@@ -56,7 +56,7 @@ class InstanceHelper
                 ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array(
-            'url' => $request->attributes->get('url'),
+            'host' => $request->getHost(),
         ));
 
         if (!$instance) {
@@ -66,25 +66,23 @@ class InstanceHelper
         return $instance;
     }
 
-    public function getUrlOrSessionInstance()
-    {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-
-        $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
-
-        return $this->container->get('doctrine.orm.entity_manager')
-                        ->getRepository('Celsius3CoreBundle:Instance')
-                        ->findOneBy(array('url' => $instance_url));
-    }
-
     public function getSessionOrUrlInstance()
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
-        $instance_url = $this->container->get('session')->has('instance_url') ? $this->container->get('session')->get('instance_url') : $request->attributes->get('url');
+        if ($this->container->get('session')->has('instance_url')) {
+            $instance = $this->container->get('doctrine.orm.entity_manager')
+                    ->getRepository('Celsius3CoreBundle:Instance')
+                    ->findOneBy(array('url' => $this->container->get('session')->get('instance_url')));
+        } else {
+            $instance = $this->container
+                    ->get('doctrine.orm.entity_manager')
+                    ->getRepository('Celsius3CoreBundle:Instance')
+                    ->findOneBy(array(
+                'host' => $request->getHost(),
+            ));
+        }
 
-        return $this->container->get('doctrine.orm.entity_manager')
-                        ->getRepository('Celsius3CoreBundle:Instance')
-                        ->findOneBy(array('url' => $instance_url));
+        return $instance;
     }
 }

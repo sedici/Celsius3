@@ -40,7 +40,7 @@ class InstanceListener
     {
         $exception = $event->getException();
         if ($exception instanceof InstanceNotFoundException) {
-            $response = new RedirectResponse($this->router->generate('directory'));
+            $response = new RedirectResponse($this->router->generate('directory_homepage'));
             $event->setResponse($response);
         }
     }

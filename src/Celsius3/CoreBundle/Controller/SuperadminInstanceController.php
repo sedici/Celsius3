@@ -215,6 +215,7 @@ class SuperadminInstanceController extends InstanceController
 
         $this->get('session')->set('instance_id', $entity->getId());
         $this->get('session')->set('instance_url', $entity->getUrl());
+        $this->get('session')->set('instance_host', $entity->getHost());
 
         return $this->redirect($this->generateUrl('administration'));
     }

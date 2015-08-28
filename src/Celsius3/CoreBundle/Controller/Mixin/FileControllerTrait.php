@@ -22,7 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller\Mixin;
 
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\File;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -51,5 +51,5 @@ trait FileControllerTrait
         return $response;
     }
 
-    abstract protected function validate(Order $order, File $file);
+    abstract protected function validate(Request $request, File $file);
 }

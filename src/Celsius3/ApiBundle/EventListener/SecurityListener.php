@@ -32,7 +32,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityListener
 {
-
     private $entityManager;
     private $tokenManager;
     private $container;
@@ -48,14 +47,13 @@ class SecurityListener
     {
         $request = $event->getRequest();
 
-        $url = $request->attributes->get('url');
         $instance = $this->entityManager->getRepository('Celsius3CoreBundle:Instance')
-                ->findOneBy(array('url' => $url));
+                ->findOneBy(array('host' => $request->getHost()));
         $request->request->set('instance_id', $instance);
 
         $uri = $request->getUri();
 
-        $user = (!is_null($this->container->get('security.token_storage')->getToken()))? $this->container->get('security.token_storage')->getToken()->getUser() : null;
+        $user = (!is_null($this->container->get('security.token_storage')->getToken())) ? $this->container->get('security.token_storage')->getToken()->getUser() : null;
 
         if ((false !== strpos($uri, '/oauth/v2/auth')) && ($user instanceof BaseUser)) {
 
@@ -95,7 +93,7 @@ class SecurityListener
             return ($actualDateTime < $tokenExpires);
         }
 
-        return FALSE;
+        return false;
     }
 
     private function generateErrorResponse(GetResponseEvent $event, $statusCode)
@@ -104,5 +102,4 @@ class SecurityListener
         $response->setStatusCode($statusCode);
         $event->setResponse($response);
     }
-
 }

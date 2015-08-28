@@ -50,7 +50,8 @@ class InstanceLoader extends AbstractFixture implements FixtureInterface, Contai
         $instance = new Entity\Instance();
         $instance->setName('PrEBi');
         $instance->setAbbreviation('PRB');
-        $instance->setWebsite('http://www.prebi.unlp.edu.ar/celsius');
+        $instance->setHost('prebi.celsius3.prebi.unlp.edu.ar');
+        $instance->setWebsite('http://www.prebi.unlp.edu.ar/');
         $instance->setEmail('info@prebi.unlp.edu.ar');
         $instance->setUrl('prebi');
         $instance->setEnabled(true);

@@ -38,8 +38,6 @@ class CustomLogoutSuccessHandler implements LogoutSuccessHandlerInterface
 
     public function onLogoutSuccess(Request $request)
     {
-        $url = $request->getSession()->get('instance_url');
-
-        return new RedirectResponse($this->router->generate('public_index', array('url' => $url)));
+        return new RedirectResponse($this->router->generate('public_index'));
     }
 }

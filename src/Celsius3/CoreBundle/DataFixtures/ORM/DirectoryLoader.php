@@ -58,6 +58,7 @@ class DirectoryLoader extends AbstractFixture implements FixtureInterface, Conta
         $directory = new Entity\Instance();
         $directory->setName('Directory');
         $directory->setAbbreviation('Directory');
+        $directory->setHost('celsius3.prebi.unlp.edu.ar');
         $directory->setWebsite('http://celsius3.prebi.unlp.edu.ar');
         $directory->setEmail('soporte@prebi.unlp.edu.ar');
         $directory->setUrl(InstanceManager::INSTANCE__DIRECTORY);

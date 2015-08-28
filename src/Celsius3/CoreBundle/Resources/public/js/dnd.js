@@ -32,9 +32,7 @@ $(document).on('click', '.submit-catalog-data.enabled', function () {
         data: {
             ids: ids
         },
-        url: Routing.generate('admin_catalog_persist', {
-            url: instance_url
-        }),
+        url: Routing.generate('admin_catalog_persist'),
         success: function (data) {
             $('.flashes').empty().append('<div class="alert alert-success">' +
                     '<button data-dismiss="alert" class="close" type="button">×</button>' +

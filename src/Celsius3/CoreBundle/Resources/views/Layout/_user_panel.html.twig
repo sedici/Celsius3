@@ -1,5 +1,4 @@
 <ul class="pull-right nav navbar-nav">
-    {% if (app.request.get('url') and app.request.get('url') == app.session.get('instance_url')) or not app.request.get('url') or not app.session.get('instance_url') %}
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <span class="glyphicon glyphicon-user"></span> {{ app.user?app.user.username:'' }}
@@ -11,17 +10,16 @@
                         <a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('fos_user_security_logout', { 'url': app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
+                        <a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-off"></span> {{ 'Logout'|trans }}</a>
                     </li>
                 {% else %}
                     <li>
-                        <a href="{{ path('fos_user_security_login', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
+                        <a href="{{ path('fos_user_security_login') }}"><span class="glyphicon glyphicon-user"></span> {{ 'Login'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('fos_user_registration_register', { 'url': app.request.get('url')?app.request.get('url'):app.session.get('instance_url') }) }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
+                        <a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Register'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>
         </li>
-    {% endif %}
 </ul>

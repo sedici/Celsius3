@@ -22,20 +22,16 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * Directory controller
  *
- * @Route("")
  */
 class DirectoryController extends BaseController
 {
 
     /**
-     * @Route("/directory/", name="directory")
-     * @Route("/", name="index")
      * @Template()
      *
      * @return array
@@ -51,7 +47,6 @@ class DirectoryController extends BaseController
     }
 
     /**
-     * @Route("/directory/instances", name="directory_instances")
      * @Template()
      *
      * @return array
@@ -81,7 +76,6 @@ class DirectoryController extends BaseController
     }
     
     /**
-     * @Route("/directory/statistics", name="directory_statistics", options={"expose"=true})
      * @Template()
      */
     public function statisticsAction()

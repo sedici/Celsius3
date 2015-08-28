@@ -50,38 +50,18 @@ class NewsFeedsController extends BaseInstanceDependentController
     /**
      * Generate Rss News.
      *
-     * @Route("/rss/directory",name="directory_rss_news")
+     * @Route("/rss",name="rss_news")
      * @Template("Celsius3CoreBundle:NewsFeeds:index_rss.html.twig")
      *
      */
-    public function directoryRssAction(Request $request)
-    {
-        $full_url = $this->getUrl($request);
-        $array = array('instance' => 'Directory',
-            'lastNews' => $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:News')
-                    ->findLastNews($this->getDirectory()),
-            'url' => $full_url . '/newsFeeds/rss/directory',
-        );
-
-        return $array;
-    }
-
-    /**
-     * Generate Rss News.
-     *
-     * @Route("/rss/{url}",name="instance_rss_news")
-     * @Template("Celsius3CoreBundle:NewsFeeds:index_rss.html.twig")
-     *
-     */
-    public function instanceRssAction($url, Request $request)
+    public function rssAction(Request $request)
     {
         $full_url = $this->getUrl($request);
         $array = array('instance' => $this->getInstance(),
             'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getInstance()),
-            'url' => $full_url . '/newsFeeds/rss/' . $url,
+            'url' => $full_url . '/newsFeeds/rss',
         );
 
         return $array;

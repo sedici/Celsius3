@@ -34,20 +34,13 @@ class Builder extends ContainerAware
         $request = $this->container->get('request_stack')->getCurrentRequest();
         $authChecker = $this->container->get('security.authorization_checker');
 
-        $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
-
-        $local = $request->attributes->has('url') &&
-                $request->attributes->get('url') == $this->container->get('session')->get('instance_url') ||
-                !$request->attributes->has('url');
+        $local = $request->getHost() === $this->container->get('session')->get('instance_host');
 
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav main-navbar');
 
         $menu->addChild('Home', array(
             'route' => 'public_index',
-            'routeParameters' => array(
-                'url' => $instance_url,
-            ),
         ));
         if ($authChecker->isGranted(UserManager::ROLE_ADMIN) !== false && $local) {
             $menu->addChild('Administration', array(
@@ -66,10 +59,7 @@ class Builder extends ContainerAware
         }
         if ($authChecker->isGranted(UserManager::ROLE_USER) !== false && !$local) {
             $menu->addChild('My Instance', array(
-                'route' => 'public_index',
-                'routeParameters' => array(
-                    'url' => $this->container->get('session')->get('instance_url'),
-                ),
+                'uri' => 'http://' . $this->container->get('session')->get('instance_host'),
             ));
         }
 
@@ -82,7 +72,7 @@ class Builder extends ContainerAware
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
         $menu->addChild('Home', array(
-            'route' => 'directory',
+            'route' => 'directory_homepage',
         ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Instances', array(
             'route' => 'directory_instances',
@@ -98,34 +88,20 @@ class Builder extends ContainerAware
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
-        $instance_url = $request->attributes->has('url') ? $request->attributes->get('url') : $this->container->get('session')->get('instance_url');
-
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
         $menu->addChild('Home', array(
             'route' => 'public_index',
-            'routeParameters' => array(
-                'url' => $instance_url,
-            ),
         ))->setExtra('translation_domain', 'messages');
         $menu->addChild('News', array(
             'route' => 'public_news',
-            'routeParameters' => array(
-                'url' => $instance_url,
-            ),
         ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Information', array(
             'route' => 'public_information',
-            'routeParameters' => array(
-                'url' => $instance_url,
-            ),
         ))->setExtra('translation_domain', 'messages');
         $menu->addChild('Statistics', array(
             'route' => 'public_statistics',
-            'routeParameters' => array(
-                'url' => $instance_url,
-            ),
         ))->setExtra('translation_domain', 'messages');
 
         return $menu;

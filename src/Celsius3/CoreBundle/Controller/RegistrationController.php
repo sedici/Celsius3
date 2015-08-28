@@ -62,9 +62,7 @@ class RegistrationController extends BaseRegistrationController
                 $this->container->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $user);
 
                 if (null === $response = $event->getResponse()) {
-                    $url = $this->container->get('router')->generate('fos_user_registration_confirmed', array(
-                        'url' => $this->container->get('request')->get('url'),
-                    ));
+                    $url = $this->container->get('router')->generate('fos_user_registration_confirmed');
                     $response = new RedirectResponse($url);
                 }
 

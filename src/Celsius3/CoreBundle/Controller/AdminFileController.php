@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\File;
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
 
 /**
@@ -36,7 +37,7 @@ class AdminFileController extends BaseController
 
     use FileControllerTrait;
 
-    protected function validate($request, $file)
+    protected function validate(Request $request, File $file)
     {
         if (!$request) {
             return $this->createNotFoundException('Request not found.');

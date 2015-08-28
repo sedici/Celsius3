@@ -34,7 +34,6 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
     {
         $this->setName('celsius3_api:oauth:create_client')
                 ->setDescription('Create an OAuth client')
-                ->addArgument('instance', InputArgument::REQUIRED, 'Instance URL')
                 ->addArgument('redirect_uri', InputArgument::REQUIRED, 'Redirect URI');
     }
 
@@ -44,13 +43,13 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
         $clientManager = $this->getContainer()->get('fos_oauth_server.client_manager.default');
         $entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
 
-        $url = $input->getArgument('instance');
+        $host = $this->getContainer()->get('request_stack')->getCurrentRequest()->getHost();
         $instance = $entityManager->getRepository('Celsius3CoreBundle:Instance')
-                ->findOneBy(array('url' => $url));
+                ->findOneBy(array('host' => $host));
         
         $argumentError = false;
         if (is_null($instance)) {
-            $output->writeln('The instance with the url ' . $url . ' does not exists');
+            $output->writeln('The instance with the host ' . $host . ' does not exists');
             $argumentError = true;
         }
 
@@ -60,7 +59,9 @@ class OAuth2ClientCreateCommand extends ContainerAwareCommand
             $argumentError = true;
         }
         
-        if($argumentError) return;
+        if ($argumentError) {
+            return;
+        }
         
         $output->writeln('');
         $output->writeln('Creating client');

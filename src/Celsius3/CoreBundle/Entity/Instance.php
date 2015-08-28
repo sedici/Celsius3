@@ -37,6 +37,12 @@ class Instance extends LegacyInstance
      */
     protected $url;
     /**
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/")
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    protected $host;
+    /**
      * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="instance")
      */
     protected $users;
@@ -156,6 +162,29 @@ class Instance extends LegacyInstance
     public function getUrl()
     {
         return $this->url;
+    }
+    
+    /**
+     * Set host
+     *
+     * @param  string $host
+     * @return self
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
+
+        return $this;
+    }
+
+    /**
+     * Get host
+     *
+     * @return string $host
+     */
+    public function getHost()
+    {
+        return $this->host;
     }
 
     /**

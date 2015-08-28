@@ -1,7 +1,7 @@
 security:
     providers:
         fos_userbundle:
-            id: fos_user.user_provider.username
+            id: celsius3_core.security.user_provider.username
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
@@ -30,11 +30,11 @@ security:
             security: false
             
         oauth_token:
-            pattern:    ^/{url}/api/oauth/v2/token
+            pattern:    ^/api/oauth/v2/token
             security:   false
 
         oauth_authorize:
-            pattern:    ^/{url}/api/oauth/v2/auth
+            pattern:    ^/api/oauth/v2/auth
             form_login:
                 provider: fos_userbundle
                 check_path: fos_user_security_check
