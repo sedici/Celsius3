@@ -285,6 +285,10 @@ sp_bower:
 
 snc_redis:
     clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost
         session:
             type: predis
             alias: session
