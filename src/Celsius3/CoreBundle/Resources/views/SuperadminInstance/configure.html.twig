@@ -12,7 +12,3 @@
     {{ configure('superadmin_instance', configure_form, 'Celsius3CoreBundle:SuperadminInstance', entity) }}
 {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    {{ form_javascript(configure_form) }}
-{% endblock %}
