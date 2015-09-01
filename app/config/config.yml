@@ -15,7 +15,8 @@ framework:
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig', 'php'] } #assets_version: SomeVersionScheme
-    session:         ~
+    session:
+        handler_id:  snc_redis.session.handler
 
 # Twig Configuration
 twig:

@@ -38,7 +38,7 @@ class OrderManager
         );
     }
 
-    public static function getTypeForUser(Instance $instance, BaseUser $user)
+    public static function getTypeForUser(Instance $instance, BaseUser $user = null)
     {
         if (!is_null($user)) {
             return in_array($user->getBaseInstitution(), $instance->getOwnerInstitutions()->toArray()) ? self::TYPE__SEARCH : self::TYPE__PROVISION;
