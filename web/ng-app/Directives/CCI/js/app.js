@@ -1,4 +1,4 @@
 var cciWidget = angular.module('cciWidget', [
     'ngResource',
-    'ui.select2'
+    'ui.select'
 ]);
