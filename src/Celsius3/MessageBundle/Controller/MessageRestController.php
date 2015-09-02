@@ -47,13 +47,13 @@ class MessageRestController extends FOSRestController
                 ->join('t.metadata', 'm')
                 ->join('m.participant', 'p')
                 ->where('p.id = :id')
-                ->setParameter('id', $this->getUser()->getId());
+                ->orderBy('m.lastMessageDate', 'DESC')
+                ->setMaxResults(5)
+                ->setParameter('id', $this->getUser()->getId())
+                ->getQuery()
+                ->execute();
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($messages, $this->get('request')->query->get('page', 1)/* page number */, $this->get('request')->query->get('count', 10)/* limit per page */)->getItems();
-
-
-        $view = $this->view(array_values($pagination), 200)
+        $view = $this->view(array_values($messages), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
