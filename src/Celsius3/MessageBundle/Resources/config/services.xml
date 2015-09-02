@@ -11,7 +11,7 @@
         <parameter key="celsius3_message.participant_provider.class">FOS\MessageBundle\Security\ParticipantProvider</parameter>
         <parameter key="celsius3_message.twig.extension.threads.class">Celsius3\MessageBundle\Twig\ThreadExtension</parameter>
         <parameter key="celsius3_message.provider.default.class">Celsius3\MessageBundle\Provider\Provider</parameter>
-        <parameter key="celsius3_message.thread_manager.default.class">Celsius3\MessageBundle\DocumentManager\ThreadManager</parameter>
+        <parameter key="celsius3_message.thread_manager.default.class">Celsius3\MessageBundle\EntityManager\ThreadManager</parameter>
         <parameter key="celsius3_message.recipients_selector_hidden.class">Celsius3\MessageBundle\FormType\RecipientsHiddenType</parameter>
     </parameters>
 
@@ -38,7 +38,7 @@
         </service>
 
         <service id="celsius3_message.provider.default" class="%celsius3_message.provider.default.class%">
-            <argument type="service" id="fos_message.thread_manager" />
+            <argument type="service" id="celsius3_message.thread_manager.default" />
             <argument type="service" id="fos_message.message_manager" />
             <argument type="service" id="fos_message.thread_reader" />
             <argument type="service" id="fos_message.authorizer" />

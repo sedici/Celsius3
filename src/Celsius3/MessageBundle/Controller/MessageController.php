@@ -85,8 +85,7 @@ class MessageController extends BaseController
         $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
-        );
+        $pagination = $paginator->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
 
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:inbox.html.twig', array(
                     'threads' => $pagination,
@@ -104,8 +103,7 @@ class MessageController extends BaseController
         $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */
-        );
+        $pagination = $paginator->paginate($threads, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
 
         return $this->container->get('templating')->renderResponse('FOSMessageBundle:Message:sent.html.twig', array(
                     'threads' => $pagination,

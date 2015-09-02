@@ -6,8 +6,8 @@
         {{ 'Sort by'|trans }}:
     </span>
     <ul class="list-unstyled">
-        <li>{{ knp_pagination_sortable(threads, 'Date'|trans, 'createdAt') }} - </li>
-        <li>{{ knp_pagination_sortable(threads, 'Subject'|trans, 'subject') }}</li>
+        <li>{{ knp_pagination_sortable(threads, 'Date'|trans, 't.createdAt') }} - </li>
+        <li>{{ knp_pagination_sortable(threads, 'Subject'|trans, 't.subject') }}</li>
     </ul>
 </div>
 <div class="clearfix"></div>
