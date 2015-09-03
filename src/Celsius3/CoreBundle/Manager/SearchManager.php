@@ -27,6 +27,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class SearchManager
 {
+
     private $em;
     private $tokenList = array(
         'user:' => 'BaseUser',
@@ -63,9 +64,10 @@ class SearchManager
      * @param  Instance $instance
      * @return array
      */
-    public function search($repository, $keyword, Instance $instance = null)
+    public function search($repository, $keyword, Instance $instance = null, $state = null)
     {
         return $this->em->getRepository('Celsius3CoreBundle:' . $repository)
-                        ->findByTerm($keyword, $instance, $this->parseTokens($keyword));
+                        ->findByTerm($keyword, $instance, $this->parseTokens($keyword), null, $state);
     }
+
 }

@@ -5,17 +5,35 @@
 {% endblock %}
 
 {% block content %}
+
+    {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) ~ '?keyword=' ~ keyword %}
+
     <h3>{{ 'Search results'|trans }}</h3>
     <div class="row">
         <div class="col-md-12">
-
-            <dl class="dl-horizontal">
-                <dt>{{ 'Keyword'|trans }}</dt>
-                <dd>{{ app.request.get('keyword') }}</dd>
-                <dt>{{ 'Results' }}</dt>
-                <dd>{{ pagination.paginationData.totalCount }}</dd>
-            </dl>
-
+            <div class="row">
+                <div class="col-md-12">
+                    <dl class="dl-horizontal">
+                        <dt>{{ 'Keyword'|trans }}</dt>
+                        <dd>{{ app.request.get('keyword') }}</dd>
+                        <dt>{{ 'Results' }}</dt>
+                        <dd>{{ pagination.paginationData.totalCount }}</dd>
+                    </dl>
+                </div>
+                <div class="col-md-12">
+                    <ul class="nav nav-pills pull-right">
+                        {% for orderState in states %}
+                            <li class="{% if(state == orderState) %} active {% endif %}">
+                                <a href="{{ currentPath ~ '&state=' ~ orderState }}">{{ orderState | trans }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>
