@@ -91,6 +91,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $wrongEmail = false;
     /**
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
+     * @ORM\Column(type="boolean")
+     */
+    protected $pdf = true;
+    /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="owner")
      */
     protected $orders;
@@ -565,6 +571,28 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getWrongEmail()
     {
         return $this->wrongEmail;
+    }
+
+    /**
+     * Set pdf
+     *
+     * @param boolean $pdf
+     * @return self
+     */
+    public function setPdf($pdf)
+    {
+        $this->pdf = $pdf;
+        return $this;
+    }
+
+    /**
+     * Get pdf
+     *
+     * @return boolean $pdf
+     */
+    public function getPdf()
+    {
+        return $this->pdf;
     }
 
     /**

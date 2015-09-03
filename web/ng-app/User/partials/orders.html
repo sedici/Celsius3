@@ -29,7 +29,7 @@
                     <div class="doc_year">{{order.material_data.year}}</div>
                 </div>
                 <div class="doc_and_year">
-                    <a class="btn btn-link" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
+                    <a class="btn btn-link" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.pdf && !file.is_downloaded)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
                         <span class="glyphicon glyphicon-file" aria-hidden="true"></span> 
                     </a>
                 </div>

@@ -41,13 +41,15 @@ class UserFileController extends BaseController
     protected function validate(Request $request, File $file)
     {
         if (!$request) {
-            return $this->createNotFoundException('Order not found.');
+            throw $this->createNotFoundException('Order not found.');
         }
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        if (!$file || $file->getIsDownloaded() || $request->getOwner()->getId() != $user->getId()) {
-            return $this->createNotFoundException('File not found.');
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            if (!$file || $file->getIsDownloaded() || $request->getOwner()->getId() !== $user->getId() || !$request->getOwner()->getPdf()) {
+                throw $this->createNotFoundException('File not found.');
+            }
         }
 
         $this->get('celsius3_core.file_manager')

@@ -51,6 +51,9 @@ class BaseUserType extends RegistrationFormType
                 ->add('locked', null, array(
                     'required' => false,
                 ))
+                ->add('pdf', null, array(
+                    'required' => false,
+                ))
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
@@ -82,7 +85,7 @@ class BaseUserType extends RegistrationFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'validation_groups' => array('Registration', 'Profile'),
+            //'validation_groups' => array('Registration', 'Profile'),
         ));
     }
 
