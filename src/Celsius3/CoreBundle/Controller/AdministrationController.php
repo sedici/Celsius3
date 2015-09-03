@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * Administration controller
@@ -56,12 +57,15 @@ class AdministrationController extends BaseInstanceDependentController
     public function searchAction(Request $request)
     {
         $keyword = $request->query->get('keyword');
+        $state = $request->query->get('state');
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance()), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
+        $pagination = $paginator->paginate($this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance(), $state), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
 
         return array(
             'keyword' => $keyword,
+            'state' => $state,
+            'states' => StateManager::$stateTypes,
             'pagination' => $pagination,
         );
     }
@@ -73,7 +77,7 @@ class AdministrationController extends BaseInstanceDependentController
     {
         return $this->ajax($request, $this->getInstance());
     }
-    
+
     /**
      * @Route("/ajax_username", name="admin_ajax_usernames")
      */

@@ -37,7 +37,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
 class OrderRepository extends EntityRepository
 {
 
-    public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null)
+    public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
                 ->join('o.requests', 'r');
@@ -66,6 +66,14 @@ class OrderRepository extends EntityRepository
         if (!is_null($instance)) {
             $qb = $qb->andWhere('r.instance = :instance')
                     ->setParameter('instance', $instance);
+        }
+
+        if (!is_null($state) and $state != 'allStates') {
+            $qb = $qb->innerJoin('r.states', 's')
+                    ->andWhere('s.type = :type')
+                    ->setParameter(':type', $state)
+                    ->andWhere('s.isCurrent = :isCurrent')
+                    ->setParameter(':isCurrent', true);
         }
 
         if (!is_null($limit)) {
@@ -235,4 +243,5 @@ class OrderRepository extends EntityRepository
                         ->getQuery()
                         ->execute();
     }
+
 }
