@@ -31,10 +31,11 @@
 
         <div class="main_info">
             <div class="title_and_author">
-                <div class="titulo"><a ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}">
-                        <spam ng-if="order.material_data.title">{{ order.material_data.title }}</spam>
-                        <spam ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </spam>
-                        <spam ng-if="order.material_data.type == 'journal'">{{ order.material_data.journal.name }}</spam>
+                <div class="titulo">
+                    <a ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}">
+                        <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                        <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                        <span ng-if="order.material_data.type == 'journal'">{{ order.material_data.journal.name }}</span>
                     </a>
                 </div>
                 <div class="autor">{{order.material_data.authors}}</div>

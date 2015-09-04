@@ -1767,6 +1767,10 @@
         <source>smtp-message</source>
         <target>Faltan parametros de configuracion del servidor SMTP</target>
       </trans-unit>
+      <trans-unit id="11">
+        <source>sinTitulo</source>
+        <target>Sin título</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
