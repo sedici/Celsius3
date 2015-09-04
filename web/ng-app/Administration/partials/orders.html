@@ -20,7 +20,7 @@
             </div>
 
             <div class="top_right">	
-                <div class="status-{{order.request.current_state}}"></div>
+                <div class="status-{{order.request.current_state}}" data-toggle="tooltip" title="{{order.request.current_state | translate}}"></div>
                 <div class="uri">{{order.code}}</div>
                 <div class="usuario">
                     {{order.request.operator ? order.request.operator.name : '-'}}

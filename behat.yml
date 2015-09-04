@@ -1,4 +1,6 @@
 default:
+    autoload:
+        '': %paths.base%/src
     extensions:
         Behat\Symfony2Extension: ~
         Behat\MinkExtension:
@@ -6,6 +8,19 @@ default:
                 default:
                     symfony2: ~
     suites:
-        core_suite:
+        core_features:
+            paths:
+                - %paths.base%/src/Celsius3/CoreBundle/Features
             type: symfony_bundle
             bundle: Celsius3CoreBundle
+            contexts: 
+                - Celsius3\CoreBundle\Features\Context\OrderContext
+                - Celsius3\CoreBundle\Features\Context\PruebaContext
+                
+        api_features:
+            paths:
+                - %paths.base%/src/Celsius3/ApiBundle/Features
+            type: symfony_bundle
+            bundle: Celsius3ApiBundle
+            contexts:
+                - Celsius3\ApiBundle\Features\Context\FeatureContext

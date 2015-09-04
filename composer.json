@@ -26,7 +26,7 @@
         "knplabs/knp-menu-bundle": "2.0.0",
         "knplabs/knp-paginator-bundle": "2.4.*",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "friendsofsymfony/message-bundle": "dev-master",
+        "friendsofsymfony/message-bundle": "~1.2",
         "friendsofsymfony/jsrouting-bundle": "~1.5",
         "friendsofsymfony/rest-bundle": "~1.7",
         "stof/doctrine-extensions-bundle": "dev-master",
@@ -51,7 +51,9 @@
         "behat/symfony2-extension": "~2.0",
         "behat/mink": "~1.6",
         "behat/mink-extension": "~2.0",
-        "behat/mink-browserkit-driver": "~1.2"
+        "behat/mink-browserkit-driver": "~1.2",
+        "behat/mink-selenium2-driver": "~1.2",
+        "behat/mink-goutte-driver": "~1.1"
     },
     "scripts": {
         "post-root-package-install": [

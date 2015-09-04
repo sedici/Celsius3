@@ -16,7 +16,7 @@
         </div>
 
         <div class="top_right">
-            <div class="status-{{ request.currentState }}"></div>
+            <div class="status-{{ request.currentState }}" data-toggle="tooltip" title="{{ request.currentState | trans }}"></div>
             <div class="uri">{{ element.code }}</div>
             <div class="usuario">
                 {% if request.operator %}
