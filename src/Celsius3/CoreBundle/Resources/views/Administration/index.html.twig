@@ -9,13 +9,226 @@
         <div ng-view>
 
         </div>
+        {% verbatim %}
+        <script type="text/ng-template" id="dash.html">
+        <div class="clearfix row">
+            <ul class="nav nav-pills pull-left" id="pedidos">
+                <li role="presentation" ng-class="isActiveType('all')">
+                    <a href="#/all/{{state}}/{{orderType}}">{{'orders'|translate}}</a>
+                </li>
+                <li role="presentation" ng-class="isActiveType('mine')">
+                    <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|translate}}</a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills pull-right" id="filtrado">
+                <li role="presentation" ng-class="isActiveOrderType('allTypes')">
+                    <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|translate}}</a>
+                </li>
+                <li role="presentation" ng-class="isActiveOrderType('provision')">
+                    <a href="#/{{type}}/{{state}}/provision">{{'provision'|translate}}</a>
+                </li>
+                <li role="presentation" ng-class="isActiveOrderType('search')">
+                    <a href="#/{{type}}/{{state}}/search">{{'search'|translate}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="barrita2" class="row">
+            <div class="col-md-1">
+                <a class="btn btn-link botonespecial" href="{{ {path: 'admin_order_new'}|get_url}}">
+                    <span id="botonespecial" aria-hidden="true"><img src="/bundles/celsius3core/images/plus.png" width="63" height="63" alt="Add Order" /></span>
+                </a>
+            </div>
+            <div class="col-md-11">
+                <div class="btn-group btn-group-justified" role="group">
+                    <a class="lead btn btn-default" ng-class="isActive('created')" href="#/{{type}}/created/{{orderType}}"><span class="numero">{{orderCount.created}}</span><span class="texto">{{'created'|translate}}</span></a>
+                    <a class="lead btn btn-default" ng-class="isActive('searched')" href="#/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched}}</span><span class="texto">{{'beingSearched'|translate}}</span></a>
+                    <a class="lead btn btn-default" ng-class="isActive('requested')" href="#/{{type}}/requested/{{orderType}}"><span class="numero">{{orderCount.requested}}</span><span class="texto">{{'requested'|translate}}</span></a>
+                    <a class="lead btn btn-default" ng-class="isActive('approval_pending')" href="#/{{type}}/approval_pending/{{orderType}}"><span class="numero">{{orderCount.approval_pending}}</span><span class="texto">{{'approvalPending'|translate}}</span></a>
+                    <a class="lead btn btn-default" ng-class="isActive('received')" href="#/{{type}}/received/{{orderType}}"><span class="numero">{{orderCount.received}}</span><span class="texto">{{'received'|translate}}</span></a>
+                    <a class="lead btn btn-default" ng-class="isActive('finished')" href="#/{{type}}/finished/{{orderType}}"><span class="numero">{{ orderCount.delivered + orderCount.cancelled + orderCount.annulled}}</span><span class="texto">{{'finished'|translate}}</span></a>
+                </div>
+            </div>
+        </div>
+        </script>
+        <script type="text/ng-template" id="index.html">
+        <div class="row">
+            <div class="col-md-12" ng-include="'dash.html'">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8" ng-include="'orders.html'">
+            </div>
+            <div class="col-md-4" ng-include="'users.html'">
+            </div>
+        </div>
+        </script>
+        <script type="text/ng-template" id="orders.html">
+        <div class="col-md-12" ng-if="orders.length > 0">
+            <div ng-include="'pagination.html'"></div>
+
+            <div class="sorting-group pull-right">
+                <span>
+                    {{'Sort by'|translate}}:
+                    <a href ng-click="sort('o.createdAt')">{{'date'|translate}}</a> -
+                    <a href ng-click="sort('o.code')">{{'code'|translate}}</a> -
+                    <a href ng-click="sort('m.title')">{{'title'|translate}}</a>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+            <div class="item_container" ng-repeat="order in orders">
+                <div class="top_info">
+                    <div class="top_left">
+                        <div ng-class="order.request.type | request_type">{{order.request.type| request_type_abbr | translate}}</div>
+                        <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
+                    </div>
+
+                    <div class="top_right">
+                        <div class="status-{{order.request.current_state}}" data-toggle="tooltip" title="{{order.request.current_state | translate}}"></div>
+                        <div class="uri">{{order.code}}</div>
+                        <div class="usuario">
+                            {{order.request.operator ? order.request.operator.name : '-'}}
+                        </div>
+                        <div class="decoracion"></div>
+                    </div>
+                </div>
+
+                <div class="main_info">
+                    <div class="title_and_author">
+                        <div class="titulo">
+                            <a ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}">
+                                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                                <span ng-if="order.material_data.type == 'journal'">{{ order.material_data.journal.name }}</span>
+                            </a>
+                        </div>
+                        <div class="autor">{{order.material_data.authors}}</div>
+                        <div class="doc_year">{{order.material_data.year}}</div>
+                    </div>
+                    <div class="doc_and_year">
+                        <div ng-if="order.request.owner.pdf" class="doc_type_pdf"></div>
+                        <div ng-if="!order.request.owner.pdf" class="doc_type_print"></div>
+                    </div>
+                </div>
+
+                <div class="comments">{{order.request.comments}}</div>
+
+                <div class="order-actions">
+                    <ul class="list-unstyled actions">
+                        <li ng-if="searchPending(order.request)">
+                            <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" />
+                        </li>
+                        <li>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}"><span class="glyphicon glyphicon-file"></span></a>
+                        </li>
+                        <li>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
+                            <a href class="submit-form btn btn-default"><span class="fa fa-files-o"></span></a>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div ng-include="'pagination.html'"></div>
+        </div>
+
+        <div class="col-md-12" ng-if="orders.length === 0">
+            <p>{{'noMatchingOrders' | translate}}</p>
+        </div>
+        </script>
+        <script type="text/ng-template" id="pagination.html">
+        <div class="navigation">
+            <pagination total-items="total"
+                        max-size="7"
+                        boundary-links="true"
+                        rotate="false"
+                        num-pages="numPages"
+                        ng-model="pagination.currentPage"
+                        ng-change="pageChanged()"
+                        previous-text="{{ 'Previous' | translate }}"
+                        next-text="{{ 'Next' | translate }}"
+                        first-text="{{ 'First' | translate }}"
+                        last-text="{{ 'Last' | translate }}">
+            </pagination>
+        </div>
+        </script>
+        <script type="text/ng-template" id="users.html">
+        <h2>{{'pendingUsersTitle'|translate}}</h2>
+        <ul class="list-group" ng-if="users.length > 0">
+            <li class="list-group-item user-item" ng-repeat="user in users">
+                <div class="pull-left user-data">
+                    {{user.surname}}, {{user.name}}
+                </div>
+                <div class="pull-right">
+                    <ul class="list-unstyled list-inline">
+                        <li><a href ng-click="enableUser(user.id)"><span class="glyphicon glyphicon-ok"></span></a></li>
+                        <li><a href ng-click="showUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                        <li><a ng-href="{{ {path: 'admin_user_edit', params: { 'id': user.id } } | get_url }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+        <p ng-if="users.length === 0">
+            {{'noPendingUsers'|translate}}
+        </p>
+
+        <div id="user-modal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 id="search-modal-label" class="modal-title">{{'userDetails'| translate}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <dl class="dl-horizontal">
+                            <dt>{{'username'|translate}}</dt>
+                            <dd>{{currentUser.username}}</dd>
+                            <dt>{{'country'|translate}}</dt>
+                            <dd>{{currentUser.country?currentUser.country.name:'-'}}</dd>
+                            <dt>{{'city'|translate}}</dt>
+                            <dd>{{currentUser.city?currentUser.city.name:'-'}}</dd>
+                            <dt>{{'institution'|translate}}</dt>
+                            <dd>{{currentUser.institution?currentUser.institution.name:'-'}}</dd>
+                            <dt>{{'birthdate'|translate}}</dt>
+                            <dd>{{currentUser.birthdate|date:'mediumDate'}}</dd>
+                            <dt>{{'address'|translate}}</dt>
+                            <dd>{{currentUser.address?currentUser.address:'-' }}</dd>
+                            <dt>{{'email'|translate}}</dt>
+                            <dd>
+                                {{currentUser.email}}
+                                <a href class="emailModal" data-email="{{currentUser.email}}"><span class="glyphicon glyphicon-envelope"></span></a>
+                            </dd>
+                            <dt ng-repeat-start="customValue in currentUser.custom_values">{{customValue.field.name}}</dt>
+                            <dd ng-repeat-end>{{customValue.value}}</dd>
+                        </dl>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-primary" href ng-click="enableUser(currentUser.id)"><span class="glyphicon glyphicon-ok"></span> {{'enable'|translate}}</a>
+                        <a ng-href="{{ {path: 'admin_user_edit', params: { 'id': currentUser.id } } | get_url }}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> {{'edit'|translate}}</a>
+                        <button class="btn btn-default" data-dismiss="modal">{{'close'| translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </script>
+        {% endverbatim %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" src="/ng-app/Administration/js/app.js"></script>
-    <script type="text/javascript" src="/ng-app/Administration/js/resources.js"></script>
-    <script type="text/javascript" src="/ng-app/Administration/js/controllers.js"></script>
-    <script type="text/javascript" src="/ng-app/Administration/js/filters.js"></script>
+    {% javascripts 'bundles/celsius3core/ng/Administration/app.js'
+                           'bundles/celsius3core/ng/Administration/resources.js'
+                           'bundles/celsius3core/ng/Administration/controllers.js'
+                           'bundles/celsius3core/ng/Administration/filters.js' filter='?uglifyjs2'  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

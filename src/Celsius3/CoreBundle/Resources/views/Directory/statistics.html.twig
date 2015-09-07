@@ -9,6 +9,180 @@
         <div ng-view>
 
         </div>
+        {% verbatim %}
+        <script type="text/ng-template" id="index.html">
+        <div class="row">
+            <h1>{{ title | translate }} - {{ subtitle | translate }}</h1>
+            <div class="col-md-3" ng-include="'menu.html'"></div>
+            <div class="col-md-9" >
+                <div class="row">
+                    <p>{{ description | translate }}</p>
+                </div>
+                <div class="row" ng-if="searchProvision">
+                    <ul class="nav nav-tabs">
+                        <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|translate}}</a></li>
+                        <li class="{{provisionClass}}"><a href ng-click="setTypeProvision()">{{'provision'|translate}}</a></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <form>
+                        <p>
+                            <label for="initialYear">{{'initialYear'|translate}}:</label>
+                            <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
+
+                            <label for="finalYear">{{'finalYear'|translate}}:</label>
+                            <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+                        </p>
+                        <p ng-if="locationFields">
+                            <label for="country">{{'country'|translate}}:</label>
+                            <select ng-model="location.country" id="country" ng-change="countryChanged()">
+                                <option></option>
+                                <option ng-repeat="c in allCountries" value="{{c.value}}">{{c.name}}</option>
+                            </select>
+
+                            <label for="institution">{{'institution'|translate}}:</label>
+                            <select ng-model="location.institution" id="institution">
+                                <option></option>
+                                <option ng-repeat="i in institutions" value="{{i.value}}">{{i.name}}</option>
+                            </select>
+                        </p>
+                        <p ng-show="selectDelayType">
+                            <input type="radio" ng-model="delayType" value="totalDelay">{{'totalDelay'|translate}}
+                            <input type="radio" ng-model="delayType" value="locationDelay">{{'locationDelay'|translate}}
+                            <input type="radio" ng-model="delayType" value="responseDelay">{{'responseDelay'|translate}}
+                        </p>
+                        <button id="updateChart" ng-click="updateChart()">{{'update'|translate}}</button>
+                    </form>
+                </div>
+                <div id="chart" class="row"></div>
+                <div id="table" class="row" ng-include="'table.html'"></div>
+            </div>
+        </div>
+        </script>
+        <script type="text/ng-template" id="menu.html">
+        <div id="accordion" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href data-target="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            {{ 'ordersAmounts'| translate }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="collapseOne">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li role="presentation">
+                                <a href ng-click="getRequestsCountData()">
+                                    {{'requestsCount'|translate}}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href ng-click="getRequestsDestinyDistributionData()">
+                                    {{'requestsDestinyDistribution'|translate}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href data-target="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            {{ 'requestsDelay'|translate }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="collapseTwo">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li role="presentation">
+                                <a href ng-click="getRequestsTotalDelayData()">
+                                    {{'serviceEfficiency'|translate}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href data-target="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            {{ 'usersStatistics'|translate }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="collapseThree">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li role="presentation">
+                                <a href ng-click="getUsersCountData()">
+                                    {{'usersCount'|translate}}
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a href ng-click="getRequestsOriginData()">
+                                    {{'requestsOrigin'|translate}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href data-target="#collapseFour" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            {{ 'bibliograficMaterial'|translate }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse" id="collapseFour">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li role="presentation">
+                                <a href ng-click="getRequestsNumberByPublicationYearData()">
+                                    {{'requestsPublicationYear'|translate}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </script>
+        <script type="text/ng-template" id="table.html">
+        <div class="row table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td><b>{{ firstColumnTitle | translate }}</b></td>
+                        <td ng-repeat="v in data.columns"><b>{{ v[0] | translate }}</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(key, value) in data.categories">
+                        <td>{{ value }}</td>
+                        <td ng-repeat="v in data.columns">{{ v[key + 1] }}</td>
+                    </tr>
+                </tbody>
+                <tfoot ng-if="showTotal">
+                    <tr>
+                        <td>{{ 'total' | translate }}</td>
+                        <td ng-repeat="v in data.columns">{{ v | totalize_column }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        </script>
+        <script type="text/ng-template" id="sidebar.html">
+        <form>
+            <label for="initialYear">Initial year: </label>
+            <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
+
+            <label for="finalYear">Final year: </label>
+            <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+
+            <button ng-click="updateUsersCountChart()">Show</button>
+        </form>
+        </script>
+        {% endverbatim %}
     </div>
 {% endblock %}
 
@@ -17,7 +191,9 @@
     <script type="text/javascript">
         directory = true;
     </script>
-    <script type="text/javascript" src="/ng-app/Statistics/js/app.js"></script>
-    <script type="text/javascript" src="/ng-app/Statistics/js/controllers.js"></script>
-    <script type="text/javascript" src="/ng-app/Statistics/js/filters.js"></script>
+    {% javascripts 'bundles/celsius3core/ng/Statistics/app.js'
+                           'bundles/celsius3core/ng/Statistics/controllers.js'
+                           'bundles/celsius3core/ng/Statistics/filters.js' filter='?uglifyjs2'  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

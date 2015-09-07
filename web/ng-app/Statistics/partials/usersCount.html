@@ -1,9 +1,0 @@
-<form>
-    <label for="initialYear">Initial year: </label>
-    <select id="initialYear" ng-model="initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
-
-    <label for="finalYear">Final year: </label>
-    <select id="finalYear" ng-model="finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
-
-    <button ng-click="updateUsersCountChart()">Show</button>
-</form>

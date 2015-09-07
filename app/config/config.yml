@@ -32,7 +32,7 @@ twig:
 
 # Assetic Configuration
 assetic:
-    bundles:        [Celsius3CoreBundle,TwigBundle]
+    bundles:        [Celsius3CoreBundle,TwigBundle, FOSUserBundle]
     debug:          %kernel.debug%
     use_controller: false
     # java: /usr/bin/java
@@ -128,7 +128,7 @@ doctrine:
                         YEAR: DoctrineExtensions\Query\Mysql\Year
                         IFNULL: DoctrineExtensions\Query\Mysql\IfNull
                         DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
-                
+
 # Swiftmailer Configuration
 swiftmailer:
     spool:
@@ -190,14 +190,14 @@ services:
         class:        %jms_serializer.doctrine_object_constructor.class%
         public:       false
         arguments:    ["@doctrine", "@jms_serializer.unserialize_object_constructor"]
-        
+
     gedmo.listener.softdeleteable:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ @annotation_reader ] ]
-            
+
     kernel.listener.command_dispatch:
         class: Celsius3\CoreBundle\EventListener\ConsoleLoggingListener
         arguments:
@@ -205,7 +205,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: console.exception }
             - { name: kernel.event_listener, event: console.terminate }
-    
+
     oauth_event_listener:
         class:  Celsius3\ApiBundle\EventListener\OAuthEventListener
         arguments:
@@ -323,7 +323,7 @@ fos_oauth_server:
             access_token_lifetime: 3600 # Una hora
             refresh_token_lifetime: 43200 # Un día
             auth_code_lifetime: 60 # Un minuto
-            
+
 knp_menu:
     twig:
         template: Celsius3CoreBundle:Default:knp_menu.html.twig
