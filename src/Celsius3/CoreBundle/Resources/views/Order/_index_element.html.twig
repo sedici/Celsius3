@@ -12,7 +12,7 @@
             {% else %}
                 <div class="provision">P</div>
             {% endif %}
-            <div class="tipoarticulo">{{ get_material_type(element.materialData) }}</div>
+            <div class="tipoarticulo">{{ get_material_type(element.materialData)|trans }}</div>
         </div>
 
         <div class="top_right">
@@ -38,10 +38,12 @@
                     {% else %}
                         <span>[ {{ 'sinTitulo' | trans }} ]</span>
                     {% endif %}
-                    {% if (get_material_type(element.materialData) == 'journal') %}
-                        <span> - {{ element.materialData.journal.name }}</span>
-                    {% endif %}
                 </a>
+            </div>
+            <div class="titulo">
+                {% if (get_material_type(element.materialData) == 'journal') %}
+                    {{ element.materialData.journal ? element.materialData.journal.name : element.materialData.other }}
+                {% endif %}
             </div>
             <div class="autor">{{ element.materialData.authors }}</div>
             <div class="doc_year">{{ element.materialData.year }}</div>

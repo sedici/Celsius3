@@ -46,7 +46,7 @@
                     <div class="top_info">
                         <div class="top_left">
                             <div ng-class="order.request.type | request_type">{{order.request.type| request_type_abbr | translate}}</div>
-                            <div class="tipoarticulo">{{order.material_data.type}}</div>
+                            <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
                         </div>
 
                         <div class="top_right">
@@ -61,12 +61,18 @@
 
                     <div class="main_info">
                         <div class="title_and_author">
-                            <div class="titulo">{{order.material_data.title}}</div>
+                        <div class="titulo">
+                            <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                            <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                        </div>
+                        <div class="titulo" ng-if="order.material_data.type === 'journal'">
+                            {{ order.material_data.journal ? order.material_data.journal.name : order.material_data.other }}
+                        </div>
                             <div class="autor">{{order.material_data.authors}}</div>
                             <div class="doc_year">{{order.material_data.year}}</div>
                         </div>
-                        <div class="doc_and_year" ng-if="order.request.files.length > 0">
-                            <p>{{'Download'|translate}}
+                        <div class="doc_and_year" ng-if="order.request.files.length > 0 && order.request.owner.pdf">
+                            <p>{{'download'|translate}}
                             <p>
                                 <a class="btn btn-default btn-lg" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.pdf && !file.is_downloaded)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
                                     <span class="fa fa-file-pdf-o" aria-hidden="true"></span>

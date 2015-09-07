@@ -54,6 +54,9 @@ class BaseUserType extends RegistrationFormType
                 ->add('pdf', null, array(
                     'required' => false,
                 ))
+                ->add('downloadAuth', null, array(
+                    'required' => false,
+                ))
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder
