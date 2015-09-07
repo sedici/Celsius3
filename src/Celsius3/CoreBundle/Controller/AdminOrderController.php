@@ -137,14 +137,15 @@ class AdminOrderController extends OrderController
         }
 
         $materialClass = get_class($entity->getMaterialData());
-        
-        if ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType){
+
+        if ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) {
             $journal = $entity->getMaterialData()->getJournal();
         } else {
             $journal = null;
         }
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass, $journal), $entity->getOriginalRequest()->getOwner(), $this->getUser()), $entity);
+        $other = ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $entity->getMaterialData()->getOther() : '';
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass, $journal, $other), $entity->getOriginalRequest()->getOwner(), $this->getUser()), $entity);
 
         return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -167,16 +168,16 @@ class AdminOrderController extends OrderController
         if (!$order) {
             throw $this->createNotFoundException('Unable to find Order.');
         }
-        
+
         $entity_manager = $this->getDoctrine()->getManager();
-        
+
         //Clonar Orden original
         $duplicatedOrder = clone $order;
-        
+
         $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance(), $order->getOriginalRequest()->getCreator());
         $duplicatedOrder->setOriginalRequest($request);
         $duplicatedOrder->setMaterialData(clone $order->getMaterialData());
-        
+
         //Se registra duplicado en la base de datos
         $entity_manager->persist($duplicatedOrder);
         $entity_manager->persist($request);
@@ -224,6 +225,11 @@ class AdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            if ($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', '', true) !== '') {
+                $entity->getMaterialData()->setJournal(null);
+                $entity->getMaterialData()->setOther($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', '', true));
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
@@ -249,4 +255,5 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
+
 }

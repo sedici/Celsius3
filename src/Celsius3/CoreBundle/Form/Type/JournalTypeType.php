@@ -30,9 +30,10 @@ class JournalTypeType extends MaterialTypeType
 {
     private $journal;
 
-    public function __construct(Journal $journal = null)
+    public function __construct(Journal $journal = null, $other)
     {
         $this->journal = $journal;
+        $this->other = $other;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -51,7 +52,7 @@ class JournalTypeType extends MaterialTypeType
                         'required' => false,
                         'class' => 'autocomplete',
                         'target' => 'Journal',
-                        'value' => $this->journal,
+                        'value' => (!is_null($this->journal)) ?  $this->journal : $this->other
                     ),
                     'mapped' => false,
                     'label' => 'Journal',

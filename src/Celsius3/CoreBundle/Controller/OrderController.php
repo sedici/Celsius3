@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\Journal;
 
 abstract class OrderController extends BaseInstanceDependentController
 {
-    
+
     protected function baseCreate($name, $entity, $type, $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
@@ -39,7 +39,7 @@ abstract class OrderController extends BaseInstanceDependentController
             if ($request->request->get($form->getName() . '[materialData][journal]', null, true) === '') {
                 $entity->getMaterialData()->setOther($request->request->get($form->getName() . '[materialData][journal_autocomplete]', null, true));
             }
-            
+
             $this->persistEntity($entity);
             $this->get('session')
                     ->getFlashBag()
@@ -74,7 +74,7 @@ abstract class OrderController extends BaseInstanceDependentController
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array('form' => $form->createView()));
     }
 
-    protected function getMaterialType($materialData = null, Journal $journal = null)
+    protected function getMaterialType($materialData = null, Journal $journal = null, $other = '')
     {
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -84,7 +84,8 @@ abstract class OrderController extends BaseInstanceDependentController
             $class = explode('\\', $materialData);
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
-        
-        return new $materialTypeName($journal);
+
+        return new $materialTypeName($journal,$other);
     }
+
 }
