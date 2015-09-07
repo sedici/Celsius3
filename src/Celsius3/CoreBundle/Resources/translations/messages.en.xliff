@@ -1743,6 +1743,10 @@
         <source>sinTitulo</source>
         <target>No title</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>Save and show</source>
+        <target>Save and show</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

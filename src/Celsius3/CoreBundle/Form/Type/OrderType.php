@@ -32,6 +32,7 @@ use JMS\TranslationBundle\Annotation\Ignore;
 
 class OrderType extends AbstractType
 {
+
     protected $instance;
     protected $material;
     protected $preferredMaterial;
@@ -71,6 +72,7 @@ class OrderType extends AbstractType
                     'label' => 'Material Type',
                 ))
                 ->add('materialData', $this->material)
+                ->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')))
         ;
     }
 
@@ -86,4 +88,5 @@ class OrderType extends AbstractType
     {
         return 'celsius3_corebundle_ordertype';
     }
+
 }

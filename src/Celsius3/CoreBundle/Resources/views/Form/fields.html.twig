@@ -11,3 +11,26 @@
         </div>
     {% endspaceless %}
 {% endblock form_row %}
+
+{%- block button_widget -%}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        <span class="glyphicon glyphicon-{{ icon }}"></span>
+        {{ label|trans({}, translation_domain) }}
+    </button>
+{%- endblock button_widget -%}
+
+{%- block submit_widget -%}
+    {%- set type = type|default('submit') -%}
+    {%- set icon = 'ok' -%}
+    {{ block('button_widget') }}
+{%- endblock submit_widget -%}

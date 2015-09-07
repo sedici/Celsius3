@@ -1771,6 +1771,10 @@
         <source>sinTitulo</source>
         <target>Sin título</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>Save and show</source>
+        <target>Guardar y mostrar</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
