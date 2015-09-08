@@ -45,6 +45,12 @@ abstract class OrderController extends BaseInstanceDependentController
                     ->getFlashBag()
                     ->add('success', 'The ' . $name . ' was successfully created.');
 
+            if ($form->has('save_and_show')) {
+                if ($form->get('save_and_show')->isClicked()) {
+                    return $this->redirect($this->generateUrl('admin_order_show', array('id' => $entity->getId())));
+                }
+            }
+
             return $this->redirect($this->generateUrl($route));
         }
 
@@ -85,7 +91,7 @@ abstract class OrderController extends BaseInstanceDependentController
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
 
-        return new $materialTypeName($journal,$other);
+        return new $materialTypeName($journal, $other);
     }
 
 }

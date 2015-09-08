@@ -30,7 +30,7 @@ class JournalTypeType extends MaterialTypeType
 {
     private $journal;
 
-    public function __construct(Journal $journal = null, $other)
+    public function __construct(Journal $journal = null, $other = '')
     {
         $this->journal = $journal;
         $this->other = $other;
