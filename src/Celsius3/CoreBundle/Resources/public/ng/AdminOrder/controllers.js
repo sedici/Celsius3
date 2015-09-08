@@ -282,7 +282,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $scope.addFilesToUploadBasic = function (files) {
             for (var i = 0; i < files.length; i++) {
-                $scope.filesToReupload.push(files[i]);
+                var notExist = true;
+                for (var j = 0; j < $scope.filesToUploadBasic.length; j++) {
+                    if ($scope.filesToUploadBasic[j].name === files[i].name) {
+                        notExist = false;
+                    }
+                }
+                if (notExist) {
+                    $scope.filesToUploadBasic.push(files[i]);
+                }
             }
         };
 
