@@ -50,7 +50,11 @@ class SearchEventListener
             $changeset = $uow->getEntityChangeSet($entity);
 
             if ($entity->getRequest()->getOrder()->getMaterialData() instanceof JournalType) {
-                $title = $entity->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
+                if (!$entity->getRequest()->getOrder()->getMaterialData()->getJournal()) {
+                    $title = $entity->getRequest()->getOrder()->getMaterialData()->getOther();
+                } else {
+                    $title = $entity->getRequest()->getOrder()->getMaterialData()->getJournal()->getName();
+                }
             } else {
                 $title = $entity->getRequest()->getOrder()->getMaterialData()->getTitle();
             }
