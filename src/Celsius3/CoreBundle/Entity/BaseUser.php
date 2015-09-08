@@ -68,14 +68,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $surname;
     /**
-     * @Assert\NotBlank(groups={"Default"})
      * @Assert\Date(groups={"Default"})
      * @ORM\Column(type="date", nullable=true)
      */
     protected $birthdate;
     /**
-     * @Assert\NotBlank(groups={"Default"})
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $address;
     /**
@@ -529,7 +527,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * Has secondaryInstances
      *
      * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
-     * @return boolean 
+     * @return boolean
      */
     public function hasSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
     {

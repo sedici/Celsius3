@@ -57,13 +57,16 @@ class RegistrationFormType extends BaseType
                 ))
                 ->add('surname')
                 ->add('birthdate', 'birthday', array(
+                    'required' => false,
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'attr' => array(
                         'class' => 'date'
                     ),
                 ))
-                ->add('address')
+                ->add('address', null, array(
+                    'required' => false,
+                ))
                 ->add('instance', 'celsius3_corebundle_instance_selector', array(
                     'data' => $this->instance,
                     'attr' => array(
