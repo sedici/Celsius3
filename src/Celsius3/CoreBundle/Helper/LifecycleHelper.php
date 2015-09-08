@@ -138,7 +138,7 @@ class LifecycleHelper
     {
         $instance = is_null($instance) ? ($name != EventManager::EVENT__CREATION ? $this->instance_helper->getSessionInstance() : $request->getInstance()) : $instance;
         $extraData = $this->event_manager->prepareExtraData($name, $request, $instance);
-        $eventName = $this->event_manager->getRealEventName($name, $extraData);
+        $eventName = $this->event_manager->getRealEventName($name, $extraData, $instance);
         $data = array(
             'eventName' => $eventName,
             'stateName' => $this->state_manager->getStateForEvent($eventName),
@@ -225,7 +225,7 @@ class LifecycleHelper
             $this->refresh($event);
 
             $this->em->commit();
-            
+
             return $event;
         } catch (PreviousStateNotFoundException $e) {
             $this->em->rollback();
@@ -265,7 +265,7 @@ class LifecycleHelper
 
                 $this->refresh($event);
                 $this->refresh($currentState);
-                
+
                 $this->em->commit();
 
                 return $event;
