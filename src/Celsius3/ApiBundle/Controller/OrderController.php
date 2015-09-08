@@ -112,7 +112,7 @@ class OrderController extends BaseController
             }
 
             $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findOrdersByStateType($state, $user, $this->getInstance());
+                    ->findOrdersByStateType($state, null, $user, $this->getInstance());
         }
 
         $view = $this->view($orders, 200)

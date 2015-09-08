@@ -170,17 +170,7 @@ class OrderRepository extends EntityRepository
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->createQueryBuilder('o');
 
-        $qb->select('o.code')
-                ->addSelect('ow.id owner_id')
-                ->addSelect('ow.name owner_name')
-                ->addSelect('ow.surname owner_surname')
-                ->addSelect('ow.email owner_email')
-                ->addSelect('md.startPage start_page')
-                ->addSelect('md.endPage end_page')
-                ->join('o.requests', 'r')
-                ->join('o.materialData', 'md')
-                ->join('o.originalRequest', 'or')
-                ->join('or.owner', 'ow')
+        $qb->join('o.requests', 'r')
                 ->join('r.states', 's')
                 ->where('s.type = :type')
                 ->setParameter('type', $type);

@@ -4,5 +4,7 @@
         <property name="id" type="string" expose="true" read-only="true"></property>
         <property name="code" type="integer" expose="true" access-type="public_method"></property>
         <property name="materialData" expose="true" access-type="public_method"></property>
+        <property name="originalRequest" expose="true" access-type="public_method"></property>
+        <virtual-property name="pages" type="integer" expose="true" method="getPages"></virtual-property>
     </class>
 </serializer>

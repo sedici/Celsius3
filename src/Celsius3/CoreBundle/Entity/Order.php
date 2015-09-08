@@ -90,6 +90,16 @@ class Order
         $this->originalRequest = null;
     }
 
+    public function getPages()
+    {
+        $files = $this->getOriginalRequest()->getFiles();
+        $pages = 0;
+        foreach ($files as $file) {
+            $pages += $file->getPages();
+        }
+        return $pages;
+    }
+
     /**
      * Get id
      *
