@@ -31,6 +31,7 @@ class SearchManager
     private $em;
     private $tokenList = array(
         'user:' => 'BaseUser',
+        'journal:' => 'JournalType',
     );
 
     public function __construct(EntityManager $em)

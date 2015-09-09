@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\JournalTypeRepository")
  */
 class JournalType extends MaterialType
 {

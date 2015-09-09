@@ -45,14 +45,16 @@ class OrderRepository extends EntityRepository
         if (count($in) > 0) {
             $secondary = array();
             foreach ($in as $repository => $term) {
-                $secondary = array_map(function (BaseUser $user) {
-                    return $user->getId();
+                $secondary = array_map(function ($entity) {
+                    return $entity->getId();
                 }, $this->getEntityManager()
                                 ->getRepository('Celsius3CoreBundle:' . $repository)
                                 ->findByTerm($term, $instance)
                                 ->getResult());
                 if ($repository === 'BaseUser' && count($secondary) > 0) {
                     $qb->andWhere($qb->expr()->in('r.owner', $secondary));
+                } else if ($repository === 'JournalType' && count($secondary) > 0) {
+                    $qb->andWhere($qb->expr()->in('o.materialData', $secondary));
                 }
             }
         } else {

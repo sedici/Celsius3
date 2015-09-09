@@ -77,7 +77,7 @@ class BaseUserRepository extends EntityRepository
         );
     }
 
-    public function findByTerm($term, $instance = null, $limit = null, array $institutions = array())
+    public function findByTerm($term, Instance $instance = null, $limit = null, array $institutions = array())
     {
         $qb = $this->createQueryBuilder('u')
                 ->where('u.name LIKE :term')
@@ -263,7 +263,7 @@ class BaseUserRepository extends EntityRepository
         if ($type === 'email') {
             $qb = $qb->andWhere('ns.subscribedToEmailNotifications = :uen')->setParameter('uen', TRUE);
         }
-        
+
         return $qb->getQuery()->execute();
     }
 
