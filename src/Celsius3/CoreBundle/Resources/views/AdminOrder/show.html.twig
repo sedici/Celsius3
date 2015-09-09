@@ -724,7 +724,7 @@
 
                 <div class="owner_info">
                 <div class="owner_and_institution">
-                <div class="owner">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }})</div>
+                <div class="owner"><a ng-href="{{ {path: 'admin_user_show',params:{'id':request.owner.id} }|get_url}}">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }}) </a></div>
                 <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
                 </div>
                 </div>

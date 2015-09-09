@@ -56,7 +56,7 @@ class AdminBaseUserController extends BaseUserController
     /**
      * Shows the data of a user
      *
-     * @Route("/{id}/show", name="admin_user_show")
+     * @Route("/{id}/show", name="admin_user_show", options={"expose"=true})
      * @Template()
      *
      * @return array
