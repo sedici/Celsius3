@@ -175,22 +175,22 @@
             </script>
             <script type="text/ng-template" id="order_upload_form.html">
                 <div class="alert alert-success" ng-if="request.current_state === 'received'">
-                    {{'filesSuccessUpload' | translate}}
+                {{'filesSuccessUpload' | translate}}
                 </div>
                 <form class="form-horizontal" id="uploadForm">
-                    <div class="form-group">
-                        <label for="files">{{'files' | translate}}</label>
-                        <div class="input-group">
-                            <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
-                            <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
-                        </div>
-                        <br />
-                        <div>
-                            <ul>
-                                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="form-group">
+                <label for="files">{{'files' | translate}}</label>
+                <div class="input-group">
+                <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
+                <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
+                </div>
+                <br />
+                <div>
+                <ul>
+                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
+                </ul>
+                </div>
+                </div>
                 </form>
             </script>
             <script type="text/ng-template" id="request_cancelled.html">
@@ -395,23 +395,11 @@
                 </div>
                 </div>
             </script>
-            <script type="text/ng-template" id="show_material_data.html">
-                <h4>{{'itemInformation' | translate}}</h4>
+            <script type="text/ng-template" id="journal_data.html">
                 <ul class="list-unstyled">
-                <li>
-                <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
-                </li>
-                <li>
-                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
-                </li>
-                <li>
-                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
-                </li>
-                <li>
-                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
-                </li>
-                <li>
-                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                <li ng-if="order.material_data.type === 'journal'">
+                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.journal.name}}</span>
+                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}}</span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
                 <strong>{{'volume' | translate}}</strong> {{order.material_data.volume}}
@@ -419,15 +407,45 @@
                 <li ng-if="order.material_data.type === 'journal'">
                 <strong>{{'number' | translate}}</strong> {{order.material_data.number}}
                 </li>
-                <li ng-if="order.material_data.type === 'journal'">
-                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.journal.name}}</span>
-                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}}</span>
+                <li>
+                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                </li>
+                <li>
+                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                </li>
+                <li>
+                <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
+                </li>
+                <li>
+                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                </li>
+                <li>
+                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                </li>
+                </ul>
+            </script>
+            <script type="text/ng-template" id="book_data.html">
+                <ul class="list-unstyled">
+                <li>
+                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                </li>
+                <li>
+                <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
                 <strong>{{'editor' | translate}}</strong> {{order.material_data.editor}}
                 </li>
+                <li>
+                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                </li>
                 <li ng-if="order.material_data.type === 'book'">
                 <strong>{{'chapter' | translate}}</strong> {{order.material_data.chapter}}
+                </li>
+                <li>
+                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                </li>
+                <li>
+                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
                 <strong>{{'isbn' | translate}}</strong> {{order.material_data._i_s_b_n}}
@@ -435,19 +453,53 @@
                 <li ng-if="order.material_data.type === 'book'">
                 <strong>{{'withIndex' | translate}}</strong> {{order.material_data.with_index| material_with_index | translate}}
                 </li>
-                <li ng-if="order.material_data.type === 'congress'">
-                <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
-                </li>
-                <li ng-if="order.material_data.type === 'congress'">
-                <strong>{{'communication' | translate}}</strong> {{order.material_data.communication}}
-                </li>
-                <li ng-if="order.material_data.type === 'thesis'">
-                <strong>{{'director' | translate}}</strong> {{order.material_data.director}}
-                </li>
-                <li ng-if="order.material_data.type === 'thesis'">
-                <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
-                </li>
                 </ul>
+            </script>
+            <script type="text/ng-template" id="other_data.html">
+                <ul class="list-unstyled">
+                    <li>
+                        <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
+                    </li>
+                    <li>
+                        <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                    </li>
+                    <li>
+                    <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
+                    </li>
+                    <li>
+                        <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                    </li>
+                    <li>
+                        <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                    </li>
+                    <li>
+                        <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                    </li>
+                    <li ng-if="order.material_data.type === 'congress'">
+                        <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
+                    </li>
+                    <li ng-if="order.material_data.type === 'congress'">
+                        <strong>{{'communication' | translate}}</strong> {{order.material_data.communication}}
+                    </li>
+                    <li ng-if="order.material_data.type === 'thesis'">
+                        <strong>{{'director' | translate}}</strong> {{order.material_data.director}}
+                    </li>
+                    <li ng-if="order.material_data.type === 'thesis'">
+                        <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
+                    </li>
+                </ul>
+            </script>
+            <script type="text/ng-template" id="show_material_data.html">
+                <h4>{{'itemInformation' | translate}}</h4>
+                <div ng-if="order.material_data.type === 'journal'">
+                    <div ng-include="'journal_data.html'"></div>
+                </div>
+                <div ng-if="order.material_data.type === 'book'">
+                    <div ng-include="'book_data.html'"></div>
+                </div>
+                <div ng-if="!(order.material_data.type === 'journal') && !(order.material_data.type === 'book')">
+                    <div ng-include="'other_data.html'"></div>
+                </div>
             </script>
             <script type="text/ng-template" id="show_order_actions.html">
                 <div class="explorar_catalogos" ng-if="contains(['searched', 'requested', 'approval_pending', 'received'], request.current_state) && countSearches() > 0">
@@ -632,7 +684,7 @@
                 <div class="top_info">
                 <div class="top_left">
                 <div ng-class="request.type | request_type">{{request.type | request_type_abbr | translate}}</div>
-                <div class="tipoarticulo">{{order.material_data.type}}</div>
+                <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
                 </div>
 
                 <div class="top_right">
