@@ -728,6 +728,10 @@
                 <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
                 </div>
                 </div>
+                <div class="comments">
+                <h5>{{'comments'|translate}}</h5>
+                <p>{{request.comments}}</p>
+                </div>
             </script>
             <script type="text/ng-template" id="show_order_history.html">
                 <h3>{{ 'history' | translate }}</h3>
