@@ -106,6 +106,9 @@ class UnionManager
             'Celsius3MessageBundle:ThreadMetadata' => array(
                 'participant'
             ),
+            'Celsius3NotificationBundle:BaseUserNotification' => array(
+                'object',
+            ),
         )
     );
 
