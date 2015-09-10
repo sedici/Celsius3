@@ -728,7 +728,7 @@
                 <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
                 </div>
                 </div>
-                <div class="comments">
+                <div class="comments" ng-if="request.comments">
                 <h5>{{'comments'|translate}}</h5>
                 <p>{{request.comments}}</p>
                 </div>
