@@ -277,12 +277,12 @@
                 </div>
 
                 <div class="row">
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0">
+                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && request.previousRequest">
                 <div class="row">
                 <div class="col-md-12">
                 <p>{{'provisionModeText' | translate}}</p>
                 <p>
-                <button ng-if="request.previousRequest" class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
+                <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
                 <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
                 </p>
                 </div>
@@ -296,7 +296,7 @@
                 </div>
                 </div>
 
-                <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0">
+                <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || !request.previousRequest">
                 <div class="row">
                 <state-bar>
 
