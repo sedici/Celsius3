@@ -156,7 +156,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $translate('cancelTooltipTitle').then(function (cancelTooltipTitle) {
         $scope.cancelTooltip = {
             "title": cancelTooltipTitle,
-            "placement": "right",
+            "placement": "top",
             "trigger": "hover"
         };
     });
@@ -164,7 +164,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $translate('reclaimTooltipTitle').then(function (reclaimTooltipTitle) {
         $scope.reclaimTooltip = {
             "title": reclaimTooltipTitle,
-            "placement": "right",
+            "placement": "top",
             "trigger": "hover"
         };
     });
@@ -172,7 +172,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $translate('approveTooltipTitle').then(function (approveTooltipTitle) {
         $scope.approveTooltip = {
             "title": approveTooltipTitle,
-            "placement": "right",
+            "placement": "top",
             "trigger": "hover"
         };
     });
@@ -180,7 +180,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $translate('reuploadTooltipTitle').then(function (reuploadTooltipTitle) {
         $scope.reuploadTooltip = {
             "title": reuploadTooltipTitle,
-            "placement": "right",
+            "placement": "top",
+            "trigger": "hover"
+        };
+    });
+
+    $translate('viewAll').then(function (viewAll) {
+        $scope.viewAllTooltip = {
+            "title": viewAll,
+            "placement": "top",
             "trigger": "hover"
         };
     });

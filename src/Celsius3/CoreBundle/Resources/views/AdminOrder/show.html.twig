@@ -249,7 +249,7 @@
                 <a ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
                 <img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" alt="download link" />
                 </a>
-                <a href title="{{'viewAll' | translate}}" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
+                <a href bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
                 <span class="glyphicon glyphicon-list-alt"></span>
                 </a>
                 <span ng-if="hasReclaim(getReceive(request))" class="glyphicon glyphicon-warning-sign"></span>
