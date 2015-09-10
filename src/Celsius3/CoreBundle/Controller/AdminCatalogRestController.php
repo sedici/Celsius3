@@ -39,7 +39,7 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
      */
     public function getCatalogsAction()
     {
-        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance());
+        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance(), $this->getDirectory());
 
         $view = $this->view(array_values($catalogs), 200)->setFormat('json');
 
@@ -71,11 +71,12 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
      */
     public function getCatalogResultsAction($title)
     {
-        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance());
+        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance(), $this->getDirectory());
         $results = $this->get('celsius3_core.catalog_manager')->getCatalogResults($catalogs, $title);
 
         $view = $this->view(array_values($results), 200)->setFormat('json');
 
         return $this->handleView($view);
     }
+
 }

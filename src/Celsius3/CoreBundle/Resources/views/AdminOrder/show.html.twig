@@ -218,7 +218,7 @@
                 </div>
                 <div class="fecha_relojito">
                 <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-                {{request.created_at|date:'mediumDate'}}
+                {{request.created_at|date:'dd-MM-yyyy'}}
                 </a>
                 </div>
                 </div>
@@ -457,48 +457,48 @@
             </script>
             <script type="text/ng-template" id="other_data.html">
                 <ul class="list-unstyled">
-                    <li>
-                        <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
-                    </li>
-                    <li>
-                        <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
-                    </li>
-                    <li>
-                    <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
-                    </li>
-                    <li>
-                        <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
-                    </li>
-                    <li>
-                        <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
-                    </li>
-                    <li>
-                        <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
-                    </li>
-                    <li ng-if="order.material_data.type === 'congress'">
-                        <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
-                    </li>
-                    <li ng-if="order.material_data.type === 'congress'">
-                        <strong>{{'communication' | translate}}</strong> {{order.material_data.communication}}
-                    </li>
-                    <li ng-if="order.material_data.type === 'thesis'">
-                        <strong>{{'director' | translate}}</strong> {{order.material_data.director}}
-                    </li>
-                    <li ng-if="order.material_data.type === 'thesis'">
-                        <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
-                    </li>
+                <li>
+                <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
+                </li>
+                <li>
+                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                </li>
+                <li>
+                <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
+                </li>
+                <li>
+                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                </li>
+                <li>
+                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                </li>
+                <li>
+                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                </li>
+                <li ng-if="order.material_data.type === 'congress'">
+                <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
+                </li>
+                <li ng-if="order.material_data.type === 'congress'">
+                <strong>{{'communication' | translate}}</strong> {{order.material_data.communication}}
+                </li>
+                <li ng-if="order.material_data.type === 'thesis'">
+                <strong>{{'director' | translate}}</strong> {{order.material_data.director}}
+                </li>
+                <li ng-if="order.material_data.type === 'thesis'">
+                <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
+                </li>
                 </ul>
             </script>
             <script type="text/ng-template" id="show_material_data.html">
                 <h4>{{'itemInformation' | translate}}</h4>
                 <div ng-if="order.material_data.type === 'journal'">
-                    <div ng-include="'journal_data.html'"></div>
+                <div ng-include="'journal_data.html'"></div>
                 </div>
                 <div ng-if="order.material_data.type === 'book'">
-                    <div ng-include="'book_data.html'"></div>
+                <div ng-include="'book_data.html'"></div>
                 </div>
                 <div ng-if="!(order.material_data.type === 'journal') && !(order.material_data.type === 'book')">
-                    <div ng-include="'other_data.html'"></div>
+                <div ng-include="'other_data.html'"></div>
                 </div>
             </script>
             <script type="text/ng-template" id="show_order_actions.html">
@@ -757,22 +757,22 @@
                 <div ng-if="requests.length > 0">
                 <div ng-repeat="request in requests" class="item1 col-md-6">
                 <div class="panel1 col-md-5" bs-tooltip="institutionTooltip(request.provider)">
-                <div class="cat_estrella"></div>
-                <div class="cat_datos">
-                <div class="cat_titulo">{{request.provider.name ? request.provider.name : request.provider.type | translate}}</div>
-                <div class="cat_fecha"></div>
-                </div>
-                </div>
-                <div ng-if="!hasReceive(request) && !request.is_cancelled" ng-include="'request_not_received.html'">
+                            <div class="cat_estrella"></div>
+                            <div class="cat_datos">
+                                <div class="cat_titulo">{{request.provider.name ? request.provider.name : request.provider.type | translate}}</div>
+                                <div class="cat_fecha"></div>
+                            </div>
+                        </div>
+                        <div ng-if="!hasReceive(request) && !request.is_cancelled" ng-include="'request_not_received.html'">
 
-                </div>
-                <div ng-if="hasReceive(request) && !request.is_cancelled" ng-include="'request_received.html'">
+                        </div>
+                        <div ng-if="hasReceive(request) && !request.is_cancelled" ng-include="'request_received.html'">
 
-                </div>
-                <div ng-if="request.is_cancelled" ng-include="'request_cancelled.html'">
+                        </div>
+                        <div ng-if="request.is_cancelled" ng-include="'request_cancelled.html'">
 
-                </div>
-                </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="receive-modal" class="modal fade">

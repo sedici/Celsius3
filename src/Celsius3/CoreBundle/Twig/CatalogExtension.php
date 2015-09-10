@@ -30,6 +30,7 @@ use Celsius3\CoreBundle\Entity\Catalog;
 
 class CatalogExtension extends \Twig_Extension
 {
+
     private $catalog_manager;
 
     public function __construct(CatalogManager $catalog_manager)
@@ -51,9 +52,9 @@ class CatalogExtension extends \Twig_Extension
         );
     }
 
-    public function getCatalogs(Instance $instance)
+    public function getCatalogs(Instance $instance, Instance $directory)
     {
-        return $this->catalog_manager->getAllCatalogs($instance);
+        return $this->catalog_manager->getAllCatalogs($instance, $directory);
     }
 
     public function getSearches(Request $request, $result = null)
@@ -75,4 +76,5 @@ class CatalogExtension extends \Twig_Extension
     {
         return 'celsius3_core.catalog_extension';
     }
+
 }

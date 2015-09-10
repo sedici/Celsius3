@@ -28,10 +28,12 @@ use Doctrine\ORM\EntityManager;
 
 class CatalogManager
 {
+
     const CATALOG__NON_SEARCHED = 'non_searched';
     const CATALOG__FOUND = 'found';
     const CATALOG__PARTIALLY_FOUND = 'partially_found';
     const CATALOG__NOT_FOUND = 'not_found';
+
     private $em;
     private $instance_manager;
 
@@ -57,14 +59,16 @@ class CatalogManager
                         ->findBy(array('instance' => $instance->getId(),));
     }
 
-    public function getAllCatalogs(Instance $instance)
+    public function getAllCatalogs(Instance $instance, Instance $directory)
     {
         return $this->em->getRepository('Celsius3CoreBundle:Catalog')
                         ->createQueryBuilder('c')
+                        ->join('c.positions', 'cp')
                         ->where('c.instance = :instance_id')
                         ->orWhere('c.instance = :directory_id')
+                        ->orderBy('cp.position', 'asc')
                         ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('directory_id', $this->instance_manager->getDirectory()->getId())
+                        ->setParameter('directory_id', $directory->getId())
                         ->getQuery()
                         ->getResult();
     }
@@ -82,4 +86,5 @@ class CatalogManager
                         ->getQuery()
                         ->getResult();
     }
+
 }
