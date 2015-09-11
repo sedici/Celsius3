@@ -79,7 +79,7 @@ class StateRepository extends EntityRepository
                         ->getQuery()->getResult();
 
         if (count($qb2) > 0) {
-            $result[StateManager::STATE__SEARCHED] += intval($qb2['c']);
+            $result[StateManager::STATE__SEARCHED] += intval($qb2[0]['c']);
         }
 
         // Se cuentan como propios los que no tienen administrador
