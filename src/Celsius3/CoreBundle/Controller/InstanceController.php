@@ -38,6 +38,38 @@ abstract class InstanceController extends BaseController
         }
     }
 
+    /**
+     * Construye un array con la configuracion para cada widget .Permite manejar casos especiales como textareas o files
+     * @author gonetil
+     * @param $configuration la configuracion del form widget
+     * @param $configurationType el tipo widget de configuracion
+     * @return array con la estructura esperada por el metodo add de FormBuilder
+     *
+     */
+
+    private function buildConfigurationArray($configuration,$configurationType) {
+
+        $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
+
+        $config_array = array(
+            'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
+            'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
+            /** @Ignore */ 'label' => $configuration->getName(),
+            'required' => false,
+            'attr' => array(
+                'value' => $configuration->getValue(),
+                'class' => $configurationType === 'textarea' ? 'summernote' : '',
+                'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO ? false : true,
+                'readonly' => $readonly,
+            ),
+        );
+        if ($configurationType === 'file')
+            $config_array['data_class'] =  null;
+
+        return $config_array;
+
+    }
+
     private function getConfigurationForm($id, $entity)
     {
 
@@ -45,19 +77,7 @@ abstract class InstanceController extends BaseController
 
         foreach ($entity->getConfigurations() as $configuration) {
             $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
-            $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
-            $builder->add($configuration->getKey(), $configurationType, array(
-                'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
-                'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
-                /** @Ignore */ 'label' => $configuration->getName(),
-                'required' => false,
-                'attr' => array(
-                    'value' => $configuration->getValue(),
-                    'class' => $configurationType === 'textarea' ? 'summernote' : '',
-                    'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO ? false : true,
-                    'readonly' => $readonly,
-                ),
-            ));
+            $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType) );
         }
 
         return $builder->getForm();

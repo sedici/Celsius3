@@ -2,6 +2,7 @@
     <div class="well">
         {% if instance.isCurrent %}
             <h2 class="instance-title">
+                <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="logo" class="instance-logo-min"/>
                 <a href="http://{{ instance.host }}" target="_blank">{{ instance.get('instance_title').value }}</a>
             </h2>
         {% endif %}
