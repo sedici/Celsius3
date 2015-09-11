@@ -195,7 +195,7 @@
             </script>
             <script type="text/ng-template" id="request_cancelled.html">
                 <div class="panel2_cancel col-md-1"></div>
-                <div class="panel3_cancel col-md-4">
+                <div class="panel3_cancel col-md-3">
                 <div class="relojito">
                 <span class="glyphicon glyphicon-remove"></span>
                 </div>
@@ -209,7 +209,7 @@
             </script>
             <script type="text/ng-template" id="request_not_received.html">
                 <div class="panel2 col-md-1"></div>
-                <div class="panel3 col-md-4" ng-if="request.type === 'sirequest'">
+                <div class="panel3 col-md-3" ng-if="request.type === 'sirequest'">
                 <div class="relojito">
                 <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
                 <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
@@ -222,7 +222,7 @@
                 </a>
                 </div>
                 </div>
-                <div class="panel3 col-md-4" ng-if="request.type === 'mirequest'">
+                <div class="panel3 col-md-3" ng-if="request.type === 'mirequest'">
                 <div class="relojito">
                 <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
                 <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
@@ -244,7 +244,7 @@
             </script>
             <script type="text/ng-template" id="request_received.html">
                 <div class="panel2_ok col-md-1"></div>
-                <div class="panel3_ok col-md-4">
+                <div class="panel3_ok col-md-3">
                 <div class="relojito">
                 <a ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
                 <img src="/bundles/celsius3core/images/icon_hoja_white.png" width="11" height="20" alt="download link" />
@@ -755,8 +755,8 @@
                 {{'noRequests' | translate}}
                 </div>
                 <div ng-if="requests.length > 0">
-                <div ng-repeat="request in requests" class="item1 col-md-6">
-                <div class="panel1 col-md-5" bs-tooltip="institutionTooltip(request.provider)">
+                <div ng-repeat="request in requests" class="item1 col-md-8 col-md-offset-2">
+                <div class="panel1 col-md-7" bs-tooltip="institutionTooltip(request.provider)">
                             <div class="cat_estrella"></div>
                             <div class="cat_datos">
                                 <div class="cat_titulo">{{request.provider.name ? request.provider.name : request.provider.type | translate}}</div>
