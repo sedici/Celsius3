@@ -1747,6 +1747,46 @@
         <source>Save and show</source>
         <target>Save and show</target>
       </trans-unit>
+      <trans-unit id="13">
+        <source>created</source>
+        <target>Created</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>searched</source>
+        <target>Searched</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>requested</source>
+        <target>Requested</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>approval_pending</source>
+        <target>Approval pending</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>received</source>
+        <target>Received</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>delivered</source>
+        <target>Delivered</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>cancelled</source>
+        <target>Cancelled</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>annulled</source>
+        <target>Annulled</target>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>taken</source>
+        <target>Taken</target>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>all</source>
+        <target>All</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

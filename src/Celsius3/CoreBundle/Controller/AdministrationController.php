@@ -60,12 +60,33 @@ class AdministrationController extends BaseInstanceDependentController
         $state = $request->query->get('state');
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance(), $state), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
-
+        $query = $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance());
+        
+        $states = array();
+        foreach(StateManager::$stateTypes as $s){
+            $states[$s] = 0;
+        }
+        
+        $results = $query->getArrayResult();
+        foreach($results as $result){
+            foreach($result['requests'] as $request){
+                foreach($request['states'] as $s){
+                    if($s['isCurrent']){
+                        $states[$s['type']] += 1;
+                    }
+                }
+            }
+        }
+        
+        $pagination = $paginator->paginate(
+                $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance(), $state), 
+                $this->get('request')->query->get('page', 1)/* page number */, 
+                $this->container->getParameter('max_per_page')/* limit per page */);
+        
         return array(
             'keyword' => $keyword,
             'state' => $state,
-            'states' => StateManager::$stateTypes,
+            'states' => $states,
             'pagination' => $pagination,
         );
     }

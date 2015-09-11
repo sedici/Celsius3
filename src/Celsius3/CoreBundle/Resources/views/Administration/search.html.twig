@@ -22,10 +22,15 @@
                 </div>
                 <div class="col-md-12">
                     <ul class="nav nav-pills pull-right">
-                        {% for orderState in states %}
-                            <li class="{% if(state == orderState) %} active {% endif %}">
-                                <a href="{{ currentPath ~ '&state=' ~ orderState }}">{{ orderState | trans }}</a>
-                            </li>
+                        <li class="{% if(state is null) %} active {% endif %}">
+                            <a href="{{ currentPath }}">{{ 'all' | trans }}({{pagination.paginationData.totalCount}})</a>
+                        </li>
+                        {% for orderState,count in states %}
+                            {% if (count > 0) %}
+                                <li class="{% if(state == orderState) %} active {% endif %}">
+                                    <a href="{{ currentPath ~ '&state=' ~ orderState }}">{{ orderState | trans }}({{count}})</a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
