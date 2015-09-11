@@ -70,7 +70,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $order =  $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Order')
                 ->find($order_id);
-        
+
         $mailManager = new MailManager();
         $text = $mailManager->renderRawTemplate($text,array(
             'user' => $this->getUser(),

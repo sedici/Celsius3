@@ -74,7 +74,9 @@ class Mailer
                     ->setSubject($subject)
                     ->setFrom($instance->get('email_reply_address')->getValue())
                     ->setTo($address)
-                    ->setBody($text . "\n" . $signature);
+                    ->setBody($text . "\n" . $signature)
+                    ->addPart($text . "\n" . $signature,'text/html')
+                ;
 
             $mailer->send($message);
 
