@@ -713,7 +713,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         var data = {
             email: $scope.forms.email.address,
             subject: $scope.forms.email.subject,
-            text: $scope.forms.email.text
+            text: $scope.forms.email.text,
+            order_id : ($scope.order !== undefined) ? $scope.order.id : -1,  //FIXME no me gusta esto. Gonzalo.
         };
 
         $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {

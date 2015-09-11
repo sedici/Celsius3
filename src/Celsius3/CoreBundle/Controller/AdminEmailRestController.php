@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Manager\MailManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Email;
@@ -64,6 +65,18 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
             throw new NotFoundHttpException('Error sending email');
         }
         $text = $request->request->get('text');
+
+        $order_id = $request->request->has('order_id') ? $request->request->get('order_id') : -1;
+        $order =  $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Order')
+                ->find($order_id);
+        
+        $mailManager = new MailManager();
+        $text = $mailManager->renderRawTemplate($text,array(
+            'user' => $this->getUser(),
+            'instance' => $this->getInstance(),
+            'order' => $order
+        ));
 
         $result = $this->get('celsius3_core.mailer')->sendEmail($email, $subject, $text, $this->getInstance());
 
