@@ -135,6 +135,18 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'mapped' => $this->city_mapped,
                     'placeholder' => '',
                     'required' => false,
+                    'query_builder' => function (EntityRepository $repository) use ($country) {
+                        $qb = $repository->createQueryBuilder('c');
+
+                        if ($country instanceof Country) {
+                            $qb = $qb->where('c.country = :country_id')
+                                    ->setParameter('country_id', $country->getId());
+                        } else {
+                            $qb = $qb->where('c.country IS NULL');
+                        }
+
+                        return $qb->orderBy('c.name', 'asc');
+                    },
                     'attr' => array(
                         'class' => 'city-select'
                     ),

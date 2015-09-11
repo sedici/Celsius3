@@ -48,7 +48,7 @@ class InstitutionType extends AbstractType
                 ->add('website', null, array(
                     'required' => false,
                     'attr' => array(
-                        'value' => 'http://'
+                        'placeholder' => 'http://'
                     ),
                 ))
                 ->add('address', null, array(
