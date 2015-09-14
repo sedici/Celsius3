@@ -223,19 +223,21 @@ class ConfigurationHelper
         return (isset($this->configurations[$configuration->getKey()]['constraints'])) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
     }
 
+    private function getHeight() { return 100; }
+    private function getWidth() { return 100; }
+
     private function configureConstraints()
     {
-        $message = 'Invalid image size. It accepts 100x100.';
-        $size = 100;
+        $message = 'Invalid image size. Images must be '. $this->getHeight().' x '.$this->getWidth();
 
         $imageConstraints = new Image(
                 array(
                     'mimeTypes' => array('image/png', 'image/pjpeg'),
-                    'mimeTypesMessage' => 'Invalid image type. It accepts PNG, JPG',
-                    'minWidth' => $size,
-                    'maxWidth' => $size,
-                    'minHeight' => $size,
-                    'maxHeight' => $size,
+                    'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
+                    'minWidth' => $this->getWidth(),
+                    'maxWidth' => $this->getWidth(),
+                    'minHeight' => $this->getHeight(),
+                    'maxHeight' => $this->getHeight(),
                     'maxWidthMessage' => $message,
                     'minWidthMessage' => $message,
                     'maxHeightMessage' => $message,
