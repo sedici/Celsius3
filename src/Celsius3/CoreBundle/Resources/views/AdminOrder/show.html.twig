@@ -716,7 +716,7 @@
                 </div>
 
                 <div id="columna2" class="col-md-5" ng-include="'show_interaction.html'">
-                    </div>
+                </div>
 
                 <div id="columna3" class="col-md-3" ng-include="'show_actions.html'">
                 </div>
@@ -755,12 +755,13 @@
                 {{'noRequests' | translate}}
                 </div>
                 <div ng-if="requests.length > 0">
-                <div ng-repeat="request in requests" class="item1 col-md-12">
-                <div class="panel1 col-md-7">
-                            
+                    <div ng-repeat="request in requests" class="item1 col-md-12">
+                        <div class="panel1 col-md-7">
                             <div class="cat_datos">
                                 <div class="cat_estrella"></div>
-                                <div class="cat_titulo">{{ printInstitutions(request.provider) }}</div>
+                                <div class="cat_titulo" ng-if="request.provider.type == 'institution'">{{ printInstitutions(request.provider) }}</div>
+                                <div class="" ng-if="request.provider.type == 'author'">{{ 'providedByTheAuthor' | translate }}</div>
+                                <div class="cat_titulo" ng-if="request.provider.type == 'web'">{{ 'foundOnTheWeb' | translate }}</div>
                                 <div class="cat_fecha"></div>
                             </div>
                         </div>
