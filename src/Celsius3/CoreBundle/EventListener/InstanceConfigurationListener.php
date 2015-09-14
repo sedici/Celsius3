@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\EventListener;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 class InstanceConfigurationListener
 {
@@ -39,19 +40,22 @@ class InstanceConfigurationListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+        $token = $this->container->get('security.context')->getToken();
 
-        if (!is_null($instance)) {
-            $mailerHelper = $this->container->get('celsius3_core.mailer_helper');
-            $bag = $this->container->get('session')->getFlashBag();
-            
-            if (!$mailerHelper->validateSmtpServerData($instance) && !$bag->has('warning')) {
-                $message = $this->container->get('translator')->trans('smtp-message');
-                $bag->set('configuration', array($message));
-            } elseif ($mailerHelper->validateSmtpServerData($instance)){
-                $bag->set('configuration', array());
+        if (!is_null($instance) && !is_null($token) && (($user = $token->getUser()) instanceof BaseUser)) {
+            if (($user->hasRole('ROLE_ADMIN') || $user->hasRole('ROLE_SUPER_ADMIN'))) {
+                $mailerHelper = $this->container->get('celsius3_core.mailer_helper');
+                $bag = $this->container->get('session')->getFlashBag();
+
+                if (!$mailerHelper->validateSmtpServerData($instance) && !$bag->has('warning')) {
+                    $message = $this->container->get('translator')->trans('smtp-message');
+                    $bag->set('configuration', array($message));
+                } elseif ($mailerHelper->validateSmtpServerData($instance)) {
+                    $bag->set('configuration', array());
+                }
+
+                return;
             }
-
-            return;
         }
     }
 

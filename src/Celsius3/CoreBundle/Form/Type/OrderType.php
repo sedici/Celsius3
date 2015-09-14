@@ -71,9 +71,12 @@ class OrderType extends AbstractType
                     'data' => $this->preferredMaterial,
                     'label' => 'Material Type',
                 ))
-                ->add('materialData', $this->material)
-                ->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')))
-        ;
+                ->add('materialData', $this->material);
+        if ($this->user->hasRole('ROLE_ADMIN') || $this->user->hasRole('ROLE_SUPER_ADMIN')) {
+            $builder
+                    ->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')))
+            ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
