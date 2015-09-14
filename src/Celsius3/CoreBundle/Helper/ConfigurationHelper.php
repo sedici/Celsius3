@@ -30,6 +30,7 @@ class ConfigurationHelper
 {
 
     const CONF__INSTANCE_TITLE = 'instance_title';
+    const CONF__INSTANCE_TAGLINE = 'instance_tagline';
     const CONF__RESULTS_PER_PAGE = 'results_per_page';
     const CONF__EMAIL_REPLY_ADDRESS = 'email_reply_address';
     const CONF__INSTANCE_DESCRIPTION = 'instance_description';
@@ -71,6 +72,11 @@ class ConfigurationHelper
         self::CONF__INSTANCE_TITLE => array(
             'name' => 'Title',
             'value' => 'Default title',
+            'type' => 'string',
+        ),
+        self::CONF__INSTANCE_TAGLINE => array(
+            'name' => 'Tagline',
+            'value' => 'Instance description',
             'type' => 'string',
         ),
         self::CONF__RESULTS_PER_PAGE => array(
