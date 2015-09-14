@@ -68,8 +68,16 @@
                         <div class="titulo" ng-if="order.material_data.type === 'journal'">
                             {{ order.material_data.journal ? order.material_data.journal.name : order.material_data.other }}
                         </div>
-                            <div class="autor">{{order.material_data.authors}}</div>
-                            <div class="doc_year">{{order.material_data.year}}</div>
+                        <div class="autor">
+                            {{order.material_data.authors}}
+                        </div>
+                        <div class="doc_year">
+                            <span><b>{{ 'year' | translate }}:</b> {{order.material_data.year}} | </span>
+                            <span ng-if="order.material_data.type === 'journal'"><b>{{ 'volume' | translate }}:</b> {{ order.material_data.volume }} | </span>
+                            <span ng-if="order.material_data.type === 'journal'"><b>{{ 'number' | translate }}:</b> {{ order.material_data.number }} | </span>
+                            <span><b>{{ 'startPage' | translate }}:</b> {{ order.material_data.start_page }} | </span>
+                            <span><b>{{ 'endPage' | translate }}:</b> {{ order.material_data.end_page }}</span>
+                        </div>
                         </div>
                         <div class="doc_and_year" ng-if="order.request.files.length > 0 && order.request.owner.pdf">
                             <p>{{'download'|translate}}
