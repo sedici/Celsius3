@@ -1815,6 +1815,10 @@
         <source>all</source>
         <target>Todos</target>
       </trans-unit>
+      <trans-unit id="23">
+         <source>DevelopedBy</source>
+         <target>Desarrollado por</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

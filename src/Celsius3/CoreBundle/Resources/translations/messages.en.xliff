@@ -1787,6 +1787,10 @@
         <source>all</source>
         <target>All</target>
       </trans-unit>
+      <trans-unit id="23">
+         <source>DevelopedBy</source>
+         <target>Developed By</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

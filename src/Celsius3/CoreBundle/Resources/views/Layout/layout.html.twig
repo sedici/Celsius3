@@ -114,7 +114,8 @@
 <div class="row">
     {% block footer %}
         <footer class="footer">
-            <p>&copy;PrEBi {{ date()|date('Y') }}</p>
+            <p>{{ 'DevelopedBy' | trans  }} <a href="http://prebi.unlp.edu.ar">PREBI</a>-<a href="http://sedici.unlp.edu.ar">SEDICI</a>
+            <a href="http://www.unlp.edu.ar">Universidad Nacional de La Plata</a> &copy; {{ date()|date('Y') }} </p>
         </footer>
     {% endblock %}
 </div>
