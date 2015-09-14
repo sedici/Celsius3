@@ -40,7 +40,10 @@ class OrderRepository extends EntityRepository
     public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
-                ->join('o.requests', 'r');
+                ->addSelect('r')                
+                ->join('o.requests', 'r')
+                ->addSelect('s')
+                ->innerJoin('r.states', 's');
 
         if (count($in) > 0) {
             $secondary = array();
@@ -59,6 +62,7 @@ class OrderRepository extends EntityRepository
             }
         } else {
             $qb = $qb->join('o.materialData', 'md')
+                    ->addSelect('md')
                     ->orWhere($qb->expr()->like('o.code', $qb->expr()->literal('%' . $term . '%')))
                     ->orWhere($qb->expr()->like('md.title', $qb->expr()->literal('%' . $term . '%')))
                     ->orWhere($qb->expr()->like('md.authors', $qb->expr()->literal('%' . $term . '%')))
@@ -71,8 +75,7 @@ class OrderRepository extends EntityRepository
         }
 
         if (!is_null($state) and $state != 'allStates') {
-            $qb = $qb->innerJoin('r.states', 's')
-                    ->andWhere('s.type = :type')
+            $qb = $qb->andWhere('s.type = :type')
                     ->setParameter(':type', $state)
                     ->andWhere('s.isCurrent = :isCurrent')
                     ->setParameter(':isCurrent', true);
