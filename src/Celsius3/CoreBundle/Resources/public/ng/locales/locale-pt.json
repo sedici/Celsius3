@@ -144,5 +144,9 @@
     "download": "Download",
     "viewFiles": "View files",
     "providedByTheAuthor": "Provided by the Author",
-    "foundOnTheWeb": "Found on the Web"
+    "foundOnTheWeb": "Found on the Web",
+    "ShowOrder": "Mostrar petição",
+    "EditOrder": "Editar petição",
+    "CloneOrder": "Clonar petição"
+
 }
