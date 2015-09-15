@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
+use Symfony\Component\Form\FormFactory;
 
 class OrderType extends AbstractType
 {
@@ -39,8 +40,9 @@ class OrderType extends AbstractType
     protected $user;
     protected $operator;
     protected $librarian;
+    protected $actualUser;
 
-    public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null, $librarian = false)
+    public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null, $librarian = false, $actualUser = null)
     {
         $this->instance = $instance;
         $this->material = (is_null($material)) ? new JournalTypeType() : $material;
@@ -51,6 +53,7 @@ class OrderType extends AbstractType
         $this->user = $user;
         $this->operator = $operator;
         $this->librarian = $librarian;
+        $this->actualUser = $actualUser;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -72,10 +75,11 @@ class OrderType extends AbstractType
                     'label' => 'Material Type',
                 ))
                 ->add('materialData', $this->material);
-        if ($this->user->hasRole('ROLE_ADMIN') || $this->user->hasRole('ROLE_SUPER_ADMIN')) {
-            $builder
-                    ->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')))
-            ;
+        
+        if (!is_null($this->actualUser)) {
+            if ($this->actualUser->hasRole('ROLE_ADMIN') || $this->actualUser->hasRole('ROLE_SUPER_ADMIN')) {
+                $builder->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')));
+            }
         }
     }
 
