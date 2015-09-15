@@ -31,7 +31,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @ORM\Table(name="catalog_result", indexes={
  *   @ORM\Index(name="idx_title", columns={"title"}),
- *   @ORM\Index(name="idx_catalog", columns={"catalog_id"})
+ *   @ORM\Index(name="idx_catalog", columns={"catalog_id"}),
+ *   @ORM\Index(name="idx_title_catalog", columns={"catalog_id", "title"})
  * })
  */
 class CatalogResult
