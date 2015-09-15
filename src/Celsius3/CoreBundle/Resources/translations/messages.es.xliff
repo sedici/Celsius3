@@ -1819,6 +1819,18 @@
          <source>DevelopedBy</source>
          <target>Desarrollado por</target>
       </trans-unit>
+      <trans-unit id="24">
+          <source>ShowOrder</source>
+          <target>Mostrar pedido</target>
+      </trans-unit>
+      <trans-unit id="25">
+          <source>EditOrder</source>
+          <target>Editar pedido</target>
+      </trans-unit>
+      <trans-unit id="26">
+          <source>CloneOrder</source>
+          <target>Clonar pedido</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

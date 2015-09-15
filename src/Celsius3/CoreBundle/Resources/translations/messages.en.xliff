@@ -1791,6 +1791,18 @@
          <source>DevelopedBy</source>
          <target>Developed By</target>
       </trans-unit>
+      <trans-unit id="24">
+          <source>ShowOrder</source>
+          <target>Show order</target>
+      </trans-unit>
+      <trans-unit id="25">
+          <source>EditOrder</source>
+          <target>Edit order</target>
+      </trans-unit>
+      <trans-unit id="26">
+          <source>CloneOrder</source>
+          <target>Clone order</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
