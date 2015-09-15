@@ -142,5 +142,7 @@
     "author": "Author",
     "sinTitulo": "Sin título",
     "download": "Download",
-    "viewFiles": "View files"
+    "viewFiles": "View files",
+    "providedByTheAuthor": "Provided by the Author",
+    "foundOnTheWeb": "Found on the Web"
 }
