@@ -170,7 +170,7 @@ class SuperadminOrderController extends OrderController
 
         $entity->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType(), $this->getUser()), $entity, false, $this->getUser());
+        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType(), $this->getUser(), null, false, $this->getUser()), $entity);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 

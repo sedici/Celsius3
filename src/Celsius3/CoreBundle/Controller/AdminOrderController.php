@@ -220,7 +220,7 @@ class AdminOrderController extends OrderController
         $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
                 ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser()), $entity, $this->getUser());
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType(), $user, $this->getUser(), false, $this->getUser()), $entity);
 
         $editForm->handleRequest($request);
 
