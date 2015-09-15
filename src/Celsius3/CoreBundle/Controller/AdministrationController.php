@@ -67,12 +67,14 @@ class AdministrationController extends BaseInstanceDependentController
             $states[$s] = 0;
         }
         
+        $total = 0;
         $results = $query->getArrayResult();
         foreach($results as $result){
             foreach($result['requests'] as $request){
                 foreach($request['states'] as $s){
                     if($s['isCurrent']){
                         $states[$s['type']] += 1;
+                        $total += 1;
                     }
                 }
             }
@@ -88,6 +90,7 @@ class AdministrationController extends BaseInstanceDependentController
             'state' => $state,
             'states' => $states,
             'pagination' => $pagination,
+            'total' => $total,
         );
     }
 

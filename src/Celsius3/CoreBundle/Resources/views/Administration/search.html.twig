@@ -23,7 +23,7 @@
                 <div class="col-md-12">
                     <ul class="nav nav-pills pull-right">
                         <li class="{% if(state is null) %} active {% endif %}">
-                            <a href="{{ currentPath }}">{{ 'all' | trans }}({{pagination.paginationData.totalCount}})</a>
+                            <a href="{{ currentPath }}">{{ 'all' | trans }}({{ total }})</a>
                         </li>
                         {% for orderState,count in states %}
                             {% if (count > 0) %}
