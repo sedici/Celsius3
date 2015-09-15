@@ -230,7 +230,7 @@ class ConfigurationHelper
     }
 
     private function getHeight() { return 100; }
-    private function getWidth() { return 100; }
+    private function getWidth() { return 200; }
 
     private function configureConstraints()
     {
@@ -238,7 +238,7 @@ class ConfigurationHelper
 
         $imageConstraints = new Image(
                 array(
-                    'mimeTypes' => array('image/png', 'image/pjpeg'),
+                    'mimeTypes' => array('image/png', 'image/jpeg'),
                     'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
                     'minWidth' => $this->getWidth(),
                     'maxWidth' => $this->getWidth(),
