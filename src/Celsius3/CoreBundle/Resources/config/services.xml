@@ -30,6 +30,7 @@
         <parameter key="celsius3_core.form.order_selector.class">Celsius3\CoreBundle\Form\Type\OrderSelectorType</parameter>
         <parameter key="celsius3_core.form.instance_selector.class">Celsius3\CoreBundle\Form\Type\InstanceSelectorType</parameter>
         <parameter key="celsius3_core.form.journal_selector.class">Celsius3\CoreBundle\Form\Type\JournalSelectorType</parameter>
+        <parameter key="celsius3_core.form.logo_selector.class">Celsius3\CoreBundle\Form\Type\LogoSelectorType</parameter>
         <parameter key="celsius3_core.form.type.language.class">Celsius3\CoreBundle\Form\Type\LanguageType</parameter>
         <parameter key="celsius3_core.form.type.confirmation.class">Celsius3\CoreBundle\Form\Type\ConfirmationType</parameter>
         <parameter key="celsius3_core.security.authentication_failure_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationFailureHandler</parameter>
@@ -114,7 +115,7 @@
             <argument type="service" id="celsius3_core.catalog_manager"></argument>
             <tag name="twig.extension" />
         </service>
-        
+
         <service id="celsius3_core.mailer" class="%celsius3_core.mailer.class%">
             <argument type="service" id="service_container"></argument>
             <argument type="service" id="celsius3_core.mailer_helper"></argument>
@@ -169,12 +170,12 @@
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_user_selector" />
         </service>
-        
+
         <service id="celsius3_core.form.users_selector" class="%celsius3_core.form.users_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_users_selector" />
         </service>
-        
+
         <service id="celsius3_core.form.order_selector" class="%celsius3_core.form.order_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_order_selector" />
@@ -184,10 +185,14 @@
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_instance_selector" />
         </service>
-        
+
         <service id="celsius3_core.form.journal_selector" class="%celsius3_core.form.journal_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <tag name="form.type" alias="celsius3_corebundle_journal_selector" />
+        </service>
+
+        <service id="celsius3_core.form.logo_selector" class="%celsius3_core.form.logo_selector.class%">
+            <tag name="form.type" alias="celsius3_corebundle_logo_selector" />
         </service>
 
         <service id="celsius3_core.form.type.language" class="%celsius3_core.form.type.language.class%">
@@ -338,20 +343,20 @@
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="celsius3_core.mailer_helper"></argument>
         </service>
-        
+
         <service id="celsius3.maintenance_mode_listener" class="%celsius3.maintenance_mode_listener.class%">
             <argument type="service" id="service_container" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10" />
         </service>
-        
+
         <service id="celsius3.instance_configuration_listener" class="%celsius3.instance_configuration_listener.class%">
             <argument type="service" id="service_container" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
-        
+
         <service id="celsius3_core.mailer_helper" class="%celsius3_core.mailer_helper.class%">
         </service>
-            
+
         <service id="celsius3_core.security.user_provider.username" class="%celsius3_core.security.user_provider.username.class%">
             <argument type="service" id="fos_user.user_manager" />
             <argument type="service" id="doctrine.orm.entity_manager"></argument>

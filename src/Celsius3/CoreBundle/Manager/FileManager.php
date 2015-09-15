@@ -32,6 +32,9 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class FileManager
 {
+
+    const LOGOS_UPLOAD_DIR = '/Users/agustin/php-workspace/Celsius3/web/uploads/logos';
+
     private $em;
 
     public function __construct(EntityManager $em)

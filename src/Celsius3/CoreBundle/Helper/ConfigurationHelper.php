@@ -57,7 +57,7 @@ class ConfigurationHelper
         'confirmation' => 'celsius3_corebundle_confirmation_type',
         'file' => 'file',
         'password' => 'password',
-        'image' => 'file',
+        'image' => 'celsius3_corebundle_logo_selector',
     );
     public $languages = array(
         'es' => 'Spanish',

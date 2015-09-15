@@ -63,8 +63,6 @@ abstract class InstanceController extends BaseController
                 'readonly' => $readonly,
             ),
         );
-        if ($configurationType === 'file')
-            $config_array['data_class'] =  null;
 
         return $config_array;
 
@@ -129,11 +127,12 @@ abstract class InstanceController extends BaseController
 
             foreach ($entity->getConfigurations() as $configuration) {
                 if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
-
                     unlink($basedir . '/web/uploads/logos/' . $configuration->getValue());
                 }
-                $configuration->setValue($values[$configuration->getKey()]);
-                $em->persist($entity);
+                if (!is_null($values[$configuration->getKey()])) {
+                    $configuration->setValue($values[$configuration->getKey()]);
+                    $em->persist($entity);
+                }
             }
 
             $em->flush();
