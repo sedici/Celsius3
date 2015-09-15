@@ -30,6 +30,7 @@ class ConfigurationHelper
 {
 
     const CONF__INSTANCE_TITLE = 'instance_title';
+    const CONF__INSTANCE_TAGLINE = 'instance_tagline';
     const CONF__RESULTS_PER_PAGE = 'results_per_page';
     const CONF__EMAIL_REPLY_ADDRESS = 'email_reply_address';
     const CONF__INSTANCE_DESCRIPTION = 'instance_description';
@@ -71,6 +72,11 @@ class ConfigurationHelper
         self::CONF__INSTANCE_TITLE => array(
             'name' => 'Title',
             'value' => 'Default title',
+            'type' => 'string',
+        ),
+        self::CONF__INSTANCE_TAGLINE => array(
+            'name' => 'Tagline',
+            'value' => 'Instance description',
             'type' => 'string',
         ),
         self::CONF__RESULTS_PER_PAGE => array(
@@ -223,19 +229,21 @@ class ConfigurationHelper
         return (isset($this->configurations[$configuration->getKey()]['constraints'])) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
     }
 
+    private function getHeight() { return 100; }
+    private function getWidth() { return 100; }
+
     private function configureConstraints()
     {
-        $message = 'Invalid image size. It accepts 100x100.';
-        $size = 100;
+        $message = 'Invalid image size. Images must be '. $this->getHeight().' x '.$this->getWidth();
 
         $imageConstraints = new Image(
                 array(
                     'mimeTypes' => array('image/png', 'image/pjpeg'),
-                    'mimeTypesMessage' => 'Invalid image type. It accepts PNG, JPG',
-                    'minWidth' => $size,
-                    'maxWidth' => $size,
-                    'minHeight' => $size,
-                    'maxHeight' => $size,
+                    'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
+                    'minWidth' => $this->getWidth(),
+                    'maxWidth' => $this->getWidth(),
+                    'minHeight' => $this->getHeight(),
+                    'maxHeight' => $this->getHeight(),
                     'maxWidthMessage' => $message,
                     'minWidthMessage' => $message,
                     'maxHeightMessage' => $message,

@@ -1,17 +1,14 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block adminpanel %}
+    {% spaceless %}
     <ul class="list-unstyled list-inline">
-        <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a> |</li>
-        <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a> |</li>
+        <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a></li>
+        <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a></li>
         <li>
-            <a href="{{ path('admin_user') }}">
-                {{ 'Users'|trans }}
-            </a>
-            {% if count_users(instance)['pending'] > 0 %}
+            <a href="{{ path('admin_user') }}">{{ 'Users'|trans }}</a>{% if count_users(instance)['pending'] > 0 %}
                 <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}"><span class="label label-danger">{{ count_users(instance)['pending'] }}</span></a>
-                {% endif %}
-            |
+            {% endif %}
         </li>
         <li>
             <div class="dropdown">
@@ -54,4 +51,5 @@
             </button>
         </div>
     </form>
+{% endspaceless %}
 {% endblock %}

@@ -174,5 +174,8 @@
     "comments": "Comments",
     "viewFiles": "View files",
     "providedByTheAuthor": "Provided by the Author",
-    "foundOnTheWeb": "Found on the Web"
+    "foundOnTheWeb": "Found on the Web",
+    "ShowOrder": "Show order",
+    "EditOrder": "Edit order",
+    "CloneOrder": "Clone order"
 }

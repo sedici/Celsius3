@@ -123,14 +123,14 @@
                             <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" />
                         </li>
                         <li>
-                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}"><span class="glyphicon glyphicon-file"></span></a>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}"  title="{{ 'ShowOrder' | translate }}"><span class="glyphicon glyphicon-file"></span></a>
                         </li>
                         <li>
-                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>
                         </li>
                         <li>
                             <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
-                            <a href class="submit-form btn btn-default"><span class="fa fa-files-o"></span></a>
+                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | translate }}"><span class="fa fa-files-o"></span></a>
                             </form>
                         </li>
                     </ul>

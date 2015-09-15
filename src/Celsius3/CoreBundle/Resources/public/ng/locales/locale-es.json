@@ -175,5 +175,9 @@
     "comments": "Comentarios",
     "viewFiles": "Ver archivos",
     "providedByTheAuthor": "Provisto por el Autor",
-    "foundOnTheWeb": "Encontrado en la Web"
+    "foundOnTheWeb": "Encontrado en la Web",
+    "ShowOrder": "Mostrar pedido",
+    "EditOrder": "Editar pedido",
+    "CloneOrder": "Clonar pedido"
+
 }
