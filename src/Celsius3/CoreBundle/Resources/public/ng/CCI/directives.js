@@ -8,30 +8,6 @@ cciWidget.directive('cciWidget', function ($translate, Country, City, Institutio
     }
 
     function link(scope, element, attrs) {
-        $translate('selectCountry').then(function (selectCountry) {
-            scope.select2Countries = {
-                placeholder: selectCountry,
-                allowClear: true
-            };
-        });
-
-        $translate('selectCity').then(function (selectCity) {
-            scope.select2Cities = {
-                placeholder: selectCity,
-                allowClear: true
-            };
-        });
-
-        $translate('selectInstitution').then(function (selectInstitution) {
-            scope.select2Institutions = {
-                placeholder: selectInstitution,
-                allowClear: true,
-                escapeMarkup: scope.escape,
-                formatResult: scope.formatInstitution,
-                formatSelection: scope.formatInstitution
-            };
-        });
-
         scope.formatInstitution = function (element) {
             if (_.isEmpty(element)) {
                 return element;

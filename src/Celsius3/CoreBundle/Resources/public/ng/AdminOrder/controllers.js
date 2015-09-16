@@ -244,120 +244,118 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     /**
-     * Resource load
-     */
+    * Resource load
+    */
 
-    Order.get({id: entity_id}, function (order) {
-        $scope.order = order;
-    });
+    $scope.order = Order.get({id: entity_id}, function (order) {
+        $scope.request = Request.get({order_id: order.id}, function (request) {
+            Catalog.query(function (catalogs) {
+                $scope.catalogs = catalogs;
+                $scope.updateTables();
+            });
 
-    $scope.request = Request.get({order_id: entity_id}, function (request) {
-        Catalog.query(function (catalogs) {
-            $scope.catalogs = catalogs;
-            $scope.updateTables();
-        });
+            $scope.filesToUpload = [];
 
-        $scope.filesToUpload = [];
-
-        $scope.addFilesToUpload = function (files) {
-            for (var i = 0; i < files.length; i++) {
-                $scope.filesToUpload.push(files[i]);
-            }
-        };
-
-        $scope.upload = function (files) {
-            if (files && files.length) {
+            $scope.addFilesToUpload = function (files) {
                 for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    Upload.upload({
-                        url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive',
-                        fields: {
-                            'request': $scope.forms.receive.request
-                        },
-                        file: file
-                    }).progress(function (evt) {
-                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        $scope.atualFileName = evt.config.file.name;
-                    }).success(function (data, status, headers, config) {
-                        $scope.updateTables();
-                        $('.modal').modal('hide');
-                    });
+                    $scope.filesToUpload.push(files[i]);
                 }
-            }
-        };
+            };
 
-        $scope.filesToUploadBasic = [];
-
-        $scope.addFilesToUploadBasic = function (files) {
-            for (var i = 0; i < files.length; i++) {
-                var notExist = true;
-                for (var j = 0; j < $scope.filesToUploadBasic.length; j++) {
-                    if ($scope.filesToUploadBasic[j].name === files[i].name) {
-                        notExist = false;
+            $scope.upload = function (files) {
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        Upload.upload({
+                            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive',
+                            fields: {
+                                'request': $scope.forms.receive.request
+                            },
+                            file: file
+                        }).progress(function (evt) {
+                            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope.atualFileName = evt.config.file.name;
+                        }).success(function (data, status, headers, config) {
+                            $scope.updateTables();
+                            $('.modal').modal('hide');
+                        });
                     }
                 }
-                if (notExist) {
-                    $scope.filesToUploadBasic.push(files[i]);
-                }
-            }
-        };
+            };
 
-        $scope.uploadBasic = function (files) {
-            if (files && files.length) {
+            $scope.filesToUploadBasic = [];
+
+            $scope.addFilesToUploadBasic = function (files) {
                 for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    Upload.upload({
-                        url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload',
-                        fields: {
-                            'request': $scope.forms.reupload.request
-                        },
-                        file: file
-                    }).progress(function (evt) {
-                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        $scope.atualFileName = evt.config.file.name;
-                    }).success(function (data, status, headers, config) {
-                        $scope.updateTables();
-                        $('.modal').modal('hide');
-                    });
+                    var notExist = true;
+                    for (var j = 0; j < $scope.filesToUploadBasic.length; j++) {
+                        if ($scope.filesToUploadBasic[j].name === files[i].name) {
+                            notExist = false;
+                        }
+                    }
+                    if (notExist) {
+                        $scope.filesToUploadBasic.push(files[i]);
+                    }
                 }
-            }
-        };
+            };
 
-        $scope.filesToReupload = [];
+            $scope.uploadBasic = function (files) {
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        Upload.upload({
+                            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/upload',
+                            fields: {
+                                'request': $scope.forms.reupload.request
+                            },
+                            file: file
+                        }).progress(function (evt) {
+                            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope.atualFileName = evt.config.file.name;
+                        }).success(function (data, status, headers, config) {
+                            $scope.updateTables();
+                            $('.modal').modal('hide');
+                        });
+                    }
+                }
+            };
 
-        $scope.addFilesToReupload = function (files) {
-            for (var i = 0; i < files.length; i++) {
-                $scope.filesToReupload.push(files[i]);
-            }
-        };
+            $scope.filesToReupload = [];
 
-        $scope.reupload = function (files) {
-            if (files && files.length) {
+            $scope.addFilesToReupload = function (files) {
                 for (var i = 0; i < files.length; i++) {
-                    var file = files[i];
-                    Upload.upload({
-                        url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload',
-                        fields: {
-                            'request': $scope.forms.reupload.request,
-                            'receive': $scope.forms.reupload.receive,
-                        },
-                        file: file
-                    }).progress(function (evt) {
-                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        $scope.atualFileName = evt.config.file.name;
-                    }).success(function (data, status, headers, config) {
-                        $scope.updateTables();
-                        $('.modal').modal('hide');
-                    });
+                    $scope.filesToReupload.push(files[i]);
                 }
-            }
-        };
+            };
 
+            $scope.reupload = function (files) {
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        Upload.upload({
+                            url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reupload',
+                            fields: {
+                                'request': $scope.forms.reupload.request,
+                                'receive': $scope.forms.reupload.receive,
+                            },
+                            file: file
+                        }).progress(function (evt) {
+                            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope.atualFileName = evt.config.file.name;
+                        }).success(function (data, status, headers, config) {
+                            $scope.updateTables();
+                            $('.modal').modal('hide');
+                        });
+                    }
+                }
+            };
+
+        });
     });
 
     /**
-     * Functions
-     */
+    * Functions
+    */
 
     $scope.searchCatalog = function (term) {
         $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
@@ -736,9 +734,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.getInteraction = function () {
         $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
-                .success(function (response) {
-                    $scope.interaction = response;
-                });
+        .success(function (response) {
+            $scope.interaction = response;
+        });
     };
     $scope.getInteraction();
 

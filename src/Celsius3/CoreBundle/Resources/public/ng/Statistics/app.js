@@ -24,4 +24,5 @@ statisticsApp.config(['$routeProvider', '$translateProvider',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage(_locale);
+        $translateProvider.useSanitizeValueStrategy('escaped');
     }]);

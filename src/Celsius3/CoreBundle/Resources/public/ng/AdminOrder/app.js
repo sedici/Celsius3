@@ -32,4 +32,5 @@ orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
             suffix: '.json'
         });
         $translateProvider.preferredLanguage(_locale);
+        $translateProvider.useSanitizeValueStrategy('escaped');
     }]);
