@@ -94,6 +94,12 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             } else {
                 $country = $city->getCountry();
             }
+        } elseif(is_object($data)) {
+            $city = $data->getCity();
+            $country = $data->getCountry();
+        } elseif(is_array($data)){
+            $city = $this->em->getRepository('Celsius3CoreBundle:City')->find($data['city']);
+            $country = $this->em->getRepository('Celsius3CoreBundle:Country')->find($data['country']);
         }
 
         if ($this->with_filter) {
