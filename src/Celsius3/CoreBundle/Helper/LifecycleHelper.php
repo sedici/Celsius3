@@ -84,7 +84,6 @@ class LifecycleHelper
         $event->applyExtraData($request, $data, $this, $data['date']);
         $this->em->persist($event);
 
-
         return $event;
     }
 
