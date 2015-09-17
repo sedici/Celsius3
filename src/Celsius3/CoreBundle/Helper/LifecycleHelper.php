@@ -92,8 +92,6 @@ class LifecycleHelper
         $instance = is_null($data['instance']) ? $request->getInstance() : $data['instance'];
 
         $currentState = $request->getCurrentState();
-        dump($request);
-        dump($currentState);
 
         if ($request->hasState($data['stateName'])) {
             $state = $request->getState($data['stateName']);
