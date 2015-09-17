@@ -34,7 +34,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 class NewsRepository extends EntityRepository
 {
 
-    public function findLastNews(Instance $instance, $limit = 5)
+    public function findLastNews(Instance $instance, $limit = 3)
     {
         return $this->createQueryBuilder('n')
                         ->where('n.instance = :instance_id')
