@@ -1753,7 +1753,7 @@
       </trans-unit>
       <trans-unit id="13">
         <source>created</source>
-        <target>Created</target>
+        <target>Pending</target>
       </trans-unit>
       <trans-unit id="14">
         <source>searched</source>
@@ -1798,4 +1798,3 @@
     </body>
   </file>
 </xliff>
-

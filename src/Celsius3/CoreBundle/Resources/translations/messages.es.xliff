@@ -1777,7 +1777,7 @@
       </trans-unit>
       <trans-unit id="13">
         <source>created</source>
-        <target>Creados</target>
+        <target>Pendientes</target>
       </trans-unit>
       <trans-unit id="14">
         <source>searched</source>
