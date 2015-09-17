@@ -51,81 +51,97 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+
     /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
     protected $surname;
+
     /**
      * @Assert\Date(groups={"Default"})
      * @ORM\Column(type="date", nullable=true)
      */
     protected $birthdate;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $address;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     protected $downloadAuth = true;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     protected $wrongEmail = false;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     protected $pdf = true;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="owner")
      */
     protected $orders;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="operator")
      */
     protected $operatedOrders;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="creator")
      */
     protected $createdOrders;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="users")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     protected $instance;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="users")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
      */
     protected $institution;
+
     /**
      * @ORM\Column(type="array", name="secondary_instances")
      */
     protected $secondaryInstances = array();
+
     /**
      * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user")
      */
     protected $customValues;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\ApiBundle\Entity\Client")
      * @ORM\JoinTable(name="user_client",
@@ -134,6 +150,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *      )
      */
     protected $clientApplications;
+
     /**
      * @ORM\OneToMany(targetEntity="\Celsius3\NotificationBundle\Entity\NotificationSettings", mappedBy="user")
      */
@@ -536,11 +553,19 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     public function getCountry()
     {
+        if (!$this->getInstitution()) {
+            return null;
+        }
+
         return $this->getInstitution()->getCountry();
     }
 
     public function getCity()
     {
+        if (!$this->getInstitution()) {
+            return null;
+        }
+
         return $this->getInstitution()->getCity();
     }
 
@@ -687,4 +712,5 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->notificationSettings;
     }
+
 }

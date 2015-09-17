@@ -32,6 +32,7 @@ use Doctrine\ORM\EntityRepository;
 
 class BaseUserType extends RegistrationFormType
 {
+
     private $editing;
 
     public function __construct(ContainerInterface $container, $class, Instance $instance, $editing = false)
@@ -44,6 +45,7 @@ class BaseUserType extends RegistrationFormType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+        $builder->get('birthdate')->setAttribute('required', false);
         $builder
                 ->add('enabled', null, array(
                     'required' => false,
@@ -88,7 +90,7 @@ class BaseUserType extends RegistrationFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            //'validation_groups' => array('Registration', 'Profile'),
+                //'validation_groups' => array('Registration', 'Profile'),
         ));
     }
 
@@ -96,4 +98,5 @@ class BaseUserType extends RegistrationFormType
     {
         return 'celsius3_corebundle_baseusertype';
     }
+
 }

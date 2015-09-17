@@ -40,18 +40,21 @@ class Catalog
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank
      * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @Assert\NotBlank
      * @Assert\Url
@@ -59,21 +62,25 @@ class Catalog
      * @ORM\Column(type="string", length=255)
      */
     private $url;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $comments;
+
     /**
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="catalogs")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id")
      */
     private $institution;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="catalogs")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
+
     /**
      * @ORM\OneToMany(targetEntity="CatalogPosition", mappedBy="catalog")
      */
@@ -169,7 +176,7 @@ class Catalog
      * @param  Celsius3\CoreBundle\Entity\Institution $institution
      * @return self
      */
-    public function setInstitution(\Celsius3\CoreBundle\Entity\Institution $institution)
+    public function setInstitution(\Celsius3\CoreBundle\Entity\Institution $institution = null)
     {
         $this->institution = $institution;
 
@@ -254,4 +261,5 @@ class Catalog
 
         return false !== $result ? $result : null;
     }
+
 }

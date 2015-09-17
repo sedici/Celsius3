@@ -31,6 +31,7 @@ use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class CatalogType extends AbstractType
 {
+
     private $em;
     private $instance;
 
@@ -46,7 +47,7 @@ class CatalogType extends AbstractType
                 ->add('name')
                 ->add('url', null, array(
                     'attr' => array(
-                        'value' => 'http://'
+                        'placeholder' => 'http://'
                     ),
                 ))
                 ->add('comments', 'textarea', array(
@@ -74,4 +75,5 @@ class CatalogType extends AbstractType
     {
         return 'celsius3_corebundle_catalogtype';
     }
+
 }
