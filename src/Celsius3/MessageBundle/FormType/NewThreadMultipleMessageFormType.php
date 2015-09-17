@@ -28,6 +28,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
@@ -69,7 +70,7 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
 
             $builder
                     ->add('recipients', 'celsius3_messagebundle_recipients_selector_hidden', array(
-                        'data' => $usernames,
+                        'data' => new ArrayCollection($usernames),
                     ))
             ;
         }
