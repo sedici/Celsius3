@@ -178,6 +178,6 @@
     "foundOnTheWeb": "Encontrado en la Web",
     "ShowOrder": "Mostrar pedido",
     "EditOrder": "Editar pedido",
-    "CloneOrder": "Clonar pedido"
-
+    "CloneOrder": "Clonar pedido",
+    "noPendingSearch": "Sin búsquedas pendientes"
 }

@@ -80,9 +80,10 @@ class LifecycleHelper
         $event->setInstance($data['instance']);
         $event->setRequest($request);
         $event->setState($this->getState($request, $event, $data));
+        $this->em->persist($event->getState());
         $event->applyExtraData($request, $data, $this, $data['date']);
         $this->em->persist($event);
-        $this->em->persist($event->getState());
+
 
         return $event;
     }
@@ -92,6 +93,8 @@ class LifecycleHelper
         $instance = is_null($data['instance']) ? $request->getInstance() : $data['instance'];
 
         $currentState = $request->getCurrentState();
+        dump($request);
+        dump($currentState);
 
         if ($request->hasState($data['stateName'])) {
             $state = $request->getState($data['stateName']);

@@ -177,5 +177,6 @@
     "foundOnTheWeb": "Found on the Web",
     "ShowOrder": "Show order",
     "EditOrder": "Edit order",
-    "CloneOrder": "Clone order"
+    "CloneOrder": "Clone order",
+    "noPendingSearch": "No pending searches"
 }
