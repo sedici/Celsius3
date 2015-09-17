@@ -80,8 +80,9 @@ class LifecycleHelper
         $event->setInstance($data['instance']);
         $event->setRequest($request);
         $event->setState($this->getState($request, $event, $data));
-        $this->em->persist($event->getState());
+
         $event->applyExtraData($request, $data, $this, $data['date']);
+        $this->em->persist($event->getState());
         $this->em->persist($event);
 
         return $event;
@@ -96,7 +97,7 @@ class LifecycleHelper
         if ($request->hasState($data['stateName'])) {
             $state = $request->getState($data['stateName']);
             $state->setRemoteEvent($remoteEvent);
-            if ($this->state_manager->isBefore($currentState, $state)) {
+            if (!is_null($currentState) && $this->state_manager->isBefore($currentState, $state)) {
                 $currentState->setIsCurrent(false);
                 $state->setIsCurrent(true);
                 $this->em->persist($currentState);
