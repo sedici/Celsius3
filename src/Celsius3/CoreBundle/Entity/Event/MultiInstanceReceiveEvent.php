@@ -73,6 +73,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
+        $this->setDeliveryType($data['extraData']['delivery_type']);
         $this->setRequestEvent($data['extraData']['request']);
         $this->setObservations($data['extraData']['observations']);
         $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
@@ -180,7 +181,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     {
         return $this->requestEvent;
     }
-    
+
     public function notify(NotificationManager $manager)
     {
         $manager->notifyEvent($this,'receive');

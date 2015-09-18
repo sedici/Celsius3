@@ -249,6 +249,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.order = Order.get({id: entity_id}, function (order) {
         $scope.request = Request.get({order_id: order.id}, function (request) {
+            $scope.forms.receive.delivery_type = request.owner.pdf ? 'PDF' : 'Printed';
+
             Catalog.query(function (catalogs) {
                 $scope.catalogs = catalogs;
                 $scope.updateTables();
@@ -269,7 +271,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         Upload.upload({
                             url: Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/receive',
                             fields: {
-                                'request': $scope.forms.receive.request
+                                'request': $scope.forms.receive.request,
+                                'observations': $scope.forms.receive.observations,
+                                'delivery_type': $scope.forms.receive.delivery_type
                             },
                             file: file
                         }).progress(function (evt) {
