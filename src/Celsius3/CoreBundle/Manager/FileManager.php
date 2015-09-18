@@ -68,7 +68,10 @@ class FileManager
 
     public function registerDownload(Request $request, File $file, HttpRequest $httpRequest, BaseUser $user)
     {
-        $file->setIsDownloaded(true);
+        if (!$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN')) {
+            $file->setIsDownloaded(true);
+        }
+
         $download = new FileDownload();
         $download->setIp($httpRequest->getClientIp());
         $download->setUser($user);

@@ -79,10 +79,10 @@
                             <span><b>{{ 'endPage' | translate }}:</b> {{ order.material_data.end_page }}</span>
                         </div>
                         </div>
-                        <div class="doc_and_year" ng-if="order.request.files.length > 0 && order.request.owner.pdf">
+                        <div class="doc_and_year" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.files.length > 0 && order.request.owner.download_auth && order.request.owner.pdf && order.request.files.filter(hasDownloadableFiles).length > 0)">
                             <p>{{'download'|translate}}
                             <p>
-                                <a class="btn btn-default btn-lg" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.pdf && !file.is_downloaded)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
+                                <a class="btn btn-default btn-lg" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.download_auth && order.request.owner.pdf && !file.is_downloaded)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
                                     <span class="fa fa-file-pdf-o" aria-hidden="true"></span>
                                 </a>
                             </p>

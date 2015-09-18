@@ -20,4 +20,8 @@ userControllers.controller('UserCtrl', function ($scope, Order, Message, User) {
     $scope.getFileDownloadRoute = function (request, file) {
         return Routing.generate('user_file_download', {request: request.id, file: file.id});
     };
+
+    $scope.hasDownloadableFiles = function(e) {
+        return !e.is_downloaded;
+    };
 });
