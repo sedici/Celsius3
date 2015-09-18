@@ -1,1 +1,19 @@
-{{ form_widget(form.materialData, {'form_type': 'horizontal'}) }}
+{% if (material == 'journal' ) %}
+    {% include 'Celsius3CoreBundle:MaterialType:_journal_form.html.twig' %}
+{% endif %}
+
+{% if (material == 'book' ) %}
+    {% include 'Celsius3CoreBundle:MaterialType:_book_form.html.twig' %}
+{% endif %}
+
+{% if (material == 'congress' ) %}
+    {% include 'Celsius3CoreBundle:MaterialType:_congress_form.html.twig' %}
+{% endif %}
+
+{% if (material == 'thesis' ) %}
+    {% include 'Celsius3CoreBundle:MaterialType:_thesis_form.html.twig' %}
+{% endif %}
+
+{% if (material == 'patent' ) %}
+    {% include 'Celsius3CoreBundle:MaterialType:_patent_form.html.twig' %}
+{% endif %}

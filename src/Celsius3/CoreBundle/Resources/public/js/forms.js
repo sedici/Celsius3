@@ -137,35 +137,41 @@ $(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", 
             // add placeholder to get the comma-and-space at the end
             terms.push("");
             this.value = terms.join(", ");
-            
+
             return false;
         }
     });
 });
 
+var loadMaterialData = function () {
+    var oldValues = getOldValues();
+    var urlChange;
+
+    if ((user_role === 'ROLE_SUPER_ADMIN') || (user_role === 'ROLE_ADMIN')) {
+        urlChange = Routing.generate('admin_order_change');
+    } else {
+        urlChange = Routing.generate('user_order_change');
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: urlChange,
+        data: {
+            material: $('#celsius3_corebundle_ordertype_materialDataType').val()
+        },
+        success: function (data) {
+            $('div#material_data').html(data);
+            for (key in oldValues) {
+                $('#' + key).val(oldValues[key]);
+            }
+        }
+    });
+}
 /**
  * Material type change related event
  */
-$('#celsius3_corebundle_ordertype_materialDataType').change(
-        function () {
-            var oldValues = getOldValues();
-            $.ajax({
-                type: 'POST',
-                url: Routing.generate('admin_order_change'),
-                data: {
-                    material: $(
-                            '#celsius3_corebundle_ordertype_materialDataType')
-                            .val()
-                },
-                success: function (data) {
-                    $('#celsius3_corebundle_ordertype_materialData_title')
-                            .parent().parent().parent().html(data);
-                    for (key in oldValues) {
-                        $('#' + key).val(oldValues[key]);
-                    }
-                }
-            });
-        });
+$('#celsius3_corebundle_ordertype_materialDataType')
+        .change(loadMaterialData);
 
 $('#celsius3_corebundle_ordertype_instance').change(function () {
     $('#celsius3_corebundle_ordertype_owner_autocomplete').val('');

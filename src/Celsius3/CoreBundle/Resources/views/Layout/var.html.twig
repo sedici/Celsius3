@@ -5,8 +5,9 @@
     var directory = false;
     var entity_id = '{{ (entity is defined and entity)?entity.id:'' }}';
     var ajax_path = '{{ (ajax_path is defined)?path(ajax_path):'' }}';
-    var user_exists = {{ (app.user is defined)?'true':'false' }};
-    var user_id = '{{ app.user?app.user.id:'' }}';
+    var user_exists
+    = {{ (app.user is defined)?'true':'false' }};
+            var user_id = '{{ app.user?app.user.id:'' }}';
     var username = '{{ app.user?app.user.username:'' }}';
     var news_date = '';
     var news_text_change = '{{ 'Change'|trans }}';
@@ -22,4 +23,17 @@
     {% if edit_form is defined and edit_form.vars['name'] == 'celsius3_corebundle_newstype' %}
         var news_date = "{{ edit_form.vars.data.date|localizeddate('medium', 'short') }}";
     {% endif %}
+
+    {% if (app.user is not null) %}
+        {% if (app.user.hasRole('ROLE_SUPER_ADMIN')) %}
+            var user_role = 'ROLE_SUPER_ADMIN';
+        {% elseif (app.user.hasRole('ROLE_ADMIN')) %}
+            var user_role = 'ROLE_ADMIN';
+        {% elseif (app.user.hasRole('ROLE_USER')) %}
+            var user_role = 'ROLE_USER';
+        {% else %}
+            var user_role = '';
+        {% endif %}
+    {% endif %}
+
 </script>

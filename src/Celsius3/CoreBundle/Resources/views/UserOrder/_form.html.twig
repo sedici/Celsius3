@@ -1,0 +1,29 @@
+{% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+
+<div class="row">
+    <div class="col-md-12">
+        {{ form_row(form.materialDataType) }}
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div id="material_data">
+            {% if (entity is defined and entity.materialData is not null) %}
+                {% set material = get_material_type(entity.materialData) %}
+            {% else %}
+                {% set material = 'journal' %}
+            {% endif %}
+
+            {% include 'Celsius3CoreBundle:Order:_materialData.html.twig' %}
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        {{ form_row(form.originalRequest.comments) }}
+    </div>
+</div>
+{{ form_rest(form.originalRequest) }}
+{{ form_widget(form._token) }}

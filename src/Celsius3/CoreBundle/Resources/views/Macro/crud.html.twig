@@ -103,7 +103,7 @@
 {% endmacro %}
 
 {# new #}
-{% macro new(name, form, folder, custom_rendering = false) %}
+{% macro new(name, form, folder, custom_rendering = false, entity = null) %}
     <div class="row">
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
@@ -133,10 +133,10 @@
 
             <form action="{{ path(name ~ '_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal" role="form">
                 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
-                
+
                 {% if custom_rendering %}
                     {{ form_errors(form) }}
-                    {% include folder~':_form.html.twig' %}
+                    {% include folder~':edit_form.html.twig' %}
                 {% else %}
                     {{ form_widget(form) }}
                 {% endif %}

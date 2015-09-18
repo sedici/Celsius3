@@ -139,7 +139,7 @@ class UserOrderController extends OrderController
     /**
      * Updates de form materialData field.
      *
-     * @Route("/change", name="user_order_change")
+     * @Route("/change", name="user_order_change",  options={"expose"=true})
      * @Template()
      *
      * @return array
@@ -148,4 +148,5 @@ class UserOrderController extends OrderController
     {
         return $this->change();
     }
+
 }

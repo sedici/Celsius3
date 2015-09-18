@@ -8,5 +8,5 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    {{ new('admin_order', form) }}
+    {{ new('admin_order', form, 'Celsius3CoreBundle:AdminOrder', true) }}
 {% endblock %}

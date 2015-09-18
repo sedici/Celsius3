@@ -10,5 +10,5 @@
 {% block content %}
     <h2>{{ 'Order Creation'|trans }}</h2>
 
-    {{ new('user_order', form) }}
+    {{ new('user_order', form, 'Celsius3CoreBundle:UserOrder', true, entity) }}
 {% endblock %}
