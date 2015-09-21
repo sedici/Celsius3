@@ -27,6 +27,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManager;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Celsius3\CoreBundle\Entity\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface

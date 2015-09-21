@@ -1819,6 +1819,38 @@
          <source>DevelopedBy</source>
          <target>Desarrollado por</target>
       </trans-unit>
+      <trans-unit id="24">
+         <source>State</source>
+         <target>Estado</target>
+      </trans-unit>
+      <trans-unit id="25">
+         <source>Roles</source>
+         <target>Rol</target>
+      </trans-unit>
+      <trans-unit id="26">
+         <source>Librarian</source>
+         <target>Bibliotecario</target>
+      </trans-unit>
+      <trans-unit id="27">
+         <source>Network Admin</source>
+         <target>Administrador de la Red</target>
+      </trans-unit>
+      <trans-unit id="28">
+         <source>Authors</source>
+         <target>Autores</target>
+      </trans-unit>
+      <trans-unit id="29">
+         <source>Target</source>
+         <target>Destinatario</target>
+      </trans-unit>
+      <trans-unit id="30">
+         <source>Previous</source>
+         <target>Anterior</target>
+      </trans-unit>
+      <trans-unit id="31">
+         <source>Next</source>
+         <target>Siguiente</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

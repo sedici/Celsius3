@@ -133,6 +133,21 @@ class BaseUserRepository extends EntityRepository
         return $query;
     }
 
+    public function addFindByRole($data, QueryBuilder $query, Instance $instance = null)
+    {
+        $alias = $query->getRootAliases()[0];
+
+        $query = $query->andWhere($alias . '.roles LIKE :role')
+            ->setParameter('role', '%"' .$data . '"%');
+
+        if (!is_null($instance)) {
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                    ->setParameter('instance_id', $instance->getId());
+        }
+
+        return $query;
+    }
+
     public function findUsersPerInstance()
     {
         return $this->createQueryBuilder('u')

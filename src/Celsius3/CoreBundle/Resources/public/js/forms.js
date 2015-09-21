@@ -17,17 +17,15 @@ function getOldValues() {
 }
 
 function noLibrarian(id) {
-    $('#celsius3_corebundle_ordertype_owner_autocomplete').attr('disabled',
-            'disabled');
-    $('#celsius3_corebundle_ordertype_owner').val(id);
-    $('#celsius3_corebundle_ordertype_librarian').val('');
+    $('#celsius3_corebundle_ordertype_originalRequest_owner_autocomplete').attr('disabled', 'disabled');
+    $('#celsius3_corebundle_ordertype_originalRequest_owner').val(id);
+    $('#celsius3_corebundle_ordertype_originalRequest_librarian').val('');
 }
 
 function librarian(id) {
-    $('#celsius3_corebundle_ordertype_owner_autocomplete').removeAttr(
-            'disabled');
-    $('#celsius3_corebundle_ordertype_owner').val('');
-    $('#celsius3_corebundle_ordertype_librarian').val(id);
+    $('#celsius3_corebundle_ordertype_originalRequest_owner_autocomplete').removeAttr('disabled');
+    $('#celsius3_corebundle_ordertype_originalRequest_owner').val('');
+    $('#celsius3_corebundle_ordertype_originalRequest_librarian').val(id);
 }
 
 function getCatalogId(inputName) {
@@ -40,9 +38,9 @@ function registerSearch() {
     $.ajax({
         url: Routing.generate('admin_catalog_search_mark'),
         dataType: 'json',
-        data: 'order_id=' + document_id + '&instance_id='
-                + instance_id + '&catalog_id=' + catalogId + '&result='
-                + input.val()
+        data: 'order_id=' + document_id + '&instance_id=' +
+            instance_id + '&catalog_id=' + catalogId + '&result=' +
+            input.val()
     }).done(function (data) {
         input.parent().siblings('.catalog-result').text(data.date);
     });
@@ -166,7 +164,7 @@ var loadMaterialData = function () {
             }
         }
     });
-}
+};
 /**
  * Material type change related event
  */
@@ -181,12 +179,12 @@ $('#celsius3_corebundle_ordertype_instance').change(function () {
 if (user_exists) {
     // Controles para los widgets del formulario de carga de pedidos de un
     // bibliotecario
-    if ($('#celsius3_corebundle_ordertype_target').length > 0) {
+    if ($('#celsius3_corebundle_ordertype_originalRequest_target').length > 0) {
         noLibrarian(user_id);
     }
 
-    $('#celsius3_corebundle_ordertype_target').change(function () {
-        if ($('#celsius3_corebundle_ordertype_target').val() === 'me') {
+    $('#celsius3_corebundle_ordertype_originalRequest_target').change(function () {
+        if ($('#celsius3_corebundle_ordertype_originalRequest_target').val() === 'me') {
             noLibrarian(user_id);
         } else {
             librarian(user_id);
@@ -210,9 +208,9 @@ $('#celsius3_corebundle_newstype_date').datetimepicker({
 var dateWidgets = $('#celsius3_corebundle_newstype_date');
 dateWidgets.hide();
 $('.news-date').parent().append(
-        '<div class="date-text form-control">' + news_date
-        + '</div><div><a class="show-date-widget btn btn-default">'
-        + news_text_change + '</a></div>');
+        '<div class="date-text form-control">' + news_date +
+        '</div><div><a class="show-date-widget btn btn-default">' +
+        news_text_change + '</a></div>');
 $(document).on('click', '.show-date-widget', function () {
     $('.news-date').parent().children('div').hide();
     dateWidgets.show();

@@ -1791,6 +1791,38 @@
          <source>DevelopedBy</source>
          <target>Developed By</target>
       </trans-unit>
+      <trans-unit id="24">
+         <source>State</source>
+         <target>State</target>
+      </trans-unit>
+      <trans-unit id="25">
+         <source>Roles</source>
+         <target>Role</target>
+      </trans-unit>
+      <trans-unit id="26">
+         <source>Librarian</source>
+         <target>Librarian</target>
+      </trans-unit>
+      <trans-unit id="27">
+         <source>Network Admin</source>
+         <target>Network Admin</target>
+      </trans-unit>
+      <trans-unit id="28">
+         <source>Authors</source>
+         <target>Authors</target>
+      </trans-unit>
+      <trans-unit id="29">
+         <source>Target</source>
+         <target>Target</target>
+      </trans-unit>
+      <trans-unit id="30">
+         <source>Previous</source>
+         <target>Previous</target>
+      </trans-unit>
+      <trans-unit id="31">
+         <source>Next</source>
+         <target>Next</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

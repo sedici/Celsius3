@@ -12,7 +12,9 @@
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             <h3>{{ 'Personal data'|trans }}</h3>
-            {% include 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
+            {% embed 'Celsius3CoreBundle:AdminBaseUser:_show_fields.html.twig' %}
+                {% block actions %}{% endblock %}
+            {% endembed %}
 
             <h3>{{ 'Institutional data'|trans }}</h3>
             <div class="row">

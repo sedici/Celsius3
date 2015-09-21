@@ -33,11 +33,18 @@ class UserManager
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
 
-    private $types = array(
+    public static $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
         self::ROLE_ADMIN,
         self::ROLE_SUPER_ADMIN,
+    );
+
+    public static $roles_names = array(
+        /** @Ignore */ 'ROLE_USER' => 'User',
+        /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
+        /** @Ignore */ 'ROLE_ADMIN' => 'Admin',
+        /** @Ignore */ 'ROLE_SUPER_ADMIN' => 'Network Admin',
     );
 
     private function iterateInstitutions(Institution $institution)
@@ -54,7 +61,7 @@ class UserManager
     {
         $entity->setRoles(array());
         foreach ($types as $type) {
-            if (in_array($type, $this->types)) {
+            if (in_array($type, self::$types)) {
                 $entity->addRole($type);
             };
         }
@@ -66,7 +73,7 @@ class UserManager
 
         $default = self::ROLE_USER;
 
-        foreach ($this->types as $role) {
+        foreach (self::$types as $role) {
             if (in_array($role, $roles)) {
                 $default = $role;
             }
@@ -89,11 +96,11 @@ class UserManager
         if ($user1->hasRole('ROLE_SUPER_ADMIN')){
             return true;
         }
-        
+
         if ($user1->hasRole('ROLE_ADMIN') && !$user2->hasRole('ROLE_SUPER_ADMIN')){
             return true;
         }
-        
+
         return false;
     }
 

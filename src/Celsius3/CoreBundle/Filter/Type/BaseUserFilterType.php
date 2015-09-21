@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Celsius3\CoreBundle\Entity\Instance;
 
 class BaseUserFilterType extends AbstractType
@@ -39,25 +40,51 @@ class BaseUserFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
-        
+
         $builder
-                ->add('id', 'hidden', array('required' => false,))
-                ->add('name', null, array('required' => false,))
-                ->add('surname', null, array('required' => false,))
-                ->add('username', null, array('required' => false,))
-                ->add('email', null, array('required' => false,))
-                ->add('state', 'choice', array('required' => false,
-                    'choices' => array('enabled' => 'Enabled',
-                        'pending' => 'Pending',
-                        'rejected' => 'Rejected',),
-                    'expanded' => true, 'multiple' => true,));
+                ->add('id', 'hidden', array(
+                    'required' => false,
+                ))
+                ->add('name', null, array(
+                    'required' => false,
+                ))
+                ->add('surname', null, array(
+                    'required' => false,
+                ))
+                ->add('username', null, array(
+                    'required' => false,
+                ))
+                ->add('email', null, array(
+                    'required' => false,
+                ))
+                ->add('state', 'choice', array(
+                    'required' => false,
+                    'choices' => array(
+                        /** @Ignore */ 'enabled' => 'Enabled',
+                        /** @Ignore */ 'pending' => 'Pending',
+                        /** @Ignore */ 'rejected' => 'Rejected',
+                    ),
+                    'expanded' => true,
+                    'multiple' => true,
+                ))
+                ->add('roles', 'choice', array(
+                    'required' => false,
+                    'choices' => array(
+                        /** @Ignore */ 'ROLE_USER' => 'User',
+                        /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
+                        /** @Ignore */ 'ROLE_ADMIN' => 'Admin',
+                        /** @Ignore */ 'ROLE_SUPER_ADMIN' => 'Network Admin',
+                    ),
+                ))
+        ;
 
         if (is_null($this->instance)) {
             $builder
                     ->add('instance', 'entity', array(
                         'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
-            ));
+                    ))
+            ;
         }
     }
 

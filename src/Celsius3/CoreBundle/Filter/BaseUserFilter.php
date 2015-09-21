@@ -27,7 +27,10 @@ use Doctrine\ORM\EntityManager;
 class BaseUserFilter implements EntityFilterInterface
 {
     private $em;
-    private $specialFields = array('state' => 'addFindByStateType',);
+    private $specialFields = array(
+        'state' => 'addFindByStateType',
+        'roles' => 'addFindByRole',
+    );
 
     public function __construct(EntityManager $em)
     {
