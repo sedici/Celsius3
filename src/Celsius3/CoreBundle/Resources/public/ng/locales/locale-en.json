@@ -178,5 +178,8 @@
     "ShowOrder": "Show order",
     "EditOrder": "Edit order",
     "CloneOrder": "Clone order",
-    "noPendingSearch": "No pending searches"
+    "noPendingSearch": "No pending searches",
+    "rejectUser": "Reject User",
+    "rejectUserQuestion": "Are you sure you want to remove this user?",
+    "reject": "Reject"
 }

@@ -68,11 +68,32 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         });
     };
 
+    $scope.rejectUser = function (user_id) {
+        var data = {
+            id: user_id
+        };
+        $http.post(Routing.generate('admin_rest_user_reject'), data).success(function (response) {
+            if (response) {
+                User.pending(function (users) {
+                    $scope.users = users;
+                });
+                $('#reject-user-modal').modal('hide');
+            }
+        });
+    };
+
     $scope.showUserModal = function (user_id) {
         $scope.currentUser = _.find($scope.users, function (user) {
             return user.id === user_id;
         });
         $('#user-modal').modal('show');
+    };
+
+    $scope.rejectUserModal = function (user_id) {
+        $scope.currentUser = _.find($scope.users, function (user) {
+            return user.id === user_id;
+        });
+        $('#reject-user-modal').modal('show');
     };
 
     $scope.isActive = function (state) {

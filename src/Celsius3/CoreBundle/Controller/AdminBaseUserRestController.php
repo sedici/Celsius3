@@ -68,7 +68,6 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     }
 
     /**
-     * GET Route annotation.
      * @Post("/enable", name="admin_rest_user_enable", options={"expose"=true})
      */
     public function enableUserAction(Request $request)
@@ -92,6 +91,35 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $em->flush();
 
         $view = $this->view($user->isEnabled(), 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Post("/reject", name="admin_rest_user_reject", options={"expose"=true})
+     */
+    public function rejectUserAction(Request $request)
+    {
+        $user_id = $request->request->get('id', null);
+
+        $user = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findOneBy(array(
+            'instance' => $this->getInstance()->getId(),
+            'id' => $user_id,
+        ));
+
+        if (!$user) {
+            return $this->createNotFoundException('User not found.');
+        }
+
+        if (!$user->isEnabled()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($user);
+            $em->flush();
+        }
+
+        $view = $this->view(!$user->isEnabled(), 200)->setFormat('json');
 
         return $this->handleView($view);
     }

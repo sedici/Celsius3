@@ -138,7 +138,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $secondaryInstances = array();
 
     /**
-     * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user", cascade={"remove"})
      */
     protected $customValues;
 
@@ -152,9 +152,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $clientApplications;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Celsius3\NotificationBundle\Entity\NotificationSettings", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Celsius3\NotificationBundle\Entity\NotificationSettings", mappedBy="user", cascade={"remove"})
      */
     protected $notificationSettings;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Celsius3\NotificationBundle\Entity\BaseUserNotification", mappedBy="object", cascade={"remove"})
+     */
+    protected $notifications;
 
     public function __toString()
     {
@@ -187,6 +192,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->createdOrders = new \Doctrine\Common\Collections\ArrayCollection();
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clientApplications = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -711,6 +717,36 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getNotificationSettings()
     {
         return $this->notificationSettings;
+    }
+
+    /**
+     * Add notification
+     *
+     * @param Celsius3\NotificationBundle\Entity\BaseUserNotification $notification
+     */
+    public function addNotification(\Celsius3\NotificationBundle\Entity\BaseUserNotification $notification)
+    {
+        $this->notifications[] = $notification;
+    }
+
+    /**
+     * Remove notification
+     *
+     * @param Celsius3\NotificationBundle\Entity\BaseUserNotification $notification
+     */
+    public function removeNotification(\Celsius3\NotificationBundle\Entity\BaseUserNotification $notification)
+    {
+        $this->notifications->removeElement($notification);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return Doctrine\Common\Collections\Collection $customValues
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
     }
 
 }

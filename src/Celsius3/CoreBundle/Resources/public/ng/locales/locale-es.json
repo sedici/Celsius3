@@ -179,5 +179,8 @@
     "ShowOrder": "Mostrar pedido",
     "EditOrder": "Editar pedido",
     "CloneOrder": "Clonar pedido",
-    "noPendingSearch": "Sin búsquedas pendientes"
+    "noPendingSearch": "Sin búsquedas pendientes",
+    "rejectUser": "Rechazar Usuario",
+    "rejectUserQuestion": "¿Está seguro de que desea rechazar este usuario?",
+    "reject": "Rechazar"
 }

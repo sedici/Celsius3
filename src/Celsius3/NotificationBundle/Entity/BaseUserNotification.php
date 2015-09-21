@@ -35,7 +35,7 @@ class BaseUserNotification extends Notification
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser", inversedBy="notifications")
      * @ORM\JoinColumn(name="base_user_notification_id", referencedColumnName="id")
      */
     private $object;
