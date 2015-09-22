@@ -315,6 +315,7 @@
 
         <service id="celsius3_core.mail_manager" class="%celsius3_core.mail_manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.listener.confirmation" class="%celsius3_core.listener.confirmation.class%">

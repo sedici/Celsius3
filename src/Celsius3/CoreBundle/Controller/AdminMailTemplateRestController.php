@@ -69,4 +69,38 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
 
         return $this->handleView($view);
     }
+
+    /**
+     * GET Route annotation.
+     * @Get("/compiled/{code}/{request_id}", name="admin_rest_template_compiled_get", options={"expose"=true})
+     */
+    public function getCompiledTemplateAction($code, $request_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $request = $em->getRepository('Celsius3CoreBundle:Request')
+            ->find($request_id);
+
+        if (!$request) {
+            return $this->createNotFoundException('Request not found.');
+        }
+
+        $template = $em->getRepository('Celsius3CoreBundle:MailTemplate')
+            ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory(), $code)
+            ->getQuery()
+            ->getSingleResult();
+
+        if (!$template) {
+            return $this->createNotFoundException('Template not found.');
+        }
+
+        $render = $this->get('celsius3_core.mail_manager')
+            ->renderTemplate($code, $this->getInstance(), $request->getOwner(), $request->getOrder());
+
+        $template->setText($render);
+
+        $view = $this->view(array($template), 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
 }

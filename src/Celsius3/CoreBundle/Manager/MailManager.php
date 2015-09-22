@@ -24,7 +24,9 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class MailManager
@@ -37,22 +39,23 @@ class MailManager
     const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
     const MAIL__USER_LOST = 'user_lost';
     private $em;
+    private $im;
     private $twig;
 
-    public function __construct(EntityManager $em=null)
+    public function __construct(EntityManager $em, InstanceManager $im)
     {
         $this->em = $em;
+        $this->im = $im;
         $loader = new \Twig_Loader_String();
         $this->twig = new \Twig_Environment($loader);
     }
 
-    public function renderTemplate($code, BaseUser $user, Order $order = null)
+    public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
     {
-        if ($this->em == null)
-            throw new Exception('Missing Entity Manager to retrieve template from');
-
         $template = $this->em->getRepository('Celsius3CoreBundle:MailTemplate')
-                ->findOneBy(array('code' => $code));
+                ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
+                ->getQuery()
+                ->getSingleResult();
 
         return $this->twig->render($template->getText(), array(
                     'user' => $user,

@@ -28,7 +28,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 class MailTemplateRepository extends EntityRepository
 {
 
-    public function findGlobalAndForInstance(Instance $instance, Instance $directory)
+    public function findGlobalAndForInstance(Instance $instance, Instance $directory, $code = null)
     {
         $custom = $this->createQueryBuilder('c')
                         ->select('c.code')
@@ -37,7 +37,7 @@ class MailTemplateRepository extends EntityRepository
                         ->setParameter('instance_id', $instance->getId())
                         ->getQuery()->getResult();
 
-        return $this->createQueryBuilder('e')
+        $query = $this->createQueryBuilder('e')
                         ->where('e.instance = :directory_id')
                         ->andWhere('e.code NOT IN (:codes)')
                         ->andWhere('e.enabled = true')
@@ -45,6 +45,13 @@ class MailTemplateRepository extends EntityRepository
                         ->setParameter('directory_id', $directory->getId())
                         ->setParameter('codes', count($custom) !== 0 ? $custom : array(1)) // El NOT IN no funciona correctamente con un array vacio
                         ->setParameter('instance_id', $instance->getId());
+
+        if (!is_null($code)) {
+            $query->andWhere('e.code = :code')
+                ->setParameter('code', $code);
+        }
+
+        return $query;
     }
 
     public function findAllEnabled()

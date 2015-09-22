@@ -90,7 +90,7 @@
                 <label for="address">{{'address' | translate}}</label>
                 <input type="email" class="form-control" ng-model="forms.email.address" name="address" id="address" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-if="templates.length > 1">
                 <label for="template">{{'template' | translate}}</label>
                 <select ui-select2="select2Templates" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
                 <option></option>

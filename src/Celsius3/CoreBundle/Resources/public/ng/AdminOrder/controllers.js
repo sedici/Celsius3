@@ -282,6 +282,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         }).success(function (data, status, headers, config) {
                             $scope.updateTables();
                             $('.modal').modal('hide');
+                            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_printed', request_id: $scope.request.id})).success(function (response) {
+                                if (response) {
+                                    $scope.contacts = null;
+                                    $scope.templates = response;
+                                    $scope.forms.email.address = $scope.request.owner.email;
+                                    $scope.forms.email.subject = response[0].title;
+                                    $scope.forms.email.text = response[0].text;
+                                    $('#email-modal').modal('show');
+                                }
+                            });
                         });
                     }
                 }
@@ -722,6 +732,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {
             if (response) {
                 $scope.updateTables();
+                $scope.forms.email = {};
                 $('.modal').modal('hide');
             }
         });
