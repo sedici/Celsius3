@@ -22,5 +22,9 @@
         {{ form_row(form.originalRequest.comments) }}
     </div>
 </div>
+{% if (form.save_and_show is defined) %}
+    {{ form_row(form.save_and_show) }}
+{% endif %}
+
 {{ form_rest(form.originalRequest) }}
 {{ form_widget(form._token) }}

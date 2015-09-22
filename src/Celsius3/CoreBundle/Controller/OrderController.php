@@ -74,7 +74,7 @@ abstract class OrderController extends BaseInstanceDependentController
             $this->createNotFoundException('Inexistent Material Type');
         }
 
-        $type = new OrderType($this->getInstance(), new $material);
+        $type = new OrderType($this->getInstance(), new $material, null, null, false, $this->getUser());
         $form = $this->createForm($type, new Order());
 
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array(

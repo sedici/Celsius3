@@ -108,9 +108,9 @@ class UserOrderController extends OrderController
     public function newAction()
     {
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $type = new OrderType($this->getInstance(), null, $this->getUser(), null, true);
+            $type = new OrderType($this->getInstance(), null, $this->getUser(), null, true, $this->getUser());
         } else {
-            $type = new OrderType($this->getInstance(), null, $this->getUser());
+            $type = new OrderType($this->getInstance(), null, $this->getUser(), null, false, $this->getUser());
         }
 
         return $this->baseNew('Order', new Order(), $type);
@@ -128,9 +128,9 @@ class UserOrderController extends OrderController
     public function createAction()
     {
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, true);
+            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, true, $this->getUser());
         } else {
-            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser());
+            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, false, $this->getUser());
         }
 
         return $this->baseCreate('Order', new Order(), $type, 'user_index');

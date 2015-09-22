@@ -1,3 +1,6 @@
+{{ form_label(form.materialData) }}
+{{ form_errors(form.materialData) }}
+
 {% if (material == 'journal' ) %}
     {% include 'Celsius3CoreBundle:MaterialType:_journal_form.html.twig' %}
 {% endif %}
