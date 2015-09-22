@@ -49,7 +49,7 @@ class JournalTypeType extends MaterialTypeType
                 ))
                 ->add('journal_autocomplete', 'text', array(
                     'attr' => array(
-                        'required' => false,
+                        'required' => true,
                         'class' => 'autocomplete',
                         'target' => 'Journal',
                         'value' => (!is_null($this->journal)) ?  $this->journal : $this->other
