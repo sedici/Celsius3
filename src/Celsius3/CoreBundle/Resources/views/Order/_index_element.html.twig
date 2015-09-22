@@ -27,6 +27,10 @@
             </div>
             <div class="decoracion"></div>
         </div>
+
+        <div class="top_center pull-right text-center">
+            {{ request.createdAt | localizeddate('medium', 'none')}}
+        </div>
     </div>
 
     <div class="main_info">

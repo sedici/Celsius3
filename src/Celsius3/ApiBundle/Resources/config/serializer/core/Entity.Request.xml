@@ -10,6 +10,7 @@
         <property name="instance" type="Celsius3\CoreBundle\Entity\Instance" expose="true" access-type="public_method"></property>
         <property name="states" type="array" expose="true" access-type="public_method" read-only="true"></property>
         <property name="files" type="array" expose="true" access-type="public_method" read-only="true"></property>
+        <property name="createdAt" type="DateTime" expose="true" access-type="public_method" read-only="true"></property>
         <virtual-property name="currentState" type="string" expose="true" method="getCurrentState"></virtual-property>
     </class>
 </serializer>
