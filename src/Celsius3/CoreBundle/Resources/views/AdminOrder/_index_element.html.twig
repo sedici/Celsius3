@@ -1,5 +1,11 @@
 {% extends 'Celsius3CoreBundle:Order:_index_element.html.twig' %}
 
+{% block admin_data %}
+<div class="busquedas">
+    {{ 'searches'|trans }}: {{ count_searches(request) }}
+</div>
+{% endblock %}
+
 {% block admin %}
     <div class="order-operator">
         <a href="#">{{ request.operator }}</a>

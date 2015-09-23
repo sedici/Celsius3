@@ -23,9 +23,10 @@
 namespace Celsius3\CoreBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequest;
-use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\SearchEvent;
+use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class EventExtension extends \Twig_Extension
 {
@@ -45,24 +46,21 @@ class EventExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'render_request_event' => new \Twig_Function_Method($this, 'renderRequestEvent'),
-            'render_receive_event' => new \Twig_Function_Method($this, 'renderReceiveEvent'),
-            'get_request_state' => new \Twig_Function_Method($this, 'getRequestState'),);
+            'get_request_state' => new \Twig_Function_Method($this, 'getRequestState'),
+            'count_searches' => new \Twig_Function_Method($this, 'countSearches'),
+        );
     }
 
-    public function renderRequestEvent(Event $event, Order $order)
-    {
-        return $this->environment->render('Celsius3CoreBundle:AdminOrder:_event_request.html.twig', $this->container->get('celsius3_core.event_manager')->getDataForRequestRendering($event, $order));
-    }
-
-    public function renderReceiveEvent(Event $event, Order $order)
-    {
-        return $this->environment->render('Celsius3CoreBundle:AdminOrder:_event_receive.html.twig', $this->container->get('celsius3_core.event_manager')->getDataForReceiveRendering($event, $order));
-    }
-
-    public function getRequestState(MultiInstanceRequest $request)
+    public function getRequestState(MultiInstanceRequestEvent $request)
     {
         return $request->getOrder()->getCurrentState($request->getRemoteInstance());
+    }
+
+    public function countSearches(Request $request)
+    {
+        return $request->getEvents()->filter(function($e) {
+            return $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED;
+        })->count();
     }
 
     public function getName()

@@ -116,6 +116,9 @@
                     <div class="doc_and_year">
                         <div ng-if="order.request.owner.pdf === true" class="doc_type_pdf"></div>
                         <div ng-if="order.request.owner.pdf !== true" class="doc_type_print"></div>
+                        <div class="busquedas">
+                            {{'searches'|translate}}: {{countSearches(order.request)}}
+                        </div>
                     </div>
                 </div>
 

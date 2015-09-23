@@ -9,6 +9,12 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         direction: 'desc'
     };
 
+    $scope.countSearches = function (request) {
+        return _.filter(request.events, function(e) {
+            return e.type === 'search' && e.result !== 'non_searched';
+        }).length;
+    };
+
     $scope.searchPending = function (request) {
         return request.states.filter(function (item) {
             return item.type === 'requested' && item.search_pending;

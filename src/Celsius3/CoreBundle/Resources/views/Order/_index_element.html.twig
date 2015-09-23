@@ -53,7 +53,12 @@
             <div class="doc_year">{{ element.materialData.year }}</div>
         </div>
         <div class="doc_and_year">
-            <div class="doc_type_pdf"></div>
+            {% if request.owner.pdf %}
+                <div class="doc_type_pdf"></div>
+            {% else %}
+                <div class="doc_type_print"></div>
+            {% endif %}
+            {% block admin_data %}{% endblock %}
         </div>
     </div>
 

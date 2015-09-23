@@ -1851,6 +1851,10 @@
          <source>Next</source>
          <target>Siguiente</target>
       </trans-unit>
+      <trans-unit id="32">
+         <source>searches</source>
+         <target>Búsquedas</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
