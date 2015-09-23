@@ -1,6 +1,10 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
-{{ form_row(form.materialData.title) }}
+<div class="form_group">
+    {{ form_label(form.materialData.title, 'Titulo del libro') }}
+    {{ form_errors(form.materialData.title) }}
+    {{ form_widget(form.materialData.title, { 'attr': { 'class': 'form-control' } }) }}
+</div>
 {{ form_row(form.materialData.authors) }}
 {{ form_row(form.materialData.editor) }}
 {{ form_row(form.materialData.year) }}
