@@ -50,7 +50,7 @@ class NewsFeedsController extends BaseInstanceDependentController
     /**
      * Generate Rss News.
      *
-     * @Route("/rss",name="rss_news")
+     * @Route("/rss", defaults={"_format"="xml"} ,name="rss_news")
      * @Template("Celsius3CoreBundle:NewsFeeds:index_rss.html.twig")
      *
      */
@@ -66,4 +66,5 @@ class NewsFeedsController extends BaseInstanceDependentController
 
         return $array;
     }
+
 }

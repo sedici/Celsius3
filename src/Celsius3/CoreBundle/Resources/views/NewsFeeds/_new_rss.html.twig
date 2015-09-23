@@ -1,6 +1,6 @@
 <item>
     <title>{{ news.title }}</title>
-    <guid>{{ news.id }}</guid>
-    <pubDate>{{ news.date|localizeddate('medium','short') }}</pubDate>
-    <description>{{ news.text|raw }}</description>
+    <guid isPermaLink="false">{{ news.id }}</guid>
+    <pubDate>{{ news.date|date("D, d M Y H:i:s O") }}</pubDate>
+    <description>{{ news.text|escape }}</description>
 </item>
