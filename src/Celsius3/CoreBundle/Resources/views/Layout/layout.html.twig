@@ -18,6 +18,7 @@
                        '@angular_loading_bar_css'
                        '@summernote_css'
                        '@c3_css'
+                       '@bootstrap_switch_css'
                        'bundles/celsius3core/css/timepicker.css'
                        'bundles/celsius3core/css/smoothness/jquery-ui-1.9.0.custom.min.css'
                        '@Celsius3CoreBundle/Resources/public/less/*' filter='?uglifycss' filter='?cssrewrite' %}
@@ -121,7 +122,7 @@
     {% block footer %}
         <footer class="footer">
             <p>{{ 'DevelopedBy' | trans  }} <a href="http://prebi.unlp.edu.ar">PREBI</a>-<a href="http://sedici.unlp.edu.ar">SEDICI</a>
-            <a href="http://www.unlp.edu.ar">Universidad Nacional de La Plata</a> &copy; {{ date()|date('Y') }} </p>
+                <a href="http://www.unlp.edu.ar">Universidad Nacional de La Plata</a> &copy; {{ date()|date('Y') }} </p>
         </footer>
     {% endblock %}
 </div>
@@ -158,6 +159,7 @@
                            '@c3_js'
                            '@ng_file_upload_shim_js'
                            '@ng_file_upload_js'
+                           '@bootstrap_switch_js'
                            'bundles/celsius3core/js/jquery-ui-timepicker-addon.js'
                            'bundles/celsius3core/js/cosmetics.js'
                            'bundles/celsius3core/js/forms.js'

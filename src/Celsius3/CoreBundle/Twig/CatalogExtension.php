@@ -49,6 +49,8 @@ class CatalogExtension extends \Twig_Extension
             'get_catalogs' => new \Twig_Function_Method($this, 'getCatalogs'),
             'get_searches' => new \Twig_Function_Method($this, 'getSearches'),
             'search_exists' => new \Twig_Function_Method($this, 'searchExists'),
+            'is_catalog_enabled' => new \Twig_Function_Method($this, 'isCatalogEnabled'),
+            'get_disabled_catalogs_count' => new \Twig_Function_Method($this, 'getDisabledCatalogsCount'),
         );
     }
 
@@ -70,6 +72,16 @@ class CatalogExtension extends \Twig_Extension
                 })->first();
 
         return false !== $result ? $result : null;
+    }
+
+    public function isCatalogEnabled(Catalog $catalog)
+    {
+        return $this->catalog_manager->isCatalogEnabled($catalog);
+    }
+
+    public function getDisabledCatalogsCount(Instance $instance, Instance $directory, $start = 0, $count = 0)
+    {
+        return $this->catalog_manager->getDisabledCatalogsCount($instance, $directory, $start, $count);
     }
 
     public function getName()

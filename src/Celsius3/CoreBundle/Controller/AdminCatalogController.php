@@ -64,6 +64,8 @@ class AdminCatalogController extends BaseInstanceDependentController
         return array(
             'pagination' => $query->getQuery()->getResult(),
             'filter_form' => $filter_form->createView(),
+            'directory' => $this->getDirectory(),
+            'instance' => $this->getInstance()
         );
     }
 
@@ -160,4 +162,5 @@ class AdminCatalogController extends BaseInstanceDependentController
                     'success' => 'Success',
         )));
     }
+
 }

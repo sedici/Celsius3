@@ -18,5 +18,17 @@ $(document).on('click', '.user-enable-modal', function (e) {
 });
 
 $(function () {
-  $('[data-toggle="popover"]').popover()
-})
+    $('[data-toggle="popover"]').popover();
+});
+
+$(document).ready(function () {
+    $('input[name="disabled-catalogs-view"]').bootstrapSwitch('state', false, true);
+
+    $('input[name="disabled-catalogs-view"]').on('switchChange.bootstrapSwitch', function () {
+        if ($(this).is(':checked')) {
+            $('.catalog-disabled').css('display', 'block');
+        } else {
+            $('.catalog-disabled').css('display', 'none');
+        }
+    });
+});

@@ -28,6 +28,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
+use Celsius3\CoreBundle\Form\EventListener\AddEnableCatalogFieldSubscriber;
 
 class CatalogType extends AbstractType
 {
@@ -57,6 +58,9 @@ class CatalogType extends AbstractType
 
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'institution', false);
         $builder->addEventSubscriber($subscriber);
+
+        $enableCatalogFieldSubscriber = new AddEnableCatalogFieldSubscriber($this->em, $builder->getFormFactory());
+        $builder->addEventSubscriber($enableCatalogFieldSubscriber);
 
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder->add('instance');
