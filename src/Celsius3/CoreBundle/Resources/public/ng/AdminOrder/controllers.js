@@ -591,6 +591,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             $scope.updateTables();
             $('#cancelForm').get(0).reset();
             $('.modal').modal('hide');
+            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancel', request_id: $scope.request.id})).success(function (response) {
+                if (response) {
+                    $scope.contacts = null;
+                    $scope.templates = response;
+                    $scope.forms.email.address = $scope.request.owner.email;
+                    $scope.forms.email.subject = response[0].title;
+                    $scope.forms.email.text = response[0].text;
+                    $('#email-modal').modal('show');
+                }
+            });
         });
     };
 
