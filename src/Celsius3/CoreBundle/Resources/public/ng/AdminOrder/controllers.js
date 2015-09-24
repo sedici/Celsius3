@@ -282,7 +282,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         }).success(function (data, status, headers, config) {
                             $scope.updateTables();
                             $('.modal').modal('hide');
-                            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_printed', request_id: $scope.request.id})).success(function (response) {
+                            var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_printed_reconfirm' : 'order_printed';
+                            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id})).success(function (response) {
                                 if (response) {
                                     $scope.contacts = null;
                                     $scope.templates = response;
