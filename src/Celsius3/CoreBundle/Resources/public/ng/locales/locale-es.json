@@ -53,8 +53,8 @@
     "journal": "Revista",
     "book": "Libro",
     "congress": "Congreso",
-    "thesis":"Tesis",
-    "patent":"Patente",
+    "thesis": "Tesis",
+    "patent": "Patente",
     "editor": "Editor",
     "chapter": "Capítulo",
     "isbn": "ISBN",
@@ -160,10 +160,10 @@
     "Country": "País",
     "Requests": "Pedidos",
     "Publication year": "Año de Publicación",
-    "Previous":"Anterior",
-    "Next":"Siguiente",
-    "First":"Primero",
-    "Last":"Último",
+    "Previous": "Anterior",
+    "Next": "Siguiente",
+    "First": "Primero",
+    "Last": "Último",
     "orders": "Pedidos",
     "pendingSearch": "Búsquedas Pendientes",
     "addFiles": "Agregar Archivos",
@@ -182,5 +182,6 @@
     "noPendingSearch": "Sin búsquedas pendientes",
     "rejectUser": "Rechazar Usuario",
     "rejectUserQuestion": "¿Está seguro de que desea rechazar este usuario?",
-    "reject": "Rechazar"
+    "reject": "Rechazar",
+    "view": "Ver"
 }

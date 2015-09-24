@@ -177,10 +177,10 @@
                 </div>
                 <div class="pull-right">
                     <ul class="list-unstyled list-inline">
-                        <li><a href ng-click="enableUser(user.id)"><span class="glyphicon glyphicon-ok"></span></a></li>
-                        <li><a href ng-click="showUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
-                        <li><a ng-href="{{ {path: 'admin_user_edit', params: { 'id': user.id } } | get_url }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
-                        <li><a href ng-click="rejectUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span></a></li>
+                        <li data-toggle="tooltip" title=" {{ 'enable' | translate }}"><a href ng-click="enableUser(user.id)"><span class="glyphicon glyphicon-ok"></span></a></li>
+                        <li data-toggle="tooltip" title=" {{ 'view' | translate }}"><a href ng-click="showUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                        <li data-toggle="tooltip" title=" {{ 'edit' | translate }}"><a ng-href="{{ {path: 'admin_user_edit', params: { 'id': user.id } } | get_url }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
+                        <li data-toggle="tooltip" title=" {{ 'reject' | translate }}"><a href ng-click="rejectUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span></a></li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>

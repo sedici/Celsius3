@@ -159,10 +159,10 @@
     "Country": "Country",
     "Requests": "Requests",
     "Publication year": "Publication Year",
-    "Previous":"Previous",
-    "Next":"Next",
-    "First":"First",
-    "Last":"Last",
+    "Previous": "Previous",
+    "Next": "Next",
+    "First": "First",
+    "Last": "Last",
     "orders": "Orders",
     "pendingSearch": "Pending Search",
     "addFiles": "Add Files",
@@ -181,5 +181,6 @@
     "noPendingSearch": "No pending searches",
     "rejectUser": "Reject User",
     "rejectUserQuestion": "Are you sure you want to remove this user?",
-    "reject": "Reject"
+    "reject": "Reject",
+    "view": "View"
 }
