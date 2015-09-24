@@ -20,17 +20,19 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\DependencyInjection\Compiler;
+namespace Celsius3\CoreBundle\Validator\Constraints;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Validator\Constraint;
 
-class FOSUserOverridePass implements CompilerPassInterface
+/**
+ * @Annotation
+ */
+class ContainsCSS extends Constraint
 {
+    public $message = 'The string does not contain valid CSS';
 
-    public function process(ContainerBuilder $container)
+    public function validatedBy()
     {
-        $container->getDefinition('fos_user.listener.authentication')->setClass('Celsius3\CoreBundle\EventListener\AuthenticationListener');
+        return get_class($this).'Validator';
     }
-
 }

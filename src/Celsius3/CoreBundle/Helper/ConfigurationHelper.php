@@ -42,6 +42,7 @@ class ConfigurationHelper
     const CONF__MIN_DAYS_FOR_SEND_MAIL = 'min_days_for_send_mail';
     const CONF__MAX_DAYS_FOR_SEND_MAIL = 'max_days_for_send_mail';
     const CONF__INSTANCE_LOGO = 'instance_logo';
+    const CONF__INSTANCE_CSS = 'instance_css';
     const CONF__SMTP_HOST = 'smtp_host';
     const CONF__SMTP_PORT = 'smtp_port';
     const CONF__SMTP_USERNAME = 'smtp_username';
@@ -55,6 +56,7 @@ class ConfigurationHelper
         'text' => 'textarea',
         'language' => 'celsius3_corebundle_language_type',
         'confirmation' => 'celsius3_corebundle_confirmation_type',
+        'results' => 'celsius3_corebundle_results_type',
         'file' => 'file',
         'password' => 'password',
         'image' => 'celsius3_corebundle_logo_selector',
@@ -67,6 +69,11 @@ class ConfigurationHelper
     public $confirmation = array(
         'admin' => 'Administrator confirmation',
         'email' => 'Email confirmation',
+    );
+    public $results = array(
+        '10' => '10',
+        '15' => '15',
+        '25' => '25',
     );
     public $configurations = array(
         self::CONF__INSTANCE_TITLE => array(
@@ -82,7 +89,7 @@ class ConfigurationHelper
         self::CONF__RESULTS_PER_PAGE => array(
             'name' => 'Results per page',
             'value' => '10',
-            'type' => 'integer',
+            'type' => 'results',
         ),
         self::CONF__EMAIL_REPLY_ADDRESS => array(
             'name' => 'Reply to',
@@ -134,6 +141,11 @@ class ConfigurationHelper
             'value' => '',
             'type' => 'image',
         ),
+        self::CONF__INSTANCE_CSS => array(
+            'name' => 'Instance CSS',
+            'value' => '',
+            'type' => 'text',
+        ),
         self::CONF__SMTP_HOST => array(
             'name' => 'SMTP Host',
             'value' => '',
@@ -179,6 +191,7 @@ class ConfigurationHelper
                 $value = (boolean) $configuration->getValue();
                 break;
             case 'integer':
+            case 'results':
                 $value = (integer) $configuration->getValue();
                 break;
             case 'file':
@@ -218,6 +231,13 @@ class ConfigurationHelper
                     $new->setType($configuration['type']);
                     $new->setInstance($instance);
                     $em->persist($new);
+                } else {
+                    $conf = $instance->get($key);
+                    if ($conf->getType() !== $configuration['type']) {
+                        $conf->setType($configuration['type']);
+                        $em->persist($conf);
+                    }
+                    unset($conf);
                 }
             }
         }
@@ -229,8 +249,13 @@ class ConfigurationHelper
         return (isset($this->configurations[$configuration->getKey()]['constraints'])) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
     }
 
-    private function getHeight() { return 100; }
-    private function getWidth() { return 200; }
+    private function getHeight() {
+        return 100;
+    }
+    
+    private function getWidth() {
+        return 200;
+    }
 
     private function configureConstraints()
     {

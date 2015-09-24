@@ -42,7 +42,8 @@
         "salavert/time-ago-in-words": "1.*",
         "snc/redis-bundle": "~1.1",
         "predis/predis": "^1.0",
-        "friendsofsymfony/oauth-server-bundle": "dev-master"
+        "friendsofsymfony/oauth-server-bundle": "dev-master",
+        "sabberworm/php-css-parser": "*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",

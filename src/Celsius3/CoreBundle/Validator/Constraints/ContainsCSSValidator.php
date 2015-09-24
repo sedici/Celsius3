@@ -20,17 +20,25 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\DependencyInjection\Compiler;
+ namespace Celsius3\CoreBundle\Validator\Constraints;
 
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
+use Sabberworm\CSS\Parser;
+use Sabberworm\CSS\Settings;
 
-class FOSUserOverridePass implements CompilerPassInterface
+class ContainsCSSValidator extends ConstraintValidator
 {
-
-    public function process(ContainerBuilder $container)
+    public function validate($value, Constraint $constraint)
     {
-        $container->getDefinition('fos_user.listener.authentication')->setClass('Celsius3\CoreBundle\EventListener\AuthenticationListener');
+        try {
+            if (!is_null($value)) {
+                $parser = new Parser($value, Settings::create()->beStrict());
+                $css = $parser->parse();
+            }
+        } catch (\Exception $e) {
+            $this->context->buildViolation($constraint->message)
+                ->addViolation();
+        }
     }
-
 }

@@ -33,6 +33,7 @@
         <parameter key="celsius3_core.form.logo_selector.class">Celsius3\CoreBundle\Form\Type\LogoSelectorType</parameter>
         <parameter key="celsius3_core.form.type.language.class">Celsius3\CoreBundle\Form\Type\LanguageType</parameter>
         <parameter key="celsius3_core.form.type.confirmation.class">Celsius3\CoreBundle\Form\Type\ConfirmationType</parameter>
+        <parameter key="celsius3_core.form.type.results.class">Celsius3\CoreBundle\Form\Type\ResultsType</parameter>
         <parameter key="celsius3_core.security.authentication_failure_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationFailureHandler</parameter>
         <parameter key="celsius3_core.security.logout_success_handler.class">Celsius3\CoreBundle\Handler\CustomLogoutSuccessHandler</parameter>
         <parameter key="celsius3_core.security.authentication_success_handler.class">Celsius3\CoreBundle\Handler\CustomAuthenticationSuccessHandler</parameter>
@@ -203,6 +204,11 @@
         <service id="celsius3_core.form.type.confirmation" class="%celsius3_core.form.type.confirmation.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
             <tag name="form.type" alias="celsius3_corebundle_confirmation_type" />
+        </service>
+
+        <service id="celsius3_core.form.type.results" class="%celsius3_core.form.type.results.class%">
+            <argument type="service" id="celsius3_core.configuration_helper"></argument>
+            <tag name="form.type" alias="celsius3_corebundle_results_type" />
         </service>
 
         <service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">

@@ -24,6 +24,11 @@
                        '@Celsius3CoreBundle/Resources/public/less/*' filter='?uglifycss' filter='?cssrewrite' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
             {% endstylesheets %}
+            {% if instance.get('instance_css').value is not null %}
+            <style type="text/css">
+                {{  instance.get('instance_css').value  }}
+            </style>
+            {% endif %}
             <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!--[if lt IE 9]>
                 <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/html5shiv.js') }}"></script>

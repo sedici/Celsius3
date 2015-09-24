@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\CoreBundle\Validator\Constraints\ContainsCSS;
 
 abstract class InstanceController extends BaseController
 {
@@ -47,10 +48,9 @@ abstract class InstanceController extends BaseController
      *
      */
 
-    private function buildConfigurationArray($configuration,$configurationType) {
-
+    private function buildConfigurationArray($configuration,$configurationType)
+    {
         $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
-
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
@@ -58,14 +58,17 @@ abstract class InstanceController extends BaseController
             'required' => false,
             'attr' => array(
                 'value' => $configuration->getValue(),
-                'class' => $configurationType === 'textarea' ? 'summernote' : '',
+                'class' => $configurationType === 'textarea' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
                 'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO ? false : true,
                 'readonly' => $readonly,
             ),
         );
 
-        return $config_array;
+        if ($configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS) {
+            $config_array['constraints'] = new ContainsCSS();
+        }
 
+        return $config_array;
     }
 
     private function getConfigurationForm($id, $entity)
@@ -129,7 +132,7 @@ abstract class InstanceController extends BaseController
                 if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
                     unlink($basedir . '/web/uploads/logos/' . $configuration->getValue());
                 }
-                if (!is_null($values[$configuration->getKey()])) {
+                if (!is_null($values[$configuration->getKey()]) || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS) {
                     $configuration->setValue($values[$configuration->getKey()]);
                     $em->persist($entity);
                 }

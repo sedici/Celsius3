@@ -1867,6 +1867,98 @@
                 <source>searches</source>
                 <target>Búsquedas</target>
             </trans-unit>
+            <trans-unit id="37">
+                <source>Results per page</source>
+                <target>Resultados por página</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>Reply to</source>
+                <target>Responder correos a</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Instance description</source>
+                <target>Descripción de la Instancia</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Instance information</source>
+                <target>Información de la Instancia</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Default language</source>
+                <target>Idioma por defecto</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Spanish</source>
+                <target>Español</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>English</source>
+                <target>Inglés</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>Portuguese</source>
+                <target>Portugués</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>Confirmation type</source>
+                <target>Tipo de confirmación de usuario</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>None</source>
+                <target>Ninguna</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Administrator confirmation</source>
+                <target>Confirmado por el administrador</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>Email confirmation</source>
+                <target>Confirmado por correo electrónico</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>Mail signature</source>
+                <target>Firma en los correos salientes</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Api Key</source>
+                <target>Clave para la API</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>Minimun days for send emails</source>
+                <target>Mínimo de días para el envío de correos de recordatorio</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>Maximun days for send emails</source>
+                <target>Máximo de días para el envío de correos de recordatorio</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Instance Logo</source>
+                <target>Logotipo de la Instancia</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>SMTP Host</source>
+                <target>Host SMTP</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>SMTP Port</source>
+                <target>Puerto SMTP</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>SMTP Username</source>
+                <target>Nombre de usuario del SMTP</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>SMTP Password</source>
+                <target>Contraseña del SMTP</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>Tagline</source>
+                <target>Subtítulo</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>Instance CSS</source>
+                <target>CSS personalizado de la Instancia</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
