@@ -1959,6 +1959,106 @@
                 <source>Instance CSS</source>
                 <target>CSS personalizado de la Instancia</target>
             </trans-unit>
+            <trans-unit id="60">
+                <source>Sent</source>
+                <target>Enviados</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>Created between</source>
+                <target>Creados entre</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>And</source>
+                <target>Y</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>Read</source>
+                <target>Leídos</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>Unread</source>
+                <target>No Leídos</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>I s s n</source>
+                <target>ISSN</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>I s s n e</source>
+                <target>ISSNE</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>Locked</source>
+                <target>Bloqueado</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>Pdf</source>
+                <target>Recibe como PDF</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>Download auth</source>
+                <target>Autorizado a descargar</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>Private</source>
+                <target>Privado</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Required</source>
+                <target>Obligatorio</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Parent</source>
+                <target>Institución padre</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Ip</source>
+                <target>Dirección IP</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>User agent</source>
+                <target>Navegador Web</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>Hive</source>
+                <target>Colmena</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>Host</source>
+                <target>Host</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Material data</source>
+                <target>Datos del material</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>journal</source>
+                <target>revista</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>Created</source>
+                <target>Pendiente</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>Approval pending</source>
+                <target>Pendiente de aprobación</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Received</source>
+                <target>Recibido</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Delivered</source>
+                <target>Entregado</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>Cancelled</source>
+                <target>Cancelado</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>Annulled</source>
+                <target>Anulado</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

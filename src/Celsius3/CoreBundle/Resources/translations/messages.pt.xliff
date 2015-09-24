@@ -1935,6 +1935,106 @@
                 <source>Instance CSS</source>
                 <target>Instance CSS</target>
             </trans-unit>
+            <trans-unit id="60">
+                <source>Sent</source>
+                <target>Sent</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>Created between</source>
+                <target>Created between</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>And</source>
+                <target>And</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>Read</source>
+                <target>Read</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>Unread</source>
+                <target>Unread</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>I s s n</source>
+                <target>ISSN</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>I s s n e</source>
+                <target>ISSNE</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>Locked</source>
+                <target>Locked</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>Pdf</source>
+                <target>Receives as PDF</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>Download auth</source>
+                <target>Download authorized</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>Private</source>
+                <target>Private</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Required</source>
+                <target>Required</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Parent</source>
+                <target>Parent institution</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Ip</source>
+                <target>IP Address</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>User agent</source>
+                <target>Web Browser</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>Hive</source>
+                <target>Hive</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>Host</source>
+                <target>Host</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Material data</source>
+                <target>Material data</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>journal</source>
+                <target>journal</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>Created</source>
+                <target>Pending</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>Approval pending</source>
+                <target>Approval pending</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Received</source>
+                <target>Received</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Delivered</source>
+                <target>Delivered</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>Cancelled</source>
+                <target>Cancelled</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>Annulled</source>
+                <target>Annulled</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
