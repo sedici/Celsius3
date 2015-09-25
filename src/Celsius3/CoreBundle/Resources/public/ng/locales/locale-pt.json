@@ -152,5 +152,6 @@
     "rejectUser": "Reject User",
     "rejectUserQuestion": "Are you sure you want to remove this user?",
     "reject": "Reject",
-    "view": "View"
+    "view": "View",
+    "Sort by": "Sort by"
 }

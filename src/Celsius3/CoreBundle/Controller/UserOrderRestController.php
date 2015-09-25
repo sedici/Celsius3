@@ -81,6 +81,23 @@ class UserOrderRestController extends BaseInstanceDependentRestController
 
             /**
              * GET Route annotation.
+             * @Get("/count", name="user_rest_order_count_get", options={"expose"=true})
+             */
+            public function getOrderCountAction(Request $request)
+            {
+                $user = $this->getUser();
+
+                $orderCount = $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:State')
+                        ->countUserOrders($this->getInstance(), $user);
+
+                $view = $this->view($orderCount, 200)->setFormat('json');
+
+                return $this->handleView($view);
+            }
+
+            /**
+             * GET Route annotation.
              * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
              */
             public function getOrderAction($id)

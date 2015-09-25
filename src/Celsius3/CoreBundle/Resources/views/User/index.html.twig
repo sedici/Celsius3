@@ -40,6 +40,19 @@
             <div class="row pull-right">
                 <a class="btn btn-success btn-lg" href="{{ {path: 'user_order_new'}|get_url}}"><span class="glyphicon glyphicon-plus"></span> {{'addOrder'|translate}}</a>
             </div>
+            <div class="clearfix"></div>
+            <div ng-include="'pagination.html'"></div>
+
+            <div class="sorting-group pull-right">
+                <span>
+                    {{'Sort by'|translate}}:
+                    <a href ng-click="sort('o.createdAt')">{{'date'|translate}}</a> -
+                    <a href ng-click="sort('o.code')">{{'code'|translate}}</a> -
+                    <a href ng-click="sort('m.title')">{{'title'|translate}}</a>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+            <br />
             <div class="row">
                 <div class="clearfix"></div>
                 <div class="item_container" ng-repeat="order in orders">
@@ -96,6 +109,7 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
+            <div ng-include="'pagination.html'"></div>
         </div>
         </script>
         <script type="text/ng-template" id="pagination.html">
@@ -107,10 +121,10 @@
                         num-pages="numPages"
                         ng-model="pagination.currentPage"
                         ng-change="pageChanged()"
-                        previous-text="{{ 'Previous' | translate }}"
-                        next-text="{{ 'Next' | translate }}"
-                        first-text="{{ 'First' | translate }}"
-                        last-text="{{ 'Last' | translate }}">
+                        previous-text="{{ 'Previous'|translate }}"
+                        next-text="{{ 'Next'|translate }}"
+                        first-text="{{ 'First'|translate }}"
+                        last-text="{{ 'Last'|translate }}">
             </pagination>
         </div>
         </script>

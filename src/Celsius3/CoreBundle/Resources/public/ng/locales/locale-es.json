@@ -183,5 +183,6 @@
     "rejectUser": "Rechazar Usuario",
     "rejectUserQuestion": "¿Está seguro de que desea rechazar este usuario?",
     "reject": "Rechazar",
-    "view": "Ver"
+    "view": "Ver",
+    "Sort by": "Ordernar por"
 }

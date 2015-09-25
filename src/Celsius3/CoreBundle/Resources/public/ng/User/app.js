@@ -5,7 +5,8 @@ var userApp = angular.module('userApp', [
     'userControllers',
     'userFilters',
     'angular-loading-bar',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ui.bootstrap'
 ]);
 
 userApp.config(['$routeProvider', '$translateProvider',

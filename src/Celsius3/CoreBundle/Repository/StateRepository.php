@@ -31,6 +31,33 @@ use Celsius3\CoreBundle\Manager\StateManager;
 class StateRepository extends EntityRepository
 {
 
+    public function countUserOrders(Instance $instance, BaseUser $user)
+    {
+        $types = StateManager::$stateTypes;
+        $qb = $this->createQueryBuilder('s')
+                ->select('s.type, COUNT(s.id) as c')
+                ->leftJoin('s.request', 'r')
+                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.instance = :instance')
+                ->setParameter('instance', $instance->getId())
+                ->andWhere('(r.owner = :user)')
+                ->setParameter('user', $user)
+                ->groupBy('s.type');
+
+        $result = array();
+        foreach ($qb->getQuery()->getResult() as $type) {
+            $result[$type['type']] = intval($type['c']);
+        }
+
+        foreach ($types as $state) {
+            if (!array_key_exists($state, $result)) {
+                $result[$state] = 0;
+            }
+        }
+
+        return $result;
+    }
+
     public function countOrders(Instance $instance = null, BaseUser $user = null, $orderType = null)
     {
         $types = StateManager::$stateTypes;
