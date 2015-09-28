@@ -14,7 +14,7 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:      { engines: ['twig', 'php'] } #assets_version: SomeVersionScheme
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     session:
         handler_id:  snc_redis.session.handler
 
@@ -168,6 +168,16 @@ fos_user:
         mailer: celsius3_core.fos_mailer.custom
 
 services:
+    monolog_processor:
+        class: Monolog\Processor\IntrospectionProcessor
+        tags:
+            - { name: monolog.processor }
+
+    monolog_formatter:
+        class: Monolog\Formatter\LineFormatter
+        calls:
+            - [includeStacktraces]
+
     # Formulario de registro personalizado
     registration.form.type:
         class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
