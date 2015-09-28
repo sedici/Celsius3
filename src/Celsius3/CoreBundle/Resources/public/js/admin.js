@@ -31,4 +31,13 @@ $(document).ready(function () {
             $('.catalog-disabled').css('display', 'none');
         }
     });
+
+    $(document).on('click', '.dc-disabled', function (e) {
+        e.preventDefault();
+    });
+
+    $(document).on('click', '.disble-double-click', function () {
+        $(this).addClass('dc-disabled');
+    });
 });
+
