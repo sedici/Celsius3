@@ -197,7 +197,7 @@ class LifecycleHelper
      */
     public function createEvent($name, Request $request, Instance $instance = null)
     {
-        $this->em->beginTransaction();
+        $this->em->getConnection()->beginTransaction();
         try {
             $data = $this->preValidate($name, $request, $instance);
             if (array_key_exists('event', $data)) {
@@ -225,11 +225,11 @@ class LifecycleHelper
             $this->refresh($request);
             $this->refresh($event);
 
-            $this->em->commit();
+            $this->em->getConnection()->commit();
 
             return $event;
         } catch (PreviousStateNotFoundException $e) {
-            $this->em->rollback();
+            $this->em->getConnection()->rollback();
             return null;
         }
     }
@@ -248,7 +248,7 @@ class LifecycleHelper
 
     public function undoState(Request $request)
     {
-        $this->em->beginTransaction();
+        $this->em->getConnection()->beginTransaction();
         try {
             $currentState = $request->getCurrentState();
             if ($previousState = $currentState->getPrevious()) {
@@ -267,14 +267,14 @@ class LifecycleHelper
                 $this->refresh($event);
                 $this->refresh($currentState);
 
-                $this->em->commit();
+                $this->em->getConnection()->commit();
 
                 return $event;
             } else {
                 return null;
             }
         } catch (Exception $ex) {
-            $this->em->rollback();
+            $this->em->getConnection()->rollback();
             return null;
         }
     }
