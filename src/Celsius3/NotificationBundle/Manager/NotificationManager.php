@@ -149,14 +149,9 @@ class NotificationManager
                                 foreach ($receivers as $receiver) {
                                     $notification->addReceiver($receiver);
                                 }
-                                $em->getConnection()->beginTransaction();
-                                try {
-                                    $em->persist($notification);
-                                    $em->flush($notification);
-                                    $em->getConnection()->commit();
-                                } catch (Exception $e) {
-                                    $em->getConnection()->rollback();
-                                }
+
+                                $em->persist($notification);
+                                $em->flush($notification);
 
                                 $this->notifyRatchet($notification);
                             }

@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Helper;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\Request;
@@ -45,8 +46,9 @@ class LifecycleHelper
     private $file_manager;
     private $instance_helper;
     private $security_token_storage;
+    private $logger;
 
-    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper, TokenStorage $security_token_storage)
+    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper, TokenStorage $security_token_storage, LoggerInterface $logger)
     {
         $this->em = $em;
         $this->state_manager = $state_manager;
@@ -54,6 +56,7 @@ class LifecycleHelper
         $this->file_manager = $file_manager;
         $this->instance_helper = $instance_helper;
         $this->security_token_storage = $security_token_storage;
+        $this->logger = $logger;
     }
 
     public function getEventManager()
@@ -228,8 +231,10 @@ class LifecycleHelper
             $this->em->getConnection()->commit();
 
             return $event;
-        } catch (PreviousStateNotFoundException $e) {
+        } catch (Exception $ex) {
             $this->em->getConnection()->rollback();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
             return null;
         }
     }
@@ -275,6 +280,8 @@ class LifecycleHelper
             }
         } catch (Exception $ex) {
             $this->em->getConnection()->rollback();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
             return null;
         }
     }
