@@ -28,6 +28,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * User controller.
@@ -36,6 +37,34 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class UserController extends BaseController
 {
+
+    /**
+     * @Get("/")
+     */
+    public function usersAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $startDate = $request->query->get('startDate');
+
+        $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
+                ->createQueryBuilder('u')
+                ->where('u.instance = :instance_id')
+                ->setParameter('instance_id', $this->getInstance()->getId());
+
+        if (!is_null($startDate)) {
+            $qb = $qb->andWhere('u.createdAt >= :date')
+                    ->setParameter('date', $startDate);
+        }
+
+        $users = $qb->getQuery()
+                ->getResult();
+
+        $view = $this->view($users, 200)
+                ->setFormat('json');
+
+        return $this->handleView($view);
+    }
 
     /**
      * @Get("/current_user")
@@ -64,31 +93,19 @@ class UserController extends BaseController
     }
 
     /**
-     * @Get("/")
+     * @Get("/check_token")
      */
-    public function usersAction(Request $request)
+    public function checkAccessTokenAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $response = new JsonResponse();
 
-        $startDate = $request->query->get('startDate');
-
-        $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->createQueryBuilder('u')
-                ->where('u.instance = :instance_id')
-                ->setParameter('instance_id', $this->getInstance()->getId());
-
-        if (!is_null($startDate)) {
-            $qb = $qb->andWhere('u.createdAt >= :date')
-                    ->setParameter('date', $startDate);
+        $response->setData(array('validAccessToken' => false));
+        $accessToken = $this->getAccessTokenByToken($request->query->get('access_token'));
+        if ($this->validateAccessToken($accessToken)) {
+            $response->setData(array('validAccessToken' => true));
         }
 
-        $users = $qb->getQuery()
-                ->getResult();
-
-        $view = $this->view($users, 200)
-                ->setFormat('json');
-
-        return $this->handleView($view);
+        return $response;
     }
 
     /**
@@ -171,20 +188,4 @@ class UserController extends BaseController
 
         return $this->handleView($view);
     }
-
-    /**
-     * @Get("/check_token")
-     */
-    public function checkAccessTokenAction(Request $request)
-    {
-        $response = new JsonResponse();
-
-        $response->setData(array('validAccessToken' => false));
-        if ($this->validateAccessToken($requests->query->get('access_token'))) {
-            $response->setData(array('validAccessToken' => true));
-        }
-
-        return $response;
-    }
-
 }
