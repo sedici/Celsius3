@@ -10,7 +10,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     };
 
     $scope.countSearches = function (request) {
-        return _.filter(request.events, function(e) {
+        return _.filter(request.events, function (e) {
             return e.type === 'search' && e.result !== 'non_searched';
         }).length;
     };
@@ -115,7 +115,8 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     };
 
     $scope.pagination = {
-        currentPage: 1
+        currentPage: 1,
+        resultsPerPage: resultsPerPage
     };
 
     $scope.state = _.isUndefined($routeParams.state) ? 'created' : $routeParams.state;

@@ -45,7 +45,18 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return array();
+        $configHelper = $this->get('celsius3_core.configuration_helper');
+        $resultsPerPageConfig = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('Celsius3CoreBundle:Configuration')
+                ->findOneBy(
+                array(
+                    'instance' => $this->getInstance(),
+                    'key' => $configHelper::CONF__RESULTS_PER_PAGE));
+
+        return array(
+            'resultsPerPage' => $resultsPerPageConfig->getValue()
+        );
     }
 
     /**
@@ -61,30 +72,28 @@ class AdministrationController extends BaseInstanceDependentController
 
         $paginator = $this->get('knp_paginator');
         $query = $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance());
-        
+
         $states = array();
-        foreach(StateManager::$stateTypes as $s){
+        foreach (StateManager::$stateTypes as $s) {
             $states[$s] = 0;
         }
-        
+
         $total = 0;
         $results = $query->getArrayResult();
-        foreach($results as $result){
-            foreach($result['requests'] as $request){
-                foreach($request['states'] as $s){
-                    if($s['isCurrent']){
+        foreach ($results as $result) {
+            foreach ($result['requests'] as $request) {
+                foreach ($request['states'] as $s) {
+                    if ($s['isCurrent']) {
                         $states[$s['type']] += 1;
                         $total += 1;
                     }
                 }
             }
         }
-        
+
         $pagination = $paginator->paginate(
-                $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance(), $state), 
-                $this->get('request')->query->get('page', 1)/* page number */, 
-                $this->container->getParameter('max_per_page')/* limit per page */);
-        
+                $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance(), $state), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
+
         return array(
             'keyword' => $keyword,
             'state' => $state,

@@ -36,4 +36,9 @@
         {% endif %}
     {% endif %}
 
+    {% if(resultsPerPage is defined) %}
+        var resultsPerPage = parseInt({{ resultsPerPage }});
+    {% else %}
+        var resultsPerPage = parseInt(0);
+    {% endif %}
 </script>
