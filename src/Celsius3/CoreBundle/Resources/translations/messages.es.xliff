@@ -2059,6 +2059,26 @@
                 <source>Annulled</source>
                 <target>Anulado</target>
             </trans-unit>
+            <trans-unit id="85">
+                <source>congress</source>
+                <target>congreso</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>congress</source>
+                <target>congress</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>book</source>
+                <target>book</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>patent</source>
+                <target>patente</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>thesis</source>
+                <target>tesis</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

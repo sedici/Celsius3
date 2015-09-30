@@ -36,22 +36,34 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane active" id="active">
+                        <div class="navigation">
+                            {{ knp_pagination_render(orders.active) }}
+                        </div>
+
                         {% for order in orders.active %}
-                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order}%}
+                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order} %}
                         {% else %}
                             <p>{{ 'There are no orders.' | trans }}</p>
                         {% endfor %}
                     </div>
                     <div class="tab-pane" id="ready">
+                        <div class="navigation">
+                            {{ knp_pagination_render(orders.ready) }}
+                        </div>
+
                         {% for order in orders.ready %}
-                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order}%}
+                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order} %}
                         {% else %}
                             <p>{{ 'There are no orders.' | trans }}</p>
                         {% endfor %}
                     </div>
                     <div class="tab-pane" id="history">
+                        <div class="navigation">
+                            {{ knp_pagination_render(orders.history) }}
+                        </div>
+
                         {% for order in orders.history %}
-                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order}%}
+                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order} %}
                         {% else %}
                             <p>{{ 'There are no orders.' | trans }}</p>
                         {% endfor %}

@@ -84,12 +84,17 @@ class AdminBaseUserController extends BaseUserController
                         ->getParticipantSentThreadsQueryBuilder($entity)
                         ->getQuery()->getResult();
 
+        $paginator = $this->get('knp_paginator');
+        $paginationActive = $paginator->paginate($activeOrders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
+        $paginationReady = $paginator->paginate($readyOrders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
+        $paginationHistory = $paginator->paginate($historyOrders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
+
         return array(
             'element' => $entity,
             'orders' => array(
-                'active' => $activeOrders,
-                'ready' => $readyOrders,
-                'history' => $historyOrders,
+                'active' => $paginationActive,
+                'ready' => $paginationReady,
+                'history' => $paginationHistory,
             ),
             'messages' => $messages,
         );
