@@ -1,1 +1,5 @@
-{% extends 'Celsius3CoreBundle:Order:_index_sort.html.twig' %}
+<ul class="list-unstyled">
+    <li>{{ knp_pagination_sortable(pagination, 'Default'|trans, 'e.id') }} - </li>
+    <li>{{ knp_pagination_sortable(pagination, 'Code'|trans, 'e.code') }} - </li>
+    <li>{{ knp_pagination_sortable(pagination, 'Title'|trans, 'm.title') }}</li>
+</ul>

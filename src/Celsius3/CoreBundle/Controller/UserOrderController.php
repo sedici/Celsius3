@@ -44,6 +44,7 @@ class UserOrderController extends OrderController
                 ->getRepository('Celsius3CoreBundle:' . $name)
                 ->createQueryBuilder('e')
                 ->join('e.originalRequest', 'r')
+                ->join('e.materialData', 'm')
                 ->where('r.instance = :instance')
                 ->setParameter('instance', $this->getInstance()->getId())
                 ->andWhere('r.owner = :owner OR r.librarian = :owner')
