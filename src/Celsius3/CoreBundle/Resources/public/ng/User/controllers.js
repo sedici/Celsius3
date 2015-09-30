@@ -14,7 +14,8 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
     });
 
     $scope.pagination = {
-        currentPage: 1
+        currentPage: 1,
+        resultsPerPage: resultsPerPage
     };
 
     $scope.loadOrders = function () {
@@ -56,7 +57,7 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
         return Routing.generate('user_file_download', {request: request.id, file: file.id});
     };
 
-    $scope.hasDownloadableFiles = function(e) {
+    $scope.hasDownloadableFiles = function (e) {
         return !e.is_downloaded;
     };
 });

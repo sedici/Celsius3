@@ -51,7 +51,19 @@ class UserController extends BaseInstanceDependentController
                         ->setMaxResults(3)
                         ->getQuery()->getResult();
 
-        return array('lastMessages' => $lastMessages);
+        $configHelper = $this->get('celsius3_core.configuration_helper');
+        $resultsPerPageConfig = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('Celsius3CoreBundle:Configuration')
+                ->findOneBy(
+                array(
+                    'instance' => $this->getInstance(),
+                    'key' => $configHelper::CONF__RESULTS_PER_PAGE));
+
+        return array(
+            'lastMessages' => $lastMessages,
+            'resultsPerPage' => $resultsPerPageConfig->getValue()
+        );
     }
 
     /**
@@ -91,9 +103,8 @@ class UserController extends BaseInstanceDependentController
                     $user, null, 'main', $user->getRoles()
             );
             $this->container->get('security.token_storage')->setToken($token);
-            
         }
-        
+
         if (isset($user->getRoles()['ROLE_ADMIN'])) {
             return $this->redirect($this->generateUrl('administration'));
         } else {
