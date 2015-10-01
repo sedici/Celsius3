@@ -39,5 +39,24 @@ $(document).ready(function () {
     $(document).on('click', '.disble-double-click', function () {
         $(this).addClass('dc-disabled');
     });
+
+    var keyword = $('input#keyword');
+    keyword.closest('form').on('submit', function (e) {
+        keyword.val($.trim(keyword.val()));
+
+        if (keyword.val().length < 3) {
+            e.preventDefault();
+
+            keyword.tooltip({
+                'animation': true,
+                'placement': 'bottom',
+                'title': searchErrorMessage,
+                'trigger': 'hover'
+            });
+            keyword.tooltip('show');
+
+            return;
+        }
+    });
 });
 

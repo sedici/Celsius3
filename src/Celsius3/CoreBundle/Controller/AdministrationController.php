@@ -67,7 +67,7 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function searchAction(Request $request)
     {
-        $keyword = $request->query->get('keyword');
+        $keyword = trim($request->query->get('keyword'));
         $state = $request->query->get('state');
 
         $paginator = $this->get('knp_paginator');

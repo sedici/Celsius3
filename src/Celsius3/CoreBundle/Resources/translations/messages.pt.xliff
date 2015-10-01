@@ -2051,6 +2051,10 @@
                 <source>thesis</source>
                 <target>tesis</target>
             </trans-unit>
+            <trans-unit id="89">
+                <source>Enter at least three characters</source>
+                <target>Enter at least three characters</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
