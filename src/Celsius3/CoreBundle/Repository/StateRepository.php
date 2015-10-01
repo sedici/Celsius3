@@ -95,15 +95,20 @@ class StateRepository extends EntityRepository
 
         // Se cuentan aquellos que tienen busquedas pendientes
         $qb2 = $this->createQueryBuilder('s')
-                        ->select('COUNT(s.id) as c')
-                        ->andWhere('s.instance = :instance')
-                        ->andWhere('s.isCurrent = true')
-                        ->andWhere('s.type = :type')
-                        ->andWhere('s.searchPending = true')
-                        ->groupBy('s.type')
-                        ->setParameter('type', StateManager::STATE__REQUESTED)
-                        ->setParameter('instance', $instance->getId())
-                        ->getQuery()->getResult();
+                ->select('COUNT(s.id) as c')
+                ->andWhere('s.instance = :instance')
+                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.type = :type')
+                ->andWhere('s.searchPending = true')
+                ->groupBy('s.type')
+                ->setParameter('type', StateManager::STATE__REQUESTED)
+                ->setParameter('instance', $instance->getId());
+        if (!is_null($user)) {
+            $qb2 = $qb2->leftJoin('s.request', 'r')
+                    ->andWhere('(r.operator = :user)')
+                    ->setParameter('user', $user);
+        }
+        $qb2 = $qb2->getQuery()->getResult();
 
         if (count($qb2) > 0) {
             $result[StateManager::STATE__SEARCHED] += intval($qb2[0]['c']);
@@ -284,4 +289,5 @@ class StateRepository extends EntityRepository
                         ->andHaving('days <= :maxDays')->setParameter('maxDays', $maxDays)
                         ->getQuery()->getResult();
     }
+
 }
