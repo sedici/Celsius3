@@ -40,7 +40,7 @@ class OrderRepository extends EntityRepository
     public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
-                ->addSelect('r')                
+                ->addSelect('r')
                 ->join('o.requests', 'r')
                 ->addSelect('s')
                 ->innerJoin('r.states', 's');
@@ -219,6 +219,24 @@ class OrderRepository extends EntityRepository
         if (!is_null($user)) {
             $query = $query->andWhere('r.owner = :user_id OR r.librarian = :user_id')
                     ->setParameter('user_ud', $user->getId());
+        }
+
+        return $query;
+    }
+
+    public function addFindByRequestType($type, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
+    {
+        if (intval($type) === 0) {
+            $type = 'provision';
+        } elseif (intval($type) === 1) {
+            $type = 'search';
+        } else {
+            $type = null;
+        }
+
+        if (!is_null($type)) {
+            $query = $query->andWhere('r.type = :type')
+                    ->setParameter('type', $type, 'string');
         }
 
         return $query;

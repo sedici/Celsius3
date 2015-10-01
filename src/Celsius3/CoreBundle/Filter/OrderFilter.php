@@ -26,8 +26,12 @@ use Doctrine\ORM\EntityManager;
 
 class OrderFilter implements EntityFilterInterface
 {
+
     private $em;
-    private $specialFields = array('state' => 'addFindByStateType',);
+    private $specialFields = array(
+        'state' => 'addFindByStateType',
+        'type' => 'addFindByRequestType'
+    );
 
     public function __construct(EntityManager $em)
     {
@@ -46,4 +50,5 @@ class OrderFilter implements EntityFilterInterface
     {
         return array_key_exists($field_name, $this->specialFields);
     }
+
 }
