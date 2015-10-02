@@ -3,6 +3,7 @@
     "dependencies": {
         "jquery": "~1.11.0",
         "jqueryui": "~1.11.0",
+        "jqueryui-timepicker-addon": "~1.5.0",
         "bootstrap": "~3.3.0",
         "fontawesome": "~4.3.0",
         "jQuery.dotdotdot": "~1.7.0",
