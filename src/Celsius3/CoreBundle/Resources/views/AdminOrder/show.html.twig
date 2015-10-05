@@ -403,6 +403,9 @@
                 <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}}</span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
+                <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | translate}}</strong> {{order.material_data.journal._i_s_s_n}}
+                </li>
+                <li ng-if="order.material_data.type === 'journal'">
                 <strong>{{'volume' | translate}}</strong> {{order.material_data.volume}}
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
