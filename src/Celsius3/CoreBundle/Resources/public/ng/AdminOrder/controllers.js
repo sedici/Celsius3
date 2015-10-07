@@ -293,6 +293,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                                     $('#email-modal').modal('show');
                                 }
                             });
+                            $scope.filesToUpload = [];
                         });
                     }
                 }
@@ -330,6 +331,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         }).success(function (data, status, headers, config) {
                             $scope.updateTables();
                             $('.modal').modal('hide');
+                            $scope.filesToUploadBasic = [];
                         });
                     }
                 }
@@ -360,6 +362,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         }).success(function (data, status, headers, config) {
                             $scope.updateTables();
                             $('.modal').modal('hide');
+                            $scope.filesToReupload = [];
                         });
                     }
                 }

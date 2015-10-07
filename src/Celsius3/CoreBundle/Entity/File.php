@@ -60,7 +60,7 @@ class File
      */
     private $comments;
     /**
-     * @Assert\File(maxSize="6000000")
+     * @Assert\File(maxSize="8M", mimeTypes = {"application/pdf", "application/x-pdf"})
      */
     private $file;
     /**
