@@ -44,7 +44,7 @@ class FileManager
 
     private function countPages($file)
     {
-        exec("/usr/bin/pdfinfo " . $file->getRealPath() . " | awk '/Pages/ {print $2}'", $output);
+        exec("exiftool " . $file->getRealPath() . " | awk '/Page Count/ { print $4 }'", $output);
         return $output[0];
     }
 
