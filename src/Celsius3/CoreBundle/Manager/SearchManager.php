@@ -29,9 +29,9 @@ class SearchManager
 {
 
     private $em;
-    private $tokenList = array(
-        'user:' => 'BaseUser',
-        'journal:' => 'JournalType',
+    private $typeList = array(
+        'user' => 'BaseUser',
+        'journal' => 'JournalType',
     );
 
     public function __construct(EntityManager $em)
@@ -39,36 +39,28 @@ class SearchManager
         $this->em = $em;
     }
 
-    /**
-     * Detects if any token from $tokenList is present in $keyword
-     *
-     * @param  String $keyword The raw string to parse
-     * @return array
-     */
-    private function parseTokens($keyword)
+    private function getTypeRepository($type)
     {
-        $where = array();
-        foreach ($this->tokenList as $token => $repository) {
-            if (preg_match('/' . $token . '/i', $keyword)) {
-                $where[$repository] = trim(str_replace($token, '', $keyword));
-            }
+        if (array_key_exists($type, $this->typeList)) {
+            return $this->typeList[$type];
+        } else {
+            return null;
         }
-
-        return $where;
     }
 
     /**
      * Performs the search on the specified repository
      *
      * @param  string   $repository
+     * @param  string   $type
      * @param  string   $keyword
      * @param  Instance $instance
      * @return array
      */
-    public function search($repository, $keyword, Instance $instance = null, $state = null)
+    public function search($repository, $type, $keyword, Instance $instance = null, $state = null)
     {
         return $this->em->getRepository('Celsius3CoreBundle:' . $repository)
-                        ->findByTerm($keyword, $instance, $this->parseTokens($keyword), null, $state);
+                        ->findByTerm($keyword, $instance, $this->getTypeRepository($type), null, $state);
     }
 
 }

@@ -37,7 +37,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
 class OrderRepository extends EntityRepository
 {
 
-    public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null, $state = null)
+    public function findByTerm($term, Instance $instance = null, $type, $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
                 ->addSelect('r')
@@ -45,20 +45,22 @@ class OrderRepository extends EntityRepository
                 ->addSelect('s')
                 ->innerJoin('r.states', 's');
 
-        if (count($in) > 0) {
-            $secondary = array();
-            foreach ($in as $repository => $term) {
-                $secondary = array_map(function ($entity) {
-                    return $entity->getId();
-                }, $this->getEntityManager()
-                                ->getRepository('Celsius3CoreBundle:' . $repository)
-                                ->findByTerm($term, $instance)
-                                ->getResult());
-                if ($repository === 'BaseUser' && count($secondary) > 0) {
-                    $qb->andWhere($qb->expr()->in('r.owner', $secondary));
-                } else if ($repository === 'JournalType' && count($secondary) > 0) {
-                    $qb->andWhere($qb->expr()->in('o.materialData', $secondary));
-                }
+        if (!is_null($type)) {
+            $secondary = array_map(function ($entity) {
+                return $entity->getId();
+            }, $this->getEntityManager()
+                            ->getRepository('Celsius3CoreBundle:' . $type)
+                            ->findByTerm($term, $instance)
+                            ->getResult());
+
+            if ($type === 'BaseUser' && count($secondary) > 0) {
+                $qb->andWhere($qb->expr()->in('r.owner', $secondary));
+            } else if ($type === 'JournalType' && count($secondary) > 0) {
+                $qb->andWhere($qb->expr()->in('o.materialData', $secondary));
+            } else {
+                // Esta condición es necesaria para evitar traer todos los resultados cuando
+                // no hay usuarios o revistas que coincidan con los criterios antes buscados.
+                $qb->andWhere('r.id = -1');
             }
         } else {
             $qb = $qb->join('o.materialData', 'md')

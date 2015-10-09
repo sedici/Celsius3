@@ -2,53 +2,23 @@
 
 {% block adminpanel %}
     {% spaceless %}
-    <ul class="list-unstyled list-inline">
-        <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a></li>
-        <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a></li>
-        <li>
-            <a href="{{ path('admin_user') }}">{{ 'Users'|trans }}</a>{% if count_users(instance)['pending'] > 0 %}
-                <a href="{{ path('admin_user', { 'state[]': 'pending' }) }}"><span class="label label-danger">{{ count_users(instance)['pending'] }}</span></a>
-            {% endif %}
-        </li>
-        <li>
-            <div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span><span class="caret"></span></a>
-                <ul class="dropdown-menu pull-right">
-                    <li><a href="{{ path('admin_instance_configure') }}">{{ 'Configuration'|trans }}</a></li>
-                    <li><a href="{{ path('admin_news') }}">{{ 'News'|trans }}</a></li>
-                    <li><a href="{{ path('admin_contact') }}">{{ 'Contacts'|trans }}</a></li>
-                    <li><a href="{{ path('admin_country') }}">{{ 'Countries'|trans }}</a></li>
-                    <li><a href="{{ path('admin_city') }}">{{ 'Cities'|trans }}</a></li>
-                    <li><a href="{{ path('admin_institution') }}">{{ 'Institutions'|trans }}</a></li>
-                    <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads'|trans }}</a></li>
-                    <li><a href="{{ path('admin_send_reminder_emails') }}">{{ 'Send Reminder Email'|trans }}</a></li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-    <form action="{{ path('administration_search') }}" method="GET" role="form" class="search-form form-inline">
-        <div class="form-group">
-            <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control" />
-            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></i></button>
-            <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
-                    data-content="
-                    You can search by:
-                    <li>
-                    Order code.
-                    </li>
-                    <li>
-                    Keywords like title, authors or publication year.
-                    </li>
-                    <li>
-                    User fields like name, surname, username and email. Example: user:username.
-                    </li>
-                    <li>
-                    Orders related to an specific journal. Example: journal:Journal Name.
-                    </li>
-                    </ul>
-                    ">
-                <span class="glyphicon glyphicon-question-sign"></span>
-            </button>
+    <form action="{{ path('administration_search') }}" method="GET" role="form">
+        <div class="input-group">
+            <span class="input-group-addon">
+                <select name="type" id="type">
+                    <option value=""></option>
+                    <option value="user" {% if app.request.get('type') == 'user' %} selected {% endif %}>{{ 'By User'|trans }}</option>
+                    <option value="journal" {% if app.request.get('type') == 'journal' %} selected {% endif %}>{{ 'By Journal'|trans }}</option>
+                </select>
+            </span>
+            <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control" placeholder="{{ 'Search text'|trans }}" />
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> {{ 'Search'|trans }}</button>
+                <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
+                        data-content="{{ 'searchExplanation'|trans }}">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </span>
         </div>
     </form>
 {% endspaceless %}

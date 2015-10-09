@@ -8,7 +8,9 @@
             <dt>{{ 'City'|trans }}</dt>
             <dd>{{ get_city(element.institution) ? get_city(element.institution) : '-' }}</dd>
             <dt>{{ 'Birthdate'|trans }}</dt>
-            <dd>{{ element.birthdate|localizeddate('medium','none') }}</dd>
+            <dd>{{ (element.birthdate) ? element.birthdate|localizeddate('medium','none') : '-' }}</dd>
+            <dt>{{ 'Creation date'|trans }}</dt>
+            <dd>{{ element.createdAt|localizeddate('medium','none') }}</dd>
             <dt>{{ 'Address'|trans }}</dt>
             <dd>{{ element.address ? element.address : '-' }}</dd>
             <dt>{{ 'Email'|trans }}</dt>

@@ -29,43 +29,6 @@ use Celsius3\CoreBundle\Manager\UserManager;
 class Builder extends ContainerAware
 {
 
-    public function topMenu(FactoryInterface $factory, array $options)
-    {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-        $authChecker = $this->container->get('security.authorization_checker');
-
-        $local = $request->getHost() === $this->container->get('session')->get('instance_host');
-
-        $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav navbar-nav main-navbar');
-
-        $menu->addChild('Home', array(
-            'route' => 'public_index',
-        ));
-        if ($authChecker->isGranted(UserManager::ROLE_ADMIN) !== false && $local) {
-            $menu->addChild('Administration', array(
-                'route' => 'administration',
-            ));
-        }
-        if ($authChecker->isGranted(UserManager::ROLE_SUPER_ADMIN) !== false && $local) {
-            $menu->addChild('Network Administration', array(
-                'route' => 'superadministration',
-            ));
-        }
-        if ($authChecker->isGranted(UserManager::ROLE_USER) !== false && $local) {
-            $menu->addChild('My Site', array(
-                'route' => 'user_index',
-            ));
-        }
-        if ($authChecker->isGranted(UserManager::ROLE_USER) !== false && !$local) {
-            $menu->addChild('My Instance', array(
-                'uri' => 'http://' . $this->container->get('session')->get('instance_host'),
-            ));
-        }
-
-        return $menu;
-    }
-
     public function directoryMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');

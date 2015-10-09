@@ -79,12 +79,12 @@ class BaseUserRepository extends EntityRepository
 
     public function findByTerm($term, Instance $instance = null, $limit = null, array $institutions = array())
     {
-        $qb = $this->createQueryBuilder('u')
-                ->where('u.name LIKE :term')
-                ->orWhere('u.surname LIKE :term')
-                ->orWhere('u.username LIKE :term')
-                ->orWhere('u.email LIKE :term')
-                ->setParameter('term', '%' . $term . '%');
+        $qb = $this->createQueryBuilder('u');
+
+        $qb = $qb->where($qb->expr()->like('u.name', $qb->expr()->literal('%' . $term . '%')))
+                ->orWhere($qb->expr()->like('u.surname', $qb->expr()->literal('%' . $term . '%')))
+                ->orWhere($qb->expr()->like('u.username', $qb->expr()->literal('%' . $term . '%')))
+                ->orWhere($qb->expr()->like('u.email', $qb->expr()->literal('%' . $term . '%')));
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('u.instance = :instance_id')

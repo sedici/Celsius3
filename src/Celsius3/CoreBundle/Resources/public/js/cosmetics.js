@@ -3,7 +3,10 @@ $('.autoellipsis').dotdotdot({
 });
 
 $('.navbar .main-navbar li').each(function (index, element) {
-    if (window.location.href.indexOf($(element).children('a').attr('href').split('?')[0]) !== -1) {
-        $(element).attr('class', 'active');
+    var href = $(element).children('a').attr('href');
+    if (!_.isUndefined(href)) {
+        if (window.location.href.indexOf(href.split('?')[0]) !== -1) {
+            $(element).attr('class', 'active');
+        }
     }
 });
