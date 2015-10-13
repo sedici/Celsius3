@@ -163,7 +163,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     public function __toString()
     {
-        return $this->getSurname() . ', ' . $this->getName();
+        return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
     }
 
     public function getFullName()

@@ -10,6 +10,7 @@
         <parameter key="celsius3_notification.wamp_server.class">Celsius3\NotificationBundle\Server\Pusher</parameter>
         <parameter key="celsius3_notification.web_socket_server.class">Celsius3\NotificationBundle\Server\PusherType</parameter>
         <parameter key="celsius3_notification.entry_point.class">Celsius3\NotificationBundle\Server\EntryPoint</parameter>
+        <parameter key="celsius3_notification.operator_in_reques_manager.class">Celsius3\NotificationBundle\Manager\OperatorInRequestManager</parameter>
     </parameters>
 
     <services>
@@ -27,6 +28,7 @@
         <service id="celsius3_notification.wamp_server" class="%celsius3_notification.wamp_server.class%">
             <argument type="service" id="celsius3_notification.notification_manager"></argument>
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="celsius3_core.instance_helper"></argument>
         </service>
 
         <service id="celsius3_notification.web_socket_server" class="%celsius3_notification.web_socket_server.class%">
@@ -37,6 +39,12 @@
 
         <service id="celsius3_notification.entry_point" class="%celsius3_notification.entry_point.class%">
             <argument type="service" id="celsius3_notification.web_socket_server" />
+        </service>
+        
+        <service id="celsius3_notification.operator_in_request_manager" class="%celsius3_notification.operator_in_reques_manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument>%celsius3_notification.web_socket_server.host%</argument>
+            <argument>%celsius3_notification.web_socket_server.port%</argument>
         </service>
     </services>
 

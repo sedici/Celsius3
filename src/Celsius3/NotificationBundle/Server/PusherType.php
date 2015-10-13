@@ -65,7 +65,7 @@ class PusherType
         $pull->bind('tcp://' . $this->host . ':5555'); // Binding to 127.0.0.1 means the only client that can connect is itself
         $pull->on('message', array(
             $this->container->get('celsius3_notification.wamp_server'),
-            'onNotificationEntry',
+            'onEntry',
         ));
 
         if ($this->host) {
