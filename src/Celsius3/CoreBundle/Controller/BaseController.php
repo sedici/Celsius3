@@ -97,7 +97,12 @@ abstract class BaseController extends Controller
 
     protected function baseNew($name, $entity, $type)
     {
-        $form = $this->createForm($type, $entity);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $form = $this->createForm($type, $entity, array(
+                'action' => '',
+                'method' => 'GET',
+                'data' => $request->query->get($type->getName(), array()),
+            ));
 
         return array(
             'entity' => $entity,

@@ -2122,6 +2122,10 @@
                 </ul>
                 ]]></target>
             </trans-unit>
+            <trans-unit id="96">
+                <source>Journal View</source>
+                <target>Vista de una Revista</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
