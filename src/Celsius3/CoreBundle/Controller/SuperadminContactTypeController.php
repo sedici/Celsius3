@@ -35,6 +35,13 @@ use Celsius3\CoreBundle\Form\Type\ContactTypeType;
  */
 class SuperadminContactTypeController extends BaseController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all ContactType entities.

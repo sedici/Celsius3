@@ -1,6 +1,6 @@
 <ul class="list-unstyled">
-    <li>{{ knp_pagination_sortable(pagination, 'Default'|trans, 'e.id') }} - </li>
+    <li>{{ knp_pagination_sortable(pagination, 'Date'|trans, 'e.updatedAt') }} - </li>
+    <li>{{ knp_pagination_sortable(pagination, 'Name'|trans, 'e.file.name') }} - </li>
     <li>{{ knp_pagination_sortable(pagination, 'IP'|trans, 'e.ip') }} - </li>
     <li>{{ knp_pagination_sortable(pagination, 'userAgent'|trans, 'e.userAgent') }} </li>
-{#    <li>{{ knp_pagination_sortable(pagination, 'Name'|trans, 'file.name') }}</li>#}
 </ul>

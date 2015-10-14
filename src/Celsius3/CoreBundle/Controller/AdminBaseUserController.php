@@ -39,6 +39,13 @@ use Celsius3\CoreBundle\Manager\StateManager;
  */
 class AdminBaseUserController extends BaseUserController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all BaseUser entities.

@@ -41,7 +41,10 @@ class SuperadminOrderController extends OrderController
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->createQueryBuilder('e');
+                        ->createQueryBuilder('e')
+                        ->select('e, r, m')
+                        ->join('e.requests', 'r')
+                        ->join('e.materialData', 'm');
     }
 
     protected function findQuery($name, $id)
@@ -54,6 +57,14 @@ class SuperadminOrderController extends OrderController
     protected function getResultsPerPage()
     {
         return $this->container->getParameter('max_per_page');
+    }
+
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'asc',
+        );
     }
 
     protected function filter($name, $filter_form, $query)

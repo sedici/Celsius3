@@ -36,6 +36,13 @@ use Celsius3\CoreBundle\Filter\Type\CityFilterType;
  */
 class AdminCityController extends BaseInstanceDependentController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all City entities.

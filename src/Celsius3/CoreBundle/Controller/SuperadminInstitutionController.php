@@ -36,6 +36,13 @@ use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
  */
 class SuperadminInstitutionController extends BaseController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all Institution entities.

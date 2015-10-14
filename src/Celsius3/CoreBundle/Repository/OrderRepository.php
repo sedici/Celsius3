@@ -207,7 +207,8 @@ class OrderRepository extends EntityRepository
 
         if (count($types) > 0) {
             $query = $query->andWhere('s.type IN (:state_types)')
-                    ->setParameter('state_types', $types);
+                    ->setParameter('state_types', $types)
+                    ->andWhere('s.isCurrent = true');
         }
 
         if (!is_null($instance)) {
