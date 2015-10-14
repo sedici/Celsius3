@@ -101,7 +101,7 @@ abstract class BaseController extends Controller
         $form = $this->createForm($type, $entity, array(
                 'action' => '',
                 'method' => 'GET',
-                'data' => $request->query->get($type->getName(), array()),
+                'data' => $request->query->get($type->getName(), $entity),
             ));
 
         return array(
