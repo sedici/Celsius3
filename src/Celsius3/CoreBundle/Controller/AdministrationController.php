@@ -97,6 +97,7 @@ class AdministrationController extends BaseInstanceDependentController
 
         return array(
             'keyword' => $keyword,
+            'type' => $type,
             'state' => $state,
             'states' => $states,
             'pagination' => $pagination,
