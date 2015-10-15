@@ -244,8 +244,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     /**
-    * Resource load
-    */
+     * Resource load
+     */
 
     $scope.order = Order.get({id: entity_id}, function (order) {
         $scope.request = Request.get({order_id: order.id}, function (request) {
@@ -372,8 +372,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     });
 
     /**
-    * Functions
-    */
+     * Functions
+     */
 
     $scope.searchCatalog = function (term) {
         $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
@@ -740,7 +740,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             email: $scope.forms.email.address,
             subject: $scope.forms.email.subject,
             text: $scope.forms.email.text,
-            order_id : ($scope.order !== undefined) ? $scope.order.id : -1,  //FIXME no me gusta esto. Gonzalo.
+            order_id: ($scope.order !== undefined) ? $scope.order.id : -1, //FIXME no me gusta esto. Gonzalo.
         };
 
         $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {
@@ -763,9 +763,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.getInteraction = function () {
         $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
-        .success(function (response) {
-            $scope.interaction = response;
-        });
+                .success(function (response) {
+                    $scope.interaction = response;
+                });
     };
     $scope.getInteraction();
 
@@ -780,4 +780,62 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }
         return txt;
     };
+
+    $scope.getHtmlMaterialData = function () {
+        if (!_.isUndefined($scope.order.material_data)) {
+            var content = '';
+
+            if ($scope.order.material_data.type === 'journal') {
+                content += "<b>" + $translate.instant('journal') + "</b>";
+                if (!_.isUndefined($scope.order.material_data.journal)) {
+                    content += ': ' + $scope.order.material_data.journal.name + "<br>";
+                } else {
+                    content += ': ' + $scope.order.material_data.other + "<br>";
+                }
+
+                content += "<b>" + $translate.instant('volume') + "</b>";
+                content += ': ' + $scope.order.material_data.volume + "<br>";
+
+                content += "<b>" + $translate.instant('number') + "</b>";
+                content += ': ' + $scope.order.material_data.number + "<br>";
+            }
+
+            content += "<b>" + $translate.instant('year') + "</b>";
+            content += ': ' + $scope.order.material_data.year + "<br>";
+
+            content += "<b>" + $translate.instant('title') + "</b>";
+            content += ': ' + $scope.order.material_data.title + "<br>";
+
+            content += "<b>" + $translate.instant('authors') + "</b>";
+            content += ': ' + $scope.order.material_data.authors + "<br>";
+
+            if ($scope.order.material_data.type === 'thesis') {
+                content += "<b>" + $translate.instant('director') + "</b>";
+                content += ': ' + $scope.order.material_data.director + "<br>";
+
+                content += "<b>" + $translate.instant('degree') + "</b>";
+                content += ': ' + $scope.order.material_data.degree + "<br>";
+            }
+
+            if ($scope.order.material_data.type === 'book') {
+                content += "<b>" + $translate.instant('editor') + "</b>";
+                content += ': ' + $scope.order.material_data.editor + "<br>";
+
+                content += "<b>" + $translate.instant('chapter') + "</b>";
+                content += ': ' + $scope.order.material_data.chapter + "<br>";
+
+
+                content += "<b>" + $translate.instant('isbn') + "</b>";
+                content += ': ' + $scope.order.material_data._i_s_b_n + "<br>";
+            }
+
+            content += "<b>" + $translate.instant('startPage') + "</b>";
+            content += ': ' + $scope.order.material_data.start_page + "<br>";
+
+            content += "<b>" + $translate.instant('endPage') + "</b>";
+            content += ': ' + $scope.order.material_data.end_page + "<br>";
+
+            return content;
+        }
+    }
 });

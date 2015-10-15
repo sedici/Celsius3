@@ -12,14 +12,15 @@
 
         {% verbatim %}
             <script type="text/ng-template" id="catalog_list.html">
-                <table class="table table-hover catalog-table">
-                <thead>
-                <tr>
-                <th colspan="4">
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
-                </th>
-                </tr>
+                <button class="btn btn-sm btn-default pull-right" data-toggle="popover" data-placement="left" data-content="{{ getHtmlMaterialData() }}" data-html=true>
+                {{ 'orderData' | translate }}
+                </button>
+                <hr>
+                <div id="catalogs-table">
+                <table class="table table-hover catalog-table">
+                <thead>
                 <tr>
                 <th>{{'catalog' | translate}}</th>
                 <th>{{'date' | translate}}</th>
@@ -46,6 +47,7 @@
                 </tr>
                 </tbody>
                 </table>
+                </div>
             </script>
             <script type="text/ng-template" id="file_list.html">
                 <table class="table table-hover catalog-table">
