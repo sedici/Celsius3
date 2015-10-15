@@ -224,7 +224,7 @@
                     <div>
                         <input type="radio" name="main" id="main{{ entity.id }}" value="{{ entity.id }}" />
                         <input type="hidden" name="element[]" id="element{{ entity.id }}" value="{{ entity.id }}" />
-                        <label for="main{{ entity.id }}">{{ entity }}</label>
+                        <label for="main{{ entity.id }}">{{ entity }} ({{ entity.username }})</label>
                     </div>
                 {% endfor %}
                 <p>

@@ -320,7 +320,7 @@ abstract class BaseController extends Controller
         foreach ($result as $element) {
             $json[] = array(
                 'id' => $element->getId(),
-                'value' => $element->__toString()
+                'value' => ($target === 'BaseUser')? $element->__toString() . " (" . $element->getUsername() . ")" : $element->__toString()
             );
         }
 
