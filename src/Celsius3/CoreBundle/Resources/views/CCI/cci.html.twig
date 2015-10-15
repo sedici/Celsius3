@@ -1,44 +1,47 @@
 {% verbatim %}
-<script type="text/ng-template" id="cci.html">
-<div class="form-group">
-    <label>{{'filter' | translate}}</label>
-    <div class="filter-select" id="filter">
-        <input type="radio" ng-model="select.filter" value="" name="filter" id="filter_placeholder" ng-change="updateFilter()">
-        <label for="filter_placeholder">{{'all' | translate}}</label>
-        <input type="radio" ng-model="select.filter" value="hive" name="filter" id="filter_hive" ng-change="updateFilter()">
-        <label for="filter_hive">{{'hive' | translate}}</label>
-        <input type="radio" ng-model="select.filter" value="celsius3" name="filter" id="filter_celsius3" ng-change="updateFilter()">
-        <label for="filter_celsius3">{{'celsius3' | translate}}</label>
+    <script type="text/ng-template" id="cci.html">
+    <div class="form-group">
+        <label>{{'filter' | translate}}</label>
+        <div class="filter-select" id="filter">
+            <input type="radio" ng-model="select.filter" value="" name="filter" id="filter_placeholder" ng-change="updateFilter()">
+            <label for="filter_placeholder">{{'all' | translate}}</label>
+            <input type="radio" ng-model="select.filter" value="hive" name="filter" id="filter_hive" ng-change="updateFilter()">
+            <label for="filter_hive">{{'hive' | translate}}</label>
+            <input type="radio" ng-model="select.filter" value="celsius3" name="filter" id="filter_celsius3" ng-change="updateFilter()">
+            <label for="filter_celsius3">{{'celsius3' | translate}}</label>
+        </div>
     </div>
-</div>
-<div class="form-group">
-    <label for="country">{{'country' | translate}}</label>
-    <select ui-select2="{allowClear: true}" ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
-        <option></option>
-        <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
-    </select>
-</div>
-<div class="form-group">
-    <label for="city">{{'city' | translate}}</label>
-    <select ui-select2="{allowClear: true}" ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
-        <option></option>
-        <option ng-repeat="c in cities" value="{{c.id}}">{{c.name}}</option>
-    </select>
-</div>
-<div ng-repeat="data in select.tree" ng-include="'institution_select.html'">
+    <div class="form-group">
+        <label for="country">{{'country' | translate}}</label>
+        <select ui-select2="{allowClear: true}" ng-model="select.country" name="country" id="country" ng-change="countryChanged()">
+            <option></option>
+            <option ng-repeat="c in countries" value="{{c.id}}">{{c.name}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="city">{{'city' | translate}}</label>
+        <select ui-select2="{allowClear: true}" ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
+            <option></option>
+            <option ng-repeat="c in cities" value="{{c.id}}">{{c.name}}</option>
+        </select>
+    </div>
+    <div ng-repeat="data in select.tree" ng-include="'institution_select.html'">
 
-</div>
-</script>
-<script type="text/ng-template" id="institution_select.html">
-<div class="form-group" ng-class="ccierror" ng-if="select_count === 0 || data.institutions">
-    <label ng-if="data.id === 'institution0'" for="{{data.id}}">{{'institution' | translate}}</label>
-    <select ui-select2="{escapeMarkup: escape, formatResult: formatInstitution, formatSelection: formatInstitution}" ng-model="data.institution" class="institution" name="{{data.name}}" id="{{data.id}}" ng-change="institutionChanged(data)">
+    </div>
+    <div class="form-group">
+        <a ng-href="{{ { path: 'admin_institution_new' } | get_url }}" class="btn btn-default pull-right" target="_blank">{{ 'addInstitution' | translate }}</a>
+    </div>
+    </script>
+    <script type="text/ng-template" id="institution_select.html">
+        <div class="form-group" ng-class="ccierror" ng-if="select_count === 0 || data.institutions">
+        <label ng-if="data.id === 'institution0'" for="{{data.id}}">{{'institution' | translate}}</label>
+        <select ui-select2="{escapeMarkup: escape, formatResult: formatInstitution, formatSelection: formatInstitution}" ng-model="data.institution" class="institution" name="{{data.name}}" id="{{data.id}}" ng-change="institutionChanged(data)">
         <option></option>
         <option ng-repeat="i in data.institutions" value="{{i.id}}">{{i}}</option>
-    </select>
-</div>
-<div ng-repeat="data in data.child" ng-include="'institution_select.html'">
+        </select>
+        </div>
+        <div ng-repeat="data in data.child" ng-include="'institution_select.html'">
 
-</div>
-</script>
+        </div>
+    </script>
 {% endverbatim %}

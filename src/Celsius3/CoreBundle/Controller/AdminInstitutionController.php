@@ -60,7 +60,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     /**
      * Displays a form to create a new Institution entity.
      *
-     * @Route("/new", name="admin_institution_new")
+     * @Route("/new", name="admin_institution_new", options={"expose"=true})
      * @Template()
      *
      * @return array
