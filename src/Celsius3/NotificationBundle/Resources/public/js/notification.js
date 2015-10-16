@@ -156,17 +156,15 @@ var map = {
             });
         },
         operator_in_request: function (data) {
-            $(document).ready(function () {
-                $('div#operators-in-request').each(function (index) {
-
-                    var html = '';
-                    $(data[$(this).attr('data-request-id')]).each(function (index, object) {
-                        html += '<p>' + Base64.decode(object.operator_username) + '</p>';
-                    });
-
-                    $(this).html(html);
+            $('div#operators-in-request').each(function (index) {
+                var html = '<ul class="list-unstyled">';
+                $(data[$(this).data('request-id')]).each(function (index, object) {
+                    if (parseInt(user_id) !== object.operator_id) {
+                        html += '<li>' + Base64.decode(object.operator_username) + '</li>';
+                    }
                 });
-
+                html += '</ul>';
+                $(this).html(html);
             });
         }
     };
