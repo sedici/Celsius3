@@ -172,7 +172,7 @@ var map = {
     };
 
     if (user_id !== '') {
-        var conn = new ab.Session('ws://' + notification_host + ':' + notification_port, function () {
+        var conn = new ab.Session('ws://' + notification_public_url + ':' + notification_port, function () {
                     conn.subscribe('c3_user_' + user_id, function (topic, data) {
                         $(data).each(function (index, data) {
                             map.notification(data.data);
