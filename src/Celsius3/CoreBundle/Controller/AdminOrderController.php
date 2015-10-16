@@ -122,7 +122,7 @@ class AdminOrderController extends OrderController
      */
     public function createAction(Request $request)
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser(),false, $this->getUser()), 'administration');
+        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser(), false, $this->getUser()), 'administration');
     }
 
     /**
@@ -242,7 +242,7 @@ class AdminOrderController extends OrderController
             $em->persist($entity);
             $em->flush();
 
-            if ($editForm->has('save_and_show')){
+            if ($editForm->has('save_and_show')) {
                 if ($editForm->get('save_and_show')->isClicked()) {
                     return $this->redirect($this->generateUrl('admin_order_show', array('id' => $id)));
                 }

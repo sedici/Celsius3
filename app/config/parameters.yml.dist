@@ -18,9 +18,10 @@ parameters:
 
     max_per_page: 10
 
+    notification_public_url: celsius3.prebi.unlp.edu.ar
     notification_host: 0.0.0.0
     notification_port: 8080
-    notification_zmq_host: localhost
+    notification_zmq_host: 127.0.0.1
     notification_zmq_port: 5555
     notification_limit: 10
 
