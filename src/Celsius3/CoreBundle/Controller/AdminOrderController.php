@@ -79,13 +79,6 @@ class AdminOrderController extends OrderController
      */
     public function showAction($id)
     {
-        $order = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->find($id);
-
-        $this->get('celsius3_notification.operator_in_request_manager')
-                ->addOperatorInRequest($this->getUser(), $order->getOriginalRequest(), $this->getInstance());
-
         return $this->baseShow('Order', $id);
     }
 

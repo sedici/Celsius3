@@ -35,16 +35,12 @@
             <argument type="service" id="service_container" />
             <argument>%celsius3_notification.web_socket_server.host%</argument>
             <argument>%celsius3_notification.web_socket_server.port%</argument>
+            <argument>%celsius3_notification.web_socket_server.zmq_host%</argument>
+            <argument>%celsius3_notification.web_socket_server.zmq_port%</argument>
         </service>
 
         <service id="celsius3_notification.entry_point" class="%celsius3_notification.entry_point.class%">
             <argument type="service" id="celsius3_notification.web_socket_server" />
-        </service>
-        
-        <service id="celsius3_notification.operator_in_request_manager" class="%celsius3_notification.operator_in_reques_manager.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <argument>%celsius3_notification.web_socket_server.host%</argument>
-            <argument>%celsius3_notification.web_socket_server.port%</argument>
         </service>
     </services>
 
