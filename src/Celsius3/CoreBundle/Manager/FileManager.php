@@ -44,10 +44,8 @@ class FileManager
 
     private function countPages($file)
     {
-        $im = new \Imagick();
-        $im->pingImage($file);
-
-        return $im->getNumberImages();
+        exec("exiftool " . $file->getRealPath() . " | awk '/Page Count/ { print $4 }'", $output);
+        return $output[0];
     }
 
     public function uploadFiles(Request $request, Event $event, array $files = array())

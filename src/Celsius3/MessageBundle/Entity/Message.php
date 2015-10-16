@@ -61,7 +61,7 @@ class Message extends BaseMessage implements Notifiable
      *   mappedBy="message",
      *   cascade={"all"}
      * )
-     * @var MessageMetadata
+     * @var MessageMetadata[]|\Doctrine\Common\Collections\Collection
      */
     protected $metadata;
 

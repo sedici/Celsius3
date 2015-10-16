@@ -1,0 +1,13 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+    {{ 'Journal View'|trans }}
+{% endblock %}
+
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
+
+{% block content %}
+    <h2>{{ 'Journal View'|trans }}</h2>
+
+    {{ show('admin_journal', entity, 'Celsius3CoreBundle:AdminJournal', instance) }}
+{% endblock %}

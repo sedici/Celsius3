@@ -2055,6 +2055,49 @@
                 <source>Enter at least three characters</source>
                 <target>Enter at least three characters</target>
             </trans-unit>
+            <trans-unit id="90">
+                <source>Creation date</source>
+                <target>Creation date</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>Results</source>
+                <target>Results</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>By User</source>
+                <target>By User</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>By Journal</source>
+                <target>By Journal</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>Search text</source>
+                <target>Search text</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>searchExplanation</source>
+                <target><![CDATA[
+                You can search by:
+                <li>
+                Order code.
+                </li>
+                <li>
+                Keywords like title, authors or publication year.
+                </li>
+                <li>
+                By User: User fields like name, surname, username and email.
+                </li>
+                <li>
+                By Journal: Orders related to an specific journal.
+                </li>
+                </ul>
+                ]]></target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Journal View</source>
+                <target>Journal View</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -35,6 +35,13 @@ use Celsius3\CoreBundle\Form\Type\HiveType;
  */
 class SuperadminHiveController extends BaseController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all Hive entities.

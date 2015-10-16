@@ -72,7 +72,7 @@
                     </div>
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         {% block navigation_top %}
-                            {{ knp_menu_render('Celsius3CoreBundle:Builder:topMenu', { 'allow_safe_labels': true }) }}
+                            {% include 'Celsius3CoreBundle:Layout:_navigation.html.twig' %}
                         {% endblock %}
                         {% block instance_panels %}
                             {% include 'Celsius3CoreBundle:Layout:_user_panel.html.twig' %}
@@ -91,8 +91,8 @@
                 <div class="col-md-12">
                     {% block body_title %}
                         <div class="row">
-                            <div class="jumbotron page-header">
-                                <div class="col-xs-12 col-sm-9 instance-info">
+                            <div class="jumbotron page-header clearfix">
+                                <div class="col-xs-12 col-sm-12 instance-info">
                                     <div class="row">
                                         <div class="col-xs-3 col-sm-3">
                                             {% if instance.get('instance_logo').value != '' %}
@@ -102,28 +102,28 @@
                                             {% endif %}
                                         </div>
                                         <div class="col-xs-9 col-sm-9">
-                                            <h2 class="pull-left instance-title" >{{ instance.get('instance_title').value }}</h2>
+                                            <h2 class="instance-title" >{{ instance.get('instance_title').value }}</h2>
                                             <h3 class="instance-tagline">{% if instance.get('instance_tagline') %}{{ instance.get('instance_tagline').value }}{% endif %}</h3>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-3 admin-panel">
-                                {% block adminpanel %}{% endblock %}
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    {% if( is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
-                        {% for label, flashes in app.session.flashbag.all %}
-                            {% if label == 'configuration' %}
-                                {% for flash in flashes %}
-                                    <div class="alert alert-warning">
-                                        {{ flash }}
+                                    <div class="row" style="margin-top: 10px; margin-bottom: -22px; margin-left: -20px; margin-right: -20px;">
+                                        {% block adminpanel %}{% endblock %}
                                     </div>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if( is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
+                            {% for label, flashes in app.session.flashbag.all %}
+                                {% if label == 'configuration' %}
+                                    {% for flash in flashes %}
+                                        <div class="alert alert-warning">
+                                            {{ flash }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                 {% endblock %}
             {% block navigation_content %}{% endblock %}
         {% block content %}{% endblock %}

@@ -6,20 +6,12 @@
 
 {% block content %}
 
-    {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) ~ '?keyword=' ~ keyword %}
+    {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) ~ '?keyword=' ~ keyword ~ '&type=' ~ type %}
 
     <h3>{{ 'Search results'|trans }}</h3>
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-12">
-                    <dl class="dl-horizontal">
-                        <dt>{{ 'Keyword'|trans }}</dt>
-                        <dd>{{ app.request.get('keyword') }}</dd>
-                        <dt>{{ 'Results'|trans }}</dt>
-                        <dd>{{ pagination.paginationData.totalCount }}</dd>
-                    </dl>
-                </div>
                 <div class="col-md-12">
                     <ul class="nav nav-pills pull-right">
                         <li class="{% if(state is null) %} active {% endif %}">

@@ -37,7 +37,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
 class OrderRepository extends EntityRepository
 {
 
-    public function findByTerm($term, Instance $instance = null, $in = array(), $limit = null, $state = null)
+    public function findByTerm($term, Instance $instance = null, $type, $limit = null, $state = null)
     {
         $qb = $this->createQueryBuilder('o')
                 ->addSelect('r')
@@ -45,20 +45,22 @@ class OrderRepository extends EntityRepository
                 ->addSelect('s')
                 ->innerJoin('r.states', 's');
 
-        if (count($in) > 0) {
-            $secondary = array();
-            foreach ($in as $repository => $term) {
-                $secondary = array_map(function ($entity) {
-                    return $entity->getId();
-                }, $this->getEntityManager()
-                                ->getRepository('Celsius3CoreBundle:' . $repository)
-                                ->findByTerm($term, $instance)
-                                ->getResult());
-                if ($repository === 'BaseUser' && count($secondary) > 0) {
-                    $qb->andWhere($qb->expr()->in('r.owner', $secondary));
-                } else if ($repository === 'JournalType' && count($secondary) > 0) {
-                    $qb->andWhere($qb->expr()->in('o.materialData', $secondary));
-                }
+        if (!is_null($type)) {
+            $secondary = array_map(function ($entity) {
+                return $entity->getId();
+            }, $this->getEntityManager()
+                            ->getRepository('Celsius3CoreBundle:' . $type)
+                            ->findByTerm($term, $instance)
+                            ->getResult());
+
+            if ($type === 'BaseUser' && count($secondary) > 0) {
+                $qb->andWhere($qb->expr()->in('r.owner', $secondary));
+            } else if ($type === 'JournalType' && count($secondary) > 0) {
+                $qb->andWhere($qb->expr()->in('o.materialData', $secondary));
+            } else {
+                // Esta condición es necesaria para evitar traer todos los resultados cuando
+                // no hay usuarios o revistas que coincidan con los criterios antes buscados.
+                $qb->andWhere('r.id = -1');
             }
         } else {
             $qb = $qb->join('o.materialData', 'md')
@@ -91,6 +93,7 @@ class OrderRepository extends EntityRepository
     public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null)
     {
         $qb = $this->createQueryBuilder('o')
+                ->select('o, r, s, m')
                 ->join('o.requests', 'r')
                 ->join('r.states', 's')
                 ->join('o.materialData', 'm')
@@ -140,9 +143,8 @@ class OrderRepository extends EntityRepository
 
     public function findOneForInstance($id, Instance $instance)
     {
-        return $this->getEntityManager()
-                        ->getRepository('Celsius3CoreBundle:Order')
-                        ->createQueryBuilder('o')
+        return $this->createQueryBuilder('o')
+                        ->addSelect('r')
                         ->join('o.requests', 'r')
                         ->where('o.id = :id')
                         ->andWhere('r.instance = :instance_id')
@@ -152,9 +154,8 @@ class OrderRepository extends EntityRepository
 
     public function findByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
-        return $this->getEntityManager()
-                        ->getRepository('Celsius3CoreBundle:Order')
-                        ->createQueryBuilder('o')
+        return $this->createQueryBuilder('o')
+                        ->addSelect('r')
                         ->join('o.requests', 'r')
                         ->join('r.states', 's')
                         ->where('s.type = :type')
@@ -171,11 +172,9 @@ class OrderRepository extends EntityRepository
 
     public function findOrdersByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
     {
-        $qb = $this->getEntityManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->createQueryBuilder('o');
-
-        $qb->join('o.requests', 'r')
+        $qb = $this->createQueryBuilder('o')
+                ->addSelect('r')
+                ->join('o.requests', 'r')
                 ->join('r.states', 's')
                 ->where('s.type = :type')
                 ->setParameter('type', $type);
@@ -204,11 +203,12 @@ class OrderRepository extends EntityRepository
 
     public function addFindByStateType(array $types, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
     {
-        $query = $query->innerJoin('r.states', 's');
+        $query = $query->join('r.states', 's');
 
         if (count($types) > 0) {
             $query = $query->andWhere('s.type IN (:state_types)')
-                    ->setParameter('state_types', $types);
+                    ->setParameter('state_types', $types)
+                    ->andWhere('s.isCurrent = true');
         }
 
         if (!is_null($instance)) {
@@ -244,7 +244,7 @@ class OrderRepository extends EntityRepository
 
     public function findActiveForUser(BaseUser $user, Instance $instance)
     {
-        $qb = $this->createQueryBuilder();
+        $qb = $this->createQueryBuilder('o');
 
         return $this->addFindByStateType(array(
                             StateManager::STATE__CREATED,

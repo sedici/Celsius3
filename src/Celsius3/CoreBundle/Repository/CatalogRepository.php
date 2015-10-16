@@ -31,6 +31,7 @@ class CatalogRepository extends EntityRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('c')
+                        ->select('c, cp')
                         ->join('c.positions', 'cp')
                         ->where('c.instance = :instance_id')
                         ->orWhere('c.instance = :directory_id')

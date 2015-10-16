@@ -36,6 +36,13 @@ use Celsius3\CoreBundle\Filter\Type\JournalFilterType;
  */
 class AdminJournalController extends BaseInstanceDependentController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all Journal entities.
@@ -51,9 +58,22 @@ class AdminJournalController extends BaseInstanceDependentController
     }
 
     /**
+     * Displays data for a Journal.
+     *
+     * @Route("/{id}/show", name="admin_journal_show", options={"expose"=true})
+     * @Template()
+     *
+     * @return array
+     */
+    public function showAction($id)
+    {
+        return $this->baseShow('Journal', $id);
+    }
+
+    /**
      * Displays a form to create a new Journal entity.
      *
-     * @Route("/new", name="admin_journal_new")
+     * @Route("/new", name="admin_journal_new", options={"expose"=true})
      * @Template()
      *
      * @return array

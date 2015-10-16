@@ -67,11 +67,12 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function searchAction(Request $request)
     {
+        $type = $request->query->get('type');
         $keyword = trim($request->query->get('keyword'));
         $state = $request->query->get('state');
 
         $paginator = $this->get('knp_paginator');
-        $query = $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance());
+        $query = $this->get('celsius3_core.search_manager')->search('Order', $type, $keyword, $this->getInstance());
 
         $states = array();
         foreach (StateManager::$stateTypes as $s) {
@@ -92,10 +93,11 @@ class AdministrationController extends BaseInstanceDependentController
         }
 
         $pagination = $paginator->paginate(
-                $this->get('celsius3_core.search_manager')->search('Order', $keyword, $this->getInstance(), $state), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
+    $this->get('celsius3_core.search_manager')->search('Order', $type, $keyword, $this->getInstance(), $state), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
 
         return array(
             'keyword' => $keyword,
+            'type' => $type,
             'state' => $state,
             'states' => $states,
             'pagination' => $pagination,

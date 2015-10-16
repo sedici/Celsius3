@@ -12,14 +12,15 @@
 
         {% verbatim %}
             <script type="text/ng-template" id="catalog_list.html">
-                <table class="table table-hover catalog-table">
-                <thead>
-                <tr>
-                <th colspan="4">
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
-                </th>
-                </tr>
+                <button class="btn btn-sm btn-default pull-right" data-toggle="popover" data-placement="left" data-content="{{ getHtmlMaterialData() }}" data-html=true>
+                {{ 'orderData' | translate }}
+                </button>
+                <hr>
+                <div id="catalogs-table">
+                <table class="table table-hover catalog-table">
+                <thead>
                 <tr>
                 <th>{{'catalog' | translate}}</th>
                 <th>{{'date' | translate}}</th>
@@ -46,6 +47,7 @@
                 </tr>
                 </tbody>
                 </table>
+                </div>
             </script>
             <script type="text/ng-template" id="file_list.html">
                 <table class="table table-hover catalog-table">
@@ -158,7 +160,7 @@
                 </div>
                 </div>
                 <cci-widget ng-show="forms.request.provider === 'institution'">
-
+                
                 </cci-widget>
                 </form>
             </script>
@@ -401,8 +403,8 @@
             <script type="text/ng-template" id="journal_data.html">
                 <ul class="list-unstyled">
                 <li ng-if="order.material_data.type === 'journal'">
-                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.journal.name}}</span>
-                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}}</span>
+                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">{{order.material_data.journal.name}}</a></span>
+                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}} <a class="btn btn-default btn-sm" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'celsius3_corebundle_journaltype[name]':order.material_data.other} }|get_url}}">{{ 'add'|translate }}</a></span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
                 <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | translate}}</strong> {{order.material_data.journal._i_s_s_n}}

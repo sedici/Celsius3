@@ -2083,6 +2083,49 @@
                 <source>Enter at least three characters</source>
                 <target>Ingrese al menos tres caracteres</target>
             </trans-unit>
+            <trans-unit id="90">
+                <source>Creation date</source>
+                <target>Fecha de creación</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>Results</source>
+                <target>Resultados</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>By User</source>
+                <target>Por Usuario</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>By Journal</source>
+                <target>Por Revista</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>Search text</source>
+                <target>Texto a buscar</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>searchExplanation</source>
+                <target><![CDATA[
+                Es posible buscar por:
+                <li>
+                Código del pedido.
+                </li>
+                <li>
+                Palabras clave del título, autores o año de publicación.
+                </li>
+                <li>
+                Por Usuario: Campos del usuario como nombre, apellido, nombre de usuario y mail.
+                </li>
+                <li>
+                Por Revista: Pedidos relacionados a una revista específica.
+                </li>
+                </ul>
+                ]]></target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Journal View</source>
+                <target>Vista de una Revista</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

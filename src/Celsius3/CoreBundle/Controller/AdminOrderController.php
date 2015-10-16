@@ -37,6 +37,14 @@ use Celsius3\CoreBundle\Form\Type\OrderType;
 class AdminOrderController extends OrderController
 {
 
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'o.updatedAt',
+            'defaultSortDirection' => 'asc',
+        );
+    }
+
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()

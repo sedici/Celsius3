@@ -1,0 +1,51 @@
+{% set local = app.request.getHost() == app.session.get('instance_host') %}
+<ul class="nav navbar-nav main-navbar">
+    <li>
+        <a href="{{ path('public_index') }}">{{ 'Home'|trans }}</a>
+    </li>
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
+    <li>
+        <a href="{{ path('administration') }}">{{ 'Administration'|trans }}{% if count_users(instance)['pending'] > 0 %}
+            <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+        {% endif %}</a>
+    </li>
+    <li class="dropdown">
+        <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a></li>
+            <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a></li>
+            <li>
+                <a href="{% if count_users(instance)['pending'] > 0 %}{{ path('admin_user', { 'state[]': 'pending' }) }}{% else %}{{ path('admin_user') }}{% endif %}">{{ 'Users'|trans }}
+                    {% if count_users(instance)['pending'] > 0 %}<span class="label label-danger">{{ count_users(instance)['pending'] }}</span>{% endif %}
+                </a>
+            </li>
+            <li><a href="{{ path('admin_instance_configure') }}">{{ 'Configuration'|trans }}</a></li>
+            <li><a href="{{ path('admin_news') }}">{{ 'News'|trans }}</a></li>
+            <li><a href="{{ path('admin_contact') }}">{{ 'Contacts'|trans }}</a></li>
+            <li><a href="{{ path('admin_country') }}">{{ 'Countries'|trans }}</a></li>
+            <li><a href="{{ path('admin_city') }}">{{ 'Cities'|trans }}</a></li>
+            <li><a href="{{ path('admin_institution') }}">{{ 'Institutions'|trans }}</a></li>
+            <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads'|trans }}</a></li>
+            <li><a href="{{ path('admin_send_reminder_emails') }}">{{ 'Send Reminder Email'|trans }}</a></li>
+        </ul>
+    </li>
+    {% endif %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and local %}
+    <li>
+        <a href="{{ path('superadministration') }}">{{ 'Network Administration'|trans }}</a>
+    </li>
+    {% endif %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local %}
+    <li>
+        <a href="{{ path('user_index') }}">{{ 'My Site'|trans }}</a>
+    </li>
+    {% endif %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}
+    <li>
+        <a href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance'|trans }}</a>
+    </li>
+    {% endif %}
+</ul>

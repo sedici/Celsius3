@@ -34,6 +34,14 @@ use FOS\RestBundle\Controller\Annotations\Get;
 class AdminOrderRestController extends BaseInstanceDependentRestController
 {
 
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'o.updatedAt',
+            'defaultSortDirection' => 'asc',
+        );
+    }
+
     /**
      * GET Route annotation.
      * @Get("", name="admin_rest_order", options={"expose"=true})
@@ -53,7 +61,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 ->findForInstance($this->getInstance(), $user, $state);
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
+        $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
 
         $view = $this->view(array_values($pagination), 200)->setFormat('json');
 
@@ -159,16 +167,16 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
     {
         $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
         $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
-        
+
         $instance = $this->getInstance();
         $interaction['result'] = false;
-        
+
         if($institution->getInstance() !== $instance){
-            
+
             $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
             $baseInstitution = $institutionRepository->getBaseInstitution($institution);
-            
-            $interaction['result'] = true; 
+
+            $interaction['result'] = true;
             $institutions = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($baseInstitution);
 
             $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
@@ -194,7 +202,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
             }
         }
-        
+
         $view = $this->view($interaction, 200)->setFormat('json');
         return $this->handleView($view);
     }

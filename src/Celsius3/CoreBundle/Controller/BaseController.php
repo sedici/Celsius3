@@ -60,6 +60,14 @@ abstract class BaseController extends Controller
         return $this->container->getParameter('max_per_page');
     }
 
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.updatedAt',
+            'defaultSortDirection' => 'desc',
+        );
+    }
+
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
@@ -74,7 +82,7 @@ abstract class BaseController extends Controller
         }
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
+        $pagination = $paginator->paginate($query, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
 
         return array(
             'pagination' => $pagination,
@@ -97,7 +105,12 @@ abstract class BaseController extends Controller
 
     protected function baseNew($name, $entity, $type)
     {
-        $form = $this->createForm($type, $entity);
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $form = $this->createForm($type, $entity, array(
+                'action' => '',
+                'method' => 'GET',
+                'data' => $request->query->get($type->getName(), $entity),
+            ));
 
         return array(
             'entity' => $entity,
@@ -307,7 +320,7 @@ abstract class BaseController extends Controller
         foreach ($result as $element) {
             $json[] = array(
                 'id' => $element->getId(),
-                'value' => $element->__toString()
+                'value' => ($target === 'BaseUser')? $element->__toString() . " (" . $element->getUsername() . ")" : $element->__toString()
             );
         }
 

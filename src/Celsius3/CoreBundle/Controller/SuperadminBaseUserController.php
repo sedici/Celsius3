@@ -38,6 +38,13 @@ use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
  */
 class SuperadminBaseUserController extends BaseUserController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     protected function listQuery($name)
     {
@@ -154,7 +161,7 @@ class SuperadminBaseUserController extends BaseUserController
     public function transformAction($id, Request $request)
     {
         $entity = $this->findQuery('BaseUser', $id);
-        
+
         if ($request->getMethod() === 'POST') {
             return $this->baseDoTransformAction($id, new UserTransformType(null,$entity), 'superadmin_user');
         }
@@ -177,7 +184,7 @@ class SuperadminBaseUserController extends BaseUserController
     {
         return $this->baseEnableAction($id);
     }
-    
+
     protected function getUserListRoute(){
         return 'superadmin_user';
     }
