@@ -1,18 +1,17 @@
 <li class="col-md-6">
-    <div class="well">
+    <div class="well {{instance.url}}">
         {% if instance.isCurrent %}
-            <h2 class="instance-title">
+            <h3 class="instance-title">
                 {% if instance.get('instance_logo').value != '' %}
                 <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo-min" />
                 {% else %}
                 <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo-min" />
                 {% endif %}
                 <a href="http://{{ instance.host }}" target="_blank">{{ instance.get('instance_title').value }}</a>
-            </h2>
+            </h3>
         {% endif %}
         <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
         <p>
-            {{ 'Institutions'|trans }}:
             <ul>
                 {% for institution in instance.ownerInstitutions %}
                     <li>{{ institution.name~(institution.parent ? ' ('~institution.parent~')':'')}}</li>
