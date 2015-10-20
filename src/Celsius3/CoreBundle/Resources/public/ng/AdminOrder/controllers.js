@@ -375,6 +375,18 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
      * Functions
      */
 
+     $scope.previousSearches = function(catalog_id) {
+         return _.filter($scope.catalogResultsOrder, function(result) {
+             return result.catalog.id == catalog_id;
+         });
+     };
+
+     $scope.hasPreviousSearches = function(catalog) {
+         return _.filter($scope.catalogResultsOrder, function(result) {
+             return result.catalog.id == catalog.id;
+         }).length !== 0;
+     };
+
     $scope.searchCatalog = function (term) {
         $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
             var regex = new RegExp(term, 'i');
@@ -407,6 +419,11 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             $scope.request = request;
 
             $scope.catalogResults = CatalogResult.query({title: $scope.getTitle($scope.order)});
+
+            $http.get(Routing.generate("admin_rest_catalog_results_order", { 'order_id': entity_id }))
+                    .success(function (response) {
+                        $scope.catalogResultsOrder = response;
+                    });
 
             Event.query({request_id: $scope.request.id}, function (events) {
                 $scope.groupedEvents = $scope.groupEvents(events);

@@ -6,8 +6,11 @@
     "reuploadTooltipTitle": "Subir más",
     "found": "Encontrado",
     "notFound": "No encontrado",
+    "not_found": "No encontrado",
     "partiallyFound": "Parcialmente encontrado",
+    "partially_found": "Parcialmente encontrado",
     "nonSearched": "No Buscado",
+    "non_searched": "No Buscado",
     "catalog": "Catálogo",
     "date": "Fecha",
     "result": "Resultado",
@@ -157,5 +160,6 @@
     "Pending searchs": "Pending searchs",
     "add": "Add",
     "orderData": "Order data",
-    "addInstitution": "Add Institution"
+    "addInstitution": "Add Institution",
+    "previousSearches": "Previous Searches"
 }

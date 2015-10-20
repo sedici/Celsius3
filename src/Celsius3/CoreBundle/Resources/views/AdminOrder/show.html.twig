@@ -11,6 +11,11 @@
         </div>
 
         {% verbatim %}
+            <script type="text/ng-template" id="catalog_search_details.html">
+                <ul>
+                    <li ng-repeat="search in previousSearches(content)">{{'date'|translate}}: {{search.created_at|date:'mediumDate'}} - {{'result'|translate}}: {{search.result|translate}}</li>
+                </ul>
+            </script>
             <script type="text/ng-template" id="catalog_list.html">
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
@@ -42,7 +47,8 @@
                 </select>
                 </td>
                 <td class="catalog-actions">
-                <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn">{{'request' | translate}}</a>
+                <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn btn-default">{{'request' | translate}}</a>
+                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|translate}}" bs-popover data-content-template="catalog_search_details.html" data-content="{{catalog.id}}">{{'searches'|translate}}</button>
                 </td>
                 </tr>
                 </tbody>
@@ -160,7 +166,7 @@
                 </div>
                 </div>
                 <cci-widget ng-show="forms.request.provider === 'institution'">
-                
+
                 </cci-widget>
                 </form>
             </script>
@@ -313,7 +319,7 @@
                 <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
                 </div>
                 </div>
-                
+
                 <div id="operators-in-request" class="alert alert-info" role="alert" data-request-id="{{request.id}}"></div>
             </script>
             <script type="text/ng-template" id="show_actions.html">

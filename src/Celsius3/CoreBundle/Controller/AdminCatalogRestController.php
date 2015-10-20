@@ -79,4 +79,27 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
+    /**
+     * GET Route annotation.
+     * @Get("/results/order/{order_id}", name="admin_rest_catalog_results_order", options={"expose"=true})
+     */
+    public function getOrderCatalogResultsAction($order_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $order = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->find($order_id);
+
+        if (!$order) {
+            return $this->createNotFoundException('Order not found.');
+        }
+
+        $results = $em->getRepository('Celsius3CoreBundle:Event\\Event')
+                    ->findSimilarSearches($order);
+
+        $view = $this->view(array_values($results), 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
 }
