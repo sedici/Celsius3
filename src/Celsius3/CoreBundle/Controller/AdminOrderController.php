@@ -233,9 +233,8 @@ class AdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', '', true) !== '') {
-                $entity->getMaterialData()->setJournal(null);
-                $entity->getMaterialData()->setOther($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', '', true));
+            if ($request->request->get($editForm->getName() . '[materialData][journal]', null, true) === '') {
+                $entity->getMaterialData()->setOther($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', null, true));
             }
 
             $em = $this->getDoctrine()->getManager();
