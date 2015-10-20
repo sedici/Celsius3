@@ -184,7 +184,16 @@ class AdminOrderController extends OrderController
 
         $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance(), $order->getOriginalRequest()->getCreator());
         $duplicatedOrder->setOriginalRequest($request);
-        $duplicatedOrder->setMaterialData(clone $order->getMaterialData());
+        $duplicatedMaterialData = clone $order->getMaterialData();
+        $duplicatedOrder->setMaterialData($duplicatedMaterialData);
+
+        if ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) {
+            $journal = $duplicatedMaterialData->getJournal();
+        } else {
+            $journal = null;
+        }
+
+        $other = ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $duplicatedMaterialData->getOther() : '';
 
         //Se registra duplicado en la base de datos
         $entity_manager->persist($duplicatedOrder);
@@ -193,7 +202,7 @@ class AdminOrderController extends OrderController
 
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser()), $duplicatedOrder, $this->getUser());
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass, $journal, $other), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser(), false, $this->getUser()), $duplicatedOrder);
 
         return array(
             'entity' => $duplicatedOrder,
