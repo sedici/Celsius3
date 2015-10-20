@@ -30,7 +30,6 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
-use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * BaseUser controller.
@@ -39,6 +38,7 @@ use Celsius3\CoreBundle\Manager\StateManager;
  */
 class AdminBaseUserController extends BaseUserController
 {
+
     protected function getSortDefaults()
     {
         return array(
@@ -78,32 +78,14 @@ class AdminBaseUserController extends BaseUserController
 
         $em = $this->getDoctrine()->getManager();
 
-        $activeOrders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity);
-
-        $readyOrders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
-
-        $historyOrders = $em->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity);
-
         $messages = $this->get('fos_message.thread_manager')
                         ->getParticipantSentThreadsQueryBuilder($entity)
                         ->getQuery()->getResult();
 
-        $paginator = $this->get('knp_paginator');
-        $paginationActive = $paginator->paginate($activeOrders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
-        $paginationReady = $paginator->paginate($readyOrders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
-        $paginationHistory = $paginator->paginate($historyOrders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */);
-
         return array(
             'element' => $entity,
-            'orders' => array(
-                'active' => $paginationActive,
-                'ready' => $paginationReady,
-                'history' => $paginationHistory,
-            ),
             'messages' => $messages,
+            'resultsPerPage' => $this->getResultsPerPage()
         );
     }
 
