@@ -48,6 +48,14 @@ class Pusher implements WampServerInterface
         $this->instanceHelper = $instanceHelper;
     }
 
+    private function testAndReconnect()
+    {
+        if ($this->entityManager->getConnection()->ping() === false) {
+            $this->entityManager->getConnection()->close();
+            $this->entityManager->getConnection()->connect();
+        }
+    }
+
     private function getNotificationData($count, $notifications)
     {
         $data = array(
@@ -81,6 +89,8 @@ class Pusher implements WampServerInterface
 
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
+        $this->testAndReconnect();
+
         try {
             $map = array(
                 'user' => function($conn, $topic) {
@@ -147,6 +157,8 @@ class Pusher implements WampServerInterface
 
     public function onClose(ConnectionInterface $conn)
     {
+        $this->testAndReconnect();
+
         if (!array_key_exists($conn->resourceId, $this->connections)) {
             return;
         }
@@ -202,6 +214,8 @@ class Pusher implements WampServerInterface
 
     public function onEntry($entry)
     {
+        $this->testAndReconnect();
+
         $entry = json_decode($entry, true);
 
         usleep(100000);
