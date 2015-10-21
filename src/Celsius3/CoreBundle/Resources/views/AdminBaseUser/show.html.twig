@@ -60,82 +60,82 @@
                             <div class="tab-pane active" id="active">
                             <br/>
                             <div class="navigation">
-                                <pagination total-items="paginationActive.total"
-                                items-per-page="paginationActive.resultsPerPage"
-                                max-size="7"
-                                boundary-links="true"
-                                rotate="false"
-                                num-pages="numPages"
-                                ng-model="paginationActive.currentPage"
-                                ng-change="pageChangedActive()"
-                                previous-text="{{ 'Previous' | translate }}"
-                                next-text="{{ 'Next' | translate }}"
-                                first-text="{{ 'First' | translate }}"
-                                last-text="{{ 'Last' | translate }}">
-                                </pagination>
+                            <pagination total-items="paginationActive.total"
+                            items-per-page="paginationActive.resultsPerPage"
+                            max-size="7"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            ng-model="paginationActive.currentPage"
+                            ng-change="pageChangedActive()"
+                            previous-text="{{ 'Previous' | translate }}"
+                            next-text="{{ 'Next' | translate }}"
+                            first-text="{{ 'First' | translate }}"
+                            last-text="{{ 'Last' | translate }}">
+                            </pagination>
                             </div>
                             <br/><br/><br/>
                             <div class="item_container" ng-repeat="order in paginationActive.orders">
-                                <div ng-include="'_index_element.html'"></div>
+                            <div ng-include="'_index_element.html'"></div>
                             </div>
                             <div ng-if="paginationActive.total == 0">
-                                <p>{{ 'There are no orders.' | translate }}</p>
+                            <p>{{ 'There are no orders.' | translate }}</p>
                             </div>
                             </div>
-                    
-                    
+
+
                             <div class="tab-pane" id="ready">
                             <br/>
                             <div class="navigation">
-                                <pagination total-items="paginationReady.total"
-                                items-per-page="paginationReady.resultsPerPage"
-                                max-size="7"
-                                boundary-links="true"
-                                rotate="false"
-                                num-pages="numPages"
-                                ng-model="paginationReady.currentPage"
-                                ng-change="pageChangedReady()"
-                                previous-text="{{ 'Previous' | translate }}"
-                                next-text="{{ 'Next' | translate }}"
-                                first-text="{{ 'First' | translate }}"
-                                last-text="{{ 'Last' | translate }}">
-                                </pagination>
+                            <pagination total-items="paginationReady.total"
+                            items-per-page="paginationReady.resultsPerPage"
+                            max-size="7"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            ng-model="paginationReady.currentPage"
+                            ng-change="pageChangedReady()"
+                            previous-text="{{ 'Previous' | translate }}"
+                            next-text="{{ 'Next' | translate }}"
+                            first-text="{{ 'First' | translate }}"
+                            last-text="{{ 'Last' | translate }}">
+                            </pagination>
                             </div>
 
                             <br/><br/><br/>
                             <div class="item_container" ng-repeat="order in paginationReady.orders">
-                                <div ng-include="'_index_element.html'"></div>
+                            <div ng-include="'_index_element.html'"></div>
                             </div>
                             <div ng-if="paginationReady.total == 0">
-                                <p>{{ 'There are no orders.' | translate }}</p>
+                            <p>{{ 'There are no orders.' | translate }}</p>
                             </div>
                             </div>
-                    
-                    
+
+
                             <div class="tab-pane" id="history">
                             <br/>
                             <div class="navigation">
-                                <pagination total-items="paginationHistory.total"
-                                items-per-page="paginationHistory.resultsPerPage"
-                                max-size="7"
-                                boundary-links="true"
-                                rotate="false"
-                                num-pages="numPages"
-                                ng-model="paginationHistory.currentPage"
-                                ng-change="pageChangedHistory()"
-                                previous-text="{{ 'Previous' | translate }}"
-                                next-text="{{ 'Next' | translate }}"
-                                first-text="{{ 'First' | translate }}"
-                                last-text="{{ 'Last' | translate }}">
-                                </pagination>
+                            <pagination total-items="paginationHistory.total"
+                            items-per-page="paginationHistory.resultsPerPage"
+                            max-size="7"
+                            boundary-links="true"
+                            rotate="false"
+                            num-pages="numPages"
+                            ng-model="paginationHistory.currentPage"
+                            ng-change="pageChangedHistory()"
+                            previous-text="{{ 'Previous' | translate }}"
+                            next-text="{{ 'Next' | translate }}"
+                            first-text="{{ 'First' | translate }}"
+                            last-text="{{ 'Last' | translate }}">
+                            </pagination>
                             </div>
-                    
+
                             <br/><br/><br/>
                             <div class="item_container" ng-repeat="order in paginationHistory.orders">
-                                <div ng-include="'_index_element.html'"></div>
+                            <div ng-include="'_index_element.html'"></div>
                             </div>
                             <div ng-if="paginationHistory.total == 0">
-                                <p>{{ 'There are no orders.' | translate }}</p>
+                            <p>{{ 'There are no orders.' | translate }}</p>
                             </div>
                             </div>
                             </div>
@@ -164,13 +164,11 @@
                                     </div>
                                 </div>
 
-                                <div class="main_info">
+                                <div class="main_info" data-order-id="{{ order.id }}">
                                     <div class="title_and_author">
                                         <div class="titulo">
-                                            <a ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}">
                                                 <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
                                                 <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
-                                            </a>
                                         </div>
                                         <div class="titulo" ng-if="order.material_data.type === 'journal'">
                                             <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}" ng-if="order.material_data.journal">{{ order.material_data.journal.name }}</a>
@@ -194,9 +192,6 @@
                                     <ul class="list-unstyled actions">
                                         <li ng-if="searchPending(order.original_request)">
                                             <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | translate }}"/>
-                                        </li>
-                                        <li>
-                                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}"  title="{{ 'ShowOrder' | translate }}"><span class="glyphicon glyphicon-file"></span></a>
                                         </li>
                                         <li>
                                             <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>

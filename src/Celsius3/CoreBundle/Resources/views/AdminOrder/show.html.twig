@@ -13,7 +13,7 @@
         {% verbatim %}
             <script type="text/ng-template" id="catalog_search_details.html">
                 <ul>
-                    <li ng-repeat="search in previousSearches(content)">{{'date'|translate}}: {{search.created_at|date:'mediumDate'}} - {{'result'|translate}}: {{search.result|translate}}</li>
+                <li ng-repeat="search in previousSearches(content)">{{'date'|translate}}: {{search.created_at|date:'mediumDate'}} - {{'result'|translate}}: {{search.result|translate}}</li>
                 </ul>
             </script>
             <script type="text/ng-template" id="catalog_list.html">
@@ -712,20 +712,6 @@
 
                 <div class="top_center pull-right text-center">
                 {{request.created_at|date:'mediumDate'}}
-                </div>
-                </div>
-
-
-
-                <div class="main_info">
-                <div class="title_and_author">
-                <div class="titulo">{{order.material_data.title}}</div>
-                <div class="autor">{{order.material_data.authors}}</div>
-                <div class="doc_year">{{order.material_data.year}}</div>
-                </div>
-                <div class="doc_and_year">
-                <div ng-if="request.owner.pdf === true" class="doc_type_pdf"></div>
-                <div ng-if="request.owner.pdf !== true" class="doc_type_print"></div>
                 </div>
                 </div>
 
