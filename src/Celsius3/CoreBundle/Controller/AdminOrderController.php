@@ -37,6 +37,14 @@ use Celsius3\CoreBundle\Form\Type\OrderType;
 class AdminOrderController extends OrderController
 {
 
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'o.updatedAt',
+            'defaultSortDirection' => 'asc',
+        );
+    }
+
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
@@ -114,7 +122,7 @@ class AdminOrderController extends OrderController
      */
     public function createAction(Request $request)
     {
-        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser(),false, $this->getUser()), 'administration');
+        return $this->baseCreate('Order', new Order(), new OrderType($this->getInstance(), $this->getMaterialType(), null, $this->getUser(), false, $this->getUser()), 'administration');
     }
 
     /**
@@ -176,7 +184,16 @@ class AdminOrderController extends OrderController
 
         $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance(), $order->getOriginalRequest()->getCreator());
         $duplicatedOrder->setOriginalRequest($request);
-        $duplicatedOrder->setMaterialData(clone $order->getMaterialData());
+        $duplicatedMaterialData = clone $order->getMaterialData();
+        $duplicatedOrder->setMaterialData($duplicatedMaterialData);
+
+        if ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) {
+            $journal = $duplicatedMaterialData->getJournal();
+        } else {
+            $journal = null;
+        }
+
+        $other = ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $duplicatedMaterialData->getOther() : '';
 
         //Se registra duplicado en la base de datos
         $entity_manager->persist($duplicatedOrder);
@@ -185,7 +202,7 @@ class AdminOrderController extends OrderController
 
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser()), $duplicatedOrder, $this->getUser());
+        $editForm = $this->createForm(new OrderType($this->getInstance(), $this->getMaterialType($materialClass, $journal, $other), $duplicatedOrder->getOriginalRequest()->getOwner(), $this->getUser(), false, $this->getUser()), $duplicatedOrder);
 
         return array(
             'entity' => $duplicatedOrder,
@@ -225,16 +242,15 @@ class AdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', '', true) !== '') {
-                $entity->getMaterialData()->setJournal(null);
-                $entity->getMaterialData()->setOther($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', '', true));
+            if ($request->request->get($editForm->getName() . '[materialData][journal]', null, true) === '') {
+                $entity->getMaterialData()->setOther($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', null, true));
             }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            if ($editForm->has('save_and_show')){
+            if ($editForm->has('save_and_show')) {
                 if ($editForm->get('save_and_show')->isClicked()) {
                     return $this->redirect($this->generateUrl('admin_order_show', array('id' => $id)));
                 }

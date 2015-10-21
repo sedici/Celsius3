@@ -1,24 +1,24 @@
 <?php
 
 /*
- * Celsius3 - Order management
- * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
- *
- * This file is part of Celsius3.
- *
- * Celsius3 is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Celsius3 is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
- */
+* Celsius3 - Order management
+* Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
+*
+* This file is part of Celsius3.
+*
+* Celsius3 is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Celsius3 is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 namespace Celsius3\NotificationBundle\Server;
 
@@ -26,21 +26,34 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class Pusher implements WampServerInterface
 {
 
     /**
-     * A lookup of all the topics clients have subscribed to
-     */
+    * A lookup of all the topics clients have subscribed to
+    */
     private $subscribedTopics = array();
-    private $notification_manager;
-    private $em;
+    private $connections = array();
+    private $connectionsByOperatorInRequest = array();
+    private $notificationManager;
+    private $entityManager;
+    private $instanceHelper;
 
-    public function __construct(NotificationManager $notification_manager, EntityManager $em)
+    public function __construct(NotificationManager $notificationManager, EntityManager $entityManager, InstanceHelper $instanceHelper)
     {
-        $this->notification_manager = $notification_manager;
-        $this->em = $em;
+        $this->notificationManager = $notificationManager;
+        $this->entityManager = $entityManager;
+        $this->instanceHelper = $instanceHelper;
+    }
+
+    private function testAndReconnect()
+    {
+        if ($this->entityManager->getConnection()->ping() === false) {
+            $this->entityManager->getConnection()->close();
+            $this->entityManager->getConnection()->connect();
+        }
     }
 
     private function getNotificationData($count, $notifications)
@@ -52,7 +65,7 @@ class Pusher implements WampServerInterface
 
         foreach ($notifications as $notification) {
             $data['notifications'][] = array(
-                'template' => $this->notification_manager->getRenderedTemplate($notification),
+                'template' => $this->notificationManager->getRenderedTemplate($notification),
                 'id' => $notification->getId(),
             );
         }
@@ -60,32 +73,126 @@ class Pusher implements WampServerInterface
         return $data;
     }
 
+    private function getOperatorsData($request_id)
+    {
+        $data = array();
+        foreach ($this->connectionsByOperatorInRequest[$request_id] as $key => $value) {
+            $user = $this->entityManager->getRepository('Celsius3CoreBundle:BaseUser')
+                ->find($key);
+            $data[$request_id][] = array(
+                'operator_id' => $user->getId(),
+                'operator_username' => base64_encode($user->getUsername()),
+            );
+        }
+        return $data;
+    }
+
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
-        // When a visitor subscribes to a topic link the Topic object in a  lookup array
-        if (!array_key_exists($topic->getId(), $this->subscribedTopics)) {
-            $this->subscribedTopics[$topic->getId()] = $topic;
-            echo "User " . $topic->getId() . " subscribed.\n";
+        $this->testAndReconnect();
+
+        try {
+            $map = array(
+                'user' => function($conn, $topic) {
+                    $id = explode('_', $topic->getId())[2];
+                    $this->connections[$conn->resourceId]['user'] = $topic;
+                    $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($id), array_reverse($this->notificationManager->getUnreadNotifications($id)));
+
+                    return array(
+                        'type' => 'notification',
+                        'data' => $notificationData
+                    );
+                },
+                'request' => function($conn, $topic) {
+                    $id = explode('_', $topic->getId())[2];
+                    $user_id = explode('_', $topic->getId())[3];
+                    $this->connections[$conn->resourceId]['request'] = $topic;
+
+                    if (!array_key_exists($id, $this->connectionsByOperatorInRequest)) {
+                        $this->connectionsByOperatorInRequest[$id] = array();
+                    }
+
+                    if (!array_key_exists($user_id, $this->connectionsByOperatorInRequest[$id])) {
+                        $this->connectionsByOperatorInRequest[$id][$user_id] = 0;
+                    }
+
+                    $this->connectionsByOperatorInRequest[$id][$user_id]++;
+
+                    return array(
+                        'type' => 'operator_in_request',
+                        'data' => $this->getOperatorsData($id),
+                    );
+                }
+            );
+
+            $topicArray = explode('_', $topic->getId());
+            $data = $map[$topicArray[1]]($conn, $topic);
+
+            $generalTopic = implode('_', array_slice($topicArray, 0, 3));
+            if (!array_key_exists($generalTopic, $this->subscribedTopics)) {
+                $this->subscribedTopics[$generalTopic] = array();
+                echo $generalTopic . "\n";
+            }
+
+            $this->subscribedTopics[$generalTopic][] = $topic;
+            foreach ($this->subscribedTopics[$generalTopic] as $t) {
+                $t->broadcast($data);
+                unset($t);
+            }
+            unset($generalTopic, $data, $topicArray);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
-
-        $data = $this->getNotificationData($this->notification_manager->getUnreadNotificationsCount($topic->getId()), array_reverse($this->notification_manager->getUnreadNotifications($topic->getId())));
-
-        $topic->broadcast($data);
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $topic)
     {
-        
+        echo "Unsubscribe \n";
     }
 
     public function onOpen(ConnectionInterface $conn)
     {
-        
+
     }
 
     public function onClose(ConnectionInterface $conn)
     {
-        
+        $this->testAndReconnect();
+
+        if (!array_key_exists($conn->resourceId, $this->connections)) {
+            return;
+        }
+
+        if (!array_key_exists('request', $this->connections[$conn->resourceId])) {
+            return;
+        }
+
+        $topic = $this->connections[$conn->resourceId]['request'];
+        $topicArray = explode('_', $this->connections[$conn->resourceId]['request']->getId());
+        $id = $topicArray[2];
+        $user_id = $topicArray[3];
+
+        if (array_key_exists($id, $this->connectionsByOperatorInRequest) && array_key_exists($user_id, $this->connectionsByOperatorInRequest[$id])) {
+            if (intval($this->connectionsByOperatorInRequest[$id][$user_id]) <= 1) {
+                unset($this->connectionsByOperatorInRequest[$id][$user_id]);
+
+                $data = array(
+                    'type' => 'operator_in_request',
+                    'data' => $this->getOperatorsData($id)
+                );
+
+                $generalTopic = implode('_', array_slice($topicArray, 0, 3));
+                foreach ($this->subscribedTopics[$generalTopic] as $t) {
+                    $t->broadcast($data);
+                    unset($t);
+                }
+                unset($generalTopic, $data);
+            } else {
+                $this->connectionsByOperatorInRequest[$id][$user_id]--;
+            }
+        }
+        $conn->close();
+        unset($this->connections[$conn->resourceId], $topic, $topicArray, $id, $user_id, $conn);
     }
 
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params)
@@ -105,37 +212,43 @@ class Pusher implements WampServerInterface
         echo $e->getCode();
     }
 
-    /**
-     * @param string JSON'ified string we'll receive from ZeroMQ
-     */
-    public function onNotificationEntry($entry)
+    public function onEntry($entry)
     {
-        $entryData = json_decode($entry, true);
+        $this->testAndReconnect();
 
-        usleep(100000); // Utilizado para dar tiempo a que la notificación se persista y la búsqueda no resulte nula.
+        $entry = json_decode($entry, true);
 
-        $notification = $this->em
-                ->getRepository('Celsius3NotificationBundle:Notification')
-                ->find($entryData['notification_id']);
-        
+        usleep(100000);
+
+        $notification = $this->entityManager
+            ->getRepository('Celsius3NotificationBundle:Notification')
+            ->find($entry['data']['notification_id']);
+
         if (!$notification) {
             return;
         }
 
         foreach ($notification->getReceivers() as $user) {
+            $topic_id = 'c3_user_' . $user->getId();
             // If the lookup topic object isn't set there is no one to publish to
-            if (!array_key_exists($user->getId(), $this->subscribedTopics)) {
+            if (!array_key_exists($topic_id, $this->subscribedTopics)) {
                 return;
             }
 
             echo "Notifying to " . $user . "\n";
 
-            $data = $this->getNotificationData(1, array($notification));
+            $notificationData = $this->getNotificationData(1, array($notification));
 
-            $topic = $this->subscribedTopics[$user->getId()];
+            $data = array(
+                'type' => 'notification',
+                'data' => $notificationData
+            );
+
+            $topic = $this->subscribedTopics[$topic_id];
 
             $topic->broadcast($data);
+            unset($data, $topic_id, $topic, $notificationData, $user);
         }
+        unset($notification, $entry);
     }
-
 }

@@ -34,13 +34,17 @@ class PusherType
     private $socket;
     private $host;
     private $port;
+    private $zmq_host;
+    private $zmq_port;
     private $container;
 
-    public function __construct(ContainerInterface $container, $host, $port)
+    public function __construct(ContainerInterface $container, $host, $port, $zmq_host, $zmq_port)
     {
         $this->container = $container;
         $this->host = $host;
         $this->port = $port;
+        $this->zmq_host = $zmq_host;
+        $this->zmq_port = $zmq_port;
     }
 
     public function launch()
@@ -62,10 +66,10 @@ class PusherType
 
         $context = new \React\ZMQ\Context($this->loop);
         $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
-        $pull->bind('tcp://' . $this->host . ':5555'); // Binding to 127.0.0.1 means the only client that can connect is itself
+        $pull->bind('tcp://' . $this->zmq_host . ':' . $this->zmq_port); // Binding to 127.0.0.1 means the only client that can connect is itself
         $pull->on('message', array(
             $this->container->get('celsius3_notification.wamp_server'),
-            'onNotificationEntry',
+            'onEntry',
         ));
 
         if ($this->host) {
@@ -74,14 +78,13 @@ class PusherType
             $this->socket->listen($this->port);
         }
         $this->server = new \Ratchet\Server\IoServer(
-                new \Ratchet\Http\HttpServer(
-                new \Ratchet\WebSocket\WsServer(
-                new \Ratchet\Wamp\WampServer(
-                $this->container->get('celsius3_notification.wamp_server')
-                )
-                )
-                ), $this->socket
-        );
+                    new \Ratchet\Http\HttpServer(
+                        new \Ratchet\WebSocket\WsServer(
+                            new \Ratchet\Wamp\WampServer(
+                                $this->container->get('celsius3_notification.wamp_server')
+                            )
+                        )
+                    ), $this->socket);
     }
 
     public function getAddress()

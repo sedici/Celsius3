@@ -36,6 +36,13 @@ use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
  */
 class AdminInstitutionController extends BaseInstanceDependentController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all Institution entities.
@@ -53,7 +60,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     /**
      * Displays a form to create a new Institution entity.
      *
-     * @Route("/new", name="admin_institution_new")
+     * @Route("/new", name="admin_institution_new", options={"expose"=true})
      * @Template()
      *
      * @return array

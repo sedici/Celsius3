@@ -8,7 +8,7 @@ use FOS\MessageBundle\EntityManager\ThreadManager as BaseThreadManager;
 
 class ThreadManager extends BaseThreadManager
 {
-    
+
     /**
      * Finds not deleted threads for a participant,
      * containing at least one message not written by this participant,
@@ -21,6 +21,7 @@ class ThreadManager extends BaseThreadManager
     public function getParticipantInboxThreadsQueryBuilder(ParticipantInterface $participant)
     {
         return $this->repository->createQueryBuilder('t')
+            ->addSelect('tm.lastMessageDate AS HIDDEN lastMessageDate')
             ->innerJoin('t.metadata', 'tm')
             ->innerJoin('tm.participant', 'p')
 
@@ -40,10 +41,10 @@ class ThreadManager extends BaseThreadManager
             ->andWhere('tm.lastMessageDate IS NOT NULL')
 
             // sort by date of last message written by an other participant
-            //->orderBy('tm.lastMessageDate', 'DESC')
+            ->orderBy('lastMessageDate', 'DESC')
         ;
     }
-    
+
     /**
      * Finds not deleted threads from a participant,
      * containing at least one message written by this participant,
@@ -56,6 +57,7 @@ class ThreadManager extends BaseThreadManager
     public function getParticipantSentThreadsQueryBuilder(ParticipantInterface $participant)
     {
         return $this->repository->createQueryBuilder('t')
+            ->addSelect('tm.lastParticipantMessageDate AS HIDDEN lastParticipantMessageDate')
             ->innerJoin('t.metadata', 'tm')
             ->innerJoin('tm.participant', 'p')
 
@@ -75,16 +77,17 @@ class ThreadManager extends BaseThreadManager
             ->andWhere('tm.lastParticipantMessageDate IS NOT NULL')
 
             // sort by date of last message written by this participant
-            //->orderBy('tm.lastParticipantMessageDate', 'DESC')
+            ->orderBy('lastParticipantMessageDate', 'DESC')
         ;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     public function getParticipantDeletedThreadsQueryBuilder(ParticipantInterface $participant)
     {
         return $this->repository->createQueryBuilder('t')
+            ->addSelect('tm.lastMessageDate AS HIDDEN lastMessageDate')
             ->innerJoin('t.metadata', 'tm')
             ->innerJoin('tm.participant', 'p')
 
@@ -97,7 +100,7 @@ class ThreadManager extends BaseThreadManager
             ->setParameter('isDeleted', true, \PDO::PARAM_BOOL)
 
             // sort by date of last message
-            //->orderBy('tm.lastMessageDate', 'DESC')
+            ->orderBy('lastMessageDate', 'DESC')
         ;
     }
 

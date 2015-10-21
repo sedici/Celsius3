@@ -23,7 +23,7 @@ twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
     globals:
-        notification_host: %notification_host%
+        notification_public_url: %notification_public_url%
         notification_port: %notification_port%
         notification_limit: %notification_limit%
     form:

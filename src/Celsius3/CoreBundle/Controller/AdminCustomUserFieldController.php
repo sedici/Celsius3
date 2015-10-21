@@ -36,6 +36,13 @@ use Celsius3\CoreBundle\Filter\Type\CustomUserFieldFilterType;
  */
 class AdminCustomUserFieldController extends BaseInstanceDependentController
 {
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.name',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * Lists all CustomUserField entities.

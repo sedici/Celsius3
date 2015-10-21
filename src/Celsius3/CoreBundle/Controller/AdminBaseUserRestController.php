@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * User controller.
@@ -142,4 +143,48 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
+
+    /**
+     * GET Route annotation.
+     * @Get("/{id}/orders/{type}", name="admin_rest_user_get_orders", options={"expose"=true})
+     */
+    public function getOrders($id, $type)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
+        $currentPage = $this->get('request')->query->get('currentPage', 1);
+        $resultsPerPage = $this->get('request')->query->get('resultsPerPage', 10);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find BaseUser.');
+        }
+
+        if ($type === 'active') {
+            $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity);
+        }
+        if ($type === 'ready') {
+            $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
+        }
+        if ($type === 'history') {
+            $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
+                    ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity);
+        }
+
+        $totalQuery = clone($ordersQuery);
+        $total = $totalQuery->select('count(r)')->getQuery()->getSingleScalarResult();
+
+        $ordersQuery
+                ->setMaxResults(intval($resultsPerPage))
+                ->setFirstResult((intval($currentPage) - 1) * 10);
+
+        $orders = $ordersQuery->getQuery()->execute();
+
+        $view = $this->view(array('orders' => $orders, 'total' => $total), 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
 }

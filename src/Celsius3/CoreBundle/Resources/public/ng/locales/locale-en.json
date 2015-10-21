@@ -6,8 +6,11 @@
     "reuploadTooltipTitle": "Upload more",
     "found": "Found",
     "notFound": "Not found",
+    "not_found": "Not found",
     "partiallyFound": "Partially found",
+    "partially_found": "Partially found",
     "nonSearched": "Non searched",
+    "non_searched": "Non searched",
     "catalog": "Catalog",
     "date": "Date",
     "result": "Result",
@@ -185,5 +188,8 @@
     "view": "View",
     "Sort by": "Sort by",
     "Pending searchs": "Pending searchs",
-    "add": "Add"
+    "add": "Add",
+    "orderData": "Order data",
+    "addInstitution": "Add Institution",
+    "previousSearches": "Previous Searches"
 }

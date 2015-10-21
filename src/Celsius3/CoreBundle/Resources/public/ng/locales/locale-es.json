@@ -6,8 +6,11 @@
     "reuploadTooltipTitle": "Subir más",
     "found": "Encontrado",
     "notFound": "No encontrado",
+    "not_found": "No encontrado",
     "partiallyFound": "Parcialmente encontrado",
+    "partially_found": "Parcialmente encontrado",
     "nonSearched": "No Buscado",
+    "non_searched": "No Buscado",
     "catalog": "Catálogo",
     "date": "Fecha",
     "result": "Resultado",
@@ -186,5 +189,8 @@
     "view": "Ver",
     "Sort by": "Ordernar por",
     "Pending searchs": "Búsquedas pendientes",
-    "add": "Agregar"
+    "add": "Agregar",
+    "orderData": "Datos del pedido",
+    "addInstitution": "Agregar institución",
+    "previousSearches": "Búsquedas Anteriores"
 }

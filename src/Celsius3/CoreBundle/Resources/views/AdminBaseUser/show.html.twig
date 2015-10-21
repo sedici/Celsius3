@@ -1,19 +1,33 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-    {{ 'User View'|trans }}
+    {{ 'User View' | trans }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var element_id
+        = {{ (element is defined and element) ? element.id : '' }};
+    </script>
+    {% javascripts 'bundles/celsius3core/ng/AdminBaseUser/app.js'
+                           'bundles/celsius3core/ng/AdminBaseUser/controllers.js'
+                           'bundles/celsius3core/ng/AdminBaseUser/filters.js' filter='?uglifyjs2'  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {% block content %}
     <h2>{{ 'User View'|trans }}</h2>
 
-    <div class="row">
+    <div class="row" ng-app="userApp">
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             <h3>{{ 'Personal data'|trans }}</h3>
             {% embed 'Celsius3CoreBundle:AdminBaseUser:_show_fields.html.twig' %}
-                {% block actions %}{% endblock %}
+                {% block actions %}
+                {% endblock %}
             {% endembed %}
 
             <h3>{{ 'Institutional data'|trans }}</h3>
@@ -26,48 +40,177 @@
             </div>
 
             <h3>{{ 'Orders'|trans }}</h3>
-            <div class="row">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#active" data-toggle="tab">{{ 'Active'|trans }}</a></li>
-                    <li><a href="#ready" data-toggle="tab">{{ 'Ready'|trans }}</a></li>
-                    <li><a href="#history" data-toggle="tab">{{ 'History'|trans }}</a></li>
-                </ul>
+            <div>
+                <div ng-controller="UserCtrl">
+                    <div ng-include="'orders.html'" ng-view>
 
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div class="tab-pane active" id="active">
-                        <div class="navigation">
-                            {{ knp_pagination_render(orders.active) }}
-                        </div>
-
-                        {% for order in orders.active %}
-                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order} %}
-                        {% else %}
-                            <p>{{ 'There are no orders.' | trans }}</p>
-                        {% endfor %}
                     </div>
-                    <div class="tab-pane" id="ready">
-                        <div class="navigation">
-                            {{ knp_pagination_render(orders.ready) }}
-                        </div>
+                    {% verbatim %}
+                        <!-- orders.html -->
+                        <script type="text/ng-template" id="orders.html">
+                            <div class="row" >
+                            <ul class="nav nav-tabs">
+                            <li class="active"><a id="active-tab" href="#active" data-toggle="tab">{{ 'Active' | translate }}</a></li>
+                            <li><a id="ready-tab" href="#ready" data-toggle="tab">{{ 'Ready' | translate }}</a></li>
+                            <li><a id="history-tab" href="#history" data-toggle="tab">{{ 'History' | translate }}</a></li>
+                            </ul>
 
-                        {% for order in orders.ready %}
-                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order} %}
-                        {% else %}
-                            <p>{{ 'There are no orders.' | trans }}</p>
-                        {% endfor %}
-                    </div>
-                    <div class="tab-pane" id="history">
-                        <div class="navigation">
-                            {{ knp_pagination_render(orders.history) }}
-                        </div>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                            <div class="tab-pane active" id="active">
+                            <br/>
+                            <div class="navigation">
+                                <pagination total-items="paginationActive.total"
+                                items-per-page="paginationActive.resultsPerPage"
+                                max-size="7"
+                                boundary-links="true"
+                                rotate="false"
+                                num-pages="numPages"
+                                ng-model="paginationActive.currentPage"
+                                ng-change="pageChangedActive()"
+                                previous-text="{{ 'Previous' | translate }}"
+                                next-text="{{ 'Next' | translate }}"
+                                first-text="{{ 'First' | translate }}"
+                                last-text="{{ 'Last' | translate }}">
+                                </pagination>
+                            </div>
+                            <br/><br/><br/>
+                            <div class="item_container" ng-repeat="order in paginationActive.orders">
+                                <div ng-include="'_index_element.html'"></div>
+                            </div>
+                            <div ng-if="paginationActive.total == 0">
+                                <p>{{ 'There are no orders.' | translate }}</p>
+                            </div>
+                            </div>
+                    
+                    
+                            <div class="tab-pane" id="ready">
+                            <br/>
+                            <div class="navigation">
+                                <pagination total-items="paginationReady.total"
+                                items-per-page="paginationReady.resultsPerPage"
+                                max-size="7"
+                                boundary-links="true"
+                                rotate="false"
+                                num-pages="numPages"
+                                ng-model="paginationReady.currentPage"
+                                ng-change="pageChangedReady()"
+                                previous-text="{{ 'Previous' | translate }}"
+                                next-text="{{ 'Next' | translate }}"
+                                first-text="{{ 'First' | translate }}"
+                                last-text="{{ 'Last' | translate }}">
+                                </pagination>
+                            </div>
 
-                        {% for order in orders.history %}
-                            {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' with {'element': order} %}
-                        {% else %}
-                            <p>{{ 'There are no orders.' | trans }}</p>
-                        {% endfor %}
-                    </div>
+                            <br/><br/><br/>
+                            <div class="item_container" ng-repeat="order in paginationReady.orders">
+                                <div ng-include="'_index_element.html'"></div>
+                            </div>
+                            <div ng-if="paginationReady.total == 0">
+                                <p>{{ 'There are no orders.' | translate }}</p>
+                            </div>
+                            </div>
+                    
+                    
+                            <div class="tab-pane" id="history">
+                            <br/>
+                            <div class="navigation">
+                                <pagination total-items="paginationHistory.total"
+                                items-per-page="paginationHistory.resultsPerPage"
+                                max-size="7"
+                                boundary-links="true"
+                                rotate="false"
+                                num-pages="numPages"
+                                ng-model="paginationHistory.currentPage"
+                                ng-change="pageChangedHistory()"
+                                previous-text="{{ 'Previous' | translate }}"
+                                next-text="{{ 'Next' | translate }}"
+                                first-text="{{ 'First' | translate }}"
+                                last-text="{{ 'Last' | translate }}">
+                                </pagination>
+                            </div>
+                    
+                            <br/><br/><br/>
+                            <div class="item_container" ng-repeat="order in paginationHistory.orders">
+                                <div ng-include="'_index_element.html'"></div>
+                            </div>
+                            <div ng-if="paginationHistory.total == 0">
+                                <p>{{ 'There are no orders.' | translate }}</p>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                        </script>
+
+                        <!-- _index_element.html -->
+                        <script type="text/ng-template" id="_index_element.html">
+                                <div class="top_info">
+                                    <div class="top_left">
+                                        <div ng-class="order.original_request.type | request_type">{{order.original_request.type| request_type_abbr | translate}}</div>
+                                        <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
+                                    </div>
+
+                                    <div class="top_right">
+                                        <div class="status-{{order.original_request.current_state}}" data-toggle="tooltip" title="{{order.original_request.current_state | translate}}"></div>
+                                        <div class="uri">{{order.code}}</div>
+                                        <div class="usuario">
+                                            {{order.original_request.operator ? order.original_request.operator.name : '-'}}
+                                        </div>
+                                        <div class="decoracion"></div>
+                                    </div>
+
+                                    <div class="top_center pull-right text-center">
+                                        {{order.original_request.created_at|date:'mediumDate'}}
+                                    </div>
+                                </div>
+
+                                <div class="main_info">
+                                    <div class="title_and_author">
+                                        <div class="titulo">
+                                            <a ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}">
+                                                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                                                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                                            </a>
+                                        </div>
+                                        <div class="titulo" ng-if="order.material_data.type === 'journal'">
+                                            <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}" ng-if="order.material_data.journal">{{ order.material_data.journal.name }}</a>
+                                            <span ng-if="!order.material_data.journal">{{ order.material_data.other }}</span>
+                                        </div>
+                                        <div class="autor">{{order.material_data.authors}}</div>
+                                        <div class="doc_year">{{order.material_data.year}}</div>
+                                    </div>
+                                    <div class="doc_and_year">
+                                        <div ng-if="order.original_request.owner.pdf === true" class="doc_type_pdf"></div>
+                                        <div ng-if="order.original_request.owner.pdf !== true" class="doc_type_print"></div>
+                                        <div class="busquedas">
+                                            {{'searches'|translate}}: {{countSearches(order.original_request)}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comments">{{order.original_request.comments}}</div>
+
+                                <div class="order-actions">
+                                    <ul class="list-unstyled actions">
+                                        <li ng-if="searchPending(order.original_request)">
+                                            <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | translate }}"/>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_show', params: {'id': order.id} }|get_url }}"  title="{{ 'ShowOrder' | translate }}"><span class="glyphicon glyphicon-file"></span></a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
+                                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | translate }}"><span class="fa fa-files-o"></span></a>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                        </script>
+                    {% endverbatim %}
                 </div>
             </div>
 

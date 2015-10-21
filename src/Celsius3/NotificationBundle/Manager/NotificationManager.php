@@ -138,8 +138,11 @@ class NotificationManager
                                 $socket->connect('tcp://' . $this->zmq_host . ':' . $this->zmq_port);
 
                                 $socket->send(json_encode(array(
-                                    'notification_id' => $notification->getId()
+                                    'type' => 'notification',
+                                    'data' => array('notification_id' => $notification->getId())
                                 )));
+
+                                $socket->disconnect('tcp://' . $this->zmq_host . ':' . $this->zmq_port);
                             }
 
                             private function notifyInterface(Notification $notification, $receivers)

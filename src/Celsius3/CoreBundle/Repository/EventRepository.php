@@ -23,8 +23,42 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\JournalType;
 
 class EventRepository extends EntityRepository
 {
-    
+    public function findSimilarSearches(Order $order)
+    {
+        if ($order->getMaterialData() instanceof JournalType) {
+            $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
+                ->createQueryBuilder('s')
+                ->addSelect('c')
+                ->join('s.catalog', 'c')
+                ->join('s.request', 'r')
+                ->join('r.order', 'o')
+                ->leftJoin('Celsius3CoreBundle:JournalType', 'md', 'WITH', 'o.materialData = md.id')
+                ->leftJoin('md.journal', 'j')
+                ->where('j.name = :name')
+                ->orWhere('md.other = :name');
+            if (is_null($order->getMaterialData()->getJournal())) {
+                $qb = $qb->setParameter('name', $order->getMaterialData()->getOther());
+            } else {
+                $qb = $qb->setParameter('name', $order->getMaterialData()->getJournal()->getName());
+            }
+        } else {
+            $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
+                ->createQueryBuilder('s')
+                ->addSelect('c')
+                ->join('s.catalog', 'c')
+                ->join('s.request', 'r')
+                ->join('r.order', 'o')
+                ->join('o.materialData', 'md')
+                ->where('md.title = :name')
+                ->setParameter('name', $order->getMaterialData()->getTitle());
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
 }
