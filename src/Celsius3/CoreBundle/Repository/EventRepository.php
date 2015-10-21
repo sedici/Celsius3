@@ -40,7 +40,9 @@ class EventRepository extends EntityRepository
                 ->leftJoin('Celsius3CoreBundle:JournalType', 'md', 'WITH', 'o.materialData = md.id')
                 ->leftJoin('md.journal', 'j')
                 ->where('j.name = :name')
-                ->orWhere('md.other = :name');
+                ->orWhere('md.other = :name')
+                ->andWhere('o.id <> :order_id')
+                ->setParameter('order_id', $order->getId());
             if (is_null($order->getMaterialData()->getJournal())) {
                 $qb = $qb->setParameter('name', $order->getMaterialData()->getOther());
             } else {
@@ -55,6 +57,8 @@ class EventRepository extends EntityRepository
                 ->join('r.order', 'o')
                 ->join('o.materialData', 'md')
                 ->where('md.title = :name')
+                ->andWhere('o.id <> :order_id')
+                ->setParameter('order_id', $order->getId())
                 ->setParameter('name', $order->getMaterialData()->getTitle());
         }
 

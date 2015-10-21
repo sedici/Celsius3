@@ -12,8 +12,8 @@
 
         {% verbatim %}
             <script type="text/ng-template" id="catalog_search_details.html">
-                <ul>
-                <li ng-repeat="search in previousSearches(content)">{{'date'|translate}}: {{search.created_at|date:'mediumDate'}} - {{'result'|translate}}: {{search.result|translate}}</li>
+                <ul class="searches list-unstyled">
+                    <li ng-repeat="search in previousSearches(content)">{{search.created_at|date:'MMM/yyyy'}}: {{search.result|translate}}</li>
                 </ul>
             </script>
             <script type="text/ng-template" id="catalog_list.html">
