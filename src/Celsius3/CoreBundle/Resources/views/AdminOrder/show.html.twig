@@ -319,8 +319,6 @@
                 <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
                 </div>
                 </div>
-
-                <div id="operators-in-request" class="alert alert-info" role="alert" data-request-id="{{request.id}}"></div>
             </script>
             <script type="text/ng-template" id="show_actions.html">
                 <ul class="list-unstyled">
@@ -880,6 +878,10 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="text/javascript">
+        var request_id
+        = {{ entity.code }};
+    </script>
     {% javascripts 'bundles/celsius3core/ng/CCI/app.js'
                            'bundles/celsius3core/ng/CCI/directives.js'
                            'bundles/celsius3core/ng/CCI/resources.js' filter='?uglifyjs2'  %}

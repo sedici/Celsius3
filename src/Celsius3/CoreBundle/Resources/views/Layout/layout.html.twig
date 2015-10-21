@@ -27,9 +27,9 @@
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
             {% endstylesheets %}
             {% if instance.get('instance_css').value is not null %}
-            <style type="text/css">
-                {{  instance.get('instance_css').value  }}
-            </style>
+                <style type="text/css">
+                    {{  instance.get('instance_css').value  }}
+                </style>
             {% endif %}
             <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!--[if lt IE 9]>
@@ -96,9 +96,9 @@
                                     <div class="row">
                                         <div class="col-xs-3 col-sm-3">
                                             {% if instance.get('instance_logo').value != '' %}
-                                            <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
+                                                <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
                                             {% else %}
-                                            <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
+                                                <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
                                             {% endif %}
                                         </div>
                                         <div class="col-xs-9 col-sm-9">
@@ -107,23 +107,23 @@
                                         </div>
                                     </div>
                                     <div class="row" style="margin-top: 10px; margin-bottom: -22px; margin-left: -20px; margin-right: -20px;">
-                                        {% block adminpanel %}{% endblock %}
-                                    </div>
+                                    {% block adminpanel %}{% endblock %}
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {% if( is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
-                            {% for label, flashes in app.session.flashbag.all %}
-                                {% if label == 'configuration' %}
-                                    {% for flash in flashes %}
-                                        <div class="alert alert-warning">
-                                            {{ flash }}
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                    {% if( is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
+                        {% for label, flashes in app.session.flashbag.all %}
+                            {% if label == 'configuration' %}
+                                {% for flash in flashes %}
+                                    <div class="alert alert-warning">
+                                        {{ flash }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 {% endblock %}
             {% block navigation_content %}{% endblock %}
         {% block content %}{% endblock %}
@@ -175,6 +175,7 @@
                             'bundles/celsius3core/components/ng-file-upload-shim/ng-file-upload-shim.min.js'
                             'bundles/celsius3core/components/ng-file-upload/ng-file-upload.min.js'
                            'bundles/celsius3core/components/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+                           'bundles/celsius3core/components/remarkable-bootstrap-notify/bootstrap-notify.min.js'
                            'bundles/celsius3core/js/jquery-ui-timepicker-addon.js'
                            'bundles/celsius3core/js/cosmetics.js'
                            'bundles/celsius3core/js/forms.js'
