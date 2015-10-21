@@ -1,5 +1,5 @@
 <li class="col-md-6">
-    <div class="well {{instance.url}}">
+    <div class="well {{instance.url}} {% for owner in instance.getOwnerInstitutions()|slice(0,1) %} {{ owner.country.abbreviation }}{% endfor %}">
         {% if instance.isCurrent %}
             <h3 class="instance-title">
                 {% if instance.get('instance_logo').value != '' %}
@@ -11,6 +11,7 @@
             </h3>
         {% endif %}
         <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
+
         <p>
             <ul>
                 {% for institution in instance.ownerInstitutions %}

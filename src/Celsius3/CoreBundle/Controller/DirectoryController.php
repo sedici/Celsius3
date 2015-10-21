@@ -56,15 +56,19 @@ class DirectoryController extends BaseController
         $instances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->createQueryBuilder('i')
+                ->innerJoin('i.ownerInstitutions','owner')
                 ->where('i.enabled = true')
+                ->orderBy('owner.country')
                 ->getQuery()
                 ->getResult();
 
         $legacyInstances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:LegacyInstance')
                 ->createQueryBuilder('li')
+                ->innerJoin('li.ownerInstitutions','owner')
                 ->where('li.enabled = true')
                 ->andWhere('li INSTANCE OF Celsius3CoreBundle:LegacyInstance')
+                ->orderBy('owner.country')
                 ->getQuery()
                 ->getResult();
 
