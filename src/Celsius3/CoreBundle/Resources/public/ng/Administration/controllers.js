@@ -43,6 +43,8 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
                 order.request = response.requests[order.id];
             });
         });
+
+
     };
 
     $scope.pageChanged = function () {
@@ -127,10 +129,30 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type + '&state=' + $scope.state + '&orderType=' + $scope.orderType).success(function (response) {
             $scope.orderCount = response;
             $scope.loadOrders();
+            $scope.addMouseover();
         });
 
         User.pending(function (users) {
             $scope.users = users;
         });
     }
+
+    $scope.addMouseover = function () {
+        $(document)
+                .on('mouseover', 'div.main_info', function () {
+                    $(this).addClass('order-on-mouseover');
+                    $(this).css('cursor', 'pointer');
+                })
+                .on('mouseout', 'div.main_info', function () {
+                    $(this).removeClass('order-on-mouseover');
+                    $(this).css('cursor', 'auto');
+                })
+                .on('click', 'div.main_info', function () {
+                    var url = Routing.generate('admin_order_show', {id: $(this).attr('data-order-id')})
+                    $(location).attr("href", url);
+                });
+
+    }
+
+
 });
