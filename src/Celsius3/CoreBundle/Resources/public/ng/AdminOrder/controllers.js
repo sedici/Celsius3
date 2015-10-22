@@ -418,7 +418,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         Request.get({order_id: entity_id}, function (request) {
             $scope.request = request;
 
-            CatalogResult.query({title: entity_id}, function(response) {
+            CatalogResult.get({order_id: entity_id}, function(response) {
                 $scope.catalogResults = response.results;
                 $scope.catalogResultsOrder = response.searches;
             });
