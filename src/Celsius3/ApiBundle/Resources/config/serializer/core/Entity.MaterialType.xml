@@ -6,12 +6,12 @@
         <discriminator-class value="congress">Celsius3\CoreBundle\Entity\CongressType</discriminator-class>
         <discriminator-class value="thesis">Celsius3\CoreBundle\Entity\ThesisType</discriminator-class>
         <discriminator-class value="patent">Celsius3\CoreBundle\Entity\PatentType</discriminator-class>
-        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show"></property>
-        <property name="title" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
-        <property name="authors" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
-        <property name="year" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
-        <property name="startPage" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
-        <property name="endPage" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
-        <virtual-property name="materialType" serialized-name="type" type="string" expose="true" method="getMaterialType" groups="administration_list,administration_order_show"></virtual-property>
+        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="title" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="authors" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="year" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="startPage" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="endPage" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <virtual-property name="materialType" serialized-name="type" type="string" expose="true" method="getMaterialType" groups="administration_list,administration_order_show,user_list"></virtual-property>
     </class>
 </serializer>
