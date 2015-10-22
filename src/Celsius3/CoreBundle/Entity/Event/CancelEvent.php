@@ -34,6 +34,11 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {
 
+    public function getEventType()
+    {
+        return 'cancel';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('remoterequest', $data['extraData'])) {

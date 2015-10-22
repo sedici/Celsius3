@@ -37,6 +37,7 @@
                 <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/respond.min.js') }}"></script>
             <![endif]-->
         {% endblock %}
+        {% if app.environment == 'prod' %}
         <script>
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;
@@ -53,6 +54,7 @@
             ga('create', 'UA-15165518-47', 'auto');
             ga('send', 'pageview');
         </script>
+        {% endif %}
     </head>
     <body>
         <!--[if lt IE 7]>

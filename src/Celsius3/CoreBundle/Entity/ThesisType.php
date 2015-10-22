@@ -38,6 +38,10 @@ class ThesisType extends MaterialType
      */
     protected $degree;
 
+    public function getMaterialType() {
+        return 'thesis';
+    }
+
     /**
      * Set director
      *

@@ -90,6 +90,8 @@ abstract class MaterialType
      */
     protected $order;
 
+    abstract public function getMaterialType();
+
     public function __toString()
     {
         return $this->getTitle();

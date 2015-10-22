@@ -33,6 +33,11 @@ use Celsius3\CoreBundle\Manager\EventManager;
  */
 class ApproveEvent extends MultiInstanceEvent
 {
+    public function getEventType()
+    {
+        return 'approve';
+    }
+
     /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")

@@ -53,6 +53,11 @@ class UploadEvent extends MultiInstanceEvent
      */
     private $files;
 
+    public function getEventType()
+    {
+        return 'upload';
+    }
+
     public function __construct()
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();

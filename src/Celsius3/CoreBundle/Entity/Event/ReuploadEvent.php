@@ -39,6 +39,11 @@ class ReuploadEvent extends SingleInstanceEvent
      */
     private $receiveEvent;
 
+    public function getEventType()
+    {
+        return 'reupload';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setReceiveEvent($data['extraData']['receive']);

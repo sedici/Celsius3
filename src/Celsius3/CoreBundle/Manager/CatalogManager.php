@@ -62,34 +62,6 @@ class CatalogManager
                         ->findBy(array('instance' => $instance->getId(),));
     }
 
-    public function getAllCatalogs(Instance $instance, Instance $directory)
-    {
-        return $this->em->getRepository('Celsius3CoreBundle:Catalog')
-                        ->createQueryBuilder('c')
-                        ->join('c.positions', 'cp')
-                        ->where('c.instance = :instance_id')
-                        ->orWhere('c.instance = :directory_id')
-                        ->orderBy('cp.position', 'asc')
-                        ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('directory_id', $directory->getId())
-                        ->getQuery()
-                        ->getResult();
-    }
-
-    public function getCatalogResults($catalogs, $title)
-    {
-        return $this->em->getRepository('Celsius3CoreBundle:CatalogResult')
-                        ->createQueryBuilder('cr')
-                        ->where('cr.title = :title')
-                        ->andWhere('cr.catalog IN (:catalog_ids)')
-                        ->setParameter('title', $title)
-                        ->setParameter('catalog_ids', array_map(function (Catalog $catalog) {
-                                    return $catalog->getId();
-                                }, $catalogs))
-                        ->getQuery()
-                        ->getResult();
-    }
-
     public function isCatalogEnabled(Catalog $catalog)
     {
         $position = $catalog->getPosition($this->instance_helper->getSessionInstance());

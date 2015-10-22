@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
@@ -59,11 +60,14 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getPendingUsersAction()
     {
+        $context = SerializationContext::create()->setGroups(array('administration'));
+
         $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findPendingUsers($this->getInstance());
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

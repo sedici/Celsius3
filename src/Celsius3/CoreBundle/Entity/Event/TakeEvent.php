@@ -30,4 +30,9 @@ use Doctrine\ORM\Mapping as ORM;
 class TakeEvent extends SingleInstanceEvent
 {
     
+    public function getEventType()
+    {
+        return 'take';
+    }
+
 }

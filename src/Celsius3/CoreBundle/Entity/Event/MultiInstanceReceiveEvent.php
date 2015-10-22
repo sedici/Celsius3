@@ -66,6 +66,11 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
      */
     private $requestEvent;
 
+    public function getEventType()
+    {
+        return 'mireceive';
+    }
+
     public function __construct()
     {
         $this->files = new \Doctrine\Common\Collections\ArrayCollection();

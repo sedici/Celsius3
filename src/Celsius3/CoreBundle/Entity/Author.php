@@ -30,6 +30,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Author extends Provider
 {
 
+    public function getProviderType()
+    {
+        return 'author';
+    }
+
     public function getProviderName()
     {
         return 'Provided by the author';

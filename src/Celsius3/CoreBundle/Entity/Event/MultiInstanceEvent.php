@@ -37,6 +37,11 @@ class MultiInstanceEvent extends Event
      */
     private $remoteInstance;
 
+    public function getEventType()
+    {
+        return 'mi';
+    }
+
     /**
      * Set remoteInstance
      *

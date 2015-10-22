@@ -24,6 +24,8 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Entity\JournalType;
 
 /**
  * User controller.
@@ -39,9 +41,17 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
      */
     public function getCatalogsAction()
     {
-        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance(), $this->getDirectory());
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
+                    ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
+                    ->getQuery()
+                    ->execute();
 
         $view = $this->view(array_values($catalogs), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -67,24 +77,12 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/results/{title}", name="admin_rest_catalog_results", options={"expose"=true})
-     */
-    public function getCatalogResultsAction($title)
-    {
-        $catalogs = $this->get('celsius3_core.catalog_manager')->getAllCatalogs($this->getInstance(), $this->getDirectory());
-        $results = $this->get('celsius3_core.catalog_manager')->getCatalogResults($catalogs, $title);
-
-        $view = $this->view(array_values($results), 200)->setFormat('json');
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * GET Route annotation.
-     * @Get("/results/order/{order_id}", name="admin_rest_catalog_results_order", options={"expose"=true})
+     * @Get("/results/{order_id}", name="admin_rest_catalog_results_order", options={"expose"=true})
      */
     public function getOrderCatalogResultsAction($order_id)
     {
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
         $em = $this->getDoctrine()->getManager();
 
         $order = $em->getRepository('Celsius3CoreBundle:Order')
@@ -94,10 +92,31 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
             return $this->createNotFoundException('Order not found.');
         }
 
-        $results = $em->getRepository('Celsius3CoreBundle:Event\\Event')
-                    ->findSimilarSearches($order);
+        if ($order->getMaterialData() instanceof JournalType) {
+            if ($order->getMaterialData()->getJournal()) {
+                $title = $order->getMaterialData()->getJournal()->getName();
+            } else {
+                $title = $order->getMaterialData()->getOther();
+            }
+        } else {
+            $title = $order->getMaterialData()->getTitle();
+        }
 
-        $view = $this->view(array_values($results), 200)->setFormat('json');
+        $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
+                    ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
+                    ->select('c.id')
+                    ->getQuery()
+                    ->execute();
+
+        $response = array(
+            'results' => $em->getRepository('Celsius3CoreBundle:Catalog')
+                        ->getCatalogResults($catalogs, $title),
+            'searches' => $em->getRepository('Celsius3CoreBundle:Event\\Event')
+                        ->findSimilarSearches($order, $this->getInstance()),
+        );
+
+        $view = $this->view($response, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

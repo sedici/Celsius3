@@ -49,6 +49,10 @@ class BookType extends MaterialType
      */
     protected $withIndex = false;
 
+    public function getMaterialType() {
+        return 'book';
+    }
+
     /**
      * Set editor
      *

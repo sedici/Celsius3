@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -40,6 +41,8 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      */
     public function getAllEventsAction($request_id)
     {
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
         $events = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->findBy(array('request' => $request_id,));
 
@@ -56,6 +59,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
                 ->getResult();
 
         $view = $this->view(array_values(array_merge($events, $remoteEvents)), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -75,7 +79,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_event_get", options={"expose"=true})
+     * @Get("/{id}/get", name="admin_rest_event_get", options={"expose"=true})
      */
     public function getEventAction($id)
     {

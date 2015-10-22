@@ -34,6 +34,11 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 class AnnulEvent extends SingleInstanceEvent implements Notifiable
 {
 
+    public function getEventType()
+    {
+        return 'annul';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('request', $data['extraData'])) {

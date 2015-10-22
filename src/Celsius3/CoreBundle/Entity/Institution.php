@@ -98,6 +98,11 @@ class Institution extends Provider
      */
     private $hive;
 
+    public function getProviderType()
+    {
+        return 'institution';
+    }
+
     public function __toString()
     {
         return $this->abbreviation . ' - ' . $this->name;

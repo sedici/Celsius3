@@ -418,12 +418,10 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         Request.get({order_id: entity_id}, function (request) {
             $scope.request = request;
 
-            $scope.catalogResults = CatalogResult.query({title: $scope.getTitle($scope.order)});
-
-            $http.get(Routing.generate("admin_rest_catalog_results_order", { 'order_id': entity_id }))
-                    .success(function (response) {
-                        $scope.catalogResultsOrder = response;
-                    });
+            CatalogResult.query({title: entity_id}, function(response) {
+                $scope.catalogResults = response.results;
+                $scope.catalogResultsOrder = response.searches;
+            });
 
             Event.query({request_id: $scope.request.id}, function (events) {
                 $scope.groupedEvents = $scope.groupEvents(events);

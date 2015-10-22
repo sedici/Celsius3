@@ -60,6 +60,11 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
      */
     private $requestEvent;
 
+    public function getEventType()
+    {
+        return 'sireceive';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setDeliveryType($data['extraData']['delivery_type']);

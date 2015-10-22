@@ -42,6 +42,11 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiab
         CancellableTrait,
         ProviderTrait;
 
+    public function getEventType()
+    {
+        return 'sirequest';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setProvider($data['extraData']['provider']);
