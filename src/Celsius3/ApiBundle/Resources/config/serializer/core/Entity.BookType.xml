@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\BookType" exclusion-policy="all">
-        <property name="editor" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="chapter" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="ISBN" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="withIndex" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="editor" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="chapter" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="ISBN" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="withIndex" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
     </class>
 </serializer>

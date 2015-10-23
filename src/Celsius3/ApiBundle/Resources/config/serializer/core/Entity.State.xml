@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\State" exclusion-policy="all">
-        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="createdAt" type="DateTime" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="isCurrent" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="createdAt" type="DateTime" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="isCurrent" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="searchPending" type="boolean" expose="true" access-type="public_method" groups="administration_order_show"></property>
-        <property name="type" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
+        <property name="type" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="remoteEvent" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="instance" type="Celsius3\CoreBundle\Entity\Instance" expose="true" access-type="public_method" groups="administration_order_show"></property>
     </class>

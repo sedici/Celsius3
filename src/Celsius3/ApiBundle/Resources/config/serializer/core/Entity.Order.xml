@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\Order" exclusion-policy="all">
-        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="code" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="materialData" expose="true" access-type="public_method" groups="administration_list,administration_order_show,user_list"></property>
-        <property name="originalRequest" expose="true" access-type="public_method" groups=""></property>
+        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="code" type="integer" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="materialData" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="originalRequest" expose="true" access-type="public_method" groups="administration_user_show"></property>
         <virtual-property name="pages" type="integer" expose="true" method="getPages" groups=""></virtual-property>
     </class>
 </serializer>

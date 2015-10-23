@@ -6,7 +6,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     $scope.type = $routeParams.type;
     $scope.sortData = {
         sort: 'o.createdAt',
-        direction: 'desc'
+        direction: 'asc'
     };
 
     $scope.countSearches = function (request) {

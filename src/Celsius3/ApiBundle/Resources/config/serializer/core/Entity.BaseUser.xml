@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\BaseUser" exclusion-policy="all">
-        <property name="id" type="string" expose="true" read-only="true" groups="administration,administration_list,administration_order_show,user_list"></property>
-        <property name="name" type="string" expose="true" access-type="public_method" groups="administration,administration_list,administration_order_show,user_list"></property>
-        <property name="surname" type="string" expose="true" access-type="public_method" groups="administration,administration_list,administration_order_show,user_list"></property>
+        <property name="id" type="string" expose="true" read-only="true" groups="administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list"></property>
+        <property name="name" type="string" expose="true" access-type="public_method" groups="administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list"></property>
+        <property name="surname" type="string" expose="true" access-type="public_method" groups="administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list"></property>
         <property name="birthdate" type="DateTime" expose="true" access-type="public_method" groups="administration"></property>
         <property name="address" type="string" expose="true" access-type="public_method" groups="administration"></property>
         <property name="enabled" type="boolean" expose="true" access-type="public_method" groups="administration"></property>
         <property name="downloadAuth" type="boolean" expose="true" access-type="public_method" groups=""></property>
-        <property name="pdf" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
+        <property name="pdf" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="institution" type="Celsius3\CoreBundle\Entity\Institution" expose="true" access-type="public_method" groups="administration,administration_order_show"></property>
         <property name="customValues" type="array" expose="true" access-type="public_method" read-only="true" groups="administration"></property>
         <virtual-property name="country" type="Celsius3\CoreBundle\Entity\Country" expose="true" method="getCountry" groups="administration"></virtual-property>
