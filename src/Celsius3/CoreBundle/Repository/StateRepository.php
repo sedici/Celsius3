@@ -169,8 +169,6 @@ class StateRepository extends EntityRepository
                 ->addSelect('COUNT(r.id) requestsCount')
                 ->addSelect('SUM(f.pages) pages')
                 ->innerJoin('s.request', 'r')
-                ->innerJoin('r.order', 'o')
-                ->innerJoin('o.materialData', 'md')
                 ->leftJoin('r.files', 'f')
                 ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
                 ->andWhere('r.type = :type')->setParameter('type', $type)

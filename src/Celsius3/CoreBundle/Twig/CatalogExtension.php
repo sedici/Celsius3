@@ -46,32 +46,9 @@ class CatalogExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'get_catalogs' => new \Twig_Function_Method($this, 'getCatalogs'),
-            'get_searches' => new \Twig_Function_Method($this, 'getSearches'),
-            'search_exists' => new \Twig_Function_Method($this, 'searchExists'),
             'is_catalog_enabled' => new \Twig_Function_Method($this, 'isCatalogEnabled'),
             'get_disabled_catalogs_count' => new \Twig_Function_Method($this, 'getDisabledCatalogsCount'),
         );
-    }
-
-    public function getCatalogs(Instance $instance, Instance $directory)
-    {
-        return $this->catalog_manager->getAllCatalogs($instance, $directory);
-    }
-
-    public function getSearches(Request $request, $result = null)
-    {
-        return $this->catalog_manager->getSearches($request, $result);
-    }
-
-    public function searchExists($searches, Catalog $catalog)
-    {
-        $searches = new ArrayCollection($searches);
-        $result = $searches->filter(function (\Celsius3\CoreBundle\Entity\Event\SearchEvent $entry) use ($catalog) {
-                    return $entry->getCatalog()->getId() == $catalog->getId();
-                })->first();
-
-        return false !== $result ? $result : null;
     }
 
     public function isCatalogEnabled(Catalog $catalog)
