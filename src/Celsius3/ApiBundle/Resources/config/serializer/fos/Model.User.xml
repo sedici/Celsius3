@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="FOS\UserBundle\Model\User" exclusion-policy="all">
-        <property name="username" type="string" expose="true" access-type="public_method" groups="administration,administration_list,administration_order_show,administration_user_show,user_list"></property>
-        <property name="email" type="string" expose="true" access-type="public_method" groups="administration,administration_list,administration_order_show,administration_user_show,user_list"></property>
-        <property name="roles" type="array" expose="true" access-type="public_method" groups=""></property>
+        <property name="username" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="email" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="roles" type="array" expose="true" access-type="public_method" groups="api"></property>
     </class>
 </serializer>

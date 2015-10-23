@@ -25,6 +25,7 @@ namespace Celsius3\ApiBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpFoundation\Request;
+use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -40,6 +41,7 @@ class OrderController extends BaseController
      */
     public function ordersAction($token)
     {
+        $context = SerializationContext::create()->setGroups(array('api'));
         $accessToken = $this->getAccessTokenByToken($token);
         $isValidToken = $this->validateAccessToken($accessToken);
 
@@ -60,8 +62,8 @@ class OrderController extends BaseController
             ));
         }
 
-        $view = $this->view($orders, 200)
-                ->setFormat('json');
+        $view = $this->view($orders, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -72,6 +74,7 @@ class OrderController extends BaseController
      */
     public function ordersByStateAction($state, Request $request)
     {
+        $context = SerializationContext::create()->setGroups(array('api'));
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
         $isValidToken = $this->validateAccessToken($accessToken);
 
@@ -85,8 +88,8 @@ class OrderController extends BaseController
                     ->findOrdersByStateType($state, $startDate, null, $this->getInstance());
         }
 
-        $view = $this->view($orders, 200)
-                ->setFormat('json');
+        $view = $this->view($orders, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -97,6 +100,7 @@ class OrderController extends BaseController
      */
     public function ordersByUserAndStateAction($user_id, $state)
     {
+        $context = SerializationContext::create()->setGroups(array('api'));
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
         $isValidToken = $this->validateAccessToken($accessToken);
 
@@ -115,8 +119,8 @@ class OrderController extends BaseController
                     ->findOrdersByStateType($state, null, $user, $this->getInstance());
         }
 
-        $view = $this->view($orders, 200)
-                ->setFormat('json');
+        $view = $this->view($orders, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

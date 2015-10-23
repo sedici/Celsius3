@@ -43,6 +43,8 @@ class UserController extends BaseController
      */
     public function usersAction(Request $request)
     {
+        $context = SerializationContext::create()->setGroups(array('api'));
+
         $em = $this->getDoctrine()->getManager();
 
         $startDate = $request->query->get('startDate');
@@ -60,8 +62,8 @@ class UserController extends BaseController
         $users = $qb->getQuery()
                 ->getResult();
 
-        $view = $this->view($users, 200)
-                ->setFormat('json');
+        $view = $this->view($users, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -71,6 +73,7 @@ class UserController extends BaseController
      */
     public function currentUserAction(Request $request)
     {
+        $context = SerializationContext::create()->setGroups(array('api'));
 
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
 
@@ -79,16 +82,14 @@ class UserController extends BaseController
             $isValidToken = $this->validateAccessToken($accessToken);
         }
 
-        if ($isValidToken) {
-            $serializer = $this->get('jms_serializer');
+        if (!$isValidToken) {
+            $view = $this->view(array(), 200)->setFormat('json');
+        } else {
             $user = $accessToken->getUser();
-
-            $serializeUser = $serializer->serialize($user, 'json', SerializationContext::create()->setGroups(array('current_user')));
-
-            return new Response($serializeUser);
+            $view = $this->view($user, 200)->setFormat('json');
         }
 
-        $view = $this->view(array(), 200)->setFormat('json');
+        $view->setSerializationContext($context);
         return $this->handleView($view);
     }
 
@@ -113,6 +114,7 @@ class UserController extends BaseController
      */
     public function userAction($user_id)
     {
+        $context = SerializationContext::create()->setGroups(array('api'));
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
@@ -125,8 +127,8 @@ class UserController extends BaseController
             return $this->createNotFoundException('User not found');
         }
 
-        $view = $this->view($user, 200)
-                ->setFormat('json');
+        $view = $this->view($user, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
