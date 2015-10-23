@@ -119,7 +119,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
-        update: function (event, ui) {
+        stop: function (event, ui) {
             var id = ui.item.data('id');
             var result = $(ui.item.sortable.droptarget).parents('table.table').data('type');
             var catalog = _.first($scope.catalogsWithSearches.filter(function (item) {
@@ -280,7 +280,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                             $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             $scope.atualFileName = evt.config.file.name;
                         }).success(function (data, status, headers, config) {
-                            $scope.updateTables();
+                            $scope.refreshRequest(true);
                             $('.modal').modal('hide');
                             var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_printed_reconfirm' : 'order_printed';
                             $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id})).success(function (response) {
@@ -329,7 +329,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                             $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             $scope.atualFileName = evt.config.file.name;
                         }).success(function (data, status, headers, config) {
-                            $scope.updateTables();
+                            $scope.refreshRequest(true);
                             $('.modal').modal('hide');
                             $scope.filesToUploadBasic = [];
                         });
@@ -360,7 +360,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                             $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             $scope.atualFileName = evt.config.file.name;
                         }).success(function (data, status, headers, config) {
-                            $scope.updateTables();
+                            $scope.refreshRequest(true);
                             $('.modal').modal('hide');
                             $scope.filesToReupload = [];
                         });
@@ -405,7 +405,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope.basicMode = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take').success(function (response) {
             if (response) {
-                $scope.updateTables();
+                $scope.refreshRequest(true);
             }
         });
     };
@@ -414,69 +414,82 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $scope.advanced = true;
     };
 
-    $scope.updateTables = function () {
+    $scope.refreshEvents = function() {
+        Event.query({request_id: $scope.request.id}, function (events) {
+            $scope.groupedEvents = $scope.groupEvents(events);
+
+            $scope.take = events.filter(function (event) {
+                return event.type === 'take';
+            });
+
+            $scope.searches = _.sortBy(events.filter(function (event) {
+                return event.type === 'search';
+            }), function (event) {
+                return event.date;
+            });
+
+            $scope.requests = _.sortBy(events.filter(function (event) {
+                return event.type === 'sirequest' || event.type === 'mirequest';
+            }), function (event) {
+                return event.date;
+            });
+
+            $scope.receptions = _.sortBy(events.filter(function (event) {
+                return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
+            }), function (event) {
+                return event.date;
+            });
+
+            $scope.reclaims = events.filter(function (event) {
+                return event.type === 'reclaim';
+            });
+
+            $scope.approvals = events.filter(function (event) {
+                return event.type === 'approve';
+            });
+
+            $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function (item) {
+                item.search = _.find($scope.searches, function (search) {
+                    return search.catalog.id === item.id;
+                });
+            });
+
+            $scope.filterFound = $scope.catalogsWithSearches.filter(function (catalog) {
+                return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
+            });
+
+            $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function (catalog) {
+                return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
+            });
+
+            $scope.filterNotFound = $scope.catalogsWithSearches.filter(function (catalog) {
+                return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
+            });
+
+            $scope.$broadcast('updated');
+        });
+    };
+
+    $scope.refreshRequest = function(withEvents) {
         Request.get({order_id: entity_id}, function (request) {
             $scope.request = request;
 
-            CatalogResult.get({order_id: entity_id}, function(response) {
-                $scope.catalogResults = response.results;
-                $scope.catalogResultsOrder = response.searches;
-            });
-
-            Event.query({request_id: $scope.request.id}, function (events) {
-                $scope.groupedEvents = $scope.groupEvents(events);
-
-                $scope.take = events.filter(function (event) {
-                    return event.type === 'take';
-                });
-
-                $scope.searches = _.sortBy(events.filter(function (event) {
-                    return event.type === 'search';
-                }), function (event) {
-                    return event.date;
-                });
-
-                $scope.requests = _.sortBy(events.filter(function (event) {
-                    return event.type === 'sirequest' || event.type === 'mirequest';
-                }), function (event) {
-                    return event.date;
-                });
-
-                $scope.receptions = _.sortBy(events.filter(function (event) {
-                    return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
-                }), function (event) {
-                    return event.date;
-                });
-
-                $scope.reclaims = events.filter(function (event) {
-                    return event.type === 'reclaim';
-                });
-
-                $scope.approvals = events.filter(function (event) {
-                    return event.type === 'approve';
-                });
-
-                $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs), function (item) {
-                    item.search = _.find($scope.searches, function (search) {
-                        return search.catalog.id === item.id;
-                    });
-                });
-
-                $scope.filterFound = $scope.catalogsWithSearches.filter(function (catalog) {
-                    return !_.isUndefined(catalog.search) && catalog.search.result === 'found';
-                });
-
-                $scope.filterPartiallyFound = $scope.catalogsWithSearches.filter(function (catalog) {
-                    return !_.isUndefined(catalog.search) && catalog.search.result === 'partially_found';
-                });
-
-                $scope.filterNotFound = $scope.catalogsWithSearches.filter(function (catalog) {
-                    return !_.isUndefined(catalog.search) && catalog.search.result === 'not_found';
-                });
-
-                $scope.$broadcast('updated');
-            });
+            if (!_.isUndefined(withEvents) && withEvents === true) {
+                $scope.refreshEvents();
+            }
         });
+    };
+
+    $scope.refreshCatalogResults = function() {
+        CatalogResult.get({order_id: entity_id}, function(response) {
+            $scope.catalogResults = response.results;
+            $scope.catalogResultsOrder = response.searches;
+        });
+    };
+
+    $scope.updateTables = function () {
+        $scope.refreshCatalogResults();
+        $scope.refreshRequest(true);
     };
 
     $scope.requestFromCatalog = function (catalog) {
@@ -503,7 +516,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/search', data).success(function (response) {
             if (response) {
                 catalog.search = response;
-                $scope.updateTables();
+                $scope.updateTables(true);
             }
         });
     };
@@ -531,7 +544,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data).success(function (response) {
             if (response) {
-                $scope.updateTables();
+                $scope.refreshRequest(true);
                 $('#requestForm').get(0).reset();
                 $scope.$broadcast('reset');
                 $('.modal').modal('hide');
@@ -595,7 +608,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
             $('#cancelForm').get(0).reset();
             $('.modal').modal('hide');
         });
@@ -607,7 +620,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
             $('#cancelForm').get(0).reset();
             $('.modal').modal('hide');
             $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancel', request_id: $scope.request.id})).success(function (response) {
@@ -643,7 +656,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
             $('#reclaimForm').get(0).reset();
             $('.modal').modal('hide');
             delete $scope.forms.reclaim.request;
@@ -663,7 +676,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
             $('#reclaimForm').get(0).reset();
             $('.modal').modal('hide');
             delete $scope.forms.reclaim.receive;
@@ -682,37 +695,37 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data).success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
         });
     };
 
     $scope.deliver = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver').success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
         });
     };
 
     $scope.annul = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul').success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
         });
     };
 
     $scope.pendingSearch = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/searchpendings').success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
         });
     };
 
     $scope.noPendingSearch = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/nosearchpendings').success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
         });
     };
 
     $scope.undo = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/undo').success(function (response) {
-            $scope.updateTables();
+            $scope.refreshRequest(true);
         });
     };
 
@@ -760,7 +773,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {
             if (response) {
-                $scope.updateTables();
+                $scope.refreshRequest(true);
                 $scope.forms.email = {};
                 $('.modal').modal('hide');
             }
@@ -771,7 +784,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $http.post(Routing.generate('admin_rest_file_state', {file_id: file.id})).success(function (response) {
             if (response) {
                 file.enabled = !file.enabled;
-                $scope.updateTables();
+                $scope.refreshRequest(true);
             }
         });
     };
