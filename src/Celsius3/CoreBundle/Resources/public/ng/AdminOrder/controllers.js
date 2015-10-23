@@ -488,8 +488,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.updateTables = function () {
-        $scope.refreshCatalogResults();
         $scope.refreshRequest(true);
+        $scope.refreshCatalogResults();
     };
 
     $scope.requestFromCatalog = function (catalog) {
