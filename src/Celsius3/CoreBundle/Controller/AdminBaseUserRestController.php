@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
+use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
@@ -35,6 +36,14 @@ use Celsius3\CoreBundle\Manager\StateManager;
  */
 class AdminBaseUserRestController extends BaseInstanceDependentRestController
 {
+
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'o.updatedAt',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 
     /**
      * GET Route annotation.
@@ -59,11 +68,14 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getPendingUsersAction()
     {
+        $context = SerializationContext::create()->setGroups(array('administration'));
+
         $users = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findPendingUsers($this->getInstance());
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -150,11 +162,11 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getOrders($id, $type)
     {
+        $context = SerializationContext::create()->setGroups(array('administration_user_show'));
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
-        $currentPage = $this->get('request')->query->get('currentPage', 1);
-        $resultsPerPage = $this->get('request')->query->get('resultsPerPage', 10);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find BaseUser.');
@@ -163,26 +175,22 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         if ($type === 'active') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
                     ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity);
-        }
-        if ($type === 'ready') {
+        } else if ($type === 'ready') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
                     ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
-        }
-        if ($type === 'history') {
+        } else if ($type === 'history') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
                     ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity);
         }
 
         $totalQuery = clone($ordersQuery);
-        $total = $totalQuery->select('count(r)')->getQuery()->getSingleScalarResult();
+        $total = $totalQuery->select('count(DISTINCT o)')->getQuery()->getSingleScalarResult();
 
-        $ordersQuery
-                ->setMaxResults(intval($resultsPerPage))
-                ->setFirstResult((intval($currentPage) - 1) * 10);
-
-        $orders = $ordersQuery->getQuery()->execute();
+        $paginator = $this->get('knp_paginator');
+        $orders = $paginator->paginate($ordersQuery, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
 
         $view = $this->view(array('orders' => $orders, 'total' => $total), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

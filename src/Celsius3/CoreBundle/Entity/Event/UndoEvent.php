@@ -29,5 +29,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UndoEvent extends SingleInstanceEvent
 {
-    
+
+    public function getEventType()
+    {
+        return 'undo';
+    }
+
 }

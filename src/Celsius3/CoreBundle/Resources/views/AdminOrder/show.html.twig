@@ -727,14 +727,18 @@
                 </div>
 
                 <div class="owner_info">
-                <div class="owner_and_institution">
-                <div class="owner"><a ng-href="{{ {path: 'admin_user_show',params:{'id':request.owner.id} }|get_url}}">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }}) </a></div>
-                <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
-                </div>
+                    <div class="owner_and_institution">
+                        <div class="owner"><a ng-href="{{ {path: 'admin_user_show',params:{'id':request.owner.id} }|get_url}}">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }}) </a></div>
+                        <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
+                    </div>
+                    <div class="user-delivery-type pull-right">
+                        <div ng-if="request.owner.pdf === true" class="doc_type_pdf"></div>
+                        <div ng-if="request.owner.pdf !== true" class="doc_type_print"></div>
+                    </div>
                 </div>
                 <div class="comments" ng-if="request.comments">
-                <h5>{{'comments'|translate}}</h5>
-                <p>{{request.comments}}</p>
+                    <h5>{{'comments'|translate}}</h5>
+                    <p>{{request.comments}}</p>
                 </div>
             </script>
             <script type="text/ng-template" id="show_order_history.html">

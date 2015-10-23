@@ -31,6 +31,10 @@ use Celsius3\CoreBundle\Entity\Request;
  */
 class LocalCancelEvent extends MultiInstanceEvent
 {
+    public function getEventType()
+    {
+        return 'localcancel';
+    }
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {

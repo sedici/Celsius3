@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="FOS\MessageBundle\Model\Thread" exclusion-policy="all">
+        <property name="subject" type="string" expose="true" access-type="public_method" groups="user_list"></property>
+    </class>
+</serializer>

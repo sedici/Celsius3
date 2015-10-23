@@ -39,4 +39,17 @@ class CatalogRepository extends EntityRepository
                         ->setParameter('instance_id', $instance->getId())
                         ->setParameter('directory_id', $directory->getId());
     }
+
+    public function getCatalogResults($catalogs, $title)
+    {
+        return $this->getEntityManager()
+                        ->getRepository('Celsius3CoreBundle:CatalogResult')
+                        ->createQueryBuilder('cr')
+                        ->where('cr.title = :title')
+                        ->andWhere('cr.catalog IN (:catalog_ids)')
+                        ->setParameter('title', $title)
+                        ->setParameter('catalog_ids', $catalogs)
+                        ->getQuery()
+                        ->getResult();
+    }
 }

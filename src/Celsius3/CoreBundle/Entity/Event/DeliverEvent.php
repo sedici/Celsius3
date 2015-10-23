@@ -32,6 +32,11 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 class DeliverEvent extends SingleInstanceEvent implements Notifiable
 {
 
+    public function getEventType()
+    {
+        return 'deliver';
+    }
+
     public function notify(NotificationManager $manager)
     {
         $manager->notifyEvent($this,'deliver');

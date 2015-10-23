@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -40,12 +41,15 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionByParentAction($parent_id)
     {
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
         $em = $this->getDoctrine()->getManager();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
                 ->findBy(array('parent' => $parent_id,));
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }
@@ -56,6 +60,8 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      */
     public function getInstitutionsAction($country_id, $city_id, Request $request)
     {
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
         $em = $this->getDoctrine()->getManager();
 
         $filter = null;
@@ -69,6 +75,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
                 ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $hive, $country_id, $city_id, $filter);
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

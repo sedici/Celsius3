@@ -32,6 +32,11 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 class CreationEvent extends SingleInstanceEvent implements Notifiable
 {
 
+    public function getEventType()
+    {
+        return 'creation';
+    }
+
     public function notify(NotificationManager $manager)
     {
         $manager->notifyEvent($this,'creation');

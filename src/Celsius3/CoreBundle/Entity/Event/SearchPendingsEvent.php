@@ -32,6 +32,11 @@ use Celsius3\CoreBundle\Entity\Request;
 class SearchPendingsEvent extends SingleInstanceEvent
 {
 
+    public function getEventType()
+    {
+        return 'searchpendings';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->getState()->setSearchPending(true);

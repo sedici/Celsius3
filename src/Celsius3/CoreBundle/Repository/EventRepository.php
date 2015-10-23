@@ -23,17 +23,18 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\JournalType;
 
 class EventRepository extends EntityRepository
 {
-    public function findSimilarSearches(Order $order)
+    public function findSimilarSearches(Order $order, Instance $instance)
     {
         if ($order->getMaterialData() instanceof JournalType) {
             $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
                 ->createQueryBuilder('s')
-                ->addSelect('c')
+                ->select('s, c, r, o')
                 ->join('s.catalog', 'c')
                 ->join('s.request', 'r')
                 ->join('r.order', 'o')
@@ -51,7 +52,7 @@ class EventRepository extends EntityRepository
         } else {
             $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
                 ->createQueryBuilder('s')
-                ->addSelect('c')
+                ->select('s, c, r, o')
                 ->join('s.catalog', 'c')
                 ->join('s.request', 'r')
                 ->join('r.order', 'o')

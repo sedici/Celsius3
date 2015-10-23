@@ -49,6 +49,11 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
      */
     private $catalog;
 
+    public function getEventType()
+    {
+        return 'search';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setResult($data['extraData']['result']);
@@ -100,7 +105,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     {
         return $this->catalog;
     }
-    
+
     public function notify(NotificationManager $manager)
     {
         $manager->notifyEvent($this,'search');

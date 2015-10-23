@@ -6,7 +6,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
     $scope.type = $routeParams.type;
     $scope.sortData = {
         sort: 'o.createdAt',
-        direction: 'desc'
+        direction: 'asc'
     };
 
     $scope.countSearches = function (request) {
@@ -148,11 +148,8 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
                     $(this).css('cursor', 'auto');
                 })
                 .on('click', 'div.main_info', function () {
-                    var url = Routing.generate('admin_order_show', {id: $(this).attr('data-order-id')})
+                    var url = Routing.generate('admin_order_show', {id: $(this).attr('data-order-id')});
                     $(location).attr("href", url);
                 });
-
-    }
-
-
+    };
 });

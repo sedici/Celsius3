@@ -44,6 +44,11 @@ class ReclaimEvent extends SingleInstanceEvent
      */
     private $receiveEvent;
 
+    public function getEventType()
+    {
+        return 'reclaim';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('request', $data['extraData'])) {

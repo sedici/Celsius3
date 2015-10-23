@@ -40,7 +40,7 @@ class InstanceConfigurationListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
-        $token = $this->container->get('security.context')->getToken();
+        $token = $this->container->get('security.token_storage')->getToken();
 
         if (!is_null($instance) && !is_null($token) && (($user = $token->getUser()) instanceof BaseUser)) {
             if (($user->hasRole('ROLE_ADMIN') || $user->hasRole('ROLE_SUPER_ADMIN'))) {

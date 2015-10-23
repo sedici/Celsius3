@@ -29,5 +29,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PatentType extends MaterialType
 {
-    
+    public function getMaterialType() {
+        return 'patent';
+    }
 }

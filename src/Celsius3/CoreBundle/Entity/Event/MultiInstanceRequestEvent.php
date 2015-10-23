@@ -52,6 +52,11 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
      */
     private $remoteRequest;
 
+    public function getEventType()
+    {
+        return 'mirequest';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setProvider($data['extraData']['provider']);

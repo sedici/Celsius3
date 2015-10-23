@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use JMS\Serializer\SerializationContext;
 
 /**
  * BaseUser controller.
@@ -50,9 +51,12 @@ class UserBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getUserAction($id)
     {
-        $user = $this->getUser()->getId() === $id ? $this->getUser() : null;
+        $context = SerializationContext::create()->setGroups(array('user_list'));
+
+        $user = $this->getUser()->getId() === intval($id) ? $this->getUser() : null;
 
         $view = $this->view($user, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

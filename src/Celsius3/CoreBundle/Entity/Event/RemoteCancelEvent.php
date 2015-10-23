@@ -33,6 +33,11 @@ use Celsius3\CoreBundle\Entity\Request;
 class RemoteCancelEvent extends MultiInstanceEvent
 {
 
+    public function getEventType()
+    {
+        return 'remotecancel';
+    }
+
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $data['extraData']['request']->setIsCancelled(true);

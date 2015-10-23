@@ -26,6 +26,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use JMS\Serializer\SerializationContext;
 
 /**
  * User controller.
@@ -41,9 +42,12 @@ class MessageRestController extends FOSRestController
      */
     public function getMessagesAction(Request $request)
     {
+        $context = SerializationContext::create()->setGroups(array('user_list'));
+
         $messages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
                 ->createQueryBuilder('t')
+                ->select('t')
                 ->join('t.metadata', 'm')
                 ->join('m.participant', 'p')
                 ->where('p.id = :id')
@@ -53,8 +57,8 @@ class MessageRestController extends FOSRestController
                 ->getQuery()
                 ->execute();
 
-        $view = $this->view(array_values($messages), 200)
-                ->setFormat('json');
+        $view = $this->view(array_values($messages), 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
         return $this->handleView($view);
     }

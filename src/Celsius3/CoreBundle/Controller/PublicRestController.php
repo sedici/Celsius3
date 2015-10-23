@@ -46,8 +46,12 @@ class PublicRestController extends BaseInstanceDependentRestController
         $type = $request->query->get('type');
 
 
-        $newUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->countNewUsersFor($instance, $initialYear, $finalYear);
-        $activeUsers = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
+        $newUsers = $this->getDoctrine()->getManager()
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->countNewUsersFor($instance, $initialYear, $finalYear);
+        $activeUsers = $this->getDoctrine()->getManager()
+            ->getRepository('Celsius3CoreBundle:Request')
+            ->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
 
         $result = array();
         foreach ($newUsers as $count) {

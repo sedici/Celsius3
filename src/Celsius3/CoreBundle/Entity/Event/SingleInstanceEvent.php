@@ -29,5 +29,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SingleInstanceEvent extends Event
 {
-    
+
+    public function getEventType()
+    {
+        return 'si';
+    }
+
 }

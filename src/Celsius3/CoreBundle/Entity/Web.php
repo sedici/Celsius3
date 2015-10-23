@@ -30,6 +30,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Web extends Provider
 {
 
+    public function getProviderType()
+    {
+        return 'web';
+    }
+
     public function getProviderName()
     {
         return 'Found on the Web';

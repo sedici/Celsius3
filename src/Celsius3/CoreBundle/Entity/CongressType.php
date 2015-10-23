@@ -38,6 +38,10 @@ class CongressType extends MaterialType
      */
     protected $communication;
 
+    public function getMaterialType() {
+        return 'congress';
+    }
+
     /**
      * Set place
      *

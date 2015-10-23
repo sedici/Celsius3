@@ -49,6 +49,10 @@ class JournalType extends MaterialType
      */
     protected $journal;
 
+    public function getMaterialType() {
+        return 'journal';
+    }
+
     /**
      * Set volume
      *

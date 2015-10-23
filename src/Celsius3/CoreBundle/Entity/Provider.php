@@ -57,6 +57,8 @@ abstract class Provider
      */
     private $id;
 
+    abstract public function getProviderType();
+
     /**
      * Get id
      *
