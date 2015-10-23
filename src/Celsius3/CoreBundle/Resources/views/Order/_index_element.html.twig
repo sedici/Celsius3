@@ -36,19 +36,19 @@
     <div class="main_info" data-order-id="{{ element.id }}">
         <div class="title_and_author">
             <div class="titulo">
-                {% if (element.materialData.title is not empty) %}
-                    <span>{{ element.materialData.title }}</span>
-                {% else %}
-                    <span>[ {{ 'sinTitulo' | trans }} ]</span>
-                {% endif %}
-            </div>
-            <div class="titulo">
                 {% if (get_material_type(element.materialData) == 'journal') %}
                     {% if (element.materialData.journal) %}
                         <a href="{{ path('admin_order_show', {'id': element.id}) }}">{{ element.materialData.journal.name }}</a>
                     {% else %}
                         {{ element.materialData.other }}
                     {% endif %}
+                {% endif %}
+            </div>
+            <div class="titulo">
+                {% if (element.materialData.title is not empty) %}
+                    <span>{{ element.materialData.title }}</span>
+                {% else %}
+                    <span>[ {{ 'sinTitulo' | trans }} ]</span>
                 {% endif %}
             </div>
             <div class="autor">{{ element.materialData.authors }}</div>

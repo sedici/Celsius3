@@ -101,13 +101,13 @@
 
                     <div class="main_info" data-order-id="{{ order.id }}">
                         <div class="title_and_author">
-                            <div class="titulo">
-                                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
-                                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
-                            </div>
                             <div class="titulo" ng-if="order.material_data.type === 'journal'">
                                 <a ng-if="order.material_data.journal" ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">{{ order.material_data.journal.name }}</a>
                                 <span ng-if="!order.material_data.journal">{{ order.material_data.other }}</span>
+                            </div>
+                            <div class="titulo">
+                                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
                             </div>
                             <div class="autor">{{order.material_data.authors}}</div>
                             <div class="doc_year">{{order.material_data.year}}</div>
