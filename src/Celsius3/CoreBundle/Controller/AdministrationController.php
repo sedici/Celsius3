@@ -208,12 +208,14 @@ class AdministrationController extends BaseInstanceDependentController
                 ->getUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
 
         $i = 0;
+        $users = array();
         while ($i < count($usersRequests)) {
             $users[$usersRequests[$i]['id']] = array(
                 'username' => $usersRequests[$i]['username'],
                 'surname' => $usersRequests[$i]['surname'],
                 'name' => $usersRequests[$i]['name'],
-                'email' => $usersRequests[$i]['email']);
+                'email' => $usersRequests[$i]['email'],
+            );
 
             $actual = $usersRequests[$i]['id'];
             while ($i < count($usersRequests) && $actual === $usersRequests[$i]['id']) {
@@ -222,25 +224,18 @@ class AdministrationController extends BaseInstanceDependentController
             }
         }
 
-        $mailer = $this->get('mailer');
-        $message = $mailer->createMessage();
-
-        $message = $message->setSubject($subject)
-                ->setFrom($fromEmail);
-
-        $twig = clone $this->get('twig');
-        $twig->setLoader(new \Twig_Loader_String());
+        $mailer = $this->get('celsius3_core.mailer');
+        $twig = $this->get('twig');
 
         foreach ($users as $user) {
             try {
-                $body = $twig->render($text, array('user' => $user));
+                $template = $twig->createTemplate($text);
+                $body = $template->render(array('user' => $user));
+                $mailer->sendEmail($user['email'], $subject, $body, $this->getInstance());
             } catch (\Twig_Error_Runtime $e) {
                 $this->get('session')->getFlashBag()->set('errors', 'Invalid Template');
                 return $this->redirectToRoute('admin_send_reminder_emails');
             }
-            $message = $message->setTo($user['email'])
-                    ->setBody($body, 'text/html');
-            $mailer->send($message);
         }
 
         return $this->redirectToRoute('administration');

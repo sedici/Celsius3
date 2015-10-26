@@ -39,9 +39,9 @@ class AdministrationExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'count_users' => new \Twig_Function_Method($this, 'countUsers'),
-            'has_higher_roles' => new \Twig_Function_Method($this, 'hasHigherRoles'),
-            'role_name' => new \Twig_Function_Method($this, 'roleName'),
+            new \Twig_SimpleFunction('count_users', array($this, 'countUsers')),
+            new \Twig_SimpleFunction('has_higher_roles', array($this, 'hasHigherRoles')),
+            new \Twig_SimpleFunction('role_name', array($this, 'roleName')),
         );
     }
 

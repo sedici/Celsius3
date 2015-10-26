@@ -42,22 +42,21 @@ class MailManager
     private $im;
     private $twig;
 
-    public function __construct(EntityManager $em, InstanceManager $im)
+    public function __construct(EntityManager $em, InstanceManager $im, $twig)
     {
         $this->em = $em;
         $this->im = $im;
-        $loader = new \Twig_Loader_String();
-        $this->twig = new \Twig_Environment($loader);
+        $this->twig = $twig;
     }
 
     public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
     {
-        $template = $this->em->getRepository('Celsius3CoreBundle:MailTemplate')
+        $template = $twig->createTemplate($this->em->getRepository('Celsius3CoreBundle:MailTemplate')
                 ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
                 ->getQuery()
-                ->getSingleResult();
+                ->getSingleResult());
 
-        return $this->twig->render($template->getText(), array(
+        return $template->render(array(
                     'user' => $user,
                     'order' => $order
         ));

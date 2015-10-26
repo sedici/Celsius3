@@ -38,16 +38,11 @@ class CatalogExtension extends \Twig_Extension
         $this->catalog_manager = $catalog_manager;
     }
 
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
-
     public function getFunctions()
     {
         return array(
-            'is_catalog_enabled' => new \Twig_Function_Method($this, 'isCatalogEnabled'),
-            'get_disabled_catalogs_count' => new \Twig_Function_Method($this, 'getDisabledCatalogsCount'),
+            new \Twig_SimpleFunction('is_catalog_enabled', array($this, 'isCatalogEnabled')),
+            new \Twig_SimpleFunction('get_disabled_catalogs_count', array($this, 'getDisabledCatalogsCount')),
         );
     }
 

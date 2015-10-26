@@ -37,8 +37,9 @@ class ThreadExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'form_to_thread' => new \Twig_Function_Method($this, 'formToThread'),
-            'get_unread_messages' => new \Twig_Function_Method($this, 'getUnreadMessages'),);
+            new \Twig_SimpleFunction('form_to_thread', array($this, 'formToThread')),
+            new \Twig_SimpleFunction('get_unread_messages', array($this, 'getUnreadMessages')),
+        );
     }
 
     public function formToThread(ThreadInterface $thread)

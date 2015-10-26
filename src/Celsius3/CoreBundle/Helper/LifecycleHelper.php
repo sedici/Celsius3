@@ -23,7 +23,7 @@
 namespace Celsius3\CoreBundle\Helper;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\Request;

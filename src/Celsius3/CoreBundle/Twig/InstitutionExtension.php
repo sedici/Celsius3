@@ -30,9 +30,9 @@ class InstitutionExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'full_name' => new \Twig_Function_Method($this, 'fullName'),
-            'get_country' => new \Twig_Function_Method($this, 'getCountry'),
-            'get_city' => new \Twig_Function_Method($this, 'getCity'),
+            new \Twig_SimpleFunction('full_name', array($this, 'fullName')),
+            new \Twig_SimpleFunction('get_country', array($this, 'getCountry')),
+            new \Twig_SimpleFunction('get_city', array($this, 'getCity')),
         );
     }
 

@@ -38,16 +38,11 @@ class EventExtension extends \Twig_Extension
         $this->container = $container;
     }
 
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
-
     public function getFunctions()
     {
         return array(
-            'get_request_state' => new \Twig_Function_Method($this, 'getRequestState'),
-            'count_searches' => new \Twig_Function_Method($this, 'countSearches'),
+            new \Twig_SimpleFunction('get_request_state', array($this, 'getRequestState')),
+            new \Twig_SimpleFunction('count_searches', array($this, 'countSearches')),
         );
     }
 
