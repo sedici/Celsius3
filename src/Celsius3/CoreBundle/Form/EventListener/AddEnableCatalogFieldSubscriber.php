@@ -54,7 +54,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         $data = $event->getData();
 
         $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance()->getId())
+                ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance())
         );
 
         $form->add($this->factory->createNamed('enable', 'checkbox', null, array(
@@ -62,7 +62,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                     'label' => 'enable',
                     'required' => false,
                     'attr' => array(
-                        'checked' => $catalogPosition->getEnabled()
+                        'checked' => ($catalogPosition) ? $catalogPosition->getEnabled() : false
                     ),
                     'auto_initialize' => false))
         );
@@ -81,28 +81,30 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 
         $catalog = $this->em->getRepository('Celsius3CoreBundle:Catalog')->find($data['id']);
 
-        $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                ->findOneBy(array('catalog' => $catalog, 'instance' => $data['instance'])
-        );
+        if (!is_null($catalog)) {
+            $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
+                    ->findOneBy(array('catalog' => $catalog, 'instance' => $data['instance'])
+            );
 
-        if (isset($data['enable'])) {
-            $catalogPosition->setEnabled($data['enable']);
-        } else {
-            $catalogPosition->setEnabled(false);
+            if (isset($data['enable'])) {
+                $catalogPosition->setEnabled($data['enable']);
+            } else {
+                $catalogPosition->setEnabled(false);
+            }
+
+            $this->em->persist($catalogPosition);
+            $this->em->flush();
+
+            $form->add($this->factory->createNamed('enable', 'checkbox', null, array(
+                        'mapped' => false,
+                        'label' => 'enable',
+                        'required' => false,
+                        'attr' => array(
+                            'checked' => $catalogPosition->getEnabled()
+                        ),
+                        'auto_initialize' => false))
+            );
         }
-
-        $this->em->persist($catalogPosition);
-        $this->em->flush();
-
-        $form->add($this->factory->createNamed('enable', 'checkbox', null, array(
-                    'mapped' => false,
-                    'label' => 'enable',
-                    'required' => false,
-                    'attr' => array(
-                        'checked' => $catalogPosition->getEnabled()
-                    ),
-                    'auto_initialize' => false))
-        );
     }
 
 }

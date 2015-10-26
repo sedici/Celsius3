@@ -30,6 +30,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class CatalogListener
 {
+
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -40,9 +41,17 @@ class CatalogListener
     public function postPersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
+
+        $request = $this->container->get('request_stack')->getCurrentRequest();
         $em = $args->getEntityManager();
 
         if ($entity instanceof Catalog) {
+            if (array_key_exists('enable', $request->request->all()['celsius3_corebundle_catalogtype'])) {
+                $enable = $request->request->all()['celsius3_corebundle_catalogtype']['enable'];
+            } else {
+                $enable = false;
+            }
+
             $directory = $this->container->get('celsius3_core.instance_manager')
                     ->getDirectory();
             if ($entity->getInstance()->getId() == $directory->getId()) {
@@ -60,6 +69,7 @@ class CatalogListener
                     $position->setCatalog($entity);
                     $position->setInstance($instance);
                     $position->setPosition($place);
+                    $position->setEnabled($enable);
                     $em->persist($position);
                 }
                 $em->flush();
@@ -73,6 +83,7 @@ class CatalogListener
                 $position->setCatalog($entity);
                 $position->setInstance($entity->getInstance());
                 $position->setPosition($place);
+                $position->setEnabled($enable);
                 $em->persist($position);
                 $em->flush();
             }
@@ -88,9 +99,11 @@ class CatalogListener
                 $position->setCatalog($catalog);
                 $position->setInstance($entity);
                 $position->setPosition($place++);
+                $position->setEnabled(true);
                 $em->persist($position);
             }
             $em->flush();
         }
     }
+
 }
