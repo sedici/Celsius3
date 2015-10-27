@@ -192,5 +192,6 @@
     "add": "Agregar",
     "orderData": "Datos del pedido",
     "addInstitution": "Agregar institución",
-    "previousSearches": "Búsquedas Anteriores"
+    "previousSearches": "Búsquedas Anteriores",
+    "There are no orders": "No hay pedidos"
 }
