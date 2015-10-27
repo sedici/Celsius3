@@ -20,20 +20,20 @@
     <form class="form-horizontal" id="emailForm">
         <div class="form-group">
             <label for="address">{{ 'Address'|trans }}</label>
-            {% raw %}
+            {% verbatim %}
                 <input type="email" class="form-control" id="emailAddress" name="address" value="{{address}}" required />
-            {% endraw %}
+            {% endverbatim %}
         </div>
         <div class="form-group">
             <label for="template">{{ 'Template'|trans }}</label>
-            {% raw %}
+            {% verbatim %}
                 <select class="form-control select2" id="templateSelect" name="template">
                     <option></option>
                     {{#templates}}
                     <option value="{{id}}">{{title}}</option>
                     {{/templates}}
                 </select>
-            {% endraw %}
+            {% endverbatim %}
         </div>
         <div class="form-group">
             <label for="subject">{{ 'Subject'|trans }}</label>
