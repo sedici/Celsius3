@@ -30,14 +30,6 @@ use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class EventExtension extends \Twig_Extension
 {
-    private $environment;
-    private $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
     public function getFunctions()
     {
         return array(

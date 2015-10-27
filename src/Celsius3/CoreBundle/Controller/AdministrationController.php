@@ -201,7 +201,6 @@ class AdministrationController extends BaseInstanceDependentController
     {
         $subject = $request->request->get('subject');
         $text = $request->request->get('text');
-        $fromEmail = $this->getInstance()->get('email_reply_address')->getValue();
 
         $usersRequests = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:State')

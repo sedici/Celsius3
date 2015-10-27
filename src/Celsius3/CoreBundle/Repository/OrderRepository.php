@@ -76,7 +76,7 @@ class OrderRepository extends EntityRepository
                     ->setParameter('instance', $instance);
         }
 
-        if (!is_null($state) and $state != 'allStates') {
+        if (!is_null($state) && $state !== 'allStates') {
             $qb = $qb->andWhere('s.type = :type')
                     ->setParameter(':type', $state)
                     ->andWhere('s.isCurrent = :isCurrent')

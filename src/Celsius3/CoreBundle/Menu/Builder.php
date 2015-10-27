@@ -49,8 +49,6 @@ class Builder extends ContainerAware
 
     public function publicMenu(FactoryInterface $factory, array $options)
     {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 

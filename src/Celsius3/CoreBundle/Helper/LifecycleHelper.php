@@ -82,7 +82,7 @@ class LifecycleHelper
         $event->setOperator($request->getOperator());
         $event->setInstance($data['instance']);
         $event->setRequest($request);
-        $event->setState($this->getState($request, $event, $data));
+        $event->setState($this->getState($request, $data));
 
         $event->applyExtraData($request, $data, $this, $data['date']);
         $this->em->persist($event->getState());
@@ -91,7 +91,7 @@ class LifecycleHelper
         return $event;
     }
 
-    public function getState(Request $request, Event $event, array $data, Event $remoteEvent = null)
+    public function getState(Request $request, array $data, Event $remoteEvent = null)
     {
         $instance = is_null($data['instance']) ? $request->getInstance() : $data['instance'];
 

@@ -36,13 +36,11 @@ class CatalogManager
     const CATALOG__NOT_FOUND = 'not_found';
 
     private $em;
-    private $instance_manager;
     private $instance_helper;
 
-    public function __construct(EntityManager $em, InstanceManager $instance_manager, InstanceHelper $instance_helper)
+    public function __construct(EntityManager $em, InstanceHelper $instance_helper)
     {
         $this->em = $em;
-        $this->instance_manager = $instance_manager;
         $this->instance_helper = $instance_helper;
     }
 
@@ -69,24 +67,10 @@ class CatalogManager
         return $position->getEnabled();
     }
 
-    public function getDisabledCatalogsCount(Instance $instance, Instance $directory, $start = 0, $count = 0)
+    public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
-        $result = $this->em->getRepository('Celsius3CoreBundle:Catalog')
-                ->createQueryBuilder('c')
-                ->join('c.positions', 'cp')
-                ->where('c.instance = :instance_id')
-                ->orWhere('c.instance = :directory_id')
-                ->orderBy('cp.position', 'asc')
-                ->setParameter('instance_id', $instance->getId())
-                ->setParameter('directory_id', $directory->getId())
-                ->andWhere('cp.enabled = :enabled')
-                ->setParameter('enabled', false)
-                ->setMaxResults($count)
-                ->setFirstResult($start)
-                ->getQuery()
-                ->getResult();
-
-        return count($result);
+        return $this->em->getRepository('Celsius3CoreBundle:Catalog')
+                ->getDisabledCatalogsCount($instance, $directory);
     }
 
 }

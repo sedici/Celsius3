@@ -62,7 +62,8 @@ class MailManager
         ));
     }
 
-    public function renderRawTemplate($text,$vars_array) {
-        return $this->twig->render($text,$vars_array);
+    public function renderRawTemplate($text, $vars_array) {
+        $template = $this->twig->createTemplate($text);
+        return $template->render($vars_array);
     }
 }

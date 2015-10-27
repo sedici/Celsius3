@@ -89,7 +89,6 @@
         </service>
 
         <service id="celsius3_core.twig.extension.events" class="%celsius3_core.twig.extension.events.class%">
-            <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
         </service>
 
@@ -294,7 +293,6 @@
 
         <service id="celsius3_core.catalog_manager" class="%celsius3_core.catalog_manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <argument type="service" id="celsius3_core.instance_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
         </service>
 
@@ -318,7 +316,6 @@
             <argument type="service" id="fos_user.util.token_generator" />
             <argument type="service" id="router" />
             <argument type="service" id="session" />
-            <argument type="service" id="request_stack" />
             <argument type="service" id="celsius3_core.configuration_helper" />
         </service>
 

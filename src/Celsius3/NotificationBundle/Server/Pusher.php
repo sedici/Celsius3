@@ -26,7 +26,6 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class Pusher implements WampServerInterface
 {
@@ -39,13 +38,11 @@ class Pusher implements WampServerInterface
     private $connectionsByOperatorInRequest = array();
     private $notificationManager;
     private $entityManager;
-    private $instanceHelper;
 
-    public function __construct(NotificationManager $notificationManager, EntityManager $entityManager, InstanceHelper $instanceHelper)
+    public function __construct(NotificationManager $notificationManager, EntityManager $entityManager)
     {
         $this->notificationManager = $notificationManager;
         $this->entityManager = $entityManager;
-        $this->instanceHelper = $instanceHelper;
     }
 
     private function testAndReconnect()

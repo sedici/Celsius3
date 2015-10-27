@@ -13,10 +13,10 @@ default:
                 - %paths.base%/src/Celsius3/CoreBundle/Features
             type: symfony_bundle
             bundle: Celsius3CoreBundle
-            contexts: 
+            contexts:
                 - Celsius3\CoreBundle\Features\Context\OrderContext
                 - Celsius3\CoreBundle\Features\Context\PruebaContext
-                
+
         api_features:
             paths:
                 - %paths.base%/src/Celsius3/ApiBundle/Features

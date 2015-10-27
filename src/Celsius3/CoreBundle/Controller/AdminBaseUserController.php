@@ -76,8 +76,6 @@ class AdminBaseUserController extends BaseUserController
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
 
-        $em = $this->getDoctrine()->getManager();
-
         $messages = $this->get('fos_message.thread_manager')
                         ->getParticipantSentThreadsQueryBuilder($entity)
                         ->getQuery()->getResult();

@@ -51,9 +51,9 @@ class CatalogExtension extends \Twig_Extension
         return $this->catalog_manager->isCatalogEnabled($catalog);
     }
 
-    public function getDisabledCatalogsCount(Instance $instance, Instance $directory, $start = 0, $count = 0)
+    public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
-        return $this->catalog_manager->getDisabledCatalogsCount($instance, $directory, $start, $count);
+        return $this->catalog_manager->getDisabledCatalogsCount($instance, $directory);
     }
 
     public function getName()

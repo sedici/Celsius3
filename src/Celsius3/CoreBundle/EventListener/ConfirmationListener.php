@@ -27,7 +27,6 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Util\TokenGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -39,16 +38,14 @@ class ConfirmationListener implements EventSubscriberInterface
     private $tokenGenerator;
     private $router;
     private $session;
-    private $request_stack;
     private $configuration_helper;
 
-    public function __construct(MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UrlGeneratorInterface $router, SessionInterface $session, RequestStack $request_stack, ConfigurationHelper $configuration_helper)
+    public function __construct(MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UrlGeneratorInterface $router, SessionInterface $session, ConfigurationHelper $configuration_helper)
     {
         $this->mailer = $mailer;
         $this->tokenGenerator = $tokenGenerator;
         $this->router = $router;
         $this->session = $session;
-        $this->request_stack = $request_stack;
         $this->configuration_helper = $configuration_helper;
     }
 

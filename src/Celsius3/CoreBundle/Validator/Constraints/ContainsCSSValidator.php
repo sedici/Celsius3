@@ -34,7 +34,7 @@ class ContainsCSSValidator extends ConstraintValidator
         try {
             if (!is_null($value)) {
                 $parser = new Parser($value, Settings::create()->beStrict());
-                $css = $parser->parse();
+                $parser->parse();
             }
         } catch (\Exception $e) {
             $this->context->buildViolation($constraint->message)

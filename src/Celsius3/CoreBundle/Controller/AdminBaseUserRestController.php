@@ -160,7 +160,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/{id}/orders/{type}", name="admin_rest_user_get_orders", options={"expose"=true})
      */
-    public function getOrders($id, $type)
+    public function getOrdersAction($id, $type)
     {
         $context = SerializationContext::create()->setGroups(array('administration_user_show'));
 

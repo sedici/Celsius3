@@ -24,18 +24,15 @@ namespace Celsius3\ApiBundle\EventListener;
 
 use FOS\OAuthServerBundle\Event\OAuthEvent;
 use Doctrine\ORM\EntityManager;
-use FOS\UserBundle\Doctrine\UserManager;
 
 class OAuthEventListener
 {
 
     private $em;
-    private $um;
 
-    function __construct(EntityManager $em, UserManager $um)
+    function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->um = $um;
     }
 
     public function onPreAuthorizationProcess(OAuthEvent $event)

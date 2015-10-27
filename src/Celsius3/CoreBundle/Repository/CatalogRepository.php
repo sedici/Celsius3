@@ -52,4 +52,20 @@ class CatalogRepository extends EntityRepository
                         ->getQuery()
                         ->getResult();
     }
+
+    public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
+    {
+        return $this->createQueryBuilder('c')
+                ->select('COUNT(DISTINCT c.id)')
+                ->join('c.positions', 'cp')
+                ->where('c.instance = :instance_id')
+                ->orWhere('c.instance = :directory_id')
+                ->orderBy('cp.position', 'asc')
+                ->setParameter('instance_id', $instance->getId())
+                ->setParameter('directory_id', $directory->getId())
+                ->andWhere('cp.enabled = :enabled')
+                ->setParameter('enabled', false)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
 }
