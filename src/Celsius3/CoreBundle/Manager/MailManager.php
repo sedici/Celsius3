@@ -56,7 +56,8 @@ class MailManager
         $template = $this->twig->createTemplate($this->em->getRepository('Celsius3CoreBundle:MailTemplate')
                         ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
                         ->getQuery()
-                        ->getSingleResult());
+                        ->getSingleResult()
+                        ->getText());
 
         return $template->render(array(
                     'user' => $user,
