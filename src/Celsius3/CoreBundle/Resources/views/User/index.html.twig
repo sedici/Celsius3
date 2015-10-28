@@ -9,112 +9,119 @@
 
         </div>
         {% verbatim %}
-        <script type="text/ng-template" id="index.html">
-        <div class="row">
-            <div class="col-md-8" ng-include="'orders.html'">
-            </div>
-            <div class="col-md-4" ng-include="'sidebar.html'">
-            </div>
-        </div>
-        </script>
-        <script type="text/ng-template" id="messages.html">
-        <h2 class="pull-left">{{'lastMessages'|translate}}</h2>
-        <div class="pull-right user-message-actions">
-            <a class="btn btn-primary" href="{{ {path: 'fos_message_thread_new'}|get_url }}">
-                <span class="glyphicon glyphicon-envelope"></span> {{'new'|translate}}
-            </a>
-            <a class="btn btn-default" href="{{ {path: 'fos_message_inbox'}|get_url }}">
-                <span class="glyphicon glyphicon-inbox"></span> {{'all'|translate}}
-            </a>
-        </div>
-        <div class="clearfix"></div>
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="thread in threads">
-                <a href="{{ {path: 'fos_message_thread_view', params: {'threadId': thread.id} }|get_url }}"><span class="label label-default">{{ thread.createdBy.fullName }}</span> {{ thread.subject }}</a>
-            </li>
-        </ul>
-        </script>
-        <script type="text/ng-template" id="orders.html">
-        <div class="col-md-11">
-            <h2 class="pull-left">{{'orders'|translate}}</h2>
-            <div class="row pull-right">
-                <a class="btn btn-success btn-lg" href="{{ {path: 'user_order_new'}|get_url}}"><span class="glyphicon glyphicon-plus"></span> {{'addOrder'|translate}}</a>
-            </div>
-            <div class="clearfix"></div>
-            <div ng-include="'pagination.html'"></div>
+            <!-- index.html -->
+            <script type="text/ng-template" id="index.html">
+                <div class="row">
+                <div class="col-md-8" ng-include="'orders.html'">
+                </div>
+                <div class="col-md-4" ng-include="'sidebar.html'">
+                </div>
+                </div>
+            </script>
 
-            <div class="sorting-group pull-right">
+            <!-- messages.html -->
+            <script type="text/ng-template" id="messages.html">
+                <h2 class="pull-left">{{'lastMessages'|translate}}</h2>
+                <div class="pull-right user-message-actions">
+                <a class="btn btn-primary" href="{{ {path: 'fos_message_thread_new'}|get_url }}">
+                <span class="glyphicon glyphicon-envelope"></span> {{'new'|translate}}
+                </a>
+                <a class="btn btn-default" href="{{ {path: 'fos_message_inbox'}|get_url }}">
+                <span class="glyphicon glyphicon-inbox"></span> {{'all'|translate}}
+                </a>
+                </div>
+                <div class="clearfix"></div>
+                <ul class="list-group">
+                <li class="list-group-item" ng-repeat="thread in threads">
+                <a href="{{ {path: 'fos_message_thread_view', params: {'threadId': thread.id} }|get_url }}"><span class="label label-default">{{ thread.createdBy.fullName }}</span> {{ thread.subject }}</a>
+                </li>
+                </ul>
+            </script>
+
+            <!-- orders.html -->
+            <script type="text/ng-template" id="orders.html">
+                <div class="col-md-11">
+                <h2 class="pull-left">{{'orders'|translate}}</h2>
+                <div class="row pull-right">
+                <a class="btn btn-success btn-lg" href="{{ {path: 'user_order_new'}|get_url}}"><span class="glyphicon glyphicon-plus"></span> {{'addOrder'|translate}}</a>
+                </div>
+                <div class="clearfix"></div>
+                <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
+
+                <div class="sorting-group pull-right">
                 <span>
-                    {{'Sort by'|translate}}:
-                    <a href ng-click="sort('o.createdAt')">{{'date'|translate}}</a> -
-                    <a href ng-click="sort('o.code')">{{'code'|translate}}</a> -
-                    <a href ng-click="sort('m.title')">{{'title'|translate}}</a>
+                {{'Sort by'|translate}}:
+                <a href ng-click="sort('o.createdAt')">{{'date'|translate}}</a> -
+                <a href ng-click="sort('o.code')">{{'code'|translate}}</a> -
+                <a href ng-click="sort('m.title')">{{'title'|translate}}</a>
                 </span>
-            </div>
-            <div class="clearfix"></div>
-            <br />
-            <div class="row">
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <div class="row">
                 <div class="clearfix"></div>
                 <div class="item_container" ng-repeat="order in orders">
-                    <div class="top_info">
-                        <div class="top_left">
-                            <div ng-class="order.request.type | request_type">{{order.request.type| request_type_abbr | translate}}</div>
-                            <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
-                        </div>
-
-                        <div class="top_right">
-                            <div class="status-{{order.request.current_state}}"></div>
-                            <div class="uri">{{order.code}}</div>
-                            <div class="usuario">
-                                {{order.request.operator ? order.request.operator.name : '-'}}
-                            </div>
-                            <div class="decoracion"></div>
-                        </div>
-
-                        <div class="top_center pull-right text-center">
-                            {{order.request.created_at|date:'mediumDate'}}
-                        </div>
-                    </div>
-
-                    <div class="main_info">
-                        <div class="title_and_author">
-                        <div class="titulo" ng-if="order.material_data.type === 'journal'">
-                            {{ order.material_data.journal ? order.material_data.journal.name : order.material_data.other }}
-                        </div>
-                        <div class="titulo">
-                            <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
-                            <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
-                        </div>
-                        <div class="autor">
-                            {{order.material_data.authors}}
-                        </div>
-                        <div class="doc_year">
-                            <span><b>{{ 'year' | translate }}:</b> {{order.material_data.year}} | </span>
-                            <span ng-if="order.material_data.type === 'journal'"><b>{{ 'volume' | translate }}:</b> {{ order.material_data.volume }} | </span>
-                            <span ng-if="order.material_data.type === 'journal'"><b>{{ 'number' | translate }}:</b> {{ order.material_data.number }} | </span>
-                            <span><b>{{ 'startPage' | translate }}:</b> {{ order.material_data.start_page }} | </span>
-                            <span><b>{{ 'endPage' | translate }}:</b> {{ order.material_data.end_page }}</span>
-                        </div>
-                        </div>
-                        <div class="doc_and_year" ng-if="order.request.files.length > 0 && (order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.download_auth && order.request.owner.pdf && order.request.files.filter(hasDownloadableFiles).length > 0))">
-                            <p>{{'download'|translate}}
-                            <p>
-                                <a class="btn btn-default btn-lg disble-double-click" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.download_auth && order.request.owner.pdf && !file.is_downloaded && file.enabled)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
-                                    <span class="fa fa-file-pdf-o" aria-hidden="true"></span>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
+                <div class="top_info">
+                <div class="top_left">
+                <div ng-class="order.request.type | request_type">{{order.request.type| request_type_abbr | translate}}</div>
+                <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
                 </div>
-            </div>
-            <div ng-include="'pagination.html'"></div>
-        </div>
-        </script>
-        <script type="text/ng-template" id="pagination.html">
-        <div class="navigation">
-            <pagination total-items="total"
+
+                <div class="top_right">
+                <div class="status-{{order.request.current_state}}"></div>
+                <div class="uri">{{order.code}}</div>
+                <div class="usuario">
+                {{order.request.operator ? order.request.operator.name : '-'}}
+                </div>
+                <div class="decoracion"></div>
+                </div>
+
+                <div class="top_center pull-right text-center">
+                {{order.request.created_at|date:'mediumDate'}}
+                </div>
+                </div>
+
+                <div class="main_info">
+                <div class="title_and_author">
+                <div class="titulo" ng-if="order.material_data.type === 'journal'">
+                {{ order.material_data.journal ? order.material_data.journal.name : order.material_data.other }}
+                </div>
+                <div class="titulo">
+                <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
+                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                </div>
+                <div class="autor">
+                {{order.material_data.authors}}
+                </div>
+                <div class="doc_year">
+                <span><b>{{ 'year' | translate }}:</b> {{order.material_data.year}} | </span>
+                <span ng-if="order.material_data.type === 'journal'"><b>{{ 'volume' | translate }}:</b> {{ order.material_data.volume }} | </span>
+                <span ng-if="order.material_data.type === 'journal'"><b>{{ 'number' | translate }}:</b> {{ order.material_data.number }} | </span>
+                <span><b>{{ 'startPage' | translate }}:</b> {{ order.material_data.start_page }} | </span>
+                <span><b>{{ 'endPage' | translate }}:</b> {{ order.material_data.end_page }}</span>
+                </div>
+                </div>
+                <div class="doc_and_year" ng-if="order.request.files.length > 0 && (order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.download_auth && order.request.owner.pdf && order.request.files.filter(hasDownloadableFiles).length > 0))">
+                <p>{{'download'|translate}}
+                <p>
+                <a class="btn btn-default btn-lg disble-double-click" ng-if="order.request.owner.roles.indexOf('ROLE_ADMIN') !== -1 || order.request.owner.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.request.owner.download_auth && order.request.owner.pdf && !file.is_downloaded && file.enabled)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
+                <span class="fa fa-file-pdf-o" aria-hidden="true"></span>
+                </a>
+                </p>
+                </div>
+                </div>
+
+                <div class="clearfix"></div>
+                </div>
+                </div>
+                <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
+                </div>
+            </script>
+
+            <!-- pagination.html -->
+            <script type="text/ng-template" id="pagination.html">
+                <div class="navigation">
+                    <pagination total-items="total"
                         items-per-page="pagination.resultsPerPage"
                         max-size="7"
                         boundary-links="true"
@@ -126,26 +133,28 @@
                         next-text="{{ 'Next'|translate }}"
                         first-text="{{ 'First'|translate }}"
                         last-text="{{ 'Last'|translate }}">
-            </pagination>
-        </div>
-        </script>
-        <script type="text/ng-template" id="sidebar.html">
-        <div class="row" ng-include="'messages.html'">
-        </div>
-        <div class="row">
-            <ul class="list-group">
+                    </pagination>
+                </div>
+            </script>
+
+            <!-- sidebar.html -->
+            <script type="text/ng-template" id="sidebar.html">
+                <div class="row" ng-include="'messages.html'">
+                </div>
+                <div class="row">
+                <ul class="list-group">
                 <li class="list-group-item">
-                    <a href="{{ {path: 'fos_user_profile_edit'}|get_url }}"><span class="glyphicon glyphicon-user"></span>  {{'editProfile'|translate}}</a>
+                <a href="{{ {path: 'fos_user_profile_edit'}|get_url }}"><span class="glyphicon glyphicon-user"></span>  {{'editProfile'|translate}}</a>
                 </li>
                 <li class="list-group-item">
-                    <a href="{{ {path: 'user_order', params: {state: ['delivered', 'cancelled', 'annulled']} }|get_url}}"><span class="glyphicon glyphicon-book"></span> {{'orderHistory'|translate}}</a>
+                <a href="{{ {path: 'user_order', params: {state: ['delivered', 'cancelled', 'annulled']} }|get_url}}"><span class="glyphicon glyphicon-book"></span> {{'orderHistory'|translate}}</a>
                 </li>
                 <li class="list-group-item" ng-if="user.is_librarian">
-                    <a href="#"><span class="glyphicon glyphicon-list"></span>  {{'institutionUsers'|translate}}</a>
+                <a href="#"><span class="glyphicon glyphicon-list"></span>  {{'institutionUsers'|translate}}</a>
                 </li>
-            </ul>
-        </div>
-        </script>
+                </ul>
+                </div>
+            </script>
         {% endverbatim %}
     </div>
 {% endblock %}

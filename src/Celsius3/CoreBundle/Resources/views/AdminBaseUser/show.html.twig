@@ -59,7 +59,7 @@
                             <div class="tab-content">
                             <div class="tab-pane active" id="active">
                             <br/>
-                            <div class="navigation" ng-if="paginationActive.total > 0">
+                            <div class="navigation" ng-if="paginationActive.total > paginationActive.resultsPerPage">
                             <pagination total-items="paginationActive.total"
                             items-per-page="paginationActive.resultsPerPage"
                             max-size="7"
@@ -86,7 +86,7 @@
 
                             <div class="tab-pane" id="ready">
                             <br/>
-                            <div class="navigation" ng-if="paginationActive.total > 0">
+                            <div class="navigation" ng-if="paginationReady.total > paginationReady.resultsPerPage">
                             <pagination total-items="paginationReady.total"
                             items-per-page="paginationReady.resultsPerPage"
                             max-size="7"
@@ -114,7 +114,7 @@
 
                             <div class="tab-pane" id="history">
                             <br/>
-                            <div class="navigation" ng-if="paginationActive.total > 0">
+                            <div class="navigation" ng-if="paginationHistory.total > paginationHistory.resultsPerPage">
                             <pagination total-items="paginationHistory.total"
                             items-per-page="paginationHistory.resultsPerPage"
                             max-size="7"
