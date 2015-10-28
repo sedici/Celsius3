@@ -40,11 +40,13 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 
     use ReclaimableTrait,
         ApprovableTrait;
+
     /**
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
     private $deliveryType;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="mirequests_files",
@@ -53,12 +55,14 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
      *      )
      */
     private $files;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
      * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
      */
     private $remoteState;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
@@ -85,7 +89,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
         $this->setRemoteInstance($request->getInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
-        $this->setRemoteState($lifecycleHelper->getState($request, $this, $data, $this));
+        $this->setRemoteState($lifecycleHelper->getState($request, $data, $this));
     }
 
     /**
@@ -189,7 +193,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'receive');
+        $manager->notifyEvent($this, 'receive');
     }
 
 }

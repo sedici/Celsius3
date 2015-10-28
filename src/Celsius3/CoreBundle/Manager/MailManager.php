@@ -31,6 +31,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 
 class MailManager
 {
+
     const MAIL__ORDER_PRINTED = 'order_printed';
     const MAIL__ORDER_DOWNLOAD = 'order_download';
     const MAIL__ORDER_CANCEL = 'order_cancel';
@@ -38,6 +39,7 @@ class MailManager
     const MAIL__USER_WELCOME = 'user_welcome';
     const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
     const MAIL__USER_LOST = 'user_lost';
+
     private $em;
     private $im;
     private $twig;
@@ -51,10 +53,10 @@ class MailManager
 
     public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
     {
-        $template = $twig->createTemplate($this->em->getRepository('Celsius3CoreBundle:MailTemplate')
-                ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
-                ->getQuery()
-                ->getSingleResult());
+        $template = $this->twig->createTemplate($this->em->getRepository('Celsius3CoreBundle:MailTemplate')
+                        ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
+                        ->getQuery()
+                        ->getSingleResult());
 
         return $template->render(array(
                     'user' => $user,
@@ -62,8 +64,10 @@ class MailManager
         ));
     }
 
-    public function renderRawTemplate($text, $vars_array) {
+    public function renderRawTemplate($text, $vars_array)
+    {
         $template = $this->twig->createTemplate($text);
         return $template->render($vars_array);
     }
+
 }

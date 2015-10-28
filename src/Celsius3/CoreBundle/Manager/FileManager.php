@@ -61,6 +61,7 @@ class FileManager
             $file->setInstance($request->getInstance());
             $this->em->persist($file);
             $event->addFile($file);
+            $this->em->persist($event);
         }
     }
 
@@ -81,4 +82,5 @@ class FileManager
         $this->em->persist($download);
         $this->em->flush();
     }
+
 }
