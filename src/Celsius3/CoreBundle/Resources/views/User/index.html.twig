@@ -69,7 +69,7 @@
 
                 <div class="top_right">
                 <div class="status-{{order.request.current_state}}"></div>
-                <div class="uri">{{order.code}}</div>
+                <div class="uri">{{order.request.id}}</div>
                 <div class="usuario">
                 {{order.request.operator ? order.request.operator.name : '-'}}
                 </div>
@@ -121,19 +121,19 @@
             <!-- pagination.html -->
             <script type="text/ng-template" id="pagination.html">
                 <div class="navigation">
-                    <pagination total-items="total"
-                        items-per-page="pagination.resultsPerPage"
-                        max-size="7"
-                        boundary-links="true"
-                        rotate="false"
-                        num-pages="numPages"
-                        ng-model="pagination.currentPage"
-                        ng-change="pageChanged()"
-                        previous-text="{{ 'Previous'|translate }}"
-                        next-text="{{ 'Next'|translate }}"
-                        first-text="{{ 'First'|translate }}"
-                        last-text="{{ 'Last'|translate }}">
-                    </pagination>
+                <pagination total-items="total"
+                items-per-page="pagination.resultsPerPage"
+                max-size="7"
+                boundary-links="true"
+                rotate="false"
+                num-pages="numPages"
+                ng-model="pagination.currentPage"
+                ng-change="pageChanged()"
+                previous-text="{{ 'Previous'|translate }}"
+                next-text="{{ 'Next'|translate }}"
+                first-text="{{ 'First'|translate }}"
+                last-text="{{ 'Last'|translate }}">
+                </pagination>
                 </div>
             </script>
 

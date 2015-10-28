@@ -10,6 +10,7 @@
 
         </div>
         {% verbatim %}
+            <!-- dash.html -->
             <script type="text/ng-template" id="dash.html">
                 <div class="clearfix row">
                 <ul class="nav nav-pills pull-left" id="pedidos">
@@ -51,6 +52,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- index.html -->
             <script type="text/ng-template" id="index.html">
                 <div class="row">
                 <div class="col-md-12" ng-include="'dash.html'">
@@ -63,9 +66,11 @@
                 </div>
                 </div>
             </script>
+
+            <!-- orders.html -->
             <script type="text/ng-template" id="orders.html">
             <div class="col-md-12" ng-if="orders.length > 0">
-                <div ng-include="'pagination.html'"></div>
+                <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
 
                 <div class="sorting-group pull-right">
                     <span>
@@ -87,7 +92,7 @@
 
                         <div class="top_right">
                             <div class="status-{{order.request.current_state}}" data-toggle="tooltip" title="{{order.request.current_state | translate}}"></div>
-                            <div class="uri">{{order.code}}</div>
+                            <div class="uri">{{order.request.id}}</div>
                             <div class="usuario">
                                 {{order.request.operator ? order.request.operator.name : '-'}}
                             </div>
@@ -141,13 +146,15 @@
 
                     <div class="clearfix"></div>
                 </div>
-                <div ng-include="'pagination.html'"></div>
+                <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
             </div>
 
             <div class="col-md-12" ng-if="orders.length === 0">
                 <p>{{'noMatchingOrders' | translate}}</p>
             </div>
             </script>
+
+            <!-- pagination.html -->
             <script type="text/ng-template" id="pagination.html">
                 <div class="navigation">
                 <pagination total-items="total"
@@ -165,6 +172,8 @@
                 </pagination>
                 </div>
             </script>
+
+            <!-- users.html -->
             <script type="text/ng-template" id="users.html">
                 <h2>{{'pendingUsersTitle'|translate}}</h2>
                 <ul class="list-group" ng-if="users.length > 0">

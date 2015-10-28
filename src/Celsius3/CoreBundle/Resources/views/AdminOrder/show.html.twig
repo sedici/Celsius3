@@ -11,11 +11,14 @@
         </div>
 
         {% verbatim %}
+            <!-- catalog_search_details.html -->
             <script type="text/ng-template" id="catalog_search_details.html">
                 <ul class="searches list-unstyled">
-                    <li ng-repeat="search in previousSearches(content)">{{search.created_at|date:'MMM/yyyy'}}: {{search.result|translate}}</li>
+                <li ng-repeat="search in previousSearches(content)">{{search.created_at|date:'MMM/yyyy'}}: {{search.result|translate}}</li>
                 </ul>
             </script>
+
+            <!-- catalog_list.html -->
             <script type="text/ng-template" id="catalog_list.html">
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
@@ -55,6 +58,8 @@
                 </table>
                 </div>
             </script>
+
+            <!-- file_list.html -->
             <script type="text/ng-template" id="file_list.html">
                 <table class="table table-hover catalog-table">
                 <thead>
@@ -77,6 +82,8 @@
                 </tbody>
                 </table>
             </script>
+
+            <!-- order_cancel_form.html -->
             <script type="text/ng-template" id="order_cancel_form.html">
                 <form class="form-horizontal" id="cancelForm" name="formNames.cancel" novalidate ng-submit="cancelRequest()">
                 <div class="form-group" ng-class="cancelerror">
@@ -85,6 +92,8 @@
                 </div>
                 </form>
             </script>
+
+            <!-- order_email_form.html -->
             <script type="text/ng-template" id="order_email_form.html">
                 <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
                 <div class="form-group" ng-if="contacts !== null">
@@ -117,6 +126,8 @@
                 </div>
                 </form>
             </script>
+
+            <!-- order_receive_form.html -->
             <script type="text/ng-template" id="order_receive_form.html">
                 <form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate >
                 <div class="form-group" ng-class="delivery_type_error">
@@ -140,6 +151,8 @@
                 </div>
                 </form>
             </script>
+
+            <!-- order_reclaim_form.html -->
             <script type="text/ng-template" id="order_reclaim_form.html">
                 <form class="form-horizontal" id="reclaimForm" name="formNames.reclaim" novalidate ng-submit="reclaimRequest()">
                 <div class="form-group" ng-class="reclaimerror">
@@ -148,6 +161,8 @@
                 </div>
                 </form>
             </script>
+
+            <!-- order_request_form.html -->
             <script type="text/ng-template" id="order_request_form.html">
                 <form class="form-horizontal" id="requestForm" name="formNames.request" ng-submit="submitRequest()">
                 <div class="form-group">
@@ -170,6 +185,8 @@
                 </cci-widget>
                 </form>
             </script>
+
+            <!-- order_reupload_form.html -->
             <script type="text/ng-template" id="order_reupload_form.html">
                 <form class="form-horizontal" id="reuploadForm">
                 <div class="form-group">
@@ -181,6 +198,8 @@
                 </div>
                 </form>
             </script>
+
+            <!-- order_upload_form.html -->
             <script type="text/ng-template" id="order_upload_form.html">
                 <div class="alert alert-success" ng-if="request.current_state === 'received'">
                 {{'filesSuccessUpload' | translate}}
@@ -201,6 +220,8 @@
                 </div>
                 </form>
             </script>
+
+            <!-- request_cancelled.html -->
             <script type="text/ng-template" id="request_cancelled.html">
                 <div class="panel2_cancel col-md-1"></div>
                 <div class="panel3_cancel col-md-3">
@@ -215,6 +236,8 @@
                 </ul>
                 </div>
             </script>
+
+            <!-- request_not_received.html -->
             <script type="text/ng-template" id="request_not_received.html">
                 <div class="panel2 col-md-1"></div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'sirequest'">
@@ -250,6 +273,8 @@
                 </ul>
                 </div>
             </script>
+
+            <!-- request_received.html -->
             <script type="text/ng-template" id="request_received.html">
                 <div class="panel2_ok col-md-1"></div>
                 <div class="panel3_ok col-md-3">
@@ -281,6 +306,8 @@
                 </ul>
                 </div>
             </script>
+
+            <!-- show.html -->
             <script type="text/ng-template" id="show.html">
                 <div class="item_container row" ng-include="'show_order_data.html'">
                 </div>
@@ -320,6 +347,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- show_actions.html -->
             <script type="text/ng-template" id="show_actions.html">
                 <ul class="list-unstyled">
                 <li>
@@ -367,6 +396,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- show_interaction.html -->
             <script type="text/ng-template" id="show_interaction.html">
                 <div class="row">
                 <div class="col-xs-10" ng-if="interaction.reult">
@@ -404,6 +435,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- journal_data.html -->
             <script type="text/ng-template" id="journal_data.html">
                 <ul class="list-unstyled">
                 <li ng-if="order.material_data.type === 'journal'">
@@ -436,6 +469,8 @@
                 </li>
                 </ul>
             </script>
+
+            <!-- book_data.html -->
             <script type="text/ng-template" id="book_data.html">
                 <ul class="list-unstyled">
                 <li>
@@ -467,6 +502,8 @@
                 </li>
                 </ul>
             </script>
+
+            <!-- other_data.html -->
             <script type="text/ng-template" id="other_data.html">
                 <ul class="list-unstyled">
                 <li>
@@ -501,6 +538,8 @@
                 </li>
                 </ul>
             </script>
+
+            <!-- show_material_data.html -->
             <script type="text/ng-template" id="show_material_data.html">
                 <h4>{{'itemInformation' | translate}}</h4>
                 <div ng-if="order.material_data.type === 'journal'">
@@ -513,6 +552,8 @@
                 <div ng-include="'other_data.html'"></div>
                 </div>
             </script>
+
+            <!-- show_order_actions.html -->
             <script type="text/ng-template" id="show_order_actions.html">
                 <div class="explorar_catalogos" ng-if="contains(['searched', 'requested', 'approval_pending', 'received'], request.current_state) && countSearches() > 0">
                 <button type="button" class="btn btn-success btn-block" data-target="#request-modal" role="button" data-toggle="modal">
@@ -597,6 +638,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- show_order_catalog_results.html -->
             <script type="text/ng-template" id="show_order_catalog_results.html">
                 <div class="col-md-4">
                 <table class="table table-condensed catalog-result-table" data-type="found">
@@ -673,6 +716,8 @@
                 </table>
                 </div>
             </script>
+
+            <!-- show_order_content.html -->
             <script type="text/ng-template" id="show_order_content.html">
                 <div class="col-md-3" ng-include="'show_order_actions.html'">
                 </div>
@@ -692,6 +737,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- show_order_data.html -->
             <script type="text/ng-template" id="show_order_data.html">
                 <div class="top_info">
                 <div class="top_left">
@@ -701,7 +748,7 @@
 
                 <div class="top_right">
                 <div class="status-{{request.current_state}}" data-toggle="tooltip" title="{{request.current_state | translate}}"></div>
-                <div class="uri">{{order.code}}</div>
+                <div class="uri">{{request.id}}</div>
                 <div class="usuario">
                 {{request.operator ? request.operator.name : '-'}}
                 </div>
@@ -727,20 +774,22 @@
                 </div>
 
                 <div class="owner_info">
-                    <div class="owner_and_institution">
-                        <div class="owner"><a ng-href="{{ {path: 'admin_user_show',params:{'id':request.owner.id} }|get_url}}">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }}) </a></div>
-                        <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
-                    </div>
-                    <div class="user-delivery-type pull-right">
-                        <div ng-if="request.owner.pdf === true" class="doc_type_pdf"></div>
-                        <div ng-if="request.owner.pdf !== true" class="doc_type_print"></div>
-                    </div>
+                <div class="owner_and_institution">
+                <div class="owner"><a ng-href="{{ {path: 'admin_user_show',params:{'id':request.owner.id} }|get_url}}">{{ request.owner.surname }}, {{ request.owner.name }} ({{ request.owner.username }}) </a></div>
+                <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
+                </div>
+                <div class="user-delivery-type pull-right">
+                <div ng-if="request.owner.pdf === true" class="doc_type_pdf"></div>
+                <div ng-if="request.owner.pdf !== true" class="doc_type_print"></div>
+                </div>
                 </div>
                 <div class="comments" ng-if="request.comments">
-                    <h5>{{'comments'|translate}}</h5>
-                    <p>{{request.comments}}</p>
+                <h5>{{'comments'|translate}}</h5>
+                <p>{{request.comments}}</p>
                 </div>
             </script>
+
+            <!-- show_order_history.html -->
             <script type="text/ng-template" id="show_order_history.html">
                 <h3>{{ 'history' | translate }}</h3>
                 <div ng-if="!groupedEvents">
@@ -757,6 +806,8 @@
                 </div>
                 </div>
             </script>
+
+            <!-- show_order_request_summary.html -->
             <script type="text/ng-template" id="show_order_request_summary.html">
                 <h1>{{'requests' | translate}}</h1>
                 <div class="no-requests" ng-if="requests.length === 0">
