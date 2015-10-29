@@ -74,14 +74,12 @@ abstract class MaterialType
     protected $year;
 
     /**
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $startPage;
 
     /**
-     * @Assert\Type(type="integer")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $endPage;
 

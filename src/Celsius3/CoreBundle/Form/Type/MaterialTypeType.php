@@ -33,10 +33,16 @@ class MaterialTypeType extends AbstractType
     {
         $builder
                 ->add('title')
-                ->add('authors')
+                ->add('authors', null, array(
+                    'required' => false
+                ))
                 ->add('year')
-                ->add('startPage')
-                ->add('endPage')
+                ->add('startPage', null, array(
+                    'required' => false
+                ))
+                ->add('endPage', null, array(
+                    'required' => false
+                ))
         ;
         $builder->setAttribute('label', false);
     }

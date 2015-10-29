@@ -40,11 +40,21 @@ class JournalType extends AbstractType
     {
         $builder
                 ->add('name')
-                ->add('abbreviation')
-                ->add('responsible')
-                ->add('ISSN')
-                ->add('ISSNE')
-                ->add('frecuency')
+                ->add('abbreviation', null, array(
+                    'required' => false
+                ))
+                ->add('responsible', null, array(
+                    'required' => false
+                ))
+                ->add('ISSN', null, array(
+                    'required' => false
+                ))
+                ->add('ISSNE', null, array(
+                    'required' => false
+                ))
+                ->add('frecuency', null, array(
+                    'required' => false
+                ))
         ;
 
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
