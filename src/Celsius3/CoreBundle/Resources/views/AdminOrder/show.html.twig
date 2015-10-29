@@ -311,9 +311,9 @@
             <script type="text/ng-template" id="show.html">
                 <div class="item_container row" ng-include="'show_order_data.html'">
                 </div>
-
+                
                 <div class="row">
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && request.previousRequest">
+                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && request.previous_request">
                 <div class="row">
                 <div class="col-md-12">
                 <p>{{'provisionModeText' | translate}}</p>
@@ -332,7 +332,7 @@
                 </div>
                 </div>
 
-                <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || !request.previousRequest">
+                <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || !request.previous_request">
                 <div class="row">
                 <state-bar>
 

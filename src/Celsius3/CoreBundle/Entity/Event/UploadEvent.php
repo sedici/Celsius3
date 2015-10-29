@@ -38,12 +38,14 @@ class UploadEvent extends MultiInstanceEvent
 
     use ReclaimableTrait,
         ApprovableTrait;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
      * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
      */
     private $remoteState;
+
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="uploads_files",
@@ -69,7 +71,7 @@ class UploadEvent extends MultiInstanceEvent
         $this->setRemoteInstance($request->getPreviousRequest()->getInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
-        $this->setRemoteState($lifecycleHelper->getState($request->getPreviousRequest(), $this, $data, $this));
+        $this->setRemoteState($lifecycleHelper->getState($request->getPreviousRequest(), $data, $this));
     }
 
     /**
@@ -124,4 +126,5 @@ class UploadEvent extends MultiInstanceEvent
     {
         return $this->remoteState;
     }
+
 }
