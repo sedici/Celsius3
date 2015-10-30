@@ -40,6 +40,12 @@ class UploadEvent extends MultiInstanceEvent
         ApprovableTrait;
 
     /**
+     * @Assert\NotBlank
+     * @ORM\Column(type="string", length=255)
+     */
+    private $deliveryType;
+
+    /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
      * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
@@ -67,11 +73,35 @@ class UploadEvent extends MultiInstanceEvent
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
+        $this->setDeliveryType('PDF');
         $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
         $this->setRemoteInstance($request->getPreviousRequest()->getInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
         $this->setRemoteState($lifecycleHelper->getState($request->getPreviousRequest(), $data, $this));
+    }
+
+    /**
+     * Set deliveryType
+     *
+     * @param  string $deliveryType
+     * @return self
+     */
+    public function setDeliveryType($deliveryType)
+    {
+        $this->deliveryType = $deliveryType;
+
+        return $this;
+    }
+
+    /**
+     * Get deliveryType
+     *
+     * @return string $deliveryType
+     */
+    public function getDeliveryType()
+    {
+        return $this->deliveryType;
     }
 
     /**

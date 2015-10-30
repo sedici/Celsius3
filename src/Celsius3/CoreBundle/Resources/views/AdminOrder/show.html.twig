@@ -72,7 +72,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="file in files.list">
-                <td>{{file.name}}</td>
+                <td><a ng-href="{{getFileDownloadRoute(file)}}">{{file.name}}</a></td>
                 <td>{{file.pages}}</td>
                 <td>{{file | state | translate}}</td>
                 <td>
@@ -280,8 +280,8 @@
                 <div class="panel3_ok col-md-3">
                 <div class="relojito">
                 <a ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                    <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                    <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
                 </a>
                 <a href bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
                 <span class="glyphicon glyphicon-list-alt"></span>
@@ -311,40 +311,40 @@
             <script type="text/ng-template" id="show.html">
                 <div class="item_container row" ng-include="'show_order_data.html'">
                 </div>
-                
+
                 <div class="row">
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && request.previous_request">
-                <div class="row">
-                <div class="col-md-12">
-                <p>{{'provisionModeText' | translate}}</p>
-                <p>
-                <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
-                <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
-                </p>
-                </div>
-                </div>
-                </div>
+                    <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && !_.isUndefined(request.previous_request)">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>{{'provisionModeText' | translate}}</p>
+                                <p>
+                                    <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
+                                    <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
-                <div class="row">
-                <div class="col-md-12" ng-include="'order_upload_form.html'">
-                </div>
-                </div>
-                </div>
+                    <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
+                        <div class="row">
+                            <div class="col-md-12" ng-include="'order_upload_form.html'">
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || !request.previous_request">
-                <div class="row">
-                <state-bar>
+                    <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || _.isUndefined(request.previous_request)">
+                        <div class="row">
+                            <state-bar>
 
-                </state-bar>
-                </div>
+                            </state-bar>
+                        </div>
 
-                <div class="row" ng-include="'show_order_content.html'">
-                </div>
-                </div>
+                        <div class="row" ng-include="'show_order_content.html'">
+                        </div>
+                    </div>
 
-                <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
-                </div>
+                    <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
+                    </div>
                 </div>
             </script>
 

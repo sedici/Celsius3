@@ -192,6 +192,7 @@ class StateManager
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__MULTI_INSTANCE_RECEIVE,
+                EventManager::EVENT__UPLOAD,
             ),
         ),
         self::STATE__RECEIVED => array(
@@ -211,6 +212,7 @@ class StateManager
                 self::STATE__REQUESTED,
                 self::STATE__TAKEN,
                 self::STATE__APPROVAL_PENDING,
+                self::STATE__RECEIVED,
             ),
             'originatingEvents' => array(
                 EventManager::EVENT__SINGLE_INSTANCE_RECEIVE,

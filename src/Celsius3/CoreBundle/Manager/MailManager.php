@@ -61,7 +61,8 @@ class MailManager
 
         return $template->render(array(
                     'user' => $user,
-                    'order' => $order
+                    'order' => $order,
+                    'instance' => $instance,
         ));
     }
 
