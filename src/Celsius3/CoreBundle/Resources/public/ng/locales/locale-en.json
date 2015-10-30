@@ -4,6 +4,8 @@
     "reclaimTooltipTitle": "Reclaim",
     "approveTooltipTitle": "Approve",
     "reuploadTooltipTitle": "Upload more",
+    "pdfUserTooltipTitle" : "This user downloads requests in PDF format",
+    "printedUserTooltipTitle" : "This user withdraws requests in printed paper",
     "found": "Found",
     "notFound": "Not found",
     "not_found": "Not found",

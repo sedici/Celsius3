@@ -779,8 +779,8 @@
                 <div class="institution">{{ printInstitutions(request.owner.institution) }}</div>
                 </div>
                 <div class="user-delivery-type pull-right">
-                <div ng-if="request.owner.pdf === true" class="doc_type_pdf"></div>
-                <div ng-if="request.owner.pdf !== true" class="doc_type_print"></div>
+                <div ng-if="request.owner.pdf === true" class="doc_type_pdf" bs-tooltip="pdfUserTooltip"></div>
+                <div ng-if="request.owner.pdf !== true" class="doc_type_print" bs-tooltip="printedUserTooltip"></div>
                 </div>
                 </div>
                 <div class="comments" ng-if="request.comments">

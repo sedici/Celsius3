@@ -193,6 +193,22 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
     });
 
+    $translate('pdfUserTooltipTitle').then(function (pdfUserTooltipTitle) {
+        $scope.pdfUserTooltip = {
+            "title": pdfUserTooltipTitle,
+            "placement": "left",
+            "trigger": "hover"
+        };
+    });
+
+    $translate('printedUserTooltipTitle').then(function (printedUserTooltipTitle) {
+        $scope.printedUserTooltip = {
+            "title": printedUserTooltipTitle,
+            "placement": "left",
+            "trigger": "hover"
+        };
+    });
+
     $scope.institutionTooltip = function (institution) {
         if (institution.type !== 'institution') {
             return {};
