@@ -4,7 +4,7 @@
         <property name="id" type="string" expose="true" read-only="true" groups="api,administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="code" type="integer" expose="true" access-type="public_method" groups="api,administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="materialData" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
-        <property name="originalRequest" expose="true" access-type="public_method" groups="api,administration_user_show"></property>
+        <property name="originalRequest" expose="true" access-type="public_method" groups="api,administration_user_show,user_list"></property>
         <virtual-property name="pages" type="integer" expose="true" method="getPages" groups="api"></virtual-property>
     </class>
 </serializer>

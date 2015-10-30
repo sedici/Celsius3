@@ -47,7 +47,7 @@ class UserFileController extends BaseController
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN')) {
-            if (!$file || $file->getIsDownloaded() || !$file->getEnabled() || $request->getOwner()->getId() !== $user->getId() || !$request->getOwner()->getPdf()) {
+            if (!$file || $file->getIsDownloaded() || !$file->getEnabled() || $request->getOrder()->getOriginalRequest()->getOwner()->getId() !== $user->getId() || !$request->getOwner()->getPdf()) {
                 throw $this->createNotFoundException('File not found.');
             }
         }

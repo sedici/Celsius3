@@ -32,93 +32,96 @@ use JMS\Serializer\SerializationContext;
  *
  * @Route("/user/rest/orders")
  */
- class UserOrderRestController extends BaseInstanceDependentRestController
- {
+class UserOrderRestController extends BaseInstanceDependentRestController
+{
 
-     /**
+    /**
      * GET Route annotation.
      * @Get("", name="user_rest_order", options={"expose"=true})
      */
-     public function getOrdersAction(Request $request)
-     {
-         $context = SerializationContext::create()->setGroups(array('user_list'));
+    public function getOrdersAction(Request $request)
+    {
+        $context = SerializationContext::create()->setGroups(array('user_list'));
 
-         $withRequest = $request->query->get('withRequest', false);
+        $withRequest = $request->query->get('withRequest', false);
 
-         $states = explode(',', $request->query->get('state', ''));
+        $states = explode(',', $request->query->get('state', ''));
 
-         $orders = $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:Order')
-            ->findForInstance($this->getInstance(), null, $states, $this->getUser());
+        $orders = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), null, $states, $this->getUser());
 
-         $paginator = $this->get('knp_paginator');
-         $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-         if ($withRequest) {
-             $requests = $this->getDoctrine()->getManager()
-                 ->getRepository('Celsius3CoreBundle:Request')
-                 ->createQueryBuilder('r')
-                 ->select('r, s')
-                 ->join('r.states', 's')
-                 ->where('r.order IN (:orders)')
-                 ->andWhere('s.isCurrent = true')
-                 ->setParameter('orders', array_map(function (\Celsius3\CoreBundle\Entity\Order $order) {
-                     return $order->getId();
-                 }, $pagination))
-                 ->getQuery()->getResult();
+        if ($withRequest) {
+            $requests = $this->getDoctrine()->getManager()
+                            ->getRepository('Celsius3CoreBundle:Request')
+                            ->createQueryBuilder('r')
+                            ->select('r, s, ow')
+                            ->join('r.states', 's')
+                            ->join('r.owner', 'ow')
+                            ->where('r.order IN (:orders)')
+                            ->andWhere('s.isCurrent = true')
+                            ->setParameter('orders', array_map(function (\Celsius3\CoreBundle\Entity\Order $order) {
+                                        return $order->getId();
+                                    }, $pagination))
+                            ->getQuery()->getResult();
 
-             $response = array(
-                 'orders' => array_values($pagination),
-                 'requests' => array_column(array_map(function(\Celsius3\CoreBundle\Entity\Request $request) {
-                     return array(
-                         'id' => $request->getOrder()->getId(),
-                         'request' => $request,
-                     );
-                 }, $requests), 'request', 'id'),
-             );
+            $response = array(
+                'orders' => array_values($pagination),
+                'requests' => array_column(array_map(function(\Celsius3\CoreBundle\Entity\Request $request) {
+                                    return array(
+                                        'id' => $request->getOrder()->getId(),
+                                        'request' => $request,
+                                    );
+                                }, $requests), 'request', 'id'),
+                    );
 
-             $view = $this->view($response, 200)->setFormat('json');
-         } else {
-             $view = $this->view(array_values($pagination), 200)->setFormat('json');
-         }
-         $view->setSerializationContext($context);
+                    $view = $this->view($response, 200)->setFormat('json');
+                } else {
+                    $view = $this->view(array_values($pagination), 200)->setFormat('json');
+                }
+                $view->setSerializationContext($context);
 
-         return $this->handleView($view);
-     }
+                return $this->handleView($view);
+            }
 
-     /**
-     * GET Route annotation.
-     * @Get("/count", name="user_rest_order_count_get", options={"expose"=true})
-     */
-     public function getOrderCountAction(Request $request)
-     {
-         $user = $this->getUser();
+            /**
+             * GET Route annotation.
+             * @Get("/count", name="user_rest_order_count_get", options={"expose"=true})
+             */
+            public function getOrderCountAction(Request $request)
+            {
+                $user = $this->getUser();
 
-         $orderCount = $this->getDoctrine()->getManager()
-         ->getRepository('Celsius3CoreBundle:State')
-         ->countUserOrders($this->getInstance(), $user);
+                $orderCount = $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:State')
+                        ->countUserOrders($this->getInstance(), $user);
 
-         $view = $this->view($orderCount, 200)->setFormat('json');
+                $view = $this->view($orderCount, 200)->setFormat('json');
 
-         return $this->handleView($view);
-     }
+                return $this->handleView($view);
+            }
 
-     /**
-     * GET Route annotation.
-     * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
-     */
-     public function getOrderAction($id)
-     {
-         $em = $this->getDoctrine()->getManager();
+            /**
+             * GET Route annotation.
+             * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
+             */
+            public function getOrderAction($id)
+            {
+                $em = $this->getDoctrine()->getManager();
 
-         $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
+                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
-         if (!$order) {
-             return $this->createNotFoundException('Order not found.');
-         }
+                if (!$order) {
+                    return $this->createNotFoundException('Order not found.');
+                }
 
-         $view = $this->view($order, 200)->setFormat('json');
+                $view = $this->view($order, 200)->setFormat('json');
 
-         return $this->handleView($view);
-     }
- }
+                return $this->handleView($view);
+            }
+
+        }
+        
