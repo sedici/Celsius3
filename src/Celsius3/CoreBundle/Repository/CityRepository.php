@@ -30,18 +30,18 @@ class CityRepository extends EntityRepository
 
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $country_id = null)
     {
-        $qb = $this->createQueryBuilder('c')
-                ->where('c.instance = :instance_id')
-                ->orWhere('c.instance = :directory_id')
-                ->orderBy('c.name', 'asc')
+        $qb = $this->createQueryBuilder('e')
+                ->where('e.instance = :instance_id')
+                ->orWhere('e.instance = :directory_id')
+                ->orderBy('e.name', 'asc')
                 ->setParameter('instance_id', $instance->getId())
                 ->setParameter('directory_id', $directory->getId());
 
         if (!is_null($country_id)) {
-            $qb = $qb->andWhere('c.country = :country_id')
+            $qb = $qb->andWhere('e.country = :country_id')
                     ->setParameter('country_id', $country_id);
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 }

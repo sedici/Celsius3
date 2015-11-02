@@ -9,5 +9,5 @@
 {% block content %}
     <h2>{{ 'Institution List'|trans }}</h2>
 
-    {{ index('admin_institution', pagination, 'Celsius3CoreBundle:AdminInstitution', filter_form) }}
+    {{ index('admin_institution', pagination, 'Celsius3CoreBundle:AdminInstitution', filter_form, instance) }}
 {% endblock %}

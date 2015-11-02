@@ -43,7 +43,7 @@ class AdminCatalogController extends BaseInstanceDependentController
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->findForInstanceAndGlobal($this->getInstance(), $this->get('celsius3_core.instance_manager')->getDirectory());
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
     /**

@@ -1,5 +1,10 @@
 <ul class="list-unstyled pull-right actions">
+    {% if element.instance.id == instance.id %}
     <li>
         <a href="{{ path('admin_journal_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
+    </li>
+    {% endif %}
+    <li>
+        <a href="{{ path('admin_journal_show', { 'id': element.id }) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Show'|trans }}</a>
     </li>
 </ul>

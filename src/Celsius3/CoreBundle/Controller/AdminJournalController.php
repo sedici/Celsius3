@@ -36,6 +36,29 @@ use Celsius3\CoreBundle\Filter\Type\JournalFilterType;
  */
 class AdminJournalController extends BaseInstanceDependentController
 {
+
+    protected function listQuery($name)
+    {
+        return $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+    }
+
+    protected function findShowQuery($name, $id)
+    {
+        return $this->getDoctrine()->getManager()
+                        ->getRepository($this->getBundle() . ':' . $name)
+                        ->createQueryBuilder('e')
+                        ->where('e.instance = :instance_id')
+                        ->orWhere('e.instance = :directory_id')
+                        ->andWhere('e.id = :id')
+                        ->setParameter('instance_id', $this->getInstance()->getId())
+                        ->setParameter('directory_id', $this->getDirectory()->getId())
+                        ->setParameter('id', $id)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+    }
+
     protected function getSortDefaults()
     {
         return array(
@@ -67,7 +90,15 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function showAction($id)
     {
-        return $this->baseShow('Journal', $id);
+        $entity = $this->findShowQuery('Journal', $id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Journal.');
+        }
+
+        return array(
+            'entity' => $entity,
+        );
     }
 
     /**

@@ -30,13 +30,11 @@ class CountryRepository extends EntityRepository
 
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
-        return $this->createQueryBuilder('c')
-                        ->where('c.instance = :instance_id')
-                        ->orWhere('c.instance = :directory_id')
-                        ->orderBy('c.name', 'asc')
+        return $this->createQueryBuilder('e')
+                        ->where('e.instance = :instance_id')
+                        ->orWhere('e.instance = :directory_id')
+                        ->orderBy('e.name', 'asc')
                         ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('directory_id', $directory->getId())
-                        ->getQuery()
-                        ->getResult();
+                        ->setParameter('directory_id', $directory->getId());
     }
 }

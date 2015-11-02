@@ -33,6 +33,14 @@ use Celsius3\CoreBundle\Entity\Instance;
  */
 class JournalRepository extends EntityRepository
 {
+    public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
+    {
+        return $this->createQueryBuilder('e')
+                        ->where('e.instance = :instance_id')
+                        ->orWhere('e.instance = :directory_id')
+                        ->setParameter('instance_id', $instance->getId())
+                        ->setParameter('directory_id', $directory->getId());
+    }
 
     public function findByTerm($term, Instance $instance = null)
     {
