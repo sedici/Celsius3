@@ -119,7 +119,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.sortableOptions = {
         connectWith: '.catalogSortable',
-        stop: function (event, ui) {
+        update: function (event, ui) {
             var id = ui.item.data('id');
             var result = $(ui.item.sortable.droptarget).parents('table.table').data('type');
             var catalog = _.first($scope.catalogsWithSearches.filter(function (item) {
