@@ -77,7 +77,7 @@ class State
      */
     private $instance;
     /**
-     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="state")
+     * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="state", cascade={"persist"})
      */
     private $events;
     /**
