@@ -190,6 +190,18 @@ class LifecycleHelper
         return $data;
     }
 
+    private function moveCurrentState(Request $request, $stateName)
+    {
+        $currentState = $request->getCurrentState();
+        $state = $request->getState($stateName);
+        if ($this->state_manager->isBefore($currentState, $state)) {
+            $currentState->setIsCurrent(false);
+            $state->setIsCurrent(true);
+            $this->em->persist($currentState);
+            $this->em->persist($state);
+        }
+    }
+
     /**
      * Receives the event name and the request document and creates the appropiate
      * event and state
@@ -210,16 +222,11 @@ class LifecycleHelper
                 $event = $data['event'];
                 if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
+                    $event->setIsReclaimed(false);
+                    $this->moveCurrentState($request, StateManager::STATE__RECEIVED);
                 } elseif ($name === EventManager::EVENT__SEARCH) {
                     $event->setResult($data['extraData']['result']);
-                    $currentState = $request->getCurrentState();
-                    $state = $request->getState(StateManager::STATE__SEARCHED);
-                    if ($this->state_manager->isBefore($currentState, $state)) {
-                        $currentState->setIsCurrent(false);
-                        $state->setIsCurrent(true);
-                        $this->em->persist($currentState);
-                        $this->em->persist($state);
-                    }
+                    $this->moveCurrentState($request, StateManager::STATE__SEARCHED);
                 }
             } else {
                 $this->refresh($request);

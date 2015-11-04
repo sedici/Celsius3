@@ -202,23 +202,32 @@
             <!-- order_upload_form.html -->
             <script type="text/ng-template" id="order_upload_form.html">
                 <div class="alert alert-success" ng-if="request.current_state === 'received'">
-                {{'filesSuccessUpload' | translate}}
+                    {{'filesSuccessUpload' | translate}}
                 </div>
-                <form class="form-horizontal" id="uploadForm">
-                <div class="form-group">
-                <label for="files">{{'files' | translate}}</label>
-                <div class="input-group">
-                <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
-                <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
+                <div class="alert alert-danger" ng-if="request.current_state === 'taken' && receptions.length > 0">
+                    {{'requestReclaimed' | translate}}
+                    <ul>
+                        <li ng-repeat="reclaim in getReclaim(receptions[0])">{{reclaim.created_at | date:'shortDate'}} - {{reclaim.observations}}</li>
+                    </ul>
                 </div>
-                <br />
-                <div>
-                <ul>
-                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
-                </ul>
-                </div>
-                </div>
+                <form class="form-horizontal" id="uploadForm" ng-if="request.current_state !== 'delivered'">
+                    <div class="form-group">
+                        <label for="files">{{'files' | translate}}</label>
+                        <div class="input-group">
+                            <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
+                            <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
+                        </div>
+                        <br />
+                        <div>
+                            <ul>
+                                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </form>
+                <div class="alert alert-success" ng-if="request.current_state === 'delivered'">
+                {{'requestSatisfied' | translate}}
+                </div>
             </script>
 
             <!-- request_cancelled.html -->
@@ -286,7 +295,7 @@
                 <a href bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
                 <span class="glyphicon glyphicon-list-alt"></span>
                 </a>
-                <span ng-if="hasReclaim(getReceive(request))" class="glyphicon glyphicon-warning-sign"></span>
+                <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).is_reclaimed" class="glyphicon glyphicon-warning-sign"></span>
                 </div>
                 <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
                 </div>

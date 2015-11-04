@@ -34,6 +34,8 @@
     "printed": "Impreso",
     "files": "Archivos",
     "filesSuccessUpload": "Los archivos fueron subidos con éxito.",
+    "requestReclaimed": "El pedido ha sido reclamado con los siguientes comentarios:",
+    "requestSatisfied": "El pedido ha sido satisfecho.",
     "upload": "Subir",
     "viewAll": "Ver todos",
     "provisionModeText": "Si no se necesita buscar en catálogos para satisfacer este pedido, entonces elija el modo Básico, en caso contrario, Avanzado.",

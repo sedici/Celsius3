@@ -34,6 +34,8 @@
     "printed": "Printed",
     "files": "Files",
     "filesSuccessUpload": "The files have been successfully uploaded.",
+    "requestReclaimed": "The order has been reclaimed with the following comments:",
+    "requestSatisfied": "The order has been satisfied.",
     "upload": "Upload",
     "viewAll": "View all",
     "provisionModeText": "If you don't need to search in catalogs to satisfy this order then choose Basic, else choose Advanced.",
