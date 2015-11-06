@@ -196,4 +196,8 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
         $manager->notifyEvent($this, 'receive');
     }
 
+    public function getRemoteNotificationTarget()
+    {
+        return $this->getRequest()->getPreviousRequest()->getOwner();
+    }
 }

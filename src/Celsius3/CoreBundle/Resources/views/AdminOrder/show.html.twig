@@ -235,7 +235,8 @@
                 <div class="panel2_cancel col-md-1"></div>
                 <div class="panel3_cancel col-md-3">
                 <div class="relojito">
-                <span class="glyphicon glyphicon-remove"></span>
+                <span ng-if="request.is_cancelled" class="glyphicon glyphicon-remove"></span>
+                <span ng-if="request.is_annulled" class="glyphicon glyphicon-ban-circle"></span>
                 </div>
                 <div class="fecha_hoja">{{request.created_at | date:'mediumDate'}}</div>
                 </div>
@@ -250,36 +251,36 @@
             <script type="text/ng-template" id="request_not_received.html">
                 <div class="panel2 col-md-1"></div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'sirequest'">
-                <div class="relojito">
-                <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-                <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
-                </a>
-                <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
-                </div>
-                <div class="fecha_relojito">
-                <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-                {{request.created_at|date:'mediumDate'}}
-                </a>
-                </div>
+                    <div class="relojito">
+                        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+                            <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
+                        </a>
+                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+                    </div>
+                    <div class="fecha_relojito">
+                        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+                            {{request.created_at|date:'mediumDate'}}
+                        </a>
+                    </div>
                 </div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'mirequest'">
-                <div class="relojito">
-                <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
-                <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
-                </div>
-                <div class="fecha_relojito">
-                {{request.created_at|date:'mediumDate'}}
-                </div>
+                    <div class="relojito">
+                        <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
+                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+                    </div>
+                    <div class="fecha_relojito">
+                        {{request.created_at|date:'mediumDate'}}
+                    </div>
                 </div>
                 <div class="panel3 col-md-1 panel3_last">
-                <ul class="list-unstyled request-actions">
-                <li>
-                <a href bs-tooltip="cancelTooltip" ng-click="forms.cancel.request = request.id" data-target="#cancel-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></a>
-                </li>
-                <li>
-                <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.request = request.id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
-                </li>
-                </ul>
+                    <ul class="list-unstyled request-actions">
+                        <li>
+                            <a href bs-tooltip="cancelTooltip" ng-click="forms.cancel.request = request.id" data-target="#cancel-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                        </li>
+                        <li>
+                            <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.request = request.id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
+                        </li>
+                    </ul>
                 </div>
             </script>
 
@@ -833,13 +834,13 @@
                 <div class="cat_fecha"></div>
                 </div>
                 </div>
-                <div ng-if="!hasReceive(request) && !request.is_cancelled" ng-include="'request_not_received.html'">
+                <div ng-if="!hasReceive(request) && !request.is_cancelled && !request.is_annulled" ng-include="'request_not_received.html'">
 
                 </div>
-                <div ng-if="hasReceive(request) && !request.is_cancelled" ng-include="'request_received.html'">
+                <div ng-if="hasReceive(request) && !request.is_cancelled  && !request.is_annulled" ng-include="'request_received.html'">
 
                 </div>
-                <div ng-if="request.is_cancelled" ng-include="'request_cancelled.html'">
+                <div ng-if="request.is_cancelled || request.is_annulled" ng-include="'request_cancelled.html'">
 
                 </div>
                 </div>

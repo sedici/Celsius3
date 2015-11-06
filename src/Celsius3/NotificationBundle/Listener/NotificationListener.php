@@ -43,4 +43,9 @@ class NotificationListener
             $entity->notify($this->notification_manager);
         }
     }
+
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $this->postPersist($args);
+    }
 }

@@ -23,6 +23,7 @@
         <service id="celsius3_notification.notification_listener" class="%celsius3_notification.notification_listener.class%">
             <argument type="service" id="celsius3_notification.notification_manager"></argument>
             <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
         </service>
 
         <service id="celsius3_notification.wamp_server" class="%celsius3_notification.wamp_server.class%">

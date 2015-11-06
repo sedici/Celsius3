@@ -29,11 +29,13 @@ use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class UploadEvent extends MultiInstanceEvent
+class UploadEvent extends MultiInstanceEvent implements Notifiable
 {
 
     use ReclaimableTrait,
@@ -157,4 +159,13 @@ class UploadEvent extends MultiInstanceEvent
         return $this->remoteState;
     }
 
+    public function notify(NotificationManager $manager)
+    {
+        $manager->notifyRemoteEvent($this, 'upload');
+    }
+
+    public function getRemoteNotificationTarget()
+    {
+        return $this->getRequest()->getPreviousRequest()->getOwner();
+    }
 }

@@ -69,6 +69,8 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
         $this->setRemoteRequest($remoteRequest);
         $remoteRequest->setPreviousRequest($request);
         $lifecycleHelper->refresh($remoteRequest);
+        $remoteCreation = $remoteRequest->getState(StateManager::STATE__CREATED, $this->getRemoteInstance());
+        $remoteCreation->setRemoteEvent($this);
     }
 
     /**
@@ -96,7 +98,6 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'request');
+        $manager->notifyEvent($this, 'request');
     }
-
 }

@@ -27,11 +27,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\StateManager;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class ReclaimEvent extends SingleInstanceEvent
+class ReclaimEvent extends SingleInstanceEvent implements Notifiable
 {
     /**
      * @Assert\NotNull
@@ -124,5 +126,22 @@ class ReclaimEvent extends SingleInstanceEvent
     public function getReceiveEvent()
     {
         return $this->receiveEvent;
+    }
+
+    public function notify(NotificationManager $manager)
+    {
+        if ((!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent) ||
+         (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent)) {
+            $manager->notifyRemoteEvent($this, 'reclaim');
+        }
+    }
+
+    public function getRemoteNotificationTarget()
+    {
+        if (!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent){
+            return $this->getRequest()->getOrder()->getRequest($this->getReceiveEvent()->getInstance())->getOperator();
+        } else if (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent) {
+            return $this->getRequest()->getOrder()->getRequest($this->getRequestEvent()->getRemoteRequest()->getInstance())->getOperator();
+        }
     }
 }

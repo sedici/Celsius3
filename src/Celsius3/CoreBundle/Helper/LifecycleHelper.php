@@ -68,6 +68,7 @@ class LifecycleHelper
     {
         $this->em->persist($entity);
         $this->em->flush();
+        $this->em->refresh($entity);
     }
 
     public function uploadFiles(Request $request, Event $event, array $files)
@@ -183,7 +184,7 @@ class LifecycleHelper
             }
         }
 
-        if (!$request->hasState($this->state_manager->getPreviousMandatoryStates($data['stateName']), $data['instance']) && $name != EventManager::EVENT__CREATION) {
+        if (!$request->hasState($this->state_manager->getPreviousMandatoryStates($data['stateName']), $data['instance']) && $name !== EventManager::EVENT__CREATION) {
             throw new PreviousStateNotFoundException('State not found');
         }
 
