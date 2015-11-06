@@ -335,8 +335,6 @@ class EventManager
                     ->getState(StateManager::STATE__CREATED, $instance)
                     ->getRemoteEvent();
         }
-        dump($request);
-        dump($extraData);
 
         return $extraData;
     }

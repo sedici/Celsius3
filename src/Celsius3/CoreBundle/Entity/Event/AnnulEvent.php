@@ -49,7 +49,15 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'annul');
+        $manager->notifyEvent($this, 'annul');
+        if (!is_null($this->getRequest()->getPreviousRequest())) {
+            $manager->notifyRemoteEvent($this, 'annul');
+        }
+    }
+
+    public function getRemoteNotificationTarget()
+    {
+        return $this->getRequest()->getOrder()->getRequest($this->getRequest()->getPreviousRequest()->getInstance())->getOperator();
     }
 
 }
