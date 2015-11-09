@@ -22,15 +22,18 @@
 
 namespace Celsius3\NotificationBundle\Manager;
 
-use Celsius3\NotificationBundle\Entity\Notification;
-use Celsius3\MessageBundle\Entity\Message;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Celsius3\NotificationBundle\Entity\BaseUserNotification;
 use Celsius3\NotificationBundle\Entity\MessageNotification;
-use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\NotificationBundle\Entity\EventNotification;
+use Celsius3\NotificationBundle\Entity\Notification;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Event\UploadEvent;
+use Celsius3\MessageBundle\Entity\Message;
 
 class NotificationManager
 {
@@ -44,6 +47,8 @@ class NotificationManager
     const CAUSE__RECEIVE = 'receive';
     const CAUSE__CANCEL = 'cancel';
     const CAUSE__DELIVER = 'deliver';
+    const CAUSE__UPLOAD = 'upload';
+    const CAUSE__RECLAIM = 'reclaim';
 
     private $container;
     private $zmq_port;
@@ -69,7 +74,7 @@ class NotificationManager
             'route' => 'admin_order_show',
             'route_params' => function (Notification $notification) {
                 return array(
-                    'id' => $notification->getObject()->getRequest()->getId()
+                    'id' => $notification->getObject()->getRequest()->getOrder()->getId()
                 );
             }
         );
@@ -109,7 +114,9 @@ class NotificationManager
             self::CAUSE__REQUEST => $eventArray,
             self::CAUSE__RECEIVE => $eventArray,
             self::CAUSE__CANCEL => $eventArray,
-            self::CAUSE__DELIVER => $eventArray
+            self::CAUSE__DELIVER => $eventArray,
+            self::CAUSE__UPLOAD => $eventArray,
+            self::CAUSE__RECLAIM => $eventArray,
         );
     }
 
@@ -224,11 +231,13 @@ class NotificationManager
         $em = $this->container->get('doctrine.orm.entity_manager');
         $router = $this->container->get('router');
 
-        $usersInsterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('interface', $event, $type);
-        $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')->getUsersWithEventNotification('email', $event, $type);
+        $usersInsterfaceNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')
+            ->getUsersWithEventNotification('interface', $event, $type);
+        $usersEmailNotification = $em->getRepository('Celsius3CoreBundle:BaseUser')
+            ->getUsersWithEventNotification('email', $event, $type);
 
         $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
-        ->findOneBy(array('code' => 'order_event'));
+            ->findOneBy(array('code' => 'order_event'));
 
         $notification = new EventNotification($type, $event, $template);
 
@@ -240,6 +249,21 @@ class NotificationManager
         $otherText .= $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), true);
 
         $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance(), $otherText);
+    }
+
+    public function notifyRemoteEvent(Event $event, $type)
+    {
+        $em = $this->container->get('doctrine.orm.entity_manager');
+        $template = $em->getRepository('Celsius3NotificationBundle:NotificationTemplate')
+            ->findOneBy(array('code' => 'order_event'));
+
+        $notification = new EventNotification($type, $event, $template);
+
+        $user = $event->getRemoteNotificationTarget();
+
+        if (!is_null($user)) {
+            $this->notifyInterface($notification, array($user));
+        }
     }
 
     public function getUnreadNotificationsCount($user_id)

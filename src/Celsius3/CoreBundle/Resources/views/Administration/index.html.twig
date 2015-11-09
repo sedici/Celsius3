@@ -43,7 +43,7 @@
                 <div class="col-md-11">
                 <div class="btn-group btn-group-justified" role="group">
                 <a class="lead btn btn-default" ng-class="isActive('created')" href="#/{{type}}/created/{{orderType}}"><span class="numero">{{orderCount.created}}</span><span class="texto">{{'created'|translate}}</span></a>
-                <a class="lead btn btn-default" ng-class="isActive('searched')" href="#/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched}}</span><span class="texto">{{'beingSearched'|translate}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('searched')" href="#/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched + orderCount.taken}}</span><span class="texto">{{'beingSearched'|translate}}</span></a>
                 <a class="lead btn btn-default" ng-class="isActive('requested')" href="#/{{type}}/requested/{{orderType}}"><span class="numero">{{orderCount.requested}}</span><span class="texto">{{'requested'|translate}}</span></a>
                 <a class="lead btn btn-default" ng-class="isActive('approval_pending')" href="#/{{type}}/approval_pending/{{orderType}}"><span class="numero">{{orderCount.approval_pending}}</span><span class="texto">{{'approvalPending'|translate}}</span></a>
                 <a class="lead btn btn-default" ng-class="isActive('received')" href="#/{{type}}/received/{{orderType}}"><span class="numero">{{orderCount.received}}</span><span class="texto">{{'received'|translate}}</span></a>
@@ -92,7 +92,7 @@
 
                         <div class="top_right">
                             <div class="status-{{order.request.current_state}}" data-toggle="tooltip" title="{{order.request.current_state | translate}}"></div>
-                            <div class="uri">{{order.request.id}}</div>
+                            <div class="uri">{{order.code}}</div>
                             <div class="usuario">
                                 {{order.request.operator ? order.request.operator.name : '-'}}
                             </div>

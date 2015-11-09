@@ -36,6 +36,13 @@ use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
  */
 class AdminInstitutionController extends BaseInstanceDependentController
 {
+    protected function listQuery($name)
+    {
+        return $this->getDoctrine()->getManager()
+                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+    }
+
     protected function getSortDefaults()
     {
         return array(

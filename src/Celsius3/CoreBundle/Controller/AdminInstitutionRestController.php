@@ -72,7 +72,8 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $hive = $this->getInstance()->getHive();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $hive, $country_id, $city_id, $filter);
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
+                ->getQuery()->getResult();
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
         $view->setSerializationContext($context);

@@ -45,7 +45,9 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $countries = $em->getRepository('Celsius3CoreBundle:Country')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
+                ->getQuery()
+                ->execute();
 
         $view = $this->view(array_values($countries), 200)->setFormat('json');
         $view->setSerializationContext($context);

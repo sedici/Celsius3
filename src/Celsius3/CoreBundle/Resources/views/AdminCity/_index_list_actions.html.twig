@@ -1,5 +1,7 @@
 <ul class="list-unstyled pull-right actions">
+    {% if element.instance.id == instance.id %}
     <li>
         <a href="{{ path('admin_city_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
     </li>
+    {% endif %}
 </ul>

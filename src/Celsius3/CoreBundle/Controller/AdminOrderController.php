@@ -57,7 +57,7 @@ class AdminOrderController extends OrderController
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findOneForInstance($id, $this->getInstance())->getQuery()
-                        ->getSingleResult();
+                        ->getOneOrNullResult();
     }
 
     /**

@@ -58,7 +58,26 @@ class AdminEventRestController extends BaseInstanceDependentRestController
                 ->getQuery()
                 ->getResult();
 
-        $view = $this->view(array_values(array_merge($events, $remoteEvents)), 200)->setFormat('json');
+        $all = array_merge($events, $remoteEvents);
+        $keys = array_map(function ($e) {
+            return $e->getId();
+        }, $all);
+
+        $reclaimEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\ReclaimEvent')
+                ->createQueryBuilder('e')
+                ->where('e.requestEvent IN (:event_ids)')
+                ->orWhere('e.receiveEvent IN (:event_ids)')
+                ->setParameter('event_ids', $keys)
+                ->getQuery()
+                ->getResult();
+
+        foreach ($reclaimEvents as $e) {
+            if (!in_array($e->getId(), $keys)) {
+                $all[] = $e;
+            }
+        }
+
+        $view = $this->view(array_values($all), 200)->setFormat('json');
         $view->setSerializationContext($context);
 
         return $this->handleView($view);

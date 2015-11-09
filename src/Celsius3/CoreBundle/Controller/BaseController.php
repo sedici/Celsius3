@@ -76,13 +76,14 @@ abstract class BaseController extends Controller
     protected function baseIndex($name, FormInterface $filter_form = null)
     {
         $query = $this->listQuery($name);
+        $request = $this->get('request_stack')->getCurrentRequest();
         if (!is_null($filter_form)) {
-            $filter_form = $filter_form->handleRequest($this->get('request_stack')->getCurrentRequest());
+            $filter_form = $filter_form->handleRequest($request);
             $query = $this->filter($name, $filter_form, $query);
         }
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($query, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
+        $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());
 
         return array(
             'pagination' => $pagination,

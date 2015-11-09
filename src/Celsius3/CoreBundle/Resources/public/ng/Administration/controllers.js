@@ -25,6 +25,8 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         var state;
         if ($scope.state === 'finished') {
             state = ['delivered', 'cancelled', 'annulled'];
+        } else if ($scope.state === 'searched') {
+            state = ['searched', 'taken'];
         } else {
             state = $scope.state;
         }

@@ -30,33 +30,39 @@ use Celsius3\CoreBundle\Entity\Hive;
 class InstitutionRepository extends EntityRepository
 {
 
-    public function findForInstanceAndGlobal(Instance $instance, Instance $directory, Hive $hive, $country_id, $city_id = null, $filter = null)
+    public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $firstLevel = false, Hive $hive = null, $country_id = null, $city_id = null, $filter = null)
     {
-        $qb = $this->createQueryBuilder('i')
-                ->where('i.instance = :instance_id')
-                ->orWhere('i.instance = :directory_id')
-                ->andWhere('i.country = :country_id')
-                ->andWhere('i.parent IS NULL')
-                ->orderBy('i.name', 'asc')
+        $qb = $this->createQueryBuilder('e')
+                ->where('e.instance = :instance_id')
+                ->orWhere('e.instance = :directory_id')
+                ->orderBy('e.name', 'asc')
                 ->setParameter('instance_id', $instance->getId())
-                ->setParameter('directory_id', $directory->getId())
-                ->setParameter('country_id', $country_id);
+                ->setParameter('directory_id', $directory->getId());
+
+        if ($firstLevel) {
+            $qb = $qb->andWhere('e.parent IS NULL');
+        }
+
+        if (!is_null($country_id)) {
+            $qb = $qb->andWhere('e.country = :country_id')
+                    ->setParameter('country_id', $country_id);
+        }
 
         if (!is_null($city_id)) {
-            $qb = $qb->andWhere('i.city = :city_id')
+            $qb = $qb->andWhere('e.city = :city_id')
                     ->setParameter('city_id', $city_id);
         }
 
         if (!is_null($filter)) {
-            if ($filter === 'hive') {
-                $qb = $qb->andWhere('i.hive = :hive_id')
+            if ($filter === 'hive' && !is_null($hive)) {
+                $qb = $qb->andWhere('e.hive = :hive_id')
                         ->setParameter('hive_id', $hive->getId());
             } elseif ($filter === 'celsius3') {
-                $qb = $qb->andWhere('i.celsiusInstance IS NOT NULL');
+                $qb = $qb->andWhere('e.celsiusInstance IS NOT NULL');
             }
         }
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
 
     public function countRequestsOrigin($instance, $type, $initialYear, $finalYear, $country = null, $institution = null)
@@ -87,11 +93,11 @@ class InstitutionRepository extends EntityRepository
     private function countTotalRequestsOriginPerCountry($instance, $type, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('institution');
-        
+
         if(!is_null($instance)){
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $query = $qb->select('country.name name')
                 ->addSelect('country.id id')
                 ->addSelect('IDENTITY(institution.country) institutionCountry')
@@ -115,11 +121,11 @@ class InstitutionRepository extends EntityRepository
     private function countCountryRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $country)
     {
         $qb = $this->createQueryBuilder('institution');
-        
+
         if(!is_null($instance)){
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $query = $qb->select('institution.name name')
                 ->addSelect('institution.id id')
                 ->addSelect('IDENTITY(institution.country) institutionCountry')
@@ -144,11 +150,11 @@ class InstitutionRepository extends EntityRepository
     public function countInstitutionRequestsOriginPerInstitution($instance, $type, $initialYear, $finalYear, $institution)
     {
         $qb = $this->createQueryBuilder('institution');
-        
+
         if(!is_null($instance)){
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $query = $qb->addSelect('institution.name name')
                 ->addSelect('institution.id id')
                 ->addSelect('COUNT(request.id) requestsCount')
@@ -172,11 +178,11 @@ class InstitutionRepository extends EntityRepository
     public function total($instance, $type, $institution)
     {
         $qb = $this->createQueryBuilder('institution');
-        
+
         if(!is_null($instance)){
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
-        
+
         $counts = $qb->addSelect('institution.id id')
                 ->addSelect('COUNT(request.id) requestsCount')
                 ->leftJoin('institution.users', 'user')

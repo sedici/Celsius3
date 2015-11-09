@@ -69,6 +69,7 @@ class LifecycleHelper
     {
         $this->em->persist($entity);
         $this->em->flush();
+        $this->em->refresh($entity);
     }
 
     public function uploadFiles(Request $request, Event $event, array $files)
@@ -189,11 +190,23 @@ class LifecycleHelper
             }
         }
 
-        if (!$request->hasState($this->state_manager->getPreviousMandatoryStates($data['stateName']), $data['instance']) && $name != EventManager::EVENT__CREATION) {
+        if (!$request->hasState($this->state_manager->getPreviousMandatoryStates($data['stateName']), $data['instance']) && $name !== EventManager::EVENT__CREATION) {
             throw new PreviousStateNotFoundException('State not found');
         }
 
         return $data;
+    }
+
+    private function moveCurrentState(Request $request, $stateName)
+    {
+        $currentState = $request->getCurrentState();
+        $state = $request->getState($stateName);
+        if ($this->state_manager->isBefore($currentState, $state)) {
+            $currentState->setIsCurrent(false);
+            $state->setIsCurrent(true);
+            $this->em->persist($currentState);
+            $this->em->persist($state);
+        }
     }
 
     /**
@@ -216,16 +229,11 @@ class LifecycleHelper
                 $event = $data['event'];
                 if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
+                    $event->setIsReclaimed(false);
+                    $this->moveCurrentState($request, StateManager::STATE__RECEIVED);
                 } elseif ($name === EventManager::EVENT__SEARCH) {
                     $event->setResult($data['extraData']['result']);
-                    $currentState = $request->getCurrentState();
-                    $state = $request->getState(StateManager::STATE__SEARCHED);
-                    if ($this->state_manager->isBefore($currentState, $state)) {
-                        $currentState->setIsCurrent(false);
-                        $state->setIsCurrent(true);
-                        $this->em->persist($currentState);
-                        $this->em->persist($state);
-                    }
+                    $this->moveCurrentState($request, StateManager::STATE__SEARCHED);
                 }
             } else {
                 $event = $this->setEventData($request, $data);

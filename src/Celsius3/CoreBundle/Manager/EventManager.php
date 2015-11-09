@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequest;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
 use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Institution;
@@ -290,13 +290,13 @@ class EventManager
             $extraData['request'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
                     ->find($httpRequest->request->get('request'));
 
-            $httpRequest->query->remove('request');
+            $httpRequest->request->remove('request');
             if (!$extraData['request']) {
                 throw new NotFoundHttpException();
             }
         } else {
             $extraData['httprequest'] = $httpRequest;
-            if ($request->getInstance()->getId() != $instance->getId()) {
+            if ($request->getInstance()->getId() !== $instance->getId()) {
                 $extraData['remoterequest'] = $request->getOrder()
                         ->getRequest($instance)
                         ->getState(StateManager::STATE__CREATED)
@@ -330,7 +330,7 @@ class EventManager
 
     private function prepareExtraDataForAnnul(Request $request, array $extraData, Instance $instance)
     {
-        if ($request->getInstance()->getId() !== $instance->getId()) {
+        if ($request->getInstance()->getId() !== $instance->getId() || !is_null($request->getPreviousRequest())) {
             $extraData['request'] = $request
                     ->getState(StateManager::STATE__CREATED, $instance)
                     ->getRemoteEvent();
@@ -349,7 +349,7 @@ class EventManager
                 $event = $extraData['request']->getRequest()->getPreviousRequest() ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
                 break;
             case self::EVENT__CANCEL:
-                $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequest) ? self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
+                $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequestEvent) ? self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
                 break;
             default:
                 ;

@@ -26,11 +26,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Manager\StateManager;
+use Celsius3\NotificationBundle\Entity\Notifiable;
+use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
  * @ORM\Entity
  */
-class ReclaimEvent extends SingleInstanceEvent
+class ReclaimEvent extends SingleInstanceEvent implements Notifiable
 {
     /**
      * @Assert\NotNull
@@ -53,10 +56,27 @@ class ReclaimEvent extends SingleInstanceEvent
     {
         if (array_key_exists('request', $data['extraData'])) {
             $this->setRequestEvent($data['extraData']['request']);
+            $this->getRequestEvent()->setIsReclaimed(true);
         } else {
             $this->setReceiveEvent($data['extraData']['receive']);
+            $this->getReceiveEvent()->setIsReclaimed(true);
             if (!($data['extraData']['receive'] instanceof UploadEvent)) {
                 $this->setRequestEvent($this->getReceiveEvent()->getRequestEvent());
+                $this->getRequestEvent()->setIsReclaimed(true);
+
+                // Se vuelve a posicionar el currentState en taken
+                $r = $this->getRequestEvent()->getRequest();
+                $old = $r->getCurrentState()->setIsCurrent(false);
+                $new = $r->getState(StateManager::STATE__REQUESTED)->setIsCurrent(true);
+                $lifecycleHelper->refresh($old);
+                $lifecycleHelper->refresh($new);
+            } else {
+                // Se vuelve a posicionar el currentState en requested
+                $r = $this->getReceiveEvent()->getRequest();
+                $old = $r->getCurrentState()->setIsCurrent(false);
+                $new = $r->getState(StateManager::STATE__TAKEN)->setIsCurrent(true);
+                $lifecycleHelper->refresh($old);
+                $lifecycleHelper->refresh($new);
             }
         }
         $this->setObservations($data['extraData']['observations']);
@@ -106,5 +126,22 @@ class ReclaimEvent extends SingleInstanceEvent
     public function getReceiveEvent()
     {
         return $this->receiveEvent;
+    }
+
+    public function notify(NotificationManager $manager)
+    {
+        if ((!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent) ||
+         (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent)) {
+            $manager->notifyRemoteEvent($this, 'reclaim');
+        }
+    }
+
+    public function getRemoteNotificationTarget()
+    {
+        if (!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent){
+            return $this->getRequest()->getOrder()->getRequest($this->getReceiveEvent()->getInstance())->getOperator();
+        } else if (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent) {
+            return $this->getRequest()->getOrder()->getRequest($this->getRequestEvent()->getRemoteRequest()->getInstance())->getOperator();
+        }
     }
 }

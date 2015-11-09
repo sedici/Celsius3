@@ -5,5 +5,6 @@
         <property name="files" type="array" expose="true" access-type="public_method" read-only="true" groups="administration_order_show"></property>
         <property name="requestEvent" type="Celsius3\CoreBundle\Entity\Event\Event" expose="true" access-type="public_method" read-only="true" groups="administration_order_show"></property>
         <property name="receiveEvent" type="Celsius3\CoreBundle\Entity\Event\Event" expose="true" access-type="public_method" read-only="true" groups="administration_order_show"></property>
+        <property name="isReclaimed" type="boolean" expose="true" access-type="public_method" groups="administration_order_show"></property>
     </class>
 </serializer>
