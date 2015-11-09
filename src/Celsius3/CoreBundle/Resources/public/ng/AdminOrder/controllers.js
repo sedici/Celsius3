@@ -265,6 +265,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.order = Order.get({id: entity_id}, function (order) {
         $scope.request = Request.get({order_id: order.id}, function (request) {
+            console.log(request);
             $scope.forms.receive.delivery_type = request.owner.pdf ? 'PDF' : 'Printed';
 
             Catalog.query(function (catalogs) {
@@ -385,23 +386,24 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             };
 
         });
+
     });
 
     /**
      * Functions
      */
 
-     $scope.previousSearches = function(catalog_id) {
-         return _.filter($scope.catalogResultsOrder, function(result) {
-             return result.catalog.id == catalog_id;
-         });
-     };
+    $scope.previousSearches = function (catalog_id) {
+        return _.filter($scope.catalogResultsOrder, function (result) {
+            return result.catalog.id == catalog_id;
+        });
+    };
 
-     $scope.hasPreviousSearches = function(catalog) {
-         return _.filter($scope.catalogResultsOrder, function(result) {
-             return result.catalog.id == catalog.id;
-         }).length !== 0;
-     };
+    $scope.hasPreviousSearches = function (catalog) {
+        return _.filter($scope.catalogResultsOrder, function (result) {
+            return result.catalog.id == catalog.id;
+        }).length !== 0;
+    };
 
     $scope.searchCatalog = function (term) {
         $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
@@ -430,7 +432,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $scope.advanced = true;
     };
 
-    $scope.refreshEvents = function() {
+    $scope.refreshEvents = function () {
         Event.query({request_id: $scope.request.id}, function (events) {
             $scope.groupedEvents = $scope.groupEvents(events);
 
@@ -486,7 +488,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
-    $scope.refreshRequest = function(withEvents) {
+    $scope.refreshRequest = function (withEvents) {
         Request.get({order_id: entity_id}, function (request) {
             $scope.request = request;
 
@@ -496,8 +498,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
-    $scope.refreshCatalogResults = function() {
-        CatalogResult.get({order_id: entity_id}, function(response) {
+    $scope.refreshCatalogResults = function () {
+        CatalogResult.get({order_id: entity_id}, function (response) {
             $scope.catalogResults = response.results;
             $scope.catalogResultsOrder = response.searches;
         });
@@ -706,6 +708,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.approve = function (receive) {
+        console.log(receive);
         var data = {
             receive: receive.id
         };

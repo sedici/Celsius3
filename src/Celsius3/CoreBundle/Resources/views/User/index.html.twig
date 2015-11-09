@@ -68,16 +68,16 @@
                 </div>
 
                 <div class="top_right">
-                <div class="status-{{order.request.current_state}}"></div>
-                <div class="uri">{{order.request.id}}</div>
+                <div class="status-{{order.original_request.current_state}}"></div>
+                <div class="uri">{{order.original_request.id}}</div>
                 <div class="usuario">
-                {{order.request.operator ? order.request.operator.name : '-'}}
+                {{order.original_request.operator ? order.original_request.operator.name : '-'}}
                 </div>
                 <div class="decoracion"></div>
                 </div>
 
                 <div class="top_center pull-right text-center">
-                {{order.request.created_at|date:'mediumDate'}}
+                {{order.original_request.created_at|date:'mediumDate'}}
                 </div>
                 </div>
 
@@ -101,8 +101,8 @@
                 <span><b>{{ 'endPage' | translate }}:</b> {{ order.material_data.end_page }}</span>
                 </div>
                 </div>
-                <div class="doc_and_year" ng-if="order.request.files.length > 0 && (user.roles.indexOf('ROLE_ADMIN') !== -1 || user.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.original_request.owner.download_auth && order.original_request.owner.pdf && order.request.files.filter(hasDownloadableFiles).length > 0))">
-                <p>{{'download'|translate}}</p>
+                <div class="doc_and_year" ng-if="order.original_request.current_state === 'received' && order.original_request.files.length > 0 && (user.roles.indexOf('ROLE_ADMIN') !== -1 || user.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.original_request.owner.download_auth && order.original_request.owner.pdf && order.original_request.files.filter(hasDownloadableFiles).length > 0))">
+                <p>{{'download' | translate}}</p>
                 <p>
                 <a class="btn btn-default btn-lg disble-double-click" ng-if="user.roles.indexOf('ROLE_ADMIN') !== -1 || user.roles.indexOf('ROLE_SUPER_ADMIN') !== -1 || (order.original_request.owner.download_auth && order.original_request.owner.pdf && !file.is_downloaded && file.enabled)" ng-repeat="file in order.request.files" ng-href="{{getFileDownloadRoute(order.request, file)}}" title="{{file.name}}">
                 <span class="fa fa-file-pdf-o" aria-hidden="true"></span>

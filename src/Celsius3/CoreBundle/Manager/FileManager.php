@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\FileDownload;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Celsius3\CoreBundle\Entity\Instance;
 
 class FileManager
 {
@@ -80,6 +81,22 @@ class FileManager
         $download->setInstance($user->getInstance());
         $this->em->persist($file);
         $this->em->persist($download);
+        $this->em->flush();
+    }
+
+    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event, Instance $instance = null)
+    {
+        foreach ($request->getFiles() as $f) {
+            $file = clone $f;
+            $file->setInstance($instance);
+            $file->setRequest($previousRequest);
+            $file->setEvent($event);
+            if (!copy($f->getUploadRootDir() . DIRECTORY_SEPARATOR . $f->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
+                throw new Exception('Copy file error');
+            }
+            $this->em->persist($file);
+        }
+
         $this->em->flush();
     }
 
