@@ -62,24 +62,24 @@
             <!-- file_list.html -->
             <script type="text/ng-template" id="file_list.html">
                 <table class="table table-hover catalog-table">
-                <thead>
-                <tr>
-                <th>{{'name' | translate}}</th>
-                <th>{{'pages' | translate}}</th>
-                <th>{{'state' | translate}}</th>
-                <th>{{'actions' | translate}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="file in files.list">
-                <td><a ng-href="{{getFileDownloadRoute(file)}}">{{file.name}}</a></td>
-                <td>{{file.pages}}</td>
-                <td>{{file | state | translate}}</td>
-                <td>
-                <a href ng-click="changeFileState(file)" class="btn">{{'changeState' | translate}}</a>
-                </td>
-                </tr>
-                </tbody>
+                    <thead>
+                        <tr>
+                            <th>{{'name' | translate}}</th>
+                            <th>{{'pages' | translate}}</th>
+                            <th>{{'state' | translate}}</th>
+                            <th>{{'actions' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="file in files.list">
+                            <td><a ng-href="{{getFileDownloadRoute(file)}}">{{file.name}}</a></td>
+                            <td>{{file.pages}}</td>
+                            <td>{{file | state | translate}}</td>
+                            <td>
+                                <a ng-if="isLocalFile(file)" href ng-click="changeFileState(file)" class="btn">{{'changeState' | translate}}</a>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </script>
 
@@ -278,32 +278,44 @@
             <script type="text/ng-template" id="request_received.html">
                 <div class="panel2_ok col-md-1"></div>
                 <div class="panel3_ok col-md-3">
-                <div class="relojito">
-                <a ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                    <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                    <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
-                </a>
-                <a href bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-list-alt"></span>
-                </a>
-                <span ng-if="hasReclaim(getReceive(request))" class="glyphicon glyphicon-warning-sign"></span>
-                </div>
-                <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
+                    <div class="relojito">
+                        <a ng-if="!hasApprove(getReceive(request))" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+                            <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                            <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                        </a>
+                        <a ng-if="hasApprove(getReceive(request))" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+                            <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                            <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                        </a>
+                        <a href ng-if="!hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </a>
+                        <a href ng-if="hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getApprove(getReceive(request)).files" data-target="#files-modal" role="button" data-toggle="modal">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </a>
+                        <span ng-if="hasReclaim(getReceive(request))" class="glyphicon glyphicon-warning-sign"></span>
+                    </div>
+                    <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
                 </div>
                 <div class="panel3_ok col-md-1 panel3_last_ok">
-                <ul class="list-unstyled request-actions">
-                <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
-                <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
-                </li>
-                <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
-                <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.receive = getReceive(request).id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
-                </li>
-                <li ng-if="request.type === 'sirequest' || hasApprove(getReceive(request))">
-                <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getReceive(request).id" data-target="#reupload-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-upload"></span>
-                </a>
-                </li>
-                </ul>
+                    <ul class="list-unstyled request-actions">
+                        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+                            <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
+                        </li>
+                        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+                            <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.receive = getReceive(request).id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
+                        </li>
+                        <li ng-if="hasApprove(getReceive(request))">
+                            <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getApprove(getReceive(request)).id" data-target="#reupload-modal" role="button" data-toggle="modal">
+                                <span class="glyphicon glyphicon-upload"></span>
+                            </a>
+                        </li>
+                        <li ng-if="request.type === 'sirequest'">
+                            <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getReceive(request).id" data-target="#reupload-modal" role="button" data-toggle="modal">
+                                <span class="glyphicon glyphicon-upload"></span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </script>
 

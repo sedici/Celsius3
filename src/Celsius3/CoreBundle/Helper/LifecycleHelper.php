@@ -37,7 +37,6 @@ use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Exception\PreviousStateNotFoundException;
 use Celsius3\CoreBundle\Entity\Event\UndoEvent;
-use Symfony\Component\HttpFoundation\Request as Req;
 
 class LifecycleHelper
 {
@@ -49,9 +48,8 @@ class LifecycleHelper
     private $instance_helper;
     private $security_token_storage;
     private $logger;
-    private $container;
 
-    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper, TokenStorage $security_token_storage, LoggerInterface $logger, $container)
+    public function __construct(EntityManager $em, StateManager $state_manager, EventManager $event_manager, FileManager $file_manager, InstanceHelper $instance_helper, TokenStorage $security_token_storage, LoggerInterface $logger)
     {
         $this->em = $em;
         $this->state_manager = $state_manager;
@@ -60,7 +58,6 @@ class LifecycleHelper
         $this->instance_helper = $instance_helper;
         $this->security_token_storage = $security_token_storage;
         $this->logger = $logger;
-        $this->container = $container;
     }
 
     public function getEventManager()
@@ -77,6 +74,11 @@ class LifecycleHelper
     public function uploadFiles(Request $request, Event $event, array $files)
     {
         $this->file_manager->uploadFiles($request, $event, $files);
+    }
+
+    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event)
+    {
+        $this->file_manager->copyFilesToPreviousRequest($previousRequest, $request, $event);
     }
 
     private function setEventData(Request $request, array $data)
@@ -227,13 +229,7 @@ class LifecycleHelper
                 }
             } else {
                 $event = $this->setEventData($request, $data);
-                if ($event instanceof \Celsius3\CoreBundle\Entity\Event\ApproveEvent) {
-                    $event_id = $this->container->get('request_stack')->getCurrentRequest()->request->get('receive');
-                    $uploadEvent = $this->em->getRepository('Celsius3CoreBundle:Event\Event')->find($event_id);
-                    $this->file_manager->copyFilesToPreviousRequest($request, $uploadEvent->getRequest(), $event, $instance);
-                }
             }
-//            die('por las dudas');
             $this->refresh($request);
             $this->refresh($event);
 

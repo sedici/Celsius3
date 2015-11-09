@@ -91,9 +91,27 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }).length > 0;
     };
 
+    $scope.getApprove = function (receive) {
+        return _.first($scope.approvals.filter(function (item) {
+            return item.receive_event.id === receive.id;
+        }));
+    };
+
     $scope.hasApprove = function (receive) {
         return !_.isUndefined($scope.approvals) && $scope.approvals.filter(function (item) {
             return item.receive_event.id === receive.id;
+        }).length > 0;
+    };
+
+    $scope.isLocalFile = function (file) {
+        return $scope.approvals.filter(function (item) {
+            return item.files.filter(function (f) {
+                return f.id === file.id;
+            }).length > 0;
+        }).length > 0 || $scope.receptions.filter(function (item) {
+            return item.type === 'sireceive' && item.files.filter(function (f) {
+                return f.id === file.id;
+            }).length > 0;
         }).length > 0;
     };
 
@@ -265,7 +283,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.order = Order.get({id: entity_id}, function (order) {
         $scope.request = Request.get({order_id: order.id}, function (request) {
-            console.log(request);
             $scope.forms.receive.delivery_type = request.owner.pdf ? 'PDF' : 'Printed';
 
             Catalog.query(function (catalogs) {
@@ -708,7 +725,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.approve = function (receive) {
-        console.log(receive);
         var data = {
             receive: receive.id
         };

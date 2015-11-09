@@ -58,7 +58,7 @@ class FileManager
             $file->setEvent($event);
             $file->setRequest($request);
             $file->setEnabled(true);
-            $file->setPages($this->countPages($uploadedFile));
+            //$file->setPages($this->countPages($uploadedFile));
             $file->setInstance($request->getInstance());
             $this->em->persist($file);
             $event->addFile($file);
@@ -84,20 +84,20 @@ class FileManager
         $this->em->flush();
     }
 
-    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event, Instance $instance = null)
+    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event)
     {
-        foreach ($request->getFiles() as $f) {
-            $file = clone $f;
-            $file->setInstance($instance);
+        foreach ($request->getFiles() as $original) {
+            $file = clone $original;
+            $file->setInstance($previousRequest->getInstance());
             $file->setRequest($previousRequest);
             $file->setEvent($event);
-            if (!copy($f->getUploadRootDir() . DIRECTORY_SEPARATOR . $f->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
+            if (!copy($original->getUploadRootDir() . DIRECTORY_SEPARATOR . $original->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
                 throw new Exception('Copy file error');
             }
             $this->em->persist($file);
+            $event->addFile($file);
+            $this->em->persist($event);
         }
-
-        $this->em->flush();
     }
 
 }

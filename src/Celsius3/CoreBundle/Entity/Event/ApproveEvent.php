@@ -39,6 +39,15 @@ class ApproveEvent extends MultiInstanceEvent
     }
 
     /**
+     * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
+     * @ORM\JoinTable(name="approves_files",
+     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $files;
+
+    /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
      * @ORM\JoinColumn(name="receive_event_id", referencedColumnName="id")
@@ -48,6 +57,7 @@ class ApproveEvent extends MultiInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setReceiveEvent($data['extraData']['receive']);
+        $lifecycleHelper->copyFilesToPreviousRequest($request, $data['extraData']['receive']->getRequest(), $this);
         $lifecycleHelper->createEvent(EventManager::EVENT__DELIVER, $data['extraData']['receive']->getRequest(), $data['extraData']['receive']->getRequest()->getInstance());
     }
 
@@ -72,5 +82,35 @@ class ApproveEvent extends MultiInstanceEvent
     public function getReceiveEvent()
     {
         return $this->receiveEvent;
+    }
+
+    /**
+     * Add files
+     *
+     * @param Celsius3\CoreBundle\Entity\File $files
+     */
+    public function addFile(\Celsius3\CoreBundle\Entity\File $files)
+    {
+        $this->files[] = $files;
+    }
+
+    /**
+     * Remove files
+     *
+     * @param Celsius3\CoreBundle\Entity\File $files
+     */
+    public function removeFile(\Celsius3\CoreBundle\Entity\File $files)
+    {
+        $this->files->removeElement($files);
+    }
+
+    /**
+     * Get files
+     *
+     * @return Doctrine\Common\Collections\Collection $files
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 }
