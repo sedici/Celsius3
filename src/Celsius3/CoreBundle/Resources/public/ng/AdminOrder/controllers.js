@@ -92,12 +92,24 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.getReclaim = function (event) {
-        return $scope.reclaims.filter(function (item) {
+        return _.first($scope.reclaims.filter(function (item) {
             if (['sirequest', 'mirequest'].indexOf(event.type) !== -1) {
                 return !_.isUndefined(item.request_event) && item.request_event.id === event.id;
             } else {
                 return !_.isUndefined(item.receive_event) && item.receive_event.id === event.id;
             }
+        }));
+    };
+
+    $scope.reclaimedRequests = function() {
+        return $scope.requests.filter(function (item) {
+            return item.is_reclaimed;
+        });
+    };
+
+    $scope.reclaimedReceptions = function() {
+        return $scope.receptions.filter(function (item) {
+            return item.is_reclaimed;
         });
     };
 

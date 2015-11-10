@@ -355,10 +355,11 @@
                     </div>
 
                     <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || _.isUndefined(request.previous_request)">
-                        <div class="alert alert-danger" ng-if="reclaims.length > 0">
+                        <div class="alert alert-danger" ng-if="reclaims.length > 0 && (reclaimedRequests().length > 0 || reclaimedReceptions().length > 0)">
                             {{'requestReclaimed' | translate}}
                             <ul>
-                                <li ng-repeat="reclaim in reclaims">{{reclaim.created_at | date:'shortDate'}} - {{reclaim.observations}}</li>
+                                <li ng-repeat="request in reclaimedRequests()">{{getReclaim(request).created_at | date:'shortDate'}} - {{getReclaim(request).observations}}</li>
+                                <li ng-repeat="reception in reclaimedReceptions()">{{getReclaim(reception).created_at | date:'shortDate'}} - {{getReclaim(reception).observations}}</li>
                             </ul>
                         </div>
 

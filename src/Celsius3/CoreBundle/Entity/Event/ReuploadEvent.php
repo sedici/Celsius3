@@ -47,6 +47,8 @@ class ReuploadEvent extends SingleInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setReceiveEvent($data['extraData']['receive']);
+        $this->getReceiveEvent()->setIsReclaimed(false);
+        $lifecycleHelper->refresh($this->getReceiveEvent());
         $lifecycleHelper->uploadFiles($request, $this->getReceiveEvent(), $data['extraData']['files']);
     }
 
