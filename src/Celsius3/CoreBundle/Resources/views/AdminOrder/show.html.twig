@@ -355,6 +355,13 @@
                     </div>
 
                     <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || _.isUndefined(request.previous_request)">
+                        <div class="alert alert-danger" ng-if="reclaims.length > 0">
+                            {{'requestReclaimed' | translate}}
+                            <ul>
+                                <li ng-repeat="reclaim in reclaims">{{reclaim.created_at | date:'shortDate'}} - {{reclaim.observations}}</li>
+                            </ul>
+                        </div>
+
                         <div class="row">
                             <state-bar>
 
