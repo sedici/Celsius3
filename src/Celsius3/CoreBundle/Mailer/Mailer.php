@@ -50,6 +50,7 @@ class Mailer
         $email->setText($text);
         $email->setSender($this->container->get('security.token_storage')->getToken()->getUser());
         $email->setInstance($instance);
+        $email->setSent(false);
 
         $em->persist($email);
         $em->flush($email);
@@ -57,37 +58,50 @@ class Mailer
 
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
+        if ($this->container->get('security.token_storage')->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
+            $this->saveEmail($address, $subject, $text, $instance);
+            return true;
+        }
+        return false;
+    }
+
+    public function sendInstanceEmails(Instance $instance)
+    {
         if (!$this->mailerHelper->validateSmtpServerData($instance)) {
             return false;
         }
 
-        $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
         try {
-            $transport = \Swift_SmtpTransport::newInstance($instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue())
-                    ->setUsername($instance->get('smtp_username')->getValue())
-                    ->setPassword($instance->get('smtp_password')->getValue())
+            $emails = $em->getRepository('Celsius3CoreBundle:Email')
+                    ->findBy(array('instance' => $instance->getId(), 'sent' => false));
+
+            $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+
+            $transport = \Swift_SmtpTransport::newInstance($instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(), $instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue())
+                    ->setUsername($instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue())
+                    ->setPassword($instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue())
             ;
             $mailer = \Swift_Mailer::newInstance($transport);
 
-            $message = \Swift_Message::newInstance()
-                    ->setSubject($subject)
-                    ->setFrom($instance->get('email_reply_address')->getValue())
-                    ->setTo($address)
-                    ->setBody($text . "\n" . $signature)
-                    ->addPart($text . "\n" . $signature, 'text/html')
+            foreach ($emails as $email) {
+                $message = \Swift_Message::newInstance()
+                        ->setSubject($email->getSubject())
+                        ->setFrom($instance->get(ConfigurationHelper::CONF__EMAIL_REPLY_ADDRESS)->getValue())
+                        ->setTo($email->getAddress())
+                        ->setBody($email->getText() . "\n" . $signature)
+                        ->addPart($email->getText() . "\n" . $signature, 'text/html')
                 ;
 
-            $mailer->send($message);
-
-            if (($this->container->get('security.token_storage')->getToken()->getUser()) instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
-                $this->saveEmail($address, $subject, $text, $instance);
+                if ($mailer->send($message)) {
+                    $em->persist($email->setSent(true));
+                    $em->flush();
+                }
             }
         } catch (\Exception $e) {
             return false;
         }
-
-        return true;
     }
 
 }

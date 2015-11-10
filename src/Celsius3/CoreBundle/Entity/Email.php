@@ -35,39 +35,50 @@ class Email
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $address;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $subject;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="text")
      */
     private $text;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="sender_id", referencedColumnName="id", nullable=false)
      */
     private $sender;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
+
+    /**
+     * @ORM\Column(name="sent", type="boolean")
+     */
+    private $sent;
 
     /**
      * Get id
@@ -188,4 +199,29 @@ class Email
     {
         return $this->instance;
     }
+
+    /**
+     * Set sent
+     *
+     * @param boolean $sent
+     *
+     * @return Email
+     */
+    public function setSent($sent)
+    {
+        $this->sent = $sent;
+
+        return $this;
+    }
+
+    /**
+     * Get sent
+     *
+     * @return boolean
+     */
+    public function getSent()
+    {
+        return $this->sent;
+    }
+
 }
