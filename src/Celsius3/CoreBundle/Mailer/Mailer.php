@@ -65,7 +65,7 @@ class Mailer
         return false;
     }
 
-    public function sendInstanceEmails(Instance $instance)
+    public function sendInstanceEmails(Instance $instance, $limit, $logger, $logLevel)
     {
         if (!$this->mailerHelper->validateSmtpServerData($instance)) {
             return false;
@@ -75,7 +75,7 @@ class Mailer
 
         try {
             $emails = $em->getRepository('Celsius3CoreBundle:Email')
-                    ->findBy(array('instance' => $instance->getId(), 'sent' => false));
+                    ->findNotSentEmailsWithLimit($instance, $limit);
 
             $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
 

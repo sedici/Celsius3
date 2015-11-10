@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 
 class SendEmailsCommand extends ContainerAwareCommand
 {
@@ -32,13 +33,20 @@ class SendEmailsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('celsius3_core:mailer:send_emails')
-                ->setDescription('Send emails');
+                ->setDescription('Send emails')
+                ->addArgument('limit', InputArgument::REQUIRED, 'Limit for emails to be sent on each connection.')
+                ->addArgument('log-level', InputArgument::OPTIONAL, 'Log level. 1) Max level, 2) Medium level, 3) Minimum level.', 3);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $limit = intval($input->getArgument('limit'));
+        $logLevel = intval($input->getArgument('log-level'));
+
         $mailer = $this->getContainer()->get('celsius3_core.mailer');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        $logger = $this->getContainer()->get('celsius3_core.mailer.logger');
 
         $instances = $em->getRepository('Celsius3CoreBundle:Instance')
                 ->findAllExceptDirectory()
@@ -47,7 +55,8 @@ class SendEmailsCommand extends ContainerAwareCommand
 
         foreach ($instances as $instance) {
             $output->writeln('Sending mails from instance ' . $instance->getUrl());
-            $mailer->sendInstanceEmails($instance);
+            $logger->info('Sending mails from instance ' . $instance->getUrl());
+            $mailer->sendInstanceEmails($instance, $limit, $logger, $logLevel);
         }
     }
 
