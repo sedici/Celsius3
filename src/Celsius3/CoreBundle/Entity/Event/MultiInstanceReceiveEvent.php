@@ -86,10 +86,10 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
         $this->setRequestEvent($data['extraData']['request']);
         $this->setObservations($data['extraData']['observations']);
         $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
-        $this->setRemoteInstance($request->getInstance());
+        $this->setRemoteInstance($request->getPreviousRequest()->getInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__APPROVAL_PENDING;
-        $this->setRemoteState($lifecycleHelper->getState($request, $data, $this));
+        $this->setRemoteState($lifecycleHelper->getState($request->getPreviousRequest(), $data, $this));
     }
 
     /**

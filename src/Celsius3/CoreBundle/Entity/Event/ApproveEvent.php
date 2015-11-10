@@ -57,6 +57,8 @@ class ApproveEvent extends MultiInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setReceiveEvent($data['extraData']['receive']);
+        $this->getReceiveEvent()->setIsApproved(true);
+        $lifecycleHelper->refresh($this->getReceiveEvent());
         $lifecycleHelper->copyFilesToPreviousRequest($request, $data['extraData']['receive']->getRequest(), $this);
         $lifecycleHelper->createEvent(EventManager::EVENT__DELIVER, $data['extraData']['receive']->getRequest(), $data['extraData']['receive']->getRequest()->getInstance());
     }

@@ -149,7 +149,7 @@ class LifecycleHelper
     {
         $instance = is_null($instance) ? ($name != EventManager::EVENT__CREATION ? $this->instance_helper->getSessionInstance() : $request->getInstance()) : $instance;
         $extraData = $this->event_manager->prepareExtraData($name, $request, $instance);
-        $eventName = $this->event_manager->getRealEventName($name, $extraData, $instance);
+        $eventName = $this->event_manager->getRealEventName($name, $extraData, $instance, $request);
         $data = array(
             'eventName' => $eventName,
             'stateName' => $this->state_manager->getStateForEvent($eventName),
