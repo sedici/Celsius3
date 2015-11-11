@@ -28,7 +28,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EmailRepository")
  * @ORM\Table(name="email")
  */
 class Email

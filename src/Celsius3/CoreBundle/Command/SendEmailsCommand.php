@@ -43,6 +43,9 @@ class SendEmailsCommand extends ContainerAwareCommand
         $limit = intval($input->getArgument('limit'));
         $logLevel = intval($input->getArgument('log-level'));
 
+        $limit = ($limit >= 1 && $limit <= 10) ? $limit : 5;
+        $logLevel = ($logLevel === 1 || $logLevel === 2 || $logLevel === 3) ? $logLevel : null;
+
         $mailer = $this->getContainer()->get('celsius3_core.mailer');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
@@ -54,9 +57,7 @@ class SendEmailsCommand extends ContainerAwareCommand
                 ->execute();
 
         foreach ($instances as $instance) {
-            $output->writeln('Sending mails from instance ' . $instance->getUrl());
-            $logger->info('Sending mails from instance ' . $instance->getUrl());
-            $mailer->sendInstanceEmails($instance, $limit, $logger, $logLevel);
+            $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
         }
     }
 

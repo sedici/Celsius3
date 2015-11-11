@@ -32,10 +32,7 @@ class EmailRepository extends EntityRepository
 
     public function findNotSentEmailsWithLimit(Instance $instance, $limit)
     {
-
-        $qb = $this->getEntityManager()
-                ->getRepository('Celsius3CoreBundle:Email')
-                ->createQueryBuilder('e');
+        $qb = $this->createQueryBuilder('e');
 
         $qb->where('e.instance = :instance')
                 ->setParameter('instance', $instance->getId())
