@@ -60,7 +60,7 @@ class Mailer
 
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
-        if ($this->container->get('security.token_storage')->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
+        if (!is_null($this->container->get('security.token_storage')->getToken()) && $this->container->get('security.token_storage')->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
             $this->saveEmail($address, $subject, $text, $instance);
             return true;
         }
