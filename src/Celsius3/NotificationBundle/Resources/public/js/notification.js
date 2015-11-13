@@ -136,9 +136,14 @@ $(document).ready(function () {
             };
 
     var map = {
-        notification: function (data) {
+        notification: function (data, notifications) {
             $('span#notification-count').text(parseInt(data.count));
             $(data.notifications).each(function (index, element) {
+                if ($.inArray(element.id, notifications) !== -1) {
+                    return;
+                }
+
+                notifications.push(element.id);
                 var notification_data;
                 notification_data = {
                     link: Routing.generate('user_notification_view', {
@@ -172,12 +177,11 @@ $(document).ready(function () {
     };
 
     if (user_id !== '') {
+        var notifications = new Array();
         var conn = new ab.Session('ws://' + notification_public_url + ':' + notification_port, function () {
             $('span#notification-count').text('0');
             conn.subscribe('c3_user_' + user_id, function (topic, data) {
-                $(data).each(function (index, data) {
-                    map.notification(data.data);
-                });
+                map.notification(data.data, notifications);
             });
             function register() {
                 if (typeof request_id !== 'undefined') {
