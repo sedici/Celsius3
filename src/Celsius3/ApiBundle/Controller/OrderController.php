@@ -83,9 +83,11 @@ class OrderController extends BaseController
             $em = $this->getDoctrine()->getManager();
 
             $startDate = $request->query->get('startDate');
+            $limit = $request->query->get('limit');
+            $offset = $request->query->get('offset');
 
             $orders = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findOrdersByStateType($state, $startDate, null, $this->getInstance());
+                    ->findOrdersByStateType($state, $startDate, null, $this->getInstance(), $limit, $offset);
         }
 
         $view = $this->view($orders, 200)->setFormat('json');

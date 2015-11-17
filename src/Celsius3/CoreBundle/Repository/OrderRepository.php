@@ -179,7 +179,7 @@ class OrderRepository extends EntityRepository
                         ->getResult();
     }
 
-    public function findOrdersByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null)
+    public function findOrdersByStateType($type, $startDate, BaseUser $user = null, Instance $instance = null, $limit = null, $offset = null)
     {
         $qb = $this->createQueryBuilder('o')
                 ->addSelect('r')
@@ -188,10 +188,13 @@ class OrderRepository extends EntityRepository
                 ->where('s.type = :type')
                 ->setParameter('type', $type);
 
-
         if (!is_null($startDate)) {
             $qb->andWhere('s.createdAt >= :date')
                     ->setParameter('date', $startDate);
+        } else if (!is_null($limit) && !is_null($offset)) {
+            $qb->setMaxResults($limit)
+                ->setFirstResult($offset)
+                ->orderBy('r.createdAt', 'DESC');
         } else {
             $qb->setMaxResults(10)
                     ->orderBy('r.createdAt', 'DESC');
