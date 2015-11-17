@@ -35,8 +35,8 @@ class LegacyInstanceType extends AbstractType
         } else {
             $website = 'http://';
         }
-            
-        
+
+
         $builder
                 ->add('name')
                 ->add('abbreviation')
@@ -48,10 +48,5 @@ class LegacyInstanceType extends AbstractType
                 ->add('email')
                 ->add('hive')
         ;
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_legacyinstancetype';
     }
 }

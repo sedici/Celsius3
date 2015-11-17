@@ -24,6 +24,10 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\OrderManager;
 use Celsius3\CoreBundle\Entity\Instance;
@@ -50,14 +54,14 @@ class RequestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($this->operator) {
-            $builder->add('type', 'choice', array(
+            $builder->add('type', ChoiceType::class, array(
                     'choices' => array(
                         /** @Ignore */ OrderManager::TYPE__SEARCH => ucfirst(OrderManager::TYPE__SEARCH),
                         /** @Ignore */ OrderManager::TYPE__PROVISION => ucfirst(OrderManager::TYPE__PROVISION),
                     ),
                 ));
         } else {
-            $builder->add('type', 'hidden', array(
+            $builder->add('type', HiddenType::class, array(
                     'data' => OrderManager::getTypeForUser($this->instance, $this->user),
                     'attr' => array(
                         'readonly' => 'readonly',
@@ -65,19 +69,19 @@ class RequestType extends AbstractType
                     )
                 ));
         }
-        
+
         $builder
-                ->add('comments', 'textarea', array(
+                ->add('comments', TextareaType::class, array(
                     'required' => false,
                 ))
-                ->add('owner', 'celsius3_corebundle_user_selector', array(
+                ->add('owner', UserSelectorType::class, array(
                     'attr' => array(
                         'value' => (!is_null($this->user)) ? $this->user->getId() : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
                 ))
-                ->add('creator', 'celsius3_corebundle_user_selector', array(
+                ->add('creator', UserSelectorType::class, array(
                     'attr' => array(
                         'value' => (!is_null($this->operator)) ? $this->operator->getId() : ((!is_null($this->user)) ? $this->user->getId() : ''),
                         'class' => 'container',
@@ -88,19 +92,19 @@ class RequestType extends AbstractType
 
         if ($this->librarian) {
             $builder
-                    ->add('target', 'choice', array(
+                    ->add('target', ChoiceType::class, array(
                         'choices' => array(
                             'me' => 'Me',
                             'other' => 'Other'
                         ),
                         'mapped' => false,
                     ))
-                    ->add('librarian', 'celsius3_corebundle_user_selector', array(
+                    ->add('librarian', UserSelectorType::class, array(
                         'attr' => array(
                             'readonly' => 'readonly',
                         ),
                     ))
-                    ->add('owner_autocomplete', 'text', array(
+                    ->add('owner_autocomplete', TextType::class, array(
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
@@ -114,7 +118,7 @@ class RequestType extends AbstractType
 
         if (!is_null($this->operator)) {
             $builder
-                    ->add('owner_autocomplete', 'text', array(
+                    ->add('owner_autocomplete', TextType::class, array(
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
@@ -123,7 +127,7 @@ class RequestType extends AbstractType
                         'mapped' => false,
                         'label' => 'Owner',
                     ))
-                    ->add('operator', 'celsius3_corebundle_user_selector', array(
+                    ->add('operator', UserSelectorType::class, array(
                         'attr' => array(
                             'value' => (!is_null($this->operator)) ? $this->operator->getId() : '',
                             'class' => 'container',
@@ -143,7 +147,7 @@ class RequestType extends AbstractType
             ;
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                    ->add('instance', InstanceSelectorType::class, array(
                         'data' => $this->instance,
                         'attr' => array(
                             'value' => $this->instance->getId(),
@@ -159,10 +163,5 @@ class RequestType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\Request',
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_requesttype';
     }
 }

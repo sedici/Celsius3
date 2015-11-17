@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Celsius3\CoreBundle\Entity\Instance;
 
 class MailTemplateType extends AbstractType
@@ -40,13 +41,13 @@ class MailTemplateType extends AbstractType
         $builder
                 ->add('title')
                 ->add('code')
-                ->add('text', 'textarea', array(
+                ->add('text', TextareaType::class, array(
                     'attr' => array(
                         'class' => 'summernote',
                     ),
                     'required' => false,
                 ))
-                ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                ->add('instance', InstanceSelectorType::class, array(
                     'data' => $this->instance,
                     'attr' => array(
                         'value' => $this->instance->getId(),
@@ -54,10 +55,5 @@ class MailTemplateType extends AbstractType
                     ),
                 ))
         ;
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_mailtemplatetype';
     }
 }

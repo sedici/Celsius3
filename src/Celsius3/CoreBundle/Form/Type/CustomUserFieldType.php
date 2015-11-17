@@ -39,16 +39,22 @@ class CustomUserFieldType extends AbstractType
     {
         $builder
                 ->add('name')
-                ->add('private', null, array('required' => false,))
-                ->add('required', null, array('required' => false,))
+                ->add('private', null, array(
+                    'required' => false,
+                ))
+                ->add('required', null, array(
+                    'required' => false,
+                ))
         ;
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', null, array('required' => false,))
+                    ->add('instance', null, array(
+                        'required' => false,
+                    ))
             ;
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                    ->add('instance', InstanceSelectorType::class, array(
                         'data' => $this->instance,
                         'attr' => array(
                             'value' => $this->instance->getId(),
@@ -57,10 +63,5 @@ class CustomUserFieldType extends AbstractType
                     ))
             ;
         }
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_customuserfieldtype';
     }
 }

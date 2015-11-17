@@ -42,11 +42,13 @@ class MailTemplateFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false,));
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'celsius3_corebundle_mailtemplatetype';
+        return '';
     }
 }

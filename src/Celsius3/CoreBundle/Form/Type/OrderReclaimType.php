@@ -24,17 +24,17 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class OrderReclaimType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('observations', 'textarea', array('required' => false,));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_orderreclaimtype';
+        $builder
+            ->add('observations', TextareaType::class, array(
+                'required' => false,
+            ))
+        ;
     }
 }

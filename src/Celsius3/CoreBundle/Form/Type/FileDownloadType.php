@@ -41,14 +41,12 @@ class FileDownloadType extends AbstractType
         $builder
                 ->add('ip')
                 ->add('userAgent')
-//                ->add('user')
                 ->add('file')
-//                ->add('request')
         ;
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder->add('instance');
         } else {
-            $builder->add('instance', 'celsius3_corebundle_instance_selector', array(
+            $builder->add('instance', InstanceSelectorType::class, array(
                 'data' => $this->instance,
                 'attr' => array(
                     'value' => $this->instance->getId(),
@@ -56,17 +54,5 @@ class FileDownloadType extends AbstractType
                 ),
             ));
         }
-    }
-    
-//    public function configureOptions(OptionsResolver $resolver)
-//    {
-//        $resolver->setDefaults(array(
-//            'data_class' => 'Celsius3\\CoreBundle\\Entity\\FileDownload',
-//        ));
-//    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_filedownloadtype';
     }
 }

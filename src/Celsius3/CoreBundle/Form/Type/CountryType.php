@@ -45,7 +45,7 @@ class CountryType extends AbstractType
         if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
             $builder->add('instance');
         } else {
-            $builder->add('instance', 'celsius3_corebundle_instance_selector', array(
+            $builder->add('instance', InstanceSelectorType::class, array(
                 'data' => $this->instance,
                 'attr' => array(
                     'value' => $this->instance->getId(),
@@ -53,10 +53,5 @@ class CountryType extends AbstractType
                 ),
             ));
         }
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_countrytype';
     }
 }

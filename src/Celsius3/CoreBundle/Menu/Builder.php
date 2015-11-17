@@ -23,11 +23,13 @@
 namespace Celsius3\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Celsius3\CoreBundle\Manager\UserManager;
 
-class Builder extends ContainerAware
+class Builder
 {
+
+    use ContainerAwareTrait;
 
     public function directoryMenu(FactoryInterface $factory, array $options)
     {

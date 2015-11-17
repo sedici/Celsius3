@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Doctrine\ORM\EntityManager;
@@ -44,7 +45,7 @@ class OrderRequestType extends AbstractType
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'provider', true, false, false, true);
         $builder->addEventSubscriber($subscriber);
         $builder
-                ->add('observations', 'textarea', array(
+                ->add('observations', TextareaType::class, array(
                     'required' => false,
                 ))
         ;
@@ -58,10 +59,5 @@ class OrderRequestType extends AbstractType
                 'request',
             ),
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_orderrequesttype';
     }
 }

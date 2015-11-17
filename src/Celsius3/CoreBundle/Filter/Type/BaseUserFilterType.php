@@ -24,6 +24,9 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Celsius3\CoreBundle\Entity\Instance;
@@ -42,7 +45,7 @@ class BaseUserFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('id', 'hidden', array(
+                ->add('id', HiddenType::class, array(
                     'required' => false,
                 ))
                 ->add('name', null, array(
@@ -57,7 +60,7 @@ class BaseUserFilterType extends AbstractType
                 ->add('email', null, array(
                     'required' => false,
                 ))
-                ->add('state', 'choice', array(
+                ->add('state', ChoiceType::class, array(
                     'required' => false,
                     'choices' => array(
                         /** @Ignore */ 'enabled' => 'Enabled',
@@ -67,7 +70,7 @@ class BaseUserFilterType extends AbstractType
                     'expanded' => true,
                     'multiple' => true,
                 ))
-                ->add('roles', 'choice', array(
+                ->add('roles', ChoiceType::class, array(
                     'required' => false,
                     'choices' => array(
                         /** @Ignore */ 'ROLE_USER' => 'User',
@@ -80,7 +83,7 @@ class BaseUserFilterType extends AbstractType
 
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', 'entity', array(
+                    ->add('instance', EntityType::class, array(
                         'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
                     ))
@@ -95,7 +98,7 @@ class BaseUserFilterType extends AbstractType
         ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '';
     }

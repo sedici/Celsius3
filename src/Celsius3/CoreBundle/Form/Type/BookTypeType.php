@@ -48,9 +48,4 @@ class BookTypeType extends MaterialTypeType
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\BookType',
         ));
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_booktype';
-    }
 }

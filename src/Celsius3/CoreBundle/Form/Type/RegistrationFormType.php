@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -56,7 +57,7 @@ class RegistrationFormType extends BaseType
                     'label' => 'Name'
                 ))
                 ->add('surname')
-                ->add('birthdate', 'birthday', array(
+                ->add('birthdate', BirthdayType::class, array(
                     'required' => false,
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
@@ -67,7 +68,7 @@ class RegistrationFormType extends BaseType
                 ->add('address', null, array(
                     'required' => false,
                 ))
-                ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                ->add('instance', InstanceSelectorType::class, array(
                     'data' => $this->instance,
                     'attr' => array(
                         'value' => $this->instance->getId(),
@@ -79,10 +80,5 @@ class RegistrationFormType extends BaseType
         $builder->addEventSubscriber($subscriber);
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_registration';
     }
 }

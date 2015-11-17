@@ -44,7 +44,7 @@ class AdminContactType extends ContactType
     {
         parent::buildForm($builder, $options);
         $builder
-                ->add('owningInstance', 'celsius3_corebundle_instance_selector', array(
+                ->add('owningInstance', InstanceSelectorType::class, array(
                     'data' => $this->owningInstance,
                     'attr' => array(
                         'value' => $this->owningInstance->getId(),

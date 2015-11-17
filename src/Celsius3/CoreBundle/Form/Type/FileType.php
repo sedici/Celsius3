@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FileType as BaseFileType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FileType extends AbstractType
@@ -32,7 +33,9 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('file', 'file', array('required' => false,))
+                ->add('file', BaseFileType::class, array(
+                    'required' => false,
+                ))
         ;
     }
 
@@ -41,10 +44,5 @@ class FileType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\File',
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_filetype';
     }
 }

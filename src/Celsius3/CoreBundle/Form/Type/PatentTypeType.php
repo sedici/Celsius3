@@ -39,9 +39,4 @@ class PatentTypeType extends MaterialTypeType
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\PatentType',
         ));
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_patenttype';
-    }
 }

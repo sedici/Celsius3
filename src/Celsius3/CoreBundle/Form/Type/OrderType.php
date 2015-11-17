@@ -24,7 +24,9 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
@@ -62,7 +64,7 @@ class OrderType extends AbstractType
                 ->add('originalRequest', new RequestType($this->instance, $this->user, $this->operator, $this->librarian), array(
                     'label' => false,
                 ))
-                ->add('materialDataType', 'choice', array(
+                ->add('materialDataType', ChoiceType::class, array(
                     'choices' => array(
                         /** @Ignore */ MaterialTypeManager::TYPE__JOURNAL => ucfirst(MaterialTypeManager::TYPE__JOURNAL),
                         /** @Ignore */ MaterialTypeManager::TYPE__BOOK => ucfirst(MaterialTypeManager::TYPE__BOOK),
@@ -74,8 +76,10 @@ class OrderType extends AbstractType
                     'data' => $this->preferredMaterial,
                     'label' => 'Material Type',
                 ))
-                ->add('materialData', $this->material);
-        
+                ->add('materialData', $this->material, array(
+                   'constraints' => new Valid(),
+               ));
+
         if (!is_null($this->actualUser)) {
             if ($this->actualUser->hasRole('ROLE_ADMIN') || $this->actualUser->hasRole('ROLE_SUPER_ADMIN')) {
                 $builder->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')));
@@ -87,13 +91,6 @@ class OrderType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\Order',
-            'cascade_validation' => true,
         ));
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_ordertype';
-    }
-
 }

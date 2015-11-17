@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\CoreBundle\Form\DataTransformer\InstanceToIdTransformer;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -59,11 +60,6 @@ class InstanceSelectorType extends AbstractType
 
     public function getParent()
     {
-        return 'hidden';
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_instance_selector';
+        return HiddenType::class;
     }
 }

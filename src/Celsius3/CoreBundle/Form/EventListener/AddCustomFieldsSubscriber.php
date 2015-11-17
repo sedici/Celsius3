@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Form\EventListener;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManager;
 use JMS\TranslationBundle\Annotation\Ignore;
@@ -88,7 +89,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 $value = null;
             }
 
-            $form->add($this->factory->createNamed($field->getKey(), 'text', $value ? $value->getValue() : null, array(
+            $form->add($this->factory->createNamed($field->getKey(), TextType::class, $value ? $value->getValue() : null, array(
                         /** @Ignore */ 'label' => ucfirst($field->getName()),
                         'required' => $field->getRequired(),
                         'mapped' => false,

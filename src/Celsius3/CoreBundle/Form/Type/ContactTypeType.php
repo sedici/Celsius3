@@ -34,9 +34,4 @@ class ContactTypeType extends AbstractType
                 ->add('name')
         ;
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_contacttypetype';
-    }
 }

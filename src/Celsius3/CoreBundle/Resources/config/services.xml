@@ -153,46 +153,46 @@
 
         <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_user_selector" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.users_selector" class="%celsius3_core.form.users_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_users_selector" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.order_selector" class="%celsius3_core.form.order_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_order_selector" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.instance_selector" class="%celsius3_core.form.instance_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_instance_selector" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.journal_selector" class="%celsius3_core.form.journal_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_journal_selector" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.logo_selector" class="%celsius3_core.form.logo_selector.class%">
-            <tag name="form.type" alias="celsius3_corebundle_logo_selector" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.type.language" class="%celsius3_core.form.type.language.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_language_type" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.type.confirmation" class="%celsius3_core.form.type.confirmation.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_confirmation_type" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.type.results" class="%celsius3_core.form.type.results.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" alias="celsius3_corebundle_results_type" />
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">

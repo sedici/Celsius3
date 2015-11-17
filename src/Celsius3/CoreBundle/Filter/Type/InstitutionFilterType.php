@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Entity\Instance;
 
@@ -39,27 +40,31 @@ class InstitutionFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
-        
+
         $builder
-                ->add('name', null, array('required' => false,))
-                ->add('abbreviation', null, array('required' => false,))
-                ->add('parent', 'entity', array(
+                ->add('name', null, array(
+                    'required' => false,
+                ))
+                ->add('abbreviation', null, array(
+                    'required' => false,
+                ))
+                ->add('parent', EntityType::class, array(
                     'required' => false,
                     'class' => 'Celsius3CoreBundle:Institution',
                 ))
-                ->add('city', 'entity', array(
+                ->add('city', EntityType::class, array(
                     'required' => false,
                     'class' => 'Celsius3CoreBundle:City',
                 ))
         ;
         if (is_null($this->instance)) {
             $builder
-                    ->add('instance', 'entity', array(
+                    ->add('instance', EntityType::class, array(
                         'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
                         'label' => 'Owning Instance',
                     ))
-                    ->add('celsiusInstance', 'entity', array(
+                    ->add('celsiusInstance', EntityType::class, array(
                         'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
                         'label' => 'Celsius Instance',
@@ -70,11 +75,13 @@ class InstitutionFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false,));
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'celsius3_corebundle_institutionfiltertype';
+        return '';
     }
 }

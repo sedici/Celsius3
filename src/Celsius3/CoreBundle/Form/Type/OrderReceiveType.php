@@ -24,6 +24,9 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class OrderReceiveType extends AbstractType
 {
@@ -31,14 +34,14 @@ class OrderReceiveType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('deliverytype', 'choice', array(
+                ->add('deliverytype', ChoiceType::class, array(
                     'choices' => array('PDF' => 'PDF', 'Printed' => 'Printed'),
                     'label' => 'Delivery Type',
                 ))
-                ->add('observations', 'textarea', array(
+                ->add('observations', TextareaType::class, array(
                     'required' => false,
                 ))
-                ->add('files', 'collection', array(
+                ->add('files', CollectionType::class, array(
                     'label' => 'Files',
                     'type' => 'file',
                     'prototype' => true,
@@ -46,10 +49,5 @@ class OrderReceiveType extends AbstractType
                     'allow_delete' => true,
                 ))
         ;
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_orderreceivetype';
     }
 }

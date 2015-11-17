@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
@@ -48,7 +49,7 @@ class UserTransformType extends AbstractType
         );
 
         if (!is_null($this->instance)) {
-            $builder->add($this->user->getInstance()->getUrl(), 'choice', array(
+            $builder->add($this->user->getInstance()->getUrl(), ChoiceType::class, array(
                 'choices' => $choices,
                 'expanded' => true,
                 'multiple' => true,
@@ -57,7 +58,7 @@ class UserTransformType extends AbstractType
         } else {
             $choices[UserManager::ROLE_SUPER_ADMIN] = 'Superadmin';
 
-            $builder->add($this->user->getInstance()->getUrl(), 'choice', array(
+            $builder->add($this->user->getInstance()->getUrl(), ChoiceType::class, array(
                 'choices' => $choices,
                 'expanded' => true,
                 'multiple' => true,
@@ -65,7 +66,7 @@ class UserTransformType extends AbstractType
             ));
 
             foreach ($this->user->getSecondaryInstances() as $instance) {
-                $builder->add($instance['url'], 'choice', array(
+                $builder->add($instance['url'], ChoiceType::class, array(
                     'choices' => $choices,
                     'expanded' => true,
                     'multiple' => true,
@@ -74,10 +75,4 @@ class UserTransformType extends AbstractType
             }
         }
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_transformusertype';
-    }
-
 }

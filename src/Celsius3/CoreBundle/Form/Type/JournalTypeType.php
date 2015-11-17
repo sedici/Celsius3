@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Celsius3\CoreBundle\Entity\Journal;
 
 class JournalTypeType extends MaterialTypeType
@@ -39,7 +40,7 @@ class JournalTypeType extends MaterialTypeType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('journal', 'celsius3_corebundle_journal_selector', array(
+                ->add('journal', JournalSelectorType::class, array(
                     'attr' => array(
                         'required' => true,
                         'value' => (!is_null($this->journal)) ? $this->journal->getId() : '',
@@ -47,7 +48,7 @@ class JournalTypeType extends MaterialTypeType
                         'readonly' => 'readonly',
                     ),
                 ))
-                ->add('journal_autocomplete', 'text', array(
+                ->add('journal_autocomplete', TextType::class, array(
                     'attr' => array(
                         'required' => true,
                         'class' => 'autocomplete',
@@ -59,7 +60,7 @@ class JournalTypeType extends MaterialTypeType
                     'required' => false,
                 ))
         ;
-        
+
         parent::buildForm($builder, $options);
 
         $builder
@@ -73,10 +74,5 @@ class JournalTypeType extends MaterialTypeType
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\JournalType',
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_journaltype';
     }
 }

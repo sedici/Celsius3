@@ -71,7 +71,7 @@ class InstitutionType extends AbstractType
             ;
         } else {
             $builder
-                    ->add('instance', 'celsius3_corebundle_instance_selector', array(
+                    ->add('instance', InstanceSelectorType::class, array(
                         'data' => $this->instance,
                         'attr' => array(
                             'value' => $this->instance->getId(),
@@ -80,10 +80,5 @@ class InstitutionType extends AbstractType
                     ))
             ;
         }
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_institutiontype';
     }
 }

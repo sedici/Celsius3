@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Entity\Instance;
 
@@ -39,13 +40,17 @@ class FileDownloadFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
-        
+
         $builder
-                ->add('ip', null, array('required' => false))
-                ->add('userAgent', null, array('required' => false))
+                ->add('ip', null, array(
+                    'required' => false,
+                ))
+                ->add('userAgent', null, array(
+                    'required' => false,
+                ))
         ;
         if (is_null($this->instance)) {
-            $builder->add('instance', 'entity', array(
+            $builder->add('instance', EntityType::class, array(
                 'required' => false,
                 'class' => 'Celsius3CoreBundle:Instance',
             ));
@@ -57,8 +62,8 @@ class FileDownloadFilterType extends AbstractType
         $resolver->setDefaults(array('csrf_protection' => false,));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'celsius3_corebundle_filedownloadfiltertype';
+        return '';
     }
 }

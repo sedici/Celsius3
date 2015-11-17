@@ -44,9 +44,4 @@ class CongressTypeType extends MaterialTypeType
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\CongressType',
         ));
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_congresstype';
-    }
 }
