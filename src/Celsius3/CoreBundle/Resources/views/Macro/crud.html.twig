@@ -108,7 +108,7 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-            <form action="{{ path(name ~ '_create') }}" method="post" {{ form_enctype(form) }} class="form" role="form">
+            {{ form_start(form, { 'attr': { 'action': path(name ~ '_create'), 'class': 'form', 'role': 'form' }}) }}
                 {% if custom_rendering %}
                     {{ form_errors(form) }}
                     {% include folder~':_form.html.twig' %}
@@ -116,7 +116,7 @@
                     {{ form_widget(form) }}
                 {% endif %}
                 <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
-            </form>
+            {{ form_end(form) }}
         </div>
         <div class="col-md-3">
             {% import _self as macros %}
@@ -131,7 +131,7 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-            <form action="{{ path(name ~ '_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(form) }} class="form-horizontal" role="form">
+            {{ form_start(form, { 'attr': { 'action': path(name ~ '_update', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form' }}) }}
                 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
                 {% if custom_rendering %}
@@ -144,7 +144,7 @@
                     <span class="glyphicon glyphicon-ok"></span>
                     {{ 'Save'|trans }}
                 </button>
-            </form>
+            {{ form_end(form) }}
         </div>
         <div class="col-md-3">
             {% import _self as macros %}
@@ -201,10 +201,10 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-            <form action="{{ path(name~'_transform', { 'id': entity.id }) }}" method="post" {{ form_enctype(transform_form) }} class="form-horizontal">
+            {{ form_start(transform_form, { 'attr': { 'action': path(name~'_transform', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form' }}) }}
                 {{ form_widget(transform_form) }}
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ 'Transform'|trans }}</button>
-            </form>
+            {{ form_end(transform_form) }}
         </div>
         <div class="col-md-3">
             {% import _self as macros %}
@@ -218,6 +218,7 @@
     <div class="row">
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+
             <form action="{{ path(name~'_doUnion') }}" method="post" role="form">
                 <p>{{ 'Please select the element you want to overwrite the others.'|trans }}</p>
                 {% for entity in entities %}
@@ -241,11 +242,11 @@
 
 {# filter #}
 {% macro filter(name, filter_form) %}
-    <form action="{{ path(name) }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="form" role="form">
+    {{ form_start(filter_form, { 'attr': { 'action': path(name), 'class': 'form', 'role': 'form', 'method': 'GET', 'novalidate': 'novalidate' }}) }}
         {{ form_widget(filter_form) }}
         <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
         <a href="{{ path(name) }}"><span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}</a>
-    </form>
+    {{ form_end(filter_form) }}
 {% endmacro %}
 
 {# item accordion #}
@@ -282,12 +283,12 @@
     <div class="row">
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
-            <form action="{{ path(name ~ '_update_configuration', { 'code': app.request.get('code'), 'id': entity.id }) }}" method="post" {{ form_enctype(configure_form) }} class="form" role="form">
+            {{ form_start(configure_form, { 'attr': { 'action': path(name ~ '_update_configuration', { 'code': app.request.get('code'), 'id': entity.id }), 'class': 'form', 'role': 'form' }}) }}
                 {{ form_widget(configure_form) }}
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
                 </div>
-            </form>
+            {{ form_end(configure_form) }}
         </div>
         <div class="col-md-3">
             <div id="accordion" class="panel-group">

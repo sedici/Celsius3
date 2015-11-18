@@ -24,19 +24,17 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class InstitutionType extends AbstractType
 {
-    private $instance;
     private $em;
 
-    public function __construct(EntityManager $em, Instance $instance)
+    public function __construct(EntityManager $em)
     {
-        $this->instance = $instance;
         $this->em = $em;
     }
 
@@ -59,26 +57,33 @@ class InstitutionType extends AbstractType
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'parent', false, true, true);
         $builder->addEventSubscriber($subscriber);
 
-        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-            $builder
-                    ->add('instance', null, array(
-                        'label' => 'Owning Instance',
-                    ))
-                    ->add('celsiusInstance', null, array(
-                        'required' => false,
-                        'label' => 'Celsius Instance',
-                    ))
-            ;
-        } else {
-            $builder
-                    ->add('instance', InstanceSelectorType::class, array(
-                        'data' => $this->instance,
-                        'attr' => array(
-                            'value' => $this->instance->getId(),
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+                $builder
+                        ->add('instance', null, array(
+                            'label' => 'Owning Instance',
+                        ))
+                        ->add('celsiusInstance', null, array(
+                            'required' => false,
+                            'label' => 'Celsius Instance',
+                        ))
+                ;
+            } else {
+                $builder->add('instance', InstanceSelectorType::class, array(
+                    'data' => $options['instance'],
+                    'attr' => array(
+                        'value' => $options['instance']->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ));
+            }
         }
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'instance' => null,
+        ));
     }
 }

@@ -5,6 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="celsius3_core.user_class">Celsius3\CoreBundle\Entity\BaseUser</parameter>
         <parameter key="twig.extension.text.class">Twig_Extensions_Extension_Text</parameter>
         <parameter key="twig.extension.intl.class">Twig_Extensions_Extension_Intl</parameter>
         <parameter key="salavert.twig.time_ago.class">Salavert\Twig\Extension\TimeAgoExtension</parameter>
@@ -23,9 +24,14 @@
         <parameter key="celsius3_core.locale_choosing_listener.class">Celsius3\CoreBundle\EventListener\LocaleChoosingListener</parameter>
         <parameter key="celsius3_core.instance_listener.class">Celsius3\CoreBundle\EventListener\InstanceListener</parameter>
         <parameter key="celsius3_core.registration.form.type.class">Celsius3\CoreBundle\Form\Type\RegistrationFormType</parameter>
+        <parameter key="celsius3_core.form.order_selector.class">Celsius3\CoreBundle\Form\Type\OrderSelectorType</parameter>
+        <parameter key="celsius3_core.form.admin_contact.class">Celsius3\CoreBundle\Form\Type\AdminContactType</parameter>
+        <parameter key="celsius3_core.form.base_user.class">Celsius3\CoreBundle\Form\Type\BaseUserType</parameter>
+        <parameter key="celsius3_core.form.catalog.class">Celsius3\CoreBundle\Form\Type\CatalogType</parameter>
+        <parameter key="celsius3_core.form.institution.class">Celsius3\CoreBundle\Form\Type\InstitutionType</parameter>
+        <parameter key="celsius3_core.form.superadmin_contact.class">Celsius3\CoreBundle\Form\Type\SuperadminContactType</parameter>
         <parameter key="celsius3_core.form.user_selector.class">Celsius3\CoreBundle\Form\Type\UserSelectorType</parameter>
         <parameter key="celsius3_core.form.users_selector.class">Celsius3\CoreBundle\Form\Type\UsersSelectorType</parameter>
-        <parameter key="celsius3_core.form.order_selector.class">Celsius3\CoreBundle\Form\Type\OrderSelectorType</parameter>
         <parameter key="celsius3_core.form.instance_selector.class">Celsius3\CoreBundle\Form\Type\InstanceSelectorType</parameter>
         <parameter key="celsius3_core.form.journal_selector.class">Celsius3\CoreBundle\Form\Type\JournalSelectorType</parameter>
         <parameter key="celsius3_core.form.logo_selector.class">Celsius3\CoreBundle\Form\Type\LogoSelectorType</parameter>
@@ -149,6 +155,40 @@
         <service id="celsius3_core.instance_listener" class="%celsius3_core.instance_listener.class%">
             <argument type="service" id="router"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+        </service>
+
+        <service id="celsius3_core.form.admin_contact" class="%celsius3_core.form.admin_contact.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="celsius3_core.form.superadmin_contact" class="%celsius3_core.form.superadmin_contact.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <tag name="form.type" />
+        </service>
+
+        <service id="celsius3_core.form.base_user" class="%celsius3_core.form.base_user.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="string" id="%celsius3_core.user_class%"></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="celsius3_core.form.catalog" class="%celsius3_core.form.catalog.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="celsius3_core.form.institution" class="%celsius3_core.form.institution.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <tag name="form.type" />
+        </service>
+
+        <service id="celsius3_core.form.registration_form" class="%celsius3_core.registration.form.type.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="string" id="%celsius3_core.user_class%"></argument>
+            <tag name="form.type" />
         </service>
 
         <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">

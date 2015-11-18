@@ -23,23 +23,21 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
-use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class BaseUserType extends RegistrationFormType
 {
 
-    private $editing;
-
-    public function __construct(ContainerInterface $container, $class, Instance $instance, $editing = false)
+    public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
     {
-        parent::__construct($container, $class);
-        $this->instance = $instance;
-        $this->editing = $editing;
+        parent::__construct($em, $instance_helper, $class);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -60,30 +58,40 @@ class BaseUserType extends RegistrationFormType
                     'required' => false,
                 ))
         ;
-        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-            $builder
-                    ->add('instance', null, array(
-                        'query_builder' => function (EntityRepository $repository) {
-                            return $repository->findAllExceptDirectory();
-                        },
-                    ))
-            ;
-        } else {
-            $builder
-                    ->add('instance', InstanceSelectorType::class, array(
-                        'data' => $this->instance,
-                        'attr' => array(
-                            'value' => $this->instance->getId(),
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+                $builder
+                        ->add('instance', null, array(
+                            'query_builder' => function (EntityRepository $repository) {
+                                return $repository->findAllExceptDirectory();
+                            },
+                        ))
+                ;
+            } else {
+                $builder
+                        ->add('instance', InstanceSelectorType::class, array(
+                            'data' => $options['instance'],
+                            'attr' => array(
+                                'value' => $options['instance']->getId(),
+                                'readonly' => 'readonly',
+                            ),
+                        ))
+                ;
+            }
         }
 
-        if ($this->editing) {
+        if ($options['editing']) {
             $builder->remove('plainPassword');
         }
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance, false);
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
         $builder->addEventSubscriber($subscriber);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'instance' => null,
+            'editing' => false,
+        ));
     }
 }

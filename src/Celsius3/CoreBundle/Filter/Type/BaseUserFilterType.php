@@ -29,17 +29,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use JMS\TranslationBundle\Annotation\Ignore;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class BaseUserFilterType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance = null)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -81,7 +73,7 @@ class BaseUserFilterType extends AbstractType
                 ))
         ;
 
-        if (is_null($this->instance)) {
+        if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
@@ -95,6 +87,7 @@ class BaseUserFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'instance' => null,
         ));
     }
 

@@ -29,13 +29,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class JournalFilterType extends AbstractType
 {
-    private $instance;
-
-    public function __construct($instance = null)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -61,7 +54,7 @@ class JournalFilterType extends AbstractType
                 ))
         ;
 
-        if (is_null($this->instance)) {
+        if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
@@ -75,6 +68,7 @@ class JournalFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'instance' => null,
         ));
     }
 

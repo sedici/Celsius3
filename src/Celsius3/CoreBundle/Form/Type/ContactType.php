@@ -25,17 +25,11 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Entity\BaseUser;
 
 class ContactType extends AbstractType
 {
-    private $user;
-
-    public function __construct(BaseUser $user = null)
-    {
-        $this->user = $user;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -47,12 +41,12 @@ class ContactType extends AbstractType
                     'attr' => array(
                         'class' => 'container',
                         'readonly' => 'readonly',
-                        'value' => (!is_null($this->user)) ? $this->user->getId() : '',
+                        'value' => (!is_null($options['user'])) ? $options['user']->getId() : '',
                     ),
                 ))
                 ->add('user_autocomplete', TextType::class, array(
                     'attr' => array(
-                        'value' => $this->user,
+                        'value' => $options['user'],
                         'class' => 'autocomplete',
                         'target' => 'BaseUser',
                     ),
@@ -62,5 +56,12 @@ class ContactType extends AbstractType
                 ->add('type')
                 ->add('instance')
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'user' => null,
+        ));
     }
 }

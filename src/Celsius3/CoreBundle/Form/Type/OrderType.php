@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
@@ -35,34 +36,18 @@ use Symfony\Component\Form\FormFactory;
 
 class OrderType extends AbstractType
 {
-
-    protected $instance;
-    protected $material;
-    protected $preferredMaterial;
-    protected $user;
-    protected $operator;
-    protected $librarian;
-    protected $actualUser;
-
-    public function __construct(Instance $instance, MaterialTypeType $material = null, BaseUser $user = null, BaseUser $operator = null, $librarian = false, $actualUser = null)
-    {
-        $this->instance = $instance;
-        $this->material = (is_null($material)) ? new JournalTypeType() : $material;
-
-        $class = explode('\\', get_class($this->material));
-        $this->preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
-
-        $this->user = $user;
-        $this->operator = $operator;
-        $this->librarian = $librarian;
-        $this->actualUser = $actualUser;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $class = explode('\\', get_class($options['material']));
+        $preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
+
         $builder
-                ->add('originalRequest', new RequestType($this->instance, $this->user, $this->operator, $this->librarian), array(
+                ->add('originalRequest', RequestType::class, array(
                     'label' => false,
+                    'instance' => $options['instance'],
+                    'user' => $options['user'],
+                    'operator' => $options['operator'],
+                    'librarian' => $options['librarian'],
                 ))
                 ->add('materialDataType', ChoiceType::class, array(
                     'choices' => array(
@@ -73,16 +58,20 @@ class OrderType extends AbstractType
                         /** @Ignore */ MaterialTypeManager::TYPE__PATENT => ucfirst(MaterialTypeManager::TYPE__PATENT),
                     ),
                     'mapped' => false,
-                    'data' => $this->preferredMaterial,
+                    'data' => $preferredMaterial,
                     'label' => 'Material Type',
                 ))
-                ->add('materialData', $this->material, array(
+                ->add('materialData', $options['material'], array(
                    'constraints' => new Valid(),
                ));
 
-        if (!is_null($this->actualUser)) {
-            if ($this->actualUser->hasRole('ROLE_ADMIN') || $this->actualUser->hasRole('ROLE_SUPER_ADMIN')) {
-                $builder->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')));
+        if (array_key_exists('actual_user', $options) && !is_null($options['actual_user'])) {
+            if ($options['actual_user']->hasRole('ROLE_ADMIN') || $options['actual_user']->hasRole('ROLE_SUPER_ADMIN')) {
+                $builder->add('save_and_show', SubmitType::class, array(
+                    'attr' => array(
+                        'class' => 'btn btn-primary submit-button pull-left',
+                    ),
+                ));
             }
         }
     }
@@ -91,6 +80,12 @@ class OrderType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\Order',
+            'instance' => null,
+            'material' => JournalTypeType::class,
+            'user' => null,
+            'operator' => null,
+            'librarian' => false,
+            'actual_user' => null,
         ));
     }
 }

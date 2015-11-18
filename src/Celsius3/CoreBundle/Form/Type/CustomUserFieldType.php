@@ -24,17 +24,11 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Entity\Instance;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class CustomUserFieldType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance = null)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -46,22 +40,25 @@ class CustomUserFieldType extends AbstractType
                     'required' => false,
                 ))
         ;
-        if (is_null($this->instance)) {
-            $builder
-                    ->add('instance', null, array(
-                        'required' => false,
-                    ))
-            ;
-        } else {
-            $builder
-                    ->add('instance', InstanceSelectorType::class, array(
-                        'data' => $this->instance,
-                        'attr' => array(
-                            'value' => $this->instance->getId(),
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+                $builder->add('instance');
+            } else {
+                $builder->add('instance', InstanceSelectorType::class, array(
+                    'data' => $options['instance'],
+                    'attr' => array(
+                        'value' => $options['instance']->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ));
+            }
         }
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'instance' => null,
+        ));
     }
 }

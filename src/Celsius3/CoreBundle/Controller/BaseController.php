@@ -104,14 +104,10 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseNew($name, $entity, $type)
+    protected function baseNew($name, $entity, $type, $options)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
-        $form = $this->createForm($type, $entity, array(
-                'action' => '',
-                'method' => 'GET',
-                'data' => $request->query->get($type->getName(), $entity),
-            ));
+        $form = $this->createForm($type, $entity, $options);
 
         return array(
             'entity' => $entity,
@@ -126,10 +122,10 @@ abstract class BaseController extends Controller
         $em->flush();
     }
 
-    protected function baseCreate($name, $entity, $type, $route)
+    protected function baseCreate($name, $entity, $type, $options, $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
-        $form = $this->createForm($type, $entity);
+        $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -151,7 +147,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseEdit($name, $id, $type, $route = null)
+    protected function baseEdit($name, $id, $type, $options, $route = null)
     {
         $entity = $this->findQuery($name, $id);
 
@@ -159,7 +155,7 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $editForm = $this->createForm($type, $entity);
+        $editForm = $this->createForm($type, $entity, $options);
 
         return array(
             'entity' => $entity,
@@ -168,7 +164,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseUpdate($name, $id, $type, $route)
+    protected function baseUpdate($name, $id, $type, $options, $route)
     {
         $entity = $this->findQuery($name, $id);
 
@@ -176,7 +172,7 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $editForm = $this->createForm($type, $entity);
+        $editForm = $this->createForm($type, $entity, $options);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 

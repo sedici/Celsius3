@@ -26,17 +26,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class InstitutionFilterType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance = null)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -57,7 +49,7 @@ class InstitutionFilterType extends AbstractType
                     'class' => 'Celsius3CoreBundle:City',
                 ))
         ;
-        if (is_null($this->instance)) {
+        if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
@@ -77,6 +69,7 @@ class InstitutionFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'instance' => null,
         ));
     }
 

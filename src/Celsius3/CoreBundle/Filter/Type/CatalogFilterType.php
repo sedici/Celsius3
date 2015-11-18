@@ -26,20 +26,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class CatalogFilterType extends AbstractType
 {
-    private $instance;
-    private $em;
-
-    public function __construct(EntityManager $em, Instance $instance = null)
-    {
-        $this->instance = $instance;
-        $this->em = $em;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -50,7 +39,7 @@ class CatalogFilterType extends AbstractType
                 ))
         ;
 
-        if (is_null($this->instance)) {
+        if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
@@ -64,6 +53,7 @@ class CatalogFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'instance' => null,
         ));
     }
 

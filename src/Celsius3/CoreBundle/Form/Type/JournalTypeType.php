@@ -29,21 +29,13 @@ use Celsius3\CoreBundle\Entity\Journal;
 
 class JournalTypeType extends MaterialTypeType
 {
-    private $journal;
-
-    public function __construct(Journal $journal = null, $other = '')
-    {
-        $this->journal = $journal;
-        $this->other = $other;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
                 ->add('journal', JournalSelectorType::class, array(
                     'attr' => array(
                         'required' => true,
-                        'value' => (!is_null($this->journal)) ? $this->journal->getId() : '',
+                        'value' => (!is_null($options['journal'])) ? $options['journal']->getId() : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
@@ -53,7 +45,7 @@ class JournalTypeType extends MaterialTypeType
                         'required' => true,
                         'class' => 'autocomplete',
                         'target' => 'Journal',
-                        'value' => (!is_null($this->journal)) ?  $this->journal : $this->other
+                        'value' => (!is_null($options['journal'])) ?  $options['journal'] : $options['other'],
                     ),
                     'mapped' => false,
                     'label' => 'Journal',
@@ -73,6 +65,8 @@ class JournalTypeType extends MaterialTypeType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\JournalType',
+            'journal' => null,
+            'other' => '',
         ));
     }
 }

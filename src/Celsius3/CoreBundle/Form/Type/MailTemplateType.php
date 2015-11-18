@@ -25,17 +25,10 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Celsius3\CoreBundle\Entity\Instance;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MailTemplateType extends AbstractType
 {
-    protected $instance;
-
-    public function __construct(Instance $instance)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -47,13 +40,23 @@ class MailTemplateType extends AbstractType
                     ),
                     'required' => false,
                 ))
-                ->add('instance', InstanceSelectorType::class, array(
-                    'data' => $this->instance,
-                    'attr' => array(
-                        'value' => $this->instance->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ))
         ;
+
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            $builder->add('instance', InstanceSelectorType::class, array(
+                'data' => $options['instance'],
+                'attr' => array(
+                    'value' => $options['instance']->getId(),
+                    'readonly' => 'readonly',
+                ),
+            ));
+        }
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'instance' => null,
+        ));
     }
 }

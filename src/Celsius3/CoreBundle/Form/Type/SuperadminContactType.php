@@ -23,20 +23,16 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class SuperadminContactType extends ContactType
 {
-    private $owningInstance;
     private $em;
 
-    public function __construct(EntityManager $em, Instance $owningInstance = null, BaseUser $user = null)
+    public function __construct(EntityManager $em)
     {
-        parent::__construct($user);
-        $this->owningInstance = $owningInstance;
         $this->em = $em;
     }
 
@@ -45,14 +41,22 @@ class SuperadminContactType extends ContactType
         parent::buildForm($builder, $options);
         $builder
                 ->add('owningInstance', null, array(
-                    'data' => $this->owningInstance,
+                    'data' => $options['owning_instance'],
                     'attr' => array(
-                        'value' => (!is_null($this->owningInstance)) ? $this->owningInstance->getId() : '',
+                        'value' => (!is_null($options['owning_instance'])) ? $options['owning_instance']->getId() : '',
                     ),
                 ))
         ;
 
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'user' => null,
+            'owning_instance' => null,
+        ));
     }
 }

@@ -23,29 +23,27 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class RegistrationFormType extends BaseType
 {
-    protected $instance;
     protected $em;
+    protected $instance_helper;
 
     /**
      * @param string $class The User class name
      */
-    public function __construct(ContainerInterface $container, $class)
+    public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
     {
         parent::__construct($class);
 
-        $this->em = $container->get('doctrine.orm.entity_manager');
-        $request = $container->get('request_stack')->getCurrentRequest();
-        $this->instance = $this->em
-                ->getRepository('Celsius3CoreBundle:Instance')
-                ->findOneBy(array('host' => $request->getHost()));
+        $this->em = $em;
+        $this->instance_helper = $instance_helper;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -69,14 +67,14 @@ class RegistrationFormType extends BaseType
                     'required' => false,
                 ))
                 ->add('instance', InstanceSelectorType::class, array(
-                    'data' => $this->instance,
+                    'data' => $this->instance_helper->getUrlInstance(),
                     'attr' => array(
-                        'value' => $this->instance->getId(),
+                        'value' => $this->instance_helper->getUrlInstance()->getId(),
                         'readonly' => 'readonly',
                     ),
                 ))
         ;
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance, true);
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getUrlInstance(), true);
         $builder->addEventSubscriber($subscriber);
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);

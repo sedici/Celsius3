@@ -28,27 +28,16 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 /** @Ignore */
 class OrderFilterType extends AbstractType
 {
-    private $instance;
-    private $owner;
-
-    public function __construct(Instance $instance = null, BaseUser $owner = null)
-    {
-        $this->instance = $instance;
-        $this->owner = $owner;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
 
-        if (is_null($this->owner)) {
+        if (is_null($options['owner'])) {
             $builder
                     ->add('owner', EntityType::class, array(
                         'required' => false,
@@ -93,7 +82,7 @@ class OrderFilterType extends AbstractType
                 ))
         ;
 
-        if (is_null($this->instance)) {
+        if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
@@ -107,6 +96,8 @@ class OrderFilterType extends AbstractType
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'owner' => null,
+            'instance' => null,
         ));
     }
 }

@@ -67,13 +67,13 @@ class AdminContactController extends BaseInstanceDependentController
     {
         $data = $this->baseIndex('Contact');
         $deleteForms = array();
-        
+
         foreach ($data['pagination'] as $entity) {
             $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
         }
-        
+
         $data['deleteForms'] = $deleteForms;
-        
+
         return $data;
     }
 
@@ -104,7 +104,9 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Contact', new Contact(), new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()));
+        return $this->baseNew('Contact', new Contact(), AdminContactType::class, array(
+            'owning_instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -118,7 +120,9 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Contact', new Contact(), new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager()), 'admin_contact');
+        return $this->baseCreate('Contact', new Contact(), AdminContactType::class, array(
+            'owning_instance' => $this->getInstance(),
+        ), 'admin_contact');
     }
 
     /**
@@ -139,8 +143,11 @@ class AdminContactController extends BaseInstanceDependentController
         if (!$entity) {
             $this->createNotFoundException();
         }
-        
-        return $this->baseEdit('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager(), $entity->getUser()));
+
+        return $this->baseEdit('Contact', $id, AdminContactType::class, array(
+            'owning_instance' => $this->getInstance(),
+            'user' => $entity->getUser(),
+        ));
     }
 
     /**
@@ -162,8 +169,11 @@ class AdminContactController extends BaseInstanceDependentController
         if (!$entity) {
             $this->createNotFoundException();
         }
-        
-        return $this->baseUpdate('Contact', $id, new AdminContactType($this->getInstance(), $this->getDoctrine()->getManager(), $entity->getUser()), 'admin_contact');
+
+        return $this->baseUpdate('Contact', $id, AdminContactType::class, array(
+            'owning_instance' => $this->getInstance(),
+            'user' => $entity->getUser(),
+        ), 'admin_contact');
     }
 
     /**

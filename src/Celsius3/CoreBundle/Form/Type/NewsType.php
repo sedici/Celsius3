@@ -26,17 +26,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Celsius3\CoreBundle\Entity\Instance;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NewsType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -54,13 +47,23 @@ class NewsType extends AbstractType
                         'class' => 'news-date',
                     ),
                 ))
-                ->add('instance', InstanceSelectorType::class, array(
-                    'data' => $this->instance,
-                    'attr' => array(
-                        'value' => $this->instance->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ))
         ;
+
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            $builder->add('instance', InstanceSelectorType::class, array(
+                'data' => $options['instance'],
+                'attr' => array(
+                    'value' => $options['instance']->getId(),
+                    'readonly' => 'readonly',
+                ),
+            ));
+        }
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'instance' => null,
+        ));
     }
 }

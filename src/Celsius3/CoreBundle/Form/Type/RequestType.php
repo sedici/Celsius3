@@ -30,30 +30,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\OrderManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ORM\EntityRepository;
 
 class RequestType extends AbstractType
 {
-    private $instance;
-    private $user;
-    private $operator;
-    private $librarian;
-
-    public function __construct(Instance $instance, BaseUser $user = null, BaseUser $operator = null, $librarian = false)
-    {
-        $this->instance = $instance;
-        $this->user = $user;
-        $this->operator = $operator;
-        $this->librarian = $librarian;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->operator) {
+        if (array_key_exists('operator', $options) && !is_null($options['operator'])) {
             $builder->add('type', ChoiceType::class, array(
                     'choices' => array(
                         /** @Ignore */ OrderManager::TYPE__SEARCH => ucfirst(OrderManager::TYPE__SEARCH),
@@ -62,10 +47,10 @@ class RequestType extends AbstractType
                 ));
         } else {
             $builder->add('type', HiddenType::class, array(
-                    'data' => OrderManager::getTypeForUser($this->instance, $this->user),
+                    'data' => OrderManager::getTypeForUser($options['instance'], $options['user']),
                     'attr' => array(
                         'readonly' => 'readonly',
-                        'value' => OrderManager::getTypeForUser($this->instance, $this->user),
+                        'value' => OrderManager::getTypeForUser($options['instance'], $options['user']),
                     )
                 ));
         }
@@ -76,21 +61,21 @@ class RequestType extends AbstractType
                 ))
                 ->add('owner', UserSelectorType::class, array(
                     'attr' => array(
-                        'value' => (!is_null($this->user)) ? $this->user->getId() : '',
+                        'value' => (!is_null($options['user'])) ? $options['user']->getId() : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
                 ))
                 ->add('creator', UserSelectorType::class, array(
                     'attr' => array(
-                        'value' => (!is_null($this->operator)) ? $this->operator->getId() : ((!is_null($this->user)) ? $this->user->getId() : ''),
+                        'value' => (!is_null($options['operator'])) ? $options['operator']->getId() : ((!is_null($options['user'])) ? $options['user']->getId() : ''),
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
                 ))
         ;
 
-        if ($this->librarian) {
+        if ($options['librarian']) {
             $builder
                     ->add('target', ChoiceType::class, array(
                         'choices' => array(
@@ -108,7 +93,7 @@ class RequestType extends AbstractType
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => $this->user,
+                            'value' => $options['user'],
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
@@ -116,20 +101,20 @@ class RequestType extends AbstractType
             ;
         }
 
-        if (!is_null($this->operator)) {
+        if (!is_null($options['operator'])) {
             $builder
                     ->add('owner_autocomplete', TextType::class, array(
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => $this->user,
+                            'value' => $options['user'],
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
                     ))
                     ->add('operator', UserSelectorType::class, array(
                         'attr' => array(
-                            'value' => (!is_null($this->operator)) ? $this->operator->getId() : '',
+                            'value' => (!is_null($options['operator'])) ? $options['operator']->getId() : '',
                             'class' => 'container',
                             'readonly' => 'readonly',
                         ),
@@ -137,24 +122,24 @@ class RequestType extends AbstractType
             ;
         }
 
-        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-            $builder
-                    ->add('instance', null, array(
-                        'query_builder' => function (EntityRepository $repository) {
-                            return $repository->findAllExceptDirectory();
-                        },
-                    ))
-            ;
-        } else {
-            $builder
-                    ->add('instance', InstanceSelectorType::class, array(
-                        'data' => $this->instance,
-                        'attr' => array(
-                            'value' => $this->instance->getId(),
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+                $builder
+                        ->add('instance', null, array(
+                            'query_builder' => function (EntityRepository $repository) {
+                                return $repository->findAllExceptDirectory();
+                            },
+                        ))
+                ;
+            } else {
+                $builder->add('instance', InstanceSelectorType::class, array(
+                    'data' => $options['instance'],
+                    'attr' => array(
+                        'value' => $options['instance']->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ));
+            }
         }
     }
 
@@ -162,6 +147,10 @@ class RequestType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\Request',
+            'instance' => null,
+            'user' => null,
+            'operator' => null,
+            'librarian' => false,
         ));
     }
 }

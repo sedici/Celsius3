@@ -25,21 +25,11 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\UserManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 
 class UserTransformType extends AbstractType
 {
-
-    protected $instance;
-
-    public function __construct(Instance $instance = null, BaseUser $user)
-    {
-        $this->instance = $instance;
-        $this->user = $user;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array(
@@ -48,24 +38,24 @@ class UserTransformType extends AbstractType
             UserManager::ROLE_ADMIN => 'Admin',
         );
 
-        if (!is_null($this->instance)) {
-            $builder->add($this->user->getInstance()->getUrl(), ChoiceType::class, array(
+        if (!is_null($options['instance'])) {
+            $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
                 'choices' => $choices,
                 'expanded' => true,
                 'multiple' => true,
-                'data' => $this->user->getRoles()
+                'data' => $options['user']->getRoles()
             ));
         } else {
             $choices[UserManager::ROLE_SUPER_ADMIN] = 'Superadmin';
 
-            $builder->add($this->user->getInstance()->getUrl(), ChoiceType::class, array(
+            $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
                 'choices' => $choices,
                 'expanded' => true,
                 'multiple' => true,
-                'data' => $this->user->getRoles()
+                'data' => $options['user']->getRoles()
             ));
 
-            foreach ($this->user->getSecondaryInstances() as $instance) {
+            foreach ($options['user']->getSecondaryInstances() as $instance) {
                 $builder->add($instance['url'], ChoiceType::class, array(
                     'choices' => $choices,
                     'expanded' => true,
@@ -74,5 +64,13 @@ class UserTransformType extends AbstractType
                 ));
             }
         }
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'user' => null,
+            'instance' => null,
+        ));
     }
 }
