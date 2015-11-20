@@ -54,7 +54,7 @@ class SuperadminCityController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('City', $this->createForm(new CityFilterType()));
+        return $this->baseIndex('City', $this->createForm(CityFilterType::class));
     }
 
     /**
@@ -67,7 +67,9 @@ class SuperadminCityController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('City', new City(), new CityType($this->getDirectory()));
+        return $this->baseNew('City', new City(), CityType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -81,7 +83,9 @@ class SuperadminCityController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('City', new City(), new CityType($this->getDirectory()), 'superadmin_city');
+        return $this->baseCreate('City', new City(), CityType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_city');
     }
 
     /**
@@ -90,8 +94,7 @@ class SuperadminCityController extends BaseController
      * @Route("/{id}/edit", name="superadmin_city_edit")
      * @Template()
      *
-     * @param string $id
-     *                   The entity ID
+     * @param string $id The entity ID
      *
      * @return array
      *
@@ -99,7 +102,9 @@ class SuperadminCityController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('City', $id, new CityType($this->getDirectory()));
+        return $this->baseEdit('City', $id, CityType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -109,8 +114,7 @@ class SuperadminCityController extends BaseController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminCity:edit.html.twig")
      *
-     * @param string $id
-     *                   The entity ID
+     * @param string $id The entity ID
      *
      * @return array
      *
@@ -118,7 +122,9 @@ class SuperadminCityController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('City', $id, new CityType($this->getDirectory()), 'superadmin_city');
+        return $this->baseUpdate('City', $id, CityType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_city');
     }
 
     /**

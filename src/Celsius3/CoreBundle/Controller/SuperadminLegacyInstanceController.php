@@ -54,7 +54,7 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function indexAction()
     {
-        return $this->baseIndex('LegacyInstance', $this->createForm(new InstanceFilterType()));
+        return $this->baseIndex('LegacyInstance', $this->createForm(InstanceFilterType::class));
     }
 
     /**
@@ -67,7 +67,7 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function newAction()
     {
-        return $this->baseNew('LegacyInstance', new LegacyInstance(), new LegacyInstanceType());
+        return $this->baseNew('LegacyInstance', new LegacyInstance(), LegacyInstanceType::class);
     }
 
     /**
@@ -81,7 +81,7 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function createAction()
     {
-        return $this->baseCreate('LegacyInstance', new LegacyInstance(), new LegacyInstanceType(), 'superadmin_instance_legacy');
+        return $this->baseCreate('LegacyInstance', new LegacyInstance(), LegacyInstanceType::class, array(), 'superadmin_instance_legacy');
     }
 
     /**
@@ -98,7 +98,7 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('LegacyInstance', $id, new LegacyInstanceType());
+        return $this->baseEdit('LegacyInstance', $id, LegacyInstanceType::class);
     }
 
     /**
@@ -116,6 +116,6 @@ class SuperadminLegacyInstanceController extends InstanceController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('LegacyInstance', $id, new LegacyInstanceType(), 'superadmin_instance_legacy');
+        return $this->baseUpdate('LegacyInstance', $id, LegacyInstanceType::class, array(), 'superadmin_instance_legacy');
     }
 }

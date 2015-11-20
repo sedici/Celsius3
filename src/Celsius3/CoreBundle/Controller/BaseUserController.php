@@ -35,7 +35,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $em->flush();
     }
 
-    protected function baseTransformAction($id, $transformType)
+    protected function baseTransformAction($id, $transformType, array $options = array())
     {
         $entity = $this->findQuery('BaseUser', $id);
 
@@ -47,7 +47,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             return $this->redirectToRoute($this->getUserListRoute());
         }
 
-        $transformForm = $this->createForm($transformType);
+        $transformForm = $this->createForm($transformType, null, $options);
 
         return array(
             'entity' => $entity,
@@ -56,7 +56,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         );
     }
 
-    protected function baseDoTransformAction($id, $transformType, $route)
+    protected function baseDoTransformAction($id, $transformType, array $options = array(), $route)
     {
         $entity = $this->findQuery('BaseUser', $id);
 
@@ -64,7 +64,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             throw $this->createNotFoundException('Unable to find User.');
         }
 
-        $transformForm = $this->createForm($transformType);
+        $transformForm = $this->createForm($transformType, null, $options);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 

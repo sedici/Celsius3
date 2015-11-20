@@ -82,7 +82,7 @@ class SuperadminOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Order', $this->createForm(new OrderFilterType()));
+        return $this->baseIndex('Order', $this->createForm(OrderFilterType::class));
     }
 
     /**
@@ -112,7 +112,12 @@ class SuperadminOrderController extends OrderController
      */
     public function newAction()
     {
-        return $this->baseNew('Order', new Order(), new OrderType($this->getDirectory(), null, $this->getUser(), null, false, $this->getUser()));
+        return $this->baseNew('Order', new Order(), OrderType::class, array(
+            'instance' => $this->getDirectory(),
+            'user' => $this->getUser(),
+            'librarian' => false,
+            'actual_user' => $this->getUser(),
+        ));
     }
 
     /**
@@ -127,7 +132,13 @@ class SuperadminOrderController extends OrderController
     public function createAction()
     {
         $entity = new Order();
-        return $this->baseCreate('Order', $entity, new OrderType($this->getDirectory(), $this->getMaterialType($entity), $this->getUser()), 'superadmin_order', false, $this->getUser());
+        return $this->baseCreate('Order', $entity, OrderType::class, array(
+            'instance' => $this->getDirectory(),
+            'material' => $this->getMaterialType($entity),
+            'user' => $this->getUser(),
+            'librarian' => false,
+            'actual_user' => $this->getUser(),
+        ), 'superadmin_order');
     }
 
     /**
@@ -151,9 +162,16 @@ class SuperadminOrderController extends OrderController
 
         $materialClass = get_class($entity->getMaterialData());
 
-        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType($materialClass), $this->getUser()), $entity, false, $this->getUser());
+        $editForm = $this->createForm(OrderType::class, $entity, array(
+            'instance' => $entity->getOriginalRequest()->getInstance(),
+            'material' => $this->getMaterialType($materialClass),
+            'user' => $this->getUser(),
+            'librarian' => false,
+            'actual_user' => $this->getUser(),
+        ));
 
-        return array('entity' => $entity,
+        return array(
+            'entity' => $entity,
             'edit_form' => $editForm->createView(),
         );
     }
@@ -181,7 +199,13 @@ class SuperadminOrderController extends OrderController
 
         $entity->setMaterialData(null);
 
-        $editForm = $this->createForm(new OrderType($entity->getOriginalRequest()->getInstance(), $this->getMaterialType(), $this->getUser(), null, false, $this->getUser()), $entity);
+        $editForm = $this->createForm(OrderType::class, array(
+            'instance' => $entity->getOriginalRequest()->getInstance(),
+            'material' => $this->getMaterialType(),
+            'user' => $this->getUser(),
+            'librarian' => false,
+            'actual_user' => $this->getUser(),
+        ), $entity);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 

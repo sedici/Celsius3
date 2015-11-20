@@ -66,7 +66,7 @@ class SuperadminHiveController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Hive', new Hive(), new HiveType());
+        return $this->baseNew('Hive', new Hive(), HiveType::class);
     }
 
     /**
@@ -80,7 +80,7 @@ class SuperadminHiveController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Hive', new Hive(), new HiveType(), 'superadmin_hive');
+        return $this->baseCreate('Hive', new Hive(), HiveType::class, array(), 'superadmin_hive');
     }
 
     /**
@@ -97,7 +97,7 @@ class SuperadminHiveController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Hive', $id, new HiveType());
+        return $this->baseEdit('Hive', $id, HiveType::class);
     }
 
     /**
@@ -115,6 +115,6 @@ class SuperadminHiveController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Hive', $id, new HiveType(), 'superadmin_hive');
+        return $this->baseUpdate('Hive', $id, HiveType::class, array(), 'superadmin_hive');
     }
 }

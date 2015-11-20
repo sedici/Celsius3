@@ -81,7 +81,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function indexAction()
     {
-        return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType()));
+        return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class));
     }
 
     /**
@@ -94,7 +94,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory()));
+        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class);
     }
 
     /**
@@ -108,7 +108,7 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory()), 'superadmin_user');
+        return $this->baseCreate('BaseUser', new BaseUser(), BaseUserType::class, array(), 'superadmin_user');
     }
 
     /**
@@ -125,7 +125,9 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory(), true));
+        return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
+            'editing' => true,
+        ));
     }
 
     /**
@@ -143,7 +145,9 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getDirectory(), true), 'superadmin_user');
+        return $this->baseUpdate('BaseUser', $id, BaseUserType::class, array(
+            'editing' => true,
+        ), 'superadmin_user');
     }
 
     /**
@@ -163,10 +167,14 @@ class SuperadminBaseUserController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, new UserTransformType(null,$entity), 'superadmin_user');
+            return $this->baseDoTransformAction($id, UserTransformType::class , array(
+                'user' => $entity,
+            ), 'superadmin_user');
         }
 
-        return $this->baseTransformAction($id, new UserTransformType(null, $entity));
+        return $this->baseTransformAction($id, UserTransformType::class, array(
+            'user' => $entity,
+        ));
     }
 
     /**

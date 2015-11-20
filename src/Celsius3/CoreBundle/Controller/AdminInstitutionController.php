@@ -61,7 +61,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Institution', $this->createForm(new InstitutionFilterType($this->getInstance())));
+        return $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        )));
     }
 
     /**
@@ -74,7 +76,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()));
+        return $this->baseNew('Institution', new Institution(), InstitutionType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -88,7 +92,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_institution');
+        return $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_institution');
     }
 
     /**
@@ -104,7 +110,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()));
+        return $this->baseEdit('Institution', $id, InstitutionType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -122,6 +130,8 @@ class AdminInstitutionController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_institution');
+        return $this->baseUpdate('Institution', $id, InstitutionType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_institution');
     }
 }

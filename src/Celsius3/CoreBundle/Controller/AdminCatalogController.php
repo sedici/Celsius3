@@ -56,7 +56,9 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function indexAction(Request $request)
     {
-        $filter_form = $this->createForm(new CatalogFilterType($this->getDoctrine()->getManager(), $this->getInstance()));
+        $filter_form = $this->createForm(CatalogFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        ));
 
         $filter_form->handleRequest($request);
         $query = $this->filter('Catalog', $filter_form, $this->listQuery('Catalog'));
@@ -79,7 +81,9 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()));
+        return $this->baseNew('Catalog', new Catalog(), CatalogType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -93,7 +97,9 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), CatalogType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_catalog');
     }
 
     /**
@@ -109,7 +115,9 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()));
+        return $this->baseEdit('Catalog', $id, CatalogType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -127,7 +135,9 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getInstance()), 'admin_catalog');
+        return $this->baseUpdate('Catalog', $id, CatalogType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_catalog');
     }
 
     /**
@@ -159,7 +169,7 @@ class AdminCatalogController extends BaseInstanceDependentController
         }
 
         return new Response(json_encode(array(
-                    'success' => 'Success',
+            'success' => 'Success',
         )));
     }
 

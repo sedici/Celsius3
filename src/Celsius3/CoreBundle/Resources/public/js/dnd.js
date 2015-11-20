@@ -22,7 +22,7 @@ $('.submit-catalog-data.disabled').on('click', function (e) {
 });
 
 $(document).on('click', '.submit-catalog-data.enabled', function () {
-    var ids = new Array();
+    var ids = [];
     $('.draggable').each(function (i, elem) {
         ids.push($(elem).data('id'));
     });

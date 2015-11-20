@@ -92,14 +92,14 @@ $(document).on('change', '.filter-select', function () {
     }
 });
 
-$("#celsius_corebundle_baseusertype_instance").select2();
+$("#baseuser_instance").select2();
 $(".country-select").select2();
 $(".city-select").select2();
 $(".institution-select").select2();
 
 /*
  * Cuando la institucion ya viene cargada en el form, es necesario recargar
- * los option de .institution-select para que estos tengan el estilo correcto 
+ * los option de .institution-select para que estos tengan el estilo correcto
  */
 var value = $('select.institution-select').val();
 var done = false;

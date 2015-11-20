@@ -54,7 +54,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Instance', $this->createForm(new InstanceFilterType()));
+        return $this->baseIndex('Instance', $this->createForm(InstanceFilterType::class));
     }
 
     /**
@@ -67,7 +67,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function newAction()
     {
-        return $this->baseNew('Instance', new Instance(), new InstanceType());
+        return $this->baseNew('Instance', new Instance(), InstanceType::class);
     }
 
     /**
@@ -81,7 +81,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
-        return $this->baseCreate('Instance', new Instance(), new InstanceType(), 'superadmin_instance');
+        return $this->baseCreate('Instance', new Instance(), InstanceType::class, array(), 'superadmin_instance');
     }
 
     /**
@@ -98,7 +98,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Instance', $id, new InstanceType());
+        return $this->baseEdit('Instance', $id, InstanceType::class);
     }
 
     /**
@@ -116,7 +116,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Instance', $id, new InstanceType(), 'superadmin_instance');
+        return $this->baseUpdate('Instance', $id, InstanceType::class, array(), 'superadmin_instance');
     }
 
     /**

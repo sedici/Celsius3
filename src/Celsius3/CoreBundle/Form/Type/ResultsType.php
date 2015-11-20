@@ -40,7 +40,7 @@ class ResultsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'choices' => $this->configuration_helper->results,
-            'empty_value' => false,
+            'placeholder' => false,
             'required' => true,
             'expanded' => true,
         ));

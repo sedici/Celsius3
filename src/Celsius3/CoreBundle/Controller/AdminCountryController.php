@@ -61,7 +61,9 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Country', $this->createForm(new CountryFilterType($this->getInstance())));
+        return $this->baseIndex('Country', $this->createForm(CountryFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        )));
     }
 
     /**
@@ -74,7 +76,9 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Country', new Country(), new CountryType($this->getInstance()));
+        return $this->baseNew('Country', new Country(), CountryType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -88,7 +92,9 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('Country', new Country(), new CountryType($this->getInstance()), 'admin_country');
+        return $this->baseCreate('Country', new Country(), CountryType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_country');
     }
 
     /**
@@ -104,7 +110,9 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Country', $id, new CountryType($this->getInstance()));
+        return $this->baseEdit('Country', $id, CountryType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -122,6 +130,8 @@ class AdminCountryController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Country', $id, new CountryType($this->getInstance()), 'admin_country');
+        return $this->baseUpdate('Country', $id, CountryType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_country');
     }
 }

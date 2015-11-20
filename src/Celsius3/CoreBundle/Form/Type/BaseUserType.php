@@ -83,8 +83,10 @@ class BaseUserType extends RegistrationFormType
         if ($options['editing']) {
             $builder->remove('plainPassword');
         }
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
-        $builder->addEventSubscriber($subscriber);
+        if (!is_null($options['instance'])) {
+            $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
+            $builder->addEventSubscriber($subscriber);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\CoreBundle\Entity\Instance;
 
 abstract class BaseController extends Controller
@@ -104,7 +105,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseNew($name, $entity, $type, $options)
+    protected function baseNew($name, $entity, $type, array $options = array())
     {
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
@@ -122,7 +123,7 @@ abstract class BaseController extends Controller
         $em->flush();
     }
 
-    protected function baseCreate($name, $entity, $type, $options, $route)
+    protected function baseCreate($name, $entity, $type, array $options = array(), $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
@@ -147,7 +148,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseEdit($name, $id, $type, $options, $route = null)
+    protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
     {
         $entity = $this->findQuery($name, $id);
 
@@ -164,7 +165,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseUpdate($name, $id, $type, $options, $route)
+    protected function baseUpdate($name, $id, $type, array $options = array(), $route)
     {
         $entity = $this->findQuery($name, $id);
 
@@ -286,7 +287,7 @@ abstract class BaseController extends Controller
         return $this->createFormBuilder(array(
                             'id' => $id,
                         ))
-                        ->add('id', 'hidden')
+                        ->add('id', HiddenType::class)
                         ->getForm();
     }
 

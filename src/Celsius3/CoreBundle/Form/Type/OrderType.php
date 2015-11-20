@@ -38,7 +38,7 @@ class OrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $class = explode('\\', get_class($options['material']));
+        $class = explode('\\', $options['material']);
         $preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
 
         $builder

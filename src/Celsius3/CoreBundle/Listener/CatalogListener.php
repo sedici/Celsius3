@@ -46,8 +46,8 @@ class CatalogListener
         $em = $args->getEntityManager();
 
         if ($entity instanceof Catalog) {
-            if (array_key_exists('enable', $request->request->all()['celsius3_corebundle_catalogtype'])) {
-                $enable = $request->request->all()['celsius3_corebundle_catalogtype']['enable'];
+            if (array_key_exists('enable', $request->request->all()['catalog'])) {
+                $enable = $request->request->all()['catalog']['enable'];
             } else {
                 $enable = false;
             }

@@ -112,7 +112,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                             'celsius3' => 'Celsius3',
                         ),
                         'mapped' => false,
-                        'empty_value' => 'All',
+                        'placeholder' => 'All',
                         'required' => false,
                         'expanded' => true,
                         'attr' => array(

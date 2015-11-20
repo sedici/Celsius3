@@ -47,7 +47,7 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('News', $this->createForm(new NewsFilterType()));
+        return $this->baseIndex('News', $this->createForm(NewsFilterType::class));
     }
 
     /**
@@ -77,7 +77,9 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('News', new News(), new NewsType($this->getInstance()));
+        return $this->baseNew('News', new News(), NewsType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -91,7 +93,9 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('News', new News(), new NewsType($this->getInstance()), 'admin_news');
+        return $this->baseCreate('News', new News(), NewsType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_news');
     }
 
     /**
@@ -108,7 +112,9 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('News', $id, new NewsType($this->getInstance()));
+        return $this->baseEdit('News', $id, NewsType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -126,6 +132,8 @@ class AdminNewsController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('News', $id, new NewsType($this->getInstance()), 'admin_news');
+        return $this->baseUpdate('News', $id, NewsType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_news');
     }
 }

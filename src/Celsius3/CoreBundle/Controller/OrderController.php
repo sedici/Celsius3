@@ -29,10 +29,10 @@ use Celsius3\CoreBundle\Entity\Journal;
 abstract class OrderController extends BaseInstanceDependentController
 {
 
-    protected function baseCreate($name, $entity, $type, $route)
+    protected function baseCreate($name, $entity, $type, array $options = array(), $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
-        $form = $this->createForm($type, $entity);
+        $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -74,8 +74,11 @@ abstract class OrderController extends BaseInstanceDependentController
             $this->createNotFoundException('Inexistent Material Type');
         }
 
-        $type = new OrderType($this->getInstance(), new $material, null, null, false, $this->getUser());
-        $form = $this->createForm($type, new Order());
+        $form = $this->createForm(OrderType::class, new Order(), array(
+            'instance' => $this->getInstance(),
+            'material' => $material,
+            'actual_user' => $this->getUser(),
+        ));
 
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array(
                     'form' => $form->createView(),

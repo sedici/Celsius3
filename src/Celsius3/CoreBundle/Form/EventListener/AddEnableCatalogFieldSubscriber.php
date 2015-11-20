@@ -85,7 +85,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 
         if (!is_null($catalog)) {
             $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                    ->findOneBy(array('catalog' => $catalog, 'instance' => $data['instance'])
+                    ->findOneBy(array('catalog' => $catalog->getId(), 'instance' => $data['instance'])
             );
 
             if (isset($data['enable'])) {

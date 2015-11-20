@@ -44,6 +44,8 @@ class AdminFileDownloadController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('FileDownload',$this->createForm(new FileDownloadFilterType($this->getInstance())));
+        return $this->baseIndex('FileDownload',$this->createForm(FileDownloadFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        )));
     }
 }
