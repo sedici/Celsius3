@@ -117,7 +117,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
 
          $paginator = $this->get('knp_paginator');
-         $pagination = $paginator->paginate($states, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
+         $pagination = $paginator->paginate($states, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
          $requests = $this->getDoctrine()->getManager()
             ->getRepository('Celsius3CoreBundle:Request')

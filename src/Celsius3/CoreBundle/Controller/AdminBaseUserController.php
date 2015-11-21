@@ -234,13 +234,13 @@ class AdminBaseUserController extends BaseUserController
         if ($request->getMethod() === 'POST') {
             return $this->baseDoTransformAction($id, UserTransformType::class, array(
                 'instance' => $this->getInstance(),
-                'entity' => $entity,
+                'user' => $entity,
             ), 'admin_user');
         }
 
         return $this->baseTransformAction($id, UserTransformType::class, array(
             'instance' => $this->getInstance(),
-            'entity' => $entity,
+            'user' => $entity,
         ));
     }
 

@@ -208,7 +208,7 @@ $('#news_date').datetimepicker({
 var dateWidgets = $('#news_date');
 dateWidgets.hide();
 $('.news-date').parent().append(
-        '<div class="date-text form-control">' + news_date +
+        '<div class="date-text form-control">' + dateWidgets.val() +
         '</div><div><a class="show-date-widget btn btn-default">' +
         news_text_change + '</a></div>');
 $(document).on('click', '.show-date-widget', function () {

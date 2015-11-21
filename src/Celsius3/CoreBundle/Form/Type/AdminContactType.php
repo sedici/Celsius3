@@ -61,6 +61,7 @@ class AdminContactType extends ContactType
     {
         $resolver->setDefaults(array(
             'owning_instance' => null,
+            'user' => null,
         ));
     }
 }
