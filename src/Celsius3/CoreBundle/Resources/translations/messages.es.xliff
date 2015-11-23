@@ -2126,6 +2126,10 @@
                 <source>Journal View</source>
                 <target>Vista de una Revista</target>
             </trans-unit>
+            <trans-unit id="97">
+                <source>reclaim</source>
+                <target>reclamado</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
