@@ -117,9 +117,9 @@ class UserOrderController extends OrderController
             'actual_user' => $this->getUser(),
         );
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $options['editing'] = true;
+            $options['librarian'] = true;
         } else {
-            $options['editing'] = false;
+            $options['librarian'] = false;
         }
 
         return $this->baseNew('Order', new Order(), OrderType::class, $options);
@@ -143,9 +143,9 @@ class UserOrderController extends OrderController
             'actual_user' => $this->getUser(),
         );
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $options['editing'] = true;
+            $options['librarian'] = true;
         } else {
-            $options['editing'] = false;
+            $options['librarian'] = false;
         }
 
         return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'user_index');

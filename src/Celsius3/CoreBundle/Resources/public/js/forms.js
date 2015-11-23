@@ -158,7 +158,7 @@ var loadMaterialData = function () {
             material: $('#order_materialDataType').val()
         },
         success: function (data) {
-            $('#order_materialData').html(data);
+            $('#material_data').html(data);
             for (var key in oldValues) {
                 $('#' + key).val(oldValues[key]);
             }

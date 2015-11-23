@@ -91,13 +91,13 @@ abstract class OrderController extends BaseInstanceDependentController
         $request = $this->get('request_stack')->getCurrentRequest();
 
         if (is_null($materialData)) {
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('celsius3_corebundle_ordertype[materialDataType]', null, true)) . 'TypeType';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('order[materialDataType]', null, true)) . 'TypeType';
         } else {
             $class = explode('\\', $materialData);
             $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
 
-        return new $materialTypeName($journal, $other);
+        return $materialTypeName;
     }
 
 }
