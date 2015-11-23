@@ -1,31 +1,48 @@
-<li class="col-md-6">
-    <div class="well {{instance.url}} {% for owner in instance.getOwnerInstitutions()|slice(0,1) %} {{ owner.country.abbreviation }}{% endfor %}">
-        {% if instance.isCurrent %}
-            <h3 class="instance-title">
-                {% if instance.get('instance_logo').value != '' %}
-                <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo-min" />
-                {% else %}
-                <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo-min" />
-                {% endif %}
-                <a href="http://{{ instance.host }}" target="_blank">{{ instance.get('instance_title').value }}</a>
-            </h3>
-        {% endif %}
-        <h3>{{ instance.name }} ({{ instance.abbreviation }})</h3>
-
-        <p>
-            <ul>
-                {% for institution in instance.ownerInstitutions %}
-                    <li>{{ institution.name~(institution.parent ? ' ('~institution.parent~')':'')}}</li>
-                {% else %}
-                    <li>-</li>
-                {% endfor %}
-            </ul>
-        </p>
-        <p>
-            <a href="{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
-        </p>
-        <p>
-            <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
-        </p>
+<div class="col-md-6">
+<h3>{{country}}</h3>
+{% for instance in insts %}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#inst{{instance.id}}" aria-expanded="true" aria-controls="collapseOne">
+          {{instance.name}} ({{ instance.abbreviation }})
+        </a>
+      </h4>
     </div>
-</li>
+    <div id="inst{{instance.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+          <div class="well {{instance.url}} {% for owner in instance.getOwnerInstitutions()|slice(0,1) %} {{ owner.country.abbreviation }}{% endfor %}">
+              {% if instance.isCurrent %}
+                  <h3 class="instance-title">
+                      {% if instance.get('instance_logo').value != '' %}
+                      <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo-min" />
+                      {% else %}
+                      <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo-min" />
+                      {% endif %}
+                      <a href="http://{{ instance.host }}" target="_blank">{{ instance.get('instance_title').value }}</a>
+                  </h3>
+              {% endif %}
+
+              <p>
+                  <ul>
+                      {% for institution in instance.ownerInstitutions %}
+                          <li>{{ institution.name~(institution.parent ? ' ('~institution.parent~')':'')}}</li>
+                      {% else %}
+                          <li>-</li>
+                      {% endfor %}
+                  </ul>
+              </p>
+              <p>
+                  <a href="{{ instance.website }}" target="_blank">{{ 'Website'|trans }}</a>
+              </p>
+              <p>
+                  <a href="mailto:{{ instance.email }}">{{ 'Contact'|trans }}</a>
+              </p>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
