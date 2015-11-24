@@ -2130,6 +2130,14 @@
                 <source>reclaim</source>
                 <target>reclamado</target>
             </trans-unit>
+            <trans-unit id="98">
+                <source>System maintenance</source>
+                <target>Mantenimiento del Sistema</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>We are performing system maintenance</source>
+                <target>Estamos realizando tareas de mantenimiento</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

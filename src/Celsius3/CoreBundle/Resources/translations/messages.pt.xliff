@@ -2102,6 +2102,14 @@
                 <source>reclaim</source>
                 <target>reclaim</target>
             </trans-unit>
+            <trans-unit id="98">
+                <source>System maintenance</source>
+                <target>System maintenance</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>We are performing system maintenance</source>
+                <target>We are performing system maintenance</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
