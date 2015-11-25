@@ -35,6 +35,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class EventManager
 {
+
     const EVENT__CREATION = 'creation';
     const EVENT__SEARCH = 'search';
     const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
@@ -56,6 +57,7 @@ class EventManager
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
+
     private $class_prefix = 'Celsius3\\CoreBundle\\Entity\\Event\\';
     public $event_classes = array(
         self::EVENT__CREATION => 'CreationEvent',
@@ -153,7 +155,7 @@ class EventManager
                     ->findOneBy(array());
         } else {
             $provider = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->find($httpRequest->request->get('provider'));
+                    ->find($httpRequest->request->get('provider'));
         }
 
         if ($provider) {
@@ -232,6 +234,15 @@ class EventManager
                 ->find($httpRequest->request->get('receive'));
 
         if (!$extraData['receive']) {
+            throw new NotFoundHttpException();
+        }
+        
+        $extraData['request'] = $this->container
+                ->get('doctrine.orm.entity_manager')
+                ->getRepository('Celsius3CoreBundle:Event\\Event')
+                ->find($httpRequest->request->get('request'));
+        
+        if (!$extraData['request']) {
             throw new NotFoundHttpException();
         }
 
@@ -360,6 +371,7 @@ class EventManager
 
     public function prepareExtraData($event, Request $request, Instance $instance)
     {
+//        \Symfony\Component\VarDumper\VarDumper::dump($event);die;
         $methodName = 'prepareExtraDataFor' . ucfirst($event);
 
         return $this->$methodName($request, array(), $instance);
@@ -426,4 +438,10 @@ class EventManager
 
         return $results;
     }
+
+    private function prepareExtraDataForMireceive(Request $request, array $extraData, Instance $instance)
+    {
+        return $this->prepareExtraDataForReceive($request, $extraData, $instance);
+    }
+
 }
