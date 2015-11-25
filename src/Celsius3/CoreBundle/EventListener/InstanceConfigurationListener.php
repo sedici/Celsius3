@@ -24,7 +24,6 @@ namespace Celsius3\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Entity\BaseUser;
 
 class InstanceConfigurationListener

@@ -131,7 +131,7 @@ class Mailer
 
             if ($mailer->send($message)) {
                 $em->persist($email->setSent(true));
-                $em->flush();
+                $em->flush($email);
             }
         }
     }

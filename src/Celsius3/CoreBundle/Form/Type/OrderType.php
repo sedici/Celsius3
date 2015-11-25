@@ -29,7 +29,6 @@ use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
-use Symfony\Component\Form\FormFactory;
 
 class OrderType extends AbstractType
 {
@@ -75,7 +74,7 @@ class OrderType extends AbstractType
                     'label' => 'Material Type',
                 ))
                 ->add('materialData', $this->material);
-        
+
         if (!is_null($this->actualUser)) {
             if ($this->actualUser->hasRole('ROLE_ADMIN') || $this->actualUser->hasRole('ROLE_SUPER_ADMIN')) {
                 $builder->add('save_and_show', 'submit', array('attr' => array('class' => 'btn btn-primary submit-button pull-left')));

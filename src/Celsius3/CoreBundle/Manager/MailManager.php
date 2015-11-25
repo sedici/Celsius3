@@ -27,7 +27,6 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class MailManager
 {
