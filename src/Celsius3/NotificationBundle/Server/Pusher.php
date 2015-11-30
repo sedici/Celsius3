@@ -249,5 +249,4 @@ class Pusher implements WampServerInterface
         }
         unset($notification, $entry);
     }
-
 }

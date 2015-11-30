@@ -339,11 +339,11 @@ class EventManager
         return $extraData;
     }
 
-    public function getRealEventName($event, array $extraData, Instance $instance)
+    public function getRealEventName($event, array $extraData, Instance $instance, Request $request)
     {
         switch ($event) {
             case self::EVENT__REQUEST:
-                $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance() && $extraData['provider']->getCelsiusInstance()->getId() !== $instance->getId()) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
+                $event = ($extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance() && !$request->getOrder()->hasRequest($extraData['provider']->getCelsiusInstance()) !== $instance->getId() && is_null($request->getPreviousRequest())) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
             case self::EVENT__RECEIVE:
                 $event = $extraData['request']->getRequest()->getPreviousRequest() ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
