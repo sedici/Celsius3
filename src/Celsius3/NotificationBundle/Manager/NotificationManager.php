@@ -30,9 +30,6 @@ use Celsius3\NotificationBundle\Entity\EventNotification;
 use Celsius3\NotificationBundle\Entity\Notification;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
-use Celsius3\CoreBundle\Entity\Event\UploadEvent;
 use Celsius3\MessageBundle\Entity\Message;
 
 class NotificationManager

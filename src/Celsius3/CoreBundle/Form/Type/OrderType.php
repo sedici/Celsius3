@@ -32,7 +32,6 @@ use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
-use Symfony\Component\Form\FormFactory;
 
 class OrderType extends AbstractType
 {

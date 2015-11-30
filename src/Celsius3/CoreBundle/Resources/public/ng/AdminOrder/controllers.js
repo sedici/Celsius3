@@ -92,18 +92,48 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.getReclaim = function (event) {
-        return $scope.reclaims.filter(function (item) {
+        return _.first($scope.reclaims.filter(function (item) {
             if (['sirequest', 'mirequest'].indexOf(event.type) !== -1) {
                 return !_.isUndefined(item.request_event) && item.request_event.id === event.id;
             } else {
                 return !_.isUndefined(item.receive_event) && item.receive_event.id === event.id;
             }
+        }));
+    };
+
+    $scope.reclaimedRequests = function() {
+        return $scope.requests.filter(function (item) {
+            return item.is_reclaimed;
         });
+    };
+
+    $scope.reclaimedReceptions = function() {
+        return $scope.receptions.filter(function (item) {
+            return item.is_reclaimed;
+        });
+    };
+
+    $scope.getApprove = function (receive) {
+        return _.first($scope.approvals.filter(function (item) {
+            return item.receive_event.id === receive.id;
+        }));
     };
 
     $scope.hasApprove = function (receive) {
         return !_.isUndefined($scope.approvals) && $scope.approvals.filter(function (item) {
             return item.receive_event.id === receive.id;
+        }).length > 0;
+    };
+
+    $scope.isLocalFile = function (file) {
+        return $scope.approvals.filter(function (item) {
+            return item.files.filter(function (f) {
+                return f.id === file.id;
+            }).length > 0;
+        }).length > 0 || $scope.receptions.filter(function (item) {
+            return item.type === 'sireceive' && item.files.filter(function (f) {
+                return f.id === file.id;
+            }).length > 0;
         }).length > 0;
     };
 
@@ -395,23 +425,24 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             };
 
         });
+
     });
 
     /**
      * Functions
      */
 
-     $scope.previousSearches = function(catalog_id) {
-         return _.filter($scope.catalogResultsOrder, function(result) {
-             return result.catalog.id == catalog_id;
-         });
-     };
+    $scope.previousSearches = function (catalog_id) {
+        return _.filter($scope.catalogResultsOrder, function (result) {
+            return result.catalog.id == catalog_id;
+        });
+    };
 
-     $scope.hasPreviousSearches = function(catalog) {
-         return _.filter($scope.catalogResultsOrder, function(result) {
-             return result.catalog.id == catalog.id;
-         }).length !== 0;
-     };
+    $scope.hasPreviousSearches = function (catalog) {
+        return _.filter($scope.catalogResultsOrder, function (result) {
+            return result.catalog.id == catalog.id;
+        }).length !== 0;
+    };
 
     $scope.searchCatalog = function (term) {
         $scope.catalogsWithSearches = _.each(angular.copy($scope.catalogs).filter(function (catalog) {
@@ -440,7 +471,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $scope.advanced = true;
     };
 
-    $scope.refreshEvents = function() {
+    $scope.refreshEvents = function () {
         Event.query({request_id: $scope.request.id}, function (events) {
             $scope.groupedEvents = $scope.groupEvents(events);
 
@@ -496,7 +527,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
-    $scope.refreshRequest = function(withEvents) {
+    $scope.refreshRequest = function (withEvents) {
         Request.get({order_id: entity_id}, function (request) {
             $scope.request = request;
 
@@ -506,8 +537,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
-    $scope.refreshCatalogResults = function() {
-        CatalogResult.get({order_id: entity_id}, function(response) {
+    $scope.refreshCatalogResults = function () {
+        CatalogResult.get({order_id: entity_id}, function (response) {
             $scope.catalogResults = response.results;
             $scope.catalogResultsOrder = response.searches;
         });
@@ -891,5 +922,5 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
             return content;
         }
-    }
+    };
 });

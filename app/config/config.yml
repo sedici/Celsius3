@@ -203,7 +203,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
             - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
-    
+
     celsius3_core.mailer.logger:
         class:     Symfony\Bridge\Monolog\Logger
         arguments: [app]
@@ -211,9 +211,9 @@ services:
             - [pushHandler, [@celsius3_core.mailer.logger_handler]]
 
     celsius3_core.mailer.logger_handler:
-        class:     Monolog\Handler\StreamHandler       
+        class:     Monolog\Handler\StreamHandler
         arguments: [%kernel.logs_dir%/%kernel.environment%.mailer.log, 200]
-    
+
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
 

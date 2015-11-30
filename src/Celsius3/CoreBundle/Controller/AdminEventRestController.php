@@ -153,10 +153,11 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         $request->setOperator($this->getUser());
 
-        $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request);
+        $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
+
 }

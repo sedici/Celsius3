@@ -40,6 +40,7 @@ use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 
 class LifecycleHelper
 {
+
     private $em;
     private $state_manager;
     private $event_manager;
@@ -74,6 +75,11 @@ class LifecycleHelper
     public function uploadFiles(Request $request, Event $event, array $files)
     {
         $this->file_manager->uploadFiles($request, $event, $files);
+    }
+
+    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event)
+    {
+        $this->file_manager->copyFilesToPreviousRequest($previousRequest, $request, $event);
     }
 
     private function setEventData(Request $request, array $data)
@@ -143,7 +149,7 @@ class LifecycleHelper
     {
         $instance = is_null($instance) ? ($name != EventManager::EVENT__CREATION ? $this->instance_helper->getSessionInstance() : $request->getInstance()) : $instance;
         $extraData = $this->event_manager->prepareExtraData($name, $request, $instance);
-        $eventName = $this->event_manager->getRealEventName($name, $extraData, $instance);
+        $eventName = $this->event_manager->getRealEventName($name, $extraData, $instance, $request);
         $data = array(
             'eventName' => $eventName,
             'stateName' => $this->state_manager->getStateForEvent($eventName),
@@ -230,7 +236,6 @@ class LifecycleHelper
                     $this->moveCurrentState($request, StateManager::STATE__SEARCHED);
                 }
             } else {
-                $this->refresh($request);
                 $event = $this->setEventData($request, $data);
             }
             $this->refresh($request);
@@ -293,4 +298,5 @@ class LifecycleHelper
             return null;
         }
     }
+
 }

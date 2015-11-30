@@ -25,9 +25,6 @@ namespace Celsius3\CoreBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Celsius3\CoreBundle\Entity\CatalogResult;
-use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class FixSIReceiveEventsCommand extends ContainerAwareCommand
 {

@@ -23,8 +23,7 @@
 namespace Celsius3\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use Celsius3\CoreBundle\Manager\UserManager;
+use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Builder
 {

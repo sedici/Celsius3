@@ -56,29 +56,47 @@ class DirectoryController extends BaseController
         $instances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->createQueryBuilder('i')
-                ->innerJoin('i.ownerInstitutions','owner')
+                ->select('o, c, i')
+                ->innerJoin('i.ownerInstitutions', 'o')
+                ->innerJoin('o.country', 'c')
                 ->where('i.enabled = true')
-                ->orderBy('owner.country')
                 ->getQuery()
                 ->getResult();
 
         $legacyInstances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:LegacyInstance')
                 ->createQueryBuilder('li')
-                ->innerJoin('li.ownerInstitutions','owner')
+                ->select('o, c, li')
+                ->innerJoin('li.ownerInstitutions','o')
+                ->innerJoin('o.country', 'c')
                 ->where('li.enabled = true')
                 ->andWhere('li INSTANCE OF Celsius3CoreBundle:LegacyInstance')
-                ->orderBy('owner.country')
                 ->getQuery()
                 ->getResult();
 
+        $cInstances = array();
+        foreach ($instances as $instance) {
+            if (!array_key_exists($instance->getOwnerInstitutions()->first()->getCountry()->getName(), $cInstances)) {
+                $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()] = array();
+            }
+            $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
+        }
+
+        $lInstances = array();
+        foreach ($legacyInstances as $instance) {
+            if (!array_key_exists($instance->getOwnerInstitutions()->first()->getCountry()->getName(), $lInstances)) {
+                $lInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()] = array();
+            }
+            $lInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
+        }
+
         return array(
             'directory' => $this->getDirectory(),
-            'instances' => $instances,
-            'legacyInstances' => $legacyInstances,
+            'instances' => $cInstances,
+            'legacyInstances' => $lInstances,
         );
     }
-    
+
     /**
      * @Template()
      */
