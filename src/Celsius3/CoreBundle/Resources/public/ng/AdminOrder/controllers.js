@@ -54,9 +54,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.hasReceive = function (request) {
-        console.log($scope.receptions);
         return !_.isUndefined($scope.receptions) && $scope.receptions.filter(function (item) {
-            console.log(item);
             if (item.type === 'sireceive') {
                 return item.request_event.id === request.id;
             } else {
@@ -488,13 +486,13 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             });
 
             $scope.requests = _.sortBy(events.filter(function (event) {
-                return (event.type === 'sirequest' || event.type === 'mirequest');
+                return event.type === 'sirequest' || event.type === 'mirequest';
             }), function (event) {
                 return event.date;
             });
 
             $scope.receptions = _.sortBy(events.filter(function (event) {
-                return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload' || event.type === 'approve';
+                return event.type === 'sireceive' || event.type === 'mireceive' || event.type === 'upload';
             }), function (event) {
                 return event.date;
             });
@@ -752,7 +750,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         var data = {
             receive: receive.id
         };
-        console.log($scope.request);
+
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data).success(function (response) {
             $scope.refreshRequest(true);
         });

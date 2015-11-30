@@ -62,24 +62,24 @@
             <!-- file_list.html -->
             <script type="text/ng-template" id="file_list.html">
                 <table class="table table-hover catalog-table">
-                <thead>
-                <tr>
-                <th>{{'name' | translate}}</th>
-                <th>{{'pages' | translate}}</th>
-                <th>{{'state' | translate}}</th>
-                <th>{{'actions' | translate}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="file in files.list">
-                <td><a ng-href="{{getFileDownloadRoute(file)}}">{{file.name}}</a></td>
-                <td>{{file.pages}}</td>
-                <td>{{file | state | translate}}</td>
-                <td>
-                <a ng-if="isLocalFile(file)" href ng-click="changeFileState(file)" class="btn">{{'changeState' | translate}}</a>
-                </td>
-                </tr>
-                </tbody>
+                    <thead>
+                        <tr>
+                            <th>{{'name' | translate}}</th>
+                            <th>{{'pages' | translate}}</th>
+                            <th>{{'state' | translate}}</th>
+                            <th>{{'actions' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="file in files.list">
+                            <td><a ng-href="{{getFileDownloadRoute(file)}}">{{file.name}}</a></td>
+                            <td>{{file.pages}}</td>
+                            <td>{{file | state | translate}}</td>
+                            <td>
+                                <a ng-if="isLocalFile(file)" href ng-click="changeFileState(file)" class="btn">{{'changeState' | translate}}</a>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </script>
 
@@ -202,28 +202,28 @@
             <!-- order_upload_form.html -->
             <script type="text/ng-template" id="order_upload_form.html">
                 <div class="alert alert-success" ng-if="request.current_state === 'received'">
-                {{'filesSuccessUpload' | translate}}
+                    {{'filesSuccessUpload' | translate}}
                 </div>
                 <div class="alert alert-danger" ng-if="request.current_state === 'taken' && receptions.length > 0">
-                {{'requestReclaimed' | translate}}
-                <ul>
-                <li ng-repeat="reclaim in getReclaim(receptions[0])">{{reclaim.created_at | date:'shortDate'}} - {{reclaim.observations}}</li>
-                </ul>
+                    {{'requestReclaimed' | translate}}
+                    <ul>
+                        <li ng-repeat="reclaim in getReclaim(receptions[0])">{{reclaim.created_at | date:'shortDate'}} - {{reclaim.observations}}</li>
+                    </ul>
                 </div>
                 <form class="form-horizontal" id="uploadForm" ng-if="request.current_state !== 'delivered'">
-                <div class="form-group">
-                <label for="files">{{'files' | translate}}</label>
-                <div class="input-group">
-                <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
-                <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
-                </div>
-                <br />
-                <div>
-                <ul>
-                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
-                </ul>
-                </div>
-                </div>
+                    <div class="form-group">
+                        <label for="files">{{'files' | translate}}</label>
+                        <div class="input-group">
+                            <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
+                            <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
+                        </div>
+                        <br />
+                        <div>
+                            <ul>
+                                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </form>
                 <div class="alert alert-success" ng-if="request.current_state === 'delivered'">
                 {{'requestSatisfied' | translate}}
@@ -251,36 +251,36 @@
             <script type="text/ng-template" id="request_not_received.html">
                 <div class="panel2 col-md-1"></div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'sirequest'">
-                <div class="relojito">
-                <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-                <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
-                </a>
-                <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
-                </div>
-                <div class="fecha_relojito">
-                <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-                {{request.created_at|date:'mediumDate'}}
-                </a>
-                </div>
+                    <div class="relojito">
+                        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+                            <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
+                        </a>
+                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+                    </div>
+                    <div class="fecha_relojito">
+                        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+                            {{request.created_at|date:'mediumDate'}}
+                        </a>
+                    </div>
                 </div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'mirequest'">
-                <div class="relojito">
-                <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
-                <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
-                </div>
-                <div class="fecha_relojito">
-                {{request.created_at|date:'mediumDate'}}
-                </div>
+                    <div class="relojito">
+                        <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting" />
+                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+                    </div>
+                    <div class="fecha_relojito">
+                        {{request.created_at|date:'mediumDate'}}
+                    </div>
                 </div>
                 <div class="panel3 col-md-1 panel3_last">
-                <ul class="list-unstyled request-actions">
-                <li>
-                <a href bs-tooltip="cancelTooltip" ng-click="forms.cancel.request = request.id" data-target="#cancel-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></a>
-                </li>
-                <li>
-                <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.request = request.id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
-                </li>
-                </ul>
+                    <ul class="list-unstyled request-actions">
+                        <li>
+                            <a href bs-tooltip="cancelTooltip" ng-click="forms.cancel.request = request.id" data-target="#cancel-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span></a>
+                        </li>
+                        <li>
+                            <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.request = request.id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
+                        </li>
+                    </ul>
                 </div>
             </script>
 
@@ -288,44 +288,44 @@
             <script type="text/ng-template" id="request_received.html">
                 <div class="panel2_ok col-md-1"></div>
                 <div class="panel3_ok col-md-3">
-                <div class="relojito">
-                <a ng-if="!hasApprove(getReceive(request))" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
-                </a>
-                <a ng-if="hasApprove(getReceive(request))" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
-                </a>
-                <a href ng-if="!hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-list-alt"></span>
-                </a>
-                <a href ng-if="hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getApprove(getReceive(request)).files" data-target="#files-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-list-alt"></span>
-                </a>
-                <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).is_reclaimed" class="glyphicon glyphicon-warning-sign"></span>
-                </div>
-                <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
+                    <div class="relojito">
+                        <a ng-if="!hasApprove(getReceive(request))" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+                            <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                            <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                        </a>
+                        <a ng-if="hasApprove(getReceive(request))" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+                            <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                            <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                        </a>
+                        <a href ng-if="!hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </a>
+                        <a href ng-if="hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getApprove(getReceive(request)).files" data-target="#files-modal" role="button" data-toggle="modal">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                        </a>
+                        <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).is_reclaimed" class="glyphicon glyphicon-warning-sign"></span>
+                    </div>
+                    <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
                 </div>
                 <div class="panel3_ok col-md-1 panel3_last_ok">
-                <ul class="list-unstyled request-actions">
-                <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
-                <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
-                </li>
-                <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
-                <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.receive = getReceive(request).id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
-                </li>
-                <li ng-if="hasApprove(getReceive(request))">
-                <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getApprove(getReceive(request)).id" data-target="#reupload-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-upload"></span>
-                </a>
-                </li>
-                <li ng-if="request.type === 'sirequest'">
-                <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getReceive(request).id" data-target="#reupload-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-upload"></span>
-                </a>
-                </li>
-                </ul>
+                    <ul class="list-unstyled request-actions">
+                        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+                            <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
+                        </li>
+                        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+                            <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.receive = getReceive(request).id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
+                        </li>
+                        <li ng-if="hasApprove(getReceive(request))">
+                            <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getApprove(getReceive(request)).id" data-target="#reupload-modal" role="button" data-toggle="modal">
+                                <span class="glyphicon glyphicon-upload"></span>
+                            </a>
+                        </li>
+                        <li ng-if="request.type === 'sirequest'">
+                            <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getReceive(request).id" data-target="#reupload-modal" role="button" data-toggle="modal">
+                                <span class="glyphicon glyphicon-upload"></span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </script>
 
@@ -335,46 +335,46 @@
                 </div>
 
                 <div class="row">
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && !_.isUndefined(request.previous_request)">
-                <div class="row">
-                <div class="col-md-12">
-                <p>{{'provisionModeText' | translate}}</p>
-                <p>
-                <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
-                <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
-                </p>
-                </div>
-                </div>
-                </div>
+                    <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && !_.isUndefined(request.previous_request)">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>{{'provisionModeText' | translate}}</p>
+                                <p>
+                                    <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
+                                    <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
-                <div class="row">
-                <div class="col-md-12" ng-include="'order_upload_form.html'">
-                </div>
-                </div>
-                </div>
+                    <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
+                        <div class="row">
+                            <div class="col-md-12" ng-include="'order_upload_form.html'">
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || _.isUndefined(request.previous_request)">
-                <div class="alert alert-danger" ng-if="reclaims.length > 0 && (reclaimedRequests().length > 0 || reclaimedReceptions().length > 0)">
-                {{'requestReclaimed' | translate}}
-                <ul>
-                <li ng-repeat="request in reclaimedRequests()">{{getReclaim(request).created_at | date:'shortDate'}} - {{getReclaim(request).observations}}</li>
-                <li ng-repeat="reception in reclaimedReceptions()">{{getReclaim(reception).created_at | date:'shortDate'}} - {{getReclaim(reception).observations}}</li>
-                </ul>
-                </div>
+                    <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || _.isUndefined(request.previous_request)">
+                        <div class="alert alert-danger" ng-if="reclaims.length > 0 && (reclaimedRequests().length > 0 || reclaimedReceptions().length > 0)">
+                            {{'requestReclaimed' | translate}}
+                            <ul>
+                                <li ng-repeat="request in reclaimedRequests()">{{getReclaim(request).created_at | date:'shortDate'}} - {{getReclaim(request).observations}}</li>
+                                <li ng-repeat="reception in reclaimedReceptions()">{{getReclaim(reception).created_at | date:'shortDate'}} - {{getReclaim(reception).observations}}</li>
+                            </ul>
+                        </div>
 
-                <div class="row">
-                <state-bar>
+                        <div class="row">
+                            <state-bar>
 
-                </state-bar>
-                </div>
+                            </state-bar>
+                        </div>
 
-                <div class="row" ng-include="'show_order_content.html'">
-                </div>
-                </div>
+                        <div class="row" ng-include="'show_order_content.html'">
+                        </div>
+                    </div>
 
-                <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
-                </div>
+                    <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
+                    </div>
                 </div>
             </script>
 
@@ -821,15 +821,15 @@
 
             <!-- show_order_history.html -->
             <script type="text/ng-template" id="show_order_history.html">
-                <h3>{{ 'history' | translate}}</h3>
+                <h3>{{ 'history' | translate }}</h3>
                 <div ng-if="!groupedEvents">
-                <p>{{ 'noEvents' | translate}}</p>
+                <p>{{ 'noEvents' | translate }}</p>
                 </div>
                 <div ng-if="!_.isEmpty(groupedEvents)" ng-repeat="(key, value) in groupedEvents">
                 <h2>{{key}}</h2>
                 <div ng-repeat="event in value" ng-if="event.type !== 'creation'">
-                <span>{{event.created_at | date:'shortDate'}}</span>
-                <div class="iconhistorial-{{event.type | get_history_icon}}"></div>
+                <span>{{event.created_at|date:'shortDate'}}</span>
+                <div class="iconhistorial-{{event.type|get_history_icon}}"></div>
                 <span>
                 {{'by' | translate}} {{event.operator.name}}
                 </span>
