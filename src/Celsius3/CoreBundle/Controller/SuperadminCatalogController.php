@@ -47,7 +47,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Catalog', $this->createForm(new CatalogFilterType($this->getDoctrine()->getManager())));
+        return $this->baseIndex('Catalog', $this->createForm(CatalogFilterType::class));
     }
 
     /**
@@ -60,7 +60,7 @@ class SuperadminCatalogController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()));
+        return $this->baseNew('Catalog', new Catalog(), CatalogType::class);
     }
 
     /**
@@ -74,7 +74,9 @@ class SuperadminCatalogController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Catalog', new Catalog(), new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()), 'superadmin_catalog');
+        return $this->baseCreate('Catalog', new Catalog(), CatalogType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_catalog');
     }
 
     /**
@@ -92,7 +94,9 @@ class SuperadminCatalogController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()));
+        return $this->baseEdit('Catalog', $id, CatalogType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -111,7 +115,9 @@ class SuperadminCatalogController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Catalog', $id, new CatalogType($this->getDoctrine()->getManager(), $this->getDirectory()), 'superadmin_catalog');
+        return $this->baseUpdate('Catalog', $id, CatalogType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_catalog');
     }
 
     /**

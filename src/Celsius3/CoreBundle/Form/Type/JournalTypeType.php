@@ -24,42 +24,35 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Celsius3\CoreBundle\Entity\Journal;
 
 class JournalTypeType extends MaterialTypeType
 {
-    private $journal;
-
-    public function __construct(Journal $journal = null, $other = '')
-    {
-        $this->journal = $journal;
-        $this->other = $other;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('journal', 'celsius3_corebundle_journal_selector', array(
+                ->add('journal', JournalSelectorType::class, array(
                     'attr' => array(
                         'required' => true,
-                        'value' => (!is_null($this->journal)) ? $this->journal->getId() : '',
+                        'value' => (!is_null($options['journal'])) ? $options['journal']->getId() : '',
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
                 ))
-                ->add('journal_autocomplete', 'text', array(
+                ->add('journal_autocomplete', TextType::class, array(
                     'attr' => array(
                         'required' => true,
                         'class' => 'autocomplete',
                         'target' => 'Journal',
-                        'value' => (!is_null($this->journal)) ?  $this->journal : $this->other
+                        'value' => (!is_null($options['journal'])) ?  $options['journal'] : $options['other'],
                     ),
                     'mapped' => false,
                     'label' => 'Journal',
                     'required' => false,
                 ))
         ;
-        
+
         parent::buildForm($builder, $options);
 
         $builder
@@ -72,11 +65,8 @@ class JournalTypeType extends MaterialTypeType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\JournalType',
+            'journal' => null,
+            'other' => '',
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_journaltype';
     }
 }

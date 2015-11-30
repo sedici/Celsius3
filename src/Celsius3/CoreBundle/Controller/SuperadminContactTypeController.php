@@ -66,7 +66,7 @@ class SuperadminContactTypeController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('ContactType', new ContactType(), new ContactTypeType());
+        return $this->baseNew('ContactType', new ContactType(), ContactTypeType::class);
     }
 
     /**
@@ -80,7 +80,7 @@ class SuperadminContactTypeController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('ContactType', new ContactType(), new ContactTypeType(), 'superadmin_contacttype');
+        return $this->baseCreate('ContactType', new ContactType(), ContactTypeType::class, array(), 'superadmin_contacttype');
     }
 
     /**
@@ -97,7 +97,7 @@ class SuperadminContactTypeController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('ContactType', $id, new ContactTypeType());
+        return $this->baseEdit('ContactType', $id, ContactTypeType::class);
     }
 
     /**
@@ -115,6 +115,6 @@ class SuperadminContactTypeController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('ContactType', $id, new ContactTypeType(), 'superadmin_contacttype');
+        return $this->baseUpdate('ContactType', $id, ContactTypeType::class, array(), 'superadmin_contacttype');
     }
 }

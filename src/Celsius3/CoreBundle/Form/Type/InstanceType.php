@@ -35,9 +35,4 @@ class InstanceType extends LegacyInstanceType
                 ->add('host')
         ;
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_instancetype';
-    }
 }

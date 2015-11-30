@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
@@ -39,7 +40,7 @@ class ResultsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'choices' => $this->configuration_helper->results,
-            'empty_value' => false,
+            'placeholder' => false,
             'required' => true,
             'expanded' => true,
         ));
@@ -47,11 +48,6 @@ class ResultsType extends AbstractType
 
     public function getParent()
     {
-        return 'choice';
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_results_type';
+        return ChoiceType::class;
     }
 }

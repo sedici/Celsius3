@@ -55,7 +55,7 @@ class SuperadminNewsController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('News', $this->createForm(new NewsFilterType()));
+        return $this->baseIndex('News', $this->createForm(NewsFilterType::class));
     }
 
     /**
@@ -85,7 +85,9 @@ class SuperadminNewsController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('News', new News(), new NewsType($this->getDirectory()));
+        return $this->baseNew('News', new News(), NewsType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -99,7 +101,9 @@ class SuperadminNewsController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('News', new News(), new NewsType($this->getDirectory()), 'superadmin_news');
+        return $this->baseCreate('News', new News(), NewsType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_news');
     }
 
     /**
@@ -116,7 +120,9 @@ class SuperadminNewsController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('News', $id, new NewsType($this->getDirectory()));
+        return $this->baseEdit('News', $id, NewsType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -134,6 +140,8 @@ class SuperadminNewsController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('News', $id, new NewsType($this->getDirectory()), 'superadmin_news');
+        return $this->baseUpdate('News', $id, NewsType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_news');
     }
 }

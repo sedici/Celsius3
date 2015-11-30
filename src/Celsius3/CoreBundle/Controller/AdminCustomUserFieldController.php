@@ -54,7 +54,9 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('CustomUserField', $this->createForm(new CustomUserFieldFilterType($this->getInstance())));
+        return $this->baseIndex('CustomUserField', $this->createForm(CustomUserFieldFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        )));
     }
 
     /**
@@ -67,7 +69,9 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('CustomUserField', new CustomUserField(), new CustomUserFieldType($this->getInstance()));
+        return $this->baseNew('CustomUserField', new CustomUserField(), CustomUserFieldType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -81,7 +85,9 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('CustomUserField', new CustomUserField(), new CustomUserFieldType($this->getInstance()), 'admin_customuserfield');
+        return $this->baseCreate('CustomUserField', new CustomUserField(), CustomUserFieldType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_customuserfield');
     }
 
     /**
@@ -97,7 +103,9 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('CustomUserField', $id, new CustomUserFieldType($this->getInstance()));
+        return $this->baseEdit('CustomUserField', $id, CustomUserFieldType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -115,6 +123,8 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('CustomUserField', $id, new CustomUserFieldType($this->getInstance()), 'admin_customuserfield');
+        return $this->baseUpdate('CustomUserField', $id, CustomUserFieldType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_customuserfield');
     }
 }

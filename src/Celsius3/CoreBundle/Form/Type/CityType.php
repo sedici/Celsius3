@@ -24,18 +24,11 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Entity\Instance;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class CityType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -43,21 +36,25 @@ class CityType extends AbstractType
                 ->add('postalCode')
                 ->add('country')
         ;
-        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-            $builder->add('instance');
-        } else {
-            $builder->add('instance', 'celsius3_corebundle_instance_selector', array(
-                'data' => $this->instance,
-                'attr' => array(
-                    'value' => $this->instance->getId(),
-                    'readonly' => 'readonly',
-                ),
-            ));
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+                $builder->add('instance');
+            } else {
+                $builder->add('instance', InstanceSelectorType::class, array(
+                    'data' => $options['instance'],
+                    'attr' => array(
+                        'value' => $options['instance']->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ));
+            }
         }
     }
 
-    public function getName()
+    public function configureOptions(OptionsResolver $resolver)
     {
-        return 'celsius3_corebundle_citytype';
+        $resolver->setDefaults(array(
+            'instance' => null,
+        ));
     }
 }

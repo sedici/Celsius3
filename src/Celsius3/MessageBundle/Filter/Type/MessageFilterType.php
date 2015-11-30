@@ -24,6 +24,8 @@ namespace Celsius3\MessageBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MessageFilterType extends AbstractType
@@ -36,7 +38,7 @@ class MessageFilterType extends AbstractType
                     'required' => false,
                     'label' => 'Content or participant',
                 ))
-                ->add('created_between', 'date', array(
+                ->add('created_between', DateType::class, array(
                     'required' => false,
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
@@ -44,7 +46,7 @@ class MessageFilterType extends AbstractType
                         'class' => 'date',
                     ),
                 ))
-                ->add('and', 'date', array(
+                ->add('and', DateType::class, array(
                     'required' => false,
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
@@ -52,21 +54,19 @@ class MessageFilterType extends AbstractType
                         'class' => 'date',
                     ),
                 ))
-                ->add('read', 'checkbox', array(
+                ->add('read', CheckboxType::class, array(
                     'required' => false,
                 ))
-                ->add('unread', 'checkbox', array(
+                ->add('unread', CheckboxType::class, array(
                     'required' => false,
-        ));
+                ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false));
-    }
-
-    public function getName()
-    {
-        return '';
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
     }
 }

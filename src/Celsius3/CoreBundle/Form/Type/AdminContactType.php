@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
@@ -30,30 +31,37 @@ use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class AdminContactType extends ContactType
 {
-    private $owningInstance;
     private $em;
 
-    public function __construct(Instance $owningInstance, EntityManager $em, BaseUser $user = null)
+    public function __construct(EntityManager $em)
     {
-        parent::__construct($user);
-        $this->owningInstance = $owningInstance;
         $this->em = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        $builder
-                ->add('owningInstance', 'celsius3_corebundle_instance_selector', array(
-                    'data' => $this->owningInstance,
-                    'attr' => array(
-                        'value' => $this->owningInstance->getId(),
-                        'readonly' => 'readonly',
-                    ),
-                ))
-        ;
+        if (array_key_exists('owning_instance', $options) && !is_null($options['owning_instance'])) {
+            $builder
+                    ->add('owningInstance', InstanceSelectorType::class, array(
+                        'data' => $options['owning_instance'],
+                        'attr' => array(
+                            'value' => $options['owning_instance']->getId(),
+                            'readonly' => 'readonly',
+                        ),
+                    ))
+            ;
+        }
 
         $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'owning_instance' => null,
+            'user' => null,
+        ));
     }
 }

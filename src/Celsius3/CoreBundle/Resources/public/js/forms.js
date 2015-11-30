@@ -7,7 +7,7 @@ $('.summernote').summernote({
 
 function getOldValues() {
     var values = [];
-    var form_name = 'celsius3_corebundle_ordertype_materialData';
+    var form_name = 'order_materialData';
     values[form_name + '_title'] = $('#' + form_name + '_title').val();
     values[form_name + '_authors'] = $('#' + form_name + '_authors').val();
     values[form_name + '_year'] = $('#' + form_name + '_year').val();
@@ -17,15 +17,15 @@ function getOldValues() {
 }
 
 function noLibrarian(id) {
-    $('#celsius3_corebundle_ordertype_originalRequest_owner_autocomplete').attr('disabled', 'disabled');
-    $('#celsius3_corebundle_ordertype_originalRequest_owner').val(id);
-    $('#celsius3_corebundle_ordertype_originalRequest_librarian').val('');
+    $('#order_originalRequest_owner_autocomplete').attr('disabled', 'disabled');
+    $('#order_originalRequest_owner').val(id);
+    $('#order_originalRequest_librarian').val('');
 }
 
 function librarian(id) {
-    $('#celsius3_corebundle_ordertype_originalRequest_owner_autocomplete').removeAttr('disabled');
-    $('#celsius3_corebundle_ordertype_originalRequest_owner').val('');
-    $('#celsius3_corebundle_ordertype_originalRequest_librarian').val(id);
+    $('#order_originalRequest_owner_autocomplete').removeAttr('disabled');
+    $('#order_originalRequest_owner').val('');
+    $('#order_originalRequest_librarian').val(id);
 }
 
 function getCatalogId(inputName) {
@@ -155,11 +155,11 @@ var loadMaterialData = function () {
         type: 'POST',
         url: urlChange,
         data: {
-            material: $('#celsius3_corebundle_ordertype_materialDataType').val()
+            material: $('#order_materialDataType').val()
         },
         success: function (data) {
-            $('div#material_data').html(data);
-            for (key in oldValues) {
+            $('#material_data').html(data);
+            for (var key in oldValues) {
                 $('#' + key).val(oldValues[key]);
             }
         }
@@ -168,23 +168,23 @@ var loadMaterialData = function () {
 /**
  * Material type change related event
  */
-$('#celsius3_corebundle_ordertype_materialDataType')
+$('#order_materialDataType')
         .change(loadMaterialData);
 
-$('#celsius3_corebundle_ordertype_instance').change(function () {
-    $('#celsius3_corebundle_ordertype_owner_autocomplete').val('');
-    $('#celsius3_corebundle_ordertype_owner').val('');
+$('#order_instance').change(function () {
+    $('#order_owner_autocomplete').val('');
+    $('#order_owner').val('');
 });
 
 if (user_exists) {
     // Controles para los widgets del formulario de carga de pedidos de un
     // bibliotecario
-    if ($('#celsius3_corebundle_ordertype_originalRequest_target').length > 0) {
+    if ($('#order_originalRequest_target').length > 0) {
         noLibrarian(user_id);
     }
 
-    $('#celsius3_corebundle_ordertype_originalRequest_target').change(function () {
-        if ($('#celsius3_corebundle_ordertype_originalRequest_target').val() === 'me') {
+    $('#order_originalRequest_target').change(function () {
+        if ($('#order_originalRequest_target').val() === 'me') {
             noLibrarian(user_id);
         } else {
             librarian(user_id);
@@ -202,13 +202,13 @@ $('.union_link, .enable_link').click(function () {
 /*
  * News date edition
  */
-$('#celsius3_corebundle_newstype_date').datetimepicker({
+$('#news_date').datetimepicker({
     showSecond: true
 });
-var dateWidgets = $('#celsius3_corebundle_newstype_date');
+var dateWidgets = $('#news_date');
 dateWidgets.hide();
 $('.news-date').parent().append(
-        '<div class="date-text form-control">' + news_date +
+        '<div class="date-text form-control">' + dateWidgets.val() +
         '</div><div><a class="show-date-widget btn btn-default">' +
         news_text_change + '</a></div>');
 $(document).on('click', '.show-date-widget', function () {
@@ -223,33 +223,6 @@ $(document).on('click', '.show-date-widget', function () {
 $('.state-list a.pointer').click(function (e) {
     $('#state-info .in').collapse('hide');
 });
-
-/*
- * Agregado de campos extra para la subida de archivos al recibir un Order
- */
-$('.add-file').click(
-        function () {
-            var collectionHolder = $(this).parents('form').find(
-                    '#celsius3_corebundle_orderreceivetype_files');
-            console.log(collectionHolder);
-            collectionHolder.data('index',
-                    collectionHolder.find(':input').length);
-            var index = collectionHolder.data('index');
-            var newWidget = collectionHolder.data('prototype');
-            newWidget = newWidget.replace(/__name__label__/g, '');
-            newWidget = newWidget.replace(/__name__/g, index);
-            collectionHolder.data('index', index + 1);
-            collectionHolder.append(newWidget);
-            return false;
-        });
-
-/*
- * Select especial para mensajes
- */
-//$('#message_recipients_autocomplete').select2({
-//    placeholder: '',
-//    query: function (query) {}
-//});
 
 /*
  * Form submission

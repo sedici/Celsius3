@@ -26,6 +26,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Country;
@@ -104,13 +106,13 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         if ($this->with_filter) {
             $filter = null;
-            $form->add($this->factory->createNamed('filter', 'choice', $filter, array(
+            $form->add($this->factory->createNamed('filter', ChoiceType::class, $filter, array(
                         'choices' => array(
                             'liblink' => 'Liblink',
                             'celsius3' => 'Celsius3',
                         ),
                         'mapped' => false,
-                        'empty_value' => 'All',
+                        'placeholder' => 'All',
                         'required' => false,
                         'expanded' => true,
                         'attr' => array(
@@ -120,7 +122,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             )));
         }
 
-        $form->add($this->factory->createNamed('country', 'entity', $country, array(
+        $form->add($this->factory->createNamed('country', EntityType::class, $country, array(
                     'class' => 'Celsius3CoreBundle:Country',
                     'mapped' => $this->country_mapped,
                     'placeholder' => '',
@@ -136,7 +138,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'auto_initialize' => false,
         )));
 
-        $form->add($this->factory->createNamed('city', 'entity', $city, array(
+        $form->add($this->factory->createNamed('city', EntityType::class, $city, array(
                     'class' => 'Celsius3CoreBundle:City',
                     'mapped' => $this->city_mapped,
                     'placeholder' => '',
@@ -159,7 +161,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'auto_initialize' => false,
         )));
 
-        $form->add($this->factory->createNamed($this->property_path, 'entity', $institution, array(
+        $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, array(
                     'class' => 'Celsius3CoreBundle:Institution',
                     'property_path' => $this->property_path,
                     'label' => ucfirst($this->property_path),

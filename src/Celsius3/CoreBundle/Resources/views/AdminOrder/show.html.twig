@@ -471,7 +471,7 @@
                 <ul class="list-unstyled">
                 <li ng-if="order.material_data.type === 'journal'">
                 <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">{{order.material_data.journal.name}}</a></span>
-                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}} <a class="btn btn-default btn-sm" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'celsius3_corebundle_journaltype[name]':order.material_data.other} }|get_url}}">{{ 'add'|translate }}</a></span>
+                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}} <a class="btn btn-default btn-sm" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}">{{ 'add'|translate }}</a></span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
                 <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | translate}}</strong> {{order.material_data.journal._i_s_s_n}}

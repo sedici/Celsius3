@@ -24,6 +24,7 @@ namespace Celsius3\MessageBundle\FormType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReplyMessageFormCustomType extends AbstractType
@@ -32,7 +33,7 @@ class ReplyMessageFormCustomType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('body', 'textarea', array(
+                ->add('body', TextareaType::class, array(
                     'attr' => array(
                         'class' => 'summernote'
                     ),
@@ -46,10 +47,5 @@ class ReplyMessageFormCustomType extends AbstractType
         $resolver->setDefaults(array(
             'intention' => 'reply',
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_message_reply_message_custom';
     }
 }

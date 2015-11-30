@@ -24,6 +24,7 @@ namespace Celsius3\MessageBundle\FormType;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
 
@@ -66,14 +67,6 @@ class RecipientsHiddenType extends AbstractType
      */
     public function getParent()
     {
-        return 'hidden';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
-    {
-        return 'celsius3_messagebundle_recipients_selector_hidden';
+        return HiddenType::class;
     }
 }

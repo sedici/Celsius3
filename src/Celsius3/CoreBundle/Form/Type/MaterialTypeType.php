@@ -53,9 +53,4 @@ class MaterialTypeType extends AbstractType
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\MaterialType',
         ));
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_materialtypetype';
-    }
 }

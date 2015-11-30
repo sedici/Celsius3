@@ -25,7 +25,8 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Celsius3\CoreBundle\Entity\Instance;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddEnableCatalogFieldSubscriber;
@@ -34,12 +35,10 @@ class CatalogType extends AbstractType
 {
 
     private $em;
-    private $instance;
 
-    public function __construct(EntityManager $em, Instance $instance)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->instance = $instance;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -51,7 +50,7 @@ class CatalogType extends AbstractType
                         'placeholder' => 'http://'
                     ),
                 ))
-                ->add('comments', 'textarea', array(
+                ->add('comments', TextareaType::class, array(
                     'required' => false,
                 ))
         ;
@@ -62,22 +61,25 @@ class CatalogType extends AbstractType
         $enableCatalogFieldSubscriber = new AddEnableCatalogFieldSubscriber($this->em, $builder->getFormFactory());
         $builder->addEventSubscriber($enableCatalogFieldSubscriber);
 
-        if ($this->instance->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-            $builder->add('instance');
-        } else {
-            $builder->add('instance', 'celsius3_corebundle_instance_selector', array(
-                'data' => $this->instance,
-                'attr' => array(
-                    'value' => $this->instance->getId(),
-                    'readonly' => 'readonly',
-                ),
-            ));
+        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+                $builder->add('instance');
+            } else {
+                $builder->add('instance', InstanceSelectorType::class, array(
+                    'data' => $options['instance'],
+                    'attr' => array(
+                        'value' => $options['instance']->getId(),
+                        'readonly' => 'readonly',
+                    ),
+                ));
+            }
         }
     }
 
-    public function getName()
+    public function configureOptions(OptionsResolver $resolver)
     {
-        return 'celsius3_corebundle_catalogtype';
+        $resolver->setDefaults(array(
+            'instance' => null,
+        ));
     }
-
 }

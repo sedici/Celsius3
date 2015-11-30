@@ -24,40 +24,42 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 /** @Ignore */
 class OrderFilterType extends AbstractType
 {
-    private $instance;
-    private $owner;
-
-    public function __construct(Instance $instance = null, BaseUser $owner = null)
-    {
-        $this->instance = $instance;
-        $this->owner = $owner;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
 
-        if (is_null($this->owner)) {
+        if (is_null($options['owner'])) {
             $builder
-                    ->add('owner', 'entity', array('required' => false,
-                        'class' => 'Celsius3CoreBundle:BaseUser',));
+                    ->add('owner', EntityType::class, array(
+                        'required' => false,
+                        'class' => 'Celsius3CoreBundle:BaseUser',
+                    ))
+            ;
         }
 
         $builder
-                ->add('code', null, array('required' => false,))
-                ->add('type', 'choice', array('required' => false,
-                    'choices' => array('' => '', 0 => 'Provision',
-                        1 => 'Search',),))
-                ->add('state', 'choice', array('required' => false,
+                ->add('code', null, array(
+                    'required' => false,
+                ))
+                ->add('type', ChoiceType::class, array(
+                    'required' => false,
+                    'choices' => array(
+                        '' => '',
+                        0 => 'Provision',
+                        1 => 'Search',
+                    ),
+                ))
+                ->add('state', ChoiceType::class, array(
+                    'required' => false,
                     'choices' => array(
                         /** @Ignore */ StateManager::STATE__CREATED => ucfirst(
                                 StateManager::STATE__CREATED),
@@ -75,22 +77,27 @@ class OrderFilterType extends AbstractType
                                 StateManager::STATE__CANCELLED),
                         /** @Ignore */ StateManager::STATE__ANNULLED => ucfirst(
                                 StateManager::STATE__ANNULLED),),
-                    'multiple' => true, 'expanded' => true,));
+                    'multiple' => true,
+                    'expanded' => true,
+                ))
+        ;
 
-        if (is_null($this->instance)) {
+        if (is_null($options['instance'])) {
             $builder
-                    ->add('instance', 'entity', array('required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',));
+                    ->add('instance', EntityType::class, array(
+                        'required' => false,
+                        'class' => 'Celsius3CoreBundle:Instance',
+                    ))
+            ;
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false,));
-    }
-
-    public function getName()
-    {
-        return '';
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+            'owner' => null,
+            'instance' => null,
+        ));
     }
 }

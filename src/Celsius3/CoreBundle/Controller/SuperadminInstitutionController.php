@@ -54,7 +54,7 @@ class SuperadminInstitutionController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Institution', $this->createForm(new InstitutionFilterType()));
+        return $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class));
     }
 
     /**
@@ -67,7 +67,9 @@ class SuperadminInstitutionController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getDirectory()));
+        return $this->baseNew('Institution', new Institution(), InstitutionType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -81,7 +83,9 @@ class SuperadminInstitutionController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Institution', new Institution(), new InstitutionType($this->getDoctrine()->getManager(), $this->getDirectory()), 'superadmin_institution');
+        return $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_institution');
     }
 
     /**
@@ -99,7 +103,9 @@ class SuperadminInstitutionController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getDirectory()));
+        return $this->baseEdit('Institution', $id, InstitutionType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -118,7 +124,9 @@ class SuperadminInstitutionController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Institution', $id, new InstitutionType($this->getDoctrine()->getManager(), $this->getDirectory()), 'superadmin_institution');
+        return $this->baseUpdate('Institution', $id, InstitutionType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_institution');
     }
 
     /**

@@ -25,10 +25,13 @@ namespace Celsius3\CoreBundle\Guesser;
 use Celsius3\CoreBundle\Exception\NotImplementedException;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class FieldGuesser extends ContainerAware
+class FieldGuesser
 {
+
+    use ContainerAwareTrait;
+
     private $doctrine;
     private $metadata;
     private static $current_class;

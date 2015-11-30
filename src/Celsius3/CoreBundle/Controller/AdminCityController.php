@@ -61,7 +61,9 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('City', $this->createForm(new CityFilterType($this->getInstance())));
+        return $this->baseIndex('City', $this->createForm(CityFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        )));
     }
 
     /**
@@ -74,7 +76,9 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('City', new City(), new CityType($this->getInstance()));
+        return $this->baseNew('City', new City(), CityType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -88,7 +92,9 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('City', new City(), new CityType($this->getInstance()), 'admin_city');
+        return $this->baseCreate('City', new City(), CityType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_city');
     }
 
     /**
@@ -104,7 +110,9 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('City', $id, new CityType($this->getInstance()));
+        return $this->baseEdit('City', $id, CityType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -122,6 +130,8 @@ class AdminCityController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('City', $id, new CityType($this->getInstance()), 'admin_city');
+        return $this->baseUpdate('City', $id, CityType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_city');
     }
 }

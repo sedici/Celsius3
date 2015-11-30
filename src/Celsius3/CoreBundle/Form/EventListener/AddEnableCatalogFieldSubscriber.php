@@ -25,6 +25,8 @@ namespace Celsius3\CoreBundle\Form\EventListener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -57,7 +59,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                 ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance())
         );
 
-        $form->add($this->factory->createNamed('enable', 'checkbox', null, array(
+        $form->add($this->factory->createNamed('enable', CheckboxType::class, null, array(
                     'mapped' => false,
                     'label' => 'enable',
                     'required' => false,
@@ -67,7 +69,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                     'auto_initialize' => false))
         );
 
-        $form->add($this->factory->createNamed('id', 'hidden', null, array(
+        $form->add($this->factory->createNamed('id', HiddenType::class, null, array(
                     'mapped' => false,
                     'data' => $data->getId(),
                     'auto_initialize' => false))
@@ -83,7 +85,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 
         if (!is_null($catalog)) {
             $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                    ->findOneBy(array('catalog' => $catalog, 'instance' => $data['instance'])
+                    ->findOneBy(array('catalog' => $catalog->getId(), 'instance' => $data['instance'])
             );
 
             if (isset($data['enable'])) {
@@ -95,7 +97,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
             $this->em->persist($catalogPosition);
             $this->em->flush();
 
-            $form->add($this->factory->createNamed('enable', 'checkbox', null, array(
+            $form->add($this->factory->createNamed('enable', CheckboxType::class, null, array(
                         'mapped' => false,
                         'label' => 'enable',
                         'required' => false,

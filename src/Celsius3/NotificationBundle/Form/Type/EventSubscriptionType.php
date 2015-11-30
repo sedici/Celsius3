@@ -24,6 +24,7 @@ namespace Celsius3\NotificationBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\EventManager;
 
@@ -43,7 +44,7 @@ class EventSubscriptionType extends AbstractType
     {
         foreach ($this->events as $key => $label) {
             $builder
-                    ->add($key . '_notification', 'choice', array(
+                    ->add($key . '_notification', ChoiceType::class, array(
                         'choices' => array(
                             'notification' => 'Notification',
                             'email' => 'Email',
@@ -62,10 +63,5 @@ class EventSubscriptionType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => null,
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_notificationbundle_eventsubscriptiontype';
     }
 }

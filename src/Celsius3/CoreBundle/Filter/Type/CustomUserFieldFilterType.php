@@ -24,29 +24,22 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class CustomUserFieldFilterType extends AbstractType
 {
-    private $instance;
-
-    public function __construct(Instance $instance = null)
-    {
-        $this->instance = $instance;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
-        
+
         $builder
                 ->add('name', null, array(
                     'required' => false,
                 ))
         ;
-        if (is_null($this->instance)) {
-            $builder->add('instance', 'entity', array(
+        if (is_null($options['instance'])) {
+            $builder->add('instance', EntityType::class, array(
                 'required' => false,
                 'class' => 'Celsius3CoreBundle:Instance',
             ));
@@ -55,11 +48,14 @@ class CustomUserFieldFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false,));
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+            'instance' => null,
+        ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'celsius3_corebundle_customuserfieldfiltertype';
+        return '';
     }
 }

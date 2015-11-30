@@ -34,9 +34,4 @@ class HiveType extends AbstractType
                 ->add('name')
         ;
     }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_hivetype';
-    }
 }

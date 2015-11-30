@@ -25,6 +25,17 @@ namespace Celsius3\CoreBundle\Helper;
 use Celsius3\CoreBundle\Entity\Configuration;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckBoxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Celsius3\CoreBundle\Form\Type\LanguageType;
+use Celsius3\CoreBundle\Form\Type\ConfirmationType;
+use Celsius3\CoreBundle\Form\Type\ResultsType;
+use Celsius3\CoreBundle\Form\Type\LogoSelectorType;
 
 class ConfigurationHelper
 {
@@ -49,17 +60,17 @@ class ConfigurationHelper
     const CONF__SMTP_PASSWORD = 'smtp_password';
 
     private $equivalences = array(
-        'string' => 'text',
-        'boolean' => 'checkbox',
-        'integer' => 'integer',
-        'email' => 'email',
-        'text' => 'textarea',
-        'language' => 'celsius3_corebundle_language_type',
-        'confirmation' => 'celsius3_corebundle_confirmation_type',
-        'results' => 'celsius3_corebundle_results_type',
-        'file' => 'file',
-        'password' => 'password',
-        'image' => 'celsius3_corebundle_logo_selector',
+        'string' => TextType::class,
+        'boolean' => CheckBoxType::class,
+        'integer' => IntegerType::class,
+        'email' => EmailType::class,
+        'text' => TextareaType::class,
+        'language' => LanguageType::class,
+        'confirmation' => ConfirmationType::class,
+        'results' => ResultsType::class,
+        'file' => FileType::class,
+        'password' => PasswordType::class,
+        'image' => LogoSelectorType::class,
     );
     public $languages = array(
         'es' => 'Spanish',
@@ -252,7 +263,7 @@ class ConfigurationHelper
     private function getHeight() {
         return 100;
     }
-    
+
     private function getWidth() {
         return 200;
     }

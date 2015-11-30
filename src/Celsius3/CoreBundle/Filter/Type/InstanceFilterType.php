@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InstanceFilterType extends AbstractType
@@ -34,10 +35,16 @@ class InstanceFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('name', null, array('required' => false,))
-                ->add('abbreviation', null, array('required' => false,))
-                ->add('email', null, array('required' => false,))
-                ->add('institution', 'entity', array(
+                ->add('name', null, array(
+                    'required' => false,
+                ))
+                ->add('abbreviation', null, array(
+                    'required' => false,
+                ))
+                ->add('email', null, array(
+                    'required' => false,
+                ))
+                ->add('institution', EntityType::class, array(
                     'required' => false,
                     'class' => 'Celsius3CoreBundle:Institution'
                 ))
@@ -46,11 +53,13 @@ class InstanceFilterType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array('csrf_protection' => false,));
+        $resolver->setDefaults(array(
+            'csrf_protection' => false,
+        ));
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
-        return 'celsius3_corebundle_instancefiltertype';
+        return '';
     }
 }

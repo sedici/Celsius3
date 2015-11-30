@@ -24,6 +24,7 @@ namespace Celsius3\NotificationBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SubscriptionType extends AbstractType
@@ -40,7 +41,7 @@ class SubscriptionType extends AbstractType
     {
         if ($this->user->hasRole('ROLE_ADMIN') || $this->user->hasRole('ROLE_SUPERADMIN')) {
             $builder
-                    ->add('user_notification', 'choice', array(
+                    ->add('user_notification', ChoiceType::class, array(
                         'choices' => array(
                             'notification' => 'Notification',
                             'email' => 'Email',
@@ -51,7 +52,8 @@ class SubscriptionType extends AbstractType
                         'label' => 'New User',
             ));
         }
-        $builder->add('message_notification', 'choice', array(
+        $builder
+                ->add('message_notification', ChoiceType::class, array(
                     'choices' => array(
                         'notification' => 'Notification',
                         'email' => 'Email',
@@ -61,7 +63,7 @@ class SubscriptionType extends AbstractType
                     'expanded' => true,
                     'label' => 'New Message',
                 ))
-                ->add('event_notification', new EventSubscriptionType(), array(
+                ->add('event_notification', EventSubscriptionType::class, array(
                     'label' => 'Order Events',
                 ))
         ;
@@ -73,10 +75,4 @@ class SubscriptionType extends AbstractType
             'data_class' => null,
         ));
     }
-
-    public function getName()
-    {
-        return 'celsius3_notificationbundle_subscriptiontype';
-    }
-
 }

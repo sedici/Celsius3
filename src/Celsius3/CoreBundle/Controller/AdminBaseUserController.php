@@ -57,7 +57,9 @@ class AdminBaseUserController extends BaseUserController
      */
     public function indexAction()
     {
-        return $this->baseIndex('BaseUser', $this->createForm(new BaseUserFilterType($this->getInstance())));
+        return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+        )));
     }
 
     /**
@@ -97,7 +99,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance()));
+        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
     }
 
     /**
@@ -112,7 +114,7 @@ class AdminBaseUserController extends BaseUserController
     public function createAction(Request $request)
     {
         $entity = new BaseUser();
-        $form = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance()), $entity);
+        $form = $this->createForm(BaseUserType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -154,7 +156,9 @@ class AdminBaseUserController extends BaseUserController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance(), true));
+        return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
+            'editing' => true,
+        ));
     }
 
     /**
@@ -179,7 +183,9 @@ class AdminBaseUserController extends BaseUserController
             throw $this->createNotFoundException('Unable to find BaseUser.');
         }
 
-        $editForm = $this->createForm(new BaseUserType($this->container, 'Celsius3\CoreBundle\Entity\BaseUser', $this->getInstance(), true), $entity);
+        $editForm = $this->createForm(BaseUserType::class, $entity, array(
+            'editing' => true,
+        ));
 
         $editForm->handleRequest($request);
 
@@ -226,10 +232,16 @@ class AdminBaseUserController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, new UserTransformType($this->getInstance(), $entity), 'admin_user');
+            return $this->baseDoTransformAction($id, UserTransformType::class, array(
+                'instance' => $this->getInstance(),
+                'user' => $entity,
+            ), 'admin_user');
         }
 
-        return $this->baseTransformAction($id, new UserTransformType($this->getInstance(), $entity));
+        return $this->baseTransformAction($id, UserTransformType::class, array(
+            'instance' => $this->getInstance(),
+            'user' => $entity,
+        ));
     }
 
     /**

@@ -58,7 +58,7 @@ class SuperadminMailController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
+        return $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class));
     }
 
     /**
@@ -71,7 +71,9 @@ class SuperadminMailController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getDirectory()));
+        return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -88,7 +90,9 @@ class SuperadminMailController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getDirectory()));
+        return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -102,7 +106,9 @@ class SuperadminMailController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getDirectory()), 'superadmin_mails');
+        return $this->baseCreate('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_mails');
     }
 
     /**
@@ -120,7 +126,9 @@ class SuperadminMailController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getDirectory()), 'superadmin_mails');
+        return $this->baseUpdate('MailTemplate', $id, MailTemplateType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_mails');
     }
 
     /**

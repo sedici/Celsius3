@@ -54,7 +54,7 @@ class SuperadminJournalController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Journal', $this->createForm(new JournalFilterType()));
+        return $this->baseIndex('Journal', $this->createForm(JournalFilterType::class));
     }
 
     /**
@@ -67,7 +67,9 @@ class SuperadminJournalController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Journal', new Journal(), new JournalType($this->getDirectory()));
+        return $this->baseNew('Journal', new Journal(), JournalType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -81,7 +83,9 @@ class SuperadminJournalController extends BaseController
      */
     public function createAction()
     {
-        return $this->baseCreate('Journal', new Journal(), new JournalType($this->getDirectory()), 'superadmin_journal');
+        return $this->baseCreate('Journal', new Journal(), JournalType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_journal');
     }
 
     /**
@@ -99,7 +103,9 @@ class SuperadminJournalController extends BaseController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Journal', $id, new JournalType($this->getDirectory()));
+        return $this->baseEdit('Journal', $id, JournalType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -118,7 +124,9 @@ class SuperadminJournalController extends BaseController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('Journal', $id, new JournalType($this->getDirectory()), 'superadmin_journal');
+        return $this->baseUpdate('Journal', $id, JournalType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_journal');
     }
 
     /**

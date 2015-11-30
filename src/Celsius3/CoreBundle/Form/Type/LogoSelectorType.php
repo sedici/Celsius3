@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Celsius3\CoreBundle\Form\DataTransformer\LogoToFileTransformer;
 
 class LogoSelectorType extends AbstractType
@@ -44,11 +45,6 @@ class LogoSelectorType extends AbstractType
 
     public function getParent()
     {
-        return 'file';
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_logo_selector';
+        return FileType::class;
     }
 }

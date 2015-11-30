@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\CoreBundle\Entity\Instance;
 
 abstract class BaseController extends Controller
@@ -104,14 +105,11 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseNew($name, $entity, $type)
+    protected function baseNew($name, $entity, $type, array $options = array())
     {
         $request = $this->get('request_stack')->getCurrentRequest();
-        $form = $this->createForm($type, $entity, array(
-                'action' => '',
-                'method' => 'GET',
-                'data' => $request->query->get($type->getName(), $entity),
-            ));
+        $options['data'] = $request->query->get(strtolower($name));
+        $form = $this->createForm($type, $entity, $options);
 
         return array(
             'entity' => $entity,
@@ -126,10 +124,10 @@ abstract class BaseController extends Controller
         $em->flush();
     }
 
-    protected function baseCreate($name, $entity, $type, $route)
+    protected function baseCreate($name, $entity, $type, array $options = array(), $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
-        $form = $this->createForm($type, $entity);
+        $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -151,7 +149,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseEdit($name, $id, $type, $route = null)
+    protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
     {
         $entity = $this->findQuery($name, $id);
 
@@ -159,7 +157,7 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $editForm = $this->createForm($type, $entity);
+        $editForm = $this->createForm($type, $entity, $options);
 
         return array(
             'entity' => $entity,
@@ -168,7 +166,7 @@ abstract class BaseController extends Controller
         );
     }
 
-    protected function baseUpdate($name, $id, $type, $route)
+    protected function baseUpdate($name, $id, $type, array $options = array(), $route)
     {
         $entity = $this->findQuery($name, $id);
 
@@ -176,7 +174,7 @@ abstract class BaseController extends Controller
             throw $this->createNotFoundException('Unable to find ' . $name . '.');
         }
 
-        $editForm = $this->createForm($type, $entity);
+        $editForm = $this->createForm($type, $entity, $options);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -290,7 +288,7 @@ abstract class BaseController extends Controller
         return $this->createFormBuilder(array(
                             'id' => $id,
                         ))
-                        ->add('id', 'hidden')
+                        ->add('id', HiddenType::class)
                         ->getForm();
     }
 

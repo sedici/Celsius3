@@ -6,7 +6,7 @@ $(document).on('click', '.emailModal', function () {
             .done(function (data) {
                 templates = data;
 
-                var data = {
+                data = {
                     address: address,
                     templates: templates
                 };

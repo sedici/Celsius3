@@ -48,13 +48,13 @@ class SuperadminContactController extends BaseController
     {
         $data = $this->baseIndex('Contact');
         $deleteForms = array();
-        
+
         foreach ($data['pagination'] as $entity) {
             $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
         }
-        
+
         $data['deleteForms'] = $deleteForms;
-        
+
         return $data;
     }
 
@@ -85,7 +85,7 @@ class SuperadminContactController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Contact', new Contact(), new SuperadminContactType($this->getDoctrine()->getManager()));
+        return $this->baseNew('Contact', new Contact(), SuperadminContactType::class);
     }
 
     /**
@@ -93,13 +93,13 @@ class SuperadminContactController extends BaseController
      *
      * @Route("/create", name="superadmin_contact_create")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:Contact:new.html.twig")
+     * @Template("Celsius3CoreBundle:SuperadminContact:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('Contact', new Contact(), new SuperadminContactType($this->getDoctrine()->getManager()), 'superadmin_contact');
+        return $this->baseCreate('Contact', new Contact(), SuperadminContactType::class, array(), 'superadmin_contact');
     }
 
     /**
@@ -120,8 +120,11 @@ class SuperadminContactController extends BaseController
         if (!$entity) {
             $this->createNotFoundException();
         }
-        
-        return $this->baseEdit('Contact', $id, new SuperadminContactType($this->getDoctrine()->getManager(), $entity->getOwningInstance(), $entity->getUser()));
+
+        return $this->baseEdit('Contact', $id, SuperadminContactType::class, array(
+            'owning_instance' => $entity->getOwningInstance(),
+            'user' => $entity->getUser(),
+        ));
     }
 
     /**
@@ -129,7 +132,7 @@ class SuperadminContactController extends BaseController
      *
      * @Route("/{id}/update", name="superadmin_contact_update")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:Contact:edit.html.twig")
+     * @Template("Celsius3CoreBundle:SuperadminContact:edit.html.twig")
      *
      * @param string $id The entity ID
      *
@@ -143,8 +146,11 @@ class SuperadminContactController extends BaseController
         if (!$entity) {
             $this->createNotFoundException();
         }
-        
-        return $this->baseUpdate('Contact', $id, new SuperadminContactType($this->getDoctrine()->getManager(), $entity->getOwningInstance(), $entity->getUser()), 'superadmin_contact');
+
+        return $this->baseUpdate('Contact', $id, SuperadminContactType::class, array(
+            'owning_instance' => $entity->getOwningInstance(),
+            'user' => $entity->getUser(),
+        ), 'superadmin_contact');
     }
 
     /**

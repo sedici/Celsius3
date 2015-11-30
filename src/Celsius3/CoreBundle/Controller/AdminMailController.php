@@ -60,7 +60,7 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('MailTemplate', $this->createForm(new MailTemplateFilterType()));
+        return $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class));
     }
 
     /**
@@ -73,7 +73,9 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()));
+        return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
+            'instance' => $this->getInstance(),
+        ));
     }
 
     /**
@@ -100,7 +102,9 @@ class AdminMailController extends BaseInstanceDependentController
             $route = 'create';
         }
 
-        return $this->baseEdit('MailTemplate', $id, new MailTemplateType($this->getInstance()), $route);
+        return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
+            'instance' => $this->getInstance(),
+        ), $route);
     }
 
     /**
@@ -114,7 +118,9 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function createAction()
     {
-        return $this->baseCreate('MailTemplate', new MailTemplate(), new MailTemplateType($this->getInstance()), 'admin_mails');
+        return $this->baseCreate('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_mails');
     }
 
     /**
@@ -132,7 +138,9 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('MailTemplate', $id, new MailTemplateType($this->getInstance()), 'admin_mails');
+        return $this->baseUpdate('MailTemplate', $id, MailTemplateType::class, array(
+            'instance' => $this->getInstance(),
+        ), 'admin_mails');
     }
 
     /**

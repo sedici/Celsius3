@@ -4,16 +4,17 @@
     "type": "project",
     "description": "The Celsius3 Project",
     "autoload": {
-        "psr-4": { "": "src/", "SymfonyStandard\\": "app/SymfonyStandard/" }
+        "psr-4": { "": "src/" },
+        "files": [ "app/AppKernel.php" ]
     },
     "require": {
-        "php": ">=5.3.3",
-        "symfony/symfony": "~2.7",
+        "php": ">=5.3.9",
+        "symfony/symfony": "2.8.*",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0,>=3.0.12",
-        "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
+        "sensio/distribution-bundle": "~5.0",
+        "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "doctrine/doctrine-bundle": "~1.4",
         "doctrine/data-fixtures": "~1.1",
@@ -47,7 +48,8 @@
         "sabberworm/php-css-parser": "*"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
+        "sensio/generator-bundle": "~3.0",
+        "symfony/phpunit-bridge": "~2.7",
         "phpunit/phpunit": "~4.7",
         "behat/behat": "~3.0",
         "behat/symfony2-extension": "~2.0",
@@ -89,7 +91,6 @@
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "stable",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
@@ -99,7 +100,7 @@
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.7-dev"
+            "dev-master": "2.8-dev"
         }
     }
 }

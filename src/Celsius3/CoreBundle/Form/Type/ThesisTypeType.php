@@ -32,7 +32,10 @@ class ThesisTypeType extends MaterialTypeType
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('director')->add('degree');
+        $builder
+            ->add('director')
+            ->add('degree')
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -40,10 +43,5 @@ class ThesisTypeType extends MaterialTypeType
         $resolver->setDefaults(array(
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\ThesisType',
         ));
-    }
-
-    public function getName()
-    {
-        return 'celsius3_corebundle_thesistype';
     }
 }

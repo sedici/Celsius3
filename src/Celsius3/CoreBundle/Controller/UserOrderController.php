@@ -78,7 +78,10 @@ class UserOrderController extends OrderController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Order', $this->createForm(new OrderFilterType($this->getInstance(), $this->getUser())));
+        return $this->baseIndex('Order', $this->createForm(OrderFilterType::class, null, array(
+            'instance' => $this->getInstance(),
+            'owner' => $this->getUser(),
+        )));
     }
 
     /**
@@ -108,13 +111,18 @@ class UserOrderController extends OrderController
      */
     public function newAction()
     {
+        $options = array(
+            'instance' => $this->getInstance(),
+            'user' => $this->getUser(),
+            'actual_user' => $this->getUser(),
+        );
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $type = new OrderType($this->getInstance(), null, $this->getUser(), null, true, $this->getUser());
+            $options['librarian'] = true;
         } else {
-            $type = new OrderType($this->getInstance(), null, $this->getUser(), null, false, $this->getUser());
+            $options['librarian'] = false;
         }
 
-        return $this->baseNew('Order', new Order(), $type);
+        return $this->baseNew('Order', new Order(), OrderType::class, $options);
     }
 
     /**
@@ -128,13 +136,19 @@ class UserOrderController extends OrderController
      */
     public function createAction()
     {
+        $options = array(
+            'instance' => $this->getInstance(),
+            'material' => $this->getMaterialType(),
+            'user' => $this->getUser(),
+            'actual_user' => $this->getUser(),
+        );
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {
-            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, true, $this->getUser());
+            $options['librarian'] = true;
         } else {
-            $type = new OrderType($this->getInstance(), $this->getMaterialType(), $this->getUser(), null, false, $this->getUser());
+            $options['librarian'] = false;
         }
 
-        return $this->baseCreate('Order', new Order(), $type, 'user_index');
+        return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'user_index');
     }
 
     /**
