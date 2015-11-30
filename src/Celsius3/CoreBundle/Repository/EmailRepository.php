@@ -25,21 +25,21 @@ namespace Celsius3\CoreBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 
-class JournalTypeRepository extends EntityRepository
+class EmailRepository extends EntityRepository
 {
 
-    public function findByTerm($term, Instance $instance = null, $limit = null)
+    public function findNotSentEmailsWithLimit(Instance $instance, $limit)
     {
-        $qb = $this->createQueryBuilder('jt')
-                ->leftJoin('jt.journal', 'j')
-                ->where('j.name LIKE :term')
-                ->orWhere('jt.other LIKE :term')
-                ->setParameter('term', '%' . $term . '%');
+        $qb = $this->createQueryBuilder('e');
 
-        if (!is_null($limit)) {
-            $qb = $qb->setMaxResults(10);
-        }
+        $qb->where('e.instance = :instance')
+                ->setParameter('instance', $instance->getId())
+                ->andWhere('e.sent = :sent')
+                ->setParameter('sent', false)
+                ->setMaxResults($limit)
+        ;
 
-        return $qb->getQuery();
+        return $qb->getQuery()->execute();
     }
+
 }

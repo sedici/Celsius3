@@ -922,5 +922,5 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
             return content;
         }
-    }
+    };
 });

@@ -24,8 +24,6 @@ namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\CatalogManager;
-use Celsius3\CoreBundle\Entity\Request;
-use Doctrine\Common\Collections\ArrayCollection;
 use Celsius3\CoreBundle\Entity\Catalog;
 
 class CatalogExtension extends \Twig_Extension

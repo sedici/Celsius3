@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\Request;

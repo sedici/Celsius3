@@ -58,7 +58,7 @@ class FileManager
             $file->setEvent($event);
             $file->setRequest($request);
             $file->setEnabled(true);
-            $file->setPages($this->countPages($uploadedFile));
+            //$file->setPages($this->countPages($uploadedFile));
             $file->setInstance($request->getInstance());
             $this->em->persist($file);
             $event->addFile($file);

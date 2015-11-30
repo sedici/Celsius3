@@ -25,33 +25,40 @@ namespace Celsius3\CoreBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 
-class FixSIReceiveEventsCommand extends ContainerAwareCommand
+class SendEmailsCommand extends ContainerAwareCommand
 {
 
     protected function configure()
     {
-        $this->setName('celsius3:fix-receives')
-            ->setDescription('Corrige un error en la recepción de algunos pedidos.');
+        $this->setName('celsius3_core:mailer:send_emails')
+                ->setDescription('Send emails')
+                ->addArgument('limit', InputArgument::REQUIRED, 'Limit for emails to be sent on each connection.')
+                ->addArgument('log-level', InputArgument::OPTIONAL, 'Log level. 1) Max level, 2) Medium level, 3) Minimum level.', 3);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $limit = intval($input->getArgument('limit'));
+        $logLevel = intval($input->getArgument('log-level'));
+
+        $limit = ($limit >= 1 && $limit <= 10) ? $limit : 5;
+        $logLevel = ($logLevel === 1 || $logLevel === 2 || $logLevel === 3) ? $logLevel : null;
+
+        $mailer = $this->getContainer()->get('celsius3_core.mailer');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $events = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceReceiveEvent')
-                ->createQueryBuilder('s')
-                ->where('s.deliveryType IS NULL')
+        $logger = $this->getContainer()->get('celsius3_core.mailer.logger');
+
+        $instances = $em->getRepository('Celsius3CoreBundle:Instance')
+                ->findAllExceptDirectory()
                 ->getQuery()
                 ->execute();
 
-        foreach ($events as $event) {
-            echo 'Updating Event ' . $event->getId() . "\n";
-            $owner = $event->getRequest()->getOwner();
-            $event->setDeliveryType($owner->getPdf() ? 'PDF' : 'Printed');
-            $em->persist($event);
-            $em->flush($event);
+        foreach ($instances as $instance) {
+            $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
         }
-        $em->clear();
     }
+
 }

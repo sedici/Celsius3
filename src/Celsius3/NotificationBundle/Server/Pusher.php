@@ -87,7 +87,7 @@ class Pusher implements WampServerInterface
     public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         $this->testAndReconnect();
-
+        dump($topic->getId());
         try {
             $map = array(
                 'user' => function($conn, $topic) {
@@ -218,8 +218,8 @@ class Pusher implements WampServerInterface
         usleep(100000);
 
         $notification = $this->entityManager
-            ->getRepository('Celsius3NotificationBundle:Notification')
-            ->find($entry['data']['notification_id']);
+        ->getRepository('Celsius3NotificationBundle:Notification')
+        ->find($entry['data']['notification_id']);
 
         if (!$notification) {
             return;
