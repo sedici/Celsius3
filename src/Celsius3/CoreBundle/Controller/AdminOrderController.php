@@ -165,10 +165,12 @@ class AdminOrderController extends OrderController
         $other = ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $entity->getMaterialData()->getOther() : '';
         $editForm = $this->createForm(OrderType::class, $entity, array(
             'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType($materialClass, $journal, $other),
+            'material' => $this->getMaterialType($materialClass),
             'user' => $entity->getOriginalRequest()->getOwner(),
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
+            'journal' => $journal,
+            'other' => $other,
         ));
 
         return array('entity' => $entity,
@@ -220,10 +222,12 @@ class AdminOrderController extends OrderController
 
         $editForm = $this->createForm(OrderType::class, $duplicatedOrder, array(
             'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType($materialClass, $journal, $other),
+            'material' => $this->getMaterialType($materialClass),
             'user' => $duplicatedOrder->getOriginalRequest()->getOwner(),
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
+            'journal' => $journal,
+            'other' => $other,
         ));
 
         return array(
@@ -257,7 +261,7 @@ class AdminOrderController extends OrderController
 
         // Se extrae el usuario del request y se setea en la construccion del form
         $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($request->request->get('celsius3_corebundle_ordertype[originalRequest][owner]', null, true));
+                ->find($request->request->get('order[originalRequest][owner]', null, true));
 
         $editForm = $this->createForm(OrderType::class, $entity, array(
             'instance' => $this->getInstance(),
@@ -270,8 +274,8 @@ class AdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($request->request->get($editForm->getName() . '[materialData][journal]', null, true) === '') {
-                $entity->getMaterialData()->setOther($request->request->get($editForm->getName() . '[materialData][journal_autocomplete]', null, true));
+            if ($request->request->get('order[materialData][journal]', null, true) === '') {
+                $entity->getMaterialData()->setOther($request->request->get('order[materialData][journal_autocomplete]', null, true));
             }
 
             $em = $this->getDoctrine()->getManager();

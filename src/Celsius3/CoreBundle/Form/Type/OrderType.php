@@ -63,6 +63,8 @@ class OrderType extends AbstractType
                 ))
                 ->add('materialData', $options['material'], array(
                    'constraints' => new Valid(),
+                   'journal' => $options['journal'],
+                   'other' => $options['other'],
                ));
 
         if (array_key_exists('actual_user', $options) && !is_null($options['actual_user'])) {
@@ -86,6 +88,8 @@ class OrderType extends AbstractType
             'operator' => null,
             'librarian' => false,
             'actual_user' => null,
+            'journal' => null,
+            'other' => '',
         ));
     }
 }

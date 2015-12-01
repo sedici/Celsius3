@@ -86,7 +86,7 @@ abstract class OrderController extends BaseInstanceDependentController
         );
     }
 
-    protected function getMaterialType($materialData = null, Journal $journal = null, $other = '')
+    protected function getMaterialType($materialData = null)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
 
