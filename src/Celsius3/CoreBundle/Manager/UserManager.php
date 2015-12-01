@@ -85,7 +85,7 @@ class UserManager
     public function getLibrarianInstitutions(BaseUser $librarian = null)
     {
         if ($librarian) {
-            return $this->iterateInstitutions($librarian->getInstitution(), array());
+            return $this->iterateInstitutions($librarian->getInstitution());
         } else {
             return array();
         }

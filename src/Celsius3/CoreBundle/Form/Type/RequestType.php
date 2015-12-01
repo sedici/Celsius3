@@ -41,9 +41,10 @@ class RequestType extends AbstractType
         if (array_key_exists('operator', $options) && !is_null($options['operator'])) {
             $builder->add('type', ChoiceType::class, array(
                     'choices' => array(
-                        /** @Ignore */ OrderManager::TYPE__SEARCH => ucfirst(OrderManager::TYPE__SEARCH),
-                        /** @Ignore */ OrderManager::TYPE__PROVISION => ucfirst(OrderManager::TYPE__PROVISION),
+                        /** @Ignore */ ucfirst(OrderManager::TYPE__SEARCH) => OrderManager::TYPE__SEARCH,
+                        /** @Ignore */ ucfirst(OrderManager::TYPE__PROVISION) => OrderManager::TYPE__PROVISION,
                     ),
+                    'choices_as_values' => true,
                 ));
         } else {
             $builder->add('type', HiddenType::class, array(
@@ -79,9 +80,10 @@ class RequestType extends AbstractType
             $builder
                     ->add('target', ChoiceType::class, array(
                         'choices' => array(
-                            'me' => 'Me',
-                            'other' => 'Other'
+                            'Me' => 'me',
+                            'Other' => 'other',
                         ),
+                        'choices_as_values' => true,
                         'mapped' => false,
                     ))
                     ->add('librarian', UserSelectorType::class, array(

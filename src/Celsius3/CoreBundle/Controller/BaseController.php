@@ -310,9 +310,15 @@ abstract class BaseController extends Controller
 
         $term = $request->query->get('term');
 
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $insts = array();
+        } else {
+            $insts = $this->get('celsius3_core.user_manager')->getLibrarianInstitutions($librarian);
+        }
+
         $result = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:' . $target)
-                ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions($librarian))
+                ->findByTerm($term, $instance, null, $insts)
                 ->getResult();
 
         $json = array();

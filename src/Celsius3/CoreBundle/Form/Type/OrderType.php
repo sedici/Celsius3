@@ -50,12 +50,13 @@ class OrderType extends AbstractType
                 ))
                 ->add('materialDataType', ChoiceType::class, array(
                     'choices' => array(
-                        /** @Ignore */ MaterialTypeManager::TYPE__JOURNAL => ucfirst(MaterialTypeManager::TYPE__JOURNAL),
-                        /** @Ignore */ MaterialTypeManager::TYPE__BOOK => ucfirst(MaterialTypeManager::TYPE__BOOK),
-                        /** @Ignore */ MaterialTypeManager::TYPE__CONGRESS => ucfirst(MaterialTypeManager::TYPE__CONGRESS),
-                        /** @Ignore */ MaterialTypeManager::TYPE__THESIS => ucfirst(MaterialTypeManager::TYPE__THESIS),
-                        /** @Ignore */ MaterialTypeManager::TYPE__PATENT => ucfirst(MaterialTypeManager::TYPE__PATENT),
+                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__JOURNAL) => MaterialTypeManager::TYPE__JOURNAL,
+                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__BOOK) => MaterialTypeManager::TYPE__BOOK,
+                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__CONGRESS) => MaterialTypeManager::TYPE__CONGRESS,
+                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__THESIS) => MaterialTypeManager::TYPE__THESIS,
+                        /** @Ignore */ ucfirst(MaterialTypeManager::TYPE__PATENT) => MaterialTypeManager::TYPE__PATENT,
                     ),
+                    'choices_as_values' => true,
                     'mapped' => false,
                     'data' => $preferredMaterial,
                     'label' => 'Material Type',
