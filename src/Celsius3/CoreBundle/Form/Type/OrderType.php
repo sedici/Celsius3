@@ -40,6 +40,18 @@ class OrderType extends AbstractType
         $class = explode('\\', $options['material']);
         $preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
 
+        if ($preferredMaterial === 'journal') {
+            $materialOptions = array(
+               'constraints' => new Valid(),
+               'journal' => $options['journal'],
+               'other' => $options['other'],
+           );
+       } else {
+           $materialOptions = array(
+              'constraints' => new Valid(),
+          );
+       }
+
         $builder
                 ->add('originalRequest', RequestType::class, array(
                     'label' => false,
@@ -61,11 +73,7 @@ class OrderType extends AbstractType
                     'data' => $preferredMaterial,
                     'label' => 'Material Type',
                 ))
-                ->add('materialData', $options['material'], array(
-                   'constraints' => new Valid(),
-                   'journal' => $options['journal'],
-                   'other' => $options['other'],
-               ));
+                ->add('materialData', $options['material'], $materialOptions);
 
         if (array_key_exists('actual_user', $options) && !is_null($options['actual_user'])) {
             if ($options['actual_user']->hasRole('ROLE_ADMIN') || $options['actual_user']->hasRole('ROLE_SUPER_ADMIN')) {
