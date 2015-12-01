@@ -46,8 +46,8 @@ class ProfileFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => $this->class,
-            'intention' => 'profile',
+            'data_class' => 'Celsius3\CoreBundle\Entity\BaseUser',
+            'csrf_token_id' => 'profile',
         ));
     }
 }

@@ -137,10 +137,10 @@ fos_user:
     user_class: Celsius3\CoreBundle\Entity\BaseUser
     profile:
         form:
-            type: celsius3_corebundle_profile
+            type: Celsius3\CoreBundle\Form\Type\ProfileFormType
     registration:
         form:
-            type: celsius3_corebundle_registration
+            type: Celsius3\CoreBundle\Form\Type\RegistrationFormType
     change_password:
         form:
             validation_groups:  [ChangePassword]
@@ -161,15 +161,15 @@ services:
     # Formulario de registro personalizado
     registration.form.type:
         class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
-        arguments: ["@service_container", %fos_user.model.user.class%]
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
         tags:
-            - { name: form.type, alias: celsius3_corebundle_registration }
+            - { name: form.type }
 
     profile.form.type:
         class: Celsius3\CoreBundle\Form\Type\ProfileFormType
         arguments: [%fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: celsius3_corebundle_profile }
+            - { name: form.type }
 
     jms_serializer.metadata.doctrine_type_driver:
         class:        %jms_serializer.metadata.doctrine_type_driver.class%

@@ -25,12 +25,12 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Doctrine\ORM\EntityManager;
-use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\AbstractType;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 
-class RegistrationFormType extends BaseType
+class RegistrationFormType extends AbstractType
 {
     protected $em;
     protected $instance_helper;
@@ -40,16 +40,12 @@ class RegistrationFormType extends BaseType
      */
     public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
     {
-        parent::__construct($class);
-
         $this->em = $em;
         $this->instance_helper = $instance_helper;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $builder
                 ->add('name', null, array(
                     'label' => 'Name'
@@ -78,5 +74,10 @@ class RegistrationFormType extends BaseType
         $builder->addEventSubscriber($subscriber);
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);
+    }
+
+    public function getParent()
+    {
+        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
     }
 }

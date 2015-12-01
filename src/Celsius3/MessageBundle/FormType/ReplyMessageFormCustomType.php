@@ -45,7 +45,7 @@ class ReplyMessageFormCustomType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'intention' => 'reply',
+            'csrf_token_id' => 'reply',
         ));
     }
 }
