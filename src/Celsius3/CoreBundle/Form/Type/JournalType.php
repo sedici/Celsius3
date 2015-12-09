@@ -25,6 +25,8 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
 class JournalType extends AbstractType
@@ -52,7 +54,9 @@ class JournalType extends AbstractType
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
-                $builder->add('instance');
+                $builder->add('instance', EntityType::class, array(
+                    'class' => Instance::class,
+                ));
             } else {
                 $builder->add('instance', InstanceSelectorType::class, array(
                     'data' => $options['instance'],

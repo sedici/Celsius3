@@ -25,7 +25,9 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
@@ -60,10 +62,12 @@ class InstitutionType extends AbstractType
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
-                        ->add('instance', null, array(
+                        ->add('instance', EntityType::class, array(
+                            'class' => Instance::class,
                             'label' => 'Owning Instance',
                         ))
-                        ->add('celsiusInstance', null, array(
+                        ->add('celsiusInstance', EntityType::class, array(
+                            'class' => Instance::class,
                             'required' => false,
                             'label' => 'Celsius Instance',
                         ))

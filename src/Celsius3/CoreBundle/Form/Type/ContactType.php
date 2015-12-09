@@ -26,6 +26,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
 
 class ContactType extends AbstractType
@@ -54,7 +56,9 @@ class ContactType extends AbstractType
                     'label' => 'User',
                 ))
                 ->add('type')
-                ->add('instance')
+                ->add('instance', EntityType::class, array(
+                    'class' => Instance::class,
+                ))
         ;
     }
 

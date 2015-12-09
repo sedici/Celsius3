@@ -94,7 +94,9 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class);
+        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**
@@ -108,7 +110,9 @@ class SuperadminBaseUserController extends BaseUserController
      */
     public function createAction()
     {
-        return $this->baseCreate('BaseUser', new BaseUser(), BaseUserType::class, array(), 'superadmin_user');
+        return $this->baseCreate('BaseUser', new BaseUser(), BaseUserType::class, array(
+            'instance' => $this->getDirectory(),
+        ), 'superadmin_user');
     }
 
     /**
@@ -126,6 +130,7 @@ class SuperadminBaseUserController extends BaseUserController
     public function editAction($id)
     {
         return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
+            'instance' => $this->getDirectory(),
             'editing' => true,
         ));
     }
@@ -146,6 +151,7 @@ class SuperadminBaseUserController extends BaseUserController
     public function updateAction($id)
     {
         return $this->baseUpdate('BaseUser', $id, BaseUserType::class, array(
+            'instance' => $this->getDirectory(),
             'editing' => true,
         ), 'superadmin_user');
     }

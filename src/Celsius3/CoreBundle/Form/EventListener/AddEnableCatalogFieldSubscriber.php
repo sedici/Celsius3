@@ -55,6 +55,10 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
         $data = $event->getData();
 
+        if (null === $data) {
+            return;
+        }
+
         $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
                 ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance())
         );
