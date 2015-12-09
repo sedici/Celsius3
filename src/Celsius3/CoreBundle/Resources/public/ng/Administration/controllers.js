@@ -35,6 +35,8 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
             $scope.orders = response.orders;
             if ($scope.state === 'finished') {
                 $scope.total = $scope.orderCount.delivered + $scope.orderCount.cancelled + $scope.orderCount.annulled;
+            } else if ($scope.state === 'searched') {
+                $scope.total = $scope.orderCount.searched + $scope.orderCount.taken;
             } else {
                 $scope.total = $scope.orderCount[state];
             }
