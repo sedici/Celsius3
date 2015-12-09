@@ -38,17 +38,23 @@
             <div class="titulo">
                 {% if (get_material_type(element.materialData) == 'journal') %}
                     {% if (element.materialData.journal) %}
-                        <a href="{{ path('admin_order_show', {'id': element.id}) }}">{{ element.materialData.journal.name }}</a>
+                        <a href="{{ path('admin_order_show', {'id': element.id}) }}">{{ element.materialData.journal.name | upper }}</a>
                     {% else %}
-                        {{ element.materialData.other }}
+                        {{ element.materialData.other | upper }}
                     {% endif %}
+                {% elseif (get_material_type(element.materialData) == 'book') %}
+                    {{ element.materialData.title | upper }}
                 {% endif %}
             </div>
             <div class="titulo">
-                {% if (element.materialData.title is not empty) %}
-                    <span>{{ element.materialData.title }}</span>
+                {% if (get_material_type(element.materialData) == 'book') %}
+                    <span>{{ element.materialData.chapter }}</span>
                 {% else %}
-                    <span>[ {{ 'sinTitulo' | trans }} ]</span>
+                    {% if (element.materialData.title is not empty) %}
+                        <span>{{ element.materialData.title }}</span>
+                    {% else %}
+                        <span>[ {{ 'sinTitulo' | trans }} ]</span>
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="autor">{{ element.materialData.authors }}</div>

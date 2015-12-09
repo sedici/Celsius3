@@ -84,11 +84,17 @@
                 <div class="main_info">
                 <div class="title_and_author">
                 <div class="titulo" ng-if="order.material_data.type === 'journal'">
-                {{ order.material_data.journal ? order.material_data.journal.name : order.material_data.other }}
+                {{ order.material_data.journal ? order.material_data.journal.name : order.material_data.other | uppercase }}
                 </div>
-                <div class="titulo">
+                <div class="titulo" ng-if="order.material_data.type === 'book'">
+                {{ order.material_data.title | uppercase }}
+                </div>
+                <div class="titulo" ng-if="order.material_data.type !== 'book'">
                 <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
                 <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                </div>
+                <div class="titulo" ng-if="order.material_data.type === 'book'">
+                <span>{{ order.material_data.chapter }}</span>
                 </div>
                 <div class="autor">
                 {{order.material_data.authors}}
