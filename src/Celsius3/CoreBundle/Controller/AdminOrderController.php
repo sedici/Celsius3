@@ -109,10 +109,10 @@ class AdminOrderController extends OrderController
         }
 
         return $this->baseNew('Order', new Order(), OrderType::class, array(
-            'instance' => $this->getInstance(),
-            'user' => $user,
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
+                    'instance' => $this->getInstance(),
+                    'user' => $user,
+                    'operator' => $this->getUser(),
+                    'actual_user' => $this->getUser(),
         ));
     }
 
@@ -128,11 +128,11 @@ class AdminOrderController extends OrderController
     public function createAction(Request $request)
     {
         return $this->baseCreate('Order', new Order(), OrderType::class, array(
-            'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType(),
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-        ), 'administration');
+                    'instance' => $this->getInstance(),
+                    'material' => $this->getMaterialType(),
+                    'operator' => $this->getUser(),
+                    'actual_user' => $this->getUser(),
+                        ), 'administration');
     }
 
     /**
@@ -274,10 +274,15 @@ class AdminOrderController extends OrderController
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            if ($request->request->get('order[materialData][journal]', null, true) === '') {
-                $entity->getMaterialData()->setOther($request->request->get('order[materialData][journal_autocomplete]', null, true));
+            if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
+                $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
+                        $request->request->get('order[materialData][journal]', null, true)
+                );
+                if (is_null($journal) || ($journal->getName() !== $request->request->get('order[materialData][journal_autocomplete]', null, true))) {
+                    $entity->getMaterialData()->setOther($request->request->get('order[materialData][journal_autocomplete]', null, true));
+                    $entity->getMaterialData()->setJournal(null);
+                }
             }
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
