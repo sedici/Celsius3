@@ -53,22 +53,24 @@ class BaseUserFilterType extends AbstractType
                     'required' => false,
                 ))
                 ->add('state', ChoiceType::class, array(
+                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
-                        /** @Ignore */ 'enabled' => 'Enabled',
-                        /** @Ignore */ 'pending' => 'Pending',
-                        /** @Ignore */ 'rejected' => 'Rejected',
+                        /** @Ignore */ 'Enabled' => 'enabled',
+                        /** @Ignore */ 'Pending' => 'pending',
+                        /** @Ignore */ 'Rejected' => 'rejected',
                     ),
                     'expanded' => true,
                     'multiple' => true,
                 ))
                 ->add('roles', ChoiceType::class, array(
+                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
-                        /** @Ignore */ 'ROLE_USER' => 'User',
-                        /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
-                        /** @Ignore */ 'ROLE_ADMIN' => 'Admin',
-                        /** @Ignore */ 'ROLE_SUPER_ADMIN' => 'Network Admin',
+                        /** @Ignore */ 'User'=> 'ROLE_USER',
+                        /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
+                        /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
+                        /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
                     ),
                 ))
         ;

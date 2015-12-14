@@ -24,6 +24,8 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Celsius3\CoreBundle\Entity\Hive;
 
 class LegacyInstanceType extends AbstractType
 {
@@ -39,7 +41,9 @@ class LegacyInstanceType extends AbstractType
                     ),
                 ))
                 ->add('email')
-                ->add('hive')
+                ->add('hive', EntityType::class, array(
+                    'class' => Hive::class,
+                ))
         ;
     }
 }

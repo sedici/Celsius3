@@ -51,32 +51,27 @@ class OrderFilterType extends AbstractType
                     'required' => false,
                 ))
                 ->add('type', ChoiceType::class, array(
+                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
                         '' => '',
-                        0 => 'Provision',
-                        1 => 'Search',
+                        'Provision' => 0,
+                        'Search' => 1,
                     ),
                 ))
                 ->add('state', ChoiceType::class, array(
+                    'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
-                        /** @Ignore */ StateManager::STATE__CREATED => ucfirst(
-                                StateManager::STATE__CREATED),
-                        /** @Ignore */ StateManager::STATE__SEARCHED => ucfirst(
-                                StateManager::STATE__SEARCHED),
-                        /** @Ignore */ StateManager::STATE__REQUESTED => ucfirst(
-                                StateManager::STATE__REQUESTED),
-                        /** @Ignore */ StateManager::STATE__APPROVAL_PENDING => str_replace('_', ' ', ucfirst(
-                                        StateManager::STATE__APPROVAL_PENDING)),
-                        /** @Ignore */ StateManager::STATE__RECEIVED => ucfirst(
-                                StateManager::STATE__RECEIVED),
-                        /** @Ignore */ StateManager::STATE__DELIVERED => ucfirst(
-                                StateManager::STATE__DELIVERED),
-                        /** @Ignore */ StateManager::STATE__CANCELLED => ucfirst(
-                                StateManager::STATE__CANCELLED),
-                        /** @Ignore */ StateManager::STATE__ANNULLED => ucfirst(
-                                StateManager::STATE__ANNULLED),),
+                        /** @Ignore */ ucfirst(StateManager::STATE__CREATED) => StateManager::STATE__CREATED,
+                        /** @Ignore */ ucfirst(StateManager::STATE__SEARCHED) => StateManager::STATE__SEARCHED,
+                        /** @Ignore */ ucfirst(StateManager::STATE__REQUESTED) => StateManager::STATE__REQUESTED,
+                        /** @Ignore */ str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)) => StateManager::STATE__APPROVAL_PENDING,
+                        /** @Ignore */ ucfirst(StateManager::STATE__RECEIVED) => StateManager::STATE__RECEIVED,
+                        /** @Ignore */ ucfirst(StateManager::STATE__DELIVERED) => StateManager::STATE__DELIVERED,
+                        /** @Ignore */ ucfirst(StateManager::STATE__CANCELLED) => StateManager::STATE__CANCELLED,
+                        /** @Ignore */ ucfirst(StateManager::STATE__ANNULLED) => StateManager::STATE__ANNULLED,
+                            ),
                     'multiple' => true,
                     'expanded' => true,
                 ))

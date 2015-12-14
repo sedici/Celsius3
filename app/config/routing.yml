@@ -2,12 +2,12 @@ directory_homepage:
     path:   /
     host:   celsius3.prebi.unlp.edu.ar
     defaults: { _controller: Celsius3CoreBundle:Directory:index }
-    
+
 directory_instances:
     path:   /instances
     host:   celsius3.prebi.unlp.edu.ar
     defaults: { _controller: Celsius3CoreBundle:Directory:instances }
-    
+
 directory_statistics:
     path:   /statistics
     host:   celsius3.prebi.unlp.edu.ar
@@ -34,21 +34,21 @@ celsius3_core:
     resource: "@Celsius3CoreBundle/Controller/"
     type:     annotation
     prefix:   /
-    
+
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3CoreBundle:Public:index }
 
 fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    resource: "@Celsius3CoreBundle/Resources/config/routing/security.xml"
     prefix: /
 
 fos_user_profile:
-    resource: "@Celsius3CoreBundle/Resources/config/routing/profile.xml"
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /user/profile
 
 fos_user_register:
-    resource: "@Celsius3CoreBundle/Resources/config/routing/registration.xml"
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix: /public/register
 
 fos_user_resetting:

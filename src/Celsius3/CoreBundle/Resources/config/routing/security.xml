@@ -4,15 +4,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="fos_user_security_login" pattern="/public/login">
+    <route id="fos_user_security_login" path="/public/login" methods="GET POST">
         <default key="_controller">FOSUserBundle:Security:login</default>
     </route>
 
-    <route id="fos_user_security_check" pattern="/public/login_check">
+    <route id="fos_user_security_check" path="/public/login_check" methods="POST">
         <default key="_controller">FOSUserBundle:Security:check</default>
     </route>
 
-    <route id="fos_user_security_logout" pattern="/user/logout">
+    <route id="fos_user_security_logout" path="/user/logout" methods="GET">
         <default key="_controller">FOSUserBundle:Security:logout</default>
     </route>
 
