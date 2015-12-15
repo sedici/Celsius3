@@ -58,7 +58,7 @@ class FileManager
             $file->setEvent($event);
             $file->setRequest($request);
             $file->setEnabled(true);
-            //$file->setPages($this->countPages($uploadedFile));
+            $file->setPages($this->countPages($uploadedFile));
             $file->setInstance($request->getInstance());
             $this->em->persist($file);
             $event->addFile($file);
@@ -92,7 +92,7 @@ class FileManager
             $file->setRequest($previousRequest);
             $file->setEvent($event);
             if (!copy($original->getUploadRootDir() . DIRECTORY_SEPARATOR . $original->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
-                throw new Exception('Copy file error');
+                throw new \Exception('Copy file error');
             }
             $this->em->persist($file);
             $event->addFile($file);

@@ -47,9 +47,9 @@ assetic:
             node_paths: [%node_modules%]
             apply_to:   "\.less$"
         uglifyjs2:
-            bin: /usr/local/bin/uglifyjs
+            bin: /usr/bin/uglifyjs
         uglifycss:
-            bin: /usr/local/bin/uglifycss
+            bin: /usr/bin/uglifycss
         # closure:
         #     jar: %kernel.root_dir%/java/compiler.jar
         # yui_css:
