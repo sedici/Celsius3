@@ -29,6 +29,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\ContactType as Entity;
 
 class ContactType extends AbstractType
 {
@@ -55,7 +56,9 @@ class ContactType extends AbstractType
                     'mapped' => false,
                     'label' => 'User',
                 ))
-                ->add('type')
+                ->add('type', EntityType::class, array(
+                    'class' => Entity::class,
+                ))
                 ->add('instance', EntityType::class, array(
                     'class' => Instance::class,
                 ))

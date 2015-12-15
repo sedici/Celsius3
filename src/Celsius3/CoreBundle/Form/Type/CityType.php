@@ -26,6 +26,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
@@ -36,7 +37,9 @@ class CityType extends AbstractType
         $builder
                 ->add('name')
                 ->add('postalCode')
-                ->add('country')
+                ->add('country', EntityType::class, array(
+                    'class' => Country::class,
+                ))
         ;
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
