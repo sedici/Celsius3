@@ -1,5 +1,5 @@
 <div class="flashes">
-    {% set flashes = { 'warning': '', 'notice': 'alert-info', 'error': 'alert-error', 'success': 'alert-success' } %}
+    {% set flashes = { 'warning': 'alert-warning', 'notice': 'alert-info', 'error': 'alert-danger', 'success': 'alert-success' } %}
 
     {% for key, messages in app.session.getFlashBag().all() %}
         {% for message in messages %}

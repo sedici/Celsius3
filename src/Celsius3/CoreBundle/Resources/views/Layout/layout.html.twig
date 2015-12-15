@@ -116,14 +116,12 @@
                     </div>
 
                     {% if( is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
-                        {% for label, flashes in app.session.flashbag.all %}
-                            {% if label == 'configuration' %}
-                                {% for flash in flashes %}
-                                    <div class="alert alert-warning">
-                                        {{ flash }}
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+                        {% for label, flashes in app.session.flashbag.get('configuration') %}
+                            {% for flash in flashes %}
+                                <div class="alert alert-warning">
+                                    {{ flash }}
+                                </div>
+                            {% endfor %}
                         {% endfor %}
                     {% endif %}
                 {% endblock %}

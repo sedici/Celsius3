@@ -36,7 +36,7 @@ class LogoToFileTransformer implements DataTransformerInterface
      */
     public function transform($filename)
     {
-        if (!$filename) {
+        if (!$filename || !file_exists(FileManager::LOGOS_UPLOAD_DIR . '/' . $filename)) {
             return null;
         }
 

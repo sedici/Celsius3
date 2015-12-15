@@ -131,17 +131,18 @@ abstract class BaseController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->persistEntity($entity);
-            $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The ' . $name . ' was successfully created.');
+            try {
+                $this->persistEntity($entity);
 
-            return $this->redirect($this->generateUrl($route));
+                $this->addFlash('success', 'The ' . $name . ' was successfully created.');
+
+                return $this->redirect($this->generateUrl($route));
+            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+                $this->addFlash('error', 'The ' . $name . ' already exists.');
+            }
         }
 
-        $this->get('session')
-                ->getFlashBag()
-                ->add('error', 'There were errors creating the ' . $name . '.');
+        $this->addFlash('error', 'There were errors creating the ' . $name . '.');
 
         return array(
             'entity' => $entity,
@@ -181,17 +182,18 @@ abstract class BaseController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $this->persistEntity($entity);
+            try {
+                $this->persistEntity($entity);
 
-            $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The ' . $name . ' was successfully edited.');
+                $this->addFlash('success', 'The ' . $name . ' was successfully edited.');
 
-            return $this->redirect($this->generateUrl($route . '_edit', array('id' => $id)));
+                return $this->redirect($this->generateUrl($route . '_edit', array('id' => $id)));
+            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+                $this->addFlash('error', 'The ' . $name . ' already exists.');
+            }
         }
 
-        $this->get('session')->getFlashBag()
-                ->add('error', 'There were errors editing the ' . $name . '.');
+        $this->addFlash('error', 'There were errors editing the ' . $name . '.');
 
         return array(
             'entity' => $entity,
@@ -217,8 +219,7 @@ abstract class BaseController extends Controller
             $em->remove($entity);
             $em->flush();
 
-            $this->get('session')->getFlashBag()
-                    ->add('success', 'The ' . $name . ' was successfully deleted.');
+            $this->addFlash('success', 'The ' . $name . ' was successfully deleted.');
         }
 
         return $this->redirect($this->generateUrl($route));
@@ -278,7 +279,7 @@ abstract class BaseController extends Controller
 
         $this->get('celsius3_core.union_manager')->union($this->getBundle() . ':' . $name, $main, $entities, $updateInstance);
 
-        $this->get('session')->getFlashBag()->add('success', 'The elements were successfully joined.');
+        $this->addFlash('success', 'The elements were successfully joined.');
 
         return $this->redirect($this->generateUrl($route));
     }
@@ -290,11 +291,6 @@ abstract class BaseController extends Controller
                         ))
                         ->add('id', HiddenType::class)
                         ->getForm();
-    }
-
-    protected function addFlash($type, $message)
-    {
-        $this->get('session')->getFlashBag()->add($type, $message);
     }
 
     protected function ajax(Request $request, Instance $instance = null, $librarian = null)
