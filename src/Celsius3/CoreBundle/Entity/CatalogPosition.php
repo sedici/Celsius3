@@ -39,29 +39,34 @@ class CatalogPosition
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     private $position;
+
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="boolean")
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default"=true})
      */
-    private $enabled = true;
+    private $enabled;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Catalog", inversedBy="positions")
      * @ORM\JoinColumn(name="catalog_id", referencedColumnName="id", nullable=false)
      */
     private $catalog;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance")
@@ -170,4 +175,5 @@ class CatalogPosition
     {
         return $this->instance;
     }
+
 }

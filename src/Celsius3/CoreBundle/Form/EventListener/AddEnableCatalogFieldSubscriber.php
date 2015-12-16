@@ -29,6 +29,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactoryInterface;
+use Celsius3\CoreBundle\Entity\CatalogPosition;
 
 class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 {
@@ -47,6 +48,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         return array(
             FormEvents::PRE_SET_DATA => 'preSetData',
             FormEvents::PRE_SUBMIT => 'preSubmit',
+            FormEvents::POST_SUBMIT => 'postSubmit'
         );
     }
 
@@ -85,7 +87,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
         $data = $event->getData();
 
-        $catalog = $this->em->getRepository('Celsius3CoreBundle:Catalog')->find($data['id']);
+        $catalog = (array_key_exists('id', $data)) ? $this->em->getRepository('Celsius3CoreBundle:Catalog')->find($data['id']) : null;
 
         if (!is_null($catalog)) {
             $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
@@ -110,6 +112,19 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                         ),
                         'auto_initialize' => false))
             );
+        }
+    }
+
+    public function postSubmit(FormEvent $event)
+    {
+        $catalog = $event->getData();
+        if (is_null($catalog->getId()) && $catalog->getPositions()->isEmpty()) {
+            $cp = new CatalogPosition();
+            $cp->setInstance($catalog->getInstance());
+            $cp->setEnabled(true);
+            $cp->setPosition(-1);
+            $cp->setCatalog($catalog);
+            $catalog->addPosition($cp);
         }
     }
 

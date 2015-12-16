@@ -82,7 +82,7 @@ class Catalog
     private $instance;
 
     /**
-     * @ORM\OneToMany(targetEntity="CatalogPosition", mappedBy="catalog")
+     * @ORM\OneToMany(targetEntity="CatalogPosition", mappedBy="catalog", cascade={"persist"})
      */
     private $positions;
 
