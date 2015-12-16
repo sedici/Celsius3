@@ -66,7 +66,7 @@ class State
      */
     private $type;
     /**
-     * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
+     * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", cascade={"persist"})
      * @ORM\JoinColumn(name="remote_event_id", referencedColumnName="id")
      */
     private $remoteEvent;
@@ -144,7 +144,7 @@ class State
     {
         return $this->isCurrent;
     }
-    
+
     /**
      * Set searchPending
      *

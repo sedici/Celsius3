@@ -38,6 +38,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *   @ORM\Index(name="idx_operator", columns={"operator_id"}),
  *   @ORM\Index(name="idx_order", columns={"order_id"}),
  *   @ORM\Index(name="idx_previous_request", columns={"previous_request_id"}),
+ * }, uniqueConstraints={
+ *   @ORM\UniqueConstraint(name="idx_order_instance", columns={"instance_id", "order_id"}),
  * })
  */
 class Request

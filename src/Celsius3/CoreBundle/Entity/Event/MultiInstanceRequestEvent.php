@@ -69,8 +69,16 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
         $this->setRemoteRequest($remoteRequest);
         $remoteRequest->setPreviousRequest($request);
         $lifecycleHelper->refresh($remoteRequest);
-        $remoteCreation = $remoteRequest->getState(StateManager::STATE__CREATED, $this->getRemoteInstance());
+        $remoteCreation = $remoteRequest->getState(StateManager::STATE__CREATED);
         $remoteCreation->setRemoteEvent($this);
+
+        // En caso de que se esté haciendo una segunda petición a la misma instancia, se vuelve a dejar el estado actual como creado
+        $currentState = $remoteRequest->getCurrentState();
+        if ($currentState->getId() !== $remoteCreation->getId()) {
+            $remoteCreation->setIsCurrent(true);
+            $currentState->setIsCurrent(false);
+            $lifecycleHelper->refresh($currentState);
+        }
     }
 
     /**

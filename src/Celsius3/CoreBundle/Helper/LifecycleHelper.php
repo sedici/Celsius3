@@ -254,12 +254,18 @@ class LifecycleHelper
 
     public function createRequest(Order $order, BaseUser $user, $type, Instance $instance, BaseUser $creator)
     {
-        $request = new Request();
-        $request->setOwner($user);
-        $request->setType($type);
-        $request->setInstance($instance);
-        $request->setOrder($order);
-        $request->setCreator($creator);
+        // Si no existe el request para la instancia, se crea
+        if (!$order->hasRequest($instance)) {
+            $request = new Request();
+            $request->setOwner($user);
+            $request->setType($type);
+            $request->setInstance($instance);
+            $request->setOrder($order);
+            $request->setCreator($creator);
+        } else {
+            $request = $order->getRequest($instance);
+        }
+
 
         return $request;
     }
