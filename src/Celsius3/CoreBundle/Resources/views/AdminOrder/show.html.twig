@@ -146,7 +146,7 @@
                 <label for="files">{{'files' | translate}}</label>
                 <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
                 <ul>
-                <li ng-repeat="(key, file) in filesToUpload">{{ file.name }}</li>
+                <li ng-repeat="(key, file) in filesToUpload">{{ file.name }} <a href ng-click="removeFiles(filesToUpload, 'filesToUpload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
                 </ul>
                 </div>
                 </form>
@@ -193,7 +193,7 @@
                 <label for="files">{{'files' | translate}}</label>
                 <button ngf-select="" ngf-change="addFilesToReupload($files)" ngf-multiple="true" id="files" name="files">{{ 'addFiles' | translate }}</button>
                 <ul>
-                <li ng-repeat="(key, file) in filesToReupload">{{ file.name }}</li>
+                    <li ng-repeat="(key, file) in filesToReupload">{{ file.name }} <a href ng-click="removeFiles(filesToReupload, 'filesToReupload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
                 </ul>
                 </div>
                 </form>
@@ -220,7 +220,7 @@
                         <br />
                         <div>
                             <ul>
-                                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }}</li>
+                                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }} <a href ng-click="removeFiles(filesToUploadBasic, 'filesToUploadBasic', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
                             </ul>
                         </div>
                     </div>

@@ -299,6 +299,12 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         list: []
     };
 
+    $scope.removeFiles = function(col, name, file) {
+        $scope[name] = _.filter(col, function(f) {
+            return f !== file;
+        });
+    };
+
     /**
      * Resource load
      */
