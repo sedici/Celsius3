@@ -27,6 +27,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\EventManager;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 class EventSubscriptionType extends AbstractType
 {
@@ -40,14 +41,22 @@ class EventSubscriptionType extends AbstractType
         EventManager::EVENT__ANNUL => 'Annul',
     );
 
+    private $user_events = array(
+        EventManager::EVENT__RECEIVE => 'Receive',
+        EventManager::EVENT__CANCEL => 'Cancel',
+        EventManager::EVENT__ANNUL => 'Annul',
+    );
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach ($this->events as $key => $label) {
+        $events = $options['is_admin'] ? $this->events : $this->user_events;
+        foreach ($events as $key => $label) {
             $builder
                     ->add($key . '_notification', ChoiceType::class, array(
+                        'choices_as_values' => true,
                         'choices' => array(
-                            'notification' => 'Notification',
-                            'email' => 'Email',
+                            /** @Ignore */ 'Notification' => 'notification',
+                            /** @Ignore */ 'Email' => 'email',
                         ),
                         'required' => false,
                         'multiple' => true,
@@ -62,6 +71,7 @@ class EventSubscriptionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => null,
+            'is_admin' => false,
         ));
     }
 }

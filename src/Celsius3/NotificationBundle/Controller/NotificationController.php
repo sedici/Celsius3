@@ -83,7 +83,9 @@ class NotificationController extends BaseController
                 )
         );
 
-        $form = $this->createForm(new SubscriptionType($this->getUser()));
+        $form = $this->createForm(SubscriptionType::class, null, array(
+            'user' => $this->getUser(),
+        ));
 
         foreach ($settings as $value) {
             $data = array();
@@ -97,7 +99,9 @@ class NotificationController extends BaseController
             if (!(strpos($value->getType(), 'user') === FALSE) || !(strpos($value->getType(), 'message') === FALSE)) {
                 $form->get($value->getType())->setData($data);
             } else {
-                $form->get('event_notification')->get($value->getType())->setData($data);
+                if ($form->get('event_notification')->has($value->getType())) {
+                    $form->get('event_notification')->get($value->getType())->setData($data);
+                }
             }
         }
 

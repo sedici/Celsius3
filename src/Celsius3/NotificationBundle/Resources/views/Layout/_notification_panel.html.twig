@@ -6,7 +6,12 @@
                 <b class="caret"></b>
             </a>
             <ul id="notification-list" class="dropdown-menu dropdown-menu-right">
-                <li><a href="{{ path('user_notification') }}">{{ 'Show all'|trans }}</a></li>
+                <li>
+                    <a href="{{ path('user_notification') }}">{{ 'Show all'|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('user_notification_subscriptions') }}">{{ 'Susbcriptions'|trans }}</a>
+                </li>
             </ul>
         </li>
     {% endif %}

@@ -42,6 +42,54 @@
         <target state="new">Vista</target>
         <jms:reference-file line="5">views/Notification/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="1">
+        <source>Notification Subscriptions</source>
+        <target>Suscripciones a Notificaciones</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Susbcriptions</source>
+        <target>Suscripciones</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>New User</source>
+        <target>Nuevo Usuario</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Notification</source>
+        <target>Notificación</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>New Message</source>
+        <target>Nuevo Mensaje</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Order Events</source>
+        <target>Eventos de un Pedido</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Creation</source>
+        <target>Creación</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Request</source>
+        <target>Solicitud</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Receive</source>
+        <target>Recepción</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Deliver</source>
+        <target>Entrega</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Cancel</source>
+        <target>Cancelación</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Annul</source>
+        <target>Anulación</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -26,25 +26,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 class SubscriptionType extends AbstractType
 {
 
-    private $user;
-
-    function __construct(\Celsius3\CoreBundle\Entity\BaseUser $user)
-    {
-        $this->user = $user;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->user->hasRole('ROLE_ADMIN') || $this->user->hasRole('ROLE_SUPERADMIN')) {
+        if ($options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPERADMIN')) {
             $builder
                     ->add('user_notification', ChoiceType::class, array(
+                        'choices_as_values' => true,
                         'choices' => array(
-                            'notification' => 'Notification',
-                            'email' => 'Email',
+                            /** @Ignore */ 'Notification' => 'notification',
+                            /** @Ignore */ 'Email' => 'email',
                         ),
                         'required' => false,
                         'multiple' => true,
@@ -54,9 +49,10 @@ class SubscriptionType extends AbstractType
         }
         $builder
                 ->add('message_notification', ChoiceType::class, array(
+                    'choices_as_values' => true,
                     'choices' => array(
-                        'notification' => 'Notification',
-                        'email' => 'Email',
+                        /** @Ignore */ 'Notification' => 'notification',
+                        /** @Ignore */ 'Email' => 'email',
                     ),
                     'required' => false,
                     'multiple' => true,
@@ -65,6 +61,7 @@ class SubscriptionType extends AbstractType
                 ))
                 ->add('event_notification', EventSubscriptionType::class, array(
                     'label' => 'Order Events',
+                    'is_admin' => $options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPERADMIN'),
                 ))
         ;
     }
@@ -73,6 +70,7 @@ class SubscriptionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => null,
+            'user' => null,
         ));
     }
 }
