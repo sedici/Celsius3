@@ -274,7 +274,7 @@ abstract class BaseController extends Controller
         }
 
         if ($name === 'BaseUser') {
-            $this->mergeSecondaryInstances($main,$entities);
+            $this->mergeSecondaryInstances($main, $entities);
         }
 
         $this->get('celsius3_core.union_manager')->union($this->getBundle() . ':' . $name, $main, $entities, $updateInstance);
@@ -296,12 +296,12 @@ abstract class BaseController extends Controller
     protected function ajax(Request $request, Instance $instance = null, $librarian = null)
     {
         if (!$request->isXmlHttpRequest()) {
-            return $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         $target = $request->query->get('target');
         if (!$this->validateAjax($target)) {
-            return $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
 
         $term = $request->query->get('term');
@@ -321,7 +321,7 @@ abstract class BaseController extends Controller
         foreach ($result as $element) {
             $json[] = array(
                 'id' => $element->getId(),
-                'value' => ($target === 'BaseUser')? $element->__toString() . " (" . $element->getUsername() . ")" : $element->__toString()
+                'value' => ($target === 'BaseUser') ? $element->__toString() . " (" . $element->getUsername() . ")" : $element->__toString()
             );
         }
 

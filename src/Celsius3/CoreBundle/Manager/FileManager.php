@@ -87,16 +87,18 @@ class FileManager
     public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event)
     {
         foreach ($request->getFiles() as $original) {
-            $file = clone $original;
-            $file->setInstance($previousRequest->getInstance());
-            $file->setRequest($previousRequest);
-            $file->setEvent($event);
-            if (!copy($original->getUploadRootDir() . DIRECTORY_SEPARATOR . $original->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
-                throw new \Exception('Copy file error');
+            if ($original->getEnabled()) {
+                $file = clone $original;
+                $file->setInstance($previousRequest->getInstance());
+                $file->setRequest($previousRequest);
+                $file->setEvent($event);
+                if (!copy($original->getUploadRootDir() . DIRECTORY_SEPARATOR . $original->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
+                    throw new \Exception('Copy file error');
+                }
+                $this->em->persist($file);
+                $event->addFile($file);
+                $this->em->persist($event);
             }
-            $this->em->persist($file);
-            $event->addFile($file);
-            $this->em->persist($event);
         }
     }
 

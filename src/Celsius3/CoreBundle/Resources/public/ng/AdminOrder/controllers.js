@@ -15,6 +15,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope._ = _;
 
+    $scope.instance_id = instance_id;
+
     $scope.contains = function (list, item) {
         return _.contains(list, item);
     };
@@ -101,13 +103,13 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }));
     };
 
-    $scope.reclaimedRequests = function() {
+    $scope.reclaimedRequests = function () {
         return $scope.requests.filter(function (item) {
             return item.is_reclaimed;
         });
     };
 
-    $scope.reclaimedReceptions = function() {
+    $scope.reclaimedReceptions = function () {
         return $scope.receptions.filter(function (item) {
             return item.is_reclaimed;
         });
@@ -131,7 +133,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                 return f.id === file.id;
             }).length > 0;
         }).length > 0 || $scope.receptions.filter(function (item) {
-            return item.type === 'sireceive' && item.files.filter(function (f) {
+            return (item.type === 'sireceive' || item.type === 'mireceive') && item.files.filter(function (f) {
                 return f.id === file.id;
             }).length > 0;
         }).length > 0;
@@ -929,4 +931,5 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             return content;
         }
     };
+
 });
