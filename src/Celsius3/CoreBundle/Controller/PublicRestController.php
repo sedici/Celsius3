@@ -47,11 +47,11 @@ class PublicRestController extends BaseInstanceDependentRestController
 
 
         $newUsers = $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:BaseUser')
-            ->countNewUsersFor($instance, $initialYear, $finalYear);
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->countNewUsersFor($instance, $initialYear, $finalYear);
         $activeUsers = $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:Request')
-            ->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->countActiveUsersFor($instance, $type, $initialYear, $finalYear);
 
         $result = array();
         foreach ($newUsers as $count) {
@@ -162,17 +162,25 @@ class PublicRestController extends BaseInstanceDependentRestController
     public function getRequestsDestinyDistributionDataForAction(Request $request)
     {
         $instance = $request->query->get('instance');
-        $initialYear = $request->query->get('initialYear');
-        $finalYear = $request->query->get('finalYear');
+        $initialYear = intval($request->query->get('initialYear'));
+        $finalYear = intval($request->query->get('finalYear'));
         $type = $request->query->get('type');
 
-        $result = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:State')
-                ->findRequestsDestinyDistributionFor($instance, $type, $initialYear, $finalYear);
+        $eventRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\Event');
 
         $values = array();
-        foreach ($result as $count) {
-            $values[$count['countryName']][$count['stateType']][] = $count['requestsCount'];
+
+        $created = $eventRepository->findCreatedRequestDestinyDistributionFor($instance, $type, $initialYear, $finalYear);
+        foreach ($created as $count) {
+            $values[$count['countryName']]['created'][] = $count['requestsCount'];
+        }
+        $cancelled = $eventRepository->findCancelledRequestDestinyDistributionFor($instance, $type, $initialYear, $finalYear);
+        foreach ($cancelled as $count) {
+            $values[$count['countryName']]['cancelled'][] = $count['requestsCount'];
+        }
+        $delivered = $eventRepository->findDeliveredRequestDestinyDistributionFor($instance, $type, $initialYear, $finalYear);
+        foreach ($delivered as $count) {
+            $values[$count['countryName']]['delivered'][] = $count['requestsCount'];
         }
 
         uasort($values, function($a, $b) {
@@ -288,4 +296,5 @@ class PublicRestController extends BaseInstanceDependentRestController
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
+
 }
