@@ -11,7 +11,8 @@ var orderApp = angular.module('orderApp', [
     'mgcrea.ngStrap',
     'ngFileUpload',
     'angular-loading-bar',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ngclipboard'
 ]);
 
 orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',

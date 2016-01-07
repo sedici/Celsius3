@@ -4,8 +4,8 @@
     "reclaimTooltipTitle": "Reclamar",
     "approveTooltipTitle": "Aprobar",
     "reuploadTooltipTitle": "Subir más",
-    "pdfUserTooltipTitle" : "Este usuario descarga los pedidos en formato PDF",
-    "printedUserTooltipTitle" : "Este usuario retira los pedidos impresos en papel",
+    "pdfUserTooltipTitle": "Este usuario descarga los pedidos en formato PDF",
+    "printedUserTooltipTitle": "Este usuario retira los pedidos impresos en papel",
     "found": "Encontrado",
     "notFound": "No encontrado",
     "not_found": "No encontrado",
@@ -197,5 +197,6 @@
     "orderData": "Datos del pedido",
     "addInstitution": "Agregar institución",
     "previousSearches": "Búsquedas Anteriores",
-    "There are no orders": "No hay pedidos"
+    "There are no orders": "No hay pedidos",
+    "copy": "Copiar"
 }

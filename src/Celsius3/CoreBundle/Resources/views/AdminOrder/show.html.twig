@@ -193,7 +193,7 @@
                 <label for="files">{{'files' | translate}}</label>
                 <button ngf-select="" ngf-change="addFilesToReupload($files)" ngf-multiple="true" id="files" name="files">{{ 'addFiles' | translate }}</button>
                 <ul>
-                    <li ng-repeat="(key, file) in filesToReupload">{{ file.name }} <a href ng-click="removeFiles(filesToReupload, 'filesToReupload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
+                <li ng-repeat="(key, file) in filesToReupload">{{ file.name }} <a href ng-click="removeFiles(filesToReupload, 'filesToReupload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
                 </ul>
                 </div>
                 </form>
@@ -211,19 +211,19 @@
                 </ul>
                 </div>
                 <form class="form-horizontal" id="uploadForm" ng-if="request.current_state !== 'delivered'">
-                    <div class="form-group">
-                        <label for="files">{{'files' | translate}}</label>
-                        <div class="input-group">
-                            <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
-                            <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
-                        </div>
-                        <br />
-                        <div>
-                            <ul>
-                                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }} <a href ng-click="removeFiles(filesToUploadBasic, 'filesToUploadBasic', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="form-group">
+                <label for="files">{{'files' | translate}}</label>
+                <div class="input-group">
+                <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
+                <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
+                </div>
+                <br />
+                <div>
+                <ul>
+                <li ng-repeat="(key, file) in filesToUploadBasic">{{ file.name }} <a href ng-click="removeFiles(filesToUploadBasic, 'filesToUploadBasic', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
+                </ul>
+                </div>
+                </div>
                 </form>
                 <div class="alert alert-success" ng-if="request.current_state === 'delivered'">
                 {{'requestSatisfied' | translate}}
@@ -288,48 +288,48 @@
             <script type="text/ng-template" id="request_received.html">
                 <div class="panel2_ok col-md-1"></div>
                 <div class="panel3_ok col-md-3">
-                    <div class="relojito">
-                        <span ng-if="!hasApprove(getReceive(request))">
-                            <a ng-if="file.enabled" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
-                            </a>
-                        </span>
-                        <span ng-if="hasApprove(getReceive(request))">
-                            <a ng-if="file.enabled" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
-                            </a>
-                        </span>
-                        <a href ng-if="!hasApprove(getReceive(request)) && request.type === 'sirequest'" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                        </a>
-                        <a href ng-if="hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getApprove(getReceive(request)).files" data-target="#files-modal" role="button" data-toggle="modal">
-                            <span class="glyphicon glyphicon-list-alt"></span>
-                        </a>
-                        <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).is_reclaimed" class="glyphicon glyphicon-warning-sign"></span>
-                    </div>
-                    <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
+                <div class="relojito">
+                <span ng-if="!hasApprove(getReceive(request))">
+                <a ng-if="file.enabled" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                </a>
+                </span>
+                <span ng-if="hasApprove(getReceive(request))">
+                <a ng-if="file.enabled" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
+                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
+                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                </a>
+                </span>
+                <a href ng-if="!hasApprove(getReceive(request)) && request.type === 'sirequest'" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                </a>
+                <a href ng-if="hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getApprove(getReceive(request)).files" data-target="#files-modal" role="button" data-toggle="modal">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                </a>
+                <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).is_reclaimed" class="glyphicon glyphicon-warning-sign"></span>
+                </div>
+                <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
                 </div>
                 <div class="panel3_ok col-md-1 panel3_last_ok">
-                    <ul class="list-unstyled request-actions">
-                        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
-                            <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
-                        </li>
-                        <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
-                            <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.receive = getReceive(request).id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
-                        </li>
-                        <li ng-if="hasApprove(getReceive(request))">
-                            <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getApprove(getReceive(request)).id" data-target="#reupload-modal" role="button" data-toggle="modal">
-                                <span class="glyphicon glyphicon-upload"></span>
-                            </a>
-                        </li>
-                        <li ng-if="request.type === 'sirequest'">
-                            <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getReceive(request).id" data-target="#reupload-modal" role="button" data-toggle="modal">
-                                <span class="glyphicon glyphicon-upload"></span>
-                            </a>
-                        </li>
-                    </ul>
+                <ul class="list-unstyled request-actions">
+                <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+                <a href bs-tooltip="approveTooltip" ng-click="approve(getReceive(request))"><span class="glyphicon glyphicon-ok"></span></a>
+                </li>
+                <li ng-if="request.type === 'mirequest' && !hasApprove(getReceive(request))">
+                <a href bs-tooltip="reclaimTooltip" ng-click="forms.reclaim.receive = getReceive(request).id" data-target="#reclaim-modal" data-toggle="modal"><span class="glyphicon glyphicon-repeat"></span></a>
+                </li>
+                <li ng-if="hasApprove(getReceive(request))">
+                <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getApprove(getReceive(request)).id" data-target="#reupload-modal" role="button" data-toggle="modal">
+                <span class="glyphicon glyphicon-upload"></span>
+                </a>
+                </li>
+                <li ng-if="request.type === 'sirequest'">
+                <a href bs-tooltip="reuploadTooltip" ng-click="forms.reupload.receive = getReceive(request).id" data-target="#reupload-modal" role="button" data-toggle="modal">
+                <span class="glyphicon glyphicon-upload"></span>
+                </a>
+                </li>
+                </ul>
                 </div>
             </script>
 
@@ -473,9 +473,26 @@
             <!-- journal_data.html -->
             <script type="text/ng-template" id="journal_data.html">
                 <ul class="list-unstyled">
-                <li class="text_with_ellipsis" ng-if="order.material_data.type === 'journal'">
-                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> <a class="btn btn-default btn-xs action-button" ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">{{order.material_data.journal.name}}</a></span>
-                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}} <a class="btn btn-default btn-xs action-button" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}">{{ 'add'|translate }}</a></span>
+                <li class="text-with-ellipsis" ng-if="order.material_data.type === 'journal'">
+                <span ng-if="!_.isUndefined(order.material_data.journal)">
+                    <strong>{{'journal' | translate}}</strong>
+                    <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">
+                        {{order.material_data.journal.name}}
+                    </a>
+                    <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.journal.name}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                        <span class="glyphicon glyphicon-copy"></span>
+                    </button>
+                </span>
+                <span ng-if="_.isUndefined(order.material_data.journal)">
+                    <strong>{{'journal' | translate}}</strong>
+                    {{order.material_data.other}}
+                    <a class="btn btn-default btn-xs action-button float2" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'add' | translate }}">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </a>
+                    <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                        <span class="glyphicon glyphicon-copy"></span>
+                    </button>
+                </span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
                 <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | translate}}</strong> {{order.material_data.journal._i_s_s_n}}
@@ -489,11 +506,17 @@
                 <li>
                 <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
                 </li>
-                <li class="text_with_ellipsis">
+                <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                    <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </li>
-                <li class="text_with_ellipsis">
+                <li class="text-with-ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                    <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </li>
                 <li>
                 <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
@@ -507,11 +530,17 @@
             <!-- book_data.html -->
             <script type="text/ng-template" id="book_data.html">
                 <ul class="list-unstyled">
-                <li class="text_with_ellipsis">
+                <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                    <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </li>
-                <li class="text_with_ellipsis">
+                <li class="text-with-ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                    <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
                 <strong>{{'editor' | translate}}</strong> {{order.material_data.editor}}
@@ -543,11 +572,17 @@
                 <li>
                 <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
                 </li>
-                <li class="text_with_ellipsis">
+                <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                    <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </li>
-                <li class="text_with_ellipsis">
+                <li class="text-with-ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                    <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </li>
                 <li>
                 <strong>{{'year' | translate}}</strong> {{order.material_data.year}}

@@ -33,6 +33,7 @@
         "ng-file-upload-shim": "~6.0",
         "ng-file-upload": "~6.0",
         "bootstrap-switch": "~3.3",
-        "remarkable-bootstrap-notify": "master"
+        "remarkable-bootstrap-notify": "master",
+        "ngclipboard": "master"
     }
 }
