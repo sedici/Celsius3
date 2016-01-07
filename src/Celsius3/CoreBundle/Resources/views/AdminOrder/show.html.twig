@@ -473,9 +473,9 @@
             <!-- journal_data.html -->
             <script type="text/ng-template" id="journal_data.html">
                 <ul class="list-unstyled">
-                <li ng-if="order.material_data.type === 'journal'">
-                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">{{order.material_data.journal.name}}</a></span>
-                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}} <a class="btn btn-default btn-sm" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}">{{ 'add'|translate }}</a></span>
+                <li class="text_with_ellipsis" ng-if="order.material_data.type === 'journal'">
+                <span ng-if="!_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> <a class="btn btn-default btn-xs action-button" ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">{{order.material_data.journal.name}}</a></span>
+                <span ng-if="_.isUndefined(order.material_data.journal)"><strong>{{'journal' | translate}}</strong> {{order.material_data.other}} <a class="btn btn-default btn-xs action-button" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}">{{ 'add'|translate }}</a></span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
                 <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | translate}}</strong> {{order.material_data.journal._i_s_s_n}}
@@ -489,10 +489,10 @@
                 <li>
                 <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
                 </li>
-                <li>
+                <li class="text_with_ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 </li>
-                <li>
+                <li class="text_with_ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 </li>
                 <li>
@@ -507,10 +507,10 @@
             <!-- book_data.html -->
             <script type="text/ng-template" id="book_data.html">
                 <ul class="list-unstyled">
-                <li>
+                <li class="text_with_ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 </li>
-                <li>
+                <li class="text_with_ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
@@ -543,10 +543,10 @@
                 <li>
                 <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
                 </li>
-                <li>
+                <li class="text_with_ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 </li>
-                <li>
+                <li class="text_with_ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 </li>
                 <li>

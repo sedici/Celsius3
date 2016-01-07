@@ -1115,3 +1115,21 @@ div#request-modal .modal-body {
     filter: FlipH;
     -ms-filter: "FlipH";
 }
+
+.text_with_ellipsis {
+    width: 90%;
+    height: 2.1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.action-button {
+    display: none;
+}
+
+li:hover .action-button {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
