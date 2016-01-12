@@ -2,7 +2,7 @@
 
 /*
  * Celsius3 - Order management
- * Copyright (C) 2014 PrEBi <info@prebi.unlp.edu.ar>
+ * Copyright (C) 2014 PREBI-SEDICI <info@prebi.unlp.edu.ar> http://prebi.unlp.edu.ar http://sedici.unlp.edu.ar
  *
  * This file is part of Celsius3.
  *
