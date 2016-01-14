@@ -349,3 +349,36 @@ fos_oauth_server:
 knp_menu:
     twig:
         template: Celsius3CoreBundle:Default:knp_menu.html.twig
+
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            types:
+                request:
+                    mappings:
+                        type: { type: string }
+                        comments: { boost: 5 }
+                        owner:
+                            type: object
+                            properties:
+                                name: { boost: 5 }
+                                surname: ~
+                                username: { type: string }
+                                email: { type: string }
+                        order:
+                            type: object
+                            properties:
+                                code: { type: integer }
+                                materialData:
+                                    type: object
+                                    properties:
+                                        title: { boost: 3 }
+                                        authors: { type: string }
+                    persistence:
+                        driver: orm
+                        model: Celsius3\CoreBundle\Entity\Request
+                        provider: ~
+                        listener: ~
+                        finder: ~
