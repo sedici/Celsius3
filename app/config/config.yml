@@ -213,6 +213,10 @@ services:
     celsius3_core.mailer.logger_handler:
         class:     Monolog\Handler\StreamHandler
         arguments: [%kernel.logs_dir%/%kernel.environment%.mailer.log, 200]
+    
+    # Usado temporalmente para corregir error de migración a Symfony3
+    fos_user.doctrine_registry:
+        alias: doctrine
 
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
