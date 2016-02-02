@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
@@ -98,6 +99,25 @@ class Order
             $pages += $file->getPages();
         }
         return $pages;
+    }
+
+    public function getReceivedAt()
+    {
+        $states = $this->getOriginalRequest()->getStates();
+
+        $receivedState = null;
+        foreach ($states as $state) {
+            if ($state->getType() === StateManager::STATE__RECEIVED) {
+                $receivedState = $state;
+                break 1;
+            }
+        }
+
+        $receivedDate = null;
+        if (!is_null($receivedState)) {
+            $receivedDate = $receivedState->getCreatedAt();
+        }
+        return $receivedDate;
     }
 
     /**
