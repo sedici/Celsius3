@@ -32,6 +32,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityListener
 {
+
     private $entityManager;
     private $tokenManager;
     private $container;
@@ -65,7 +66,7 @@ class SecurityListener
             return;
         }
 
-        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos($uri, '/oauth/v2/token') || false !== strpos($uri, '/users/current_user'))) {
+        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos($uri, '/oauth/v2/token') || false !== strpos($uri, '/users/current_user') || false !== strpos($uri, '/received_at_update'))) {
             $access_token = $request->query->get('access_token');
 
             if (is_null($access_token)) {
@@ -102,4 +103,5 @@ class SecurityListener
         $response->setStatusCode($statusCode);
         $event->setResponse($response);
     }
+
 }

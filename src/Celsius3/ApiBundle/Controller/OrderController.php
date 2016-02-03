@@ -37,6 +37,20 @@ class OrderController extends BaseController
 
     /**
      * GET Route annotation.
+     * @Get("/received_at_update")
+     */
+    public function receivedAtUpdateAction(Request $request)
+    {
+        $code = $request->query->get('code');
+
+        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($code);
+
+        $view = $this->view($order->getReceivedAt(), 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
      * @Get("/{token}")
      */
     public function ordersAction($token)
