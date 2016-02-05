@@ -5,7 +5,7 @@
         <property name="name" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="abbreviation" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="responsible" type="string" expose="true" access-type="public_method"></property>
-        <property name="ISSN" type="string" expose="true" access-type="public_method"></property>
+        <property name="ISSN" type="string" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="ISSNE" type="string" expose="true" access-type="public_method"></property>
         <property name="frecuency" type="string" expose="true" access-type="public_method"></property>
     </class>
