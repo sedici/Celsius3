@@ -8,6 +8,5 @@
 
 {% block content %}
     <h2>{{ 'Journal View'|trans }}</h2>
-
-    {{ show('admin_journal', entity, 'Celsius3CoreBundle:AdminJournal', instance) }}
+    {{ show('admin_journal', entity, 'Celsius3CoreBundle:AdminJournal', instance, not is_editable_journal(entity,instance,app.user)) }}
 {% endblock %}

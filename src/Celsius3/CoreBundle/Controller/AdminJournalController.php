@@ -78,7 +78,7 @@ class AdminJournalController extends BaseInstanceDependentController
     public function indexAction()
     {
         return $this->baseIndex('Journal', $this->createForm(JournalFilterType::class, null, array(
-            'instance' => $this->getInstance(),
+                            'instance' => $this->getInstance(),
         )));
     }
 
@@ -114,7 +114,7 @@ class AdminJournalController extends BaseInstanceDependentController
     public function newAction()
     {
         return $this->baseNew('Journal', new Journal(), JournalType::class, array(
-            'instance' => $this->getInstance(),
+                    'instance' => $this->getInstance(),
         ));
     }
 
@@ -130,8 +130,8 @@ class AdminJournalController extends BaseInstanceDependentController
     public function createAction()
     {
         return $this->baseCreate('Journal', new Journal(), JournalType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_journal');
+                    'instance' => $this->getInstance(),
+                        ), 'admin_journal');
     }
 
     /**
@@ -148,7 +148,7 @@ class AdminJournalController extends BaseInstanceDependentController
     public function editAction($id)
     {
         return $this->baseEdit('Journal', $id, JournalType::class, array(
-            'instance' => $this->getInstance(),
+                    'instance' => $this->getInstance(),
         ));
     }
 
@@ -168,7 +168,27 @@ class AdminJournalController extends BaseInstanceDependentController
     public function updateAction($id)
     {
         return $this->baseUpdate('Journal', $id, JournalType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_journal');
+                    'instance' => $this->getInstance(),
+                        ), 'admin_journal');
     }
+
+    protected function findQuery($name, $id)
+    {
+        $um = $this->container->get('celsius3_core.user_manager');
+
+        $qb = $this->getDoctrine()->getManager()
+                ->getRepository($this->getBundle() . ':' . $name)
+                ->createQueryBuilder('e');
+
+        if ($um->getCurrentRole($this->getUser()) !== 'ROLE_SUPER_ADMIN') {
+            $qb = $qb->andWhere('e.instance = :instance_id')
+                    ->setParameter('instance_id', $this->getInstance()->getId());
+        }
+        
+        return $qb->andWhere('e.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getOneOrNullResult();
+    }
+
 }
