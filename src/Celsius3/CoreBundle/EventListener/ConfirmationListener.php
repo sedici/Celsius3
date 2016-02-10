@@ -34,6 +34,7 @@ use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 
 class ConfirmationListener implements EventSubscriberInterface
 {
+
     private $mailer;
     private $tokenGenerator;
     private $router;
@@ -76,9 +77,10 @@ class ConfirmationListener implements EventSubscriberInterface
 
             $url = $this->router->generate('fos_user_registration_check_email');
         } elseif ($confirmationType == 'admin') {
-            $url = $this->router->generate('fos_user_registration_wait_confirmation');
+            $url = $this->router->generate('registration_wait_confirmation');
         }
 
         $event->setResponse(new RedirectResponse($url));
     }
+
 }

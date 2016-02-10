@@ -30,6 +30,7 @@ use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\UserEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class RegistrationController extends BaseRegistrationController
 {
@@ -77,6 +78,9 @@ class RegistrationController extends BaseRegistrationController
         ));
     }
 
+    /**
+     * @Route("/public/registration/wait_confirmation", name="registration_wait_confirmation")
+     */
     public function waitConfirmationAction()
     {
         $email = $this->container->get('session')->get('fos_user_send_confirmation_email/email');
@@ -112,4 +116,5 @@ class RegistrationController extends BaseRegistrationController
     {
         return $this->container->get('celsius3_core.instance_helper')->getUrlInstance();
     }
+
 }
