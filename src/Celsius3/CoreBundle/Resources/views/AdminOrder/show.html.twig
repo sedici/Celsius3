@@ -569,9 +569,6 @@
             <!-- other_data.html -->
             <script type="text/ng-template" id="other_data.html">
                 <ul class="list-unstyled">
-                <li>
-                <strong>{{'type' | translate}}</strong> {{order.material_data.type}}
-                </li>
                 <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
@@ -592,7 +589,7 @@
                 </li>
                 <li>
                 <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
-                </li>t p
+                </li>
                 <li ng-if="order.material_data.type === 'congress'">
                 <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
                 </li>
