@@ -23,6 +23,8 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class InstanceType extends LegacyInstanceType
 {
@@ -34,5 +36,52 @@ class InstanceType extends LegacyInstanceType
                 ->add('url')
                 ->add('host')
         ;
+
+        if (array_key_exists('create', $options['data']) && $options['data']['create']) {
+            $builder->add('country', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Country',
+                'mapped' => false,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'country-select'
+                ),
+                'auto_initialize' => false,
+            ));
+
+            $builder->add('city', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:City',
+                'mapped' => false,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'city-select'
+                ),
+                'auto_initialize' => false,
+            ));
+
+            $builder->add('institution', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Institution',
+                'mapped' => false,
+                'label' => ucfirst('institution'),
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'institution-select'
+                ),
+                'auto_initialize' => false,
+            ));
+        }
     }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        parent::setDefaultOptions($resolver);
+        $resolver->setDefaults(
+                array(
+                    'allow_extra_fields' => true
+                )
+        );
+    }
+
 }

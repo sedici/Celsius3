@@ -36,6 +36,7 @@ use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
  */
 class SuperadminInstanceController extends InstanceController
 {
+
     protected function getSortDefaults()
     {
         return array(
@@ -67,7 +68,14 @@ class SuperadminInstanceController extends InstanceController
      */
     public function newAction()
     {
-        return $this->baseNew('Instance', new Instance(), InstanceType::class);
+        $entity = new Instance();
+        $options = array('data' => array('create' => true));
+        $form = $this->createForm(InstanceType::class, $entity, $options);
+
+        return array(
+            'entity' => $entity,
+            'form' => $form->createView()
+        );
     }
 
     /**
@@ -81,7 +89,21 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
-        return $this->baseCreate('Instance', new Instance(), InstanceType::class, array(), 'superadmin_instance');
+        $em = $this->getDoctrine()->getManager();
+        $request = $this->get('request_stack')->getCurrentRequest();
+
+        $institution = $em->getRepository('Celsius3CoreBundle:Institution')
+                ->find($request->request->get('instance')['institution']);
+
+        $instance = new Instance();
+        $response = $this->baseCreate('Instance', $instance, InstanceType::class, array('data' => array('create' => true)), 'superadmin_instance');
+
+        $institution->setCelsiusInstance($instance);
+
+        $em->persist($institution);
+        $em->flush($institution);
+
+        return $response;
     }
 
     /**
@@ -226,4 +248,5 @@ class SuperadminInstanceController extends InstanceController
 
         return $this->redirect($this->generateUrl('administration'));
     }
+
 }
