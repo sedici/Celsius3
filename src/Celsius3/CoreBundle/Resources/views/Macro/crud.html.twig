@@ -109,13 +109,13 @@
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             {{ form_start(form, { 'attr': { 'action': path(name ~ '_create'), 'class': 'form', 'role': 'form' }}) }}
-                {% if custom_rendering %}
-                    {{ form_errors(form) }}
-                    {% include folder~':_form.html.twig' %}
-                {% else %}
-                    {{ form_widget(form) }}
-                {% endif %}
-                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+            {% if custom_rendering %}
+                {{ form_errors(form) }}
+                {% include folder~':_form.html.twig' %}
+            {% else %}
+                {{ form_widget(form) }}
+            {% endif %}
+            <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
             {{ form_end(form) }}
         </div>
         <div class="col-md-3">
@@ -132,18 +132,18 @@
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             {{ form_start(form, { 'attr': { 'action': path(name ~ '_update', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form' }}) }}
-                {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+            {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
-                {% if custom_rendering %}
-                    {{ form_errors(form) }}
-                    {% include folder~':edit_form.html.twig' %}
-                {% else %}
-                    {{ form_widget(form) }}
-                {% endif %}
-                <button type="submit" class="btn btn-primary submit-button pull-left">
-                    <span class="glyphicon glyphicon-ok"></span>
-                    {{ 'Save'|trans }}
-                </button>
+            {% if custom_rendering %}
+                {{ form_errors(form) }}
+                {% include folder~':edit_form.html.twig' %}
+            {% else %}
+                {{ form_widget(form) }}
+            {% endif %}
+            <button type="submit" class="btn btn-primary submit-button pull-left">
+                <span class="glyphicon glyphicon-ok"></span>
+                {{ 'Save'|trans }}
+            </button>
             {{ form_end(form) }}
         </div>
         <div class="col-md-3">
@@ -202,8 +202,8 @@
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             {{ form_start(transform_form, { 'attr': { 'action': path(name~'_transform', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form' }}) }}
-                {{ form_widget(transform_form) }}
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ 'Transform'|trans }}</button>
+            {{ form_widget(transform_form) }}
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ 'Transform'|trans }}</button>
             {{ form_end(transform_form) }}
         </div>
         <div class="col-md-3">
@@ -225,7 +225,7 @@
                     <div>
                         <input type="radio" name="main" id="main{{ entity.id }}" value="{{ entity.id }}" />
                         <input type="hidden" name="element[]" id="element{{ entity.id }}" value="{{ entity.id }}" />
-                        <label for="main{{ entity.id }}">{{ entity.id }} - {{ entity }}</label>
+                        <label for="main{{ entity.id }}">{{ entity.id }} - {{ full_name(entity) }}</label>
                     </div>
                 {% endfor %}
                 <p>
@@ -243,9 +243,9 @@
 {# filter #}
 {% macro filter(name, filter_form) %}
     {{ form_start(filter_form, { 'attr': { 'action': path(name), 'class': 'form', 'role': 'form', 'method': 'GET', 'novalidate': 'novalidate' }}) }}
-        {{ form_widget(filter_form) }}
-        <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
-        <a href="{{ path(name) }}"><span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}</a>
+    {{ form_widget(filter_form) }}
+    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
+    <a href="{{ path(name) }}"><span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}</a>
     {{ form_end(filter_form) }}
 {% endmacro %}
 
@@ -284,10 +284,10 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
             {{ form_start(configure_form, { 'attr': { 'action': path(name ~ '_update_configuration', { 'code': app.request.get('code'), 'id': entity.id }), 'class': 'form', 'role': 'form' }}) }}
-                {{ form_widget(configure_form) }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
-                </div>
+            {{ form_widget(configure_form) }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+            </div>
             {{ form_end(configure_form) }}
         </div>
         <div class="col-md-3">
