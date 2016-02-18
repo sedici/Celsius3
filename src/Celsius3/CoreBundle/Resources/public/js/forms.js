@@ -39,8 +39,8 @@ function registerSearch() {
         url: Routing.generate('admin_catalog_search_mark'),
         dataType: 'json',
         data: 'order_id=' + document_id + '&instance_id=' +
-            instance_id + '&catalog_id=' + catalogId + '&result=' +
-            input.val()
+                instance_id + '&catalog_id=' + catalogId + '&result=' +
+                input.val()
     }).done(function (data) {
         input.parent().siblings('.catalog-result').text(data.date);
     });
@@ -254,4 +254,27 @@ $('.check-all').click(function () {
 
 $('.uncheck-all').click(function () {
     $('.batch-checkbox').prop('checked', '');
+});
+
+$(document).ready(function () {
+    $('#form_test_connection').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('admin_instance_rest_test_smtp'),
+            data: {
+                'smtp_host': $('#form_smtp_host').val(),
+                'smtp_port': $('#form_smtp_port').val(),
+                'smtp_username': $('#form_smtp_username').val(),
+                'smtp_password': $('#form_smtp_password').val()
+            },
+            success: function (data) {
+                $('.test-message').remove();
+                if (data.test) {
+                    $('#form_test_connection').parent().append('<span class="test-message"><span class="glyphicon glyphicon-ok"></span>' + data.message + '</span>');
+                } else {
+                    $('#form_test_connection').parent().append('<span class="test-message"><span class="glyphicon glyphicon-remove"></span>' + data.message + '</span>');
+                }
+            }
+        });
+    });
 });

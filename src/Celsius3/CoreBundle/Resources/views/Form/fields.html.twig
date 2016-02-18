@@ -24,7 +24,9 @@
         {%- endif -%}
     {%- endif -%}
     <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {% if icon is defined %}
         <span class="glyphicon glyphicon-{{ icon }}"></span>
+        {% endif %}
         {{ label|trans({}, translation_domain) }}
     </button>
 {%- endblock button_widget -%}

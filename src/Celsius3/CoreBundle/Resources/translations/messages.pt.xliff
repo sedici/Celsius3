@@ -2110,6 +2110,22 @@
                 <source>We are performing system maintenance</source>
                 <target>We are performing system maintenance</target>
             </trans-unit>
+            <trans-unit id="100">
+                <source>Test email</source>
+                <target>Test email</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>It is an test email</source>
+                <target>It is an test email</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>Test connection</source>
+                <target>Test connection</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>Sucefull connection</source>
+                <target>Sucefull connection</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

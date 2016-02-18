@@ -31,8 +31,8 @@ abstract class InstanceController extends BaseController
     protected function listQuery($name)
     {
         $qb = parent::listQuery($name)
-                        ->where('e.id != :id')
-                        ->setParameter('id', $this->getDirectory()->getId());
+                ->where('e.id != :id')
+                ->setParameter('id', $this->getDirectory()->getId());
         if ($name == 'LegacyInstance') {
             return $qb->andWhere('e INSTANCE OF Celsius3CoreBundle:LegacyInstance');
         } else {
@@ -48,8 +48,7 @@ abstract class InstanceController extends BaseController
      * @return array con la estructura esperada por el metodo add de FormBuilder
      *
      */
-
-    private function buildConfigurationArray($configuration,$configurationType)
+    private function buildConfigurationArray($configuration, $configurationType)
     {
         $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
         $config_array = array(
@@ -79,7 +78,15 @@ abstract class InstanceController extends BaseController
 
         foreach ($entity->getConfigurations() as $configuration) {
             $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
-            $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType) );
+            $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType));
+            if ($configuration->getKey() === 'smtp_password') {
+                $builder->add('test_connection', 'button', array(
+                    'attr' => array(
+                        'value' => 'test_connection',
+                        'class' => 'btn btn-default',
+                        'required' => false
+                )));
+            }
         }
 
         return $builder->getForm();

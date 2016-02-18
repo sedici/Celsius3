@@ -27,12 +27,55 @@ use Celsius3\CoreBundle\Entity\Instance;
 class MailerHelper
 {
 
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
     public function validateSmtpServerData(Instance $instance)
     {
         return (!empty($instance->get('smtp_host')->getValue()) &&
                 !empty($instance->get('smtp_port')->getValue()) &&
                 !empty($instance->get('smtp_username')->getValue()) &&
                 !empty($instance->get('smtp_password')->getValue()));
+    }
+
+    public function testConnection($host, $port, $user, $pass)
+    {
+        try {
+            $transport = \Swift_SmtpTransport::newInstance($host, $port)
+                    ->setUsername($user)
+                    ->setPassword($pass)
+            ;
+            $mailer = \Swift_Mailer::newInstance($transport);
+            $mailer->getTransport()->start();
+
+            $translator = $this->container->get('translator');
+
+            $message = \Swift_Message::newInstance()
+                    ->setSubject($translator->trans('Test email'))
+                    ->setFrom('sender@example.com')
+                    ->setTo('recipient@example.com')
+                    ->setBody($translator->trans('It is an test email'))
+            ;
+
+            $mailer->send($message);
+        } catch (\Swift_TransportException $e) {
+            return array(
+                'test' => false,
+                'message' => $e->getMessage()
+            );
+        } catch (\Exception $e) {
+            return array(
+                'test' => false,
+                'message' => $e->getMessage()
+            );
+        }
+
+        return array(
+            'test' => true,
+            'message' => $translator->trans('Sucefull connection')
+            );
     }
 
 }
