@@ -265,7 +265,8 @@ $(document).ready(function () {
                 'smtp_host': $('#form_smtp_host').val(),
                 'smtp_port': $('#form_smtp_port').val(),
                 'smtp_username': $('#form_smtp_username').val(),
-                'smtp_password': $('#form_smtp_password').val()
+                'smtp_password': $('#form_smtp_password').val(),
+                'email': $('#form_email_reply_address').val()
             },
             success: function (data) {
                 $('.test-message').remove();

@@ -40,7 +40,7 @@ class MailerHelper
                 !empty($instance->get('smtp_password')->getValue()));
     }
 
-    public function testConnection($host, $port, $user, $pass)
+    public function testConnection($host, $port, $user, $pass, $email)
     {
         try {
             $transport = \Swift_SmtpTransport::newInstance($host, $port)
@@ -54,8 +54,9 @@ class MailerHelper
 
             $message = \Swift_Message::newInstance()
                     ->setSubject($translator->trans('Test email'))
-                    ->setFrom('sender@example.com')
-                    ->setTo('recipient@example.com')
+                    ->setSender($email)
+                    ->setFrom($email)
+                    ->setTo($email)
                     ->setBody($translator->trans('It is an test email'))
             ;
 
@@ -75,7 +76,7 @@ class MailerHelper
         return array(
             'test' => true,
             'message' => $translator->trans('Sucefull connection')
-            );
+        );
     }
 
 }
