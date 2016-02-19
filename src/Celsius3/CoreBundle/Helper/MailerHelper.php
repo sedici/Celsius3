@@ -40,7 +40,7 @@ class MailerHelper
                 !empty($instance->get('smtp_password')->getValue()));
     }
 
-    public function testConnection($host, $port, $user, $pass)
+    public function testConnection($host, $port, $user, $pass, $email)
     {
         try {
             $transport = \Swift_SmtpTransport:: newInstance($host, $port)
