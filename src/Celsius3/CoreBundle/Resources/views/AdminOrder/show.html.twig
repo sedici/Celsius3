@@ -475,23 +475,23 @@
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis" ng-if="order.material_data.type === 'journal'">
                 <span ng-if="!_.isUndefined(order.material_data.journal)">
-                    <strong>{{'journal' | translate}}</strong>
-                    <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">
-                        {{order.material_data.journal.name}}
-                    </a>
-                    <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.journal.name}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                        <span class="glyphicon glyphicon-copy"></span>
-                    </button>
+                <strong>{{'journal' | translate}}</strong>
+                <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">
+                {{order.material_data.journal.name}}
+                </a>
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.journal.name}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </span>
                 <span ng-if="_.isUndefined(order.material_data.journal)">
-                    <strong>{{'journal' | translate}}</strong>
-                    {{order.material_data.other}}
-                    <a class="btn btn-default btn-xs action-button float2" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'add' | translate }}">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </a>
-                    <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                        <span class="glyphicon glyphicon-copy"></span>
-                    </button>
+                <strong>{{'journal' | translate}}</strong>
+                {{order.material_data.other}}
+                <a class="btn btn-default btn-xs action-button float2" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'add' | translate }}">
+                <span class="glyphicon glyphicon-plus"></span>
+                </a>
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <span class="glyphicon glyphicon-copy"></span>
+                </button>
                 </span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
@@ -509,13 +509,13 @@
                 <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                    <span class="glyphicon glyphicon-copy"></span>
+                <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li class="text-with-ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                    <span class="glyphicon glyphicon-copy"></span>
+                <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li>
@@ -533,13 +533,13 @@
                 <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                    <span class="glyphicon glyphicon-copy"></span>
+                <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li class="text-with-ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                    <span class="glyphicon glyphicon-copy"></span>
+                <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
@@ -572,13 +572,13 @@
                 <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                    <span class="glyphicon glyphicon-copy"></span>
+                <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li class="text-with-ellipsis">
                 <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
-                    <span class="glyphicon glyphicon-copy"></span>
+                <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li>
@@ -641,13 +641,13 @@
 
                 <div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && !currentState(request).search_pending">
                 <button type="button" class="btn btn-default btn-block" role="button" ng-click="pendingSearch()">
-                {{'pendingSearch' | translate}}
+                {{'continueSearch' | translate}}
                 </button>
                 </div>
 
                 <div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && currentState(request).search_pending">
                 <button type="button" class="btn btn-default btn-block" role="button" ng-click="noPendingSearch()">
-                {{'noPendingSearch' | translate}}
+                {{'noContinueSearch' | translate}}
                 </button>
                 </div>
 
