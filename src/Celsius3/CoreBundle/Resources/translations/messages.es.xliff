@@ -2166,6 +2166,10 @@
                 <source>Go to Sent</source>
                 <target>Ir a enviados</target>
             </trans-unit>
+            <trans-unit id="106">
+                <source>Requests</source>
+                <target>Solicitudes</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
