@@ -147,7 +147,7 @@
                 <p class="owner">{{ order.request.owner.surname | first_upper }}, {{ order.request.owner.name | first_upper }} ({{ order.request.owner.username | lowercase }})</p>
                 <p class="institution">{{ printInstitutions(order.request.owner.institution) }}</p>        
                 </div>
-
+        
                 <div class="order-actions">
                 <ul class="list-unstyled actions">
                 <li ng-if="searchPending(order.request)">

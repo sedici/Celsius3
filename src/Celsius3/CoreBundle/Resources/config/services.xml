@@ -125,7 +125,7 @@
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
         </service>
-
+        
         <service id="celsius3_core.mailer" class="%celsius3_core.mailer.class%">
             <argument type="service" id="service_container"></argument>
             <argument type="service" id="celsius3_core.mailer_helper"></argument>
