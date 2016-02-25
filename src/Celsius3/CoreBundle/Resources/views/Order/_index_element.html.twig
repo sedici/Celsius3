@@ -69,11 +69,42 @@
         {% block admin_data %}{% endblock %}
     </div>
 </div>
+<div class="owner_data">
+    <p class="owner">{{ request.owner.surname | upper }}, {{ request.owner.name | upper }} ({{ request.owner.username | lower }})</p>
+    <p class="institution">{{ print_institutions(request.owner.institution) }}</p>        
+</div>
 
-<div class="comments">{{ request.comments }}</div>
-
-{% block admin %}{% endblock %}
+<div class="order-actions">
+    <ul class="list-unstyled actions">
+        {% if (search_pending(request)) %}
+            <li>
+                <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | trans }}"/>
+            </li>
+        {% endif %}
+        <li>
+            <a class="btn btn-default" href="{{ path('admin_order_edit', { 'id' : request.order.id }) }}" title="{{ 'EditOrder' | trans }}"><span class="glyphicon glyphicon-pencil"></span></a>
+        </li>
+        <li>
+            <form method="POST" action="{{ path('admin_order_duplicate', {'id': request.order.id} ) }}" style="display: inline-block" >
+                <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span class="fa fa-files-o"></span></a>
+            </form>
+        </li>
+    </ul>
+</div>
 
 <div class="clearfix"></div>
-
+{% if (has_requests(request.events)) %}
+    <div class="requests">
+        <h5>{{ 'Requests' | trans }}</h5>
+        {% for event in request.events %}
+            {% if (event.getEventType() == 'sirequest' or event.getEventType() == 'mirequest') %}
+                {% if (event.provider.getProviderType() == 'institution') %}
+                    <p><span class="event_date">{{ event.createdAt | date('d M Y H:m') }}</span> | {{ print_institutions(event.provider) }}</p>
+                {% elseif (event.provider.getProviderType() == 'author' or event.provider.getProviderType() == 'web') %}
+                    <p><span class="event_date">{{ event.createdAt | date('d M Y H:m') }}</span> | {{ event.provider.getProviderName() }}</p>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
 </div>

@@ -131,8 +131,11 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="comments">{{order.request.comments}}</div>
+                    
+                    <div class="owner_data">
+                        <p class="owner">{{ order.request.owner.surname | uppercase }}, {{ order.request.owner.name | uppercase }} ({{ order.request.owner.username | lowercase }})</p>
+                        <p class="institution">{{ printInstitutions(order.request.owner.institution) }}</p>        
+                    </div>
 
                     <div class="order-actions">
                         <ul class="list-unstyled actions">
@@ -150,7 +153,15 @@
                         </ul>
                     </div>
 
-                    <div class="clearfix"></div>
+                <div class="clearfix"></div>
+                <div class="requests" ng-if="hasRequests(order.request.events)">
+                    <h5>{{ 'Requests' | translate }}</h5>
+                    <p ng-repeat="event in order.request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
+                        <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
+                        <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
+                        <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>
+                    </p>
+                </div>
                 </div>
                 <div ng-include="'pagination.html'" ng-if="total > pagination.resultsPerPage"></div>
             </div>

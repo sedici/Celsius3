@@ -93,12 +93,13 @@ class OrderRepository extends EntityRepository
     public function findForInstance(Instance $instance, BaseUser $user = null, $state = null, BaseUser $owner = null, $orderType = null)
     {
         $qb = $this->createQueryBuilder('o')
-                ->select('o, r, s, e, m, ow, op')
+                ->select('o, r, s, e, m, ow, op, i')
                 ->join('o.requests', 'r')
                 ->join('r.states', 's')
                 ->join('r.events', 'e')
                 ->leftJoin('r.owner', 'ow')
                 ->leftJoin('r.operator', 'op')
+                ->leftJoin('ow.institution', 'i')
                 ->join('o.materialData', 'm')
                 ->andWhere('s.isCurrent = true')
                 ->andWhere('r.instance = :instance')
@@ -193,8 +194,8 @@ class OrderRepository extends EntityRepository
                     ->setParameter('date', $startDate);
         } else if (!is_null($limit) && !is_null($offset)) {
             $qb->setMaxResults($limit)
-                ->setFirstResult($offset)
-                ->orderBy('r.createdAt', 'DESC');
+                    ->setFirstResult($offset)
+                    ->orderBy('r.createdAt', 'DESC');
         } else {
             $qb->setMaxResults(10)
                     ->orderBy('r.createdAt', 'DESC');

@@ -33,6 +33,7 @@ class InstitutionExtension extends \Twig_Extension
             new \Twig_SimpleFunction('full_name', array($this, 'fullName')),
             new \Twig_SimpleFunction('get_country', array($this, 'getCountry')),
             new \Twig_SimpleFunction('get_city', array($this, 'getCity')),
+            new \Twig_SimpleFunction('print_institutions', array($this, 'printInstitutions'))
         );
     }
 
@@ -55,4 +56,18 @@ class InstitutionExtension extends \Twig_Extension
     {
         return 'celsius3_core.institution_extension';
     }
+
+    public function printInstitutions(Institution $institution = null)
+    {
+        $txt = '';
+        if (!is_null($institution)) {
+            if (!is_null($institution->getParent())) {
+                $txt .= $this->printInstitutions($institution->getParent()) . ' - ' . $institution->getName();
+            } else {
+                $txt .= $institution->getName();
+            }
+        }
+        return $txt;
+    }
+
 }

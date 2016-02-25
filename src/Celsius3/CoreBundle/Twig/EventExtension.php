@@ -29,11 +29,13 @@ use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class EventExtension extends \Twig_Extension
 {
+
     public function getFunctions()
     {
         return array(
             new \Twig_SimpleFunction('get_request_state', array($this, 'getRequestState')),
             new \Twig_SimpleFunction('count_searches', array($this, 'countSearches')),
+            new \Twig_SimpleFunction('has_requests', array($this, 'hasRequests')),
         );
     }
 
@@ -45,12 +47,22 @@ class EventExtension extends \Twig_Extension
     public function countSearches(Request $request)
     {
         return $request->getEvents()->filter(function($e) {
-            return $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED;
-        })->count();
+                    return $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED;
+                })->count();
+    }
+
+    public function hasRequests($events)
+    {
+        $requests = array_filter($events->toArray(), function($e) {
+            return ($e->getEventType() === 'sirequest' || $e->getEventType() === 'mirequest');
+        });
+
+        return (COUNT($requests) > 0);
     }
 
     public function getName()
     {
         return 'celsius3_core.event_extension';
     }
+
 }

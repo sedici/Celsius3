@@ -2154,6 +2154,10 @@
                 <source>Sucefull connection</source>
                 <target>Conexion exitosa</target>
             </trans-unit>
+            <trans-unit id="104">
+                <source>Requests</source>
+                <target>Solicitudes</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
