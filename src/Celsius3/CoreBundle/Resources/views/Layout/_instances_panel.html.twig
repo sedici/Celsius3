@@ -16,7 +16,7 @@
                     {% endif %}
                     {% if app.session.get('instance_id') != id %}
                         <li>
-                            <a href="{{ path('user_change_context', {'id':id}) }}">{{ instance.url | upper }}</a>
+                            {#<a href="{{ path('user_change_context', {'id':id}) }}">{{ instance.url | upper }}</a>#}
                         </li>
                     {% endif %}
                 {% endfor %}
