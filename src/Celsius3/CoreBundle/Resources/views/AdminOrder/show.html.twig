@@ -183,6 +183,34 @@
                 <cci-widget ng-show="forms.request.provider === 'institution'">
 
                 </cci-widget>
+                <div class="form-group" ng-show="forms.request.provider === 'institution'">
+                    <button type="button" ng-click="addInstitutionModal('request-modal')" class="btn btn-default pull-right">{{ 'addInstitution' | translate }}</button>
+                </div>
+                </form>
+            </script>
+            
+            <!-- institution_form.html -->
+            <script type="text/ng-template" id="institution_form.html">
+                <form id="institutionForm" name="formNames.institution" ng-submit="submitInstitution()">
+                    <div class="form-group">
+                        <label for="name">{{ 'name' | translate }}</label>
+                        <input type="text" ng-model="forms.institution.name" name="institution[name]" id="institution_name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
+                        <input type="text" ng-model="forms.institution.abbreviation" name="institution[abbreviation]" id="institution_abbreviation" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="website">{{ 'website' | translate }}</label>
+                        <input type="text" ng-model="forms.institution.website" name="institution[wbsite]" id="institution_website" placeholder="http://" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="address">{{ 'address' | translate }}</label>
+                        <input type="text" ng-model="forms.institution.address" name="institution[address]" id="institution_address" class="form-control" />
+                    </div>
+                    <cci-widget id="institution-select">
+
+                    </cci-widget>
                 </form>
             </script>
 
@@ -669,21 +697,39 @@
                 </div>
 
                 <div id="request-modal" class="modal fade">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="request-modal-label">{{'request' | translate}}</h3>
-                </div>
-                <div class="modal-body" ng-include="'order_request_form.html'">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 id="request-modal-label">{{'request' | translate}}</h3>
+                            </div>
+                            <div class="modal-body" ng-include="'order_request_form.html'">
 
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                                <button class="btn btn-primary" ng-click="validateRequest()" value="#requestForm">{{'save' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateRequest()" value="#requestForm">{{'save' | translate}}</button>
-                </div>
-                </div>
-                </div>
+        
+                <div id="institution-modal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 id="institution-modal-label">{{'institution' | translate}}</h3>
+                            </div>
+                            <div class="modal-body" ng-include="'institution_form.html'">
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                                <button class="btn btn-primary" ng-click="validateInstitution()" value="#institutionForm">{{'save' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="email-modal" class="modal fade">

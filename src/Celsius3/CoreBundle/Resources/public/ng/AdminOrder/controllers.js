@@ -290,7 +290,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         cancel: {},
         reclaim: {},
         email: {},
-        reupload: {}
+        reupload: {},
+        institution: {}
     };
 
     // Form container for validation
@@ -301,8 +302,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         list: []
     };
 
-    $scope.removeFiles = function(col, name, file) {
-        $scope[name] = _.filter(col, function(f) {
+    $scope.removeFiles = function (col, name, file) {
+        $scope[name] = _.filter(col, function (f) {
             return f !== file;
         });
     };
@@ -623,6 +624,49 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
+    $scope.validateInstitution = function () {
+        if (!_.isEmpty(findInstitution($scope.select.tree))) {
+            $scope.ccierror = '';
+            $scope.submitInstitution();
+        } else {
+            $scope.ccierror = 'has-error';
+        }
+    };
+
+    $scope.submitInstitution = function () {
+        var parent_institution = findInstitution($scope.select.tree);
+
+        var data = {
+            name: $scope.forms.institution.name,
+            abbreviation: $scope.forms.institution.abbreviation,
+            website: $scope.forms.institution.website,
+            address: $scope.forms.institution.address,
+            country: $scope.select.country,
+            city: $scope.select.city,
+            institution: parent_institution,
+            instance: $scope.instance_id
+        };
+
+        $http.post(Routing.generate('admin_rest_institution_create'), data).success(function (response) {
+            if (response) {
+                if (!response.hasErrors) {
+                    $scope.refreshInstitution(response.institution);
+                    $('#institutionForm').get(0).reset();
+                    $scope.$broadcast('reset');
+                    $('.modal').modal('hide');
+                    $('#request-modal').modal('show');
+                } else {
+                    console.log(response.errors);
+                }
+            }
+        });
+    };
+
+    $scope.added = {};
+    $scope.refreshInstitution = function (institution) {
+        $scope.added.institution = institution;
+    };
+
     $scope.emailModal = function (email) {
         $scope.contacts = null;
         $scope.templates = MailTemplate.query();
@@ -932,4 +976,10 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }
     };
 
+    $scope.addInstitutionModal = function (actual_modal) {
+        if (!_.isUndefined(actual_modal)) {
+            $('#' + actual_modal).modal('hide');
+        }
+        $('#institution-modal').modal('show');
+    }
 });

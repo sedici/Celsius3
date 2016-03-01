@@ -25,7 +25,9 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Entity\Institution;
 
 /**
  * User controller.
@@ -72,8 +74,8 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $hive = $this->getInstance()->getHive();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
-                ->getQuery()->getResult();
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
+                        ->getQuery()->getResult();
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -99,4 +101,41 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
+
+    /**
+     * @Post("/create", name="admin_rest_institution_create", options={"expose"=true})
+     */
+    public function createInstitution(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $institution = new Institution();
+        $institution->setName($request->request->get('name'));
+        $institution->setAbbreviation($request->request->get('abbreviation'));
+        $institution->setWebsite($request->request->get('website'));
+        $institution->setAddress($request->request->get('address'));
+
+
+        $institution->setCountry($em->getRepository('Celsius3CoreBundle:Country')->find($request->request->get('country')));
+        if (!empty($request->request->get('city'))) {
+            $institution->setCity($em->getRepository('Celsius3CoreBundle:City')->find($request->request->get('city')));
+        }
+        $institution->setParent($em->getRepository('Celsius3CoreBundle:Institution')->find($request->request->get('institution')));
+        $institution->setInstance($em->getRepository('Celsius3CoreBundle:Instance')->find($request->request->get('instance')));
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($institution);
+
+        if (count($errors) > 0) {
+            $view = $this->view(array('hasErrors' => true, 'errors' => $errors), 200)->setFormat('json');
+            return $this->handleView($view);
+        }
+
+        $em->persist($institution);
+        $em->flush($institution);
+
+        $view = $this->view(array('hasErrors' => false, 'institution' => $institution), 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+
 }
