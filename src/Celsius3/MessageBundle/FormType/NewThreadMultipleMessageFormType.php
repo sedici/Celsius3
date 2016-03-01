@@ -30,7 +30,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Doctrine\ORM\EntityManager;
 use FOS\MessageBundle\FormType\NewThreadMultipleMessageFormType as BaseNewThreadMultipleMessageFormType;
 use Celsius3\CoreBundle\Manager\UserManager;
-use Celsius3\CoreBundle\Form\Type\UserSelectorType;
+use Celsius3\CoreBundle\Form\Type\UsersSelectorType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
@@ -52,7 +52,7 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
         $user = $this->token_storage->getToken()->getUser();
         if ($isAdmin) {
             $builder
-                    ->add('recipients', UserSelectorType::class, array(
+                    ->add('recipients', UserSSelectorType::class, array(
                         'attr' => array(
                             'class' => 'container autocomplete_multi',
                             'target' => 'BaseUser',

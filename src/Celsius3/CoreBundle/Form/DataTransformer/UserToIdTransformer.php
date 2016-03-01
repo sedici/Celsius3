@@ -46,7 +46,6 @@ class UserToIdTransformer implements DataTransformerInterface
         if (null === $user) {
             return "";
         }
-
         return $user->getId();
     }
 
