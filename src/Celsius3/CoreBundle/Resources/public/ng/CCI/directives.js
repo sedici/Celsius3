@@ -50,7 +50,7 @@ cciWidget.directive('cciWidget', function ($translate, Country, City, Institutio
             var count = 0;
             var top = institution;
             while (!_.isUndefined(top.parent)) {
-                top = institution.parent;
+                top = top.parent;
                 count++;
             }
             var node = new Node(count);
@@ -66,6 +66,7 @@ cciWidget.directive('cciWidget', function ($translate, Country, City, Institutio
                 scope.cityChanged();
             }
         };
+
         scope.countryChanged = function () {
             scope.cities = City.query({country_id: scope.select.country});
             scope.institutions = Institution.query({country_id: scope.select.country, filter: scope.select.filter}, function (institutions) {
@@ -97,6 +98,12 @@ cciWidget.directive('cciWidget', function ($translate, Country, City, Institutio
         });
         scope.$on('preset', function (event, institution) {
             scope.setInstitutionFromPreset(institution);
+        });
+
+        scope.$watch('added.institution', function (a, b) {
+            if (!_.isUndefined(a) && a.type === 'institution') {
+                scope.setInstitutionFromPreset(a);
+            }
         });
     }
 
