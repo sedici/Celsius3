@@ -127,6 +127,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         'class' => 'country-select'
                     ),
                     'auto_initialize' => false,
+                   
         )));
 
         $form->add($this->factory->createNamed('city', EntityType::class, $city, array(
