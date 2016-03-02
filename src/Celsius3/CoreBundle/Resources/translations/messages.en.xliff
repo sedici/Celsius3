@@ -2122,6 +2122,16 @@
                 <source>Sucefull connection</source>
                 <target>Sucefull connection</target>
             </trans-unit>
+            <trans-unit id="104">
+                <source>Go to Inbox</source>
+                <target>Go to Inbox</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Go to Sent</source>
+                <target>Go to Sent</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>
