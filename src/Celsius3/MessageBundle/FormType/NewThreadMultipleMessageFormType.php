@@ -52,7 +52,7 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
         $user = $this->token_storage->getToken()->getUser();
         if ($isAdmin) {
             $builder
-                    ->add('recipients', UserSSelectorType::class, array(
+                    ->add('recipients', UsersSelectorType::class, array(
                         'attr' => array(
                             'class' => 'container autocomplete_multi',
                             'target' => 'BaseUser',
