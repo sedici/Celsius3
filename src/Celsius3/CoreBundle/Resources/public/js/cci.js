@@ -93,9 +93,10 @@ $(document).on('change', '.filter-select', function () {
 });
 
 $("#baseuser_instance").select2();
-$(".country-select").select2();
-$(".city-select").select2();
-$(".institution-select").select2();
+$(".country-select").select2({
+    allowClear: true,});
+$(".city-select").select2({ allowClear: true,});
+$(".institution-select").select2({ allowClear: true,});
 
 /*
  * Cuando la institucion ya viene cargada en el form, es necesario recargar
