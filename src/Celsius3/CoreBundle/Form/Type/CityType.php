@@ -30,6 +30,10 @@ use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\EntityManager;
+
+
 class CityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -37,10 +41,25 @@ class CityType extends AbstractType
         $builder
                 ->add('name')
                 ->add('postalCode')
-                ->add('country', EntityType::class, array(
-                    'class' => Country::class,
-                ))
+                //->add('country', EntityType::class, array(
+                //    'class' => Country::class,
+        //        )
+                  //  )
         ;
+
+    $builder->add('country',EntityType::class,array(
+                    'class' => Country::class,
+                     'query_builder' => function (EntityRepository $er) {
+                        return $er
+                                        ->createQueryBuilder('c')
+                                        ->orderBy('c.name', 'asc');
+                    },
+                     'attr' => array(
+                        'class' => 'country-select'
+                    ),
+                ));
+       
+
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder->add('instance', EntityType::class, array(
