@@ -2130,6 +2130,14 @@
                 <source>Requests</source>
                 <target>Requests</target>
             </trans-unit>
+            <trans-unit id="105">
+                <source>Go to Inbox</source>
+                <target>Go to Inbox</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Go to Sent</source>
+                <target>Go to Sent</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

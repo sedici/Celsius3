@@ -2158,6 +2158,14 @@
                 <source>Requests</source>
                 <target>Solicitudes</target>
             </trans-unit>
+            <trans-unit id="105">
+                <source>Go to Inbox</source>
+                <target>Ir a Bandeja de Entrada</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Go to Sent</source>
+                <target>Ir a enviados</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
