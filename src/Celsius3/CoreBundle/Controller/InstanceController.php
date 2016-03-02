@@ -58,9 +58,9 @@ abstract class InstanceController extends BaseController
             'required' => false,
             'attr' => array(
                 'value' => $configuration->getValue(),
-                'class' => $configurationType === 'textarea' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
-                'required' => $configurationType === 'textarea' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO ? false : true,
-                'readonly' => $readonly,
+                'class' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
+                'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO ? false : true,
+                'readonly' => $readonly
             ),
         );
 
