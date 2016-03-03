@@ -291,7 +291,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         reclaim: {},
         email: {},
         reupload: {},
-        institution: {}
+        institution: {},
+        journal: {}
     };
 
     // Form container for validation
@@ -656,11 +657,65 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     $('.modal').modal('hide');
                     $('#request-modal').modal('show');
                 } else {
+                    $('#institutionForm div.form-group p.text-danger').remove();
+                    $('#institutionForm div.form-group').has('input').each(function () {
+                        $(this).removeClass('has-error');
+                    });
                     console.log(response.errors);
+                    $(response.errors).each(function () {
+                        console.log($(this).get(0));
+                        $('#institutionForm div.form-group')
+                                .has('input[name="institution[' + $(this).get(0).property_path + ']"]')
+                                .addClass('has-error')
+                                .append('<p class="text-danger">' + $(this).get(0).message + '</p>');
+                    });
                 }
             }
         });
     };
+
+    $scope.submitJournal = function () {
+        var data = {
+            name: $scope.forms.journal.name,
+            abbreviation: $scope.forms.journal.abbreviation,
+            responsible: $scope.forms.journal.reponsible,
+            issn: $scope.forms.journal.issn,
+            issne: $scope.forms.journal.issne,
+            frecuency: $scope.forms.journal.frecuency,
+            instance: $scope.instance_id,
+            material_type_id: $scope.order.material_data.id
+        };
+
+        $http.post(Routing.generate('admin_rest_journal_create'), data).success(function (response) {
+            if (response) {
+                if (!response.hasErrors) {
+                    $scope.refreshJournal(response.journal);
+                    $('#journalForm').get(0).reset();
+                    $scope.$broadcast('reset');
+                    $('.modal').modal('hide');
+                } else {
+                    $('#journalForm div.form-group p.text-danger').remove();
+                    $('#journalForm div.form-group').has('input').each(function () {
+                        $(this).removeClass('has-error');
+                    });
+
+                    $(response.errors).each(function () {
+                        console.log($(this).get(0));
+                        $('#journalForm div.form-group')
+                                .has('input[name="journal[' + $(this).get(0).property_path + ']"]')
+                                .addClass('has-error')
+                                .append('<p class="text-danger">' + $(this).get(0).message + '</p>');
+                    });
+                }
+            }
+        });
+    };
+
+    $scope.refreshJournal = function (journal) {
+        if ($scope.order.material_data.type === 'journal') {
+            $scope.order.material_data.journal = journal;
+        }
+    }
 
     $scope.added = {};
     $scope.refreshInstitution = function (institution) {
