@@ -129,7 +129,9 @@ class AdminEventRestController extends BaseInstanceDependentRestController
             throw $this->createNotFoundException('Unable to find Request.');
         }
 
-        $request->setOperator($this->getUser());
+        if (!$request->getOperator()){
+            $request->setOperator($this->getUser());
+        }
 
         $result = $this->get('celsius3_core.lifecycle_helper')->undoState($request);
 
@@ -151,8 +153,10 @@ class AdminEventRestController extends BaseInstanceDependentRestController
             throw $this->createNotFoundException('Unable to find Request.');
         }
 
-        $request->setOperator($this->getUser());
-
+        if (!$request->getOperator()){
+            $request->setOperator($this->getUser());
+        }
+        
         $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
