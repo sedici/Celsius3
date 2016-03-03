@@ -79,8 +79,8 @@ class FosMailer extends DefaultMailer
         }
 
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-
         $template = $this->parameters['resetting.template'];
+
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),
                 ), true);
@@ -88,7 +88,30 @@ class FosMailer extends DefaultMailer
                     'user' => $user,
                     'confirmationUrl' => $url,
                 )) . "\n" . $signature;
+        $rendered=html_entity_decode($rendered);
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
+
+  /**
+     * @param string $renderedTemplate
+     * @param string $fromEmail
+     * @param string $toEmail
+     */
+    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
+    {
+        // Render the email, use the first line as the subject, and the rest as the body
+        $renderedLines = explode("\n", trim($renderedTemplate));
+        $subject = $renderedLines[0];
+        $body = implode("\n", array_slice($renderedLines, 1));
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($fromEmail)
+            ->setTo($toEmail)
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
 
 }
