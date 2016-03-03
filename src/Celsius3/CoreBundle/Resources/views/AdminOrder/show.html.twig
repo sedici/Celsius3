@@ -628,7 +628,7 @@
                 </button>
                 <a class="btn btn-default btn-xs action-button float2" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'add' | translate }}">
                 <span class="glyphicon glyphicon-plus"></span>
-                </a>
+                </button>
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
@@ -868,6 +868,24 @@
                 </div>
                 </div>
                 </div>
+                </div>
+        
+                <div id="journal-modal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
+                            </div>
+                            <div class="modal-body" ng-include="'journal_form.html'">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="email-modal" class="modal fade">
