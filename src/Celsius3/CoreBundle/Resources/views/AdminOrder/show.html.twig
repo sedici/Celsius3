@@ -213,6 +213,36 @@
                     </cci-widget>
                 </form>
             </script>
+            
+            <!-- journal_form.html -->
+            <script type="text/ng-template" id="journal_form.html">
+                <form id="journalForm" name="formNames.journal" ng-submit="submitJournal()">
+                    <div class="form-group">
+                        <label for="name">{{ 'name' | translate }}</label>
+                        <input type="text" ng-model="forms.journal.name" name="journal[name]" id="journal_name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
+                        <input type="text" ng-model="forms.journal.abbreviation" name="journal[abbreviation]" id="journal_abbreviation" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="responsible">{{ 'responsible' | translate }}</label>
+                        <input type="text" ng-model="forms.journal.responsible" name="journal[responsible]" id="journal_responsible" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="issn">{{ 'issn' | translate }}</label>
+                        <input type="text" ng-model="forms.journal.issn" name="journal[issn]" id="journal_issn" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="issne">{{ 'issne' | translate }}</label>
+                        <input type="text" ng-model="forms.journal.issne" name="journal[issne]" id="journal_issne" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="frecuency">{{ 'frecuency' | translate }}</label>
+                        <input type="text" ng-model="forms.journal.frecuency" name="journal[frecuency]" id="journal_frecuency" class="form-control" />
+                    </div>
+                </form>
+            </script>
 
             <!-- order_reupload_form.html -->
             <script type="text/ng-template" id="order_reupload_form.html">
@@ -514,9 +544,9 @@
                 <span ng-if="_.isUndefined(order.material_data.journal)">
                 <strong>{{'journal' | translate}}</strong>
                 {{order.material_data.other}}
-                <a class="btn btn-default btn-xs action-button float2" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'add' | translate }}">
+                <button class="btn btn-default btn-xs action-button float2" type="button" role="button" data-toggle="modal" data-placement="bottom" data-target="#journal-modal" title="{{ 'add' | translate }}">
                 <span class="glyphicon glyphicon-plus"></span>
-                </a>
+                </button>
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
@@ -727,6 +757,24 @@
                             <div class="modal-footer">
                                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
                                 <button class="btn btn-primary" ng-click="validateInstitution()" value="#institutionForm">{{'save' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div id="journal-modal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
+                            </div>
+                            <div class="modal-body" ng-include="'journal_form.html'">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | translate}}</button>
                             </div>
                         </div>
                     </div>
