@@ -125,7 +125,7 @@ class Mailer
                     ->setSubject($email->getSubject())
                     ->setFrom($from)
                     ->setTo($email->getAddress())
-                    ->setBody($email->getText() . "\n" . $signature)
+                    ->setBody($email->getText() . "\n" . $signature, 'text/html')
                     ->addPart($email->getText() . "\n" . $signature, 'text/html')
             ;
 
