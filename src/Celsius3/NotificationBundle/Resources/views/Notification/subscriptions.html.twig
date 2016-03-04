@@ -12,14 +12,13 @@
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             <form action="{{ path('user_notification_subscriptions') }}" method="post" class="form" role="form">
-                {# {{ form_widget(form) }} #}
                 {{ form_row(form._token) }}
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th></th>
-                            <th>{{ 'notification' | trans }}</th>
-                            <th>{{ 'email' | trans }}</th>
+                            <th class="text-center">{{ 'notification' | trans }}</th>
+                            <th class="text-center">{{ 'email' | trans }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,18 +32,18 @@
                                 {% for option in field.getIterator() %}
                                     {% if (option.count() > 0) %}
                                     <tr>
-                                        <th>
+                                        <th class="text-left-padding">
                                             {{ form_label(option) }}
                                         </th>
 
                                         {% for opt in option.getIterator() %}
-                                            <th>
+                                            <th class="text-center">
                                                 {{ form_widget(opt) }}
                                             </th>
                                         {% endfor %}
                                     </tr>
                                 {% else %}
-                                <th>
+                                <th class="text-center">
                                     {{ form_widget(option) }}
                                 </th>
                             {% endif %}
