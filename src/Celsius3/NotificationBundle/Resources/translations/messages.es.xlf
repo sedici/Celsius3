@@ -98,6 +98,14 @@
                 <source>email</source>
                 <target>Correo electrónico</target>
             </trans-unit>
+            <trans-unit id="15">
+                <source>new_message</source>
+                <target>Mensaje Nuevo</target>
+            </trans-unit>
+             <trans-unit id="16">
+                <source>new_user</source>
+                <target>Usuario Nuevo</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
