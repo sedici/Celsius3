@@ -70,7 +70,7 @@
     </div>
 </div>
 <div class="owner_data">
-    <p class="owner">{{ request.owner.surname | upper }}, {{ request.owner.name | upper }} ({{ request.owner.username | lower }})</p>
+    <p class="owner">{{ request.owner.surname | first_upper }}, {{ request.owner.name | first_upper }} ({{ request.owner.username | lower }})</p>
     <p class="institution">{{ print_institutions(request.owner.institution) }}</p>        
 </div>
 

@@ -17,3 +17,20 @@ administrationFilters.filter('request_type_abbr', function () {
         return type === 'search' ? 's' : 'p';
     };
 });
+
+administrationFilters.filter('first_upper', function () {
+    return function (text) {
+        if ((typeof text) !== 'string') {
+            return text;
+        }
+
+        var words = text.split(" ");
+
+        var t = '';
+        for (var i = 0; i < words.length; i++) {
+            t += words[i].charAt(0).toUpperCase() + words[i].substr(1).toLowerCase() + ' ';
+        }
+
+        return t;
+    };
+});
