@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Manager\UserManager;
 
 class AdministrationExtension extends \Twig_Extension
 {
+
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -42,6 +43,13 @@ class AdministrationExtension extends \Twig_Extension
             new \Twig_SimpleFunction('count_users', array($this, 'countUsers')),
             new \Twig_SimpleFunction('has_higher_roles', array($this, 'hasHigherRoles')),
             new \Twig_SimpleFunction('role_name', array($this, 'roleName')),
+        );
+    }
+
+    public function getFilters()
+    {
+        return array(
+            new \Twig_SimpleFilter('first_upper', array($this, 'firstUpper')),
         );
     }
 
@@ -64,8 +72,25 @@ class AdministrationExtension extends \Twig_Extension
         return UserManager::$roles_names[$role];
     }
 
+    public function firstUpper($text)
+    {
+        if (!is_string($text)) {
+            return $text;
+        }
+
+        $arr = explode(" ", $text);
+
+        $t = '';
+        foreach ($arr as $a) {
+            $t .= ucfirst(strtolower($a)) . ' ';
+        }
+
+        return $t;
+    }
+
     public function getName()
     {
         return 'celsius3_core.administration_extension';
     }
+
 }

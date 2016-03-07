@@ -2,9 +2,9 @@
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\Institution" exclusion-policy="all">
         <property name="id" type="string" expose="true" read-only="true" groups="administration,administration_order_show"></property>
-        <property name="name" type="string" expose="true" access-type="public_method" groups="administration,administration_order_show"></property>
-        <property name="abbreviation" type="string" expose="true" access-type="public_method" groups="administration,administration_order_show"></property>
-        <property name="parent" type="Celsius3\CoreBundle\Entity\Institution" expose="true" access-type="public_method" groups="administration_order_show"></property>
+        <property name="name" type="string" expose="true" access-type="public_method" groups="administration_list,administration,administration_order_show"></property>
+        <property name="abbreviation" type="string" expose="true" access-type="public_method" groups="administration_list,administration,administration_order_show"></property>
+        <property name="parent" type="Celsius3\CoreBundle\Entity\Institution" expose="true" access-type="public_method" groups="administration_list,administration,administration_order_show"></property>
         <property name="city" type="Celsius3\CoreBundle\Entity\City" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="country" type="Celsius3\CoreBundle\Entity\Country" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="celsiusInstance" type="Celsius3\CoreBundle\Entity\Instance" expose="true" access-type="public_method" groups="administration_order_show"></property>

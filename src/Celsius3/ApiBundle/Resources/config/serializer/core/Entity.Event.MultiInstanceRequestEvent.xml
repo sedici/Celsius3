@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent" exclusion-policy="all">
-        <property name="provider" expose="true" access-type="public_method" groups="administration_order_show"></property>
+        <property name="provider" expose="true" access-type="public_method" groups="administration_list, administration_order_show"></property>
         <property name="isCancelled" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="isAnnulled" expose="true" access-type="public_method" groups="administration_order_show"></property>
     </class>

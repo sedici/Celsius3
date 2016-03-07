@@ -156,4 +156,24 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
                     $(location).attr("href", url);
                 });
     };
+
+    $scope.printInstitutions = function (ins) {
+        var txt = '';
+        if (!_.isUndefined(ins)) {
+            if (!_.isUndefined(ins.parent)) {
+                txt += $scope.printInstitutions(ins.parent) + ' - ' + ins.name;
+            } else {
+                txt += ins.name;
+            }
+        }
+        return txt;
+    };
+
+    $scope.hasRequests = function (events) {
+        var requests = events.filter(function (e) {
+            return (e.type === 'sirequest' || e.type === 'mirequest');
+        });
+
+        return (requests.length > 0);
+    };
 });

@@ -22,7 +22,7 @@
             <script type="text/ng-template" id="catalog_list.html">
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
-                <button class="btn btn-sm btn-default pull-right" data-toggle="popover" data-placement="left" data-content="{{ getHtmlMaterialData() }}" data-html=true>
+                <button class="btn btn-sm btn-default pull-right" data-toggle="popover" data-placement="left" data-content="{{ getHtmlMaterialData() }}" data-html=true data-container="body">
                 {{ 'orderData' | translate }}
                 </button>
                 <hr>
