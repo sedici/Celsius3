@@ -483,16 +483,17 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3 id="email-modal-label">{{'change_operator' | translate}}</h3>
                             </div>
-                                <div ng-repeat ="a in admins">
-                                <table class='table table-bordered'>
-                            
-                                    <tr>
-                                        <td width="30%" >{{a.surname}}</td>
-                                        <td width="30%">{{a.name}}</td>
-                                        <td width="40%"><button class="btn btn-primary" ng-click="selectAdmin(order_id,a.id)" value="#changeOperator">{{'change_operator' | translate}}</button>
-                                        </td>
+                                <div >
+                                <table class='table table-bordered' width='70%'>
+                                <tr ng-repeat ="a in admins">
+                                    <td width="30%" >{{a.surname}} - {{a.name}}</td>
+                                    <td width="40%">
+                                       <button class="btn btn-primary" ng-click="selectAdmin(order_id,a.id)" >
+                                       {{'Asignar' | translate}}</button>
+  
+                                       
                                     </td>
-                                    </tr>
+                                 </tr>
                                 </table>
                                 </div>   
                 <div class="modal-footer">
