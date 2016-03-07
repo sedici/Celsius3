@@ -214,4 +214,52 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
+     /**
+     * @Get("/operator/{id}", name="admin_rest_order_operator", options={"expose"=true})
+     */
+    public function getOperatorAction($id)
+    {
+        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
+        $instance = $this->getInstance();
+        $admins = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($instance);
+        $interaction['result'] = true;
+        $interaction['order'] = $id;
+        foreach ($admins as $key => $value) {
+               if ($value->getId()!=$this->getUser()->getId()){
+                     $interaction['admins'][$key]=$value;
+               }
+        }        
+        $view = $this->view($interaction, 200)->setFormat('json');
+        return $this->handleView($view);
+    }
+
+     /**
+     * @Get("/change-operator/{order_id}/{id}", name="admin_rest_order_change_operator", options={"expose"=true})
+     */
+    public function changeOperatorAction($order_id,$id)
+    {
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+        
+        $instance = $this->getInstance();
+        
+
+        $operator = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
+        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
+        if (!$order) {
+            return $this->createNotFoundException('No se encuentra la order');
+        }
+    
+
+        $request = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->findOneBy(array('order' => $order, 'instance' => $instance));
+
+        $request->setOperator($operator);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($request);
+        $em->flush();
+
+        $view = $this->view($request, 200)->setFormat('json');
+        $view->setSerializationContext($context);
+        return $this->handleView($view);
+    }
+
 }

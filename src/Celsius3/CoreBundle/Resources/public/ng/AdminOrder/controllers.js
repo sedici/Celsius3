@@ -729,6 +729,37 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $('#email-modal').modal('show');
     };
 
+
+    $scope.changeOperatorModal = function (order_id) {
+         var data = {
+                order_id: order_id
+            };
+        $http.get(Routing.generate('admin_rest_order_operator')+ '/' + order_id , data).success(function (response) {
+            if (response) {
+                $scope.refreshRequest(true);
+                $scope.admins=response.admins;
+                $scope.order_id=response.order;
+           }
+        });
+
+        $('#operator-modal').modal('show');
+    };
+
+     $scope.selectAdmin = function (order_id,id) {
+         var data = {
+                operator_id: id,
+                order_id: order_id
+            };
+        $http.get(Routing.generate('admin_rest_order_change_operator')+ '/' + order_id+'/'+id , data).success(function (response) {
+            if (response) {
+                $scope.refreshRequest(true);
+                $scope.request=response.request;
+            }
+        });
+        $('#operator-modal').modal('hide');
+    };
+
+
     $scope.formatUploadData = function (form) {
         return _.pairs(form).map(function (item) {
             return _.object([item]);

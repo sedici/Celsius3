@@ -86,7 +86,7 @@ class LifecycleHelper
     {
         /* @var $event Event */
         $event = new $data['eventClassName'];
-        $event->setOperator($request->getOperator());
+        $event->setOperator($this->security_token_storage->getToken()->getUser());
         $event->setInstance($data['instance']);
         $event->setRequest($request);
         $event->setState($this->getState($request, $data));

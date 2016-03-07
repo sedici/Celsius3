@@ -454,6 +454,11 @@
                 </a>
                 </li>
                 <li>
+                <a href ng-click="changeOperatorModal(order.id)">
+                <span class="glyphicon glyphicon-wrench"></span> {{ 'change_operator' | translate}}
+                </a>
+                </li>
+                <li>
                 <a href ng-click="emailModal(request.owner.email)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | translate}}</a>
                 </li>
                 <li ng-if="contains(['received'], request.current_state)">
@@ -469,6 +474,34 @@
                 <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'backToPreviousState' | translate}}</a>
                 </li>
                 </ul>
+
+     
+                <div id="operator-modal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 id="email-modal-label">{{'change_operator' | translate}}</h3>
+                            </div>
+                                <div ng-repeat ="a in admins">
+                                <table class='table table-bordered'>
+                            
+                                    <tr>
+                                        <td width="30%" >{{a.surname}}</td>
+                                        <td width="30%">{{a.name}}</td>
+                                        <td width="40%"><button class="btn btn-primary" ng-click="selectAdmin(order_id,a.id)" value="#changeOperator">{{'change_operator' | translate}}</button>
+                                        </td>
+                                    </td>
+                                    </tr>
+                                </table>
+                                </div>   
+                <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+               
+                </div>
+                </div>
+                </div>
+                </div>
 
                 <div id="cancel-order-modal" class="modal fade">
                 <div class="modal-dialog">
@@ -487,6 +520,12 @@
                 </div>
                 </div>
                 </div>
+
+
+
+
+
+
             </script>
 
             <!-- show_interaction.html -->
@@ -797,6 +836,8 @@
                 </div>
                 </div>
                 </div>
+
+               
             </script>
 
             <!-- show_order_catalog_results.html -->
