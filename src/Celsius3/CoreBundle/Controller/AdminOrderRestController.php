@@ -237,8 +237,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 $interaction['result'] = true;
                 $interaction['order'] = $id;
                 foreach ($admins as $key => $value) {
-                        $interaction['admins'][$key] = $value;
-                    
+                    $interaction['admins'][$key] = $value;
                 }
                 $view = $this->view($interaction, 200)->setFormat('json');
                 return $this->handleView($view);
