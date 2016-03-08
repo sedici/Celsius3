@@ -2138,7 +2138,11 @@
                 <source>Go to Sent</source>
                 <target>Go to Sent</target>
             </trans-unit>
-            <trans-unit id="107">
+             <trans-unit id="107">
+                <source>The</source>
+                <target>the</target>
+            </trans-unit>
+            <trans-unit id="108">
                 <source>cancelledByUser</source>
                 <target>Cancelled by user</target>
             </trans-unit>
