@@ -86,10 +86,14 @@
             <!-- order_cancel_form.html -->
             <script type="text/ng-template" id="order_cancel_form.html">
                 <form class="form-horizontal" id="cancelForm" name="formNames.cancel" novalidate ng-submit="cancelRequest()">
-                <div class="form-group" ng-class="cancelerror">
-                <label for="observations">{{'observations' | translate}}</label>
-                <textarea class="form-control" ng-model="forms.cancel.observations" name="observations" id="observations" required></textarea>
-                </div>
+                    <div class="form-group" ng-class="cancelerror">
+                        <label for="observations">{{'observations' | translate}}</label>
+                        <textarea class="form-control" ng-model="forms.cancel.observations" name="observations" id="observations" required></textarea>
+                        <label for="cancelledByUser">
+                            <input type="checkbox" ng-model="forms.cancel.cancelled_by_user" name="cancelled_by_user">
+                            {{ 'cancelledByUser' | translate }}
+                        </label>
+                    </div>
                 </form>
             </script>
 
@@ -184,63 +188,63 @@
 
                 </cci-widget>
                 <div class="form-group" ng-show="forms.request.provider === 'institution'">
-                    <button type="button" ng-click="addInstitutionModal('request-modal')" class="btn btn-default pull-right">{{ 'addInstitution' | translate }}</button>
+                <button type="button" ng-click="addInstitutionModal('request-modal')" class="btn btn-default pull-right">{{ 'addInstitution' | translate }}</button>
                 </div>
                 </form>
             </script>
-            
+
             <!-- institution_form.html -->
             <script type="text/ng-template" id="institution_form.html">
                 <form id="institutionForm" name="formNames.institution" ng-submit="submitInstitution()">
-                    <div class="form-group">
-                        <label for="name">{{ 'name' | translate }}</label>
-                        <input type="text" ng-model="forms.institution.name" name="institution[name]" id="institution_name" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
-                        <input type="text" ng-model="forms.institution.abbreviation" name="institution[abbreviation]" id="institution_abbreviation" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="website">{{ 'website' | translate }}</label>
-                        <input type="text" ng-model="forms.institution.website" name="institution[wbsite]" id="institution_website" placeholder="http://" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="address">{{ 'address' | translate }}</label>
-                        <input type="text" ng-model="forms.institution.address" name="institution[address]" id="institution_address" class="form-control" />
-                    </div>
-                    <cci-widget id="institution-select">
+                <div class="form-group">
+                <label for="name">{{ 'name' | translate }}</label>
+                <input type="text" ng-model="forms.institution.name" name="institution[name]" id="institution_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
+                <input type="text" ng-model="forms.institution.abbreviation" name="institution[abbreviation]" id="institution_abbreviation" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="website">{{ 'website' | translate }}</label>
+                <input type="text" ng-model="forms.institution.website" name="institution[wbsite]" id="institution_website" placeholder="http://" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="address">{{ 'address' | translate }}</label>
+                <input type="text" ng-model="forms.institution.address" name="institution[address]" id="institution_address" class="form-control" />
+                </div>
+                <cci-widget id="institution-select">
 
-                    </cci-widget>
+                </cci-widget>
                 </form>
             </script>
-            
+
             <!-- journal_form.html -->
             <script type="text/ng-template" id="journal_form.html">
                 <form id="journalForm" name="formNames.journal" ng-submit="submitJournal()">
-                    <div class="form-group">
-                        <label for="name">{{ 'name' | translate }}</label>
-                        <input type="text" ng-model="forms.journal.name" name="journal[name]" id="journal_name" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
-                        <input type="text" ng-model="forms.journal.abbreviation" name="journal[abbreviation]" id="journal_abbreviation" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="responsible">{{ 'responsible' | translate }}</label>
-                        <input type="text" ng-model="forms.journal.responsible" name="journal[responsible]" id="journal_responsible" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="issn">{{ 'issn' | translate }}</label>
-                        <input type="text" ng-model="forms.journal.issn" name="journal[issn]" id="journal_issn" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="issne">{{ 'issne' | translate }}</label>
-                        <input type="text" ng-model="forms.journal.issne" name="journal[issne]" id="journal_issne" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label for="frecuency">{{ 'frecuency' | translate }}</label>
-                        <input type="text" ng-model="forms.journal.frecuency" name="journal[frecuency]" id="journal_frecuency" class="form-control" />
-                    </div>
+                <div class="form-group">
+                <label for="name">{{ 'name' | translate }}</label>
+                <input type="text" ng-model="forms.journal.name" name="journal[name]" id="journal_name" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
+                <input type="text" ng-model="forms.journal.abbreviation" name="journal[abbreviation]" id="journal_abbreviation" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="responsible">{{ 'responsible' | translate }}</label>
+                <input type="text" ng-model="forms.journal.responsible" name="journal[responsible]" id="journal_responsible" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="issn">{{ 'issn' | translate }}</label>
+                <input type="text" ng-model="forms.journal.issn" name="journal[issn]" id="journal_issn" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="issne">{{ 'issne' | translate }}</label>
+                <input type="text" ng-model="forms.journal.issne" name="journal[issne]" id="journal_issne" class="form-control" />
+                </div>
+                <div class="form-group">
+                <label for="frecuency">{{ 'frecuency' | translate }}</label>
+                <input type="text" ng-model="forms.journal.frecuency" name="journal[frecuency]" id="journal_frecuency" class="form-control" />
+                </div>
                 </form>
             </script>
 
@@ -767,57 +771,57 @@
                 </div>
 
                 <div id="request-modal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3 id="request-modal-label">{{'request' | translate}}</h3>
-                            </div>
-                            <div class="modal-body" ng-include="'order_request_form.html'">
-
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                                <button class="btn btn-primary" ng-click="validateRequest()" value="#requestForm">{{'save' | translate}}</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="request-modal-label">{{'request' | translate}}</h3>
                 </div>
-        
+                <div class="modal-body" ng-include="'order_request_form.html'">
+
+                </div>
+                <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                <button class="btn btn-primary" ng-click="validateRequest()" value="#requestForm">{{'save' | translate}}</button>
+                </div>
+                </div>
+                </div>
+                </div>
+
                 <div id="institution-modal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3 id="institution-modal-label">{{'institution' | translate}}</h3>
-                            </div>
-                            <div class="modal-body" ng-include="'institution_form.html'">
-                                
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                                <button class="btn btn-primary" ng-click="validateInstitution()" value="#institutionForm">{{'save' | translate}}</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="institution-modal-label">{{'institution' | translate}}</h3>
                 </div>
-        
-                <div id="journal-modal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
-                            </div>
-                            <div class="modal-body" ng-include="'journal_form.html'">
+                <div class="modal-body" ng-include="'institution_form.html'">
 
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | translate}}</button>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                <button class="btn btn-primary" ng-click="validateInstitution()" value="#institutionForm">{{'save' | translate}}</button>
+                </div>
+                </div>
+                </div>
+                </div>
+
+                <div id="journal-modal" class="modal fade">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
+                </div>
+                <div class="modal-body" ng-include="'journal_form.html'">
+
+                </div>
+                <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | translate}}</button>
+                </div>
+                </div>
+                </div>
                 </div>
 
                 <div id="email-modal" class="modal fade">
@@ -1001,9 +1005,10 @@
                 <h2>{{key}}</h2>
                 <div ng-repeat="event in value" ng-if="event.type !== 'creation'">
                 <span>{{event.created_at|date:'shortDate'}}</span>
-                <div class="iconhistorial-{{event.type|get_history_icon}}"></div>
+                <div class="iconhistorial-{{event.type|get_history_icon}}" data-toggle="tooltip" title="{{ event.type | get_state | translate | first_upper }}"></div>
                 <span>
-                {{'by' | translate}} {{event.operator.name}}
+                    {{'by' | translate}} {{event.operator.name}}
+                    <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | translate }}</span>
                 </span>
                 </div>
                 </div>

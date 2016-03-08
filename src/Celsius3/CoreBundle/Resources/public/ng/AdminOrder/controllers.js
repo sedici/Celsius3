@@ -811,14 +811,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.cancel = function () {
         var data = {
-            observations: $scope.forms.cancel.observations
+            observations: $scope.forms.cancel.observations,
+            cancelled_by_user: $scope.forms.cancel.cancelled_by_user
         };
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function (response) {
             $scope.refreshRequest(true);
             $('#cancelForm').get(0).reset();
             $('.modal').modal('hide');
-            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancel', request_id: $scope.request.id})).success(function (response) {
+            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancelled_by_user', request_id: $scope.request.id})).success(function (response) {
                 if (response) {
                     $scope.contacts = null;
                     $scope.templates = response;

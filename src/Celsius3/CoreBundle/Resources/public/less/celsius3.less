@@ -480,7 +480,7 @@ body {
     .main_info {
         height: 99px;
         clear: both;
-        border-bottom: 1px dashed #bfbfbf;
+        /*border-bottom: 1px dashed #bfbfbf;*/
         .title_and_author {
             width: 85%;
             float: left;
@@ -656,7 +656,16 @@ body {
 .iconhistorial-undo {
     .iconhistorial;
     background-image: url(/bundles/celsius3core/images/icono_historial_undo.png);
-    /*background-position: 0px -145px;*/
+}
+
+.iconhistorial-cancel {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/icono_historial_cancel.png);
+}
+
+.iconhistorial-annul {
+    .iconhistorial;
+    background-image: url(/bundles/celsius3core/images/icono_historial_annul.png);
 }
 
 .historial_encargado {
@@ -1138,6 +1147,8 @@ li:hover .float2 {
 .owner_data {
     width: 80%;
     float:left;
+    border-top: 1px dashed #bfbfbf;
+    border-right: 1px dashed #bfbfbf;
     .owner {
         font-size: 10px;
         padding-left: 8px;
@@ -1163,4 +1174,8 @@ li:hover .float2 {
 
 .text-left-padding {
     padding-left: 10% !important;
+}
+
+.comments {
+    padding: 5px 0px 1px 8px;
 }

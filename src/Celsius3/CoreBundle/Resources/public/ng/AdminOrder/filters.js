@@ -39,8 +39,44 @@ orderFilters.filter('get_history_icon', function () {
             sireceive: 'papel1',
             mireceive: 'papel2',
             deliver: 'ok',
-            undo: 'undo'
+            undo: 'undo',
+            cancel: 'cancel',
+            annul: 'annul'
         };
         return icons[input];
+    };
+});
+
+orderFilters.filter('get_state', function () {
+    return function (input) {
+        var states = {
+            search: 'searched',
+            sirequest: 'requested',
+            mirequest: 'requested',
+            sireceive: 'received',
+            mireceive: 'received',
+            deliver: 'delivered',
+            undo: 'undone',
+            cancel: 'cancelled',
+            annul: 'annulled'
+        };
+        return states[input];
+    };
+});
+
+orderFilters.filter('first_upper', function () {
+    return function (text) {
+        if ((typeof text) !== 'string') {
+            return text;
+        }
+
+        var words = text.split(" ");
+
+        var t = '';
+        for (var i = 0; i < words.length; i++) {
+            t += words[i].charAt(0).toUpperCase() + words[i].substr(1).toLowerCase() + ' ';
+        }
+
+        return t;
     };
 });

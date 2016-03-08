@@ -2170,6 +2170,11 @@
                 <source>The</source>
                 <target>El</target>
             </trans-unit>
+            <trans-unit id="108">
+                <source>cancelledByUser</source>
+                <target>Cancelled by user</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>

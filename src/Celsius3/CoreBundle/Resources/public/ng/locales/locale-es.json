@@ -199,5 +199,9 @@
     "previousSearches": "Búsquedas Anteriores",
     "There are no orders": "No hay pedidos",
     "copy": "Copiar",
-    "change_operator": "Cambiar Operador"
+    "change_operator": "Cambiar Operador",
+    "cancelledByUser": "Cancelado por el usuario",
+    "cancelled": "cancelado",
+    "annulled": "anulado",
+    "byUserRequest": "a pedido del usuario"
 }
