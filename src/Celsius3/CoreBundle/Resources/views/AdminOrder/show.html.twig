@@ -51,7 +51,7 @@
                 </td>
                 <td class="catalog-actions">
                 <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn btn-default">{{'request' | translate}}</a>
-                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|translate}}" bs-popover data-content-template="catalog_search_details.html" data-content="{{catalog.id}}">{{'searches'|translate}}</button>
+                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|translate}}" bs-popover data-content-template="catalog_search_details.html" data-content="{{catalog.id}}" data-container="body">{{'searches'|translate}}</button>
                 </td>
                 </tr>
                 </tbody>
