@@ -2134,6 +2134,10 @@
                 <source>Go to Sent</source>
                 <target>Go to Sent</target>
             </trans-unit>
+            <trans-unit id="107">
+                <source>The</source>
+                <target>the</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
