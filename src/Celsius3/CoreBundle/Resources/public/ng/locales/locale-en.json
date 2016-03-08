@@ -4,8 +4,8 @@
     "reclaimTooltipTitle": "Reclaim",
     "approveTooltipTitle": "Approve",
     "reuploadTooltipTitle": "Upload more",
-    "pdfUserTooltipTitle" : "This user downloads requests in PDF format",
-    "printedUserTooltipTitle" : "This user withdraws requests in printed paper",
+    "pdfUserTooltipTitle": "This user downloads requests in PDF format",
+    "printedUserTooltipTitle": "This user withdraws requests in printed paper",
     "found": "Found",
     "notFound": "Not found",
     "not_found": "Not found",
@@ -198,6 +198,9 @@
     "previousSearches": "Previous Searches",
     "There are no orders": "There are no orders",
     "copy": "Copy",
-    "change_operator": "Change Operator"
-       
+    "change_operator": "Change Operator",
+    "cancelledByUser": "Cancelled by user",
+    "cancelled": "cancelled",
+    "annulled": "anulled",
+    "byUserRequest": "by user request"
 }

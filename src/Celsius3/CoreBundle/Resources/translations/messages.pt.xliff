@@ -2138,6 +2138,10 @@
                 <source>Go to Sent</source>
                 <target>Go to Sent</target>
             </trans-unit>
+            <trans-unit id="107">
+                <source>cancelledByUser</source>
+                <target>Cancelled by user</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

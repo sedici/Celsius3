@@ -4,6 +4,13 @@
     <div class="busquedas">
         {{ 'searches'|trans }}: {{ count_searches(request) }}
     </div>
+    {% for event in request.events %}
+        {% if (event.getEventType() == 'cancel' and event.getCancelledByUser()) %}
+            <div>
+                {{ 'cancelledByUser' | trans }}
+            </div>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
 
 {% block admin %}

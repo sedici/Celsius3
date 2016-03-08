@@ -35,6 +35,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class EventManager
 {
+
     const EVENT__CREATION = 'creation';
     const EVENT__SEARCH = 'search';
     const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
@@ -56,6 +57,7 @@ class EventManager
     // Fake events
     const EVENT__REQUEST = 'request';
     const EVENT__RECEIVE = 'receive';
+
     private $class_prefix = 'Celsius3\\CoreBundle\\Entity\\Event\\';
     public $event_classes = array(
         self::EVENT__CREATION => 'CreationEvent',
@@ -153,7 +155,7 @@ class EventManager
                     ->findOneBy(array());
         } else {
             $provider = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->find($httpRequest->request->get('provider'));
+                    ->find($httpRequest->request->get('provider'));
         }
 
         if ($provider) {
@@ -323,6 +325,12 @@ class EventManager
             throw new NotFoundHttpException();
         }
 
+        if ($httpRequest->request->has('cancelled_by_user')) {
+            $extraData['cancelled_by_user'] = $httpRequest->request->get('cancelled_by_user');
+        } else {
+            $extraData['cancelled_by_user'] = false;
+        }
+
         $extraData['observations'] = $httpRequest->request->get('observations');
 
         return $extraData;
@@ -426,4 +434,5 @@ class EventManager
 
         return $results;
     }
+
 }

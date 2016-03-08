@@ -34,6 +34,11 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $cancelledByUser = false;
+
     public function getEventType()
     {
         return 'cancel';
@@ -45,13 +50,28 @@ class CancelEvent extends SingleInstanceEvent implements Notifiable
             $data['extraData']['remoterequest']->setIsCancelled(true);
             $lifecycleHelper->refresh($data['extraData']['remoterequest']);
         }
+
+        $this->setCancelledByUser($data['extraData']['cancelled_by_user']);
+        $this->setObservations($data['extraData']['observations']);
+
         $lifecycleHelper->getEventManager()->cancelRequests($data['extraData']['sirequests'], $data['extraData']['httprequest']);
         $lifecycleHelper->getEventManager()->cancelRequests($data['extraData']['mirequests'], $data['extraData']['httprequest']);
     }
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'cancel');
+        $manager->notifyEvent($this, 'cancel');
+    }
+
+    public function getCancelledByUser()
+    {
+        return $this->cancelledByUser;
+    }
+
+    public function setCancelledByUser($cancelledByUser)
+    {
+        $this->cancelledByUser = $cancelledByUser;
+        return $this;
     }
 
 }

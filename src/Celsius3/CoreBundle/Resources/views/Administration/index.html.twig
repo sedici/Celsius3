@@ -129,6 +129,9 @@
                             <div class="busquedas">
                                 {{'searches'|translate}}: {{countSearches(order.request)}}
                             </div>
+                            <div ng-repeat="event in order.request.events" ng-if="event.type === 'cancel' && event.cancelled_by_user">
+                                {{ 'cancelledByUser' | translate }}
+                            </div>
                         </div>
                     </div>
                     
