@@ -117,14 +117,21 @@ class StateRepository extends EntityRepository
         // Se cuentan como propios los que no tienen administrador
         if (!is_null($user)) {
             $qb3 = $this->createQueryBuilder('s')
-                            ->select('COUNT(s.id) as c')
-                            ->andWhere('s.instance = :instance')
-                            ->andWhere('s.isCurrent = true')
-                            ->andWhere('s.type = :type')
-                            ->groupBy('s.type')
-                            ->setParameter('type', StateManager::STATE__CREATED)
-                            ->setParameter('instance', $instance->getId())
-                            ->getQuery()->getResult();
+                    ->select('COUNT(s.id) as c')
+                    ->andWhere('s.instance = :instance')
+                    ->andWhere('s.isCurrent = true')
+                    ->andWhere('s.type = :type')
+                    ->groupBy('s.type')
+                    ->setParameter('type', StateManager::STATE__CREATED)
+                    ->setParameter('instance', $instance->getId());
+
+            if (!is_null($orderType)) {
+                $qb3 = $qb3->leftJoin('s.request', 'r')
+                        ->andWhere('r.type = :orderType')
+                        ->setParameter('orderType', $orderType);
+            }
+
+            $qb3 = $qb3->getQuery()->getResult();
 
             if (count($qb3) > 0) {
                 $result[StateManager::STATE__CREATED] = intval($qb3[0]['c']);
