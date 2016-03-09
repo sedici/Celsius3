@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\BaseUser" exclusion-policy="all">
-        <property name="id" type="string" expose="true" read-only="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list"></property>
-        <property name="name" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list"></property>
-        <property name="surname" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list"></property>
+        <property name="id" type="string" expose="true" read-only="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select"></property>
+        <property name="name" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select"></property>
+        <property name="surname" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select"></property>
         <property name="birthdate" type="DateTime" expose="true" access-type="public_method" groups="administration"></property>
         <property name="address" type="string" expose="true" access-type="public_method" groups="administration"></property>
         <property name="enabled" type="boolean" expose="true" access-type="public_method" groups="api,administration"></property>

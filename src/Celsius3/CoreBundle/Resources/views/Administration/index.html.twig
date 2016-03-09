@@ -13,25 +13,28 @@
             <!-- dash.html -->
             <script type="text/ng-template" id="dash.html">
                 <div class="clearfix row">
-                <ul class="nav nav-pills pull-left" id="pedidos">
-                <li role="presentation" ng-class="isActiveType('all')">
-                <a href="#/all/{{state}}/{{orderType}}">{{'orders'|translate}}</a>
-                </li>
-                <li role="presentation" ng-class="isActiveType('mine')">
-                <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|translate}}</a>
-                </li>
-                </ul>
-                <ul class="nav nav-pills pull-right" id="filtrado">
-                <li role="presentation" ng-class="isActiveOrderType('allTypes')">
-                <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|translate}}</a>
-                </li>
-                <li role="presentation" ng-class="isActiveOrderType('provision')">
-                <a href="#/{{type}}/{{state}}/provision">{{'provision'|translate}}</a>
-                </li>
-                <li role="presentation" ng-class="isActiveOrderType('search')">
-                <a href="#/{{type}}/{{state}}/search">{{'search'|translate}}</a>
-                </li>
-                </ul>
+                    <ul class="nav nav-pills pull-left" id="pedidos">
+                        <li role="presentation" ng-class="isActiveType('all')">
+                            <a href="#/all/{{state}}/{{orderType}}">{{'orders'|translate}}</a>
+                        </li>
+                        <li role="presentation" ng-class="isActiveType('mine')">
+                            <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|translate}}</a>
+                        </li>
+                        <li>
+                            <select ng-options="admin as fullAdminName(admin) for admin in admins track by admin.id" class="form-control operators-select" ng-model="selectedAdmin.selected" ng-change="adminSelectChange(selectedAdmin.selected)"></select>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-pills pull-right" id="filtrado">
+                        <li role="presentation" ng-class="isActiveOrderType('allTypes')">
+                            <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|translate}}</a>
+                        </li>
+                        <li role="presentation" ng-class="isActiveOrderType('provision')">
+                            <a href="#/{{type}}/{{state}}/provision">{{'provision'|translate}}</a>
+                        </li>
+                        <li role="presentation" ng-class="isActiveOrderType('search')">
+                            <a href="#/{{type}}/{{state}}/search">{{'search'|translate}}</a>
+                        </li>
+                    </ul>
                 </div>
 
                 <div id="barrita2" class="row">
