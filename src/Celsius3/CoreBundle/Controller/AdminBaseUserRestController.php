@@ -138,6 +138,27 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     }
 
     /**
+     * @Get("/get_admins", name="admin_rest_get_other_admins", options={"expose"=true})
+     */
+    public function getOtherAdmins()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+
+        $admins = $repository->findAdmins($this->getInstance());
+
+        $filteredAdmins = array_filter($admins, function($admin) {
+            return (intval($admin->getId()) !== intval($this->getUser()->getId()));
+        });
+
+        $context = SerializationContext::create()->setGroups(array('admins-select'));
+
+        $view = $this->view(array_values($filteredAdmins), 200)->setFormat('json');
+        $view->setSerializationContext($context);
+
+        return $this->handleView($view);
+    }
+
+    /**
      * GET Route annotation.
      * @Get("/{id}", name="admin_rest_user_get", options={"expose"=true})
      */

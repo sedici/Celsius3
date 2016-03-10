@@ -77,6 +77,12 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
     {
         if ($request->query->get('type', null) === 'mine') {
             $user = $this->getUser();
+        } elseif (is_int(intval($request->query->get('type', null)))) {
+            $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
+                    ->find(intval($request->query->get('type', null)));
+            if (!is_null($user) && !$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN')) {
+                $user = null;
+            }
         } else {
             $user = null;
         }
@@ -99,167 +105,174 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
      * GET Route annotation.
      * @Get("/get", name="admin_rest_order_request_get", options={"expose"=true})
      */
-     public function getOrdersAndRequestsAction(Request $request)
-     {
-         $context = SerializationContext::create()->setGroups(array('administration_list'));
-
-         if ($request->query->get('type', null) === 'mine') {
-             $user = $this->getUser();
-         } else {
-             $user = null;
-         }
-
-         $state = $request->query->get('state', null);
-         $orderType = $request->query->get('orderType', null);
-
-         $states = $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:Order')
-            ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
-
-         $paginator = $this->get('knp_paginator');
-         $pagination = $paginator->paginate($states, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
-
-         $requests = $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:Request')
-            ->createQueryBuilder('r')
-            ->where('r.order IN (:orders)')
-            ->setParameter('orders', $pagination)
-            ->getQuery()
-            ->getResult();
-
-         $response = array(
-             'orders' => array_values($pagination),
-             'requests' => array_column(
-             array_map(
-             function(\Celsius3\CoreBundle\Entity\Request $request) {
-                 return array(
-                     'id' => $request->getOrder()->getId(),
-                     'request' => $request,
-                 );
-             }, $requests), 'request', 'id')
-         );
-
-         $view = $this->view($response, 200)->setFormat('json');
-         $view->setSerializationContext($context);
-
-         return $this->handleView($view);
-     }
-
-    /**
-     * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
-     */
-    public function getOrderAction($id)
+    public function getOrdersAndRequestsAction(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+        $context = SerializationContext::create()->setGroups(array('administration_list'));
 
-        $em = $this->getDoctrine()->getManager();
-
-        $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
-
-        if (!$order) {
-            return $this->createNotFoundException('Order not found.');
+        if ($request->query->get('type', null) === 'mine') {
+            $user = $this->getUser();
+        } elseif (is_int(intval($request->query->get('type', null)))) {
+            $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
+                    ->find(intval($request->query->get('type', null)));
+            if (!is_null($user) && !$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN')) {
+                $user = null;
+            }
+        } else {
+            $user = null;
         }
 
-        $view = $this->view($order, 200)->setFormat('json');
-        $view->setSerializationContext($context);
+        $state = $request->query->get('state', null);
+        $orderType = $request->query->get('orderType', null);
 
-        return $this->handleView($view);
-    }
+        $states = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Order')
+                ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
 
-    /**
-     * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
-     */
-    public function getInteractionAction($id)
-    {
-        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
-        $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($states, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-        $instance = $this->getInstance();
-        $interaction['result'] = false;
+        $requests = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Request')
+                ->createQueryBuilder('r')
+                ->where('r.order IN (:orders)')
+                ->setParameter('orders', $pagination)
+                ->getQuery()
+                ->getResult();
 
-        if($institution->getInstance() !== $instance){
+        $response = array(
+            'orders' => array_values($pagination),
+            'requests' => array_column(
+                    array_map(
+                            function(\Celsius3\CoreBundle\Entity\Request $request) {
+                                return array(
+                                    'id' => $request->getOrder()->getId(),
+                                    'request' => $request,
+                                );
+                            }, $requests), 'request', 'id')
+                );
 
-            $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
-            $baseInstitution = $institutionRepository->getBaseInstitution($institution);
+                $view = $this->view($response, 200)->setFormat('json');
+                $view->setSerializationContext($context);
 
-            $interaction['result'] = true;
-            $institutions = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($baseInstitution);
-
-            $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
-            $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions);
-            $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions);
-
-            $interaction['institution'] = $baseInstitution->getName();
-            $interaction['instance'] = $instance->getName();
-
-            $interaction['institutionInteraction']['data']['created'] = 0;
-            $interaction['institutionInteraction']['data']['delivered'] = 0;
-            $interaction['institutionInteraction']['data']['annulled'] = 0;
-            $interaction['institutionInteraction']['data']['cancelled'] = 0;
-            foreach($response['institutionInteraction'] as $res) {
-                $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
+                return $this->handleView($view);
             }
 
-            $interaction['instanceInteraction']['data']['created'] = 0;
-            $interaction['instanceInteraction']['data']['delivered'] = 0;
-            $interaction['instanceInteraction']['data']['annulled'] = 0;
-            $interaction['instanceInteraction']['data']['cancelled'] = 0;
-            foreach ($response['instanceInteraction'] as $res) {
-                $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
+            /**
+             * GET Route annotation.
+             * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
+             */
+            public function getOrderAction($id)
+            {
+                $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
+                $em = $this->getDoctrine()->getManager();
+
+                $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
+
+                if (!$order) {
+                    return $this->createNotFoundException('Order not found.');
+                }
+
+                $view = $this->view($order, 200)->setFormat('json');
+                $view->setSerializationContext($context);
+
+                return $this->handleView($view);
             }
+
+            /**
+             * @Get("/interaction/{id}", name="admin_rest_order_interaction", options={"expose"=true})
+             */
+            public function getInteractionAction($id)
+            {
+                $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
+                $institution = $order->getOriginalRequest()->getOwner()->getInstitution();
+
+                $instance = $this->getInstance();
+                $interaction['result'] = false;
+
+                if ($institution->getInstance() !== $instance) {
+
+                    $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
+                    $baseInstitution = $institutionRepository->getBaseInstitution($institution);
+
+                    $interaction['result'] = true;
+                    $institutions = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($baseInstitution);
+
+                    $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
+                    $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions);
+                    $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions);
+
+                    $interaction['institution'] = $baseInstitution->getName();
+                    $interaction['instance'] = $instance->getName();
+
+                    $interaction['institutionInteraction']['data']['created'] = 0;
+                    $interaction['institutionInteraction']['data']['delivered'] = 0;
+                    $interaction['institutionInteraction']['data']['annulled'] = 0;
+                    $interaction['institutionInteraction']['data']['cancelled'] = 0;
+                    foreach ($response['institutionInteraction'] as $res) {
+                        $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
+                    }
+
+                    $interaction['instanceInteraction']['data']['created'] = 0;
+                    $interaction['instanceInteraction']['data']['delivered'] = 0;
+                    $interaction['instanceInteraction']['data']['annulled'] = 0;
+                    $interaction['instanceInteraction']['data']['cancelled'] = 0;
+                    foreach ($response['instanceInteraction'] as $res) {
+                        $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
+                    }
+                }
+
+                $view = $this->view($interaction, 200)->setFormat('json');
+                return $this->handleView($view);
+            }
+
+            /**
+             * @Get("/operator/{id}", name="admin_rest_order_operator", options={"expose"=true})
+             */
+            public function getOperatorAction($id)
+            {
+                $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
+                $instance = $this->getInstance();
+                $admins = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($instance);
+                $interaction['result'] = true;
+                $interaction['order'] = $id;
+                foreach ($admins as $key => $value) {
+                    if ($value->getId() != $this->getUser()->getId()) {
+                        $interaction['admins'][$key] = $value;
+                    }
+                }
+                $view = $this->view($interaction, 200)->setFormat('json');
+                return $this->handleView($view);
+            }
+
+            /**
+             * @Get("/change-operator/{order_id}/{id}", name="admin_rest_order_change_operator", options={"expose"=true})
+             */
+            public function changeOperatorAction($order_id, $id)
+            {
+                $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+
+                $instance = $this->getInstance();
+
+
+                $operator = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
+                $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
+                if (!$order) {
+                    return $this->createNotFoundException('No se encuentra la order');
+                }
+
+
+                $request = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->findOneBy(array('order' => $order, 'instance' => $instance));
+
+                $request->setOperator($operator);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($request);
+                $em->flush();
+
+                $view = $this->view($request, 200)->setFormat('json');
+                $view->setSerializationContext($context);
+                return $this->handleView($view);
+            }
+
         }
-
-        $view = $this->view($interaction, 200)->setFormat('json');
-        return $this->handleView($view);
-    }
-
-     /**
-     * @Get("/operator/{id}", name="admin_rest_order_operator", options={"expose"=true})
-     */
-    public function getOperatorAction($id)
-    {
-        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
-        $instance = $this->getInstance();
-        $admins = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($instance);
-        $interaction['result'] = true;
-        $interaction['order'] = $id;
-        foreach ($admins as $key => $value) {
-               if ($value->getId()!=$this->getUser()->getId()){
-                     $interaction['admins'][$key]=$value;
-               }
-        }        
-        $view = $this->view($interaction, 200)->setFormat('json');
-        return $this->handleView($view);
-    }
-
-     /**
-     * @Get("/change-operator/{order_id}/{id}", name="admin_rest_order_change_operator", options={"expose"=true})
-     */
-    public function changeOperatorAction($order_id,$id)
-    {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
         
-        $instance = $this->getInstance();
-        
-
-        $operator = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
-        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
-        if (!$order) {
-            return $this->createNotFoundException('No se encuentra la order');
-        }
-    
-
-        $request = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->findOneBy(array('order' => $order, 'instance' => $instance));
-
-        $request->setOperator($operator);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($request);
-        $em->flush();
-
-        $view = $this->view($request, 200)->setFormat('json');
-        $view->setSerializationContext($context);
-        return $this->handleView($view);
-    }
-
-}

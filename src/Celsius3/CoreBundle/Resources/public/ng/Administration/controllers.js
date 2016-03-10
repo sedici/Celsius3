@@ -1,6 +1,6 @@
 var administrationControllers = angular.module('administrationControllers', []);
 
-administrationControllers.controller('AdministrationCtrl', function ($scope, $routeParams, $http, Order, User) {
+administrationControllers.controller('AdministrationCtrl', function ($scope, $routeParams, $http, Order, User, $location, $filter) {
     'use strict';
 
     $scope.type = $routeParams.type;
@@ -129,6 +129,23 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
 
     $scope.orderType = _.isUndefined($routeParams.orderType) ? 'allTypes' : $routeParams.orderType;
 
+    $http.get(Routing.generate('admin_rest_get_other_admins')).success(function (response) {
+        $scope.admins = response;
+
+        $scope.getSelectedAdmin = function () {
+            var admin = $scope.admins.filter(function (obj) {
+                if (obj.id === $scope.type) {
+                    return true;
+                }
+                return false;
+            });
+            return admin[0];
+        }
+
+        $scope.selectedAdmin = {};
+        $scope.selectedAdmin.selected = $scope.getSelectedAdmin();
+    });
+
     if (!_.isUndefined($scope.type)) {
         $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type + '&state=' + $scope.state + '&orderType=' + $scope.orderType).success(function (response) {
             $scope.orderCount = response;
@@ -176,4 +193,35 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
 
         return (requests.length > 0);
     };
+
+    $scope.adminSelectChange = function (admin) {
+        $scope.type = admin.id;
+
+        var url = '#/';
+        if (!_.isEmpty($scope.type)) {
+            url += $scope.type;
+        } else {
+            url += 'mine';
+        }
+
+        url += '/';
+        if (!_.isEmpty($scope.state)) {
+            url += $scope.state;
+        } else {
+            url += 'created';
+        }
+
+        url += '/';
+        if (!_.isEmpty($scope.orderType)) {
+            url += $scope.orderType;
+        } else {
+            url += 'allTypes';
+        }
+
+        location.href = url;
+    };
+
+    $scope.fullAdminName = function (admin) {
+        return $filter('first_upper')(admin.surname) + ', ' + $filter('first_upper')(admin.name) + ' (' + $filter('lowercase')(admin.username) + ')';
+    }
 });
