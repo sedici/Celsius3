@@ -33,7 +33,7 @@ class UserTransformType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array(
-            UserManager::ROLE_USER => 'User',
+            //UserManager::ROLE_USER => 'User',
             UserManager::ROLE_LIBRARIAN => 'Librarian',
             UserManager::ROLE_ADMIN => 'Admin',
         );
