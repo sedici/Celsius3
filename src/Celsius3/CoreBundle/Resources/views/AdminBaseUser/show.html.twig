@@ -12,7 +12,7 @@
     </script>
     {% javascripts 'bundles/celsius3core/ng/AdminBaseUser/app.js'
                            'bundles/celsius3core/ng/AdminBaseUser/controllers.js'
-                           'bundles/celsius3core/ng/AdminBaseUser/filters.js' filter='?uglifyjs2'  %}
+                           'bundles/celsius3core/ng/AdminBaseUser/filters.js' package="admin_base_user" filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}
@@ -186,42 +186,42 @@
                             <div ng-if="order.original_request.owner.pdf === true" class="doc_type_pdf"></div>
                             <div ng-if="order.original_request.owner.pdf !== true" class="doc_type_print"></div>
                             <div class="busquedas">
-                                {{'searches'|translate}}: {{countSearches(order.original_request)}}
+                            {{'searches'|translate}}: {{countSearches(order.original_request)}}
                             </div>
                             <div ng-repeat="event in order.original_request.events" ng-if="event.type === 'cancel' && event.cancelled_by_user">
-                                {{ 'cancelledByUser' | translate }}
+                            {{ 'cancelledByUser' | translate }}
                             </div>
                             </div>
                             </div>
-                    
+
                             <div class="owner_data">
-                                <p class="owner">{{ order.original_request.owner.surname | first_upper }}, {{ order.original_request.owner.name | first_upper }} ({{ order.original_request.owner.username | lowercase }})</p>
-                                <p class="institution">{{ printInstitutions(order.original_request.owner.institution) }}</p>        
+                            <p class="owner">{{ order.original_request.owner.surname | first_upper }}, {{ order.original_request.owner.name | first_upper }} ({{ order.original_request.owner.username | lowercase }})</p>
+                            <p class="institution">{{ printInstitutions(order.original_request.owner.institution) }}</p>        
                             </div>
 
                             <div class="order-actions">
-                                <ul class="list-unstyled actions">
-                                    <li ng-if="searchPending(order.original_request)">
-                                        <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | translate }}"/>
-                                    </li>
-                                    <li>
-                                        <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    </li>
-                                    <li>
-                                        <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
-                                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | translate }}"><span class="fa fa-files-o"></span></a>
-                                        </form>
-                                    </li>
-                                </ul>
+                            <ul class="list-unstyled actions">
+                            <li ng-if="searchPending(order.original_request)">
+                            <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | translate }}"/>
+                            </li>
+                            <li>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </li>
+                            <li>
+                            <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
+                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | translate }}"><span class="fa fa-files-o"></span></a>
+                            </form>
+                            </li>
+                            </ul>
                             </div>
                             <div class="clearfix"></div>
                             <div class="requests" ng-if="hasRequests(order.original_request.events)">
-                                <h5>{{ 'Requests' | translate }}</h5>
-                                <p ng-repeat="event in order.original_request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
-                                    <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
-                                    <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
-                                    <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>
-                                </p>
+                            <h5>{{ 'Requests' | translate }}</h5>
+                            <p ng-repeat="event in order.original_request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
+                            <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
+                            <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
+                            <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>
+                            </p>
                             </div>
                         </script>
                     {% endverbatim %}

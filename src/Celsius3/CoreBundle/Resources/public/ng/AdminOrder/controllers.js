@@ -16,6 +16,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope._ = _;
 
     $scope.instance_id = instance_id;
+    $scope.assets_version = assets_version_admin_order;
 
     $scope.contains = function (list, item) {
         return _.contains(list, item);
@@ -731,29 +732,29 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
 
     $scope.changeOperatorModal = function (order_id) {
-         var data = {
-                order_id: order_id
-            };
-        $http.get(Routing.generate('admin_rest_order_operator')+ '/' + order_id , data).success(function (response) {
+        var data = {
+            order_id: order_id
+        };
+        $http.get(Routing.generate('admin_rest_order_operator') + '/' + order_id, data).success(function (response) {
             if (response) {
                 $scope.refreshRequest(true);
-                $scope.admins=response.admins;
-                $scope.order_id=response.order;
-           }
+                $scope.admins = response.admins;
+                $scope.order_id = response.order;
+            }
         });
 
         $('#operator-modal').modal('show');
     };
 
-     $scope.selectAdmin = function (order_id,id) {
-         var data = {
-                operator_id: id,
-                order_id: order_id
-            };
-        $http.get(Routing.generate('admin_rest_order_change_operator')+ '/' + order_id+'/'+id , data).success(function (response) {
+    $scope.selectAdmin = function (order_id, id) {
+        var data = {
+            operator_id: id,
+            order_id: order_id
+        };
+        $http.get(Routing.generate('admin_rest_order_change_operator') + '/' + order_id + '/' + id, data).success(function (response) {
             if (response) {
                 $scope.refreshRequest(true);
-                $scope.request=response.request;
+                $scope.request = response.request;
             }
         });
         $('#operator-modal').modal('hide');

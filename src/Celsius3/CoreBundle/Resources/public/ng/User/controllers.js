@@ -3,6 +3,8 @@ var userControllers = angular.module('userControllers', []);
 userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, User) {
     'use strict';
 
+    $scope.assets_version = assets_version_user;
+
     $scope.sortData = {
         sort: 'o.createdAt',
         direction: 'desc'
@@ -22,7 +24,6 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
         Order.query({state: 'created,searched,requested,approval_pending,received', withRequest: true, page: $scope.pagination.currentPage, sort: $scope.sortData.sort, direction: $scope.sortData.direction}, function (response) {
             $scope.orders = response.orders;
             $scope.total = $scope.orderCount.created + $scope.orderCount.searched + $scope.orderCount.requested + $scope.orderCount.approval_pending + $scope.orderCount.received;
-            console.log($scope.total);
 
             $scope.numPages = Math.ceil($scope.total / 10);
 

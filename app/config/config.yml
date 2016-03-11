@@ -17,6 +17,19 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     session:
         handler_id:  snc_redis.session.handler
+    assets:
+        version: %assets_version%
+        packages:
+            administration:
+                version: %assets_version_administration%
+            admin_order:
+                version: %assets_version_admin_order%
+            admin_base_user:
+                version: %assets_version_admin_base_user%
+            user:
+                version: %assets_version_user%
+            celsius3:
+                version: %assets_version_celsius3%
 
 # Twig Configuration
 twig:

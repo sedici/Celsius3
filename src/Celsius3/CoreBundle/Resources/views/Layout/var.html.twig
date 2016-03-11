@@ -41,6 +41,10 @@
     {% else %}
         var resultsPerPage = parseInt(0);
     {% endif %}
-    
-    var searchErrorMessage = '{{ 'Enter at least three characters' | trans }}';
+
+        var assets_version_administration = "{{ assets_version('administration') }}";
+        var assets_version_admin_order = "{{ assets_version('admin_order') }}";
+        var assets_version_user = "{{ assets_version('user') }}";
+
+        var searchErrorMessage = '{{ 'Enter at least three characters' | trans }}';
 </script>
