@@ -68,8 +68,9 @@ class SuperadminInstanceController extends InstanceController
      */
     public function newAction()
     {
+        
         $entity = new Instance();
-        $options = array('data' => array('create' => true));
+        $options['data'] = array('create' => true);
         $form = $this->createForm(InstanceType::class, $entity, $options);
 
         return array(
@@ -89,6 +90,8 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
+        
+  
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -96,14 +99,51 @@ class SuperadminInstanceController extends InstanceController
                 ->find($request->request->get('instance')['institution']);
 
         $instance = new Instance();
-        $response = $this->baseCreate('Instance', $instance, InstanceType::class, array('data' => array('create' => true)), 'superadmin_instance');
+       // $response = $this->baseCreate('Instance', $instance, InstanceType::class, array(),'superadmin_instance');
+        $options=array();
+        $type=InstanceType::class;
+        $route='superadmin_instance';
+        $name='Instance';
+        $form = $this->createForm($type, $instance, $options);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            try {
+                $this->persistEntity($instance);
 
-        $institution->setCelsiusInstance($instance);
+                  $institution->setCelsiusInstance($instance);
+                  $em->persist($institution);
+                  $em->flush($institution);
 
-        $em->persist($institution);
-        $em->flush($institution);
+                $this->addFlash('success', $this->get('translator')->trans('The').' '. $name . ' was successfully created.');
+                return $this->redirect($this->generateUrl($route));
+            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+                $this->addFlash('error', 'The ' . $name . ' already exists.');
+            }
+        }
 
-        return $response;
+        $this->addFlash('error', 'There were errors creating the ' . $name . '.');
+
+        return array(
+            'entity' => $instance,
+            'form' => $form->createView(),
+            );
+        
+    }
+
+    private function getErrorMessages(\Symfony\Component\Form\Form $form) {
+        $errors = array();
+
+        foreach ($form->getErrors() as $key => $error) {
+                $errors[] = $error->getMessage();
+        }
+
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $errors[$child->getName()] = $this->getErrorMessages($child);
+            }
+        }
+
+        return $errors;
     }
 
     /**

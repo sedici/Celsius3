@@ -129,13 +129,10 @@ abstract class BaseController extends Controller
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
-
-                $this->addFlash('success', 'The ' . $name . ' was successfully created.');
-
+                $this->addFlash('success', $this->get('translator')->trans('The').' '. $name . ' was successfully created.');
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'The ' . $name . ' already exists.');
@@ -146,8 +143,8 @@ abstract class BaseController extends Controller
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView()
-        );
+            'form' => $form->createView(),
+            );
     }
 
     protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
