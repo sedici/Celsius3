@@ -192,12 +192,21 @@ if (user_exists) {
     });
 }
 
-$('.union_link, .enable_link').click(function () {
+$('.union_link').click(function () {
     $('#batch-action').val($(this).attr('class').split('_')[0]);
     if ($('input[type=checkbox]:checked').length >= 2) {
         $('.batch_form').submit();
     }
 });
+
+
+$('.enable_link').click(function () {
+    $('#batch-action').val($(this).attr('class').split('_')[0]);
+    if ($('input[type=checkbox]:checked').length >= 1) {
+        $('.batch_form').submit();
+    }
+});
+
 
 /*
  * News date edition
