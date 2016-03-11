@@ -11,7 +11,7 @@
         </div>
 
         <!-- index.html -->
-        <script type="text/ng-template" id="index.html">
+        <script type="text/ng-template" id="index.html?{{ assets_version('administration') }}">
             {% verbatim %}
                 <div class="row">
                 <div class="col-md-12" ng-include="'dash.html?' + assets_version">

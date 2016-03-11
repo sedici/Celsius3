@@ -13,15 +13,15 @@ administrationApp.config(['$routeProvider', '$translateProvider',
     function ($routeProvider, $translateProvider) {
         $routeProvider.
                 when('/:type', {
-                    templateUrl: 'index.html',
+                    templateUrl: 'index.html?' + assets_version_administration,
                     controller: 'AdministrationCtrl'
                 }).
                 when('/:type/:state', {
-                    templateUrl: 'index.html',
+                    templateUrl: 'index.html?' + assets_version_administration,
                     controller: 'AdministrationCtrl'
                 }).
                 when('/:type/:state/:orderType', {
-                    templateUrl: 'index.html',
+                    templateUrl: 'index.html?' + assets_version_administration,
                     controller: 'AdministrationCtrl'
                 }).
                 when('/', {

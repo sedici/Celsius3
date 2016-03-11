@@ -425,7 +425,7 @@
         </script>
 
         <!-- show.html -->
-        <script type="text/ng-template" id="show.html">
+        <script type="text/ng-template" id="show.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
                 <div class="item_container row" ng-include="'show_order_data.html?' + assets_version">
                 </div>

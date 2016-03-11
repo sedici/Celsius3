@@ -8,9 +8,9 @@
         <div ng-view>
 
         </div>
-        
+
         <!-- index.html -->
-        <script type="text/ng-template" id="index.html">
+        <script type="text/ng-template" id="index.html?{{ assets_version('user') }}">
             {% verbatim %}
                 <div class="row">
                 <div class="col-md-8" ng-include="'orders.html?' + assets_version">
