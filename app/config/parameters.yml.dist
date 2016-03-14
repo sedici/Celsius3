@@ -31,3 +31,10 @@ parameters:
     maintenance_mode_dir: /app/mode/
     maintenance_mode_file: maintenance.mode
     maintenance_mode_template: 'Celsius3CoreBundle:Mode:maintenance.html.twig'
+    
+    assets_version: v0.0.0
+    assets_version_administration: v0.0.0
+    assets_version_admin_order: v0.0.0
+    assets_version_admin_base_user: v0.0.0
+    assets_version_user: v0.0.0
+    assets_version_celsius3: v0.0.0

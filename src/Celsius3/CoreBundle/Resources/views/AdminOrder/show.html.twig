@@ -10,16 +10,18 @@
 
         </div>
 
-        {% verbatim %}
-            <!-- catalog_search_details.html -->
-            <script type="text/ng-template" id="catalog_search_details.html">
+        <!-- catalog_search_details.html -->
+        <script type="text/ng-template" id="catalog_search_details.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <ul class="searches list-unstyled">
                 <li ng-repeat="search in previousSearches(content)">{{search.created_at|date:'MMM/yyyy'}}: {{search.result|translate}}</li>
                 </ul>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- catalog_list.html -->
-            <script type="text/ng-template" id="catalog_list.html">
+        <!-- catalog_list.html -->
+        <script type="text/ng-template" id="catalog_list.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
                 <button class="btn btn-sm btn-default pull-right" data-toggle="popover" data-placement="left" data-content="{{ getHtmlMaterialData() }}" data-html=true data-container="body">
@@ -51,16 +53,18 @@
                 </td>
                 <td class="catalog-actions">
                 <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn btn-default">{{'request' | translate}}</a>
-                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|translate}}" bs-popover data-content-template="catalog_search_details.html" data-content="{{catalog.id}}" data-container="body">{{'searches'|translate}}</button>
+                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|translate}}" bs-popover data-content-template="catalog_search_details.html?{{assets_version}}" data-content="{{catalog.id}}" data-container="body">{{'searches'|translate}}</button>
                 </td>
                 </tr>
                 </tbody>
                 </table>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- file_list.html -->
-            <script type="text/ng-template" id="file_list.html">
+        <!-- file_list.html -->
+        <script type="text/ng-template" id="file_list.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <table class="table table-hover catalog-table">
                 <thead>
                 <tr>
@@ -81,24 +85,28 @@
                 </tr>
                 </tbody>
                 </table>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_cancel_form.html -->
-            <script type="text/ng-template" id="order_cancel_form.html">
+        <!-- order_cancel_form.html -->
+        <script type="text/ng-template" id="order_cancel_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form class="form-horizontal" id="cancelForm" name="formNames.cancel" novalidate ng-submit="cancelRequest()">
-                    <div class="form-group" ng-class="cancelerror">
-                        <label for="observations">{{'observations' | translate}}</label>
-                        <textarea class="form-control" ng-model="forms.cancel.observations" name="observations" id="observations" required></textarea>
-                        <label for="cancelledByUser">
-                            <input type="checkbox" ng-model="forms.cancel.cancelled_by_user" name="cancelled_by_user">
-                            {{ 'cancelledByUser' | translate }}
-                        </label>
-                    </div>
+                <div class="form-group" ng-class="cancelerror">
+                <label for="observations">{{'observations' | translate}}</label>
+                <textarea class="form-control" ng-model="forms.cancel.observations" name="observations" id="observations" required></textarea>
+                <label for="cancelledByUser">
+                <input type="checkbox" ng-model="forms.cancel.cancelled_by_user" name="cancelled_by_user">
+                {{ 'cancelledByUser' | translate }}
+                </label>
+                </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_email_form.html -->
-            <script type="text/ng-template" id="order_email_form.html">
+        <!-- order_email_form.html -->
+        <script type="text/ng-template" id="order_email_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
                 <div class="form-group" ng-if="contacts !== null">
                 <label for="contact">{{'contact' | translate}}</label>
@@ -129,10 +137,12 @@
                 </textarea>
                 </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_receive_form.html -->
-            <script type="text/ng-template" id="order_receive_form.html">
+        <!-- order_receive_form.html -->
+        <script type="text/ng-template" id="order_receive_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate >
                 <div class="form-group" ng-class="delivery_type_error">
                 <label for="delivery_type">{{'deliveryType' | translate}}</label>
@@ -154,20 +164,24 @@
                 </ul>
                 </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_reclaim_form.html -->
-            <script type="text/ng-template" id="order_reclaim_form.html">
+        <!-- order_reclaim_form.html -->
+        <script type="text/ng-template" id="order_reclaim_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form class="form-horizontal" id="reclaimForm" name="formNames.reclaim" novalidate ng-submit="reclaimRequest()">
                 <div class="form-group" ng-class="reclaimerror">
                 <label for="observations">{{'observations' | translate}}</label>
                 <textarea class="form-control" ng-model="forms.reclaim.observations" name="observations" id="observations" required></textarea>
                 </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_request_form.html -->
-            <script type="text/ng-template" id="order_request_form.html">
+        <!-- order_request_form.html -->
+        <script type="text/ng-template" id="order_request_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form class="form-horizontal" id="requestForm" name="formNames.request" ng-submit="submitRequest()">
                 <div class="form-group">
                 <label for="observations">{{'observations' | translate}}</label>
@@ -191,10 +205,12 @@
                 <button type="button" ng-click="addInstitutionModal('request-modal')" class="btn btn-default pull-right">{{ 'addInstitution' | translate }}</button>
                 </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- institution_form.html -->
-            <script type="text/ng-template" id="institution_form.html">
+        <!-- institution_form.html -->
+        <script type="text/ng-template" id="institution_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form id="institutionForm" name="formNames.institution" ng-submit="submitInstitution()">
                 <div class="form-group">
                 <label for="name">{{ 'name' | translate }}</label>
@@ -216,10 +232,12 @@
 
                 </cci-widget>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- journal_form.html -->
-            <script type="text/ng-template" id="journal_form.html">
+        <!-- journal_form.html -->
+        <script type="text/ng-template" id="journal_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form id="journalForm" name="formNames.journal" ng-submit="submitJournal()">
                 <div class="form-group">
                 <label for="name">{{ 'name' | translate }}</label>
@@ -246,10 +264,12 @@
                 <input type="text" ng-model="forms.journal.frecuency" name="journal[frecuency]" id="journal_frecuency" class="form-control" />
                 </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_reupload_form.html -->
-            <script type="text/ng-template" id="order_reupload_form.html">
+        <!-- order_reupload_form.html -->
+        <script type="text/ng-template" id="order_reupload_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <form class="form-horizontal" id="reuploadForm">
                 <div class="form-group">
                 <label for="files">{{'files' | translate}}</label>
@@ -259,10 +279,12 @@
                 </ul>
                 </div>
                 </form>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- order_upload_form.html -->
-            <script type="text/ng-template" id="order_upload_form.html">
+        <!-- order_upload_form.html -->
+        <script type="text/ng-template" id="order_upload_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="alert alert-success" ng-if="request.current_state === 'received'">
                 {{'filesSuccessUpload' | translate}}
                 </div>
@@ -290,10 +312,12 @@
                 <div class="alert alert-success" ng-if="request.current_state === 'delivered'">
                 {{'requestSatisfied' | translate}}
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- request_cancelled.html -->
-            <script type="text/ng-template" id="request_cancelled.html">
+        <!-- request_cancelled.html -->
+        <script type="text/ng-template" id="request_cancelled.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="panel2_cancel col-md-1"></div>
                 <div class="panel3_cancel col-md-3">
                 <div class="relojito">
@@ -307,10 +331,12 @@
 
                 </ul>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- request_not_received.html -->
-            <script type="text/ng-template" id="request_not_received.html">
+        <!-- request_not_received.html -->
+        <script type="text/ng-template" id="request_not_received.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="panel2 col-md-1"></div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'sirequest'">
                 <div class="relojito">
@@ -344,10 +370,12 @@
                 </li>
                 </ul>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- request_received.html -->
-            <script type="text/ng-template" id="request_received.html">
+        <!-- request_received.html -->
+        <script type="text/ng-template" id="request_received.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="panel2_ok col-md-1"></div>
                 <div class="panel3_ok col-md-3">
                 <div class="relojito">
@@ -393,11 +421,13 @@
                 </li>
                 </ul>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show.html -->
-            <script type="text/ng-template" id="show.html">
-                <div class="item_container row" ng-include="'show_order_data.html'">
+        <!-- show.html -->
+        <script type="text/ng-template" id="show.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
+                <div class="item_container row" ng-include="'show_order_data.html?' + assets_version">
                 </div>
 
                 <div class="row">
@@ -415,7 +445,7 @@
 
                 <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
                 <div class="row">
-                <div class="col-md-12" ng-include="'order_upload_form.html'">
+                <div class="col-md-12" ng-include="'order_upload_form.html?' + assets_version">
                 </div>
                 </div>
                 </div>
@@ -435,17 +465,19 @@
                 </state-bar>
                 </div>
 
-                <div class="row" ng-include="'show_order_content.html'">
+                <div class="row" ng-include="'show_order_content.html?' + assets_version">
                 </div>
                 </div>
 
-                <div id="derecha" class="col-md-3" ng-include="'show_order_history.html'">
+                <div id="derecha" class="col-md-3" ng-include="'show_order_history.html?'  + assets_version">
                 </div>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_actions.html -->
-            <script type="text/ng-template" id="show_actions.html">
+        <!-- show_actions.html -->
+        <script type="text/ng-template" id="show_actions.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <ul class="list-unstyled">
                 <li>
                 <a ng-href="{{ {path: 'administration'}|get_url}}">
@@ -479,30 +511,30 @@
                 </li>
                 </ul>
 
-     
+
                 <div id="operator-modal" class="modal fade">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3 id="email-modal-label">{{'change_operator' | translate}}</h3>
-                            </div>
-                                <div >
-                                <table class='table table-bordered' width='70%'>
-                                <tr ng-repeat ="a in admins">
-                                    <td width="30%" >{{a.surname}} - {{a.name}}</td>
-                                    <td width="40%">
-                                       <button class="btn btn-primary" ng-click="selectAdmin(order_id,a.id)" >
-                                       {{'Asignar' | translate}}</button>
-  
-                                       
-                                    </td>
-                                 </tr>
-                                </table>
-                                </div>   
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="email-modal-label">{{'change_operator' | translate}}</h3>
+                </div>
+                <div >
+                <table class='table table-bordered' width='70%'>
+                <tr ng-repeat ="a in admins">
+                <td width="30%" >{{a.surname}} - {{a.name}}</td>
+                <td width="40%">
+                <button class="btn btn-primary" ng-click="selectAdmin(order_id,a.id)" >
+                {{'Asignar' | translate}}</button>
+
+
+                </td>
+                </tr>
+                </table>
+                </div>   
                 <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-               
+
                 </div>
                 </div>
                 </div>
@@ -515,7 +547,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="cancel-modal-label">{{'Cancel'}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_cancel_form.html'" ng-bind-html-unsafe="formResponse">
+                <div class="modal-body" ng-include="'order_cancel_form.html?' + assets_version" ng-bind-html-unsafe="formResponse">
 
                 </div>
                 <div class="modal-footer">
@@ -529,12 +561,13 @@
 
 
 
+            {% endverbatim %}
 
+        </script>
 
-            </script>
-
-            <!-- show_interaction.html -->
-            <script type="text/ng-template" id="show_interaction.html">
+        <!-- show_interaction.html -->
+        <script type="text/ng-template" id="show_interaction.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="row">
                 <div class="col-xs-10" ng-if="interaction.reult">
                 <h5>{{ interaction.institution }}</h5>
@@ -570,10 +603,12 @@
 
                 </div>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- journal_data.html -->
-            <script type="text/ng-template" id="journal_data.html">
+        <!-- journal_data.html -->
+        <script type="text/ng-template" id="journal_data.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis" ng-if="order.material_data.type === 'journal'">
                 <span ng-if="!_.isUndefined(order.material_data.journal)">
@@ -627,10 +662,12 @@
                 <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
                 </li>
                 </ul>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- book_data.html -->
-            <script type="text/ng-template" id="book_data.html">
+        <!-- book_data.html -->
+        <script type="text/ng-template" id="book_data.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
@@ -666,10 +703,12 @@
                 <strong>{{'withIndex' | translate}}</strong> {{order.material_data.with_index| material_with_index | translate}}
                 </li>
                 </ul>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- other_data.html -->
-            <script type="text/ng-template" id="other_data.html">
+        <!-- other_data.html -->
+        <script type="text/ng-template" id="other_data.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis">
                 <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
@@ -705,24 +744,28 @@
                 <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
                 </li>
                 </ul>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_material_data.html -->
-            <script type="text/ng-template" id="show_material_data.html">
+        <!-- show_material_data.html -->
+        <script type="text/ng-template" id="show_material_data.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <h4>{{'itemInformation' | translate}}</h4>
                 <div ng-if="order.material_data.type === 'journal'">
-                <div ng-include="'journal_data.html'"></div>
+                <div ng-include="'journal_data.html?' + assets_version"></div>
                 </div>
                 <div ng-if="order.material_data.type === 'book'">
-                <div ng-include="'book_data.html'"></div>
+                <div ng-include="'book_data.html?' + assets_version"></div>
                 </div>
                 <div ng-if="!(order.material_data.type === 'journal') && !(order.material_data.type === 'book')">
-                <div ng-include="'other_data.html'"></div>
+                <div ng-include="'other_data.html?' + assets_version"></div>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_order_actions.html -->
-            <script type="text/ng-template" id="show_order_actions.html">
+        <!-- show_order_actions.html -->
+        <script type="text/ng-template" id="show_order_actions.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="explorar_catalogos" ng-if="contains(['searched', 'requested', 'approval_pending', 'received'], request.current_state) && countSearches() > 0">
                 <button type="button" class="btn btn-success btn-block" data-target="#request-modal" role="button" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus"></span> {{'addRequest' | translate}}
@@ -760,7 +803,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 id="search-modal-label" class="modal-title">{{'searchCatalogs' | translate}}</h4>
                 </div>
-                <div class="modal-body" ng-include="'catalog_list.html'">
+                <div class="modal-body" ng-include="'catalog_list.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -777,7 +820,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="request-modal-label">{{'request' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_request_form.html'">
+                <div class="modal-body" ng-include="'order_request_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -795,7 +838,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="institution-modal-label">{{'institution' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'institution_form.html'">
+                <div class="modal-body" ng-include="'institution_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -813,7 +856,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'journal_form.html'">
+                <div class="modal-body" ng-include="'journal_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -831,7 +874,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="email-modal-label">{{'email' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_email_form.html'">
+                <div class="modal-body" ng-include="'order_email_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -842,11 +885,12 @@
                 </div>
                 </div>
 
-               
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_order_catalog_results.html -->
-            <script type="text/ng-template" id="show_order_catalog_results.html">
+        <!-- show_order_catalog_results.html -->
+        <script type="text/ng-template" id="show_order_catalog_results.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="col-md-4">
                 <table class="table table-condensed catalog-result-table" data-type="found">
                 <thead>
@@ -921,20 +965,22 @@
                 </tbody>
                 </table>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_order_content.html -->
-            <script type="text/ng-template" id="show_order_content.html">
-                <div class="col-md-3" ng-include="'show_order_actions.html'">
+        <!-- show_order_content.html -->
+        <script type="text/ng-template" id="show_order_content.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
+                <div class="col-md-3" ng-include="'show_order_actions.html?' + assets_version">
                 </div>
 
                 <div id="panel_contenido" class="col-md-9">
-                <div class="row" ng-include="'show_order_request_summary.html'">
+                <div class="row" ng-include="'show_order_request_summary.html?' + assets_version">
                 </div>
 
                 <div class="panelsecundario row">
                 <h1>{{'searches' | translate}}: {{countSearches()}}</h1>
-                <div ng-include="'show_order_catalog_results.html'" ng-if="countSearches() > 0">
+                <div ng-include="'show_order_catalog_results.html?' + assets_version" ng-if="countSearches() > 0">
 
                 </div>
                 <div ng-if="countSearches() === 0">
@@ -942,10 +988,12 @@
                 </div>
                 </div>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_order_data.html -->
-            <script type="text/ng-template" id="show_order_data.html">
+        <!-- show_order_data.html -->
+        <script type="text/ng-template" id="show_order_data.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <div class="top_info">
                 <div class="top_left">
                 <div ng-class="request.type | request_type">{{request.type | request_type_abbr | translate}}</div>
@@ -968,14 +1016,14 @@
 
                 <div id="pedido_tope" class="row">
                 <div id="columna1" class="col-md-4">
-                <!--<div ng-include="'show_user_information.html'"></div>-->
-                <div ng-include="'show_material_data.html'"></div>
+                <!--<div ng-include="'show_user_information.html?' + assets_version"></div>-->
+                <div ng-include="'show_material_data.html?' + assets_version"></div>
                 </div>
 
-                <div id="columna2" class="col-md-5" ng-include="'show_interaction.html'">
+                <div id="columna2" class="col-md-5" ng-include="'show_interaction.html?' + assets_version">
                 </div>
 
-                <div id="columna3" class="col-md-3" ng-include="'show_actions.html'">
+                <div id="columna3" class="col-md-3" ng-include="'show_actions.html?' + assets_version">
                 </div>
                 </div>
 
@@ -993,10 +1041,12 @@
                 <h5>{{'comments'|translate}}</h5>
                 <p>{{request.comments}}</p>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_order_history.html -->
-            <script type="text/ng-template" id="show_order_history.html">
+        <!-- show_order_history.html -->
+        <script type="text/ng-template" id="show_order_history.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <h3>{{ 'history' | translate }}</h3>
                 <div ng-if="!groupedEvents">
                 <p>{{ 'noEvents' | translate }}</p>
@@ -1007,15 +1057,17 @@
                 <span>{{event.created_at|date:'shortDate'}}</span>
                 <div class="iconhistorial-{{event.type|get_history_icon}}" data-toggle="tooltip" title="{{ event.type | get_state | translate | first_upper }}"></div>
                 <span>
-                    {{'by' | translate}} {{event.operator.name}}
-                    <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | translate }}</span>
+                {{'by' | translate}} {{event.operator.name}}
+                <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | translate }}</span>
                 </span>
                 </div>
                 </div>
-            </script>
+            {% endverbatim %}
+        </script>
 
-            <!-- show_order_request_summary.html -->
-            <script type="text/ng-template" id="show_order_request_summary.html">
+        <!-- show_order_request_summary.html -->
+        <script type="text/ng-template" id="show_order_request_summary.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
                 <h1>{{'requests' | translate}}</h1>
                 <div class="no-requests" ng-if="requests.length === 0">
                 {{'noRequests' | translate}}
@@ -1031,13 +1083,13 @@
                 <div class="cat_fecha"></div>
                 </div>
                 </div>
-                <div ng-if="!hasReceive(request) && !request.is_cancelled && !request.is_annulled" ng-include="'request_not_received.html'">
+                <div ng-if="!hasReceive(request) && !request.is_cancelled && !request.is_annulled" ng-include="'request_not_received.html?' + assets_version">
 
                 </div>
-                <div ng-if="hasReceive(request) && !request.is_cancelled  && !request.is_annulled" ng-include="'request_received.html'">
+                <div ng-if="hasReceive(request) && !request.is_cancelled  && !request.is_annulled" ng-include="'request_received.html?' + assets_version">
 
                 </div>
-                <div ng-if="request.is_cancelled || request.is_annulled" ng-include="'request_cancelled.html'">
+                <div ng-if="request.is_cancelled || request.is_annulled" ng-include="'request_cancelled.html?' + assets_version">
 
                 </div>
                 </div>
@@ -1050,7 +1102,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="request-modal-label">{{'receive' | translate}}: {{order.code}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_receive_form.html'">
+                <div class="modal-body" ng-include="'order_receive_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -1068,7 +1120,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="reupload-modal-label">{{'uploadAgain' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_reupload_form.html'">
+                <div class="modal-body" ng-include="'order_reupload_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -1086,7 +1138,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="cancel-modal-label">{{'cancel' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_cancel_form.html'">
+                <div class="modal-body" ng-include="'order_cancel_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -1104,7 +1156,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="reclaim-modal-label">{{'reclaim' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'order_reclaim_form.html'">
+                <div class="modal-body" ng-include="'order_reclaim_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -1122,7 +1174,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h3 id="files-modal-label">{{'uploadedFiles' | translate}}</h3>
                 </div>
-                <div class="modal-body" ng-include="'file_list.html'">
+                <div class="modal-body" ng-include="'file_list.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
@@ -1131,8 +1183,8 @@
                 </div>
                 </div>
                 </div>
-            </script>
-        {% endverbatim %}
+            {% endverbatim %}
+        </script>
         {% include 'Celsius3CoreBundle:CCI:cci.html.twig' %}
         {% include 'Celsius3CoreBundle:StateBar:state_bar.html.twig' %}
     </div>
@@ -1146,17 +1198,17 @@
     </script>
     {% javascripts 'bundles/celsius3core/ng/CCI/app.js'
                            'bundles/celsius3core/ng/CCI/directives.js'
-                           'bundles/celsius3core/ng/CCI/resources.js' filter='?uglifyjs2'  %}
+                           'bundles/celsius3core/ng/CCI/resources.js' package="admin_order" filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts 'bundles/celsius3core/ng/StateBar/app.js'
-                           'bundles/celsius3core/ng/StateBar/directives.js' filter='?uglifyjs2'  %}
+                           'bundles/celsius3core/ng/StateBar/directives.js' package="admin_order" filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
     {% javascripts 'bundles/celsius3core/ng/AdminOrder/app.js'
                            'bundles/celsius3core/ng/AdminOrder/resources.js'
                            'bundles/celsius3core/ng/AdminOrder/controllers.js'
-                           'bundles/celsius3core/ng/AdminOrder/filters.js' filter='?uglifyjs2'  %}
+                           'bundles/celsius3core/ng/AdminOrder/filters.js' package="admin_order" filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

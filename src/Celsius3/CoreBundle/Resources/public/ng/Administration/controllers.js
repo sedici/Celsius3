@@ -3,6 +3,8 @@ var administrationControllers = angular.module('administrationControllers', []);
 administrationControllers.controller('AdministrationCtrl', function ($scope, $routeParams, $http, Order, User, $location, $filter) {
     'use strict';
 
+    $scope.assets_version = assets_version_administration;
+
     $scope.type = $routeParams.type;
     $scope.sortData = {
         sort: 'o.createdAt',

@@ -13,7 +13,7 @@ userApp.config(['$routeProvider', '$translateProvider',
     function ($routeProvider, $translateProvider) {
         $routeProvider.
                 when('/', {
-                    templateUrl: 'index.html'
+                    templateUrl: 'index.html?' + assets_version_user
                 }).
                 otherwise({
                     redirectTo: '/'

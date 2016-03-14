@@ -26,6 +26,12 @@
                         '@Celsius3CoreBundle/Resources/public/less/*' filter='?uglifycss' filter='cssrewrite' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
             {% endstylesheets %}
+
+            {% stylesheets
+                '@Celsius3CoreBundle/Resources/public/less/*' package="celsius3" filter='?uglifycss' filter='cssrewrite' %}
+            <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+            {% endstylesheets %}
+
             {% if instance.get('instance_css').value is not null %}
                 <style type="text/css">
                     {{  instance.get('instance_css').value  }}
@@ -178,7 +184,11 @@
                            'bundles/celsius3core/components/remarkable-bootstrap-notify/bootstrap-notify.min.js'
                            'bundles/celsius3core/components/clipboard/dist/clipboard.min.js'
                            'bundles/celsius3core/components/ngclipboard/dist/ngclipboard.min.js'
-                            'bundles/celsius3core/js/jquery-ui-timepicker-addon.js'
+                             filter='?uglifyjs2'  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% javascripts 'bundles/celsius3core/js/jquery-ui-timepicker-addon.js'
                            'bundles/celsius3core/js/cosmetics.js'
                            'bundles/celsius3core/js/forms.js'
                            'bundles/celsius3core/js/cci.js'
@@ -186,9 +196,10 @@
                            'bundles/celsius3core/js/dnd.js'
                            'bundles/celsius3core/js/mail.js'
                            'bundles/celsius3notification/js/autobahn.min.js'
-                           'bundles/celsius3notification/js/notification.js' filter='?uglifyjs2'  %}
+                           'bundles/celsius3notification/js/notification.js' package="celsius3" filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
+
     {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
     {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}

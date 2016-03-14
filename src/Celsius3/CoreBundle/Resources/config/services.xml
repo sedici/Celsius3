@@ -16,6 +16,7 @@
         <parameter key="celsius3_core.twig.extension.material_type.class">Celsius3\CoreBundle\Twig\MaterialTypeExtension</parameter>
         <parameter key="celsius3_core.twig.extension.journal.class">Celsius3\CoreBundle\Twig\JournalExtension</parameter>
         <parameter key="celsius3_core.twig.extension.request.class">Celsius3\CoreBundle\Twig\RequestExtension</parameter>
+        <parameter key="celsius3_core.twig.extension.assets.class">Celsius3\CoreBundle\Twig\AssetsExtension</parameter>
         <parameter key="celsius3_core.mailer.class">Celsius3\CoreBundle\Mailer\Mailer</parameter>
         <parameter key="celsius3_core.counter_listener.class">Celsius3\CoreBundle\Listener\CounterListener</parameter>
         <parameter key="celsius3_core.catalog_listener.class">Celsius3\CoreBundle\Listener\CatalogListener</parameter>
@@ -115,6 +116,11 @@
         </service>
         
         <service id="celsius3_core.twig.extension.request" class="%celsius3_core.twig.extension.request.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="twig.extension" />
+        </service>
+        
+        <service id="celsius3_core.twig.extension.assets" class="%celsius3_core.twig.extension.assets.class%">
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
         </service>

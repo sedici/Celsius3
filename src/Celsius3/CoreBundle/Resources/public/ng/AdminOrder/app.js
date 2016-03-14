@@ -19,7 +19,7 @@ orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
     function ($routeProvider, $tooltipProvider, $translateProvider) {
         $routeProvider.
                 when('/', {
-                    templateUrl: 'show.html'
+                    templateUrl: 'show.html?' + assets_version_admin_order
                 }).
                 otherwise({
                     redirectTo: '/'
