@@ -50,13 +50,17 @@ class MailManager
         $this->twig = $twig;
     }
 
-    public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
+    public function getTemplate($code, Instance $instance)
     {
-        $template = $this->twig->createTemplate($this->em->getRepository('Celsius3CoreBundle:MailTemplate')
+        return $this->em->getRepository('Celsius3CoreBundle:MailTemplate')
                         ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
                         ->getQuery()
-                        ->getSingleResult()
-                        ->getText());
+                        ->getSingleResult();
+    }
+
+    public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
+    {
+        $template = $this->twig->createTemplate($this->getTemplate($code, $instance)->getText());
 
         return $template->render(array(
                     'user' => $user,
