@@ -7,4 +7,8 @@
     <li>
         <a href="{{ path('admin_user_show', {'id': element.id}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Show'|trans }}</a>
     </li>
+    <li>
+        <a href="{{ path('fos_user_resetting_admin', {'username': element.username}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Reset password'|trans }}</a>
+    </li>
+    
 {% endblock %}
