@@ -140,7 +140,7 @@ class RegistrationController extends BaseRegistrationController
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
 
-
+        
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
         $userManager->updateUser($user);
