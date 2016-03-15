@@ -34,10 +34,7 @@ class ResettingController extends BaseResettingController
     {
         /** @var $user UserInterface */
         $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
-
-
-        dump($user);die;
-        if (null === $user) {
+      if (null === $user) {
             throw new NotFoundHttpException('The user does not exist.');
         }
 

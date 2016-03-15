@@ -32,6 +32,8 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use Symfony\Component\Security\Http\SecurityEvents;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 
 class RegistrationController extends BaseRegistrationController
@@ -129,11 +131,7 @@ class RegistrationController extends BaseRegistrationController
         $userManager = $this->get('fos_user.user_manager');
         
         $user = $userManager->findUserByConfirmationToken($token);
-
-         $this->get('session')->set('instance_id', $user->getInstance()->getId());
-         $this->get('session')->set('instance_url', $user->getInstance()->getUrl());
-         $this->get('session')->set('instance_host', $user->getInstance()->getHost());
-      
+ 
         if (null === $user) {
             throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $token));
         }
@@ -144,11 +142,10 @@ class RegistrationController extends BaseRegistrationController
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
 
+   
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
-
         $userManager->updateUser($user);
-
 
         if (null === $response = $event->getResponse()) {
             $url = $this->generateUrl('fos_user_registration_confirmed');
@@ -156,6 +153,8 @@ class RegistrationController extends BaseRegistrationController
         }
 
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRMED, new FilterUserResponseEvent($user, $request, $response));
+        $event_login = new InteractiveLoginEvent($request, $this->get('security.token_storage')->getToken());
+        $dispatcher->dispatch(SecurityEvents::INTERACTIVE_LOGIN, $event_login);
 
         return $response;
     }
