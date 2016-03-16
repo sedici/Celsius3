@@ -637,15 +637,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
-    $scope.validateInstitution = function () {
-        if (!_.isEmpty(findInstitution($scope.select.tree))) {
-            $scope.ccierror = '';
-            $scope.submitInstitution();
-        } else {
-            $scope.ccierror = 'has-error';
-        }
-    };
-
     $scope.submitInstitution = function () {
         var parent_institution = findInstitution($scope.select.tree);
 
@@ -673,9 +664,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     $('#institutionForm div.form-group').has('input').each(function () {
                         $(this).removeClass('has-error');
                     });
-                    console.log(response.errors);
                     $(response.errors).each(function () {
-                        console.log($(this).get(0));
                         $('#institutionForm div.form-group')
                                 .has('input[name="institution[' + $(this).get(0).property_path + ']"]')
                                 .addClass('has-error')
@@ -712,7 +701,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     });
 
                     $(response.errors).each(function () {
-                        console.log($(this).get(0));
                         $('#journalForm div.form-group')
                                 .has('input[name="journal[' + $(this).get(0).property_path + ']"]')
                                 .addClass('has-error')

@@ -24,7 +24,7 @@
             {% verbatim %}
                 <label for="search">{{'search' | translate}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
-                <button class="btn btn-sm btn-default pull-right" data-toggle="popover" data-placement="left" data-content="{{ getHtmlMaterialData() }}" data-html=true data-container="body">
+                <button class="btn btn-sm btn-default pull-right"  data-auto-close="1" data-placement="left" bs-popover data-content-template="show_material_data.html?{{assets_version}}"  data-container="body">
                 {{ 'orderData' | translate }}
                 </button>
                 <hr>
@@ -843,7 +843,7 @@
                 </div>
                 <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateInstitution()" value="#institutionForm">{{'save' | translate}}</button>
+                <button class="btn btn-primary" ng-click="submitInstitution()" value="#institutionForm">{{'save' | translate}}</button>
                 </div>
                 </div>
                 </div>
