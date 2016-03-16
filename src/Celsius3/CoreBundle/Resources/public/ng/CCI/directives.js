@@ -67,25 +67,35 @@ cciWidget.directive('cciWidget', function ($translate, Country, City, Institutio
             }
         };
 
+        scope.filterOwnInstance = function (institutions) {
+            return institutions.filter(function (obj) {
+                if (!_.isUndefined(obj.celsius_instance)) {
+                    return (parseInt(obj.celsius_instance.id) !== parseInt(instance_id));
+                }
+                return true;
+            });
+        };
+
         scope.countryChanged = function () {
+            console.log(scope.mustFilterOwnInstance);
             scope.cities = City.query({country_id: scope.select.country});
             scope.institutions = Institution.query({country_id: scope.select.country, filter: scope.select.filter}, function (institutions) {
-                _.first(scope.select.tree).institutions = institutions;
+                _.first(scope.select.tree).institutions = (scope.mustFilterOwnInstance) ? scope.filterOwnInstance(institutions) : institutions;
             });
         };
         scope.cityChanged = function () {
             scope.institutions = Institution.query({country_id: scope.select.country, city_id: scope.select.city, filter: scope.select.filter}, function (institutions) {
-                _.first(scope.select.tree).institutions = institutions;
+                _.first(scope.select.tree).institutions = (scope.mustFilterOwnInstance) ? scope.filterOwnInstance(institutions) : institutions;
             });
         };
         scope.institutionChanged = function (data) {
             Institution.parent({parent_id: data.institution}, function (institutions) {
                 if (data.child.length === 0 && institutions.length > 0) {
                     var node = new Node(++scope.select_count);
-                    node.institutions = institutions;
+                    node.institutions = (scope.mustFilterOwnInstance) ? scope.filterOwnInstance(institutions) : institutions;
                     data.child = [node];
                 } else if (data.child.length > 0) {
-                    _.first(data.child).institutions = institutions;
+                    _.first(data.child).institutions = (scope.mustFilterOwnInstance) ? scope.filterOwnInstance(institutions) : institutions;
                 }
             });
         };

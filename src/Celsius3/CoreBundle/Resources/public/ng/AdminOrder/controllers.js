@@ -17,6 +17,17 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.instance_id = instance_id;
     $scope.assets_version = assets_version_admin_order;
+    $scope.mustFilterOwnInstance = false;
+
+    $(document).ready(function () {
+        $('#request-modal').on('show.bs.modal', function () {
+            $scope.mustFilterOwnInstance = true;
+        });
+
+        $('#request-modal').on('hide.bs.modal', function () {
+            $scope.mustFilterOwnInstance = false;
+        });
+    });
 
     $scope.contains = function (list, item) {
         return _.contains(list, item);
@@ -1070,4 +1081,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }
         $('#institution-modal').modal('show');
     }
+
+
 });
