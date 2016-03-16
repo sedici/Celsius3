@@ -637,15 +637,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
     };
 
-    $scope.validateInstitution = function () {
-        if (!_.isEmpty(findInstitution($scope.select.tree))) {
-            $scope.ccierror = '';
-            $scope.submitInstitution();
-        } else {
-            $scope.ccierror = 'has-error';
-        }
-    };
-
     $scope.submitInstitution = function () {
         var parent_institution = findInstitution($scope.select.tree);
 
