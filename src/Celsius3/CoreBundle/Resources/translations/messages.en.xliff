@@ -2141,6 +2141,7 @@
             <trans-unit id="108">
                 <source>cancelledByUser</source>
                 <target>Cancelled by user</target>
+            </trans-unit>
             <trans-unit id="109">                
                 <source>Requests</source>
                 <target>Requests</target>
