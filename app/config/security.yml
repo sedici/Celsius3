@@ -1,7 +1,7 @@
 security:
     providers:
         fos_userbundle:
-            id: celsius3_core.security.user_provider.username
+            id: celsius3_core.security.user_provider.username_email
 
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
