@@ -626,9 +626,6 @@
                 <button class="btn btn-default btn-xs action-button float2" type="button" role="button" data-toggle="modal" data-placement="bottom" data-target="#journal-modal" title="{{ 'add' | translate }}">
                 <span class="glyphicon glyphicon-plus"></span>
                 </button>
-                <a class="btn btn-default btn-xs action-button float2" target="_blank" ng-href="{{ {path: 'admin_journal_new', params: {'journal[name]':order.material_data.other} }|get_url}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'add' | translate }}">
-                <span class="glyphicon glyphicon-plus"></span>
-                </button>
                 <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
