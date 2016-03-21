@@ -23,6 +23,8 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\InstanceManager;
@@ -33,10 +35,10 @@ class CustomUserFieldType extends AbstractType
     {
         $builder
                 ->add('name')
-                ->add('private', null, array(
+                ->add('private',  CheckboxType::class, array(
                     'required' => false,
                 ))
-                ->add('required', null, array(
+                ->add('required',  CheckboxType::class, array(
                     'required' => false,
                 ))
         ;
