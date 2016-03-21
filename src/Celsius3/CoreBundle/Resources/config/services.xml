@@ -415,10 +415,10 @@
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="request_stack"></argument>
         </service>
-        
         <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
             <tag name="kernel.event_subscriber" />
         </service>
+       
     </services>
     
 </container>

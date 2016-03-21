@@ -2178,10 +2178,14 @@
                 <source>Requests</source>
                 <target>Solicitudes</target>
             </trans-unit>
-            <trans-unit id="108">
+            <trans-unit id="110">
                 <source>The</source>
                 <target>El</target>
             </trans-unit>
+            <trans-unit id="111">
+               <source>Login as</source>
+                <target>Loguearse como</target>
+            </trans-unit>    
         </body>
     </file>
 </xliff>

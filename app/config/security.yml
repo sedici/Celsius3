@@ -23,7 +23,7 @@ security:
                 target: public_index
                 success_handler: celsius3_core.security.logout_success_handler
             anonymous:    true
-            switch_user: { role: ROLE_SUPER_ADMIN }
+            switch_user: { role: ROLE_ADMIN, parameter: _switch_user}
 
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/

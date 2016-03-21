@@ -332,4 +332,25 @@ class AdminBaseUserController extends BaseUserController
         return 'admin_user';
     }
 
+ /**
+     * Shows the data of a user
+     *
+     * @Route("/{_switch_user}/switch-user", name="switch_user")
+     * @Template()
+     *
+     * @return array
+     */
+    public function switchUserAction($_switch_user)
+    {
+     
+       if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+          $userManager = $this->get('fos_user.user_manager');
+          $user = $userManager->findUserByUsername($_switch_user);
+          $firewallName = 'secured_area';
+          $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
+          $this->container->get('security.context')->setToken($token);
+        }
+          return $this->redirectToRoute('admin_user', array());
+    }
+ 
 }
