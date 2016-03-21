@@ -35,7 +35,6 @@ use FOS\UserBundle\Event\GetResponseUserEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-
 class RegistrationController extends BaseRegistrationController
 {
 
@@ -121,17 +120,16 @@ class RegistrationController extends BaseRegistrationController
         return $this->container->get('celsius3_core.instance_helper')->getUrlInstance();
     }
 
-
-      /**
+    /**
      * Receive the confirmation token from user email provider, login the user
      */
     public function confirmAction(Request $request, $token)
     {
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
         $userManager = $this->get('fos_user.user_manager');
-        
+
         $user = $userManager->findUserByConfirmationToken($token);
- 
+
         if (null === $user) {
             throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $token));
         }
@@ -142,7 +140,7 @@ class RegistrationController extends BaseRegistrationController
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
 
-   
+        
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
         $userManager->updateUser($user);
@@ -158,6 +156,5 @@ class RegistrationController extends BaseRegistrationController
 
         return $response;
     }
-
 
 }

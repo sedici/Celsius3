@@ -35,6 +35,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
+
     private $authorization_checker;
     private $token_storage;
     private $em;
@@ -88,4 +89,5 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
                 ))
         ;
     }
+
 }

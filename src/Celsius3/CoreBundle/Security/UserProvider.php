@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 
 class UserProvider extends BaseUserProvider
 {
+
     protected $em;
     protected $request_stack;
 
@@ -29,26 +30,26 @@ class UserProvider extends BaseUserProvider
      *
      * This method is meant to be an extension point for child classes.
      *
-     * @param string $username
+     * @param string $identifier
      *
      * @return UserInterface|null
      */
-    protected function findUser($username)
+    protected function findUser($identifier)
     {
-        $user = $this->userManager->findUserByUsername($username);
+        $user = $this->userManager->findUserByUsernameOrEmail($identifier);
 
         if ($user) {
             $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
-                    ->findOneBy(array(
-                'host' => $user->getInstance()->getHost(),
-            ));
+                    ->findOneBy(array('host' => $user->getInstance()->getHost()));
+
             if ($instance) {
                 if ($user->getInstance()->getHost() === $this->request_stack->getCurrentRequest()->getHost() || array_key_exists($instance->getId(), $user->getSecondaryInstances())) {
                     return $user;
                 }
             }
         }
-        
+
         return null;
     }
+
 }

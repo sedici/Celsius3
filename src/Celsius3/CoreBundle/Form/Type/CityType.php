@@ -40,14 +40,9 @@ class CityType extends AbstractType
     {
         $builder
                 ->add('name')
-                ->add('postalCode')
-                //->add('country', EntityType::class, array(
-                //    'class' => Country::class,
-        //        )
-                  //  )
-        ;
+                ->add('postalCode');
 
-    $builder->add('country',EntityType::class,array(
+        $builder->add('country',EntityType::class,array(
                     'class' => Country::class,
                      'query_builder' => function (EntityRepository $er) {
                         return $er

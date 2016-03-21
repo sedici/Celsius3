@@ -14,7 +14,7 @@ group:
 # Security
 security:
     login:
-        username: "Nombre de usuario:"
+        username: "Correo o Usuario:"
         password: "Contraseña:"
         remember_me: Recordar
         submit: Entrar
@@ -56,7 +56,7 @@ resetting:
     check_email: Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.
     request:
         invalid_username: El usuario o dirección de correo "%username%" no existe.
-        username: "Correo electronico:"
+        username: "Correo o Usuario:"
         submit: Restablecer contraseña
     reset:
         submit: Cambiar contraseña

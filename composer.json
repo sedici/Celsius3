@@ -4,8 +4,10 @@
     "type": "project",
     "description": "The Celsius3 Project",
     "autoload": {
-        "psr-4": { "": "src/" },
-        "files": [ "app/AppKernel.php" ]
+        "psr-4": {
+            "": "src/"
+        },
+        "files": ["app/AppKernel.php"]
     },
     "require": {
         "php": ">=5.3.9",
@@ -45,7 +47,8 @@
         "snc/redis-bundle": "~1.1",
         "predis/predis": "^1.0",
         "friendsofsymfony/oauth-server-bundle": "dev-master",
-        "sabberworm/php-css-parser": "*"
+        "sabberworm/php-css-parser": "*",
+        "friendsofsymfony/elastica-bundle": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

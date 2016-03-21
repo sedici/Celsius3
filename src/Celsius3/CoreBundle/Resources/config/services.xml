@@ -71,7 +71,8 @@
         <parameter key="celsius3.maintenance_mode_listener.class">Celsius3\CoreBundle\EventListener\MaintenanceModeListener</parameter>
         <parameter key="celsius3_core.mailer_helper.class">Celsius3\CoreBundle\Helper\MailerHelper</parameter>
         <parameter key="celsius3.instance_configuration_listener.class">Celsius3\CoreBundle\EventListener\InstanceConfigurationListener</parameter>
-        <parameter key="celsius3_core.security.user_provider.username.class">Celsius3\CoreBundle\Security\UserProvider</parameter>
+        <parameter key="celsius3_core.security.user_provider.username_email.class">Celsius3\CoreBundle\Security\UserProvider</parameter>
+        <parameter key="elsius3.listener.elastica_custom_properties.class">Celsius3\CoreBundle\EventListener\CustomPropertiesListener</parameter>
     </parameters>
 
     <services>
@@ -124,7 +125,7 @@
             <argument type="service" id="service_container"></argument>
             <tag name="twig.extension" />
         </service>
-
+        
         <service id="celsius3_core.mailer" class="%celsius3_core.mailer.class%">
             <argument type="service" id="service_container"></argument>
             <argument type="service" id="celsius3_core.mailer_helper"></argument>
@@ -149,6 +150,7 @@
             <argument type="service" id="service_container"></argument>
             <tag name="doctrine.event_listener" event="prePersist" />
             <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
         </service>
 
         <service id="celsius3_core.search_event_listener" class="%celsius3_core.search_event_listener.class%">
@@ -408,10 +410,15 @@
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="celsius3_core.security.user_provider.username" class="%celsius3_core.security.user_provider.username.class%">
+        <service id="celsius3_core.security.user_provider.username_email" class="%celsius3_core.security.user_provider.username_email.class%">
             <argument type="service" id="fos_user.user_manager" />
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="request_stack"></argument>
         </service>
+        
+        <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
+            <tag name="kernel.event_subscriber" />
+        </service>
     </services>
+    
 </container>

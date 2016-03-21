@@ -99,22 +99,22 @@ class SuperadminInstanceController extends InstanceController
                 ->find($request->request->get('instance')['institution']);
 
         $instance = new Instance();
-       // $response = $this->baseCreate('Instance', $instance, InstanceType::class, array(),'superadmin_instance');
-        $options=array();
-        $type=InstanceType::class;
-        $route='superadmin_instance';
-        $name='Instance';
+        // $response = $this->baseCreate('Instance', $instance, InstanceType::class, array(),'superadmin_instance');
+        $options = array();
+        $type = InstanceType::class;
+        $route = 'superadmin_instance';
+        $name = 'Instance';
         $form = $this->createForm($type, $instance, $options);
         $form->handleRequest($request);
         if ($form->isValid()) {
             try {
                 $this->persistEntity($instance);
 
-                  $institution->setCelsiusInstance($instance);
-                  $em->persist($institution);
-                  $em->flush($institution);
+                $institution->setCelsiusInstance($instance);
+                $em->persist($institution);
+                $em->flush($institution);
 
-                $this->addFlash('success', $this->get('translator')->trans('The').' '. $name . ' was successfully created.');
+                $this->addFlash('success', $this->get('translator')->trans('The') . ' ' . $name . ' was successfully created.');
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'The ' . $name . ' already exists.');
@@ -126,15 +126,15 @@ class SuperadminInstanceController extends InstanceController
         return array(
             'entity' => $instance,
             'form' => $form->createView(),
-            );
-        
+        );
     }
 
-    private function getErrorMessages(\Symfony\Component\Form\Form $form) {
+    private function getErrorMessages(\Symfony\Component\Form\Form $form)
+    {
         $errors = array();
 
         foreach ($form->getErrors() as $key => $error) {
-                $errors[] = $error->getMessage();
+            $errors[] = $error->getMessage();
         }
 
         foreach ($form->all() as $child) {

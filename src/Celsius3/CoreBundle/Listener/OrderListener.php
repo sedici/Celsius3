@@ -30,6 +30,7 @@ use Celsius3\CoreBundle\Manager\EventManager;
 
 class OrderListener
 {
+
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -52,6 +53,23 @@ class OrderListener
 
         if ($entity instanceof Request) {
             $this->container->get('celsius3_core.lifecycle_helper')->createEvent(EventManager::EVENT__CREATION, $entity, $entity->getInstance());
+
+            // Update elasticsearch index
+            $this->container->get('fos_elastica.object_persister.app.request')
+                    ->insertOne($entity);
         }
     }
+
+    public function postUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+
+        if ($entity instanceof Order) {
+            // Update elasticsearch index
+            $this->container->get('fos_elastica.object_persister.app.request')
+                    ->replaceOne($entity->getRequest($this->container->get('celsius3_core.instance_helper')->getSessionInstance())
+            );
+        }
+    }
+
 }

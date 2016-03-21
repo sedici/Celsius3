@@ -37,6 +37,7 @@ class AppKernel extends Kernel
             new Celsius3\NotificationBundle\Celsius3NotificationBundle(),
             new Celsius3\MessageBundle\Celsius3MessageBundle(),
             new Celsius3\ApiBundle\Celsius3ApiBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -53,4 +54,5 @@ class AppKernel extends Kernel
     {
         $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
+
 }

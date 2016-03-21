@@ -14,7 +14,7 @@ group:
 # Security
 security:
     login:
-        username: "Username:"
+        username: "Email or Username:"
         password: "Password:"
         remember_me: Remember me
         submit: Login
@@ -59,7 +59,7 @@ resetting:
     check_email: An email has been sent to %email%. It contains a link you must click to reset your password.
     request:
         invalid_username: The username or email address "%username%" does not exist.
-        username: "Email address:"
+        username: "Email or Username:"
         submit: Reset password
     reset:
         submit: Change password
