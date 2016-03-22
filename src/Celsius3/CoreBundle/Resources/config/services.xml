@@ -418,7 +418,7 @@
         <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
             <tag name="kernel.event_subscriber" />
         </service>
-       
+          
     </services>
     
 </container>

@@ -335,12 +335,12 @@ class AdminBaseUserController extends BaseUserController
  /**
      * Shows the data of a user
      *
-     * @Route("/{_switch_user}/switch-user", name="switch_user")
+     * @Route("//switch-user", name="switch_user")
      * @Template()
      *
      * @return array
      */
-    public function switchUserAction($_switch_user)
+    public function switchUserAction(Request $request)
     {
      
        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -350,7 +350,10 @@ class AdminBaseUserController extends BaseUserController
           $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
           $this->container->get('security.context')->setToken($token);
         }
-          return $this->redirectToRoute('admin_user', array());
+          return $this->redirectToRoute('user_index', array());
     }
  
+
+
+
 }
