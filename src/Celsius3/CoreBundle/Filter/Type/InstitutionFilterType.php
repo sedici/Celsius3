@@ -39,15 +39,43 @@ class InstitutionFilterType extends AbstractType
                 ))
                 ->add('abbreviation', null, array(
                     'required' => false,
-                ))
-                ->add('parent', EntityType::class, array(
-                    'required' => false,
-                    'class' => 'Celsius3CoreBundle:Institution',
-                ))
-                ->add('city', EntityType::class, array(
-                    'required' => false,
-                    'class' => 'Celsius3CoreBundle:City',
-                ))
+                ));
+        $builder->add('country', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Country',
+                'mapped' => false,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'country-select'
+                ),
+                'auto_initialize' => false,
+            ));
+
+        $builder->add('city', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:City',
+                'mapped' => true,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'city-select'
+                ),
+                'auto_initialize' => false,
+            ));
+              
+        $builder->add('parent', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Institution',
+                'mapped' => true,
+                'label' => ucfirst('institution padre'),
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'institution-select'
+                ),
+                'auto_initialize' => false,
+            ));
+
+               
+               
         ;
         if (is_null($options['instance'])) {
             $builder

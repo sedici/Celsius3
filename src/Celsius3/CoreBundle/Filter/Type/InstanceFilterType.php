@@ -44,10 +44,7 @@ class InstanceFilterType extends AbstractType
                 ->add('email', null, array(
                     'required' => false,
                 ))
-                ->add('institution', EntityType::class, array(
-                    'required' => false,
-                    'class' => 'Celsius3CoreBundle:Institution'
-                ))
+               
         ;
     }
 
