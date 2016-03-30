@@ -30,16 +30,10 @@ class InstitutionExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('full_name', array($this, 'fullName')),
             new \Twig_SimpleFunction('get_country', array($this, 'getCountry')),
             new \Twig_SimpleFunction('get_city', array($this, 'getCity')),
             new \Twig_SimpleFunction('print_institutions', array($this, 'printInstitutions'))
         );
-    }
-
-    public function fullName(Institution $institution = null)
-    {
-        return $institution ? $institution->getFullName() : '';
     }
 
     public function getCountry(Institution $institution = null)

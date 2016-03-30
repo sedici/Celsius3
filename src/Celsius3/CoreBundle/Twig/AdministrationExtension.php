@@ -43,6 +43,7 @@ class AdministrationExtension extends \Twig_Extension
             new \Twig_SimpleFunction('count_users', array($this, 'countUsers')),
             new \Twig_SimpleFunction('has_higher_roles', array($this, 'hasHigherRoles')),
             new \Twig_SimpleFunction('role_name', array($this, 'roleName')),
+            new \Twig_SimpleFunction('full_name', array($this, 'fullName')),
         );
     }
 
@@ -91,6 +92,11 @@ class AdministrationExtension extends \Twig_Extension
     public function getName()
     {
         return 'celsius3_core.administration_extension';
+    }
+
+    public function fullName($entity = null)
+    {
+        return $entity ? $entity->getFullName() : '';
     }
 
 }
