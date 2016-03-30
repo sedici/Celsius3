@@ -5,7 +5,32 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-       
+ 
+
+ <h1> {{ 'Help'|trans }} </h1>   
+ <div class="col-md-3">
+ 	   <div id="accordion" class="panel-group">
+    	<div class="panel panel-default">
+        	<div class="panel-heading">
+                <h4 class="panel-title">
+                <a href data-target="#id_acerca_de"  data-toggle="collapse">
+                {{ 'Acerca de'|trans }}
+                </a>
+                </h4>
+            </div>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                <a href data-target="#id_manual"  data-toggle="collapse">
+                	{{ 'Manual de administración'|trans }}
+                 </a>
+                </h4>
+            </div>
+        </div>
     </div>
+ </div>
+ <div class="col-md-9" >
+ 	<div id='id_acerca_de'>Acerca de </div>
+ 	<div id="id_manual"> Manual</div>
+ </div>
+
 {% endblock %}
