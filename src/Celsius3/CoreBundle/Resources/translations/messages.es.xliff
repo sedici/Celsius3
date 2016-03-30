@@ -2185,7 +2185,11 @@
             <trans-unit id="111">
                <source>Login as</source>
                 <target>Loguearse como</target>
-            </trans-unit>    
+            </trans-unit>  
+             <trans-unit id="112">
+                <source>Help</source>
+                <target>Ayuda</target>
+            </trans-unit>  
         </body>
     </file>
 </xliff>

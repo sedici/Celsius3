@@ -65,6 +65,9 @@ class Builder
         $menu->addChild('Statistics', array(
             'route' => 'public_statistics',
         ))->setExtra('translation_domain', 'messages');
+        $menu->addChild('Help', array(
+            'route' => 'public_help',
+        ))->setExtra('translation_domain', 'messages');
 
         return $menu;
     }

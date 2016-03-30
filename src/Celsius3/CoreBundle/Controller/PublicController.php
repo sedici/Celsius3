@@ -257,4 +257,16 @@ class PublicController extends BaseInstanceDependentController
 
         return $response;
     }
+
+
+     /**
+     * @Route("/help", name="public_help")
+     * @Template()
+     */
+    public function helpAction()
+    {
+        return array(
+           
+        );
+    }
 }
