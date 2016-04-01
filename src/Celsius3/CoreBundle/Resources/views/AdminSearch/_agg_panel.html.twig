@@ -1,0 +1,23 @@
+{% set agg = aggregations[name] %}
+{% set buckets = get_buckets(name,agg) %}
+{% if buckets is not empty and filters[name] is not defined %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ name | trans | first_upper }} 
+            <span class="pull-right" style="cursor:pointer">
+                <a data-target="#{{name}}buckets" data-toggle="collapse">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+            </span>
+        </div>
+        <ul id="{{name}}buckets" class="list-group in">
+            {% for a in buckets %}
+                <li class="list-group-item">
+                    <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
+                        {{ a.key | trans | first_upper }} ({{ a.doc_count }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

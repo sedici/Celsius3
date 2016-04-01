@@ -359,23 +359,48 @@ fos_elastica:
                 request:
                     mappings:
                         type: { type: string }
-                        comments: { boost: 5 }
-                        owner:
-                            type: object
+                        instance:
+                            type: "nested"
                             properties:
-                                name: { boost: 5 }
-                                surname: ~
-                                username: { type: string }
-                                email: { type: string }
+                                id: ~
+                        owner:
+                            type: "nested"
+                            properties:
+                                name: { type: string, boost: 15 }
+                                surname: { type: string, boost: 17 }
+                                username: { type: string, boost: 16 }
+                        creator:
+                            type: "nested"
+                            properties:
+                                name: { type: string, boost: 12 }
+                                surname: { type: string, boost: 14 }
+                                username: { type: string, boost: 13 }
+                        librarian:
+                            type: "nested"
+                            properties:
+                                name: { type: string, boost: 6 }
+                                surname: { type: string, boost: 8 }
+                                username: { type: string, boost: 7 }
+                        operator:
+                            type: "nested"
+                            properties:
+                                name: { type: string, boost: 9 }
+                                surname: { type: string, boost: 11 }
+                                username: { type: string, boost: 10 }
                         order:
-                            type: object
+                            type: "nested"
                             properties:
                                 code: { type: integer }
                                 materialData:
-                                    type: object
+                                    type: "nested"
                                     properties:
-                                        title: { boost: 3 }
-                                        authors: { type: string }
+                                        materialType: ~
+                                        title: { type: string, boost: 20 }
+                                        authors: { type: string, boost: 18 }
+                        currentState:
+                            type: "nested"
+                            properties:
+                                type: { type: string, boost: 5 }
                     persistence:
                         driver: orm
                         model: Celsius3\CoreBundle\Entity\Request

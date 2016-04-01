@@ -2,24 +2,15 @@
 
 {% block adminpanel %}
     {% spaceless %}
-    <form action="{{ path('administration_search') }}" method="GET" role="form">
-        <div class="input-group">
-            <span class="input-group-addon">
-                <select name="type" id="type">
-                    <option value=""></option>
-                    <option value="user" {% if app.request.get('type') == 'user' %} selected {% endif %}>{{ 'By User'|trans }}</option>
-                    <option value="journal" {% if app.request.get('type') == 'journal' %} selected {% endif %}>{{ 'By Journal'|trans }}</option>
-                </select>
-            </span>
-            <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control" placeholder="{{ 'Search text'|trans }}" />
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> {{ 'Search'|trans }}</button>
-                <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"
-                        data-content="{{ 'searchExplanation'|trans }}">
-                    <span class="glyphicon glyphicon-question-sign"></span>
-                </button>
-            </span>
+        <div class="col-md-4 col-md-offset-8">
+            <form action="{{ path('admin_search') }}" method="GET" role="form">
+                <div class="input-group">
+                    <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control" placeholder="{{ 'Search text' | trans }}" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </form>
         </div>
-    </form>
-{% endspaceless %}
+    {% endspaceless %}
 {% endblock %}

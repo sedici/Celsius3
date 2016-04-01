@@ -2138,7 +2138,7 @@
                 <source>Go to Sent</source>
                 <target>Go to Sent</target>
             </trans-unit>
-             <trans-unit id="107">
+            <trans-unit id="107">
                 <source>The</source>
                 <target>the</target>
             </trans-unit>
@@ -2155,13 +2155,41 @@
                 <target>El</target>
             </trans-unit>
             <trans-unit id="111">
-               <source>Login as</source>
+                <source>Login as</source>
                 <target>Loguearse como</target>
-            </trans-unit> 
-             <trans-unit id="112">
+            </trans-unit>
+            <trans-unit id="112">
+                <source>owners</source>
+                <target>owners</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>states</source>
+                <target>states</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>operators</source>
+                <target>operators</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>materials</source>
+                <target>materials</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>types</source>
+                <target>types</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>search filter</source>
+                <target>search filter</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>congress</source>
+                <target>congress</target>
+            </trans-unit>
+            <trans-unit id="119">
                 <source>Help</source>
                 <target>Help</target>
-            </trans-unit>   
+            </trans-unit>  
         </body>
     </file>
 </xliff>

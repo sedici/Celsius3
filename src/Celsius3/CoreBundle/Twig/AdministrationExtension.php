@@ -44,6 +44,7 @@ class AdministrationExtension extends \Twig_Extension
             new \Twig_SimpleFunction('has_higher_roles', array($this, 'hasHigherRoles')),
             new \Twig_SimpleFunction('role_name', array($this, 'roleName')),
             new \Twig_SimpleFunction('full_name', array($this, 'fullName')),
+            new \Twig_SimpleFunction('get_buckets', array($this, 'getBuckets')),
         );
     }
 
@@ -97,6 +98,18 @@ class AdministrationExtension extends \Twig_Extension
     public function fullName($entity = null)
     {
         return $entity ? $entity->getFullName() : '';
+    }
+
+    public function getBuckets($name, $agg)
+    {
+        dump($agg);
+        if (array_key_exists('buckets', $agg)) {
+            return $agg['buckets'];
+        } elseif (array_key_exists($name, $agg) && array_key_exists('buckets', $agg[$name])) {
+            return $agg[$name]['buckets'];
+        } else {
+            return [];
+        }
     }
 
 }

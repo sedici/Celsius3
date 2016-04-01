@@ -326,7 +326,7 @@
         </service>
 
         <service id="celsius3_core.search_manager" class="%celsius3_core.search_manager.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument type="service" id="service_container"></argument>
         </service>
 
         <service id="celsius3_core.state_manager" class="%celsius3_core.state_manager.class%">
@@ -418,7 +418,6 @@
         <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
             <tag name="kernel.event_subscriber" />
         </service>
-          
     </services>
-    
+
 </container>

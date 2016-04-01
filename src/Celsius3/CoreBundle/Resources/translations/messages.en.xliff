@@ -2155,6 +2155,34 @@
                 <target>Login as</target>
             </trans-unit>
             <trans-unit id="112">
+                <source>owners</source>
+                <target>owners</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>states</source>
+                <target>states</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>operators</source>
+                <target>operators</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>materials</source>
+                <target>materials</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>types</source>
+                <target>types</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>search filter</source>
+                <target>search filter</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>congress</source>
+                <target>congress</target>
+            </trans-unit>
+            <trans-unit id="119">
                 <source>Help</source>
                 <target>Help</target>
             </trans-unit>

@@ -6,42 +6,26 @@
 
 {% block content %}
 
-    {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) ~ '?keyword=' ~ keyword ~ '&type=' ~ type %}
+    {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) ~ '?keyword=' ~ keyword %}
 
     <h3>{{ 'Search results'|trans }}</h3>
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="nav nav-pills pull-right">
-                        <li class="{% if(state is null) %} active {% endif %}">
-                            <a href="{{ currentPath }}">{{ 'all' | trans }}({{ total }})</a>
-                        </li>
-                        {% for orderState,count in states %}
-                            {% if (count > 0) %}
-                                <li class="{% if(state == orderState) %} active {% endif %}">
-                                    <a href="{{ currentPath ~ '&state=' ~ orderState }}">{{ orderState | trans }}({{count}})</a>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+        <div class="col-md-9">
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+            {% for e in pagination %}
+                {% set element = e.order %}
+                {% if element is not empty %}
+                    {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' %}
+                {% endif %}
+            {% endfor %}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="navigation">
-                {{ knp_pagination_render(pagination) }}
-            </div>
-
-            {% for element in pagination %}
-                {% include 'Celsius3CoreBundle:AdminOrder:_index_element.html.twig' %}
-            {% endfor %}
-
-            <div class="navigation">
-                {{ knp_pagination_render(pagination) }}
-            </div>
+        <div class="col-md-3">
+            {% include 'Celsius3CoreBundle:AdminSearch:_aggregations.html.twig' %}
         </div>
     </div>
 {% endblock %}

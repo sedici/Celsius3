@@ -11,9 +11,17 @@ class CustomPropertiesListener implements EventSubscriberInterface
     public function addCustomProperties(TransformEvent $event)
     {
         $object = $event->getObject();
+        $document = $event->getDocument();
+
         if ($object instanceof \Celsius3\CoreBundle\Entity\BookType) {
-            $document = $event->getDocument();
             $document->set('editor', $object->getEditor());
+            $document->set('isbn', $object->getISBN());
+        } elseif ($object instanceof \Celsius3\CoreBundle\Entity\JournalType) {
+            if (!is_null($object->getJournal())) {
+                $document->set('journal', $object->getJournal()->getName());
+            } else {
+                $document->set('journal', $object->getOther());
+            }
         }
     }
 

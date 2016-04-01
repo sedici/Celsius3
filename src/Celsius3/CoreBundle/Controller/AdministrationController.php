@@ -60,52 +60,6 @@ class AdministrationController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/search", name="administration_search")
-     * @Template()
-     *
-     * @return array
-     */
-    public function searchAction(Request $request)
-    {
-        $type = $request->query->get('type');
-        $keyword = trim($request->query->get('keyword'));
-        $state = $request->query->get('state');
-
-        $paginator = $this->get('knp_paginator');
-        $query = $this->get('celsius3_core.search_manager')->search('Order', $type, $keyword, $this->getInstance());
-
-        $states = array();
-        foreach (StateManager::$stateTypes as $s) {
-            $states[$s] = 0;
-        }
-
-        $total = 0;
-        $results = $query->getArrayResult();
-        foreach ($results as $result) {
-            foreach ($result['requests'] as $request) {
-                foreach ($request['states'] as $s) {
-                    if ($s['isCurrent']) {
-                        $states[$s['type']] += 1;
-                        $total += 1;
-                    }
-                }
-            }
-        }
-
-        $pagination = $paginator->paginate(
-    $this->get('celsius3_core.search_manager')->search('Order', $type, $keyword, $this->getInstance(), $state), $this->get('request')->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */);
-
-        return array(
-            'keyword' => $keyword,
-            'type' => $type,
-            'state' => $state,
-            'states' => $states,
-            'pagination' => $pagination,
-            'total' => $total,
-        );
-    }
-
-    /**
      * @Route("/ajax", name="admin_ajax")
      */
     public function ajaxAction(Request $request)

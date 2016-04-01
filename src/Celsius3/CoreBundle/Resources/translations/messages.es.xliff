@@ -2183,13 +2183,41 @@
                 <target>El</target>
             </trans-unit>
             <trans-unit id="111">
-               <source>Login as</source>
+                <source>Login as</source>
                 <target>Loguearse como</target>
-            </trans-unit>  
-             <trans-unit id="112">
+            </trans-unit>
+            <trans-unit id="112">
+                <source>owners</source>
+                <target>propietarios</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>states</source>
+                <target>estados</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>operators</source>
+                <target>operadores</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>materials</source>
+                <target>materiales</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>types</source>
+                <target>tipos</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>search filter</source>
+                <target>filtrar busqueda</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>congress</source>
+                <target>congreso</target>
+            </trans-unit>
+            <trans-unit id="119">
                 <source>Help</source>
                 <target>Ayuda</target>
-            </trans-unit>  
+            </trans-unit>         
         </body>
     </file>
 </xliff>

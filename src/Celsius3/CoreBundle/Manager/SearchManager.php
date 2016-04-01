@@ -22,45 +22,159 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Instance;
+use Symfony\Component\DependencyInjection\Container;
+use Elastica\Query;
+use Elastica\Aggregation\Terms;
+use Elastica\Aggregation\Nested;
+use Elastica\Query\QueryString;
+use Elastica\Query\Filtered;
+use Elastica\Filter\BoolFilter;
 
 class SearchManager
 {
 
-    private $em;
-    private $typeList = array(
-        'user' => 'BaseUser',
-        'journal' => 'JournalType',
-    );
+    private $container;
 
-    public function __construct(EntityManager $em)
+    public function __construct(Container $container)
     {
-        $this->em = $em;
+        $this->container = $container;
     }
 
-    private function getTypeRepository($type)
+    private function prepareKeyword($keyword)
     {
-        if (array_key_exists($type, $this->typeList)) {
-            return $this->typeList[$type];
-        } else {
-            return null;
+        $search = '';
+        foreach (explode(' ', trim($keyword)) as $word) {
+            $search .= " *$word* ";
+        }
+
+        return $search;
+    }
+
+    private function addAgregations($query)
+    {
+        $typesAgg = (new Terms('types'))->setField('type');
+        $ownersAgg = (new Nested('owners', 'owner'))
+                ->addAggregation((new Terms('owners'))->setField('owner.username'));
+        $operatorsAgg = (new Nested('operators', 'operator'))
+                ->addAggregation((new Terms('operators'))->setField('operator.username'));
+        $materialsAgg = (new Nested('materials', 'order.materialData'))
+                ->addAggregation((new Terms('materials'))->setField('order.materialData.materialType'));
+        $statesAgg = (new Nested('states', 'currentState'))
+                ->addAggregation((new Terms('states'))->setField('currentState.type'));
+
+        $query->addAggregation($typesAgg);
+        $query->addAggregation($ownersAgg);
+        $query->addAggregation($operatorsAgg);
+        $query->addAggregation($materialsAgg);
+        $query->addAggregation($statesAgg);
+    }
+
+    private function addInstanceFilter(BoolFilter $boolFilter, Instance $instance)
+    {
+        $nestedFilter = new \Elastica\Filter\Nested();
+        $nestedFilter->setPath('instance');
+        $nestedFilter->setName('instance');
+        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('instance.id', $instance->getId()));
+        $boolFilter->addMust($nestedFilter);
+    }
+
+    private function addOperatorsFilter(BoolFilter $boolFilter, $value)
+    {
+        $nestedFilter = new \Elastica\Filter\Nested();
+        $nestedFilter->setPath('operator');
+        $nestedFilter->setName('operator');
+        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('operator.username', $value));
+        $boolFilter->addMust($nestedFilter);
+    }
+
+    private function addOwnersFilter(BoolFilter $boolFilter, $value)
+    {
+        $nestedFilter = new \Elastica\Filter\Nested();
+        $nestedFilter->setPath('owner');
+        $nestedFilter->setName('owner');
+        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('owner.username', $value));
+        $boolFilter->addMust($nestedFilter);
+    }
+
+    private function addMaterialsFilter(BoolFilter $boolFilter, $value)
+    {
+        $nestedFilter = new \Elastica\Filter\Nested();
+        $nestedFilter->setPath('order.materialData');
+        $nestedFilter->setName('materials');
+        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('order.materialData.materialType', $value));
+        $boolFilter->addMust($nestedFilter);
+    }
+
+    private function addStatesFilter(BoolFilter $boolFilter, $value)
+    {
+        $nestedFilter = new \Elastica\Filter\Nested();
+        $nestedFilter->setPath('currentState');
+        $nestedFilter->setName('states');
+        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('currentState.type', $value));
+        $boolFilter->addMust($nestedFilter);
+    }
+
+    private function addTypesFilter(BoolFilter $boolFilter, $value)
+    {
+        $boolFilter->addMust((new \Elastica\Filter\Term())->setTerm('type', $value));
+    }
+
+    private function addAggregationsFilters(BoolFilter $boolFilter, array $filters = array())
+    {
+        foreach ($filters as $name => $value) {
+            $function = "add" . ucfirst($name) . "Filter";
+            if (method_exists($this, $function)) {
+                $this->$function($boolFilter, $value);
+            }
         }
     }
 
-    /**
-     * Performs the search on the specified repository
-     *
-     * @param  string   $repository
-     * @param  string   $type
-     * @param  string   $keyword
-     * @param  Instance $instance
-     * @return array
-     */
-    public function search($repository, $type, $keyword, Instance $instance = null, $state = null)
+    public function search($keyword, $filters, Instance $instance)
     {
-        return $this->em->getRepository('Celsius3CoreBundle:' . $repository)
-                        ->findByTerm($keyword, $instance, $this->getTypeRepository($type), null, $state);
+        $query = new Query();
+        $this->addAgregations($query);
+
+        $queryString = new QueryString($this->prepareKeyword($keyword));
+        $boolFilter = new \Elastica\Filter\BoolFilter();
+
+        $this->addInstanceFilter($boolFilter, $instance);
+        $this->addAggregationsFilters($boolFilter, $filters);
+
+        $filtered = new Filtered($queryString, $boolFilter);
+
+        $query->setQuery($filtered);
+
+        $finder = $this->container->get('fos_elastica.finder.app.request');
+        return $finder->createPaginatorAdapter($query);
+    }
+
+    public function getAggsUsersData($aggs)
+    {
+
+        $usernames = array();
+        foreach ($aggs['owners']['owners']['buckets'] as $user) {
+            $usernames[] = $user['key'];
+        }
+
+        foreach ($aggs['operators']['operators']['buckets'] as $user) {
+            $usernames[] = $user['key'];
+        }
+
+        $usernames = array_unique($usernames);
+
+        $baseusers = $this->container->get('doctrine.orm.entity_manager')
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->findBy(['username' => $usernames]);
+
+        foreach ($baseusers as $user) {
+            $users[strtolower($user->getUsername())] = [
+                'name' => $user->getName(),
+                'surname' => $user->getSurname()
+            ];
+        }
+
+        return $users;
     }
 
 }
