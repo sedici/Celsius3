@@ -4,6 +4,23 @@
     {{ 'Home'|trans }}
 {% endblock %}
 
+{% block javascripts %}
+
+     {{parent()}}
+   <script>
+   $('#id_acerca_de').show();
+   $('#id_manual').hide();
+     
+    function cambiarContenido(id_show,id_hide){
+        $('#'+id_show).show();
+        $('#'+id_hide).hide();
+
+
+       
+    }
+    </script>
+{% endblock %}
+
 {% block content %}
  
 
@@ -13,14 +30,14 @@
     	<div class="panel panel-default">
         	<div class="panel-heading">
                 <h4 class="panel-title">
-                <a href data-target="#id_acerca_de"  data-toggle="collapse">
+                <a href="javascript:cambiarContenido('id_acerca_de','id_manual')">
                 {{ 'Acerca de'|trans }}
                 </a>
                 </h4>
             </div>
             <div class="panel-heading">
                 <h4 class="panel-title">
-                <a href data-target="#id_manual"  data-toggle="collapse">
+                <a href="javascript:cambiarContenido('id_manual','id_acerca_de')">
                 	{{ 'Manual de administración'|trans }}
                  </a>
                 </h4>
@@ -29,7 +46,38 @@
     </div>
  </div>
  <div class="col-md-9" >
- 	<div id='id_acerca_de'>Acerca de </div>
+ 	<div id='id_acerca_de'>
+    
+
+    <h2>Directora PrEBi-SEDICI, Directora Iniciativa LibLink (ISTEC)</h2>
+    <ul>
+        <li>
+            <a target='_blank' href="http://prebi.unlp.edu.ar/wp-content/uploads/2007/12/Marisa-De-Giusti-CV-270611.pdf" title="Marisa R. De Giusti">Marisa R. De Giusti</a>
+        </li>
+    </ul>
+    
+    <h2>Diseño gráfico</h2>
+    <ul>
+        <li>Lucas Folegotto</li>
+    </ul>
+
+    <h2>Referencia</h2>
+    <ul>
+        <li>Carlos Nusch</li>
+        <li>Esteban Fernandez</li>
+        <li>Bruno Percivale</li>
+        <li>Urbina, Emmanuel</li>
+        
+    </ul>
+    
+    <h2>Desarrollo y mantenimiento de software</h2>
+    <ul>
+        <li>Gianotti, Jorge Oscar</li>
+        <li>Lic. Ariel Sobrado</li>
+        <li>Dr. Gonzalo Villarreal</li>
+    </ul>
+
+    </div>
  	<div id="id_manual"> Manual</div>
  </div>
 
