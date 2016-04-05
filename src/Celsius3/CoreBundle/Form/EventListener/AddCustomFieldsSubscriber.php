@@ -65,8 +65,9 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
         $query = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
                 ->createQueryBuilder('cuf')
                 ->where('cuf.instance = :instance_id')
+                ->andWhere('cuf.enabled = true')
                 ->setParameter('instance_id', $this->instance->getId());
-
+    
         if ($this->registration) {
             $query = $query->andWhere('cuf.private = true');
         }

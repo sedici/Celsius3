@@ -67,6 +67,14 @@ class CustomUserField
      * @ORM\Column(type="boolean")
      */
     private $required = true;
+    
+    /**
+     * @Assert\Type(type="boolean")
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled = true;
+    
+
     /**
      * @ORM\ManyToOne(targetEntity="Instance")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
@@ -183,6 +191,32 @@ class CustomUserField
     {
         return $this->required;
     }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean $enabled
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+
+     /**
+     * Set enabled
+     *
+     * @param  boolean $enabled
+     * @return self
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+   
 
     /**
      * Set instance

@@ -41,6 +41,9 @@ class CustomUserFieldType extends AbstractType
                 ->add('required',  CheckboxType::class, array(
                     'required' => false,
                 ))
+                ->add('enabled',  CheckboxType::class, array(
+                    'required' => false,
+                ))
         ;
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
