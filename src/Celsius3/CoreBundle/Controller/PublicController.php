@@ -265,8 +265,6 @@ class PublicController extends BaseInstanceDependentController
      */
     public function helpAction()
     {
-        return array(
-           
-        );
+        return array('staff'=> $this->getInstance()->get('instance_staff')->getValue());
     }
 }
