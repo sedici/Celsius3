@@ -98,8 +98,17 @@ class AdminJournalController extends BaseInstanceDependentController
             throw $this->createNotFoundException('Unable to find Journal.');
         }
 
+        $results = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
+                ->getPreviousJournalSearches($this->getInstance(), $entity);
+
+        $searches = [];
+        foreach ($results as $search) {
+            $searches[$search->getResult()][] = $search;
+        }
+
         return array(
             'entity' => $entity,
+            'searches' => $searches
         );
     }
 
@@ -184,11 +193,11 @@ class AdminJournalController extends BaseInstanceDependentController
             $qb = $qb->andWhere('e.instance = :instance_id')
                     ->setParameter('instance_id', $this->getInstance()->getId());
         }
-        
+
         return $qb->andWhere('e.id = :id')
-                ->setParameter('id', $id)
-                ->getQuery()
-                ->getOneOrNullResult();
+                        ->setParameter('id', $id)
+                        ->getQuery()
+                        ->getOneOrNullResult();
     }
 
 }

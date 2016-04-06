@@ -26,6 +26,9 @@ use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\JournalType;
+use Doctrine\ORM\Query\Expr\Join;
+use Celsius3\CoreBundle\Entity\Event\SearchEvent;
+use Celsius3\CoreBundle\Entity\Journal;
 
 class EventRepository extends EntityRepository
 {
@@ -194,6 +197,35 @@ class EventRepository extends EntityRepository
                         ->setParameter('initialYear', $initialYear)
                         ->setParameter('finalYear', $finalYear)
                         ->getResult();
+    }
+
+    public function getPreviousJournalSearches(Instance $instance, Journal $journal)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->select('s')
+                ->addSelect('c')
+                ->addSelect('r')
+                ->addSelect('o')
+                ->innerJoin(SearchEvent::class, 's', Join::WITH, 'e = s')
+                ->innerJoin('s.request', 'r')
+                ->innerJoin('r.order', 'o')
+                ->innerJoin('o.materialData', 'md')
+                ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
+                ->innerJoin('jt.journal', 'j')
+                ->innerJoin('s.catalog', 'c');
+        ;
+
+        $qb->where('jt.journal IS NOT NULL')
+                ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
+                ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId())
+        ;
+
+        $qb->orderBy('s.result', 'ASC')
+                ->addOrderBy('s.createdAt', 'DESC');
+
+
+        return $qb->getQuery()->getResult();
     }
 
 }

@@ -6,7 +6,59 @@
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
 
+{% macro list_item(searches, class, limit) %}
+    {% set count = 1 %}
+    {% set hide = false %}
+    {% for search in searches %}
+        {% if(count > limit) %} {% set hide = true %} {% endif %}
+        {% set count = count + 1 %}
+
+        <a href="{{ search.catalog.url }}" class="list-group-item {% if hide %} hidden {% endif %}">
+            <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
+            <span class="badge {{ class }}">{{ search.result | trans | first_upper }}</span>
+            <p class="list-group-item-text">{{ search.createdAt | date }}</p>
+        </a>
+    {% endfor %}
+
+    {% if hide %}
+        <a href class="list-group-item view_more">
+            <p class="list-group-item-text text-center"><b>{{ 'view more' | trans | first_upper }} ({{ count - limit }})</b></p>
+        </a>
+    {% endif %}
+{% endmacro %}
+
 {% block content %}
+    {% from _self import list_item as list_item %}
     <h2>{{ 'Journal View'|trans }}</h2>
     {{ show('admin_journal', entity, 'Celsius3CoreBundle:AdminJournal', instance, not is_editable_journal(entity,instance,app.user)) }}
+
+    <h2>{{ 'Previous searches' | trans }}</h2>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="list-group">
+                {{ list_item(searches.found, 'badge-success', 5) }}
+            </div>
+            <div class="list-group">
+                {{ list_item(searches.partially_found, 'badge-warning', 5) }}
+            </div>
+            <div class="list-group">
+                {{ list_item(searches.not_found, 'badge-danger', 5) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('.view_more').on('click', function (e) {
+            e.preventDefault();
+
+            $(this).parent('.list-group')
+                    .children('.hidden')
+                    .removeClass('hidden');
+
+            $(this).addClass('hidden');
+        });
+    </script>
 {% endblock %}
