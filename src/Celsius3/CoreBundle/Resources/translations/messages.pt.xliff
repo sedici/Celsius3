@@ -2206,6 +2206,14 @@
                 <source>view more</source>
                 <target>view more</target>
             </trans-unit>
+            <trans-unit id="124">
+                <source>previous searches</source>
+                <target>previous searches</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>not_previous_searches_info</source>
+                <target>Not found previous searches</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -32,9 +32,13 @@
     <h2>{{ 'Journal View'|trans }}</h2>
     {{ show('admin_journal', entity, 'Celsius3CoreBundle:AdminJournal', instance, not is_editable_journal(entity,instance,app.user)) }}
 
-    <h2>{{ 'Previous searches' | trans }}</h2>
+    <h2>{{ 'previous searches' | trans | first_upper }}</h2>
     <div class="row">
         <div class="col-md-9">
+            {% if (searches.found is empty and searches.not_found is empty and searches.partially_found is empty) %}
+                <p class="alert alert-info">{{'not_previous_searches_info' | trans }}</p>
+            {% endif %}
+
             {% if searches.found is defined %}
                 <div class="list-group">
                     {{ list_item(searches.found, 'badge-success', 5) }}
