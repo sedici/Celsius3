@@ -30,7 +30,7 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SearchEventRepository")
+ * @ORM\Entity()
  */
 class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
