@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\CoreBundle\Form\Type\JournalType;
 use Celsius3\CoreBundle\Filter\Type\JournalFilterType;
+use Celsius3\CoreBundle\Manager\CatalogManager;
 
 /**
  * Location controller.
@@ -101,7 +102,11 @@ class AdminJournalController extends BaseInstanceDependentController
         $results = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
                 ->getPreviousJournalSearches($this->getInstance(), $entity);
 
-        $searches = [];
+        $searches = [
+            CatalogManager::CATALOG__FOUND => [],
+            CatalogManager::CATALOG__NOT_FOUND => [],
+            CatalogManager::CATALOG__PARTIALLY_FOUND => [],
+        ];
         foreach ($results as $search) {
             $searches[$search->getResult()][] = $search;
         }

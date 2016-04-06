@@ -35,15 +35,23 @@
     <h2>{{ 'Previous searches' | trans }}</h2>
     <div class="row">
         <div class="col-md-9">
-            <div class="list-group">
-                {{ list_item(searches.found, 'badge-success', 5) }}
-            </div>
-            <div class="list-group">
-                {{ list_item(searches.partially_found, 'badge-warning', 5) }}
-            </div>
-            <div class="list-group">
-                {{ list_item(searches.not_found, 'badge-danger', 5) }}
-            </div>
+            {% if searches.found is defined %}
+                <div class="list-group">
+                    {{ list_item(searches.found, 'badge-success', 5) }}
+                </div>
+            {% endif %}
+
+            {% if searches.partially_found is defined %}
+                <div class="list-group">
+                    {{ list_item(searches.partially_found, 'badge-warning', 5) }}
+                </div>
+            {% endif %}
+
+            {% if searches.not_found is defined %}
+                <div class="list-group">
+                    {{ list_item(searches.not_found, 'badge-danger', 5) }}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
