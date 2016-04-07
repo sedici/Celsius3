@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\JournalType;
 use Doctrine\ORM\Query\Expr\Join;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class EventRepository extends EntityRepository
 {
@@ -207,6 +208,7 @@ class EventRepository extends EntityRepository
                 ->addSelect('c')
                 ->addSelect('r')
                 ->addSelect('o')
+                ->addSelect('md')
                 ->innerJoin(SearchEvent::class, 's', Join::WITH, 'e = s')
                 ->innerJoin('s.request', 'r')
                 ->innerJoin('r.order', 'o')
@@ -219,6 +221,7 @@ class EventRepository extends EntityRepository
         $qb->where('jt.journal IS NOT NULL')
                 ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
                 ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId())
+                ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND])
         ;
 
         $qb->orderBy('s.result', 'ASC')

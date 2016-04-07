@@ -14,9 +14,15 @@
         {% set count = count + 1 %}
 
         <a href="{{ search.catalog.url }}" class="list-group-item {% if hide %} hidden {% endif %}">
-            <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
             <span class="badge {{ class }}">{{ search.result | trans | first_upper }}</span>
+            <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
             <p class="list-group-item-text">{{ search.createdAt | date }}</p>
+            <p class="list-group-item-text">
+                <span>{{ 'Volume' | trans }}: {{ search.request.order.materialData.volume }}</span>
+                <span>{{ 'Year' | trans }}: {{ search.request.order.materialData.year }}</span>
+                <span>{{ 'Start page' | trans }}: {{ search.request.order.materialData.startPage }}</span>
+                <span>{{ 'End page' | trans }}: {{ search.request.order.materialData.endPage }}</span>
+            </p>
         </a>
     {% endfor %}
 
@@ -48,12 +54,6 @@
             {% if searches.partially_found is defined %}
                 <div class="list-group">
                     {{ list_item(searches.partially_found, 'badge-warning', 5) }}
-                </div>
-            {% endif %}
-
-            {% if searches.not_found is defined %}
-                <div class="list-group">
-                    {{ list_item(searches.not_found, 'badge-danger', 5) }}
                 </div>
             {% endif %}
         </div>

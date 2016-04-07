@@ -104,7 +104,6 @@ class AdminJournalController extends BaseInstanceDependentController
 
         $searches = [
             CatalogManager::CATALOG__FOUND => [],
-            CatalogManager::CATALOG__NOT_FOUND => [],
             CatalogManager::CATALOG__PARTIALLY_FOUND => [],
         ];
         foreach ($results as $search) {

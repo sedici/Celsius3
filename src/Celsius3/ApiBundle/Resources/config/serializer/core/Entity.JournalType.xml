@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\JournalType" exclusion-policy="all">
-        <property name="volume" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
-        <property name="number" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="volume" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list,previous_related_searches"></property>
+        <property name="number" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list,previous_related_searches"></property>
         <property name="other" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="journal" type="Celsius3\CoreBundle\Entity\Journal" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
     </class>
