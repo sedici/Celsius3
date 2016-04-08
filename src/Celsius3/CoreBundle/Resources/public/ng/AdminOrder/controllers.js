@@ -302,6 +302,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         cancel: {},
         reclaim: {},
         email: {},
+        message: {},
         reupload: {},
         institution: {},
         journal: {}
@@ -729,6 +730,12 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $('#email-modal').modal('show');
     };
 
+    $scope.messageModal = function (username) {
+        $scope.forms.message.recipients= username;
+        $scope.refreshRequest(true);
+        $('#message-modal').modal('show');
+    };
+
 
     $scope.changeOperatorModal = function (order_id) {
         var data = {
@@ -738,7 +745,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             if (response) {
                 $scope.refreshRequest(true);
                 $scope.admins = response.admins;
-                $scope.order_id = response.order;
+               // $scope.order_id = response.order;
             }
         });
 
@@ -971,6 +978,42 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             if (response) {
                 $scope.refreshRequest(true);
                 $scope.forms.email = {};
+                $('.modal').modal('hide');
+            }
+        });
+    };
+
+
+    $scope.validateMessage = function () {
+        if ($scope.formNames.message.$valid) {
+            $scope.recipienterror = '';
+            $scope.subjecterror = '';
+            $scope.bodyerror = '';
+            $scope.sendMessage();
+        } else {
+            if (_.isUndefined($scope.forms.message.recipients)) {
+                $scope.usernameerror = 'has-error';
+            }
+            if (_.isUndefined($scope.forms.message.subject)) {
+                $scope.subjecterror = 'has-error';
+            }
+            if (_.isUndefined($scope.forms.message.body)) {
+                $scope.texterror = 'has-error';
+            }
+        }
+    };
+
+    $scope.sendMessage = function () {
+        var data = {
+            recipients: $scope.forms.message.recipient,
+            subject: $scope.forms.message.subject,
+            body: $scope.forms.message.body,
+        };
+
+        $http.post(Routing.generate('admin_rest_message'), $scope.forms.message).success(function (response) {
+            if (response.result) {
+                $scope.refreshRequest(true);
+                $scope.forms.message = {};
                 $('.modal').modal('hide');
             }
         });

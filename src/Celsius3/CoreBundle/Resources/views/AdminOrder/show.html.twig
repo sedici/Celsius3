@@ -140,6 +140,31 @@
             {% endverbatim %}
         </script>
 
+
+        <!-- order_message_form.html -->
+        <script type="text/ng-template" id="order_message_form.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
+                <form class="form-horizontal" id="messageForm" name="formNames.message" ng-submit="sendMessage()">
+                
+                <div class="form-group" ng-class="recipientserror">
+                <label for="username">{{'username' | translate}}:{{forms.message.recipients}}</label>
+                
+                </div>
+                <div class="form-group" ng-class="subjecterror">
+                <label for="subject">{{'subject' | translate}}</label>
+                <input type="text" class="form-control" ng-model="forms.message.subject" name="message[subject]" id="message_subject" required />
+                </div>
+                <div class="form-group" ng-class="bodyerror">
+                <label for="text">{{'text' | translate }}</label>
+                <textarea class="form-control" name="message[body]" id="message_body" ng-model="forms.message.body" required >
+                </textarea>
+                <input type="hidden" name="message[recipients]" id="message_recipients" ng-model="forms.message.recipients"/>
+                
+                </div>
+                </form>
+            {% endverbatim %}
+        </script>
+
         <!-- order_receive_form.html -->
         <script type="text/ng-template" id="order_receive_form.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
@@ -497,6 +522,9 @@
                 <li>
                 <a href ng-click="emailModal(request.owner.email)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | translate}}</a>
                 </li>
+                <li>
+                <!-- <a href ng-click="messageModal(request.owner.username)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMessage' | translate}}</a>
+                </li> -->
                 <li ng-if="contains(['received'], request.current_state)">
                 <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'deliver' | translate}}</a>
                 </li>
@@ -517,7 +545,7 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="email-modal-label">{{'change_operator' | translate}}</h3>
+                <h3 id="operator-modal-label">{{'change_operator' | translate}}</h3>
                 </div>
                 <div >
                 <table class='table table-bordered' width='70%'>
@@ -899,6 +927,24 @@
                 <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
                 <button class="btn btn-primary" ng-click="validateEmail()" value="#emailForm">{{'send' | translate}}</button>
+                </div>
+                </div>
+                </div>
+                </div>
+
+                <div id="message-modal" class="modal fade">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="message-modal-label">{{'message' | translate}}</h3>
+                </div>
+                <div class="modal-body" ng-include="'order_message_form.html?' + assets_version">
+
+                </div>
+                <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                <button class="btn btn-primary" ng-click="validateMessage()" value="#messageForm">{{'send' | translate}}</button>
                 </div>
                 </div>
                 </div>
