@@ -87,9 +87,13 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             }
 
             if ($field->getType()=='Symfony\Component\Form\Extension\Core\Type\ChoiceType'){
-                 dump(array_flip(explode(',',$field->getValue()))); die;
+                 $valores=explode(',',$field->getValue());
+                 $array_choices=array();
+                 foreach ($valores as $key => $value) {
+                     $array_choices[$value]=$value;
+                 }
                  $form->add($field->getKey(), $field->getType(), array(
-                    'choices'  => array_flip(explode(',',$field->getValue())),
+                    'choices'  =>$array_choices,
                     'required' => $field->getRequired(),
                     'mapped' => false,
                     // *this line is important*

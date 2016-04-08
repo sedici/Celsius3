@@ -51,7 +51,7 @@ class CustomUserFieldType extends AbstractType
                 ->add('type', ChoiceType::class, array(
                     'choices'  => array(
                         '' => null,
-                        'Select' => ChoiceType::class,
+                        'Seleccion' => ChoiceType::class,
                         'Texto' => TextType::class,
                         'Fecha' => DateType::class,
                     ),

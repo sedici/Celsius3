@@ -18,6 +18,10 @@
    <script>
    		
 
+   /*
+      Ver el valor 1
+   */
+
    		$('#custom_user_field_value').parent().hide();
    		if ($('#custom_user_field_type').val()=='1'){
    			$('#custom_user_field_value').parent().show();
@@ -31,6 +35,7 @@
    				$('#custom_user_field_value').parent().show();
    			}else{
    				$('#custom_user_field_value').parent().hide();
+            $('#custom_user_field_value').val("");
    			}
    		});
      
