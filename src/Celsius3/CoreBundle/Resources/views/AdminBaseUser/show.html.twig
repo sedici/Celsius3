@@ -234,7 +234,7 @@
                     <div id="id{{ thread.id }}">
                         <div class="message-heading {{ fos_message_is_read(thread)?'message-read':'' }}">
                             <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
-                                <span class="label label-default message-creator col-md-2">
+                                <span class="label label-default message-creator col-md-4">
                                     {{  thread.lastMessage.sender.fullName }}
                                 </span>
                                 <span class="message-subject col-md-7 autoellipsis">

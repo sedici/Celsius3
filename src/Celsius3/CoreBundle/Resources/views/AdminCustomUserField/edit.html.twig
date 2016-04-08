@@ -11,3 +11,28 @@
 
     {{ edit('admin_customuserfield', entity, edit_form) }}
 {% endblock %}
+
+{% block javascripts %}
+
+     {{parent()}}
+   <script>
+   		
+
+   		$('#custom_user_field_value').parent().hide();
+   		if ($('#custom_user_field_type').val()=='1'){
+   			$('#custom_user_field_value').parent().show();
+   		}
+   		
+   		$('#custom_user_field_type').bind('change',function(){
+   			/* 
+   			   1 = select
+   			*/
+   			if ($('#custom_user_field_type').val()=='1'){
+   				$('#custom_user_field_value').parent().show();
+   			}else{
+   				$('#custom_user_field_value').parent().hide();
+   			}
+   		});
+     
+    </script>
+{% endblock %}

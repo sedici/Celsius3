@@ -24,6 +24,10 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -44,7 +48,22 @@ class CustomUserFieldType extends AbstractType
                 ->add('enabled',  CheckboxType::class, array(
                     'required' => false,
                 ))
+                ->add('type', ChoiceType::class, array(
+                    'choices'  => array(
+                        '' => null,
+                        'Select' => ChoiceType::class,
+                        'Texto' => TextType::class,
+                        'Fecha' => DateType::class,
+                    ),
+                    // *this line is important*
+                    'choices_as_values' => true,
+                ))
+                ->add('value', TextType::class, array('required' => false,))
+
         ;
+
+
+
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder->add('instance');

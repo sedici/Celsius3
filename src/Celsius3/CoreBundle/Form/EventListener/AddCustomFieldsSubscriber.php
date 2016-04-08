@@ -25,7 +25,8 @@ namespace Celsius3\CoreBundle\Form\EventListener;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManager;
 use JMS\TranslationBundle\Annotation\Ignore;
@@ -85,12 +86,43 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 $value = null;
             }
 
-            $form->add($this->factory->createNamed($field->getKey(), TextType::class, $value ? $value->getValue() : null, array(
+            if ($field->getType()=='Symfony\Component\Form\Extension\Core\Type\ChoiceType'){
+                 dump(array_flip(explode(',',$field->getValue()))); die;
+                 $form->add($field->getKey(), $field->getType(), array(
+                    'choices'  => array_flip(explode(',',$field->getValue())),
+                    'required' => $field->getRequired(),
+                    'mapped' => false,
+                    // *this line is important*
+                    'choices_as_values' => true,
+                     'auto_initialize' => false,
+                ));
+            }else{
+
+                if ($field->getType()=='Symfony\Component\Form\Extension\Core\Type\DateType'){
+                
+                    $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
                         /** @Ignore */ 'label' => ucfirst($field->getName()),
                         'required' => $field->getRequired(),
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                        'attr' => array(
+                            'class' => 'date'
+                        ),
                         'mapped' => false,
                         'auto_initialize' => false,
             )));
+
+                }else{
+                        $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
+                                /** @Ignore */ 'label' => ucfirst($field->getName()),
+                                'required' => $field->getRequired(),
+
+                                'mapped' => false,
+                                'auto_initialize' => false,
+                        )));  
+                        }  
+            }
+            
         }
     }
 }

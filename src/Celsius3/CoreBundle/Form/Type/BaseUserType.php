@@ -32,6 +32,8 @@ use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
+
+
 class BaseUserType extends RegistrationFormType
 {
 

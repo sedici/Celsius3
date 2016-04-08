@@ -154,7 +154,9 @@
         <!-- sidebar.html -->
         <script type="text/ng-template" id="sidebar.html?{{ assets_version('user') }}">
             {% verbatim %}
-                <div class="row" ng-include="'messages.html?' + assets_version">
+                
+                <div class="row">
+                <h2 class="pull-left">{{'Operaciones'|translate}}</h2>
                 </div>
                 <div class="row">
                 <ul class="list-group">
@@ -169,6 +171,9 @@
                 </li>
                 </ul>
                 </div>
+                 <div class="row" ng-include="'messages.html?' + assets_version">
+                </div>
+               
             {% endverbatim %}
         </script>
 
