@@ -34,7 +34,30 @@
                         <a href="{{ path('superadmin_contact_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </li>
+                <li>
+                    <a data-toggle="modal" data-target="#message-modal" class="btn btn-default btn-group-alone">{{ 'Software update message'|trans }}</a>
+                </li>
             </ul>
+        </div>
+    </div>
+</div>
+
+<div id="message-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ path('superadmin_software_update_message') }}" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">{{ 'message.modal.header' | trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea name="message" class="summernote"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'modal.button.close' | trans }}</button>
+                    <button type="submit" class="btn btn-primary">{{ 'message.modal.button.save' | trans }}</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

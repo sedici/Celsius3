@@ -2214,6 +2214,18 @@
                 <source>not_previous_searches_info</source>
                 <target>Not found previous searches</target>
             </trans-unit>
+            <trans-unit id="126">
+                <source>message.modal.header</source>
+                <target>Software update message</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>modal.button.close</source>
+                <target>Close</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>message.modal.button.save</source>
+                <target>Send message</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

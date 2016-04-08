@@ -831,7 +831,7 @@
                 </div>
 
                 <div id="search-modal" class="modal fade">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -1278,45 +1278,45 @@
         <script type="text/ng-template" id="related_previous_searches.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
                 <div class="list-group">
-                    <a class="list-group-item" ng-repeat="search in previousRelatedSearchesList" href="{{ search.catalog.url }}">
-                        <span class="badge" ng-class="(search.result === 'found') ? 'badge-success' : 'badge-warning'">{{ search.result | translate | first_upper }}</span>
-                        <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
-                        <p class="list-group-item-text">{{ search.created_at | date }}</p>
-                        <p class="list-group-item-text">
-                            <span ng-switch on="order.material_data.volume">
-                                <strong ng-switch-when="search.request.order.material_data.volume">
-                                    {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
-                                </strong>
-                                <span ng-switch-default>
-                                    {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
-                                </span>
-                            </span> |
-                            <span ng-switch on="order.material_data.year">
-                                <strong ng-switch-when="search.request.order.material_data.year">
-                                    {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
-                                </strong>
-                                <span ng-switch-default>
-                                    {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
-                                </span>
-                            </span> |
-                            <span ng-switch on="order.material_data.start_page">
-                                <strong ng-switch-when="search.request.order.material_data.start_page">
-                                    {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
-                                </strong>
-                                <span ng-switch-default>
-                                    {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
-                                </span>
-                            </span> |
-                            <span ng-switch on="order.material_data.end_page">
-                                <strong ng-switch-when="search.request.order.material_data.end_page">
-                                    {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
-                                </strong>
-                                <span ng-switch-default>
-                                    {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
-                                </span>
-                            </span>
-                        </p>
-                    </a>
+                <a class="list-group-item" ng-repeat="search in previousRelatedSearchesList" href="{{ search.catalog.url }}">
+                <span class="badge" ng-class="(search.result === 'found') ? 'badge-success' : 'badge-warning'">{{ search.result | translate | first_upper }}</span>
+                <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
+                <p class="list-group-item-text">{{ search.created_at | date }}</p>
+                <p class="list-group-item-text">
+                <span ng-switch on="order.material_data.volume">
+                <strong ng-switch-when="search.request.order.material_data.volume">
+                {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
+                </strong>
+                <span ng-switch-default>
+                {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
+                </span>
+                </span> |
+                <span ng-switch on="order.material_data.year">
+                <strong ng-switch-when="search.request.order.material_data.year">
+                {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
+                </strong>
+                <span ng-switch-default>
+                {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
+                </span>
+                </span> |
+                <span ng-switch on="order.material_data.start_page">
+                <strong ng-switch-when="search.request.order.material_data.start_page">
+                {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
+                </strong>
+                <span ng-switch-default>
+                {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
+                </span>
+                </span> |
+                <span ng-switch on="order.material_data.end_page">
+                <strong ng-switch-when="search.request.order.material_data.end_page">
+                {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
+                </strong>
+                <span ng-switch-default>
+                {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
+                </span>
+                </span>
+                </p>
+                </a>
                 </div>
             {% endverbatim %}
         </script>

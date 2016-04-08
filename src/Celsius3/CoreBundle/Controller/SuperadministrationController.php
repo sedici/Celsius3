@@ -26,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Administration controller
@@ -66,13 +67,49 @@ class SuperadministrationController extends BaseController
 
         return new Response(json_encode($this->get('celsius3_core.statistic_manager')->getOrderUserTableData()));
     }
-    
-    protected function validateAjax($target) {
+
+    protected function validateAjax($target)
+    {
         $allowedTargets = array(
             'Journal',
             'BaseUser',
         );
-        
+
         return in_array($target, $allowedTargets);
     }
+
+    /**
+     * @Route("/software_change_message", name="superadmin_software_update_message", options={"expose"=true})
+     */
+    public function softwareUpdateMessage(Request $request)
+    {
+        $content = $request->request->get('message');
+
+        if (!$content || empty($content)) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+        }
+
+        $composer = $this->get('fos_message.composer');
+
+        $user = $this->getUser();
+        $admins = new ArrayCollection($this->getDoctrine()
+                        ->getRepository('Celsius3CoreBundle:BaseUser')
+                        ->findAllAdmins());
+
+        $message = $composer->newThread()
+                ->setSender($user)
+                ->addRecipients($admins)
+                ->setSubject('Actualización del software Celsius3')
+                ->setBody($content)
+                ->getMessage();
+
+        $sender = $this->get('fos_message.sender');
+
+        $sender->send($message);
+
+        $this->addFlash('success', 'The message was sent');
+
+        return $this->redirectToRoute('superadministration');
+    }
+
 }

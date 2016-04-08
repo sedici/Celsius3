@@ -138,7 +138,7 @@ class BaseUserRepository extends EntityRepository
         $alias = $query->getRootAliases()[0];
 
         $query = $query->andWhere($alias . '.roles LIKE :role')
-            ->setParameter('role', '%"' .$data . '"%');
+                ->setParameter('role', '%"' . $data . '"%');
 
         if (!is_null($instance)) {
             $query = $query->andWhere($alias . '.instance = :instance_id')
@@ -268,7 +268,7 @@ class BaseUserRepository extends EntityRepository
                         ->join('u.notificationSettings', 'ns')
                         ->where('u.roles LIKE :roles')
                         ->setParameter('roles', '%ROLE_ADMIN%')
-                        ->orWhere('u.id = :owner_id')->setParameter('owner_id',$event->getRequest()->getOwner()->getId())
+                        ->orWhere('u.id = :owner_id')->setParameter('owner_id', $event->getRequest()->getOwner()->getId())
                         ->andWhere('ns.type = :type')->setParameter('type', $event_type . '_notification')
                         ->andWhere('ns.instance = :instance')->setParameter('instance', $event->getInstance());
 
@@ -280,6 +280,15 @@ class BaseUserRepository extends EntityRepository
         }
 
         return $qb->getQuery()->execute();
+    }
+
+    public function findAllAdmins()
+    {
+        return $this->createQueryBuilder('u')
+                        ->andWhere('u.roles LIKE :roles')
+                        ->setParameter('roles', '%"' . UserManager::ROLE_ADMIN . '"%')
+                        ->getQuery()
+                        ->getResult();
     }
 
 }
