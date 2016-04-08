@@ -173,5 +173,6 @@
     "cancelledByUser": "Cancelled by user",
     "cancelled": "cancelled",
     "annulled": "anulled",
-    "byUserRequest": "by user request"
+    "byUserRequest": "by user request",
+    "previousRelatedSearches": "previous searches"
 }

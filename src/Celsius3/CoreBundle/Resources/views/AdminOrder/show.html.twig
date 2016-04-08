@@ -823,6 +823,12 @@
                 {{'noContinueSearch' | translate}}
                 </button>
                 </div>
+                
+                <div class="explorar_catalogos" ng-if="order.material_data.type === 'journal' && order.material_data.journal">
+                <button type="button" class="btn btn-link" role="button" ng-click="previousRelatedSearches()">
+                {{'previousRelatedSearches' | translate | uppercase}}
+                </button>
+                </div>
 
                 <div id="search-modal" class="modal fade">
                 <div class="modal-dialog">
@@ -932,7 +938,24 @@
                 </div>
                 </div>
 
-                <div id="message-modal" class="modal fade">
+
+                <div id="related-previous-searches-modal" class="modal fade">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="modal-label">{{'Related previous searches' | translate}}</h3>
+                </div>
+                <div class="modal-body" ng-include="'related_previous_searches.html?' + assets_version">
+                </div>
+                </div>
+                </div>
+                </div>
+
+
+
+
+                   <div id="message-modal" class="modal fade">
                 <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -942,6 +965,7 @@
                 <div class="modal-body" ng-include="'order_message_form.html?' + assets_version">
 
                 </div>
+                <div class="modal-footer">
                 <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
                 <button class="btn btn-primary" ng-click="validateMessage()" value="#messageForm">{{'send' | translate}}</button>
@@ -1250,6 +1274,53 @@
                 </div>
             {% endverbatim %}
         </script>
+
+        <script type="text/ng-template" id="related_previous_searches.html?{{ assets_version('admin_order') }}">
+            {% verbatim %}
+                <div class="list-group">
+                    <a class="list-group-item" ng-repeat="search in previousRelatedSearchesList" href="{{ search.catalog.url }}">
+                        <span class="badge" ng-class="(search.result === 'found') ? 'badge-success' : 'badge-warning'">{{ search.result | translate | first_upper }}</span>
+                        <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
+                        <p class="list-group-item-text">{{ search.created_at | date }}</p>
+                        <p class="list-group-item-text">
+                            <span ng-switch on="order.material_data.volume">
+                                <strong ng-switch-when="search.request.order.material_data.volume">
+                                    {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
+                                </strong>
+                                <span ng-switch-default>
+                                    {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
+                                </span>
+                            </span> |
+                            <span ng-switch on="order.material_data.year">
+                                <strong ng-switch-when="search.request.order.material_data.year">
+                                    {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
+                                </strong>
+                                <span ng-switch-default>
+                                    {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
+                                </span>
+                            </span> |
+                            <span ng-switch on="order.material_data.start_page">
+                                <strong ng-switch-when="search.request.order.material_data.start_page">
+                                    {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
+                                </strong>
+                                <span ng-switch-default>
+                                    {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
+                                </span>
+                            </span> |
+                            <span ng-switch on="order.material_data.end_page">
+                                <strong ng-switch-when="search.request.order.material_data.end_page">
+                                    {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
+                                </strong>
+                                <span ng-switch-default>
+                                    {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
+                                </span>
+                            </span>
+                        </p>
+                    </a>
+                </div>
+            {% endverbatim %}
+        </script>
+
         {% include 'Celsius3CoreBundle:CCI:cci.html.twig' %}
         {% include 'Celsius3CoreBundle:StateBar:state_bar.html.twig' %}
     </div>

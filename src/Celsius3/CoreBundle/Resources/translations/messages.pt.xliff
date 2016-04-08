@@ -2190,6 +2190,30 @@
                 <source>Help</source>
                 <target>Help</target>
             </trans-unit>  
+            <trans-unit id="120">
+                <source>not_found</source>
+                <target>not found</target>
+            </trans-unit>  
+            <trans-unit id="121">
+                <source>partially_found</source>
+                <target>partially found</target>
+            </trans-unit>  
+            <trans-unit id="122">
+                <source>found</source>
+                <target>found</target>
+            </trans-unit>  
+            <trans-unit id="123">
+                <source>view more</source>
+                <target>view more</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>previous searches</source>
+                <target>previous searches</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>not_previous_searches_info</source>
+                <target>Not found previous searches</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

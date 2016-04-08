@@ -30,7 +30,7 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity()
  */
 class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
@@ -108,7 +108,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'search');
+        $manager->notifyEvent($this, 'search');
     }
 
 }

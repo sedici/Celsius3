@@ -2217,7 +2217,31 @@
             <trans-unit id="119">
                 <source>Help</source>
                 <target>Ayuda</target>
-            </trans-unit>         
+            </trans-unit>
+            <trans-unit id="120">
+                <source>not_found</source>
+                <target>no encontrado</target>
+            </trans-unit>  
+            <trans-unit id="121">
+                <source>partially_found</source>
+                <target>parcialmente encontrado</target>
+            </trans-unit>  
+            <trans-unit id="122">
+                <source>found</source>
+                <target>encontrado</target>
+            </trans-unit>  
+            <trans-unit id="123">
+                <source>view more</source>
+                <target>ver mas</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>previous searches</source>
+                <target>búsquedas anteriores</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>not_previous_searches_info</source>
+                <target>No se encontraron búsquedas anteriores</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1111,6 +1111,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             $('#' + actual_modal).modal('hide');
         }
         $('#institution-modal').modal('show');
-    }
+    };
+
+    $scope.previousRelatedSearches = function () {
+        $http.get(Routing.generate("admin_rest_order_previous_related_searches") + '/' + entity_id)
+                .success(function (response) {
+                    $scope.previousRelatedSearchesList = response;
+                    $('#related-previous-searches-modal').modal('show');
+                });
+
+
+    };
 
 });

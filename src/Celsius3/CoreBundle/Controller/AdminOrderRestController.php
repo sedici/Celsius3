@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Manager\CatalogManager;
 
 /**
  * User controller.
@@ -268,6 +269,23 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 $em->flush();
 
                 $view = $this->view($request, 200)->setFormat('json');
+                $view->setSerializationContext($context);
+                return $this->handleView($view);
+            }
+
+            /**
+             * @Get("/related_previous_searches/{id}", name="admin_rest_order_previous_related_searches", options={"expose"=true})
+             */
+            public function previousRelatedSearches($id)
+            {
+                $order = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Order')->find($id);
+
+                $searches = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
+                        ->getPreviousJournalSearches($this->getInstance(), $order->getMaterialData()->getJournal());
+
+
+                $context = SerializationContext::create()->setGroups(array('previous_related_searches'));
+                $view = $this->view($searches, 200)->setFormat('json');
                 $view->setSerializationContext($context);
                 return $this->handleView($view);
             }

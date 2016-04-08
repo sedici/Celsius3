@@ -204,5 +204,6 @@
     "cancelledByUser": "Cancelado por el usuario",
     "cancelled": "cancelado",
     "annulled": "anulado",
-    "byUserRequest": "a pedido del usuario"
+    "byUserRequest": "a pedido del usuario",
+    "previousRelatedSearches": "búsquedas previas"
 }
