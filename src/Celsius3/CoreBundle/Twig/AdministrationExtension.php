@@ -102,7 +102,6 @@ class AdministrationExtension extends \Twig_Extension
 
     public function getBuckets($name, $agg)
     {
-        dump($agg);
         if (array_key_exists('buckets', $agg)) {
             return $agg['buckets'];
         } elseif (array_key_exists($name, $agg) && array_key_exists('buckets', $agg[$name])) {
