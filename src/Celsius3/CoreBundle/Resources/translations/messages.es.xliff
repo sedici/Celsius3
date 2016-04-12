@@ -2254,6 +2254,10 @@
                 <source>message.modal.button.save</source>
                 <target>Enviar mensaje</target>
             </trans-unit>
+            <trans-unit id="129">
+                <source>View order</source>
+                <target>Ver pedido</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

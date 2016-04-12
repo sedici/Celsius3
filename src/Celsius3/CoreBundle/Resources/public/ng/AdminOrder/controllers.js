@@ -731,7 +731,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.messageModal = function (username) {
-        $scope.forms.message.recipients= username;
+        $scope.forms.message.recipients = username;
         $scope.refreshRequest(true);
         $('#message-modal').modal('show');
     };
@@ -745,7 +745,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             if (response) {
                 $scope.refreshRequest(true);
                 $scope.admins = response.admins;
-               // $scope.order_id = response.order;
+                // $scope.order_id = response.order;
             }
         });
 
@@ -1111,16 +1111,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             $('#' + actual_modal).modal('hide');
         }
         $('#institution-modal').modal('show');
-    };
-
-    $scope.previousRelatedSearches = function () {
-        $http.get(Routing.generate("admin_rest_order_previous_related_searches") + '/' + entity_id)
-                .success(function (response) {
-                    $scope.previousRelatedSearchesList = response;
-                    $('#related-previous-searches-modal').modal('show');
-                });
-
-
     };
 
 });

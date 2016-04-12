@@ -2,8 +2,8 @@
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\Catalog" exclusion-policy="all">
         <property name="id" type="string" expose="true" read-only="true" groups="administration_order_show"></property>
-        <property name="name" type="string" expose="true" access-type="public_method" groups="administration_order_show,previous_related_searches"></property>
-        <property name="url" type="string" expose="true" access-type="public_method" groups="administration_order_show,previous_related_searches"></property>
+        <property name="name" type="string" expose="true" access-type="public_method" groups="administration_order_show"></property>
+        <property name="url" type="string" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="comments" type="string" expose="true" access-type="public_method"></property>
         <property name="institution" type="Celsius3\CoreBundle\Entity\Institution" expose="true" access-type="public_method" groups="administration_order_show"></property>
     </class>

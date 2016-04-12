@@ -37,18 +37,33 @@ class EventRepository extends EntityRepository
     public function findSimilarSearches(Order $order, Instance $instance)
     {
         if ($order->getMaterialData() instanceof JournalType) {
-            $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
-                    ->createQueryBuilder('s')
-                    ->select('s, c, r, o')
-                    ->join('s.catalog', 'c')
-                    ->join('s.request', 'r')
-                    ->join('r.order', 'o')
-                    ->leftJoin('Celsius3CoreBundle:JournalType', 'md', 'WITH', 'o.materialData = md.id')
-                    ->leftJoin('md.journal', 'j')
-                    ->where('j.name = :name')
-                    ->orWhere('md.other = :name')
-                    ->andWhere('o.id <> :order_id')
-                    ->setParameter('order_id', $order->getId());
+            $qb = $this->createQueryBuilder('e');
+
+            $qb->select('s')
+                    ->addSelect('c')
+                    ->addSelect('r')
+                    ->addSelect('o')
+                    ->addSelect('md')
+                    ->innerJoin(SearchEvent::class, 's', Join::WITH, 'e = s')
+                    ->innerJoin('s.request', 'r')
+                    ->innerJoin('r.order', 'o')
+                    ->innerJoin('o.materialData', 'md')
+                    ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
+                    ->innerJoin('jt.journal', 'j')
+                    ->innerJoin('s.catalog', 'c');
+            ;
+
+            $qb->where('jt.journal IS NOT NULL')
+                    ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
+                    ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND])
+                    ->andWhere('o.id <> :order_id')->setParameter('order_id', $order->getId())
+            ;
+
+            $qb->orderBy('s.result', 'ASC')
+                    ->addOrderBy('s.createdAt', 'DESC');
+
+            $qb->andWhere('j.name = :name');
+
             if (is_null($order->getMaterialData()->getJournal())) {
                 $qb = $qb->setParameter('name', $order->getMaterialData()->getOther());
             } else {
