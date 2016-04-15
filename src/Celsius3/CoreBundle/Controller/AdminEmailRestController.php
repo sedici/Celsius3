@@ -66,13 +66,13 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $text = $request->request->get('text');
 
         $order_id = $request->request->get('order_id');
-        $order =  $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
+        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
 
-        $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findOneBy(array('email'=>$email));
-
+        $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findOneBy(array('email' => $email));
 
         $mailManager = $this->get('celsius3_core.mail_manager');
-        $text = $mailManager->renderRawTemplate($text,array(
+
+        $text = $mailManager->renderRawTemplate($text, array(
             'user' => $user,
             'instance' => $this->getInstance(),
             'order' => $order
@@ -84,4 +84,5 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
+
 }

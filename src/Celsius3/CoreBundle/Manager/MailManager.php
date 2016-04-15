@@ -27,6 +27,8 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Manager\InstanceManager;
+use JMS\Serializer\Serializer;
+use JMS\Serializer\SerializationContext;
 
 class MailManager
 {
@@ -42,12 +44,14 @@ class MailManager
     private $em;
     private $im;
     private $twig;
+    private $serializer;
 
-    public function __construct(EntityManager $em, InstanceManager $im, $twig)
+    public function __construct(EntityManager $em, InstanceManager $im, \Twig_Environment $twig, Serializer $serializer)
     {
         $this->em = $em;
         $this->im = $im;
         $this->twig = $twig;
+        $this->serializer = $serializer;
     }
 
     public function getTemplate($code, Instance $instance)
@@ -60,19 +64,42 @@ class MailManager
 
     public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
     {
-        $template = $this->twig->createTemplate($this->getTemplate($code, $instance)->getText());
+        try {
+            $template = $this->twig->createTemplate($this->getTemplate($code, $instance)->getText());
 
-        return $template->render(array(
-                    'user' => $user,
-                    'order' => $order,
-                    'instance' => $instance,
-        ));
+            $vars = [
+                'instance' => $instance,
+                'user' => $user,
+                'order' => $order
+            ];
+
+            return $template->render($this->serializeData($vars));
+        } catch (\Exeption $e) {
+            
+        }
     }
 
-    public function renderRawTemplate($text, $vars_array)
+    public function renderRawTemplate($text, $vars)
     {
-        $template = $this->twig->createTemplate($text);
-        return $template->render($vars_array);
+        try {
+            $template = $this->twig->createTemplate($text);
+
+            return $template->render($this->serializeData($vars));
+        } catch (\Exception $e) {
+            
+        }
+    }
+
+    private function serializeData($vars)
+    {
+        $data = [];
+        foreach ($vars as $key => $value) {
+            if (!is_null($value)) {
+                $data[$key] = $this->serializer->toArray($value, SerializationContext::create()->setGroups(array('email_template')));
+            }
+        }
+
+        return $data;
     }
 
 }

@@ -24,16 +24,30 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Celsius3\CoreBundle\Manager\MailManager;
 
 class MailTemplateType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
                 ->add('title')
-                ->add('code')
+                ->add('code', ChoiceType::class, [
+                    'choices' => [
+                        '' => '',
+                        MailManager::MAIL__ORDER_CANCEL => MailManager::MAIL__ORDER_CANCEL,
+                        MailManager::MAIL__ORDER_DOWNLOAD => MailManager::MAIL__ORDER_DOWNLOAD,
+                        MailManager::MAIL__ORDER_PRINTED => MailManager::MAIL__ORDER_PRINTED,
+                        MailManager::MAIL__ORDER_PRINTED_RECONFIRM => MailManager::MAIL__ORDER_PRINTED_RECONFIRM,
+                        MailManager::MAIL__USER_LOST => MailManager::MAIL__USER_LOST,
+                        MailManager::MAIL__USER_WELCOME => MailManager::MAIL__USER_WELCOME,
+                        MailManager::MAIL__USER_WELCOME_PROVISION => MailManager::MAIL__USER_WELCOME_PROVISION
+                    ]
+                ])
                 ->add('text', TextareaType::class, array(
                     'attr' => array(
                         'class' => 'summernote',
@@ -57,6 +71,8 @@ class MailTemplateType extends AbstractType
     {
         $resolver->setDefaults(array(
             'instance' => null,
+            'code' => null
         ));
     }
+
 }

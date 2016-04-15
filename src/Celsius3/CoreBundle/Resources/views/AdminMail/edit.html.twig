@@ -10,5 +10,7 @@
     <h2>{{ 'Mail Template Edit'|trans }} - {{ entity.title }}</h2>
 
     {{ edit('admin_mails', entity, edit_form) }}
+
+    {% include 'Celsius3CoreBundle:AdminMail:_help.html.twig' %}
 {% endblock %}
 

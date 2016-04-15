@@ -2230,6 +2230,10 @@
                 <source>View order</source>
                 <target>View order</target>
             </trans-unit>
+            <trans-unit id="130">
+                <source>Variables available</source>
+                <target>Variables available</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

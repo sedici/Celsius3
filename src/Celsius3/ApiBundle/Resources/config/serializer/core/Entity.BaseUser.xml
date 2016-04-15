@@ -2,8 +2,8 @@
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\BaseUser" exclusion-policy="all">
         <property name="id" type="string" expose="true" read-only="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select"></property>
-        <property name="name" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select"></property>
-        <property name="surname" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select"></property>
+        <property name="name" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select,email_template"></property>
+        <property name="surname" type="string" expose="true" access-type="public_method" groups="api,administration,administration_list,administration_order_show,administration_order_show,administration_user_show,user_list,admins-select,email_template"></property>
         <property name="birthdate" type="DateTime" expose="true" access-type="public_method" groups="administration"></property>
         <property name="address" type="string" expose="true" access-type="public_method" groups="administration"></property>
         <property name="enabled" type="boolean" expose="true" access-type="public_method" groups="api,administration"></property>
@@ -14,5 +14,6 @@
         <virtual-property name="country" type="Celsius3\CoreBundle\Entity\Country" expose="true" method="getCountry" groups="administration"></virtual-property>
         <virtual-property name="city" type="Celsius3\CoreBundle\Entity\City" expose="true" method="getCity" groups="administration"></virtual-property>
         <virtual-property name="isLibrarian" type="boolean" expose="true" method="getIsLibrarian" groups="api,user_list"></virtual-property>
+        <virtual-property name="fullName" type="string" expose="true" method="getFullName" groups="email_template"></virtual-property>
     </class>
 </serializer>

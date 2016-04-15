@@ -74,7 +74,7 @@ class AdminMailController extends BaseInstanceDependentController
     public function newAction()
     {
         return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
-            'instance' => $this->getInstance(),
+                    'instance' => $this->getInstance(),
         ));
     }
 
@@ -103,8 +103,9 @@ class AdminMailController extends BaseInstanceDependentController
         }
 
         return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
-            'instance' => $this->getInstance(),
-        ), $route);
+                    'instance' => $this->getInstance(),
+                    'code' => $template->getCode()
+                        ), $route);
     }
 
     /**
@@ -119,8 +120,8 @@ class AdminMailController extends BaseInstanceDependentController
     public function createAction()
     {
         return $this->baseCreate('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_mails');
+                    'instance' => $this->getInstance(),
+                        ), 'admin_mails');
     }
 
     /**
@@ -139,8 +140,8 @@ class AdminMailController extends BaseInstanceDependentController
     public function updateAction($id)
     {
         return $this->baseUpdate('MailTemplate', $id, MailTemplateType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_mails');
+                    'instance' => $this->getInstance(),
+                        ), 'admin_mails');
     }
 
     /**
@@ -175,4 +176,5 @@ class AdminMailController extends BaseInstanceDependentController
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }
+
 }

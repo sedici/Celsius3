@@ -105,9 +105,9 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
         if ($user->isEnabled()) {
             $mailManager = $this->get('celsius3_core.mail_manager');
-            $text = $mailManager->renderTemplate('user_new', $this->getInstance(), $user);
+            $text = $mailManager->renderTemplate('user_welcome', $this->getInstance(), $user);
 
-            $this->get('celsius3_core.mailer')->sendEmail($user->getEmail(), $mailManager->getTemplate('user_new', $this->getInstance())->getTitle(), $text, $this->getInstance());
+            $this->get('celsius3_core.mailer')->sendEmail($user->getEmail(), $mailManager->getTemplate('user_welcome', $this->getInstance())->getTitle(), $text, $this->getInstance());
         }
 
         $view = $this->view($user->isEnabled(), 200)->setFormat('json');

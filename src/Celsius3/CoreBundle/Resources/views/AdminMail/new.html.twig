@@ -10,5 +10,7 @@
     <h2>{{ 'Mail Template Creation'|trans }}</h2>
 
     {{ new('admin_mails', form) }}
+
+    {% include 'Celsius3CoreBundle:AdminMail:_help.html.twig' %}
 {% endblock %}
 
