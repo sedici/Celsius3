@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Exception\Exception;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
@@ -40,7 +41,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $entity = $this->findQuery('BaseUser', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         if ($this->get('celsius3_core.user_manager')->hasHigherRoles($entity, $this->getUser())) {
@@ -61,7 +62,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $entity = $this->findQuery('BaseUser', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $transformForm = $this->createForm($transformType, null, $options);
@@ -104,7 +105,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $entity = $this->findQuery('BaseUser', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $this->enableUser($entity);

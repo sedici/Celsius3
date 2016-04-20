@@ -26,6 +26,7 @@ use FOS\UserBundle\Controller\ResettingController as BaseResettingController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class ResettingController extends BaseResettingController
 {
@@ -34,8 +35,8 @@ class ResettingController extends BaseResettingController
     {
         /** @var $user UserInterface */
         $user = $this->container->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
-      if (null === $user) {
-            throw new NotFoundHttpException('The user does not exist.');
+        if (!$user) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
@@ -56,4 +57,5 @@ class ResettingController extends BaseResettingController
 
         return new RedirectResponse($this->container->get('router')->generate('admin_user_show', array('id' => $user->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
     }
+
 }

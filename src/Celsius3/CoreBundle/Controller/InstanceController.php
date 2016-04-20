@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Validator\Constraints\ContainsCSS;
+use Celsius3\CoreBundle\Exception\Exception;
 
 abstract class InstanceController extends BaseController
 {
@@ -97,7 +98,7 @@ abstract class InstanceController extends BaseController
         $entity = $this->findQuery('Instance', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instance.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
         }
 
         $configureForm = $this->getConfigurationForm($id, $entity);
@@ -113,7 +114,7 @@ abstract class InstanceController extends BaseController
         $entity = $this->findQuery('Instance', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instance.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
         }
 
         $configureForm = $this->getConfigurationForm($id, $entity);

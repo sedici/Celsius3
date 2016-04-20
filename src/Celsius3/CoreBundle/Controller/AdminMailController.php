@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
 use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Order controller.
@@ -162,7 +163,7 @@ class AdminMailController extends BaseInstanceDependentController
         $template = $this->findQuery('MailTemplate', $id);
 
         if (!$template || $template->getInstance()->getId() === $this->getDirectory()->getId()) {
-            throw $this->createNotFoundException('Unable to find template.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
         }
 
         $template->setEnabled(!$template->getEnabled());

@@ -22,12 +22,21 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
+use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\DependencyInjection\Container;
+
 /**
  * Throw when the functionnality is not implemented
  *
  * @author Cedric LOMBARDOT
  */
-class NotImplementedException extends \LogicException
+class NotImplementedException extends \LogicException implements Celsius3ExceptionInterface
 {
-    
+
+    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
+    {
+        
+    }
+
 }

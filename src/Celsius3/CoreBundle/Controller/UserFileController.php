@@ -27,6 +27,7 @@ use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
+use Celsius3\CoreBundle\Exception\NotFoundException;
 
 /**
  * File controller.
@@ -41,14 +42,14 @@ class UserFileController extends BaseController
     protected function validate(Request $request, File $file)
     {
         if (!$request) {
-            throw $this->createNotFoundException('Order not found.');
+            throw new NotFoundException('exception.not_found.order');
         }
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN')) {
             if (!$file || $file->getIsDownloaded() || !$file->getEnabled() || $request->getOrder()->getOriginalRequest()->getOwner()->getId() !== $user->getId() || !$request->getOwner()->getPdf()) {
-                throw $this->createNotFoundException('File not found.');
+                throw new NotFoundException('exception.not_found.file');
             }
         }
 

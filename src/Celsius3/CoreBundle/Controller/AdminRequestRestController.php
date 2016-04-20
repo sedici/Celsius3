@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -67,7 +68,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         ));
 
         if (!$request) {
-            return $this->createNotFoundException('Request not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');
         }
 
         $view = $this->view($request, 200)->setFormat('json');
@@ -75,4 +76,5 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
+
 }

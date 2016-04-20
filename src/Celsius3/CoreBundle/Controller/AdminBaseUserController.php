@@ -30,6 +30,7 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * BaseUser controller.
@@ -58,7 +59,7 @@ class AdminBaseUserController extends BaseUserController
     public function indexAction()
     {
         return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
-            'instance' => $this->getInstance(),
+                            'instance' => $this->getInstance(),
         )));
     }
 
@@ -75,7 +76,7 @@ class AdminBaseUserController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find BaseUser.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $messages = $this->get('fos_message.thread_manager')
@@ -157,7 +158,7 @@ class AdminBaseUserController extends BaseUserController
     public function editAction($id)
     {
         return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
-            'editing' => true,
+                    'editing' => true,
         ));
     }
 
@@ -180,7 +181,7 @@ class AdminBaseUserController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find BaseUser.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $editForm = $this->createForm(BaseUserType::class, $entity, array(
@@ -233,14 +234,14 @@ class AdminBaseUserController extends BaseUserController
 
         if ($request->getMethod() === 'POST') {
             return $this->baseDoTransformAction($id, UserTransformType::class, array(
-                'instance' => $this->getInstance(),
-                'user' => $entity,
-            ), 'admin_user');
+                        'instance' => $this->getInstance(),
+                        'user' => $entity,
+                            ), 'admin_user');
         }
 
         return $this->baseTransformAction($id, UserTransformType::class, array(
-            'instance' => $this->getInstance(),
-            'user' => $entity,
+                    'instance' => $this->getInstance(),
+                    'user' => $entity,
         ));
     }
 
@@ -332,7 +333,7 @@ class AdminBaseUserController extends BaseUserController
         return 'admin_user';
     }
 
- /**
+    /**
      * Shows the data of a user
      *
      * @Route("//switch-user", name="switch_user")
@@ -342,18 +343,15 @@ class AdminBaseUserController extends BaseUserController
      */
     public function switchUserAction(Request $request)
     {
-     
-       if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-          $userManager = $this->get('fos_user.user_manager');
-          $user = $userManager->findUserByUsername($_switch_user);
-          $firewallName = 'secured_area';
-          $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
-          $this->container->get('security.context')->setToken($token);
+
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $userManager = $this->get('fos_user.user_manager');
+            $user = $userManager->findUserByUsername($_switch_user);
+            $firewallName = 'secured_area';
+            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
+            $this->container->get('security.context')->setToken($token);
         }
-          return $this->redirectToRoute('user_index', array());
+        return $this->redirectToRoute('user_index', array());
     }
- 
-
-
 
 }

@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class MailManager
 {
@@ -56,10 +57,16 @@ class MailManager
 
     public function getTemplate($code, Instance $instance)
     {
-        return $this->em->getRepository('Celsius3CoreBundle:MailTemplate')
-                        ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
-                        ->getQuery()
-                        ->getSingleResult();
+        $template = $this->em->getRepository('Celsius3CoreBundle:MailTemplate')
+                ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
+                ->getQuery()
+                ->getSingleResult();
+
+        if (!$template) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
+        }
+
+        return $template;
     }
 
     public function renderTemplate($code, Instance $instance, BaseUser $user, Order $order = null)
@@ -74,8 +81,8 @@ class MailManager
             ];
 
             return $template->render($this->serializeData($vars));
-        } catch (\Exeption $e) {
-            
+        } catch (\Twig_Error $e) {
+            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template', 'error', $e);
         }
     }
 
@@ -85,8 +92,8 @@ class MailManager
             $template = $this->twig->createTemplate($text);
 
             return $template->render($this->serializeData($vars));
-        } catch (\Exception $e) {
-            
+        } catch (\Twig_Error $e) {
+            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template', 'error', $e);
         }
     }
 

@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -46,7 +47,7 @@ class AdminFileRestController extends BaseInstanceDependentRestController
         $file = $em->getRepository('Celsius3CoreBundle:File')->find($file_id);
 
         if (!$file) {
-            throw $this->createNotFoundException('Unable to find File.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.file');
         }
 
         $file->setEnabled(!$file->getEnabled());
@@ -59,4 +60,5 @@ class AdminFileRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
+
 }

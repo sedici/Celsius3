@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -62,7 +63,7 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
         $contact = $em->getRepository('Celsius3CoreBundle:Contact')->find($id);
 
         if (!$contact) {
-            return $this->createNotFoundException('Contact not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
         $view = $this->view($contact, 200)->setFormat('json');
@@ -79,23 +80,23 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
         $em = $this->getDoctrine()->getManager();
 
         $request = $em->getRepository('Celsius3CoreBundle:Request')
-            ->find($request_id);
+                ->find($request_id);
 
         if (!$request) {
-            return $this->createNotFoundException('Request not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');
         }
 
         $template = $em->getRepository('Celsius3CoreBundle:MailTemplate')
-            ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory(), $code)
-            ->getQuery()
-            ->getSingleResult();
+                ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory(), $code)
+                ->getQuery()
+                ->getSingleResult();
 
         if (!$template) {
-            return $this->createNotFoundException('Template not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
         }
 
         $render = $this->get('celsius3_core.mail_manager')
-            ->renderTemplate($code, $this->getInstance(), $request->getOwner(), $request->getOrder());
+                ->renderTemplate($code, $this->getInstance(), $request->getOwner(), $request->getOrder());
 
         $template->setText($render);
 
@@ -103,4 +104,5 @@ class AdminMailTemplateRestController extends BaseInstanceDependentRestControlle
 
         return $this->handleView($view);
     }
+
 }

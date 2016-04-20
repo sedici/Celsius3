@@ -28,6 +28,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Manager\StateManager;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -95,7 +96,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         ));
 
         if (!$user) {
-            return $this->createNotFoundException('User not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $user->setEnabled(true);
@@ -130,7 +131,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         ));
 
         if (!$user) {
-            return $this->createNotFoundException('User not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         if (!$user->isEnabled()) {
@@ -176,7 +177,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $user = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
 
         if (!$user) {
-            return $this->createNotFoundException('User not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $view = $this->view($user, 200)->setFormat('json');
@@ -197,7 +198,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $entity = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find BaseUser.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         if ($type === 'active') {

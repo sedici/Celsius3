@@ -24,9 +24,11 @@ namespace Celsius3\CoreBundle\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Exception\InstanceNotFoundException;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class InstanceHelper
 {
+
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -42,7 +44,7 @@ class InstanceHelper
                 ->find($this->container->get('session')->get('instance_id'));
 
         if (!$instance) {
-            throw new InstanceNotFoundException('Unable to find Instance.');
+            throw Exception::create(Exception::INSTANCE_NOT_FOUND);
         }
 
         return $instance;
@@ -60,7 +62,7 @@ class InstanceHelper
         ));
 
         if (!$instance) {
-            throw new InstanceNotFoundException('Unable to find Instance.');
+            throw Exception::create(Exception::INSTANCE_NOT_FOUND);
         }
 
         return $instance;
@@ -85,4 +87,5 @@ class InstanceHelper
 
         return $instance;
     }
+
 }

@@ -26,6 +26,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -46,9 +47,9 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
-                    ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
-                    ->getQuery()
-                    ->execute();
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
+                ->getQuery()
+                ->execute();
 
         $view = $this->view(array_values($catalogs), 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -67,7 +68,7 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
         $catalog = $em->getRepository('Celsius3CoreBundle:Catalog')->find($id);
 
         if (!$catalog) {
-            return $this->createNotFoundException('Catalog not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.catalog');
         }
 
         $view = $this->view($catalog, 200)->setFormat('json');
@@ -86,10 +87,10 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $order = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->find($order_id);
+                ->find($order_id);
 
         if (!$order) {
-            return $this->createNotFoundException('Order not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
         if ($order->getMaterialData() instanceof JournalType) {
@@ -103,16 +104,16 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
         }
 
         $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
-                    ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
-                    ->select('c.id')
-                    ->getQuery()
-                    ->execute();
+                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
+                ->select('c.id')
+                ->getQuery()
+                ->execute();
 
         $response = array(
             'results' => $em->getRepository('Celsius3CoreBundle:Catalog')
-                        ->getCatalogResults($catalogs, $title),
+                    ->getCatalogResults($catalogs, $title),
             'searches' => $em->getRepository('Celsius3CoreBundle:Event\\Event')
-                        ->findSimilarSearches($order, $this->getInstance()),
+                    ->findSimilarSearches($order, $this->getInstance()),
         );
 
         $view = $this->view($response, 200)->setFormat('json');

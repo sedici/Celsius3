@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceType;
 use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Instance controller.
@@ -68,7 +69,7 @@ class SuperadminInstanceController extends InstanceController
      */
     public function newAction()
     {
-        
+
         $entity = new Instance();
         $options['data'] = array('create' => true);
         $form = $this->createForm(InstanceType::class, $entity, $options);
@@ -90,8 +91,8 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
-        
-  
+
+
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -197,7 +198,7 @@ class SuperadminInstanceController extends InstanceController
         $entity = $this->findQuery('LegacyInstance', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instance.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
         }
 
         $entity->setEnabled(!$entity->getEnabled());
@@ -279,7 +280,7 @@ class SuperadminInstanceController extends InstanceController
         $entity = $this->findQuery('Instance', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Instance.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
         }
 
         $this->get('session')->set('instance_id', $entity->getId());

@@ -25,8 +25,9 @@ namespace Celsius3\CoreBundle\Exception;
 use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class PreviousStateNotFoundException extends \LogicException implements Celsius3ExceptionInterface
+class ExceptionNotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
 
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)

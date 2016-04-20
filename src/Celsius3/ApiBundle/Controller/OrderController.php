@@ -26,6 +26,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -66,7 +67,7 @@ class OrderController extends BaseController
             $user = $accessToken->getUser();
 
             if (!$user) {
-                return $this->createNotFoundException('User not found.');
+                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
             }
 
             $orders = $em->getRepository('Celsius3CoreBundle:Order')
@@ -128,7 +129,7 @@ class OrderController extends BaseController
                     ->find($user_id);
 
             if (!$user) {
-                return $this->createNotFoundException('User not found.');
+                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
             }
 
             $orders = $em->getRepository('Celsius3CoreBundle:Order')

@@ -28,6 +28,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -94,7 +95,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($id);
 
         if (!$institution) {
-            return $this->createNotFoundException('Institution not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
         }
 
         $view = $this->view($institution, 200)->setFormat('json');

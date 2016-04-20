@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Order controller.
@@ -113,10 +114,10 @@ class SuperadminOrderController extends OrderController
     public function newAction()
     {
         return $this->baseNew('Order', new Order(), OrderType::class, array(
-            'instance' => $this->getDirectory(),
-            'user' => $this->getUser(),
-            'librarian' => false,
-            'actual_user' => $this->getUser(),
+                    'instance' => $this->getDirectory(),
+                    'user' => $this->getUser(),
+                    'librarian' => false,
+                    'actual_user' => $this->getUser(),
         ));
     }
 
@@ -133,12 +134,12 @@ class SuperadminOrderController extends OrderController
     {
         $entity = new Order();
         return $this->baseCreate('Order', $entity, OrderType::class, array(
-            'instance' => $this->getDirectory(),
-            'material' => $this->getMaterialType($entity),
-            'user' => $this->getUser(),
-            'librarian' => false,
-            'actual_user' => $this->getUser(),
-        ), 'superadmin_order');
+                    'instance' => $this->getDirectory(),
+                    'material' => $this->getMaterialType($entity),
+                    'user' => $this->getUser(),
+                    'librarian' => false,
+                    'actual_user' => $this->getUser(),
+                        ), 'superadmin_order');
     }
 
     /**
@@ -157,7 +158,7 @@ class SuperadminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Order.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
         $materialClass = get_class($entity->getMaterialData());
@@ -194,7 +195,7 @@ class SuperadminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Order.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
         $entity->setMaterialData(null);
@@ -205,7 +206,7 @@ class SuperadminOrderController extends OrderController
             'user' => $this->getUser(),
             'librarian' => false,
             'actual_user' => $this->getUser(),
-        ), $entity);
+                ), $entity);
 
         $request = $this->get('request_stack')->getCurrentRequest();
 

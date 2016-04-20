@@ -24,6 +24,7 @@ namespace Celsius3\ApiBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Celsius3\ApiBundle\Entity\AccessToken;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class BaseController extends FOSRestController
 {
@@ -35,7 +36,7 @@ class BaseController extends FOSRestController
                 ->find($this->get('request_stack')->getCurrentRequest()->request->get('instance_id'));
 
         if (!$instance) {
-            return $this->createNotFoundException('Instance not found');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
         }
 
         return $instance;

@@ -30,7 +30,7 @@ use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Entity\Request;
-use Celsius3\CoreBundle\Exception\NotFoundException;
+use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Entity\Instance;
 
 class EventManager
@@ -106,7 +106,7 @@ class EventManager
     public function getClassNameForEvent($event)
     {
         if (!array_key_exists($event, $this->event_classes)) {
-            throw $this->createNotFoundException('Event not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
         }
 
         return $this->event_classes[$event];
@@ -115,7 +115,7 @@ class EventManager
     public function getFullClassNameForEvent($event)
     {
         if (!array_key_exists($event, $this->event_classes)) {
-            throw $this->createNotFoundException('Event not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
         }
 
         return $this->class_prefix . $this->event_classes[$event];
@@ -134,7 +134,7 @@ class EventManager
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         return $extraData;
@@ -163,7 +163,7 @@ class EventManager
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         return $extraData;
@@ -176,7 +176,7 @@ class EventManager
         if (!$httpRequest->request->has('request')) {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData['observations'] = $httpRequest->request->get('observations', null);
@@ -206,7 +206,7 @@ class EventManager
         if (!$httpRequest->request->has('receive')) {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData['observations'] = $httpRequest->request->get('observations', null);
@@ -227,14 +227,14 @@ class EventManager
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData['receive'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($httpRequest->request->get('receive'));
 
         if (!$extraData['receive']) {
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         return $extraData;
@@ -248,7 +248,7 @@ class EventManager
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         if ($httpRequest->request->has('request')) {
@@ -266,7 +266,7 @@ class EventManager
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData[$key] = $event;
@@ -275,7 +275,7 @@ class EventManager
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         $extraData['observations'] = $httpRequest->request->get('observations');
@@ -294,7 +294,7 @@ class EventManager
 
             $httpRequest->request->remove('request');
             if (!$extraData['request']) {
-                throw new NotFoundHttpException();
+                throw Exception::create(Exception::NOT_FOUND);
             }
         } else {
             $extraData['httprequest'] = $httpRequest;
@@ -322,7 +322,7 @@ class EventManager
             $this->container->get('session')->getFlashBag()
                     ->add('error', 'There was an error changing the state.');
 
-            throw new NotFoundHttpException();
+            throw Exception::create(Exception::NOT_FOUND);
         }
 
         if ($httpRequest->request->has('cancelled_by_user')) {

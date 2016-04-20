@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\CoreBundle\Form\Type\JournalType;
 use Celsius3\CoreBundle\Filter\Type\JournalFilterType;
 use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Location controller.
@@ -96,7 +97,7 @@ class AdminJournalController extends BaseInstanceDependentController
         $entity = $this->findShowQuery('Journal', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Journal.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
         }
 
         $results = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')

@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Public controller
@@ -128,7 +129,7 @@ class PublicController extends BaseInstanceDependentController
     public function citiesAction(Request $request)
     {
         if (!$request->query->has('country_id')) {
-            throw $this->createNotFoundException();
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
         }
 
         $cities = $this->getDoctrine()->getManager()
@@ -156,7 +157,7 @@ class PublicController extends BaseInstanceDependentController
     public function institutionsAction(Request $request)
     {
         if (!$request->query->has('country_id')) {
-            throw $this->createNotFoundException();
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -219,7 +220,7 @@ class PublicController extends BaseInstanceDependentController
                 $children = array_filter($institutions, function($i) use ($institution) {
                     return $i['parent_id'] === $institution['id'];
                 });
-                
+
                 $instAbbr = ' | ' . (($institution['abbreviation']) ? $institution['abbreviation'] : $institution['name']);
 
                 $response[] = array(
@@ -258,13 +259,13 @@ class PublicController extends BaseInstanceDependentController
         return $response;
     }
 
-
-     /**
+    /**
      * @Route("/help", name="public_help")
      * @Template()
      */
     public function helpAction()
     {
-        return array('staff'=> $this->getInstance()->get('instance_staff')->getValue());
+        return array('staff' => $this->getInstance()->get('instance_staff')->getValue());
     }
+
 }

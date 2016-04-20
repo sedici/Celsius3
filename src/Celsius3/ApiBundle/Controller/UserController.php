@@ -28,6 +28,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use Symfony\Component\HttpFoundation\Request;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -123,7 +124,7 @@ class UserController extends BaseController
         ));
 
         if (!$user) {
-            return $this->createNotFoundException('User not found');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $view = $this->view($user, 200)->setFormat('json');
@@ -146,7 +147,7 @@ class UserController extends BaseController
         ));
 
         if (!$user) {
-            return $this->createNotFoundException('User not found');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $user->setDownloadAuth(false);
@@ -175,7 +176,7 @@ class UserController extends BaseController
         ));
 
         if (!$user) {
-            return $this->createNotFoundException('User not found');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
         $user->setDownloadAuth(true);
@@ -189,4 +190,5 @@ class UserController extends BaseController
 
         return $this->handleView($view);
     }
+
 }

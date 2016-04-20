@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
 use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Order controller.
@@ -72,7 +73,7 @@ class SuperadminMailController extends BaseController
     public function newAction()
     {
         return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
-            'instance' => $this->getDirectory(),
+                    'instance' => $this->getDirectory(),
         ));
     }
 
@@ -91,7 +92,7 @@ class SuperadminMailController extends BaseController
     public function editAction($id)
     {
         return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
-            'instance' => $this->getDirectory(),
+                    'instance' => $this->getDirectory(),
         ));
     }
 
@@ -107,8 +108,8 @@ class SuperadminMailController extends BaseController
     public function createAction()
     {
         return $this->baseCreate('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_mails');
+                    'instance' => $this->getDirectory(),
+                        ), 'superadmin_mails');
     }
 
     /**
@@ -127,8 +128,8 @@ class SuperadminMailController extends BaseController
     public function updateAction($id)
     {
         return $this->baseUpdate('MailTemplate', $id, MailTemplateType::class, array(
-            'instance' => $this->getDirectory(),
-        ), 'superadmin_mails');
+                    'instance' => $this->getDirectory(),
+                        ), 'superadmin_mails');
     }
 
     /**
@@ -149,7 +150,7 @@ class SuperadminMailController extends BaseController
         $template = $this->findQuery('MailTemplate', $id);
 
         if (!$template) {
-            throw $this->createNotFoundException('Unable to find template.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');
         }
 
         $template->setEnabled(!$template->getEnabled());
@@ -164,4 +165,5 @@ class SuperadminMailController extends BaseController
 
         return $this->redirect($this->generateUrl('superadmin_mails'));
     }
+
 }

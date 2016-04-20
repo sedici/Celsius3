@@ -20,18 +20,29 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\CoreBundle\EventListener;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\DependencyInjection\Container;
 
-class PreviousStateNotFoundException extends \LogicException implements Celsius3ExceptionInterface
+class ExceptionListener
 {
 
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
+    private $container;
+
+    public function __construct(Container $container)
     {
-        
+        $this->container = $container;
+    }
+
+    public function onKernelException(GetResponseForExceptionEvent $event)
+    {
+        $exception = $event->getException();
+
+        if ($exception instanceof Celsius3ExceptionInterface) {
+            $exception->handleEvent($event, $this->container);
+        }
     }
 
 }

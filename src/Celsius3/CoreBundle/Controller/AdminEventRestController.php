@@ -26,6 +26,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -108,7 +109,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
                 ->find($id);
 
         if (!$event) {
-            return $this->createNotFoundException('Event not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.event');
         }
 
         $view = $this->view($event, 200)->setFormat('json');
@@ -126,10 +127,10 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $request = $em->getRepository('Celsius3CoreBundle:Request')->find($request_id);
 
         if (!$request) {
-            throw $this->createNotFoundException('Unable to find Request.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');
         }
 
-        if (!$request->getOperator()){
+        if (!$request->getOperator()) {
             $request->setOperator($this->getUser());
         }
 
@@ -150,13 +151,13 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $request = $em->getRepository('Celsius3CoreBundle:Request')->find($request_id);
 
         if (!$request) {
-            throw $this->createNotFoundException('Unable to find Request.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.request');
         }
 
-        if (!$request->getOperator()){
+        if (!$request->getOperator()) {
             $request->setOperator($this->getUser());
         }
-        
+
         $result = $this->get('celsius3_core.lifecycle_helper')->createEvent($event, $request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');

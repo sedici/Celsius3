@@ -27,6 +27,7 @@ use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -171,7 +172,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 $order = $em->getRepository('Celsius3CoreBundle:Order')->find($id);
 
                 if (!$order) {
-                    return $this->createNotFoundException('Order not found.');
+                    throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
                 }
 
                 $view = $this->view($order, 200)->setFormat('json');
@@ -257,7 +258,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 $operator = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
                 $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
                 if (!$order) {
-                    return $this->createNotFoundException('No se encuentra la order');
+                    throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
                 }
 
 

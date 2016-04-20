@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -66,11 +67,12 @@ class AdminCountryRestController extends BaseInstanceDependentRestController
         $country = $em->getRepository('Celsius3CoreBundle:Country')->find($id);
 
         if (!$country) {
-            return $this->createNotFoundException('Country not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
         }
 
         $view = $this->view($country, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
+
 }

@@ -26,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
+use Celsius3\CoreBundle\Exception\NotFoundException;
 
 /**
  * File controller.
@@ -40,11 +41,11 @@ class AdminFileController extends BaseController
     protected function validate(Request $request, File $file)
     {
         if (!$request) {
-            return $this->createNotFoundException('Request not found.');
+            throw new NotFoundException('exception.not_found.request');
         }
 
         if (!$file) {
-            return $this->createNotFoundException('File not found.');
+            throw new NotFoundException('exception.not_found.file');
         }
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -65,4 +66,5 @@ class AdminFileController extends BaseController
     {
         return $this->download($request, $file);
     }
+
 }

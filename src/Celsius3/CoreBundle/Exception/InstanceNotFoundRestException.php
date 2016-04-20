@@ -20,28 +20,27 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\EventListener;
+namespace Celsius3\CoreBundle\Exception;
 
-use Celsius3\CoreBundle\Exception\InstanceNotFoundException;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\RouterInterface;
+use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class InstanceListener
+class InstanceNotFoundRestException extends \RuntimeException implements Celsius3ExceptionInterface
 {
-    private $router;
 
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
-    }
-
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
         $exception = $event->getException();
-        if ($exception instanceof InstanceNotFoundException) {
-            $response = new RedirectResponse($this->router->generate('directory_homepage'));
-            $event->setResponse($response);
-        }
+
+        $response = new JsonResponse([
+            'error' => true,
+            'hasMessage' => true,
+            'message' => $exception->getMessage()
+        ]);
+
+        $event->setResponse($response);
     }
+
 }

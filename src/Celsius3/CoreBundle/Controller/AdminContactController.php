@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Contact;
 use Celsius3\CoreBundle\Form\Type\AdminContactType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Contact controller.
@@ -105,7 +106,7 @@ class AdminContactController extends BaseInstanceDependentController
     public function newAction()
     {
         return $this->baseNew('Contact', new Contact(), AdminContactType::class, array(
-            'owning_instance' => $this->getInstance(),
+                    'owning_instance' => $this->getInstance(),
         ));
     }
 
@@ -121,8 +122,8 @@ class AdminContactController extends BaseInstanceDependentController
     public function createAction()
     {
         return $this->baseCreate('Contact', new Contact(), AdminContactType::class, array(
-            'owning_instance' => $this->getInstance(),
-        ), 'admin_contact');
+                    'owning_instance' => $this->getInstance(),
+                        ), 'admin_contact');
     }
 
     /**
@@ -141,12 +142,12 @@ class AdminContactController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery('Contact', $id);
         if (!$entity) {
-            $this->createNotFoundException();
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
         return $this->baseEdit('Contact', $id, AdminContactType::class, array(
-            'owning_instance' => $this->getInstance(),
-            'user' => $entity->getUser(),
+                    'owning_instance' => $this->getInstance(),
+                    'user' => $entity->getUser(),
         ));
     }
 
@@ -167,13 +168,13 @@ class AdminContactController extends BaseInstanceDependentController
     {
         $entity = $this->findQuery('Contact', $id);
         if (!$entity) {
-            $this->createNotFoundException();
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
         return $this->baseUpdate('Contact', $id, AdminContactType::class, array(
-            'owning_instance' => $this->getInstance(),
-            'user' => $entity->getUser(),
-        ), 'admin_contact');
+                    'owning_instance' => $this->getInstance(),
+                    'user' => $entity->getUser(),
+                        ), 'admin_contact');
     }
 
     /**
@@ -192,4 +193,5 @@ class AdminContactController extends BaseInstanceDependentController
     {
         return $this->baseDelete('Contact', $id, 'admin_contact');
     }
+
 }

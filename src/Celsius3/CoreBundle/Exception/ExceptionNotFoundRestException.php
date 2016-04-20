@@ -25,13 +25,23 @@ namespace Celsius3\CoreBundle\Exception;
 use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class PreviousStateNotFoundException extends \LogicException implements Celsius3ExceptionInterface
+class ExceptionNotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
 
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
-        
+        $exception = $event->getException();
+
+        $response = new JsonResponse([
+            'error' => true,
+            'hasMessage' => true,
+            'message' => $exception->getMessage()
+        ]);
+
+        $event->setResponse($response);
     }
 
 }

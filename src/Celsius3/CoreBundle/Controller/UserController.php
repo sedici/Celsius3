@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller
@@ -90,7 +91,7 @@ class UserController extends BaseInstanceDependentController
             }
 
             if (!$instance || !array_key_exists($id, $user->getSecondaryInstances())) {
-                return $this->createNotFoundException('Instance not found');
+                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
             }
 
             $this->get('session')->set('instance_id', $instance->getId());

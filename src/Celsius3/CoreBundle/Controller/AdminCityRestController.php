@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -45,8 +46,8 @@ class AdminCityRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $countries = $em->getRepository('Celsius3CoreBundle:City')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id)
-                ->getQuery()->getResult();
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), $country_id)
+                        ->getQuery()->getResult();
 
         $view = $this->view(array_values($countries), 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -62,14 +63,15 @@ class AdminCityRestController extends BaseInstanceDependentRestController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $institution = $em->getRepository('Celsius3CoreBundle:City')->find($id);
+        $city = $em->getRepository('Celsius3CoreBundle:City')->find($id);
 
-        if (!$institution) {
-            return $this->createNotFoundException('City not found.');
+        if (!$city) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.city');
         }
 
-        $view = $this->view($institution, 200)->setFormat('json');
+        $view = $this->view($city, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
+
 }

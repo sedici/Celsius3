@@ -25,9 +25,11 @@ namespace Celsius3\CoreBundle\Manager;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Entity\State;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class StateManager
 {
+
     const STATE__CREATED = 'created';
     const STATE__SEARCHED = 'searched';
     const STATE__REQUESTED = 'requested';
@@ -37,6 +39,7 @@ class StateManager
     const STATE__CANCELLED = 'cancelled';
     const STATE__ANNULLED = 'annulled';
     const STATE__TAKEN = 'taken';
+
     public static $stateTypes = array(
         self::STATE__CREATED,
         self::STATE__SEARCHED,
@@ -281,7 +284,7 @@ class StateManager
     public function getStateForEvent($event)
     {
         if (!array_key_exists($event, $this->event_manager->event_classes)) {
-            throw $this->createNotFoundException('Event not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
         }
 
         $data = null;
@@ -313,7 +316,7 @@ class StateManager
     public function getStateData($state)
     {
         if (!array_key_exists($state, $this->graph)) {
-            throw $this->createNotFoundException('State not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.state');
         }
 
         return $this->graph[$state];
@@ -322,7 +325,7 @@ class StateManager
     public function getEventsToState($state)
     {
         if (!array_key_exists($state, $this->graph)) {
-            throw $this->createNotFoundException('State not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.state');
         }
 
         $data = array();
@@ -341,7 +344,7 @@ class StateManager
     public function getPreviousPositiveState($state)
     {
         if (!array_key_exists($state, $this->graph)) {
-            throw $this->createNotFoundException('State not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.state');
         }
 
         $data = null;
@@ -362,7 +365,7 @@ class StateManager
     public function getPreviousMandatoryStates($state)
     {
         if (!array_key_exists($state, $this->graph)) {
-            throw $this->createNotFoundException('State not found.');
+            throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.state');
         }
 
         $data = array();
@@ -398,4 +401,5 @@ class StateManager
                 ;
         }
     }
+
 }

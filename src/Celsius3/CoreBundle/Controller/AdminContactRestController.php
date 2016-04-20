@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * User controller.
@@ -62,11 +63,12 @@ class AdminContactRestController extends BaseInstanceDependentRestController
         $contact = $em->getRepository('Celsius3CoreBundle:Contact')->find($id);
 
         if (!$contact) {
-            return $this->createNotFoundException('Contact not found.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
         $view = $this->view($contact, 200)->setFormat('json');
 
         return $this->handleView($view);
     }
+
 }

@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\CoreBundle\Controller\BaseController;
 use Celsius3\NotificationBundle\Form\Type\SubscriptionType;
 use Celsius3\NotificationBundle\Entity\NotificationSettings;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Notification controller.
@@ -168,7 +169,7 @@ class NotificationController extends BaseController
                 ->find($id);
 
         if (!$notification) {
-            return $this->createNotFoundException('Notification not found');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.notification');
         }
 
         $notification->setIsViewed(true);

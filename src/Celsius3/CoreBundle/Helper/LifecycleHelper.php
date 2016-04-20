@@ -35,7 +35,7 @@ use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\CoreBundle\Exception\PreviousStateNotFoundException;
+use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 
 class LifecycleHelper
@@ -191,7 +191,7 @@ class LifecycleHelper
         }
 
         if (!$request->hasState($this->state_manager->getPreviousMandatoryStates($data['stateName']), $data['instance']) && $name !== EventManager::EVENT__CREATION) {
-            throw new PreviousStateNotFoundException('State not found');
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
         }
 
         return $data;

@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Order controller.
@@ -151,7 +152,7 @@ class AdminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Order.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
         $materialClass = get_class($entity->getMaterialData());
@@ -192,7 +193,7 @@ class AdminOrderController extends OrderController
         $order = $this->findQuery('Order', $id);
 
         if (!$order) {
-            throw $this->createNotFoundException('Unable to find Order.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
         $entity_manager = $this->getDoctrine()->getManager();
@@ -254,7 +255,7 @@ class AdminOrderController extends OrderController
         $entity = $this->findQuery('Order', $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Order.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
         }
 
         $entity->setMaterialData(null);

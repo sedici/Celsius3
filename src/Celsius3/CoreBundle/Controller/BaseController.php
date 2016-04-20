@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Exception\Exception;
 
 abstract class BaseController extends Controller
 {
@@ -97,7 +98,7 @@ abstract class BaseController extends Controller
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
         }
 
         return array(
@@ -132,7 +133,7 @@ abstract class BaseController extends Controller
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
-                $this->addFlash('success', $this->get('translator')->trans('The').' '. $name . ' was successfully created.');
+                $this->addFlash('success', $this->get('translator')->trans('The') . ' ' . $name . ' was successfully created.');
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'The ' . $name . ' already exists.');
@@ -144,7 +145,7 @@ abstract class BaseController extends Controller
         return array(
             'entity' => $entity,
             'form' => $form->createView(),
-            );
+        );
     }
 
     protected function baseEdit($name, $id, $type, array $options = array(), $route = null)
@@ -152,7 +153,7 @@ abstract class BaseController extends Controller
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
         }
 
         $editForm = $this->createForm($type, $entity, $options);
@@ -169,7 +170,7 @@ abstract class BaseController extends Controller
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
         }
 
         $editForm = $this->createForm($type, $entity, $options);
@@ -209,7 +210,7 @@ abstract class BaseController extends Controller
             $entity = $this->findQuery($name, $id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find ' . $name . '.');
+                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
             }
 
             $em = $this->getDoctrine()->getManager();
@@ -254,7 +255,7 @@ abstract class BaseController extends Controller
         $main = $em->getRepository('Celsius3CoreBundle:' . $name)->find($main_id);
 
         if (!$main) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
         }
 
         $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
@@ -267,7 +268,7 @@ abstract class BaseController extends Controller
                 ->getResult();
 
         if (count($entities) !== count($ids) - 1) {
-            throw $this->createNotFoundException('Unable to find ' . $name . '.');
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
         }
 
         if ($name === 'BaseUser') {

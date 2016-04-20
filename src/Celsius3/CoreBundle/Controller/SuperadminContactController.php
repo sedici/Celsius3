@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Contact;
 use Celsius3\CoreBundle\Form\Type\SuperadminContactType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Contact controller.
@@ -118,12 +119,12 @@ class SuperadminContactController extends BaseController
     {
         $entity = $this->findQuery('Contact', $id);
         if (!$entity) {
-            $this->createNotFoundException();
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
         return $this->baseEdit('Contact', $id, SuperadminContactType::class, array(
-            'owning_instance' => $entity->getOwningInstance(),
-            'user' => $entity->getUser(),
+                    'owning_instance' => $entity->getOwningInstance(),
+                    'user' => $entity->getUser(),
         ));
     }
 
@@ -144,13 +145,13 @@ class SuperadminContactController extends BaseController
     {
         $entity = $this->findQuery('Contact', $id);
         if (!$entity) {
-            $this->createNotFoundException();
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
         return $this->baseUpdate('Contact', $id, SuperadminContactType::class, array(
-            'owning_instance' => $entity->getOwningInstance(),
-            'user' => $entity->getUser(),
-        ), 'superadmin_contact');
+                    'owning_instance' => $entity->getOwningInstance(),
+                    'user' => $entity->getUser(),
+                        ), 'superadmin_contact');
     }
 
     /**
@@ -169,4 +170,5 @@ class SuperadminContactController extends BaseController
     {
         return $this->baseDelete('Contact', $id, 'superadmin_contact');
     }
+
 }
