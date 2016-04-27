@@ -72,28 +72,34 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         var data = {
             id: user_id
         };
-        $http.post(Routing.generate('admin_rest_user_enable'), data).success(function (response) {
-            if (response) {
-                User.pending(function (users) {
-                    $scope.users = users;
+        $http.post(Routing.generate('admin_rest_user_enable'), data)
+                .then(function (response) {
+                    if (response) {
+                        User.pending(function (users) {
+                            $scope.users = users;
+                        });
+                        $('#user-modal').modal('hide');
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
-                $('#user-modal').modal('hide');
-            }
-        });
     };
 
     $scope.rejectUser = function (user_id) {
         var data = {
             id: user_id
         };
-        $http.post(Routing.generate('admin_rest_user_reject'), data).success(function (response) {
-            if (response) {
-                User.pending(function (users) {
-                    $scope.users = users;
+        $http.post(Routing.generate('admin_rest_user_reject'), data)
+                .then(function (response) {
+                    if (response) {
+                        User.pending(function (users) {
+                            $scope.users = users;
+                        });
+                        $('#reject-user-modal').modal('hide');
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
-                $('#reject-user-modal').modal('hide');
-            }
-        });
     };
 
     $scope.showUserModal = function (user_id) {
@@ -131,29 +137,36 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
 
     $scope.orderType = _.isUndefined($routeParams.orderType) ? 'allTypes' : $routeParams.orderType;
 
-    $http.get(Routing.generate('admin_rest_get_other_admins')).success(function (response) {
-        $scope.admins = response;
+    $http.get(Routing.generate('admin_rest_get_other_admins'))
+            .then(function (response) {
 
-        $scope.getSelectedAdmin = function () {
-            var admin = $scope.admins.filter(function (obj) {
-                if (obj.id === $scope.type) {
-                    return true;
+                $scope.admins = response.data;
+
+                $scope.getSelectedAdmin = function () {
+                    var admin = $scope.admins.filter(function (obj) {
+                        if (obj.id === $scope.type) {
+                            return true;
+                        }
+                        return false;
+                    });
+                    return admin[0];
                 }
-                return false;
-            });
-            return admin[0];
-        }
 
-        $scope.selectedAdmin = {};
-        $scope.selectedAdmin.selected = $scope.getSelectedAdmin();
-    });
+                $scope.selectedAdmin = {};
+                $scope.selectedAdmin.selected = $scope.getSelectedAdmin();
+            }, function (response) {
+                generateCelsiusAlert(response);
+            });
 
     if (!_.isUndefined($scope.type)) {
-        $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type + '&state=' + $scope.state + '&orderType=' + $scope.orderType).success(function (response) {
-            $scope.orderCount = response;
-            $scope.loadOrders();
-            $scope.addMouseover();
-        });
+        $http.get(Routing.generate('admin_rest_order_count_get') + '?type=' + $scope.type + '&state=' + $scope.state + '&orderType=' + $scope.orderType)
+                .then(function (response) {
+                    $scope.orderCount = response.data;
+                    $scope.loadOrders();
+                    $scope.addMouseover();
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
 
         User.pending(function (users) {
             $scope.users = users;

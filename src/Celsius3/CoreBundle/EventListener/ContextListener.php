@@ -20,29 +20,31 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Exception;
+namespace Celsius3\CoreBundle\EventListener;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Manager\Alert;
 
-class InstanceNotFoundRestException extends \RuntimeException implements Celsius3ExceptionInterface
+class ContextListener
 {
 
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
+    private $container;
+
+    public function __construct(Container $container)
     {
-        $exception = $event->getException();
+        $this->container = $container;
+    }
 
-        $response = new JsonResponse([
-            'error' => true,
-            'hasMessage' => true,
-            'message' => $exception->getMessage()
-        ]);
+    public function onKernelController(FilterControllerEvent $event)
+    {
+        $controller = $event->getController()[0];
 
-        $response->setStatusCode(500);
-
-        $event->setResponse($response);
+        if ($controller instanceof \Celsius3\CoreBundle\Controller\BaseRestController) {
+            Exception::setRest();
+            Alert::setRest();
+        }
     }
 
 }

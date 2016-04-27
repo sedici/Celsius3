@@ -26,7 +26,8 @@
         <parameter key="celsius3_core.security.login_listener.class">Celsius3\CoreBundle\EventListener\LoginListener</parameter>
         <parameter key="celsius3_core.locale_choosing_listener.class">Celsius3\CoreBundle\EventListener\LocaleChoosingListener</parameter>
         <parameter key="celsius3_core.exception_listener.class">Celsius3\CoreBundle\EventListener\ExceptionListener</parameter>
-        <parameter key="celsius3_core.exception_context_listener.class">Celsius3\CoreBundle\EventListener\ExceptionContextListener</parameter>
+        <parameter key="celsius3_core.context_listener.class">Celsius3\CoreBundle\EventListener\ContextListener</parameter>
+        <parameter key="celsius3_core.response_listener.class">Celsius3\CoreBundle\EventListener\ResponseListener</parameter>
         <parameter key="celsius3_core.registration.form.type.class">Celsius3\CoreBundle\Form\Type\RegistrationFormType</parameter>
         <parameter key="celsius3_core.form.order_selector.class">Celsius3\CoreBundle\Form\Type\OrderSelectorType</parameter>
         <parameter key="celsius3_core.form.admin_contact.class">Celsius3\CoreBundle\Form\Type\AdminContactType</parameter>
@@ -178,9 +179,14 @@
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
         </service>
         
-        <service id="celsius3_core.exception_context_listener" class="%celsius3_core.exception_context_listener.class%">
+        <service id="celsius3_core.context_listener" class="%celsius3_core.context_listener.class%">
             <argument type="service" id="service_container"></argument>
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+        </service>
+        
+        <service id="celsius3_core.response_listener" class="%celsius3_core.response_listener.class%">
+            <argument type="service" id="service_container"></argument>
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
         </service>
 
         <service id="celsius3_core.form.admin_contact" class="%celsius3_core.form.admin_contact.class%">

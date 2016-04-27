@@ -41,6 +41,8 @@ class NotFoundRestException extends NotFoundHttpException implements Celsius3Exc
             'message' => $exception->getMessage()
         ]);
 
+        $response->setStatusCode(500);
+
         $event->setResponse($response);
     }
 

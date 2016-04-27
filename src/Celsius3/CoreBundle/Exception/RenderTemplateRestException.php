@@ -40,6 +40,8 @@ class RenderTemplateRestException extends \RuntimeException implements Celsius3E
             'message' => $exception->getMessage()
         ]);
 
+        $response->setStatusCode(500);
+
         $event->setResponse($response);
     }
 

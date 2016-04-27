@@ -40,6 +40,8 @@ class PreviousStateNotFoundRestException extends \LogicException implements Cels
             'message' => $exception->getMessage()
         ]);
 
+        $response->setsetStatusCode(500);
+
         $event->setResponse($response);
     }
 

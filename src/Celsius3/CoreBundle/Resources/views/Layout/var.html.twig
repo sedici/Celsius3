@@ -47,4 +47,6 @@
         var assets_version_user = "{{ assets_version('user') }}";
 
         var searchErrorMessage = '{{ 'Enter at least three characters' | trans }}';
+
+        var flashbag = '{{ app.session.flashbag.all() | json_encode() | raw }}';
 </script>

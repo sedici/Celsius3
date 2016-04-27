@@ -10,10 +10,13 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
         direction: 'desc'
     };
 
-    $http.get(Routing.generate('user_rest_order_count_get')).success(function (response) {
-        $scope.orderCount = response;
-        $scope.loadOrders();
-    });
+    $http.get(Routing.generate('user_rest_order_count_get'))
+            .then(function (response) {
+                $scope.orderCount = response;
+                $scope.loadOrders();
+            }, function (response) {
+                generateCelsiusAlert(response);
+            });
 
     $scope.pagination = {
         currentPage: 1,

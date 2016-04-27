@@ -23,10 +23,11 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Manager\Alert;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
-class ExceptionContextListener
+class ResponseListener
 {
 
     private $container;
@@ -36,13 +37,9 @@ class ExceptionContextListener
         $this->container = $container;
     }
 
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelResponse(FilterResponseEvent $event)
     {
-        $controller = $event->getController()[0];
-
-        if ($controller instanceof \Celsius3\CoreBundle\Controller\BaseRestController) {
-            Exception::setRest();
-        }
+        Alert::getAlerts($this->container->get('session')->getFlashBag());
     }
 
 }

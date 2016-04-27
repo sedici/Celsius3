@@ -41,6 +41,8 @@ class ExceptionNotFoundRestException extends NotFoundHttpException implements Ce
             'message' => $exception->getMessage()
         ]);
 
+        $response->setStatusCode(500);
+
         $event->setResponse($response);
     }
 

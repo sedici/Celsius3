@@ -35,10 +35,13 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     if (directory) {
         instance_id = null;
     }
+
     $scope.countryChanged = function () {
         $http.get(Routing.generate('public_institutions') + '?country_id=' + $scope.location.country)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.institutions = response;
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -111,10 +114,12 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
         $http.get(Routing.generate('public_rest_get_users_count_data_for') + params)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.data = response;
                     $scope.showTotal = false;
                     $scope.generateUsersCountChart(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -141,12 +146,14 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         params += 'type=' + type + parameters;
 
         $http.get(Routing.generate('public_rest_get_requests_origin_data') + params)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.data = response;
                     $scope.ids = response.ids;
                     $scope.countries = response.countries;
                     $scope.showTotal = false;
                     $scope.generateRequestsOriginChart(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -163,10 +170,12 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
         $http.get(Routing.generate('public_rest_get_requests_count_data_for') + params)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.data = response;
                     $scope.showTotal = true;
                     $scope.generateRequestsCountChart(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -183,10 +192,12 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
         $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + params)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.data = response;
                     $scope.showTotal = true;
                     $scope.generateRequestsDestinyDistributionChart(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -202,10 +213,12 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.data = response;
                     $scope.showTotal = false;
                     $scope.generateRequestsNumberByPublicationYearChart(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -223,10 +236,12 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
         params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType;
 
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.data = response;
                     $scope.showTotal = true;
                     $scope.generateRequestsTotalDelayChart(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
 
@@ -518,7 +533,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
     $scope.start();
     $http.get(Routing.generate('public_countries'))
-            .success(function (response) {
+            .then(function (response) {
                 $scope.allCountries = response;
+            }, function (response) {
+                generateCelsiusAlert(response);
             });
 });

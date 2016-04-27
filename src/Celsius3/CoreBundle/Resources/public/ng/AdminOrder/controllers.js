@@ -362,16 +362,19 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                             $scope.refreshRequest(true);
                             $('.modal').modal('hide');
                             var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_printed_reconfirm' : 'order_printed';
-                            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id})).success(function (response) {
-                                if (response) {
-                                    $scope.contacts = null;
-                                    $scope.templates = response;
-                                    $scope.forms.email.address = $scope.request.owner.email;
-                                    $scope.forms.email.subject = response[0].title;
-                                    $scope.forms.email.text = response[0].text;
-                                    $('#email-modal').modal('show');
-                                }
-                            });
+                            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id}))
+                                    .then(function (response) {
+                                        if (response) {
+                                            $scope.contacts = null;
+                                            $scope.templates = response;
+                                            $scope.forms.email.address = $scope.request.owner.email;
+                                            $scope.forms.email.subject = response[0].title;
+                                            $scope.forms.email.text = response[0].text;
+                                            $('#email-modal').modal('show');
+                                        }
+                                    }, function (response) {
+                                        generateCelsiusAlert(response);
+                                    });
                             $scope.filesToUpload = [];
                         });
                     }
@@ -483,11 +486,14 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     };
 
     $scope.basicMode = function () {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take').success(function (response) {
-            if (response) {
-                $scope.refreshRequest(true);
-            }
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take')
+                .then(function (response) {
+                    if (response) {
+                        $scope.refreshRequest(true);
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.advancedMode = function () {
@@ -593,12 +599,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             result: catalog.search.result,
             catalog_id: catalog.id
         };
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/search', data).success(function (response) {
-            if (response) {
-                catalog.search = response;
-                $scope.updateTables(true);
-            }
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/search', data)
+                .then(function (response) {
+                    if (response) {
+                        catalog.search = response;
+                        $scope.updateTables(true);
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.validateRequest = function () {
@@ -622,20 +631,23 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             provider: provider
         };
 
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data).success(function (response) {
-            if (response) {
-                $scope.refreshRequest(true);
-                $('#requestForm').get(0).reset();
-                $scope.$broadcast('reset');
-                $('.modal').modal('hide');
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data)
+                .then(function (response) {
+                    if (response) {
+                        $scope.refreshRequest(true);
+                        $('#requestForm').get(0).reset();
+                        $scope.$broadcast('reset');
+                        $('.modal').modal('hide');
 
-                if (_.isUndefined(response.provider.celsius_instance) && response.provider.type !== 'web') {
-                    $scope.contacts = Contact.query({institution_id: response.provider.id});
-                    $scope.templates = MailTemplate.query();
-                    $('#email-modal').modal('show');
-                }
-            }
-        });
+                        if (_.isUndefined(response.provider.celsius_instance) && response.provider.type !== 'web') {
+                            $scope.contacts = Contact.query({institution_id: response.provider.id});
+                            $scope.templates = MailTemplate.query();
+                            $('#email-modal').modal('show');
+                        }
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.submitInstitution = function () {
@@ -652,28 +664,31 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             instance: $scope.instance_id
         };
 
-        $http.post(Routing.generate('admin_rest_institution_create'), data).success(function (response) {
-            if (response) {
-                if (!response.hasErrors) {
-                    $scope.refreshInstitution(response.institution);
-                    $('#institutionForm').get(0).reset();
-                    $scope.$broadcast('reset');
-                    $('.modal').modal('hide');
-                    $('#request-modal').modal('show');
-                } else {
-                    $('#institutionForm div.form-group p.text-danger').remove();
-                    $('#institutionForm div.form-group').has('input').each(function () {
-                        $(this).removeClass('has-error');
-                    });
-                    $(response.errors).each(function () {
-                        $('#institutionForm div.form-group')
-                                .has('input[name="institution[' + $(this).get(0).property_path + ']"]')
-                                .addClass('has-error')
-                                .append('<p class="text-danger">' + $(this).get(0).message + '</p>');
-                    });
-                }
-            }
-        });
+        $http.post(Routing.generate('admin_rest_institution_create'), data)
+                .success(function (response) {
+                    if (response) {
+                        if (!response.hasErrors) {
+                            $scope.refreshInstitution(response.institution);
+                            $('#institutionForm').get(0).reset();
+                            $scope.$broadcast('reset');
+                            $('.modal').modal('hide');
+                            $('#request-modal').modal('show');
+                        } else {
+                            $('#institutionForm div.form-group p.text-danger').remove();
+                            $('#institutionForm div.form-group').has('input').each(function () {
+                                $(this).removeClass('has-error');
+                            });
+                            $(response.errors).each(function () {
+                                $('#institutionForm div.form-group')
+                                        .has('input[name="institution[' + $(this).get(0).property_path + ']"]')
+                                        .addClass('has-error')
+                                        .append('<p class="text-danger">' + $(this).get(0).message + '</p>');
+                            });
+                        }
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.submitJournal = function () {
@@ -688,28 +703,31 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             material_type_id: $scope.order.material_data.id
         };
 
-        $http.post(Routing.generate('admin_rest_journal_create'), data).success(function (response) {
-            if (response) {
-                if (!response.hasErrors) {
-                    $scope.refreshJournal(response.journal);
-                    $('#journalForm').get(0).reset();
-                    $scope.$broadcast('reset');
-                    $('.modal').modal('hide');
-                } else {
-                    $('#journalForm div.form-group p.text-danger').remove();
-                    $('#journalForm div.form-group').has('input').each(function () {
-                        $(this).removeClass('has-error');
-                    });
+        $http.post(Routing.generate('admin_rest_journal_create'), data)
+                .then(function (response) {
+                    if (response) {
+                        if (!response.hasErrors) {
+                            $scope.refreshJournal(response.journal);
+                            $('#journalForm').get(0).reset();
+                            $scope.$broadcast('reset');
+                            $('.modal').modal('hide');
+                        } else {
+                            $('#journalForm div.form-group p.text-danger').remove();
+                            $('#journalForm div.form-group').has('input').each(function () {
+                                $(this).removeClass('has-error');
+                            });
 
-                    $(response.errors).each(function () {
-                        $('#journalForm div.form-group')
-                                .has('input[name="journal[' + $(this).get(0).property_path + ']"]')
-                                .addClass('has-error')
-                                .append('<p class="text-danger">' + $(this).get(0).message + '</p>');
-                    });
-                }
-            }
-        });
+                            $(response.errors).each(function () {
+                                $('#journalForm div.form-group')
+                                        .has('input[name="journal[' + $(this).get(0).property_path + ']"]')
+                                        .addClass('has-error')
+                                        .append('<p class="text-danger">' + $(this).get(0).message + '</p>');
+                            });
+                        }
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.refreshJournal = function (journal) {
@@ -741,13 +759,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         var data = {
             order_id: order_id
         };
-        $http.get(Routing.generate('admin_rest_order_operator') + '/' + order_id, data).success(function (response) {
-            if (response) {
-                $scope.refreshRequest(true);
-                $scope.admins = response.admins;
-                // $scope.order_id = response.order;
-            }
-        });
+        $http.get(Routing.generate('admin_rest_order_operator') + '/' + order_id, data)
+                .then(function (response) {
+                    if (response) {
+                        $scope.refreshRequest(true);
+                        $scope.admins = response.admins;
+                        // $scope.order_id = response.order;
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
 
         $('#operator-modal').modal('show');
     };
@@ -757,12 +778,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             operator_id: id,
             order_id: order_id
         };
-        $http.get(Routing.generate('admin_rest_order_change_operator') + '/' + order_id + '/' + id, data).success(function (response) {
-            if (response) {
-                $scope.refreshRequest(true);
-                $scope.request = response.request;
-            }
-        });
+        $http.get(Routing.generate('admin_rest_order_change_operator') + '/' + order_id + '/' + id, data)
+                .then(function (response) {
+                    if (response) {
+                        $scope.refreshRequest(true);
+                        $scope.request = response.request;
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
         $('#operator-modal').modal('hide');
     };
 
@@ -809,11 +833,14 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             request: $scope.forms.cancel.request
         };
 
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function (response) {
-            $scope.refreshRequest(true);
-            $('#cancelForm').get(0).reset();
-            $('.modal').modal('hide');
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data)
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                    $('#cancelForm').get(0).reset();
+                    $('.modal').modal('hide');
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.cancel = function () {
@@ -822,21 +849,28 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             cancelled_by_user: $scope.forms.cancel.cancelled_by_user
         };
 
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data).success(function (response) {
-            $scope.refreshRequest(true);
-            $('#cancelForm').get(0).reset();
-            $('.modal').modal('hide');
-            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancelled_by_user', request_id: $scope.request.id})).success(function (response) {
-                if (response) {
-                    $scope.contacts = null;
-                    $scope.templates = response;
-                    $scope.forms.email.address = $scope.request.owner.email;
-                    $scope.forms.email.subject = response[0].title;
-                    $scope.forms.email.text = response[0].text;
-                    $('#email-modal').modal('show');
-                }
-            });
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/cancel', data)
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                    $('#cancelForm').get(0).reset();
+                    $('.modal').modal('hide');
+                    $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancel', request_id: $scope.request.id}))
+                            .then(function (response) {
+                                if (response) {
+                                    $scope.contacts = null;
+                                    $scope.templates = response;
+                                    $scope.forms.email.address = $scope.request.owner.email;
+                                    $scope.forms.email.subject = response[0].title;
+                                    $scope.forms.email.text = response[0].text;
+                                    $('#email-modal').modal('show');
+                                }
+                            }, function (response) {
+                                console.log(response);
+                                generateCelsiusAlert(response);
+                            });
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.validateReclaim = function () {
@@ -858,18 +892,21 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             request: $scope.forms.reclaim.request
         };
 
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function (response) {
-            $scope.refreshRequest(true);
-            $('#reclaimForm').get(0).reset();
-            $('.modal').modal('hide');
-            delete $scope.forms.reclaim.request;
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data)
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                    $('#reclaimForm').get(0).reset();
+                    $('.modal').modal('hide');
+                    delete $scope.forms.reclaim.request;
 
-            if (_.isUndefined(response.request_event.provider.celsius_instance)) {
-                $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
-                $scope.templates = MailTemplate.query();
-                $('#email-modal').modal('show');
-            }
-        });
+                    if (_.isUndefined(response.request_event.provider.celsius_instance)) {
+                        $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
+                        $scope.templates = MailTemplate.query();
+                        $('#email-modal').modal('show');
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.reclaimReception = function () {
@@ -878,18 +915,21 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             receive: $scope.forms.reclaim.receive
         };
 
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data).success(function (response) {
-            $scope.refreshRequest(true);
-            $('#reclaimForm').get(0).reset();
-            $('.modal').modal('hide');
-            delete $scope.forms.reclaim.receive;
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/reclaim', data)
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                    $('#reclaimForm').get(0).reset();
+                    $('.modal').modal('hide');
+                    delete $scope.forms.reclaim.receive;
 
-            if (_.isUndefined(response.receive_event.provider.celsius_instance)) {
-                $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
-                $scope.templates = MailTemplate.query();
-                $('#email-modal').modal('show');
-            }
-        });
+                    if (_.isUndefined(response.receive_event.provider.celsius_instance)) {
+                        $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
+                        $scope.templates = MailTemplate.query();
+                        $('#email-modal').modal('show');
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.approve = function (receive) {
@@ -897,39 +937,57 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             receive: receive.id
         };
 
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data).success(function (response) {
-            $scope.refreshRequest(true);
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/approve', data)
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.deliver = function () {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver').success(function (response) {
-            $scope.refreshRequest(true);
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/deliver')
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.annul = function () {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul').success(function (response) {
-            $scope.refreshRequest(true);
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/annul')
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.pendingSearch = function () {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/searchpendings').success(function (response) {
-            $scope.refreshRequest(true);
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/searchpendings')
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.noPendingSearch = function () {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/nosearchpendings').success(function (response) {
-            $scope.refreshRequest(true);
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/nosearchpendings')
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.undo = function () {
-        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/undo').success(function (response) {
-            $scope.refreshRequest(true);
-        });
+        $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/undo')
+                .then(function (response) {
+                    $scope.refreshRequest(true);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.contactChanged = function () {
@@ -974,13 +1032,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             order_id: (!_.isUndefined($scope.order)) ? $scope.order.id : null
         };
 
-        $http.post(Routing.generate('admin_rest_email'), data).success(function (response) {
-            if (response) {
-                $scope.refreshRequest(true);
-                $scope.forms.email = {};
-                $('.modal').modal('hide');
-            }
-        });
+        $http.post(Routing.generate('admin_rest_email'), data)
+                .then(function (response) {
+                    if (response) {
+                        $scope.refreshRequest(true);
+                        $scope.forms.email = {};
+                        $('.modal').modal('hide');
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
 
@@ -1010,28 +1071,36 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             body: $scope.forms.message.body,
         };
 
-        $http.post(Routing.generate('admin_rest_message'), $scope.forms.message).success(function (response) {
-            if (response.result) {
-                $scope.refreshRequest(true);
-                $scope.forms.message = {};
-                $('.modal').modal('hide');
-            }
-        });
+        $http.post(Routing.generate('admin_rest_message'), $scope.forms.message)
+                .then(function (response) {
+                    if (response.result) {
+                        $scope.refreshRequest(true);
+                        $scope.forms.message = {};
+                        $('.modal').modal('hide');
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.changeFileState = function (file) {
-        $http.post(Routing.generate('admin_rest_file_state', {file_id: file.id})).success(function (response) {
-            if (response) {
-                file.enabled = !file.enabled;
-                $scope.refreshRequest(true);
-            }
-        });
+        $http.post(Routing.generate('admin_rest_file_state', {file_id: file.id}))
+                .then(function (response) {
+                    if (response) {
+                        file.enabled = !file.enabled;
+                        $scope.refreshRequest(true);
+                    }
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
     };
 
     $scope.getInteraction = function () {
         $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
-                .success(function (response) {
+                .then(function (response) {
                     $scope.interaction = response;
+                }, function (response) {
+                    generateCelsiusAlert(response);
                 });
     };
     $scope.getInteraction();

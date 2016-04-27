@@ -28,7 +28,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class NotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
+class EntityNotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
 
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
@@ -40,6 +40,8 @@ class NotFoundRestException extends NotFoundHttpException implements Celsius3Exc
             'hasMessage' => true,
             'message' => $exception->getMessage()
         ]);
+
+        $response->setStatusCode(500);
 
         $event->setResponse($response);
     }
