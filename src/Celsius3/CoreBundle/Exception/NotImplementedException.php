@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Exception;
 use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
+use Celsius3\CoreBundle\Manager\Alert;
 
 /**
  * Throw when the functionnality is not implemented
@@ -36,7 +37,15 @@ class NotImplementedException extends \LogicException implements Celsius3Excepti
 
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
-        
+        $exception = $event->getException();
+
+        Alert::add(Alert::WARNING, 'exception.not_implemented');
+
+        $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
+        $event->setResponse($response);
+
+        $logger = $container->get('monolog.logger.celsius_exception');
+        $logger->error($exception);
     }
 
 }

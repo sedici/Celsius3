@@ -6,6 +6,7 @@ var flashes = {
 };
 
 celsiusAlert = function (message, type) {
+    console.log(message);
     $.notify({
         message: message
     }, {
@@ -28,7 +29,7 @@ generateCelsiusAlert = function (response) {
 
 $(document).ready(function () {
     var bag = $.parseJSON(flashbag);
-    $.each(flashes, function (alertType) {
+    $.each(flashes, function (alertCode, alertType) {
         if (bag[alertType]) {
             $.each(bag[alertType], function (k, message) {
                 celsiusAlert(message, alertType);

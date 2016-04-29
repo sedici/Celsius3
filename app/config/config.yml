@@ -407,3 +407,19 @@ fos_elastica:
                         provider: ~
                         listener: ~
                         finder: ~
+
+monolog:
+    channels:
+     - 'celsius_exception'
+     - 'celsius_rest_exception'
+    handlers:
+        celsius_exception:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/celsius_exception.log'
+            channels: [celsius_exception]
+        celsius_rest_exception:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/celsius_rest_exception.log'
+            channels: [celsius_rest_exception]

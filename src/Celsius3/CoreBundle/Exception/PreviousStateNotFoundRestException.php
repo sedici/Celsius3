@@ -40,9 +40,12 @@ class PreviousStateNotFoundRestException extends \LogicException implements Cels
             'message' => $exception->getMessage()
         ]);
 
-        $response->setsetStatusCode(500);
+        $response->setsetStatusCode(404);
 
         $event->setResponse($response);
+
+        $logger = $container->get('monolog.logger.celsius_rest_exception');
+        $logger->error($exception);
     }
 
 }

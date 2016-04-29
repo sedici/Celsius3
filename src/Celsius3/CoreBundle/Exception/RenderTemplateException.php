@@ -31,7 +31,15 @@ class RenderTemplateException extends \RuntimeException implements Celsius3Excep
 
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
+        $exception = $event->getException();
+
+        Alert::add(Alert::ERROR, 'exception.render_template');
+
+        $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
+        $event->setResponse($response);
         
+        $logger = $container->get('monolog.logger.celsius_exception');
+        $logger->error($exception);
     }
 
 }

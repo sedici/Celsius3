@@ -31,7 +31,15 @@ class PreviousStateNotFoundException extends \LogicException implements Celsius3
 
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
-        
+        $exception = $event->getException();
+
+        Alert::add(Alert::ERROR, 'exception.not_found.previous_state');
+
+        $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
+        $event->setResponse($response);
+
+        $logger = $container->get('monolog.logger.celsius_exception');
+        $logger->error($exception);
     }
 
 }

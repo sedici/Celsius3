@@ -82,7 +82,7 @@ class MailManager
 
             return $template->render($this->serializeData($vars));
         } catch (\Twig_Error $e) {
-            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template', 'error', $e);
+            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template');
         }
     }
 
@@ -93,7 +93,7 @@ class MailManager
 
             return $template->render($this->serializeData($vars));
         } catch (\Twig_Error $e) {
-            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template', 'error', $e);
+            throw Exception::create(Exception::RENDER_TEMPLATE, 'exception.template.mail_template');
         }
     }
 

@@ -45,9 +45,12 @@ class NotImplementedRestException extends \LogicException implements Celsius3Exc
             'message' => $exception->getMessage()
         ]);
 
-        $response->setStatusCode(500);
+        $response->setStatusCode(501);
 
         $event->setResponse($response);
+
+        $logger = $container->get('monolog.logger.celsius_rest_exception');
+        $logger->critical($exception);
     }
 
 }

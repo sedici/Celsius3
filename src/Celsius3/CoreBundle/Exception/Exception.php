@@ -71,11 +71,11 @@ class Exception
         return $class;
     }
 
-    public static function create($type, $message = '', $previous = null)
+    public static function create($type, $message)
     {
         $class = self::getClass($type);
 
-        return new $class($message, $previous);
+        return new $class($message);
     }
 
 }

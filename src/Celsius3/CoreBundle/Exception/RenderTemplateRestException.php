@@ -43,6 +43,9 @@ class RenderTemplateRestException extends \RuntimeException implements Celsius3E
         $response->setStatusCode(500);
 
         $event->setResponse($response);
+
+        $logger = $container->get('monolog.logger.celsius_rest_exception');
+        $logger->error($exception);
     }
 
 }
