@@ -32,6 +32,7 @@ class Exception
     const INSTANCE_NOT_FOUND = 'instance_not_found';
     const NOT_IMPLEMENTED = 'not_implemented';
     const RENDER_TEMPLATE = 'render_template';
+    const INVALID_SEARCH = 'invalid_search';
 
     private static $rest = false;
     private static $class_prefix = 'Celsius3\\CoreBundle\\Exception\\';
@@ -42,6 +43,7 @@ class Exception
         , self::ENTITY_NOT_FOUND => 'EntityNotFound'
         , self::NOT_IMPLEMENTED => 'NotImplemented'
         , self::RENDER_TEMPLATE => 'RenderTemplate'
+        , self::INVALID_SEARCH => 'InvalidSearch'
     ];
 
     public static function isRest()

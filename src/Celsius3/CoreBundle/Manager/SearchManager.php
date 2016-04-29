@@ -167,6 +167,7 @@ class SearchManager
                 ->getRepository('Celsius3CoreBundle:BaseUser')
                 ->findBy(['username' => $usernames]);
 
+        $users = [];
         foreach ($baseusers as $user) {
             $users[strtolower($user->getUsername())] = [
                 'name' => $user->getName(),
@@ -175,6 +176,17 @@ class SearchManager
         }
 
         return $users;
+    }
+
+    public function validate(&$keyword)
+    {
+        $keyword = trim($keyword);
+
+        if (preg_match('/^([[:alnum:][:blank:]äáàëéèíìöóòúùñç])*$/', $keyword)) {
+            return true;
+        }
+
+        return false;
     }
 
 }

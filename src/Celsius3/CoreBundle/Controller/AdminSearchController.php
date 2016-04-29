@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Search controller
@@ -44,6 +45,11 @@ class AdminSearchController extends BaseInstanceDependentController
     {
         $keyword = $request->query->get('keyword');
         $filters = $request->query->get('filters', []);
+        $searchManager = $this->container->get('celsius3_core.search_manager');
+
+        if (!$searchManager->validate($keyword)) {
+            throw Exception::create(Exception::INVALID_SEARCH, 'exception.invalid.search');
+        }
 
         $delFilter = $request->query->get('del-filter', []);
         if (!empty($delFilter) && array_key_exists($delFilter['name'], $filters)) {
@@ -55,13 +61,13 @@ class AdminSearchController extends BaseInstanceDependentController
             $filters[$addFilter['name']] = $addFilter['value'];
         }
 
-        $results = $this->container->get('celsius3_core.search_manager')->search($keyword, $filters, $this->getInstance());
+        $results = $searchManager->search($keyword, $filters, $this->getInstance());
 
         $aggregations = $results->getAggregations();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($results, $this->get('request')->query->get('page', 1), $this->container->getParameter('max_per_page'));
 
-        $users = $this->container->get('celsius3_core.search_manager')->getAggsUsersData($aggregations);
+        $users = $searchManager->getAggsUsersData($aggregations);
 
         return array(
             'keyword' => $keyword,
