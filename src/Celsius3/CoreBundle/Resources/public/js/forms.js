@@ -24,6 +24,7 @@ function noLibrarian(id) {
 
 function librarian(id) {
     $('#order_originalRequest_owner_autocomplete').removeAttr('disabled');
+    $('#order_originalRequest_owner_autocomplete').val('');
     $('#order_originalRequest_owner').val('');
     $('#order_originalRequest_librarian').val(id);
 }
@@ -168,18 +169,30 @@ var loadMaterialData = function () {
 /**
  * Material type change related event
  */
-$('#order_materialDataType')
-        .change(loadMaterialData);
+$('#order_materialDataType').change(loadMaterialData);
+loadMaterialData();
 
 $('#order_instance').change(function () {
     $('#order_owner_autocomplete').val('');
     $('#order_owner').val('');
 });
 
+$('form[name="order"]').on('submit', function (e) {
+    if (_.isEmpty($('#order_originalRequest_owner').val())) {
+        e.preventDefault();
+        $('#order_originalRequest_owner_autocomplete').parent().addClass('has-error');
+        $('#order_originalRequest_owner_autocomplete').focus();
+        $('html, body').animate({
+            scrollTop: $('#order_originalRequest_owner_autocomplete').offset().top,
+            marginTop: '100px'
+        }, 1000);
+    }
+});
+
 if (user_exists) {
     // Controles para los widgets del formulario de carga de pedidos de un
     // bibliotecario
-    if ($('#order_originalRequest_target').length > 0) {
+    if ($('#order_originalRequest_target').val() === 'me') {
         noLibrarian(user_id);
     }
 
