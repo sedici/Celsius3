@@ -364,12 +364,12 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                             var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_printed_reconfirm' : 'order_printed';
                             $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id}))
                                     .then(function (response) {
-                                        if (response) {
+                                        if (response.data) {
                                             $scope.contacts = null;
-                                            $scope.templates = response;
+                                            $scope.templates = response.data;
                                             $scope.forms.email.address = $scope.request.owner.email;
-                                            $scope.forms.email.subject = response[0].title;
-                                            $scope.forms.email.text = response[0].text;
+                                            $scope.forms.email.subject = response.data[0].title;
+                                            $scope.forms.email.text = response.data[0].text;
                                             $('#email-modal').modal('show');
                                         }
                                     }, function (response) {
@@ -488,7 +488,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope.basicMode = function () {
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/take')
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         $scope.refreshRequest(true);
                     }
                 }, function (response) {
@@ -601,8 +601,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/search', data)
                 .then(function (response) {
-                    if (response) {
-                        catalog.search = response;
+                    if (response.data) {
+                        catalog.search = response.data;
                         $scope.updateTables(true);
                     }
                 }, function (response) {
@@ -633,14 +633,14 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_event') + '/' + $scope.request.id + '/request', data)
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         $scope.refreshRequest(true);
                         $('#requestForm').get(0).reset();
                         $scope.$broadcast('reset');
                         $('.modal').modal('hide');
 
-                        if (_.isUndefined(response.provider.celsius_instance) && response.provider.type !== 'web') {
-                            $scope.contacts = Contact.query({institution_id: response.provider.id});
+                        if (_.isUndefined(response.data.provider.celsius_instance) && response.data.provider.type !== 'web') {
+                            $scope.contacts = Contact.query({institution_id: response.data.provider.id});
                             $scope.templates = MailTemplate.query();
                             $('#email-modal').modal('show');
                         }
@@ -705,9 +705,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_journal_create'), data)
                 .then(function (response) {
-                    if (response) {
-                        if (!response.hasErrors) {
-                            $scope.refreshJournal(response.journal);
+                    if (response.data) {
+                        if (!response.data.hasErrors) {
+                            $scope.refreshJournal(response.data.journal);
                             $('#journalForm').get(0).reset();
                             $scope.$broadcast('reset');
                             $('.modal').modal('hide');
@@ -717,7 +717,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                                 $(this).removeClass('has-error');
                             });
 
-                            $(response.errors).each(function () {
+                            $(response.data.errors).each(function () {
                                 $('#journalForm div.form-group')
                                         .has('input[name="journal[' + $(this).get(0).property_path + ']"]')
                                         .addClass('has-error')
@@ -761,9 +761,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
         $http.get(Routing.generate('admin_rest_order_operator') + '/' + order_id, data)
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         $scope.refreshRequest(true);
-                        $scope.admins = response.admins;
+                        $scope.admins = response.data.admins;
                         // $scope.order_id = response.order;
                     }
                 }, function (response) {
@@ -780,9 +780,9 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         };
         $http.get(Routing.generate('admin_rest_order_change_operator') + '/' + order_id + '/' + id, data)
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         $scope.refreshRequest(true);
-                        $scope.request = response.request;
+                        $scope.request = response.data.request;
                     }
                 }, function (response) {
                     generateCelsiusAlert(response);
@@ -856,16 +856,15 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     $('.modal').modal('hide');
                     $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'order_cancel', request_id: $scope.request.id}))
                             .then(function (response) {
-                                if (response) {
+                                if (response.data) {
                                     $scope.contacts = null;
-                                    $scope.templates = response;
+                                    $scope.templates = response.data;
                                     $scope.forms.email.address = $scope.request.owner.email;
-                                    $scope.forms.email.subject = response[0].title;
-                                    $scope.forms.email.text = response[0].text;
+                                    $scope.forms.email.subject = response.data[0].title;
+                                    $scope.forms.email.text = response.data[0].text;
                                     $('#email-modal').modal('show');
                                 }
                             }, function (response) {
-                                console.log(response);
                                 generateCelsiusAlert(response);
                             });
                 }, function (response) {
@@ -899,8 +898,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     $('.modal').modal('hide');
                     delete $scope.forms.reclaim.request;
 
-                    if (_.isUndefined(response.request_event.provider.celsius_instance)) {
-                        $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
+                    if (_.isUndefined(response.data.request_event.provider.celsius_instance)) {
+                        $scope.contacts = Contact.query({institution_id: response.data.request_event.provider.id});
                         $scope.templates = MailTemplate.query();
                         $('#email-modal').modal('show');
                     }
@@ -922,8 +921,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     $('.modal').modal('hide');
                     delete $scope.forms.reclaim.receive;
 
-                    if (_.isUndefined(response.receive_event.provider.celsius_instance)) {
-                        $scope.contacts = Contact.query({institution_id: response.request_event.provider.id});
+                    if (_.isUndefined(response.data.receive_event.provider.celsius_instance)) {
+                        $scope.contacts = Contact.query({institution_id: response.data.request_event.provider.id});
                         $scope.templates = MailTemplate.query();
                         $('#email-modal').modal('show');
                     }
@@ -1034,7 +1033,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_email'), data)
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         $scope.refreshRequest(true);
                         $scope.forms.email = {};
                         $('.modal').modal('hide');
@@ -1073,7 +1072,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_message'), $scope.forms.message)
                 .then(function (response) {
-                    if (response.result) {
+                    if (response.data.result) {
                         $scope.refreshRequest(true);
                         $scope.forms.message = {};
                         $('.modal').modal('hide');
@@ -1086,7 +1085,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope.changeFileState = function (file) {
         $http.post(Routing.generate('admin_rest_file_state', {file_id: file.id}))
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         file.enabled = !file.enabled;
                         $scope.refreshRequest(true);
                     }
@@ -1098,7 +1097,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope.getInteraction = function () {
         $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
                 .then(function (response) {
-                    $scope.interaction = response;
+                    $scope.interaction = response.data;
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });

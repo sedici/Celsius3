@@ -25,9 +25,9 @@ userControllers.controller('UserCtrl', function ($scope, $translate, $http) {
     $scope.pageChangedActive = function () {
         $http.get(Routing.generate('admin_rest_user_get_orders', {id: element_id, type: 'active'}) + '?page=' + $scope.paginationActive.currentPage)
                 .then(function (response) {
-                    $scope.paginationActive.total = response.total;
-                    $scope.paginationActive.orders = response.orders;
-                    $scope.paginationActive.numPages = Math.ceil(response.total / resultsPerPage);
+                    $scope.paginationActive.total = response.data.total;
+                    $scope.paginationActive.orders = response.data.orders;
+                    $scope.paginationActive.numPages = Math.ceil(response.data.total / resultsPerPage);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -36,9 +36,9 @@ userControllers.controller('UserCtrl', function ($scope, $translate, $http) {
     $scope.pageChangedReady = function () {
         $http.get(Routing.generate('admin_rest_user_get_orders', {id: element_id, type: 'ready'}) + '?page=' + $scope.paginationReady.currentPage)
                 .then(function (response) {
-                    $scope.paginationReady.total = response.total;
-                    $scope.paginationReady.orders = response.orders;
-                    $scope.paginationReady.numPages = Math.ceil(response.total / resultsPerPage);
+                    $scope.paginationReady.total = response.data.total;
+                    $scope.paginationReady.orders = response.data.orders;
+                    $scope.paginationReady.numPages = Math.ceil(response.data.total / resultsPerPage);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -47,9 +47,9 @@ userControllers.controller('UserCtrl', function ($scope, $translate, $http) {
     $scope.pageChangedHistory = function () {
         $http.get(Routing.generate('admin_rest_user_get_orders', {id: element_id, type: 'history'}) + '?page=' + $scope.paginationHistory.currentPage)
                 .then(function (response) {
-                    $scope.paginationHistory.total = response.total;
-                    $scope.paginationHistory.orders = response.orders;
-                    $scope.paginationHistory.numPages = Math.ceil(response.total / resultsPerPage);
+                    $scope.paginationHistory.total = response.data.total;
+                    $scope.paginationHistory.orders = response.data.orders;
+                    $scope.paginationHistory.numPages = Math.ceil(response.data.total / resultsPerPage);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });

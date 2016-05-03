@@ -170,7 +170,6 @@ var loadMaterialData = function () {
  * Material type change related event
  */
 $('#order_materialDataType').change(loadMaterialData);
-loadMaterialData();
 
 $('#order_instance').change(function () {
     $('#order_owner_autocomplete').val('');
