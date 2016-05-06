@@ -46,70 +46,84 @@ class Request
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank
      * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\OrderManager", "getTypes"}, message = "Choose a valid type.")
      * @ORM\Column(type="string", length=255)
      */
     private $type;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $comments;
+
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="orders")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
      */
     private $owner;
+
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="createdOrders")
      * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
      */
     private $creator;
+
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="librarian_id", referencedColumnName="id")
      */
     private $librarian;
+
     /**
      * @ORM\OneToMany(targetEntity="File", mappedBy="request")
      */
     private $files;
+
     /**
      * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="request", fetch="EAGER")
      */
     private $events;
+
     /**
      * @ORM\OneToMany(targetEntity="State", mappedBy="request", fetch="EAGER")
      */
     private $states;
+
     /**
      * @Assert\NotNull(groups={"Default", "newOrder"})
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="orders")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
+
     /**
      * @ORM\ManyToOne(targetEntity="BaseUser", inversedBy="operatedOrders")
      * @ORM\JoinColumn(name="operator_id", referencedColumnName="id")
      */
     private $operator;
+
     /**
      * @ORM\ManyToOne(targetEntity="Order", inversedBy="requests")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id", nullable=false)
      */
     private $order;
+
     /**
      * @ORM\ManyToOne(targetEntity="Request", inversedBy="requests")
      * @ORM\JoinColumn(name="previous_request_id", referencedColumnName="id")
      */
     private $previousRequest;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="previousRequest")
      */
@@ -544,4 +558,14 @@ class Request
     {
         return $this->requests;
     }
+
+    public function hasDownloadableFiles()
+    {
+        $files = $this->getFiles()->filter(function($f) {
+            return (!$f->getIsDownloaded() || $f->hasDownloadTime());
+        });
+
+        return ($files->count() > 0);
+    }
+
 }

@@ -36,7 +36,7 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    $(document).on('click', '.disble-double-click', function () {
+    $(document).on('click', '.disable-double-click', function () {
         $(this).addClass('dc-disabled');
     });
 

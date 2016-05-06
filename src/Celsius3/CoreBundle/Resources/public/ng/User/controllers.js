@@ -62,6 +62,6 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
     };
 
     $scope.hasDownloadableFiles = function (e) {
-        return !e.is_downloaded;
+        return (!e.is_downloaded || e.has_download_time);
     };
 });

@@ -40,40 +40,47 @@ class FileDownload
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank
      * @Assert\Ip
      * @ORM\Column(type="string", length=255)
      */
     private $ip;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $userAgent;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
+
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="File")
+     * @ORM\ManyToOne(targetEntity="File", inversedBy="downloads")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=false)
      */
     private $file;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Request")
      * @ORM\JoinColumn(name="request_id", referencedColumnName="id", nullable=false)
      */
     private $request;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance")
@@ -227,4 +234,5 @@ class FileDownload
     {
         return $this->instance;
     }
+
 }

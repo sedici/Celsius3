@@ -28,6 +28,7 @@ use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Controller\Mixin\FileControllerTrait;
 use Celsius3\CoreBundle\Exception\NotFoundException;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * File controller.
@@ -48,7 +49,7 @@ class UserFileController extends BaseController
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         if (!$this->isGranted('ROLE_ADMIN')) {
-            if (!$file || $file->getIsDownloaded() || !$file->getEnabled() || $request->getOrder()->getOriginalRequest()->getOwner()->getId() !== $user->getId() || !$request->getOwner()->getPdf()) {
+            if (!$file || ($file->getIsDownloaded() && !$file->hasDownloadTime()) || !$file->getEnabled() || $request->getOrder()->getOriginalRequest()->getOwner()->getId() !== $user->getId() || !$request->getOwner()->getPdf()) {
                 throw new NotFoundException('exception.not_found.file');
             }
         }

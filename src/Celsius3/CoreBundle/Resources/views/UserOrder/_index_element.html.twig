@@ -60,16 +60,23 @@
             <div class="autor">{{ element.materialData.authors }}</div>
             <div class="doc_year">{{ element.materialData.year }}</div>
         </div>
-        <div class="doc_and_year">
-            {% if request.owner.pdf %}
-                <div class="doc_type_pdf"></div>
-            {% else %}
-                <div class="doc_type_print"></div>
-            {% endif %}
-        {% block admin_data %}{% endblock %}
-    </div>
-</div>
 
-<div class="clearfix"></div>
+        {% if ((element.originalRequest.currentState == 'received' or element.originalRequest.currentState == 'delivered') and element.originalRequest.files.count > 0 and (app.user.hasRole('ROLE_ADMIN') or app.user.hasRole('ROLE_SUPER_ADMIN') or (element.originalRequest.owner.downloadAuth and element.originalRequest.owner.pdf and element.originalRequest.hasDownloadableFiles ))) %}
+            <div class="doc_and_year">
+                <p>{{ 'download' | trans }}</p>
+                <p>
+                    {% for file in element.originalRequest.files %}
+                        {% if (app.user.hasRole('ROLE_ADMIN') or app.user.hasRole('ROLE_SUPER_ADMIN') or (element.originalRequest.owner.downloadAuth and element.originalRequest.owner.pdf and (not file.isDownloaded or file.hasDownloadTime) and file.enabled)) %}
+                            <a class="btn btn-default btn-lg disable-double-click" href="{{  path('user_file_download', {request: element.originalRequest.id, file: file.id}) }}" title="{{file.name}}">
+                                <span class="fa fa-file-pdf-o" aria-hidden="true"></span>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="clearfix"></div>
 
 </div>

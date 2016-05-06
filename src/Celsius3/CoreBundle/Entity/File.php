@@ -41,53 +41,69 @@ class File
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $path;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $comments;
+
     /**
      * @Assert\File(maxSize="8M", mimeTypes = {"application/pdf", "application/x-pdf"})
      */
     private $file;
+
     /**
      * @ORM\Column(type="boolean")
      */
     private $enabled = true;
+
     /**
      * @ORM\ManyToOne(targetEntity="Request", inversedBy="files")
      */
     private $request;
+
     /**
      * @ORM\ManyToOne(targetEntity="Instance")
      */
     private $instance;
+
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
      */
     private $event;
+
     /**
      * @ORM\Column(type="boolean")
      */
     private $isDownloaded = false;
+
     /**
      * @ORM\Column(type="integer")
      */
     private $pages = 0;
     private $temp;
+
+    /**
+     * @ORM\OneToMany(targetEntity="FileDownload", mappedBy="file")
+     */
+    private $downloads;
 
     public function getUploadRootDir()
     {
@@ -395,4 +411,34 @@ class File
     {
         $this->temp = $temp;
     }
+
+    public function getDownloads()
+    {
+        return $this->downloads;
+    }
+
+    public function hasDownloadTime()
+    {
+        if (!$this->getIsDownloaded()) {
+            return true;
+        }
+
+        $downloads = $this->getDownloads()->toArray();
+        uasort($downloads, function($a, $b) {
+            if ($a->getCreatedAt() == $b->getCreatedAt()) {
+                return 0;
+            }
+            return ($a->getCreatedAt() < $b->getCreatedAt()) ? -1 : 1;
+        });
+
+        $lastDownload = (!empty($downloads)) ? $downloads[0] : null;
+        $downloadTimeConfig = $this->getInstance()->get('download_time');
+        $value = (!empty($downloadTimeConfig->getValue())) ? $downloadTimeConfig->getValue() : '24';
+        if (!is_null($lastDownload) && ($lastDownload->getCreatedAt()->add(new \DateInterval('PT' . $value . 'H')) > new \DateTime())) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

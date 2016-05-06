@@ -6,5 +6,6 @@
         <property name="enabled" type="boolean" expose="true" access-type="public_method" groups="administration_order_show,user_list"></property>
         <property name="isDownloaded" type="boolean" expose="true" access-type="public_method" groups="user_list"></property>
         <property name="pages" type="integer" expose="true" access-type="public_method" groups="administration_order_show"></property>
+        <virtual-property name="has_download_time" type="boolean" expose="true" method="hasDownloadTime" groups="user_list"></virtual-property>
     </class>
 </serializer>
