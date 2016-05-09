@@ -1181,4 +1181,13 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $('#institution-modal').modal('show');
     };
 
+    $scope.reenableDownload = function (request) {
+        $http.post(Routing.generate("admin_rest_request_reenable_download"), {request_id: request.id})
+                .then(function (response) {
+                    console.log(response);
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
+    };
+
 });

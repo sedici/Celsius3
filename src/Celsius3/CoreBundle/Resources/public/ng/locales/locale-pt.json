@@ -174,5 +174,6 @@
     "cancelled": "cancelled",
     "annulled": "anulled",
     "byUserRequest": "by user request",
-    "previousRelatedSearches": "previous searches"
+    "previousRelatedSearches": "previous searches",
+    "reenableDownload": "Reenable download"
 }

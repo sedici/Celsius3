@@ -24,8 +24,10 @@ namespace Celsius3\CoreBundle\Controller;
 
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -74,6 +76,31 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         $view = $this->view($request, 200)->setFormat('json');
         $view->setSerializationContext($context);
 
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
+     * @Post("/reenable_download", name="admin_rest_request_reenable_download", options={"expose"=true})
+     */
+    public function reenableDownload(Request $req)
+    {
+        $request_id = $req->request->get('request_id');
+        $manager = $this->getDoctrine()->getManager();
+        $request = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Request')->find($request_id);
+
+        $array = [];
+        foreach ($request->getFiles() as $file) {
+            $array[] = $file->getId();
+            if ($file->getEnabled()) {
+                $file->setIsDownloaded(false);
+                $manager->persist($file);
+            }
+        }
+
+        $manager->flush();
+
+        $view = $this->view(['reenabled' => true], 200)->setFormat('json');
         return $this->handleView($view);
     }
 
