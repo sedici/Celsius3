@@ -576,7 +576,7 @@
                 <li ng-if="request.current_state !== 'created'">
                 <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'backToPreviousState' | translate}}</a>
                 </li>
-                <li ng-if="request.current_state === 'delivered' && request.owner.pdf === true && !request.has_downloable_files">
+                <li ng-if="request.current_state === 'delivered' && request.owner.pdf === true && !request.has_downloadable_files">
                 <a href ng-click="reenableDownload(request)"><span class="glyphicon glyphicon-download"></span> {{'reenableDownload' | translate}}</a>
                 </li>
                 </ul>
