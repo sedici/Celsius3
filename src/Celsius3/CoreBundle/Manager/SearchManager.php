@@ -182,7 +182,7 @@ class SearchManager
     {
         $keyword = trim($keyword);
 
-        if (preg_match('/^([[:alnum:][:blank:]äáàëéèíìöóòúùñç])*$/', $keyword)) {
+        if (preg_match('/^([[:alnum:][:blank:]äáàëéèíìöóòúùñçÁÉÍÓÚÀÈÌÒÙÄËÖÑÇ])*$/', $keyword)) {
             return true;
         }
 
