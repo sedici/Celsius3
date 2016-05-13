@@ -98,7 +98,10 @@ class UserController extends BaseInstanceDependentController
             $this->get('session')->set('instance_url', $instance->getUrl());
             $this->get('session')->set('instance_host', $instance->getHost());
 
-            $user->setRoles($user->getSecondaryInstances()[$id]['roles']);
+            if  ($user->getSecondaryInstances()){
+                $user->setRoles($user->getSecondaryInstances()[$id]);
+
+            }
 
             $token = new \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken(
                     $user, null, 'main', $user->getRoles()

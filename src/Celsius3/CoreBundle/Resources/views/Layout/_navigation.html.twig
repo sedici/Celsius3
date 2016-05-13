@@ -3,7 +3,7 @@
     <li>
         <a href="{{ path('public_index') }}">{{ 'Home'|trans }}</a>
     </li>
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) or local %}
     <li>
         <a href="{{ path('administration') }}">{{ 'Administration'|trans }}{% if count_users(instance)['pending'] > 0 %}
             <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
@@ -33,12 +33,12 @@
         </ul>
     </li>
     {% endif %}
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and local %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) or local %}
     <li>
         <a href="{{ path('superadministration') }}">{{ 'Network Administration'|trans }}</a>
     </li>
     {% endif %}
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) or local %}
     <li>
         <a href="{{ path('user_index') }}">{{ 'My Site'|trans }}</a>
     </li>
