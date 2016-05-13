@@ -96,7 +96,9 @@ class Order
         $files = $this->getOriginalRequest()->getFiles();
         $pages = 0;
         foreach ($files as $file) {
-            $pages += $file->getPages();
+            if ($file->getEnabled()) {
+                $pages += $file->getPages();
+            }
         }
         return $pages;
     }
