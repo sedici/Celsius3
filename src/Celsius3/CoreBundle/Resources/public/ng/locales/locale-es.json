@@ -205,5 +205,6 @@
     "cancelled": "cancelado",
     "annulled": "anulado",
     "byUserRequest": "a pedido del usuario",
-    "previousRelatedSearches": "búsquedas previas"
+    "previousRelatedSearches": "búsquedas previas",
+    "reenableDownload": "Volver a habilitar descarga"
 }

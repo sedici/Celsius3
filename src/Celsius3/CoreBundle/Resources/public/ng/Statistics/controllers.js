@@ -39,7 +39,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     $scope.countryChanged = function () {
         $http.get(Routing.generate('public_institutions') + '?country_id=' + $scope.location.country)
                 .then(function (response) {
-                    $scope.institutions = response;
+                    $scope.institutions = response.data;
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -115,7 +115,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         $http.get(Routing.generate('public_rest_get_users_count_data_for') + params)
                 .then(function (response) {
-                    $scope.data = response;
+                    $scope.data = response.data;
                     $scope.showTotal = false;
                     $scope.generateUsersCountChart(response);
                 }, function (response) {
@@ -147,11 +147,11 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         $http.get(Routing.generate('public_rest_get_requests_origin_data') + params)
                 .then(function (response) {
-                    $scope.data = response;
-                    $scope.ids = response.ids;
-                    $scope.countries = response.countries;
+                    $scope.data = response.data;
+                    $scope.ids = response.data.ids;
+                    $scope.countries = response.data.countries;
                     $scope.showTotal = false;
-                    $scope.generateRequestsOriginChart(response);
+                    $scope.generateRequestsOriginChart(response.data);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -171,9 +171,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         $http.get(Routing.generate('public_rest_get_requests_count_data_for') + params)
                 .then(function (response) {
-                    $scope.data = response;
+                    $scope.data = response.data;
                     $scope.showTotal = true;
-                    $scope.generateRequestsCountChart(response);
+                    $scope.generateRequestsCountChart(response.data);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -193,9 +193,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + params)
                 .then(function (response) {
-                    $scope.data = response;
+                    $scope.data = response.data;
                     $scope.showTotal = true;
-                    $scope.generateRequestsDestinyDistributionChart(response);
+                    $scope.generateRequestsDestinyDistributionChart(response.data);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -214,9 +214,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
                 .then(function (response) {
-                    $scope.data = response;
+                    $scope.data = response.data;
                     $scope.showTotal = false;
-                    $scope.generateRequestsNumberByPublicationYearChart(response);
+                    $scope.generateRequestsNumberByPublicationYearChart(response.data);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -237,9 +237,9 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
 
         $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
                 .then(function (response) {
-                    $scope.data = response;
+                    $scope.data = response.data;
                     $scope.showTotal = true;
-                    $scope.generateRequestsTotalDelayChart(response);
+                    $scope.generateRequestsTotalDelayChart(response.data);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -534,7 +534,7 @@ statisticsControllers.controller('StatisticsCtrl', function ($scope, $http, $rou
     $scope.start();
     $http.get(Routing.generate('public_countries'))
             .then(function (response) {
-                $scope.allCountries = response;
+                $scope.allCountries = response.data;
             }, function (response) {
                 generateCelsiusAlert(response);
             });

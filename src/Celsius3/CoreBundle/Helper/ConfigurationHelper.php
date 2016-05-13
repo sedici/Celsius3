@@ -32,6 +32,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Celsius3\CoreBundle\Form\Type\LanguageType;
 use Celsius3\CoreBundle\Form\Type\ConfirmationType;
 use Celsius3\CoreBundle\Form\Type\ResultsType;
@@ -59,6 +60,7 @@ class ConfigurationHelper
     const CONF__SMTP_PORT = 'smtp_port';
     const CONF__SMTP_USERNAME = 'smtp_username';
     const CONF__SMTP_PASSWORD = 'smtp_password';
+    const CONF__DOWNLOAD_TIME = 'download_time';
 
     private $equivalences = array(
         'string' => TextType::class,
@@ -72,6 +74,7 @@ class ConfigurationHelper
         'file' => FileType::class,
         'password' => PasswordType::class,
         'image' => LogoSelectorType::class,
+        'time' => TimeType::class
     );
     public $languages = array(
         'es' => 'Spanish',
@@ -182,6 +185,11 @@ class ConfigurationHelper
             'name' => 'SMTP Password',
             'value' => '',
             'type' => 'password',
+        ),
+        self::CONF__DOWNLOAD_TIME => array(
+            'name' => 'Download time in hours',
+            'value' => '24',
+            'type' => 'integer',
         )
     );
     private $container;
@@ -266,30 +274,32 @@ class ConfigurationHelper
         return (isset($this->configurations[$configuration->getKey()]['constraints'])) ? $this->configurations[$configuration->getKey()]['constraints'] : array();
     }
 
-    private function getHeight() {
+    private function getHeight()
+    {
         return 100;
     }
 
-    private function getWidth() {
+    private function getWidth()
+    {
         return 200;
     }
 
     private function configureConstraints()
     {
-        $message = 'Invalid image size. Images must be '. $this->getHeight().' x '.$this->getWidth();
+        $message = 'Invalid image size. Images must be ' . $this->getHeight() . ' x ' . $this->getWidth();
 
         $imageConstraints = new Image(
                 array(
-                    'mimeTypes' => array('image/png', 'image/jpeg'),
-                    'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
-                    'minWidth' => $this->getWidth(),
-                    'maxWidth' => $this->getWidth(),
-                    'minHeight' => $this->getHeight(),
-                    'maxHeight' => $this->getHeight(),
-                    'maxWidthMessage' => $message,
-                    'minWidthMessage' => $message,
-                    'maxHeightMessage' => $message,
-                    'minHeightMessage' => $message,
+            'mimeTypes' => array('image/png', 'image/jpeg'),
+            'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
+            'minWidth' => $this->getWidth(),
+            'maxWidth' => $this->getWidth(),
+            'minHeight' => $this->getHeight(),
+            'maxHeight' => $this->getHeight(),
+            'maxWidthMessage' => $message,
+            'minWidthMessage' => $message,
+            'maxHeightMessage' => $message,
+            'minHeightMessage' => $message,
                 )
         );
 

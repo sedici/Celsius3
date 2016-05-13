@@ -12,7 +12,7 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
 
     $http.get(Routing.generate('user_rest_order_count_get'))
             .then(function (response) {
-                $scope.orderCount = response;
+                $scope.orderCount = response.data;
                 $scope.loadOrders();
             }, function (response) {
                 generateCelsiusAlert(response);
@@ -62,6 +62,6 @@ userControllers.controller('UserCtrl', function ($scope, $http, Order, Message, 
     };
 
     $scope.hasDownloadableFiles = function (e) {
-        return !e.is_downloaded;
+        return (!e.is_downloaded || e.has_download_time);
     };
 });

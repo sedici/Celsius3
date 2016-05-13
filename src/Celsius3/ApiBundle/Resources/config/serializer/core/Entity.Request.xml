@@ -14,5 +14,6 @@
         <property name="createdAt" type="DateTime" expose="true" access-type="public_method" read-only="true" groups="api,administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="order" type="Celsius3\CoreBundle\Entity\Order" expose="true" access-type="public_method" read-only="true" groups="administration_order_show"></property>
         <virtual-property name="currentState" type="string" expose="true" method="getCurrentState" groups="api,administration_list,administration_order_show,administration_user_show,user_list"></virtual-property>
+        <virtual-property name="has_downloadable_files" type="boolean" expose="true" method="hasDownloadableFiles" groups="api,administration_list,administration_order_show,administration_user_show,user_list"></virtual-property>
     </class>
 </serializer>

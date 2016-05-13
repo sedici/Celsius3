@@ -18,6 +18,7 @@ function getOldValues() {
 
 function noLibrarian(id) {
     $('#order_originalRequest_owner_autocomplete').attr('disabled', 'disabled');
+    $('#order_originalRequest_owner_autocomplete').val('');
     $('#order_originalRequest_owner').val(id);
     $('#order_originalRequest_librarian').val('');
 }
@@ -170,7 +171,6 @@ var loadMaterialData = function () {
  * Material type change related event
  */
 $('#order_materialDataType').change(loadMaterialData);
-loadMaterialData();
 
 $('#order_instance').change(function () {
     $('#order_owner_autocomplete').val('');

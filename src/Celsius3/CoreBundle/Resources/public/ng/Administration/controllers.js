@@ -74,7 +74,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         };
         $http.post(Routing.generate('admin_rest_user_enable'), data)
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         User.pending(function (users) {
                             $scope.users = users;
                         });
@@ -91,7 +91,7 @@ administrationControllers.controller('AdministrationCtrl', function ($scope, $ro
         };
         $http.post(Routing.generate('admin_rest_user_reject'), data)
                 .then(function (response) {
-                    if (response) {
+                    if (response.data) {
                         User.pending(function (users) {
                             $scope.users = users;
                         });
