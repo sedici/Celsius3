@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Exception;
 use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PreviousStateNotFoundException extends \LogicException implements Celsius3ExceptionInterface
 {

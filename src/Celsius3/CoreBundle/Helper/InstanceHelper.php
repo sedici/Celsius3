@@ -62,7 +62,7 @@ class InstanceHelper
         ));
 
         if (!$instance) {
-            throw Exception::create(Exception::INSTANCE_NOT_FOUND);
+            throw Exception::create(Exception::INSTANCE_NOT_FOUND, 'exception.not_found.instance');
         }
 
         return $instance;

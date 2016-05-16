@@ -26,6 +26,7 @@ use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Celsius3\CoreBundle\Manager\Alert;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Throw when the functionnality is not implemented

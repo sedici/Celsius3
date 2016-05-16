@@ -73,7 +73,7 @@ class Exception
         return $class;
     }
 
-    public static function create($type, $message)
+    public static function create($type, $message = '')
     {
         $class = self::getClass($type);
 

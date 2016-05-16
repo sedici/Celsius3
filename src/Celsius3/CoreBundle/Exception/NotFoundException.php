@@ -27,6 +27,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\CoreBundle\Manager\Alert;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class NotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
