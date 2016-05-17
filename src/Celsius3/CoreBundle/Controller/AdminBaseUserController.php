@@ -336,14 +336,13 @@ class AdminBaseUserController extends BaseUserController
     /**
      * Shows the data of a user
      *
-     * @Route("//switch-user", name="switch_user")
+     * @Route("/switch-user", name="switch_user")
      * @Template()
      *
      * @return array
      */
     public function switchUserAction(Request $request)
     {
-
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $userManager = $this->get('fos_user.user_manager');
             $user = $userManager->findUserByUsername($_switch_user);

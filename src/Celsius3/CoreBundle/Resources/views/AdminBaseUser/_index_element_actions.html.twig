@@ -10,8 +10,10 @@
     <li>
         <a href="{{ path('fos_user_resetting_admin', {'username': element.username}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Reset password'|trans }}</a>
     </li>
-    <li>
-        <a href="{{ path('switch_user', {'_switch_user': element.username}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Login as'|trans }}</a>
-    </li>
-    
+    {% if not is_granted('ROLE_PREVIOUS_ADMIN') %}
+        <li>
+            <a href="{{ path('switch_user', {'_switch_user': element.username}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Login as'|trans }}</a>
+        </li>
+    {% endif %}
+
 {% endblock %}
