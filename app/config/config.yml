@@ -415,11 +415,13 @@ monolog:
     handlers:
         celsius_exception:
             level:    debug
-            type:     stream
+            type:     rotating_file
             path:     '%kernel.logs_dir%/celsius_exception.log'
             channels: [celsius_exception]
+            max_files: 5
         celsius_rest_exception:
             level:    debug
-            type:     stream
+            type:     rotating_file
             path:     '%kernel.logs_dir%/celsius_rest_exception.log'
             channels: [celsius_rest_exception]
+            max_files: 5
