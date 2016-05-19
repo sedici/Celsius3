@@ -45,7 +45,8 @@ class MailTemplateType extends AbstractType
                         MailManager::MAIL__ORDER_PRINTED_RECONFIRM => MailManager::MAIL__ORDER_PRINTED_RECONFIRM,
                         MailManager::MAIL__USER_LOST => MailManager::MAIL__USER_LOST,
                         MailManager::MAIL__USER_WELCOME => MailManager::MAIL__USER_WELCOME,
-                        MailManager::MAIL__USER_WELCOME_PROVISION => MailManager::MAIL__USER_WELCOME_PROVISION
+                        MailManager::MAIL__USER_WELCOME_PROVISION => MailManager::MAIL__USER_WELCOME_PROVISION,
+                        MailManager::MAIL__NO_HIVE => MailManager::MAIL__NO_HIVE
                     ]
                 ])
                 ->add('text', TextareaType::class, array(

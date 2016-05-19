@@ -162,6 +162,9 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         $view = $this->view($result, 200)->setFormat('json');
 
+        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+        $view->setSerializationContext($context);
+
         return $this->handleView($view);
     }
 

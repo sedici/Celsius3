@@ -41,6 +41,7 @@ class MailManager
     const MAIL__USER_WELCOME = 'user_welcome';
     const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
     const MAIL__USER_LOST = 'user_lost';
+    const MAIL__NO_HIVE = 'no_hive';
 
     private $em;
     private $im;

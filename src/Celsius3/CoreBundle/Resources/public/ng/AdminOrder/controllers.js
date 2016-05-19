@@ -350,7 +350,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         }).success(function (data, status, headers, config) {
                             $scope.refreshRequest(true);
                             $('.modal').modal('hide');
-                            var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_printed_reconfirm' : 'order_printed';
+                            var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_download' : 'order_printed';
                             $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id}))
                                     .then(function (response) {
                                         if (response.data) {
@@ -608,6 +608,18 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }
     };
 
+    $scope.hasInstanceOrParentInstitutionWithInstance = function (provider) {
+        var parent = provider;
+        while (!_.isUndefined(parent)) {
+            if (!_.isUndefined(parent.celsius_instance)) {
+                return true;
+            }
+            parent = parent.parent;
+        }
+
+        return false;
+    }
+
     $scope.submitRequest = function () {
         var provider;
         if ($scope.forms.request.provider === 'institution') {
@@ -628,12 +640,27 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         $scope.$broadcast('reset');
                         $('.modal').modal('hide');
 
-                        if (_.isUndefined(response.data.provider.celsius_instance) && response.data.provider.type !== 'web') {
+                        if (response.data.provider.type === 'institution' && !$scope.hasInstanceOrParentInstitutionWithInstance(response.data.provider)) {
+                            $http.get(Routing.generate('admin_rest_template_compiled_get', {code: 'no_hive', request_id: $scope.request.id}))
+                                    .then(function (response) {
+                                        if (response.data) {
+                                            $scope.contacts = null;
+                                            $scope.templates = response.data;
+                                            $scope.forms.email.address = $scope.request.owner.email;
+                                            $scope.forms.email.subject = response.data[0].title;
+                                            $scope.forms.email.text = response.data[0].text;
+                                            $('#email-modal').modal('show');
+                                        }
+                                    }, function (response) {
+                                        generateCelsiusAlert(response);
+                                    });
+                        } else if (_.isUndefined(response.data.provider.celsius_instance) && response.data.provider.type !== 'web') {
                             $scope.contacts = Contact.query({institution_id: response.data.provider.id});
                             $scope.templates = MailTemplate.query();
                             $('#email-modal').modal('show');
                         }
                     }
+
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
