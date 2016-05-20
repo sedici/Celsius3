@@ -287,6 +287,8 @@ class SuperadminInstanceController extends InstanceController
         $this->get('session')->set('instance_url', $entity->getUrl());
         $this->get('session')->set('instance_host', $entity->getHost());
 
+        $this->get('session')->set('admin_instance', $this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance());
+
         return $this->redirect($this->generateUrl('administration'));
     }
 

@@ -1,3 +1,11 @@
+{% if app.session.get('admin_instance') is not empty %}
+    {{ app.user.addSecondaryInstance(app.session.get('admin_instance'), ['ROLE_ADMIN']) }}
+    {{ app.session.set('temp_instance', app.session.get('admin_instance')) }}
+{% elseif app.session.get('temp_instance') is not empty %}
+    {{ app.user.removeSecondaryInstance(app.session.get('temp_instance')) }}
+    {{ app.session.remove('temp_instance') }}
+{% endif %}
+
 {% set secondaryInstances = app.user ? app.user.getSecondaryInstances() : null %}
 
 {% if secondaryInstances is not empty %}
