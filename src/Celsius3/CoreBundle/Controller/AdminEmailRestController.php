@@ -66,7 +66,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $text = $request->request->get('text');
 
         $order_id = $request->request->get('order_id');
-        $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
+        $order = ($order_id) ? $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id) : null;
 
         $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findOneBy(array('email' => $email));
 
