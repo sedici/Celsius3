@@ -160,7 +160,7 @@
                 </div>
                 <div class="form-group" ng-if="templates.length > 1">
                 <label for="template">{{'template' | translate}}</label>
-                <select ui-select2="select2Templates" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
+                <select id="email_template_select" ui-select2="select2Templates" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
                 <option></option>
                 <option ng-repeat="t in templates" value="{{t.id}}">{{t.title}}</option>
                 </select>
@@ -171,9 +171,9 @@
                 </div>
                 <div class="form-group" ng-class="texterror">
                 <label for="text">{{'text' | translate }}</label>
-                <textarea class="form-control" name="text" id="text" ng-model="forms.email.text" required >
-                <input type="hidden" name="order_id" id="order_id" ng-model="order.id"/>
+                <textarea id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required >
                 </textarea>
+                <input type="hidden" name="order_id" id="order_id" ng-model="order.id"/>
                 </div>
                 </form>
             {% endverbatim %}
@@ -1303,9 +1303,8 @@
     {{ parent() }}
     <script type="text/javascript">
         var request_id
-        = {{ entity.code }};
-    </script>
-    {% javascripts 'bundles/celsius3core/ng/CCI/app.js'
+        = {{ entity.code }};</script>
+        {% javascripts 'bundles/celsius3core/ng/CCI/app.js'
                            'bundles/celsius3core/ng/CCI/directives.js'
                            'bundles/celsius3core/ng/CCI/resources.js' package="admin_order" filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
