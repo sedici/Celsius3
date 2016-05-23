@@ -1,5 +1,5 @@
 <div class="thumbnail well">
-    <h4>{{ news.title }}</h4>
+    <h4>{{ news.title | raw}}</h4>
     <p>
         {{ news.date|localizeddate('medium','short') }}
     </p>
