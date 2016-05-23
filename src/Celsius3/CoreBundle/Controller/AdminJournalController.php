@@ -99,7 +99,8 @@ class AdminJournalController extends BaseInstanceDependentController
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
         }
-
+        $receptions = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
+                ->getPreviousJournalReceivedRequests($this->getInstance(), $entity);
         $results = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Event\Event')
                 ->getPreviousJournalSearches($this->getInstance(), $entity);
 
@@ -113,7 +114,8 @@ class AdminJournalController extends BaseInstanceDependentController
 
         return array(
             'entity' => $entity,
-            'searches' => $searches
+            'searches' => $searches,
+            'receptions' => $receptions
         );
     }
 

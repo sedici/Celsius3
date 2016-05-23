@@ -30,6 +30,11 @@ use Doctrine\ORM\Query\Expr\Join;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\Journal;
 use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Institution;
 
 class EventRepository extends EntityRepository
 {
@@ -242,6 +247,40 @@ class EventRepository extends EntityRepository
         $qb->orderBy('s.result', 'ASC')
                 ->addOrderBy('s.createdAt', 'DESC');
 
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getPreviousJournalReceivedRequests(Instance $instance, Journal $journal)
+    {
+        $sir = $this->getPreviousJournalReceivedRequestsFor($instance, $journal, SingleInstanceRequestEvent::class, SingleInstanceReceiveEvent::class);
+        $mir = $this->getPreviousJournalReceivedRequestsFor($instance, $journal, MultiInstanceRequestEvent::class, MultiInstanceReceiveEvent::class);
+
+        $results = array_merge($sir, $mir);
+
+        return $results;
+    }
+
+    private function getPreviousJournalReceivedRequestsFor(Instance $instance, Journal $journal, $requestEventClass, $receiveEventClass)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb->select('erec')
+                ->innerJoin($receiveEventClass, 'erec', Join::WITH, 'e = erec')
+                ->innerJoin($requestEventClass, 'ereq', Join::WITH, 'erec.requestEvent = ereq')
+                ->innerJoin('ereq.request', 'r')
+                ->innerJoin('r.order', 'o')
+                ->innerJoin('o.materialData', 'md')
+                ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
+                ->innerJoin(Institution::class, 'i', Join::WITH, 'ereq.provider = i')
+        ;
+
+        $qb->where('jt.journal IS NOT NULL')
+                ->andWhere('ereq.instance = :instance')->setParameter('instance', $instance->getId())
+                ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId())
+        ;
+
+        $qb->orderBy('erec.createdAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }

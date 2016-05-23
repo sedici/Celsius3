@@ -38,6 +38,27 @@
     <h2>{{ 'Journal View'|trans }}</h2>
     {{ show('admin_journal', entity, 'Celsius3CoreBundle:AdminJournal', instance, not is_editable_journal(entity,instance,app.user)) }}
 
+    <h2>{{ 'Institution from received requests' | trans }}</h2>
+    <div class="row">
+        <div class="col-md-9">
+            {% if (receptions is empty) %}
+                <p class="alert alert-info">{{'not_request_received_info' | trans }}</p>
+            {% endif %}
+
+            <div class="list-group">
+                {% for reception in receptions %}
+                    <div class="list-group-item">
+                        <h4 class="list-group-item-heading">{{ reception.requestEvent.provider.getFullName() }}</h4>
+                        <p class="list-group-item-text">
+                            <span><b>{{ 'Requested' | trans }}</b>: {{ reception.requestEvent.createdAt | date('m M Y') }}</span> | 
+                            <span><b>{{ 'Received' | trans }}</b>: {{ reception.createdAt | date('d M Y') }}</span>
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <h2>{{ 'previous searches' | trans | first_upper }}</h2>
     <div class="row">
         <div class="col-md-9">
