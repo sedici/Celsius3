@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'News'|trans }}</h2>
+    <br/>
+    <div class="panel panel-default">
+        <div class="panel-body"> <h2>{{ 'News'|trans }}</h2> </div>
+    </div>
+
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
     </div>

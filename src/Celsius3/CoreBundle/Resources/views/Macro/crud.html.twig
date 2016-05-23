@@ -108,7 +108,7 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-            {{ form_start(form, { 'attr': { 'action': path(name ~ '_create'), 'class': 'form', 'role': 'form' }}) }}
+            {{ form_start(form, { 'attr': { 'action': path(name ~ '_create'), 'class': 'form-horizontal', 'role': 'form' }}) }}
             {% if custom_rendering %}
                 {{ form_errors(form) }}
                 {% include folder~':_form.html.twig' %}

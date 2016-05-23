@@ -1,10 +1,43 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
+<div class="panel panel-info">
+    <div class="panel-heading">Pedido</div>
+
+    <div class="panel-body">
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            {{ form_label(form.originalRequest.type, null, {
+            'label_attr': {'class': 'col-lg-2 control-label'}
+            }) }}
+        <div class="col-lg-10">
+                {{ form_widget(form.originalRequest.type, { 'attr': {'class': 'form-control'} })  }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="form-group">
+            {{ form_label(form.originalRequest.owner_autocomplete, null, {
+            'label_attr': {'class': 'col-lg-2 control-label'}
+            }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.originalRequest.owner_autocomplete, { 'attr': {'class': 'autocomplete form-control'} })  }}
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-12">
-        {{ form_row(form.originalRequest.type) }}
-        {{ form_row(form.originalRequest.owner_autocomplete) }}
-        {{ form_row(form.materialDataType) }}
+
+        <div class="form-group">
+            {{ form_label(form.materialDataType, null, {
+            'label_attr': {'class': 'col-lg-2 control-label'}
+            }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.materialDataType, { 'attr': {'class': 'form-control'} })  }}
+            </div>
+        </div>
     </div>
 </div>
 <br>
@@ -33,3 +66,6 @@
 
 {{ form_rest(form.originalRequest) }}
 {{ form_widget(form._token) }}
+
+ </div>
+ </div>

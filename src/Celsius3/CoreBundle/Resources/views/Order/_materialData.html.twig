@@ -1,4 +1,8 @@
-{{ form_label(form.materialData) }}
+<div class="panel panel-info">
+    <div class="panel-heading">{{ form_label(form.materialData) }}</div>
+
+    <div class="panel-body">
+
 {{ form_errors(form.materialData) }}
 
 {% if (material == 'journal' ) %}
@@ -20,3 +24,5 @@
 {% if (material == 'patent' ) %}
     {% include 'Celsius3CoreBundle:MaterialType:_patent_form.html.twig' %}
 {% endif %}
+</div>
+</div>

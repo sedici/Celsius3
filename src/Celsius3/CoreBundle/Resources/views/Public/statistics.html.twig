@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    <br/>
     <div ng-app="statisticsApp" ng-controller="StatisticsCtrl">
         <div ng-view>
 
@@ -12,7 +13,12 @@
         {% verbatim %}
             <script type="text/ng-template" id="index.html">
             <div class="row">
-                <h1>{{ title | translate }} - {{ subtitle | translate }}</h1>
+
+                <div class="panel panel-default">
+                    <div class="panel-body"><h2>{{ title | translate }} - {{ subtitle | translate }}</h2>
+                    </div>
+                </div>
+
                 <div class="col-md-3" ng-include="'menu.html'"></div>
                 <div class="col-md-9" >
                     <div class="row">
