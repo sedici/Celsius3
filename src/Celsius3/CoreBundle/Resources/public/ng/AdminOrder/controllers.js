@@ -788,7 +788,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     if (response.data) {
                         $scope.refreshRequest(true);
                         $scope.admins = response.data.admins;
-                        // $scope.order_id = response.order;
+                        $scope.order_id = response.data.order;
                     }
                 }, function (response) {
                     generateCelsiusAlert(response);
