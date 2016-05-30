@@ -28,23 +28,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Form\Type\InstitutionType;
 use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Location controller.
  *
  * @Route("/admin/institution")
  */
-class AdminInstitutionController extends BaseInstanceDependentController
-{
-    protected function listQuery($name)
-    {
+class AdminInstitutionController extends BaseInstanceDependentController {
+
+    protected function listQuery($name) {
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:' . $name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
-    protected function getSortDefaults()
-    {
+    protected function getSortDefaults() {
         return array(
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
@@ -59,10 +58,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         return $this->baseIndex('Institution', $this->createForm(InstitutionFilterType::class, null, array(
-            'instance' => $this->getInstance(),
+                            'instance' => $this->getInstance(),
         )));
     }
 
@@ -74,10 +72,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function newAction()
-    {
+    public function newAction() {
         return $this->baseNew('Institution', new Institution(), InstitutionType::class, array(
-            'instance' => $this->getInstance(),
+                    'instance' => $this->getInstance(),
         ));
     }
 
@@ -90,11 +87,10 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @return array
      */
-    public function createAction()
-    {
+    public function createAction() {
         return $this->baseCreate('Institution', new Institution(), InstitutionType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_institution');
+                    'instance' => $this->getInstance(),
+                        ), 'admin_institution');
     }
 
     /**
@@ -108,10 +104,9 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         return $this->baseEdit('Institution', $id, InstitutionType::class, array(
-            'instance' => $this->getInstance(),
+                    'instance' => $this->getInstance(),
         ));
     }
 
@@ -128,10 +123,37 @@ class AdminInstitutionController extends BaseInstanceDependentController
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function updateAction($id)
-    {
+    public function updateAction($id) {
         return $this->baseUpdate('Institution', $id, InstitutionType::class, array(
-            'instance' => $this->getInstance(),
-        ), 'admin_institution');
+                    'instance' => $this->getInstance(),
+                        ), 'admin_institution');
     }
+
+    /**
+     * Displays a form to edit an existing Institution entity.
+     *
+     * @Route("/{id}/show", name="admin_institution_show")
+     * @Template()
+     * @param string $id The entity ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function showAction($id) {
+        $entity = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Institution')->find($id);
+
+        if (!$entity) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
+        }
+
+        if ($entity->getInstance() !== $this->getDirectory() && $entity->getInstance() !== $this->getInstance()) {
+            throw Exception::create(Exception::ACCESS_DENIED);
+        }
+
+        return array(
+            'entity' => $entity,
+        );
+    }
+
 }

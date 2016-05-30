@@ -36,5 +36,6 @@ parameters:
     assets_version_administration: v0.0.0
     assets_version_admin_order: v0.0.0
     assets_version_admin_base_user: v0.0.0
+    assets_version_admin_institution: v0.0.1
     assets_version_user: v0.0.0
     assets_version_celsius3: v0.0.0

@@ -22,8 +22,7 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
-class Exception
-{
+class Exception {
 
     const NOT_FOUND = 'not_found';
     const PREVIOUS_STATE_NOT_FOUND = 'previous_state_not_found';
@@ -33,6 +32,7 @@ class Exception
     const NOT_IMPLEMENTED = 'not_implemented';
     const RENDER_TEMPLATE = 'render_template';
     const INVALID_SEARCH = 'invalid_search';
+    const ACCESS_DENIED = 'access_denied';
 
     private static $rest = false;
     private static $class_prefix = 'Celsius3\\CoreBundle\\Exception\\';
@@ -44,20 +44,18 @@ class Exception
         , self::NOT_IMPLEMENTED => 'NotImplemented'
         , self::RENDER_TEMPLATE => 'RenderTemplate'
         , self::INVALID_SEARCH => 'InvalidSearch'
+        , self::ACCESS_DENIED => 'AccessDenied'
     ];
 
-    public static function isRest()
-    {
+    public static function isRest() {
         return self::$rest;
     }
 
-    public static function setRest()
-    {
+    public static function setRest() {
         self::$rest = true;
     }
 
-    private static function getClass($type)
-    {
+    private static function getClass($type) {
         if (!array_key_exists($type, self::$classes)) {
             throw self::create(self::EXCEPTION_NOT_FOUND, 'exception.not_found.exception');
         }
@@ -73,8 +71,7 @@ class Exception
         return $class;
     }
 
-    public static function create($type, $message = '')
-    {
+    public static function create($type, $message = '') {
         $class = self::getClass($type);
 
         return new $class($message);

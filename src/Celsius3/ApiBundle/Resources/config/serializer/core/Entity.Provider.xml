@@ -4,7 +4,7 @@
         <discriminator-class value="author">Celsius3\CoreBundle\Entity\Author</discriminator-class>
         <discriminator-class value="institution">Celsius3\CoreBundle\Entity\Institution</discriminator-class>
         <discriminator-class value="web">Celsius3\CoreBundle\Entity\Web</discriminator-class>
-        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show"></property>
+        <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show, institution_show"></property>
         <virtual-property name="providerType" serialized-name="type" type="string" expose="true" method="getProviderType" groups="administration_list,administration_order_show,administration_user_show"></virtual-property>
         <virtual-property name="providerName" serialized-name="provider_name" type="string" expose="true" method="getProviderName" groups="administration_list,administration_order_show,administration_user_show"></virtual-property>
     </class>

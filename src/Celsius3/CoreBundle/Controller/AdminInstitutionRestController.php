@@ -35,15 +35,13 @@ use Celsius3\CoreBundle\Exception\Exception;
  *
  * @Route("/admin/rest/institution")
  */
-class AdminInstitutionRestController extends BaseInstanceDependentRestController
-{
+class AdminInstitutionRestController extends BaseInstanceDependentRestController {
 
     /**
      * GET Route annotation.
      * @Get("/parent/{parent_id}", name="admin_rest_institution_parent_get", options={"expose"=true})
      */
-    public function getInstitutionByParentAction($parent_id)
-    {
+    public function getInstitutionByParentAction($parent_id) {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 
         $em = $this->getDoctrine()->getManager();
@@ -59,10 +57,41 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     * @Get("/{id}/get", name="admin_rest_institution_get", options={"expose"=true})
+     */
+    public function getInstitutionAction($id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($id);
+
+        if (!$institution) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
+        }
+
+        $view = $this->view($institution, 200)->setFormat('json');
+
+        $context = SerializationContext::create()->setGroups(array('institution_show'));
+        $view->setSerializationContext($context);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Get("/{id}/users", name="admin_rest_institution_users_get", options={"expose"=true})
+     */
+    public function getInstitutionUsers($id) {
+        $users = $this->getDoctrine()->getRepository('Celsius3CoreBundle:BaseUser')->getInstitutionUsers($id);
+
+        $view = $this->view(array_values($users), 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * GET Route annotation.
      * @Get("/{country_id}/{city_id}", defaults={"city_id" = null}, name="admin_rest_institution", options={"expose"=true})
      */
-    public function getInstitutionsAction($country_id, $city_id, Request $request)
-    {
+    public function getInstitutionsAction($country_id, $city_id, Request $request) {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 
         $em = $this->getDoctrine()->getManager();
@@ -85,29 +114,9 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
     }
 
     /**
-     * GET Route annotation.
-     * @Get("/{id}", name="admin_rest_institution_get", options={"expose"=true})
-     */
-    public function getInstitutionAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($id);
-
-        if (!$institution) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
-        }
-
-        $view = $this->view($institution, 200)->setFormat('json');
-
-        return $this->handleView($view);
-    }
-
-    /**
      * @Post("/create", name="admin_rest_institution_create", options={"expose"=true})
      */
-    public function createInstitution(Request $request)
-    {
+    public function createInstitution(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
         $institution = new Institution();

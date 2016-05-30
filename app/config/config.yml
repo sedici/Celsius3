@@ -26,6 +26,8 @@ framework:
                 version: %assets_version_admin_order%
             admin_base_user:
                 version: %assets_version_admin_base_user%
+            admin_institution:
+                version: %assets_version_admin_institution%
             user:
                 version: %assets_version_user%
             celsius3:

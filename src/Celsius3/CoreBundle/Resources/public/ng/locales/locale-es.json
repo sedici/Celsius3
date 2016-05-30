@@ -206,5 +206,7 @@
     "annulled": "anulado",
     "byUserRequest": "a pedido del usuario",
     "previousRelatedSearches": "búsquedas previas",
-    "reenableDownload": "Volver a habilitar descarga"
+    "reenableDownload": "Volver a habilitar descarga",
+    "Institution tree": "Arbol de institución",
+    "Institution users": "Usuarios de la institución"
 }
