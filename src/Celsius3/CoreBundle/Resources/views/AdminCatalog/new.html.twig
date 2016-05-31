@@ -7,7 +7,11 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'Catalog Creation'|trans }}</h2>
 
-    {{ new('admin_catalog', form) }}
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Catalog Creation'|trans }}</h2></div>
+    <div class="panel-body">
+        {{ new('admin_catalog', form) }}
+    </div>
+</div>
 {% endblock %}

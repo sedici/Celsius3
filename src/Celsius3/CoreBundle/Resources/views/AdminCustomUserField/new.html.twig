@@ -7,9 +7,13 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'Custom User Field Creation'|trans }}</h2>
 
-    {{ new('admin_customuserfield', form) }}
+<div class="panel panel-default">
+    <div class="panel-heading"> <h2>{{ 'Custom User Field Creation'|trans }}</h2></div>
+    <div class="panel-body">
+        {{ new('admin_customuserfield', form) }}
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

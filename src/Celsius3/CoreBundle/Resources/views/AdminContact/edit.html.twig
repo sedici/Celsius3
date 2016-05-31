@@ -8,7 +8,11 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-    <h2>{{ 'Contact Edit'|trans }} - {{ entity.surname ~ ', ' ~ entity.name }}</h2>
 
-    {{ edit('admin_contact', entity, edit_form) }}
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>{{ 'Contact Edit'|trans }} - {{ entity.surname ~ ', ' ~ entity.name }}</h2></div>
+    <div class="panel-body">
+        {{ edit('admin_contact', entity, edit_form) }}
+</div>
+</div>
 {% endblock %}
