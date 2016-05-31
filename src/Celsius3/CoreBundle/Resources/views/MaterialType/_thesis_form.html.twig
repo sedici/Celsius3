@@ -1,9 +1,65 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
-{{ form_row(form.materialData.title) }}
-{{ form_row(form.materialData.authors) }}
-{{ form_row(form.materialData.director) }}
-{{ form_row(form.materialData.degree) }}
-{{ form_row(form.materialData.year) }}
-{{ form_row(form.materialData.startPage) }}
-{{ form_row(form.materialData.endPage) }}
+<div class="form-group">
+    {{ form_label(form.materialData.title, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.title, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.title) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.authors, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.authors, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.authors) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.director, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.director, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.director) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.degree, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.degree, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.degree) }}
+
+    {{ form_label(form.materialData.year, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.year, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.year) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.startPage, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.startPage, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+
+    {{ form_label(form.materialData.endPage, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.endPage, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+</div>

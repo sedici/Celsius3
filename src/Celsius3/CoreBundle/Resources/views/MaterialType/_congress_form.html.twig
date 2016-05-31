@@ -1,10 +1,66 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
-{{ form_row(form.materialData.title) }}
-{{ form_row(form.materialData.authors) }}
-{{ form_row(form.materialData.place) }}
-{{ form_row(form.materialData.year) }}
-{{ form_row(form.materialData.startPage) }}
-{{ form_row(form.materialData.endPage) }}
-{{ form_row(form.materialData.communication) }}
+<div class="form-group">
+    {{ form_label(form.materialData.title, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.title, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.title) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.authors, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.authors, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.authors) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.place, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-7">
+        {{ form_widget(form.materialData.place, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.place) }}
+
+    {{ form_label(form.materialData.year, null, {
+            'label_attr': {'class': 'col-md-1 control-label'}
+            }) }}
+    <div class="col-md-2">
+        {{ form_widget(form.materialData.year, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.year) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.startPage, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.startPage, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+
+    {{ form_label(form.materialData.endPage, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.endPage, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.communication, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.communication, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.communication) }}
+</div>
 

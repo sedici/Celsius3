@@ -1,15 +1,81 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
-<div class="form_group">
-    {{ form_label(form.materialData.title, 'Titulo del libro') }}
+<div class="form-group">
+    {{ form_label(form.materialData.title, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.title, { 'attr': {'class': 'form-control'} })  }}
+    </div>
     {{ form_errors(form.materialData.title) }}
-    {{ form_widget(form.materialData.title, { 'attr': { 'class': 'form-control' } }) }}
 </div>
-{{ form_row(form.materialData.authors) }}
-{{ form_row(form.materialData.editor) }}
-{{ form_row(form.materialData.year) }}
-{{ form_row(form.materialData.withIndex) }}
-{{ form_row(form.materialData.chapter) }}
-{{ form_row(form.materialData.startPage) }}
-{{ form_row(form.materialData.endPage) }}
-{{ form_row(form.materialData.ISBN) }}
+
+<div class="form-group">
+    {{ form_label(form.materialData.authors, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.authors, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.authors) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.editor, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-10">
+        {{ form_widget(form.materialData.editor, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.editor) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.year, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.year, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.year) }}
+
+    {{ form_label(form.materialData.ISBN, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.ISBN, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+    {{ form_errors(form.materialData.ISBN) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.chapter, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-7">
+        {{ form_widget(form.materialData.chapter, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+
+    {{ form_label(form.materialData.withIndex, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-1">
+        {{ form_widget(form.materialData.withIndex, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.materialData.startPage, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.startPage, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+
+    {{ form_label(form.materialData.endPage, null, {
+            'label_attr': {'class': 'col-md-2 control-label'}
+            }) }}
+    <div class="col-md-4">
+        {{ form_widget(form.materialData.endPage, { 'attr': {'class': 'form-control'} })  }}
+    </div>
+</div>
