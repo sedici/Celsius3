@@ -7,7 +7,11 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'Country Creation'|trans }}</h2>
 
+<div class="panel panel-default">
+    <div class="panel-heading">   <h2>{{ 'Country Creation'|trans }}</h2></div>
+    <div class="panel-body">
     {{ new('superadmin_country', form, 'Celsius3CoreBundle:SuperadminCountry') }}
+</div>
+    </div>
 {% endblock %}

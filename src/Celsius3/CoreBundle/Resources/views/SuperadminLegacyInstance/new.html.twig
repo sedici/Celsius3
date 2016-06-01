@@ -7,7 +7,12 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'Legacy Instance Creation'|trans }}</h2>
 
-    {{ new('superadmin_instance_legacy', form) }}
+
+<div class="panel panel-default">
+    <div class="panel-heading"> <h2>{{ 'Legacy Instance Creation'|trans }}</h2></div>
+    <div class="panel-body">
+        {{ new('superadmin_instance_legacy', form) }}
+    </div>
+</div>
 {% endblock %}

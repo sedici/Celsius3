@@ -7,7 +7,10 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
 
 {% block content %}
-    <h2>{{ 'Hive Edit'|trans }} - {{ entity.name }}</h2>
-
-    {{ edit('superadmin_hive', entity, edit_form) }}
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Hive Edit'|trans }} - {{ entity.name }}</h2></div>
+    <div class="panel-body">
+        {{ edit('superadmin_hive', entity, edit_form) }}
+    </div>
+</div>
 {% endblock %}

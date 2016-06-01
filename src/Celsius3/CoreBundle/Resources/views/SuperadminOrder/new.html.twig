@@ -8,7 +8,12 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'Order Creation'|trans }}</h2>
 
-    {{ new('superadmin_order', form) }}
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Order Creation'|trans }}</h2></div>
+    <div class="panel-body">
+        {{ new('superadmin_order', form) }}
+    </div>
+</div>
 {% endblock %}
+
