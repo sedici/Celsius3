@@ -37,12 +37,15 @@ class UserProvider extends BaseUserProvider
     protected function findUser($identifier)
     {
         $user = $this->userManager->findUserByUsernameOrEmail($identifier);
-
         if ($user) {
-            $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
-                    ->findOneBy(array('host' => $user->getInstance()->getHost()));
 
-            if ($instance) {
+        if ($user->getInstance()->getId()){
+            return $user;
+        }else{
+            $instance = $this->em->getRepository('Celsius3CoreBundle:Instance')
+                ->findOneBy(array('host' => $user->getInstance()->getHost()));
+        }
+        if ($instance) {
                 if ($user->getInstance()->getHost() === $this->request_stack->getCurrentRequest()->getHost() || array_key_exists($instance->getId(), $user->getSecondaryInstances())) {
                     return $user;
                 }
