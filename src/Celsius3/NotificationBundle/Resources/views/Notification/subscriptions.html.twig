@@ -5,10 +5,14 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'Notification Subscriptions'|trans }}</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading"> <h2>{{ 'Notification Subscriptions'|trans }}</h2></div>
+    <div class="panel-body">
+
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
             <form action="{{ path('user_notification_subscriptions') }}" method="post" class="form" role="form">
@@ -56,4 +60,6 @@
             </form>
         </div>
     </div>
+</div>
+</div>
 {% endblock %}

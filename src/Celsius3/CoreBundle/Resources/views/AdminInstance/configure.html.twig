@@ -7,7 +7,10 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import configure as configure %}
 
 {% block content %}
-    <h2>{{ 'Instance Configuration' }}</h2>
-
-    {{ configure('admin_instance', configure_form, 'Celsius3CoreBundle:AdminInstance', entity) }}
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Instance Configuration' }}</h2></div>
+    <div class="panel-body">
+        {{ configure('admin_instance', configure_form, 'Celsius3CoreBundle:AdminInstance', entity) }}
+    </div>
+</div>
 {% endblock %}
