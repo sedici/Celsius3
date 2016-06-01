@@ -7,7 +7,10 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-    <h2>{{ 'Hive List'|trans }}</h2>
 
-    {{ index('superadmin_hive', pagination, 'Celsius3CoreBundle:SuperadminHive') }}
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>{{ 'Hive List'|trans }}</h2></div>
+</div>
+{{ index('superadmin_hive', pagination, 'Celsius3CoreBundle:SuperadminHive') }}
+
 {% endblock %}

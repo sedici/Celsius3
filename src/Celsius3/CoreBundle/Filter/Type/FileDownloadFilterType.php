@@ -34,7 +34,17 @@ class FileDownloadFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-                ->add('ip', null, array(
+             ->add('user', EntityType::class, array(
+                 'class' => 'Celsius3CoreBundle:BaseUser',
+                 'mapped' => true,
+                 'placeholder' => '',
+                 'required' => false,
+                 'attr' => array(
+                     'class' => 'user-select'
+                 ),
+                 'auto_initialize' => false,
+             ))
+               ->add('ip', null, array(
                     'required' => false,
                 ))
                 ->add('userAgent', null, array(
