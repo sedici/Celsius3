@@ -1682,7 +1682,7 @@
             </trans-unit>
             <trans-unit id="e36cffc72c2f080086e94d7d22bd9e41f103dc68" resname="With index">
                 <source>With index</source>
-                <target state="new">With index</target>
+                <target state="new">Index</target>
                 <jms:reference-file line="20">views/MaterialType/_book.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="879e32326c5217968ac8e3a14e4a8a5214957264" resname="Year">

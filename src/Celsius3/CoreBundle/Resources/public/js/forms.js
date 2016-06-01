@@ -300,3 +300,19 @@ $(document).ready(function () {
         });
     });
 });
+
+$(document).ready(function () {
+    var tempChapter = '';
+    $(document).on('change', '#order_materialData_withIndex', function () {
+        if ($('#order_materialData_withIndex:checked').val()) {
+            tempChapter = $('#order_materialData_chapter').val();
+            $('#order_materialData_chapter')
+                    .val('')
+                    .attr('disabled', true);
+        } else {
+            $('#order_materialData_chapter')
+                    .val(tempChapter)
+                    .attr('disabled', false);
+        }
+    });
+});

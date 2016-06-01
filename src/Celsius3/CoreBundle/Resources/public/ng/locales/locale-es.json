@@ -66,7 +66,7 @@
     "editor": "Editor",
     "chapter": "Capítulo",
     "isbn": "ISBN",
-    "withIndex": "Con índice",
+    "withIndex": "Índice",
     "place": "Lugar",
     "communication": "Comunicación",
     "director": "Director",
@@ -208,5 +208,6 @@
     "previousRelatedSearches": "búsquedas previas",
     "reenableDownload": "Volver a habilitar descarga",
     "Institution tree": "Arbol de institución",
-    "Institution users": "Usuarios de la institución"
+    "Institution users": "Usuarios de la institución",
+    "userRequestsIndex": "El usuario solicita índice"
 }

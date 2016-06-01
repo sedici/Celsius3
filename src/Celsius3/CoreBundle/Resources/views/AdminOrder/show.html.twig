@@ -757,8 +757,11 @@
                 <li>
                 <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
                 </li>
-                <li ng-if="order.material_data.type === 'book'">
+                <li ng-if="order.material_data.type === 'book' && !order.material_data.with_index">
                 <strong>{{'chapter' | translate}}</strong> {{order.material_data.chapter}}
+                </li>
+                <li ng-if="order.material_data.type === 'book' && order.material_data.with_index">
+                <strong>{{'userRequestsIndex' | translate}}</strong>
                 </li>
                 <li>
                 <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
@@ -768,9 +771,6 @@
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
                 <strong>{{'isbn' | translate}}</strong> {{order.material_data._i_s_b_n}}
-                </li>
-                <li ng-if="order.material_data.type === 'book'">
-                <strong>{{'withIndex' | translate}}</strong> {{order.material_data.with_index| material_with_index | translate}}
                 </li>
                 </ul>
             {% endverbatim %}

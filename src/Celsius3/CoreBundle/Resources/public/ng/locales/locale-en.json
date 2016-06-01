@@ -66,7 +66,7 @@
     "editor": "Editor",
     "chapter": "Chapter",
     "isbn": "ISBN",
-    "withIndex": "With index",
+    "withIndex": "Index",
     "place": "Place",
     "communication": "Communication",
     "director": "Director",
@@ -207,5 +207,6 @@
     "previousRelatedSearches": "previous searches",
     "reenableDownload": "Reenable download",
     "Institution tree": "Institution tree",
-    "Institution users": "Institution users"
+    "Institution users": "Institution users",
+    "userRequestsIndex": "User requests index"
 }
