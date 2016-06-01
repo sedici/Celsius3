@@ -8,5 +8,10 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    {{ new('admin_order', form, 'Celsius3CoreBundle:AdminOrder', true) }}
+<div class="panel panel-default">
+    <div class="panel-heading"> </div>
+    <div class="panel-body">
+        {{ new('admin_order', form, 'Celsius3CoreBundle:AdminOrder', true) }}
+    </div>
+</div>
 {% endblock %}
