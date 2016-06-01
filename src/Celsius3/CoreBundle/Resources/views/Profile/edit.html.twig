@@ -5,10 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h2>{{ 'Edit Profile'|trans }}</h2>
-            {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">  <h2>{{ 'Edit Profile'|trans }}</h2></div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+
+                {% include "FOSUserBundle:Profile:edit_content.html.twig" %}
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}
