@@ -2,21 +2,23 @@
 
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">Pedido</div>
 
-    <div class="panel-body">
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         {% if(form.originalRequest.target is defined) %}
             {{ form_row(form.originalRequest.target) }}
         {% endif %}
+     </div>
+    <div class="col-md-6">
         {% if(form.originalRequest.owner_autocomplete is defined) %}
-            {{ form_row(form.originalRequest.owner_autocomplete) }}
-        {% endif %}
-        {{ form_row(form.materialDataType) }}
+                {{ form_row(form.originalRequest.owner_autocomplete) }}
+            {% endif %}
     </div>
-</div>
+    <div class="col-md-12">
+        {{ form_row(form.materialDataType) }}
+
+    </div>
+    </div>
 <br>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
@@ -43,5 +45,3 @@
 
 {{ form_rest(form.originalRequest) }}
 {{ form_widget(form._token) }}
-    </div>
-</div>
