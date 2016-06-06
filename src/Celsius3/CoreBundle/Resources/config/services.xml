@@ -75,6 +75,7 @@
         <parameter key="celsius3.instance_configuration_listener.class">Celsius3\CoreBundle\EventListener\InstanceConfigurationListener</parameter>
         <parameter key="celsius3_core.security.user_provider.username_email.class">Celsius3\CoreBundle\Security\UserProvider</parameter>
         <parameter key="elsius3.listener.elastica_custom_properties.class">Celsius3\CoreBundle\EventListener\CustomPropertiesListener</parameter>
+        <parameter key="celsius3.validator.mail_template.class">Celsius3\CoreBundle\Validator\Constraint\MailtTemplateValidator</parameter>
     </parameters>
 
     <services>
@@ -431,6 +432,9 @@
         <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
             <tag name="kernel.event_subscriber" />
         </service>
+        <service id="celsius3.validator.mail_template" class="%celsius3.validator.mail_template.class%">
+            <tag name="validator.constraint_validator" alias="mail_template" />
+        </service>
     </services>
-
+    
 </container>
