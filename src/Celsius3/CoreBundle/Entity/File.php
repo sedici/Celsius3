@@ -423,20 +423,23 @@ class File
             return true;
         }
 
-        $downloads = $this->getDownloads()->toArray();
-        usort($downloads, function($a, $b) {
-            if ($a->getCreatedAt() === $b->getCreatedAt()) {
-                return 0;
+        if ($this->getDownloads()){
+            $downloads = $this->getDownloads()->toArray();
+            usort($downloads, function($a, $b) {
+                if ($a->getCreatedAt() === $b->getCreatedAt()) {
+                    return 0;
+                }
+                return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
+            });
+
+            $lastDownload = (!empty($downloads)) ? $downloads[0] : null;
+
+            $downloadTimeConfig = $this->getInstance()->get('download_time');
+            $value = (!empty($downloadTimeConfig->getValue())) ? $downloadTimeConfig->getValue() : '24';
+            if (!is_null($lastDownload) && ($lastDownload->getCreatedAt()->add(new \DateInterval('PT' . $value . 'H')) > new \DateTime())) {
+                return true;
             }
-            return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
-        });
 
-        $lastDownload = (!empty($downloads)) ? $downloads[0] : null;
-
-        $downloadTimeConfig = $this->getInstance()->get('download_time');
-        $value = (!empty($downloadTimeConfig->getValue())) ? $downloadTimeConfig->getValue() : '24';
-        if (!is_null($lastDownload) && ($lastDownload->getCreatedAt()->add(new \DateInterval('PT' . $value . 'H')) > new \DateTime())) {
-            return true;
         }
 
         return false;
