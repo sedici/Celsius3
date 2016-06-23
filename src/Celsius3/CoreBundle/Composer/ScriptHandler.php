@@ -24,7 +24,7 @@ namespace Celsius3\CoreBundle\Composer;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 
 class ScriptHandler
 {
@@ -34,7 +34,7 @@ class ScriptHandler
      *
      * @param $event CommandEvent A instance
      */
-    public static function asseticDump(CommandEvent $event)
+    public static function asseticDump(Event $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
@@ -49,8 +49,8 @@ class ScriptHandler
 
         static::executeCommand($event, $appDir, 'assetic:dump', $options['process-timeout']);
     }
-    
-    public static function redisFlushAll(CommandEvent $event)
+
+    public static function redisFlushAll(Event $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
@@ -66,7 +66,7 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'redis:flushall -n --client cache --env dev', $options['process-timeout']);
     }
 
-    protected static function executeCommand(CommandEvent $event, $appDir, $cmd, $timeout = 300)
+    protected static function executeCommand(Event $event, $appDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
         $console = escapeshellarg($appDir . '/console');
@@ -85,7 +85,7 @@ class ScriptHandler
         }
     }
 
-    protected static function getOptions(CommandEvent $event)
+    protected static function getOptions(Event $event)
     {
         $options = array_merge(
                 array('symfony-app-dir' => 'app', 'symfony-web-dir' => 'web',
@@ -107,4 +107,5 @@ class ScriptHandler
 
         return $phpPath;
     }
+
 }
