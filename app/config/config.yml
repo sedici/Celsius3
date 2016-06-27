@@ -232,7 +232,7 @@ services:
     # Usado temporalmente para corregir error de migración a Symfony3
     fos_user.doctrine_registry:
         alias: doctrine
-
+        
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
 
@@ -354,7 +354,7 @@ knp_menu:
 
 fos_elastica:
     clients:
-        default: { host: localhost, port: 9200 }
+        default: { host: localhost, port: 9200, logger: false }
     indexes:
         app:
             types:
@@ -362,54 +362,54 @@ fos_elastica:
                     mappings:
                         type: { type: string }
                         instance:
-                            type: "nested"
+                            type: nested
                             properties:
-                                id: ~
+                                id: { type: string }
                         owner:
-                            type: "nested"
+                            type: nested
                             properties:
-                                name: { type: string, boost: 15 }
-                                surname: { type: string, boost: 17 }
-                                username: { type: string, boost: 16 }
+                                name: { type: string }
+                                surname: { type: string }
+                                username: { type: string }
                         creator:
-                            type: "nested"
+                            type: nested
                             properties:
-                                name: { type: string, boost: 12 }
-                                surname: { type: string, boost: 14 }
-                                username: { type: string, boost: 13 }
+                                name: { type: string }
+                                surname: { type: string }
+                                username: { type: string }
                         librarian:
-                            type: "nested"
+                            type: nested
                             properties:
-                                name: { type: string, boost: 6 }
-                                surname: { type: string, boost: 8 }
-                                username: { type: string, boost: 7 }
+                                name: { type: string }
+                                surname: { type: string }
+                                username: { type: string }
                         operator:
-                            type: "nested"
+                            type: nested
                             properties:
-                                name: { type: string, boost: 9 }
-                                surname: { type: string, boost: 11 }
-                                username: { type: string, boost: 10 }
+                                name: { type: string }
+                                surname: { type: string }
+                                username: { type: string }
                         order:
-                            type: "nested"
+                            type: nested
                             properties:
-                                code: { type: integer }
+                                code: { type: string }
                                 materialData:
-                                    type: "nested"
+                                    type: nested
                                     properties:
                                         materialType: ~
-                                        title: { type: string, boost: 20 }
-                                        authors: { type: string, boost: 18 }
+                                        title: { type: string }
+                                        authors: { type: string }
                         currentState:
-                            type: "nested"
+                            type: nested
                             properties:
-                                type: { type: string, boost: 5 }
+                                type: { type: string }
                     persistence:
                         driver: orm
                         model: Celsius3\CoreBundle\Entity\Request
                         provider: ~
                         listener: ~
                         finder: ~
-
+                        
 monolog:
     channels:
      - 'celsius_exception'

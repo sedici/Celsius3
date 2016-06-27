@@ -29,12 +29,27 @@ use Elastica\Aggregation\Terms;
 use Elastica\Aggregation\Nested;
 use Elastica\Query\QueryString;
 use Elastica\Query\Filtered;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Match;
+use Elastica\Query\Wildcard;
 use Elastica\Filter\BoolFilter;
 
 class SearchManager
 {
 
     private $container;
+    private $mapping = [
+        'owner' => [
+            'username' => 1.5,
+            'surname' => 1.6,
+            'name' => 1.7,
+        ],
+        'operator' => [
+            'username' => 1.5,
+            'surname' => 1.6,
+            'name' => 1.7,
+        ],
+    ];
 
     public function __construct(Container $container)
     {
@@ -45,9 +60,8 @@ class SearchManager
     {
         $search = '';
         foreach (explode(' ', trim($keyword)) as $word) {
-            $search .= " *$word* ";
+            $search[] = "*$word*";
         }
-
         return $search;
     }
 
@@ -135,13 +149,24 @@ class SearchManager
         $query = new Query();
         $this->addAgregations($query);
 
-        $queryString = new QueryString($this->prepareKeyword($keyword));
+        $terms = $this->prepareKeyword($keyword);
+
+        $boolQuery = new BoolQuery();
+
+        $this->addSearch($boolQuery, $terms, null, ['type' => 2.0]);
+        $this->addSearch($boolQuery, $terms, 'owner', ['surname' => 1.7, 'username' => 1.6, 'name' => 1.5]);
+        $this->addSearch($boolQuery, $terms, 'creator', ['surname' => 1.4, 'username' => 1.3, 'name' => 1.2]);
+        $this->addSearch($boolQuery, $terms, 'librarian', ['surname' => 0.8, 'username' => 0.7, 'name' => 0.6]);
+        $this->addSearch($boolQuery, $terms, 'operator', ['surname' => 1.1, 'username' => 1.0, 'name' => 0.9]);
+        $this->addSearch($boolQuery, $terms, 'order', ['code' => 2.0, 'materialData' => ['materialType' => 2.0, 'title' => 2.0, 'authors' => 1.8, 'journal' => 3.0, 'editor' => 0.5, 'isbn' => 2.0]]);
+        $this->addSearch($boolQuery, $terms, 'currentState', ['type' => 0.5]);
+
         $boolFilter = new \Elastica\Filter\BoolFilter();
 
         $this->addInstanceFilter($boolFilter, $instance);
         $this->addAggregationsFilters($boolFilter, $filters);
 
-        $filtered = new Filtered($queryString, $boolFilter);
+        $filtered = new Filtered($boolQuery, $boolFilter);
 
         $query->setQuery($filtered);
 
@@ -187,6 +212,33 @@ class SearchManager
         }
 
         return false;
+    }
+
+    private function addSearch(BoolQuery $boolQuery, $terms, $entity, array $fields)
+    {
+        $entitySearch = new BoolQuery();
+        $prefix = (!is_null($entity)) ? $entity . '.' : '';
+        foreach ($fields as $field => $boost) {
+            if (is_array($boost)) {
+                $this->addSearch($boolQuery, $terms, $prefix . $field, $boost);
+            } else {
+                $fieldSearch = new BoolQuery();
+                foreach ($terms as $term) {
+                    $fieldSearch->addShould((new Wildcard())->setValue($prefix . $field, $term));
+                }
+                $fieldSearch->setBoost($boost);
+
+                $entitySearch->addShould($fieldSearch);
+            }
+        }
+
+        if (!is_null($entity)) {
+            $should = (new \Elastica\Query\Nested())->setPath($entity)->setQuery($entitySearch);
+        } else {
+            $should = $entitySearch;
+        }
+
+        $boolQuery->addShould($should);
     }
 
 }

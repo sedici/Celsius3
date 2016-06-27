@@ -35,11 +35,13 @@
             </div>
             <ul id="{{name}}buckets" class="list-group in">
                 {% for a in buckets %}
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
-                            {{ users[a.key].surname | first_upper }}, {{ users[a.key].name | first_upper }} ({{ a.doc_count }})
-                        </a>
-                    </li>
+                    {% if users[a.key] is defined %}
+                        <li class="list-group-item">
+                            <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
+                                {{ users[a.key].surname | first_upper }}, {{ users[a.key].name | first_upper }} ({{ a.doc_count }})
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -63,11 +65,13 @@
             </div>
             <ul id="{{name}}buckets" class="list-group in">
                 {% for a in buckets %}
-                    <li class="list-group-item">
-                        <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
-                            {{ users[a.key].surname | first_upper }}, {{ users[a.key].name | first_upper }} ({{ a.doc_count }})
-                        </a>
-                    </li>
+                    {% if users[a.key] is defined %}
+                        <li class="list-group-item">
+                            <a href="{{ path('admin_search') ~ '?' ~ { 'keyword':keyword,'filters': filters, 'add-filter': { 'name': name, 'value': a.key } } | url_encode }}">
+                                {{ users[a.key].surname | first_upper }}, {{ users[a.key].name | first_upper }} ({{ a.doc_count }})
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
