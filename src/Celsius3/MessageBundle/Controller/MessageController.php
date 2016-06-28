@@ -77,7 +77,7 @@ class MessageController extends BaseController
     protected function getSortDefaults()
     {
         return array(
-            'wrap-queries' => true,
+            'wrap-queries' => false,
         );
     }
 
@@ -161,4 +161,5 @@ class MessageController extends BaseController
                     'filter_form' => $filter_form->createView(),
         ));
     }
+
 }
