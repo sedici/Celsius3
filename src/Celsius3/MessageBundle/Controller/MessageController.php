@@ -26,6 +26,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\MessageBundle\Filter\Type\MessageFilterType;
 use FOS\MessageBundle\Controller\MessageController as BaseController;
+use FOS\MessageBundle\EntityManager\MessageManager;
+use FOS\MessageBundle\EntityManager\ThreadManager;
+use FOS\MessageBundle\Security\ParticipantProvider;
 
 class MessageController extends BaseController
 {
@@ -160,6 +163,22 @@ class MessageController extends BaseController
                     'threads' => $pagination,
                     'filter_form' => $filter_form->createView(),
         ));
+    }
+
+    public function markAsReadAction(Request $request)
+    {
+        $threadManager = $this->get('fos_message.thread_manager');
+        $participantProvider = $this->get('fos_message.participant_provider');
+
+        $participant = $participantProvider->getAuthenticatedParticipant();
+
+        $threads = $request->request->get('threads', []);
+
+        foreach ($threads as $threadId) {
+            $threadManager->markAsReadByParticipant($threadManager->findThreadById($threadId), $participant);
+        }
+
+        return new RedirectResponse($this->container->get('router')->generate('fos_message_inbox'));
     }
 
 }

@@ -25,6 +25,10 @@
         <default key="_controller">FOSMessageBundle:Message:newThread</default>
         <option key="expose">true</option>
     </route>
+    
+    <route id="fos_message_mark_read" path="/mark_read" methods="POST">
+        <default key="_controller">FOSMessageBundle:Message:markAsRead</default>
+    </route>
 
     <route id="fos_message_thread_delete" path="/{threadId}/delete" methods="POST DELETE">
         <default key="_controller">FOSMessageBundle:Message:delete</default>
