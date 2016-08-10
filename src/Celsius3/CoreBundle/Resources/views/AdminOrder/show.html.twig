@@ -179,7 +179,6 @@
             {% endverbatim %}
         </script>
 
-
         <!-- order_message_form.html -->
         <script type="text/ng-template" id="order_message_form.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
@@ -495,19 +494,20 @@
                 </div>
 
                 <div class="row">
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length === 0 && !advanced && searches.length === 0 && !_.isUndefined(request.previous_request)">
+                <div class="col-md-9" ng-if="request.type === 'provision' && request.current_state === 'created' && !advanced && searches.length === 0 && !_.isUndefined(request.previous_request)">
                 <div class="row">
                 <div class="col-md-12">
                 <p>{{'provisionModeText' | translate}}</p>
                 <p>
                 <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
                 <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
+        
                 </p>
                 </div>
                 </div>
                 </div>
-
-                <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0">
+                
+                <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0 && request.current_state === 'taken'">
                 <div class="row">
                 <div class="col-md-12" ng-include="'order_upload_form.html?' + assets_version">
                 </div>
