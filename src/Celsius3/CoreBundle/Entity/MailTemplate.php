@@ -30,17 +30,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MailTemplate extends Template
 {
+
     /**
-     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     private $enabled = true;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="templates")
@@ -116,4 +118,5 @@ class MailTemplate extends Template
     {
         return $this->instance;
     }
+
 }
