@@ -1777,39 +1777,39 @@
             </trans-unit>
             <trans-unit id="13">
                 <source>created</source>
-                <target>Pendientes</target>
+                <target>{1} Pendiente | [1,Inf] Pendientes</target>
             </trans-unit>
             <trans-unit id="14">
                 <source>searched</source>
-                <target>Buscados</target>
+                <target>{1} Buscado | [1,Inf] Buscados</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>requested</source>
-                <target>Solicitados</target>
+                <target>{1} Solicitado | [1,Inf] Solicitados</target>
             </trans-unit>
             <trans-unit id="16">
                 <source>approval_pending</source>
-                <target>Pendientes de aprovación</target>
+                <target>{1} Pendiente de aprovación | [1,Inf] Pendientes de aprovación</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>received</source>
-                <target>Recibidos</target>
+                <target>{1} Recibido | [1,Inf] Recibidos</target>
             </trans-unit>
             <trans-unit id="18">
                 <source>delivered</source>
-                <target>Enviados</target>
+                <target>{1} Enviado | [1,Inf] Enviados</target>
             </trans-unit>
             <trans-unit id="19">
                 <source>cancelled</source>
-                <target>Cancelados</target>
+                <target>{1} Cancelado | [1,Inf] Cancelados</target>
             </trans-unit>
             <trans-unit id="20">
                 <source>annulled</source>
-                <target>Anulados</target>
+                <target>{1} Anulado | [1,Inf] Anulados</target>
             </trans-unit>
             <trans-unit id="21">
                 <source>taken</source>
-                <target>Taken</target>
+                <target>{1} Tomado | [1,Inf] Tomados</target>
             </trans-unit>
             <trans-unit id="22">
                 <source>all</source>
