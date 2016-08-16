@@ -162,4 +162,31 @@ class SuperadminInstitutionController extends BaseController
 
         return $this->baseDoUnion('Institution', $element_ids, $main_id, 'superadmin_institution');
     }
+
+    /**
+     * Displays a form to edit an existing Institution entity.
+     *
+     * @Route("/{id}/show", name="superadmin_institution_show")
+     * @Template()
+     * @param string $id The entity ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function showAction($id) {
+        $entity = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Institution')->find($id);
+
+        if (!$entity) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
+        }
+
+        if ($entity->getInstance() !== $this->getDirectory() && $entity->getInstance() !== $this->getInstance()) {
+            throw Exception::create(Exception::ACCESS_DENIED);
+        }
+
+        return array(
+            'entity' => $entity,
+        );
+    }
 }
