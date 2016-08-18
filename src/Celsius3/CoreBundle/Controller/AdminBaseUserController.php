@@ -115,9 +115,10 @@ class AdminBaseUserController extends BaseUserController
     public function createAction(Request $request)
     {
         $entity = new BaseUser();
-        $form = $this->createForm(BaseUserType::class, $entity);
-        $form->handleRequest($request);
 
+        $form = $this->createForm(BaseUserType::class, $entity);
+
+        $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);

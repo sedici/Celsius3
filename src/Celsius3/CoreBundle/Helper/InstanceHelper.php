@@ -71,7 +71,6 @@ class InstanceHelper
     public function getSessionOrUrlInstance()
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-
         if ($this->container->get('session')->has('instance_url')) {
             $instance = $this->container->get('doctrine.orm.entity_manager')
                     ->getRepository('Celsius3CoreBundle:Instance')
@@ -84,7 +83,6 @@ class InstanceHelper
                 'host' => $request->getHost(),
             ));
         }
-
         return $instance;
     }
 

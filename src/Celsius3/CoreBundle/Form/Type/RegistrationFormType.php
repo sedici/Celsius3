@@ -63,14 +63,14 @@ class RegistrationFormType extends AbstractType
                     'required' => false,
                 ))
                 ->add('instance', InstanceSelectorType::class, array(
-                    'data' => $this->instance_helper->getUrlInstance(),
+                    'data' => $this->instance_helper->getSessionOrUrlInstance(),
                     'attr' => array(
-                        'value' => $this->instance_helper->getUrlInstance()->getId(),
+                        'value' => $this->instance_helper->getSessionOrUrlInstance()->getId(),
                         'readonly' => 'readonly',
                     ),
                 ))
         ;
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getUrlInstance(), true);
+        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getSessionOrUrlInstance(), true);
         $builder->addEventSubscriber($subscriber);
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);

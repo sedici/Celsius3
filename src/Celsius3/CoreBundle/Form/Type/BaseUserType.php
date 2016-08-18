@@ -60,8 +60,9 @@ class BaseUserType extends RegistrationFormType
                     'required' => false,
                 ))
         ;
+
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+         if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
                         ->add('instance', null, array(
                             'query_builder' => function (EntityRepository $repository) {
@@ -89,6 +90,8 @@ class BaseUserType extends RegistrationFormType
             $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
             $builder->addEventSubscriber($subscriber);
         }
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
