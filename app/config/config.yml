@@ -161,6 +161,7 @@ fos_user:
             validation_groups:  [ChangePassword]
     service:
         mailer: celsius3_core.fos_mailer.custom
+        user_manager: celsius3_core.fos_user_manager
 
 services:
     monolog_processor:

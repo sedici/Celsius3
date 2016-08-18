@@ -76,6 +76,7 @@
         <parameter key="celsius3_core.security.user_provider.username_email.class">Celsius3\CoreBundle\Security\UserProvider</parameter>
         <parameter key="elsius3.listener.elastica_custom_properties.class">Celsius3\CoreBundle\EventListener\CustomPropertiesListener</parameter>
         <parameter key="celsius3.validator.mail_template.class">Celsius3\CoreBundle\Validator\Constraint\MailtTemplateValidator</parameter>
+        <parameter key="celsius3_core.fos_user_manager.class">Celsius3\CoreBundle\Manager\FosUserManager</parameter>
     </parameters>
 
     <services>
@@ -429,12 +430,24 @@
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="request_stack"></argument>
         </service>
+        
         <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
             <tag name="kernel.event_subscriber" />
         </service>
+        
         <service id="celsius3.validator.mail_template" class="%celsius3.validator.mail_template.class%">
             <tag name="validator.constraint_validator" alias="mail_template" />
         </service>
+        
+        <service id="celsius3_core.fos_user_manager" class="%celsius3_core.fos_user_manager.class%">
+            <argument type="service" id="security.encoder_factory" />
+            <argument type="service" id="fos_user.util.username_canonicalizer" />
+            <argument type="service" id="fos_user.util.email_canonicalizer" />
+            <argument type="service" id="celsius3_core.instance_helper" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+        
     </services>
     
 </container>
