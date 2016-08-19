@@ -29,6 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * User controller.
@@ -58,6 +59,32 @@ class UserController extends BaseController
             $qb = $qb->andWhere('u.createdAt >= :date')
                     ->setParameter('date', $startDate);
         }
+
+        $users = $qb->getQuery()
+                ->getResult();
+
+        $view = $this->view($users, 200)->setFormat('json');
+        $view->setSerializationContext($context);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Get("/update_all")
+     */
+    public function updateAllUsersAction(Request $request)
+    {
+        $context = SerializationContext::create()->setGroups(array('api'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
+                ->createQueryBuilder('u');
+
+        $qb = $qb->where('u.instance = :instance_id')
+                ->andWhere('u.pdf = :pdf')
+                ->setParameter('instance_id', $this->getInstance()->getId())
+                ->setParameter('pdf', true);
 
         $users = $qb->getQuery()
                 ->getResult();
