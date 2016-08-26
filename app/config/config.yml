@@ -355,7 +355,7 @@ knp_menu:
 
 fos_elastica:
     clients:
-        default: { host: localhost, port: 9200, logger: false }
+        default: { host: localhost, port: 9200 }
     indexes:
         app:
             types:
@@ -363,47 +363,47 @@ fos_elastica:
                     mappings:
                         type: { type: string }
                         instance:
-                            type: nested
+                            type: "nested"
                             properties:
-                                id: { type: string }
+                                id: ~
                         owner:
-                            type: nested
+                            type: "nested"
                             properties:
-                                name: { type: string }
-                                surname: { type: string }
-                                username: { type: string }
+                                name: { type: string, boost: 15 }
+                                surname: { type: string, boost: 17 }
+                                username: { type: string, boost: 16 }
                         creator:
-                            type: nested
+                            type: "nested"
                             properties:
-                                name: { type: string }
-                                surname: { type: string }
-                                username: { type: string }
+                                name: { type: string, boost: 12 }
+                                surname: { type: string, boost: 14 }
+                                username: { type: string, boost: 13 }
                         librarian:
-                            type: nested
+                            type: "nested"
                             properties:
-                                name: { type: string }
-                                surname: { type: string }
-                                username: { type: string }
+                                name: { type: string, boost: 6 }
+                                surname: { type: string, boost: 8 }
+                                username: { type: string, boost: 7 }
                         operator:
-                            type: nested
+                            type: "nested"
                             properties:
-                                name: { type: string }
-                                surname: { type: string }
-                                username: { type: string }
+                                name: { type: string, boost: 9 }
+                                surname: { type: string, boost: 11 }
+                                username: { type: string, boost: 10 }
                         order:
-                            type: nested
+                            type: "nested"
                             properties:
-                                code: { type: string }
+                                code: { type: integer }
                                 materialData:
-                                    type: nested
+                                    type: "nested"
                                     properties:
                                         materialType: ~
-                                        title: { type: string }
-                                        authors: { type: string }
+                                        title: { type: string, boost: 20 }
+                                        authors: { type: string, boost: 18 }
                         currentState:
-                            type: nested
+                            type: "nested"
                             properties:
-                                type: { type: string }
+                                type: { type: string, boost: 5 }
                     persistence:
                         driver: orm
                         model: Celsius3\CoreBundle\Entity\Request
