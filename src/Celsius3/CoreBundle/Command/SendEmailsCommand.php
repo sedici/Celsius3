@@ -26,6 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class SendEmailsCommand extends ContainerAwareCommand
 {
@@ -57,7 +58,14 @@ class SendEmailsCommand extends ContainerAwareCommand
                 ->execute();
 
         foreach ($instances as $instance) {
-            $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
+            try {
+                $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
+            } catch (\Exception $e) {
+                $message = "Error al enviar mails para la instancia $instancia. " . $e->getMessage();
+
+                $logger->error($message);
+                echo $message;
+            }
         }
     }
 
