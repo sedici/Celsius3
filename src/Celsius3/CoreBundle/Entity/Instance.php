@@ -24,67 +24,85 @@ namespace Celsius3\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
+ * 
+ * @UniqueEntity("url")
+ * @UniqueEntity("host")
  */
 class Instance extends LegacyInstance
 {
+
     /**
      * @Assert\NotBlank()
      * @Assert\Regex(pattern="/^[a-zA-Z]+$/")
      * @ORM\Column(type="string", length=255, unique=true)
      */
     protected $url;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
      */
     protected $host;
+
     /**
      * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="instance")
      */
     protected $users;
+
     /**
      * @ORM\OneToMany(targetEntity="Request", mappedBy="instance")
      */
     protected $orders;
+
     /**
      * @ORM\OneToMany(targetEntity="News", mappedBy="instance")
      */
     protected $news;
+
     /**
      * @ORM\OneToMany(targetEntity="Contact", mappedBy="instance")
      */
     protected $contacts;
+
     /**
      * @ORM\OneToMany(targetEntity="Institution", mappedBy="instance")
      */
     protected $institutions;
+
     /**
      * @ORM\OneToMany(targetEntity="MailTemplate", mappedBy="instance")
      */
     protected $templates;
+
     /**
      * @ORM\OneToMany(targetEntity="Configuration", mappedBy="instance")
      */
     protected $configurations;
+
     /**
      * @ORM\OneToMany(targetEntity="Catalog", mappedBy="instance")
      */
     protected $catalogs;
+
     /**
      * @ORM\OneToMany(targetEntity="Celsius3\CoreBundle\Entity\Event\Event", mappedBy="instance")
      */
     protected $events;
+
     /**
      * @ORM\OneToMany(targetEntity="State", mappedBy="instance")
      */
     protected $states;
+
     /**
      * @ORM\OneToMany(targetEntity="Country", mappedBy="instance")
      */
     protected $countries;
+
     /**
      * @ORM\OneToMany(targetEntity="City", mappedBy="instance")
      */
@@ -162,7 +180,7 @@ class Instance extends LegacyInstance
     {
         return $this->url;
     }
-    
+
     /**
      * Set host
      *
@@ -555,4 +573,5 @@ class Instance extends LegacyInstance
     {
         return $this->cities;
     }
+
 }
