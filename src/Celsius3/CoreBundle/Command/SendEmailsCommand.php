@@ -61,7 +61,7 @@ class SendEmailsCommand extends ContainerAwareCommand
             try {
                 $mailer->sendInstanceEmails($instance, $limit, $output, $logger, $logLevel);
             } catch (\Exception $e) {
-                $message = "Error al enviar mails para la instancia $instancia. " . $e->getMessage();
+                $message = "Failed to send emails for instance $instance. " . $e->getMessage();
 
                 $logger->error($message);
                 echo $message;

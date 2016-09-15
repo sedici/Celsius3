@@ -94,9 +94,11 @@ class Mailer
                     ->setPassword($instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue())
             ;
             $mailer = \Swift_Mailer::newInstance($transport);
+            $mailer->getTransport()->start();
         } catch (\Exception $e) {
             $output->writeln('Connection error from instance ' . $instance->getUrl() . '. ' . $e->getMessage());
             $logger->error('Connection error from instance ' . $instance->getUrl() . '. ' . $e->getMessage());
+            return;
         }
 
         if ($logLevel <= 3) {

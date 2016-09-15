@@ -280,6 +280,8 @@ $('.uncheck-all').click(function () {
 
 $(document).ready(function () {
     $('#form_test_connection').click(function () {
+        $('.test-message').remove();
+        $('#form_test_connection').parent().append('<img class="test-message" alt="" src="/bundles/celsius3core/images/select2-spinner.gif" align="center" />');
         $.ajax({
             type: 'POST',
             url: Routing.generate('admin_instance_rest_test_smtp'),
@@ -291,11 +293,14 @@ $(document).ready(function () {
             },
             success: function (data) {
                 $('.test-message').remove();
+
+                var icon = 'remove';
                 if (data.test) {
-                    $('#form_test_connection').parent().append('<span class="test-message"><span class="glyphicon glyphicon-ok"></span>' + data.message + '</span>');
-                } else {
-                    $('#form_test_connection').parent().append('<span class="test-message"><span class="glyphicon glyphicon-remove"></span>' + data.message + '</span>');
+                    icon = 'ok';
                 }
+
+                $('#form_test_connection').parent().append('<span class="test-message"><span class="glyphicon glyphicon-' + icon + '"></span>' + data.message + '</span>');
+
             }
         });
     });

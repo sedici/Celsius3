@@ -40,17 +40,22 @@ class MailerHelper
                 !empty($instance->get('smtp_password')->getValue()));
     }
 
-    public function testConnection($host, $port, $user, $pass)
+    public function testConnection(Instance $instance, $host, $port, $user, $pass)
     {
         try {
-            $transport = \Swift_SmtpTransport:: newInstance($host, $port)
+            $transport = \Swift_SmtpTransport::newInstance($host, $port)
                     ->setUsername($user)
-                    ->setPassword($pass)
-                    ->setAuthMode('login')
+                    ->setPassword($pass);
             ;
 
-            $mailer = \Swift_Mailer::newInstance($transport);
+            $mailer = new \Swift_Mailer($transport);
+
             $mailer->getTransport()->start();
+        } catch (\Swift_TransportException $e) {
+            return array(
+                'test' => false,
+                'message' => $e->getMessage()
+            );
         } catch (\Exception $e) {
             return array(
                 'test' => false,
