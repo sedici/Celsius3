@@ -161,6 +161,19 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $notifications;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Institution" , inversedBy="librarian")
+     * @ORM\JoinTable(name="librarian_institution",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="institution_id", referencedColumnName="id")}
+     *      )
+     */
+
+
+    protected $librarianInstitution;
+
+
+
     public function __toString()
     {
         return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
@@ -193,6 +206,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->customValues = new \Doctrine\Common\Collections\ArrayCollection();
         $this->clientApplications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->librarianInstitution = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
     /**
@@ -749,4 +764,38 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->notifications;
     }
 
+
+    /**
+     * Add librarianInstitution
+     *
+     * @param \Celsius3\CoreBundle\Entity\Institution $librarianInstitution
+     *
+     * @return BaseUser
+     */
+    public function addLibrarianInstitution(\Celsius3\CoreBundle\Entity\Institution $librarianInstitution)
+    {
+        $this->librarianInstitution[] = $librarianInstitution;
+
+        return $this;
+    }
+
+    /**
+     * Remove librarianInstitution
+     *
+     * @param \Celsius3\CoreBundle\Entity\Institution $librarianInstitution
+     */
+    public function removeLibrarianInstitution(\Celsius3\CoreBundle\Entity\Institution $librarianInstitution)
+    {
+        $this->librarianInstitution->removeElement($librarianInstitution);
+    }
+
+    /**
+     * Get librarianInstitution
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLibrarianInstitution()
+    {
+        return $this->librarianInstitution;
+    }
 }

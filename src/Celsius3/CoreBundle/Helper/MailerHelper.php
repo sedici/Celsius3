@@ -43,7 +43,7 @@ class MailerHelper
     public function testConnection($host, $port, $user, $pass)
     {
         try {
-            $transport = \Swift_SmtpTransport:: newInstance($host, $port)
+            $transport = \Swift_SmtpTransport:: newInstance($host, $port,'ssl')
                     ->setUsername($user)
                     ->setPassword($pass)
                     ->setAuthMode('login')
@@ -51,7 +51,9 @@ class MailerHelper
 
             $mailer = \Swift_Mailer::newInstance($transport);
             $mailer->getTransport()->start();
+            die('entro');
         } catch (\Exception $e) {
+            die($e->getMessage());
             return array(
                 'test' => false,
                 'message' => $e->getMessage()

@@ -1,0 +1,5 @@
+services:
+    celsius3_ticket.ticket_manager:
+        class: Celsius3\TicketBundle\Manager\TicketManager
+        arguments:
+           - @service_container

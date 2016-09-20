@@ -13,5 +13,19 @@
 {% endblock %}
 
 {% block navigation_content %}
-    {{ knp_menu_render('Celsius3CoreBundle:Builder:directoryMenu', { 'currentClass': 'active' }) }}
+
+
+
+    <div class="pull-left">
+        {{ knp_menu_render('Celsius3CoreBundle:Builder:directoryMenu', { 'currentClass': 'active' }) }}
+    </div>
+        <ul class="list-unstyled list-horizontal pull-right">
+            <li>
+                <a href="{{ path('instance_register') }}" class="btn btn-lg btn-success">{{ 'Register Instance'|trans }}</a>
+            </li>
+        </ul>
+
+    <div class="clearfix"></div>
+
+
 {% endblock %}

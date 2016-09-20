@@ -33,10 +33,12 @@ class Builder
     public function messageMenu(FactoryInterface $factory, array $options)
     {
         $menu = $factory->createItem('root');
-        $menu->setChildrenAttribute('class', 'nav nav-pills');
+        $menu->setChildrenAttribute('class', 'nav nav-pills nav-stacked');
 
-        $menu->addChild('Inbox', array('route' => 'fos_message_inbox',));
-        $menu->addChild('Sent', array('route' => 'fos_message_sent',));
+
+        $menu->addChild('Inbox', array('route' => 'fos_message_inbox',))->setAttribute('class', 'fa fa-inbox');;
+        $menu->addChild('Sent', array('route' => 'fos_message_sent',))->setAttribute("class",'fa fa-inbox');
+        $menu->addChild('Trash', array('route' => 'fos_message_sent',));
 
         return $menu;
     }

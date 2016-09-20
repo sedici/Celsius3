@@ -1,0 +1,48 @@
+{% extends 'Celsius3CoreBundle:Layout:directory_layout.html.twig' %}
+
+{% block title %}
+   {{ 'Instance Creation'|trans }}
+{% endblock %}
+
+
+{% block content %}
+
+
+ <div class="register-box">
+    <div class="register-logo">
+        <h2>{{ 'Instance Creation'|trans }}</h2>
+    </div>
+    {{ form_start(form, { 'attr': { 'action':path('directory_instance_create'), 'class': 'form-horizontal', 'role': 'form' }}) }}
+        <div class="register-box-body">
+            {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+
+            <div class="form-group has-feedback">
+                {{ form_widget(form.name,{attr:{class:'form-control',placeholder: 'Nombre'}}) }}
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.abbreviation,{attr:{class:'form-control',placeholder: 'Abreviatura'}}) }}
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                 {{ form_widget(form.email,{attr:{class:'form-control',placeholder: 'Email'}}) }}
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.website,{attr:{class:'form-control',placeholder: 'Website'}}) }}
+                <span class="glyphicon glyphicon-url form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                {{ form_widget(form.observaciones,{attr:{class:'form-control',placeholder: 'Observaciones'}}) }}
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+                </div>
+            </div>
+      {{ form_end(form) }}
+    </div>
+        <!-- /.form-box -->
+</div>
+
+{% endblock %}
