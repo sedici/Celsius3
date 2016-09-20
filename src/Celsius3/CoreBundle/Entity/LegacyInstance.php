@@ -26,6 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
@@ -42,48 +43,58 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "legacy"="LegacyInstance",
  *   "current"="Instance"
  * })
+ * 
+ * @UniqueEntity("email")
  */
 class LegacyInstance
 {
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     protected $name;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     protected $abbreviation;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Url()
      * @ORM\Column(type="string", length=255)
      */
     protected $website;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      * @ORM\Column(type="string", length=255)
      */
     protected $email;
+
     /**
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     protected $enabled = true;
+
     /**
      * @ORM\OneToMany(targetEntity="Institution", mappedBy="celsiusInstance")
      */
     protected $ownerInstitutions;
+
     /**
      * @ORM\ManyToOne(targetEntity="Hive", inversedBy="instances")
      * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
@@ -282,4 +293,5 @@ class LegacyInstance
     {
         return $this->ownerInstitutions;
     }
+
 }
