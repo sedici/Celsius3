@@ -181,20 +181,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     public function __toString()
     {
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
         return ucwords(strtolower($this->getSurname())).', '.ucwords(strtolower($this->getName()));
-=======
-        return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
     }
 
     public function getFullName()
     {
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
         return $this->getSurname().', '.$this->getName();
-=======
-        return $this->getSurname() . ', ' . $this->getName();
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
     }
 
     public function notify(NotificationManager $manager)
@@ -223,11 +215,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get id.
-=======
-     * Get id
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return id $id
      */
@@ -237,16 +225,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set name.
      *
      * @param string $name
      *
-=======
-     * Set name
-     *
-     * @param  string $name
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setName($name)
@@ -257,11 +239,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get name.
-=======
-     * Get name
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return string $name
      */
@@ -271,16 +249,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set surname.
      *
      * @param string $surname
      *
-=======
-     * Set surname
-     *
-     * @param  string $surname
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setSurname($surname)
@@ -291,11 +263,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get surname.
-=======
-     * Get surname
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return string $surname
      */
@@ -305,16 +273,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set birthdate.
      *
      * @param date $birthdate
      *
-=======
-     * Set birthdate
-     *
-     * @param  date $birthdate
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setBirthdate($birthdate)
@@ -325,11 +287,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get birthdate.
-=======
-     * Get birthdate
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return date $birthdate
      */
@@ -339,16 +297,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set address.
      *
      * @param string $address
      *
-=======
-     * Set address
-     *
-     * @param  string $address
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setAddress($address)
@@ -359,11 +311,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get address.
-=======
-     * Get address
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return string $address
      */
@@ -373,11 +321,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add orders.
-=======
-     * Add orders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\Order $orders
      */
@@ -387,11 +331,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove orders.
-=======
-     * Remove orders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\Order $orders
      */
@@ -401,11 +341,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get orders.
-=======
-     * Get orders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Doctrine\Common\Collections\Collection $orders
      */
@@ -415,11 +351,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add operatedOrders.
-=======
-     * Add operatedOrders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\Order $operatedOrders
      */
@@ -430,11 +362,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove operatedOrders.
-=======
-     * Remove operatedOrders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\Order $operatedOrders
      */
@@ -445,11 +373,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get operatedOrders.
-=======
-     * Get operatedOrders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Doctrine\Common\Collections\Collection $operatedOrders
      */
@@ -459,11 +383,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add createdOrders.
-=======
-     * Add createdOrders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\Order $createdOrders
      */
@@ -474,11 +394,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove createdOrders.
-=======
-     * Remove createdOrders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\Order $createdOrders
      */
@@ -489,11 +405,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get createdOrders.
-=======
-     * Get createdOrders
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Doctrine\Common\Collections\Collection $createdOrders
      */
@@ -503,16 +415,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set instance.
      *
      * @param Celsius3\CoreBundle\Entity\Instance $instance
      *
-=======
-     * Set instance
-     *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setInstance(
@@ -524,11 +430,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get instance.
-=======
-     * Get instance
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -538,16 +440,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set librarian.
      *
      * @param Celsius3\CoreBundle\Entity\BaseUser $librarian
      *
-=======
-     * Set librarian
-     *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $librarian
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
@@ -558,11 +454,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get librarian.
-=======
-     * Get librarian
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $librarian
      */
@@ -572,16 +464,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set institution.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institution
      *
-=======
-     * Set institution
-     *
-     * @param  Celsius3\CoreBundle\Entity\Institution $institution
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setInstitution(
@@ -593,11 +479,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get institution.
-=======
-     * Get institution
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Celsius3\CoreBundle\Entity\Institution $institution
      */
@@ -607,11 +489,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add customValues.
-=======
-     * Add customValues
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\CustomUserValue $customValues
      */
@@ -621,11 +499,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove customValues.
-=======
-     * Remove customValues
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\CoreBundle\Entity\CustomUserValue $customValues
      */
@@ -635,11 +509,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get customValues.
-=======
-     * Get customValues
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Doctrine\Common\Collections\Collection $customValues
      */
@@ -649,16 +519,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set downloadAuth.
      *
      * @param bool $downloadAuth
      *
-=======
-     * Set downloadAuth
-     *
-     * @param  boolean $downloadAuth
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setDownloadAuth($downloadAuth)
@@ -669,15 +533,9 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get downloadAuth.
      *
      * @return bool $downloadAuth
-=======
-     * Get downloadAuth
-     *
-     * @return boolean $downloadAuth
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      */
     public function getDownloadAuth()
     {
@@ -685,17 +543,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add secondaryInstance.
      *
      * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
      * @param array                               $roles
-=======
-     * Add secondaryInstance
-     *
-     * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
-     * @param array $roles
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      */
     public function addSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance, array $roles)
     {
@@ -703,11 +554,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove secondaryInstance.
-=======
-     * Remove secondaryInstance
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
      */
@@ -717,11 +564,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get secondaryInstances.
-=======
-     * Get secondaryInstances
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return array $secondaryInstances
      */
@@ -731,18 +574,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Has secondaryInstances.
      *
      * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
      *
      * @return bool
-=======
-     * Has secondaryInstances
-     *
-     * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
-     * @return boolean
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      */
     public function hasSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
     {
@@ -767,48 +603,28 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->getInstitution()->getCity();
     }
 
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
     public function isLibrarian()
-=======
-    public function getIsLibrarian()
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
     {
         return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles());
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set wrongEmail.
      *
      * @param bool $wrongEmail
      *
-=======
-     * Set wrongEmail
-     *
-     * @param boolean $wrongEmail
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setWrongEmail($wrongEmail)
     {
         $this->wrongEmail = $wrongEmail;
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
-
-=======
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
         return $this;
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get wrongEmail.
      *
      * @return bool $wrongEmail
-=======
-     * Get wrongEmail
-     *
-     * @return boolean $wrongEmail
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      */
     public function getWrongEmail()
     {
@@ -816,38 +632,22 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set pdf.
      *
      * @param bool $pdf
      *
-=======
-     * Set pdf
-     *
-     * @param boolean $pdf
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      * @return self
      */
     public function setPdf($pdf)
     {
         $this->pdf = $pdf;
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
-
-=======
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
         return $this;
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get pdf.
      *
      * @return bool $pdf
-=======
-     * Get pdf
-     *
-     * @return boolean $pdf
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      */
     public function getPdf()
     {
@@ -856,12 +656,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     /**
      * @param Client $client
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      *
      * @return bool
-=======
-     * @return boolean
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      */
     public function isAuthorizedClient(Client $client)
     {
@@ -907,11 +703,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set secondaryInstances.
-=======
-     * Set secondaryInstances
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param array $secondaryInstances
      *
@@ -925,11 +717,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add notificationSetting.
-=======
-     * Add notificationSetting
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
      *
@@ -943,11 +731,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove notificationSetting.
-=======
-     * Remove notificationSetting
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
      */
@@ -957,11 +741,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get notificationSettings.
-=======
-     * Get notificationSettings
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -971,11 +751,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add notification.
-=======
-     * Add notification
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\NotificationBundle\Entity\BaseUserNotification $notification
      */
@@ -985,11 +761,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove notification.
-=======
-     * Remove notification
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param Celsius3\NotificationBundle\Entity\BaseUserNotification $notification
      */
@@ -999,11 +771,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get notifications.
-=======
-     * Get notifications
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return Doctrine\Common\Collections\Collection $customValues
      */
@@ -1013,11 +781,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Add librarianInstitution.
-=======
-     * Add librarianInstitution
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param \Celsius3\CoreBundle\Entity\Institution $librarianInstitution
      *
@@ -1031,11 +795,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Remove librarianInstitution.
-=======
-     * Remove librarianInstitution
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param \Celsius3\CoreBundle\Entity\Institution $librarianInstitution
      */
@@ -1045,11 +805,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get librarianInstitution.
-=======
-     * Get librarianInstitution
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1059,11 +815,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Set observaciones.
-=======
-     * Set observaciones
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @param string $observaciones
      *
@@ -1077,11 +829,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-<<<<<<< a35da8ef2ad6afcf98c356fd19d91d74692171ad
      * Get observaciones.
-=======
-     * Get observaciones
->>>>>>> se agrego campo observaciones en usuario y se agrego a las instancias
      *
      * @return string
      */

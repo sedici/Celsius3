@@ -93,6 +93,7 @@ class Ticket
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
      */
     protected $priority;
+
     /**
      * @var \DateTime $createdAt
      *

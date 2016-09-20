@@ -35,6 +35,8 @@ class TicketState
 {
     use TimestampableEntity;
 
+    use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -87,11 +89,10 @@ class TicketState
     public function setTypeState(\Celsius3\TicketBundle\Entity\TypeState $typeState = null)
     {
         $this->typeState = $typeState;
-
+    }
 
     public function __construct()
     {
-        
     }
 
     /**
