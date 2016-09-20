@@ -1,5 +1,7 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
     {{ form_errors(form) }}
+<div class="register-box">
+    <div class="register-box-body">
 
 
             <div class="row">
@@ -118,7 +120,11 @@
          </div>
 
 
-  
+            <a href="{{ path('fos_user_security_login') }}" class="btn btn-lg">{{ 'Login'|trans }}</a>
+    </div>
+    <!-- /.form-box -->
+</div>
+
 {{ form_rest(form) }}
   
 

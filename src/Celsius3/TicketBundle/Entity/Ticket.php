@@ -14,6 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Ticket
 {
+    
+    use TimestampableEntity;
 
     /**
      * @ORM\Column(type="integer")
@@ -83,6 +85,7 @@ class Ticket
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
      */
     protected $priority;
+
     /**
      * @var \DateTime $createdAt
      *

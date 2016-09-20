@@ -2,11 +2,12 @@
 
 {% block fos_message_content %}
     <div class="row">
-        <div class="col-md-9">
-            {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads, 'urlAction' : 'fos_message_inbox'} %}
-        </div>
         <div class="col-md-3">
             {% include 'FOSMessageBundle:Message:sidebar_inbox.html.twig' %}
+        </div>
+
+        <div class="col-md-9">
+            {% include 'FOSMessageBundle:Message:threads_list.html.twig' with {'threads': threads, 'urlAction' : 'fos_message_inbox'} %}
         </div>
 
     </div>
