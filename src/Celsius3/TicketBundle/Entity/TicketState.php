@@ -34,6 +34,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class TicketState
 {
 
+    use TimestampableEntity;
+    
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -63,25 +65,9 @@ class TicketState
      */
     private $tickets;
 
-    /**
-     * @var \DateTime $createdAt
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime $updatedAt
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
-     */
-    private $updatedAt;
 
     public function __construct()
     {
-        
     }
 
     /**

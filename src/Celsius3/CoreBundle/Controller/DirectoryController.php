@@ -186,7 +186,6 @@ class DirectoryController extends BaseController
         $request = $this->get('request_stack')->getCurrentRequest();
 
 
-
         $texto='';
 
 
@@ -223,7 +222,6 @@ class DirectoryController extends BaseController
         $em->flush($ticketState);
 
 
-die;
         return array(
             'entity' => $instance,
             'form' => $form->createView(),
