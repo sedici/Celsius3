@@ -1,0 +1,94 @@
+{% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+    {{ 'Sistema Ticket'|trans }}
+{% endblock %}
+
+
+{% block  stylesheets %}
+    {{ parent() }}
+
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/datatables/dataTables.bootstrap.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset( 'bundles/celsius3core/components/adminlte/css/skins/_all-skins.min.css') }}">
+
+{% endblock %}
+
+
+{% block content -%}
+    <h1>{{ 'HEADING_TICKET_LIST'|trans }}</h1>
+<div class="box">
+<div class="box-header">
+    <h3 class="box-title">Listado de Ticket</h3>
+</div>
+<!-- /.box-header -->
+<div class="box-body">
+<table id="example1" class="table table-bordered table-striped">
+<thead>
+<tr>
+    <th>ID</th>
+    <th>Estado</th>
+    <th>Prioridad</th>
+    <th>Tema</th>
+    <th>Categoria</th>
+</tr>
+</thead>
+<tbody>
+{% for ticket in tickets %}
+    <tr>
+        <td>{{ ticket.id }}</td>
+        <td>{{ ticket.statusCurrent.typeState.typeState }}
+        </td>
+        <td>{{ ticket.priority.priority }}</td>
+        <td>{{ ticket.subject }}</td>
+        <td>{{ ticket.category }}</td>
+    </tr>
+{% endfor %}
+
+
+
+
+
+</tbody>
+<tfoot>
+<tr>
+    <th>ID</th>
+    <th>Estado</th>
+    <th>Prioridad</th>
+    <th>Tema</th>
+    <th>Categoria</th>
+</tr>
+</tfoot>
+</table>
+</div>
+
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+<script src="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+
+    <script>
+    $(function () {
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false
+        });
+    });
+
+    </script>
+
+{% endblock %}
+
+
+{% endblock %}

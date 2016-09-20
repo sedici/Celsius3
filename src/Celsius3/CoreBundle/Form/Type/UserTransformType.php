@@ -27,6 +27,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UserTransformType extends AbstractType
 {
@@ -64,6 +65,18 @@ class UserTransformType extends AbstractType
                 ));
             }
         }
+
+        $builder->add('institution', EntityType::class, array(
+            'class' => 'Celsius3CoreBundle:Institution',
+            'mapped' => false,
+            'label' => ucfirst('institution'),
+            'placeholder' => '',
+            'required' => false,
+            'attr' => array(
+                'class' => 'institution-select'
+            ),
+            'auto_initialize' => false,
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

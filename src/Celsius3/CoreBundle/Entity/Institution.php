@@ -98,6 +98,12 @@ class Institution extends Provider
      */
     private $hive;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="BaseUser", mappedBy="librarianInstitution")
+     */
+    private $librarian;
+
+
     public function getProviderType()
     {
         return 'institution';
@@ -481,5 +487,39 @@ class Institution extends Provider
     public function getHive()
     {
         return $this->hive;
+    }
+
+    /**
+     * Add librarian
+     *
+     * @param \Celsius3\CoreBundle\Entity\BaseUser $librarian
+     *
+     * @return Institution
+     */
+    public function addLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
+    {
+        $this->librarian[] = $librarian;
+
+        return $this;
+    }
+
+    /**
+     * Remove librarian
+     *
+     * @param \Celsius3\CoreBundle\Entity\BaseUser $librarian
+     */
+    public function removeLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
+    {
+        $this->librarian->removeElement($librarian);
+    }
+
+    /**
+     * Get librarian
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLibrarian()
+    {
+        return $this->librarian;
     }
 }

@@ -1,0 +1,16 @@
+{% extends 'Celsius3CoreBundle:BaseUser:_show_fields.html.twig' %}
+
+{% block extrainfo %}
+    <dt>{{ 'Roles'|trans }}</dt>
+    <dd>
+        <ul>
+            {% for role in element.roles %}
+                <li>{{ role_name(role)|trans }}</li>
+            {% endfor %}
+        </ul>
+    </dd>
+{% endblock %}
+
+{% block actions %}
+    {% include 'Celsius3CoreBundle:AdminBaseUser:_index_element_actions.html.twig' %}
+{% endblock %}

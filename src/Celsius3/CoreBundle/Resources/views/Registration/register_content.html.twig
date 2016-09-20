@@ -1,58 +1,119 @@
-
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
     {{ form_errors(form) }}
-
-<div class="row">
-	<div class="col-md-6">
-	{{ form_row(form.name) }}
-	</div>
-	<div class="col-md-6">
-	{{ form_row(form.surname) }}
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-6">
-	{{ form_row(form.email) }}
-	</div>
-	<div class="col-md-6">
-	{{ form_row(form.username) }}
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-6">
-		{{ form_row(form.plainPassword.first) }}
-	</div>
-	<div class="col-md-6">
-		{{ form_row(form.plainPassword.second) }}
-	
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-6">
-		{{ form_row(form.country) }}
-	</div>
-	<div class="col-md-6">
-	{{ form_row(form.city) }}
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-	{{ form_row(form.institution) }}
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-6">
-		{{ form_row(form.birthdate) }}
-	</div>
-	<div class="col-md-6">
-	{{ form_row(form.address) }}
-	</div>
-</div>
+<div class="register-box">
+    <div class="register-box-body">
 
 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group has-feedback">
+                        {{ form_widget(form.name,{attr:{class:'form-control',placeholder: 'Nombre'}}) }}
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
 
-    
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group has-feedback">
+                        {{ form_widget(form.surname,{attr:{class:'form-control',placeholder: 'Apellido'}}) }}
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group has-feedback">
+                        {{ form_widget(form.email,{attr:{class:'form-control',placeholder: 'Email'}}) }}
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group has-feedback">
+                        {{ form_widget(form.username,{attr:{class:'form-control',placeholder: 'Usuario'}}) }}
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.plainPassword.first,{attr:{class:'form-control',placeholder: 'Contraseña'}}) }}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.plainPassword.second,{attr:{class:'form-control',placeholder: 'Repita la contraseña'}}) }}
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.country,{attr:{class:'form-control',placeholder: 'Pais'}}) }}
+                    <span class="glyphicon glyphicon- form-control-feedback"></span>
+                </div>
+                {{ form_row(form.country) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.city,{attr:{class:'form-control',placeholder: 'Ciudad'}}) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.institution,{attr:{class:'form-control',placeholder: 'Insitucion'}}) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.birthdate,{attr:{class:'form-control',placeholder: 'Fecha de Nacimiento'}}) }}
+                    <span class="glyphicon glyphicon-fa-birthday-cake form-control-feedback"></span>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.address,{attr:{class:'form-control',placeholder: 'Dirección'}}) }}
+                    <span class="glyphicon glyphicon-address form-control-feedback"></span>
+                </div>
+
+            </div>
+         </div>
+         <div class="row">
+                <div class="col-xs-6">
+                    <div class="checkbox icheck">
+                        <label>
+                            <input type="checkbox"> Acepto los<a href="#"> Terminos</a>
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}</button>
+                </div>
+                <!-- /.col -->
+         </div>
+
+            <a href="{{ path('fos_user_security_login') }}" class="btn btn-lg">{{ 'Login'|trans }}</a>
+    </div>
+    <!-- /.form-box -->
+</div>
+
 {{ form_rest(form) }}
   
-    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'registration.submit'|trans({}, 'FOSUserBundle') }}</button>
+
 </form>

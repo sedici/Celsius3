@@ -1,0 +1,5 @@
+{% if institution %}
+    <dt></dt>
+    <dd>{{ institution.name }}</dd>
+    {% include 'Celsius3CoreBundle:AdminBaseUser:_institution.html.twig' with {'institution': institution.parent } only %}
+{% endif %}

@@ -28,7 +28,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
- * 
+ *
  * @UniqueEntity("url")
  * @UniqueEntity("host")
  */
@@ -112,6 +112,25 @@ class Instance extends LegacyInstance
      * @ORM\OneToMany(targetEntity="City", mappedBy="instance")
      */
     protected $cities;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $lat;
+
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $long;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $observaciones;
+
+
 
     public function __construct()
     {
@@ -602,4 +621,147 @@ class Instance extends LegacyInstance
         return $this->cities;
     }
 
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     *
+     * @return Instance
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set long
+     *
+     * @param string $long
+     *
+     * @return Instance
+     */
+    public function setLong($long)
+    {
+        $this->long = $long;
+
+        return $this;
+    }
+
+    /**
+     * Get long
+     *
+     * @return string
+     */
+    public function getLong()
+    {
+        return $this->long;
+    }
+
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     *
+     * @return Instance
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    /**
+     * Add news
+     *
+     * @param \Celsius3\CoreBundle\Entity\News $news
+     *
+     * @return Instance
+     */
+    public function addNews(\Celsius3\CoreBundle\Entity\News $news)
+    {
+        $this->news[] = $news;
+
+        return $this;
+    }
+
+    /**
+     * Remove news
+     *
+     * @param \Celsius3\CoreBundle\Entity\News $news
+     */
+    public function removeNews(\Celsius3\CoreBundle\Entity\News $news)
+    {
+        $this->news->removeElement($news);
+    }
+
+    /**
+     * Add country
+     *
+     * @param \Celsius3\CoreBundle\Entity\Country $country
+     *
+     * @return Instance
+     */
+    public function addCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    {
+        $this->countries[] = $country;
+
+        return $this;
+    }
+
+    /**
+     * Remove country
+     *
+     * @param \Celsius3\CoreBundle\Entity\Country $country
+     */
+    public function removeCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    {
+        $this->countries->removeElement($country);
+    }
+
+    /**
+     * Add city
+     *
+     * @param \Celsius3\CoreBundle\Entity\City $city
+     *
+     * @return Instance
+     */
+    public function addCity(\Celsius3\CoreBundle\Entity\City $city)
+    {
+        $this->cities[] = $city;
+
+        return $this;
+    }
+
+    /**
+     * Remove city
+     *
+     * @param \Celsius3\CoreBundle\Entity\City $city
+     */
+    public function removeCity(\Celsius3\CoreBundle\Entity\City $city)
+    {
+        $this->cities->removeElement($city);
+    }
 }

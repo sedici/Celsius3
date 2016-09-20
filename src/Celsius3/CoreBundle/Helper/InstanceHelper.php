@@ -53,7 +53,6 @@ class InstanceHelper
     public function getUrlInstance()
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
-
         $instance = $this->container
                 ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Instance')
@@ -71,17 +70,23 @@ class InstanceHelper
     public function getSessionOrUrlInstance()
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
+
+
+
+
         if ($this->container->get('session')->has('instance_url')) {
             $instance = $this->container->get('doctrine.orm.entity_manager')
                     ->getRepository('Celsius3CoreBundle:Instance')
                     ->findOneBy(array('url' => $this->container->get('session')->get('instance_url')));
         } else {
-            $instance = $this->container
+
+        $instance = $this->container
                     ->get('doctrine.orm.entity_manager')
                     ->getRepository('Celsius3CoreBundle:Instance')
                     ->findOneBy(array(
                 'host' => $request->getHost(),
             ));
+
         }
         return $instance;
     }

@@ -32,12 +32,22 @@ class UserManager
     const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    const ROLE_MANAGER_ORDER = 'ROLE_MANAGER_ORDER';
+    const ROLE_STATISTICS = 'ROLE_STATISTICS';
+    const ROLE_TECHNICAL = 'ROLE_TECHNICAL';
+    const ROLE_TICKET = 'ROLE_TICKET';
+
+
 
     public static $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
         self::ROLE_ADMIN,
         self::ROLE_SUPER_ADMIN,
+        self::ROLE_MANAGER_ORDER,
+        self::ROLE_STATISTICS,
+        self::ROLE_TECHNICAL,
+        self::ROLE_TICKET
     );
 
     public static $roles_names = array(
@@ -45,6 +55,13 @@ class UserManager
         /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
         /** @Ignore */ 'ROLE_ADMIN' => 'Admin',
         /** @Ignore */ 'ROLE_SUPER_ADMIN' => 'Network Admin',
+        /** @Ignore */ 'ROLE_MANAGER_ORDER' => 'Manager Order',
+        /** @Ignore */ 'ROLE_STATISTICS' => 'Network Admin Statistics',
+        /** @Ignore */ 'ROLE_TECHNICAL' => 'Network TECHNICAL',
+        /** @Ignore */ 'ROLE_TICKET' => 'Sistem de Ticket',
+
+
+
     );
 
     private function iterateInstitutions(Institution $institution)

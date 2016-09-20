@@ -261,6 +261,7 @@ stof_doctrine_extensions:
             timestampable: true
             sluggable: true
             softdeleteable: true
+            blameable: true
 
 celsius3_notification:
     web_socket_server:

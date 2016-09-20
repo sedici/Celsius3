@@ -26,10 +26,14 @@
                         '@Celsius3CoreBundle/Resources/public/less/*' filter='?uglifycss' filter='cssrewrite' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
             {% endstylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset( 'bundles/celsius3core/components/adminlte/css/AdminLTE.min.css') }}" />
+
 
             {% stylesheets
                 '@Celsius3CoreBundle/Resources/public/less/*' package="celsius3" filter='?uglifycss' filter='cssrewrite' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
+
+
             {% endstylesheets %}
 
             {% if instance.get('instance_css').value is not null %}
@@ -100,24 +104,33 @@
                     {% block body_title %}
                         <div class="row">
                             <div class="jumbotron page-header clearfix">
+
                                 <div class="col-xs-12 col-sm-12 instance-info">
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3">
-                                            {% if instance.get('instance_logo').value != '' %}
-                                                <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
-                                            {% else %}
-                                                <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3">
+                                                {% if instance.get('instance_logo').value != '' %}
+                                                    <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
+                                                {% else %}
+                                                    <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
+                                                {% endif %}
+                                            </div>
+                                            {% if  not is_granted('ROLE_STATISTICS') %}
+
+                                            <div class="col-xs-9 col-sm-9">
+                                                <h2 class="instance-title" >{{ instance.get('instance_title').value }}</h2>
+                                                <h3 class="instance-tagline">{% if instance.get('instance_tagline') %}{{ instance.get('instance_tagline').value }}{% endif %}</h3>
+                                            </div>
                                             {% endif %}
+
                                         </div>
-                                        <div class="col-xs-9 col-sm-9">
-                                            <h2 class="instance-title" >{{ instance.get('instance_title').value }}</h2>
-                                            <h3 class="instance-tagline">{% if instance.get('instance_tagline') %}{{ instance.get('instance_tagline').value }}{% endif %}</h3>
-                                        </div>
-                                    </div>
+
+
                                     <div class="row" style="margin-top: 10px; margin-bottom: -22px; margin-left: -20px; margin-right: -20px;">
                                     {% block adminpanel %}{% endblock %}
                                 </div>
+
                             </div>
+
                         </div>
                     </div>
 
@@ -200,6 +213,14 @@
                            'bundles/celsius3notification/js/autobahn.min.js'
                            'bundles/celsius3notification/js/notification.js' package="celsius3" filter='?uglifyjs2' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
+
+    <!-- Slimscroll -->
+    <script src="{{ asset('bundles/celsius3core/components/adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('bundles/celsius3core/components/adminlte/plugins/fastclick/fastclick.js') }}"></script>
+
+
+
     {% endjavascripts %}
 
     {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}

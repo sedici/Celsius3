@@ -4,42 +4,80 @@
     {{ 'Login'|trans }}
 {% endblock %}
 
+
+{% block  stylesheets %}
+    {{ parent() }}
+    <!-- iCheck -->
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/iCheck/square/blue.css') }}" />
+
+{% endblock %}
+
 {% block content %}
 
-<div class="panel panel-default">
-    <div class="panel-heading"><h3>{{ 'Login'|trans }}</h3>
-    </div>
-
-    <div class="panel-body">
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+    <div class="login-box">
+        <div class="login-box-body">
+            <p class="login-box-msg">{{ 'Login'|trans }}</p>
             <form action="{{ path("fos_user_security_check") }}" method="post" class="form" role="form">
-                    {% if error %}
-                     <div class="alert alert-danger fade in">
+                {% if error %}
+                    <div class="alert alert-danger fade in">
                         <a href="#" class="close" data-dismiss="alert">&times;</a>
-                            <strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong>
+                        <strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong>
 
-                        </div>
-                 {% endif %}
+                    </div>
+                {% endif %}
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                <div class="form-group">
-                    <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
-                    <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" />
+                <div class="form-group has-feedback">
+                {#   <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>#}
+                    <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"  placeholder="{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}"/>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
-                <div class="form-group">
-                    <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
-                    <input type="password" id="password" class="form-control" name="_password" />
+                <div class="form-group has-feedback">
+                  {#  <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>#}
+                    <input type="password" id="password" class="form-control" name="_password" placeholder="{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}" />
+                   <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
-                <div class="form-group">
-                    <label for="remember_me">{{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}</label>
-                    <input type="checkbox" id="remember_me" class="form-control" name="_remember_me" value="on" />
-                </div>
-                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
-                &nbsp;<a href="{{ path("fos_user_resetting_request") }}">{{ 'Forgot your password?'|trans }}</a>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox" id="remember_me" class="form-control" name="_remember_me" value="on" />  {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                            </label>
+                        </div>
+                    </div>
+                 </div>
+                <div class="row">
+
+                    <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'security.login.submit'|trans({}, 'FOSUserBundle') }}</button>
+                        </div>
+                        <div class="col-xs-8">
+                            &nbsp;<a href="{{ path("fos_user_resetting_request") }}">{{ 'Forgot your password?'|trans }}</a>
+                        </div>
+                        <!-- /.col -->
+                    </div>
             </form>
+
+
+
+
         </div>
+        <!-- /.login-box-body -->
     </div>
-  </div>
- </div>
+    <!-- /.login-box -->
+
+   {% block javascripts %}
+{{ parent() }}
+    <!-- iCheck -->
+    <script src="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+{% endblock %}
+
 {% endblock content %}
