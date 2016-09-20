@@ -196,7 +196,7 @@
 
                             <div class="owner_data">
                             <p class="owner">{{ order.original_request.owner.surname | first_upper }}, {{ order.original_request.owner.name | first_upper }} ({{ order.original_request.owner.username | lowercase }})</p>
-                            <p class="institution">{{ printInstitutions(order.original_request.owner.institution) }}</p>        
+                            <p class="institution">{{ printInstitutions(order.original_request.owner.institution) }}</p>
                             </div>
 
                             <div class="order-actions">
@@ -218,7 +218,7 @@
                             <div class="requests" ng-if="hasRequests(order.original_request.events)">
                             <h5>{{ 'Requests' | trans }}</h5>
                             <p ng-repeat="event in order.original_request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
-                            <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
+                            <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> |
                             <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
                             <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>
                             </p>

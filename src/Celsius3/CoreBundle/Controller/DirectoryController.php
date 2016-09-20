@@ -39,6 +39,8 @@ use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
  *
  * @Route("/directory/instance")
  */
+
+
 class DirectoryController extends BaseController
 {
     /**

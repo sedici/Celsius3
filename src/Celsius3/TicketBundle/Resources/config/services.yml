@@ -10,4 +10,3 @@ services:
                 - @service_container
              tags:
                  - { name: twig.extension }
-

@@ -22,6 +22,7 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -129,7 +130,6 @@ class TicketState
     }
 
     /**
-     * Set tickets.
      * Set tickets
      *
      * @param \Celsius3\TicketBundle\Entity\Ticket $tickets

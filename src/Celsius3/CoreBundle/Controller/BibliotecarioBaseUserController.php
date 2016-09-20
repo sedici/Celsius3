@@ -38,6 +38,16 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class BibliotecarioBaseUserController extends BaseUserController
 {
+
+
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        );
+    }
+
     /**
      * Lists all BaseUser entities.
      *
@@ -272,6 +282,34 @@ class BibliotecarioBaseUserController extends BaseUserController
         $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
+    }
+
+    protected function mergeSecondaryInstances(BaseUser $main, array $entities)
+    {
+        foreach ($entities as $entity) {
+            if ($main->getInstance() === $entity->getInstance()) {
+                $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
+            } else if ($main->hasSecondaryInstance($entity->getInstance())) {
+                $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
+            } else {
+                $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
+            }
+
+            foreach ($entity->getSecondaryInstances() as $id => $secondaryInstance) {
+                $instance = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Instance')->find($id);
+
+                if ($main->getInstance() === $instance) {
+                    $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
+                } else if ($main->hasSecondaryInstance($instance)) {
+                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
+                } else {
+                    $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
+                }
+            }
+        }
+
+        $this->getDoctrine()->getManager()->persist($main);
+        $this->getDoctrine()->getManager()->flush($main);
     }
 
     protected function getUserListRoute()

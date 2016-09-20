@@ -74,12 +74,14 @@ class InstanceHelper
                     ->getRepository('Celsius3CoreBundle:Instance')
                     ->findOneBy(array('url' => $this->container->get('session')->get('instance_url')));
         } else {
-            $instance = $this->container
+
+        $instance = $this->container
                     ->get('doctrine.orm.entity_manager')
                     ->getRepository('Celsius3CoreBundle:Instance')
                     ->findOneBy(array(
                 'host' => (!is_null($request)) ? $request->getHost() : '',
             ));
+
         }
 
         return $instance;

@@ -7,14 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 /**
  * @ORM\Entity("")
  * @ORM\Table(name="ticket")
  */
 class Ticket
 {
-    
     use TimestampableEntity;
 
     /**
@@ -94,9 +92,6 @@ class Ticket
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
      */
     protected $priority;
-
-
-
 
 
 

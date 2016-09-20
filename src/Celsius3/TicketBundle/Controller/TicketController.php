@@ -20,16 +20,14 @@ class TicketController extends Controller
      * @Route("/", name="ticket_index")
      * @Template()
      */
+
     public function indexAction()
     {
-        $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll(array(), array('updatedAt' => 'ASC'));
-        dump($tickets);
-        die;
-        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
-        $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
+        $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
 
-        return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets, 'administradores' => $administradores));
+        return $this->render('Celsius3TicketBundle:Ticket:index.html.twig',array('tickets'=>$tickets));
     }
+
 
     /**
      * @Route("/new", name="ticket_new")

@@ -28,6 +28,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 class InstanceRegisterType extends LegacyInstanceType
 {
 
@@ -96,7 +97,6 @@ class InstanceRegisterType extends LegacyInstanceType
             ),
             'mapped' => false,
         ));
-
 
     }
 
