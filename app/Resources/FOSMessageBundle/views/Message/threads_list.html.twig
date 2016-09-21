@@ -95,10 +95,14 @@
 </div>
 <!-- /.col -->
 
-</div>
+
 <!-- /.row -->
     </form>
-</section>
+<div class="navigation">
+    {{ knp_pagination_render(threads) }}
+</div>
+
+
 <!-- /.content -->
 
 
@@ -159,10 +163,5 @@
     });
 </script>
 
-<div class="navigation">
-    {{ knp_pagination_render(threads) }}
-</div>
 
-
-<!-- /.content -->
 </section>
