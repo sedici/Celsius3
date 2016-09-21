@@ -690,7 +690,7 @@ class Instance extends LegacyInstance
         $this->news->removeElement($news);
     }
 
- 
+
 
 
 
