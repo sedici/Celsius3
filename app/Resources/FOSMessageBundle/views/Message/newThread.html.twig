@@ -8,8 +8,12 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
                 </div>
+                {{ form_errors(form) }}
+                  
+
                 <!-- /.box-header -->
                 <form action="{{ url('fos_message_thread_new') }}" method="post" class="form">
+
                     <div class="box-body">
                         <div class="form-group">
                             {{ form_widget(form.recipients,{attr:{class:'form-control container autocomplete_multi',placeholder:"To:" }} ) }}
@@ -40,7 +44,7 @@
                     <!-- /.box-footer -->
             </div>
             <!-- /. box -->
-
+            {{ form_rest(form) }}
 
             </form>
         </div>
