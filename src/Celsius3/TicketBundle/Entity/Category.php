@@ -34,6 +34,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Category
 {
 
+    const CATEGORY_NEW_INSTANCE = 2;
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")

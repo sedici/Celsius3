@@ -34,7 +34,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class TicketState
 {
 
-    use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -66,6 +65,24 @@ class TicketState
      */
     private $tickets;
 
+
+    /**
+     * @var \DateTime $createdAt
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime $updatedAt
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    private $updatedAt;
+
+
     public function __construct()
     {
     }
@@ -80,28 +97,7 @@ class TicketState
         return $this->id;
     }
 
-    /**
-     * Set typeState
-     *
-     * @param  string $typeState
-     * @return self
-     */
-    public function setTypeState($typeState)
-    {
-        $this->typeState = $typeState;
-
-        return $this;
-    }
-
-    /**
-     * Get typeState
-     *
-     * @return string $typeState
-     */
-    public function getTypeState()
-    {
-        return $this->typeState;
-    }
+  
 
 
 
@@ -151,5 +147,77 @@ class TicketState
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Set typeState
+     *
+     * @param \Celsius3\TicketBundle\Entity\TypeState $typeState
+     *
+     * @return TicketState
+     */
+    public function setTypeState(\Celsius3\TicketBundle\Entity\TypeState $typeState = null)
+    {
+        $this->typeState = $typeState;
+
+        return $this;
+    }
+
+    /**
+     * Get typeState
+     *
+     * @return \Celsius3\TicketBundle\Entity\TypeState
+     */
+    public function getTypeState()
+    {
+        return $this->typeState;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return TicketState
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return TicketState
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 }

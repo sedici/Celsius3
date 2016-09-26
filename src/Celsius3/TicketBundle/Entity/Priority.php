@@ -33,8 +33,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Priority
 {
+    const PRIORITY_ALTA = 1;
+    const PRIORITY_MEDIA = 2;
+    const PRIORITY_BAJA = 3;
+
 
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
