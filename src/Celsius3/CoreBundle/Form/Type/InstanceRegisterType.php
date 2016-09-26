@@ -38,6 +38,39 @@ class InstanceRegisterType extends LegacyInstanceType
                 ->remove('host')
             ->remove('hive')
             ->add('observaciones',TextareaType::class)
+                ->add('country', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:Country',
+                    'mapped' => false,
+                    'placeholder' => '',
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'country-select'
+                    ),
+                    'auto_initialize' => false,
+                ))
+
+            ->add('city', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:City',
+                'mapped' => false,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'city-select'
+                ),
+                'auto_initialize' => false,
+            ))
+
+            ->add('institution', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Institution',
+                'mapped' => false,
+                'label' => ucfirst('institution'),
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'institution-select'
+                ),
+                'auto_initialize' => false,
+            ))
         ;
 
 

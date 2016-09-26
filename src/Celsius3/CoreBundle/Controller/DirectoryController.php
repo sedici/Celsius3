@@ -22,6 +22,13 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\TicketBundle\Entity\Ticket;
+use Celsius3\TicketBundle\Entity\TicketState;
+use Celsius3\TicketBundle\Entity\TypeState;
+
+use Celsius3\TicketBundle\Entity\Priority;
+use Celsius3\TicketBundle\Entity\Category;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
@@ -151,27 +158,44 @@ class DirectoryController extends BaseController
         $request = $this->get('request_stack')->getCurrentRequest();
 
 
-        $instance = new Instance();
-        $options = array();
-        $type = InstanceRegisterType::class;
-        $route = 'superadmin_instance';
-        $name = 'Instance';
-        $form = $this->createForm($type, $instance, $options);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            try {
-                $this->persistEntity($instance);
-                $em->flush($instance);
 
-                $this->addFlash('success', $this->get('translator')->trans('The') . ' ' . $name . ' was successfully created.');
-                return $this->redirect($this->generateUrl($route));
-            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The ' . $name . ' already exists.');
-            }
-        }
+        $texto='';
 
-        $this->addFlash('error', 'There were errors creating the ' . $name . '.');
 
+        $ticket=new Ticket();
+        $ticket->setSubject('Nueva Instancia Cargada');
+        $ticket->setText($texto);
+
+        $em = $this->getDoctrine()->getManager();
+        $priority=$em->getRepository('Celsius3TicketBundle:Priority')->find(Priority::PRIORITY_MEDIA);
+        $ticket->setPriority($priority);
+
+        $category=$em->getRepository('Celsius3TicketBundle:Category')->find(Category::CATEGORY_NEW_INSTANCE);
+
+        $ticket->setCategory($category);
+
+        $this->persistEntity($ticket);
+
+        $em->flush($ticket);
+
+        $ticketState=new TicketState();
+
+        $typeState=$em->getRepository('Celsius3TicketBundle:TypeState')->find(TypeState::TYPE_STATE_NEW);
+
+
+        $ticketState->setTypeState($typeState);
+        $ticketState->setTickets($ticket);
+
+        $this->persistEntity($ticketState);
+
+
+        $ticket->setStatusCurrent($ticketState);
+
+        $em->flush($ticket);
+        $em->flush($ticketState);
+
+
+die;
         return array(
             'entity' => $instance,
             'form' => $form->createView(),
