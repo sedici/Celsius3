@@ -34,6 +34,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class TypeState
 {
 
+    const TYPE_STATE_NEW = 1;
+    const TYPE_STATE_IN_PROGRESS = 2;
+
+
+
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
