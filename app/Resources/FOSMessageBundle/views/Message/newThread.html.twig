@@ -11,6 +11,9 @@
 
                 {{ form_errors(form) }}
                   
+                {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+
+
                 <!-- /.box-header -->
                 <form action="{{ url('fos_message_thread_new') }}" method="post" class="form">
 
