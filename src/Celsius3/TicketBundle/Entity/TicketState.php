@@ -74,10 +74,7 @@ class TicketState
      *
      * @return \Celsius3\TicketBundle\Entity\TypeState
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $createdAt;
 
 
 
@@ -92,7 +89,10 @@ class TicketState
     {
         $this->typeState = $typeState;
 
-        return $this;
+
+
+    public function __construct()
+    {
     }
 
     /**
@@ -100,9 +100,9 @@ class TicketState
      *
      * @return \Celsius3\TicketBundle\Entity\TypeState
      */
-    public function getTypeState()
+    public function getId()
     {
-        return $this->typeState;
+        return $this->id;
     }
 
     /**
