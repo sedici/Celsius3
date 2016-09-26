@@ -8,8 +8,8 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
                 </div>
-                {{ form_errors(form) }}
-                  
+                {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
+
 
                 <!-- /.box-header -->
                 <form action="{{ url('fos_message_thread_new') }}" method="post" class="form">
