@@ -65,7 +65,6 @@ class TicketState
      */
     private $tickets;
 
-
     public function __construct()
     {
     }
@@ -73,83 +72,11 @@ class TicketState
     /**
      * Get id
      *
-     * @return id $id
+     * @return \Celsius3\TicketBundle\Entity\TypeState
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set user
-     *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $user
-     *
-     * @return TicketState
-     */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \Celsius3\CoreBundle\Entity\BaseUser
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set tickets
-     *
-     * @param \Celsius3\TicketBundle\Entity\Ticket $tickets
-     *
-     * @return TicketState
-     */
-    public function setTickets(\Celsius3\TicketBundle\Entity\Ticket $tickets)
-    {
-        $this->tickets = $tickets;
-
-        return $this;
-    }
-
-    /**
-     * Get tickets
-     *
-     * @return \Celsius3\TicketBundle\Entity\Ticket
-     */
-    public function getTickets()
-    {
-        return $this->tickets;
-    }
-
-    /**
-     * Set typeState
-     *
-     * @param \Celsius3\TicketBundle\Entity\TypeState $typeState
-     *
-     * @return TicketState
-     */
-    public function setTypeState(\Celsius3\TicketBundle\Entity\TypeState $typeState = null)
-    {
-        $this->typeState = $typeState;
-
-        return $this;
-    }
-
-    /**
-     * Get typeState
-     *
-     * @return \Celsius3\TicketBundle\Entity\TypeState
-     */
-    public function getTypeState()
-    {
-        return $this->typeState;
     }
 
     /**
@@ -200,4 +127,27 @@ class TicketState
         return $this->updatedAt;
     }
 
+    /**
+     * Set typeState
+     *
+     * @param \Celsius3\TicketBundle\Entity\TypeState $typeState
+     *
+     * @return TicketState
+     */
+    public function setTypeState(\Celsius3\TicketBundle\Entity\TypeState $typeState = null)
+    {
+        $this->typeState = $typeState;
+
+        return $this;
+    }
+
+    /**
+     * Get typeState
+     *
+     * @return \Celsius3\TicketBundle\Entity\TypeState
+     */
+    public function getTypeState()
+    {
+        return $this->typeState;
+    }
 }
