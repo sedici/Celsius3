@@ -221,7 +221,6 @@ class DirectoryController extends BaseController
         $em->flush($ticket);
         $em->flush($ticketState);
 
-
         return array(
             'entity' => $instance,
             'form' => $form->createView(),
