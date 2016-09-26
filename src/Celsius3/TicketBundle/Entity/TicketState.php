@@ -106,51 +106,51 @@ class TicketState
     }
 
     /**
-     * Set user
+     * Set createdAt
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param \DateTime $createdAt
      *
      * @return TicketState
      */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user = null)
+    public function setCreatedAt($createdAt)
     {
-        $this->user = $user;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     /**
-     * Get user
+     * Get createdAt
      *
-     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     * @return \DateTime
      */
-    public function getUser()
+    public function getCreatedAt()
     {
-        return $this->user;
+        return $this->createdAt;
     }
 
     /**
-     * Set tickets
+     * Set updatedAt
      *
-     * @param \Celsius3\TicketBundle\Entity\Ticket $tickets
+     * @param \DateTime $updatedAt
      *
      * @return TicketState
      */
-    public function setTickets(\Celsius3\TicketBundle\Entity\Ticket $tickets)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->tickets = $tickets;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
     /**
-     * Get tickets
+     * Get updatedAt
      *
-     * @return \Celsius3\TicketBundle\Entity\Ticket
+     * @return \DateTime
      */
-    public function getTickets()
+    public function getUpdatedAt()
     {
-        return $this->tickets;
+        return $this->updatedAt;
     }
 
     /**

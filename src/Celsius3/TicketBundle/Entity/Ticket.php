@@ -95,23 +95,6 @@ class Ticket
     protected $priority;
 
     /**
-     * @var \DateTime $createdAt
-     *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime $updatedAt
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime")
-     */
-    private $updatedAt;
-
-
-    /**
      * Get id
      *
      * @return integer
