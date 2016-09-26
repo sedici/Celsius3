@@ -10,7 +10,7 @@
 
  <div class="register-box">
     <div class="register-logo">
-        <h2>{{ 'Instance Creation'|trans }}</h2>
+        <h2>{{ 'Instance Register'|trans }}</h2>
     </div>
     {{ form_start(form, { 'attr': { 'action':path('directory_instance_create'), 'class': 'form-horizontal', 'role': 'form' }}) }}
         <div class="register-box-body">
@@ -33,8 +33,24 @@
                 <span class="glyphicon glyphicon-url form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
+                {{ form_widget(form.country,{attr:{class:'form-control country-select',placeholder: 'Pias'}}) }}
+            </div>
+
+            <div class="form-group has-feedback">
+                {{ form_widget(form.city,{attr:{class:'form-control city-select',placeholder: 'Ciudad'}}) }}
+            </div>
+
+
+            <div class="form-group has-feedback">
+                {{ form_widget(form.institution,{attr:{class:'form-control institution-select',placeholder: 'Institucion'}}) }}
+            </div>
+
+
+            <div class="form-group has-feedback">
                 {{ form_widget(form.observaciones,{attr:{class:'form-control',placeholder: 'Observaciones'}}) }}
             </div>
+
+
             <div class="row">
                 <div class="col-xs-4">
                     <button type="submit" class="btn btn-primary btn-block btn-flat"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
