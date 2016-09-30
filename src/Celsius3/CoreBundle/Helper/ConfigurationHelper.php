@@ -26,7 +26,7 @@ use Celsius3\CoreBundle\Entity\Configuration;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckBoxType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -61,10 +61,11 @@ class ConfigurationHelper
     const CONF__SMTP_USERNAME = 'smtp_username';
     const CONF__SMTP_PASSWORD = 'smtp_password';
     const CONF__DOWNLOAD_TIME = 'download_time';
+    const CONF__SHOW_NEWS = 'show_news';
 
     private $equivalences = array(
         'string' => TextType::class,
-        'boolean' => CheckBoxType::class,
+        'boolean' => CheckboxType::class,
         'integer' => IntegerType::class,
         'email' => EmailType::class,
         'text' => TextareaType::class,
@@ -190,6 +191,12 @@ class ConfigurationHelper
             'name' => 'Download time in hours',
             'value' => '24',
             'type' => 'integer',
+        ),
+        self::CONF__SHOW_NEWS => array(
+            'name' => 'Show news',
+            'value' => true,
+            'type' => 'boolean',
+            'required' => false
         )
     );
     private $container;

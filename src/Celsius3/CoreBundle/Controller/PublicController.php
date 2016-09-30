@@ -52,6 +52,7 @@ class PublicController extends BaseInstanceDependentController
             'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getInstance()),
+            'show_news' => $this->getInstance()->get('show_news')->getValue(),
         );
     }
 
