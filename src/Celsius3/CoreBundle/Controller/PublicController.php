@@ -38,7 +38,7 @@ class PublicController extends BaseInstanceDependentController
 
     protected function getInstance()
     {
-        return $this->get('celsius3_core.instance_helper')->getUrlInstance();
+        return $this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
     }
 
     /**
