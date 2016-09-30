@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- namespace Celsius3\CoreBundle\Validator\Constraints;
+namespace Celsius3\CoreBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -29,6 +29,7 @@ use Sabberworm\CSS\Settings;
 
 class ContainsCSSValidator extends ConstraintValidator
 {
+
     public function validate($value, Constraint $constraint)
     {
         try {
@@ -37,8 +38,9 @@ class ContainsCSSValidator extends ConstraintValidator
                 $parser->parse();
             }
         } catch (\Exception $e) {
-            $this->context->buildViolation($constraint->message)
-                ->addViolation();
+            $this->context->buildViolation($constraint->message . ": " . $e->getMessage())
+                    ->addViolation();
         }
     }
+
 }
