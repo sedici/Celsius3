@@ -123,6 +123,11 @@ doctrine:
                         YEAR: DoctrineExtensions\Query\Mysql\Year
                         IFNULL: DoctrineExtensions\Query\Mysql\IfNull
                         DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
+                    numeric_functions:
+                        ACOS: DoctrineExtensions\Query\Mysql\Acos
+                        COS: DoctrineExtensions\Query\Mysql\Cos
+                        SIN: DoctrineExtensions\Query\Mysql\Sin
+                        RADIANS: DoctrineExtensions\Query\Mysql\Radians
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -429,3 +434,8 @@ monolog:
             path:     '%kernel.logs_dir%/celsius_rest_exception.log'
             channels: [celsius_rest_exception]
             max_files: 5
+
+ivory_google_map:
+    geocoder:
+        # Enable the service
+        enabled: true
