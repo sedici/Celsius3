@@ -20,6 +20,7 @@ class MapManager
 
     public function getCiudades($provincia)
     {
+
     }
 
     /**
@@ -30,10 +31,12 @@ class MapManager
      */
     public function getResultados($ciudad, $orden, $tipo = null)
     {
+
     }
 
     public function search($orden, $nombre = null, $tipo = null)
     {
+
     }
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)
