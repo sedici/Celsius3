@@ -39,7 +39,7 @@ En este documento se detallan los pasos para realizar la instalación de Celsius
       </Directory>
     </VirtualHost>
 
-   7. Añadir la entrada correspondiente al archivo /etc/hosts:
+    7. Añadir la entrada correspondiente al archivo /etc/hosts:
 
     127.0.0.1  directorio.celsius3.com.localhost
     127.0.0.1  instancia1.celsius3.com.localhost
