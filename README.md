@@ -3,7 +3,7 @@ Celsius3
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/82e3ce6b-d4a3-4ed6-a49d-89ea3ec40d0c/big.png)](https://insight.sensiolabs.com/projects/82e3ce6b-d4a3-4ed6-a49d-89ea3ec40d0c)
 
-[Instalacion](instalacion.md)
+[Instalacion](doc/instalacion.md)
 
 [Reporte técnico](http://sedici.unlp.edu.ar/handle/10915/34504)
 
