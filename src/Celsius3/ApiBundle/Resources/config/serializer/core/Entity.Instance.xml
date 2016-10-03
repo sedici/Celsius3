@@ -4,5 +4,6 @@
         <property name="id" type="string" expose="true" read-only="true" groups="administration_order_show"></property>
         <property name="name" type="string" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="abbreviation" type="string" expose="true" access-type="public_method" groups="administration_order_show"></property>
+        <property name="invisible" type="boolean" expose="true" access-type="public_method" groups="administration_order_show"></property>
     </class>
 </serializer>

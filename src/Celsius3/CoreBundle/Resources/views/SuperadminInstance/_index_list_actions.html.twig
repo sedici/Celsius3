@@ -1,25 +1,34 @@
 <ul class="list-unstyled pull-right actions">
     {% if element.isCurrent %}
         <li>
-            <a href="{{ path('superadmin_instance_admin', { 'id': element.id }) }}"><span class="glyphicon glyphicon-th-large"></span> {{ 'Admin'|trans }}</a>
+            <a href="{{ path('superadmin_instance_admin', { 'id': element.id }) }}" data-toggle="tooltip" title="{{ 'Admin'|trans }}"><span class="glyphicon glyphicon-th-large"></span> </a>
         </li>
         <li>
-            <a href="{{ path('superadmin_instance_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
+            <a href="{{ path('superadmin_instance_edit', { 'id': element.id }) }}" data-toggle="tooltip" title="{{ 'Edit'|trans }}"><span class="glyphicon glyphicon-pencil"></span> </a>
         </li>
         <li>
-            <a href="{{ path('superadmin_instance_configure', { 'id': element.id }) }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Configuration'|trans }}</a>
+            <a href="{{ path('superadmin_instance_configure', { 'id': element.id }) }}" data-toggle="tooltip" title="{{ 'Configuration'|trans }}"><span class="glyphicon glyphicon-wrench"></span> </a>
         </li>
     {% else %}
         <li>
-            <a href="{{ path('superadmin_instance_legacy_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
+            <a href="{{ path('superadmin_instance_legacy_edit', { 'id': element.id }) }}" data-toggle="tooltip" title="{{ 'Edit'|trans }}"><span class="glyphicon glyphicon-pencil"></span> </a>
         </li>
     {% endif %}
     <li>
         <a href="{{ path('superadmin_instance_switch', { 'id': element.id }) }}">
             {% if element.enabled %}
-                <span class="glyphicon glyphicon-remove"></span> {{ 'Disable'|trans }}
+                <span class="glyphicon glyphicon-remove" data-toggle="tooltip" title="{{ 'Disable'|trans }}"></span> 
             {% else %}
-                <span class="glyphicon glyphicon-ok"></span> {{ 'Enable'|trans }}
+                <span class="glyphicon glyphicon-ok" data-toggle="tooltip" title="{{ 'Enable'|trans }}"></span> 
+            {% endif %}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('superadmin_instance_invisible', { 'id': element.id }) }}">
+            {% if element.invisible %}
+                <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" title="{{ 'Show'|trans }}"></span> 
+            {% else %}
+                <span class="glyphicon glyphicon-eye-close" data-toggle="tooltip" title="{{ 'Hidden'|trans }}"></span>
             {% endif %}
         </a>
     </li>

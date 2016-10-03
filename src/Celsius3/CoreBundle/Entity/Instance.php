@@ -49,6 +49,11 @@ class Instance extends LegacyInstance
     protected $host;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true, default=false)
+     */
+    protected $invisible;
+
+    /**
      * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="instance")
      */
     protected $users;
@@ -202,6 +207,29 @@ class Instance extends LegacyInstance
     public function getHost()
     {
         return $this->host;
+    }
+
+    /**
+     * Set invisible
+     *
+     * @param  string $invisible
+     * @return self
+     */
+    public function setInvisible($invisible)
+    {
+        $this->invisible = $invisible;
+
+        return $this;
+    }
+
+    /**
+     * Get invisible
+     *
+     * @return string $invisible
+     */
+    public function getInvisible()
+    {
+        return $this->invisible;
     }
 
     /**

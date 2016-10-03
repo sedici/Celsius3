@@ -60,6 +60,8 @@ class DirectoryController extends BaseController
                 ->innerJoin('i.ownerInstitutions', 'o')
                 ->innerJoin('o.country', 'c')
                 ->where('i.enabled = true')
+                ->andWhere('i.invisible = :invisible')
+                ->setParameter('invisible', false)
                 ->getQuery()
                 ->getResult();
 
@@ -67,7 +69,7 @@ class DirectoryController extends BaseController
                 ->getRepository('Celsius3CoreBundle:LegacyInstance')
                 ->createQueryBuilder('li')
                 ->select('o, c, li')
-                ->innerJoin('li.ownerInstitutions','o')
+                ->innerJoin('li.ownerInstitutions', 'o')
                 ->innerJoin('o.country', 'c')
                 ->where('li.enabled = true')
                 ->andWhere('li INSTANCE OF Celsius3CoreBundle:LegacyInstance')
@@ -106,4 +108,5 @@ class DirectoryController extends BaseController
             'directory' => $this->getDirectory()
         );
     }
+
 }
