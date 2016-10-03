@@ -5,7 +5,7 @@ Celsius3
  
 [Instalación](doc/instalacion.md)
 
-[Instalacion](instalacion.md)
+[Instalacion](doc/instalacion.md)
 
 [Reporte técnico](http://sedici.unlp.edu.ar/handle/10915/34504)
 
