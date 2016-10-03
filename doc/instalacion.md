@@ -1,4 +1,3 @@
-
 Guía de Instalación
 
 En este documento se detallan los pasos para realizar la instalación de Celsius3 en un sistema que cuente con la versión de apache2.4 y php5.5 o superior, ya sea porque viene por default en los repositorios (ubuntu 13.10 o mint 16 en adelante), o porque se está utilizando un ppa.
@@ -31,7 +30,7 @@ En este documento se detallan los pasos para realizar la instalación de Celsius
     <VirtualHost 127.0.0.1:80>
       ServerName directorio.celsius3.com.localhost
       ServerAlias instancia1.celsius3.com.localhost
-      DocumentRoot "/home/usuario/php-workspace/Celsius3/web" 
+      DocumentRoot "/home/usuario/php-workspace/Celsius3/web"
       DirectoryIndex app.php
       <Directory "/home/usuario/php-workspace/Celsius3/web">
         Options All
@@ -62,5 +61,3 @@ En este documento se detallan los pasos para realizar la instalación de Celsius
 
    11. Modificar desde alguna herramienta del estilo de phpMyAdmin las instancias de la tabla instance de la base de datos de Celsius3 para que la columna host coincida con los hosts definidos en el virtualhost.
    12. Acceder al sitio desde la url directorio.celsius3.com.localhost/app_dev.php
-
-
