@@ -49,7 +49,7 @@ class Instance extends LegacyInstance
     protected $host;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     protected $invisible = false;
 
