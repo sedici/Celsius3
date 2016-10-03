@@ -39,26 +39,26 @@ En este documento se detallan los pasos para realizar la instalación de Celsius
       </Directory>
     </VirtualHost>
 
-    7. Añadir la entrada correspondiente al archivo /etc/hosts:
+   7. Añadir la entrada correspondiente al archivo /etc/hosts:
 
     127.0.0.1  directorio.celsius3.com.localhost
     127.0.0.1  instancia1.celsius3.com.localhost
 
-    8. Habilitar el sitio, el módulo rewrite y reiniciar apache:
+   8. Habilitar el sitio, el módulo rewrite y reiniciar apache:
 
     sudo a2ensite Celsius3.conf
     sudo a2enmod rewrite
     sudo service apache2 reload
 
-    9. Generar la base de datos y el esquema de la base de datos:
+   9. Generar la base de datos y el esquema de la base de datos:
 
     php app/console doctrine:database:create
     php app/console doctrine:schema:create
 
-    10. Cargar datos de ejemplo en la base de datos (Se debe tener en mysql una base de datos de Celsius2 para extraer paises, ciudades e instituciones, ver parameters.yml):
+   10. Cargar datos de ejemplo en la base de datos (Se debe tener en mysql una base de datos de Celsius2 para extraer paises, ciudades e instituciones, ver parameters.yml):
 
     php app/console doctrine:fixtures:load --append
 
-    11. Modificar desde alguna herramienta del estilo de phpMyAdmin las instancias de la tabla instance de la base de datos de Celsius3 para que la columna host coincida con los hosts definidos en el virtualhost.
-    12. Acceder al sitio desde la url directorio.celsius3.com.localhost/app_dev.php
+   11. Modificar desde alguna herramienta del estilo de phpMyAdmin las instancias de la tabla instance de la base de datos de Celsius3 para que la columna host coincida con los hosts definidos en el virtualhost.
+   12. Acceder al sitio desde la url directorio.celsius3.com.localhost/app_dev.php
 
