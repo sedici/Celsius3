@@ -66,4 +66,5 @@ class InstanceRepository extends BaseRepository
                         ->where('i.url <> :url')
                         ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY);
     }
+
 }
