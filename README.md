@@ -5,6 +5,8 @@ Celsius3
  
 [Instalación](doc/instalacion.md)
 
+[Instalacion](instalacion.md)
+
 [Reporte técnico](http://sedici.unlp.edu.ar/handle/10915/34504)
 
 Celsius es el software utilizado por los miembros de ISTEC que participan de la 
