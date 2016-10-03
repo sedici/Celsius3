@@ -39,6 +39,7 @@ class AppKernel extends Kernel
             new Celsius3\ApiBundle\Celsius3ApiBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Celsius3\TicketBundle\Celsius3TicketBundle(),
+            new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

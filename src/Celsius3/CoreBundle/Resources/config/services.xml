@@ -61,6 +61,7 @@
         <parameter key="celsius3_core.user_manager.class">Celsius3\CoreBundle\Manager\UserManager</parameter>
         <parameter key="celsius3_core.union_manager.class">Celsius3\CoreBundle\Manager\UnionManager</parameter>
         <parameter key="celsius3_core.catalog_manager.class">Celsius3\CoreBundle\Manager\CatalogManager</parameter>
+        <parameter key="celsius3_core.map_manager.class">Celsius3\CoreBundle\Manager\MapManager</parameter>
         <parameter key="celsius3_core.statistic_manager.class">Celsius3\CoreBundle\Manager\StatisticManager</parameter>
         <parameter key="celsius3_core.instance_manager.class">Celsius3\CoreBundle\Manager\InstanceManager</parameter>
         <parameter key="celsius3_core.mail_manager.class">Celsius3\CoreBundle\Manager\MailManager</parameter>
@@ -368,6 +369,10 @@
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="celsius3_core.instance_manager"></argument>
+        </service>
+
+        <service id="celsius3_core.map_manager" class="%celsius3_core.map_manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">
