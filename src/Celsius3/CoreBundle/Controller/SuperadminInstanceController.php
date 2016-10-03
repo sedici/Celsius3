@@ -213,6 +213,36 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
+     * Switches the enabled flag of a Instance entity.
+     *
+     * @Route("/{id}/invisible", name="superadmin_instance_invisible")
+     *
+     * @param string $id The entity ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function invisibleAction($id)
+    {
+        $entity = $this->findQuery('Instance', $id);
+
+        if (!$entity) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.instance');
+        }
+
+        $entity->setInvisible(!$entity->getInvisible());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($entity);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($entity->getInvisible()) ? 'hidden' : 'show'));
+
+        return $this->redirect($this->generateUrl($entity->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
+    }
+
+    /**
      * Displays a form to configure the Directory
      *
      * @Route("/directory/configure", name="superadmin_directory_configure")

@@ -17,10 +17,11 @@ cciWidget.directive('cciWidget', function ($translate, Country, City, Institutio
                 return element;
             }
             var institution = JSON.parse(element.text);
-            if (_.isUndefined(institution.celsius_instance)) {
+            if (_.isUndefined(institution.celsius_instance) || institution.celsius_instance.invisible) {
                 return institution.name;
             } else {
-                return institution.name + ' <span class="glyphicon glyphicon-cloud"></span>';
+
+                return  institution.name + ' <span class="glyphicon glyphicon-cloud"></span>';
             }
         };
 

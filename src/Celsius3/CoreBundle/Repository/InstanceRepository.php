@@ -38,6 +38,9 @@ class InstanceRepository extends EntityRepository
     {
         return $this->createQueryBuilder('i')
                         ->where('i.url <> :url')
-                        ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY);
+                        ->andWhere('i.invisible <> :invisible')
+                        ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY)
+                        ->setParameter('invisible', TRUE);
     }
+
 }
