@@ -48,4 +48,5 @@ class InstanceRepository extends EntityRepository
                         ->where('i.url <> :url')
                         ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY);
     }
+
 }
