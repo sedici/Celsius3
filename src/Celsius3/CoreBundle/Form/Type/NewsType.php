@@ -52,6 +52,9 @@ class NewsType extends AbstractType
                         'class' => 'news-date',
                     ),
                 ))
+            ->add('active', null, array(
+                'required' => false,
+            ))
         ;
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {

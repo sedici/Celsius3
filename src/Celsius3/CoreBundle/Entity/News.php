@@ -205,5 +205,4 @@ class News
     {
         return $this->active;
     }
-
 }
