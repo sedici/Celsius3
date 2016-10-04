@@ -10,7 +10,7 @@
     {% else %}
         {% set columns = 12 %}
     {% endif %}
-
+    <br>
     <div class="row">
         <div id="description" class="col-md-{{columns}}">
             {{ instance.get('instance_description').value|raw }}
