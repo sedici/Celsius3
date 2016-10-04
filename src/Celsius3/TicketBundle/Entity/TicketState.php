@@ -63,7 +63,6 @@ class TicketState
      */
     private $tickets;
 
-
     /**
      * @ORM\Column(type="string")
      */
@@ -90,9 +89,9 @@ class TicketState
         $this->typeState = $typeState;
 
 
-
     public function __construct()
     {
+        
     }
 
     /**
@@ -176,4 +175,5 @@ class TicketState
     {
         return $this->descripcion;
     }
+
 }
