@@ -41,7 +41,6 @@ class TicketState
      */
     private $id;
 
-
     /**
      * @var Baseuser
      *
@@ -58,13 +57,11 @@ class TicketState
      */
     private $typeState;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity="Celsius3\TicketBundle\Entity\Ticket", inversedBy="statusHistoru")
+     * @ORM\ManyToOne(targetEntity="Celsius3\TicketBundle\Entity\Ticket", inversedBy="statusHistory")
      * @ORM\JoinColumn(name="ticket_id", referencedColumnName="id", nullable=false)
      */
     private $tickets;
-
 
     /**
      * @var \DateTime $createdAt
@@ -82,9 +79,9 @@ class TicketState
      */
     private $updatedAt;
 
-
     public function __construct()
     {
+        
     }
 
     /**
@@ -96,10 +93,6 @@ class TicketState
     {
         return $this->id;
     }
-
-  
-
-
 
     /**
      * Set user
@@ -220,4 +213,5 @@ class TicketState
     {
         return $this->updatedAt;
     }
+
 }
