@@ -106,21 +106,21 @@
                             <div class="jumbotron page-header clearfix">
 
                                 <div class="col-xs-12 col-sm-12 instance-info">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3">
-                                                {% if instance.get('instance_logo').value != '' %}
-                                                    <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
-                                                {% else %}
-                                                    <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
-                                                {% endif %}
-                                            </div>
-                                            {% if  not is_granted('ROLE_STATISTICS') %}
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3">
+                                            {% if instance.get('instance_logo').value != '' %}
+                                                <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
+                                            {% else %}
+                                                <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
+                                            {% endif %}
+                                        </div>
+                                        {% if  not is_granted('ROLE_STATISTICS') %}
 
                                             <div class="col-xs-9 col-sm-9">
                                                 <h2 class="instance-title" >{{ instance.get('instance_title').value }}</h2>
                                                 <h3 class="instance-tagline">{% if instance.get('instance_tagline') %}{{ instance.get('instance_tagline').value }}{% endif %}</h3>
                                             </div>
-                                            {% endif %}
+                                        {% endif %}
 
                                         </div>
                                         {% if  not is_granted('ROLE_STATISTICS') %}
