@@ -10,7 +10,8 @@ var institutionApp = angular.module('institutionApp', [
     'ngFileUpload',
     'angular-loading-bar',
     'pascalprecht.translate',
-    'ngclipboard'
+    'ngclipboard',
+    'boxuk.translation'
 ]);
 
 institutionApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',

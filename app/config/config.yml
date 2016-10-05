@@ -238,6 +238,11 @@ services:
     # Usado temporalmente para corregir error de migración a Symfony3
     fos_user.doctrine_registry:
         alias: doctrine
+    
+    twig.text_extension:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - name: twig.extension
         
 jms_aop:
     cache_dir: %kernel.cache_dir%/jms_aop
@@ -246,6 +251,16 @@ jms_i18n_routing:
     default_locale: es
     locales: [es, en, pt]
     strategy: prefix
+    
+jms_translation:
+    configs:
+        app:
+            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
+            output_dir: %kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations
+            ignored_domains: [routes]
+            excluded_names: ["*TestCase.php", "*Test.php"]
+            excluded_dirs: [cache, data, logs]
+            extractors: [jms_i18n_routing]
 
 fos_message:
     db_driver: orm

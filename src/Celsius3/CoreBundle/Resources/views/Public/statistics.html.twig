@@ -15,48 +15,48 @@
             <div class="row">
 
                 <div class="panel panel-default">
-                    <div class="panel-body"><h2>{{ title | translate }} - {{ subtitle | translate }}</h2>
+                    <div class="panel-body"><h2>{{ title | trans }} - {{ subtitle | trans }}</h2>
                     </div>
                 </div>
 
                 <div class="col-md-3" ng-include="'menu.html'"></div>
                 <div class="col-md-9" >
                     <div class="row">
-                        <p>{{ description | translate }}</p>
+                        <p>{{ description | trans }}</p>
                     </div>
                     <div class="row" ng-if="searchProvision">
                         <ul class="nav nav-tabs">
-                            <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|translate}}</a></li>
-                            <li class="{{provisionClass}}"><a href ng-click="setTypeProvision()">{{'provision'|translate}}</a></li>
+                            <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|trans}}</a></li>
+                            <li class="{{provisionClass}}"><a href ng-click="setTypeProvision()">{{'provision'|trans}}</a></li>
                         </ul>
                     </div>
                     <div class="row">
                         <form>
                             <p>
-                                <label for="initialYear">{{'initialYear'|translate}}:</label>
+                                <label for="initialYear">{{'initialYear'|trans}}:</label>
                                 <select id="initialYear" ng-model="rangeYears.initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
-                                <label for="finalYear">{{'finalYear'|translate}}:</label>
+                                <label for="finalYear">{{'finalYear'|trans}}:</label>
                                 <select id="finalYear" name="finalYear" ng-model="rangeYears.finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
                             </p>
                             <p ng-if="locationFields">
-                                <label for="country">{{'country'|translate}}:</label>
+                                <label for="country">{{'country'|trans}}:</label>
                                 <select ng-model="location.country" id="country" ng-change="countryChanged()">
                                     <option></option>
                                     <option ng-repeat="c in allCountries" value="{{c.value}}">{{c.name}}</option>
                                 </select>
 
-                                <label for="institution">{{'institution'|translate}}:</label>
+                                <label for="institution">{{'institution'|trans}}:</label>
                                 <select ng-model="location.institution" id="institution">
                                     <option></option>
                                     <option ng-repeat="i in institutions" value="{{i.value}}">{{i.name}}</option>
                                 </select>
                             </p>
                             <p ng-show="selectDelayType">
-                                <input type="radio" ng-model="delayType" value="totalDelay">{{'totalDelay'|translate}}
-                                <input type="radio" ng-model="delayType" value="locationDelay">{{'locationDelay'|translate}}
-                                <input type="radio" ng-model="delayType" value="responseDelay">{{'responseDelay'|translate}}
+                                <input type="radio" ng-model="delayType" value="totalDelay">{{'totalDelay'|trans}}
+                                <input type="radio" ng-model="delayType" value="locationDelay">{{'locationDelay'|trans}}
+                                <input type="radio" ng-model="delayType" value="responseDelay">{{'responseDelay'|trans}}
                             </p>
-                            <button id="updateChart" ng-click="updateChart()">{{'update'|translate}}</button>
+                            <button id="updateChart" ng-click="updateChart()">{{'update'|trans}}</button>
                         </form>
                     </div>
                     <div id="chart" class="row"></div>
@@ -70,7 +70,7 @@
                 <div class="panel-heading">
                 <h4 class="panel-title">
                 <a href data-target="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                {{ 'ordersAmounts'| translate }}
+                {{ 'ordersAmounts'| trans }}
                 </a>
                 </h4>
                 </div>
@@ -79,12 +79,12 @@
                 <ul class="list-unstyled">
                 <li role="presentation">
                 <a href ng-click="getRequestsCountData()">
-                {{'requestsCount'|translate}}
+                {{'requestsCount'|trans}}
                 </a>
                 </li>
                 <li role="presentation">
                 <a href ng-click="getRequestsDestinyDistributionData()">
-                {{'requestsDestinyDistribution'|translate}}
+                {{'requestsDestinyDistribution'|trans}}
                 </a>
                 </li>
                 </ul>
@@ -93,7 +93,7 @@
                 <div class="panel-heading">
                 <h4 class="panel-title">
                 <a href data-target="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                {{ 'requestsDelay'|translate }}
+                {{ 'requestsDelay'|trans }}
                 </a>
                 </h4>
                 </div>
@@ -102,7 +102,7 @@
                 <ul class="list-unstyled">
                 <li role="presentation">
                 <a href ng-click="getRequestsTotalDelayData()">
-                {{'serviceEfficiency'|translate}}
+                {{'serviceEfficiency'|trans}}
                 </a>
                 </li>
                 </ul>
@@ -111,7 +111,7 @@
                 <div class="panel-heading">
                 <h4 class="panel-title">
                 <a href data-target="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                {{ 'usersStatistics'|translate }}
+                {{ 'usersStatistics'|trans }}
                 </a>
                 </h4>
                 </div>
@@ -120,12 +120,12 @@
                 <ul class="list-unstyled">
                 <li role="presentation">
                 <a href ng-click="getUsersCountData()">
-                {{'usersCount'|translate}}
+                {{'usersCount'|trans}}
                 </a>
                 </li>
                 <li role="presentation">
                 <a href ng-click="getRequestsOriginData()">
-                {{'requestsOrigin'|translate}}
+                {{'requestsOrigin'|trans}}
                 </a>
                 </li>
                 </ul>
@@ -134,7 +134,7 @@
                 <div class="panel-heading">
                 <h4 class="panel-title">
                 <a href data-target="#collapseFour" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                {{ 'bibliograficMaterial'|translate }}
+                {{ 'bibliograficMaterial'|trans }}
                 </a>
                 </h4>
                 </div>
@@ -143,7 +143,7 @@
                 <ul class="list-unstyled">
                 <li role="presentation">
                 <a href ng-click="getRequestsNumberByPublicationYearData()">
-                {{'requestsPublicationYear'|translate}}
+                {{'requestsPublicationYear'|trans}}
                 </a>
                 </li>
                 </ul>
@@ -157,8 +157,8 @@
                 <table class="table table-striped">
                 <thead>
                 <tr>
-                <td><b>{{ firstColumnTitle | translate }}</b></td>
-                <td ng-repeat="v in data.columns"><b>{{ v[0] | translate }}</b></td>
+                <td><b>{{ firstColumnTitle | trans }}</b></td>
+                <td ng-repeat="v in data.columns"><b>{{ v[0] | trans }}</b></td>
                 </tr>
                 </thead>
                 <tbody>
@@ -169,7 +169,7 @@
                 </tbody>
                 <tfoot ng-if="showTotal">
                 <tr>
-                <td>{{ 'total' | translate }}</td>
+                <td>{{ 'total' | trans }}</td>
                 <td ng-repeat="v in data.columns">{{ v | totalize_column }}</td>
                 </tr>
                 </tfoot>
@@ -177,15 +177,15 @@
                 </div>
             </script>
             <script type="text/ng-template" id="sidebar.html">
-        <form>
-            <label for="initialYear">Initial year: </label>
-            <select id="initialYear" ng-model="rangeYears.initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
+                <form>
+                <label for="initialYear">Initial year: </label>
+                <select id="initialYear" ng-model="rangeYears.initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
 
-            <label for="finalYear">Final year: </label>
-            <select id="finalYear" ng-model="rangeYears.finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+                <label for="finalYear">Final year: </label>
+                <select id="finalYear" ng-model="rangeYears.finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
 
-            <button ng-click="updateUsersCountChart()">Show</button>
-        </form>
+                <button ng-click="updateUsersCountChart()">Show</button>
+                </form>
             </script>
         {% endverbatim %}
     </div>

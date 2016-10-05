@@ -51,7 +51,9 @@
         "sabberworm/php-css-parser": "8.0.*",
         "egeloen/google-map-bundle": "~2.2@dev",
         "willdurand/geocoder": "2.8.1",
-        "excelwebzone/recaptcha-bundle": "^1.4"        
+        "excelwebzone/recaptcha-bundle": "^1.4",        
+        "willdurand/js-translation-bundle": "^2.6",
+        "jms/di-extra-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

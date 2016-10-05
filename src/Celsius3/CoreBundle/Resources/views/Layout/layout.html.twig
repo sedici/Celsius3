@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ app.request.locale|split('_')[0] }}"> <!--<![endif]-->
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -106,23 +106,23 @@
                             <div class="jumbotron page-header clearfix">
 
                                 <div class="col-xs-12 col-sm-12 instance-info">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3">
-                                                {% if instance.get('instance_logo').value != '' %}
-                                                    <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
-                                                {% else %}
-                                                    <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
-                                                {% endif %}
-                                            </div>
-                                            {% if  not is_granted('ROLE_STATISTICS') %}
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3">
+                                            {% if instance.get('instance_logo').value != '' %}
+                                                <img src="/uploads/logos/{{ instance.get('instance_logo').value }}" alt="Instance logo" class="instance-logo" />
+                                            {% else %}
+                                                <img src="{{ asset('bundles/celsius3core/images/celsius200x100.png') }}" alt="Instance logo" class="instance-logo" />
+                                            {% endif %}
+                                        </div>
+                                        {% if  not is_granted('ROLE_STATISTICS') %}
 
                                             <div class="col-xs-9 col-sm-9">
                                                 <h2 class="instance-title" >{{ instance.get('instance_title').value }}</h2>
                                                 <h3 class="instance-tagline">{% if instance.get('instance_tagline') %}{{ instance.get('instance_tagline').value }}{% endif %}</h3>
                                             </div>
-                                            {% endif %}
+                                        {% endif %}
 
-                                        </div>
+                                    </div>
 
 
                                     <div class="row" style="margin-top: 10px; margin-bottom: -22px; margin-left: -20px; margin-right: -20px;">
@@ -229,6 +229,11 @@
     {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
     {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}
     {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
+
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js') }}"></script>
+    <script src="{{ asset('bundles/celsius3core/components/angular-symfony-translation/dist/angular-symfony-translation.js') }}"></script>
+
 {% endblock %}
 </body>
 </html>

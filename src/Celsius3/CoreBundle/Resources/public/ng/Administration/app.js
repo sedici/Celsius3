@@ -6,7 +6,8 @@ var administrationApp = angular.module('administrationApp', [
     'administrationFilters',
     'angular-loading-bar',
     'pascalprecht.translate',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'boxuk.translation'
 ]);
 
 administrationApp.config(['$routeProvider', '$translateProvider',

@@ -32,10 +32,10 @@
                 <div class="clearfix row">
                 <ul class="nav nav-pills pull-left" id="pedidos">
                 <li role="presentation" ng-class="isActiveType('all')">
-                <a href="#/all/{{state}}/{{orderType}}">{{'orders'|translate}}</a>
+                <a href="#/all/{{state}}/{{orderType}}">{{'orders'|trans}}</a>
                 </li>
                 <li role="presentation" ng-class="isActiveType('mine')">
-                <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|translate}}</a>
+                <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|trans}}</a>
                 </li>
                 <li>
                 <select ng-options="admin as fullAdminName(admin) for admin in admins track by admin.id" class="form-control operators-select" ng-model="selectedAdmin.selected" ng-change="adminSelectChange(selectedAdmin.selected)"></select>
@@ -43,13 +43,13 @@
                 </ul>
                 <ul class="nav nav-pills pull-right" id="filtrado">
                 <li role="presentation" ng-class="isActiveOrderType('allTypes')">
-                <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|translate}}</a>
+                <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|trans}}</a>
                 </li>
                 <li role="presentation" ng-class="isActiveOrderType('provision')">
-                <a href="#/{{type}}/{{state}}/provision">{{'provision'|translate}}</a>
+                <a href="#/{{type}}/{{state}}/provision">{{'provision'|trans}}</a>
                 </li>
                 <li role="presentation" ng-class="isActiveOrderType('search')">
-                <a href="#/{{type}}/{{state}}/search">{{'search'|translate}}</a>
+                <a href="#/{{type}}/{{state}}/search">{{'search'|trans}}</a>
                 </li>
                 </ul>
                 </div>
@@ -62,12 +62,12 @@
                 </div>
                 <div class="col-md-11">
                 <div class="btn-group btn-group-justified" role="group">
-                <a class="lead btn btn-default" ng-class="isActive('created')" href="#/{{type}}/created/{{orderType}}"><span class="numero">{{orderCount.created}}</span><span class="texto">{{'created'|translate}}</span></a>
-                <a class="lead btn btn-default" ng-class="isActive('searched')" href="#/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched + orderCount.taken}}</span><span class="texto">{{'beingSearched'|translate}}</span></a>
-                <a class="lead btn btn-default" ng-class="isActive('requested')" href="#/{{type}}/requested/{{orderType}}"><span class="numero">{{orderCount.requested}}</span><span class="texto">{{'requested'|translate}}</span></a>
-                <a class="lead btn btn-default" ng-class="isActive('approval_pending')" href="#/{{type}}/approval_pending/{{orderType}}"><span class="numero">{{orderCount.approval_pending}}</span><span class="texto">{{'approvalPending'|translate}}</span></a>
-                <a class="lead btn btn-default" ng-class="isActive('received')" href="#/{{type}}/received/{{orderType}}"><span class="numero">{{orderCount.received}}</span><span class="texto">{{'received'|translate}}</span></a>
-                <a class="lead btn btn-default" ng-class="isActive('finished')" href="#/{{type}}/finished/{{orderType}}"><span class="numero">{{ orderCount.delivered + orderCount.cancelled + orderCount.annulled}}</span><span class="texto">{{'finished'|translate}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('created')" href="#/{{type}}/created/{{orderType}}"><span class="numero">{{orderCount.created}}</span><span class="texto">{{'created'|trans}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('searched')" href="#/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched + orderCount.taken}}</span><span class="texto">{{'beingSearched'|trans}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('requested')" href="#/{{type}}/requested/{{orderType}}"><span class="numero">{{orderCount.requested}}</span><span class="texto">{{'requested'|trans}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('approval_pending')" href="#/{{type}}/approval_pending/{{orderType}}"><span class="numero">{{orderCount.approval_pending}}</span><span class="texto">{{'approvalPending'|trans}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('received')" href="#/{{type}}/received/{{orderType}}"><span class="numero">{{orderCount.received}}</span><span class="texto">{{'received'|trans}}</span></a>
+                <a class="lead btn btn-default" ng-class="isActive('finished')" href="#/{{type}}/finished/{{orderType}}"><span class="numero">{{ orderCount.delivered + orderCount.cancelled + orderCount.annulled}}</span><span class="texto">{{'finished'|trans}}</span></a>
                 </div>
                 </div>
                 </div>
@@ -82,10 +82,10 @@
 
                 <div class="sorting-group pull-right">
                 <span>
-                {{'Sort by'|translate}}:
-                <a href ng-click="sort('o.createdAt')">{{'date'|translate}}</a> -
-                <a href ng-click="sort('o.code')">{{'code'|translate}}</a> -
-                <a href ng-click="sort('m.title')">{{'title'|translate}}</a>
+                {{'Sort by'|trans}}:
+                <a href ng-click="sort('o.createdAt')">{{'date'|trans}}</a> -
+                <a href ng-click="sort('o.code')">{{'code'|trans}}</a> -
+                <a href ng-click="sort('m.title')">{{'title'|trans}}</a>
                 </span>
                 </div>
                 <div class="clearfix"></div>
@@ -94,12 +94,12 @@
                 <div class="item_container" ng-repeat="order in orders">
                 <div class="top_info">
                 <div class="top_left">
-                <div ng-class="order.request.type | request_type">{{order.request.type| request_type_abbr | translate}}</div>
-                <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
+                <div ng-class="order.request.type | request_type">{{order.request.type| request_type_abbr | trans}}</div>
+                <div class="tipoarticulo">{{order.material_data.type | trans}}</div>
                 </div>
 
                 <div class="top_right">
-                <div class="status-{{order.request.current_state}}" data-toggle="tooltip" title="{{order.request.current_state | translate}}"></div>
+                <div class="status-{{order.request.current_state}}" data-toggle="tooltip" title="{{order.request.current_state | trans}}"></div>
                 <div class="uri">{{order.code}}</div>
                 <div class="usuario">
                 {{order.request.operator ? order.request.operator.name : '-'}}
@@ -123,7 +123,7 @@
                 </div>
                 <div class="titulo" ng-if="order.material_data.type !== 'book'">
                 <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
-                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | trans}} ] - </span>
                 </div>
                 <div class="titulo" ng-if="order.material_data.type === 'book'">
                 <span>{{ order.material_data.chapter }}</span>
@@ -135,10 +135,10 @@
                 <div ng-if="order.request.owner.pdf === true" class="doc_type_pdf"></div>
                 <div ng-if="order.request.owner.pdf !== true" class="doc_type_print"></div>
                 <div class="busquedas">
-                {{'searches'|translate}}: {{countSearches(order.request)}}
+                {{'searches'|trans}}: {{countSearches(order.request)}}
                 </div>
                 <div ng-repeat="event in order.request.events" ng-if="event.type === 'cancel' && event.cancelled_by_user">
-                {{ 'cancelledByUser' | translate }}
+                {{ 'cancelledByUser' | trans }}
                 </div>
                 </div>
                 </div>
@@ -151,14 +151,14 @@
                 <div class="order-actions">
                 <ul class="list-unstyled actions">
                 <li ng-if="searchPending(order.request)">
-                <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | translate }}"/>
+                <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | trans }}"/>
                 </li>
                 <li>
-                <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | trans }}"><span class="glyphicon glyphicon-pencil"></span></a>
                 </li>
                 <li>
                 <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
-                <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | translate }}"><span class="fa fa-files-o"></span></a>
+                <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span class="fa fa-files-o"></span></a>
                 </form>
                 </li>
                 </ul>
@@ -166,7 +166,7 @@
 
                 <div class="clearfix"></div>
                 <div class="requests" ng-if="hasRequests(order.request.events)">
-                <h5>{{ 'Requests' | translate }}</h5>
+                <h5>{{ 'Requests' | trans }}</h5>
                 <p ng-repeat="event in order.request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
                 <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
                 <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
@@ -178,7 +178,7 @@
                 </div>
 
                 <div class="col-md-12" ng-if="orders.length === 0">
-                <p>{{'noMatchingOrders' | translate}}</p>
+                <p>{{'noMatchingOrders' | trans}}</p>
                 </div>
             {% endverbatim %}
         </script>
@@ -195,10 +195,10 @@
                 num-pages="numPages"
                 ng-model="pagination.currentPage"
                 ng-change="pageChanged()"
-                previous-text="{{ 'Previous'|translate }}"
-                next-text="{{ 'Next'|translate }}"
-                first-text="{{ 'First'|translate }}"
-                last-text="{{ 'Last'|translate }}">
+                previous-text="{{ 'Previous'|trans }}"
+                next-text="{{ 'Next'|trans }}"
+                first-text="{{ 'First'|trans }}"
+                last-text="{{ 'Last'|trans }}">
                 </pagination>
                 </div>
             {% endverbatim %}
@@ -207,7 +207,7 @@
         <!-- users.html -->
         <script type="text/ng-template" id="users.html?{{ assets_version('administration') }}">
             {% verbatim %}
-                <h2>{{'pendingUsersTitle'|translate}}</h2>
+                <h2>{{'pendingUsersTitle'|trans}}</h2>
                 <ul class="list-group" ng-if="users.length > 0">
                 <li class="list-group-item user-item" ng-repeat="user in users">
                 <div class="pull-left user-data">
@@ -215,17 +215,17 @@
                 </div>
                 <div class="pull-right">
                 <ul class="list-unstyled list-inline">
-                <li data-toggle="tooltip" title=" {{ 'enable' | translate }}"><a href ng-click="enableUser(user.id)"><span class="glyphicon glyphicon-ok"></span></a></li>
-                <li data-toggle="tooltip" title=" {{ 'view' | translate }}"><a href ng-click="showUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
-                <li data-toggle="tooltip" title=" {{ 'edit' | translate }}"><a ng-href="{{ {path: 'admin_user_edit', params: { 'id': user.id } } | get_url }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
-                <li data-toggle="tooltip" title=" {{ 'reject' | translate }}"><a href ng-click="rejectUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span></a></li>
+                <li data-toggle="tooltip" title=" {{ 'enable' | trans }}"><a href ng-click="enableUser(user.id)"><span class="glyphicon glyphicon-ok"></span></a></li>
+                <li data-toggle="tooltip" title=" {{ 'view' | trans }}"><a href ng-click="showUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                <li data-toggle="tooltip" title=" {{ 'edit' | trans }}"><a ng-href="{{ {path: 'admin_user_edit', params: { 'id': user.id } } | get_url }}"><span class="glyphicon glyphicon-pencil"></span></a></li>
+                <li data-toggle="tooltip" title=" {{ 'reject' | trans }}"><a href ng-click="rejectUserModal(user.id)" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-remove"></span></a></li>
                 </ul>
                 </div>
                 <div class="clearfix"></div>
                 </li>
                 </ul>
                 <p ng-if="users.length === 0">
-                {{'noPendingUsers'|translate}}
+                {{'noPendingUsers'|trans}}
                 </p>
 
                 <div id="reject-user-modal" class="modal fade">
@@ -233,15 +233,15 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 id="search-modal-label" class="modal-title">{{'rejectUser'| translate}}</h4>
+                <h4 id="search-modal-label" class="modal-title">{{'rejectUser'| trans}}</h4>
                 </div>
                 <div class="modal-body">
                 <p>{{ currentUser.surname + ', ' + currentUser.name }}</p>
-                <p>{{ 'rejectUserQuestion'|translate }}</p>
+                <p>{{ 'rejectUserQuestion'|trans }}</p>
                 </div>
                 <div class="modal-footer">
-                <a class="btn btn-primary" href ng-click="rejectUser(currentUser.id)"><span class="glyphicon glyphicon-remove"></span> {{'reject'|translate}}</a>
-                <button class="btn btn-default" data-dismiss="modal">{{'close'| translate}}</button>
+                <a class="btn btn-primary" href ng-click="rejectUser(currentUser.id)"><span class="glyphicon glyphicon-remove"></span> {{'reject'|trans}}</a>
+                <button class="btn btn-default" data-dismiss="modal">{{'close'| trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -252,23 +252,23 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 id="search-modal-label" class="modal-title">{{'userDetails'| translate}}</h4>
+                <h4 id="search-modal-label" class="modal-title">{{'userDetails'| trans}}</h4>
                 </div>
                 <div class="modal-body">
                 <dl class="dl-horizontal">
-                <dt>{{'username'|translate}}</dt>
+                <dt>{{'username'|trans}}</dt>
                 <dd>{{currentUser.username}}</dd>
-                <dt>{{'country'|translate}}</dt>
+                <dt>{{'country'|trans}}</dt>
                 <dd>{{currentUser.country?currentUser.country.name:'-'}}</dd>
-                <dt>{{'city'|translate}}</dt>
+                <dt>{{'city'|trans}}</dt>
                 <dd>{{currentUser.city?currentUser.city.name:'-'}}</dd>
-                <dt>{{'institution'|translate}}</dt>
+                <dt>{{'institution'|trans}}</dt>
                 <dd>{{currentUser.institution?currentUser.institution.name:'-'}}</dd>
-                <dt>{{'birthdate'|translate}}</dt>
+                <dt>{{'birthdate'|trans}}</dt>
                 <dd>{{currentUser.birthdate|date:'mediumDate'}}</dd>
-                <dt>{{'address'|translate}}</dt>
+                <dt>{{'address'|trans}}</dt>
                 <dd>{{currentUser.address?currentUser.address:'-' }}</dd>
-                <dt>{{'email'|translate}}</dt>
+                <dt>{{'email'|trans}}</dt>
                 <dd>
                 {{currentUser.email}}
                 <a href class="emailModal" data-email="{{currentUser.email}}"><span class="glyphicon glyphicon-envelope"></span></a>
@@ -278,9 +278,9 @@
                 </dl>
                 </div>
                 <div class="modal-footer">
-                <a class="btn btn-primary" href ng-click="enableUser(currentUser.id)"><span class="glyphicon glyphicon-ok"></span> {{'enable'|translate}}</a>
-                <a ng-href="{{ {path: 'admin_user_edit', params: { 'id': currentUser.id } } | get_url }}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> {{'edit'|translate}}</a>
-                <button class="btn btn-default" data-dismiss="modal">{{'close'| translate}}</button>
+                <a class="btn btn-primary" href ng-click="enableUser(currentUser.id)"><span class="glyphicon glyphicon-ok"></span> {{'enable'|trans}}</a>
+                <a ng-href="{{ {path: 'admin_user_edit', params: { 'id': currentUser.id } } | get_url }}" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> {{'edit'|trans}}</a>
+                <button class="btn btn-default" data-dismiss="modal">{{'close'| trans}}</button>
                 </div>
                 </div>
                 </div>

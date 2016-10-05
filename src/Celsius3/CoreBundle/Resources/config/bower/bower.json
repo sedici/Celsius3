@@ -35,6 +35,7 @@
         "bootstrap-switch": "~3.3",
         "remarkable-bootstrap-notify": "master",
         "ngclipboard": "master",
-        "angular-summernote": "~0.8"
+        "angular-summernote": "~0.8",
+        "angular-symfony-translation": "1.0.1"
     }
 }

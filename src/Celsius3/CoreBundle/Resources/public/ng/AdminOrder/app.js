@@ -13,7 +13,8 @@ var orderApp = angular.module('orderApp', [
     'angular-loading-bar',
     'pascalprecht.translate',
     'ngclipboard',
-    'summernote'
+    'summernote',
+    'boxuk.translation'
 ]);
 
 orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',

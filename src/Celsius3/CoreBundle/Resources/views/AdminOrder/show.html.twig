@@ -14,40 +14,40 @@
         <script type="text/ng-template" id="catalog_search_details.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
                 <div class="list-group">
-                <a data-toggle="tooltip" title="{{ 'View order' | translate }}" class="list-group-item" ng-repeat="search in previousSearches(content)" ng-href="{{ {path: 'admin_order_show', params: {'id': search.request.order.id} }|get_url }}">
-                <span class="badge" ng-class="(search.result === 'found') ? 'badge-success' : 'badge-warning'">{{ search.result | translate | first_upper }}</span>
+                <a data-toggle="tooltip" title="{{ 'View order' | trans }}" class="list-group-item" ng-repeat="search in previousSearches(content)" ng-href="{{ {path: 'admin_order_show', params: {'id': search.request.order.id} }|get_url }}">
+                <span class="badge" ng-class="(search.result === 'found') ? 'badge-success' : 'badge-warning'">{{ search.result | trans | first_upper }}</span>
                 <p class="list-group-item-text">{{ search.created_at | date }}</p>
                 <p class="list-group-item-text">
                 <span ng-switch on="order.material_data.volume">
                 <strong ng-switch-when="search.request.order.material_data.volume">
-                {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
+                {{ 'volume' | trans }}: {{ search.request.order.material_data.volume }}
                 </strong>
                 <span ng-switch-default>
-                {{ 'volume' | translate }}: {{ search.request.order.material_data.volume }}
+                {{ 'volume' | trans }}: {{ search.request.order.material_data.volume }}
                 </span>
                 </span> |
                 <span ng-switch on="order.material_data.year">
                 <strong ng-switch-when="search.request.order.material_data.year">
-                {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
+                {{ 'year' | trans }}: {{ search.request.order.material_data.year }}
                 </strong>
                 <span ng-switch-default>
-                {{ 'year' | translate }}: {{ search.request.order.material_data.year }}
+                {{ 'year' | trans }}: {{ search.request.order.material_data.year }}
                 </span>
                 </span> |
                 <span ng-switch on="order.material_data.start_page">
                 <strong ng-switch-when="search.request.order.material_data.start_page">
-                {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
+                {{ 'startPage' | trans }}: {{ search.request.order.material_data.start_page }}
                 </strong>
                 <span ng-switch-default>
-                {{ 'startPage' | translate }}: {{ search.request.order.material_data.start_page }}
+                {{ 'startPage' | trans }}: {{ search.request.order.material_data.start_page }}
                 </span>
                 </span> |
                 <span ng-switch on="order.material_data.end_page">
                 <strong ng-switch-when="search.request.order.material_data.end_page">
-                {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
+                {{ 'endPage' | trans }}: {{ search.request.order.material_data.end_page }}
                 </strong>
                 <span ng-switch-default>
-                {{ 'endPage' | translate }}: {{ search.request.order.material_data.end_page }}
+                {{ 'endPage' | trans }}: {{ search.request.order.material_data.end_page }}
                 </span>
                 </span>
                 </p>
@@ -59,20 +59,20 @@
         <!-- catalog_list.html -->
         <script type="text/ng-template" id="catalog_list.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
-                <label for="search">{{'search' | translate}}:</label>
+                <label for="search">{{'search' | trans}}:</label>
                 <input type="text" name="search" id="search" ng-change="searchCatalog(catalogSearch)" ng-model="catalogSearch" />
                 <button class="btn btn-sm btn-default pull-right"  data-auto-close="1" data-placement="left" bs-popover data-content-template="show_material_data.html?{{assets_version}}"  data-container="body">
-                {{ 'orderData' | translate }}
+                {{ 'orderData' | trans }}
                 </button>
                 <hr>
                 <div id="catalogs-table">
                 <table class="table table-hover catalog-table">
                 <thead>
                 <tr>
-                <th>{{'catalog' | translate}}</th>
-                <th>{{'date' | translate}}</th>
-                <th>{{'result' | translate}}</th>
-                <th>{{'actions' | translate}}</th>
+                <th>{{'catalog' | trans}}</th>
+                <th>{{'date' | trans}}</th>
+                <th>{{'result' | trans}}</th>
+                <th>{{'actions' | trans}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -89,10 +89,10 @@
                 </select>
                 </td>
                 <td class="catalog-actions">
-                <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="{{ 'request' | translate }}">
+                <a href ng-if="catalog.institution && catalog.search" ng-click="requestFromCatalog(catalog)" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="{{ 'request' | trans }}">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 </a>
-                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|translate}}" bs-popover data-content-template="catalog_search_details.html?{{assets_version}}" data-content="{{catalog.id}}" data-container="body" data-placement="left" data-toggle="tooltip">
+                <button ng-if="hasPreviousSearches(catalog)" type="button" class="btn btn-success" data-auto-close="1" title="{{'previousSearches'|trans}}" bs-popover data-content-template="catalog_search_details.html?{{assets_version}}" data-content="{{catalog.id}}" data-container="body" data-placement="left" data-toggle="tooltip">
                 <span class="glyphicon glyphicon-search"></span>
                 </button>
                 </td>
@@ -107,19 +107,19 @@
                 <table class="table table-hover catalog-table">
                 <thead>
                 <tr>
-                <th>{{'name' | translate}}</th>
-                <th>{{'pages' | translate}}</th>
-                <th>{{'state' | translate}}</th>
-                <th>{{'actions' | translate}}</th>
+                <th>{{'name' | trans}}</th>
+                <th>{{'pages' | trans}}</th>
+                <th>{{'state' | trans}}</th>
+                <th>{{'actions' | trans}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="file in files.list">
                 <td><a ng-href="{{getFileDownloadRoute(file)}}">{{file.name}}</a></td>
                 <td>{{file.pages}}</td>
-                <td>{{file | state | translate}}</td>
+                <td>{{file | state | trans}}</td>
                 <td>
-                <a ng-if="isLocalFile(file)" href ng-click="changeFileState(file)" class="btn">{{'changeState' | translate}}</a>
+                <a ng-if="isLocalFile(file)" href ng-click="changeFileState(file)" class="btn">{{'changeState' | trans}}</a>
                 </td>
                 </tr>
                 </tbody>
@@ -132,11 +132,11 @@
             {% verbatim %}
                 <form class="form-horizontal" id="cancelForm" name="formNames.cancel" novalidate ng-submit="cancelRequest()">
                 <div class="form-group" ng-class="cancelerror">
-                <label for="observations">{{'observations' | translate}}</label>
+                <label for="observations">{{'observations' | trans}}</label>
                 <textarea class="form-control" ng-model="forms.cancel.observations" name="observations" id="observations" required></textarea>
                 <label for="cancelledByUser">
                 <input type="checkbox" ng-model="forms.cancel.cancelled_by_user" name="cancelled_by_user">
-                {{ 'cancelledByUser' | translate }}
+                {{ 'cancelledByUser' | trans }}
                 </label>
                 </div>
                 </form>
@@ -148,31 +148,31 @@
             {% verbatim %}
                 <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
                 <div class="form-group" ng-if="contacts !== null">
-                <label for="contact">{{'contact' | translate}}</label>
+                <label for="contact">{{'contact' | trans}}</label>
                 <select ui-select2="select2Contacts" ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
                 <option></option>
                 <option ng-repeat="c in contacts" value="{{c.id}}">{{c.surname + ', ' + c.name}} ({{c.type.name}})</option>
                 </select>
                 </div>
                 <div class="form-group" ng-class="emailerror">
-                <label for="address">{{'address' | translate}}</label>
+                <label for="address">{{'address' | trans}}</label>
                 <input type="email" class="form-control" ng-model="forms.email.address" name="address" id="address" required />
                 </div>
                 <div class="form-group" ng-if="templates.length > 1">
-                <label for="template">{{'template' | translate}}</label>
+                <label for="template">{{'template' | trans}}</label>
                 <select id="email_template_select" ui-select2="select2Templates" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
                 <option></option>
                 <option ng-repeat="t in templates" value="{{t.id}}">{{t.title}}</option>
                 </select>
                 </div>
                 <div class="form-group" ng-class="subjecterror">
-                <label for="subject">{{'subject' | translate}}</label>
+                <label for="subject">{{'subject' | trans}}</label>
                 <input type="text" class="form-control" ng-model="forms.email.subject" name="subject" id="subject" required />
                 </div>
                 <div class="form-group" ng-class="texterror">
-                <label for="text">{{'text' | translate }}</label>
-                <summernote height="200" id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required >
-                </summernote>
+                <label for="text">{{'text' | trans }}</label>
+                <textarea id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required >
+                </textarea>
                 <input type="hidden" name="order_id" id="order_id" ng-model="order.id"/>
                 </div>
                 </form>
@@ -185,15 +185,15 @@
                 <form class="form-horizontal" id="messageForm" name="formNames.message" ng-submit="sendMessage()">
 
                 <div class="form-group" ng-class="recipientserror">
-                <label for="username">{{'username' | translate}}:{{forms.message.recipients}}</label>
+                <label for="username">{{'username' | trans}}:{{forms.message.recipients}}</label>
 
                 </div>
                 <div class="form-group" ng-class="subjecterror">
-                <label for="subject">{{'subject' | translate}}</label>
+                <label for="subject">{{'subject' | trans}}</label>
                 <input type="text" class="form-control" ng-model="forms.message.subject" name="message[subject]" id="message_subject" required />
                 </div>
                 <div class="form-group" ng-class="bodyerror">
-                <label for="text">{{'text' | translate }}</label>
+                <label for="text">{{'text' | trans }}</label>
                 <textarea class="form-control" name="message[body]" id="message_body" ng-model="forms.message.body" required >
                 </textarea>
                 <input type="hidden" name="message[recipients]" id="message_recipients" ng-model="forms.message.recipients"/>
@@ -208,20 +208,20 @@
             {% verbatim %}
                 <form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate >
                 <div class="form-group" ng-class="delivery_type_error">
-                <label for="delivery_type">{{'deliveryType' | translate}}</label>
+                <label for="delivery_type">{{'deliveryType' | trans}}</label>
                 <select ui-select2 ng-model="forms.receive.delivery_type" name="delivery_type" id="delivery_type" required>
                 <option value=""></option>
-                <option value="PDF">{{'pdf' | translate}}</option>
-                <option value="Printed">{{'printed' | translate}}</option>
+                <option value="PDF">{{'pdf' | trans}}</option>
+                <option value="Printed">{{'printed' | trans}}</option>
                 </select>
                 </div>
                 <div class="form-group">
-                <label for="observations">{{'observations' | translate}}</label>
+                <label for="observations">{{'observations' | trans}}</label>
                 <textarea class="form-control" ng-model="forms.receive.observations" name="observations" id="observations"></textarea>
                 </div>
                 <div class="form-group" ng-class="files_error">
-                <label for="files">{{'files' | translate}}</label>
-                <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
+                <label for="files">{{'files' | trans}}</label>
+                <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | trans }}</button>
                 <ul>
                 <li ng-repeat="(key, file) in filesToUpload">{{ file.name }} <a href ng-click="removeFiles(filesToUpload, 'filesToUpload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
                 </ul>
@@ -235,7 +235,7 @@
             {% verbatim %}
                 <form class="form-horizontal" id="reclaimForm" name="formNames.reclaim" novalidate ng-submit="reclaimRequest()">
                 <div class="form-group" ng-class="reclaimerror">
-                <label for="observations">{{'observations' | translate}}</label>
+                <label for="observations">{{'observations' | trans}}</label>
                 <textarea class="form-control" ng-model="forms.reclaim.observations" name="observations" id="observations" required></textarea>
                 </div>
                 </form>
@@ -247,25 +247,25 @@
             {% verbatim %}
                 <form class="form-horizontal" id="requestForm" name="formNames.request" ng-submit="submitRequest()">
                 <div class="form-group">
-                <label for="observations">{{'observations' | translate}}</label>
+                <label for="observations">{{'observations' | trans}}</label>
                 <textarea class=" form-control" ng-model="forms.request.observations" name="observations" id="observations"></textarea>
                 </div>
                 <div class="form-group">
-                <label>{{'provider' | translate}}</label>
+                <label>{{'provider' | trans}}</label>
                 <div class="filter-select" id="filter">
                 <input type="radio" ng-model="forms.request.provider" value="institution" name="provider" id="provider_institution" />
-                <label for="provider_institution">{{'institution' | translate}}</label>
+                <label for="provider_institution">{{'institution' | trans}}</label>
                 <input type="radio" ng-model="forms.request.provider" value="web" name="provider" id="provider_web" />
-                <label for="provider_web">{{'web' | translate}}</label>
+                <label for="provider_web">{{'web' | trans}}</label>
                 <input type="radio" ng-model="forms.request.provider" value="author" name="provider" id="provider_author" />
-                <label for="provider_author">{{'author' | translate}}</label>
+                <label for="provider_author">{{'author' | trans}}</label>
                 </div>
                 </div>
                 <cci-widget ng-show="forms.request.provider === 'institution'">
 
                 </cci-widget>
                 <div class="form-group" ng-show="forms.request.provider === 'institution'">
-                <button type="button" ng-click="addInstitutionModal('request-modal')" class="btn btn-default pull-right">{{ 'addInstitution' | translate }}</button>
+                <button type="button" ng-click="addInstitutionModal('request-modal')" class="btn btn-default pull-right">{{ 'addInstitution' | trans }}</button>
                 </div>
                 </form>
             {% endverbatim %}
@@ -276,19 +276,19 @@
             {% verbatim %}
                 <form id="institutionForm" name="formNames.institution" ng-submit="submitInstitution()">
                 <div class="form-group">
-                <label for="name">{{ 'name' | translate }}</label>
+                <label for="name">{{ 'name' | trans }}</label>
                 <input type="text" ng-model="forms.institution.name" name="institution[name]" id="institution_name" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
+                <label for="abbreviation">{{ 'abbreviation' | trans }}</label>
                 <input type="text" ng-model="forms.institution.abbreviation" name="institution[abbreviation]" id="institution_abbreviation" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="website">{{ 'website' | translate }}</label>
+                <label for="website">{{ 'website' | trans }}</label>
                 <input type="text" ng-model="forms.institution.website" name="institution[wbsite]" id="institution_website" placeholder="http://" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="address">{{ 'address' | translate }}</label>
+                <label for="address">{{ 'address' | trans }}</label>
                 <input type="text" ng-model="forms.institution.address" name="institution[address]" id="institution_address" class="form-control" />
                 </div>
                 <cci-widget id="institution-select">
@@ -303,27 +303,27 @@
             {% verbatim %}
                 <form id="journalForm" name="formNames.journal" ng-submit="submitJournal()">
                 <div class="form-group">
-                <label for="name">{{ 'name' | translate }}</label>
+                <label for="name">{{ 'name' | trans }}</label>
                 <input type="text" ng-model="forms.journal.name" name="journal[name]" id="journal_name" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="abbreviation">{{ 'abbreviation' | translate }}</label>
+                <label for="abbreviation">{{ 'abbreviation' | trans }}</label>
                 <input type="text" ng-model="forms.journal.abbreviation" name="journal[abbreviation]" id="journal_abbreviation" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="responsible">{{ 'responsible' | translate }}</label>
+                <label for="responsible">{{ 'responsible' | trans }}</label>
                 <input type="text" ng-model="forms.journal.responsible" name="journal[responsible]" id="journal_responsible" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="issn">{{ 'issn' | translate }}</label>
+                <label for="issn">{{ 'issn' | trans }}</label>
                 <input type="text" ng-model="forms.journal.issn" name="journal[issn]" id="journal_issn" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="issne">{{ 'issne' | translate }}</label>
+                <label for="issne">{{ 'issne' | trans }}</label>
                 <input type="text" ng-model="forms.journal.issne" name="journal[issne]" id="journal_issne" class="form-control" />
                 </div>
                 <div class="form-group">
-                <label for="frecuency">{{ 'frecuency' | translate }}</label>
+                <label for="frecuency">{{ 'frecuency' | trans }}</label>
                 <input type="text" ng-model="forms.journal.frecuency" name="journal[frecuency]" id="journal_frecuency" class="form-control" />
                 </div>
                 </form>
@@ -335,8 +335,8 @@
             {% verbatim %}
                 <form class="form-horizontal" id="reuploadForm">
                 <div class="form-group">
-                <label for="files">{{'files' | translate}}</label>
-                <button ngf-select="" ngf-change="addFilesToReupload($files)" ngf-multiple="true" id="files" name="files">{{ 'addFiles' | translate }}</button>
+                <label for="files">{{'files' | trans}}</label>
+                <button ngf-select="" ngf-change="addFilesToReupload($files)" ngf-multiple="true" id="files" name="files">{{ 'addFiles' | trans }}</button>
                 <ul>
                 <li ng-repeat="(key, file) in filesToReupload">{{ file.name }} <a href ng-click="removeFiles(filesToReupload, 'filesToReupload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
                 </ul>
@@ -349,20 +349,20 @@
         <script type="text/ng-template" id="order_upload_form.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
                 <div class="alert alert-success" ng-if="request.current_state === 'received'">
-                {{'filesSuccessUpload' | translate}}
+                {{'filesSuccessUpload' | trans}}
                 </div>
                 <div class="alert alert-danger" ng-if="request.current_state === 'taken' && receptions.length > 0">
-                {{'requestReclaimed' | translate}}
+                {{'requestReclaimed' | trans}}
                 <ul>
                 <li ng-repeat="reclaim in getReclaim(receptions[0])">{{reclaim.created_at | date:'shortDate'}} - {{reclaim.observations}}</li>
                 </ul>
                 </div>
                 <form class="form-horizontal" id="uploadForm" ng-if="request.current_state !== 'delivered'">
                 <div class="form-group">
-                <label for="files">{{'files' | translate}}</label>
+                <label for="files">{{'files' | trans}}</label>
                 <div class="input-group">
-                <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | translate }}</button>
-                <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | translate}}</button>
+                <button class="btn btn-default" ngf-select ngf-change="addFilesToUploadBasic($files)" ngf-multiple="true">{{ 'addFiles' | trans }}</button>
+                <button class="btn btn-success" ng-click="submitUpload()">{{'upload' | trans}}</button>
                 </div>
                 <br />
                 <div>
@@ -373,7 +373,7 @@
                 </div>
                 </form>
                 <div class="alert alert-success" ng-if="request.current_state === 'delivered'">
-                {{'requestSatisfied' | translate}}
+                {{'requestSatisfied' | trans}}
                 </div>
             {% endverbatim %}
         </script>
@@ -497,10 +497,10 @@
                 <div class="col-md-9" ng-if="request.type === 'provision' && request.current_state === 'created' && !advanced && searches.length === 0 && !_.isUndefined(request.previous_request)">
                 <div class="row">
                 <div class="col-md-12">
-                <p>{{'provisionModeText' | translate}}</p>
+                <p>{{'provisionModeText' | trans}}</p>
                 <p>
-                <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
-                <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
+                <button class="btn btn-success" ng-click="basicMode()">{{'basic' | trans}}</button>
+                <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | trans}}</button>
 
                 </p>
                 </div>
@@ -516,7 +516,7 @@
 
                 <div class="col-md-9" ng-if="request.type === 'search' || advanced || searches.length > 0 || _.isUndefined(request.previous_request)">
                 <div class="alert alert-danger" ng-if="reclaims.length > 0 && (reclaimedRequests().length > 0 || reclaimedReceptions().length > 0)">
-                {{'requestReclaimed' | translate}}
+                {{'requestReclaimed' | trans}}
                 <ul>
                 <li ng-repeat="request in reclaimedRequests()">{{getReclaim(request).created_at | date:'shortDate'}} - {{getReclaim(request).observations}}</li>
                 <li ng-repeat="reception in reclaimedReceptions()">{{getReclaim(reception).created_at | date:'shortDate'}} - {{getReclaim(reception).observations}}</li>
@@ -545,39 +545,39 @@
                 <ul class="list-unstyled">
                 <li>
                 <a ng-href="{{ {path: 'administration'}|get_url}}">
-                <span class="glyphicon glyphicon-home"></span> {{'goToList' | translate}}
+                <span class="glyphicon glyphicon-home"></span> {{'goToList' | trans}}
                 </a>
                 </li>
                 <li>
                 <a ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}">
-                <span class="glyphicon glyphicon-pencil"></span> {{'edit' | translate}}
+                <span class="glyphicon glyphicon-pencil"></span> {{'edit' | trans}}
                 </a>
                 </li>
                 <li>
                 <a href ng-click="changeOperatorModal(order.id)">
-                <span class="glyphicon glyphicon-wrench"></span> {{ 'change_operator' | translate}}
+                <span class="glyphicon glyphicon-wrench"></span> {{ 'change_operator' | trans}}
                 </a>
                 </li>
                 <li>
-                <a href ng-click="emailModal(request.owner.email)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | translate}}</a>
+                <a href ng-click="emailModal(request.owner.email)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMail' | trans}}</a>
                 </li>
                 <li>
-                <!-- <a href ng-click="messageModal(request.owner.username)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMessage' | translate}}</a>
+                <!-- <a href ng-click="messageModal(request.owner.username)"><span class="glyphicon glyphicon-envelope"></span> {{'sendMessage' | trans}}</a>
                 </li> -->
                 <li ng-if="contains(['received'], request.current_state)">
-                <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'deliver' | translate}}</a>
+                <a href ng-click="deliver()"><span class="glyphicon glyphicon-download"></span> {{'deliver' | trans}}</a>
                 </li>
                 <li ng-if="contains(['created', 'searched'], request.current_state)">
-                <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'annul' | translate}}</a>
+                <a href ng-click="annul()"><span class="glyphicon glyphicon-ban-circle"></span> {{'annul' | trans}}</a>
                 </li>
                 <li ng-if="contains(['searched', 'requested', 'approval_pending'], request.current_state)">
-                <a href data-target="#cancel-order-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> {{'cancel' | translate}}</a>
+                <a href data-target="#cancel-order-modal" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> {{'cancel' | trans}}</a>
                 </li>
                 <li ng-if="request.current_state !== 'created'">
-                <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'backToPreviousState' | translate}}</a>
+                <a href ng-click="undo()"><span class="glyphicon glyphicon-arrow-left"></span> {{'backToPreviousState' | trans}}</a>
                 </li>
                 <li ng-if="request.current_state === 'delivered' && request.owner.pdf === true && !request.has_downloadable_files">
-                <a href ng-click="reenableDownload(request)"><span class="glyphicon glyphicon-download"></span> {{'reenableDownload' | translate}}</a>
+                <a href ng-click="reenableDownload(request)"><span class="glyphicon glyphicon-download"></span> {{'reenableDownload' | trans}}</a>
                 </li>
                 </ul>
 
@@ -587,7 +587,7 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="operator-modal-label">{{'change_operator' | translate}}</h3>
+                <h3 id="operator-modal-label">{{'change_operator' | trans}}</h3>
                 </div>
                 <div >
                 <table class='table table-bordered' width='70%'>
@@ -595,7 +595,7 @@
                 <td width="30%" >{{a.surname}} - {{a.name}}</td>
                 <td width="40%">
                 <button class="btn btn-primary" ng-click="selectAdmin(order_id,a.id)" >
-                {{'Asignar' | translate}}</button>
+                {{'Asignar' | trans}}</button>
 
 
                 </td>
@@ -603,7 +603,7 @@
                 </table>
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
 
                 </div>
                 </div>
@@ -645,10 +645,10 @@
                 <table class="table table-condensed">
                 <tbody>
                 <tr>
-                <td class="success text-center">{{ 'requested' | translate }}: {{ interaction.institutionInteraction.data.created }}</td>
-                <td class="text-center">{{ 'delivered' | translate }}: {{ interaction.institutionInteraction.data.delivered }}</td>
-                <td class="text-center">{{ 'annulled' | translate }}: {{ interaction.institutionInteraction.data.annulled }}</td>
-                <td class="text-center">{{ 'cancelled' | translate }}: {{ interaction.institutionInteraction.data.cancelled }}</td>
+                <td class="success text-center">{{ 'requested' | trans }}: {{ interaction.institutionInteraction.data.created }}</td>
+                <td class="text-center">{{ 'delivered' | trans }}: {{ interaction.institutionInteraction.data.delivered }}</td>
+                <td class="text-center">{{ 'annulled' | trans }}: {{ interaction.institutionInteraction.data.annulled }}</td>
+                <td class="text-center">{{ 'cancelled' | trans }}: {{ interaction.institutionInteraction.data.cancelled }}</td>
                 </tr>
                 </tbody>
                 </table>
@@ -663,10 +663,10 @@
                 <table class="table table-condensed">
                 <tbody>
                 <tr>
-                <td class="success text-center">{{ 'requested' | translate }}: {{ interaction.instanceInteraction.data.created }}</td>
-                <td class="text-center">{{ 'delivered' | translate }}: {{ interaction.instanceInteraction.data.delivered }}</td>
-                <td class="text-center">{{ 'annulled' | translate }}: {{ interaction.instanceInteraction.data.annulled }}</td>
-                <td class="text-center">{{ 'cancelled' | translate }}: {{ interaction.instanceInteraction.data.cancelled }}</td>
+                <td class="success text-center">{{ 'requested' | trans }}: {{ interaction.instanceInteraction.data.created }}</td>
+                <td class="text-center">{{ 'delivered' | trans }}: {{ interaction.instanceInteraction.data.delivered }}</td>
+                <td class="text-center">{{ 'annulled' | trans }}: {{ interaction.instanceInteraction.data.annulled }}</td>
+                <td class="text-center">{{ 'cancelled' | trans }}: {{ interaction.instanceInteraction.data.cancelled }}</td>
                 </tr>
                 </tbody>
                 </table>
@@ -682,54 +682,54 @@
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis" ng-if="order.material_data.type === 'journal'">
                 <span ng-if="!_.isUndefined(order.material_data.journal)">
-                <strong>{{'journal' | translate}}</strong>
+                <strong>{{'journal' | trans}}</strong>
                 <a ng-href="{{ {path: 'admin_journal_show', params: {'id':order.material_data.journal.id} }|get_url}}">
                 {{order.material_data.journal.name}}
                 </a>
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.journal.name}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.journal.name}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </span>
                 <span ng-if="_.isUndefined(order.material_data.journal)">
-                <strong>{{'journal' | translate}}</strong>
+                <strong>{{'journal' | trans}}</strong>
                 {{order.material_data.other}}
-                <button class="btn btn-default btn-xs action-button float2" type="button" role="button" data-toggle="modal" data-placement="bottom" data-target="#journal-modal" title="{{ 'add' | translate }}">
+                <button class="btn btn-default btn-xs action-button float2" type="button" role="button" data-toggle="modal" data-placement="bottom" data-target="#journal-modal" title="{{ 'add' | trans }}">
                 <span class="glyphicon glyphicon-plus"></span>
                 </button>
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.other}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </span>
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
-                <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | translate}}</strong> {{order.material_data.journal._i_s_s_n}}
+                <strong ng-if="!_.isUndefined(order.material_data.journal)">{{'ISSN' | trans}}</strong> {{order.material_data.journal._i_s_s_n}}
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
-                <strong>{{'volume' | translate}}</strong> {{order.material_data.volume}}
+                <strong>{{'volume' | trans}}</strong> {{order.material_data.volume}}
                 </li>
                 <li ng-if="order.material_data.type === 'journal'">
-                <strong>{{'number' | translate}}</strong> {{order.material_data.number}}
+                <strong>{{'number' | trans}}</strong> {{order.material_data.number}}
                 </li>
                 <li>
-                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                <strong>{{'year' | trans}}</strong> {{order.material_data.year}}
                 </li>
                 <li class="text-with-ellipsis">
-                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <strong>{{'title' | trans}}</strong> {{order.material_data.title}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li class="text-with-ellipsis">
-                <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <strong>{{'authors' | trans}}</strong> {{order.material_data.authors}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li>
-                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                <strong>{{'startPage' | trans}}</strong> {{order.material_data.start_page}}
                 </li>
                 <li>
-                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                <strong>{{'endPage' | trans}}</strong> {{order.material_data.end_page}}
                 </li>
                 </ul>
             {% endverbatim %}
@@ -740,37 +740,37 @@
             {% verbatim %}
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis">
-                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <strong>{{'title' | trans}}</strong> {{order.material_data.title}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li class="text-with-ellipsis">
-                <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <strong>{{'authors' | trans}}</strong> {{order.material_data.authors}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
-                <strong>{{'editor' | translate}}</strong> {{order.material_data.editor}}
+                <strong>{{'editor' | trans}}</strong> {{order.material_data.editor}}
                 </li>
                 <li>
-                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                <strong>{{'year' | trans}}</strong> {{order.material_data.year}}
                 </li>
                 <li ng-if="order.material_data.type === 'book' && !order.material_data.with_index">
-                <strong>{{'chapter' | translate}}</strong> {{order.material_data.chapter}}
+                <strong>{{'chapter' | trans}}</strong> {{order.material_data.chapter}}
                 </li>
                 <li ng-if="order.material_data.type === 'book' && order.material_data.with_index">
-                <strong>{{'userRequestsIndex' | translate}}</strong>
+                <strong>{{'userRequestsIndex' | trans}}</strong>
                 </li>
                 <li>
-                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                <strong>{{'startPage' | trans}}</strong> {{order.material_data.start_page}}
                 </li>
                 <li>
-                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                <strong>{{'endPage' | trans}}</strong> {{order.material_data.end_page}}
                 </li>
                 <li ng-if="order.material_data.type === 'book'">
-                <strong>{{'isbn' | translate}}</strong> {{order.material_data._i_s_b_n}}
+                <strong>{{'isbn' | trans}}</strong> {{order.material_data._i_s_b_n}}
                 </li>
                 </ul>
             {% endverbatim %}
@@ -781,37 +781,37 @@
             {% verbatim %}
                 <ul class="list-unstyled">
                 <li class="text-with-ellipsis">
-                <strong>{{'title' | translate}}</strong> {{order.material_data.title}}
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <strong>{{'title' | trans}}</strong> {{order.material_data.title}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.title}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li class="text-with-ellipsis">
-                <strong>{{'authors' | translate}}</strong> {{order.material_data.authors}}
-                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | translate }}">
+                <strong>{{'authors' | trans}}</strong> {{order.material_data.authors}}
+                <button class="btn btn-default btn-xs action-button" ngclipboard data-clipboard-text="{{order.material_data.authors}}" data-toggle="tooltip" data-placement="bottom" title="{{ 'copy' | trans }}">
                 <span class="glyphicon glyphicon-copy"></span>
                 </button>
                 </li>
                 <li>
-                <strong>{{'year' | translate}}</strong> {{order.material_data.year}}
+                <strong>{{'year' | trans}}</strong> {{order.material_data.year}}
                 </li>
                 <li>
-                <strong>{{'startPage' | translate}}</strong> {{order.material_data.start_page}}
+                <strong>{{'startPage' | trans}}</strong> {{order.material_data.start_page}}
                 </li>
                 <li>
-                <strong>{{'endPage' | translate}}</strong> {{order.material_data.end_page}}
+                <strong>{{'endPage' | trans}}</strong> {{order.material_data.end_page}}
                 </li>
                 <li ng-if="order.material_data.type === 'congress'">
-                <strong>{{'place' | translate}}</strong> {{order.material_data.place}}
+                <strong>{{'place' | trans}}</strong> {{order.material_data.place}}
                 </li>
                 <li ng-if="order.material_data.type === 'congress'">
-                <strong>{{'communication' | translate}}</strong> {{order.material_data.communication}}
+                <strong>{{'communication' | trans}}</strong> {{order.material_data.communication}}
                 </li>
                 <li ng-if="order.material_data.type === 'thesis'">
-                <strong>{{'director' | translate}}</strong> {{order.material_data.director}}
+                <strong>{{'director' | trans}}</strong> {{order.material_data.director}}
                 </li>
                 <li ng-if="order.material_data.type === 'thesis'">
-                <strong>{{'degree' | translate}}</strong> {{order.material_data.degree}}
+                <strong>{{'degree' | trans}}</strong> {{order.material_data.degree}}
                 </li>
                 </ul>
             {% endverbatim %}
@@ -820,7 +820,7 @@
         <!-- show_material_data.html -->
         <script type="text/ng-template" id="show_material_data.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
-                <h4>{{'itemInformation' | translate}}</h4>
+                <h4>{{'itemInformation' | trans}}</h4>
                 <div ng-if="order.material_data.type === 'journal'">
                 <div ng-include="'journal_data.html?' + assets_version"></div>
                 </div>
@@ -838,31 +838,31 @@
             {% verbatim %}
                 <div class="explorar_catalogos" ng-if="contains(['searched', 'requested', 'approval_pending', 'received'], request.current_state) && countSearches() > 0">
                 <button type="button" class="btn btn-success btn-block" data-target="#request-modal" role="button" data-toggle="modal">
-                <span class="glyphicon glyphicon-plus"></span> {{'addRequest' | translate}}
+                <span class="glyphicon glyphicon-plus"></span> {{'addRequest' | trans}}
                 </button>
                 </div>
 
                 <div class="explorar_catalogos" ng-if="contains(['created'], request.current_state)">
                 <button bs-tooltip="requestTooltip" type="button" class="btn btn-default btn-block">
-                <span class="glyphicon glyphicon-plus"></span> {{'addRequest' | translate}}
+                <span class="glyphicon glyphicon-plus"></span> {{'addRequest' | trans}}
                 </button>
                 </div>
 
                 <div class="explorar_catalogos">
                 <button type="button" class="btn btn-link btn-block" data-target="#search-modal" role="button" data-toggle="modal" id="catalogs_link">
-                {{'exploreCatalogs' | translate}}
+                {{'exploreCatalogs' | trans}}
                 </button>
                 </div>
 
                 <div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && !currentState(request).search_pending">
                 <button type="button" class="btn btn-default btn-block" role="button" ng-click="pendingSearch()">
-                {{'continueSearch' | translate}}
+                {{'continueSearch' | trans}}
                 </button>
                 </div>
 
                 <div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && currentState(request).search_pending">
                 <button type="button" class="btn btn-default btn-block" role="button" ng-click="noPendingSearch()">
-                {{'noContinueSearch' | translate}}
+                {{'noContinueSearch' | trans}}
                 </button>
                 </div>
 
@@ -871,13 +871,13 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 id="search-modal-label" class="modal-title">{{'searchCatalogs' | translate}}</h4>
+                <h4 id="search-modal-label" class="modal-title">{{'searchCatalogs' | trans}}</h4>
                 </div>
                 <div class="modal-body" ng-include="'catalog_list.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal">{{'close' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal">{{'close' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -888,14 +888,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="request-modal-label">{{'request' | translate}}</h3>
+                <h3 id="request-modal-label">{{'request' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_request_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateRequest()" value="#requestForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="validateRequest()" value="#requestForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -906,14 +906,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="institution-modal-label">{{'institution' | translate}}</h3>
+                <h3 id="institution-modal-label">{{'institution' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'institution_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="submitInstitution()" value="#institutionForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="submitInstitution()" value="#institutionForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -924,14 +924,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
+                <h3 id="journal-modal-label">{{'journal' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'journal_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -943,14 +943,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="journal-modal-label">{{'journal' | translate}}</h3>
+                <h3 id="journal-modal-label">{{'journal' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'journal_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="submitJournal()" value="#journalForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -961,14 +961,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="email-modal-label">{{'email' | translate}}</h3>
+                <h3 id="email-modal-label">{{'email' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_email_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateEmail()" value="#emailForm">{{'send' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="validateEmail()" value="#emailForm">{{'send' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -979,15 +979,15 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="message-modal-label">{{'message' | translate}}</h3>
+                <h3 id="message-modal-label">{{'message' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_message_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateMessage()" value="#messageForm">{{'send' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="validateMessage()" value="#messageForm">{{'send' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -1004,7 +1004,7 @@
                 <thead>
                 <tr>
                 <th colspan="3">
-                <strong style="color:#157C34">{{'found' | translate}}</strong>
+                <strong style="color:#157C34">{{'found' | trans}}</strong>
                 </th>
                 </tr>
                 </thead>
@@ -1029,7 +1029,7 @@
                 <thead>
                 <tr>
                 <th colspan="3">
-                <strong style="color:#157C34">{{'partiallyFound' | translate}}</strong>
+                <strong style="color:#157C34">{{'partiallyFound' | trans}}</strong>
                 </th>
                 </tr>
                 </thead>
@@ -1054,7 +1054,7 @@
                 <thead>
                 <tr>
                 <th colspan="3">
-                <strong style="color:#E41D19">{{'notFound' | translate}}</strong>
+                <strong style="color:#E41D19">{{'notFound' | trans}}</strong>
                 </th>
                 </tr>
                 </thead>
@@ -1087,12 +1087,12 @@
                 </div>
 
                 <div class="panelsecundario row">
-                <h1>{{'searches' | translate}}: {{countSearches()}}</h1>
+                <h1>{{'searches' | trans}}: {{countSearches()}}</h1>
                 <div ng-include="'show_order_catalog_results.html?' + assets_version" ng-if="countSearches() > 0">
 
                 </div>
                 <div ng-if="countSearches() === 0">
-                <p>{{'noSearches' | translate}}</p>
+                <p>{{'noSearches' | trans}}</p>
                 </div>
                 </div>
                 </div>
@@ -1104,12 +1104,12 @@
             {% verbatim %}
                 <div class="top_info">
                 <div class="top_left">
-                <div ng-class="request.type | request_type">{{request.type | request_type_abbr | translate}}</div>
-                <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
+                <div ng-class="request.type | request_type">{{request.type | request_type_abbr | trans}}</div>
+                <div class="tipoarticulo">{{order.material_data.type | trans}}</div>
                 </div>
 
                 <div class="top_right">
-                <div class="status-{{request.current_state}}" data-toggle="tooltip" title="{{request.current_state | translate}}"></div>
+                <div class="status-{{request.current_state}}" data-toggle="tooltip" title="{{request.current_state | trans}}"></div>
                 <div class="uri">{{order.code}}</div>
                 <div class="usuario">
                 {{request.operator ? request.operator.name : '-'}}
@@ -1146,7 +1146,7 @@
                 </div>
                 </div>
                 <div class="comments" ng-if="request.comments">
-                <h5>{{'comments'|translate}}</h5>
+                <h5>{{'comments'|trans}}</h5>
                 <p>{{request.comments}}</p>
                 </div>
             {% endverbatim %}
@@ -1155,18 +1155,18 @@
         <!-- show_order_history.html -->
         <script type="text/ng-template" id="show_order_history.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
-                <h3>{{ 'history' | translate }}</h3>
+                <h3>{{ 'history' | trans }}</h3>
                 <div ng-if="!groupedEvents">
-                <p>{{ 'noEvents' | translate }}</p>
+                <p>{{ 'noEvents' | trans }}</p>
                 </div>
                 <div ng-if="!_.isEmpty(groupedEvents)" ng-repeat="(key, value) in groupedEvents">
                 <h2>{{key}}</h2>
                 <div ng-repeat="event in value" ng-if="event.type !== 'creation'">
                 <span>{{event.created_at|date:'shortDate'}}</span>
-                <div class="iconhistorial-{{event.type|get_history_icon}}" data-toggle="tooltip" title="{{ event.type | get_state | translate | first_upper }}"></div>
+                <div class="iconhistorial-{{event.type|get_history_icon}}" data-toggle="tooltip" title="{{ event.type | get_state | trans | first_upper }}"></div>
                 <span>
-                {{'by' | translate}} {{event.operator.name}}
-                <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | translate }}</span>
+                {{'by' | trans}} {{event.operator.name}}
+                <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | trans }}</span>
                 </span>
                 </div>
                 </div>
@@ -1176,9 +1176,9 @@
         <!-- show_order_request_summary.html -->
         <script type="text/ng-template" id="show_order_request_summary.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
-                <h1>{{'requests' | translate}}</h1>
+                <h1>{{'requests' | trans}}</h1>
                 <div class="no-requests" ng-if="requests.length === 0">
-                {{'noRequests' | translate}}
+                {{'noRequests' | trans}}
                 </div>
                 <div ng-if="requests.length > 0">
                 <div ng-repeat="request in requests" class="item1 col-md-12">
@@ -1186,8 +1186,8 @@
                 <div class="cat_datos">
                 <div class="cat_estrella"></div>
                 <div class="cat_titulo" ng-if="request.provider.type == 'institution'">{{ printInstitutions(request.provider) }}</div>
-                <div class="" ng-if="request.provider.type == 'author'">{{ 'providedByTheAuthor' | translate }}</div>
-                <div class="cat_titulo" ng-if="request.provider.type == 'web'">{{ 'foundOnTheWeb' | translate }}</div>
+                <div class="" ng-if="request.provider.type == 'author'">{{ 'providedByTheAuthor' | trans }}</div>
+                <div class="cat_titulo" ng-if="request.provider.type == 'web'">{{ 'foundOnTheWeb' | trans }}</div>
                 <div class="cat_fecha"></div>
                 </div>
                 </div>
@@ -1208,14 +1208,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="request-modal-label">{{'receive' | translate}}: {{order.code}}</h3>
+                <h3 id="request-modal-label">{{'receive' | trans}}: {{order.code}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_receive_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="submitReceive()" value="#receiveForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="submitReceive()" value="#receiveForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -1226,14 +1226,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="reupload-modal-label">{{'uploadAgain' | translate}}</h3>
+                <h3 id="reupload-modal-label">{{'uploadAgain' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_reupload_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="submitReupload()" value="#reuploadForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="submitReupload()" value="#reuploadForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -1244,14 +1244,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="cancel-modal-label">{{'cancel' | translate}}</h3>
+                <h3 id="cancel-modal-label">{{'cancel' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_cancel_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateCancel()" value="#cancelForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="validateCancel()" value="#cancelForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -1262,14 +1262,14 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="reclaim-modal-label">{{'reclaim' | translate}}</h3>
+                <h3 id="reclaim-modal-label">{{'reclaim' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'order_reclaim_form.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
-                <button class="btn btn-primary" ng-click="validateReclaim()" value="#cancelForm">{{'save' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
+                <button class="btn btn-primary" ng-click="validateReclaim()" value="#cancelForm">{{'save' | trans}}</button>
                 </div>
                 </div>
                 </div>
@@ -1280,13 +1280,13 @@
                 <div class="modal-content">
                 <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 id="files-modal-label">{{'uploadedFiles' | translate}}</h3>
+                <h3 id="files-modal-label">{{'uploadedFiles' | trans}}</h3>
                 </div>
                 <div class="modal-body" ng-include="'file_list.html?' + assets_version">
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | trans}}</button>
                 </div>
                 </div>
                 </div>

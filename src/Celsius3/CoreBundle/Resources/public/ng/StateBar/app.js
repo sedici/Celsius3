@@ -1,5 +1,6 @@
 var stateBar = angular.module('stateBar', [
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'boxuk.translation'
 ]);
 
 stateBar.config(['$translateProvider',
