@@ -33,6 +33,7 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Celsius3\ApiBundle\Entity\Client;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
+
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
  * @ORM\Table(name="user", indexes={
@@ -168,16 +169,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *      inverseJoinColumns={@ORM\JoinColumn(name="institution_id", referencedColumnName="id")}
      *      )
      */
-
-
     protected $librarianInstitution;
-
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $observaciones;
-
 
     /**
      * @Recaptcha\IsTrue
@@ -217,7 +214,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->clientApplications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->notifications = new \Doctrine\Common\Collections\ArrayCollection();
         $this->librarianInstitution = new \Doctrine\Common\Collections\ArrayCollection();
-
     }
 
     /**
@@ -774,7 +770,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->notifications;
     }
 
-
     /**
      * Add librarianInstitution
      *
@@ -832,4 +827,5 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->observaciones;
     }
+
 }
