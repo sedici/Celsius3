@@ -6,7 +6,8 @@ var statisticsApp = angular.module('statisticsApp', [
     'statisticsFilters',
     'angular-loading-bar',
     'pascalprecht.translate',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'boxuk.translation'
 ]);
 
 statisticsApp.config(['$routeProvider', '$translateProvider',

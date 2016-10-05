@@ -34,6 +34,7 @@
         "ng-file-upload": "~6.0",
         "bootstrap-switch": "~3.3",
         "remarkable-bootstrap-notify": "master",
-        "ngclipboard": "master"
+        "ngclipboard": "master",
+        "angular-symfony-translation": "1.0.1"
     }
 }

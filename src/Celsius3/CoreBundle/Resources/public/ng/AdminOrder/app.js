@@ -12,7 +12,8 @@ var orderApp = angular.module('orderApp', [
     'ngFileUpload',
     'angular-loading-bar',
     'pascalprecht.translate',
-    'ngclipboard'
+    'ngclipboard',
+    'boxuk.translation'
 ]);
 
 orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',

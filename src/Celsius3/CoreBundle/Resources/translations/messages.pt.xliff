@@ -2234,6 +2234,721 @@
                 <source>Variables available</source>
                 <target>Variables available</target>
             </trans-unit>
+            <trans-unit id="130">
+                <source>comments</source>
+                <target>Comments</target>
+            </trans-unit>
+            <trans-unit id="requestTooltipTitle" resname="requestTooltipTitle" datatype="plaintext"> 
+                <source>requestTooltipTitle</source>
+                <target>Se debe realizar una búsqueda antes de hacer una solicitud</target> 
+            </trans-unit> 
+            <trans-unit id="cancelTooltipTitle" resname="cancelTooltipTitle" datatype="plaintext"> 
+                <source>cancelTooltipTitle</source>
+                <target>Cancelar</target> 
+            </trans-unit> 
+            <trans-unit id="reclaimTooltipTitle" resname="reclaimTooltipTitle" datatype="plaintext"> 
+                <source>reclaimTooltipTitle</source>
+                <target>Reclamar</target> 
+            </trans-unit> 
+            <trans-unit id="approveTooltipTitle" resname="approveTooltipTitle" datatype="plaintext"> 
+                <source>approveTooltipTitle</source>
+                <target>Aprobar</target> 
+            </trans-unit> 
+            <trans-unit id="reuploadTooltipTitle" resname="reuploadTooltipTitle" datatype="plaintext"> 
+                <source>reuploadTooltipTitle</source>
+                <target>Subir más</target> 
+            </trans-unit> 
+            <trans-unit id="pdfUserTooltipTitle" resname="pdfUserTooltipTitle" datatype="plaintext"> 
+                <source>pdfUserTooltipTitle</source>
+                <target>Este usuario descarga los pedidos en formato PDF</target> 
+            </trans-unit> 
+            <trans-unit id="printedUserTooltipTitle" resname="printedUserTooltipTitle" datatype="plaintext"> 
+                <source>printedUserTooltipTitle</source>
+                <target>Este usuario retira los pedidos impresos en papel</target> 
+            </trans-unit> 
+            <trans-unit id="found" resname="found" datatype="plaintext"> 
+                <source>found</source>
+                <target>Encontrado</target> 
+            </trans-unit> 
+            <trans-unit id="notFound" resname="notFound" datatype="plaintext"> 
+                <source>notFound</source>
+                <target>No encontrado</target> 
+            </trans-unit> 
+            <trans-unit id="not_found" resname="not_found" datatype="plaintext"> 
+                <source>not_found</source>
+                <target>No encontrado</target> 
+            </trans-unit> 
+            <trans-unit id="partiallyFound" resname="partiallyFound" datatype="plaintext"> 
+                <source>partiallyFound</source>
+                <target>Parcialmente encontrado</target> 
+            </trans-unit> 
+            <trans-unit id="partially_found" resname="partially_found" datatype="plaintext"> 
+                <source>partially_found</source>
+                <target>Parcialmente encontrado</target> 
+            </trans-unit> 
+            <trans-unit id="nonSearched" resname="nonSearched" datatype="plaintext"> 
+                <source>nonSearched</source>
+                <target>No Buscado</target> 
+            </trans-unit> 
+            <trans-unit id="non_searched" resname="non_searched" datatype="plaintext"> 
+                <source>non_searched</source>
+                <target>No Buscado</target> 
+            </trans-unit> 
+            <trans-unit id="catalog" resname="catalog" datatype="plaintext"> 
+                <source>catalog</source>
+                <target>Catálogo</target> 
+            </trans-unit> 
+            <trans-unit id="date" resname="date" datatype="plaintext"> 
+                <source>date</source>
+                <target>Fecha</target> 
+            </trans-unit> 
+            <trans-unit id="result" resname="result" datatype="plaintext"> 
+                <source>result</source>
+                <target>Resultado</target> 
+            </trans-unit> 
+            <trans-unit id="actions" resname="actions" datatype="plaintext"> 
+                <source>actions</source>
+                <target>Acciones</target> 
+            </trans-unit> 
+            <trans-unit id="name" resname="name" datatype="plaintext"> 
+                <source>name</source>
+                <target>Nombre</target> 
+            </trans-unit> 
+            <trans-unit id="pages" resname="pages" datatype="plaintext"> 
+                <source>pages</source>
+                <target>Páginas</target> 
+            </trans-unit> 
+            <trans-unit id="state" resname="state" datatype="plaintext"> 
+                <source>state</source>
+                <target>Estado</target> 
+            </trans-unit> 
+            <trans-unit id="changeState" resname="changeState" datatype="plaintext"> 
+                <source>changeState</source>
+                <target>Cambiar estado</target> 
+            </trans-unit> 
+            <trans-unit id="observations" resname="observations" datatype="plaintext"> 
+                <source>observations</source>
+                <target>Observaciones</target> 
+            </trans-unit> 
+            <trans-unit id="contact" resname="contact" datatype="plaintext"> 
+                <source>contact</source>
+                <target>Contacto</target> 
+            </trans-unit> 
+            <trans-unit id="address" resname="address" datatype="plaintext"> 
+                <source>address</source>
+                <target>Dirección</target> 
+            </trans-unit> 
+            <trans-unit id="template" resname="template" datatype="plaintext"> 
+                <source>template</source>
+                <target>Plantilla</target> 
+            </trans-unit> 
+            <trans-unit id="subject" resname="subject" datatype="plaintext"> 
+                <source>subject</source>
+                <target>Asunto</target> 
+            </trans-unit> 
+            <trans-unit id="text" resname="text" datatype="plaintext"> 
+                <source>text</source>
+                <target>Texto</target> 
+            </trans-unit> 
+            <trans-unit id="selectTemplate" resname="selectTemplate" datatype="plaintext"> 
+                <source>selectTemplate</source>
+                <target>Selecciona una plantilla de correo</target> 
+            </trans-unit> 
+            <trans-unit id="selectContact" resname="selectContact" datatype="plaintext"> 
+                <source>selectContact</source>
+                <target>Seleccione un contacto</target> 
+            </trans-unit> 
+            <trans-unit id="deliveryType" resname="deliveryType" datatype="plaintext"> 
+                <source>deliveryType</source>
+                <target>Tipo de entrega</target> 
+            </trans-unit> 
+            <trans-unit id="pdf" resname="pdf" datatype="plaintext"> 
+                <source>pdf</source>
+                <target>PDF</target> 
+            </trans-unit> 
+            <trans-unit id="printed" resname="printed" datatype="plaintext"> 
+                <source>printed</source>
+                <target>Impreso</target> 
+            </trans-unit> 
+            <trans-unit id="files" resname="files" datatype="plaintext"> 
+                <source>files</source>
+                <target>Archivos</target> 
+            </trans-unit> 
+            <trans-unit id="filesSuccessUpload" resname="filesSuccessUpload" datatype="plaintext"> 
+                <source>filesSuccessUpload</source>
+                <target>Los archivos fueron subidos con éxito.</target> 
+            </trans-unit> 
+            <trans-unit id="requestReclaimed" resname="requestReclaimed" datatype="plaintext"> 
+                <source>requestReclaimed</source>
+                <target>The order has been reclaimed with the following comments:</target> 
+            </trans-unit> 
+            <trans-unit id="requestSatisfied" resname="requestSatisfied" datatype="plaintext"> 
+                <source>requestSatisfied</source>
+                <target>The order has been satisfied.</target> 
+            </trans-unit> 
+            <trans-unit id="upload" resname="upload" datatype="plaintext"> 
+                <source>upload</source>
+                <target>Subir</target> 
+            </trans-unit> 
+            <trans-unit id="viewAll" resname="viewAll" datatype="plaintext"> 
+                <source>viewAll</source>
+                <target>Ver todos</target> 
+            </trans-unit> 
+            <trans-unit id="provisionModeText" resname="provisionModeText" datatype="plaintext"> 
+                <source>provisionModeText</source>
+                <target>Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione Básico, de lo contrario elija avanzado</target> 
+            </trans-unit> 
+            <trans-unit id="basic" resname="basic" datatype="plaintext"> 
+                <source>basic</source>
+                <target>Básico</target> 
+            </trans-unit> 
+            <trans-unit id="advanced" resname="advanced" datatype="plaintext"> 
+                <source>advanced</source>
+                <target>Avanzado</target> 
+            </trans-unit> 
+            <trans-unit id="goToList" resname="goToList" datatype="plaintext"> 
+                <source>goToList</source>
+                <target>Ir a la lista</target> 
+            </trans-unit> 
+            <trans-unit id="edit" resname="edit" datatype="plaintext"> 
+                <source>edit</source>
+                <target>Editar</target> 
+            </trans-unit> 
+            <trans-unit id="sendMail" resname="sendMail" datatype="plaintext"> 
+                <source>sendMail</source>
+                <target>Enviar correo electrónico</target> 
+            </trans-unit> 
+            <trans-unit id="sendMessage" resname="sendMessage" datatype="plaintext"> 
+                <source>sendMessage</source>
+                <target>Enviar Mensaje</target> 
+            </trans-unit> 
+            <trans-unit id="deliver" resname="deliver" datatype="plaintext"> 
+                <source>deliver</source>
+                <target>Entregar</target> 
+            </trans-unit> 
+            <trans-unit id="annul" resname="annul" datatype="plaintext"> 
+                <source>annul</source>
+                <target>Anular</target> 
+            </trans-unit> 
+            <trans-unit id="cancel" resname="cancel" datatype="plaintext"> 
+                <source>cancel</source>
+                <target>Cancelar</target> 
+            </trans-unit> 
+            <trans-unit id="backToPreviousState" resname="backToPreviousState" datatype="plaintext"> 
+                <source>backToPreviousState</source>
+                <target>Volver al estado anterior</target> 
+            </trans-unit> 
+            <trans-unit id="interactionSummary" resname="interactionSummary" datatype="plaintext"> 
+                <source>interactionSummary</source>
+                <target>Resumen de interacción</target> 
+            </trans-unit> 
+            <trans-unit id="itemInformation" resname="itemInformation" datatype="plaintext"> 
+                <source>itemInformation</source>
+                <target>Información general del item</target> 
+            </trans-unit> 
+            <trans-unit id="type" resname="type" datatype="plaintext"> 
+                <source>type</source>
+                <target>Tipo</target> 
+            </trans-unit> 
+            <trans-unit id="title" resname="title" datatype="plaintext"> 
+                <source>title</source>
+                <target>Título</target> 
+            </trans-unit> 
+            <trans-unit id="year" resname="year" datatype="plaintext"> 
+                <source>year</source>
+                <target>Año</target> 
+            </trans-unit> 
+            <trans-unit id="startPage" resname="startPage" datatype="plaintext"> 
+                <source>startPage</source>
+                <target>Página de inicio</target> 
+            </trans-unit> 
+            <trans-unit id="endPage" resname="endPage" datatype="plaintext"> 
+                <source>endPage</source>
+                <target>Página de fin</target> 
+            </trans-unit> 
+            <trans-unit id="volume" resname="volume" datatype="plaintext"> 
+                <source>volume</source>
+                <target>Volumen</target> 
+            </trans-unit> 
+            <trans-unit id="number" resname="number" datatype="plaintext"> 
+                <source>number</source>
+                <target>Número</target> 
+            </trans-unit> 
+            <trans-unit id="journal" resname="journal" datatype="plaintext"> 
+                <source>journal</source>
+                <target>Revista</target> 
+            </trans-unit> 
+            <trans-unit id="book" resname="book" datatype="plaintext"> 
+                <source>book</source>
+                <target>Book</target> 
+            </trans-unit> 
+            <trans-unit id="congress" resname="congress" datatype="plaintext"> 
+                <source>congress</source>
+                <target>Congress</target> 
+            </trans-unit> 
+            <trans-unit id="thesis" resname="thesis" datatype="plaintext"> 
+                <source>thesis</source>
+                <target>Thesis</target> 
+            </trans-unit> 
+            <trans-unit id="patent" resname="patent" datatype="plaintext"> 
+                <source>patent</source>
+                <target>Patent</target> 
+            </trans-unit> 
+            <trans-unit id="editor" resname="editor" datatype="plaintext"> 
+                <source>editor</source>
+                <target>Editor</target> 
+            </trans-unit> 
+            <trans-unit id="chapter" resname="chapter" datatype="plaintext"> 
+                <source>chapter</source>
+                <target>Capítulo</target> 
+            </trans-unit> 
+            <trans-unit id="isbn" resname="isbn" datatype="plaintext"> 
+                <source>isbn</source>
+                <target>ISBN</target> 
+            </trans-unit> 
+            <trans-unit id="withIndex" resname="withIndex" datatype="plaintext"> 
+                <source>withIndex</source>
+                <target>Índice</target> 
+            </trans-unit> 
+            <trans-unit id="place" resname="place" datatype="plaintext"> 
+                <source>place</source>
+                <target>Lugar</target> 
+            </trans-unit> 
+            <trans-unit id="communication" resname="communication" datatype="plaintext"> 
+                <source>communication</source>
+                <target>Comunicación</target> 
+            </trans-unit> 
+            <trans-unit id="director" resname="director" datatype="plaintext"> 
+                <source>director</source>
+                <target>Director</target> 
+            </trans-unit> 
+            <trans-unit id="degree" resname="degree" datatype="plaintext"> 
+                <source>degree</source>
+                <target>Grado</target> 
+            </trans-unit> 
+            <trans-unit id="addRequest" resname="addRequest" datatype="plaintext"> 
+                <source>addRequest</source>
+                <target>Agregar solicitud</target> 
+            </trans-unit> 
+            <trans-unit id="exploreCatalogs" resname="exploreCatalogs" datatype="plaintext"> 
+                <source>exploreCatalogs</source>
+                <target>Explorar catálogos</target> 
+            </trans-unit> 
+            <trans-unit id="searchCatalogs" resname="searchCatalogs" datatype="plaintext"> 
+                <source>searchCatalogs</source>
+                <target>Buscar en catálogos</target> 
+            </trans-unit> 
+            <trans-unit id="close" resname="close" datatype="plaintext"> 
+                <source>close</source>
+                <target>Cerrar</target> 
+            </trans-unit> 
+            <trans-unit id="request" resname="request" datatype="plaintext"> 
+                <source>request</source>
+                <target>Solicitar</target> 
+            </trans-unit> 
+            <trans-unit id="save" resname="save" datatype="plaintext"> 
+                <source>save</source>
+                <target>Guardar</target> 
+            </trans-unit> 
+            <trans-unit id="email" resname="email" datatype="plaintext"> 
+                <source>email</source>
+                <target>Correo Electrónico</target> 
+            </trans-unit> 
+            <trans-unit id="send" resname="send" datatype="plaintext"> 
+                <source>send</source>
+                <target>Enviar</target> 
+            </trans-unit> 
+            <trans-unit id="searches" resname="searches" datatype="plaintext"> 
+                <source>searches</source>
+                <target>Búsquedas</target> 
+            </trans-unit> 
+            <trans-unit id="noSearches" resname="noSearches" datatype="plaintext"> 
+                <source>noSearches</source>
+                <target>No hay búsquedas.</target> 
+            </trans-unit> 
+            <trans-unit id="history" resname="history" datatype="plaintext"> 
+                <source>history</source>
+                <target>Historial</target> 
+            </trans-unit> 
+            <trans-unit id="noEvents" resname="noEvents" datatype="plaintext"> 
+                <source>noEvents</source>
+                <target>No hay eventos en el historial.</target> 
+            </trans-unit> 
+            <trans-unit id="by" resname="by" datatype="plaintext"> 
+                <source>by</source>
+                <target>por</target> 
+            </trans-unit> 
+            <trans-unit id="requests" resname="requests" datatype="plaintext"> 
+                <source>requests</source>
+                <target>Solicitudes</target> 
+            </trans-unit> 
+            <trans-unit id="noRequests" resname="noRequests" datatype="plaintext"> 
+                <source>noRequests</source>
+                <target>No hay solicitudes.</target> 
+            </trans-unit> 
+            <trans-unit id="receive" resname="receive" datatype="plaintext"> 
+                <source>receive</source>
+                <target>Recibir</target> 
+            </trans-unit> 
+            <trans-unit id="uploadAgain" resname="uploadAgain" datatype="plaintext"> 
+                <source>uploadAgain</source>
+                <target>Subir de nuevo</target> 
+            </trans-unit> 
+            <trans-unit id="reclaim" resname="reclaim" datatype="plaintext"> 
+                <source>reclaim</source>
+                <target>Reclamar</target> 
+            </trans-unit> 
+            <trans-unit id="uploadedFiles" resname="uploadedFiles" datatype="plaintext"> 
+                <source>uploadedFiles</source>
+                <target>Subir archivos</target> 
+            </trans-unit> 
+            <trans-unit id="search" resname="search" datatype="plaintext"> 
+                <source>search</source>
+                <target>Búsqueda</target> 
+            </trans-unit> 
+            <trans-unit id="provision" resname="provision" datatype="plaintext"> 
+                <source>provision</source>
+                <target>Provisión</target> 
+            </trans-unit> 
+            <trans-unit id="S" resname="S" datatype="plaintext"> 
+                <source>S</source>
+                <target>B</target> 
+            </trans-unit> 
+            <trans-unit id="P" resname="P" datatype="plaintext"> 
+                <source>P</source>
+                <target>P</target> 
+            </trans-unit> 
+            <trans-unit id="yes" resname="yes" datatype="plaintext"> 
+                <source>yes</source>
+                <target>Si</target> 
+            </trans-unit> 
+            <trans-unit id="no" resname="no" datatype="plaintext"> 
+                <source>no</source>
+                <target>No</target> 
+            </trans-unit> 
+            <trans-unit id="enabled" resname="enabled" datatype="plaintext"> 
+                <source>enabled</source>
+                <target>Habilitado</target> 
+            </trans-unit> 
+            <trans-unit id="disabled" resname="disabled" datatype="plaintext"> 
+                <source>disabled</source>
+                <target>Deshabilitado</target> 
+            </trans-unit> 
+            <trans-unit id="filter" resname="filter" datatype="plaintext"> 
+                <source>filter</source>
+                <target>Filtrar</target> 
+            </trans-unit> 
+            <trans-unit id="all" resname="all" datatype="plaintext"> 
+                <source>all</source>
+                <target>Todos</target> 
+            </trans-unit> 
+            <trans-unit id="hive" resname="hive" datatype="plaintext"> 
+                <source>hive</source>
+                <target>Enjambre</target> 
+            </trans-unit> 
+            <trans-unit id="celsius3" resname="celsius3" datatype="plaintext"> 
+                <source>celsius3</source>
+                <target>Celsius3</target> 
+            </trans-unit> 
+            <trans-unit id="country" resname="country" datatype="plaintext"> 
+                <source>country</source>
+                <target>País</target> 
+            </trans-unit> 
+            <trans-unit id="selectCountry" resname="selectCountry" datatype="plaintext"> 
+                <source>selectCountry</source>
+                <target>Seleccione un país</target> 
+            </trans-unit> 
+            <trans-unit id="city" resname="city" datatype="plaintext"> 
+                <source>city</source>
+                <target>Ciudad</target> 
+            </trans-unit> 
+            <trans-unit id="selectCity" resname="selectCity" datatype="plaintext"> 
+                <source>selectCity</source>
+                <target>Seleccione una ciudad</target> 
+            </trans-unit> 
+            <trans-unit id="institution" resname="institution" datatype="plaintext"> 
+                <source>institution</source>
+                <target>Institución</target> 
+            </trans-unit> 
+            <trans-unit id="selectInstitution" resname="selectInstitution" datatype="plaintext"> 
+                <source>selectInstitution</source>
+                <target>Seleccione una institución</target> 
+            </trans-unit> 
+            <trans-unit id="created" resname="created" datatype="plaintext"> 
+                <source>created</source>
+                <target>Pendiente</target> 
+            </trans-unit> 
+            <trans-unit id="searched" resname="searched" datatype="plaintext"> 
+                <source>searched</source>
+                <target>Buscado</target> 
+            </trans-unit> 
+            <trans-unit id="requested" resname="requested" datatype="plaintext"> 
+                <source>requested</source>
+                <target>Solicitado</target> 
+            </trans-unit> 
+            <trans-unit id="approvalPending" resname="approvalPending" datatype="plaintext"> 
+                <source>approvalPending</source>
+                <target>Pendiente de aprobación</target> 
+            </trans-unit> 
+            <trans-unit id="received" resname="received" datatype="plaintext"> 
+                <source>received</source>
+                <target>Recibido</target> 
+            </trans-unit> 
+            <trans-unit id="delivered" resname="delivered" datatype="plaintext"> 
+                <source>delivered</source>
+                <target>Entregado</target> 
+            </trans-unit> 
+            <trans-unit id="finished" resname="finished" datatype="plaintext"> 
+                <source>finished</source>
+                <target>Finalizado</target> 
+            </trans-unit> 
+            <trans-unit id="addOrder" resname="addOrder" datatype="plaintext"> 
+                <source>addOrder</source>
+                <target>Agregar pedido</target> 
+            </trans-unit> 
+            <trans-unit id="beingSearched" resname="beingSearched" datatype="plaintext"> 
+                <source>beingSearched</source>
+                <target>En búsqueda</target> 
+            </trans-unit> 
+            <trans-unit id="myOrders" resname="myOrders" datatype="plaintext"> 
+                <source>myOrders</source>
+                <target>Mis pedidos</target> 
+            </trans-unit> 
+            <trans-unit id="code" resname="code" datatype="plaintext"> 
+                <source>code</source>
+                <target>Código</target> 
+            </trans-unit> 
+            <trans-unit id="noMatchingOrders" resname="noMatchingOrders" datatype="plaintext"> 
+                <source>noMatchingOrders</source>
+                <target>No hay órdenes que coincidan.</target> 
+            </trans-unit> 
+            <trans-unit id="enable" resname="enable" datatype="plaintext"> 
+                <source>enable</source>
+                <target>Habilitar</target> 
+            </trans-unit> 
+            <trans-unit id="noPendingUsers" resname="noPendingUsers" datatype="plaintext"> 
+                <source>noPendingUsers</source>
+                <target>No hay usuarios pendientes.</target> 
+            </trans-unit> 
+            <trans-unit id="username" resname="username" datatype="plaintext"> 
+                <source>username</source>
+                <target>Nombre de usuario</target> 
+            </trans-unit> 
+            <trans-unit id="birthdate" resname="birthdate" datatype="plaintext"> 
+                <source>birthdate</source>
+                <target>Fecha de nacimiento</target> 
+            </trans-unit> 
+            <trans-unit id="new" resname="new" datatype="plaintext"> 
+                <source>new</source>
+                <target>Nuevo</target> 
+            </trans-unit> 
+            <trans-unit id="editProfile" resname="editProfile" datatype="plaintext"> 
+                <source>editProfile</source>
+                <target>Editar perfil</target> 
+            </trans-unit> 
+            <trans-unit id="orderHistory" resname="orderHistory" datatype="plaintext"> 
+                <source>orderHistory</source>
+                <target>Historial de Pedidos</target> 
+            </trans-unit> 
+            <trans-unit id="institutionUsers" resname="institutionUsers" datatype="plaintext"> 
+                <source>institutionUsers</source>
+                <target>Usuarios de la Institución</target> 
+            </trans-unit> 
+            <trans-unit id="lastMessages" resname="lastMessages" datatype="plaintext"> 
+                <source>lastMessages</source>
+                <target>Últimos mensajes</target> 
+            </trans-unit> 
+            <trans-unit id="allTypes" resname="allTypes" datatype="plaintext"> 
+                <source>allTypes</source>
+                <target>Todos los tipos</target> 
+            </trans-unit> 
+            <trans-unit id="requestsPublicationYearDescription" resname="requestsPublicationYearDescription" datatype="plaintext"> 
+                <source>requestsPublicationYearDescription</source>
+                <target>Esta estadística clasifica y totaliza los pedidos dependiendo el año de publicación del material involucrado en los mismos (revista, libro, acta).</target> 
+            </trans-unit> 
+            <trans-unit id="requestsOriginDescription" resname="requestsOriginDescription" datatype="plaintext"> 
+                <source>requestsOriginDescription</source>
+                <target>Esta estadística presenta la cantidad de pedidos cargados por el país elegido. Al seleccionar una institucion en particular, accederemos a datos de sus dependencias.</target> 
+            </trans-unit> 
+            <trans-unit id="usersCountDescription" resname="usersCountDescription" datatype="plaintext"> 
+                <source>usersCountDescription</source>
+                <target>Esta estadística presenta la cantidad de usuarios nuevos incorporados al sistema mes a mes. El gráfico nos muestra dos barras: la barra azul muestra el número de usuarios dados de alta , mientras que la barra verde muestra el número de usuarios activos, es decir, quienes efectivamente utilizan el servicio. Por otro lado, la línea roja muestra la cantidad de usuarios nuevos en forma acumulativa, desde el año 2000 hasta el año seleccionado (por defecto, será el año actual). </target> 
+            </trans-unit> 
+            <trans-unit id="serviceEfficiencyDescription" resname="serviceEfficiencyDescription" datatype="plaintext"> 
+                <source>serviceEfficiencyDescription</source>
+                <target>Esta estadística muestra la demora de los pedidos, la cual se clasifica en tres categorias:
+                    -La demora total, que es el tiempo transcurrido desde que el usuario carga su pedido hasta que lo descarga o imprime.
+                    -La demora en localización, que es el tiempo transcurrido desde que el usuario carga el pedido hasta que un administrador del sistema lo atiende, lo busca en los catálogos, lo localiza y lo solicita a la institución correspondiente.
+                    -La demora en respuesta, que es el tiempo desde que los pedidos son solicitados por un operador a una institución externa, hasta que el pedido está listo para ser descargado, una vez que dicha institución lo ha enviado.</target> 
+            </trans-unit> 
+            <trans-unit id="requestsDestinyDistributionDescription" resname="requestsDestinyDistributionDescription" datatype="plaintext"> 
+                <source>requestsDestinyDistributionDescription</source>
+                <target>Esta estadística nos brinda la posibilidad de observar la cantidad de pedidos iniciados, satisfechos y cancelados por país durante un período determinado. Al seleccionar un país, accederemos a datos de sus instituciones. Similarmente, al seleccionar una institución, podremos ver estadisticas de sus dependencias.</target> 
+            </trans-unit> 
+            <trans-unit id="requestsCountDescription" resname="requestsCountDescription" datatype="plaintext"> 
+                <source>requestsCountDescription</source>
+                <target>Esta estadística nos muestra el número de pedidos iniciados, satisfechos y cancelados por año durante el período temporal elegido, el cual será por defecto el año actual. Se muestra ademas el número de páginas impresas durante dicho periodo. En caso de que el periodo de tiempo elegido sea sólo un año, se mostrara la distribución de pedidos detallada mes a mes.</target> 
+            </trans-unit> 
+            <trans-unit id="Previous" resname="Previous" datatype="plaintext"> 
+                <source>Previous</source>
+                <target>Previous</target> 
+            </trans-unit> 
+            <trans-unit id="Next" resname="Next" datatype="plaintext"> 
+                <source>Next</source>
+                <target>Next</target> 
+            </trans-unit> 
+            <trans-unit id="First" resname="First" datatype="plaintext"> 
+                <source>First</source>
+                <target>First</target> 
+            </trans-unit> 
+            <trans-unit id="Last" resname="Last" datatype="plaintext"> 
+                <source>Last</source>
+                <target>Last</target> 
+            </trans-unit> 
+            <trans-unit id="orders" resname="orders" datatype="plaintext"> 
+                <source>orders</source>
+                <target>Orders</target> 
+            </trans-unit> 
+            <trans-unit id="continueSearch" resname="continueSearch" datatype="plaintext"> 
+                <source>continueSearch</source>
+                <target>Continue Search</target> 
+            </trans-unit> 
+            <trans-unit id="addFiles" resname="addFiles" datatype="plaintext"> 
+                <source>addFiles</source>
+                <target>Add Files</target> 
+            </trans-unit> 
+            <trans-unit id="web" resname="web" datatype="plaintext"> 
+                <source>web</source>
+                <target>Web</target> 
+            </trans-unit> 
+            <trans-unit id="author" resname="author" datatype="plaintext"> 
+                <source>author</source>
+                <target>Author</target> 
+            </trans-unit> 
+            <trans-unit id="sinTitulo" resname="sinTitulo" datatype="plaintext"> 
+                <source>sinTitulo</source>
+                <target>Sin título</target> 
+            </trans-unit> 
+            <trans-unit id="download" resname="download" datatype="plaintext"> 
+                <source>download</source>
+                <target>Download</target> 
+            </trans-unit> 
+            <trans-unit id="viewFiles" resname="viewFiles" datatype="plaintext"> 
+                <source>viewFiles</source>
+                <target>View files</target> 
+            </trans-unit> 
+            <trans-unit id="providedByTheAuthor" resname="providedByTheAuthor" datatype="plaintext"> 
+                <source>providedByTheAuthor</source>
+                <target>Provided by the Author</target> 
+            </trans-unit> 
+            <trans-unit id="foundOnTheWeb" resname="foundOnTheWeb" datatype="plaintext"> 
+                <source>foundOnTheWeb</source>
+                <target>Found on the Web</target> 
+            </trans-unit> 
+            <trans-unit id="ShowOrder" resname="ShowOrder" datatype="plaintext"> 
+                <source>ShowOrder</source>
+                <target>Mostrar petição</target> 
+            </trans-unit> 
+            <trans-unit id="EditOrder" resname="EditOrder" datatype="plaintext"> 
+                <source>EditOrder</source>
+                <target>Editar petição</target> 
+            </trans-unit> 
+            <trans-unit id="CloneOrder" resname="CloneOrder" datatype="plaintext"> 
+                <source>CloneOrder</source>
+                <target>Clonar petição</target> 
+            </trans-unit> 
+            <trans-unit id="noContinueSearch" resname="noContinueSearch" datatype="plaintext"> 
+                <source>noContinueSearch</source>
+                <target>No continue search</target> 
+            </trans-unit> 
+            <trans-unit id="rejectUser" resname="rejectUser" datatype="plaintext"> 
+                <source>rejectUser</source>
+                <target>Reject User</target> 
+            </trans-unit> 
+            <trans-unit id="rejectUserQuestion" resname="rejectUserQuestion" datatype="plaintext"> 
+                <source>rejectUserQuestion</source>
+                <target>Are you sure you want to remove this user?</target> 
+            </trans-unit> 
+            <trans-unit id="reject" resname="reject" datatype="plaintext"> 
+                <source>reject</source>
+                <target>Reject</target> 
+            </trans-unit> 
+            <trans-unit id="view" resname="view" datatype="plaintext"> 
+                <source>view</source>
+                <target>View</target> 
+            </trans-unit> 
+            <trans-unit id="sort-by" resname="sort-by" datatype="plaintext"> 
+                <source>Sort by</source>
+                <target>Sort by</target> 
+            </trans-unit> 
+            <trans-unit id="pending-searchs" resname="pending-searchs" datatype="plaintext"> 
+                <source>Pending searchs</source>
+                <target>Pending searchs</target> 
+            </trans-unit> 
+            <trans-unit id="add" resname="add" datatype="plaintext"> 
+                <source>add</source>
+                <target>Add</target> 
+            </trans-unit> 
+            <trans-unit id="orderData" resname="orderData" datatype="plaintext"> 
+                <source>orderData</source>
+                <target>Order data</target> 
+            </trans-unit> 
+            <trans-unit id="addInstitution" resname="addInstitution" datatype="plaintext"> 
+                <source>addInstitution</source>
+                <target>Add Institution</target> 
+            </trans-unit> 
+            <trans-unit id="previousSearches" resname="previousSearches" datatype="plaintext"> 
+                <source>previousSearches</source>
+                <target>Previous Searches</target> 
+            </trans-unit> 
+            <trans-unit id="there-are-no-orders" resname="there-are-no-orders" datatype="plaintext"> 
+                <source>There are no orders</source>
+                <target>There are no orders</target> 
+            </trans-unit> 
+            <trans-unit id="copy" resname="copy" datatype="plaintext"> 
+                <source>copy</source>
+                <target>Copy</target> 
+            </trans-unit> 
+            <trans-unit id="change_operator" resname="change_operator" datatype="plaintext"> 
+                <source>change_operator</source>
+                <target>Change Operator</target> 
+            </trans-unit> 
+            <trans-unit id="cancelledByUser" resname="cancelledByUser" datatype="plaintext"> 
+                <source>cancelledByUser</source>
+                <target>Cancelled by user</target> 
+            </trans-unit> 
+            <trans-unit id="cancelled" resname="cancelled" datatype="plaintext"> 
+                <source>cancelled</source>
+                <target>cancelled</target> 
+            </trans-unit> 
+            <trans-unit id="annulled" resname="annulled" datatype="plaintext"> 
+                <source>annulled</source>
+                <target>anulled</target> 
+            </trans-unit> 
+            <trans-unit id="byUserRequest" resname="byUserRequest" datatype="plaintext"> 
+                <source>byUserRequest</source>
+                <target>by user request</target> 
+            </trans-unit> 
+            <trans-unit id="previousRelatedSearches" resname="previousRelatedSearches" datatype="plaintext"> 
+                <source>previousRelatedSearches</source>
+                <target>previous searches</target> 
+            </trans-unit> 
+            <trans-unit id="reenableDownload" resname="reenableDownload" datatype="plaintext"> 
+                <source>reenableDownload</source>
+                <target>Reenable download</target> 
+            </trans-unit> 
+            <trans-unit id="institution-tree" resname="institution-tree" datatype="plaintext"> 
+                <source>Institution tree</source>
+                <target>Institution tree</target> 
+            </trans-unit> 
+            <trans-unit id="institution-users" resname="institution-users" datatype="plaintext"> 
+                <source>Institution users</source>
+                <target>Institution users</target> 
+            </trans-unit> 
+            <trans-unit id="userRequestsIndex" resname="userRequestsIndex" datatype="plaintext"> 
+                <source>userRequestsIndex</source>
+                <target>User requests index</target> 
+            </trans-unit> 
         </body>
     </file>
 </xliff>
