@@ -40,6 +40,7 @@ class AppKernel extends Kernel
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Celsius3\TicketBundle\Celsius3TicketBundle(),
             new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
+            new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

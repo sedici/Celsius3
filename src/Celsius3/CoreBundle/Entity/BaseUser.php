@@ -32,7 +32,7 @@ use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Celsius3\ApiBundle\Entity\Client;
-
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseUserRepository")
  * @ORM\Table(name="user", indexes={
@@ -177,6 +177,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @ORM\Column(type="string", nullable=true)
      */
     protected $observaciones;
+
+
+    /**
+     * @Recaptcha\IsTrue
+     */
+    public $recaptcha;
 
     public function __toString()
     {
