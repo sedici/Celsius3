@@ -3025,9 +3025,6 @@
                 <source>userRequestsIndex</source>
                 <target>User requests index</target>
             </trans-unit>
-
-            <!-- // END // Angular locales -->
-
         </body>
     </file>
 </xliff>
