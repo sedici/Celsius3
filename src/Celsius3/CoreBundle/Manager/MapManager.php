@@ -45,17 +45,8 @@ class MapManager
         if (!$instance->getLat() || !$instance->getLong()) {
             return;
         }
+
         $markerImage = new MarkerImage();
-
-     /*   if ($instance->getTipos()->count() == 2) {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/maps_dist_repuest.png');
-        } else if ($instance->getTipos()->count() == 1 && $instance->getTipos()->first()->getNombre() == "Distribuidor") {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/marcador.png');
-        } else if ($instance->getTipos()->count() == 1 && $instance->getTipos()->first()->getNombre() == "Repuestero") {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/maps_repuest.png');
-        }
-*/
-
         $infoWindow = new InfoWindow();
         $infoWindow->setOpen($windowOpen);
 
@@ -63,7 +54,6 @@ class MapManager
         $marker->setIcon($markerImage);
         $marker->setPosition((float) $instance->getLatitud(), (float) $instance->getLongitud());
         $marker->setInfoWindow($infoWindow);
-
         $map->addMarker($marker);
         $map->setCenter((float) $instance->getLatitud(), (float) $instance->getLongitud());
     }
