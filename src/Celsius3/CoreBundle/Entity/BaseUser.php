@@ -827,5 +827,4 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->observaciones;
     }
-
 }
