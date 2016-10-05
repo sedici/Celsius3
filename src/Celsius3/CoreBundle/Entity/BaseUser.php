@@ -173,6 +173,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $librarianInstitution;
 
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $observaciones;
 
     public function __toString()
     {
@@ -797,5 +801,29 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getLibrarianInstitution()
     {
         return $this->librarianInstitution;
+    }
+
+    /**
+     * Set observaciones
+     *
+     * @param string $observaciones
+     *
+     * @return BaseUser
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+
+        return $this;
+    }
+
+    /**
+     * Get observaciones
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
     }
 }
