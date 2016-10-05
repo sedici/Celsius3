@@ -7,6 +7,16 @@
 
 {% block content %}
 
+    <br/>
+    <div class="panel panel-default ">
+        <div class="panel-heading"> <h3>{{ 'Instance Register'|trans }}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    {{ form_start(form, { 'attr': { 'action':path('directory_instance_create'), 'class': 'form-horizontal', 'role': 'form' }}) }}
+                    <div class="register-box-body">
+                        {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2 panel panel-default">
