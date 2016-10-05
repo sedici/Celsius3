@@ -89,34 +89,27 @@ class MapManager
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)
     {
-        if (!$instance->getLat() || !$instance->getLong()) {
+        if (!$instance->getLatitud() || !$instance->getLongitud()) {
             return;
         }
+
         $markerImage = new MarkerImage();
-
-     /*   if ($instance->getTipos()->count() == 2) {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/maps_dist_repuest.png');
-        } else if ($instance->getTipos()->count() == 1 && $instance->getTipos()->first()->getNombre() == "Distribuidor") {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/marcador.png');
-        } else if ($instance->getTipos()->count() == 1 && $instance->getTipos()->first()->getNombre() == "Repuestero") {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/maps_repuest.png');
-        }
-*/
-
         $infoWindow = new InfoWindow();
         $infoWindow->setOpen($windowOpen);
- /*       $infoWindow->setContent(sprintf(
-            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getAlias(),
-            $instance->getDistListDireccion(), $instance->getCiudad(), $instance->s()
-        ));
+        /*$infoWindow->setContent(sprintf(
+            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getUrl()
+        ));*/
+
+      /*  $infoWindow->setContent(sprintf(
+            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getUrl()));
 */
         $marker = new Marker();
         $marker->setIcon($markerImage);
-        $marker->setPosition((double) $instance->getLat(), (double)$instance->getLong());
+        $marker->setPosition((double) $instance->getLatitud(), (double)$instance->getLongitud());
         $marker->setInfoWindow($infoWindow);
-
         $map->addMarker($marker);
-        $map->setCenter((double) $instance->getLat(), (double)$instance->getLong());
+        $map->setCenter((double) $instance->getLatitud(), (double)$instance->getLongitud());
+   //     return $map;
     }
 
     /**
@@ -134,9 +127,9 @@ class MapManager
         }
         $map->setStylesheetOptions(array(
             'width'  => '100%',
-            'height' => '350px',
+            'height' => '1000px',
         ));
-//        $map->setMapOption('zoom', $zoom);
+        //$map->setMapOption('zoom', $zoom);
 
         return $map;
     }
@@ -151,7 +144,7 @@ class MapManager
      */
     public function createMapFromApiSearch($instancias, $latitude, $longitude, $autozoom = true)
     {
-        $map = $this->createMap($instancias, $autozoom);
+        $map = $this->createMap($instancias, -1);
         // my position
         $myPosition = new Marker();
         $myPosition->setPosition($latitude, $longitude);

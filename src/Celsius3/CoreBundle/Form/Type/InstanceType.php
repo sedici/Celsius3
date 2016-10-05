@@ -35,6 +35,8 @@ class InstanceType extends LegacyInstanceType
         $builder
                 ->add('url')
                 ->add('host')
+            ->add('latitud')
+            ->add('longitud')
         ;
 
         if (array_key_exists('create', $options['data']) && $options['data']['create']) {

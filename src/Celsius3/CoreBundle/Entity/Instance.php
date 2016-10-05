@@ -117,13 +117,13 @@ class Instance extends LegacyInstance
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $lat;
+    protected $latitud;
 
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $long;
+    protected $longitud;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -622,53 +622,6 @@ class Instance extends LegacyInstance
     }
 
 
-    /**
-     * Set lat
-     *
-     * @param string $lat
-     *
-     * @return Instance
-     */
-    public function setLat($lat)
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    /**
-     * Get lat
-     *
-     * @return string
-     */
-    public function getLat()
-    {
-        return $this->lat;
-    }
-
-    /**
-     * Set long
-     *
-     * @param string $long
-     *
-     * @return Instance
-     */
-    public function setLong($long)
-    {
-        $this->long = $long;
-
-        return $this;
-    }
-
-    /**
-     * Get long
-     *
-     * @return string
-     */
-    public function getLong()
-    {
-        return $this->long;
-    }
 
     /**
      * Set observaciones
@@ -725,4 +678,100 @@ class Instance extends LegacyInstance
 
 
 
+
+    /**
+     * Set latitud
+     *
+     * @param string $latitud
+     *
+     * @return Instance
+     */
+    public function setLatitud($latitud)
+    {
+        $this->latitud = $latitud;
+
+        return $this;
+    }
+
+    /**
+     * Get latitud
+     *
+     * @return string
+     */
+    public function getLatitud()
+    {
+        return $this->latitud;
+    }
+
+    /**
+     * Set longitud
+     *
+     * @param string $longitud
+     *
+     * @return Instance
+     */
+    public function setLongitud($longitud)
+    {
+        $this->longitud = $longitud;
+
+        return $this;
+    }
+
+    /**
+     * Get longitud
+     *
+     * @return string
+     */
+    public function getLongitud()
+    {
+        return $this->longitud;
+    }
+
+    /**
+     * Add country
+     *
+     * @param \Celsius3\CoreBundle\Entity\Country $country
+     *
+     * @return Instance
+     */
+    public function addCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    {
+        $this->countries[] = $country;
+
+        return $this;
+    }
+
+    /**
+     * Remove country
+     *
+     * @param \Celsius3\CoreBundle\Entity\Country $country
+     */
+    public function removeCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    {
+        $this->countries->removeElement($country);
+    }
+
+    /**
+     * Add city
+     *
+     * @param \Celsius3\CoreBundle\Entity\City $city
+     *
+     * @return Instance
+     */
+    public function addCity(\Celsius3\CoreBundle\Entity\City $city)
+    {
+        $this->cities[] = $city;
+
+        return $this;
+    }
+
+    /**
+     * Remove city
+     *
+     * @param \Celsius3\CoreBundle\Entity\City $city
+     */
+    public function removeCity(\Celsius3\CoreBundle\Entity\City $city)
+    {
+        $this->cities->removeElement($city);
+    }
 }
