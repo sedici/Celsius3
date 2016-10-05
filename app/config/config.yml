@@ -439,3 +439,11 @@ ivory_google_map:
     geocoder:
         # Enable the service
         enabled: true
+
+ewz_recaptcha:
+    public_key:  %recaptcha_public_key%
+    private_key: %recaptcha_private_key%
+    enabled: true
+  #  ajax: true
+    # Not needed as "%kernel.default_locale%" is the default value for the locale key
+    #locale_key:  %kernel.default_locale%

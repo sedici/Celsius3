@@ -30,6 +30,9 @@ use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 
+use EWZ\Bundle\RecaptchaBundle\Form\Type\RecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
+
 class RegistrationFormType extends AbstractType
 {
     protected $em;
@@ -70,10 +73,23 @@ class RegistrationFormType extends AbstractType
                     ),
                 ))
         ;
+
         $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getSessionOrUrlInstance(), true);
         $builder->addEventSubscriber($subscriber);
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);
+
+        $builder->add('recaptcha', RecaptchaType::class, array(
+            'attr'        => array(
+                'options' => array(
+                    'theme' => 'light',
+                    'type'  => 'image',
+                    'size'  => 'normal'
+                )
+            ),
+            'mapped'      => false,
+
+        ));
     }
 
     public function getParent()

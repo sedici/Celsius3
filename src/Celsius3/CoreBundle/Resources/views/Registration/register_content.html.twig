@@ -1,7 +1,5 @@
 <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
     {{ form_errors(form) }}
-<div class="register-box">
-    <div class="register-box-body">
 
 
             <div class="row">
@@ -56,7 +54,6 @@
             <div class="col-md-12">
                 <div class="form-group has-feedback">
                     {{ form_widget(form.country,{attr:{class:'form-control country-select',placeholder: 'Pais'}}) }}
-                    <span class="glyphicon glyphicon- form-control-feedback"></span>
                 </div>
                 {{ form_row(form.country) }}
             </div>
@@ -65,7 +62,6 @@
             <div class="col-md-12">
                 <div class="form-group has-feedback">
                     {{ form_widget(form.city,{attr:{class:'form-control city-select',placeholder: 'Ciudad'}}) }}
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
             </div>
         </div>
@@ -73,14 +69,13 @@
             <div class="col-md-12">
                 <div class="form-group has-feedback">
                     {{ form_widget(form.institution,{attr:{class:'form-control institution-select',placeholder: 'Insitucion'}}) }}
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.birthdate,{attr:{class:'form-control',placeholder: 'Fecha de Nacimiento'}}) }}
+                    {{ form_widget(form.birthdate,{attr:{class:'form-control date',placeholder: 'Fecha de Nacimiento'}}) }}
                     <span class="glyphicon glyphicon-fa-birthday-cake form-control-feedback"></span>
                 </div>
 
@@ -93,6 +88,20 @@
 
             </div>
          </div>
+    <div>
+        <div class="col-md-12">
+            {{ form_errors(form.recaptcha) }}
+            {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %}
+
+            {{ form_widget(form.recaptcha, { 'attr': {
+            'options' : {
+            'theme': 'light',
+            'type': 'image',
+            'size': 'normal'
+            },
+            } }) }}
+        </div>
+    </div>
          <div class="row">
                 <div class="col-xs-6">
                     <div class="checkbox icheck">
@@ -108,10 +117,8 @@
                 <!-- /.col -->
          </div>
 
-    </div>
-    <!-- /.form-box -->
-</div>
 
+  
 {{ form_rest(form) }}
   
 
