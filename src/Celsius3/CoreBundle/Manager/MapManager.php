@@ -93,31 +93,24 @@ class MapManager
         if (!$instance->getLat() || !$instance->getLong()) {
             return;
         }
+
         $markerImage = new MarkerImage();
-
-     /*   if ($instance->getTipos()->count() == 2) {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/maps_dist_repuest.png');
-        } else if ($instance->getTipos()->count() == 1 && $instance->getTipos()->first()->getNombre() == "Distribuidor") {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/marcador.png');
-        } else if ($instance->getTipos()->count() == 1 && $instance->getTipos()->first()->getNombre() == "Repuestero") {
-            $markerImage->setUrl('http://fvsa.com/bundles/app/front/img/maps_repuest.png');
-        }
-*/
-
         $infoWindow = new InfoWindow();
         $infoWindow->setOpen($windowOpen);
- /*       $infoWindow->setContent(sprintf(
-            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getAlias(),
-            $instance->getDistListDireccion(), $instance->getCiudad(), $instance->s()
-        ));
+        /*$infoWindow->setContent(sprintf(
+            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getUrl()
+        ));*/
+
+      /*  $infoWindow->setContent(sprintf(
+            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getUrl()));
 */
         $marker = new Marker();
         $marker->setIcon($markerImage);
-        $marker->setPosition((double) $instance->getLat(), (double)$instance->getLong());
+        $marker->setPosition((double) $instance->getLatitud(), (double)$instance->getLongitud());
         $marker->setInfoWindow($infoWindow);
-
         $map->addMarker($marker);
-        $map->setCenter((double) $instance->getLat(), (double)$instance->getLong());
+        $map->setCenter((double) $instance->getLatitud(), (double)$instance->getLongitud());
+   //     return $map;
     }
 
     /**
