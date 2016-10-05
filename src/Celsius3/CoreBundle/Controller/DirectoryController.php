@@ -109,20 +109,17 @@ class DirectoryController extends BaseController
         }
 
 
-
-
-   //     $query = $request->get('q', "La Plata");
-    //    $results = $this->get('ivory_google_map.geocoder')->geocode($query)->getResults();
-
-
         $latitude='-34.9189929';
         $longitude='-57.9523734';
+      //  $latitude='';
+      //  $longitude='';
+
         $instancia_mapa = $this->get('celsius3_core.instance_manager')->findInstance($latitude, $longitude);
+      //    $instancia_mapa = $this->get('celsius3_core.instance_manager')->findAll();
+
         $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
 
-
-
-        //$map->setMapOption('zoom', (integer)$request->get('zoom'));
+        $map->setMapOption('zoom', (integer)$request->get('zoom'));
 
         //$map->setCenter((double)($neLat + ($swLat - $neLat) / 2), (double)($neLon + ($swLon - $neLon) / 2));
 
