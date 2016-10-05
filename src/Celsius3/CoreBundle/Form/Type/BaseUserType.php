@@ -32,7 +32,7 @@ use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 
-
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BaseUserType extends RegistrationFormType
 {
@@ -59,6 +59,7 @@ class BaseUserType extends RegistrationFormType
                 ->add('downloadAuth', null, array(
                     'required' => false,
                 ))
+
         ;
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
@@ -90,7 +91,12 @@ class BaseUserType extends RegistrationFormType
             $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
             $builder->addEventSubscriber($subscriber);
         }
-
+        $builder->add('observaciones', TextareaType::class, array(
+            'attr' => array(
+                'class' => 'summernote',
+            ),
+            'required' => false,
+        ));
 
     }
 

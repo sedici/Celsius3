@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class InstanceType extends LegacyInstanceType
 {
@@ -37,6 +38,7 @@ class InstanceType extends LegacyInstanceType
                 ->add('host')
             ->add('latitud')
             ->add('longitud')
+
         ;
 
         if (array_key_exists('create', $options['data']) && $options['data']['create']) {
@@ -73,7 +75,16 @@ class InstanceType extends LegacyInstanceType
                 ),
                 'auto_initialize' => false,
             ));
+
+
         }
+
+        $builder->add('observaciones', TextareaType::class, array(
+            'attr' => array(
+                'class' => 'summernote',
+            ),
+            'required' => false,
+        ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
