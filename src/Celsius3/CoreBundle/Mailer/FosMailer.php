@@ -41,16 +41,17 @@ class FosMailer extends DefaultMailer
     public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack, InstanceHelper $instanceHelper, MailerHelper $mailerHelper)
     {
         $this->instance = $instanceHelper->getSessionOrUrlInstance();
+        if (!is_null($this->instance)) {
+            $transport = \Swift_SmtpTransport::newInstance($this->instance->get('smtp_host')->getValue(), $this->instance->get('smtp_port')->getValue())
+                    ->setUsername($this->instance->get('smtp_username')->getValue())
+                    ->setPassword($this->instance->get('smtp_password')->getValue())
+            ;
+            $instanceMailer = \Swift_Mailer::newInstance($transport);
 
-        $transport = \Swift_SmtpTransport::newInstance($this->instance->get('smtp_host')->getValue(), $this->instance->get('smtp_port')->getValue())
-                ->setUsername($this->instance->get('smtp_username')->getValue())
-                ->setPassword($this->instance->get('smtp_password')->getValue())
-        ;
-        $instanceMailer = \Swift_Mailer::newInstance($transport);
-
-        parent::__construct($instanceMailer, $router, $templating, $parameters);
-        $this->request_stack = $request_stack;
-        $this->mailerHelper = $mailerHelper;
+            parent::__construct($instanceMailer, $router, $templating, $parameters);
+            $this->request_stack = $request_stack;
+            $this->mailerHelper = $mailerHelper;
+        }
     }
 
     public function sendConfirmationEmailMessage(UserInterface $user)
@@ -88,11 +89,11 @@ class FosMailer extends DefaultMailer
                     'user' => $user,
                     'confirmationUrl' => $url,
                 )) . "\n" . $signature;
-        $rendered=html_entity_decode($rendered);
+        $rendered = html_entity_decode($rendered);
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
 
-  /**
+    /**
      * @param string $renderedTemplate
      * @param string $fromEmail
      * @param string $toEmail
@@ -105,13 +106,12 @@ class FosMailer extends DefaultMailer
         $body = implode("\n", array_slice($renderedLines, 1));
 
         $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
-            ->setFrom($fromEmail)
-            ->setTo($toEmail)
-            ->setBody($body, 'text/html');
+                ->setSubject($subject)
+                ->setFrom($fromEmail)
+                ->setTo($toEmail)
+                ->setBody($body, 'text/html');
 
         $this->mailer->send($message);
     }
-
 
 }
