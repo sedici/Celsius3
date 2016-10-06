@@ -43,9 +43,6 @@ class AppKernel extends Kernel
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
-            new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
-            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
-            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
