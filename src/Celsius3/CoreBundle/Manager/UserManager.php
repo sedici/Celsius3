@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Institution;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 class UserManager
 {
@@ -37,8 +38,6 @@ class UserManager
     const ROLE_TECHNICAL = 'ROLE_TECHNICAL';
     const ROLE_TICKET = 'ROLE_TICKET';
 
-
-
     public static $types = array(
         self::ROLE_USER,
         self::ROLE_LIBRARIAN,
@@ -49,7 +48,6 @@ class UserManager
         self::ROLE_TECHNICAL,
         self::ROLE_TICKET
     );
-
     public static $roles_names = array(
         /** @Ignore */ 'ROLE_USER' => 'User',
         /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
@@ -59,9 +57,6 @@ class UserManager
         /** @Ignore */ 'ROLE_STATISTICS' => 'Network Admin Statistics',
         /** @Ignore */ 'ROLE_TECHNICAL' => 'Network TECHNICAL',
         /** @Ignore */ 'ROLE_TICKET' => 'Sistem de Ticket',
-
-
-
     );
 
     private function iterateInstitutions(Institution $institution)
@@ -110,11 +105,11 @@ class UserManager
 
     public function hasHigherRoles(BaseUser $user1, BaseUser $user2)
     {
-        if ($user1->hasRole('ROLE_SUPER_ADMIN')){
+        if ($user1->hasRole('ROLE_SUPER_ADMIN')) {
             return true;
         }
 
-        if ($user1->hasRole('ROLE_ADMIN') && !$user2->hasRole('ROLE_SUPER_ADMIN')){
+        if ($user1->hasRole('ROLE_ADMIN') && !$user2->hasRole('ROLE_SUPER_ADMIN')) {
             return true;
         }
 

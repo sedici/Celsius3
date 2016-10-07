@@ -66,7 +66,7 @@ class SecurityListener
             return;
         }
 
-        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos($uri, '/oauth/v2/token') || false !== strpos($uri, '/users/current_user') || false !== strpos($uri, '/received_at_update'))) {
+        if ((false !== strpos($uri, '/api')) && !(false !== strpos($uri, '/oauth/v2/auth') || false !== strpos($uri, '/oauth/v2/token') || false !== strpos($uri, '/users/current_user') || false !== strpos($uri, '/received_at_update') || false !== strpos($uri, '/_trans'))) {
             $access_token = $request->query->get('access_token');
 
             if (is_null($access_token)) {

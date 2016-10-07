@@ -1,7 +1,8 @@
 var cciWidget = angular.module('cciWidget', [
     'ngResource',
     'ui.select2',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'boxuk.translation'
 ]);
 
 cciWidget.config(['$translateProvider',

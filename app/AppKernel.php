@@ -41,6 +41,8 @@ class AppKernel extends Kernel
             new Celsius3\TicketBundle\Celsius3TicketBundle(),
             new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
+            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

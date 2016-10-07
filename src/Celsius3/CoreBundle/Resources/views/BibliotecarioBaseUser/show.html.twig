@@ -50,9 +50,9 @@
                         <script type="text/ng-template" id="orders.html">
                             <div class="row" >
                             <ul class="nav nav-tabs">
-                            <li class="active"><a id="active-tab" href="#active" data-toggle="tab">{{ 'Active' | translate }}</a></li>
-                            <li><a id="ready-tab" href="#ready" data-toggle="tab">{{ 'Ready' | translate }}</a></li>
-                            <li><a id="history-tab" href="#history" data-toggle="tab">{{ 'History' | translate }}</a></li>
+                            <li class="active"><a id="active-tab" href="#active" data-toggle="tab">{{ 'Active' | trans }}</a></li>
+                            <li><a id="ready-tab" href="#ready" data-toggle="tab">{{ 'Ready' | trans }}</a></li>
+                            <li><a id="history-tab" href="#history" data-toggle="tab">{{ 'History' | trans }}</a></li>
                             </ul>
 
                             <!-- Tab panes -->
@@ -68,10 +68,10 @@
                             num-pages="paginationActive.numPages"
                             ng-model="paginationActive.currentPage"
                             ng-change="pageChangedActive()"
-                            previous-text="{{ 'Previous' | translate }}"
-                            next-text="{{ 'Next' | translate }}"
-                            first-text="{{ 'First' | translate }}"
-                            last-text="{{ 'Last' | translate }}">
+                            previous-text="{{ 'Previous' | trans }}"
+                            next-text="{{ 'Next' | trans }}"
+                            first-text="{{ 'First' | trans }}"
+                            last-text="{{ 'Last' | trans }}">
                             </pagination>
                             </div>
 
@@ -79,7 +79,7 @@
                             <div ng-include="'_index_element.html'"></div>
                             </div>
                             <div ng-if="paginationActive.total == 0">
-                            <p>{{ 'There are no orders' | translate }}</p>
+                            <p>{{ 'There are no orders' | trans }}</p>
                             </div>
                             </div>
 
@@ -95,10 +95,10 @@
                             num-pages="paginationReady.numPages"
                             ng-model="paginationReady.currentPage"
                             ng-change="pageChangedReady()"
-                            previous-text="{{ 'Previous' | translate }}"
-                            next-text="{{ 'Next' | translate }}"
-                            first-text="{{ 'First' | translate }}"
-                            last-text="{{ 'Last' | translate }}">
+                            previous-text="{{ 'Previous' | trans }}"
+                            next-text="{{ 'Next' | trans }}"
+                            first-text="{{ 'First' | trans }}"
+                            last-text="{{ 'Last' | trans }}">
                             </pagination>
                             </div>
 
@@ -107,7 +107,7 @@
                             <div ng-include="'_index_element.html'"></div>
                             </div>
                             <div ng-if="paginationReady.total == 0">
-                            <p>{{ 'There are no orders' | translate }}</p>
+                            <p>{{ 'There are no orders' | trans }}</p>
                             </div>
                             </div>
 
@@ -123,10 +123,10 @@
                             num-pages="paginationHistory.numPages"
                             ng-model="paginationHistory.currentPage"
                             ng-change="pageChangedHistory()"
-                            previous-text="{{ 'Previous' | translate }}"
-                            next-text="{{ 'Next' | translate }}"
-                            first-text="{{ 'First' | translate }}"
-                            last-text="{{ 'Last' | translate }}">
+                            previous-text="{{ 'Previous' | trans }}"
+                            next-text="{{ 'Next' | trans }}"
+                            first-text="{{ 'First' | trans }}"
+                            last-text="{{ 'Last' | trans }}">
                             </pagination>
                             </div>
 
@@ -134,7 +134,7 @@
                             <div ng-include="'_index_element.html'"></div>
                             </div>
                             <div ng-if="paginationHistory.total == 0">
-                            <p>{{ 'There are no orders' | translate }}</p>
+                            <p>{{ 'There are no orders' | trans }}</p>
                             </div>
                             </div>
                             </div>
@@ -145,12 +145,12 @@
                         <script type="text/ng-template" id="_index_element.html">
                             <div class="top_info">
                             <div class="top_left">
-                            <div ng-class="order.original_request.type | request_type">{{order.original_request.type| request_type_abbr | translate}}</div>
-                            <div class="tipoarticulo">{{order.material_data.type | translate}}</div>
+                            <div ng-class="order.original_request.type | request_type">{{order.original_request.type| request_type_abbr | trans}}</div>
+                            <div class="tipoarticulo">{{order.material_data.type | trans}}</div>
                             </div>
 
                             <div class="top_right">
-                            <div class="status-{{order.original_request.current_state}}" data-toggle="tooltip" title="{{order.original_request.current_state | translate}}"></div>
+                            <div class="status-{{order.original_request.current_state}}" data-toggle="tooltip" title="{{order.original_request.current_state | trans}}"></div>
                             <div class="uri">{{order.code}}</div>
                             <div class="usuario">
                             {{order.original_request.operator ? order.original_request.operator.name : '-'}}
@@ -174,7 +174,7 @@
                             </div>
                             <div class="titulo" ng-if="order.material_data.type !== 'book'">
                             <span ng-if="order.material_data.title">{{ order.material_data.title }}</span>
-                            <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | translate}} ] - </span>
+                            <span ng-if="!order.material_data.title">[ {{ 'sinTitulo' | trans}} ] - </span>
                             </div>
                             <div class="titulo" ng-if="order.material_data.type === 'book'">
                             <span>{{ order.material_data.chapter }}</span>
@@ -186,10 +186,10 @@
                             <div ng-if="order.original_request.owner.pdf === true" class="doc_type_pdf"></div>
                             <div ng-if="order.original_request.owner.pdf !== true" class="doc_type_print"></div>
                             <div class="busquedas">
-                            {{'searches'|translate}}: {{countSearches(order.original_request)}}
+                            {{'searches'|trans}}: {{countSearches(order.original_request)}}
                             </div>
                             <div ng-repeat="event in order.original_request.events" ng-if="event.type === 'cancel' && event.cancelled_by_user">
-                            {{ 'cancelledByUser' | translate }}
+                            {{ 'cancelledByUser' | trans }}
                             </div>
                             </div>
                             </div>
@@ -202,21 +202,21 @@
                             <div class="order-actions">
                             <ul class="list-unstyled actions">
                             <li ng-if="searchPending(order.original_request)">
-                            <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | translate }}"/>
+                            <img src="/bundles/celsius3core/images/stateline/circulo_con_exclamacion.png" width="15" height="15" alt="search pending" data-toggle="tooltip" data-placement="bottom" title="{{ 'Pending searchs' | trans }}"/>
                             </li>
                             <li>
-                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | translate }}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-default" ng-href="{{ {path: 'admin_order_edit', params: {'id': order.id} }|get_url }}" title="{{ 'EditOrder' | trans }}"><span class="glyphicon glyphicon-pencil"></span></a>
                             </li>
                             <li>
                             <form method="POST" action="{{ {path: 'admin_order_duplicate', params: {'id': order.id} }|get_url }}" style="display: inline-block" >
-                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | translate }}"><span class="fa fa-files-o"></span></a>
+                            <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span class="fa fa-files-o"></span></a>
                             </form>
                             </li>
                             </ul>
                             </div>
                             <div class="clearfix"></div>
                             <div class="requests" ng-if="hasRequests(order.original_request.events)">
-                            <h5>{{ 'Requests' | translate }}</h5>
+                            <h5>{{ 'Requests' | trans }}</h5>
                             <p ng-repeat="event in order.original_request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
                             <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
                             <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>

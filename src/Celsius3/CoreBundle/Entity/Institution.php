@@ -30,68 +30,82 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Institution extends Provider
 {
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $abbreviation;
+
     /**
      * @Assert\Url()
      * @ORM\Column(type="string", length=255)
      */
     private $website;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
+
     /**
      * @ORM\OneToMany(targetEntity="BaseUser", mappedBy="institution")
      */
     private $users;
+
     /**
      * @ORM\OneToMany(targetEntity="Institution", mappedBy="parent")
      */
     private $institutions;
+
     /**
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="institutions")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     private $parent;
+
     /**
      * @ORM\ManyToOne(targetEntity="City", inversedBy="institutions")
      * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
      */
     private $city;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="institutions")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id")
      */
     private $country;
+
     /**
      * @ORM\OneToMany(targetEntity="Catalog", mappedBy="institution")
      */
     private $catalogs;
+
     /**
      * @ORM\OneToMany(targetEntity="Contact", mappedBy="institution")
      */
     private $contacts;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="institutions")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
+
     /**
      * @ORM\ManyToOne(targetEntity="LegacyInstance", inversedBy="ownerInstitutions" , cascade={"persist"})
      * @ORM\JoinColumn(name="celsius_instance_id", referencedColumnName="id")
      */
-    private $celsiusInstance;
+    private $celsiusInstance = null;
+
     /**
      * @ORM\ManyToOne(targetEntity="Hive", inversedBy="institutions")
      * @ORM\JoinColumn(name="hive_id", referencedColumnName="id")
@@ -102,7 +116,6 @@ class Institution extends Provider
      * @ORM\ManyToMany(targetEntity="BaseUser", mappedBy="librarianInstitution")
      */
     private $librarian;
-
 
     public function getProviderType()
     {
@@ -449,7 +462,7 @@ class Institution extends Provider
      * @param  Celsius3\CoreBundle\Entity\LegacyInstance $celsiusInstance
      * @return self
      */
-    public function setCelsiusInstance(\Celsius3\CoreBundle\Entity\LegacyInstance $celsiusInstance)
+    public function setCelsiusInstance(\Celsius3\CoreBundle\Entity\LegacyInstance $celsiusInstance = null)
     {
         $this->celsiusInstance = $celsiusInstance;
 
@@ -522,4 +535,5 @@ class Institution extends Provider
     {
         return $this->librarian;
     }
+
 }
