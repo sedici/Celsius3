@@ -29,12 +29,12 @@ use Symfony\Component\Form\AbstractType;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
-
-use EWZ\Bundle\RecaptchaBundle\Form\Type\RecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class RegistrationFormType extends AbstractType
 {
+
     protected $em;
     protected $instance_helper;
 
@@ -79,16 +79,15 @@ class RegistrationFormType extends AbstractType
         $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($subscriber2);
 
-        $builder->add('recaptcha', RecaptchaType::class, array(
-            'attr'        => array(
+        $builder->add('recaptcha', EWZRecaptchaType::class, array(
+            'attr' => array(
                 'options' => array(
                     'theme' => 'light',
-                    'type'  => 'image',
-                    'size'  => 'normal'
+                    'type' => 'image',
+                    'size' => 'normal'
                 )
             ),
-            'mapped'      => false,
-
+            'mapped' => false,
         ));
     }
 
@@ -96,4 +95,5 @@ class RegistrationFormType extends AbstractType
     {
         return 'FOS\UserBundle\Form\Type\RegistrationFormType';
     }
+
 }
