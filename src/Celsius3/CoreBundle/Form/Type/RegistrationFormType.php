@@ -33,10 +33,12 @@ use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use EWZ\Bundle\RecaptchaBundle\Form\Type\RecaptchaType;
+
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class RegistrationFormType extends AbstractType
 {
+
     protected $em;
     protected $instance_helper;
 
