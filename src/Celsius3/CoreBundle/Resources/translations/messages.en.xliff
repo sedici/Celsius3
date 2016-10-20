@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-10-05T18:24:35Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2016-10-07T10:23:42Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -959,7 +959,7 @@
       </trans-unit>
       <trans-unit id="70f8bb9a8a5393ef080507a89e4b98d139000d65" resname="Home">
         <source>Home</source>
-        <target state="new">Home</target>
+        <target>Home</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Directory/statistics.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Public/help.html.twig</jms:reference-file>

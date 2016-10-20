@@ -2556,7 +2556,7 @@
             </trans-unit> 
             <trans-unit id="exploreCatalogs" resname="exploreCatalogs" datatype="plaintext"> 
                 <source>exploreCatalogs</source>
-                <target>Explorar catálogos</target> 
+                <target>Registrar Búsquedas</target>
             </trans-unit> 
             <trans-unit id="searchCatalogs" resname="searchCatalogs" datatype="plaintext"> 
                 <source>searchCatalogs</source>
