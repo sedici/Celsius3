@@ -836,7 +836,15 @@
         <!-- show_order_actions.html -->
         <script type="text/ng-template" id="show_order_actions.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
-                <div class="explorar_catalogos" ng-if="contains(['searched', 'requested', 'approval_pending', 'received'], request.current_state) && countSearches() > 0">
+
+            <div class="explorar_catalogos">
+                <button type="button" class="btn btn-default btn-block" data-target="#search-modal" role="button" data-toggle="modal" id="catalogs_link">
+                    <span class="glyphicon glyphicon-search"></span>  {{'exploreCatalogs' | trans}}
+                </button>
+            </div>
+
+
+            <div class="explorar_catalogos" ng-if="contains(['searched', 'requested', 'approval_pending', 'received'], request.current_state) && countSearches() > 0">
                 <button type="button" class="btn btn-success btn-block" data-target="#request-modal" role="button" data-toggle="modal">
                 <span class="glyphicon glyphicon-plus"></span> {{'addRequest' | trans}}
                 </button>
@@ -848,11 +856,6 @@
                 </button>
                 </div>
 
-                <div class="explorar_catalogos">
-                <button type="button" class="btn btn-link btn-block" data-target="#search-modal" role="button" data-toggle="modal" id="catalogs_link">
-                {{'exploreCatalogs' | trans}}
-                </button>
-                </div>
 
                 <div class="explorar_catalogos" ng-if="contains(['requested'], request.current_state) && !currentState(request).search_pending">
                 <button type="button" class="btn btn-default btn-block" role="button" ng-click="pendingSearch()">
