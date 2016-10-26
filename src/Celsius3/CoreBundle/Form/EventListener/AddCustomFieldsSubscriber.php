@@ -32,6 +32,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
+
     private $factory;
     private $em;
     private $instance;
@@ -110,4 +111,5 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             }
         }
     }
+
 }

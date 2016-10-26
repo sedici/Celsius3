@@ -31,11 +31,6 @@
         <target>Congrats %username%, your account is now activated.</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/Registration/confirmed.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="4ef79d57e94b4b74349d6533a231e09dc5be0ce2" resname="registration.submit">
-        <source>registration.submit</source>
-        <target>Register</target>
-        <jms:reference-file line="106">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
-      </trans-unit>
       <trans-unit id="40c1a483571045e24d606bf00361cfd4d021ba05" resname="resetting.check_email">
         <source>resetting.check_email</source>
         <target>An email has been sent to %email%. It contains a link you must click to reset your password.</target>
@@ -81,26 +76,6 @@ the Team.
         <source>resetting.reset.submit</source>
         <target>Change password</target>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Resetting/reset_content.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="62d5564c383b885ff0de25abd24a41080499970b" resname="security.login.password">
-        <source>security.login.password</source>
-        <target>Password:</target>
-        <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="d074ed9a0eb75b7f17ef2274c21d4c3d12d91634" resname="security.login.remember_me">
-        <source>security.login.remember_me</source>
-        <target>Remember me</target>
-        <jms:reference-file line="43">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="79c180ac5e987e195d1dfeda857a114ed692d07f" resname="security.login.submit">
-        <source>security.login.submit</source>
-        <target>Login</target>
-        <jms:reference-file line="51">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="64e1b2aaf6156a7e34a13fbc38801e89478efff8" resname="security.login.username">
-        <source>security.login.username</source>
-        <target>Email or Username:</target>
-        <jms:reference-file line="31">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
     </body>
   </file>

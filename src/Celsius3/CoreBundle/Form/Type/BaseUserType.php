@@ -104,4 +104,5 @@ class BaseUserType extends RegistrationFormType
             'registration' => false,
         ));
     }
+
 }

@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.country,{attr:{class:'form-control country-select',placeholder: 'Pais'}}) }}
+                    {{ form_widget(form.country, { attr: { class: 'form-control country-select', placeholder: 'label.country'| trans | first_upper } }) }}
                 </div>
                 {{ form_row(form.country) }}
             </div>
@@ -66,7 +66,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.city,{attr:{class:'form-control city-select',placeholder: 'Ciudad'}}) }}
+                    {{ form_widget(form.city, { attr: { class: 'form-control city-select', placeholder: 'label.city' | trans | first_upper } }) }}
                 </div>
             </div>
         </div>
@@ -74,9 +74,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.institution,{attr:{class:'form-control institution-select',placeholder: 'Insitucion'}}) }}
-
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    {{ form_widget(form.institution, { attr: { class: 'form-control institution-select', placeholder: 'label.institution' | trans | first_upper } }) }}
                 </div>
             </div>
         </div>

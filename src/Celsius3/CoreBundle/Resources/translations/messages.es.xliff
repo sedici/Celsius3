@@ -3145,6 +3145,9 @@
                 <source>userRequestsIndex</source>
                 <target>El usuario solicita índice</target>
             </trans-unit>
+
+            <!-- // END // Angular locales -->
+
         </body>
     </file>
 </xliff>
