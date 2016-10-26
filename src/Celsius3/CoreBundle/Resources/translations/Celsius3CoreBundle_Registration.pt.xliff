@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2016-10-25T17:09:28Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="61b7b4899bd0e13a229ace5408c17b5822488ee7" resname="title.register_user">
+        <source>title.register_user</source>
+        <target>__title.register_user</target>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/Registration/register.html.twig</jms:reference-file>
+        <jms:reference-file line="6">/../src/Celsius3/CoreBundle/Resources/views/Registration/register.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

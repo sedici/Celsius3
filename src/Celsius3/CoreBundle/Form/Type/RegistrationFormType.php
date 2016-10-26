@@ -31,6 +31,7 @@ use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
 use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType
 {
@@ -74,10 +75,12 @@ class RegistrationFormType extends AbstractType
                 ))
         ;
 
-        $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getSessionOrUrlInstance(), true);
-        $builder->addEventSubscriber($subscriber);
-        $subscriber2 = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
-        $builder->addEventSubscriber($subscriber2);
+        $registration = (isset($options['registration'])) ? $options['registration'] : true;
+        $customFiledsSubscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getSessionOrUrlInstance(), $registration);
+        $builder->addEventSubscriber($customFiledsSubscriber);
+
+        $institutionFiledsSubscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
+        $builder->addEventSubscriber($institutionFiledsSubscriber);
 
         $builder->add('recaptcha', EWZRecaptchaType::class, array(
             'attr' => array(
@@ -94,6 +97,13 @@ class RegistrationFormType extends AbstractType
     public function getParent()
     {
         return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'registration' => true,
+        ));
     }
 
 }
