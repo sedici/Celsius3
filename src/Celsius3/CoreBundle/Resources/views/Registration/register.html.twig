@@ -1,21 +1,17 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
+{% trans_default_domain 'Celsius3CoreBundle_Registration' %}
+
 {% block title %}
-    {{ 'Register'|trans }}
+    {{ 'title.register_user' | trans | first_upper }}
 {% endblock %}
 
-
 {% block content %}
-
-<div class="panel panel-default ">
-    <div class="panel-heading"> <h3>{{ 'Register user'|trans }}</h3>
-   t  </div>
-    <div class="panel-body">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            {% include "Celsius3CoreBundle:Registration:register_content.html.twig" %}
+        <div class="col-md-8 col-md-offset-2 panel panel-default">
+            <h3>{{ 'title.register_user' | trans | first_upper }}</h3>
+            <br>
+            {% include 'Celsius3CoreBundle:Registration:register_content.html.twig' %}
         </div>
     </div>
- </div>
- </div>
 {% endblock %}

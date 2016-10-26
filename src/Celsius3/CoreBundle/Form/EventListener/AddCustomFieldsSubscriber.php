@@ -25,8 +25,6 @@ namespace Celsius3\CoreBundle\Form\EventListener;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
-
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManager;
 use JMS\TranslationBundle\Annotation\Ignore;
@@ -34,6 +32,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
+
     private $factory;
     private $em;
     private $instance;
@@ -68,9 +67,10 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 ->where('cuf.instance = :instance_id')
                 ->andWhere('cuf.enabled = true')
                 ->setParameter('instance_id', $this->instance->getId());
-    
+
         if ($this->registration) {
-            $query = $query->andWhere('cuf.private = true');
+            $query = $query->andWhere('cuf.private = :private')
+                    ->setParameter('private', false);
         }
 
         $fields = $query->getQuery()->getResult();
@@ -86,47 +86,43 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 $value = null;
             }
 
-            if ($field->getType()=='Symfony\Component\Form\Extension\Core\Type\ChoiceType'){
-                 $valores=explode(',',$field->getValue());
-                 $array_choices=array();
-                 foreach ($valores as $key => $value) {
-                     $array_choices[$value]=$value;
-                 }
-                 $form->add($field->getKey(), $field->getType(), array(
-                    'choices'  =>$array_choices,
+            if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\ChoiceType') {
+                $valores = explode(',', $field->getValue());
+                $array_choices = array();
+                foreach ($valores as $key => $value) {
+                    $array_choices[$value] = $value;
+                }
+                $form->add($field->getKey(), $field->getType(), array(
+                    'choices' => $array_choices,
                     'required' => $field->getRequired(),
                     'mapped' => false,
                     // *this line is important*
                     'choices_as_values' => true,
-                     'auto_initialize' => false,
+                    'auto_initialize' => false,
                 ));
-            }else{
-
-                if ($field->getType()=='Symfony\Component\Form\Extension\Core\Type\DateType'){
-                
+            } else {
+                if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
-                        /** @Ignore */ 'label' => ucfirst($field->getName()),
-                        'required' => $field->getRequired(),
-                        'widget' => 'single_text',
-                        'format' => 'dd-MM-yyyy',
-                        'attr' => array(
-                            'class' => 'date'
-                        ),
-                        'mapped' => false,
-                        'auto_initialize' => false,
-            )));
-
-                }else{
-                        $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
                                 /** @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
-
+                                'widget' => 'single_text',
+                                'format' => 'dd-MM-yyyy',
+                                'attr' => array(
+                                    'class' => 'date'
+                                ),
                                 'mapped' => false,
                                 'auto_initialize' => false,
-                        )));  
-                        }  
+                    )));
+                } else {
+                    $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
+                                /** @Ignore */ 'label' => ucfirst($field->getName()),
+                                'required' => $field->getRequired(),
+                                'mapped' => false,
+                                'auto_initialize' => false,
+                    )));
+                }
             }
-            
         }
     }
+
 }

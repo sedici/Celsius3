@@ -31,7 +31,6 @@ use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BaseUserType extends RegistrationFormType
@@ -63,7 +62,7 @@ class BaseUserType extends RegistrationFormType
         ;
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
-         if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
+            if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
                         ->add('instance', null, array(
                             'query_builder' => function (EntityRepository $repository) {
@@ -86,6 +85,7 @@ class BaseUserType extends RegistrationFormType
 
         if ($options['editing']) {
             $builder->remove('plainPassword');
+            $builder->remove('recaptcha');
         }
         if (!is_null($options['instance'])) {
             $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
@@ -97,7 +97,6 @@ class BaseUserType extends RegistrationFormType
             ),
             'required' => false,
         ));
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -105,6 +104,8 @@ class BaseUserType extends RegistrationFormType
         $resolver->setDefaults(array(
             'instance' => null,
             'editing' => false,
+            'registration' => false,
         ));
     }
+
 }
