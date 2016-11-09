@@ -22,12 +22,12 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
+use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Entity\Request;
 use Symfony\Component\DependencyInjection\Container;
 
 class RequestExtension extends \Twig_Extension
 {
-
     private $container;
 
     public function __construct(Container $container)
@@ -44,16 +44,15 @@ class RequestExtension extends \Twig_Extension
 
     public function searchPending(Request $request)
     {
-        $array = array_filter($request->getStates()->toArray(), function($item) {
+        $array = array_filter($request->getStates()->toArray(), function (State $item) {
             return $item->getType() === 'requested' && $item->getSearchPending();
         });
 
-        return (COUNT($array) > 0);
+        return count($array) > 0;
     }
 
     public function getName()
     {
         return 'celsius3_core.request_extension';
     }
-
 }

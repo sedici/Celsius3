@@ -33,7 +33,6 @@ use Elastica\Filter\BoolFilter;
 
 class SearchManager
 {
-
     private $container;
 
     public function __construct(Container $container)
@@ -51,7 +50,7 @@ class SearchManager
         return $search;
     }
 
-    private function addAgregations($query)
+    private function addAgregations(Query $query)
     {
         $typesAgg = (new Terms('types'))->setField('type');
         $ownersAgg = (new Nested('owners', 'owner'))
@@ -123,7 +122,7 @@ class SearchManager
     private function addAggregationsFilters(BoolFilter $boolFilter, array $filters = array())
     {
         foreach ($filters as $name => $value) {
-            $function = "add" . ucfirst($name) . "Filter";
+            $function = 'add'.ucfirst($name).'Filter';
             if (method_exists($this, $function)) {
                 $this->$function($boolFilter, $value);
             }
@@ -146,12 +145,12 @@ class SearchManager
         $query->setQuery($filtered);
 
         $finder = $this->container->get('fos_elastica.finder.app.request');
+
         return $finder->createPaginatorAdapter($query);
     }
 
     public function getAggsUsersData($aggs)
     {
-
         $usernames = array();
         foreach ($aggs['owners']['owners']['buckets'] as $user) {
             $usernames[] = $user['key'];
@@ -171,7 +170,7 @@ class SearchManager
         foreach ($baseusers as $user) {
             $users[strtolower($user->getUsername())] = [
                 'name' => $user->getName(),
-                'surname' => $user->getSurname()
+                'surname' => $user->getSurname(),
             ];
         }
 
@@ -188,5 +187,4 @@ class SearchManager
 
         return false;
     }
-
 }

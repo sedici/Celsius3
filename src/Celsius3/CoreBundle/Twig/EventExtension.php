@@ -23,13 +23,13 @@
 namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class EventExtension extends \Twig_Extension
 {
-
     public function getFunctions()
     {
         return array(
@@ -46,23 +46,22 @@ class EventExtension extends \Twig_Extension
 
     public function countSearches(Request $request)
     {
-        return $request->getEvents()->filter(function($e) {
-                    return $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED;
-                })->count();
+        return $request->getEvents()->filter(function ($e) {
+            return $e instanceof SearchEvent && $e->getResult() !== CatalogManager::CATALOG__NON_SEARCHED;
+        })->count();
     }
 
     public function hasRequests($events)
     {
-        $requests = array_filter($events->toArray(), function($e) {
-            return ($e->getEventType() === 'sirequest' || $e->getEventType() === 'mirequest');
+        $requests = array_filter($events->toArray(), function (Event $e) {
+            return $e->getEventType() === 'sirequest' || $e->getEventType() === 'mirequest';
         });
 
-        return (COUNT($requests) > 0);
+        return count($requests) > 0;
     }
 
     public function getName()
     {
         return 'celsius3_core.event_extension';
     }
-
 }

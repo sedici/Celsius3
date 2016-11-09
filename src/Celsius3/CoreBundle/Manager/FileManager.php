@@ -29,11 +29,9 @@ use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\FileDownload;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class FileManager
 {
-
     const LOGOS_UPLOAD_DIR = '/Users/agustin/php-workspace/Celsius3/web/uploads/logos';
 
     private $em;
@@ -43,9 +41,10 @@ class FileManager
         $this->em = $em;
     }
 
-    private function countPages($file)
+    private function countPages(File $file)
     {
-        exec("exiftool " . $file->getRealPath() . " | awk '/Page Count/ { print $4 }'", $output);
+        exec('exiftool '.$file->getRealPath()." | awk '/Page Count/ { print $4 }'", $output);
+
         return $output[0];
     }
 
@@ -92,7 +91,7 @@ class FileManager
                 $file->setInstance($previousRequest->getInstance());
                 $file->setRequest($previousRequest);
                 $file->setEvent($event);
-                if (!copy($original->getUploadRootDir() . DIRECTORY_SEPARATOR . $original->getPath(), $file->getUploadRootDir() . DIRECTORY_SEPARATOR . $file->getPath())) {
+                if (!copy($original->getUploadRootDir().DIRECTORY_SEPARATOR.$original->getPath(), $file->getUploadRootDir().DIRECTORY_SEPARATOR.$file->getPath())) {
                     throw new \Exception('Copy file error');
                 }
                 $this->em->persist($file);
@@ -101,5 +100,4 @@ class FileManager
             }
         }
     }
-
 }
