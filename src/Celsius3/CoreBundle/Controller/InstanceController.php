@@ -25,10 +25,10 @@ namespace Celsius3\CoreBundle\Controller;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Validator\Constraints\ContainsCSS;
 use Celsius3\CoreBundle\Exception\Exception;
+use JMS\TranslationBundle\Annotation\Ignore;
 
 abstract class InstanceController extends BaseController
 {
-
     protected function listQuery($name)
     {
         $qb = parent::listQuery($name)
@@ -42,12 +42,14 @@ abstract class InstanceController extends BaseController
     }
 
     /**
-     * Construye un array con la configuracion para cada widget .Permite manejar casos especiales como textareas o files
+     * Construye un array con la configuracion para cada widget .Permite manejar casos especiales como textareas o files.
+     *
      * @author gonetil
+     *
      * @param $configuration la configuracion del form widget
      * @param $configurationType el tipo widget de configuracion
-     * @return array con la estructura esperada por el metodo add de FormBuilder
      *
+     * @return array con la estructura esperada por el metodo add de FormBuilder
      */
     private function buildConfigurationArray($configuration, $configurationType)
     {
@@ -55,13 +57,13 @@ abstract class InstanceController extends BaseController
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
-            /** @Ignore */ 'label' => $configuration->getName(),
+            /* @Ignore */ 'label' => $configuration->getName(),
             'required' => false,
             'attr' => array(
                 'value' => $configuration->getValue(),
                 'class' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
                 'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO || $configuration->getKey() === ConfigurationHelper::CONF__SHOW_NEWS ? false : true,
-                'readonly' => $readonly
+                'readonly' => $readonly,
             ),
         );
 
@@ -74,7 +76,6 @@ abstract class InstanceController extends BaseController
 
     private function getConfigurationForm($id, $entity)
     {
-
         $builder = $this->createFormBuilder();
 
         foreach ($entity->getConfigurations() as $configuration) {
@@ -85,8 +86,8 @@ abstract class InstanceController extends BaseController
                     'attr' => array(
                         'value' => 'test_connection',
                         'class' => 'btn btn-default',
-                        'required' => false
-                )));
+                        'required' => false,
+                ), ));
             }
         }
 
@@ -126,20 +127,20 @@ abstract class InstanceController extends BaseController
         if ($configureForm->isValid()) {
             $values = $configureForm->getData();
             $class = new \ReflectionClass($this);
-            $basedir = dirname($class->getFileName()) . '/../../../..';
+            $basedir = dirname($class->getFileName()).'/../../../..';
 
             $uploadedFile = $configureForm['instance_logo']->getData();
             if (!is_null($uploadedFile)) {
                 $randomName = md5(uniqid(mt_rand(), true));
-                $uploadedFile->move($basedir . '/web/uploads/logos/', $randomName . '.' . $uploadedFile->guessClientExtension());
-                $values['instance_logo'] = $randomName . '.' . $uploadedFile->guessClientExtension();
+                $uploadedFile->move($basedir.'/web/uploads/logos/', $randomName.'.'.$uploadedFile->guessClientExtension());
+                $values['instance_logo'] = $randomName.'.'.$uploadedFile->guessClientExtension();
             }
 
             $em = $this->getDoctrine()->getManager();
 
             foreach ($entity->getConfigurations() as $configuration) {
                 if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
-                    unlink($basedir . '/web/uploads/logos/' . $configuration->getValue());
+                    unlink($basedir.'/web/uploads/logos/'.$configuration->getValue());
                 }
                 if (!is_null($values[$configuration->getKey()]) || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS) {
                     $configuration->setValue($values[$configuration->getKey()]);
@@ -151,7 +152,7 @@ abstract class InstanceController extends BaseController
 
             $this->addFlash('success', 'The instance was successfully configured.');
 
-            return $this->redirect($this->generateUrl($route . '_configure', array('id' => $id)));
+            return $this->redirect($this->generateUrl($route.'_configure', array('id' => $id)));
         }
 
         return array(
@@ -159,5 +160,4 @@ abstract class InstanceController extends BaseController
             'configure_form' => $configureForm->createView(),
         );
     }
-
 }

@@ -26,10 +26,10 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Celsius3\CoreBundle\Entity\Counter;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class CounterListener
 {
-
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();

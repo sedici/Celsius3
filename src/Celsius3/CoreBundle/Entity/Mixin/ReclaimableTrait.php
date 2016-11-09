@@ -22,6 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Mixin;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
 trait ReclaimableTrait
 {
     /**
@@ -32,9 +35,10 @@ trait ReclaimableTrait
     private $isReclaimed = false;
 
     /**
-     * Set isReclaimed
+     * Set isReclaimed.
      *
-     * @param  boolean $isReclaimed
+     * @param bool $isReclaimed
+     *
      * @return self
      */
     public function setIsReclaimed($isReclaimed)
@@ -45,9 +49,9 @@ trait ReclaimableTrait
     }
 
     /**
-     * Get isReclaimed
+     * Get isReclaimed.
      *
-     * @return boolean $isReclaimed
+     * @return bool $isReclaimed
      */
     public function getIsReclaimed()
     {

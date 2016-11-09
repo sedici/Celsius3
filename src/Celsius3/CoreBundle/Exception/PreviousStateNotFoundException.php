@@ -22,14 +22,13 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
+use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PreviousStateNotFoundException extends \LogicException implements Celsius3ExceptionInterface
 {
-
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
         $exception = $event->getException();
@@ -42,5 +41,4 @@ class PreviousStateNotFoundException extends \LogicException implements Celsius3
         $logger = $container->get('monolog.logger.celsius_exception');
         $logger->error($exception);
     }
-
 }

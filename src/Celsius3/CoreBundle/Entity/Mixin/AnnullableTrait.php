@@ -22,6 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Mixin;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
 trait AnnullableTrait
 {
     /**
@@ -32,9 +35,10 @@ trait AnnullableTrait
     private $isAnnulled = false;
 
     /**
-     * Set isAnnulled
+     * Set isAnnulled.
      *
-     * @param  boolean $isAnnulled
+     * @param bool $isAnnulled
+     *
      * @return self
      */
     public function setIsAnnulled($isAnnulled)
@@ -45,9 +49,9 @@ trait AnnullableTrait
     }
 
     /**
-     * Get isAnnulled
+     * Get isAnnulled.
      *
-     * @return boolean $isAnnulled
+     * @return bool $isAnnulled
      */
     public function getIsAnnulled()
     {

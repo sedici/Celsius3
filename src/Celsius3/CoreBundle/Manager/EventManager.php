@@ -23,7 +23,6 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
 use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
@@ -31,11 +30,11 @@ use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Exception\NotFoundException;
 use Celsius3\CoreBundle\Entity\Instance;
 
 class EventManager
 {
-
     const EVENT__CREATION = 'creation';
     const EVENT__SEARCH = 'search';
     const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
@@ -118,7 +117,7 @@ class EventManager
             throw Exception::create(Exception::NOT_FOUND, 'exception.not_found.event');
         }
 
-        return $this->class_prefix . $this->event_classes[$event];
+        return $this->class_prefix.$this->event_classes[$event];
     }
 
     private function prepareExtraDataForSearch(Request $request, array $extraData, Instance $instance)
@@ -150,7 +149,7 @@ class EventManager
         if ($httpRequest->request->get('provider') === 'web') {
             $provider = $em->getRepository('Celsius3CoreBundle:Web')
                     ->findOneBy(array());
-        } else if ($httpRequest->request->get('provider') === 'author') {
+        } elseif ($httpRequest->request->get('provider') === 'author') {
             $provider = $em->getRepository('Celsius3CoreBundle:Author')
                     ->findOneBy(array());
         } else {
@@ -370,7 +369,7 @@ class EventManager
 
     public function prepareExtraData($event, Request $request, Instance $instance)
     {
-        $methodName = 'prepareExtraDataFor' . ucfirst($event);
+        $methodName = 'prepareExtraDataFor'.ucfirst($event);
 
         return $this->$methodName($request, array(), $instance);
     }
@@ -379,7 +378,7 @@ class EventManager
     {
         foreach ($requests as $request) {
             $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function ($reception) use ($request) {
-                /**
+                /*
                  * @todo Probar esto mas exhaustivamente.
                  */
                 if ($reception instanceof SingleInstanceReceiveEvent || $reception instanceof MultiInstanceReceiveEvent) {
@@ -430,11 +429,10 @@ class EventManager
         $results = array();
 
         foreach ($repositories as $repository) {
-            $results = array_merge($results, $em->getRepository('Celsius3CoreBundle:Event\\' . $repository)
+            $results = array_merge($results, $em->getRepository('Celsius3CoreBundle:Event\\'.$repository)
                             ->findBy(array('request' => $request_id)));
         }
 
         return $results;
     }
-
 }

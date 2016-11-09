@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use JMS\Serializer\SerializationContext;
 
 /**
@@ -37,9 +37,9 @@ use JMS\Serializer\SerializationContext;
  */
 class MessageRestController extends FOSRestController
 {
-
     /**
      * GET Route annotation.
+     *
      * @Get("", name="rest_message", options={"expose"=true})
      */
     public function getMessagesAction(Request $request)
@@ -65,16 +65,16 @@ class MessageRestController extends FOSRestController
         return $this->handleView($view);
     }
 
-/**
+    /**
      * POST Route annotation.
+     *
      * @Post("/send-message", name="admin_rest_message", options={"expose"=true})
      */
     public function sendMessageAction(Request $request)
     {
-        
         $form = $this->container->get('fos_message.new_thread_form.factory')->create();
         $formHandler = $this->container->get('fos_message.new_thread_form.handler');
-        
+
        /*
         if (!$request->request->has('recipients')) {
             throw new NotFoundHttpException('Error sending message');
@@ -95,29 +95,22 @@ class MessageRestController extends FOSRestController
 
         $form->handleRequest($request);
     //    dump($);die;
-        
+
         $message = $formHandler->process($form);
-
-
-
 
 //        $message = $formHandler->process($form);
         $result['result'] = true;
         if ($message) {
             return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
-                'threadId' => $message->getThread()->getId()
+                'threadId' => $message->getThread()->getId(),
             )));
-        }else{
+        } else {
             $result['result'] = false;
-        
         }
-
 
         $result['message'] = $message;
         $view = $this->view($result, 200)->setFormat('json');
+
         return $this->handleView($view);
-
     }
-
-
 }
