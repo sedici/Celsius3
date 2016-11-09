@@ -35,19 +35,21 @@ use Celsius3\CoreBundle\Exception\Exception;
  *
  * @Route("/admin/rest/institution")
  */
-class AdminInstitutionRestController extends BaseInstanceDependentRestController {
-
+class AdminInstitutionRestController extends BaseInstanceDependentRestController
+{
     /**
      * GET Route annotation.
+     *
      * @Get("/parent/{parent_id}", name="admin_rest_institution_parent_get", options={"expose"=true})
      */
-    public function getInstitutionByParentAction($parent_id) {
+    public function getInstitutionByParentAction($parent_id)
+    {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 
         $em = $this->getDoctrine()->getManager();
 
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->findBy(array('parent' => $parent_id,));
+                ->findBy(array('parent' => $parent_id));
 
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -57,9 +59,11 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{id}/get", name="admin_rest_institution_get", options={"expose"=true})
      */
-    public function getInstitutionAction($id) {
+    public function getInstitutionAction($id)
+    {
         $em = $this->getDoctrine()->getManager();
 
         $institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($id);
@@ -79,7 +83,8 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
     /**
      * @Get("/{id}/users", name="admin_rest_institution_users_get", options={"expose"=true})
      */
-    public function getInstitutionUsers($id) {
+    public function getInstitutionUsersAction($id)
+    {
         $users = $this->getDoctrine()->getRepository('Celsius3CoreBundle:BaseUser')->getInstitutionUsers($id);
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
@@ -89,9 +94,11 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{country_id}/{city_id}", defaults={"city_id" = null}, name="admin_rest_institution", options={"expose"=true})
      */
-    public function getInstitutionsAction($country_id, $city_id, Request $request) {
+    public function getInstitutionsAction($country_id, $city_id, Request $request)
+    {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 
         $em = $this->getDoctrine()->getManager();
@@ -116,7 +123,8 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
     /**
      * @Post("/create", name="admin_rest_institution_create", options={"expose"=true})
      */
-    public function createInstitution(Request $request) {
+    public function createInstitutionAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
 
         $institution = new Institution();
@@ -124,7 +132,6 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $institution->setAbbreviation($request->request->get('abbreviation'));
         $institution->setWebsite($request->request->get('website'));
         $institution->setAddress($request->request->get('address'));
-
 
         $institution->setCountry($em->getRepository('Celsius3CoreBundle:Country')->find($request->request->get('country')));
         if (!empty($request->request->get('city'))) {
@@ -138,6 +145,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
 
         if (count($errors) > 0) {
             $view = $this->view(array('hasErrors' => true, 'errors' => $errors), 200)->setFormat('json');
+
             return $this->handleView($view);
         }
 
@@ -145,7 +153,7 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $em->flush($institution);
 
         $view = $this->view(array('hasErrors' => false, 'institution' => $institution), 200)->setFormat('json');
+
         return $this->handleView($view);
     }
-
 }

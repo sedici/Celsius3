@@ -36,9 +36,9 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AdminRequestRestController extends BaseInstanceDependentRestController
 {
-
     /**
      * GET Route annotation.
+     *
      * @Get("/", name="admin_rest_request", options={"expose"=true})
      */
     public function getRequestsAction()
@@ -55,6 +55,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{order_id}", name="admin_rest_request_get", options={"expose"=true})
      */
     public function getRequestAction($order_id)
@@ -81,9 +82,10 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Post("/reenable_download", name="admin_rest_request_reenable_download", options={"expose"=true})
      */
-    public function reenableDownload(Request $req)
+    public function reenableDownloadAction(Request $req)
     {
         $request_id = $req->request->get('request_id');
         $manager = $this->getDoctrine()->getManager();
@@ -101,7 +103,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         $manager->flush();
 
         $view = $this->view(['reenabled' => true], 200)->setFormat('json');
+
         return $this->handleView($view);
     }
-
 }

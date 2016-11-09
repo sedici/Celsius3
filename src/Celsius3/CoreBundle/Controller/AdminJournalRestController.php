@@ -34,11 +34,10 @@ use Celsius3\CoreBundle\Entity\Journal;
  */
 class AdminJournalRestController extends BaseInstanceDependentRestController
 {
-
     /**
      * @Post("/create", name="admin_rest_journal_create", options={"expose"=true})
      */
-    public function createJournal(Request $request)
+    public function createJournalAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -55,6 +54,7 @@ class AdminJournalRestController extends BaseInstanceDependentRestController
 
         if (count($errors) > 0) {
             $view = $this->view(array('hasErrors' => true, 'errors' => $errors), 200)->setFormat('json');
+
             return $this->handleView($view);
         }
 
@@ -68,7 +68,7 @@ class AdminJournalRestController extends BaseInstanceDependentRestController
         $em->flush($material);
 
         $view = $this->view(array('hasErrors' => false, 'journal' => $journal), 200)->setFormat('json');
+
         return $this->handleView($view);
     }
-
 }
