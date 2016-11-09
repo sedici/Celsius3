@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Form\Type\InstitutionType;
 use Celsius3\CoreBundle\Filter\Type\InstitutionFilterType;
+use Celsius3\CoreBundle\Exception\Exception;
 
 /**
  * Location controller.
@@ -168,13 +169,15 @@ class SuperadminInstitutionController extends BaseController
      *
      * @Route("/{id}/show", name="superadmin_institution_show")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function showAction($id) {
+    public function showAction($id)
+    {
         $entity = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Institution')->find($id);
 
         if (!$entity) {
