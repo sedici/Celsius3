@@ -24,7 +24,6 @@ namespace Celsius3\CoreBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
@@ -44,7 +43,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 class Request
 {
-
     use TimestampableEntity;
 
     /**
@@ -138,7 +136,7 @@ class Request
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -148,9 +146,10 @@ class Request
     }
 
     /**
-     * Set type
+     * Set type.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return self
      */
     public function setType($type)
@@ -161,7 +160,7 @@ class Request
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string $type
      */
@@ -171,9 +170,10 @@ class Request
     }
 
     /**
-     * Set comments
+     * Set comments.
      *
-     * @param  string $comments
+     * @param string $comments
+     *
      * @return self
      */
     public function setComments($comments)
@@ -184,7 +184,7 @@ class Request
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return string $comments
      */
@@ -194,9 +194,10 @@ class Request
     }
 
     /**
-     * Set owner
+     * Set owner.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $owner
+     * @param Celsius3\CoreBundle\Entity\BaseUser $owner
+     *
      * @return self
      */
     public function setOwner(\Celsius3\CoreBundle\Entity\BaseUser $owner)
@@ -207,7 +208,7 @@ class Request
     }
 
     /**
-     * Get owner
+     * Get owner.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $owner
      */
@@ -217,9 +218,10 @@ class Request
     }
 
     /**
-     * Set creator
+     * Set creator.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $creator
+     * @param Celsius3\CoreBundle\Entity\BaseUser $creator
+     *
      * @return self
      */
     public function setCreator(\Celsius3\CoreBundle\Entity\BaseUser $creator)
@@ -230,7 +232,7 @@ class Request
     }
 
     /**
-     * Get creator
+     * Get creator.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $creator
      */
@@ -240,9 +242,10 @@ class Request
     }
 
     /**
-     * Set librarian
+     * Set librarian.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $librarian
+     * @param Celsius3\CoreBundle\Entity\BaseUser $librarian
+     *
      * @return self
      */
     public function setLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
@@ -253,7 +256,7 @@ class Request
     }
 
     /**
-     * Get librarian
+     * Get librarian.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $librarian
      */
@@ -263,7 +266,7 @@ class Request
     }
 
     /**
-     * Add file
+     * Add file.
      *
      * @param Celsius3\CoreBundle\Entity\File $file
      */
@@ -273,7 +276,7 @@ class Request
     }
 
     /**
-     * Remove file
+     * Remove file.
      *
      * @param Celsius3\CoreBundle\Entity\File $file
      */
@@ -283,7 +286,7 @@ class Request
     }
 
     /**
-     * Get files
+     * Get files.
      *
      * @return Doctrine\Common\Collections\Collection $files
      */
@@ -293,7 +296,7 @@ class Request
     }
 
     /**
-     * Add event
+     * Add event.
      *
      * @param Celsius3\CoreBundle\Entity\Event\Event $event
      */
@@ -303,7 +306,7 @@ class Request
     }
 
     /**
-     * Remove event
+     * Remove event.
      *
      * @param Celsius3\CoreBundle\Entity\Event\Event $event
      */
@@ -313,7 +316,7 @@ class Request
     }
 
     /**
-     * Get events
+     * Get events.
      *
      * @return Doctrine\Common\Collections\Collection $events
      */
@@ -323,7 +326,7 @@ class Request
     }
 
     /**
-     * Add state
+     * Add state.
      *
      * @param Celsius3\CoreBundle\Entity\State $state
      */
@@ -333,7 +336,7 @@ class Request
     }
 
     /**
-     * Remove state
+     * Remove state.
      *
      * @param Celsius3\CoreBundle\Entity\State $state
      */
@@ -343,7 +346,7 @@ class Request
     }
 
     /**
-     * Get states
+     * Get states.
      *
      * @return Doctrine\Common\Collections\Collection $states
      */
@@ -353,9 +356,10 @@ class Request
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -366,7 +370,7 @@ class Request
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -376,9 +380,10 @@ class Request
     }
 
     /**
-     * Set operator
+     * Set operator.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @param Celsius3\CoreBundle\Entity\BaseUser $operator
+     *
      * @return self
      */
     public function setOperator(\Celsius3\CoreBundle\Entity\BaseUser $operator)
@@ -389,7 +394,7 @@ class Request
     }
 
     /**
-     * Get operator
+     * Get operator.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $operator
      */
@@ -399,9 +404,10 @@ class Request
     }
 
     /**
-     * Set order
+     * Set order.
      *
-     * @param  Celsius3\CoreBundle\Entity\Order $order
+     * @param Celsius3\CoreBundle\Entity\Order $order
+     *
      * @return self
      */
     public function setOrder(\Celsius3\CoreBundle\Entity\Order $order)
@@ -412,7 +418,7 @@ class Request
     }
 
     /**
-     * Get order
+     * Get order.
      *
      * @return Celsius3\CoreBundle\Entity\Order $order
      */
@@ -422,19 +428,19 @@ class Request
     }
 
     /**
-     * Se buscan los archivos para un determinado evento
+     * Se buscan los archivos para un determinado evento.
      */
     public function getFilesForEvent($event)
     {
         return $this->getFiles()
                         ->filter(
                                 function (File $entry) use ($event) {
-                            return ($entry->getEvent()->getId() == $event->getId());
-                        });
+                                    return $entry->getEvent()->getId() == $event->getId();
+                                });
     }
 
     /**
-     * Se buscan los archivos para descargar por el usuario
+     * Se buscan los archivos para descargar por el usuario.
      */
     public function getFilesForDownload()
     {
@@ -443,12 +449,12 @@ class Request
         return $this->getFiles()
                         ->filter(
                                 function (File $entry) use ($instance) {
-                            return ($entry->getEvent()->getInstance()->getId() == $instance->getId());
-                        });
+                                    return $entry->getEvent()->getInstance()->getId() == $instance->getId();
+                                });
     }
 
     /**
-     * Se buscan los archivos que aún no han sido descargados
+     * Se buscan los archivos que aún no han sido descargados.
      */
     public function getNotDownloadedFiles()
     {
@@ -457,12 +463,12 @@ class Request
         return $this->getFiles()
                         ->filter(
                                 function (File $entry) use ($instance) {
-                            return ($entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->getIsDownloaded());
-                        });
+                                    return $entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->getIsDownloaded();
+                                });
     }
 
     /**
-     * Retorna si el Request actual ha alcanzado un determinado estado o estados
+     * Retorna si el Request actual ha alcanzado un determinado estado o estados.
      */
     public function hasState($names)
     {
@@ -470,11 +476,11 @@ class Request
             $names = array($names);
         }
 
-        return ($this->getStates()
+        return $this->getStates()
                         ->filter(
                                 function (State $entry) use ($names) {
-                            return in_array($entry->getType(), $names);
-                        })->count() > 0);
+                                    return in_array($entry->getType(), $names);
+                                })->count() > 0;
     }
 
     /**
@@ -486,30 +492,31 @@ class Request
         $result = $this->getStates()
                         ->filter(
                                 function (State $entry) use ($name) {
-                            return $entry->getType() === $name;
-                        })->first();
+                                    return $entry->getType() === $name;
+                                })->first();
 
         return false !== $result ? $result : null;
     }
 
     /**
-     * Retorna el estado actual para el presente Request
+     * Retorna el estado actual para el presente Request.
      */
     public function getCurrentState()
     {
         $result = $this->getStates()
                         ->filter(
                                 function (State $entry) {
-                            return $entry->getIsCurrent();
-                        })->first();
+                                    return $entry->getIsCurrent();
+                                })->first();
 
         return false !== $result ? $result : null;
     }
 
     /**
-     * Set previousRequest
+     * Set previousRequest.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $previousRequest
+     * @param Celsius3\CoreBundle\Entity\Request $previousRequest
+     *
      * @return self
      */
     public function setPreviousRequest(\Celsius3\CoreBundle\Entity\Request $previousRequest)
@@ -520,7 +527,7 @@ class Request
     }
 
     /**
-     * Get previousRequest
+     * Get previousRequest.
      *
      * @return Celsius3\CoreBundle\Entity\Request $previousRequest
      */
@@ -530,7 +537,7 @@ class Request
     }
 
     /**
-     * Add request
+     * Add request.
      *
      * @param Celsius3\CoreBundle\Entity\Request $request
      */
@@ -540,7 +547,7 @@ class Request
     }
 
     /**
-     * Remove request
+     * Remove request.
      *
      * @param Celsius3\CoreBundle\Entity\Request $request
      */
@@ -550,7 +557,7 @@ class Request
     }
 
     /**
-     * Get requests
+     * Get requests.
      *
      * @return Doctrine\Common\Collections\Collection $requests
      */
@@ -561,11 +568,10 @@ class Request
 
     public function hasDownloadableFiles()
     {
-        $files = $this->getFiles()->filter(function($f) {
-            return (!$f->getIsDownloaded() || $f->hasDownloadTime());
+        $files = $this->getFiles()->filter(function (File $f) {
+            return !$f->getIsDownloaded() || $f->hasDownloadTime();
         });
 
-        return ($files->count() > 0);
+        return $files->count() > 0;
     }
-
 }

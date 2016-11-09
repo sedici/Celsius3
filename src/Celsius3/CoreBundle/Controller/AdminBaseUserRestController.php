@@ -29,6 +29,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 /**
  * User controller.
@@ -155,7 +156,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
         $admins = $repository->findAdmins($this->getInstance());
 
-        $filteredAdmins = array_filter($admins, function ($admin) {
+        $filteredAdmins = array_filter($admins, function (BaseUser $admin) {
             return intval($admin->getId()) !== intval($this->getUser()->getId());
         });
 

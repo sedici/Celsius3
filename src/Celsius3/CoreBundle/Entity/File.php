@@ -24,7 +24,6 @@ namespace Celsius3\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -39,7 +38,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class File
 {
-
     use TimestampableEntity;
 
     /**
@@ -108,15 +106,16 @@ class File
     public function getUploadRootDir()
     {
         $class = new \ReflectionClass($this);
-        return dirname($class->getFileName()) . DIRECTORY_SEPARATOR . '..' .
-                DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
-                DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'web' .
-                DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $this->getInstance()->getUrl();
+
+        return dirname($class->getFileName()).DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.
+                DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web'.
+                DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
     }
 
     protected function getUploadDir()
     {
-        return 'uploads' . DIRECTORY_SEPARATOR . $this->getInstance()->getUrl();
+        return 'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
     }
 
     /**
@@ -128,7 +127,7 @@ class File
         if (null !== $this->getFile()) {
             // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename . '.' . $this->getFile()->guessExtension();
+            $this->path = $filename.'.'.$this->getFile()->guessExtension();
         }
     }
 
@@ -150,7 +149,7 @@ class File
         // check if we have an old image
         if (isset($this->temp)) {
             // delete the old image
-            unlink($this->getUploadRootDir() . '/' . $this->temp);
+            unlink($this->getUploadRootDir().'/'.$this->temp);
             // clear the temp image path
             $this->temp = null;
         }
@@ -158,7 +157,7 @@ class File
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -168,9 +167,10 @@ class File
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -181,7 +181,7 @@ class File
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -191,9 +191,10 @@ class File
     }
 
     /**
-     * Set path
+     * Set path.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return self
      */
     public function setPath($path)
@@ -204,7 +205,7 @@ class File
     }
 
     /**
-     * Get path
+     * Get path.
      *
      * @return string $path
      */
@@ -214,9 +215,10 @@ class File
     }
 
     /**
-     * Set comments
+     * Set comments.
      *
-     * @param  string $comments
+     * @param string $comments
+     *
      * @return self
      */
     public function setComments($comments)
@@ -227,7 +229,7 @@ class File
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return string $comments
      */
@@ -237,9 +239,10 @@ class File
     }
 
     /**
-     * Set file
+     * Set file.
      *
-     * @param  file $file
+     * @param file $file
+     *
      * @return self
      */
     public function setFile(UploadedFile $file = null)
@@ -256,7 +259,7 @@ class File
     }
 
     /**
-     * Get file
+     * Get file.
      *
      * @return file $file
      */
@@ -266,9 +269,10 @@ class File
     }
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param  boolean $enabled
+     * @param bool $enabled
+     *
      * @return self
      */
     public function setEnabled($enabled)
@@ -279,9 +283,9 @@ class File
     }
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled()
     {
@@ -289,9 +293,10 @@ class File
     }
 
     /**
-     * Set event
+     * Set event.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $event
+     * @param Celsius3\CoreBundle\Entity\Event\Event $event
+     *
      * @return self
      */
     public function setEvent(\Celsius3\CoreBundle\Entity\Event\Event $event = null)
@@ -302,7 +307,7 @@ class File
     }
 
     /**
-     * Get event
+     * Get event.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $event
      */
@@ -312,9 +317,10 @@ class File
     }
 
     /**
-     * Set isDownloaded
+     * Set isDownloaded.
      *
-     * @param  boolean $isDownloaded
+     * @param bool $isDownloaded
+     *
      * @return self
      */
     public function setIsDownloaded($isDownloaded)
@@ -325,9 +331,9 @@ class File
     }
 
     /**
-     * Get isDownloaded
+     * Get isDownloaded.
      *
-     * @return boolean $isDownloaded
+     * @return bool $isDownloaded
      */
     public function getIsDownloaded()
     {
@@ -335,9 +341,10 @@ class File
     }
 
     /**
-     * Set request
+     * Set request.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $request
+     * @param Celsius3\CoreBundle\Entity\Request $request
+     *
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Entity\Request $request = null)
@@ -348,7 +355,7 @@ class File
     }
 
     /**
-     * Get request
+     * Get request.
      *
      * @return Celsius3\CoreBundle\Entity\Request $request
      */
@@ -358,9 +365,10 @@ class File
     }
 
     /**
-     * Set pages
+     * Set pages.
      *
-     * @param  integer $pages
+     * @param int $pages
+     *
      * @return self
      */
     public function setPages($pages)
@@ -371,9 +379,9 @@ class File
     }
 
     /**
-     * Get pages
+     * Get pages.
      *
-     * @return integer $pages
+     * @return int $pages
      */
     public function getPages()
     {
@@ -381,19 +389,21 @@ class File
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
      * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -402,12 +412,12 @@ class File
         return $this->instance;
     }
 
-    function getTemp()
+    public function getTemp()
     {
         return $this->temp;
     }
 
-    function setTemp($temp)
+    public function setTemp($temp)
     {
         $this->temp = $temp;
     }
@@ -423,12 +433,13 @@ class File
             return true;
         }
 
-        if ($this->getDownloads()){
+        if ($this->getDownloads()) {
             $downloads = $this->getDownloads()->toArray();
-            usort($downloads, function($a, $b) {
+            usort($downloads, function (FileDownload $a, FileDownload $b) {
                 if ($a->getCreatedAt() === $b->getCreatedAt()) {
                     return 0;
                 }
+
                 return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
             });
 
@@ -436,13 +447,11 @@ class File
 
             $downloadTimeConfig = $this->getInstance()->get('download_time');
             $value = (!empty($downloadTimeConfig->getValue())) ? $downloadTimeConfig->getValue() : '24';
-            if (!is_null($lastDownload) && ($lastDownload->getCreatedAt()->add(new \DateInterval('PT' . $value . 'H')) > new \DateTime())) {
+            if (!is_null($lastDownload) && ($lastDownload->getCreatedAt()->add(new \DateInterval('PT'.$value.'H')) > new \DateTime())) {
                 return true;
             }
-
         }
 
         return false;
     }
-
 }
