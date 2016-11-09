@@ -53,7 +53,6 @@ class MailerHelper
                 'message' => $e->getMessage(),
             );
         } catch (\Exception $e) {
-            die($e->getMessage());
             return array(
                 'test' => false,
                 'message' => $e->getMessage(),
