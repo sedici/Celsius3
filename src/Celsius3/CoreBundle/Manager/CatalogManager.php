@@ -69,11 +69,11 @@ class CatalogManager
             return true;
         }
 
-        if ($position) {
-            return $position->getEnabled();
+        if (!$position) {
+            $position = $catalog->getPosition($this->em->getRepository('Celsius3CoreBundle:Instance')->find(1));
         }
 
-        return false;
+        return (!$position) ? false : $position->getEnabled();
     }
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
