@@ -33,7 +33,6 @@ use Celsius3\CoreBundle\Entity\CatalogPosition;
 
 class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 {
-
     private $em;
     private $factory;
 
@@ -48,7 +47,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         return array(
             FormEvents::PRE_SET_DATA => 'preSetData',
             FormEvents::PRE_SUBMIT => 'preSubmit',
-            FormEvents::POST_SUBMIT => 'postSubmit'
+            FormEvents::POST_SUBMIT => 'postSubmit',
         );
     }
 
@@ -70,15 +69,15 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                     'label' => 'enable',
                     'required' => false,
                     'attr' => array(
-                        'checked' => ($catalogPosition) ? $catalogPosition->getEnabled() : false
+                        'checked' => ($catalogPosition) ? $catalogPosition->getEnabled() : false,
                     ),
-                    'auto_initialize' => false))
+                    'auto_initialize' => false, ))
         );
 
         $form->add($this->factory->createNamed('id', HiddenType::class, null, array(
                     'mapped' => false,
                     'data' => $data->getId(),
-                    'auto_initialize' => false))
+                    'auto_initialize' => false, ))
         );
     }
 
@@ -94,6 +93,13 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                     ->findOneBy(array('catalog' => $catalog->getId(), 'instance' => $data['instance'])
             );
 
+            if (!$catalogPosition) {
+                $catalogPosition = new CatalogPosition();
+                $catalogPosition->setPosition(-1);
+                $catalogPosition->setInstance($this->em->getRepository('Celsius3CoreBundle:Instance')->find($data['instance']));
+                $catalogPosition->setCatalog($catalog);
+            }
+
             if (isset($data['enable'])) {
                 $catalogPosition->setEnabled($data['enable']);
             } else {
@@ -108,9 +114,9 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                         'label' => 'enable',
                         'required' => false,
                         'attr' => array(
-                            'checked' => $catalogPosition->getEnabled()
+                            'checked' => $catalogPosition->getEnabled(),
                         ),
-                        'auto_initialize' => false))
+                        'auto_initialize' => false, ))
             );
         }
     }
@@ -127,5 +133,4 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
             $catalog->addPosition($cp);
         }
     }
-
 }

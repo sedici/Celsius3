@@ -29,7 +29,6 @@ use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class CatalogManager
 {
-
     const CATALOG__NON_SEARCHED = 'non_searched';
     const CATALOG__FOUND = 'found';
     const CATALOG__PARTIALLY_FOUND = 'partially_found';
@@ -57,14 +56,18 @@ class CatalogManager
     public function getCatalogs(Instance $instance = null)
     {
         return $this->em->getRepository('Celsius3CoreBundle:Catalog')
-                        ->findBy(array('instance' => $instance->getId(),));
+                        ->findBy(array('instance' => $instance->getId()));
     }
 
     public function isCatalogEnabled(Catalog $catalog)
     {
         $position = $catalog->getPosition($this->instance_helper->getSessionInstance());
 
-        return $position->getEnabled();
+        if (!$position) {
+            $position = $catalog->getPosition($this->em->getRepository('Celsius3CoreBundle:Instance')->find(1));
+        }
+
+        return (!$position) ? false : $position->getEnabled();
     }
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
@@ -72,5 +75,4 @@ class CatalogManager
         return $this->em->getRepository('Celsius3CoreBundle:Catalog')
                 ->getDisabledCatalogsCount($instance, $directory);
     }
-
 }
