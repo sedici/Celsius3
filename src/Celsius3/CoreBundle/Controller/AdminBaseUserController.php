@@ -40,6 +40,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class AdminBaseUserController extends BaseUserController
 {
+
     /**
      * Lists all BaseUser entities.
      *
@@ -293,7 +294,7 @@ class AdminBaseUserController extends BaseUserController
             $userManager = $this->get('fos_user.user_manager');
             $user = $userManager->findUserByUsername($_switch_user);
             $firewallName = 'secured_area';
-            $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
+            $token = new Token\UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
             $this->container->get('security.context')->setToken($token);
         }
 

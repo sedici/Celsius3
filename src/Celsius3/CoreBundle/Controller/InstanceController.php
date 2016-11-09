@@ -57,7 +57,7 @@ abstract class InstanceController extends BaseController
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
-            /** @Ignore */ 'label' => $configuration->getName(),
+            /* @Ignore */ 'label' => $configuration->getName(),
             'required' => false,
             'attr' => array(
                 'value' => $configuration->getValue(),
