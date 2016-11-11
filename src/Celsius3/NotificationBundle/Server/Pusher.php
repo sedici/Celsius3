@@ -85,13 +85,13 @@ class Pusher implements WampServerInterface
         return $data;
     }
 
-    public function onSubscribe(ConnectionInterface $conn, Topic $topic)
+    public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         $this->testAndReconnect();
         
         try {
             $map = array(
-                'user' => function (ConnectionInterface $conn, Topic $topic) {
+                'user' => function (ConnectionInterface $conn, $topic) {
                     $id = explode('_', $topic->getId())[2];
                     $this->connections[$conn->resourceId]['user'] = $topic;
                     $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($id), array_reverse($this->notificationManager->getUnreadNotifications($id)));
