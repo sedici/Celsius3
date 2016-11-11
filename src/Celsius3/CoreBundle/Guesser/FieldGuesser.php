@@ -29,7 +29,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class FieldGuesser
 {
-
     use ContainerAwareTrait;
 
     private $doctrine;
@@ -52,6 +51,7 @@ class FieldGuesser
         if (!$this->doctrine->getManagerForClass(self::$current_class)->getConfiguration()->getMetadataDriverImpl()->isTransient($class)) {
             $this->metadata[self::$current_class] = $this->doctrine->getManagerForClass(self::$current_class)->getClassMetadata($class);
         }
+
         return $this->metadata[self::$current_class];
     }
 
@@ -73,6 +73,7 @@ class FieldGuesser
         if ($metadata->hasField($fieldName)) {
             return $metadata->getTypeOfField($fieldName);
         }
+
         return 'virtual';
     }
 
@@ -85,6 +86,7 @@ class FieldGuesser
         if ($metadata->hasField($fieldName)) {
             return $metadata->getTypeOfField($fieldName);
         }
+
         return 'virtual';
     }
 
@@ -107,6 +109,7 @@ class FieldGuesser
         if (in_array($dbType, $numericTypes)) {
             return 'numeric';
         }
+
         return 'default';
     }
 
@@ -117,13 +120,13 @@ class FieldGuesser
             return $formTypes[$dbType];
         } elseif ('virtual' === $dbType) {
             throw new NotImplementedException(
-            'The dbType "' . $dbType . '" is only for list implemented '
-            . '(column "' . $columnName . '" in "' . self::$current_class . '")'
+            'The dbType "'.$dbType.'" is only for list implemented '
+            .'(column "'.$columnName.'" in "'.self::$current_class.'")'
             );
         } else {
             throw new NotImplementedException(
-            'The dbType "' . $dbType . '" is not yet implemented '
-            . '(column "' . $columnName . '" in "' . self::$current_class . '")'
+            'The dbType "'.$dbType.'" is not yet implemented '
+            .'(column "'.$columnName.'" in "'.self::$current_class.'")'
             );
         }
     }
@@ -134,6 +137,7 @@ class FieldGuesser
         if (array_key_exists($dbType, $filterTypes)) {
             return $filterTypes[$dbType];
         }
+
         return $this->getFormType($dbType, $columnName);
     }
 
@@ -150,29 +154,32 @@ class FieldGuesser
             if (isset($mapping['precision'])) {
                 $precision = $mapping['precision'];
             }
+
             return array(
                 'precision' => isset($precision) ? $precision : '',
-                'required' => $this->isRequired($columnName)
+                'required' => $this->isRequired($columnName),
             );
         }
-        if (preg_match("#^entity#i", $formType) || preg_match("#entity$#i", $formType)) {
+        if (preg_match('#^entity#i', $formType) || preg_match('#entity$#i', $formType)) {
             $mapping = $this->getMetadatas()->getAssociationMapping($columnName);
+
             return array(
                 'multiple' => ($mapping['type'] === ClassMetadataInfo::MANY_TO_MANY || $mapping['type'] === ClassMetadataInfo::ONE_TO_MANY),
-                'em' => 'default', // TODO: shouldn't this be configurable?
+                'em' => 'default',
                 'class' => $mapping['targetEntity'],
                 'required' => $this->isRequired($columnName),
             );
         }
-        if (preg_match("#^collection#i", $formType) || preg_match("#collection$#i", $formType)) {
+        if (preg_match('#^collection#i', $formType) || preg_match('#collection$#i', $formType)) {
             return array(
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             );
         }
+
         return array(
-            'required' => $this->isRequired($columnName)
+            'required' => $this->isRequired($columnName),
         );
     }
 
@@ -184,6 +191,7 @@ class FieldGuesser
         if ($hasField && (!$hasAssociation || $isSingleValAssoc)) {
             return !$this->getMetadatas()->isNullable($fieldName);
         }
+
         return false;
     }
 
@@ -195,26 +203,27 @@ class FieldGuesser
                 0 => $this->container->get('translator')
                         ->trans('boolean.no', array(), 'Admingenerator'),
                 1 => $this->container->get('translator')
-                        ->trans('boolean.yes', array(), 'Admingenerator')
+                        ->trans('boolean.yes', array(), 'Admingenerator'),
             );
             $options['empty_value'] = $this->container->get('translator')
                     ->trans('boolean.yes_or_no', array(), 'Admingenerator');
         }
-        if (preg_match("#^entity#i", $formType) || preg_match("#entity$#i", $formType)) {
+        if (preg_match('#^entity#i', $formType) || preg_match('#entity$#i', $formType)) {
             return array_merge(
                     $this->getFormOptions($formType, $dbType, $ColumnName), $options
             );
         }
-        if (preg_match("#^collection#i", $formType) || preg_match("#collection$#i", $formType)) {
+        if (preg_match('#^collection#i', $formType) || preg_match('#collection$#i', $formType)) {
             return array_merge(
                     $this->getFormOptions($formType, $dbType, $ColumnName), $options
             );
         }
+
         return $options;
     }
 
     /**
-     * Find the pk name
+     * Find the pk name.
      */
     public function getModelPrimaryKeyName($class = null)
     {
