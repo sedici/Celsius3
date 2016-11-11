@@ -22,7 +22,6 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
-use Celsius3\NotificationBundle\Entity\Notification;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,7 +30,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class EventNotification extends Notification
 {
-
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
@@ -39,7 +37,7 @@ class EventNotification extends Notification
      */
     private $object;
 
-    function __construct($cause, $object, $template)
+    public function __construct($cause, $object, $template)
     {
         parent::__construct();
 
@@ -48,14 +46,13 @@ class EventNotification extends Notification
         $this->setTemplate($template);
     }
 
-    function getObject()
+    public function getObject()
     {
         return $this->object;
     }
 
-    function setObject($object)
+    public function setObject($object)
     {
         $this->object = $object;
     }
-
 }
