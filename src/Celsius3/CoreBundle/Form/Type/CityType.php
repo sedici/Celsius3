@@ -29,10 +29,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\EntityManager;
-
 
 class CityType extends AbstractType
 {
@@ -42,18 +39,17 @@ class CityType extends AbstractType
                 ->add('name')
                 ->add('postalCode');
 
-        $builder->add('country',EntityType::class,array(
+        $builder->add('country', EntityType::class, array(
                     'class' => Country::class,
                      'query_builder' => function (EntityRepository $er) {
-                        return $er
+                         return $er
                                         ->createQueryBuilder('c')
                                         ->orderBy('c.name', 'asc');
-                    },
+                     },
                      'attr' => array(
-                        'class' => 'country-select'
+                        'class' => 'country-select',
                     ),
                 ));
-       
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {

@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity
@@ -35,7 +34,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class ContactType
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -64,7 +62,7 @@ class ContactType
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -74,9 +72,10 @@ class ContactType
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -87,7 +86,7 @@ class ContactType
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -97,7 +96,7 @@ class ContactType
     }
 
     /**
-     * Add contacts
+     * Add contacts.
      *
      * @param Celsius3\CoreBundle\Entity\Contact $contacts
      */
@@ -107,7 +106,7 @@ class ContactType
     }
 
     /**
-     * Remove contacts
+     * Remove contacts.
      *
      * @param Celsius3\CoreBundle\Entity\Contact $contacts
      */
@@ -117,7 +116,7 @@ class ContactType
     }
 
     /**
-     * Get contacts
+     * Get contacts.
      *
      * @return Doctrine\Common\Collections\Collection $contacts
      */

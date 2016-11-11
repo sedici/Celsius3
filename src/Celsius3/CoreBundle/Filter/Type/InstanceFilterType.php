@@ -24,12 +24,10 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InstanceFilterType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -44,7 +42,7 @@ class InstanceFilterType extends AbstractType
                 ->add('email', null, array(
                     'required' => false,
                 ))
-               
+
         ;
     }
 

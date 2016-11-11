@@ -22,16 +22,13 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class InvalidSearchException extends \InvalidArgumentException implements Celsius3ExceptionInterface
 {
-
     public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
     {
         $exception = $event->getException();
@@ -44,5 +41,4 @@ class InvalidSearchException extends \InvalidArgumentException implements Celsiu
         $logger = $container->get('monolog.logger.celsius_exception');
         $logger->error($exception);
     }
-
 }

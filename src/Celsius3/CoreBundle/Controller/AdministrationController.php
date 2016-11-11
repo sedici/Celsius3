@@ -27,16 +27,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
- * Administration controller
+ * Administration controller.
  *
  * @Route("/admin")
  */
 class AdministrationController extends BaseInstanceDependentController
 {
-
     /**
      * @Route("/", name="administration", options={"expose"=true})
      * @Template()
@@ -52,10 +50,10 @@ class AdministrationController extends BaseInstanceDependentController
                 ->findOneBy(
                 array(
                     'instance' => $this->getInstance(),
-                    'key' => $configHelper::CONF__RESULTS_PER_PAGE));
+                    'key' => $configHelper::CONF__RESULTS_PER_PAGE, ));
 
         return array(
-            'resultsPerPage' => $resultsPerPageConfig->getValue()
+            'resultsPerPage' => $resultsPerPageConfig->getValue(),
         );
     }
 
@@ -110,6 +108,7 @@ class AdministrationController extends BaseInstanceDependentController
 
     /**
      * GET Route annotation.
+     *
      * @Route("/send_reminder_emails", name="admin_send_reminder_emails")
      * @Template("Celsius3CoreBundle:Administration:send_reminder_emails.html.twig")
      */
@@ -136,14 +135,14 @@ class AdministrationController extends BaseInstanceDependentController
                 'username' => $x['username'],
                 'surname' => $x['surname'],
                 'name' => $x['name'],
-                'requestsCount' => $x['requestsCount']);
+                'requestsCount' => $x['requestsCount'], );
         }
 
         return array(
             'users' => $users,
             'templates' => $templates,
             'error' => $error,
-            'errorMessage' => $errorMessage
+            'errorMessage' => $errorMessage,
         );
     }
 
@@ -173,7 +172,7 @@ class AdministrationController extends BaseInstanceDependentController
             $actual = $usersRequests[$i]['id'];
             while ($i < count($usersRequests) && $actual === $usersRequests[$i]['id']) {
                 $users[$usersRequests[$i]['id']]['requests'][] = $usersRequests[$i]['request'];
-                $i++;
+                ++$i;
             }
         }
 
@@ -187,11 +186,11 @@ class AdministrationController extends BaseInstanceDependentController
                 $mailer->sendEmail($user['email'], $subject, $body, $this->getInstance());
             } catch (\Twig_Error_Runtime $e) {
                 $this->get('session')->getFlashBag()->set('errors', 'Invalid Template');
+
                 return $this->redirectToRoute('admin_send_reminder_emails');
             }
         }
 
         return $this->redirectToRoute('administration');
     }
-
 }

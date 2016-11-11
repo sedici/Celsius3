@@ -30,12 +30,10 @@ use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
-use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType
 {
-
     protected $em;
     protected $instance_helper;
 
@@ -52,7 +50,7 @@ class RegistrationFormType extends AbstractType
     {
         $builder
                 ->add('name', null, array(
-                    'label' => 'Name'
+                    'label' => 'Name',
                 ))
                 ->add('surname')
                 ->add('birthdate', BirthdayType::class, array(
@@ -60,7 +58,7 @@ class RegistrationFormType extends AbstractType
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
                     'attr' => array(
-                        'class' => 'date'
+                        'class' => 'date',
                     ),
                 ))
                 ->add('address', null, array(
@@ -87,8 +85,8 @@ class RegistrationFormType extends AbstractType
                 'options' => array(
                     'theme' => 'light',
                     'type' => 'image',
-                    'size' => 'normal'
-                )
+                    'size' => 'normal',
+                ),
             ),
             'mapped' => false,
         ));
@@ -105,5 +103,4 @@ class RegistrationFormType extends AbstractType
             'registration' => true,
         ));
     }
-
 }
