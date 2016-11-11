@@ -85,7 +85,7 @@ class Pusher implements WampServerInterface
         return $data;
     }
 
-    public function onSubscribe(ConnectionInterface $conn, Topic $topic)
+    public function onSubscribe(ConnectionInterface $conn, $topic)
     {
         $this->testAndReconnect();
 
