@@ -32,7 +32,7 @@ trait ApprovableTrait
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isApproved = false;
+    private $approved = false;
 
     /**
      * Set isApproved.
@@ -41,9 +41,9 @@ trait ApprovableTrait
      *
      * @return self
      */
-    public function setIsApproved($isApproved)
+    public function setApproved($approved)
     {
-        $this->isApproved = $isApproved;
+        $this->approved = $approved;
 
         return $this;
     }
@@ -53,8 +53,8 @@ trait ApprovableTrait
      *
      * @return bool $isApproved
      */
-    public function getIsApproved()
+    public function isApproved()
     {
-        return $this->isApproved;
+        return $this->approved;
     }
 }

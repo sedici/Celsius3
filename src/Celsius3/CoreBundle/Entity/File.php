@@ -90,7 +90,7 @@ class File
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isDownloaded = false;
+    private $downloaded = false;
 
     /**
      * @ORM\Column(type="integer")
@@ -323,9 +323,9 @@ class File
      *
      * @return self
      */
-    public function setIsDownloaded($isDownloaded)
+    public function setDownloaded($downloaded)
     {
-        $this->isDownloaded = $isDownloaded;
+        $this->downloaded = $downloaded;
 
         return $this;
     }
@@ -335,9 +335,9 @@ class File
      *
      * @return bool $isDownloaded
      */
-    public function getIsDownloaded()
+    public function isDownloaded()
     {
-        return $this->isDownloaded;
+        return $this->downloaded;
     }
 
     /**
@@ -429,7 +429,7 @@ class File
 
     public function hasDownloadTime()
     {
-        if (!$this->getIsDownloaded()) {
+        if (!$this->isDownloaded()) {
             return true;
         }
 

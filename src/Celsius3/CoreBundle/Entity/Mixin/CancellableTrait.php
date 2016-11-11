@@ -32,29 +32,29 @@ trait CancellableTrait
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isCancelled = false;
+    private $cancelled = false;
 
     /**
-     * Set isCancelled.
+     * Set cancelled.
      *
-     * @param bool $isCancelled
+     * @param bool $cancelled
      *
      * @return self
      */
-    public function setIsCancelled($isCancelled)
+    public function setCancelled($cancelled)
     {
-        $this->isCancelled = $isCancelled;
+        $this->cancelled = $cancelled;
 
         return $this;
     }
 
     /**
-     * Get isCancelled.
+     * Get cancelled.
      *
-     * @return bool $isCancelled
+     * @return bool $cancelled
      */
-    public function getIsCancelled()
+    public function isCancelled()
     {
-        return $this->isCancelled;
+        return $this->cancelled;
     }
 }

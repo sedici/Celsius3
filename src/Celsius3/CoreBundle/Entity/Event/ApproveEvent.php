@@ -57,16 +57,17 @@ class ApproveEvent extends MultiInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setReceiveEvent($data['extraData']['receive']);
-        $this->getReceiveEvent()->setIsApproved(true);
+        $this->getReceiveEvent()->setApproved(true);
         $lifecycleHelper->refresh($this->getReceiveEvent());
         $lifecycleHelper->copyFilesToPreviousRequest($request, $data['extraData']['receive']->getRequest(), $this);
         $lifecycleHelper->createEvent(EventManager::EVENT__DELIVER, $data['extraData']['receive']->getRequest(), $data['extraData']['receive']->getRequest()->getInstance());
     }
 
     /**
-     * Set receiveEvent
+     * Set receiveEvent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @param Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     *
      * @return self
      */
     public function setReceiveEvent(\Celsius3\CoreBundle\Entity\Event\Event $receiveEvent)
@@ -77,7 +78,7 @@ class ApproveEvent extends MultiInstanceEvent
     }
 
     /**
-     * Get receiveEvent
+     * Get receiveEvent.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
      */
@@ -87,7 +88,7 @@ class ApproveEvent extends MultiInstanceEvent
     }
 
     /**
-     * Add files
+     * Add files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -97,7 +98,7 @@ class ApproveEvent extends MultiInstanceEvent
     }
 
     /**
-     * Remove files
+     * Remove files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -107,7 +108,7 @@ class ApproveEvent extends MultiInstanceEvent
     }
 
     /**
-     * Get files
+     * Get files.
      *
      * @return Doctrine\Common\Collections\Collection $files
      */

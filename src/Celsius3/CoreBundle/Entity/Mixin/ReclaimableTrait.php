@@ -32,7 +32,7 @@ trait ReclaimableTrait
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isReclaimed = false;
+    private $reclaimed = false;
 
     /**
      * Set isReclaimed.
@@ -41,9 +41,9 @@ trait ReclaimableTrait
      *
      * @return self
      */
-    public function setIsReclaimed($isReclaimed)
+    public function setReclaimed($reclaimed)
     {
-        $this->isReclaimed = $isReclaimed;
+        $this->reclaimed = $reclaimed;
 
         return $this;
     }
@@ -53,8 +53,8 @@ trait ReclaimableTrait
      *
      * @return bool $isReclaimed
      */
-    public function getIsReclaimed()
+    public function isReclaimed()
     {
-        return $this->isReclaimed;
+        return $this->reclaimed;
     }
 }

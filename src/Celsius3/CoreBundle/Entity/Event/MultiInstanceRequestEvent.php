@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
@@ -40,7 +39,6 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 {
-
     use ReclaimableTrait,
         CancellableTrait,
         AnnullableTrait,
@@ -75,16 +73,17 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
         // En caso de que se esté haciendo una segunda petición a la misma instancia, se vuelve a dejar el estado actual como creado
         $currentState = $remoteRequest->getCurrentState();
         if ($currentState->getId() !== $remoteCreation->getId()) {
-            $remoteCreation->setIsCurrent(true);
-            $currentState->setIsCurrent(false);
+            $remoteCreation->setCurrent(true);
+            $currentState->setCurrent(false);
             $lifecycleHelper->refresh($currentState);
         }
     }
 
     /**
-     * Set remoteRequest
+     * Set remoteRequest.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $remoteRequest
+     * @param Celsius3\CoreBundle\Entity\Request $remoteRequest
+     *
      * @return self
      */
     public function setRemoteRequest(\Celsius3\CoreBundle\Entity\Request $remoteRequest)
@@ -95,7 +94,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get remoteRequest
+     * Get remoteRequest.
      *
      * @return Celsius3\CoreBundle\Entity\Request $remoteRequest
      */

@@ -5,8 +5,8 @@
             {% for name, value in filters %}
 
                 <h5>
-                    {% if name in['operators',
-                        'owners'] %}
+                    {% set names = ['operators', 'owners'] %}
+                    {% if name in names %}
                         {{ name | trans | first_upper }}:
                         <b>{{ users[value].surname | first_upper }},
                             {{ users[value].name | first_upper }}</b>

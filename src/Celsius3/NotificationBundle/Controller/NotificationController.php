@@ -37,7 +37,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class NotificationController extends BaseController
 {
-
     protected function getBundle()
     {
         return 'Celsius3NotificationBundle';
@@ -80,7 +79,7 @@ class NotificationController extends BaseController
         $settings = $repository->findBy(
                 array(
                     'user' => $this->getUser(),
-                    'instance' => $this->get('celsius3_core.instance_helper')->getSessionInstance()
+                    'instance' => $this->get('celsius3_core.instance_helper')->getSessionInstance(),
                 )
         );
 
@@ -97,7 +96,7 @@ class NotificationController extends BaseController
                 $data[] = 'email';
             }
 
-            if (!(strpos($value->getType(), 'user') === FALSE) || !(strpos($value->getType(), 'message') === FALSE)) {
+            if (!(strpos($value->getType(), 'user') === false) || !(strpos($value->getType(), 'message') === false)) {
                 $form->get($value->getType())->setData($data);
             } else {
                 if ($form->get('event_notification')->has($value->getType())) {
@@ -122,7 +121,7 @@ class NotificationController extends BaseController
         }
 
         return array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
@@ -136,7 +135,7 @@ class NotificationController extends BaseController
                 array(
                     'user' => $this->getUser(),
                     'instance' => $instance,
-                    'type' => $notification
+                    'type' => $notification,
                 )
         );
 
@@ -172,11 +171,10 @@ class NotificationController extends BaseController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.notification');
         }
 
-        $notification->setIsViewed(true);
+        $notification->setViewed(true);
         $em->persist($notification);
         $em->flush($notification);
 
         return $this->redirect($this->get('celsius3_notification.notification_manager')->generateUrl($notification));
     }
-
 }

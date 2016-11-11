@@ -106,8 +106,8 @@ class LifecycleHelper
             $state = $request->getState($data['stateName']);
             $state->setRemoteEvent($remoteEvent);
             if (!is_null($currentState) && $this->state_manager->isBefore($currentState, $state)) {
-                $currentState->setIsCurrent(false);
-                $state->setIsCurrent(true);
+                $currentState->setCurrent(false);
+                $state->setCurrent(true);
                 $this->em->persist($currentState);
 
                 if ($data['eventName'] === EventManager::EVENT__LOCAL_CANCEL || $data['eventName'] === EventManager::EVENT__REMOTE_CANCEL) {
@@ -118,7 +118,7 @@ class LifecycleHelper
             }
         } else {
             if (!is_null($currentState)) {
-                $currentState->setIsCurrent(false);
+                $currentState->setCurrent(false);
                 $this->em->persist($currentState);
                 $this->em->flush($currentState);
             }
@@ -138,7 +138,7 @@ class LifecycleHelper
         $state->setType($data['stateName']);
         $state->setPrevious($currentState);
         $state->setRemoteEvent($remoteEvent);
-        $state->setIsCurrent(true);
+        $state->setCurrent(true);
 
         return $state;
     }
@@ -197,8 +197,8 @@ class LifecycleHelper
         $currentState = $request->getCurrentState();
         $state = $request->getState($stateName);
         if ($this->state_manager->isBefore($currentState, $state)) {
-            $currentState->setIsCurrent(false);
-            $state->setIsCurrent(true);
+            $currentState->setCurrent(false);
+            $state->setCurrent(true);
             $this->em->persist($currentState);
             $this->em->persist($state);
         }
@@ -221,7 +221,7 @@ class LifecycleHelper
                 $event = $data['event'];
                 if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
-                    $event->setIsReclaimed(false);
+                    $event->setReclaimed(false);
                     $this->moveCurrentState($request, StateManager::STATE__RECEIVED);
                 } elseif ($name === EventManager::EVENT__SEARCH) {
                     $event->setResult($data['extraData']['result']);
@@ -268,8 +268,8 @@ class LifecycleHelper
         try {
             $currentState = $request->getCurrentState();
             if ($previousState = $currentState->getPrevious()) {
-                $currentState->setIsCurrent(false);
-                $previousState->setIsCurrent(true);
+                $currentState->setCurrent(false);
+                $previousState->setCurrent(true);
 
                 $event = new UndoEvent();
                 $event->setRequest($request);
