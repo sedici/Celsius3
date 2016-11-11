@@ -31,7 +31,6 @@ use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
@@ -40,7 +39,6 @@ use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 
 class LifecycleHelper
 {
-
     private $em;
     private $state_manager;
     private $event_manager;
@@ -85,7 +83,7 @@ class LifecycleHelper
     private function setEventData(Request $request, array $data)
     {
         /* @var $event Event */
-        $event = new $data['eventClassName'];
+        $event = new $data['eventClassName']();
         $event->setOperator($this->security_token_storage->getToken()->getUser());
         $event->setInstance($data['instance']);
         $event->setRequest($request);
@@ -159,9 +157,6 @@ class LifecycleHelper
             'eventClassName' => $this->event_manager->getFullClassNameForEvent($eventName),
         );
 
-        /**
-         * @todo Refactorizar estos tres ifs
-         */
         if ($name === EventManager::EVENT__RECEIVE) {
             $events = array_filter($this->event_manager->getEvents(EventManager::EVENT__RECEIVE, $request->getId()), function (Event $item) use ($extraData) {
                 return $item->getRequestEvent()->getId() === $extraData['request']->getId();
@@ -211,9 +206,9 @@ class LifecycleHelper
 
     /**
      * Receives the event name and the request document and creates the appropiate
-     * event and state
+     * event and state.
      *
-     * @param string                                $name     The event name
+     * @param string                              $name     The event name
      * @param Celsius3\CoreBundle\Entity\Request  $request  The Request document
      * @param Celsius3\CoreBundle\Entity\Instance $instance The Instance document
      */
@@ -223,9 +218,6 @@ class LifecycleHelper
         try {
             $data = $this->preValidate($name, $request, $instance);
             if (array_key_exists('event', $data)) {
-                /**
-                 * @todo Refactorizar esta rama del if
-                 */
                 $event = $data['event'];
                 if ($name === EventManager::EVENT__RECEIVE || $name === EventManager::EVENT__UPLOAD) {
                     $this->uploadFiles($request, $event, $data['extraData']['files']);
@@ -248,6 +240,7 @@ class LifecycleHelper
             $this->em->getConnection()->rollback();
             $this->logger->error($ex->getMessage());
             $this->logger->error($ex->getTraceAsString());
+
             return null;
         }
     }
@@ -265,7 +258,6 @@ class LifecycleHelper
         } else {
             $request = $order->getRequest($instance);
         }
-
 
         return $request;
     }
@@ -301,8 +293,8 @@ class LifecycleHelper
             $this->em->getConnection()->rollback();
             $this->logger->error($ex->getMessage());
             $this->logger->error($ex->getTraceAsString());
+
             return null;
         }
     }
-
 }

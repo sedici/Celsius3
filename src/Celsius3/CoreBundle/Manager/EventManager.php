@@ -378,9 +378,6 @@ class EventManager
     {
         foreach ($requests as $request) {
             $receptions = array_filter($this->getEvents(self::EVENT__RECEIVE, $request->getRequest()->getId()), function ($reception) use ($request) {
-                /*
-                 * @todo Probar esto mas exhaustivamente.
-                 */
                 if ($reception instanceof SingleInstanceReceiveEvent || $reception instanceof MultiInstanceReceiveEvent) {
                     return $reception->getRequestEvent()->getId() === $request->getId();
                 } else {
