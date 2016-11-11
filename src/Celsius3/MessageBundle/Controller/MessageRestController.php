@@ -75,30 +75,10 @@ class MessageRestController extends FOSRestController
         $form = $this->container->get('fos_message.new_thread_form.factory')->create();
         $formHandler = $this->container->get('fos_message.new_thread_form.handler');
 
-       /*
-        if (!$request->request->has('recipients')) {
-            throw new NotFoundHttpException('Error sending message');
-        }
-        $recipient = $request->request->get('recipients');
-
-
-        if (!$request->request->has('subject')) {
-            throw new NotFoundHttpException('Error sending message');
-        }
-        $subject = $request->request->get('subject');
-
-        if (!$request->request->has('body')) {
-            throw new NotFoundHttpException('Error sending message');
-        }
-        $body = $request->request->get('body');
-*/
-
         $form->handleRequest($request);
-    //    dump($);die;
 
         $message = $formHandler->process($form);
 
-//        $message = $formHandler->process($form);
         $result['result'] = true;
         if ($message) {
             return new RedirectResponse($this->container->get('router')->generate('fos_message_thread_view', array(
