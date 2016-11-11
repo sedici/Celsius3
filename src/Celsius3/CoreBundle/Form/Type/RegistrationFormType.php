@@ -39,7 +39,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType
 {
-
     protected $em;
     protected $instance_helper;
 
