@@ -37,7 +37,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class SuperadminInstanceController extends InstanceController
 {
-
     protected function getSortDefaults()
     {
         return array(
@@ -69,14 +68,13 @@ class SuperadminInstanceController extends InstanceController
      */
     public function newAction()
     {
-
         $entity = new Instance();
         $options['data'] = array('create' => true);
         $form = $this->createForm(InstanceType::class, $entity, $options);
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
@@ -91,8 +89,6 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
-
-
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request_stack')->getCurrentRequest();
 
@@ -100,7 +96,6 @@ class SuperadminInstanceController extends InstanceController
                 ->find($request->request->get('instance')['institution']);
 
         $instance = new Instance();
-        // $response = $this->baseCreate('Instance', $instance, InstanceType::class, array(),'superadmin_instance');
         $options = array();
         $type = InstanceType::class;
         $route = 'superadmin_instance';
@@ -115,14 +110,15 @@ class SuperadminInstanceController extends InstanceController
                 $em->persist($institution);
                 $em->flush($institution);
 
-                $this->addFlash('success', $this->get('translator')->trans('The') . ' ' . $name . ' was successfully created.');
+                $this->addFlash('success', $this->get('translator')->trans('The').' '.$name.' was successfully created.');
+
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The ' . $name . ' already exists.');
+                $this->addFlash('error', 'The '.$name.' already exists.');
             }
         }
 
-        $this->addFlash('error', 'There were errors creating the ' . $name . '.');
+        $this->addFlash('error', 'There were errors creating the '.$name.'.');
 
         return array(
             'entity' => $instance,
@@ -207,7 +203,7 @@ class SuperadminInstanceController extends InstanceController
         $em->persist($entity);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($entity->getEnabled()) ? 'enabled' : 'disabled'));
+        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully '.(($entity->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl($entity->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
     }
@@ -237,13 +233,13 @@ class SuperadminInstanceController extends InstanceController
         $em->persist($entity);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully ' . (($entity->getInvisible()) ? 'hidden' : 'show'));
+        $this->get('session')->getFlashBag()->add('success', 'The Instance was successfully '.(($entity->getInvisible()) ? 'hidden' : 'show'));
 
         return $this->redirect($this->generateUrl($entity->isCurrent() ? 'superadmin_instance' : 'superadmin_instance_legacy'));
     }
 
     /**
-     * Displays a form to configure the Directory
+     * Displays a form to configure the Directory.
      *
      * @Route("/directory/configure", name="superadmin_directory_configure")
      * @Template("Celsius3CoreBundle:SuperadminInstance:configure.html.twig")
@@ -260,7 +256,7 @@ class SuperadminInstanceController extends InstanceController
     }
 
     /**
-     * Displays a form to configure an existing Instance
+     * Displays a form to configure an existing Instance.
      *
      * @Route("/{id}/configure", name="superadmin_instance_configure")
      * @Template()
@@ -321,5 +317,4 @@ class SuperadminInstanceController extends InstanceController
 
         return $this->redirect($this->generateUrl('administration'));
     }
-
 }

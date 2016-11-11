@@ -25,10 +25,8 @@ namespace Celsius3\CoreBundle\Controller;
 use Celsius3\TicketBundle\Entity\Ticket;
 use Celsius3\TicketBundle\Entity\TicketState;
 use Celsius3\TicketBundle\Entity\TypeState;
-
 use Celsius3\TicketBundle\Entity\Priority;
 use Celsius3\TicketBundle\Entity\Category;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,17 +34,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
 
-
 /**
  * Directory controller.
  *
  * @Route("/directory/instance")
  */
-
-
 class DirectoryController extends BaseController
 {
-
     /**
      * @Template()
      *
@@ -108,36 +102,20 @@ class DirectoryController extends BaseController
             $lInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
         }
 
-
-        $latitude='-34.9189929';
-        $longitude='-57.9523734';
-      //  $latitude='';
-      //  $longitude='';
+        $latitude = '-34.9189929';
+        $longitude = '-57.9523734';
 
         $instancia_mapa = $this->get('celsius3_core.instance_manager')->findInstance($latitude, $longitude);
-      //    $instancia_mapa = $this->get('celsius3_core.instance_manager')->findAll();
 
         $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
 
-        $map->setMapOption('zoom', (integer)$request->get('zoom'));
-
-        //$map->setCenter((double)($neLat + ($swLat - $neLat) / 2), (double)($neLon + ($swLon - $neLon) / 2));
-
-
-
-       // $map = $this->get('celsius3_core.map_manager')->createMap($instances);
-         /*   return $this->render('@App/front/donde_comprar/_mapa.html.twig', [
-                'map' => $map
-            ]);
-*/
-//$map=null;
-
+        $map->setMapOption('zoom', (int) $request->get('zoom'));
 
         return array(
             'directory' => $this->getDirectory(),
             'instances' => $cInstances,
             'legacyInstances' => $lInstances,
-            'map'=>$map
+            'map' => $map,
         );
     }
 
@@ -147,7 +125,7 @@ class DirectoryController extends BaseController
     public function statisticsAction()
     {
         return array(
-            'directory' => $this->getDirectory()
+            'directory' => $this->getDirectory(),
         );
     }
 
@@ -163,11 +141,9 @@ class DirectoryController extends BaseController
         return array(
             'entity' => $entity,
             'form' => $form->createView(),
-            'directory' => $this->getDirectory()
+            'directory' => $this->getDirectory(),
         );
-
     }
-
 
         /**
          * Creates a new Instance entity.
@@ -179,60 +155,46 @@ class DirectoryController extends BaseController
          * @return array
          */
         public function createAction()
-    {
+        {
+            $em = $this->getDoctrine()->getManager();
+            $request = $this->get('request_stack')->getCurrentRequest();
 
+            $texto = '';
 
-        $em = $this->getDoctrine()->getManager();
-        $request = $this->get('request_stack')->getCurrentRequest();
+            $ticket = new Ticket();
+            $ticket->setSubject('Nueva Instancia Cargada');
+            $ticket->setText($texto);
 
+            $em = $this->getDoctrine()->getManager();
+            $priority = $em->getRepository('Celsius3TicketBundle:Priority')->find(Priority::PRIORITY_MEDIA);
+            $ticket->setPriority($priority);
 
-        $texto='';
+            $category = $em->getRepository('Celsius3TicketBundle:Category')->find(Category::CATEGORY_NEW_INSTANCE);
 
+            $ticket->setCategory($category);
 
-        $ticket=new Ticket();
-        $ticket->setSubject('Nueva Instancia Cargada');
-        $ticket->setText($texto);
+            $this->persistEntity($ticket);
 
-        $em = $this->getDoctrine()->getManager();
-        $priority=$em->getRepository('Celsius3TicketBundle:Priority')->find(Priority::PRIORITY_MEDIA);
-        $ticket->setPriority($priority);
+            $em->flush($ticket);
 
-        $category=$em->getRepository('Celsius3TicketBundle:Category')->find(Category::CATEGORY_NEW_INSTANCE);
+            $ticketState = new TicketState();
 
-        $ticket->setCategory($category);
+            $typeState = $em->getRepository('Celsius3TicketBundle:TypeState')->find(TypeState::TYPE_STATE_NEW);
 
-        $this->persistEntity($ticket);
+            $ticketState->setTypeState($typeState);
+            $ticketState->setTickets($ticket);
 
-        $em->flush($ticket);
+            $this->persistEntity($ticketState);
 
-        $ticketState=new TicketState();
+            $ticket->setStatusCurrent($ticketState);
 
-        $typeState=$em->getRepository('Celsius3TicketBundle:TypeState')->find(TypeState::TYPE_STATE_NEW);
+            $em->flush($ticket);
+            $em->flush($ticketState);
 
-
-        $ticketState->setTypeState($typeState);
-        $ticketState->setTickets($ticket);
-
-        $this->persistEntity($ticketState);
-
-
-        $ticket->setStatusCurrent($ticketState);
-
-        $em->flush($ticket);
-        $em->flush($ticketState);
-
-        return array(
+            return array(
             'entity' => $instance,
             'form' => $form->createView(),
-            'directory' => $this->getDirectory()
+            'directory' => $this->getDirectory(),
         );
-    }
-
-
-
-
-
-
-
-
+        }
 }
