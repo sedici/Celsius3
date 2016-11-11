@@ -66,6 +66,7 @@ class MessageRestController extends FOSRestController
         $form = $this->container->get('fos_message.new_thread_form.factory')->create();
         $formHandler = $this->container->get('fos_message.new_thread_form.handler');
 
+
         $message = $formHandler->process($form);
 
         $result['result'] = true;

@@ -41,7 +41,6 @@ class MapManager
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)
     {
-
         if (!$instance->getLatitud() || !$instance->getLongitud()) {
             return;
         }
