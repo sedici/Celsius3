@@ -1,11 +1,14 @@
 <div class="box box-solid">
-    <a href="{{ path('fos_message_thread_new' )}}" class="btn btn-primary btn-block margin-bottom"><span class="glyphicon glyphicon-plus"></span> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
+    <a href="{{ path('fos_message_thread_new' )}}" class="btn btn-primary btn-block margin-bottom">
+        <span class="glyphicon glyphicon-plus"></span>
+        {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
 
     <div class="box-header with-border">
         <h3 class="box-title">Carpetas</h3>
 
         <div class="box-tools">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
             </button>
         </div>
     </div>
@@ -14,54 +17,15 @@
 
             {{ knp_menu_render('Celsius3MessageBundle:Builder:messageMenu', { 'currentClass': 'active', 'template': 'FOSMessageBundle:Message:knp_menu.html.twig' }) }}
 
-
         </ul>
     </div>
     <!-- /.box-body -->
 </div>
 
-
-
-
 <!-- /. box -->
 
-{#
-<div id="accordion" class="panel-group">
-    {% if filter_form %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                        <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse collapse" id="collapseOne">
-                <div class="panel-body">
-                    {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %}
-
-                    {{ filter('fos_message_search', filter_form) }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                    <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
-                </a>
-            </h4>
-        </div>
-        <div class="panel-collapse in collapse" id="collapseTwo">
-            <div class="panel-body">
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="{{ path('fos_message_thread_new' )}}"><span class="glyphicon glyphicon-plus"></span> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-#}
+{# <div id="accordion" class="panel-group"> {% if filter_form %} <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+<span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }} </a> </h4> </div> <div class="panel-collapse collapse" id="collapseOne"> <div class="panel-body"> {% from "Celsius3CoreBundle:Macro:crud.html.twig" import filter as filter %} {{
+filter('fos_message_search', filter_form) }} </div> </div> </div> {% endif %} <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+class="accordion-toggle"> <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }} </a> </h4> </div> <div class="panel-collapse in collapse" id="collapseTwo"> <div class="panel-body"> <ul class="list-unstyled"> <li> <a href="{{
+path('fos_message_thread_new' )}}"><span class="glyphicon glyphicon-plus"></span> {% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</a> </li> </ul> </div> </div> </div> </div> #}
