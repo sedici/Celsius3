@@ -30,7 +30,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
  * @ORM\Table(name="notification", indexes={
- *   @ORM\Index(name="idx_viewed", columns={"isViewed"}),
+ *   @ORM\Index(name="idx_viewed", columns={"viewed"}),
  *   @ORM\Index(name="idx_template", columns={"template_id"}),
  *   @ORM\Index(name="idx_object_user", columns={"base_user_notification_id"}),
  *   @ORM\Index(name="idx_object_message", columns={"message_notification_id"}),
@@ -46,7 +46,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  */
 abstract class Notification
 {
-
     use TimestampableEntity;
 
     /**
@@ -67,11 +66,11 @@ abstract class Notification
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isViewed = false;
+    private $viewed = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="change", field="isViewed", value="true")
+     * @Gedmo\Timestampable(on="change", field="viewed", value="true")
      */
     private $viewedAt;
 
@@ -105,7 +104,7 @@ abstract class Notification
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -115,9 +114,10 @@ abstract class Notification
     }
 
     /**
-     * Set cause
+     * Set cause.
      *
-     * @param  string $cause
+     * @param string $cause
+     *
      * @return self
      */
     public function setCause($cause)
@@ -128,7 +128,7 @@ abstract class Notification
     }
 
     /**
-     * Get cause
+     * Get cause.
      *
      * @return string $cause
      */
@@ -138,32 +138,34 @@ abstract class Notification
     }
 
     /**
-     * Set isViewed
+     * Set viewed.
      *
-     * @param  boolean $isViewed
+     * @param bool $viewed
+     *
      * @return self
      */
-    public function setIsViewed($isViewed)
+    public function setViewed($viewed)
     {
-        $this->isViewed = $isViewed;
+        $this->viewed = $viewed;
 
         return $this;
     }
 
     /**
-     * Get isViewed
+     * Get viewed.
      *
-     * @return boolean $isViewed
+     * @return bool $viewed
      */
-    public function getIsViewed()
+    public function isViewed()
     {
-        return $this->isViewed;
+        return $this->viewed;
     }
 
     /**
-     * Set viewedAt
+     * Set viewedAt.
      *
-     * @param  date $viewedAt
+     * @param date $viewedAt
+     *
      * @return self
      */
     public function setViewedAt($viewedAt)
@@ -174,7 +176,7 @@ abstract class Notification
     }
 
     /**
-     * Get viewedAt
+     * Get viewedAt.
      *
      * @return date $viewedAt
      */
@@ -184,9 +186,10 @@ abstract class Notification
     }
 
     /**
-     * Set object
+     * Set object.
      *
      * @param $object
+     *
      * @return self
      */
     public function setObject($object)
@@ -197,7 +200,7 @@ abstract class Notification
     }
 
     /**
-     * Get object
+     * Get object.
      *
      * @return $object
      */
@@ -207,7 +210,7 @@ abstract class Notification
     }
 
     /**
-     * Set source
+     * Set source.
      *
      * @return self
      */
@@ -219,7 +222,7 @@ abstract class Notification
     }
 
     /**
-     * Get source
+     * Get source.
      *
      * @return $source
      */
@@ -229,9 +232,10 @@ abstract class Notification
     }
 
     /**
-     * Set template
+     * Set template.
      *
-     * @param  Celsius3\CoreBundle\Entity\Template $template
+     * @param Celsius3\CoreBundle\Entity\Template $template
+     *
      * @return self
      */
     public function setTemplate(\Celsius3\CoreBundle\Entity\Template $template)
@@ -242,7 +246,7 @@ abstract class Notification
     }
 
     /**
-     * Get template
+     * Get template.
      *
      * @return Celsius3\CoreBundle\Entity\Template $template
      */
@@ -252,7 +256,7 @@ abstract class Notification
     }
 
     /**
-     * Add receivers
+     * Add receivers.
      *
      * @param Celsius3\CoreBundle\Entity\BaseUser $receivers
      */
@@ -262,7 +266,7 @@ abstract class Notification
     }
 
     /**
-     * Remove receivers
+     * Remove receivers.
      *
      * @param Celsius3\CoreBundle\Entity\BaseUser $receivers
      */
@@ -272,7 +276,7 @@ abstract class Notification
     }
 
     /**
-     * Get receivers
+     * Get receivers.
      *
      * @return Doctrine\Common\Collections\Collection $receivers
      */
@@ -282,9 +286,10 @@ abstract class Notification
     }
 
     /**
-     * Set viewer
+     * Set viewer.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $viewer
+     * @param Celsius3\CoreBundle\Entity\BaseUser $viewer
+     *
      * @return self
      */
     public function setViewer(\Celsius3\CoreBundle\Entity\BaseUser $viewer)
@@ -295,7 +300,7 @@ abstract class Notification
     }
 
     /**
-     * Get viewer
+     * Get viewer.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $viewer
      */
@@ -303,5 +308,4 @@ abstract class Notification
     {
         return $this->viewer;
     }
-
 }

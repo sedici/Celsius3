@@ -63,7 +63,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
                             ->join('r.states', 's')
                             ->join('r.owner', 'ow')
                             ->where('r.order IN (:orders)')
-                            ->andWhere('s.isCurrent = true')
+                            ->andWhere('s.current = true')
                             ->setParameter('orders', array_map(function (\Celsius3\CoreBundle\Entity\Order $order) {
                                 return $order->getId();
                             }, $pagination))

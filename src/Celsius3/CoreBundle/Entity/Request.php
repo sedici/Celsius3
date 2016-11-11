@@ -463,7 +463,7 @@ class Request
         return $this->getFiles()
                         ->filter(
                                 function (File $entry) use ($instance) {
-                                    return $entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->getIsDownloaded();
+                                    return $entry->getEvent()->getInstance()->getId() == $instance->getId() && !$entry->isDownloaded();
                                 });
     }
 
@@ -506,7 +506,7 @@ class Request
         $result = $this->getStates()
                         ->filter(
                                 function (State $entry) {
-                                    return $entry->getIsCurrent();
+                                    return $entry->isCurrent();
                                 })->first();
 
         return false !== $result ? $result : null;
@@ -569,7 +569,7 @@ class Request
     public function hasDownloadableFiles()
     {
         $files = $this->getFiles()->filter(function (File $f) {
-            return !$f->getIsDownloaded() || $f->hasDownloadTime();
+            return !$f->isDownloaded() || $f->hasDownloadTime();
         });
 
         return $files->count() > 0;

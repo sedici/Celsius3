@@ -38,7 +38,6 @@ use Celsius3\CoreBundle\Entity\Institution;
 
 class EventRepository extends EntityRepository
 {
-
     public function findSimilarSearches(Order $order, Instance $instance)
     {
         if ($order->getMaterialData() instanceof JournalType) {
@@ -56,7 +55,6 @@ class EventRepository extends EntityRepository
                     ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
                     ->innerJoin('jt.journal', 'j')
                     ->innerJoin('s.catalog', 'c');
-            ;
 
             $qb->where('jt.journal IS NOT NULL')
                     ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
@@ -100,22 +98,22 @@ class EventRepository extends EntityRepository
                 ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.createdAt) year, COUNT(e.id) requestsCount'
-                . ' FROM event e'
-                . ' INNER JOIN request r ON r.id = e.request_id'
-                . ' INNER JOIN provider p ON p.id = e.provider_id'
-                . ' INNER JOIN country c ON c.id = p.country_id'
-                . ' WHERE ';
+                .' FROM event e'
+                .' INNER JOIN request r ON r.id = e.request_id'
+                .' INNER JOIN provider p ON p.id = e.provider_id'
+                .' INNER JOIN country c ON c.id = p.country_id'
+                .' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
-                    . ' AND';
+                    .' AND';
         }
 
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
-                . ' AND r.type = :type'
-                . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-                . ' GROUP BY c.id'
-                . ' ORDER BY requestsCount DESC';
+                .' AND r.type = :type'
+                .' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
+                .' GROUP BY c.id'
+                .' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -140,26 +138,26 @@ class EventRepository extends EntityRepository
                 ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName,  COUNT(re.id) requestsCount'
-                . ' FROM event e'
-                . ' INNER JOIN state s ON s.id = e.state_id'
-                . ' INNER JOIN request r ON r.id = e.request_id'
-                . ' INNER JOIN event re ON r.id = re.request_id'
-                . ' INNER JOIN provider p ON p.id = re.provider_id'
-                . ' INNER JOIN country c ON c.id = p.country_id'
-                . ' WHERE ';
+                .' FROM event e'
+                .' INNER JOIN state s ON s.id = e.state_id'
+                .' INNER JOIN request r ON r.id = e.request_id'
+                .' INNER JOIN event re ON r.id = re.request_id'
+                .' INNER JOIN provider p ON p.id = re.provider_id'
+                .' INNER JOIN country c ON c.id = p.country_id'
+                .' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
-                    . ' AND';
+                    .' AND';
         }
 
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
-                . ' AND r.type = :type'
-                . ' AND s.isCurrent = :isCurrent'
-                . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-                . ' AND (re.type = :stateTypeC OR re.type = :stateTypeD)'
-                . ' GROUP BY c.id'
-                . ' ORDER BY requestsCount DESC';
+                .' AND r.type = :type'
+                .' AND s.current = :current'
+                .' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
+                .' AND (re.type = :stateTypeC OR re.type = :stateTypeD)'
+                .' GROUP BY c.id'
+                .' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -174,7 +172,7 @@ class EventRepository extends EntityRepository
                 ->setParameter('stateTypeD', 'mirequest')
                 ->setParameter('initialYear', $initialYear)
                 ->setParameter('finalYear', $finalYear)
-                ->setParameter('isCurrent', true);
+                ->setParameter('current', true);
 
         return $query->getResult();
     }
@@ -188,23 +186,23 @@ class EventRepository extends EntityRepository
                 ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.createdAt) year, COUNT(e.id) requestsCount'
-                . ' FROM event e'
-                . ' INNER JOIN event re ON re.id = e.request_event_id'
-                . ' INNER JOIN request r ON r.id = re.request_id'
-                . ' INNER JOIN provider p ON p.id = re.provider_id'
-                . ' INNER JOIN country c ON c.id = p.country_id'
-                . ' WHERE ';
+                .' FROM event e'
+                .' INNER JOIN event re ON re.id = e.request_event_id'
+                .' INNER JOIN request r ON r.id = re.request_id'
+                .' INNER JOIN provider p ON p.id = re.provider_id'
+                .' INNER JOIN country c ON c.id = p.country_id'
+                .' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
-                    . ' AND';
+                    .' AND';
         }
 
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
-                . ' AND r.type = :type'
-                . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-                . ' GROUP BY c.id'
-                . ' ORDER BY requestsCount DESC';
+                .' AND r.type = :type'
+                .' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
+                .' GROUP BY c.id'
+                .' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -236,7 +234,6 @@ class EventRepository extends EntityRepository
                 ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
                 ->innerJoin('jt.journal', 'j')
                 ->innerJoin('s.catalog', 'c');
-        ;
 
         $qb->where('jt.journal IS NOT NULL')
                 ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
@@ -246,7 +243,6 @@ class EventRepository extends EntityRepository
 
         $qb->orderBy('s.result', 'ASC')
                 ->addOrderBy('s.createdAt', 'DESC');
-
 
         return $qb->getQuery()->getResult();
     }
@@ -284,5 +280,4 @@ class EventRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
-
 }

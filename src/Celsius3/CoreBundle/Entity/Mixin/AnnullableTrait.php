@@ -32,29 +32,29 @@ trait AnnullableTrait
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isAnnulled = false;
+    private $annulled = false;
 
     /**
-     * Set isAnnulled.
+     * Set annulled.
      *
-     * @param bool $isAnnulled
+     * @param bool $annulled
      *
      * @return self
      */
-    public function setIsAnnulled($isAnnulled)
+    public function setAnnulled($annulled)
     {
-        $this->isAnnulled = $isAnnulled;
+        $this->annulled = $annulled;
 
         return $this;
     }
 
     /**
-     * Get isAnnulled.
+     * Get annulled.
      *
-     * @return bool $isAnnulled
+     * @return bool $annulled
      */
-    public function getIsAnnulled()
+    public function isAnnulled()
     {
-        return $this->isAnnulled;
+        return $this->annulled;
     }
 }

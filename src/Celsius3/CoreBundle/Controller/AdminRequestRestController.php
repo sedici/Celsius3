@@ -95,7 +95,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         foreach ($request->getFiles() as $file) {
             $array[] = $file->getId();
             if ($file->getEnabled()) {
-                $file->setIsDownloaded(false);
+                $file->setDownloaded(false);
                 $manager->persist($file);
             }
         }

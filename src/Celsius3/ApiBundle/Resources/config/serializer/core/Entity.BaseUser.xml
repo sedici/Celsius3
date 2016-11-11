@@ -13,7 +13,7 @@
         <property name="customValues" type="array" expose="true" access-type="public_method" read-only="true" groups="administration"></property>
         <virtual-property name="country" type="Celsius3\CoreBundle\Entity\Country" expose="true" method="getCountry" groups="administration"></virtual-property>
         <virtual-property name="city" type="Celsius3\CoreBundle\Entity\City" expose="true" method="getCity" groups="administration"></virtual-property>
-        <virtual-property name="isLibrarian" type="boolean" expose="true" method="getIsLibrarian" groups="api,user_list"></virtual-property>
+        <virtual-property name="isLibrarian" type="boolean" expose="true" method="isLibrarian" groups="api,user_list"></virtual-property>
         <virtual-property name="fullName" type="string" expose="true" method="getFullName" groups="email_template"></virtual-property>
     </class>
 </serializer>

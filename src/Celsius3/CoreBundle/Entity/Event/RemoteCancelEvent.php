@@ -34,7 +34,6 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class RemoteCancelEvent extends MultiInstanceEvent implements Notifiable
 {
-
     public function getEventType()
     {
         return 'remotecancel';
@@ -42,7 +41,7 @@ class RemoteCancelEvent extends MultiInstanceEvent implements Notifiable
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
-        $data['extraData']['request']->setIsCancelled(true);
+        $data['extraData']['request']->setCancelled(true);
         $lifecycleHelper->refresh($data['extraData']['request']);
         $this->setRemoteInstance($data['extraData']['request']->getRemoteInstance());
         $lifecycleHelper->createEvent(EventManager::EVENT__CANCEL, $request->getOrder()->getRequest($this->getRemoteInstance()), $this->getRemoteInstance());

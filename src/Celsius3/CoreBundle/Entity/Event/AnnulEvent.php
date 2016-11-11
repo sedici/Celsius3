@@ -33,7 +33,6 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class AnnulEvent extends SingleInstanceEvent implements Notifiable
 {
-
     public function getEventType()
     {
         return 'annul';
@@ -42,7 +41,7 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('request', $data['extraData'])) {
-            $data['extraData']['request']->setIsAnnulled(true);
+            $data['extraData']['request']->setAnnulled(true);
             $lifecycleHelper->refresh($data['extraData']['request']);
         }
     }
@@ -59,5 +58,4 @@ class AnnulEvent extends SingleInstanceEvent implements Notifiable
     {
         return $this->getRequest()->getOrder()->getRequest($this->getRequest()->getPreviousRequest()->getInstance())->getOperator();
     }
-
 }

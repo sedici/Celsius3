@@ -306,13 +306,13 @@ class EventManager
             $extraData['sirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceRequestEvent')
                     ->findBy(array(
                 'request' => $request->getId(),
-                'isCancelled' => false,
+                'cancelled' => false,
                 'instance' => $instance->getId(),
             ));
             $extraData['mirequests'] = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceRequestEvent')
                     ->findBy(array(
                 'request' => $request->getId(),
-                'isCancelled' => false,
+                'cancelled' => false,
                 'instance' => $instance->getId(),
             ));
         }
