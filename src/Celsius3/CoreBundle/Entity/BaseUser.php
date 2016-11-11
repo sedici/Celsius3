@@ -618,6 +618,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function setWrongEmail($wrongEmail)
     {
         $this->wrongEmail = $wrongEmail;
+
         return $this;
     }
 
@@ -641,6 +642,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function setPdf($pdf)
     {
         $this->pdf = $pdf;
+
         return $this;
     }
 
@@ -837,5 +839,4 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->observaciones;
     }
-
 }
