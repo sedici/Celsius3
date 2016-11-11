@@ -26,10 +26,9 @@ use Symfony\Component\DependencyInjection\Container;
 
 class AssetsExtension extends \Twig_Extension
 {
-
     private $container;
 
-    function __construct(Container $container)
+    public function __construct(Container $container)
     {
         $this->container = $container;
     }
@@ -37,13 +36,13 @@ class AssetsExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('assets_version', array($this, 'getVersionForGroup'))
+            new \Twig_SimpleFunction('assets_version', array($this, 'getVersionForGroup')),
         );
     }
 
     public function getVersionForGroup($group)
     {
-        $version = $this->container->getParameter('assets_version_' . $group);
+        $version = $this->container->getParameter('assets_version_'.$group);
 
         return (!is_null($version)) ? $version : '';
     }
@@ -52,5 +51,4 @@ class AssetsExtension extends \Twig_Extension
     {
         return 'celsius3_core.assets_extension';
     }
-
 }

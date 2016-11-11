@@ -28,10 +28,9 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 
 class JournalExtension extends \Twig_Extension
 {
-
     private $container;
 
-    function __construct($container)
+    public function __construct($container)
     {
         $this->container = $container;
     }
@@ -62,5 +61,4 @@ class JournalExtension extends \Twig_Extension
 
         return (is_null($entity)) ? false : true;
     }
-
 }

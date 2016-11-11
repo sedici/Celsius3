@@ -27,10 +27,9 @@ use Doctrine\ORM\EntityManager;
 
 class OAuthEventListener
 {
-
     private $em;
 
-    function __construct(EntityManager $em)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
     }
@@ -61,5 +60,4 @@ class OAuthEventListener
         return $this->em->getRepository('Celsius3CoreBundle:BaseUser')
                         ->findOneBy(array('username' => $event->getUser()->getUsername()));
     }
-
 }
