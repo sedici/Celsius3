@@ -26,13 +26,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\MessageBundle\Filter\Type\MessageFilterType;
 use FOS\MessageBundle\Controller\MessageController as BaseController;
-use FOS\MessageBundle\EntityManager\MessageManager;
-use FOS\MessageBundle\EntityManager\ThreadManager;
-use FOS\MessageBundle\Security\ParticipantProvider;
 
 class MessageController extends BaseController
 {
-
     protected function generateFormsToThreads($threads)
     {
         $forms = array();
@@ -64,7 +60,7 @@ class MessageController extends BaseController
      */
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
+        return $this->get('filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
     }
 
     protected function getRequest()
@@ -85,11 +81,10 @@ class MessageController extends BaseController
     }
 
     /**
-     * Displays the authenticated participant inbox
+     * Displays the authenticated participant inbox.
      */
     public function inboxAction()
     {
-
         $threads = $this->getProvider()->getInboxThreadsQuery();
 
         $filter_form = $this->container->get('form.factory')->create(new MessageFilterType());
@@ -104,7 +99,7 @@ class MessageController extends BaseController
     }
 
     /**
-     * Displays the authenticated participant sent mails
+     * Displays the authenticated participant sent mails.
      */
     public function sentAction()
     {
@@ -122,7 +117,7 @@ class MessageController extends BaseController
     }
 
     /**
-     * Create a new message thread
+     * Create a new message thread.
      */
     public function newThreadAction()
     {
@@ -143,7 +138,7 @@ class MessageController extends BaseController
     }
 
     /**
-     * Searches for messages in the inbox and sentbox
+     * Searches for messages in the inbox and sentbox.
      */
     public function searchAction()
     {
@@ -180,5 +175,4 @@ class MessageController extends BaseController
 
         return new RedirectResponse($this->container->get('router')->generate('fos_message_inbox'));
     }
-
 }

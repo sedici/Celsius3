@@ -22,18 +22,11 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Manager\InstanceManager;
-use JMS\Serializer\Serializer;
-use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 class Alert
 {
-
     const INFO = 'info';
     const SUCCESS = 'success';
     const WARNING = 'warning';
@@ -65,5 +58,4 @@ class Alert
             }
         }
     }
-
 }

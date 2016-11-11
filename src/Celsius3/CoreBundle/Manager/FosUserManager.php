@@ -25,13 +25,11 @@ namespace Celsius3\CoreBundle\Manager;
 use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 use Doctrine\ORM\EntityManager;
 
 class FosUserManager extends DoctrineUserManager
 {
-
     private $instanceHelper;
     private $entityManager;
     private $class;
@@ -63,7 +61,7 @@ class FosUserManager extends DoctrineUserManager
 
     public function findUserBy(array $criteria)
     {
-        return $this->entityManager->getRepository("Celsius3CoreBundle:BaseUser")->findOneBy($criteria);
+        return $this->entityManager->getRepository('Celsius3CoreBundle:BaseUser')->findOneBy($criteria);
     }
 
     public function findUsers()
@@ -91,5 +89,4 @@ class FosUserManager extends DoctrineUserManager
             $this->entityManager->flush();
         }
     }
-
 }

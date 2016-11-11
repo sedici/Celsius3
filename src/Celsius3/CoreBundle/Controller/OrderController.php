@@ -24,12 +24,10 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Entity\Journal;
 
 abstract class OrderController extends BaseInstanceDependentController
 {
-
-    protected function baseCreate($name, $entity, $type, array $options = array(), $route)
+    protected function baseCreate($name, $entity, $type, array $options, $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
@@ -49,7 +47,7 @@ abstract class OrderController extends BaseInstanceDependentController
             $this->persistEntity($entity);
             $this->get('session')
                     ->getFlashBag()
-                    ->add('success', 'The ' . $name . ' was successfully created.');
+                    ->add('success', 'The '.$name.' was successfully created.');
 
             if ($form->has('save_and_show')) {
                 if ($form->get('save_and_show')->isClicked()) {
@@ -62,11 +60,11 @@ abstract class OrderController extends BaseInstanceDependentController
 
         $this->get('session')
                 ->getFlashBag()
-                ->add('error', 'There were errors creating the ' . $name . '.');
+                ->add('error', 'There were errors creating the '.$name.'.');
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
@@ -74,7 +72,7 @@ abstract class OrderController extends BaseInstanceDependentController
     {
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $material = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
+        $material = 'Celsius3\\CoreBundle\\Form\\Type\\'.ucfirst($request->get('material')).'TypeType';
 
         if (!class_exists($material)) {
             $this->createNotFoundException('Inexistent Material Type');
@@ -88,7 +86,7 @@ abstract class OrderController extends BaseInstanceDependentController
 
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array(
                     'form' => $form->createView(),
-                    'material' => $request->get('material'))
+                    'material' => $request->get('material'), )
         );
     }
 
@@ -97,13 +95,12 @@ abstract class OrderController extends BaseInstanceDependentController
         $request = $this->get('request_stack')->getCurrentRequest();
 
         if (is_null($materialData)) {
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('order[materialDataType]', null, true)) . 'TypeType';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'.ucfirst($request->request->get('order[materialDataType]', null, true)).'TypeType';
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'.end($class).'Type';
         }
 
         return $materialTypeName;
     }
-
 }
