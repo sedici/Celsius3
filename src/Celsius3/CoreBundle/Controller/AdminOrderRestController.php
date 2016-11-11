@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use JMS\Serializer\SerializationContext;
-use Celsius3\CoreBundle\Manager\CatalogManager;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
@@ -36,7 +35,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminOrderRestController extends BaseInstanceDependentRestController
 {
-
     protected function getSortDefaults()
     {
         return array(
@@ -47,6 +45,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("", name="admin_rest_order", options={"expose"=true})
      */
     public function getOrdersAction(Request $request)
@@ -73,6 +72,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/count", name="admin_rest_order_count_get", options={"expose"=true})
      */
     public function getOrderCountAction(Request $request)
@@ -105,6 +105,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/get", name="admin_rest_order_request_get", options={"expose"=true})
      */
     public function getOrdersAndRequestsAction(Request $request)
@@ -145,22 +146,23 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             'orders' => array_values($pagination),
             'requests' => array_column(
                     array_map(
-                            function(\Celsius3\CoreBundle\Entity\Request $request) {
+                            function (\Celsius3\CoreBundle\Entity\Request $request) {
                                 return array(
                                     'id' => $request->getOrder()->getId(),
                                     'request' => $request,
                                 );
-                            }, $requests), 'request', 'id')
+                            }, $requests), 'request', 'id'),
                 );
 
-                $view = $this->view($response, 200)->setFormat('json');
-                $view->setSerializationContext($context);
+        $view = $this->view($response, 200)->setFormat('json');
+        $view->setSerializationContext($context);
 
-                return $this->handleView($view);
-            }
+        return $this->handleView($view);
+    }
 
             /**
              * GET Route annotation.
+             *
              * @Get("/{id}", name="admin_rest_order_get", options={"expose"=true})
              */
             public function getOrderAction($id)
@@ -193,7 +195,6 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 $interaction['result'] = false;
 
                 if ($institution->getInstance() !== $instance) {
-
                     $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
                     $baseInstitution = $institutionRepository->getBaseInstitution($institution);
 
@@ -225,6 +226,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 }
 
                 $view = $this->view($interaction, 200)->setFormat('json');
+
                 return $this->handleView($view);
             }
 
@@ -242,6 +244,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                     $interaction['admins'][$key] = $value;
                 }
                 $view = $this->view($interaction, 200)->setFormat('json');
+
                 return $this->handleView($view);
             }
 
@@ -254,13 +257,11 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
                 $instance = $this->getInstance();
 
-
                 $operator = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($id);
                 $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($order_id);
                 if (!$order) {
                     throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.order');
                 }
-
 
                 $request = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')->findOneBy(array('order' => $order, 'instance' => $instance));
 
@@ -271,8 +272,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
 
                 $view = $this->view($request, 200)->setFormat('json');
                 $view->setSerializationContext($context);
+
                 return $this->handleView($view);
             }
-
-        }
-        
+}

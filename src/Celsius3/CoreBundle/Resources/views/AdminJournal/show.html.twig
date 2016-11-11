@@ -10,7 +10,9 @@
     {% set count = 1 %}
     {% set hide = false %}
     {% for search in searches %}
-        {% if(count > limit) %} {% set hide = true %} {% endif %}
+        {% if (count > limit) %}
+            {% set hide = true %}
+        {% endif %}
         {% set count = count + 1 %}
 
         <a href="{{ search.catalog.url }}" class="list-group-item {% if hide %} hidden {% endif %}">
@@ -18,17 +20,24 @@
             <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
             <p class="list-group-item-text">{{ search.createdAt | date }}</p>
             <p class="list-group-item-text">
-                <span>{{ 'Volume' | trans }}: {{ search.request.order.materialData.volume }}</span>
-                <span>{{ 'Year' | trans }}: {{ search.request.order.materialData.year }}</span>
-                <span>{{ 'Start page' | trans }}: {{ search.request.order.materialData.startPage }}</span>
-                <span>{{ 'End page' | trans }}: {{ search.request.order.materialData.endPage }}</span>
+                <span>{{ 'Volume' | trans }}:
+                    {{ search.request.order.materialData.volume }}</span>
+                <span>{{ 'Year' | trans }}:
+                    {{ search.request.order.materialData.year }}</span>
+                <span>{{ 'Start page' | trans }}:
+                    {{ search.request.order.materialData.startPage }}</span>
+                <span>{{ 'End page' | trans }}:
+                    {{ search.request.order.materialData.endPage }}</span>
             </p>
         </a>
     {% endfor %}
 
     {% if hide %}
         <a href class="list-group-item view_more">
-            <p class="list-group-item-text text-center"><b>{{ 'view more' | trans | first_upper }} ({{ count - limit }})</b></p>
+            <p class="list-group-item-text text-center">
+                <b>{{ 'view more' | trans | first_upper }}
+                    ({{ count - limit }})</b>
+            </p>
         </a>
     {% endif %}
 {% endmacro %}
@@ -50,8 +59,13 @@
                     <div class="list-group-item">
                         <h4 class="list-group-item-heading">{{ reception.requestEvent.provider.getFullName() }}</h4>
                         <p class="list-group-item-text">
-                            <span><b>{{ 'Requested' | trans }}</b>: {{ reception.requestEvent.createdAt | date('m M Y') }}</span> | 
-                            <span><b>{{ 'Received' | trans }}</b>: {{ reception.createdAt | date('d M Y') }}</span>
+                            <span>
+                                <b>{{ 'Requested' | trans }}</b>:
+                                {{ reception.requestEvent.createdAt | date('m M Y') }}</span>
+                            |
+                            <span>
+                                <b>{{ 'Received' | trans }}</b>:
+                                {{ reception.createdAt | date('d M Y') }}</span>
                         </p>
                     </div>
                 {% endfor %}
@@ -84,12 +98,10 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        $('.view_more').on('click', function (e) {
+        $('.view_more').on('click', function(e) {
             e.preventDefault();
 
-            $(this).parent('.list-group')
-                    .children('.hidden')
-                    .removeClass('hidden');
+            $(this).parent('.list-group').children('.hidden').removeClass('hidden');
 
             $(this).addClass('hidden');
         });
