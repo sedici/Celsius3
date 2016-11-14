@@ -5,7 +5,7 @@
     "description": "The Celsius3 Project",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "Celsius3\\": "src/Celsius3/"
         },
         "files": ["app/AppKernel.php"]
     },
@@ -44,13 +44,13 @@
         "react/zmq": "~0.3",
         "sp/bower-bundle": "^0.11.0",
         "umpirsky/composer-permissions-handler": "~1.0",
-        "beberlei/DoctrineExtensions": "*",
+        "beberlei/DoctrineExtensions": "~1.0",
         "salavert/time-ago-in-words": "1.*",
         "snc/redis-bundle": "~1.1",
         "predis/predis": "^1.0",
         "sabberworm/php-css-parser": "8.0.*",
         "egeloen/google-map-bundle": "^2.2",
-        "willdurand/geocoder": "2.8.1",
+        "willdurand/geocoder": "~2.8",
         "excelwebzone/recaptcha-bundle": "^1.4",
         "willdurand/js-translation-bundle": "^2.6",
         "jms/di-extra-bundle": "^1.8"
