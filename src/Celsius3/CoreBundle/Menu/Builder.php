@@ -27,10 +27,9 @@ use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 class Builder
 {
-
     use ContainerAwareTrait;
 
-    public function directoryMenu(FactoryInterface $factory, array $options)
+    public function directoryMenu(FactoryInterface $factory)
     {
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
@@ -48,7 +47,7 @@ class Builder
         return $menu;
     }
 
-    public function publicMenu(FactoryInterface $factory, array $options)
+    public function publicMenu(FactoryInterface $factory)
     {
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');

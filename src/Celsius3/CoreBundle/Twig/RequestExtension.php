@@ -24,17 +24,9 @@ namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Entity\Request;
-use Symfony\Component\DependencyInjection\Container;
 
 class RequestExtension extends \Twig_Extension
 {
-    private $container;
-
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
     public function getFunctions()
     {
         return array(

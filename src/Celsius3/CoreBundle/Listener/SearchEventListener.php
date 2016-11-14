@@ -129,7 +129,7 @@ class SearchEventListener
         }
     }
 
-    public function postUpdate(LifecycleEventArgs $args, $update = false)
+    public function postUpdate(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         $em = $args->getEntityManager();

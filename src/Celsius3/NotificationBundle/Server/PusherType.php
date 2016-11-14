@@ -22,14 +22,10 @@
 
 namespace Celsius3\NotificationBundle\Server;
 
-use Ratchet\Wamp\WampServer;
-use Ratchet\WebSocket\WsServer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class PusherType
 {
-    private $app;
-    private $server;
     private $loop;
     private $socket;
     private $host;
@@ -59,14 +55,14 @@ class PusherType
      */
     private function setupServer()
     {
-        /** @var $loop \React\EventLoop\LoopInterface */
+        /* @var $loop \React\EventLoop\LoopInterface */
         $this->loop = \React\EventLoop\Factory::create();
 
         $this->socket = new \React\Socket\Server($this->loop);
 
         $context = new \React\ZMQ\Context($this->loop);
         $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
-        $pull->bind('tcp://' . $this->zmq_host . ':' . $this->zmq_port); // Binding to 127.0.0.1 means the only client that can connect is itself
+        $pull->bind('tcp://'.$this->zmq_host.':'.$this->zmq_port); // Binding to 127.0.0.1 means the only client that can connect is itself
         $pull->on('message', array(
             $this->container->get('celsius3_notification.wamp_server'),
             'onEntry',
@@ -89,11 +85,11 @@ class PusherType
 
     public function getAddress()
     {
-        return (($this->host) ? $this->host : "*") . ":" . $this->port;
+        return (($this->host) ? $this->host : '*').':'.$this->port;
     }
 
     public function getName()
     {
-        return "Notification Server";
+        return 'Notification Server';
     }
 }

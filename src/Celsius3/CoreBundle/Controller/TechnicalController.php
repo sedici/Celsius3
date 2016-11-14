@@ -82,7 +82,7 @@ class TechnicalController extends BaseController
 
         $mailerHelper = $this->get('celsius3_core.mailer_helper');
         $info_connection = $mailerHelper->testConnection(
-            $instance, $instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue(), $instance->get('smtp_username')->getValue(), $instance->get('smtp_password')->getValue()
+            $instance->get('smtp_host')->getValue(), $instance->get('smtp_port')->getValue(), $instance->get('smtp_username')->getValue(), $instance->get('smtp_password')->getValue()
         );
 
         return $this->render('Celsius3CoreBundle:Technical:_testConnection.html.twig', array('info_connection' => $info_connection));

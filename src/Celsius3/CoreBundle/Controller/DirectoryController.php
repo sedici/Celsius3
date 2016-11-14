@@ -157,7 +157,6 @@ class DirectoryController extends BaseController
         public function createAction()
         {
             $em = $this->getDoctrine()->getManager();
-            $request = $this->get('request_stack')->getCurrentRequest();
 
             $texto = '';
 

@@ -22,13 +22,11 @@
 
 namespace Celsius3\CoreBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Celsius3\CoreBundle\Entity\BaseUser;
 
 class InstanceConfigurationListener
 {
-
     private $container;
 
     public function __construct(Container $container)
@@ -36,7 +34,7 @@ class InstanceConfigurationListener
         $this->container = $container;
     }
 
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest()
     {
         $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
         $token = $this->container->get('security.token_storage')->getToken();
@@ -57,5 +55,4 @@ class InstanceConfigurationListener
             }
         }
     }
-
 }

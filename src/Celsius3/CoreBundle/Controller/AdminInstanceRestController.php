@@ -33,7 +33,6 @@ use FOS\RestBundle\Controller\Annotations\Post;
  */
 class AdminInstanceRestController extends BaseInstanceDependentRestController
 {
-
     /**
      * @Post("/test_smtp", name="admin_instance_rest_test_smtp", options={"expose"=true})
      */
@@ -42,11 +41,11 @@ class AdminInstanceRestController extends BaseInstanceDependentRestController
         $mailerHelper = $this->get('celsius3_core.mailer_helper');
 
         $data = $mailerHelper->testConnection(
-                $this->getInstance(), $request->request->get('smtp_host'), $request->request->get('smtp_port'), $request->request->get('smtp_username'), $request->request->get('smtp_password')
+                $request->request->get('smtp_host'), $request->request->get('smtp_port'), $request->request->get('smtp_username'), $request->request->get('smtp_password')
         );
 
         $view = $this->view($data, 200)->setFormat('json');
+
         return $this->handleView($view);
     }
-
 }
