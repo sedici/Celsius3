@@ -39,7 +39,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class BibliotecarioBaseUserController extends BaseUserController
 {
-
     protected function getSortDefaults()
     {
         return array(
@@ -64,7 +63,7 @@ class BibliotecarioBaseUserController extends BaseUserController
     }
 
     /**
-     * Shows the data of a user
+     * Shows the data of a user.
      *
      * @Route("/{id}/show", name="bibliotecario_user_show", options={"expose"=true})
      * @Template()
@@ -86,7 +85,7 @@ class BibliotecarioBaseUserController extends BaseUserController
         return array(
             'element' => $entity,
             'messages' => $messages,
-            'resultsPerPage' => $this->getResultsPerPage()
+            'resultsPerPage' => $this->getResultsPerPage(),
         );
     }
 
@@ -139,7 +138,7 @@ class BibliotecarioBaseUserController extends BaseUserController
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
@@ -203,7 +202,7 @@ class BibliotecarioBaseUserController extends BaseUserController
                     ->add('success', 'The BaseUser was successfully edited.');
 
             return $this->redirect($this->generateUrl('admin_user_edit', array(
-                                'id' => $id
+                                'id' => $id,
             )));
         }
 
@@ -301,38 +300,8 @@ class BibliotecarioBaseUserController extends BaseUserController
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
     }
 
-    protected function mergeSecondaryInstances(BaseUser $main, array $entities)
-    {
-        foreach ($entities as $entity) {
-            if ($main->getInstance() === $entity->getInstance()) {
-                $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
-            } else if ($main->hasSecondaryInstance($entity->getInstance())) {
-                $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
-            } else {
-                $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
-            }
-
-            foreach ($entity->getSecondaryInstances() as $id => $secondaryInstance) {
-                $instance = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Instance')->find($id);
-
-                if ($main->getInstance() === $instance) {
-                    $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
-                } else if ($main->hasSecondaryInstance($instance)) {
-                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
-                } else {
-                    $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
-                }
-            }
-        }
-
-        $this->getDoctrine()->getManager()->persist($main);
-        $this->getDoctrine()->getManager()->flush($main);
-    }
-
     protected function getUserListRoute()
     {
         return 'bibliotecario_user';
     }
-
-
 }

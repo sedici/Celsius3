@@ -27,7 +27,6 @@ use Celsius3\CoreBundle\Exception\Exception;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
-
     protected function enableUser(BaseUser $user)
     {
         $user->setEnabled(true);
@@ -53,11 +52,11 @@ abstract class BaseUserController extends BaseInstanceDependentController
         return array(
             'entity' => $entity,
             'transform_form' => $transformForm->createView(),
-            'route' => null
+            'route' => null,
         );
     }
 
-    protected function baseDoTransformAction($id, $transformType, array $options = array(), $route)
+    protected function baseDoTransformAction($id, $transformType, array $options, $route)
     {
         $entity = $this->findQuery('BaseUser', $id);
 
@@ -88,7 +87,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
             $this->get('session')->getFlashBag()->add('success', 'The User was successfully transformed.');
 
-            return $this->redirect($this->generateUrl($route . '_transform', array('id' => $id)));
+            return $this->redirect($this->generateUrl($route.'_transform', array('id' => $id)));
         }
 
         $this->get('session')->getFlashBag()
@@ -96,7 +95,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         return array(
             'entity' => $entity,
-            'edit_form' => $transformForm->createView()
+            'edit_form' => $transformForm->createView(),
         );
     }
 
@@ -130,4 +129,31 @@ abstract class BaseUserController extends BaseInstanceDependentController
         return $this->redirect($this->get('request')->headers->get('referer'));
     }
 
+    protected function mergeSecondaryInstances(BaseUser $main, array $entities)
+    {
+        foreach ($entities as $entity) {
+            if ($main->getInstance() === $entity->getInstance()) {
+                $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
+            } elseif ($main->hasSecondaryInstance($entity->getInstance())) {
+                $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
+            } else {
+                $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
+            }
+
+            foreach ($entity->getSecondaryInstances() as $id => $secondaryInstance) {
+                $instance = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Instance')->find($id);
+
+                if ($main->getInstance() === $instance) {
+                    $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
+                } elseif ($main->hasSecondaryInstance($instance)) {
+                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
+                } else {
+                    $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
+                }
+            }
+        }
+
+        $this->getDoctrine()->getManager()->persist($main);
+        $this->getDoctrine()->getManager()->flush($main);
+    }
 }
