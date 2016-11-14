@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Celsius3\CoreBundle\Entity\Order;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 class Alert

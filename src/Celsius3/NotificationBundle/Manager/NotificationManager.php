@@ -64,8 +64,8 @@ class NotificationManager
         $eventArray = array(
             'template_data' => function (Notification $notification) use ($translator) {
                 return array(
-                    /* @Ignore */'request' => $notification->getObject()->getRequest(),
-                    /* @Ignore */ 'event' => $translator->trans($notification->getCause()),
+                    /** @Ignore */'request' => $notification->getObject()->getRequest(),
+                    /** @Ignore */ 'event' => $translator->trans($notification->getCause()),
                 );
             },
                     'route' => 'admin_order_show',
@@ -178,8 +178,8 @@ class NotificationManager
             $text .= $template->render($data).' ';
             $text .= $otherText;
 
-            if (/* @Ignore */!$user->getWrongEmail()) {
-                $mailer->sendEmail($user->getEmail(), 'Celsius 3 '.$translator->trans(/* @Ignore */$notification->getCause()), $text, $instance);
+            if (/** @Ignore */!$user->getWrongEmail()) {
+                $mailer->sendEmail($user->getEmail(), 'Celsius 3 '.$translator->trans(/** @Ignore */$notification->getCause()), $text, $instance);
             }
         }
     }
