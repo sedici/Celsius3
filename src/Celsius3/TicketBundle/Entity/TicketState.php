@@ -22,7 +22,6 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -33,8 +32,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class TicketState
 {
-    use TimestampableEntity;
-
     use TimestampableEntity;
 
     /**
@@ -93,7 +90,7 @@ class TicketState
 
     public function __construct()
     {
-        
+
     }
 
     /**
@@ -107,7 +104,7 @@ class TicketState
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -121,7 +118,7 @@ class TicketState
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -131,7 +128,7 @@ class TicketState
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -145,7 +142,7 @@ class TicketState
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
