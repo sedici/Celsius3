@@ -91,9 +91,7 @@ class AdminRequestRestController extends BaseInstanceDependentRestController
         $manager = $this->getDoctrine()->getManager();
         $request = $this->getDoctrine()->getRepository('Celsius3CoreBundle:Request')->find($request_id);
 
-        $array = [];
         foreach ($request->getFiles() as $file) {
-            $array[] = $file->getId();
             if ($file->getEnabled()) {
                 $file->setDownloaded(false);
                 $manager->persist($file);

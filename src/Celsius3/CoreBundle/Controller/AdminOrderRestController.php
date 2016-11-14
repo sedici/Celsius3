@@ -236,6 +236,9 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
             public function getOperatorAction($id)
             {
                 $order = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Order')->find($id);
+                if (!$order) {
+                    throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.not_found_entity.order');
+                }
                 $instance = $this->getInstance();
                 $admins = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->findAdmins($instance);
                 $interaction['result'] = true;

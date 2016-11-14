@@ -120,7 +120,6 @@
         </service>
 
         <service id="celsius3_core.twig.extension.request" class="%celsius3_core.twig.extension.request.class%">
-            <argument type="service" id="service_container"></argument>
             <tag name="twig.extension"/>
         </service>
 
@@ -181,7 +180,6 @@
         </service>
 
         <service id="celsius3_core.context_listener" class="%celsius3_core.context_listener.class%">
-            <argument type="service" id="service_container"></argument>
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
         </service>
 

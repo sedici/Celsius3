@@ -22,7 +22,6 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -33,9 +32,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class TicketState
 {
-
     use TimestampableEntity;
-    
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -53,7 +51,6 @@ class TicketState
     protected $user;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="Celsius3\TicketBundle\Entity\TypeState")
      * @ORM\JoinColumn(name="type_state_id", referencedColumnName="id")
      */
@@ -65,13 +62,8 @@ class TicketState
      */
     private $tickets;
 
-    public function __construct()
-    {
-        
-    }
-
     /**
-     * Get id
+     * Get id.
      *
      * @return \Celsius3\TicketBundle\Entity\TypeState
      */
@@ -81,7 +73,7 @@ class TicketState
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -95,7 +87,7 @@ class TicketState
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -105,7 +97,7 @@ class TicketState
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -119,7 +111,7 @@ class TicketState
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -129,7 +121,7 @@ class TicketState
     }
 
     /**
-     * Set typeState
+     * Set typeState.
      *
      * @param \Celsius3\TicketBundle\Entity\TypeState $typeState
      *
@@ -143,7 +135,7 @@ class TicketState
     }
 
     /**
-     * Get typeState
+     * Get typeState.
      *
      * @return \Celsius3\TicketBundle\Entity\TypeState
      */
