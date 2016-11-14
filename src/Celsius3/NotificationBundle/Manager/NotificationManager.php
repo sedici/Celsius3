@@ -64,8 +64,8 @@ class NotificationManager
         $eventArray = array(
             'template_data' => function (Notification $notification) use ($translator) {
                 return array(
-                    /* @Ignore */'request' => $notification->getObject()->getRequest(),
-                    /* @Ignore */ 'event' => $translator->trans($notification->getCause()),
+                    /** @Ignore */'request' => $notification->getObject()->getRequest(),
+                    /** @Ignore */ 'event' => $translator->trans($notification->getCause()),
                 );
             },
                     'route' => 'admin_order_show',
