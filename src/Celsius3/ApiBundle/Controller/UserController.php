@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\Request;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Manager\StateManager;
 
 /**
  * User controller.
@@ -38,7 +37,6 @@ use Celsius3\CoreBundle\Manager\StateManager;
  */
 class UserController extends BaseController
 {
-
     /**
      * @Get("/")
      */
@@ -117,6 +115,7 @@ class UserController extends BaseController
         }
 
         $view->setSerializationContext($context);
+
         return $this->handleView($view);
     }
 
@@ -182,7 +181,7 @@ class UserController extends BaseController
         $em->flush($user);
 
         $view = $this->view(array(
-                    'result' => true
+                    'result' => true,
                         ), 200)
                 ->setFormat('json');
 
@@ -211,11 +210,10 @@ class UserController extends BaseController
         $em->flush($user);
 
         $view = $this->view(array(
-                    'result' => true
+                    'result' => true,
                         ), 200)
                 ->setFormat('json');
 
         return $this->handleView($view);
     }
-
 }

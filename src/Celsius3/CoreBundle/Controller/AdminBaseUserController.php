@@ -31,6 +31,7 @@ use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * BaseUser controller.
@@ -39,7 +40,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminBaseUserController extends BaseUserController
 {
-
     protected function getSortDefaults()
     {
         return array(
@@ -64,7 +64,7 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Shows the data of a user
+     * Shows the data of a user.
      *
      * @Route("/{id}/show", name="admin_user_show", options={"expose"=true})
      * @Template()
@@ -86,7 +86,7 @@ class AdminBaseUserController extends BaseUserController
         return array(
             'element' => $entity,
             'messages' => $messages,
-            'resultsPerPage' => $this->getResultsPerPage()
+            'resultsPerPage' => $this->getResultsPerPage(),
         );
     }
 
@@ -139,7 +139,7 @@ class AdminBaseUserController extends BaseUserController
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
@@ -203,7 +203,7 @@ class AdminBaseUserController extends BaseUserController
                     ->add('success', 'The BaseUser was successfully edited.');
 
             return $this->redirect($this->generateUrl('admin_user_edit', array(
-                                'id' => $id
+                                'id' => $id,
             )));
         }
 
@@ -306,7 +306,7 @@ class AdminBaseUserController extends BaseUserController
         foreach ($entities as $entity) {
             if ($main->getInstance() === $entity->getInstance()) {
                 $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
-            } else if ($main->hasSecondaryInstance($entity->getInstance())) {
+            } elseif ($main->hasSecondaryInstance($entity->getInstance())) {
                 $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
             } else {
                 $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
@@ -317,7 +317,7 @@ class AdminBaseUserController extends BaseUserController
 
                 if ($main->getInstance() === $instance) {
                     $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
-                } else if ($main->hasSecondaryInstance($instance)) {
+                } elseif ($main->hasSecondaryInstance($instance)) {
                     $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
                 } else {
                     $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
@@ -335,7 +335,7 @@ class AdminBaseUserController extends BaseUserController
     }
 
     /**
-     * Shows the data of a user
+     * Shows the data of a user.
      *
      * @Route("/switch-user", name="switch_user")
      * @Template()
@@ -351,7 +351,7 @@ class AdminBaseUserController extends BaseUserController
             $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
             $this->container->get('security.context')->setToken($token);
         }
+
         return $this->redirectToRoute('user_index', array());
     }
-
 }

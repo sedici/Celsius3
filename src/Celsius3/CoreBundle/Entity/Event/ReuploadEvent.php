@@ -47,15 +47,16 @@ class ReuploadEvent extends SingleInstanceEvent
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         $this->setReceiveEvent($data['extraData']['receive']);
-        $this->getReceiveEvent()->setIsReclaimed(false);
+        $this->getReceiveEvent()->setReclaimed(false);
         $lifecycleHelper->refresh($this->getReceiveEvent());
         $lifecycleHelper->uploadFiles($request, $this->getReceiveEvent(), $data['extraData']['files']);
     }
 
     /**
-     * Set receiveEvent
+     * Set receiveEvent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @param Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     *
      * @return self
      */
     public function setReceiveEvent(\Celsius3\CoreBundle\Entity\Event\Event $receiveEvent)
@@ -66,7 +67,7 @@ class ReuploadEvent extends SingleInstanceEvent
     }
 
     /**
-     * Get receiveEvent
+     * Get receiveEvent.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
      */

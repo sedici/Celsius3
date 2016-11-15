@@ -23,13 +23,10 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Symfony\Component\DependencyInjection\Container;
-use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Manager\Alert;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class ResponseListener
 {
-
     private $container;
 
     public function __construct(Container $container)
@@ -37,9 +34,8 @@ class ResponseListener
         $this->container = $container;
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse()
     {
         Alert::getAlerts($this->container->get('session')->getFlashBag());
     }
-
 }

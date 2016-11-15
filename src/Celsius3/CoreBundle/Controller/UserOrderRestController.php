@@ -35,9 +35,9 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class UserOrderRestController extends BaseInstanceDependentRestController
 {
-
     /**
      * GET Route annotation.
+     *
      * @Get("", name="user_rest_order", options={"expose"=true})
      */
     public function getOrdersAction(Request $request)
@@ -63,33 +63,34 @@ class UserOrderRestController extends BaseInstanceDependentRestController
                             ->join('r.states', 's')
                             ->join('r.owner', 'ow')
                             ->where('r.order IN (:orders)')
-                            ->andWhere('s.isCurrent = true')
+                            ->andWhere('s.current = true')
                             ->setParameter('orders', array_map(function (\Celsius3\CoreBundle\Entity\Order $order) {
-                                        return $order->getId();
-                                    }, $pagination))
+                                return $order->getId();
+                            }, $pagination))
                             ->getQuery()->getResult();
 
             $response = array(
                 'orders' => array_values($pagination),
-                'requests' => array_column(array_map(function(\Celsius3\CoreBundle\Entity\Request $request) {
-                                    return array(
+                'requests' => array_column(array_map(function (\Celsius3\CoreBundle\Entity\Request $request) {
+                    return array(
                                         'id' => $request->getOrder()->getId(),
                                         'request' => $request,
                                     );
-                                }, $requests), 'request', 'id'),
+                }, $requests), 'request', 'id'),
                     );
 
-                    $view = $this->view($response, 200)->setFormat('json');
-                } else {
-                    $view = $this->view(array_values($pagination), 200)->setFormat('json');
-                }
-                $view->setSerializationContext($context);
+            $view = $this->view($response, 200)->setFormat('json');
+        } else {
+            $view = $this->view(array_values($pagination), 200)->setFormat('json');
+        }
+        $view->setSerializationContext($context);
 
-                return $this->handleView($view);
-            }
+        return $this->handleView($view);
+    }
 
             /**
              * GET Route annotation.
+             *
              * @Get("/count", name="user_rest_order_count_get", options={"expose"=true})
              */
             public function getOrderCountAction(Request $request)
@@ -107,6 +108,7 @@ class UserOrderRestController extends BaseInstanceDependentRestController
 
             /**
              * GET Route annotation.
+             *
              * @Get("/{id}", name="user_rest_order_get", options={"expose"=true})
              */
             public function getOrderAction($id)
@@ -123,6 +125,4 @@ class UserOrderRestController extends BaseInstanceDependentRestController
 
                 return $this->handleView($view);
             }
-
-        }
-        
+}

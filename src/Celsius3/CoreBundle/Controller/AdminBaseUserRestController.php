@@ -29,6 +29,7 @@ use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Entity\BaseUser;
 
 /**
  * User controller.
@@ -37,7 +38,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminBaseUserRestController extends BaseInstanceDependentRestController
 {
-
     protected function getSortDefaults()
     {
         return array(
@@ -48,6 +48,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("", name="admin_rest_user", options={"expose"=true})
      */
     public function getUsersAction()
@@ -65,6 +66,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/pending", name="admin_rest_user_pending", options={"expose"=true})
      */
     public function getPendingUsersAction()
@@ -148,14 +150,14 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     /**
      * @Get("/get_admins", name="admin_rest_get_other_admins", options={"expose"=true})
      */
-    public function getOtherAdmins()
+    public function getOtherAdminsAction()
     {
         $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
 
         $admins = $repository->findAdmins($this->getInstance());
 
-        $filteredAdmins = array_filter($admins, function($admin) {
-            return (intval($admin->getId()) !== intval($this->getUser()->getId()));
+        $filteredAdmins = array_filter($admins, function (BaseUser $admin) {
+            return intval($admin->getId()) !== intval($this->getUser()->getId());
         });
 
         $context = SerializationContext::create()->setGroups(array('admins-select'));
@@ -168,6 +170,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{id}", name="admin_rest_user_get", options={"expose"=true})
      */
     public function getUserAction($id)
@@ -187,6 +190,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{id}/orders/{type}", name="admin_rest_user_get_orders", options={"expose"=true})
      */
     public function getOrdersAction($id, $type)
@@ -204,15 +208,15 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         if ($type === 'active') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
                     ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity);
-        } else if ($type === 'ready') {
+        } elseif ($type === 'ready') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
                     ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
-        } else if ($type === 'history') {
+        } elseif ($type === 'history') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
                     ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity);
         }
 
-        $totalQuery = clone($ordersQuery);
+        $totalQuery = clone $ordersQuery;
         $total = $totalQuery->select('count(DISTINCT o)')->getQuery()->getSingleScalarResult();
 
         $paginator = $this->get('knp_paginator');
@@ -223,5 +227,4 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
 }

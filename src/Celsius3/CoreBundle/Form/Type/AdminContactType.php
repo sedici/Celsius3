@@ -25,8 +25,6 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class AdminContactType extends ContactType

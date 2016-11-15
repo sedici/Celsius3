@@ -23,12 +23,10 @@
 namespace Celsius3\CoreBundle\Helper;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Exception\InstanceNotFoundException;
 use Celsius3\CoreBundle\Exception\Exception;
 
 class InstanceHelper
 {
-
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -71,15 +69,11 @@ class InstanceHelper
     {
         $request = $this->container->get('request_stack')->getCurrentRequest();
 
-
-
-
         if ($this->container->get('session')->has('instance_url')) {
             $instance = $this->container->get('doctrine.orm.entity_manager')
                     ->getRepository('Celsius3CoreBundle:Instance')
                     ->findOneBy(array('url' => $this->container->get('session')->get('instance_url')));
         } else {
-
             $instance = $this->container
                     ->get('doctrine.orm.entity_manager')
                     ->getRepository('Celsius3CoreBundle:Instance')
@@ -87,7 +81,7 @@ class InstanceHelper
                 'host' => (!is_null($request)) ? $request->getHost() : '',
             ));
         }
+
         return $instance;
     }
-
 }

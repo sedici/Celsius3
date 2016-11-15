@@ -25,12 +25,11 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
  * @ORM\Table(name="state", indexes={
- *   @ORM\Index(name="idx_current", columns={"isCurrent"}),
+ *   @ORM\Index(name="idx_current", columns={"current"}),
  *   @ORM\Index(name="idx_type", columns={"type"}),
  *   @ORM\Index(name="idx_previous", columns={"previous_id"}),
  *   @ORM\Index(name="idx_request", columns={"request_id"}),
@@ -40,7 +39,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class State
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -53,7 +51,7 @@ class State
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isCurrent = true;
+    private $current = true;
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="boolean")
@@ -113,7 +111,7 @@ class State
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -123,32 +121,34 @@ class State
     }
 
     /**
-     * Set isCurrent
+     * Set current.
      *
-     * @param  boolean $isCurrent
+     * @param bool $current
+     *
      * @return self
      */
-    public function setIsCurrent($isCurrent)
+    public function setCurrent($current)
     {
-        $this->isCurrent = $isCurrent;
+        $this->current = $current;
 
         return $this;
     }
 
     /**
-     * Get isCurrent
+     * Get current.
      *
-     * @return boolean $isCurrent
+     * @return bool $current
      */
-    public function getIsCurrent()
+    public function isCurrent()
     {
-        return $this->isCurrent;
+        return $this->current;
     }
 
     /**
-     * Set searchPending
+     * Set searchPending.
      *
-     * @param  boolean $searchPending
+     * @param bool $searchPending
+     *
      * @return self
      */
     public function setSearchPending($searchPending)
@@ -159,9 +159,9 @@ class State
     }
 
     /**
-     * Get searchPending
+     * Get searchPending.
      *
-     * @return boolean $searchPending
+     * @return bool $searchPending
      */
     public function getSearchPending()
     {
@@ -169,9 +169,10 @@ class State
     }
 
     /**
-     * Set type
+     * Set type.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return self
      */
     public function setType($type)
@@ -182,7 +183,7 @@ class State
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string $type
      */
@@ -192,9 +193,10 @@ class State
     }
 
     /**
-     * Set remoteEvent
+     * Set remoteEvent.
      *
      * @param $remoteEvent
+     *
      * @return self
      */
     public function setRemoteEvent($remoteEvent)
@@ -205,7 +207,7 @@ class State
     }
 
     /**
-     * Get remoteEvent
+     * Get remoteEvent.
      *
      * @return $remoteEvent
      */
@@ -215,9 +217,10 @@ class State
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -228,7 +231,7 @@ class State
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -238,7 +241,7 @@ class State
     }
 
     /**
-     * Add events
+     * Add events.
      *
      * @param Celsius3\CoreBundle\Entity\Event\Event $events
      */
@@ -248,7 +251,7 @@ class State
     }
 
     /**
-     * Remove events
+     * Remove events.
      *
      * @param Celsius3\CoreBundle\Entity\Event\Event $events
      */
@@ -258,7 +261,7 @@ class State
     }
 
     /**
-     * Get events
+     * Get events.
      *
      * @return Doctrine\Common\Collections\Collection $events
      */
@@ -268,7 +271,7 @@ class State
     }
 
     /**
-     * Add remoteEvents
+     * Add remoteEvents.
      *
      * @param Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent $remoteEvents
      */
@@ -278,7 +281,7 @@ class State
     }
 
     /**
-     * Remove remoteEvents
+     * Remove remoteEvents.
      *
      * @param Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent $remoteEvents
      */
@@ -288,7 +291,7 @@ class State
     }
 
     /**
-     * Get remoteEvents
+     * Get remoteEvents.
      *
      * @return Doctrine\Common\Collections\Collection $remoteEvents
      */
@@ -298,9 +301,10 @@ class State
     }
 
     /**
-     * Set previous
+     * Set previous.
      *
-     * @param  Celsius3\CoreBundle\Entity\State $previous
+     * @param Celsius3\CoreBundle\Entity\State $previous
+     *
      * @return self
      */
     public function setPrevious(\Celsius3\CoreBundle\Entity\State $previous = null)
@@ -311,7 +315,7 @@ class State
     }
 
     /**
-     * Get previous
+     * Get previous.
      *
      * @return Celsius3\CoreBundle\Entity\State $previous
      */
@@ -321,9 +325,10 @@ class State
     }
 
     /**
-     * Set request
+     * Set request.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $request
+     * @param Celsius3\CoreBundle\Entity\Request $request
+     *
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Entity\Request $request)
@@ -334,7 +339,7 @@ class State
     }
 
     /**
-     * Get request
+     * Get request.
      *
      * @return Celsius3\CoreBundle\Entity\Request $request
      */
@@ -344,19 +349,21 @@ class State
     }
 
     /**
-     * Set operator
+     * Set operator.
      *
      * @param Celsius3\CoreBundle\Entity\BaseUser $operator
+     *
      * @return self
      */
     public function setOperator(\Celsius3\CoreBundle\Entity\BaseUser $operator)
     {
         $this->operator = $operator;
+
         return $this;
     }
 
     /**
-     * Get operator
+     * Get operator.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $operator
      */

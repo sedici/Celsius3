@@ -22,22 +22,21 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Celsius3\CoreBundle\Manager\Alert;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AccessDeniedRestException extends AccessDeniedHttpException implements Celsius3ExceptionInterface {
-
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container) {
+class AccessDeniedRestException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
+{
+    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
+    {
         $exception = $event->getException();
 
         $response = new JsonResponse([
             'error' => true,
             'hasMessage' => true,
-            'message' => $exception->getMessage()
+            'message' => $exception->getMessage(),
         ]);
 
         $response->setStatusCode(401); // Unauthorized
@@ -47,5 +46,4 @@ class AccessDeniedRestException extends AccessDeniedHttpException implements Cel
         $logger = $container->get('monolog.logger.celsius_rest_exception');
         $logger->error($exception);
     }
-
 }

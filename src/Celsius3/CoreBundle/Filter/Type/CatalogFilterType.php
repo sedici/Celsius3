@@ -22,18 +22,13 @@
 
 namespace Celsius3\CoreBundle\Filter\Type;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 class CatalogFilterType extends AbstractType
 {
-
- 
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
@@ -45,38 +40,36 @@ class CatalogFilterType extends AbstractType
 
         ;
 
-       
-
-       $builder->add('country', EntityType::class, array(
+        $builder->add('country', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:Country',
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
-                    'class' => 'country-select'
+                    'class' => 'country-select',
                 ),
                 'auto_initialize' => false,
             ));
 
-         $builder->add('city', EntityType::class, array(
+        $builder->add('city', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:City',
                 'mapped' => false,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
-                    'class' => 'city-select'
+                    'class' => 'city-select',
                 ),
                 'auto_initialize' => false,
             ));
 
-         $builder->add('institution', EntityType::class, array(
+        $builder->add('institution', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:Institution',
                 'mapped' => true,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
-                    'class' => 'institution-select'
+                    'class' => 'institution-select',
                 ),
                 'auto_initialize' => false,
             ));

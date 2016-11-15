@@ -27,7 +27,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
@@ -50,7 +49,6 @@ use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable
 {
-
     use TimestampableEntity;
 
     /**
@@ -183,12 +181,12 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     public function __toString()
     {
-        return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
+        return ucwords(strtolower($this->getSurname())).', '.ucwords(strtolower($this->getName()));
     }
 
     public function getFullName()
     {
-        return $this->getSurname() . ', ' . $this->getName();
+        return $this->getSurname().', '.$this->getName();
     }
 
     public function notify(NotificationManager $manager)
@@ -217,7 +215,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -227,9 +225,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -240,7 +239,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -250,9 +249,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set surname
+     * Set surname.
      *
-     * @param  string $surname
+     * @param string $surname
+     *
      * @return self
      */
     public function setSurname($surname)
@@ -263,7 +263,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get surname
+     * Get surname.
      *
      * @return string $surname
      */
@@ -273,9 +273,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set birthdate
+     * Set birthdate.
      *
-     * @param  date $birthdate
+     * @param date $birthdate
+     *
      * @return self
      */
     public function setBirthdate($birthdate)
@@ -286,7 +287,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get birthdate
+     * Get birthdate.
      *
      * @return date $birthdate
      */
@@ -296,9 +297,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set address
+     * Set address.
      *
-     * @param  string $address
+     * @param string $address
+     *
      * @return self
      */
     public function setAddress($address)
@@ -309,7 +311,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get address
+     * Get address.
      *
      * @return string $address
      */
@@ -319,7 +321,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add orders
+     * Add orders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $orders
      */
@@ -329,7 +331,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove orders
+     * Remove orders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $orders
      */
@@ -339,7 +341,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get orders
+     * Get orders.
      *
      * @return Doctrine\Common\Collections\Collection $orders
      */
@@ -349,7 +351,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add operatedOrders
+     * Add operatedOrders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $operatedOrders
      */
@@ -360,7 +362,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove operatedOrders
+     * Remove operatedOrders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $operatedOrders
      */
@@ -371,7 +373,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get operatedOrders
+     * Get operatedOrders.
      *
      * @return Doctrine\Common\Collections\Collection $operatedOrders
      */
@@ -381,7 +383,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add createdOrders
+     * Add createdOrders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $createdOrders
      */
@@ -392,7 +394,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove createdOrders
+     * Remove createdOrders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $createdOrders
      */
@@ -403,7 +405,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get createdOrders
+     * Get createdOrders.
      *
      * @return Doctrine\Common\Collections\Collection $createdOrders
      */
@@ -413,9 +415,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(
@@ -427,7 +430,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -437,9 +440,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set librarian
+     * Set librarian.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $librarian
+     * @param Celsius3\CoreBundle\Entity\BaseUser $librarian
+     *
      * @return self
      */
     public function setLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
@@ -450,7 +454,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get librarian
+     * Get librarian.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $librarian
      */
@@ -460,9 +464,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set institution
+     * Set institution.
      *
-     * @param  Celsius3\CoreBundle\Entity\Institution $institution
+     * @param Celsius3\CoreBundle\Entity\Institution $institution
+     *
      * @return self
      */
     public function setInstitution(
@@ -474,7 +479,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get institution
+     * Get institution.
      *
      * @return Celsius3\CoreBundle\Entity\Institution $institution
      */
@@ -484,7 +489,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add customValues
+     * Add customValues.
      *
      * @param Celsius3\CoreBundle\Entity\CustomUserValue $customValues
      */
@@ -494,7 +499,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove customValues
+     * Remove customValues.
      *
      * @param Celsius3\CoreBundle\Entity\CustomUserValue $customValues
      */
@@ -504,7 +509,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get customValues
+     * Get customValues.
      *
      * @return Doctrine\Common\Collections\Collection $customValues
      */
@@ -514,9 +519,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set downloadAuth
+     * Set downloadAuth.
      *
-     * @param  boolean $downloadAuth
+     * @param bool $downloadAuth
+     *
      * @return self
      */
     public function setDownloadAuth($downloadAuth)
@@ -527,9 +533,9 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get downloadAuth
+     * Get downloadAuth.
      *
-     * @return boolean $downloadAuth
+     * @return bool $downloadAuth
      */
     public function getDownloadAuth()
     {
@@ -537,10 +543,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add secondaryInstance
+     * Add secondaryInstance.
      *
      * @param Celsius3\CoreBundle\Entity\Instance $secondaryInstance
-     * @param array $roles
+     * @param array                               $roles
      */
     public function addSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance, array $roles)
     {
@@ -548,7 +554,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove secondaryInstance
+     * Remove secondaryInstance.
      *
      * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
      */
@@ -558,7 +564,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get secondaryInstances
+     * Get secondaryInstances.
      *
      * @return array $secondaryInstances
      */
@@ -568,10 +574,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Has secondaryInstances
+     * Has secondaryInstances.
      *
      * @param \Celsius3\CoreBundle\Entity\Instance $secondaryInstance
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasSecondaryInstance(\Celsius3\CoreBundle\Entity\Instance $secondaryInstance)
     {
@@ -596,27 +603,29 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->getInstitution()->getCity();
     }
 
-    public function getIsLibrarian()
+    public function isLibrarian()
     {
         return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles());
     }
 
     /**
-     * Set wrongEmail
+     * Set wrongEmail.
      *
-     * @param boolean $wrongEmail
+     * @param bool $wrongEmail
+     *
      * @return self
      */
     public function setWrongEmail($wrongEmail)
     {
         $this->wrongEmail = $wrongEmail;
+
         return $this;
     }
 
     /**
-     * Get wrongEmail
+     * Get wrongEmail.
      *
-     * @return boolean $wrongEmail
+     * @return bool $wrongEmail
      */
     public function getWrongEmail()
     {
@@ -624,21 +633,23 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set pdf
+     * Set pdf.
      *
-     * @param boolean $pdf
+     * @param bool $pdf
+     *
      * @return self
      */
     public function setPdf($pdf)
     {
         $this->pdf = $pdf;
+
         return $this;
     }
 
     /**
-     * Get pdf
+     * Get pdf.
      *
-     * @return boolean $pdf
+     * @return bool $pdf
      */
     public function getPdf()
     {
@@ -647,7 +658,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
 
     /**
      * @param Client $client
-     * @return boolean
+     *
+     * @return bool
      */
     public function isAuthorizedClient(Client $client)
     {
@@ -693,7 +705,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set secondaryInstances
+     * Set secondaryInstances.
      *
      * @param array $secondaryInstances
      *
@@ -707,7 +719,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add notificationSetting
+     * Add notificationSetting.
      *
      * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
      *
@@ -721,7 +733,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove notificationSetting
+     * Remove notificationSetting.
      *
      * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
      */
@@ -731,7 +743,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get notificationSettings
+     * Get notificationSettings.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -741,7 +753,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add notification
+     * Add notification.
      *
      * @param Celsius3\NotificationBundle\Entity\BaseUserNotification $notification
      */
@@ -751,7 +763,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove notification
+     * Remove notification.
      *
      * @param Celsius3\NotificationBundle\Entity\BaseUserNotification $notification
      */
@@ -761,7 +773,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get notifications
+     * Get notifications.
      *
      * @return Doctrine\Common\Collections\Collection $customValues
      */
@@ -771,7 +783,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add librarianInstitution
+     * Add librarianInstitution.
      *
      * @param \Celsius3\CoreBundle\Entity\Institution $librarianInstitution
      *
@@ -785,7 +797,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove librarianInstitution
+     * Remove librarianInstitution.
      *
      * @param \Celsius3\CoreBundle\Entity\Institution $librarianInstitution
      */
@@ -795,7 +807,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get librarianInstitution
+     * Get librarianInstitution.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -805,7 +817,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set observaciones
+     * Set observaciones.
      *
      * @param string $observaciones
      *
@@ -819,7 +831,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get observaciones
+     * Get observaciones.
      *
      * @return string
      */
@@ -827,5 +839,4 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         return $this->observaciones;
     }
-
 }

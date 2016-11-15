@@ -33,7 +33,6 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
  */
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {
-
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -47,7 +46,7 @@ class CancelEvent extends SingleInstanceEvent implements Notifiable
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
         if (array_key_exists('remoterequest', $data['extraData'])) {
-            $data['extraData']['remoterequest']->setIsCancelled(true);
+            $data['extraData']['remoterequest']->setCancelled(true);
             $lifecycleHelper->refresh($data['extraData']['remoterequest']);
         }
 
@@ -71,7 +70,7 @@ class CancelEvent extends SingleInstanceEvent implements Notifiable
     public function setCancelledByUser($cancelledByUser)
     {
         $this->cancelledByUser = $cancelledByUser;
+
         return $this;
     }
-
 }

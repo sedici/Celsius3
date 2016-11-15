@@ -30,7 +30,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Client extends BaseClient
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -49,14 +48,13 @@ class Client extends BaseClient
         parent::__construct();
     }
 
-    function getInstance()
+    public function getInstance()
     {
         return $this->instance;
     }
 
-    function setInstance($instance)
+    public function setInstance($instance)
     {
         $this->instance = $instance;
     }
-
 }

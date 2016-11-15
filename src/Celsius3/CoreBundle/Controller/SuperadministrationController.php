@@ -29,13 +29,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Administration controller
+ * Administration controller.
  *
  * @Route("/superadmin")
  */
 class SuperadministrationController extends BaseController
 {
-
     /**
      * @Route("/", name="superadministration")
      * @Template()
@@ -81,12 +80,12 @@ class SuperadministrationController extends BaseController
     /**
      * @Route("/software_change_message", name="superadmin_software_update_message", options={"expose"=true})
      */
-    public function softwareUpdateMessage(Request $request)
+    public function softwareUpdateMessageAction(Request $request)
     {
         $content = $request->request->get('message');
 
         if (!$content || empty($content)) {
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $composer = $this->get('fos_message.composer');
@@ -111,5 +110,4 @@ class SuperadministrationController extends BaseController
 
         return $this->redirectToRoute('superadministration');
     }
-
 }

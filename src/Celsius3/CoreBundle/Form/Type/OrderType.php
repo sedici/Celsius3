@@ -29,8 +29,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
 use JMS\TranslationBundle\Annotation\Ignore;
 
 class OrderType extends AbstractType
@@ -46,11 +44,11 @@ class OrderType extends AbstractType
                'journal' => $options['journal'],
                'other' => $options['other'],
            );
-       } else {
-           $materialOptions = array(
+        } else {
+            $materialOptions = array(
               'constraints' => new Valid(),
           );
-       }
+        }
 
         $builder
                 ->add('originalRequest', RequestType::class, array(

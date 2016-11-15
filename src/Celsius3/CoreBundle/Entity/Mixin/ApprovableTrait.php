@@ -22,6 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Mixin;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
 trait ApprovableTrait
 {
     /**
@@ -29,28 +32,29 @@ trait ApprovableTrait
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isApproved = false;
+    private $approved = false;
 
     /**
-     * Set isApproved
+     * Set isApproved.
      *
-     * @param  boolean $isApproved
+     * @param bool $isApproved
+     *
      * @return self
      */
-    public function setIsApproved($isApproved)
+    public function setApproved($approved)
     {
-        $this->isApproved = $isApproved;
+        $this->approved = $approved;
 
         return $this;
     }
 
     /**
-     * Get isApproved
+     * Get isApproved.
      *
-     * @return boolean $isApproved
+     * @return bool $isApproved
      */
-    public function getIsApproved()
+    public function isApproved()
     {
-        return $this->isApproved;
+        return $this->approved;
     }
 }

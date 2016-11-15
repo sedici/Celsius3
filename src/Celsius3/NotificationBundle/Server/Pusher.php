@@ -24,15 +24,15 @@ namespace Celsius3\NotificationBundle\Server;
 
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
+use Ratchet\Wamp\Topic;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\EntityManager;
 
 class Pusher implements WampServerInterface
 {
-
     /**
-    * A lookup of all the topics clients have subscribed to
-    */
+     * A lookup of all the topics clients have subscribed to.
+     */
     private $subscribedTopics = array();
     private $connections = array();
     private $connectionsByOperatorInRequest = array();
@@ -81,6 +81,7 @@ class Pusher implements WampServerInterface
                 'operator_username' => base64_encode($user->getUsername()),
             );
         }
+
         return $data;
     }
 
@@ -90,17 +91,17 @@ class Pusher implements WampServerInterface
         dump($topic->getId());
         try {
             $map = array(
-                'user' => function($conn, $topic) {
+                'user' => function (ConnectionInterface $conn, $topic) {
                     $id = explode('_', $topic->getId())[2];
                     $this->connections[$conn->resourceId]['user'] = $topic;
                     $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($id), array_reverse($this->notificationManager->getUnreadNotifications($id)));
 
                     return array(
                         'type' => 'notification',
-                        'data' => $notificationData
+                        'data' => $notificationData,
                     );
                 },
-                'request' => function($conn, $topic) {
+                'request' => function (ConnectionInterface $conn, Topic $topic) {
                     $id = explode('_', $topic->getId())[2];
                     $user_id = explode('_', $topic->getId())[3];
                     $this->connections[$conn->resourceId]['request'] = $topic;
@@ -113,13 +114,13 @@ class Pusher implements WampServerInterface
                         $this->connectionsByOperatorInRequest[$id][$user_id] = 0;
                     }
 
-                    $this->connectionsByOperatorInRequest[$id][$user_id] ++;
+                    ++$this->connectionsByOperatorInRequest[$id][$user_id];
 
                     return array(
                         'type' => 'operator_in_request',
                         'data' => $this->getOperatorsData($id),
                     );
-                }
+                },
             );
 
             $topicArray = explode('_', $topic->getId());
@@ -128,7 +129,7 @@ class Pusher implements WampServerInterface
             $generalTopic = implode('_', array_slice($topicArray, 0, 3));
             if (!array_key_exists($generalTopic, $this->subscribedTopics)) {
                 $this->subscribedTopics[$generalTopic] = array();
-                echo $generalTopic . "\n";
+                echo $generalTopic."\n";
             }
 
             $this->subscribedTopics[$generalTopic][] = $topic;
@@ -149,7 +150,6 @@ class Pusher implements WampServerInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
-
     }
 
     public function onClose(ConnectionInterface $conn)
@@ -175,7 +175,7 @@ class Pusher implements WampServerInterface
 
                 $data = array(
                     'type' => 'operator_in_request',
-                    'data' => $this->getOperatorsData($id)
+                    'data' => $this->getOperatorsData($id),
                 );
 
                 $generalTopic = implode('_', array_slice($topicArray, 0, 3));
@@ -185,7 +185,7 @@ class Pusher implements WampServerInterface
                 }
                 unset($generalTopic, $data);
             } else {
-                $this->connectionsByOperatorInRequest[$id][$user_id] --;
+                --$this->connectionsByOperatorInRequest[$id][$user_id];
             }
         }
         $conn->close();
@@ -226,19 +226,19 @@ class Pusher implements WampServerInterface
         }
 
         foreach ($notification->getReceivers() as $user) {
-            $topic_id = 'c3_user_' . $user->getId();
+            $topic_id = 'c3_user_'.$user->getId();
             // If the lookup topic object isn't set there is no one to publish to
             if (!array_key_exists($topic_id, $this->subscribedTopics)) {
                 return;
             }
 
-            echo "Notifying to " . $user . "\n";
+            echo 'Notifying to '.$user."\n";
 
             $notificationData = $this->getNotificationData($this->notificationManager->getUnreadNotificationsCount($user->getId()), array($notification));
 
             $data = array(
                 'type' => 'notification',
-                'data' => $notificationData
+                'data' => $notificationData,
             );
 
             $topics = $this->subscribedTopics[$topic_id];

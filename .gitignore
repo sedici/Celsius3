@@ -32,7 +32,6 @@
 /app/phpunit.xml
 .rules
 
-/nbproject/
 /composer.lock
 *~
 

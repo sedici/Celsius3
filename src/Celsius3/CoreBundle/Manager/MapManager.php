@@ -2,7 +2,6 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-
 use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\EntityManager;
 use Ivory\GoogleMap\Map;
@@ -21,75 +20,24 @@ class MapManager
 
     public function getCiudades($provincia)
     {
-       /* $ciudades = $this->_em->getConnection()->executeQuery("SELECT c.id, c.dist_ciudad_nombre
-            FROM dist_ciudad c
-            RIGHT JOIN dist_list d ON c.id = d.dist_ciudad_id
-            WHERE d.dist_pcia_id = ?
-            GROUP BY c.id
-            ORDER BY c.dist_ciudad_nombre ASC
-        ", [$provincia]);
-
-        $res = [
-            ['id' => '', 'nombre' => 'Ciudad']
-        ];
-        while($ciudad = $ciudades->fetch()) {
-            $res[] = [
-                'id' => $ciudad['id'],
-                'nombre' => $ciudad['dist_ciudad_nombre']
-            ];
-        }
-        return $res;*/
     }
 
     /**
      * @param $ciudad
      * @param null $tipo
+     *
      * @return array
      */
-    public function getResultados(DistCiudad $ciudad, $orden, $tipo = null) {
-     /*   $exp = $this->_em->getExpressionBuilder();
-        $query = $this->_em->getRepository('AppBundle:DistList')->createQueryBuilder('d')
-            ->andWhere('d.distCiudadId = :ciudad')->setParameter('ciudad', $ciudad)
-            ->orderBy(sprintf('d.%s', $orden), 'ASC')
-        ;
-        if (null !== $tipo && $tipo != 'todos') {
-            $tipo = $this->_em->getRepository('AppBundle:DistTipos')->findOneByNombre($tipo);
-            $query
-                ->join('d.tipos', 'tipos')
-                ->andWhere('tipos.nombre = :tipo')
-                ->setParameter('tipo', $tipo->getNombre())
-            ;
-        }
-
-//        var_dump($query->getQuery()->getSQL()); die;
-
-        return $query->getQuery()->getResult();*/
+    public function getResultados($ciudad, $orden, $tipo = null)
+    {
     }
 
     public function search($orden, $nombre = null, $tipo = null)
     {
-     /*   $query = $this->_em->getRepository('AppBundle:DistList')->createQueryBuilder('d')
-            ->orderBy(sprintf('d.%s', $orden), 'ASC')
-        ;
-        if (null !== $tipo && $tipo != 'todos') {
-            $tipo = $this->_em->getRepository('AppBundle:DistTipos')->findOneByNombre($tipo);
-            $query
-                ->join('d.tipos', 'tipos')
-                ->andWhere('tipos.nombre = :tipo')
-                ->setParameter('tipo', $tipo->getNombre())
-            ;
-        }
-
-        if(null !== $nombre) {
-            $query->andWhere('d.alias LIKE :nombre')->setParameter('nombre', '%' . $nombre . '%');
-        }
-
-        return $query->getQuery()->getResult();*/
     }
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)
     {
-
         if (!$instance->getLatitud() || !$instance->getLongitud()) {
             return;
         }
@@ -97,40 +45,33 @@ class MapManager
         $markerImage = new MarkerImage();
         $infoWindow = new InfoWindow();
         $infoWindow->setOpen($windowOpen);
-        /*$infoWindow->setContent(sprintf(
-            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getUrl()
-        ));*/
 
-      /*  $infoWindow->setContent(sprintf(
-            '<p><h4>%s</h4></p><p>%s, %s - %s</p>', $instance->getUrl()));
-*/
         $marker = new Marker();
         $marker->setIcon($markerImage);
-        $marker->setPosition((double) $instance->getLatitud(), (double)$instance->getLongitud());
+        $marker->setPosition((float) $instance->getLatitud(), (float) $instance->getLongitud());
         $marker->setInfoWindow($infoWindow);
         $map->addMarker($marker);
-        $map->setCenter((double) $instance->getLatitud(), (double)$instance->getLongitud());
-   //     return $map;
+        $map->setCenter((float) $instance->getLatitud(), (float) $instance->getLongitud());
     }
 
     /**
      * @param $instancia
+     *
      * @return Map
      */
     public function createMap($instancias, $zoom = 100, $windowOpen = false)
     {
-        $map = new Map();//$this->get('ivory_google_map.map');
+        $map = new Map();
         $map->setAutoZoom(true);
         $map->setAsync(true);
-        /** @var $instance */
-        foreach($instancias as $instancia) {
+        /* @var $instance */
+        foreach ($instancias as $instancia) {
             $this->addMarker($map, $instancia, $windowOpen);
         }
         $map->setStylesheetOptions(array(
-            'width'  => '100%',
+            'width' => '100%',
             'height' => '1000px',
         ));
-        //$map->setMapOption('zoom', $zoom);
 
         return $map;
     }
@@ -139,7 +80,9 @@ class MapManager
      * @param $instancias
      * @param $latitude
      * @param $longitude
+     *
      * @return Map
+     *
      * @throws \Ivory\GoogleMap\Exception\MapException
      * @throws \Ivory\GoogleMap\Exception\OverlayException
      */
@@ -150,7 +93,6 @@ class MapManager
         $myPosition = new Marker();
         $myPosition->setPosition($latitude, $longitude);
         $map->addMarker($myPosition);
-
 
         return $map;
     }

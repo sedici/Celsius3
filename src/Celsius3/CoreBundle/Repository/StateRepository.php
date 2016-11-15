@@ -30,14 +30,13 @@ use Celsius3\CoreBundle\Manager\StateManager;
 
 class StateRepository extends EntityRepository
 {
-
     public function countUserOrders(Instance $instance, BaseUser $user)
     {
         $types = StateManager::$stateTypes;
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type, COUNT(s.id) as c')
                 ->leftJoin('s.request', 'r')
-                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.current = true')
                 ->andWhere('s.instance = :instance')
                 ->setParameter('instance', $instance->getId())
                 ->andWhere('(r.owner = :user)')
@@ -64,7 +63,7 @@ class StateRepository extends EntityRepository
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type, COUNT(s.id) as c')
                 ->leftJoin('s.request', 'r')
-                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.current = true')
                 ->groupBy('s.type');
 
         if (!is_null($orderType)) {
@@ -97,7 +96,7 @@ class StateRepository extends EntityRepository
         $qb2 = $this->createQueryBuilder('s')
                 ->select('COUNT(s.id) as c')
                 ->andWhere('s.instance = :instance')
-                ->andWhere('s.isCurrent = true')
+                ->andWhere('s.current = true')
                 ->andWhere('s.type = :type')
                 ->andWhere('s.searchPending = true')
                 ->groupBy('s.type')
@@ -119,7 +118,7 @@ class StateRepository extends EntityRepository
             $qb3 = $this->createQueryBuilder('s')
                     ->select('COUNT(s.id) as c')
                     ->andWhere('s.instance = :instance')
-                    ->andWhere('s.isCurrent = true')
+                    ->andWhere('s.current = true')
                     ->andWhere('s.type = :type')
                     ->groupBy('s.type')
                     ->setParameter('type', StateManager::STATE__CREATED)
@@ -144,9 +143,10 @@ class StateRepository extends EntityRepository
     public function findOrdersPerStatesPerInstance(array $states, $request_type = 'search')
     {
         $qb = $this->createQueryBuilder('s');
+
         return $qb->select('IDENTITY(s.instance), COUNT(s.id) as c')
                         ->innerJoin('s.request', 'r', Join::WITH, $qb->expr()->in('s.type', $states))
-                        ->where('s.isCurrent = true')
+                        ->where('s.current = true')
                         ->andWhere('r.type = :request_type')
                         ->groupBy('s.instance')
                         ->setParameter('request_type', $request_type)
@@ -158,7 +158,7 @@ class StateRepository extends EntityRepository
     {
         return $this->createQueryBuilder('s')
                         ->select('IDENTITY(s.instance), COUNT(s.id) as c')
-                        ->where('s.isCurrent = true')
+                        ->where('s.current = true')
                         ->groupBy('s.instance')
                         ->getQuery()
                         ->getResult();
@@ -186,7 +186,7 @@ class StateRepository extends EntityRepository
                     ->addSelect('MONTH(s.createdAt) axisValue')
                     ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $initialYear)
                     ->addGroupBy('year');
-        } else if ($initialYear < $finalYear) {
+        } elseif ($initialYear < $finalYear) {
             $qb = $qb->addSelect('YEAR(s.createdAt) axisValue')
                             ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
@@ -208,23 +208,23 @@ class StateRepository extends EntityRepository
                 ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName, YEAR(s.createdAt) year, s.type stateType, COUNT(r.id) requestsCount'
-                . ' FROM state s'
-                . ' INNER JOIN request r ON r.id = s.request_id'
-                . ' INNER JOIN event e ON e.request_id = r.id'
-                . ' INNER JOIN provider p ON p.id = e.provider_id'
-                . ' INNER JOIN country c ON c.id = p.country_id'
-                . ' WHERE ';
+                .' FROM state s'
+                .' INNER JOIN request r ON r.id = s.request_id'
+                .' INNER JOIN event e ON e.request_id = r.id'
+                .' INNER JOIN provider p ON p.id = e.provider_id'
+                .' INNER JOIN country c ON c.id = p.country_id'
+                .' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' s.instance_id = :instance'
-                    . ' AND';
+                    .' AND';
         }
 
         $sql .= ' r.type = :type'
-                . ' AND s.type <> :stateType'
-                . ' GROUP BY c.id, stateType'
-                . ' HAVING year >= :initialYear AND year <= :finalYear'
-                . ' ORDER BY requestsCount ASC';
+                .' AND s.type <> :stateType'
+                .' GROUP BY c.id, stateType'
+                .' HAVING year >= :initialYear AND year <= :finalYear'
+                .' ORDER BY requestsCount ASC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -257,7 +257,7 @@ class StateRepository extends EntityRepository
                         ->leftJoin('or.materialData', 'md')
                         ->leftJoin('r.events', 'es')
                         ->andWhere('s.type = :type')->setParameter('type', 'received')
-                        ->andWhere('s.isCurrent = :current')->setParameter('current', TRUE)
+                        ->andWhere('s.current = :current')->setParameter('current', true)
                         ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                         ->andWhere('es INSTANCE OF Celsius3CoreBundle:Event\SingleInstanceReceiveEvent')
                         ->andWhere('ow.wrongEmail = false')
@@ -284,15 +284,14 @@ class StateRepository extends EntityRepository
                         ->leftJoin('r.events', 'es')
                         ->leftJoin('r.owner', 'ow')
                         ->andWhere('s.type = :type')->setParameter('type', 'received')
-                        ->andWhere('s.isCurrent = :current')->setParameter('current', TRUE)
+                        ->andWhere('s.current = :current')->setParameter('current', true)
                         ->andWhere('s.instance = :instance')->setParameter('instance', $instance)
                         ->andWhere('es INSTANCE OF Celsius3CoreBundle:Event\SingleInstanceReceiveEvent')
-                        ->andWhere('ow.wrongEmail = :wrongEmail')->setParameter('wrongEmail', FALSE)
+                        ->andWhere('ow.wrongEmail = :wrongEmail')->setParameter('wrongEmail', false)
                         ->orderBy('ow.id')
                         ->groupBy('ow.id')
                         ->andHaving('days >= :minDays')->setParameter('minDays', $minDays)
                         ->andHaving('days <= :maxDays')->setParameter('maxDays', $maxDays)
                         ->getQuery()->getResult();
     }
-
 }

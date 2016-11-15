@@ -23,11 +23,9 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\InstanceManager;
@@ -35,7 +33,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BaseUserType extends RegistrationFormType
 {
-
     public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
     {
         parent::__construct($em, $instance_helper, $class);
@@ -107,5 +104,4 @@ class BaseUserType extends RegistrationFormType
             'registration' => false,
         ));
     }
-
 }

@@ -27,6 +27,7 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Entity\Event\Event;
 
 /**
  * User controller.
@@ -35,9 +36,9 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminEventRestController extends BaseInstanceDependentRestController
 {
-
     /**
      * GET Route annotation.
+     *
      * @Get("/{request_id}", name="admin_rest_events", options={"expose"=true})
      */
     public function getAllEventsAction($request_id)
@@ -45,22 +46,22 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 
         $events = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\Event')
-                ->findBy(array('request' => $request_id,));
+                ->findBy(array('request' => $request_id));
 
         $requests = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')
-                ->findBy(array('previousRequest' => $request_id,));
+                ->findBy(array('previousRequest' => $request_id));
 
         $remoteEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
                 ->createQueryBuilder('e')
                 ->where('e.request IN (:requests)')
                 ->setParameter('requests', array_map(function (\Celsius3\CoreBundle\Entity\Request $item) {
-                            return $item->getId();
-                        }, $requests))
+                    return $item->getId();
+                }, $requests))
                 ->getQuery()
                 ->getResult();
 
         $all = array_merge($events, $remoteEvents);
-        $keys = array_map(function ($e) {
+        $keys = array_map(function (Event $e) {
             return $e->getId();
         }, $all);
 
@@ -86,6 +87,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{request_id}/{event}", name="admin_rest_event", options={"expose"=true})
      */
     public function getEventsAction($request_id, $event)
@@ -99,6 +101,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     *
      * @Get("/{id}/get", name="admin_rest_event_get", options={"expose"=true})
      */
     public function getEventAction($id)
@@ -167,5 +170,4 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         return $this->handleView($view);
     }
-
 }

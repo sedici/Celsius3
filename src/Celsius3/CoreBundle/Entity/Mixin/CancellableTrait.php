@@ -22,6 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Mixin;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
 trait CancellableTrait
 {
     /**
@@ -29,28 +32,29 @@ trait CancellableTrait
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
-    private $isCancelled = false;
+    private $cancelled = false;
 
     /**
-     * Set isCancelled
+     * Set cancelled.
      *
-     * @param  boolean $isCancelled
+     * @param bool $cancelled
+     *
      * @return self
      */
-    public function setIsCancelled($isCancelled)
+    public function setCancelled($cancelled)
     {
-        $this->isCancelled = $isCancelled;
+        $this->cancelled = $cancelled;
 
         return $this;
     }
 
     /**
-     * Get isCancelled
+     * Get cancelled.
      *
-     * @return boolean $isCancelled
+     * @return bool $cancelled
      */
-    public function getIsCancelled()
+    public function isCancelled()
     {
-        return $this->isCancelled;
+        return $this->cancelled;
     }
 }

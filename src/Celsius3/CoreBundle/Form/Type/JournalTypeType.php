@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Celsius3\CoreBundle\Entity\Journal;
 
 class JournalTypeType extends MaterialTypeType
 {
@@ -45,7 +44,7 @@ class JournalTypeType extends MaterialTypeType
                         'required' => true,
                         'class' => 'autocomplete',
                         'target' => 'Journal',
-                        'value' => (!is_null($options['journal'])) ?  $options['journal'] : $options['other'],
+                        'value' => (!is_null($options['journal'])) ? $options['journal'] : $options['other'],
                     ),
                     'mapped' => false,
                     'label' => 'Journal',

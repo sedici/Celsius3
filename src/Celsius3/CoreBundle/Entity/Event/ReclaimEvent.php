@@ -56,25 +56,25 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     {
         if (array_key_exists('request', $data['extraData'])) {
             $this->setRequestEvent($data['extraData']['request']);
-            $this->getRequestEvent()->setIsReclaimed(true);
+            $this->getRequestEvent()->setReclaimed(true);
         } else {
             $this->setReceiveEvent($data['extraData']['receive']);
-            $this->getReceiveEvent()->setIsReclaimed(true);
+            $this->getReceiveEvent()->setReclaimed(true);
             if (!($data['extraData']['receive'] instanceof UploadEvent)) {
                 $this->setRequestEvent($this->getReceiveEvent()->getRequestEvent());
-                $this->getRequestEvent()->setIsReclaimed(true);
+                $this->getRequestEvent()->setReclaimed(true);
 
                 // Se vuelve a posicionar el currentState en taken
                 $r = $this->getRequestEvent()->getRequest();
-                $old = $r->getCurrentState()->setIsCurrent(false);
-                $new = $r->getState(StateManager::STATE__REQUESTED)->setIsCurrent(true);
+                $old = $r->getCurrentState()->setCurrent(false);
+                $new = $r->getState(StateManager::STATE__REQUESTED)->setCurrent(true);
                 $lifecycleHelper->refresh($old);
                 $lifecycleHelper->refresh($new);
             } else {
                 // Se vuelve a posicionar el currentState en requested
                 $r = $this->getReceiveEvent()->getRequest();
-                $old = $r->getCurrentState()->setIsCurrent(false);
-                $new = $r->getState(StateManager::STATE__TAKEN)->setIsCurrent(true);
+                $old = $r->getCurrentState()->setCurrent(false);
+                $new = $r->getState(StateManager::STATE__TAKEN)->setCurrent(true);
                 $lifecycleHelper->refresh($old);
                 $lifecycleHelper->refresh($new);
             }
@@ -83,9 +83,10 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Set requestEvent
+     * Set requestEvent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @param Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     *
      * @return self
      */
     public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent)
@@ -96,7 +97,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Get requestEvent
+     * Get requestEvent.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $requestEvent
      */
@@ -106,9 +107,10 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Set receiveEvent
+     * Set receiveEvent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @param Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     *
      * @return self
      */
     public function setReceiveEvent(\Celsius3\CoreBundle\Entity\Event\Event $receiveEvent)
@@ -119,7 +121,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Get receiveEvent
+     * Get receiveEvent.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
      */
@@ -138,9 +140,9 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
 
     public function getRemoteNotificationTarget()
     {
-        if (!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent){
+        if (!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent) {
             return $this->getRequest()->getOrder()->getRequest($this->getReceiveEvent()->getInstance())->getOperator();
-        } else if (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent) {
+        } elseif (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent) {
             return $this->getRequest()->getOrder()->getRequest($this->getRequestEvent()->getRemoteRequest()->getInstance())->getOperator();
         }
     }
