@@ -1,51 +1,55 @@
-<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
-    {{ form_errors(form) }}
-       <!--   TODO -> agregar las traducciones-->
+{% trans_default_domain 'Celsius3CoreBundle_Form' %}
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group has-feedback">
-                        {{ form_widget(form.name,{attr:{class:'form-control',placeholder: 'Nombre'}}) }}
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
+{% block registration_content %}
+    <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
 
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group has-feedback">
-                        {{ form_widget(form.surname,{attr:{class:'form-control',placeholder: 'Apellido'}}) }}
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group has-feedback">
-                        {{ form_widget(form.email,{attr:{class:'form-control',placeholder: 'Email'}}) }}
-                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group has-feedback">
-                        {{ form_widget(form.username,{attr:{class:'form-control',placeholder: 'Usuario'}}) }}
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                    </div>
-                </div>
-            </div>
+        {{ form_errors(form) }}
 
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.plainPassword.first,{attr:{class:'form-control',placeholder: 'Contraseña'}}) }}
+                    {{ form_widget(form.name, { attr: { class: 'form-control', placeholder: 'label.name' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.surname, { attr: { class: 'form-control' , placeholder: 'label.surname' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.email, { attr: { class: 'form-control', placeholder: 'label.email' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.username, { attr: { class: 'form-control', placeholder: 'label.username' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group has-feedback">
+                    {{ form_widget(form.plainPassword.first, { attr: { class: 'form-control', placeholder: 'label.password' | trans | first_upper } }) }}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.plainPassword.second,{attr:{class:'form-control',placeholder: 'Repita la contraseña'}}) }}
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                    {{ form_widget(form.plainPassword.second, { attr: { class: 'form-control', placeholder: 'label.password.confirm' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
             </div>
         </div>
@@ -53,80 +57,79 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.country,{attr:{class:'form-control country-select',placeholder: 'Pais'}}) }}
+                    {{ form_widget(form.country, { attr: { class: 'form-control country-select', placeholder: 'label.country'| trans | first_upper } }) }}
                 </div>
                 {{ form_row(form.country) }}
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.city,{attr:{class:'form-control city-select',placeholder: 'Ciudad'}}) }}
+                    {{ form_widget(form.city, { attr: { class: 'form-control city-select', placeholder: 'label.city' | trans | first_upper } }) }}
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.institution,{attr:{class:'form-control institution-select',placeholder: 'Insitucion'}}) }}
-
-                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    {{ form_widget(form.institution, { attr: { class: 'form-control institution-select', placeholder: 'label.institution' | trans | first_upper } }) }}
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.birthdate,{attr:{class:'form-control date',placeholder: 'Fecha de Nacimiento'}}) }}
-                    <span class="glyphicon glyphicon-fa-birthday-cake form-control-feedback"></span>
+                    {{ form_widget(form.birthdate, { attr: { class: 'form-control date', placeholder: 'label.birthdate' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                 </div>
-
             </div>
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.address,{attr:{class:'form-control',placeholder: 'Dirección'}}) }}
-                    <span class="glyphicon glyphicon-address form-control-feedback"></span>
+                    {{ form_widget(form.address, { attr: { class: 'form-control', placeholder: 'label.address' | trans | first_upper } }) }}
+                    <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
                 </div>
-
             </div>
-         </div>
-    <div>
-        <div class="col-md-12">
-            {{ form_errors(form.recaptcha) }}
-            {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %}
+        </div>
 
-            {{ form_widget(form.recaptcha, { 'attr': {
+        {% for child in form.children %}
+            {% if not child.rendered and "hidden" not in child.vars.block_prefixes and child.vars.name != 'recaptcha' %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group has-feedback">
+                            {{ form_widget(child, { attr: { class: 'form-control', placeholder: child.vars.name | first_upper } }) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_errors(form.recaptcha) }}
+                {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %}
+
+                {{ form_widget(form.recaptcha, { 'attr': {
             'options' : {
             'theme': 'light',
             'type': 'image',
             'size': 'normal'
             },
             } }) }}
+            </div>
         </div>
-    </div>
-         <div class="row">
-                <div class="col-xs-6">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> Acepto los<a href="#"> Terminos</a>
-                        </label>
-                    </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}</button>
-                </div>
-                <!-- /.col -->
-         </div>
 
+        <br/>
+        <div class="row">
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat">{{ 'form.submit' | trans | first_upper }}</button>
+            </div>
+        </div>
+        <br/>
 
-            <a href="{{ path('fos_user_security_login') }}" class="btn btn-lg">{{ 'Login'|trans }}</a>
-    </div>
-    <!-- /.form-box -->
-</div>
+        {{ form_rest(form) }}
 
-  
-{{ form_rest(form) }}
-  
-
-</form>
+    </form>
+{% endblock %}
