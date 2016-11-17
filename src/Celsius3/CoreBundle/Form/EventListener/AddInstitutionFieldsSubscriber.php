@@ -29,8 +29,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Entity\Country;
-use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Repository\CityRepository;
 use Celsius3\CoreBundle\Repository\CountryRepository;
 use Celsius3\CoreBundle\Repository\InstitutionRepository;
 
