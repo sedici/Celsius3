@@ -89,7 +89,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             } else {
                 if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
-                                /* @Ignore */ 'label' => ucfirst($field->getName()),
+                                /** @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
                                 'widget' => 'single_text',
                                 'format' => 'dd-MM-yyyy',
@@ -101,7 +101,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                     )));
                 } else {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
-                                /* @Ignore */ 'label' => ucfirst($field->getName()),
+                                /** @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
                                 'mapped' => false,
                                 'auto_initialize' => false,
