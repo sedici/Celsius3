@@ -26,7 +26,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 class InstanceRegisterType extends LegacyInstanceType
 {
 
@@ -34,11 +35,18 @@ class InstanceRegisterType extends LegacyInstanceType
     {
         parent::buildForm($builder, $options);
         $builder
-                ->remove('url')
-                ->remove('host')
+            ->remove('url')
+            ->remove('host')
             ->remove('hive')
+            ->remove('website')
+            ->remove('name')
+            ->add('apellido_nombre',null,['mapped' => false,])
+
+            ->add('sitio_biblioteca',null,['mapped' => false,])
+            ->add('sitio_catalogo',null,['mapped' => false,])
+            ->add('sitio_institucion',null,['mapped' => false,])
             ->add('observaciones',TextareaType::class)
-                ->add('country', EntityType::class, array(
+            ->add('country', EntityType::class, array(
                     'class' => 'Celsius3CoreBundle:Country',
                     'mapped' => false,
                     'placeholder' => '',
@@ -71,7 +79,23 @@ class InstanceRegisterType extends LegacyInstanceType
                 ),
                 'auto_initialize' => false,
             ))
+            ->add('migrar',  CheckboxType::class, array(
+                'required' => false,
+                'mapped' =>false,
+
+            ))
+
         ;
+        $builder->add('recaptcha', EWZRecaptchaType::class, array(
+            'attr' => array(
+                'options' => array(
+                    'theme' => 'light',
+                    'type' => 'image',
+                    'size' => 'normal',
+                ),
+            ),
+            'mapped' => false,
+        ));
 
 
     }

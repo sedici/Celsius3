@@ -33,6 +33,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Directory controller.
@@ -139,11 +140,35 @@ class DirectoryController extends BaseController
          *
          * @return array
          */
-        public function createAction()
+        public function createAction(Request $request)
         {
-            $em = $this->getDoctrine()->getManager();
 
-            $texto = '';
+            $entity = new Instance();
+            $form = $this->createForm(InstanceRegisterType::class, $entity);
+            $apellido_nombre=$request->request->get('instance_register[apellido_nombre]');
+            $email=$request->request->get('instance_register[email]');
+
+            $country=$request->request->get('instance_register[country]');
+            $city=$request->request->get('instance_register[city]');
+            $institution=$request->request->get('instance_register[institution]');
+
+            $sitio_biblioteca=$request->request->get('instance_register[sitio_biblioteca]');
+            $sitio_institucion=$request->request->get('instance_register[sitio_institucion]');
+            $sitio_catalogo=$request->request->get('instance_register[sitio_catalogo]');
+
+            $migrar=$request->request->get('instance_register[migrar]');
+
+            $observaciones=$request->request->get('instance_register[observaciones]');
+
+
+
+
+
+
+            $texto = $apellido_nombre.' solicito agregar una nueva instancia '.$country.''.$city.''.$institution.' con la siguiente informacion: <br/>'.'URL Institucion:'.$sitio_institucion;
+            $texto.="<br/> URL Biblioteca ".$sitio_biblioteca.' <br/> URL Catalogo:'.$sitio_catalogo;
+            $texto.='Observaciones:'.$observaciones;
+
 
             $ticket = new Ticket();
             $ticket->setSubject('Nueva Instancia Cargada');
@@ -162,6 +187,8 @@ class DirectoryController extends BaseController
             $em->flush($ticket);
 
             $ticketState = new TicketState();
+            $ticketState->setCreatedAt(new \DateTime());
+            $ticketState->setUpdatedAt(new \DateTime());
 
             $typeState = $em->getRepository('Celsius3TicketBundle:TypeState')->find(TypeState::TYPE_STATE_NEW);
 
@@ -176,7 +203,7 @@ class DirectoryController extends BaseController
             $em->flush($ticketState);
 
             return array(
-            'entity' => $instance,
+            'entity' => $entity,
             'form' => $form->createView(),
             'directory' => $this->getDirectory(),
         );
