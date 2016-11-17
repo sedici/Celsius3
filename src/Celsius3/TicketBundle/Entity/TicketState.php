@@ -175,4 +175,51 @@ class TicketState
         return $this->descripcion;
     }
 
+    /**
+     * Set user.
+     *
+     * @param \Celsius3\CoreBundle\Entity\BaseUser $user
+     *
+     * @return TicketState
+     */
+    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user.
+     *
+     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set tickets.
+     *
+     * @param \Celsius3\TicketBundle\Entity\Ticket $tickets
+     *
+     * @return TicketState
+     */
+    public function setTickets(\Celsius3\TicketBundle\Entity\Ticket $tickets)
+    {
+        $this->tickets = $tickets;
+
+        return $this;
+    }
+
+    /**
+     * Get tickets.
+     *
+     * @return \Celsius3\TicketBundle\Entity\Ticket
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
 }
