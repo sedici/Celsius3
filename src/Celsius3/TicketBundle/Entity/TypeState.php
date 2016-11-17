@@ -39,6 +39,9 @@ class TypeState
 
     const TYPE_STATE_NEW = 1;
     const TYPE_STATE_IN_PROGRESS = 2;
+    const TYPE_STATE_RESUELTA = 3;
+    const TYPE_STATE_RECHAZADA = 4;
+
 
 
 

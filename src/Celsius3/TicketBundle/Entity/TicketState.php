@@ -176,7 +176,7 @@ class TicketState
     }
 
     /**
-     * Set user.
+     * Set user
      *
      * @param \Celsius3\CoreBundle\Entity\BaseUser $user
      *
@@ -190,7 +190,7 @@ class TicketState
     }
 
     /**
-     * Get user.
+     * Get user
      *
      * @return \Celsius3\CoreBundle\Entity\BaseUser
      */
@@ -201,6 +201,7 @@ class TicketState
 
     /**
      * Set tickets.
+     * Set tickets
      *
      * @param \Celsius3\TicketBundle\Entity\Ticket $tickets
      *
@@ -214,7 +215,7 @@ class TicketState
     }
 
     /**
-     * Get tickets.
+     * Get tickets
      *
      * @return \Celsius3\TicketBundle\Entity\Ticket
      */
