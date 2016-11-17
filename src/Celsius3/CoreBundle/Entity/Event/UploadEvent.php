@@ -33,11 +33,10 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class UploadEvent extends MultiInstanceEvent implements Notifiable
 {
-
     use ReclaimableTrait,
         ApprovableTrait;
 
@@ -84,9 +83,10 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Set deliveryType
+     * Set deliveryType.
      *
-     * @param  string $deliveryType
+     * @param string $deliveryType
+     *
      * @return self
      */
     public function setDeliveryType($deliveryType)
@@ -97,7 +97,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get deliveryType
+     * Get deliveryType.
      *
      * @return string $deliveryType
      */
@@ -107,7 +107,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Add files
+     * Add files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -117,7 +117,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Remove files
+     * Remove files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -127,7 +127,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get files
+     * Get files.
      *
      * @return Doctrine\Common\Collections\Collection $files
      */
@@ -137,9 +137,10 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Set remoteState
+     * Set remoteState.
      *
-     * @param  Celsius3\CoreBundle\Entity\State $remoteState
+     * @param Celsius3\CoreBundle\Entity\State $remoteState
+     *
      * @return self
      */
     public function setRemoteState(\Celsius3\CoreBundle\Entity\State $remoteState)
@@ -150,7 +151,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get remoteState
+     * Get remoteState.
      *
      * @return Celsius3\CoreBundle\Entity\State $remoteState
      */
@@ -167,5 +168,25 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     public function getRemoteNotificationTarget()
     {
         return $this->getRequest()->getPreviousRequest()->getOwner();
+    }
+
+    /**
+     * Get reclaimed.
+     *
+     * @return bool
+     */
+    public function getReclaimed()
+    {
+        return $this->reclaimed;
+    }
+
+    /**
+     * Get approved.
+     *
+     * @return bool
+     */
+    public function getApproved()
+    {
+        return $this->approved;
     }
 }

@@ -32,7 +32,6 @@ use Celsius3\CoreBundle\Exception\Exception;
 
 abstract class BaseController extends Controller
 {
-
     protected function getDirectory()
     {
         return $this->get('celsius3_core.instance_manager')->getDirectory();
@@ -46,15 +45,15 @@ abstract class BaseController extends Controller
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder('e');
+                    ->getRepository($this->getBundle().':'.$name)
+                    ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository($this->getBundle() . ':' . $name)
-                        ->find($id);
+                    ->getRepository($this->getBundle().':'.$name)
+                    ->find($id);
     }
 
     protected function getResultsPerPage()
@@ -72,7 +71,7 @@ abstract class BaseController extends Controller
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
+        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
     }
 
     protected function baseIndex($name, FormInterface $filter_form = null)
@@ -89,7 +88,7 @@ abstract class BaseController extends Controller
 
         return array(
             'pagination' => $pagination,
-            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form
+            'filter_form' => (!is_null($filter_form)) ? $filter_form->createView() : $filter_form,
         );
     }
 
@@ -98,7 +97,7 @@ abstract class BaseController extends Controller
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
         }
 
         return array(
@@ -114,7 +113,7 @@ abstract class BaseController extends Controller
 
         return array(
             'entity' => $entity,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         );
     }
 
@@ -125,7 +124,7 @@ abstract class BaseController extends Controller
         $em->flush();
     }
 
-    protected function baseCreate($name, $entity, $type, array $options = array(), $route)
+    protected function baseCreate($name, $entity, $type, array $options, $route)
     {
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
@@ -133,14 +132,15 @@ abstract class BaseController extends Controller
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
-                $this->addFlash('success', $this->get('translator')->trans('The') . ' ' . $name . ' was successfully created.');
+                $this->addFlash('success', $this->get('translator')->trans('The').' '.$name.' was successfully created.');
+
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The ' . $name . ' already exists.');
+                $this->addFlash('error', 'The '.$name.' already exists.');
             }
         }
 
-        $this->addFlash('error', 'There were errors creating the ' . $name . '.');
+        $this->addFlash('error', 'There were errors creating the '.$name.'.');
 
         return array(
             'entity' => $entity,
@@ -153,7 +153,7 @@ abstract class BaseController extends Controller
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
         }
 
         $editForm = $this->createForm($type, $entity, $options);
@@ -161,16 +161,16 @@ abstract class BaseController extends Controller
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-            'route' => $route
+            'route' => $route,
         );
     }
 
-    protected function baseUpdate($name, $id, $type, array $options = array(), $route)
+    protected function baseUpdate($name, $id, $type, array $options, $route)
     {
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
         }
 
         $editForm = $this->createForm($type, $entity, $options);
@@ -183,15 +183,15 @@ abstract class BaseController extends Controller
             try {
                 $this->persistEntity($entity);
 
-                $this->addFlash('success', 'The ' . $name . ' was successfully edited.');
+                $this->addFlash('success', 'The '.$name.' was successfully edited.');
 
-                return $this->redirect($this->generateUrl($route . '_edit', array('id' => $id)));
+                return $this->redirect($this->generateUrl($route.'_edit', array('id' => $id)));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The ' . $name . ' already exists.');
+                $this->addFlash('error', 'The '.$name.' already exists.');
             }
         }
 
-        $this->addFlash('error', 'There were errors editing the ' . $name . '.');
+        $this->addFlash('error', 'There were errors editing the '.$name.'.');
 
         return array(
             'entity' => $entity,
@@ -210,14 +210,14 @@ abstract class BaseController extends Controller
             $entity = $this->findQuery($name, $id);
 
             if (!$entity) {
-                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+                throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
             }
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($entity);
             $em->flush();
 
-            $this->addFlash('success', 'The ' . $name . ' was successfully deleted.');
+            $this->addFlash('success', 'The '.$name.' was successfully deleted.');
         }
 
         return $this->redirect($this->generateUrl($route));
@@ -227,7 +227,7 @@ abstract class BaseController extends Controller
     {
         $request = $this->get('request_stack')->getCurrentRequest();
         $action = $request->request->get('action');
-        $function = 'batch' . ucfirst($action);
+        $function = 'batch'.ucfirst($action);
         $element_ids = $request->request->get('element', array());
 
         return $this->$function($element_ids);
@@ -236,12 +236,7 @@ abstract class BaseController extends Controller
     protected function baseUnion($name, $ids)
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder('e')
-                ->where('e.id IN (:ids)')
-                ->setParameter('ids', $ids)
-                ->getQuery()
-                ->getResult();
+        $entities = $em->getRepository('Celsius3CoreBundle:'.$name)->findBy(['id' => $ids]);
 
         return array(
             'entities' => $entities,
@@ -252,30 +247,24 @@ abstract class BaseController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $main = $em->getRepository('Celsius3CoreBundle:' . $name)->find($main_id);
+        $main = $em->getRepository('Celsius3CoreBundle:'.$name)->find($main_id);
 
         if (!$main) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
         }
 
-        $entities = $em->getRepository('Celsius3CoreBundle:' . $name)
-                ->createQueryBuilder('e')
-                ->where('e.id IN (:ids)')
-                ->andWhere('e.id <> :id')
-                ->setParameter('ids', $ids)
-                ->setParameter('id', $main->getId())
-                ->getQuery()
-                ->getResult();
+        $entities = $em->getRepository('Celsius3CoreBundle:'.$name)->findBaseDoUnionEntities($main, $ids);
 
         if (count($entities) !== count($ids) - 1) {
-            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.' . $name);
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
         }
 
         if ($name === 'BaseUser') {
             $this->mergeSecondaryInstances($main, $entities);
         }
 
-        $this->get('celsius3_core.union_manager')->union($this->getBundle() . ':' . $name, $main, $entities, $updateInstance);
+        $this->get('celsius3_core.union_manager')
+                ->union($this->getBundle().':'.$name, $main, $entities, $updateInstance);
 
         $this->addFlash('success', 'The elements were successfully joined.');
 
@@ -311,7 +300,7 @@ abstract class BaseController extends Controller
         }
 
         $result = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:' . $target)
+                ->getRepository('Celsius3CoreBundle:'.$target)
                 ->findByTerm($term, $instance, null, $insts)
                 ->getResult();
 
@@ -319,7 +308,7 @@ abstract class BaseController extends Controller
         foreach ($result as $element) {
             $json[] = array(
                 'id' => $element->getId(),
-                'value' => ($target === 'BaseUser') ? $element->__toString() . " (" . $element->getUsername() . ")" : $element->__toString()
+                'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
             );
         }
 
@@ -333,5 +322,4 @@ abstract class BaseController extends Controller
     {
         return false;
     }
-
 }

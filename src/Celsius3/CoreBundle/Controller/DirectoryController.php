@@ -65,26 +65,11 @@ class DirectoryController extends BaseController
     {
         $instances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:Instance')
-                ->createQueryBuilder('i')
-                ->select('o, c, i')
-                ->innerJoin('i.ownerInstitutions', 'o')
-                ->innerJoin('o.country', 'c')
-                ->where('i.enabled = true')
-                ->andWhere('i.invisible = :invisible')
-                ->setParameter('invisible', false)
-                ->getQuery()
-                ->getResult();
+                ->findAllEnabledAndVisible();
 
         $legacyInstances = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:LegacyInstance')
-                ->createQueryBuilder('li')
-                ->select('o, c, li')
-                ->innerJoin('li.ownerInstitutions', 'o')
-                ->innerJoin('o.country', 'c')
-                ->where('li.enabled = true')
-                ->andWhere('li INSTANCE OF Celsius3CoreBundle:LegacyInstance')
-                ->getQuery()
-                ->getResult();
+                ->findEnabled();
 
         $cInstances = array();
         foreach ($instances as $instance) {

@@ -27,11 +27,10 @@ use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class SearchPendingsEvent extends SingleInstanceEvent
 {
-
     public function getEventType()
     {
         return 'searchpendings';

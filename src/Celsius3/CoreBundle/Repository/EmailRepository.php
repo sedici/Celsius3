@@ -22,12 +22,13 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 
-class EmailRepository extends EntityRepository
+/**
+ * EmailRepository.
+ */
+class EmailRepository extends BaseRepository
 {
-
     public function findNotSentEmailsWithLimit(Instance $instance, $limit)
     {
         $qb = $this->createQueryBuilder('e');
@@ -41,5 +42,4 @@ class EmailRepository extends EntityRepository
 
         return $qb->getQuery()->execute();
     }
-
 }

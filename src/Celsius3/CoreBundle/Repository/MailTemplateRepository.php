@@ -22,12 +22,13 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 
-class MailTemplateRepository extends EntityRepository
+/**
+ * MailTemplateRepository.
+ */
+class MailTemplateRepository extends BaseRepository
 {
-
     public function findGlobalAndForInstance(Instance $instance, Instance $directory, $code = null)
     {
         $custom = $this->createQueryBuilder('c')
@@ -62,5 +63,4 @@ class MailTemplateRepository extends EntityRepository
                         ->setParameter('enabled', true)
                         ->getQuery()->getResult();
     }
-
 }

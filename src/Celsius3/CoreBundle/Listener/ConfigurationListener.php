@@ -43,21 +43,15 @@ class ConfigurationListener
         $em = $args->getEntityManager();
 
         if ($entity instanceof Instance) {
-            $default = $em
-                    ->getRepository('Celsius3CoreBundle:Configuration')
-                    ->createQueryBuilder('c')
-                    ->join('c.instance', 'i')
-                    ->where('i.url = :url')
-                    ->setParameter(':url', InstanceManager::INSTANCE__DIRECTORY)
-                    ->getQuery()
-                    ->getResult();
+            $default = $em->getRepository('Celsius3CoreBundle:Configuration')
+                    ->findInstanceConfigurationByUrl(InstanceManager::INSTANCE__DIRECTORY);
 
             foreach ($default as $configuration) {
                 $new = $this->configuration_helper->duplicate($configuration);
                 $new->setInstance($entity);
 
                 if ($new->getKey() == 'api_key') {
-                    $new->setValue(sha1($entity->getUrl() . $entity->getName()));
+                    $new->setValue(sha1($entity->getUrl().$entity->getName()));
                 }
 
                 $em->persist($new);
@@ -65,12 +59,8 @@ class ConfigurationListener
             $em->flush();
         } elseif ($entity instanceof Configuration) {
             if (!$entity->getInstance()) {
-                $instances = $em
-                        ->getRepository('Celsius3CoreBundle:Instance')
-                        ->createQueryBuilder()
-                        ->field('url')->notEqual(InstanceManager::INSTANCE__DIRECTORY)
-                        ->getQuery()
-                        ->execute();
+                $instances = $em->getRepository('Celsius3CoreBundle:Instance')
+                        ->findAllInstancesExceptByUrl(InstanceManager::INSTANCE__DIRECTORY);
 
                 foreach ($instances as $instance) {
                     $new = $this->configuration_helper->duplicate($entity);

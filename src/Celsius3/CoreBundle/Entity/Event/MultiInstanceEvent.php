@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\MultiInstanceEventRepository")
  */
 class MultiInstanceEvent extends Event
 {
@@ -43,9 +43,10 @@ class MultiInstanceEvent extends Event
     }
 
     /**
-     * Set remoteInstance
+     * Set remoteInstance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $remoteInstance
+     * @param Celsius3\CoreBundle\Entity\Instance $remoteInstance
+     *
      * @return self
      */
     public function setRemoteInstance(\Celsius3\CoreBundle\Entity\Instance $remoteInstance)
@@ -56,7 +57,7 @@ class MultiInstanceEvent extends Event
     }
 
     /**
-     * Get remoteInstance
+     * Get remoteInstance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $remoteInstance
      */

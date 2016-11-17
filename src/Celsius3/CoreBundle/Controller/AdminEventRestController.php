@@ -44,34 +44,24 @@ class AdminEventRestController extends BaseInstanceDependentRestController
     public function getAllEventsAction($request_id)
     {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+        $em = $this->getDoctrine()->getManager();
 
-        $events = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\Event')
-                ->findBy(array('request' => $request_id));
+        $events = $em->getRepository('Celsius3CoreBundle:Event\\Event')->findBy(array('request' => $request_id));
+        $requests = $em->getRepository('Celsius3CoreBundle:Request')->findBy(array('previousRequest' => $request_id));
 
-        $requests = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request')
-                ->findBy(array('previousRequest' => $request_id));
-
-        $remoteEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
-                ->createQueryBuilder('e')
-                ->where('e.request IN (:requests)')
-                ->setParameter('requests', array_map(function (\Celsius3\CoreBundle\Entity\Request $item) {
-                    return $item->getId();
-                }, $requests))
-                ->getQuery()
-                ->getResult();
+        $requestsIds = array_map(function (\Celsius3\CoreBundle\Entity\Request $item) {
+            return $item->getId();
+        }, $requests);
+        $remoteEvents = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
+                            ->getRemoteEvents($requestsIds);
 
         $all = array_merge($events, $remoteEvents);
         $keys = array_map(function (Event $e) {
             return $e->getId();
         }, $all);
 
-        $reclaimEvents = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Event\\ReclaimEvent')
-                ->createQueryBuilder('e')
-                ->where('e.requestEvent IN (:event_ids)')
-                ->orWhere('e.receiveEvent IN (:event_ids)')
-                ->setParameter('event_ids', $keys)
-                ->getQuery()
-                ->getResult();
+        $reclaimEvents = $em->getRepository('Celsius3CoreBundle:Event\\ReclaimEvent')
+                            ->getReclaimEventsFor($keys);
 
         foreach ($reclaimEvents as $e) {
             if (!in_array($e->getId(), $keys)) {

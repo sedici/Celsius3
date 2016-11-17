@@ -44,22 +44,13 @@ class MessageRestController extends FOSRestController
      */
     public function getMessagesAction(Request $request)
     {
-        $context = SerializationContext::create()->setGroups(array('user_list'));
-
         $messages = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3MessageBundle:Thread')
-                ->createQueryBuilder('t')
-                ->select('t')
-                ->join('t.metadata', 'm')
-                ->join('m.participant', 'p')
-                ->where('p.id = :id')
-                ->orderBy('m.lastMessageDate', 'DESC')
-                ->setMaxResults(5)
-                ->setParameter('id', $this->getUser()->getId())
-                ->getQuery()
-                ->execute();
+                ->findUserMessages($this->getUser());
 
+        $context = SerializationContext::create()->setGroups(array('user_list'));
         $view = $this->view(array_values($messages), 200)->setFormat('json');
+
         $view->setSerializationContext($context);
 
         return $this->handleView($view);

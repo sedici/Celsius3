@@ -38,27 +38,18 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminJournalController extends BaseInstanceDependentController
 {
-
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
-    protected function findShowQuery($name, $id)
+    protected function findShowQuery($id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder('e')
-                        ->where('e.instance = :instance_id')
-                        ->orWhere('e.instance = :directory_id')
-                        ->andWhere('e.id = :id')
-                        ->setParameter('instance_id', $this->getInstance()->getId())
-                        ->setParameter('directory_id', $this->getDirectory()->getId())
-                        ->setParameter('id', $id)
-                        ->getQuery()
-                        ->getOneOrNullResult();
+                    ->getRepository('Celsius3CoreBundle:Journal')
+                    ->findOneForInstanceOrGlobal($this->getInstance()->getId(), $this->getDirectory()->getId(), $id);
     }
 
     protected function getSortDefaults()
@@ -94,7 +85,7 @@ class AdminJournalController extends BaseInstanceDependentController
      */
     public function showAction($id)
     {
-        $entity = $this->findShowQuery('Journal', $id);
+        $entity = $this->findShowQuery($id);
 
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.journal');
@@ -115,7 +106,7 @@ class AdminJournalController extends BaseInstanceDependentController
         return array(
             'entity' => $entity,
             'searches' => $searches,
-            'receptions' => $receptions
+            'receptions' => $receptions,
         );
     }
 
@@ -155,6 +146,7 @@ class AdminJournalController extends BaseInstanceDependentController
      *
      * @Route("/{id}/edit", name="admin_journal_edit")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array
@@ -191,20 +183,10 @@ class AdminJournalController extends BaseInstanceDependentController
     protected function findQuery($name, $id)
     {
         $um = $this->container->get('celsius3_core.user_manager');
+        $isAdmin = $um->getCurrentRole($this->getUser()) === 'ROLE_SUPER_ADMIN';
 
-        $qb = $this->getDoctrine()->getManager()
-                ->getRepository($this->getBundle() . ':' . $name)
-                ->createQueryBuilder('e');
-
-        if ($um->getCurrentRole($this->getUser()) !== 'ROLE_SUPER_ADMIN') {
-            $qb = $qb->andWhere('e.instance = :instance_id')
-                    ->setParameter('instance_id', $this->getInstance()->getId());
-        }
-
-        return $qb->andWhere('e.id = :id')
-                        ->setParameter('id', $id)
-                        ->getQuery()
-                        ->getOneOrNullResult();
+        return $this->getDoctrine()->getManager()
+                ->getRepository($this->getBundle().':'.$name)
+                ->findQuery($this->getInstance(), $id, $isAdmin);
     }
-
 }

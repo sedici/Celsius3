@@ -30,11 +30,10 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SearchEventRepository")
  */
 class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
-
     /**
      * @Assert\NotBlank
      * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\CatalogManager", "getResults"}, message = "Choose a valid result.")
@@ -61,9 +60,10 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Set result
+     * Set result.
      *
-     * @param  string $result
+     * @param string $result
+     *
      * @return self
      */
     public function setResult($result)
@@ -74,7 +74,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Get result
+     * Get result.
      *
      * @return string $result
      */
@@ -84,9 +84,10 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Set catalog
+     * Set catalog.
      *
-     * @param  Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @param Celsius3\CoreBundle\Entity\Catalog $catalog
+     *
      * @return self
      */
     public function setCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalog)
@@ -97,7 +98,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     }
 
     /**
-     * Get catalog
+     * Get catalog.
      *
      * @return Celsius3\CoreBundle\Entity\Catalog $catalog
      */
@@ -110,5 +111,4 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     {
         $manager->notifyEvent($this, 'search');
     }
-
 }

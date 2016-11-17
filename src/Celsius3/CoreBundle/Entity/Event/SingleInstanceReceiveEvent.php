@@ -31,11 +31,10 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SingleInstanceReceiveEventRepository")
  */
 class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiable
 {
-
     use ReclaimableTrait;
 
     /**
@@ -79,9 +78,10 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Set deliveryType
+     * Set deliveryType.
      *
-     * @param  string $deliveryType
+     * @param string $deliveryType
+     *
      * @return self
      */
     public function setDeliveryType($deliveryType)
@@ -92,7 +92,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Get deliveryType
+     * Get deliveryType.
      *
      * @return string $deliveryType
      */
@@ -102,7 +102,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Add files
+     * Add files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -112,7 +112,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Remove files
+     * Remove files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -122,7 +122,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Get files
+     * Get files.
      *
      * @return Doctrine\Common\Collections\Collection $files
      */
@@ -132,9 +132,10 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Set requestEvent
+     * Set requestEvent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @param Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     *
      * @return self
      */
     public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent = null)
@@ -145,7 +146,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     }
 
     /**
-     * Get requestEvent
+     * Get requestEvent.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $requestEvent
      */
@@ -156,7 +157,16 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'receive');
+        $manager->notifyEvent($this, 'receive');
     }
 
+    /**
+     * Get reclaimed.
+     *
+     * @return bool
+     */
+    public function getReclaimed()
+    {
+        return $this->reclaimed;
+    }
 }

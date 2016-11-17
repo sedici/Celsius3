@@ -22,13 +22,15 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
 
-class StateRepository extends EntityRepository
+/**
+ * StateRepository.
+ */
+class StateRepository extends BaseRepository
 {
     public function countUserOrders(Instance $instance, BaseUser $user)
     {

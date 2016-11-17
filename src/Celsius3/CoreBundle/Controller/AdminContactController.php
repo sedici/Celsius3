@@ -30,30 +30,24 @@ use Celsius3\CoreBundle\Form\Type\AdminContactType;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
- * Contact controller.
+ * AdminContact controller.
  *
  * @Route("/admin/contact")
  */
 class AdminContactController extends BaseInstanceDependentController
 {
-
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder('e')
-                        ->where('e.owningInstance = :owning')->setParameter('owning', $this->getInstance()->getId());
+                    ->getRepository('Celsius3CoreBundle:'.$name)
+                    ->findBy(['owningInstance' => $this->getInstance()->getId()]);
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository($this->getBundle() . ':' . $name)
-                        ->createQueryBuilder('e')
-                        ->where('e.owningInstance = :owning')->setParameter('owning', $this->getInstance()->getId())
-                        ->andWhere('e.id = :id')->setParameter('id', $id)
-                        ->getQuery()
-                        ->getSingleResult();
+                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->findByInstance($this->getInstance, $id);
     }
 
     /**
@@ -193,5 +187,4 @@ class AdminContactController extends BaseInstanceDependentController
     {
         return $this->baseDelete('Contact', $id, 'admin_contact');
     }
-
 }

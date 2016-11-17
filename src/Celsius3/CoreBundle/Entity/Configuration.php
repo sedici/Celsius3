@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ConfigurationRepository")
  * @ORM\Table(name="configuration", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
  * }, indexes={
@@ -38,7 +37,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Configuration
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -73,7 +71,7 @@ class Configuration
     private $instance;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -83,9 +81,10 @@ class Configuration
     }
 
     /**
-     * Set key
+     * Set key.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return self
      */
     public function setKey($key)
@@ -96,7 +95,7 @@ class Configuration
     }
 
     /**
-     * Get key
+     * Get key.
      *
      * @return string $key
      */
@@ -106,9 +105,10 @@ class Configuration
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -119,7 +119,7 @@ class Configuration
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -129,9 +129,10 @@ class Configuration
     }
 
     /**
-     * Set value
+     * Set value.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return self
      */
     public function setValue($value)
@@ -142,7 +143,7 @@ class Configuration
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return string $value
      */
@@ -152,9 +153,10 @@ class Configuration
     }
 
     /**
-     * Set type
+     * Set type.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return self
      */
     public function setType($type)
@@ -165,7 +167,7 @@ class Configuration
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string $type
      */
@@ -175,9 +177,10 @@ class Configuration
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -188,7 +191,7 @@ class Configuration
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */

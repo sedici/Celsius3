@@ -25,11 +25,10 @@ namespace Celsius3\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\LegacyInstanceRepository")
  * @ORM\Table(name="instance", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_website", columns={"website"}),
@@ -43,12 +42,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *   "legacy"="LegacyInstance",
  *   "current"="Instance"
  * })
- * 
+ *
  * @UniqueEntity("email")
  */
 class LegacyInstance
 {
-
     use TimestampableEntity;
 
     /**
@@ -117,7 +115,7 @@ class LegacyInstance
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -127,9 +125,10 @@ class LegacyInstance
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -140,7 +139,7 @@ class LegacyInstance
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -150,9 +149,10 @@ class LegacyInstance
     }
 
     /**
-     * Set abbreviation
+     * Set abbreviation.
      *
-     * @param  string $abbreviation
+     * @param string $abbreviation
+     *
      * @return self
      */
     public function setAbbreviation($abbreviation)
@@ -163,7 +163,7 @@ class LegacyInstance
     }
 
     /**
-     * Get abbreviation
+     * Get abbreviation.
      *
      * @return string $abbreviation
      */
@@ -173,9 +173,10 @@ class LegacyInstance
     }
 
     /**
-     * Set website
+     * Set website.
      *
-     * @param  string $website
+     * @param string $website
+     *
      * @return self
      */
     public function setWebsite($website)
@@ -186,7 +187,7 @@ class LegacyInstance
     }
 
     /**
-     * Get website
+     * Get website.
      *
      * @return string $website
      */
@@ -196,9 +197,10 @@ class LegacyInstance
     }
 
     /**
-     * Set email
+     * Set email.
      *
-     * @param  string $email
+     * @param string $email
+     *
      * @return self
      */
     public function setEmail($email)
@@ -209,7 +211,7 @@ class LegacyInstance
     }
 
     /**
-     * Get email
+     * Get email.
      *
      * @return string $email
      */
@@ -219,9 +221,10 @@ class LegacyInstance
     }
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param  boolean $enabled
+     * @param bool $enabled
+     *
      * @return self
      */
     public function setEnabled($enabled)
@@ -232,9 +235,9 @@ class LegacyInstance
     }
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled()
     {
@@ -242,9 +245,10 @@ class LegacyInstance
     }
 
     /**
-     * Set hive
+     * Set hive.
      *
-     * @param  Celsius3\CoreBundle\Entity\Hive $hive
+     * @param Celsius3\CoreBundle\Entity\Hive $hive
+     *
      * @return self
      */
     public function setHive(\Celsius3\CoreBundle\Entity\Hive $hive)
@@ -255,7 +259,7 @@ class LegacyInstance
     }
 
     /**
-     * Get hive
+     * Get hive.
      *
      * @return Celsius3\CoreBundle\Entity\Hive $hive
      */
@@ -265,7 +269,7 @@ class LegacyInstance
     }
 
     /**
-     * Add ownerInstitutions
+     * Add ownerInstitutions.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $ownerInstitutions
      */
@@ -275,7 +279,7 @@ class LegacyInstance
     }
 
     /**
-     * Remove ownerInstitutions
+     * Remove ownerInstitutions.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $ownerInstitutions
      */
@@ -285,7 +289,7 @@ class LegacyInstance
     }
 
     /**
-     * Get ownerInstitutions
+     * Get ownerInstitutions.
      *
      * @return Doctrine\Common\Collections\ArrayCollection $ownerInstitutions
      */
@@ -293,5 +297,4 @@ class LegacyInstance
     {
         return $this->ownerInstitutions;
     }
-
 }

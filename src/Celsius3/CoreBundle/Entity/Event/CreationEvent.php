@@ -27,11 +27,10 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class CreationEvent extends SingleInstanceEvent implements Notifiable
 {
-
     public function getEventType()
     {
         return 'creation';
@@ -39,7 +38,6 @@ class CreationEvent extends SingleInstanceEvent implements Notifiable
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'creation');
+        $manager->notifyEvent($this, 'creation');
     }
-
 }

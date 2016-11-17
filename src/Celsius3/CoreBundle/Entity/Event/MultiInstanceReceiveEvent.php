@@ -33,11 +33,10 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
 {
-
     use ReclaimableTrait,
         ApprovableTrait;
 
@@ -93,9 +92,10 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Set deliveryType
+     * Set deliveryType.
      *
-     * @param  string $deliveryType
+     * @param string $deliveryType
+     *
      * @return self
      */
     public function setDeliveryType($deliveryType)
@@ -106,7 +106,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get deliveryType
+     * Get deliveryType.
      *
      * @return string $deliveryType
      */
@@ -116,7 +116,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Add files
+     * Add files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -126,7 +126,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Remove files
+     * Remove files.
      *
      * @param Celsius3\CoreBundle\Entity\File $files
      */
@@ -136,7 +136,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get files
+     * Get files.
      *
      * @return Doctrine\Common\Collections\Collection $files
      */
@@ -146,9 +146,10 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Set remoteState
+     * Set remoteState.
      *
-     * @param  Celsius3\CoreBundle\Entity\State $remoteState
+     * @param Celsius3\CoreBundle\Entity\State $remoteState
+     *
      * @return self
      */
     public function setRemoteState(\Celsius3\CoreBundle\Entity\State $remoteState)
@@ -159,7 +160,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get remoteState
+     * Get remoteState.
      *
      * @return Celsius3\CoreBundle\Entity\State $remoteState
      */
@@ -169,9 +170,10 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Set requestEvent
+     * Set requestEvent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @param Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     *
      * @return self
      */
     public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent)
@@ -182,7 +184,7 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     }
 
     /**
-     * Get requestEvent
+     * Get requestEvent.
      *
      * @return Celsius3\CoreBundle\Entity\Event\Event $requestEvent
      */
@@ -199,5 +201,25 @@ class MultiInstanceReceiveEvent extends MultiInstanceEvent implements Notifiable
     public function getRemoteNotificationTarget()
     {
         return $this->getRequest()->getPreviousRequest()->getOwner();
+    }
+
+    /**
+     * Get reclaimed.
+     *
+     * @return bool
+     */
+    public function getReclaimed()
+    {
+        return $this->reclaimed;
+    }
+
+    /**
+     * Get approved.
+     *
+     * @return bool
+     */
+    public function getApproved()
+    {
+        return $this->approved;
     }
 }

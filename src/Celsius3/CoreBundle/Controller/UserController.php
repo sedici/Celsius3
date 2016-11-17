@@ -28,13 +28,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
- * User controller
+ * User controller.
  *
  * @Route("/user")
  */
 class UserController extends BaseInstanceDependentController
 {
-
     /**
      * @Route("/", name="user_index")
      * @Template()
@@ -45,12 +44,7 @@ class UserController extends BaseInstanceDependentController
     {
         $lastMessages = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3MessageBundle:Thread')
-                        ->createQueryBuilder('t')
-                        ->join('t.metadata', 'tm')
-                        ->where('tm.participant IN (:participants)')->setParameter('participants', $this->getUser()->getId())
-                        ->orderBy('tm.lastMessageDate', 'desc')
-                        ->setMaxResults(3)
-                        ->getQuery()->getResult();
+                        ->findUserLastMessages($this->getUser(), 3);
 
         $configHelper = $this->get('celsius3_core.configuration_helper');
         $resultsPerPageConfig = $this->getDoctrine()
@@ -59,11 +53,11 @@ class UserController extends BaseInstanceDependentController
                 ->findOneBy(
                 array(
                     'instance' => $this->getInstance(),
-                    'key' => $configHelper::CONF__RESULTS_PER_PAGE));
+                    'key' => $configHelper::CONF__RESULTS_PER_PAGE, ));
 
         return array(
             'lastMessages' => $lastMessages,
-            'resultsPerPage' => $resultsPerPageConfig->getValue()
+            'resultsPerPage' => $resultsPerPageConfig->getValue(),
         );
     }
 
@@ -85,7 +79,6 @@ class UserController extends BaseInstanceDependentController
         $user = $this->getUser();
 
         if (array_key_exists($id, $user->getSecondaryInstances()) || ($user->getInstance()->getId() === intval($id))) {
-
             if (!array_key_exists($user->getInstance()->getId(), $user->getSecondaryInstances())) {
                 $user->addSecondaryInstance($user->getInstance(), $user->getRoles());
             }
@@ -128,5 +121,4 @@ class UserController extends BaseInstanceDependentController
 
         return in_array($target, $allowedTargets);
     }
-
 }

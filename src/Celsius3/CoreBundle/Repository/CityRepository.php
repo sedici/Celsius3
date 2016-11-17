@@ -22,12 +22,14 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\Instance;
 
-class CityRepository extends EntityRepository
+/**
+ * CityRepository.
+ */
+class CityRepository extends BaseRepository
 {
-
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $country_id = null)
     {
         $qb = $this->createQueryBuilder('e')
@@ -43,5 +45,27 @@ class CityRepository extends EntityRepository
         }
 
         return $qb;
+    }
+
+    public function findForCountryQB(Country $country = null)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($country instanceof Country) {
+            $qb->where('c.country = :country_id')
+                    ->setParameter('country_id', $country->getId());
+        } else {
+            $qb->where('c.country IS NULL');
+        }
+
+        return $qb->orderBy('c.name', 'asc');
+    }
+
+    public function findForCountry($country_id)
+    {
+        return $this->createQueryBuilder('c')
+                    ->where('c.country = :cid')
+                    ->setParameter('cid', $country_id)
+                    ->getQuery()->getResult();
     }
 }

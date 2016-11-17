@@ -29,7 +29,7 @@ use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\EventManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class ApproveEvent extends MultiInstanceEvent
 {
@@ -115,5 +115,12 @@ class ApproveEvent extends MultiInstanceEvent
     public function getFiles()
     {
         return $this->files;
+    }
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
     }
 }

@@ -35,7 +35,7 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 {
@@ -106,5 +106,35 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     public function notify(NotificationManager $manager)
     {
         $manager->notifyEvent($this, 'request');
+    }
+
+    /**
+     * Get reclaimed.
+     *
+     * @return bool
+     */
+    public function getReclaimed()
+    {
+        return $this->reclaimed;
+    }
+
+    /**
+     * Get cancelled.
+     *
+     * @return bool
+     */
+    public function getCancelled()
+    {
+        return $this->cancelled;
+    }
+
+    /**
+     * Get annulled.
+     *
+     * @return bool
+     */
+    public function getAnnulled()
+    {
+        return $this->annulled;
     }
 }

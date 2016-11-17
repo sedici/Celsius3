@@ -25,17 +25,15 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="counter", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"})
  * })
  */
 class Counter
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -54,7 +52,7 @@ class Counter
     protected $value;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -64,7 +62,7 @@ class Counter
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      */
@@ -74,7 +72,7 @@ class Counter
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -84,7 +82,7 @@ class Counter
     }
 
     /**
-     * Set value
+     * Set value.
      *
      * @param int $value
      */
@@ -94,7 +92,7 @@ class Counter
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return int $value
      */

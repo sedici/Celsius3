@@ -31,56 +31,56 @@ class UnionManager
     private $references = array(
         'Celsius3CoreBundle:Country' => array(
             'Celsius3CoreBundle:City' => array(
-                'country'
+                'country',
             ),
             'Celsius3CoreBundle:Institution' => array(
-                'country'
+                'country',
             ),
         ),
         'Celsius3CoreBundle:City' => array(
             'Celsius3CoreBundle:Institution' => array(
-                'city'
+                'city',
             ),
         ),
         'Celsius3CoreBundle:Institution' => array(
             'Celsius3CoreBundle:BaseUser' => array(
-                'institution'
+                'institution',
             ),
             'Celsius3CoreBundle:Institution' => array(
-                'parent'
+                'parent',
             ),
             'Celsius3CoreBundle:Catalog' => array(
-                'institution'
+                'institution',
             ),
             'Celsius3CoreBundle:Contact' => array(
-                'institution'
+                'institution',
             ),
             'Celsius3CoreBundle:Event\\SingleInstanceRequestEvent' => array(
-                'provider'
+                'provider',
             ),
             'Celsius3CoreBundle:Event\\MultiInstanceRequestEvent' => array(
-                'provider'
+                'provider',
             ),
         ),
         'Celsius3CoreBundle:Catalog' => array(
             'Celsius3CoreBundle:Event\\SearchEvent' => array(
-                'catalog'
+                'catalog',
             ),
             'Celsius3CoreBundle:CatalogPosition' => array(
-                'catalog'
+                'catalog',
             ),
         ),
         'Celsius3CoreBundle:Journal' => array(
             'Celsius3CoreBundle:JournalType' => array(
-                'journal'
-            )
+                'journal',
+            ),
         ),
         'Celsius3CoreBundle:BaseUser' => array(
             'Celsius3CoreBundle:Request' => array(
                 'owner',
                 'operator',
                 'creator',
-                'librarian'
+                'librarian',
             ),
             'Celsius3CoreBundle:FileDownload' => array(
                 'user',
@@ -101,15 +101,15 @@ class UnionManager
                 'operator',
             ),
             'Celsius3MessageBundle:Message' => array(
-                'sender'
+                'sender',
             ),
             'Celsius3MessageBundle:ThreadMetadata' => array(
-                'participant'
+                'participant',
             ),
             'Celsius3NotificationBundle:BaseUserNotification' => array(
                 'object',
             ),
-        )
+        ),
     );
 
     public function __construct(EntityManager $em, InstanceManager $instance_manager)
@@ -123,26 +123,12 @@ class UnionManager
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
-                    $this->em->getRepository($key)
-                            ->createQueryBuilder('e')
-                            ->update()
-                            ->set('e.' . $field, ':main_id')
-                            ->where('e.' . $field . ' IN (:ids)')
-                            ->setParameter('ids', $elements)
-                            ->setParameter('main_id', $main->getId())
-                            ->getQuery()
-                            ->getResult();
+                    $this->em->getRepository($key)->union($field, $main->getId(), $elements);
                 }
             }
         }
 
-        $this->em->getRepository($name)
-                ->createQueryBuilder('e')
-                ->delete()
-                ->where('e.id IN (:ids)')
-                ->setParameter('ids', $elements)
-                ->getQuery()
-                ->getResult();
+        $this->em->getRepository($name)->deleteUnitedEntities($elements);
 
         if ($updateInstance) {
             $main->setInstance($this->instance_manager->getDirectory());

@@ -25,14 +25,12 @@ namespace Celsius3\CoreBundle\Entity\Event;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class SingleInstanceEvent extends Event
 {
-
     public function getEventType()
     {
         return 'si';
     }
-
 }

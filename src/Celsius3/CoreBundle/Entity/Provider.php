@@ -24,10 +24,9 @@ namespace Celsius3\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="provider", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_city", columns={"city_id"}),
@@ -48,7 +47,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Provider
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -60,7 +58,7 @@ abstract class Provider
     abstract public function getProviderType();
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */

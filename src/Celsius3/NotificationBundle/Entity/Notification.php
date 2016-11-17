@@ -308,4 +308,38 @@ abstract class Notification
     {
         return $this->viewer;
     }
+
+    /**
+     * Get viewed.
+     *
+     * @return bool
+     */
+    public function getViewed()
+    {
+        return $this->viewed;
+    }
+
+    /**
+     * Add viewer.
+     *
+     * @param \Celsius3\CoreBundle\Entity\BaseUser $viewer
+     *
+     * @return Notification
+     */
+    public function addViewer(\Celsius3\CoreBundle\Entity\BaseUser $viewer)
+    {
+        $this->viewer[] = $viewer;
+
+        return $this;
+    }
+
+    /**
+     * Remove viewer.
+     *
+     * @param \Celsius3\CoreBundle\Entity\BaseUser $viewer
+     */
+    public function removeViewer(\Celsius3\CoreBundle\Entity\BaseUser $viewer)
+    {
+        $this->viewer->removeElement($viewer);
+    }
 }

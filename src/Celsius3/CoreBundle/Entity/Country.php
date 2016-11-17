@@ -25,7 +25,6 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CountryRepository")
@@ -36,7 +35,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Country
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -81,7 +79,7 @@ class Country
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -91,9 +89,10 @@ class Country
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -104,7 +103,7 @@ class Country
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -114,9 +113,10 @@ class Country
     }
 
     /**
-     * Set abbreviation
+     * Set abbreviation.
      *
-     * @param  string $abbreviation
+     * @param string $abbreviation
+     *
      * @return self
      */
     public function setAbbreviation($abbreviation)
@@ -127,7 +127,7 @@ class Country
     }
 
     /**
-     * Get abbreviation
+     * Get abbreviation.
      *
      * @return string $abbreviation
      */
@@ -137,7 +137,7 @@ class Country
     }
 
     /**
-     * Add cities
+     * Add cities.
      *
      * @param Celsius3\CoreBundle\Entity\City $cities
      */
@@ -147,7 +147,7 @@ class Country
     }
 
     /**
-     * Remove cities
+     * Remove cities.
      *
      * @param Celsius3\CoreBundle\Entity\City $cities
      */
@@ -157,7 +157,7 @@ class Country
     }
 
     /**
-     * Get cities
+     * Get cities.
      *
      * @return Doctrine\Common\Collections\Collection $cities
      */
@@ -167,7 +167,7 @@ class Country
     }
 
     /**
-     * Add institutions
+     * Add institutions.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institutions
      */
@@ -177,7 +177,7 @@ class Country
     }
 
     /**
-     * Remove institutions
+     * Remove institutions.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institutions
      */
@@ -187,7 +187,7 @@ class Country
     }
 
     /**
-     * Get institutions
+     * Get institutions.
      *
      * @return Doctrine\Common\Collections\Collection $institutions
      */
@@ -197,9 +197,10 @@ class Country
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -210,12 +211,36 @@ class Country
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
     public function getInstance()
     {
         return $this->instance;
+    }
+
+    /**
+     * Add city.
+     *
+     * @param \Celsius3\CoreBundle\Entity\City $city
+     *
+     * @return Country
+     */
+    public function addCity(\Celsius3\CoreBundle\Entity\City $city)
+    {
+        $this->cities[] = $city;
+
+        return $this;
+    }
+
+    /**
+     * Remove city.
+     *
+     * @param \Celsius3\CoreBundle\Entity\City $city
+     */
+    public function removeCity(\Celsius3\CoreBundle\Entity\City $city)
+    {
+        $this->cities->removeElement($city);
     }
 }

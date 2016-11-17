@@ -37,7 +37,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminOrderController extends OrderController
 {
-
     protected function getSortDefaults()
     {
         return array(
@@ -49,16 +48,15 @@ class AdminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
-                        ->findOneForInstance($id, $this->getInstance())->getQuery()
-                        ->getOneOrNullResult();
+                    ->getRepository('Celsius3CoreBundle:'.$name)
+                    ->findOneForInstance($this->getInstance(), $id);
     }
 
     /**
@@ -141,6 +139,7 @@ class AdminOrderController extends OrderController
      *
      * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array
@@ -185,11 +184,11 @@ class AdminOrderController extends OrderController
      * @Route("/{id}/duplicate", name="admin_order_duplicate", options={"expose"=true})
      * @Method("POST")
      * @Template("Celsius3CoreBundle:AdminOrder:edit.html.twig")
+     *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function duplicateAction($id)
     {
-        //Buscar Order
         $order = $this->findQuery('Order', $id);
 
         if (!$order) {
@@ -315,5 +314,4 @@ class AdminOrderController extends OrderController
     {
         return $this->change();
     }
-
 }

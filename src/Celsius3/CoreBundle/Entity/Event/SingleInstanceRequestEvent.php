@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
@@ -33,11 +32,10 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiable
 {
-
     use ReclaimableTrait,
         CancellableTrait,
         ProviderTrait;
@@ -55,7 +53,26 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiab
 
     public function notify(NotificationManager $manager)
     {
-        $manager->notifyEvent($this,'request');
+        $manager->notifyEvent($this, 'request');
     }
 
+    /**
+     * Get reclaimed.
+     *
+     * @return bool
+     */
+    public function getReclaimed()
+    {
+        return $this->reclaimed;
+    }
+
+    /**
+     * Get cancelled.
+     *
+     * @return bool
+     */
+    public function getCancelled()
+    {
+        return $this->cancelled;
+    }
 }

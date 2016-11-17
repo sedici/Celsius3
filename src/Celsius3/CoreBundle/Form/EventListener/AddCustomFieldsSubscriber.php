@@ -32,7 +32,6 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
-
     private $factory;
     private $em;
     private $instance;
@@ -48,7 +47,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(FormEvents::POST_SET_DATA => 'postSetData',);
+        return array(FormEvents::POST_SET_DATA => 'postSetData');
     }
 
     public function postSetData(FormEvent $event)
@@ -62,26 +61,13 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
 
         $userId = $data->getId() ? $data->getId() : null;
 
-        $query = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
-                ->createQueryBuilder('cuf')
-                ->where('cuf.instance = :instance_id')
-                ->andWhere('cuf.enabled = true')
-                ->setParameter('instance_id', $this->instance->getId());
-
-        if ($this->registration) {
-            $query = $query->andWhere('cuf.private = :private')
-                    ->setParameter('private', false);
-        }
-
-        $fields = $query->getQuery()->getResult();
+        $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
+                        ->getByInstance($this->instance, $this->registration);
 
         foreach ($fields as $field) {
             if ($userId) {
                 $value = $this->em->getRepository('Celsius3CoreBundle:CustomUserValue')
-                        ->findOneBy(array(
-                    'field' => $field->getId(),
-                    'user' => $userId,
-                ));
+                        ->findOneBy(array('field' => $field->getId(), 'user' => $userId));
             } else {
                 $value = null;
             }
@@ -103,19 +89,19 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             } else {
                 if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
-                                /** @Ignore */ 'label' => ucfirst($field->getName()),
+                                /* @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
                                 'widget' => 'single_text',
                                 'format' => 'dd-MM-yyyy',
                                 'attr' => array(
-                                    'class' => 'date'
+                                    'class' => 'date',
                                 ),
                                 'mapped' => false,
                                 'auto_initialize' => false,
                     )));
                 } else {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
-                                /** @Ignore */ 'label' => ucfirst($field->getName()),
+                                /* @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
                                 'mapped' => false,
                                 'auto_initialize' => false,
@@ -124,5 +110,4 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             }
         }
     }
-
 }

@@ -29,28 +29,27 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 
 class ThreadRepository extends EntityRepository
 {
-
     public function applyExtraFilters(QueryBuilder $builder, Request $request, BaseUser $user)
     {
         if ($request->query->has('created_between') && $request->query->get('created_between') != '') {
             $between = $request->query->get('created_between');
             if ($request->query->has('and') && $request->query->get('and') != '') {
                 $and = $request->query->get('and');
-                $builder = $builder->where($builder->getRootAliases()[0] . '.createdAt BETWEEN :between AND :and')
+                $builder = $builder->where($builder->getRootAliases()[0].'.createdAt BETWEEN :between AND :and')
                         ->setParameter('between', $between)
                         ->setParameter('and', $and);
             } else {
-                $builder = $builder->where($builder->getRootAliases()[0] . '.createdAt >= :between')
+                $builder = $builder->where($builder->getRootAliases()[0].'.createdAt >= :between')
                         ->setParameter('between', $between);
             }
         } elseif ($request->query->has('and') && $request->query->get('and') != '') {
             $and = $request->query->get('and');
-            $builder = $builder->where($builder->getRootAliases()[0] . '.createdAt <= :and')
+            $builder = $builder->where($builder->getRootAliases()[0].'.createdAt <= :and')
                     ->setParameter('and', $and);
         }
 
         if ($request->query->has('read')) {
-            $builder = $builder->join($builder->getRootAliases()[0] . '.messages', 'm')
+            $builder = $builder->join($builder->getRootAliases()[0].'.messages', 'm')
                     ->join('m.metadata', 'meta')
                     ->where('meta.isRead <> true')
                     ->where('meta.participant <> :user_id')
@@ -58,7 +57,7 @@ class ThreadRepository extends EntityRepository
         }
 
         if ($request->query->has('unread')) {
-            $builder = $builder->join($builder->getRootAliases()[0] . '.messages', 'm')
+            $builder = $builder->join($builder->getRootAliases()[0].'.messages', 'm')
                     ->join('m.metadata', 'meta')
                     ->where('meta.isRead = true')
                     ->where('meta.participant = :user_id')
@@ -66,5 +65,29 @@ class ThreadRepository extends EntityRepository
         }
 
         return $builder;
+    }
+
+    public function findUserMessages(BaseUser $user)
+    {
+        return $this->createQueryBuilder('t')
+                    ->select('t')
+                    ->join('t.metadata', 'm')
+                    ->join('m.participant', 'p')
+                    ->where('p.id = :id')
+                    ->orderBy('m.lastMessageDate', 'DESC')
+                    ->setMaxResults(5)
+                    ->setParameter('id', $user->getId())
+                    ->getQuery()->execute();
+    }
+
+    public function findUserLastMessages(BaseUser $user, $limit)
+    {
+        return $this->createQueryBuilder('t')
+                    ->join('t.metadata', 'tm')
+                    ->where('tm.participant IN (:participants)')
+                    ->setParameter('participants', $user->getId())
+                    ->orderBy('tm.lastMessageDate', 'desc')
+                    ->setMaxResults($limit)
+                    ->getQuery()->getResult();
     }
 }

@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="template", indexes={
  *   @ORM\Index(name="idx_code", columns={"code"}),
  *   @ORM\Index(name="idx_title", columns={"title"}),
@@ -44,7 +43,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class Template
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -64,7 +62,7 @@ abstract class Template
     private $text;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -74,9 +72,10 @@ abstract class Template
     }
 
     /**
-     * Set code
+     * Set code.
      *
-     * @param  string $code
+     * @param string $code
+     *
      * @return self
      */
     public function setCode($code)
@@ -87,7 +86,7 @@ abstract class Template
     }
 
     /**
-     * Get code
+     * Get code.
      *
      * @return string $code
      */
@@ -97,9 +96,10 @@ abstract class Template
     }
 
     /**
-     * Set text
+     * Set text.
      *
-     * @param  string $text
+     * @param string $text
+     *
      * @return self
      */
     public function setText($text)
@@ -110,7 +110,7 @@ abstract class Template
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string $text
      */

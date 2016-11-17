@@ -25,11 +25,12 @@ namespace Celsius3\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class PatentType extends MaterialType
 {
-    public function getMaterialType() {
+    public function getMaterialType()
+    {
         return 'patent';
     }
 }

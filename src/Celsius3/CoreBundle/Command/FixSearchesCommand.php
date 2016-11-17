@@ -31,7 +31,6 @@ use Celsius3\CoreBundle\Manager\CatalogManager;
 
 class FixSearchesCommand extends ContainerAwareCommand
 {
-
     private $positive = array(
         CatalogManager::CATALOG__FOUND,
         CatalogManager::CATALOG__PARTIALLY_FOUND,
@@ -52,22 +51,15 @@ class FixSearchesCommand extends ContainerAwareCommand
         $offset = 0;
 
         $event_count = $em->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
-            ->createQueryBuilder('s')
-            ->select('COUNT(s.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getSearchEventCount()->getQuery()->getSingleScalarResult();
 
         while ($offset < $event_count) {
             $events = $em->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
-                ->createQueryBuilder('s')
-                ->setMaxResults($limit)
-                ->setFirstResult($offset)
-                ->getQuery()
-                ->execute();
+                ->getOffsetAndLimitTo($offset, $limit)->getQuery()->execute();
 
             $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';
             foreach ($events as $event) {
-                echo 'Updating search ' . $event->getId() . "\n";
+                echo 'Updating search '.$event->getId()."\n";
                 $query = $conn->prepare($sql);
                 $id = $event->getId();
                 $entity = 'busquedas';
@@ -89,13 +81,8 @@ class FixSearchesCommand extends ContainerAwareCommand
                     }
 
                     $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
-                            ->createQueryBuilder('cr')
-                            ->where('cr.catalog = :catalog_id')
-                            ->andWhere('cr.title LIKE :title')
-                            ->setParameter(':catalog_id', $event->getCatalog()->getId())
-                            ->setParameter(':title', $title)
-                            ->getQuery()
-                            ->getOneOrNullResult();
+                            ->getCatalogResultByTitle($event->getCatalog()->getId(), $title)
+                            ->getQuery()->getOneOrNullResult();
 
                     if (!$result) {
                         $result = new CatalogResult();
