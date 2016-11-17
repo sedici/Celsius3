@@ -40,7 +40,7 @@ class NewsRepository extends BaseRepository
                         ->getResult();
     }
 
-    public function findForInstanceQB(Instance $instance)
+    public function findByInstanceQB(Instance $instance)
     {
         return $this->createQueryBuilder('n')
                     ->where('n.instance = :instance_id')
