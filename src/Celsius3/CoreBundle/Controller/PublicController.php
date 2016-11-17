@@ -74,7 +74,7 @@ class PublicController extends BaseInstanceDependentController
     {
         $news = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:News')
-                ->findInstanceQB($this->getInstance());
+                ->findByInstanceQB($this->getInstance());
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($news, $request->query->get('page', 1), $this->container->getParameter('max_per_page'));
