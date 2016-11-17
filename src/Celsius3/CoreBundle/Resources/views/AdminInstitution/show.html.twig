@@ -34,11 +34,16 @@
                                             <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
                                         </a>
                                     </li>
+                                    {% if entity.instance.id == instance.id %}
                                     <li>
                                         <a href="{{ path(['admin_institution_edit']|join, { 'id': entity.id }) }}">
                                             <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
                                         </a>
                                     </li>
+                                        {% else %}
+                                            {{ 'centralized institution'|trans }}
+
+                                    {% endif %}
                                     {% include 'AdminInstitution:_show_actions.html.twig' ignore missing %}
                                 </ul>
                             </div>
