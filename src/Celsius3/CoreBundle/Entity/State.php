@@ -371,4 +371,14 @@ class State
     {
         return $this->operator;
     }
+
+    /**
+     * Get current.
+     *
+     * @return bool
+     */
+    public function getCurrent()
+    {
+        return $this->current;
+    }
 }

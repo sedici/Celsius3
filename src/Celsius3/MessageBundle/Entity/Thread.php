@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Entity\Thread as BaseThread;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\MessageBundle\Repository\ThreadRepository")
  * @ORM\Table(name="thread", indexes={
  *   @ORM\Index(name="idx_created_by", columns={"createdBy_id"}),
  *   @ORM\Index(name="idx_created_at", columns={"createdAt"})
@@ -42,6 +42,7 @@ class Thread extends BaseThread
     protected $id;
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     *
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $createdBy;
@@ -50,6 +51,7 @@ class Thread extends BaseThread
      *   targetEntity="Celsius3\MessageBundle\Entity\Message",
      *   mappedBy="thread"
      * )
+     *
      * @var Message[]|\Doctrine\Common\Collections\Collection
      */
     protected $messages;
@@ -59,7 +61,52 @@ class Thread extends BaseThread
      *   mappedBy="thread",
      *   cascade={"all"}
      * )
+     *
      * @var ThreadMetadata[]|\Doctrine\Common\Collections\Collection
      */
     protected $metadata;
+
+    /**
+     * Remove message.
+     *
+     * @param \Celsius3\MessageBundle\Entity\Message $message
+     */
+    public function removeMessage(\Celsius3\MessageBundle\Entity\Message $message)
+    {
+        $this->messages->removeElement($message);
+    }
+
+    /**
+     * Add metadatum.
+     *
+     * @param \Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum
+     *
+     * @return Thread
+     */
+    public function addMetadatum(\Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum)
+    {
+        $this->metadata[] = $metadatum;
+
+        return $this;
+    }
+
+    /**
+     * Remove metadatum.
+     *
+     * @param \Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum
+     */
+    public function removeMetadatum(\Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum)
+    {
+        $this->metadata->removeElement($metadatum);
+    }
+
+    /**
+     * Get metadata.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
 }

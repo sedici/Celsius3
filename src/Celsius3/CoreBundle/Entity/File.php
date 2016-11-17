@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\FileRepository")
  * @ORM\Table(name="file", indexes={
  *   @ORM\Index(name="idx_event", columns={"event_id"}),
  *   @ORM\Index(name="idx_request", columns={"request_id"}),
@@ -453,5 +453,46 @@ class File
         }
 
         return false;
+    }
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get downloaded.
+     *
+     * @return bool
+     */
+    public function getDownloaded()
+    {
+        return $this->downloaded;
+    }
+
+    /**
+     * Add download.
+     *
+     * @param \Celsius3\CoreBundle\Entity\FileDownload $download
+     *
+     * @return File
+     */
+    public function addDownload(\Celsius3\CoreBundle\Entity\FileDownload $download)
+    {
+        $this->downloads[] = $download;
+
+        return $this;
+    }
+
+    /**
+     * Remove download.
+     *
+     * @param \Celsius3\CoreBundle\Entity\FileDownload $download
+     */
+    public function removeDownload(\Celsius3\CoreBundle\Entity\FileDownload $download)
+    {
+        $this->downloads->removeElement($download);
     }
 }

@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class CongressType extends MaterialType
 {
@@ -38,14 +38,16 @@ class CongressType extends MaterialType
      */
     protected $communication;
 
-    public function getMaterialType() {
+    public function getMaterialType()
+    {
         return 'congress';
     }
 
     /**
-     * Set place
+     * Set place.
      *
-     * @param  string $place
+     * @param string $place
+     *
      * @return self
      */
     public function setPlace($place)
@@ -56,7 +58,7 @@ class CongressType extends MaterialType
     }
 
     /**
-     * Get place
+     * Get place.
      *
      * @return string $place
      */
@@ -66,9 +68,10 @@ class CongressType extends MaterialType
     }
 
     /**
-     * Set communication
+     * Set communication.
      *
-     * @param  string $communication
+     * @param string $communication
+     *
      * @return self
      */
     public function setCommunication($communication)
@@ -79,7 +82,7 @@ class CongressType extends MaterialType
     }
 
     /**
-     * Get communication
+     * Get communication.
      *
      * @return string $communication
      */

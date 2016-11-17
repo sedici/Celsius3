@@ -43,23 +43,12 @@ class UserController extends BaseController
     public function usersAction(Request $request)
     {
         $context = SerializationContext::create()->setGroups(array('api'));
-
         $em = $this->getDoctrine()->getManager();
 
-        $startDate = $request->query->get('startDate');
-
         $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->createQueryBuilder('u')
-                ->where('u.instance = :instance_id')
-                ->setParameter('instance_id', $this->getInstance()->getId());
+                  ->findUsersFrom($this->getInstance(), $request->query->get('startDate'));
 
-        if (!is_null($startDate)) {
-            $qb = $qb->andWhere('u.createdAt >= :date')
-                    ->setParameter('date', $startDate);
-        }
-
-        $users = $qb->getQuery()
-                ->getResult();
+        $users = $qb->getQuery()->getResult();
 
         $view = $this->view($users, 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -75,17 +64,10 @@ class UserController extends BaseController
         $context = SerializationContext::create()->setGroups(array('api'));
 
         $em = $this->getDoctrine()->getManager();
-
         $qb = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->createQueryBuilder('u');
+              ->findPdfUsers($this->getInstance());
 
-        $qb = $qb->where('u.instance = :instance_id')
-                ->andWhere('u.pdf = :pdf')
-                ->setParameter('instance_id', $this->getInstance()->getId())
-                ->setParameter('pdf', true);
-
-        $users = $qb->getQuery()
-                ->getResult();
+        $users = $qb->getQuery()->getResult();
 
         $view = $this->view($users, 200)->setFormat('json');
         $view->setSerializationContext($context);

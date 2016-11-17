@@ -35,7 +35,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormType
 {
-
     private $authorization_checker;
     private $token_storage;
     private $em;
@@ -62,32 +61,19 @@ class NewThreadMultipleMessageFormType extends BaseNewThreadMultipleMessageFormT
             ;
         } else {
             $usernames = $this->em->getRepository('Celsius3CoreBundle:BaseUser')
-                    ->createQueryBuilder('u')
-                    ->where('u.id <> :id')
-                    ->andWhere('u.instance = :instance_id')
-                    ->andWhere('u.roles LIKE :role')
-                    ->setParameter('id', $user->getId())
-                    ->setParameter('instance_id', $user->getInstance()->getId())
-                    ->setParameter('role', '%' . UserManager::ROLE_ADMIN . '%')
-                    ->getQuery()
-                    ->getResult();
+                            ->findByUserInstanceAndRole($user, UserManager::ROLE_ADMIN);
 
-            $builder
-                    ->add('recipients', RecipientsHiddenType::class, array(
+            $builder->add('recipients', RecipientsHiddenType::class, array(
                         'data' => new ArrayCollection($usernames),
-                    ))
-            ;
+                    ));
         }
 
-        $builder
-                ->add('subject', TextType::class)
+        $builder->add('subject', TextType::class)
                 ->add('body', TextareaType::class, array(
                     'attr' => array(
-                        'class' => 'summernote'
+                        'class' => 'summernote',
                     ),
-                    'required' => false
-                ))
-        ;
+                    'required' => false,
+                ));
     }
-
 }

@@ -28,7 +28,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixFilesCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this->setName('celsius3:fix-files')
@@ -44,22 +43,15 @@ class FixFilesCommand extends ContainerAwareCommand
         $offset = 0;
 
         $file_count = $em->getRepository('Celsius3CoreBundle:File')
-            ->createQueryBuilder('f')
-            ->select('COUNT(f.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+            ->getCount()->getQuery()->getSingleScalarResult();
 
         while ($offset < $file_count) {
             $files = $em->getRepository('Celsius3CoreBundle:File')
-                ->createQueryBuilder('f')
-                ->setMaxResults($limit)
-                ->setFirstResult($offset)
-                ->getQuery()
-                ->execute();
+                ->getOffsetAndLimit($offset, $limit)->getQuery()->execute();
 
             $sql = 'SELECT m.tuple FROM metadata m WHERE m.table LIKE :entity AND m.entityId = :id';
             foreach ($files as $file) {
-                echo 'Updating file ' . $file->getId() . "\n";
+                echo 'Updating file '.$file->getId()."\n";
                 $query = $conn->prepare($sql);
                 $id = $file->getId();
                 $entity = 'archivos_pedidos';

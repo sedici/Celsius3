@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="file_download", indexes={
  *   @ORM\Index(name="idx_request", columns={"request_id"}),
  *   @ORM\Index(name="idx_user", columns={"user_id"}),
@@ -38,7 +37,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class FileDownload
 {
-
     use TimestampableEntity;
 
     /**
@@ -89,7 +87,7 @@ class FileDownload
     private $instance;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -99,9 +97,10 @@ class FileDownload
     }
 
     /**
-     * Set ip
+     * Set ip.
      *
-     * @param  string $ip
+     * @param string $ip
+     *
      * @return self
      */
     public function setIp($ip)
@@ -112,7 +111,7 @@ class FileDownload
     }
 
     /**
-     * Get ip
+     * Get ip.
      *
      * @return string $ip
      */
@@ -122,9 +121,10 @@ class FileDownload
     }
 
     /**
-     * Set userAgent
+     * Set userAgent.
      *
-     * @param  string $userAgent
+     * @param string $userAgent
+     *
      * @return self
      */
     public function setUserAgent($userAgent)
@@ -135,7 +135,7 @@ class FileDownload
     }
 
     /**
-     * Get userAgent
+     * Get userAgent.
      *
      * @return string $userAgent
      */
@@ -145,9 +145,10 @@ class FileDownload
     }
 
     /**
-     * Set user
+     * Set user.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param Celsius3\CoreBundle\Entity\BaseUser $user
+     *
      * @return self
      */
     public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user)
@@ -158,7 +159,7 @@ class FileDownload
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $user
      */
@@ -168,9 +169,10 @@ class FileDownload
     }
 
     /**
-     * Set file
+     * Set file.
      *
-     * @param  Celsius3\CoreBundle\Entity\File $file
+     * @param Celsius3\CoreBundle\Entity\File $file
+     *
      * @return self
      */
     public function setFile(\Celsius3\CoreBundle\Entity\File $file)
@@ -181,7 +183,7 @@ class FileDownload
     }
 
     /**
-     * Get file
+     * Get file.
      *
      * @return Celsius3\CoreBundle\Entity\File $file
      */
@@ -191,9 +193,10 @@ class FileDownload
     }
 
     /**
-     * Set request
+     * Set request.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $request
+     * @param Celsius3\CoreBundle\Entity\Request $request
+     *
      * @return self
      */
     public function setRequest(\Celsius3\CoreBundle\Entity\Request $request)
@@ -204,7 +207,7 @@ class FileDownload
     }
 
     /**
-     * Get request
+     * Get request.
      *
      * @return Celsius3\CoreBundle\Entity\Request $request
      */
@@ -214,19 +217,21 @@ class FileDownload
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
      * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -234,5 +239,4 @@ class FileDownload
     {
         return $this->instance;
     }
-
 }

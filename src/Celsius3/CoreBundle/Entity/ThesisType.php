@@ -25,7 +25,7 @@ namespace Celsius3\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class ThesisType extends MaterialType
 {
@@ -38,14 +38,16 @@ class ThesisType extends MaterialType
      */
     protected $degree;
 
-    public function getMaterialType() {
+    public function getMaterialType()
+    {
         return 'thesis';
     }
 
     /**
-     * Set director
+     * Set director.
      *
-     * @param  string $director
+     * @param string $director
+     *
      * @return self
      */
     public function setDirector($director)
@@ -56,7 +58,7 @@ class ThesisType extends MaterialType
     }
 
     /**
-     * Get director
+     * Get director.
      *
      * @return string $director
      */
@@ -66,9 +68,10 @@ class ThesisType extends MaterialType
     }
 
     /**
-     * Set degree
+     * Set degree.
      *
-     * @param  string $degree
+     * @param string $degree
+     *
      * @return self
      */
     public function setDegree($degree)
@@ -79,7 +82,7 @@ class ThesisType extends MaterialType
     }
 
     /**
-     * Get degree
+     * Get degree.
      *
      * @return string $degree
      */

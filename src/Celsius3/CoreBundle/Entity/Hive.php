@@ -25,17 +25,15 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="hive", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"})
  * })
  */
 class Hive
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -70,7 +68,7 @@ class Hive
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -80,9 +78,10 @@ class Hive
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -93,7 +92,7 @@ class Hive
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -103,7 +102,7 @@ class Hive
     }
 
     /**
-     * Add instance
+     * Add instance.
      *
      * @param Celsius3\CoreBundle\Entity\LegacyInstance $instance
      */
@@ -113,7 +112,7 @@ class Hive
     }
 
     /**
-     * Remove instance
+     * Remove instance.
      *
      * @param Celsius3\CoreBundle\Entity\LegacyInstance $instance
      */
@@ -123,7 +122,7 @@ class Hive
     }
 
     /**
-     * Get instances
+     * Get instances.
      *
      * @return Doctrine\Common\Collections\Collection $instances
      */
@@ -133,7 +132,7 @@ class Hive
     }
 
     /**
-     * Add institution
+     * Add institution.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institution
      */
@@ -143,7 +142,7 @@ class Hive
     }
 
     /**
-     * Remove institution
+     * Remove institution.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institution
      */
@@ -153,7 +152,7 @@ class Hive
     }
 
     /**
-     * Get institutions
+     * Get institutions.
      *
      * @return Doctrine\Common\Collections\Collection $institutions
      */

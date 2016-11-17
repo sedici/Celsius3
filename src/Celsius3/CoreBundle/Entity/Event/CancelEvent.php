@@ -29,7 +29,7 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class CancelEvent extends SingleInstanceEvent implements Notifiable
 {

@@ -22,14 +22,17 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\CoreBundle\Entity\Country;
+use Celsius3\CoreBundle\Entity\City;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Hive;
 
-class InstitutionRepository extends EntityRepository
+/**
+ * InstitutionRepository.
+ */
+class InstitutionRepository extends BaseRepository
 {
-
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $firstLevel = false, Hive $hive = null, $country_id = null, $city_id = null, $filter = null)
     {
         $qb = $this->createQueryBuilder('e')
@@ -72,6 +75,7 @@ class InstitutionRepository extends EntityRepository
             foreach ($base as $key => $count) {
                 $base[$key]['requestsCount'] += $this->total($instance, $type, $count['id']);
             }
+
             return $base;
         } else {
             if (!is_null($country)) {
@@ -79,12 +83,14 @@ class InstitutionRepository extends EntityRepository
                 foreach ($base as $key => $count) {
                     $base[$key]['requestsCount'] += $this->total($instance, $type, $count['id']);
                 }
+
                 return $base;
             } else {
                 $base = $this->countTotalRequestsOriginPerCountry($instance, $type, $initialYear, $finalYear);
                 foreach ($base as $key => $count) {
                     $base[$key]['requestsCount'] += $this->total($instance, $type, $count['id']);
                 }
+
                 return $base;
             }
         }
@@ -94,7 +100,7 @@ class InstitutionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('institution');
 
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
 
@@ -110,7 +116,7 @@ class InstitutionRepository extends EntityRepository
 
         if ($initialYear === $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
-        } else if ($initialYear < $finalYear) {
+        } elseif ($initialYear < $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -122,7 +128,7 @@ class InstitutionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('institution');
 
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
 
@@ -139,7 +145,7 @@ class InstitutionRepository extends EntityRepository
 
         if ($initialYear === $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
-        } else if ($initialYear < $finalYear) {
+        } elseif ($initialYear < $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -151,7 +157,7 @@ class InstitutionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('institution');
 
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
 
@@ -167,7 +173,7 @@ class InstitutionRepository extends EntityRepository
 
         if ($initialYear === $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
-        } else if ($initialYear < $finalYear) {
+        } elseif ($initialYear < $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -179,7 +185,7 @@ class InstitutionRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('institution');
 
-        if(!is_null($instance)){
+        if (!is_null($instance)) {
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
 
@@ -197,6 +203,7 @@ class InstitutionRepository extends EntityRepository
         foreach ($counts as $count) {
             $total += $count['requestsCount'] + $this->total($instance, $type, $count['id']);
         }
+
         return $total;
     }
 
@@ -233,4 +240,48 @@ class InstitutionRepository extends EntityRepository
         return $ids;
     }
 
+    public function findByCountryAndCityQB(Country $country = null, City $city = null)
+    {
+        $qb = $this->createQueryBuilder('i');
+
+        if ($city instanceof City) {
+            $qb = $qb->where('i.city = :city_id')
+                    ->setParameter('city_id', $city->getId());
+        } elseif ($country instanceof Country) {
+            $qb = $qb->where('i.country = :country_id')
+                    ->andWhere('i.city IS NULL')
+                    ->setParameter('country_id', $country->getId());
+        } else {
+            $qb = $qb->where('i.city IS NULL')
+                    ->andWhere('i.country IS NULL');
+        }
+
+        return $qb->orderBy('i.name', 'asc');
+    }
+
+    public function findByCountry($country_id)
+    {
+        return $this->createQueryBuilder('i')
+                    ->where('i.country = :country')
+                    ->setParameter('country', $country_id)
+                    ->andWhere('i.parent IS NULL')
+                    ->getQuery()->getResult();
+    }
+
+    public function findForCountryOrCity($country_id, $city_id)
+    {
+        $qb = $this->createQueryBuilder('i')
+                    ->select('i.id, i.name, i.abbreviation, p.id as parent_id, ins.id AS celsiusInstance, h.id AS hive_id')
+                    ->leftJoin('i.parent', 'p')
+                    ->leftJoin('i.celsiusInstance', 'ins')
+                    ->leftJoin('i.hive', 'h');
+
+        if ($city_id) {
+            $qb = $qb->where('i.city = :cid')->setParameter('cid', $city_id);
+        } elseif ($country_id) {
+            $qb = $qb->where('i.country = :country')->setParameter('country', $country_id);
+        }
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

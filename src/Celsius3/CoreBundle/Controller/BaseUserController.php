@@ -115,12 +115,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
     protected function baseBatchEnable($element_ids)
     {
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('Celsius3CoreBundle:BaseUser')
-                ->createQueryBuilder('u')
-                ->where('u.id IN (:elements)')
-                ->setParameter('elements', $element_ids)
-                ->getQuery()
-                ->getResult();
+        $users = $em->getRepository('Celsius3CoreBundle:BaseUser')->findUsers($element_ids);
 
         foreach ($users as $user) {
             $this->enableUser($user);

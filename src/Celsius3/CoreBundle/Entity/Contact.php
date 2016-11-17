@@ -30,7 +30,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ContactRepository")
  * @ORM\Table(name="contact", indexes={
  *   @ORM\Index(name="idx_name", columns={"name"}),
  *   @ORM\Index(name="idx_surname", columns={"surname"}),
@@ -42,7 +42,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Contact
 {
-
     use TimestampableEntity;
     use SoftDeleteableEntity;
     /**
@@ -102,7 +101,7 @@ class Contact
     private $owningInstance;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -112,9 +111,10 @@ class Contact
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -125,7 +125,7 @@ class Contact
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -135,9 +135,10 @@ class Contact
     }
 
     /**
-     * Set surname
+     * Set surname.
      *
-     * @param  string $surname
+     * @param string $surname
+     *
      * @return self
      */
     public function setSurname($surname)
@@ -148,7 +149,7 @@ class Contact
     }
 
     /**
-     * Get surname
+     * Get surname.
      *
      * @return string $surname
      */
@@ -158,9 +159,10 @@ class Contact
     }
 
     /**
-     * Set email
+     * Set email.
      *
-     * @param  string $email
+     * @param string $email
+     *
      * @return self
      */
     public function setEmail($email)
@@ -171,7 +173,7 @@ class Contact
     }
 
     /**
-     * Get email
+     * Get email.
      *
      * @return string $email
      */
@@ -181,9 +183,10 @@ class Contact
     }
 
     /**
-     * Set address
+     * Set address.
      *
-     * @param  string $address
+     * @param string $address
+     *
      * @return self
      */
     public function setAddress($address)
@@ -194,7 +197,7 @@ class Contact
     }
 
     /**
-     * Get address
+     * Get address.
      *
      * @return string $address
      */
@@ -204,9 +207,10 @@ class Contact
     }
 
     /**
-     * Set user
+     * Set user.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param Celsius3\CoreBundle\Entity\BaseUser $user
+     *
      * @return self
      */
     public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user)
@@ -217,7 +221,7 @@ class Contact
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $user
      */
@@ -227,9 +231,10 @@ class Contact
     }
 
     /**
-     * Set type
+     * Set type.
      *
-     * @param  Celsius3\CoreBundle\Entity\ContactType $type
+     * @param Celsius3\CoreBundle\Entity\ContactType $type
+     *
      * @return self
      */
     public function setType(\Celsius3\CoreBundle\Entity\ContactType $type)
@@ -240,7 +245,7 @@ class Contact
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return Celsius3\CoreBundle\Entity\ContactType $type
      */
@@ -250,9 +255,10 @@ class Contact
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -263,7 +269,7 @@ class Contact
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -273,9 +279,10 @@ class Contact
     }
 
     /**
-     * Set institution
+     * Set institution.
      *
-     * @param  Celsius3\CoreBundle\Entity\Institution $institution
+     * @param Celsius3\CoreBundle\Entity\Institution $institution
+     *
      * @return self
      */
     public function setInstitution(\Celsius3\CoreBundle\Entity\Institution $institution)
@@ -286,7 +293,7 @@ class Contact
     }
 
     /**
-     * Get institution
+     * Get institution.
      *
      * @return Celsius3\CoreBundle\Entity\Institution $institution
      */
@@ -296,9 +303,10 @@ class Contact
     }
 
     /**
-     * Set owningInstance
+     * Set owningInstance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $owningInstance
+     * @param Celsius3\CoreBundle\Entity\Instance $owningInstance
+     *
      * @return self
      */
     public function setOwningInstance(\Celsius3\CoreBundle\Entity\Instance $owningInstance)
@@ -309,7 +317,7 @@ class Contact
     }
 
     /**
-     * Get owningInstance
+     * Get owningInstance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $owningInstance
      */

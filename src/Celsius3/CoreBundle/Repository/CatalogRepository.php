@@ -22,12 +22,13 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 
-class CatalogRepository extends EntityRepository
+/**
+ * CatalogRepository.
+ */
+class CatalogRepository extends BaseRepository
 {
-
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('c')

@@ -25,17 +25,15 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="login", indexes={
  *   @ORM\Index(name="idx_category", columns={"category"})
  * })
  */
 class Login
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -60,7 +58,7 @@ class Login
     private $message;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -70,9 +68,10 @@ class Login
     }
 
     /**
-     * Set category
+     * Set category.
      *
-     * @param  string $category
+     * @param string $category
+     *
      * @return self
      */
     public function setCategory($category)
@@ -83,7 +82,7 @@ class Login
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return string $category
      */
@@ -93,9 +92,10 @@ class Login
     }
 
     /**
-     * Set date
+     * Set date.
      *
-     * @param  timestamp $date
+     * @param timestamp $date
+     *
      * @return self
      */
     public function setDate($date)
@@ -106,7 +106,7 @@ class Login
     }
 
     /**
-     * Get date
+     * Get date.
      *
      * @return timestamp $date
      */
@@ -116,9 +116,10 @@ class Login
     }
 
     /**
-     * Set message
+     * Set message.
      *
-     * @param  string $message
+     * @param string $message
+     *
      * @return self
      */
     public function setMessage($message)
@@ -129,7 +130,7 @@ class Login
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return string $message
      */

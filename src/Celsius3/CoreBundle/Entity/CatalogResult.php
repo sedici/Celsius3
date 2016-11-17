@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CatalogResultRepository")
  * @ORM\Table(name="catalog_result", indexes={
  *   @ORM\Index(name="idx_title", columns={"title"}),
  *   @ORM\Index(name="idx_catalog", columns={"catalog_id"}),
@@ -37,7 +36,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class CatalogResult
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -69,7 +67,7 @@ class CatalogResult
     private $catalog;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -79,9 +77,10 @@ class CatalogResult
     }
 
     /**
-     * Set title
+     * Set title.
      *
-     * @param  string $title
+     * @param string $title
+     *
      * @return self
      */
     public function setTitle($title)
@@ -92,7 +91,7 @@ class CatalogResult
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string $title
      */
@@ -102,9 +101,10 @@ class CatalogResult
     }
 
     /**
-     * Set searches
+     * Set searches.
      *
-     * @param  int  $searches
+     * @param int $searches
+     *
      * @return self
      */
     public function setSearches($searches)
@@ -115,7 +115,7 @@ class CatalogResult
     }
 
     /**
-     * Get searches
+     * Get searches.
      *
      * @return int $searches
      */
@@ -125,9 +125,10 @@ class CatalogResult
     }
 
     /**
-     * Set matches
+     * Set matches.
      *
-     * @param  int  $matches
+     * @param int $matches
+     *
      * @return self
      */
     public function setMatches($matches)
@@ -138,7 +139,7 @@ class CatalogResult
     }
 
     /**
-     * Get matches
+     * Get matches.
      *
      * @return int $matches
      */
@@ -148,9 +149,10 @@ class CatalogResult
     }
 
     /**
-     * Set catalog
+     * Set catalog.
      *
-     * @param  Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @param Celsius3\CoreBundle\Entity\Catalog $catalog
+     *
      * @return self
      */
     public function setCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalog)
@@ -161,7 +163,7 @@ class CatalogResult
     }
 
     /**
-     * Get catalog
+     * Get catalog.
      *
      * @return Celsius3\CoreBundle\Entity\Catalog $catalog
      */

@@ -111,11 +111,12 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
     public function getOrdersAndRequestsAction(Request $request)
     {
         $context = SerializationContext::create()->setGroups(array('administration_list'));
+        $em = $this->getDoctrine()->getManager();
 
         if ($request->query->get('type', null) === 'mine') {
             $user = $this->getUser();
         } elseif (is_int(intval($request->query->get('type', null)))) {
-            $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
+            $user = $em->getRepository('Celsius3CoreBundle:BaseUser')
                     ->find(intval($request->query->get('type', null)));
             if (!is_null($user) && !$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN')) {
                 $user = null;
@@ -127,20 +128,14 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
         $state = $request->query->get('state', null);
         $orderType = $request->query->get('orderType', null);
 
-        $states = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Order')
-                ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
+        $states = $em->getRepository('Celsius3CoreBundle:Order')
+                        ->findForInstance($this->getInstance(), $user, $state, null, $orderType);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($states, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */)->getItems();
 
-        $requests = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Request')
-                ->createQueryBuilder('r')
-                ->where('r.order IN (:orders)')
-                ->setParameter('orders', $pagination)
-                ->getQuery()
-                ->getResult();
+        $requests = $em->getRepository('Celsius3CoreBundle:Request')
+                        ->findRequestForOrders($pagination);
 
         $response = array(
             'orders' => array_values($pagination),

@@ -29,13 +29,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
- * Public controller
+ * Public controller.
  *
  * @Route("/public")
  */
 class PublicController extends BaseInstanceDependentController
 {
-
     protected function getInstance()
     {
         return $this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
@@ -75,16 +74,10 @@ class PublicController extends BaseInstanceDependentController
     {
         $news = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:News')
-                ->createQueryBuilder('n')
-                ->where('n.instance = :instance_id')
-                ->orderBy('n.createdAt', 'desc')
-                ->setParameter(':instance_id', $this->getInstance()->getId())
-                ->getQuery();
+                ->findInstanceQB($this->getInstance());
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator
-                ->paginate($news, $request->query->get('page', 1)/* page number */, $this->container->getParameter('max_per_page')/* limit per page */
-        );
+        $pagination = $paginator->paginate($news, $request->query->get('page', 1), $this->container->getParameter('max_per_page'));
 
         return array(
             'pagination' => $pagination,
@@ -109,9 +102,7 @@ class PublicController extends BaseInstanceDependentController
     public function countriesAction()
     {
         $countries = $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:Country')
-                        ->createQueryBuilder('c')
-                        ->getQuery()->getResult();
+                        ->getRepository('Celsius3CoreBundle:Country')->findAll();
 
         $response = array();
         foreach ($countries as $country) {
@@ -135,10 +126,7 @@ class PublicController extends BaseInstanceDependentController
 
         $cities = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:City')
-                        ->createQueryBuilder('c')
-                        ->where('c.country = :cid')
-                        ->setParameter('cid', $request->query->get('country_id'))
-                        ->getQuery()->getResult();
+                        ->findForCountry($request->query->get('country_id'));
 
         $response = array();
 
@@ -161,12 +149,9 @@ class PublicController extends BaseInstanceDependentController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.country');
         }
 
-        $em = $this->getDoctrine()->getManager();
-        $qb = $em->getRepository('Celsius3CoreBundle:Institution')->createQueryBuilder('i')
-                ->where('i.country = :country')->setParameter('country', $request->query->get('country_id'))
-                ->andWhere('i.parent IS NULL');
-
-        $institutions = $qb->getQuery()->getResult();
+        $institutions = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:Institution')
+                ->findByCountry($request->query->get('country_id'));
 
         $response = array();
         foreach ($institutions as $institution) {
@@ -192,23 +177,10 @@ class PublicController extends BaseInstanceDependentController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $qb = $em->getRepository('Celsius3CoreBundle:Institution')->createQueryBuilder('i')
-                ->select('i.id, i.name, i.abbreviation, p.id as parent_id, ins.id AS celsiusInstance, h.id AS hive_id')
-                ->leftJoin('i.parent', 'p')
-                ->leftJoin('i.celsiusInstance', 'ins')
-                ->leftJoin('i.hive', 'h');
+        $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
+                ->findForCountryOrCity($request->query->get('country_id'), $request->query->get('city_id'));
 
-        if ($request->query->has('city_id')) {
-            $qb = $qb->where('i.city = :cid')
-                    ->setParameter('cid', $request->query->get('city_id'));
-        } elseif ($request->query->has('country_id')) {
-            $qb = $qb->where('i.country = :country')
-                    ->setParameter('country', $request->query->get('country_id'));
-        }
-
-        $institutions = $qb->getQuery()->getArrayResult();
-
-        $actual = array_filter($institutions, function($i) {
+        $actual = array_filter($institutions, function ($i) {
             return is_null($i['parent_id']);
         });
         $institutions = array_diff_key($institutions, $actual);
@@ -218,16 +190,16 @@ class PublicController extends BaseInstanceDependentController
             if (($request->query->get('filter') === 'liblink' && $institution['hive_id'] === $this->getInstance()->getHive()->getId()) ||
                     ($request->query->get('filter') === 'celsius3' && $institution['celsiusInstance']) ||
                     ($request->query->get('filter') === '')) {
-                $children = array_filter($institutions, function($i) use ($institution) {
+                $children = array_filter($institutions, function ($i) use ($institution) {
                     return $i['parent_id'] === $institution['id'];
                 });
 
-                $instAbbr = ' | ' . (($institution['abbreviation']) ? $institution['abbreviation'] : $institution['name']);
+                $instAbbr = ' | '.(($institution['abbreviation']) ? $institution['abbreviation'] : $institution['name']);
 
                 $response[] = array(
                     'value' => $institution['id'],
                     'hasChildren' => count($children) > 0,
-                    'name' => $institution['name'] . (($institution['abbreviation']) ? ' (' . $institution['abbreviation'] . ')' : ''),
+                    'name' => $institution['name'].(($institution['abbreviation']) ? ' ('.$institution['abbreviation'].')' : ''),
                     'level' => $level,
                     'children' => $this->getChildrenInstitution($institutions, $children, $level + 1, $instAbbr),
                 );
@@ -243,14 +215,14 @@ class PublicController extends BaseInstanceDependentController
         $all = array_diff_key($all, $institutions);
         if (count($institutions) > 0) {
             foreach ($institutions as $institution) {
-                $children = array_filter($all, function($i) use ($institution) {
+                $children = array_filter($all, function ($i) use ($institution) {
                     return $i['parent_id'] === $institution['id'];
                 });
 
                 $response[] = array(
                     'value' => $institution['id'],
                     'hasChildren' => count($children) > 0,
-                    'name' => $institution['name'] . (($institution['abbreviation']) ? ' (' . $institution['abbreviation'] . ')' : '') . $parent,
+                    'name' => $institution['name'].(($institution['abbreviation']) ? ' ('.$institution['abbreviation'].')' : '').$parent,
                     'level' => $level,
                     'children' => $this->getChildrenInstitution($all, $children, $level + 1, $parent),
                 );
@@ -268,5 +240,4 @@ class PublicController extends BaseInstanceDependentController
     {
         return array('staff' => $this->getInstance()->get('instance_staff')->getValue());
     }
-
 }

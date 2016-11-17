@@ -22,7 +22,6 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\JournalType;
@@ -36,7 +35,10 @@ use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
 use Celsius3\CoreBundle\Entity\Institution;
 
-class EventRepository extends EntityRepository
+/**
+ * EventRepository.
+ */
+class EventRepository extends BaseRepository
 {
     private function generalSearch()
     {

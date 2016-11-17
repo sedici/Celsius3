@@ -28,14 +28,14 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\City;
+use Celsius3\CoreBundle\Repository\CountryRepository;
+use Celsius3\CoreBundle\Repository\InstitutionRepository;
 
 class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 {
-
     private $factory;
     private $em;
     private $property_path;
@@ -76,7 +76,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             $institution = $this->em->getRepository('Celsius3CoreBundle:Institution')
                     ->find($data[$this->property_path]);
         } elseif (is_object($data)) {
-            $function = 'get' . ucfirst($this->property_path);
+            $function = 'get'.ucfirst($this->property_path);
             $institution = $data->$function();
         }
 
@@ -107,7 +107,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         'required' => false,
                         'expanded' => true,
                         'attr' => array(
-                            'class' => 'filter-select'
+                            'class' => 'filter-select',
                         ),
                         'auto_initialize' => false,
             )));
@@ -118,16 +118,14 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'mapped' => $this->country_mapped,
                     'placeholder' => '',
                     'required' => false,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er
-                                        ->createQueryBuilder('c')
-                                        ->orderBy('c.name', 'asc');
+                    'query_builder' => function (CountryRepository $cr) {
+                        return $cr->getAllOrderedByNameQB();
                     },
                     'attr' => array(
-                        'class' => 'country-select'
+                        'class' => 'country-select',
                     ),
                     'auto_initialize' => false,
-                   
+
         )));
 
         $form->add($this->factory->createNamed('city', EntityType::class, $city, array(
@@ -135,20 +133,11 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'mapped' => $this->city_mapped,
                     'placeholder' => '',
                     'required' => false,
-                    'query_builder' => function (EntityRepository $repository) use ($country) {
-                        $qb = $repository->createQueryBuilder('c');
-
-                        if ($country instanceof Country) {
-                            $qb = $qb->where('c.country = :country_id')
-                                    ->setParameter('country_id', $country->getId());
-                        } else {
-                            $qb = $qb->where('c.country IS NULL');
-                        }
-
-                        return $qb->orderBy('c.name', 'asc');
+                    'query_builder' => function (CityRepository $cr) use ($country) {
+                        return $cr->findForCountryQB($country);
                     },
                     'attr' => array(
-                        'class' => 'city-select'
+                        'class' => 'city-select',
                     ),
                     'auto_initialize' => false,
         )));
@@ -159,25 +148,11 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                     'label' => ucfirst($this->property_path),
                     'placeholder' => '',
                     'required' => $this->required,
-                    'query_builder' => function (EntityRepository $repository) use ($city, $country) {
-                        $qb = $repository->createQueryBuilder('i');
-
-                        if ($city instanceof City) {
-                            $qb = $qb->where('i.city = :city_id')
-                                    ->setParameter('city_id', $city->getId());
-                        } elseif ($country instanceof Country) {
-                            $qb = $qb->where('i.country = :country_id')
-                                    ->andWhere('i.city IS NULL')
-                                    ->setParameter('country_id', $country->getId());
-                        } else {
-                            $qb = $qb->where('i.city IS NULL')
-                                    ->andWhere('i.country IS NULL');
-                        }
-
-                        return $qb->orderBy('i.name', 'asc');
+                    'query_builder' => function (InstitutionRepository $ir) use ($city, $country) {
+                        return $ir->findByCountryAndCityQB($country, $city);
                     },
                     'attr' => array(
-                        'class' => 'institution-select'
+                        'class' => 'institution-select',
                     ),
                     'auto_initialize' => false,
         )));
@@ -192,5 +167,4 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     {
         $this->addInstitutionFields($event, true);
     }
-
 }

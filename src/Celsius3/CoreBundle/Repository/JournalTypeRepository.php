@@ -22,19 +22,20 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use Celsius3\CoreBundle\Entity\Instance;
 
-class JournalTypeRepository extends EntityRepository
+/**
+ * JournalTypeRepository.
+ */
+class JournalTypeRepository extends BaseRepository
 {
-
     public function findByTerm($term, Instance $instance = null, $limit = null)
     {
         $qb = $this->createQueryBuilder('jt')
                 ->leftJoin('jt.journal', 'j')
                 ->where('j.name LIKE :term')
                 ->orWhere('jt.other LIKE :term')
-                ->setParameter('term', '%' . $term . '%');
+                ->setParameter('term', '%'.$term.'%');
 
         if (!is_null($limit)) {
             $qb = $qb->setMaxResults(10);

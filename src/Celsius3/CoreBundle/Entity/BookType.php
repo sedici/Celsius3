@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class BookType extends MaterialType
 {
@@ -49,12 +49,13 @@ class BookType extends MaterialType
      */
     protected $withIndex = false;
 
-    public function getMaterialType() {
+    public function getMaterialType()
+    {
         return 'book';
     }
 
     /**
-     * Set editor
+     * Set editor.
      *
      * @param string $editor
      */
@@ -64,7 +65,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Get editor
+     * Get editor.
      *
      * @return string $editor
      */
@@ -74,7 +75,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Set chapter
+     * Set chapter.
      *
      * @param string $chapter
      */
@@ -84,7 +85,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Get chapter
+     * Get chapter.
      *
      * @return string $chapter
      */
@@ -94,7 +95,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Set ISBN
+     * Set ISBN.
      *
      * @param string $ISBN
      */
@@ -104,7 +105,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Get ISBN
+     * Get ISBN.
      *
      * @return string $ISBN
      */
@@ -114,9 +115,9 @@ class BookType extends MaterialType
     }
 
     /**
-     * Set withIndex
+     * Set withIndex.
      *
-     * @param boolean $withIndex
+     * @param bool $withIndex
      */
     public function setWithIndex($withIndex)
     {
@@ -124,9 +125,9 @@ class BookType extends MaterialType
     }
 
     /**
-     * Get withIndex
+     * Get withIndex.
      *
-     * @return boolean $withIndex
+     * @return bool $withIndex
      */
     public function getWithIndex()
     {

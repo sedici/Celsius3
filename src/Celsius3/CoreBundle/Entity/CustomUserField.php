@@ -28,7 +28,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CustomUserFieldRepository")
  * @ORM\Table(name="custom_user_field", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
  * }, indexes={
@@ -39,7 +39,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class CustomUserField
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -79,13 +78,12 @@ class CustomUserField
      * @ORM\Column(type="boolean")
      */
     private $required = true;
-    
+
     /**
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
      */
     private $enabled = true;
-    
 
     /**
      * @ORM\ManyToOne(targetEntity="Instance")
@@ -103,7 +101,7 @@ class CustomUserField
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -113,9 +111,10 @@ class CustomUserField
     }
 
     /**
-     * Set key
+     * Set key.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return self
      */
     public function setKey($key)
@@ -126,7 +125,7 @@ class CustomUserField
     }
 
     /**
-     * Get key
+     * Get key.
      *
      * @return string $key
      */
@@ -136,9 +135,10 @@ class CustomUserField
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -149,7 +149,7 @@ class CustomUserField
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -158,12 +158,11 @@ class CustomUserField
         return $this->name;
     }
 
-
-
-  /**
-     * Set type
+    /**
+     * Set type.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return self
      */
     public function setType($type)
@@ -174,7 +173,7 @@ class CustomUserField
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string $type
      */
@@ -183,11 +182,11 @@ class CustomUserField
         return $this->type;
     }
 
-
-  /**
-     * Set value
+    /**
+     * Set value.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return self
      */
     public function setValue($value)
@@ -198,7 +197,7 @@ class CustomUserField
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return string $value
      */
@@ -207,11 +206,11 @@ class CustomUserField
         return $this->value;
     }
 
-
     /**
-     * Set private
+     * Set private.
      *
-     * @param  boolean $private
+     * @param bool $private
+     *
      * @return self
      */
     public function setPrivate($private)
@@ -222,9 +221,9 @@ class CustomUserField
     }
 
     /**
-     * Get private
+     * Get private.
      *
-     * @return boolean $private
+     * @return bool $private
      */
     public function getPrivate()
     {
@@ -232,9 +231,10 @@ class CustomUserField
     }
 
     /**
-     * Set required
+     * Set required.
      *
-     * @param  boolean $required
+     * @param bool $required
+     *
      * @return self
      */
     public function setRequired($required)
@@ -245,9 +245,9 @@ class CustomUserField
     }
 
     /**
-     * Get required
+     * Get required.
      *
-     * @return boolean $required
+     * @return bool $required
      */
     public function getRequired()
     {
@@ -255,20 +255,20 @@ class CustomUserField
     }
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled()
     {
         return $this->enabled;
     }
 
-
-     /**
-     * Set enabled
+    /**
+     * Set enabled.
      *
-     * @param  boolean $enabled
+     * @param bool $enabled
+     *
      * @return self
      */
     public function setEnabled($enabled)
@@ -278,12 +278,11 @@ class CustomUserField
         return $this;
     }
 
-   
-
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -294,7 +293,7 @@ class CustomUserField
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -304,7 +303,7 @@ class CustomUserField
     }
 
     /**
-     * Add values
+     * Add values.
      *
      * @param Celsius3\CoreBundle\Entity\CustomUserValue $values
      */
@@ -314,7 +313,7 @@ class CustomUserField
     }
 
     /**
-     * Remove values
+     * Remove values.
      *
      * @param Celsius3\CoreBundle\Entity\CustomUserValue $values
      */
@@ -324,7 +323,7 @@ class CustomUserField
     }
 
     /**
-     * Get values
+     * Get values.
      *
      * @return Doctrine\Common\Collections\Collection $values
      */

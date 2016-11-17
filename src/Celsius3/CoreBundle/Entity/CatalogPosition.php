@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="catalog_position", indexes={
  *   @ORM\Index(name="idx_position", columns={"position"}),
  *   @ORM\Index(name="idx_catalog", columns={"catalog_id"}),
@@ -37,7 +36,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class CatalogPosition
 {
-
     use TimestampableEntity;
 
     /**
@@ -75,7 +73,7 @@ class CatalogPosition
     private $instance;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -85,9 +83,10 @@ class CatalogPosition
     }
 
     /**
-     * Set position
+     * Set position.
      *
-     * @param  int  $position
+     * @param int $position
+     *
      * @return self
      */
     public function setPosition($position)
@@ -98,7 +97,7 @@ class CatalogPosition
     }
 
     /**
-     * Get position
+     * Get position.
      *
      * @return int $position
      */
@@ -108,9 +107,10 @@ class CatalogPosition
     }
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param  boolean $enabled
+     * @param bool $enabled
+     *
      * @return self
      */
     public function setEnabled($enabled)
@@ -121,9 +121,9 @@ class CatalogPosition
     }
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled()
     {
@@ -131,9 +131,10 @@ class CatalogPosition
     }
 
     /**
-     * Set catalog
+     * Set catalog.
      *
-     * @param  Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @param Celsius3\CoreBundle\Entity\Catalog $catalog
+     *
      * @return self
      */
     public function setCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalog)
@@ -144,7 +145,7 @@ class CatalogPosition
     }
 
     /**
-     * Get catalog
+     * Get catalog.
      *
      * @return Celsius3\CoreBundle\Entity\Catalog $catalog
      */
@@ -154,9 +155,10 @@ class CatalogPosition
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     *
      * @return self
      */
     public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
@@ -167,7 +169,7 @@ class CatalogPosition
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return Celsius3\CoreBundle\Entity\Instance $instance
      */
@@ -175,5 +177,4 @@ class CatalogPosition
     {
         return $this->instance;
     }
-
 }

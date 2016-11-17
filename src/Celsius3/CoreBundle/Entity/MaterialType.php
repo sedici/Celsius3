@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="material_type", indexes={
  *   @ORM\Index(name="idx_type", columns={"type"}),
  *   @ORM\Index(name="idx_title", columns={"title"})
@@ -45,7 +44,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class MaterialType
 {
-
     use TimestampableEntity;
 
     /**
@@ -101,7 +99,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -111,9 +109,10 @@ abstract class MaterialType
     }
 
     /**
-     * Set title
+     * Set title.
      *
-     * @param  string $title
+     * @param string $title
+     *
      * @return self
      */
     public function setTitle($title)
@@ -124,7 +123,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string $title
      */
@@ -134,9 +133,10 @@ abstract class MaterialType
     }
 
     /**
-     * Set authors
+     * Set authors.
      *
-     * @param  string $authors
+     * @param string $authors
+     *
      * @return self
      */
     public function setAuthors($authors)
@@ -147,7 +147,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get authors
+     * Get authors.
      *
      * @return string $authors
      */
@@ -157,9 +157,10 @@ abstract class MaterialType
     }
 
     /**
-     * Set year
+     * Set year.
      *
-     * @param  int  $year
+     * @param int $year
+     *
      * @return self
      */
     public function setYear($year)
@@ -170,7 +171,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get year
+     * Get year.
      *
      * @return int $year
      */
@@ -180,9 +181,10 @@ abstract class MaterialType
     }
 
     /**
-     * Set startPage
+     * Set startPage.
      *
-     * @param  int  $startPage
+     * @param int $startPage
+     *
      * @return self
      */
     public function setStartPage($startPage)
@@ -193,7 +195,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get startPage
+     * Get startPage.
      *
      * @return int $startPage
      */
@@ -203,9 +205,10 @@ abstract class MaterialType
     }
 
     /**
-     * Set endPage
+     * Set endPage.
      *
-     * @param  int  $endPage
+     * @param int $endPage
+     *
      * @return self
      */
     public function setEndPage($endPage)
@@ -216,7 +219,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get endPage
+     * Get endPage.
      *
      * @return int $endPage
      */
@@ -226,9 +229,10 @@ abstract class MaterialType
     }
 
     /**
-     * Set order
+     * Set order.
      *
-     * @param  Celsius3\CoreBundle\Entity\Order $order
+     * @param Celsius3\CoreBundle\Entity\Order $order
+     *
      * @return self
      */
     public function setOrder(\Celsius3\CoreBundle\Entity\Order $order)
@@ -239,7 +243,7 @@ abstract class MaterialType
     }
 
     /**
-     * Get order
+     * Get order.
      *
      * @return Celsius3\CoreBundle\Entity\Order $order
      */
@@ -247,5 +251,4 @@ abstract class MaterialType
     {
         return $this->order;
     }
-
 }

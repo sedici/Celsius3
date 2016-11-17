@@ -25,14 +25,12 @@ namespace Celsius3\CoreBundle\Entity\Event;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
 class UndoEvent extends SingleInstanceEvent
 {
-
     public function getEventType()
     {
         return 'undo';
     }
-
 }

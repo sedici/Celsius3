@@ -25,10 +25,9 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  * @ORM\Table(name="custom_user_value", indexes={
  *   @ORM\Index(name="idx_field", columns={"field_id"}),
  *   @ORM\Index(name="idx_user", columns={"user_id"})
@@ -36,7 +35,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class CustomUserValue
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -62,7 +60,7 @@ class CustomUserValue
     private $user;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -72,9 +70,10 @@ class CustomUserValue
     }
 
     /**
-     * Set value
+     * Set value.
      *
-     * @param  string $value
+     * @param string $value
+     *
      * @return self
      */
     public function setValue($value)
@@ -85,7 +84,7 @@ class CustomUserValue
     }
 
     /**
-     * Get value
+     * Get value.
      *
      * @return string $value
      */
@@ -95,9 +94,10 @@ class CustomUserValue
     }
 
     /**
-     * Set field
+     * Set field.
      *
-     * @param  Celsius3\CoreBundle\Entity\CustomUserField $field
+     * @param Celsius3\CoreBundle\Entity\CustomUserField $field
+     *
      * @return self
      */
     public function setField(\Celsius3\CoreBundle\Entity\CustomUserField $field)
@@ -108,7 +108,7 @@ class CustomUserValue
     }
 
     /**
-     * Get field
+     * Get field.
      *
      * @return Celsius3\CoreBundle\Entity\CustomUserField $field
      */
@@ -118,9 +118,10 @@ class CustomUserValue
     }
 
     /**
-     * Set user
+     * Set user.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param Celsius3\CoreBundle\Entity\BaseUser $user
+     *
      * @return self
      */
     public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user)
@@ -131,7 +132,7 @@ class CustomUserValue
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return Celsius3\CoreBundle\Entity\BaseUser $user
      */

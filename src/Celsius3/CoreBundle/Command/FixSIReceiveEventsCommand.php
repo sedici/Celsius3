@@ -28,7 +28,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixSIReceiveEventsCommand extends ContainerAwareCommand
 {
-
     protected function configure()
     {
         $this->setName('celsius3:fix-receives')
@@ -40,13 +39,10 @@ class FixSIReceiveEventsCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
         $events = $em->getRepository('Celsius3CoreBundle:Event\\SingleInstanceReceiveEvent')
-                ->createQueryBuilder('s')
-                ->where('s.deliveryType IS NULL')
-                ->getQuery()
-                ->execute();
+                ->getEventsWithoutDeliveryType()->getQuery()->execute();
 
         foreach ($events as $event) {
-            echo 'Updating Event ' . $event->getId() . "\n";
+            echo 'Updating Event '.$event->getId()."\n";
             $owner = $event->getRequest()->getOwner();
             $event->setDeliveryType($owner->getPdf() ? 'PDF' : 'Printed');
             $em->persist($event);

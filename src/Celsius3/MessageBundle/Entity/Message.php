@@ -47,11 +47,13 @@ class Message extends BaseMessage implements Notifiable
      *   targetEntity="Celsius3\MessageBundle\Entity\Thread",
      *   inversedBy="messages"
      * )
+     *
      * @var \FOS\MessageBundle\Model\ThreadInterface
      */
     protected $thread;
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     *
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $sender;
@@ -61,17 +63,52 @@ class Message extends BaseMessage implements Notifiable
      *   mappedBy="message",
      *   cascade={"all"}
      * )
+     *
      * @var MessageMetadata[]|\Doctrine\Common\Collections\Collection
      */
     protected $metadata;
 
     public function __toString()
     {
-        return $this->getSender() . ' - ' . $this->getThread()->getSubject();
+        return $this->getSender().' - '.$this->getThread()->getSubject();
     }
 
     public function notify(NotificationManager $manager)
     {
         $manager->notifyNewMessage($this);
+    }
+
+    /**
+     * Add metadatum.
+     *
+     * @param \Celsius3\MessageBundle\Entity\MessageMetadata $metadatum
+     *
+     * @return Message
+     */
+    public function addMetadatum(\Celsius3\MessageBundle\Entity\MessageMetadata $metadatum)
+    {
+        $this->metadata[] = $metadatum;
+
+        return $this;
+    }
+
+    /**
+     * Remove metadatum.
+     *
+     * @param \Celsius3\MessageBundle\Entity\MessageMetadata $metadatum
+     */
+    public function removeMetadatum(\Celsius3\MessageBundle\Entity\MessageMetadata $metadatum)
+    {
+        $this->metadata->removeElement($metadatum);
+    }
+
+    /**
+     * Get metadata.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 }
