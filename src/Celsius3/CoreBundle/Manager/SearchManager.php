@@ -121,11 +121,23 @@ class SearchManager
 
     private function addAggregationsFilters(BoolFilter $boolFilter, array $filters = array())
     {
-        foreach ($filters as $name => $value) {
-            $function = 'add'.ucfirst($name).'Filter';
-            if (method_exists($this, $function)) {
-                $this->$function($boolFilter, $value);
-            }
+        if (array_key_exists('instance', $filters)) {
+            $this->addInstanceFilter($boolFilter, $filters['instance']);
+        }
+        if (array_key_exists('operators', $filters)) {
+            $this->addOperatorsFilter($boolFilter, $filters['operators']);
+        }
+        if (array_key_exists('owners', $filters)) {
+            $this->addOwnersFilter($boolFilter, $filters['owners']);
+        }
+        if (array_key_exists('materials', $filters)) {
+            $this->addMaterialsFilter($boolFilter, $filters['materials']);
+        }
+        if (array_key_exists('states', $filters)) {
+            $this->addStatesFilter($boolFilter, $filters['states']);
+        }
+        if (array_key_exists('types', $filters)) {
+            $this->addTypesFilter($boolFilter, $filters['types']);
         }
     }
 
