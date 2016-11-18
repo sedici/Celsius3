@@ -92,4 +92,9 @@ class Priority
     }
 
 
+
+    public function _toString(){
+        return $this->priority;
+    }
+
 }

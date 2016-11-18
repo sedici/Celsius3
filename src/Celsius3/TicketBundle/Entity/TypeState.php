@@ -94,5 +94,9 @@ class TypeState
         return $this->typeState;
     }
 
+    public function _toString(){
+        return $this->typeState;
+    }
+
 
 }

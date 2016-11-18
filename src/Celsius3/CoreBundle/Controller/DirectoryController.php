@@ -143,22 +143,24 @@ class DirectoryController extends BaseController
         public function createAction(Request $request)
         {
 
+            $paramteros = $request->get('instance_register');
+
             $entity = new Instance();
             $form = $this->createForm(InstanceRegisterType::class, $entity);
-            $apellido_nombre=$request->request->get('instance_register[apellido_nombre]');
-            $email=$request->request->get('instance_register[email]');
+            $apellido_nombre=$paramteros['apellido_nombre'];
+            $email=$paramteros['email'];
 
-            $country=$request->request->get('instance_register[country]');
-            $city=$request->request->get('instance_register[city]');
-            $institution=$request->request->get('instance_register[institution]');
+            $country=$paramteros['country'];
+            $city=$paramteros['city'];
+            $institution=$paramteros['institution'];
 
-            $sitio_biblioteca=$request->request->get('instance_register[sitio_biblioteca]');
-            $sitio_institucion=$request->request->get('instance_register[sitio_institucion]');
-            $sitio_catalogo=$request->request->get('instance_register[sitio_catalogo]');
+            $sitio_biblioteca=$paramteros['sitio_biblioteca'];
+            $sitio_institucion=$paramteros['sitio_institucion'];
+            $sitio_catalogo=$paramteros['sitio_catalogo'];
 
-            $migrar=$request->request->get('instance_register[migrar]');
+            $migrar=$paramteros['migrar'];
 
-            $observaciones=$request->request->get('instance_register[observaciones]');
+            $observaciones=$paramteros['observaciones'];
 
 
 
@@ -167,7 +169,7 @@ class DirectoryController extends BaseController
 
             $texto = $apellido_nombre.' solicito agregar una nueva instancia '.$country.''.$city.''.$institution.' con la siguiente informacion: <br/>'.'URL Institucion:'.$sitio_institucion;
             $texto.="<br/> URL Biblioteca ".$sitio_biblioteca.' <br/> URL Catalogo:'.$sitio_catalogo;
-            $texto.='Observaciones:'.$observaciones;
+            $texto.='<br/> Observaciones:'.$observaciones;
 
 
             $ticket = new Ticket();
