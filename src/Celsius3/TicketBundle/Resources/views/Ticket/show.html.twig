@@ -18,7 +18,7 @@
         </div>
         <div class="row">
             <div class="col-md-2"><b>Estado:</b></div>
-            <div class="col-md-4">{{ ticket.statusCurrent.typeState.typeState }}</div>
+            <div class="col-md-4"><span class="label label-danger">{{ ticket.statusCurrent.typeState.typeState }}</span></div>
         </div>
 
         <div class="row">
@@ -32,8 +32,35 @@
         </div>
     </div>
 </div>
-<div class="row">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Historial estado</h3>
 
-</div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Estado</th>
+                            <th>Fecha Creado</th>
+                        </tr>
+                        {% for history in ticket.statusHistory %}
+                        <tr>
+                            <td>{{ history.user }}</td>
+                            <td><span class="label label-success">{{ history.typeState.typeState }}</span></td>
+                            <td>{{ history.createdAt | date('Y-m-d') }}</td>
+                        </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
 
 {% endblock %}

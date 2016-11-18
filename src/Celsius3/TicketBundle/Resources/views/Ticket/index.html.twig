@@ -38,7 +38,7 @@
                 {% for ticket in tickets %}
                         <tr>
                             <td>{{ ticket.id }}</td>
-                            <td><span class="label label-danger">{{ ticket.statusCurrent.typeState.typeState }}</span>
+                            <td><span class="label {{ estilos_estado(ticket.statusCurrent.typeState.id) }}">{{ ticket.statusCurrent.typeState.typeState }}</span>
                             </td>
                             <td>{{ ticket.priority.priority }}</td>
                             <td>{{ ticket.subject }}</td>
