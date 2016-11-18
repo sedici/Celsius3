@@ -144,6 +144,8 @@ class DirectoryController extends BaseController
         {
             $paramteros = $request->get('instance_register');
 
+            $paramteros = $request->get('instance_register');
+
             $entity = new Instance();
             $form = $this->createForm(InstanceRegisterType::class, $entity);
             $apellido_nombre = $paramteros['apellido_nombre'];

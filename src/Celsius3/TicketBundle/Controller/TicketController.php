@@ -23,7 +23,6 @@ class TicketController extends Controller
     public function indexAction()
     {
         $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
-
         return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets));
     }
 
