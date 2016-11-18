@@ -44,7 +44,7 @@ class Celsius3NotificationExtension extends Extension
         $this->container = $container;
 
         $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $this->processConfiguration($configuration, $configs);
 
         if (isset($config['web_socket_server']) && $config['web_socket_server']) {
             $this->setupWebSocketServer($config['web_socket_server']);
