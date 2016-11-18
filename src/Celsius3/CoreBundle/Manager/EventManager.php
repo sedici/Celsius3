@@ -120,10 +120,11 @@ class EventManager
         return $this->class_prefix.$this->event_classes[$event];
     }
 
-    private function prepareExtraDataForSearch(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForSearch()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
+        $extraData = array();
         $extraData['result'] = $httpRequest->request->get('result', null);
 
         if ($httpRequest->request->has('catalog_id')) {
@@ -139,10 +140,11 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForRequest(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForRequest()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
+        $extraData = array();
         $extraData['observations'] = $httpRequest->request->get('observations', null);
 
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -168,7 +170,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReceive(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForReceive(Request $request)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -178,6 +180,7 @@ class EventManager
             throw Exception::create(Exception::NOT_FOUND);
         }
 
+        $extraData = array();
         $extraData['observations'] = $httpRequest->request->get('observations', null);
         $extraData['delivery_type'] = $httpRequest->request->get('delivery_type', $request->getOwner()->getPdf() ? 'PDF' : 'Printed');
         $extraData['request'] = $this->container
@@ -189,16 +192,17 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForUpload(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForUpload()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
+        $extraData = array();
         $extraData['files'] = $httpRequest->files->all();
 
         return $extraData;
     }
 
-    private function prepareExtraDataForReupload(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForReupload()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -208,6 +212,7 @@ class EventManager
             throw Exception::create(Exception::NOT_FOUND);
         }
 
+        $extraData = array();
         $extraData['observations'] = $httpRequest->request->get('observations', null);
         $extraData['receive'] = $this->container
                 ->get('doctrine.orm.entity_manager')
@@ -218,7 +223,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForApprove(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForApprove()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -229,6 +234,7 @@ class EventManager
             throw Exception::create(Exception::NOT_FOUND);
         }
 
+        $extraData = array();
         $extraData['receive'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
                 ->find($httpRequest->request->get('receive'));
 
@@ -239,7 +245,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReclaim(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForReclaim()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -268,6 +274,7 @@ class EventManager
             throw Exception::create(Exception::NOT_FOUND);
         }
 
+        $extraData = array();
         $extraData[$key] = $event;
 
         if (!$httpRequest->request->has('observations') || $httpRequest->request->get('observations') === '') {
@@ -282,10 +289,11 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForCancel(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForCancel(Request $request, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
+        $extraData = array();
 
         if ($httpRequest->request->has('request')) {
             $extraData['request'] = $em->getRepository('Celsius3CoreBundle:Event\\Event')
@@ -335,8 +343,10 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForAnnul(Request $request, array $extraData, Instance $instance)
+    private function prepareExtraDataForAnnul(Request $request, Instance $instance)
     {
+        $extraData = array();
+
         if ($request->getInstance()->getId() !== $instance->getId() || !is_null($request->getPreviousRequest())) {
             $extraData['request'] = $request
                     ->getState(StateManager::STATE__CREATED, $instance)
@@ -369,9 +379,17 @@ class EventManager
 
     public function prepareExtraData($event, Request $request, Instance $instance)
     {
-        $methodName = 'prepareExtraDataFor'.ucfirst($event);
-
-        return $this->$methodName($request, array(), $instance);
+        switch ($event) {
+            case 'search': return $this->prepareExtraDataForSearch(); break;
+            case 'request': return $this->prepareExtraDataForRequest($request); break;
+            case 'receive': return $this->prepareExtraDataForReceive($request); break;
+            case 'upload': return $this->prepareExtraDataForUpload(); break;
+            case 'reupload': return $this->prepareExtraDataForReupload(); break;
+            case 'approve': return $this->prepareExtraDataForApprove(); break;
+            case 'reclaim': return $this->prepareExtraDataForReclaim(); break;
+            case 'cancel': return $this->prepareExtraDataForCancel($request, $instance); break;
+            case 'annul': return $this->prepareExtraDataForAnnul($request, $instance); break;
+        }
     }
 
     public function cancelRequests(array $requests, HttpRequest $httpRequest)
