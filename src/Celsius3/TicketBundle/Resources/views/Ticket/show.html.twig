@@ -3,32 +3,41 @@
 
 {% block content -%}
 
- <a href="{{ path('ticket_index') }}">Volver al Listado</a>
 <div class="row">
-    <div class="col-md-12 col-md-offset-0 panel panel-default">
-        <h3>{{ 'Informacion del Ticket'|trans }}</h3>
-        <br>
-        <div class="row">
-            <div class="col-md-2"><b>Tema:</b></div>
-            <div class="col-md-4">{{ ticket.subject }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2"><b>Descripcion:</b></div>
-            <div class="col-md-4">{{ ticket.text | raw }}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2"><b>Estado:</b></div>
-            <div class="col-md-4"><span class="label label-danger">{{ ticket.statusCurrent.typeState.typeState }}</span></div>
-        </div>
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3>{{ 'Informacion del Ticket'|trans }}</h3>
 
-        <div class="row">
-            <div class="col-md-2"><b>Prioridad:</b></div>
-            <div class="col-md-4">{{ ticket.priority.priority }}</div>
-        </div>
+            <div class="box-tools">
+                <div class="input-group input-group-sm" style="width: 150px;">
+                    <a href="{{ path('ticket_index') }}">Volver al Listado</a>
+                </div>
+            </div>
+                </div>
 
-        <div class="row">
-            <div class="col-md-2"><b>Categoria:</b></div>
-            <div class="col-md-4">{{ ticket.category }}</div>
+            <div class="row">
+                <div class="col-md-1"><b>Tema:</b></div>
+                <div class="col-md-4">{{ ticket.subject }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"><b>Descripcion:</b></div>
+                <div class="col-md-10">{{ ticket.text | raw }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"><b>Estado:</b></div>
+                <div class="col-md-4"><span class="label {{ estilos_estado(ticket.statusCurrent.typeState.id) }}">{{ ticket.statusCurrent.typeState.typeState }}</span></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-1"><b>Prioridad:</b></div>
+                <div class="col-md-4">{{ ticket.priority.priority }}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-1"><b>Categoria:</b></div>
+                <div class="col-md-4">{{ ticket.category }}</div>
+            </div>
         </div>
     </div>
 </div>
@@ -50,8 +59,8 @@
                         {% for history in ticket.statusHistory %}
                         <tr>
                             <td>{{ history.user }}</td>
-                            <td><span class="label label-success">{{ history.typeState.typeState }}</span></td>
-                            <td>{{ history.createdAt | date('Y-m-d') }}</td>
+                            <td><span class="label {{ estilos_estado(history.typeState.id) }}">{{ history.typeState.typeState }}</span></td>
+                            <td>{{ history.createdAt | date('m/d/Y') }}</td>
                         </tr>
                         {% endfor %}
 
