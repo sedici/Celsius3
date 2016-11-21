@@ -625,7 +625,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get observaciones
+     * Get observaciones.
      *
      * @return string
      */
@@ -649,7 +649,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove news
+     * Remove news.
      *
      * @param \Celsius3\CoreBundle\Entity\News $news
      */
@@ -658,16 +658,8 @@ class Instance extends LegacyInstance
         $this->news->removeElement($news);
     }
 
-
-
-
-
-
-
-
-
     /**
-     * Set latitud
+     * Set latitud.
      *
      * @param string $latitud
      *
@@ -681,7 +673,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get latitud
+     * Get latitud.
      *
      * @return string
      */
@@ -691,7 +683,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Set longitud
+     * Set longitud.
      *
      * @param string $longitud
      *
@@ -705,7 +697,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get longitud
+     * Get longitud.
      *
      * @return string
      */
