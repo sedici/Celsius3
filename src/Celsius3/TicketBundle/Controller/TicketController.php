@@ -23,7 +23,9 @@ class TicketController extends Controller
     public function indexAction()
     {
         $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
-        return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets));
+        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+        $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
+        return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets,'administradores'=>$administradores));
     }
 
     /**
@@ -125,4 +127,49 @@ class TicketController extends Controller
 
         return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets, 'administradores' => $administradores));
     }
+
+    /**
+     * @Route("/update-status", name="ticket_update_status", options={"expose"=true})
+     * @Template()
+     */
+    public function updateStatusAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('ticket_id');
+
+        $estado_id=$request->get('estado_id');
+        $observaciones= $request->get('observaciones');
+        $ticket = $em->getRepository('Celsius3TicketBundle:Ticket')->find($id);
+
+
+        $ticketState = new TicketState();
+        $ticketState->setCreatedAt(new \DateTime());
+        $ticketState->setUpdatedAt(new \DateTime());
+        $ticketState->setDescripcion($observaciones);
+
+
+        $typeState = $em->getRepository('Celsius3TicketBundle:TypeState')->find($estado_id);
+
+        $ticketState->setTypeState($typeState);
+        $ticketState->setTickets($ticket);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($ticketState);
+        $em->flush();
+
+        $ticket->setStatusCurrent($ticketState);
+
+        $em->flush($ticket);
+        $em->flush($ticketState);
+
+        $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
+        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+        $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
+        return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets,'administradores'=>$administradores));
+    }
+
+
+
+
+
 }
