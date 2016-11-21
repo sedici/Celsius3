@@ -23,13 +23,13 @@
 namespace Celsius3\CoreBundle\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Monolog\Logger;
 
 class AccessDeniedRestException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
 {
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
+    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
@@ -43,7 +43,6 @@ class AccessDeniedRestException extends AccessDeniedHttpException implements Cel
 
         $event->setResponse($response);
 
-        $logger = $container->get('monolog.logger.celsius_rest_exception');
         $logger->error($exception);
     }
 }

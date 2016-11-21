@@ -26,22 +26,21 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManager;
 use FOS\OAuthServerBundle\Entity\AccessTokenManager;
-use Symfony\Component\DependencyInjection\Container;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class SecurityListener
 {
-
     private $entityManager;
     private $tokenManager;
-    private $container;
+    private $tokenStorage;
 
-    public function __construct(EntityManager $entityManager, AccessTokenManager $tokenManager, Container $container)
+    public function __construct(EntityManager $entityManager, AccessTokenManager $tokenManager, TokenStorage $tokenStorage)
     {
         $this->entityManager = $entityManager;
         $this->tokenManager = $tokenManager;
-        $this->container = $container;
+        $this->tokenStorage = $tokenStorage;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -54,15 +53,15 @@ class SecurityListener
 
         $uri = $request->getUri();
 
-        $user = (!is_null($this->container->get('security.token_storage')->getToken())) ? $this->container->get('security.token_storage')->getToken()->getUser() : null;
+        $user = (!is_null($this->tokenStorage->getToken())) ? $this->tokenStorage->getToken()->getUser() : null;
 
         if ((false !== strpos($uri, '/oauth/v2/auth')) && ($user instanceof BaseUser)) {
-
             if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPERADMIN', $user->getRoles())) {
                 return;
             }
 
             $this->generateErrorResponse($event, 401);
+
             return;
         }
 
@@ -71,11 +70,13 @@ class SecurityListener
 
             if (is_null($access_token)) {
                 $this->generateErrorResponse($event, 403);
+
                 return;
             }
 
             if (!$this->validateToken($access_token)) {
                 $event->setResponse((new JsonResponse())->setData(array('validAccessToken' => false)));
+
                 return;
             }
         }
@@ -91,7 +92,7 @@ class SecurityListener
             $tokenExpires = (new \DateTime())->setTimestamp($token->getExpiresAt());
             $actualDateTime = new \DateTime();
 
-            return ($actualDateTime < $tokenExpires);
+            return $actualDateTime < $tokenExpires;
         }
 
         return false;
@@ -103,5 +104,4 @@ class SecurityListener
         $response->setStatusCode($statusCode);
         $event->setResponse($response);
     }
-
 }

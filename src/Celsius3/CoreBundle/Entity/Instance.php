@@ -34,7 +34,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Instance extends LegacyInstance
 {
-
     /**
      * @Assert\NotBlank()
      * @Assert\Regex(pattern="/^[a-zA-Z]+$/")
@@ -113,12 +112,10 @@ class Instance extends LegacyInstance
      */
     protected $cities;
 
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $latitud;
-
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -129,8 +126,6 @@ class Instance extends LegacyInstance
      * @ORM\Column(type="string", nullable=true)
      */
     protected $observaciones;
-
-
 
     public function __construct()
     {
@@ -155,37 +150,40 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Returns the Configuration object associated with key
+     * Returns the Configuration object associated with key.
      *
-     * @param  string        $key
+     * @param string $key
+     *
      * @return Configuration
      */
     public function get($key)
     {
         return $this->getConfigurations()
                         ->filter(function (Configuration $entry) use ($key) {
-                            return ($entry->getKey() === $key);
+                            return $entry->getKey() === $key;
                         })->first();
     }
 
     /**
-     * Returns the if the instance has a Configuration with $key
+     * Returns the if the instance has a Configuration with $key.
      *
-     * @param  string        $key
-     * @return boolean
+     * @param string $key
+     *
+     * @return bool
      */
     public function has($key)
     {
         return $this->getConfigurations()
                         ->filter(function (Configuration $entry) use ($key) {
-                            return ($entry->getKey() === $key);
+                            return $entry->getKey() === $key;
                         })->count() > 0;
     }
 
     /**
-     * Set url
+     * Set url.
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return self
      */
     public function setUrl($url)
@@ -196,7 +194,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get url
+     * Get url.
      *
      * @return string $url
      */
@@ -206,9 +204,10 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Set host
+     * Set host.
      *
-     * @param  string $host
+     * @param string $host
+     *
      * @return self
      */
     public function setHost($host)
@@ -219,7 +218,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get host
+     * Get host.
      *
      * @return string $host
      */
@@ -229,9 +228,10 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Set invisible
+     * Set invisible.
      *
-     * @param  string $invisible
+     * @param string $invisible
+     *
      * @return self
      */
     public function setInvisible($invisible)
@@ -242,7 +242,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get invisible
+     * Get invisible.
      *
      * @return string $invisible
      */
@@ -252,7 +252,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add users
+     * Add users.
      *
      * @param Celsius3\CoreBundle\Entity\BaseUser $users
      */
@@ -262,7 +262,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove users
+     * Remove users.
      *
      * @param Celsius3\CoreBundle\Entity\BaseUser $users
      */
@@ -272,7 +272,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get users
+     * Get users.
      *
      * @return Doctrine\Common\Collections\Collection $users
      */
@@ -282,27 +282,27 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add orders
+     * Add orders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $orders
      */
-    public function addOrder(\Celsius3\CoreBundle\Entity\Order $orders)
+    public function addOrder(\Celsius3\CoreBundle\Entity\Request $order)
     {
-        $this->orders[] = $orders;
+        $this->orders[] = $order;
     }
 
     /**
-     * Remove orders
+     * Remove orders.
      *
      * @param Celsius3\CoreBundle\Entity\Order $orders
      */
-    public function removeOrder(\Celsius3\CoreBundle\Entity\Order $orders)
+    public function removeOrder(\Celsius3\CoreBundle\Entity\Request $order)
     {
-        $this->orders->removeElement($orders);
+        $this->orders->removeElement($order);
     }
 
     /**
-     * Get orders
+     * Get orders.
      *
      * @return Doctrine\Common\Collections\Collection $orders
      */
@@ -312,7 +312,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add news
+     * Add news.
      *
      * @param Celsius3\CoreBundle\Entity\News $news
      */
@@ -322,7 +322,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove news
+     * Remove news.
      *
      * @param Celsius3\CoreBundle\Entity\News $news
      */
@@ -332,7 +332,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get news
+     * Get news.
      *
      * @return Doctrine\Common\Collections\Collection $news
      */
@@ -342,7 +342,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add contacts
+     * Add contacts.
      *
      * @param Celsius3\CoreBundle\Entity\Contact $contacts
      */
@@ -352,7 +352,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove contacts
+     * Remove contacts.
      *
      * @param Celsius3\CoreBundle\Entity\Contact $contacts
      */
@@ -363,7 +363,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get contacts
+     * Get contacts.
      *
      * @return Doctrine\Common\Collections\Collection $contacts
      */
@@ -373,7 +373,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add institutions
+     * Add institutions.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institutions
      */
@@ -384,7 +384,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove institutions
+     * Remove institutions.
      *
      * @param Celsius3\CoreBundle\Entity\Institution $institutions
      */
@@ -395,7 +395,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get institutions
+     * Get institutions.
      *
      * @return Doctrine\Common\Collections\Collection $institutions
      */
@@ -405,7 +405,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add templates
+     * Add templates.
      *
      * @param Celsius3\CoreBundle\Entity\MailTemplate $templates
      */
@@ -416,7 +416,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove templates
+     * Remove templates.
      *
      * @param Celsius3\CoreBundle\Entity\MailTemplate $templates
      */
@@ -427,7 +427,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get templates
+     * Get templates.
      *
      * @return Doctrine\Common\Collections\Collection $templates
      */
@@ -437,7 +437,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add configurations
+     * Add configurations.
      *
      * @param Celsius3\CoreBundle\Entity\Configuration $configurations
      */
@@ -448,7 +448,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove configurations
+     * Remove configurations.
      *
      * @param Celsius3\CoreBundle\Entity\Configuration $configurations
      */
@@ -459,7 +459,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get configurations
+     * Get configurations.
      *
      * @return Doctrine\Common\Collections\Collection $configurations
      */
@@ -469,7 +469,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add catalogs
+     * Add catalogs.
      *
      * @param Celsius3\CoreBundle\Entity\Catalog $catalogs
      */
@@ -479,7 +479,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove catalogs
+     * Remove catalogs.
      *
      * @param Celsius3\CoreBundle\Entity\Catalog $catalogs
      */
@@ -490,7 +490,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get catalogs
+     * Get catalogs.
      *
      * @return Doctrine\Common\Collections\Collection $catalogs
      */
@@ -500,7 +500,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add events
+     * Add events.
      *
      * @param Celsius3\CoreBundle\Entity\Event\Event $events
      */
@@ -510,7 +510,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove events
+     * Remove events.
      *
      * @param Celsius3\CoreBundle\Entity\Event\Event $events
      */
@@ -520,7 +520,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get events
+     * Get events.
      *
      * @return Doctrine\Common\Collections\Collection $events
      */
@@ -530,7 +530,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add states
+     * Add states.
      *
      * @param Celsius3\CoreBundle\Entity\State $states
      */
@@ -540,7 +540,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove states
+     * Remove states.
      *
      * @param Celsius3\CoreBundle\Entity\State $states
      */
@@ -550,7 +550,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get states
+     * Get states.
      *
      * @return Doctrine\Common\Collections\Collection $states
      */
@@ -560,7 +560,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add countries
+     * Add countries.
      *
      * @param Celsius3\CoreBundle\Entity\Country $countries
      */
@@ -571,7 +571,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove countries
+     * Remove countries.
      *
      * @param Celsius3\CoreBundle\Entity\Country $countries
      */
@@ -582,7 +582,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get countries
+     * Get countries.
      *
      * @return Doctrine\Common\Collections\Collection $countries
      */
@@ -592,7 +592,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add cities
+     * Add cities.
      *
      * @param Celsius3\CoreBundle\Entity\City $cities
      */
@@ -602,7 +602,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove cities
+     * Remove cities.
      *
      * @param Celsius3\CoreBundle\Entity\City $cities
      */
@@ -612,7 +612,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get cities
+     * Get cities.
      *
      * @return Doctrine\Common\Collections\Collection $cities
      */
@@ -622,7 +622,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Set observaciones
+     * Set observaciones.
      *
      * @param string $observaciones
      *
@@ -636,7 +636,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get observaciones
+     * Get observaciones.
      *
      * @return string
      */
@@ -646,7 +646,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add news
+     * Add news.
      *
      * @param \Celsius3\CoreBundle\Entity\News $news
      *
@@ -660,7 +660,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove news
+     * Remove news.
      *
      * @param \Celsius3\CoreBundle\Entity\News $news
      */
@@ -669,16 +669,8 @@ class Instance extends LegacyInstance
         $this->news->removeElement($news);
     }
 
-
-
-
-
-
-
-
-
     /**
-     * Set latitud
+     * Set latitud.
      *
      * @param string $latitud
      *
@@ -692,7 +684,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get latitud
+     * Get latitud.
      *
      * @return string
      */
@@ -702,7 +694,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Set longitud
+     * Set longitud.
      *
      * @param string $longitud
      *
@@ -716,7 +708,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Get longitud
+     * Get longitud.
      *
      * @return string
      */
@@ -726,7 +718,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add country
+     * Add country.
      *
      * @param \Celsius3\CoreBundle\Entity\Country $country
      *
@@ -740,7 +732,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove country
+     * Remove country.
      *
      * @param \Celsius3\CoreBundle\Entity\Country $country
      */
@@ -750,7 +742,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add city
+     * Add city.
      *
      * @param \Celsius3\CoreBundle\Entity\City $city
      *
@@ -764,7 +756,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Remove city
+     * Remove city.
      *
      * @param \Celsius3\CoreBundle\Entity\City $city
      */

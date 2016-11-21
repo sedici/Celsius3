@@ -23,10 +23,9 @@
 namespace Celsius3\CoreBundle\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Bridge\Monolog\Logger;
 
 interface Celsius3ExceptionInterface
 {
-
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container);
+    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger);
 }
