@@ -46,6 +46,19 @@ class SuperadministrationController extends BaseController
         return array();
     }
 
+
+
+
+    /**
+     * @Route("/administradores", name="superadmin_admin")
+     */
+    public function administradoresAction(Request $request)
+    {
+        return $this->ajax($request);
+    }
+
+
+
     /**
      * @Route("/ajax", name="superadmin_ajax")
      */

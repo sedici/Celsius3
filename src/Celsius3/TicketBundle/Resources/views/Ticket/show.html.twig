@@ -55,12 +55,14 @@
                             <th>Usuario</th>
                             <th>Estado</th>
                             <th>Fecha Creado</th>
+                            <th>Observaciones</th>
                         </tr>
                         {% for history in ticket.statusHistory %}
                         <tr>
                             <td>{{ history.user }}</td>
                             <td><span class="label {{ estilos_estado(history.typeState.id) }}">{{ history.typeState.typeState }}</span></td>
                             <td>{{ history.createdAt | date('m/d/Y') }}</td>
+                            <td>{{ history.descripcion | raw }}</td>
                         </tr>
                         {% endfor %}
 

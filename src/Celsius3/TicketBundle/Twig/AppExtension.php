@@ -42,6 +42,17 @@ class AppExtension extends \Twig_Extension
             case "2":
                 $name = 'label-success';
                 break;
+
+            case "3":
+                $name = 'label-success';
+                break;
+            case "4":
+                $name = 'label-success';
+                break;
+
+
+            default:
+                $name='';
         }
 
         return $name;
