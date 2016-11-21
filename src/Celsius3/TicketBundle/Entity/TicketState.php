@@ -62,6 +62,12 @@ class TicketState
      */
     private $tickets;
 
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $descripcion;
+
     /**
      * Get id.
      *
@@ -145,5 +151,29 @@ class TicketState
     public function getTickets()
     {
         return $this->tickets;
+    }
+
+    /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     *
+     * @return TicketState
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
     }
 }
