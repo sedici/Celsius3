@@ -22,15 +22,25 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Symfony\Component\DependencyInjection\Container;
-
 class AssetsExtension extends \Twig_Extension
 {
-    private $container;
+    private $assets_version;
+    private $assets_version_administration;
+    private $assets_version_admin_order;
+    private $assets_version_admin_base_user;
+    private $assets_version_admin_institution;
+    private $assets_version_user;
+    private $assets_version_celsius3;
 
-    public function __construct(Container $container)
+    public function __construct($av, $administration, $admin_order, $admin_base_user, $admin_institution, $user, $celsius3)
     {
-        $this->container = $container;
+        $this->assets_version = $av;
+        $this->assets_version_administration = $administration;
+        $this->assets_version_admin_order = $admin_order;
+        $this->assets_version_admin_base_user = $admin_base_user;
+        $this->assets_version_admin_institution = $admin_institution;
+        $this->assets_version_user = $user;
+        $this->assets_version_celsius3 = $celsius3;
     }
 
     public function getFunctions()
@@ -42,7 +52,15 @@ class AssetsExtension extends \Twig_Extension
 
     public function getVersionForGroup($group)
     {
-        $version = $this->container->getParameter('assets_version_'.$group);
+        $version = null;
+        switch ($group) {
+            case 'administration': $version = $this->assets_version_administration; break;
+            case 'admin_order': $version = $this->assets_version_admin_order; break;
+            case 'admin_base_user': $version = $this->assets_version_admin_base_user; break;
+            case 'admin_institution': $version = $this->assets_version_admin_institution; break;
+            case 'user': $version = $this->assets_version_user; break;
+            case 'celsius3': $version = $this->assets_version_celsius3; break;
+        }
 
         return (!is_null($version)) ? $version : '';
     }

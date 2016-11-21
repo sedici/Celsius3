@@ -22,20 +22,20 @@
 
 namespace Celsius3\CoreBundle\EventListener;
 
-use Symfony\Component\DependencyInjection\Container;
 use Celsius3\CoreBundle\Manager\Alert;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ResponseListener
 {
-    private $container;
+    private $session;
 
-    public function __construct(Container $container)
+    public function __construct(Session $session)
     {
-        $this->container = $container;
+        $this->session = $session;
     }
 
     public function onKernelResponse()
     {
-        Alert::getAlerts($this->container->get('session')->getFlashBag());
+        Alert::getAlerts($this->session->getFlashBag());
     }
 }

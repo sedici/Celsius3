@@ -23,35 +23,37 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Bundle\TwigBundle\TwigEngine;
 
 class MaintenanceModeListener
 {
+    private $file;
+    private $directory;
+    private $template;
+    private $templating;
 
-    private $container;
-
-    public function __construct(Container $container)
+    public function __construct($file, $directory, $template, TwigEngine $templating)
     {
-        $this->container = $container;
+        $this->file = $file;
+        $this->directory = $directory;
+        $this->template = $template;
+        $this->templating = $templating;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        $filename = $this->container->getParameter('maintenance_mode_file');
-        $modedir = $this->container->getParameter('maintenance_mode_dir');
+        $filename = $this->file;
+        $modedir = $this->directory;
         $class = new \ReflectionClass($this);
-        $basedir = dirname($class->getFileName()) . '/../../../..';
-        $file = $basedir . $modedir . $filename;
-                
+        $basedir = dirname($class->getFileName()).'/../../../..';
+        $file = $basedir.$modedir.$filename;
+
         if (file_exists($file)) {
-            $template = $this->container->getParameter('maintenance_mode_template');
-            $response = $this->container->get('templating')->renderResponse($template);
+            $template = $this->template;
+            $response = $this->templating->renderResponse($template);
             $event->setResponse($response);
-            
-            return;
         }
 
         return;
     }
-
 }

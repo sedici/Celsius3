@@ -22,16 +22,18 @@
 
 namespace Celsius3\MessageBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use FOS\MessageBundle\Model\ThreadInterface;
+use FOS\MessageBundle\Security\ParticipantProvider;
+use FOS\MessageBundle\FormFactory\ReplyMessageFormFactory;
 
 class ThreadExtension extends \Twig_Extension
 {
     private $container;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ReplyMessageFormFactory $factory, ParticipantProvider $participantProvider)
     {
-        $this->container = $container;
+        $this->factory = $factory;
+        $this->participantProvider = $participantProvider;
     }
 
     public function getFunctions()
@@ -44,19 +46,15 @@ class ThreadExtension extends \Twig_Extension
 
     public function formToThread(ThreadInterface $thread)
     {
-        return $this->container->get('fos_message.reply_form.factory')
-                        ->create($thread)->createView();
+        return $this->factory->create($thread)->createView();
     }
 
     public function getUnreadMessages(ThreadInterface $thread)
     {
-        $participantProvider = $this->container
-                ->get('fos_message.participant_provider');
-
         $count = 0;
         foreach ($thread->getMessages() as $message) {
-            if (!$message->isReadByParticipant($participantProvider->getAuthenticatedParticipant())) {
-                $count++;
+            if (!$message->isReadByParticipant($this->participantProvider->getAuthenticatedParticipant())) {
+                ++$count;
             }
         }
 

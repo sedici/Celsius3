@@ -23,17 +23,19 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Bridge\Monolog\Logger;
 
 class ExceptionListener
 {
+    private $exceptionLogger;
+    private $restExceptionLogger;
 
-    private $container;
-
-    public function __construct(Container $container)
+    public function __construct(Logger $exceptionLogger, Logger $restExceptionLogger)
     {
-        $this->container = $container;
+        $this->exceptionLogger = $exceptionLogger;
+        $this->restExceptionLogger = $restExceptionLogger;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
@@ -41,8 +43,11 @@ class ExceptionListener
         $exception = $event->getException();
 
         if ($exception instanceof Celsius3ExceptionInterface) {
-            $exception->handleEvent($event, $this->container);
+            if (Exception::isRest()) {
+                $exception->handleEvent($event, $this->restExceptionLogger);
+            } else {
+                $exception->handleEvent($event, $this->exceptionLogger);
+            }
         }
     }
-
 }

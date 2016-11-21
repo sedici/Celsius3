@@ -124,7 +124,13 @@
         </service>
 
         <service id="celsius3_core.twig.extension.assets" class="%celsius3_core.twig.extension.assets.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument>%assets_version%</argument>
+            <argument>%assets_version_administration%</argument>
+            <argument>%assets_version_admin_order%</argument>
+            <argument>%assets_version_admin_base_user%</argument>
+            <argument>%assets_version_admin_institution%</argument>
+            <argument>%assets_version_user%</argument>
+            <argument>%assets_version_celsius3%</argument>
             <tag name="twig.extension"/>
         </service>
 
@@ -175,7 +181,8 @@
         </service>
 
         <service id="celsius3_core.exception_listener" class="%celsius3_core.exception_listener.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="monolog.logger.celsius_exception"></argument>
+            <argument type="service" id="monolog.logger.celsius_rest_exception"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException"/>
         </service>
 
@@ -184,7 +191,7 @@
         </service>
 
         <service id="celsius3_core.response_listener" class="%celsius3_core.response_listener.class%">
-            <argument type="service" id="service_container"></argument>
+            <argument type="service" id="session"></argument>
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse"/>
         </service>
 
@@ -414,7 +421,10 @@
         </service>
 
         <service id="celsius3.maintenance_mode_listener" class="%celsius3.maintenance_mode_listener.class%">
-            <argument type="service" id="service_container"/>
+            <argument>%maintenance_mode_file%</argument>
+            <argument>%maintenance_mode_dir%</argument>
+            <argument>%maintenance_mode_template%</argument>
+            <argument type="service" id="templating"/>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10"/>
         </service>
 

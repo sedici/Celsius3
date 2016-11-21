@@ -22,31 +22,27 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Monolog\Logger;
 
 class ExceptionNotFoundRestException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
-
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container)
+    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
         $response = new JsonResponse([
             'error' => true,
             'hasMessage' => true,
-            'message' => $exception->getMessage()
+            'message' => $exception->getMessage(),
         ]);
 
         $response->setStatusCode(404);
 
         $event->setResponse($response);
 
-        $logger = $container->get('monolog.logger.celsius_rest_exception');
         $logger->error($exception);
     }
-
 }

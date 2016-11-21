@@ -22,16 +22,16 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
-use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bridge\Monolog\Logger;
 
-class AccessDeniedException extends AccessDeniedHttpException implements Celsius3ExceptionInterface {
-
-    public function handleEvent(GetResponseForExceptionEvent $event, Container $container) {
+class AccessDeniedException extends AccessDeniedHttpException implements Celsius3ExceptionInterface
+{
+    public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
+    {
         $exception = $event->getException();
 
         Alert::add(Alert::ERROR, 'exception.access_denied');
@@ -39,8 +39,6 @@ class AccessDeniedException extends AccessDeniedHttpException implements Celsius
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
 
-        $logger = $container->get('monolog.logger.celsius_exception');
         $logger->error($exception);
     }
-
 }
