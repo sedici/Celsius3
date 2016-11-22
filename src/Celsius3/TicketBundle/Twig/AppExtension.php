@@ -3,8 +3,6 @@
 namespace Celsius3\TicketBundle\Twig;
 
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Routing\Router;
 
 class AppExtension extends \Twig_Extension
 {

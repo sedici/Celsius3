@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\TicketBundle\Entity\Ticket;
 use Celsius3\TicketBundle\Entity\TicketState;
-use Celsius3\TicketBundle\Entity\TypeState;
 
 /**
  * BaseUser controller.
