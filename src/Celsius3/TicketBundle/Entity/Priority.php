@@ -25,10 +25,9 @@ namespace Celsius3\TicketBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity("")
+ * @ORM\Entity
  * @ORM\Table(name="ticket_priority")
  */
 class Priority
@@ -36,7 +35,6 @@ class Priority
     const PRIORITY_ALTA = 1;
     const PRIORITY_MEDIA = 2;
     const PRIORITY_BAJA = 3;
-
 
     use TimestampableEntity;
 
@@ -53,13 +51,12 @@ class Priority
      */
     private $priority;
 
-
     public function __construct()
     {
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -69,9 +66,10 @@ class Priority
     }
 
     /**
-     * Set priority
+     * Set priority.
      *
-     * @param  string $priority
+     * @param string $priority
+     *
      * @return self
      */
     public function setPriority($priority)
@@ -82,7 +80,7 @@ class Priority
     }
 
     /**
-     * Get priority
+     * Get priority.
      *
      * @return string $priority
      */
@@ -91,10 +89,8 @@ class Priority
         return $this->priority;
     }
 
-
-
-    public function _toString(){
+    public function __toString()
+    {
         return $this->priority;
     }
-
 }
