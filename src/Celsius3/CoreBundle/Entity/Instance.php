@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Celsius3\CoreBundle\Entity\Event\Event;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
@@ -158,10 +159,9 @@ class Instance extends LegacyInstance
      */
     public function get($key)
     {
-        return $this->getConfigurations()
-                        ->filter(function (Configuration $entry) use ($key) {
-                            return $entry->getKey() === $key;
-                        })->first();
+        return $this->getConfigurations()->filter(function (Configuration $entry) use ($key) {
+            return $entry->getKey() === $key;
+        })->first();
     }
 
     /**
@@ -173,10 +173,9 @@ class Instance extends LegacyInstance
      */
     public function has($key)
     {
-        return $this->getConfigurations()
-                        ->filter(function (Configuration $entry) use ($key) {
-                            return $entry->getKey() === $key;
-                        })->count() > 0;
+        return $this->getConfigurations()->filter(function (Configuration $entry) use ($key) {
+            return $entry->getKey() === $key;
+        })->count() > 0;
     }
 
     /**
@@ -254,9 +253,9 @@ class Instance extends LegacyInstance
     /**
      * Add users.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $users
+     * @param BaseUser $users
      */
-    public function addUser(\Celsius3\CoreBundle\Entity\BaseUser $users)
+    public function addUser(BaseUser $users)
     {
         $this->users[] = $users;
     }
@@ -264,9 +263,9 @@ class Instance extends LegacyInstance
     /**
      * Remove users.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $users
+     * @param BaseUser $users
      */
-    public function removeUser(\Celsius3\CoreBundle\Entity\BaseUser $users)
+    public function removeUser(BaseUser $users)
     {
         $this->users->removeElement($users);
     }
@@ -274,7 +273,7 @@ class Instance extends LegacyInstance
     /**
      * Get users.
      *
-     * @return Doctrine\Common\Collections\Collection $users
+     * @return Collection $users
      */
     public function getUsers()
     {
@@ -284,9 +283,9 @@ class Instance extends LegacyInstance
     /**
      * Add orders.
      *
-     * @param Celsius3\CoreBundle\Entity\Order $orders
+     * @param Order $orders
      */
-    public function addOrder(\Celsius3\CoreBundle\Entity\Request $order)
+    public function addOrder(Request $order)
     {
         $this->orders[] = $order;
     }
@@ -294,9 +293,9 @@ class Instance extends LegacyInstance
     /**
      * Remove orders.
      *
-     * @param Celsius3\CoreBundle\Entity\Order $orders
+     * @param Order $orders
      */
-    public function removeOrder(\Celsius3\CoreBundle\Entity\Request $order)
+    public function removeOrder(Request $order)
     {
         $this->orders->removeElement($order);
     }
@@ -304,7 +303,7 @@ class Instance extends LegacyInstance
     /**
      * Get orders.
      *
-     * @return Doctrine\Common\Collections\Collection $orders
+     * @return Collection $orders
      */
     public function getOrders()
     {
@@ -314,9 +313,9 @@ class Instance extends LegacyInstance
     /**
      * Add news.
      *
-     * @param Celsius3\CoreBundle\Entity\News $news
+     * @param News $news
      */
-    public function addNew(\Celsius3\CoreBundle\Entity\News $news)
+    public function addNew(News $news)
     {
         $this->news[] = $news;
     }
@@ -324,9 +323,9 @@ class Instance extends LegacyInstance
     /**
      * Remove news.
      *
-     * @param Celsius3\CoreBundle\Entity\News $news
+     * @param News $news
      */
-    public function removeNew(\Celsius3\CoreBundle\Entity\News $news)
+    public function removeNew(News $news)
     {
         $this->news->removeElement($news);
     }
@@ -334,7 +333,7 @@ class Instance extends LegacyInstance
     /**
      * Get news.
      *
-     * @return Doctrine\Common\Collections\Collection $news
+     * @return Collection $news
      */
     public function getNews()
     {
@@ -344,28 +343,27 @@ class Instance extends LegacyInstance
     /**
      * Add contacts.
      *
-     * @param Celsius3\CoreBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function addContact(\Celsius3\CoreBundle\Entity\Contact $contacts)
+    public function addContact(Contact $contact)
     {
-        $this->contacts[] = $contacts;
+        $this->contacts[] = $contact;
     }
 
     /**
      * Remove contacts.
      *
-     * @param Celsius3\CoreBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function removeContact(
-    \Celsius3\CoreBundle\Entity\Contact $contacts)
+    public function removeContact(Contact $contact)
     {
-        $this->contacts->removeElement($contacts);
+        $this->contacts->removeElement($contact);
     }
 
     /**
      * Get contacts.
      *
-     * @return Doctrine\Common\Collections\Collection $contacts
+     * @return Collection $contacts
      */
     public function getContacts()
     {
@@ -375,29 +373,27 @@ class Instance extends LegacyInstance
     /**
      * Add institutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institution
      */
-    public function addInstitution(
-    \Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function addInstitution(Institution $institution)
     {
-        $this->institutions[] = $institutions;
+        $this->institutions[] = $institution;
     }
 
     /**
      * Remove institutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institution
      */
-    public function removeInstitution(
-    \Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function removeInstitution(Institution $institution)
     {
-        $this->institutions->removeElement($institutions);
+        $this->institutions->removeElement($institution);
     }
 
     /**
      * Get institutions.
      *
-     * @return Doctrine\Common\Collections\Collection $institutions
+     * @return Collection $institutions
      */
     public function getInstitutions()
     {
@@ -407,29 +403,27 @@ class Instance extends LegacyInstance
     /**
      * Add templates.
      *
-     * @param Celsius3\CoreBundle\Entity\MailTemplate $templates
+     * @param MailTemplate $template
      */
-    public function addTemplate(
-    \Celsius3\CoreBundle\Entity\MailTemplate $templates)
+    public function addTemplate(MailTemplate $template)
     {
-        $this->templates[] = $templates;
+        $this->templates[] = $template;
     }
 
     /**
      * Remove templates.
      *
-     * @param Celsius3\CoreBundle\Entity\MailTemplate $templates
+     * @param MailTemplate $template
      */
-    public function removeTemplate(
-    \Celsius3\CoreBundle\Entity\MailTemplate $templates)
+    public function removeTemplate(MailTemplate $template)
     {
-        $this->templates->removeElement($templates);
+        $this->templates->removeElement($template);
     }
 
     /**
      * Get templates.
      *
-     * @return Doctrine\Common\Collections\Collection $templates
+     * @return Collection $templates
      */
     public function getTemplates()
     {
@@ -439,29 +433,27 @@ class Instance extends LegacyInstance
     /**
      * Add configurations.
      *
-     * @param Celsius3\CoreBundle\Entity\Configuration $configurations
+     * @param Configuration $configuration
      */
-    public function addConfiguration(
-    \Celsius3\CoreBundle\Entity\Configuration $configurations)
+    public function addConfiguration(Configuration $configuration)
     {
-        $this->configurations[] = $configurations;
+        $this->configurations[] = $configuration;
     }
 
     /**
      * Remove configurations.
      *
-     * @param Celsius3\CoreBundle\Entity\Configuration $configurations
+     * @param Configuration $configuration
      */
-    public function removeConfiguration(
-    \Celsius3\CoreBundle\Entity\Configuration $configurations)
+    public function removeConfiguration(Configuration $configuration)
     {
-        $this->configurations->removeElement($configurations);
+        $this->configurations->removeElement($configuration);
     }
 
     /**
      * Get configurations.
      *
-     * @return Doctrine\Common\Collections\Collection $configurations
+     * @return Collection $configurations
      */
     public function getConfigurations()
     {
@@ -469,60 +461,59 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add catalogs.
+     * Add catalog.
      *
-     * @param Celsius3\CoreBundle\Entity\Catalog $catalogs
+     * @param Catalog $catalog
      */
-    public function addCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalogs)
+    public function addCatalog(Catalog $catalog)
     {
-        $this->catalogs[] = $catalogs;
+        $this->catalogs[] = $catalog;
     }
 
     /**
-     * Remove catalogs.
+     * Remove catalog.
      *
-     * @param Celsius3\CoreBundle\Entity\Catalog $catalogs
+     * @param Catalog $catalog
      */
-    public function removeCatalog(
-    \Celsius3\CoreBundle\Entity\Catalog $catalogs)
+    public function removeCatalog(Catalog $catalog)
     {
-        $this->catalogs->removeElement($catalogs);
+        $this->catalogs->removeElement($catalog);
     }
 
     /**
      * Get catalogs.
      *
-     * @return Doctrine\Common\Collections\Collection $catalogs
+     * @return Collection $catalog
      */
     public function getCatalogs()
     {
-        return $this->catalogs;
+        return $this->catalog;
     }
 
     /**
-     * Add events.
+     * Add event.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $events
+     * @param Event $event
      */
-    public function addEvent(\Celsius3\CoreBundle\Entity\Event\Event $events)
+    public function addEvent(Event $event)
     {
-        $this->events[] = $events;
+        $this->events[] = $event;
     }
 
     /**
-     * Remove events.
+     * Remove event.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $events
+     * @param Event $event
      */
-    public function removeEvent(\Celsius3\CoreBundle\Entity\Event\Event $events)
+    public function removeEvent(Event $event)
     {
-        $this->events->removeElement($events);
+        $this->events->removeElement($event);
     }
 
     /**
      * Get events.
      *
-     * @return Doctrine\Common\Collections\Collection $events
+     * @return Collection $events
      */
     public function getEvents()
     {
@@ -530,29 +521,29 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add states.
+     * Add state.
      *
-     * @param Celsius3\CoreBundle\Entity\State $states
+     * @param State $state
      */
-    public function addState(\Celsius3\CoreBundle\Entity\State $states)
+    public function addState(State $state)
     {
-        $this->states[] = $states;
+        $this->states[] = $state;
     }
 
     /**
-     * Remove states.
+     * Remove state.
      *
-     * @param Celsius3\CoreBundle\Entity\State $states
+     * @param State $state
      */
-    public function removeState(\Celsius3\CoreBundle\Entity\State $states)
+    public function removeState(State $state)
     {
-        $this->states->removeElement($states);
+        $this->states->removeElement($state);
     }
 
     /**
      * Get states.
      *
-     * @return Doctrine\Common\Collections\Collection $states
+     * @return Collection $states
      */
     public function getStates()
     {
@@ -560,31 +551,29 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add countries.
+     * Add country.
      *
-     * @param Celsius3\CoreBundle\Entity\Country $countries
+     * @param Country $country
      */
-    public function addCountrie(
-    \Celsius3\CoreBundle\Entity\Country $countries)
+    public function addCountrie(Country $country)
     {
-        $this->countries[] = $countries;
+        $this->countries[] = $country;
     }
 
     /**
-     * Remove countries.
+     * Remove country.
      *
-     * @param Celsius3\CoreBundle\Entity\Country $countries
+     * @param Country $country
      */
-    public function removeCountrie(
-    \Celsius3\CoreBundle\Entity\Country $countries)
+    public function removeCountrie(Country $country)
     {
-        $this->countries->removeElement($countries);
+        $this->countries->removeElement($country);
     }
 
     /**
      * Get countries.
      *
-     * @return Doctrine\Common\Collections\Collection $countries
+     * @return Collection $countries
      */
     public function getCountries()
     {
@@ -592,23 +581,23 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Add cities.
+     * Add city.
      *
-     * @param Celsius3\CoreBundle\Entity\City $cities
+     * @param City $city
      */
-    public function addCitie(\Celsius3\CoreBundle\Entity\City $cities)
+    public function addCitie(City $city)
     {
-        $this->cities[] = $cities;
+        $this->cities[] = $city;
     }
 
     /**
-     * Remove cities.
+     * Remove city.
      *
-     * @param Celsius3\CoreBundle\Entity\City $cities
+     * @param City $city
      */
-    public function removeCitie(\Celsius3\CoreBundle\Entity\City $cities)
+    public function removeCitie(City $city)
     {
-        $this->cities->removeElement($cities);
+        $this->cities->removeElement($city);
     }
 
     /**
@@ -648,11 +637,11 @@ class Instance extends LegacyInstance
     /**
      * Add news.
      *
-     * @param \Celsius3\CoreBundle\Entity\News $news
+     * @param News $news
      *
      * @return Instance
      */
-    public function addNews(\Celsius3\CoreBundle\Entity\News $news)
+    public function addNews(News $news)
     {
         $this->news[] = $news;
 
@@ -662,9 +651,9 @@ class Instance extends LegacyInstance
     /**
      * Remove news.
      *
-     * @param \Celsius3\CoreBundle\Entity\News $news
+     * @param News $news
      */
-    public function removeNews(\Celsius3\CoreBundle\Entity\News $news)
+    public function removeNews(News $news)
     {
         $this->news->removeElement($news);
     }
