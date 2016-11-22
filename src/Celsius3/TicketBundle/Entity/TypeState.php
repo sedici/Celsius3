@@ -25,22 +25,17 @@ namespace Celsius3\TicketBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity("")
+ * @ORM\Entity
  * @ORM\Table(name="ticket_type_state")
  */
 class TypeState
 {
-
     const TYPE_STATE_NEW = 1;
     const TYPE_STATE_IN_PROGRESS = 2;
     const TYPE_STATE_RESUELTA = 3;
     const TYPE_STATE_RECHAZADA = 4;
-
-
-
 
     use TimestampableEntity;
     /**
@@ -56,13 +51,12 @@ class TypeState
      */
     private $typeState;
 
-
     public function __construct()
     {
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -72,9 +66,10 @@ class TypeState
     }
 
     /**
-     * Set typeState
+     * Set typeState.
      *
-     * @param  string $typeState
+     * @param string $typeState
+     *
      * @return self
      */
     public function setTypeState($typeState)
@@ -85,7 +80,7 @@ class TypeState
     }
 
     /**
-     * Get typeState
+     * Get typeState.
      *
      * @return string $typeState
      */
@@ -94,9 +89,8 @@ class TypeState
         return $this->typeState;
     }
 
-    public function _toString(){
+    public function __toString()
+    {
         return $this->typeState;
     }
-
-
 }
