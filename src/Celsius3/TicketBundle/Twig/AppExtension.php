@@ -2,28 +2,23 @@
 
 namespace Celsius3\TicketBundle\Twig;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Router;
-use Symfony\Component\Templating\Helper\AssetsHelper;
 
 class AppExtension extends \Twig_Extension
 {
-
     protected $_em;
     protected $router;
     protected $kernel;
-//    protected $assetsHelper;
     protected $container;
 
-    public function __construct(Container $container)//EntityManager $entityManager, Router $router, Kernel $kernel, AssetsHelper $assets)
+    public function __construct(Container $container)
     {
-        $this->_em = $container->get('doctrine.orm.default_entity_manager');//$entityManager;
-        $this->router = $container->get('router');//$router;
-        $this->kernel = $container->get('kernel');//$kernel;
+        $this->_em = $container->get('doctrine.orm.default_entity_manager');
+        $this->router = $container->get('router');
+        $this->kernel = $container->get('kernel');
         $this->container = $container;
-//        $this->assetsHelper = $container->get('templating.helper.assets');//$assets;
     }
 
     public function getFunctions()
@@ -36,28 +31,28 @@ class AppExtension extends \Twig_Extension
     public function getEstiloEstado($filter)
     {
         switch ($filter) {
-            case "1":
+            case '1':
                 $name = 'label-danger';
                 break;
+
             case "2":
                 $name = 'label-info';
                 break;
 
-            case "3":
+            case '3':
                 $name = 'label-success';
                 break;
+
             case "4":
                 $name = 'label-warning';
                 break;
 
-
             default:
-                $name='';
+                $name = '';
         }
 
         return $name;
     }
-
 
     public function getName()
     {
