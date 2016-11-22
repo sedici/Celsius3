@@ -87,7 +87,7 @@ class BibliotecarioBaseUserController extends BaseUserController
     {
         $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
 
-        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:new.html.twig');
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:new.html.twig', $parameters);
     }
 
     /**

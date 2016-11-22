@@ -28,7 +28,8 @@ use FOS\MessageBundle\FormFactory\ReplyMessageFormFactory;
 
 class ThreadExtension extends \Twig_Extension
 {
-    private $container;
+    private $factory;
+    private $participantProvider;
 
     public function __construct(ReplyMessageFormFactory $factory, ParticipantProvider $participantProvider)
     {
