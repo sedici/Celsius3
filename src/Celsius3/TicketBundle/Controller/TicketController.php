@@ -170,6 +170,31 @@ class TicketController extends Controller
 
 
 
+    /**
+     * @Route("/user-assigned", name="ticket_user_assigned", options={"expose"=true})
+     * @Template()
+     */
+    public function userAsignedAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $id = $request->get('ticket_id');
+
+        $ticket = $em->getRepository('Celsius3TicketBundle:Ticket')->find($id);
+
+        $admin_id=$request->get('admin_id');
+        $userAsigned = $em->getRepository('Celsius3CoreBundle:BaseUser')->find($admin_id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ticket->setUserAssigned($userAsigned);
+
+        $em->flush($ticket);
+
+        $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll();
+        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+        $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
+        return $this->render('Celsius3TicketBundle:Ticket:index.html.twig', array('tickets' => $tickets,'administradores'=>$administradores));
+    }
 
 
 }
