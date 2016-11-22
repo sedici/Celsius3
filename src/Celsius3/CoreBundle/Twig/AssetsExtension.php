@@ -24,7 +24,6 @@ namespace Celsius3\CoreBundle\Twig;
 
 class AssetsExtension extends \Twig_Extension
 {
-    private $assets_version;
     private $assets_version_administration;
     private $assets_version_admin_order;
     private $assets_version_admin_base_user;
@@ -32,9 +31,8 @@ class AssetsExtension extends \Twig_Extension
     private $assets_version_user;
     private $assets_version_celsius3;
 
-    public function __construct($av, $administration, $admin_order, $admin_base_user, $admin_institution, $user, $celsius3)
+    public function __construct($administration, $admin_order, $admin_base_user, $admin_institution, $user, $celsius3)
     {
-        $this->assets_version = $av;
         $this->assets_version_administration = $administration;
         $this->assets_version_admin_order = $admin_order;
         $this->assets_version_admin_base_user = $admin_base_user;

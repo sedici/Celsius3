@@ -33,7 +33,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Directory controller.
@@ -142,35 +141,32 @@ class DirectoryController extends BaseController
          */
         public function createAction(Request $request)
         {
-
             $paramteros = $request->get('instance_register');
 
             $entity = new Instance();
             $form = $this->createForm(InstanceRegisterType::class, $entity);
-            $apellido_nombre=$paramteros['apellido_nombre'];
-            $email=$paramteros['email'];
+            $apellido_nombre = $paramteros['apellido_nombre'];
+            $email = $paramteros['email'];
 
-            $country=$paramteros['country'];
-            $city=$paramteros['city'];
-            $institution=$paramteros['institution'];
+            $country = $paramteros['country'];
+            $city = $paramteros['city'];
+            $institution = $paramteros['institution'];
 
-            $sitio_biblioteca=$paramteros['sitio_biblioteca'];
-            $sitio_institucion=$paramteros['sitio_institucion'];
-            $sitio_catalogo=$paramteros['sitio_catalogo'];
+            $sitio_biblioteca = $paramteros['sitio_biblioteca'];
+            $sitio_institucion = $paramteros['sitio_institucion'];
+            $sitio_catalogo = $paramteros['sitio_catalogo'];
 
-            $migrar=$paramteros['migrar'];
+            $migrar = $paramteros['migrar'];
 
-            $observaciones=$paramteros['observaciones'];
+            $observaciones = $paramteros['observaciones'];
 
-
-
-
-
-
-            $texto = $apellido_nombre.' solicito agregar una nueva instancia '.$country.''.$city.''.$institution.' con la siguiente informacion: <br/>'.'URL Institucion:'.$sitio_institucion;
-            $texto.="<br/> URL Biblioteca ".$sitio_biblioteca.' <br/> URL Catalogo:'.$sitio_catalogo;
-            $texto.='<br/> Observaciones:'.$observaciones;
-
+            $texto = "$apellido_nombre solicito agregar una nueva instancia $country $city $institution con la siguiente informacion: <br/>URL Institucion: $sitio_institucion";
+            $texto .= "<br/> URL Biblioteca $sitio_biblioteca <br/> URL Catalogo: $sitio_catalogo";
+            $texto .= "<br/> Correo de contacto $email";
+            $texto .= "<br/> Observaciones: $observaciones";
+            if ($migrar) {
+                $texto .= '<br/> Se solicita migración.';
+            }
 
             $ticket = new Ticket();
             $ticket->setSubject('Nueva Instancia Cargada');

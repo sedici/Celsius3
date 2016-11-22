@@ -124,7 +124,6 @@
         </service>
 
         <service id="celsius3_core.twig.extension.assets" class="%celsius3_core.twig.extension.assets.class%">
-            <argument>%assets_version%</argument>
             <argument>%assets_version_administration%</argument>
             <argument>%assets_version_admin_order%</argument>
             <argument>%assets_version_admin_base_user%</argument>

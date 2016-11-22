@@ -77,7 +77,7 @@ class AdminBaseUserController extends BaseUserController
             'resultsPerPage' => $this->getResultsPerPage(),
         );
 
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:show.html.twig', $parameter);
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:show.html.twig', $parameters);
     }
 
     /**
