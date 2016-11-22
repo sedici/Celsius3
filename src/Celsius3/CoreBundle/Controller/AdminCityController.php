@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\City;
 use Celsius3\CoreBundle\Form\Type\CityType;
-use Celsius3\CoreBundle\Filter\Type\CityFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CityFilterType;
 
 /**
  * Location controller.
@@ -39,7 +39,7 @@ class AdminCityController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
@@ -102,6 +102,7 @@ class AdminCityController extends BaseInstanceDependentController
      *
      * @Route("/{id}/edit", name="admin_city_edit")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array

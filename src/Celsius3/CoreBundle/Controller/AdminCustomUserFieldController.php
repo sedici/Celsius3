@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\CustomUserField;
 use Celsius3\CoreBundle\Form\Type\CustomUserFieldType;
-use Celsius3\CoreBundle\Filter\Type\CustomUserFieldFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CustomUserFieldFilterType;
 
 /**
  * Order controller.
@@ -95,6 +95,7 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      *
      * @Route("/{id}/edit", name="admin_customuserfield_edit")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array

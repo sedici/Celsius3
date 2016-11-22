@@ -29,7 +29,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
-use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
 
 /**
  * Location controller.
@@ -38,11 +38,10 @@ use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
  */
 class AdminCatalogController extends BaseInstanceDependentController
 {
-
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
@@ -67,7 +66,7 @@ class AdminCatalogController extends BaseInstanceDependentController
             'pagination' => $query->getQuery()->getResult(),
             'filter_form' => $filter_form->createView(),
             'directory' => $this->getDirectory(),
-            'instance' => $this->getInstance()
+            'instance' => $this->getInstance(),
         );
     }
 
@@ -107,6 +106,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      *
      * @Route("/{id}/edit", name="admin_catalog_edit")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array
@@ -141,7 +141,7 @@ class AdminCatalogController extends BaseInstanceDependentController
     }
 
     /**
-     * Updates de order of each Catalog
+     * Updates de order of each Catalog.
      *
      * @Route("/persist", name="admin_catalog_persist", options={"expose"=true})
      * @Method("post")
@@ -172,5 +172,4 @@ class AdminCatalogController extends BaseInstanceDependentController
             'success' => 'Success',
         )));
     }
-
 }

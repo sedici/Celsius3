@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\News;
 use Celsius3\CoreBundle\Form\Type\NewsType;
-use Celsius3\CoreBundle\Filter\Type\NewsFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\NewsFilterType;
 
 /**
  * News controller.
@@ -36,11 +36,10 @@ use Celsius3\CoreBundle\Filter\Type\NewsFilterType;
  */
 class SuperadminNewsController extends BaseController
 {
-
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->createQueryBuilder('e')
                         ->where('e.instance = :instance')->setParameter('instance', $this->getDirectory()->getId());
     }

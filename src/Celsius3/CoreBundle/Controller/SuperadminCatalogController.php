@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
-use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
 
 /**
  * Location controller.
@@ -36,7 +36,6 @@ use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
  */
 class SuperadminCatalogController extends BaseController
 {
-
     /**
      * Lists all Catalog entities.
      *

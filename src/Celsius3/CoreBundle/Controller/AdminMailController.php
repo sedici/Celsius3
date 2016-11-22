@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
-use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Validator\Constraints as CelsiusAssert;
 use Symfony\Component\Form\FormError;
@@ -37,17 +37,19 @@ use Symfony\Component\Form\FormError;
  *
  * @Route("/admin/mail")
  */
-class AdminMailController extends BaseInstanceDependentController {
-
-    protected function listQuery($name) {
+class AdminMailController extends BaseInstanceDependentController
+{
+    protected function listQuery($name)
+    {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->findGlobalAndForInstance($this->getInstance(), $this->getDirectory());
     }
 
-    protected function findQuery($name, $id) {
+    protected function findQuery($name, $id)
+    {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)->find($id);
+                        ->getRepository('Celsius3CoreBundle:'.$name)->find($id);
     }
 
     /**
@@ -58,7 +60,8 @@ class AdminMailController extends BaseInstanceDependentController {
      *
      * @return array
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         return $this->baseIndex('MailTemplate', $this->createForm(MailTemplateFilterType::class));
     }
 
@@ -70,7 +73,8 @@ class AdminMailController extends BaseInstanceDependentController {
      *
      * @return array
      */
-    public function newAction() {
+    public function newAction()
+    {
         return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
                     'instance' => $this->getInstance(),
         ));
@@ -88,7 +92,8 @@ class AdminMailController extends BaseInstanceDependentController {
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function editAction($id) {
+    public function editAction($id)
+    {
         //Se debe determinar si se utilizara admin_mails_edit o admin_mails_create, dependiendo
         //si la plantilla le pertenece al directorio o a la instancia.
         $template = $this->findQuery('MailTemplate', $id);
@@ -101,7 +106,7 @@ class AdminMailController extends BaseInstanceDependentController {
 
         return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
                     'instance' => $this->getInstance(),
-                    'code' => $template->getCode()
+                    'code' => $template->getCode(),
                         ), $route);
     }
 
@@ -114,7 +119,8 @@ class AdminMailController extends BaseInstanceDependentController {
      *
      * @return array
      */
-    public function createAction() {
+    public function createAction()
+    {
         $entity = new MailTemplate();
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm(MailTemplateType::class, $entity, ['instance' => $this->getInstance()]);
@@ -124,7 +130,8 @@ class AdminMailController extends BaseInstanceDependentController {
             if (0 === count($errorList)) {
                 try {
                     $this->persistEntity($entity);
-                    $this->addFlash('success', $this->get('translator')->trans('The') . ' MailTemplate was successfully created.');
+                    $this->addFlash('success', $this->get('translator')->trans('The').' MailTemplate was successfully created.');
+
                     return $this->redirect($this->generateUrl('admin_mails'));
                 } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
                     $this->addFlash('error', 'The MailTemplate already exists.');
@@ -153,7 +160,8 @@ class AdminMailController extends BaseInstanceDependentController {
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function updateAction($id) {
+    public function updateAction($id)
+    {
         $entity = $this->findQuery('MailTemplate', $id);
 
         if (!$entity) {
@@ -204,7 +212,8 @@ class AdminMailController extends BaseInstanceDependentController {
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
-    public function changeStateAction($id) {
+    public function changeStateAction($id)
+    {
         $template = $this->findQuery('MailTemplate', $id);
 
         if (!$template || $template->getInstance()->getId() === $this->getDirectory()->getId()) {
@@ -218,9 +227,8 @@ class AdminMailController extends BaseInstanceDependentController {
         $em->flush();
 
         $this->get('session')->getFlashBag()
-                ->add('success', 'The Template was successfully ' . (($template->getEnabled()) ? 'enabled' : 'disabled'));
+                ->add('success', 'The Template was successfully '.(($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('admin_mails'));
     }
-
 }

@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Form\Type\CountryType;
-use Celsius3\CoreBundle\Filter\Type\CountryFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CountryFilterType;
 
 /**
  * Order controller.
@@ -39,7 +39,7 @@ class AdminCountryController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
@@ -102,6 +102,7 @@ class AdminCountryController extends BaseInstanceDependentController
      *
      * @Route("/{id}/edit", name="admin_country_edit")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array

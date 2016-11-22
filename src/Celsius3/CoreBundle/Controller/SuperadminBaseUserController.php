@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
-use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
 
 /**
  * BaseUser controller.
@@ -49,14 +49,14 @@ class SuperadminBaseUserController extends BaseUserController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->createQueryBuilder('e');
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->find($id);
     }
 
@@ -68,7 +68,7 @@ class SuperadminBaseUserController extends BaseUserController
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
+                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
     }
 
     /**
@@ -173,7 +173,7 @@ class SuperadminBaseUserController extends BaseUserController
         $entity = $this->findQuery('BaseUser', $id);
 
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, UserTransformType::class , array(
+            return $this->baseDoTransformAction($id, UserTransformType::class, array(
                 'user' => $entity,
             ), 'superadmin_user');
         }
@@ -199,7 +199,8 @@ class SuperadminBaseUserController extends BaseUserController
         return $this->baseEnableAction($id);
     }
 
-    protected function getUserListRoute(){
+    protected function getUserListRoute()
+    {
         return 'superadmin_user';
     }
 }

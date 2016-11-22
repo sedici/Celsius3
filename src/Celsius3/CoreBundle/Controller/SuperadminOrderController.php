@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
@@ -37,11 +37,10 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class SuperadminOrderController extends OrderController
 {
-
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->createQueryBuilder('e')
                         ->select('e, r, m')
                         ->join('e.requests', 'r')
@@ -51,7 +50,7 @@ class SuperadminOrderController extends OrderController
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->find($id);
     }
 
@@ -70,7 +69,7 @@ class SuperadminOrderController extends OrderController
 
     protected function filter($name, $filter_form, $query)
     {
-        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\' . $name);
+        return $this->get('celsius3_core.filter_manager')->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name);
     }
 
     /**
@@ -133,6 +132,7 @@ class SuperadminOrderController extends OrderController
     public function createAction()
     {
         $entity = new Order();
+
         return $this->baseCreate('Order', $entity, OrderType::class, array(
                     'instance' => $this->getDirectory(),
                     'material' => $this->getMaterialType($entity),
@@ -147,6 +147,7 @@ class SuperadminOrderController extends OrderController
      *
      * @Route("/{id}/edit", name="superadmin_order_edit")
      * @Template()
+     *
      * @param string $id The entity ID
      *
      * @return array
@@ -237,5 +238,4 @@ class SuperadminOrderController extends OrderController
     {
         return $this->change();
     }
-
 }

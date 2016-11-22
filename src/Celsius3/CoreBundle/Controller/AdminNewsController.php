@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\News;
 use Celsius3\CoreBundle\Form\Type\NewsType;
-use Celsius3\CoreBundle\Filter\Type\NewsFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\NewsFilterType;
 
 /**
  * News controller.
@@ -36,7 +36,6 @@ use Celsius3\CoreBundle\Filter\Type\NewsFilterType;
  */
 class AdminNewsController extends BaseInstanceDependentController
 {
-
     /**
      * Lists all News entities.
      *

@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\MailTemplate;
 use Celsius3\CoreBundle\Form\Type\MailTemplateType;
-use Celsius3\CoreBundle\Filter\Type\MailTemplateFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
@@ -37,12 +37,11 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class SuperadminMailController extends BaseController
 {
-
     protected function listQuery($name)
     {
         //Se obtienen los templetes del directorio.
         $qb = $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:' . $name)
+                        ->getRepository('Celsius3CoreBundle:'.$name)
                         ->createQueryBuilder('e')
                         ->where('e.instance = :instance')->setParameter('instance', $this->getDirectory()->getId());
 
@@ -161,9 +160,8 @@ class SuperadminMailController extends BaseController
 
         $this->get('session')->getFlashBag()
                 ->add('success', 'The Template was successfully '
-                        . (($template->getEnabled()) ? 'enabled' : 'disabled'));
+                        .(($template->getEnabled()) ? 'enabled' : 'disabled'));
 
         return $this->redirect($this->generateUrl('superadmin_mails'));
     }
-
 }

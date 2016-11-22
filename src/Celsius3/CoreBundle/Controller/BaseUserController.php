@@ -151,4 +151,12 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $this->getDoctrine()->getManager()->persist($main);
         $this->getDoctrine()->getManager()->flush($main);
     }
+
+    protected function getSortDefaults()
+    {
+        return array(
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        );
+    }
 }

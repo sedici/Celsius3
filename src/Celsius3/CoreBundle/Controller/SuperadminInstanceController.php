@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceType;
-use Celsius3\CoreBundle\Filter\Type\InstanceFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\InstanceFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**

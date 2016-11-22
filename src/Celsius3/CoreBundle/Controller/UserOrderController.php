@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Filter\Type\OrderFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Manager\UserManager;
 
 /**
@@ -37,11 +37,10 @@ use Celsius3\CoreBundle\Manager\UserManager;
  */
 class UserOrderController extends OrderController
 {
-
     protected function listQuery($name)
     {
         $qb = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
+                ->getRepository('Celsius3CoreBundle:'.$name)
                 ->createQueryBuilder('e')
                 ->join('e.originalRequest', 'r')
                 ->join('e.materialData', 'm')
@@ -56,7 +55,7 @@ class UserOrderController extends OrderController
     protected function findQuery($name, $id)
     {
         $qb = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:' . $name)
+                ->getRepository('Celsius3CoreBundle:'.$name)
                 ->createQueryBuilder('e')
                 ->join('e.originalRequest', 'r')
                 ->where('r.instance = :instance')
@@ -163,5 +162,4 @@ class UserOrderController extends OrderController
     {
         return $this->change();
     }
-
 }

@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\City;
 use Celsius3\CoreBundle\Form\Type\CityType;
-use Celsius3\CoreBundle\Filter\Type\CityFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CityFilterType;
 
 /**
  * Location controller.

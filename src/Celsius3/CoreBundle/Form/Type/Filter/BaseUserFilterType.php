@@ -24,70 +24,62 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use JMS\TranslationBundle\Annotation\Ignore;
 
-class InstitutionFilterType extends AbstractType
+class BaseUserFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
 
         $builder
+                ->add('id', HiddenType::class, array(
+                    'required' => false,
+                ))
                 ->add('name', null, array(
                     'required' => false,
                 ))
-                ->add('abbreviation', null, array(
+                ->add('surname', null, array(
                     'required' => false,
-                ));
-        $builder->add('country', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Country',
-                'mapped' => false,
-                'placeholder' => '',
-                'required' => false,
-                'attr' => array(
-                    'class' => 'country-select'
-                ),
-                'auto_initialize' => false,
-            ));
-
-        $builder->add('city', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:City',
-                'mapped' => true,
-                'placeholder' => '',
-                'required' => false,
-                'attr' => array(
-                    'class' => 'city-select'
-                ),
-                'auto_initialize' => false,
-            ));
-              
-        $builder->add('parent', EntityType::class, array(
-                'class' => 'Celsius3CoreBundle:Institution',
-                'mapped' => true,
-                'label' => ucfirst('institution padre'),
-                'placeholder' => '',
-                'required' => false,
-                'attr' => array(
-                    'class' => 'institution-select'
-                ),
-                'auto_initialize' => false,
-            ));
-
-               
-               
+                ))
+                ->add('username', null, array(
+                    'required' => false,
+                ))
+                ->add('email', null, array(
+                    'required' => false,
+                ))
+                ->add('state', ChoiceType::class, array(
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'choices' => array(
+                        /** @Ignore */ 'Enabled' => 'enabled',
+                        /** @Ignore */ 'Pending' => 'pending',
+                        /** @Ignore */ 'Rejected' => 'rejected',
+                    ),
+                    'expanded' => true,
+                    'multiple' => true,
+                ))
+                ->add('roles', ChoiceType::class, array(
+                    'choices_as_values' => true,
+                    'required' => false,
+                    'choices' => array(
+                        /** @Ignore */ 'User' => 'ROLE_USER',
+                        /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
+                        /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
+                        /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
+                    ),
+                ))
         ;
+
         if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
                         'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
-                        'label' => 'Owning Instance',
-                    ))
-                    ->add('celsiusInstance', EntityType::class, array(
-                        'required' => false,
-                        'class' => 'Celsius3CoreBundle:Instance',
-                        'label' => 'Celsius Instance',
                     ))
             ;
         }

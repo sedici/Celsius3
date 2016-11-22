@@ -9,14 +9,14 @@
             <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
                 <source></source>
                 <target state="new"></target>
-                <jms:reference-file line="53">/../src/Celsius3/CoreBundle/Filter/Type/CatalogFilterType.php</jms:reference-file>
-                <jms:reference-file line="64">/../src/Celsius3/CoreBundle/Filter/Type/CatalogFilterType.php</jms:reference-file>
-                <jms:reference-file line="76">/../src/Celsius3/CoreBundle/Filter/Type/CatalogFilterType.php</jms:reference-file>
-                <jms:reference-file line="40">/../src/Celsius3/CoreBundle/Filter/Type/FileDownloadFilterType.php</jms:reference-file>
-                <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Filter/Type/InstitutionFilterType.php</jms:reference-file>
-                <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Filter/Type/InstitutionFilterType.php</jms:reference-file>
-                <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Filter/Type/InstitutionFilterType.php</jms:reference-file>
-                <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Filter/Type/OrderFilterType.php</jms:reference-file>
+                <jms:reference-file line="53">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+                <jms:reference-file line="64">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+                <jms:reference-file line="76">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+                <jms:reference-file line="40">/../src/Celsius3/CoreBundle/Form/Type/Filter/FileDownloadFilterType.php</jms:reference-file>
+                <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+                <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+                <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+                <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/Filter/OrderFilterType.php</jms:reference-file>
                 <jms:reference-file line="119">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
                 <jms:reference-file line="136">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
                 <jms:reference-file line="160">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
@@ -86,7 +86,7 @@
             <trans-unit id="4e7afebcfbae000b22c7c85e5560f89a2a0280b4" resname="Admin">
                 <source>Admin</source>
                 <target>Admin</target>
-                <jms:reference-file line="72">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="72">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
                 <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstance/_index_list_actions.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="b8be3d1264310c3b8c848d4b90d5206179a40cc4" resname="Administration">
@@ -193,7 +193,7 @@
             <trans-unit id="8bbe14b3daa554ede1ac9817ebabda375edc6381" resname="Celsius Instance">
                 <source>Celsius Instance</source>
                 <target state="new">Celsius Instance</target>
-                <jms:reference-file line="90">/../src/Celsius3/CoreBundle/Filter/Type/InstitutionFilterType.php</jms:reference-file>
+                <jms:reference-file line="90">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
                 <jms:reference-file line="72">/../src/Celsius3/CoreBundle/Form/Type/InstitutionType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="68cc46871e6ea5e5e54200edc43a0ba0139299a9" resname="Celsius instance">
@@ -801,7 +801,7 @@
             <trans-unit id="df174a3f2faa31814e06540acda7af8825403fac" resname="Enabled">
                 <source>Enabled</source>
                 <target state="new">Enabled</target>
-                <jms:reference-file line="59">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="59">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="c7324cb4fdcaaac3bd9f261965444b76b7a71c87" resname="End page">
                 <source>End page</source>
@@ -1230,7 +1230,7 @@
             <trans-unit id="cba71e2bf7209bc1b0442fdc245383e65041d42f" resname="Librarian">
                 <source>Librarian</source>
                 <target state="new">Librarian</target>
-                <jms:reference-file line="71">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="71">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="4e5a2893bdcc7d239c1db72e4c4ffbe4bea73174" resname="Login">
                 <source>Login</source>
@@ -1377,7 +1377,7 @@
             <trans-unit id="878ad905fff2b1d2544001e7a38a7805dd525832" resname="Network Admin">
                 <source>Network Admin</source>
                 <target state="new">Network Admin</target>
-                <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="76806fafc50b9870d93cacdbe2aded23b156d65d" resname="Network Administration">
                 <source>Network Administration</source>
@@ -1536,7 +1536,7 @@
             <trans-unit id="8db0817a8769c6f4c1200d140d4265256ef2a83d" resname="Owning Instance">
                 <source>Owning Instance</source>
                 <target state="new">Owning Instance</target>
-                <jms:reference-file line="85">/../src/Celsius3/CoreBundle/Filter/Type/InstitutionFilterType.php</jms:reference-file>
+                <jms:reference-file line="85">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
                 <jms:reference-file line="67">/../src/Celsius3/CoreBundle/Form/Type/InstitutionType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="f6c29cf014c6272844b3d5ed6f698b33f4fe3e6e" resname="Owning instance">
@@ -1573,7 +1573,7 @@
             <trans-unit id="96f608c16cef16caa06bf38901fb5f618a35a70b" resname="Pending">
                 <source>Pending</source>
                 <target>Pending</target>
-                <jms:reference-file line="60">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="60">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
                 <jms:reference-file line="29">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_dash.html.twig</jms:reference-file>
                 <jms:reference-file line="33">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_dash.html.twig</jms:reference-file>
             </trans-unit>
@@ -1633,7 +1633,7 @@
             <trans-unit id="e11d5b69e044e4357dad317ba5efc7f85c9d36f9" resname="Provision">
                 <source>Provision</source>
                 <target state="new">Provision</target>
-                <jms:reference-file line="58">/../src/Celsius3/CoreBundle/Filter/Type/OrderFilterType.php</jms:reference-file>
+                <jms:reference-file line="58">/../src/Celsius3/CoreBundle/Form/Type/Filter/OrderFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="2fba50bc8bc858941e28a59632c794a38a7468df" resname="Provision Orders">
                 <source>Provision Orders</source>
@@ -1659,7 +1659,7 @@
             <trans-unit id="27eeb7a291bfc566447d9cd928e98caf90f70ee6" resname="Rejected">
                 <source>Rejected</source>
                 <target state="new">Rejected</target>
-                <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="c26bf60fed3744bb0049608ff95380b842c473a6" resname="Requested">
                 <source>Requested</source>
@@ -1731,7 +1731,7 @@
             <trans-unit id="bce06414177f72ab70e6387b6af9f8ceef0d6049" resname="Search">
                 <source>Search</source>
                 <target>Search</target>
-                <jms:reference-file line="59">/../src/Celsius3/CoreBundle/Filter/Type/OrderFilterType.php</jms:reference-file>
+                <jms:reference-file line="59">/../src/Celsius3/CoreBundle/Form/Type/Filter/OrderFilterType.php</jms:reference-file>
                 <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/Macro/admin.html.twig</jms:reference-file>
             </trans-unit>
             <trans-unit id="abe40d1113580d5a7304e0ccf4ae56b8498816ad" resname="Search Orders">
@@ -1990,7 +1990,7 @@
             <trans-unit id="9f8a2389a20ca0752aa9e95093515517e90e194c" resname="User">
                 <source>User</source>
                 <target>User</target>
-                <jms:reference-file line="70">/../src/Celsius3/CoreBundle/Filter/Type/BaseUserFilterType.php</jms:reference-file>
+                <jms:reference-file line="70">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
                 <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/ContactType.php</jms:reference-file>
                 <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/AdminContact/_show_fields.html.twig</jms:reference-file>
                 <jms:reference-file line="6">/../src/Celsius3/CoreBundle/Resources/views/AdminOrder/_index_order_fields.html.twig</jms:reference-file>
@@ -2296,9 +2296,9 @@
                 <target>view more</target>
                 <jms:reference-file line="31">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
             </trans-unit>
-            
+
             <!-- // START // Angular locales -->
-            
+
             <trans-unit id="" resname="">
                 <source>requestTooltipTitle</source>
                 <target>You must search before making a request</target>
@@ -2897,19 +2897,24 @@
             </trans-unit>
             <trans-unit id="" resname="">
                 <source>usersCountDescription</source>
-                <target>This statistic presents the number of users added to system each month. The chart displays two bars: the blue bar shows the number of new users registered, and the green bar shows the number of active users, the ones who actually use the service. On the other hand, the red line shows the amount new users cumulatively, from the year 2000.</target>
+                <target>This statistic presents the number of users added to system each month. The chart displays two bars: the blue bar shows the number of new users registered, and the green bar shows the number of active users, the ones who actually use the
+                    service. On the other hand, the red line shows the amount new users cumulatively, from the year 2000.</target>
             </trans-unit>
             <trans-unit id="" resname="">
                 <source>serviceEfficiencyDescription</source>
-                <target>This statistic shows the delay of orders, which is measured in three categories: \n - The total delay, time elapsed since the user made the request until it is ready to be downloaded or printed \n - The delay in location, time elapsed since the user creates its order until an operator requests it to a foreign institution. During that period, the order had been normalised, searched into all catalogs and located \n - The delay in response, time elapsed since the orders are requested by the operators to foreign institutions, until they ready to be downloaded or printed, once the institution has sent it.</target>
+                <target>This statistic shows the delay of orders, which is measured in three categories: \n - The total delay, time elapsed since the user made the request until it is ready to be downloaded or printed \n - The delay in location, time elapsed since
+                    the user creates its order until an operator requests it to a foreign institution. During that period, the order had been normalised, searched into all catalogs and located \n - The delay in response, time elapsed since the orders are requested by
+                    the operators to foreign institutions, until they ready to be downloaded or printed, once the institution has sent it.</target>
             </trans-unit>
             <trans-unit id="" resname="">
                 <source>requestsDestinyDistributionDescription</source>
-                <target>This statistic shows the number of started, satisfied and canceled orders by country during the chosen time period. We may select a single country to access to statistics about its institutions. Similarly, we can choose an institution and see data from its dependences.</target>
+                <target>This statistic shows the number of started, satisfied and canceled orders by country during the chosen time period. We may select a single country to access to statistics about its institutions. Similarly, we can choose an institution and see
+                    data from its dependences.</target>
             </trans-unit>
             <trans-unit id="" resname="">
                 <source>requestsCountDescription</source>
-                <target>This statistic shows the number of orders started, satisfied and canceled per year during the chosen time period, which by default is set to the current year. It also shows the number of pages printed for a selected time period. In case of a single-year period, you will see detailed data month by month.</target>
+                <target>This statistic shows the number of orders started, satisfied and canceled per year during the chosen time period, which by default is set to the current year. It also shows the number of pages printed for a selected time period. In case of a
+                    single-year period, you will see detailed data month by month.</target>
             </trans-unit>
             <trans-unit id="" resname="">
                 <source>pendingUsersTitle</source>
@@ -3139,9 +3144,9 @@
                 <source>userRequestsIndex</source>
                 <target>User requests index</target>
             </trans-unit>
-            
+
             <!-- // END // Angular locales -->
-            
+
         </body>
     </file>
 </xliff>
