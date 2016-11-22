@@ -412,7 +412,7 @@
             <trans-unit id="2e616de0ef62b87c63806092b15bc9a39d635583" resname="Content or participant">
                 <source>Content or participant</source>
                 <target state="new">Content or participant</target>
-                <jms:reference-file line="39">/../src/Celsius3/MessageBundle/Filter/Type/MessageFilterType.php</jms:reference-file>
+                <jms:reference-file line="39">/../src/Celsius3/MessageBundle/Form/Type/Filter/MessageFilterType.php</jms:reference-file>
             </trans-unit>
             <trans-unit id="8467c0d99c7925d9e5fdb471fce551ee2115df40" resname="Countries">
                 <source>Countries</source>

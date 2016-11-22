@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Filter\Type;
+namespace Celsius3\CoreBundle\Form\Type\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -56,9 +56,9 @@ class BaseUserFilterType extends AbstractType
                     'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
-                        /** @Ignore */ 'Enabled' => 'enabled',
-                        /** @Ignore */ 'Pending' => 'pending',
-                        /** @Ignore */ 'Rejected' => 'rejected',
+                        /* @Ignore */ 'Enabled' => 'enabled',
+                        /* @Ignore */ 'Pending' => 'pending',
+                        /* @Ignore */ 'Rejected' => 'rejected',
                     ),
                     'expanded' => true,
                     'multiple' => true,
@@ -67,10 +67,10 @@ class BaseUserFilterType extends AbstractType
                     'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
-                        /** @Ignore */ 'User' => 'ROLE_USER',
-                        /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
-                        /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
-                        /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
+                        /* @Ignore */ 'User' => 'ROLE_USER',
+                        /* @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
+                        /* @Ignore */ 'Admin' => 'ROLE_ADMIN',
+                        /* @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
                     ),
                 ))
         ;

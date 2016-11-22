@@ -20,53 +20,31 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\MessageBundle\FormType;
+namespace Celsius3\MessageBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use FOS\MessageBundle\DataTransformer\RecipientsDataTransformer;
 
-class RecipientsHiddenType extends AbstractType
+class ReplyMessageFormCustomType extends AbstractType
 {
-    /**
-     * @var RecipientsDataTransformer
-     */
-    private $recipientsTransformer;
-
-    /**
-     * @param RecipientsDataTransformer $transformer
-     */
-    public function __construct(RecipientsDataTransformer $transformer)
-    {
-        $this->recipientsTransformer = $transformer;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer($this->recipientsTransformer);
+        $builder
+                ->add('body', TextareaType::class, array(
+                    'attr' => array(
+                        'class' => 'summernote',
+                    ),
+                    'required' => false,
+                ))
+        ;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'The selected recipient does not exist',
-            'data_class' => null,
+            'csrf_token_id' => 'reply',
         ));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getParent()
-    {
-        return HiddenType::class;
     }
 }

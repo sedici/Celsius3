@@ -4,13 +4,13 @@
 
     <parameters>
         <parameter key="celsius3_message.custom_recipients_data_transformer.class">Celsius3\MessageBundle\DataTransformer\CustomRecipientsDataTransformer</parameter>
-        <parameter key="celsius3_message.new_thread_form.type.custom.class">Celsius3\MessageBundle\FormType\NewThreadMultipleMessageFormType</parameter>
-        <parameter key="celsius3_message.reply_form.type.custom.class">Celsius3\MessageBundle\FormType\ReplyMessageFormCustomType</parameter>
+        <parameter key="celsius3_message.new_thread_form.type.custom.class">Celsius3\MessageBundle\Form\Type\NewThreadMultipleMessageFormType</parameter>
+        <parameter key="celsius3_message.reply_form.type.custom.class">Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType</parameter>
         <parameter key="celsius3_message.participant_provider.class">FOS\MessageBundle\Security\ParticipantProvider</parameter>
         <parameter key="celsius3_message.twig.extension.threads.class">Celsius3\MessageBundle\Twig\ThreadExtension</parameter>
         <parameter key="celsius3_message.provider.default.class">Celsius3\MessageBundle\Provider\Provider</parameter>
         <parameter key="celsius3_message.thread_manager.default.class">Celsius3\MessageBundle\EntityManager\ThreadManager</parameter>
-        <parameter key="celsius3_message.recipients_selector_hidden.class">Celsius3\MessageBundle\FormType\RecipientsHiddenType</parameter>
+        <parameter key="celsius3_message.recipients_selector_hidden.class">Celsius3\MessageBundle\Form\Type\RecipientsHiddenType</parameter>
     </parameters>
 
     <services>

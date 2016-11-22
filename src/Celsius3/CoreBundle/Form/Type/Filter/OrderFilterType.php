@@ -20,7 +20,7 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\CoreBundle\Filter\Type;
+namespace Celsius3\CoreBundle\Form\Type\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -63,14 +63,14 @@ class OrderFilterType extends AbstractType
                     'choices_as_values' => true,
                     'required' => false,
                     'choices' => array(
-                        /** @Ignore */ ucfirst(StateManager::STATE__CREATED) => StateManager::STATE__CREATED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__SEARCHED) => StateManager::STATE__SEARCHED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__REQUESTED) => StateManager::STATE__REQUESTED,
-                        /** @Ignore */ str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)) => StateManager::STATE__APPROVAL_PENDING,
-                        /** @Ignore */ ucfirst(StateManager::STATE__RECEIVED) => StateManager::STATE__RECEIVED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__DELIVERED) => StateManager::STATE__DELIVERED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__CANCELLED) => StateManager::STATE__CANCELLED,
-                        /** @Ignore */ ucfirst(StateManager::STATE__ANNULLED) => StateManager::STATE__ANNULLED,
+                        /* @Ignore */ ucfirst(StateManager::STATE__CREATED) => StateManager::STATE__CREATED,
+                        /* @Ignore */ ucfirst(StateManager::STATE__SEARCHED) => StateManager::STATE__SEARCHED,
+                        /* @Ignore */ ucfirst(StateManager::STATE__REQUESTED) => StateManager::STATE__REQUESTED,
+                        /* @Ignore */ str_replace('_', ' ', ucfirst(StateManager::STATE__APPROVAL_PENDING)) => StateManager::STATE__APPROVAL_PENDING,
+                        /* @Ignore */ ucfirst(StateManager::STATE__RECEIVED) => StateManager::STATE__RECEIVED,
+                        /* @Ignore */ ucfirst(StateManager::STATE__DELIVERED) => StateManager::STATE__DELIVERED,
+                        /* @Ignore */ ucfirst(StateManager::STATE__CANCELLED) => StateManager::STATE__CANCELLED,
+                        /* @Ignore */ ucfirst(StateManager::STATE__ANNULLED) => StateManager::STATE__ANNULLED,
                             ),
                     'multiple' => true,
                     'expanded' => true,

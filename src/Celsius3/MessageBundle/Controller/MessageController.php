@@ -24,7 +24,7 @@ namespace Celsius3\MessageBundle\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\MessageBundle\Filter\Type\MessageFilterType;
+use Celsius3\MessageBundle\Form\Type\Filter\MessageFilterType;
 use FOS\MessageBundle\Controller\MessageController as BaseController;
 
 class MessageController extends BaseController
