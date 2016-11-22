@@ -637,11 +637,11 @@ class Instance extends LegacyInstance
     /**
      * Set long
      *
-     * @param \Celsius3\CoreBundle\Entity\News $news
+     * @param News $news
      *
      * @return Instance
      */
-    public function addNews(\Celsius3\CoreBundle\Entity\News $news)
+    public function addNews(News $news)
     {
         $this->news[] = $news;
 
@@ -651,9 +651,9 @@ class Instance extends LegacyInstance
     /**
      * Remove news.
      *
-     * @param \Celsius3\CoreBundle\Entity\News $news
+     * @param News $news
      */
-    public function removeNews(\Celsius3\CoreBundle\Entity\News $news)
+    public function removeNews(News $news)
     {
         $this->news->removeElement($news);
     }
