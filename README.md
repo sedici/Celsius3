@@ -1,7 +1,7 @@
 Celsius3
 ========
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/82e3ce6b-d4a3-4ed6-a49d-89ea3ec40d0c/big.png)](https://insight.sensiolabs.com/projects/82e3ce6b-d4a3-4ed6-a49d-89ea3ec40d0c)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/76c2e8aa-1471-4b67-bfe3-b2e770df3907/big.png)](https://insight.sensiolabs.com/projects/76c2e8aa-1471-4b67-bfe3-b2e770df3907)
 
 [Instalación](doc/instalacion.md)
 
