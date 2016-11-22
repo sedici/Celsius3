@@ -40,7 +40,6 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class AdminBaseUserController extends BaseUserController
 {
-
     /**
      * Lists all BaseUser entities.
      *
