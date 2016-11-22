@@ -40,14 +40,14 @@ class AppExtension extends \Twig_Extension
                 $name = 'label-danger';
                 break;
             case "2":
-                $name = 'label-success';
+                $name = 'label-info';
                 break;
 
             case "3":
                 $name = 'label-success';
                 break;
             case "4":
-                $name = 'label-success';
+                $name = 'label-warning';
                 break;
 
 

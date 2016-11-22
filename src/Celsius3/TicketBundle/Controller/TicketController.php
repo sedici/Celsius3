@@ -45,7 +45,6 @@ class TicketController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $ticket = $em->getRepository('Celsius3TicketBundle:Ticket')->find($id);
-       // dump($ticket);die;
         return $this->render('Celsius3TicketBundle:Ticket:show.html.twig',array('ticket'=>$ticket));
     }
 
@@ -113,7 +112,7 @@ class TicketController extends Controller
     public function userAsignedAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $id = $request->get('ticket_id');
+        $id = $request->get('ticket_user_id');
 
         $ticket = $em->getRepository('Celsius3TicketBundle:Ticket')->find($id);
 
