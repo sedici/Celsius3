@@ -27,6 +27,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Estado</th>
+                        <th>Usuario Asignado</th>
                         <th>Prioridad</th>
                         <th>Tema</th>
                         <th>Categoria</th>
@@ -41,12 +42,14 @@
                             <td>{{ ticket.id }}</td>
                             <td><a data-toggle="modal" onclick="setearNroTicket('{{ ticket.id }}')" rel="{{ ticket.statusCurrent.typeState.id }}" class="btn btn-group-alone"><span class="label {{ estilos_estado(ticket.statusCurrent.typeState.id) }}">{{ ticket.statusCurrent.typeState.typeState }}</span></a>
                             </td>
+                            <td>{{ ticket.userAssigned }}</td>
+
                             <td>{{ ticket.priority.priority }}</td>
                             <td>{{ ticket.subject }}</td>
                             <td>{{ ticket.category }}</td>
                             <td>
                                 <a href="{{ path('ticket_show',{id:ticket.id}) }}"><i class="fa fa-fw fa-eye"></i></a>
-                                <a data-toggle="modal" data-target="#message-modal" class="btn btn-group-alone"><i class="fa fa-fw fa-user"></i></a>
+                                <a data-toggle="modal" onclick="setearNroTicketUser({{ ticket.id }})" class="btn btn-group-alone"><i class="fa fa-fw fa-user"></i></a>
 
                             </td>
 
@@ -71,14 +74,16 @@
     <div id="message-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                    <div class="modal-header">
+                <form action="{{ path('ticket_user_assigned') }}" method="POST" id="form_user_assigned">
+                <div class="modal-header">
+                    <input type="hidden" name="ticket_id" id="ticket_id">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 class="modal-title">{{ 'Asignar Usuario' | trans }}</h4>
                     </div>
                     <div class="modal-body">
-                        <select>
+                        <select name="admin_id" id="admin_id">
                             {% for admin in administradores %}
                                 <option value="{{ admin.id }}">{{ admin.surname }} {{ admin.name }}</option>
                             {% endfor %}
@@ -86,7 +91,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'modal.button.close' | trans }}</button>
-                        <button type="submit" class="btn btn-primary">{{ 'ticket.asignar_usuario.modal.button.save' | trans }}</button>
+                        <button type="button"  onclick="enviarFormUserAsignado()"  class="btn btn-primary">{{ 'ticket.asignar_usuario.modal.button.save' | trans }}</button>
                     </div>
                 </form>
             </div>
@@ -143,10 +148,24 @@
                    });
                }
 
+
+               function setearNroTicketUser(ticket_id){
+                   $("#ticket_id").val(ticket_id);
+                   $('#message-modal').modal({
+                       show: 'false'
+                   });
+               }
+
+
+
                 function enviarForm(){
 
                     $("#form_update_status").submit();
                 }
+               function enviarFormUserAsignado(){
+
+                   $("#form_user_assigned").submit();
+               }
                 $(function() {
                     $("#example1").DataTable();
                     $('#example2').DataTable({
