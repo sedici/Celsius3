@@ -57,6 +57,15 @@ class Ticket
 
 
     /**
+     * @var Baseuser
+     *
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     * @ORM\JoinColumn(name="user_assigned_id", referencedColumnName="id")
+     */
+    protected $userAssigned;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="Celsius3\TicketBundle\Entity\TicketState", mappedBy="tickets")
      */
     protected $statusHistory;
@@ -351,5 +360,29 @@ class Ticket
     public function getUpdatedAt()
     {
         return $this->updatedAt;
+    }
+
+    /**
+     * Set userAssigned
+     *
+     * @param \Celsius3\CoreBundle\Entity\BaseUser $userAssigned
+     *
+     * @return Ticket
+     */
+    public function setUserAssigned(\Celsius3\CoreBundle\Entity\BaseUser $userAssigned = null)
+    {
+        $this->userAssigned = $userAssigned;
+
+        return $this;
+    }
+
+    /**
+     * Get userAssigned
+     *
+     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     */
+    public function getUserAssigned()
+    {
+        return $this->userAssigned;
     }
 }
