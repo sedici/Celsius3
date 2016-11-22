@@ -23,52 +23,39 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
-use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 
 /**
- * BaseUser controller.
+ * BibliotecarioBaseUser controller.
  *
  * @Route("/bibliotecario/user")
  */
 class BibliotecarioBaseUserController extends BaseUserController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        );
-    }
-
     /**
      * Lists all BaseUser entities.
      *
      * @Route("/", name="bibliotecario_user" ,options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
     public function indexAction()
     {
-        return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
+        $parameters = $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
                             'instance' => $this->getInstance(),
         )));
+
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:index.html.twig', $parameters);
     }
 
     /**
      * Shows the data of a user.
      *
      * @Route("/{id}/show", name="bibliotecario_user_show", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
     public function showAction($id)
     {
@@ -82,24 +69,25 @@ class BibliotecarioBaseUserController extends BaseUserController
                         ->getParticipantSentThreadsQueryBuilder($entity)
                         ->getQuery()->getResult();
 
-        return array(
+        $parameters = array(
             'element' => $entity,
             'messages' => $messages,
             'resultsPerPage' => $this->getResultsPerPage(),
         );
+
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:show.html.twig', $parameters);
     }
 
     /**
      * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="bibliotecario_user_new")
-     * @Template()
-     *
-     * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
+        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
+
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:new.html.twig');
     }
 
     /**
@@ -107,9 +95,6 @@ class BibliotecarioBaseUserController extends BaseUserController
      *
      * @Route("/create", name="bibliotecario_user_create")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:BibliotecarioBaseUser:new.html.twig")
-     *
-     * @return array
      */
     public function createAction(Request $request)
     {
@@ -136,30 +121,26 @@ class BibliotecarioBaseUserController extends BaseUserController
                 ->getFlashBag()
                 ->add('error', 'There were errors creating the BaseUser.');
 
-        return array(
+        $parameters = array(
             'entity' => $entity,
             'form' => $form->createView(),
         );
+
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:new.html.twig', $parameters);
     }
 
     /**
      * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="bibliotecario_user_edit", options={"expose"=true})
-     * @Template()
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
-                    'editing' => true,
-        ));
+        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, array('editing' => true));
+
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:edit.html.twig', $parameters);
     }
 
     /**
@@ -167,12 +148,6 @@ class BibliotecarioBaseUserController extends BaseUserController
      *
      * @Route("/{id}/update", name="bibliotecario_user_update")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminBaseUser:edit.html.twig")
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -210,21 +185,18 @@ class BibliotecarioBaseUserController extends BaseUserController
                 ->getFlashBag()
                 ->add('error', 'There were errors editing the BaseUser.');
 
-        return array(
+        $parameters = array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
         );
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
     }
 
     /**
      * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="bibliotecario_user_transform")
-     * @Template()
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -239,10 +211,12 @@ class BibliotecarioBaseUserController extends BaseUserController
                             ), 'admin_user');
         }
 
-        return $this->baseTransformAction($id, UserTransformType::class, array(
+        $parameters = $this->baseTransformAction($id, UserTransformType::class, array(
                     'instance' => $this->getInstance(),
                     'user' => $entity,
         ));
+
+        return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:transform.html.twig', $parameters);
     }
 
     /**

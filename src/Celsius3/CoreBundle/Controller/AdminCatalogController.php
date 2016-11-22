@@ -30,7 +30,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\CatalogPosition;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
-use Celsius3\CoreBundle\Filter\Type\CatalogFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
 
 /**
  * Location controller.
@@ -42,8 +42,8 @@ class AdminCatalogController extends BaseInstanceDependentController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:'.$name)
-                    ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
+                        ->getRepository('Celsius3CoreBundle:'.$name)
+                        ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory());
     }
 
     /**

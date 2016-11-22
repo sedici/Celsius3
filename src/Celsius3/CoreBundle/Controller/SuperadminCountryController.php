@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Form\Type\CountryType;
-use Celsius3\CoreBundle\Filter\Type\CountryFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\CountryFilterType;
 
 /**
  * Order controller.

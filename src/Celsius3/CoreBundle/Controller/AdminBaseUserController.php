@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Form\Type\BaseUserType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
-use Celsius3\CoreBundle\Filter\Type\BaseUserFilterType;
+use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -40,36 +40,24 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class AdminBaseUserController extends BaseUserController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        );
-    }
-
     /**
      * Lists all BaseUser entities.
      *
      * @Route("/", name="admin_user")
-     * @Template()
-     *
-     * @return array
      */
     public function indexAction()
     {
-        return $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
+        $parameters = $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
                             'instance' => $this->getInstance(),
         )));
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:index.html.twig', $parameters);
     }
 
     /**
      * Shows the data of a user.
      *
      * @Route("/{id}/show", name="admin_user_show", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
      */
     public function showAction($id)
     {
@@ -83,24 +71,25 @@ class AdminBaseUserController extends BaseUserController
                         ->getParticipantSentThreadsQueryBuilder($entity)
                         ->getQuery()->getResult();
 
-        return array(
+        $parameters = array(
             'element' => $entity,
             'messages' => $messages,
             'resultsPerPage' => $this->getResultsPerPage(),
         );
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:show.html.twig', $parameter);
     }
 
     /**
      * Displays a form to create a new BaseUser entity.
      *
      * @Route("/new", name="admin_user_new")
-     * @Template()
-     *
-     * @return array
      */
     public function newAction()
     {
-        return $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
+        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:new.html.twig', $parameters);
     }
 
     /**
@@ -108,9 +97,6 @@ class AdminBaseUserController extends BaseUserController
      *
      * @Route("/create", name="admin_user_create")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminBaseUser:new.html.twig")
-     *
-     * @return array
      */
     public function createAction(Request $request)
     {
@@ -137,30 +123,26 @@ class AdminBaseUserController extends BaseUserController
                 ->getFlashBag()
                 ->add('error', 'There were errors creating the BaseUser.');
 
-        return array(
+        $parameters = array(
             'entity' => $entity,
             'form' => $form->createView(),
         );
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:new.html.twig', $parameters);
     }
 
     /**
      * Displays a form to edit an existing BaseUser entity.
      *
      * @Route("/{id}/edit", name="admin_user_edit", options={"expose"=true})
-     * @Template()
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        return $this->baseEdit('BaseUser', $id, BaseUserType::class, array(
-                    'editing' => true,
-        ));
+        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, array('editing' => true));
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
     }
 
     /**
@@ -168,12 +150,6 @@ class AdminBaseUserController extends BaseUserController
      *
      * @Route("/{id}/update", name="admin_user_update")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminBaseUser:edit.html.twig")
-     *
-     * @param string $id
-     *                   The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -202,30 +178,25 @@ class AdminBaseUserController extends BaseUserController
                     ->getFlashBag()
                     ->add('success', 'The BaseUser was successfully edited.');
 
-            return $this->redirect($this->generateUrl('admin_user_edit', array(
-                                'id' => $id,
-            )));
+            return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
         }
 
         $this->get('session')
                 ->getFlashBag()
                 ->add('error', 'There were errors editing the BaseUser.');
 
-        return array(
+        $parameters = array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
         );
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
     }
 
     /**
      * Displays a form to transform an existing BaseUser entity.
      *
      * @Route("/{id}/transform", name="admin_user_transform")
-     * @Template()
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
@@ -240,10 +211,12 @@ class AdminBaseUserController extends BaseUserController
                             ), 'admin_user');
         }
 
-        return $this->baseTransformAction($id, UserTransformType::class, array(
+        $parameters = $this->baseTransformAction($id, UserTransformType::class, array(
                     'instance' => $this->getInstance(),
                     'user' => $entity,
         ));
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:transform.html.twig', $parameters);
     }
 
     /**

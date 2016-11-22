@@ -24,26 +24,46 @@ namespace Celsius3\CoreBundle\Filter\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class NewsFilterType extends AbstractType
+class FileDownloadFilterType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
 
         $builder
-                ->add('title', null, array(
+             ->add('user', EntityType::class, array(
+                 'class' => 'Celsius3CoreBundle:BaseUser',
+                 'mapped' => true,
+                 'placeholder' => '',
+                 'required' => false,
+                 'attr' => array(
+                     'class' => 'user-select',
+                 ),
+                 'auto_initialize' => false,
+             ))
+               ->add('ip', null, array(
+                    'required' => false,
+                ))
+                ->add('userAgent', null, array(
                     'required' => false,
                 ))
         ;
+        if (is_null($options['instance'])) {
+            $builder->add('instance', EntityType::class, array(
+                'required' => false,
+                'class' => 'Celsius3CoreBundle:Instance',
+            ));
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'csrf_protection' => false,
+            'instance' => null,
         ));
     }
 
