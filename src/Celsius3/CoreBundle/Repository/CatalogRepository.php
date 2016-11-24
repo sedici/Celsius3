@@ -27,7 +27,6 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class CatalogRepository extends EntityRepository
 {
-
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory)
     {
         return $this->createQueryBuilder('c')
@@ -35,6 +34,7 @@ class CatalogRepository extends EntityRepository
                         ->join('c.positions', 'cp')
                         ->where('c.instance = :instance_id')
                         ->orWhere('c.instance = :directory_id')
+                        ->andWhere('cp.instance = :instance_id')
                         ->orderBy('cp.position', 'asc')
                         ->setParameter('instance_id', $instance->getId())
                         ->setParameter('directory_id', $directory->getId());

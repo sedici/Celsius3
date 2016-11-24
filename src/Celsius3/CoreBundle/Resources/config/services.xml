@@ -1,8 +1,6 @@
 <?xml version="1.0" ?>
 
-<container xmlns="http://symfony.com/schema/dic/services"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="celsius3_core.user_class">Celsius3\CoreBundle\Entity\BaseUser</parameter>
@@ -81,91 +79,91 @@
 
     <services>
         <service id="twig.extension.text" class="%twig.extension.text.class%">
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="twig.extension.intl" class="%twig.extension.intl.class%">
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="salavert.twig.time_ago" class="%salavert.twig.time_ago.class%">
             <argument type="service" id="translator"></argument>
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="celsius3_core.twig.extension.administration" class="%celsius3_core.twig.extension.administration.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="celsius3_core.twig.extension.institution" class="%celsius3_core.twig.extension.institution.class%">
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="celsius3_core.twig.extension.events" class="%celsius3_core.twig.extension.events.class%">
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="celsius3_core.twig.extension.catalogs" class="%celsius3_core.twig.extension.catalogs.class%">
             <argument type="service" id="celsius3_core.catalog_manager"></argument>
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
 
         <service id="celsius3_core.twig.extension.material_type" class="%celsius3_core.twig.extension.material_type.class%">
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
-        
+
         <service id="celsius3_core.twig.extension.journal" class="%celsius3_core.twig.extension.journal.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
-        
+
         <service id="celsius3_core.twig.extension.request" class="%celsius3_core.twig.extension.request.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
-        
+
         <service id="celsius3_core.twig.extension.assets" class="%celsius3_core.twig.extension.assets.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="twig.extension" />
+            <tag name="twig.extension"/>
         </service>
-        
+
         <service id="celsius3_core.mailer" class="%celsius3_core.mailer.class%">
             <argument type="service" id="service_container"></argument>
             <argument type="service" id="celsius3_core.mailer_helper"></argument>
         </service>
 
         <service id="celsius3_core.counter_listener" class="%celsius3_core.counter_listener.class%">
-            <tag name="doctrine.event_listener" event="prePersist" />
-            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="prePersist"/>
+            <tag name="doctrine.event_listener" event="postPersist"/>
         </service>
 
         <service id="celsius3_core.catalog_listener" class="%celsius3_core.catalog_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postPersist"/>
         </service>
 
         <service id="celsius3_core.configuration_listener" class="%celsius3_core.configuration_listener.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="postPersist"/>
         </service>
 
         <service id="celsius3_core.order_listener" class="%celsius3_core.order_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="doctrine.event_listener" event="prePersist" />
-            <tag name="doctrine.event_listener" event="postPersist" />
-            <tag name="doctrine.event_listener" event="postUpdate" />
+            <tag name="doctrine.event_listener" event="prePersist"/>
+            <tag name="doctrine.event_listener" event="postPersist"/>
+            <tag name="doctrine.event_listener" event="postUpdate"/>
         </service>
 
         <service id="celsius3_core.search_event_listener" class="%celsius3_core.search_event_listener.class%">
-            <tag name="doctrine.event_listener" event="postPersist" />
-            <tag name="doctrine.event_listener" event="preUpdate" />
-            <tag name="doctrine.event_listener" event="postUpdate" />
+            <tag name="doctrine.event_listener" event="postPersist"/>
+            <tag name="doctrine.event_listener" event="preUpdate"/>
+            <tag name="doctrine.event_listener" event="postUpdate"/>
         </service>
 
         <service id="celsius3_core.security.login_listener" class="%celsius3_core.security.login_listener.class%">
             <argument type="service" id="session"></argument>
-            <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin"/>
         </service>
 
         <service id="celsius3_core.locale_choosing_listener" class="%celsius3_core.locale_choosing_listener.class%">
@@ -173,116 +171,118 @@
             <argument type="collection" id="%jms_i18n_routing.locales%"></argument>
             <argument type="service" id="jms_i18n_routing.locale_resolver"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException"/>
         </service>
 
         <service id="celsius3_core.exception_listener" class="%celsius3_core.exception_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException"/>
         </service>
-        
+
         <service id="celsius3_core.context_listener" class="%celsius3_core.context_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
         </service>
-        
+
         <service id="celsius3_core.response_listener" class="%celsius3_core.response_listener.class%">
             <argument type="service" id="service_container"></argument>
-            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse"/>
         </service>
 
         <service id="celsius3_core.form.admin_contact" class="%celsius3_core.form.admin_contact.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <tag name="form.type" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.superadmin_contact" class="%celsius3_core.form.superadmin_contact.class%">
-            <argument type="service" id="doctrine.orm.entity_manager" />
-            <tag name="form.type" />
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.base_user" class="%celsius3_core.form.base_user.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="string" id="%celsius3_core.user_class%"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.catalog" class="%celsius3_core.form.catalog.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.institution" class="%celsius3_core.form.institution.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.registration_form" class="%celsius3_core.registration.form.type.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="string" id="%celsius3_core.user_class%"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.user_selector" class="%celsius3_core.form.user_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.users_selector" class="%celsius3_core.form.users_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.order_selector" class="%celsius3_core.form.order_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.instance_selector" class="%celsius3_core.form.instance_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.journal_selector" class="%celsius3_core.form.journal_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.logo_selector" class="%celsius3_core.form.logo_selector.class%">
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.type.language" class="%celsius3_core.form.type.language.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.type.confirmation" class="%celsius3_core.form.type.confirmation.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.form.type.results" class="%celsius3_core.form.type.results.class%">
             <argument type="service" id="celsius3_core.configuration_helper"></argument>
-            <tag name="form.type" />
+            <tag name="form.type"/>
         </service>
 
         <service id="celsius3_core.security.authentication_failure_handler" class="%celsius3_core.security.authentication_failure_handler.class%">
-            <tag name="monolog.logger" channel="security" />
+            <tag name="monolog.logger" channel="security"/>
             <argument type="service" id="router"></argument>
-            <argument type="service" id="http_kernel" />
-            <argument type="service" id="security.http_utils" />
-            <argument type="collection" /> <!-- Options -->
-            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="http_kernel"/>
+            <argument type="service" id="security.http_utils"/>
+            <argument type="collection"/>
+            <!-- Options -->
+            <argument type="service" id="logger" on-invalid="null"/>
         </service>
 
         <service id="celsius3_core.security.authentication_success_handler" class="%celsius3_core.security.authentication_success_handler.class%">
             <argument type="service" id="router"></argument>
-            <argument type="service" id="security.authorization_checker" />
-            <argument type="service" id="security.http_utils" />
-            <argument type="collection" /> <!-- Options -->
+            <argument type="service" id="security.authorization_checker"/>
+            <argument type="service" id="security.http_utils"/>
+            <argument type="collection"/>
+            <!-- Options -->
         </service>
 
         <service id="celsius3_core.security.logout_success_handler" class="%celsius3_core.security.logout_success_handler.class%">
@@ -290,18 +290,18 @@
         </service>
 
         <service id="celsius3_core.login_logging_aspect" class="%celsius3_core.login_logging_aspect.class%">
-            <tag name="jms_aop.pointcut" interceptor="celsius3_core.login_logging_aspect" />
+            <tag name="jms_aop.pointcut" interceptor="celsius3_core.login_logging_aspect"/>
             <argument type="service" id="service_container"></argument>
         </service>
 
         <service id="celsius3_core.instance_injection_aspect" class="%celsius3_core.instance_injection_aspect.class%">
-            <tag name="jms_aop.pointcut" interceptor="celsius3_core.instance_injection_aspect" />
+            <tag name="jms_aop.pointcut" interceptor="celsius3_core.instance_injection_aspect"/>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
         </service>
 
         <service id="celsius3_core.menu.voter.exact" class="%celsius3_core.menu.voter.exact.class%">
             <argument type="service" id="request_stack"></argument>
-            <tag name="knp_menu.voter" />
+            <tag name="knp_menu.voter"/>
         </service>
 
         <service id="celsius3_core.field.guesser" class="%celsius3_core.field.guesser.class%">
@@ -357,8 +357,7 @@
             <argument type="service" id="celsius3_core.field.guesser"></argument>
         </service>
 
-        <service id="celsius3_core.user_manager" class="%celsius3_core.user_manager.class%">
-        </service>
+        <service id="celsius3_core.user_manager" class="%celsius3_core.user_manager.class%"></service>
 
         <service id="celsius3_core.union_manager" class="%celsius3_core.union_manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
@@ -368,6 +367,7 @@
         <service id="celsius3_core.catalog_manager" class="%celsius3_core.catalog_manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">
@@ -386,18 +386,18 @@
         </service>
 
         <service id="celsius3_core.listener.confirmation" class="%celsius3_core.listener.confirmation.class%">
-            <tag name="kernel.event_subscriber" />
-            <argument type="service" id="fos_user.mailer" />
-            <argument type="service" id="fos_user.util.token_generator" />
-            <argument type="service" id="router" />
-            <argument type="service" id="session" />
-            <argument type="service" id="celsius3_core.configuration_helper" />
+            <tag name="kernel.event_subscriber"/>
+            <argument type="service" id="fos_user.mailer"/>
+            <argument type="service" id="fos_user.util.token_generator"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="celsius3_core.configuration_helper"/>
         </service>
 
         <service id="celsius3_core.fos_mailer.custom" class="%celsius3_core.fos_mailer.custom.class%" public="false">
-            <argument type="service" id="mailer" />
-            <argument type="service" id="router" />
-            <argument type="service" id="templating" />
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="templating"/>
             <argument type="collection">
                 <argument key="confirmation.template">%fos_user.registration.confirmation.template%</argument>
                 <argument key="resetting.template">%fos_user.resetting.email.template%</argument>
@@ -412,42 +412,42 @@
         </service>
 
         <service id="celsius3.maintenance_mode_listener" class="%celsius3.maintenance_mode_listener.class%">
-            <argument type="service" id="service_container" />
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10" />
+            <argument type="service" id="service_container"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10"/>
         </service>
 
         <service id="celsius3.instance_configuration_listener" class="%celsius3.instance_configuration_listener.class%">
-            <argument type="service" id="service_container" />
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
+            <argument type="service" id="service_container"/>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
         </service>
 
         <service id="celsius3_core.mailer_helper" class="%celsius3_core.mailer_helper.class%">
-            <argument type="service" id="service_container" />
+            <argument type="service" id="service_container"/>
         </service>
 
         <service id="celsius3_core.security.user_provider.username_email" class="%celsius3_core.security.user_provider.username_email.class%">
-            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="fos_user.user_manager"/>
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="request_stack"></argument>
         </service>
-        
+
         <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
-            <tag name="kernel.event_subscriber" />
+            <tag name="kernel.event_subscriber"/>
         </service>
-        
+
         <service id="celsius3.validator.mail_template" class="%celsius3.validator.mail_template.class%">
-            <tag name="validator.constraint_validator" alias="mail_template" />
+            <tag name="validator.constraint_validator" alias="mail_template"/>
         </service>
-        
+
         <service id="celsius3_core.fos_user_manager" class="%celsius3_core.fos_user_manager.class%">
-            <argument type="service" id="security.encoder_factory" />
-            <argument type="service" id="fos_user.util.username_canonicalizer" />
-            <argument type="service" id="fos_user.util.email_canonicalizer" />
-            <argument type="service" id="celsius3_core.instance_helper" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="security.encoder_factory"/>
+            <argument type="service" id="fos_user.util.username_canonicalizer"/>
+            <argument type="service" id="fos_user.util.email_canonicalizer"/>
+            <argument type="service" id="celsius3_core.instance_helper"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument>%fos_user.model.user.class%</argument>
         </service>
-        
+
     </services>
-    
+
 </container>
