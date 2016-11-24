@@ -34,13 +34,15 @@ class CatalogManager
     const CATALOG__PARTIALLY_FOUND = 'partially_found';
     const CATALOG__NOT_FOUND = 'not_found';
 
-    private $em;
-    private $instance_helper;
+    private $entityManager;
+    private $instanceHelper;
+    private $instanceManager;
 
-    public function __construct(EntityManager $em, InstanceHelper $instance_helper)
+    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper, InstanceManager $instanceManager)
     {
-        $this->em = $em;
-        $this->instance_helper = $instance_helper;
+        $this->entityManager = $entityManager;
+        $this->instanceHelper = $instanceHelper;
+        $this->instanceManager = $instanceManager;
     }
 
     public static function getResults()
@@ -55,24 +57,28 @@ class CatalogManager
 
     public function getCatalogs(Instance $instance = null)
     {
-        return $this->em->getRepository('Celsius3CoreBundle:Catalog')
+        return $this->entityManager->getRepository('Celsius3CoreBundle:Catalog')
                         ->findBy(array('instance' => $instance->getId()));
     }
 
     public function isCatalogEnabled(Catalog $catalog)
     {
-        $position = $catalog->getPosition($this->instance_helper->getSessionInstance());
+        $position = $catalog->getPosition($this->instanceHelper->getSessionInstance());
 
-        if (!$position) {
-            $position = $catalog->getPosition($this->em->getRepository('Celsius3CoreBundle:Instance')->find(1));
+        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
+            return true;
         }
 
-        return (!$position) ? false : $position->getEnabled();
+        if ($position) {
+            return $position->getEnabled();
+        }
+
+        return false;
     }
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
-        return $this->em->getRepository('Celsius3CoreBundle:Catalog')
+        return $this->entityManager->getRepository('Celsius3CoreBundle:Catalog')
                 ->getDisabledCatalogsCount($instance, $directory);
     }
 }

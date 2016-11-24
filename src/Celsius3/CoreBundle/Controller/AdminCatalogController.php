@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Catalog;
+use Celsius3\CoreBundle\Entity\CatalogPosition;
 use Celsius3\CoreBundle\Form\Type\CatalogType;
 use Celsius3\CoreBundle\Form\Type\Filter\CatalogFilterType;
 
@@ -115,9 +116,7 @@ class AdminCatalogController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('Catalog', $id, CatalogType::class, array(
-            'instance' => $this->getInstance(),
-        ));
+        return $this->baseEdit('Catalog', $id, CatalogType::class, array('instance' => $this->getInstance()));
     }
 
     /**
@@ -156,20 +155,23 @@ class AdminCatalogController extends BaseInstanceDependentController
         if ($ids) {
             foreach ($ids as $key => $id) {
                 $position = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
-                        ->findOneBy(array(
-                    'catalog' => $id,
-                    'instance' => $this->getInstance()->getId(),
-                ));
-                if ($position) {
-                    $position->setPosition($key);
-                    $em->persist($position);
+                        ->findOneBy(array('catalog' => $id, 'instance' => $this->getInstance()->getId()));
+
+                if (!$position) {
+                    $position = new CatalogPosition();
+                    $position->setEnabled(true);
+                    $position->setCatalog($em->getRepository('Celsius3CoreBundle:Catalog')->find($id));
+                    $position->setInstance($this->getInstance());
                 }
+
+                $position->setPosition($key);
+
+                $em->persist($position);
+                $em->flush($position);
             }
             $em->flush();
         }
 
-        return new Response(json_encode(array(
-            'success' => 'Success',
-        )));
+        return new Response(json_encode(array('success' => 'Success')));
     }
 }

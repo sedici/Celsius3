@@ -372,6 +372,7 @@
         <service id="celsius3_core.catalog_manager" class="%celsius3_core.catalog_manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
+            <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
         <service id="celsius3_core.map_manager" class="%celsius3_core.map_manager.class%">
