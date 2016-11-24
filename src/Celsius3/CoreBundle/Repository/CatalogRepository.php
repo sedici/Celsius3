@@ -35,8 +35,8 @@ class CatalogRepository extends BaseRepository
                         ->select('c, cp')
                         ->join('c.positions', 'cp')
                         ->where('c.instance = :instance_id')
-                        ->orWhere('c.instance = :directory_id')
                         ->andWhere('cp.instance = :instance_id')
+                        ->orWhere('c.instance = :directory_id')
                         ->orderBy('cp.position', 'asc')
                         ->setParameter('instance_id', $instance->getId())
                         ->setParameter('directory_id', $directory->getId());
