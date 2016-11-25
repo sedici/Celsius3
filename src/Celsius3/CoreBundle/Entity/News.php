@@ -68,6 +68,13 @@ class News
      */
     private $instance;
 
+    /**
+     * @Assert\NotNull()
+     * @Assert\Type(type="boolean")
+     * @ORM\Column(type="boolean")
+     */
+    protected $active = true;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -174,4 +181,29 @@ class News
     {
         return $this->instance;
     }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return News
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
 }
