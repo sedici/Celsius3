@@ -762,12 +762,11 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         $scope.templates = MailTemplate.query();
         $scope.forms.email.address = email;
 
-        $(document).ready(function () {
-            $('#email_summernote').summernote({
-                height: 200,
-                code: 'asdfasdfasdf'
-            });
-        });
+        // $(document).ready(function () {
+        //     $('#email_summernote').summernote({
+        //         height: 200
+        //     });
+        // });
 
         $('#email-modal').modal('show');
     };
@@ -1026,8 +1025,6 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         });
         $scope.forms.email.subject = !_.isUndefined(template) ? template.title : '';
         $scope.forms.email.text = !_.isUndefined(template) ? template.text : '';
-
-        $('#email_summernote').code($scope.forms.email.text);
     };
 
     $scope.validateEmail = function () {

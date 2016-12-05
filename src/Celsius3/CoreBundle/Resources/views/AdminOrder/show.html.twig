@@ -171,8 +171,8 @@
                 </div>
                 <div class="form-group" ng-class="texterror">
                 <label for="text">{{'text' | translate }}</label>
-                <textarea id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required >
-                </textarea>
+                <summernote height="200" id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required >
+                </summernote>
                 <input type="hidden" name="order_id" id="order_id" ng-model="order.id"/>
                 </div>
                 </form>
@@ -501,12 +501,12 @@
                 <p>
                 <button class="btn btn-success" ng-click="basicMode()">{{'basic' | translate}}</button>
                 <button class="btn btn-primary" ng-click="advancedMode()">{{'advanced' | translate}}</button>
-        
+
                 </p>
                 </div>
                 </div>
                 </div>
-                
+
                 <div class="col-md-9" ng-if="request.type === 'provision' && take.length > 0 && request.current_state === 'taken'">
                 <div class="row">
                 <div class="col-md-12" ng-include="'order_upload_form.html?' + assets_version">
@@ -601,7 +601,7 @@
                 </td>
                 </tr>
                 </table>
-                </div>   
+                </div>
                 <div class="modal-footer">
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{'close' | translate}}</button>
 
