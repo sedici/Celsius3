@@ -95,6 +95,11 @@ class Ticket
      */
     protected $priority;
 
+
+
+
+
+
     /**
      * Get id
      *
