@@ -35,6 +35,7 @@
         "bootstrap-switch": "~3.3",
         "remarkable-bootstrap-notify": "~3.1",
         "ngclipboard": "~1.1",
-        "angular-symfony-translation": "1.0.1"
+        "angular-symfony-translation": "1.0.1",
+        "angular-summernote": "~0.8"
     }
 }
