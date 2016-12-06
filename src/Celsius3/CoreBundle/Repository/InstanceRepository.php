@@ -60,4 +60,10 @@ class InstanceRepository extends BaseRepository
                     ->execute();
     }
 
+    public function findAllAndInvisibleExceptDirectory()
+    {
+        return $this->createQueryBuilder('i')
+                        ->where('i.url <> :url')
+                        ->setParameter('url', InstanceManager::INSTANCE__DIRECTORY);
+    }
 }
