@@ -11,12 +11,6 @@ use Ivory\GoogleMap\Overlays\MarkerImage;
 
 class MapManager
 {
-    private $_em;
-
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->_em = $entityManager;
-    }
 
     public function getCiudades($provincia)
     {
@@ -62,7 +56,7 @@ class MapManager
      *
      * @return Map
      */
-    public function createMap($instancias, $zoom = 100, $windowOpen = false)
+    public function createMap($instancias, $windowOpen = false)
     {
         $map = new Map();
         $map->setAutoZoom(true);
@@ -89,9 +83,9 @@ class MapManager
      * @throws \Ivory\GoogleMap\Exception\MapException
      * @throws \Ivory\GoogleMap\Exception\OverlayException
      */
-    public function createMapFromApiSearch($instancias, $latitude, $longitude, $autozoom = true)
+    public function createMapFromApiSearch($instancias, $latitude, $longitude)
     {
-        $map = $this->createMap($instancias, -1);
+        $map = $this->createMap($instancias);
         // my position
         $myPosition = new Marker();
         $myPosition->setPosition($latitude, $longitude);

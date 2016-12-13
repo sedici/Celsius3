@@ -376,7 +376,6 @@
         </service>
 
         <service id="celsius3_core.map_manager" class="%celsius3_core.map_manager.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"></argument>
         </service>
 
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">

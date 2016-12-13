@@ -23,8 +23,7 @@ class TicketController extends Controller
     public function indexAction()
     {
         $tickets = $this->get('celsius3_ticket.ticket_manager')->findAll(array(), array('updatedAt' => 'ASC'));
-        dump($tickets);
-        die;
+        
         $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
         $administradores = $repository->findAdmins($this->get('celsius3_core.instance_helper')->getSessionInstance());
 
