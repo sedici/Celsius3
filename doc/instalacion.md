@@ -1,4 +1,3 @@
-<<<<<<< b85783d85424db6b5f535d41789ba0ed61d2569b
 # Guía de Instalación
 
 En este documento se detallan los pasos para realizar la instalación de Celsius3 en un sistema que cuente con la versión de apache2.4 y php5.5 o superior, ya sea porque viene por default en los repositorios (ubuntu 13.10 o mint 16 en adelante), o porque se está utilizando un ppa.

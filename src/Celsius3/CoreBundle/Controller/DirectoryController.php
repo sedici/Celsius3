@@ -179,6 +179,7 @@ class DirectoryController extends BaseController
             $category = $em->getRepository('Celsius3TicketBundle:Category')->find(Category::CATEGORY_NEW_INSTANCE);
 
             $ticket->setCategory($category);
+
             $this->persistEntity($ticket);
 
             $em->flush($ticket);

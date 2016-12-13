@@ -60,28 +60,6 @@ class InstanceRepository extends BaseRepository
                     ->execute();
     }
 
-    public function findAllEnabledAndVisible()
-    {
-        return $this->createQueryBuilder('i')
-                    ->select('o, c, i')
-                    ->innerJoin('i.ownerInstitutions', 'o')
-                    ->innerJoin('o.country', 'c')
-                    ->where('i.enabled = :enabled')
-                    ->andWhere('i.invisible = :invisible')
-                    ->setParameter('enabled', true)
-                    ->setParameter('invisible', false)
-                    ->getQuery()->getResult();
-    }
-
-    public function findAllInstancesExceptByUrl($url)
-    {
-        return $this->createQueryBuilder()
-                    ->field('url')
-                    ->notEqual($url)
-                    ->getQuery()
-                    ->execute();
-    }
-
     public function findAllAndInvisibleExceptDirectory()
     {
         return $this->createQueryBuilder('i')

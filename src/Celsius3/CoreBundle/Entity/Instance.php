@@ -635,7 +635,7 @@ class Instance extends LegacyInstance
     }
 
     /**
-     * Set long
+     * Add news.
      *
      * @param News $news
      *

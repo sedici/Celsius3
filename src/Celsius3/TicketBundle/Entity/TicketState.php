@@ -69,16 +69,14 @@ class TicketState
     private $descripcion;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    private $descripcion;
-
-    /**
      * Get id.
      *
      * @return \Celsius3\TicketBundle\Entity\TypeState
      */
-    private $createdAt;
+    public function getId()
+    {
+        return $this->id;
+    }
 
 
 
@@ -92,11 +90,8 @@ class TicketState
     public function setTypeState(\Celsius3\TicketBundle\Entity\TypeState $typeState = null)
     {
         $this->typeState = $typeState;
-    }
 
-    public function __construct()
-    {
-
+        return $this;
     }
 
     /**
@@ -104,35 +99,9 @@ class TicketState
      *
      * @return \Celsius3\TicketBundle\Entity\TypeState
      */
-    public function getId()
+    public function getTypeState()
     {
-        return $this->id;
-    }
-
-
-
-    /**
-     * Set descripcion
-     *
-     * @param string $descripcion
-     *
-     * @return TicketState
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
-    /**
-     * Get descripcion
-     *
-     * @return string
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
+        return $this->typeState;
     }
 
     /**
