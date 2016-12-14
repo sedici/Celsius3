@@ -40,8 +40,14 @@ class MapManager
         }
 
         $markerImage = new MarkerImage();
+
         $infoWindow = new InfoWindow();
         $infoWindow->setOpen($windowOpen);
+        $infoWindow->setContent(sprintf(
+            '<p><h4>%s - %s</h4></p><p>%s</p>', $instance->getName(),$instance->getAbbreviation(),
+            $instance->getWebsite()
+        ));
+
 
         $marker = new Marker();
         $marker->setIcon($markerImage);
