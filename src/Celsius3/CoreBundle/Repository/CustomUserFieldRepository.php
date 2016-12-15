@@ -36,7 +36,7 @@ class CustomUserFieldRepository extends BaseRepository
             ->andWhere('cuf.enabled = true')
             ->setParameter('instance_id', $instance->getId());
 
-        if ($egistration) {
+        if ($registration) {
             $qb->andWhere('cuf.private = :private')
                 ->setParameter('private', false);
         }

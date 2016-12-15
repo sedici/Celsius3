@@ -1,0 +1,161 @@
+{% form_theme configure_form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Información y navegación</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+           <div class="col-md-12">
+               {{ form_row(configure_form.instance_title) }}
+           </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_description) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_information) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_staff) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.default_language) }}
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_tagline) }}
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.results_per_page) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.show_news) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Visualización</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_logo) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.instance_css) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comunicación</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.email_reply_address) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.smtp_host) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.smtp_port) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.smtp_username) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.smtp_password) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.confirmation_type) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.min_days_for_send_mail) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.max_days_for_send_mail) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.mail_signature) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Otros</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.api_key) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.download_time) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{ form_rest(configure_form) }}
