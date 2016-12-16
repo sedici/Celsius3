@@ -1,1 +1,27 @@
 {% extends 'Celsius3CoreBundle:Order:_index_element.html.twig' %}
+
+{% block deleted_title %}
+    {{ parent() }}
+
+    {% if (element.deletedAt is not null) and (app.user.hasRole('ROLE_SUPER_ADMIN')) %}
+        <span class="text-danger">[{{ 'DELETED' | trans }}]</span>
+    {% endif %}
+{% endblock %}
+
+{% block actions %}
+    {{ parent() }}
+
+    {% if app.user.hasRole('ROLE_SUPER_ADMIN') %}
+        <li>
+            {% if element.deletedAt is null %}
+                <button type="button" class="btn btn-danger orderDelUndelButton orderDeleteButton" data-order-id="{{ request.order.id }}">
+                    <span class="fa fa-remove"></span>
+                </button>
+            {% else %}
+                <button type="button" class="btn btn-success orderDelUndelButton orderUndeleteButton" data-order-id="{{ request.order.id }}">
+                    <span class="fa fa-check"></span>
+                </button>
+            {% endif %}
+        </li>
+    {% endif %}
+{% endblock %}

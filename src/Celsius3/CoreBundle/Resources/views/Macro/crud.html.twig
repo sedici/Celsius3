@@ -101,6 +101,34 @@
             </div>
         </div>
     </div>
+
+    <div id="orderDeleteAlert" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>{{ 'alert.delete.order' | trans }}</p>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
+                        <button id="orderDeleteAlertConfirmButton" type="button" class="btn btn-danger" data-order-id="-1" title="{{ 'button.delete' | trans }}">{{ 'button.delete' | trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderUndeleteAlert" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>{{ 'alert.undelete.order' | trans }}</p>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
+                        <button id="orderUndeleteAlertConfirmButton" type="button" class="btn btn-success" data-order-id="-1" title="{{ 'button.undelete' | trans }}">{{ 'button.undelete' | trans }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endmacro %}
 
 {# new #}

@@ -3,7 +3,6 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Entity\Instance;
-use Doctrine\ORM\EntityManager;
 use Ivory\GoogleMap\Map;
 use Ivory\GoogleMap\Overlays\InfoWindow;
 use Ivory\GoogleMap\Overlays\Marker;
@@ -11,10 +10,8 @@ use Ivory\GoogleMap\Overlays\MarkerImage;
 
 class MapManager
 {
-
     public function getCiudades($provincia)
     {
-
     }
 
     /**
@@ -25,12 +22,10 @@ class MapManager
      */
     public function getResultados($ciudad, $orden, $tipo = null)
     {
-
     }
 
     public function search($orden, $nombre = null, $tipo = null)
     {
-
     }
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)

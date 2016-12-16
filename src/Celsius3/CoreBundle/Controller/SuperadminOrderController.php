@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Order controller.
@@ -82,6 +83,7 @@ class SuperadminOrderController extends OrderController
      */
     public function indexAction()
     {
+        $this->getDoctrine()->getManager()->getFilters()->disable('softdeleteable');
         return $this->baseIndex('Order', $this->createForm(OrderFilterType::class));
     }
 
@@ -238,4 +240,62 @@ class SuperadminOrderController extends OrderController
     {
         return $this->change();
     }
+
+      /**
+       * SoftDelete an existing Order entity.
+       *
+       * @Route("/{id}/delete", name="superadmin_order_delete", options={"expose"=true})
+       * @Method("post")
+       *
+       * @param string $id The order ID
+       *
+       * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+       */
+      public function softDeleteAction($id)
+      {
+          $order = $this->findQuery('Order', $id);
+
+          if (!$order) {
+              return new JsonResponse(['success' => false]);
+          }
+
+          $em = $this->getDoctrine()->getManager();
+
+          $em->remove($order->getOriginalRequest());
+          $em->remove($order->getMaterialData());
+          $em->remove($order);
+          $em->flush();
+
+          return new JsonResponse(['success' => true, 'id' => $order->getId()]);
+      }
+
+      /**
+       * SoftDelete an existing Order entity.
+       *
+       * @Route("/{id}/undelete", name="superadmin_order_undelete", options={"expose"=true})
+       * @Method("post")
+       *
+       * @param string $id The order ID
+       *
+       * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+       */
+      public function softUndeleteAction($id)
+      {
+          $this->getDoctrine()->getManager()->getFilters()->disable('softdeleteable');
+
+          $order = $this->findQuery('Order', $id);
+
+          if (!$order) {
+              return new JsonResponse(['success' => false]);
+          }
+
+          $em = $this->getDoctrine()->getManager();
+
+          $em->persist($order->getOriginalRequest()->setDeletedAt(null));
+          $em->persist($order->getMaterialData()->setDeletedAt(null));
+          $em->persist($order->setDeletedAt(null));
+          $em->flush();
+
+          return new JsonResponse(['success' => true, 'id' => $order->getId()]);
+      }
 }

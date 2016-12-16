@@ -25,6 +25,8 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -41,10 +43,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  *   "thesis"="ThesisType",
  *   "patent"="PatentType"
  * })
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 abstract class MaterialType
 {
     use TimestampableEntity;
+    use SoftDeleteableEntity;
 
     /**
      * @ORM\Column(type="integer")

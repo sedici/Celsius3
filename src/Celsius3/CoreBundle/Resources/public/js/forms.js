@@ -259,7 +259,8 @@ $('.submit-download-form').click(function () {
     form.remove();
 });
 
-$(document).on('click', '.submit-form', function () {
+$(document).on('click', '.submit-form', function (e) {
+    e.preventDefault();
     $(this).parent().submit();
 });
 
@@ -319,5 +320,65 @@ $(document).ready(function () {
                     .val(tempChapter)
                     .attr('disabled', false);
         }
+    });
+});
+
+$(document).ready(function () {
+    $('html').on('click', '.orderDeleteButton', function () {
+        $('#orderDeleteAlert #orderDeleteAlertConfirmButton').attr('data-order-id', $(this).attr('data-order-id'));
+        $('#orderDeleteAlert').modal('show');
+    });
+
+    $('#orderDeleteAlert #orderDeleteAlertConfirmButton').click(function(){
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('superadmin_order_delete', { 'id': $(this).attr('data-order-id') }),
+            success: function (data) {
+                if(data.success){
+                    $('#order_' + data.id + ' .main_info .title_and_author > .titulo').first()
+                        .append('<span class="text-danger">[DELETED]</span>');
+
+                    $('#order-actions-' + data.id + ' .orderDelUndelButton span.fa')
+                        .removeClass('fa-remove').addClass('fa-check');
+                    $('#order-actions-' + data.id + ' .orderDelUndelButton')
+                        .addClass('btn-success')
+                        .addClass('orderUndeleteButton')
+                        .removeClass('btn-danger')
+                        .removeClass('orderDeleteButton');
+                }
+            }
+        });
+
+        $('#orderDeleteAlert').modal('hide');
+    });
+
+
+
+    $('html').on('click','.orderUndeleteButton', function () {
+        $('#orderUndeleteAlert #orderUndeleteAlertConfirmButton').attr('data-order-id', $(this).attr('data-order-id'));
+        $('#orderUndeleteAlert').modal('show');
+    });
+
+    $('#orderUndeleteAlert #orderUndeleteAlertConfirmButton').click(function(){
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('superadmin_order_undelete', { 'id': $(this).attr('data-order-id') }),
+            success: function (data) {
+                if(data.success){
+                    $('#order_' + data.id + ' .main_info .title_and_author > .titulo').first()
+                        .text(function(){ return $(this).text().replace('[DELETED]',''); });
+
+                        $('#order-actions-' + data.id + ' .orderDelUndelButton span.fa')
+                            .removeClass('fa-check').addClass('fa-remove');
+                        $('#order-actions-' + data.id + ' .orderDelUndelButton')
+                            .addClass('btn-danger')
+                            .addClass('orderDeleteButton')
+                            .removeClass('btn-success')
+                            .removeClass('orderUndeleteButton');
+                }
+            }
+        });
+
+        $('#orderUndeleteAlert').modal('hide');
     });
 });

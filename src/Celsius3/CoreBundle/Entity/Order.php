@@ -27,6 +27,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Celsius3\CoreBundle\Manager\StateManager;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
@@ -36,11 +37,13 @@ use Celsius3\CoreBundle\Manager\StateManager;
  *   @ORM\Index(name="idx_material_data", columns={"material_data_id"}),
  *   @ORM\Index(name="idx_original_request", columns={"original_request_id"})
  * })
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class Order
 {
 
     use TimestampableEntity;
+    use SoftDeleteableEntity;
 
     /**
      * @ORM\Column(type="integer")

@@ -25,6 +25,8 @@ namespace Celsius3\CoreBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\RequestRepository")
@@ -40,10 +42,12 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * }, uniqueConstraints={
  *   @ORM\UniqueConstraint(name="idx_order_instance", columns={"instance_id", "order_id"}),
  * })
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class Request
 {
     use TimestampableEntity;
+    use SoftDeleteableEntity;
 
     /**
      * @ORM\Column(type="integer")

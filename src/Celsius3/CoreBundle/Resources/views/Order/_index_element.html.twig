@@ -3,7 +3,7 @@
 {% else %}
     {% set request = element.originalRequest %}
 {% endif %}
-<div class="item_container">
+<div class="item_container" id="{{ 'order_' ~ element.id }}">
 
     <div class="top_info">
         <div class="top_left">
@@ -45,6 +45,7 @@
                 {% elseif (get_material_type(element.materialData) == 'book') %}
                     {{ element.materialData.title | upper }}
                 {% endif %}
+                {% block deleted_title %}{% endblock %}
             </div>
             <div class="titulo">
                 {% if (get_material_type(element.materialData) == 'book') %}
@@ -71,10 +72,10 @@
 </div>
 <div class="owner_data">
     <p class="owner">{{ request.owner.surname | first_upper }}, {{ request.owner.name | first_upper }} ({{ request.owner.username | lower }})</p>
-    <p class="institution">{{ print_institutions(request.owner.institution) }}</p>        
+    <p class="institution">{{ print_institutions(request.owner.institution) }}</p>
 </div>
 
-<div class="order-actions">
+<div class="order-actions" id="{{ 'order-actions-' ~ element.id }}">
     <ul class="list-unstyled actions">
         {% if (search_pending(request)) %}
             <li>
@@ -89,6 +90,7 @@
                 <a href class="submit-form btn btn-default" title="{{ 'CloneOrder' | trans }}"><span class="fa fa-files-o"></span></a>
             </form>
         </li>
+        {% block actions %}{% endblock %}
     </ul>
 </div>
 
