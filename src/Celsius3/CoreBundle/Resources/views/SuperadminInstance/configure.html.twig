@@ -9,9 +9,9 @@
 {% block content %}
 
 
-<div class="panel panel-default">
-    <div class="panel-heading"><h2>{{ 'Instance Configuration' }}</h2></div>
-    <div class="panel-body">
+    <div class="panel panel-body">
+        <div class="panel-heading">  <h2>{{ 'Instance Configuration' }}</h2></div>
+        <hr class="separator_hr">
         {{ configure('superadmin_instance', configure_form, 'Celsius3CoreBundle:SuperadminInstance', entity) }}
     </div>
     </div>
