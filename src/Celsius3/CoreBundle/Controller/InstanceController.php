@@ -71,6 +71,10 @@ abstract class InstanceController extends BaseController
             $config_array['constraints'] = new ContainsCSS();
         }
 
+        if ($configuration->getKey() === ConfigurationHelper::CONF__SMTP_PROTOCOL) {
+            $config_array['choices'] = ['ssl' => 'SSL', 'tls' => 'TLS'];
+        }
+
         return $config_array;
     }
 

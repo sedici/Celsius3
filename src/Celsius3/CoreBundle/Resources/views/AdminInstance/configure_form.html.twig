@@ -89,22 +89,21 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-8">
                 {{ form_row(configure_form.smtp_host) }}
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-2">
                 {{ form_row(configure_form.smtp_port) }}
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.smtp_username) }}
+            <div class="col-md-2">
+                {{ form_row(configure_form.smtp_protocol) }}
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
+                {{ form_row(configure_form.smtp_username) }}
+            </div>
+            <div class="col-md-6">
                 {{ form_row(configure_form.smtp_password) }}
             </div>
         </div>

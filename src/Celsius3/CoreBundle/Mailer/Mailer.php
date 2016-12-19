@@ -89,11 +89,7 @@ class Mailer
         $signature = $instance->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
 
         try {
-            if($instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue() == 587){
-                $transport = \Swift_SmtpTransport::newInstance($instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(), $instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(), 'tls');
-            } else {
-                $transport = \Swift_SmtpTransport::newInstance($instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(), $instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue());
-            }
+            $transport = \Swift_SmtpTransport::newInstance($instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(), $instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(), $instance->get(ConfigurationHelper::CONF__SMTP_PROTOCOL)->getValue());
             $transport->setUsername($instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue())
                     ->setPassword($instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue());
             $mailer = \Swift_Mailer::newInstance($transport);

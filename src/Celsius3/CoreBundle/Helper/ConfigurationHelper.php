@@ -29,6 +29,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -58,6 +59,7 @@ class ConfigurationHelper
     const CONF__INSTANCE_CSS = 'instance_css';
     const CONF__SMTP_HOST = 'smtp_host';
     const CONF__SMTP_PORT = 'smtp_port';
+    const CONF__SMTP_PROTOCOL = 'smtp_protocol';
     const CONF__SMTP_USERNAME = 'smtp_username';
     const CONF__SMTP_PASSWORD = 'smtp_password';
     const CONF__DOWNLOAD_TIME = 'download_time';
@@ -75,7 +77,8 @@ class ConfigurationHelper
         'file' => FileType::class,
         'password' => PasswordType::class,
         'image' => LogoSelectorType::class,
-        'time' => TimeType::class
+        'time' => TimeType::class,
+        'select' => ChoiceType::class
     );
     public $languages = array(
         'es' => 'Spanish',
@@ -176,6 +179,11 @@ class ConfigurationHelper
             'name' => 'SMTP Port',
             'value' => '',
             'type' => 'integer',
+        ),
+        self::CONF__SMTP_PROTOCOL => array(
+            'name' => 'SMTP Protocol',
+            'value' => 'ssl',
+            'type' => 'select',
         ),
         self::CONF__SMTP_USERNAME => array(
             'name' => 'SMTP Username',

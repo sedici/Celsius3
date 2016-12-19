@@ -289,6 +289,7 @@ $(document).ready(function () {
             data: {
                 'smtp_host': $('#form_smtp_host').val(),
                 'smtp_port': $('#form_smtp_port').val(),
+                'smtp_protocol': $('#form_smtp_protocol').val(),
                 'smtp_username': $('#form_smtp_username').val(),
                 'smtp_password': $('#form_smtp_password').val()
             },

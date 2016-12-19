@@ -41,7 +41,7 @@ class AdminInstanceRestController extends BaseInstanceDependentRestController
         $mailerHelper = $this->get('celsius3_core.mailer_helper');
 
         $data = $mailerHelper->testConnection(
-                $request->request->get('smtp_host'), $request->request->get('smtp_port'), $request->request->get('smtp_username'), $request->request->get('smtp_password')
+                $request->request->get('smtp_host'), $request->request->get('smtp_port'), $request->request->get('smtp_protocol'), $request->request->get('smtp_username'), $request->request->get('smtp_password')
         );
 
         $view = $this->view($data, 200)->setFormat('json');
