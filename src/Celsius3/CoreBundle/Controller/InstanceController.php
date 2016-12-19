@@ -81,14 +81,7 @@ abstract class InstanceController extends BaseController
         foreach ($entity->getConfigurations() as $configuration) {
             $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
             $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType));
-         /*   if ($configuration->getKey() === 'smtp_password') {
-                $builder->add('test_connection', 'button', array(
-                    'attr' => array(
-                        'value' => 'test_connection',
-                        'class' => 'btn btn-default',
-                        'required' => false,
-                ), ));
-            }*/
+
         }
 
         return $builder->getForm();
