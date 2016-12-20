@@ -145,6 +145,10 @@ class DirectoryController extends BaseController
 
             $entity = new Instance();
             $form = $this->createForm(InstanceRegisterType::class, $entity);
+            /*
+             * Informacion de la instancia
+             * */
+
             $apellido_nombre = $paramteros['apellido_nombre'];
             $email = $paramteros['email'];
 
@@ -168,37 +172,19 @@ class DirectoryController extends BaseController
                 $texto .= '<br/> Se solicita migración.';
             }
 
-            $ticket = new Ticket();
-            $ticket->setSubject('Nueva Instancia Cargada');
-            $ticket->setText($texto);
+            $parametros=array();
+            $parametros['subject']='Nueva Instancia Cargada';
+            $parametros['texto']=$texto;
+            $parametros['priority']=Priority::PRIORITY_MEDIA;
+            $parametros['category']=Category::CATEGORY_NEW_INSTANCE;
+            $parametros['typeState']=TypeState::TYPE_STATE_NEW;
 
-            $em = $this->getDoctrine()->getManager();
-            $priority = $em->getRepository('Celsius3TicketBundle:Priority')->find(Priority::PRIORITY_MEDIA);
-            $ticket->setPriority($priority);
 
-            $category = $em->getRepository('Celsius3TicketBundle:Category')->find(Category::CATEGORY_NEW_INSTANCE);
 
-            $ticket->setCategory($category);
+            $ticketHelper = $this->get('celsius3_ticket.ticket_helper');
+            $ticketHelper->setParametros($parametros);
+            $ticketHelper->createTicket();
 
-            $this->persistEntity($ticket);
-
-            $em->flush($ticket);
-
-            $ticketState = new TicketState();
-            $ticketState->setCreatedAt(new \DateTime());
-            $ticketState->setUpdatedAt(new \DateTime());
-
-            $typeState = $em->getRepository('Celsius3TicketBundle:TypeState')->find(TypeState::TYPE_STATE_NEW);
-
-            $ticketState->setTypeState($typeState);
-            $ticketState->setTickets($ticket);
-
-            $this->persistEntity($ticketState);
-
-            $ticket->setStatusCurrent($ticketState);
-
-            $em->flush($ticket);
-            $em->flush($ticketState);
 
             return array(
             'entity' => $entity,

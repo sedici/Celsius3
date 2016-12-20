@@ -3,6 +3,11 @@ services:
         class: Celsius3\TicketBundle\Manager\TicketManager
         arguments:
            - @service_container
+    celsius3_ticket.ticket_helper:
+            class: Celsius3\TicketBundle\Helper\TicketHelper
+            arguments:
+               - @service_container
+
     app.twig.extension:
              class: Celsius3\TicketBundle\Twig\AppExtension
              public: false
