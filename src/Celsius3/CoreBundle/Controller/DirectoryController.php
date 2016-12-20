@@ -141,6 +141,10 @@ class DirectoryController extends BaseController
          */
         public function createAction(Request $request)
         {
+
+
+            $em = $this->container->get('doctrine.orm.entity_manager');
+
             $paramteros = $request->get('instance_register');
 
             $entity = new Instance();
@@ -153,22 +157,31 @@ class DirectoryController extends BaseController
             $email = $paramteros['email'];
 
             $country = $paramteros['country'];
+            $text_country = $em->getRepository('Celsius3CoreBundle:Country')->find($country);
             $city = $paramteros['city'];
+            $text_city = $em->getRepository('Celsius3CoreBundle:City')->find($city);
+
             $institution = $paramteros['institution'];
+            $text_institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($institution);
 
             $sitio_biblioteca = $paramteros['sitio_biblioteca'];
             $sitio_institucion = $paramteros['sitio_institucion'];
             $sitio_catalogo = $paramteros['sitio_catalogo'];
 
-            $migrar = $paramteros['migrar'];
+
+
+            $migrar = empty($paramteros['migrar'])? '': $paramteros['migrar'];
 
             $observaciones = $paramteros['observaciones'];
 
-            $texto = "$apellido_nombre solicito agregar una nueva instancia $country $city $institution con la siguiente informacion: <br/>URL Institucion: $sitio_institucion";
+
+
+
+            $texto = "$apellido_nombre solicito agregar una nueva instancia $text_country -  $text_city - $text_institution con la siguiente informacion: <br/>URL Institucion: $sitio_institucion";
             $texto .= "<br/> URL Biblioteca $sitio_biblioteca <br/> URL Catalogo: $sitio_catalogo";
             $texto .= "<br/> Correo de contacto $email";
             $texto .= "<br/> Observaciones: $observaciones";
-            if ($migrar) {
+            if (!empty($migrar)) {
                 $texto .= '<br/> Se solicita migración.';
             }
 
