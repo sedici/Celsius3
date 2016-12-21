@@ -33,10 +33,15 @@ class MailerHelper
 
     public function validateSmtpServerData(Instance $instance)
     {
-        return !empty($instance->get('smtp_host')->getValue()) &&
-                !empty($instance->get('smtp_port')->getValue()) &&
-                !empty($instance->get('smtp_username')->getValue()) &&
-                !empty($instance->get('smtp_password')->getValue());
+        $testResult = $this->testConnection(
+                    $instance->get('smtp_host')->getValue(),
+                    $instance->get('smtp_port')->getValue(),
+                    $instance->get('smtp_protocol')->getValue(),
+                    $instance->get('smtp_username')->getValue(),
+                    $instance->get('smtp_password')->getValue()
+        );
+
+        return $testResult['test'];
     }
 
     public function testConnection($host, $port, $protocol, $user, $pass)

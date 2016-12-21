@@ -5,8 +5,7 @@ var flashes = {
     'success': 'success'
 };
 
-celsiusAlert = function (message, type) {
-    console.log(message);
+celsiusAlert = function(message, type) {
     $.notify({
         message: message
     }, {
@@ -19,7 +18,7 @@ celsiusAlert = function (message, type) {
     });
 };
 
-generateCelsiusAlert = function (response) {
+generateCelsiusAlert = function(response) {
     if (!_.isUndefined(response.data.error) && response.data.error) {
         celsiusAlert(response.data.message, 'error');
     } else {
@@ -27,13 +26,18 @@ generateCelsiusAlert = function (response) {
     }
 };
 
-$(document).ready(function () {
+$(document).ready(function() {
     var bag = $.parseJSON(flashbag);
-    $.each(flashes, function (alertCode, alertType) {
+    $.each(flashes, function(alertCode, alertType) {
         if (bag[alertType]) {
-            $.each(bag[alertType], function (k, message) {
+            $.each(bag[alertType], function(k, message) {
                 celsiusAlert(message, alertType);
             });
         }
     });
+
+    if (!smtp_status) {
+        smtp_status = true;
+        celsiusAlert('alert.warning.smtp_conection_error', 'warning');
+    }
 });

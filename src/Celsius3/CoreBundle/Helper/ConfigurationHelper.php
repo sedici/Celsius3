@@ -30,6 +30,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -41,7 +42,6 @@ use Celsius3\CoreBundle\Form\Type\LogoSelectorType;
 
 class ConfigurationHelper
 {
-
     const CONF__INSTANCE_TITLE = 'instance_title';
     const CONF__INSTANCE_TAGLINE = 'instance_tagline';
     const CONF__INSTANCE_STAFF = 'instance_staff';
@@ -62,6 +62,7 @@ class ConfigurationHelper
     const CONF__SMTP_PROTOCOL = 'smtp_protocol';
     const CONF__SMTP_USERNAME = 'smtp_username';
     const CONF__SMTP_PASSWORD = 'smtp_password';
+    const CONF__SMTP_STATUS = 'smtp_status';
     const CONF__DOWNLOAD_TIME = 'download_time';
     const CONF__SHOW_NEWS = 'show_news';
 
@@ -78,7 +79,8 @@ class ConfigurationHelper
         'password' => PasswordType::class,
         'image' => LogoSelectorType::class,
         'time' => TimeType::class,
-        'select' => ChoiceType::class
+        'select' => ChoiceType::class,
+        'hidden' => HiddenType::class,
     );
     public $languages = array(
         'es' => 'Spanish',
@@ -195,6 +197,11 @@ class ConfigurationHelper
             'value' => '',
             'type' => 'password',
         ),
+        self::CONF__SMTP_STATUS => array(
+            'name' => 'SMTP Status',
+            'value' => true,
+            'type' => 'hidden',
+        ),
         self::CONF__DOWNLOAD_TIME => array(
             'name' => 'Download time in hours',
             'value' => '24',
@@ -204,8 +211,8 @@ class ConfigurationHelper
             'name' => 'Show news',
             'value' => true,
             'type' => 'boolean',
-            'required' => false
-        )
+            'required' => false,
+        ),
     );
     private $container;
 
@@ -228,11 +235,11 @@ class ConfigurationHelper
 
         switch ($configuration->getType()) {
             case 'boolean':
-                $value = (boolean) $configuration->getValue();
+                $value = (bool) $configuration->getValue();
                 break;
             case 'integer':
             case 'results':
-                $value = (integer) $configuration->getValue();
+                $value = (int) $configuration->getValue();
                 break;
             case 'file':
                 $value = null;
@@ -301,7 +308,7 @@ class ConfigurationHelper
 
     private function configureConstraints()
     {
-        $message = 'Invalid image size. Images must be ' . $this->getHeight() . ' x ' . $this->getWidth();
+        $message = 'Invalid image size. Images must be '.$this->getHeight().' x '.$this->getWidth();
 
         $imageConstraints = new Image(
                 array(
@@ -320,5 +327,4 @@ class ConfigurationHelper
 
         $this->configurations['instance_logo']['constraints'] = array($imageConstraints);
     }
-
 }

@@ -1,21 +1,20 @@
 <script type="text/javascript">
-    var _locale = '{{ app.request.get('_locale') }}';
-    var ajax_message = '{{ 'Please wait...'|trans }}';
-    var instance_id = '{{ (instance is defined and instance)?instance.id:'' }}';
+    var _locale = '{{ app.request.get(' _locale ') }}';
+    var ajax_message = '{{ ' Please wait ...'|trans }}';
+    var instance_id = '{{ (instance is defined and instance)?instance.id:' ' }}';
     var directory = false;
-    var entity_id = '{{ (entity is defined and entity)?entity.id:'' }}';
-    var ajax_path = '{{ (ajax_path is defined)?path(ajax_path):'' }}';
-    var user_exists
-    = {{ (app.user is defined)?'true':'false' }};
-            var user_id = '{{ app.user?app.user.id:'' }}';
-    var username = '{{ app.user?app.user.username:'' }}';
+    var entity_id = '{{ (entity is defined and entity)?entity.id:' ' }}';
+    var ajax_path = '{{ (ajax_path is defined)?path(ajax_path):' ' }}';
+    var user_exists = {{ (app.user is defined)?'true':'false' }};
+    var user_id = '{{ app.user?app.user.id:' ' }}';
+    var username = '{{ app.user?app.user.username:' ' }}';
     var news_date = '';
-    var news_text_change = '{{ 'Change'|trans }}';
+    var news_text_change = '{{ ' Change '|trans }}';
     var instance_host = "{{ app.request.host }}";
     {% if form is defined %}
-        var form_name = '{{ form.vars['name'] }}';
+        var form_name = '{{ form.vars[' name '] }}';
     {% elseif edit_form is defined %}
-        var form_name = '{{ edit_form.vars['name'] }}';
+        var form_name = '{{ edit_form.vars[' name '] }}';
     {% endif %}
     {% if form is defined and form.vars['name'] == 'celsius3_corebundle_newstype' %}
         var news_date = "{{ form.vars.data.date|localizeddate('medium', 'short') }}";
@@ -42,12 +41,18 @@
         var resultsPerPage = parseInt(0);
     {% endif %}
 
-        var assets_version_administration = "{{ assets_version('administration') }}";
-        var assets_version_admin_order = "{{ assets_version('admin_order') }}";
-        var assets_version_admin_institution = "{{ assets_version('admin_institution') }}";
-        var assets_version_user = "{{ assets_version('user') }}";
+    var assets_version_administration = "{{ assets_version('administration') }}";
+    var assets_version_admin_order = "{{ assets_version('admin_order') }}";
+    var assets_version_admin_institution = "{{ assets_version('admin_institution') }}";
+    var assets_version_user = "{{ assets_version('user') }}";
 
-        var searchErrorMessage = '{{ 'Enter at least three characters' | trans }}';
+    var searchErrorMessage = '{{ ' Enter at least three characters ' | trans }}';
 
-        var flashbag = '{{ app.session.flashbag.all() | json_encode() | raw }}';
+    var flashbag = '{{ app.session.flashbag.all() | json_encode() | raw }}';
+
+    {% if (app.user is not null) and (app.user.hasRole('ROLE_SUPER_ADMIN')) and (app.user.hasRole('ROLE_ADMIN')) %}
+        var smtp_status = '{{ (instance is defined and instance) ? instance.get("smtp_status").getValue() : true }}';
+    {% else %}
+        var smtp_status = true;
+    {% endif %}
 </script>

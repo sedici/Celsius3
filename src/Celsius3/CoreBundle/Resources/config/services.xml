@@ -375,8 +375,7 @@
             <argument type="service" id="celsius3_core.instance_manager"></argument>
         </service>
 
-        <service id="celsius3_core.map_manager" class="%celsius3_core.map_manager.class%">
-        </service>
+        <service id="celsius3_core.map_manager" class="%celsius3_core.map_manager.class%"></service>
 
         <service id="celsius3_core.statistic_manager" class="%celsius3_core.statistic_manager.class%">
             <argument type="service" id="doctrine.orm.entity_manager"></argument>
@@ -425,11 +424,6 @@
             <argument>%maintenance_mode_template%</argument>
             <argument type="service" id="templating"/>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="10"/>
-        </service>
-
-        <service id="celsius3.instance_configuration_listener" class="%celsius3.instance_configuration_listener.class%">
-            <argument type="service" id="service_container"/>
-            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
         </service>
 
         <service id="celsius3_core.mailer_helper" class="%celsius3_core.mailer_helper.class%">

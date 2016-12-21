@@ -57,7 +57,7 @@ abstract class InstanceController extends BaseController
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
-            /** @Ignore */ 'label' => $configuration->getName(),
+            /* @Ignore */ 'label' => $configuration->getName(),
             'required' => false,
             'attr' => array(
                 'value' => $configuration->getValue(),
@@ -85,7 +85,6 @@ abstract class InstanceController extends BaseController
         foreach ($entity->getConfigurations() as $configuration) {
             $configurationType = $this->get('celsius3_core.configuration_helper')->guessConfigurationType($configuration);
             $builder->add($configuration->getKey(), $configurationType, $this->buildConfigurationArray($configuration, $configurationType));
-
         }
 
         return $builder->getForm();
@@ -144,6 +143,11 @@ abstract class InstanceController extends BaseController
                     $em->persist($entity);
                 }
             }
+
+            $entity->get('smtp_status')
+                ->setValue($this->get('celsius3_core.mailer_helper')->validateSmtpServerData($entity));
+
+            $em->persist($entity);
 
             $em->flush();
 
