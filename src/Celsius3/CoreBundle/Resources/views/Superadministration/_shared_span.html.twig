@@ -1,57 +1,80 @@
-<div class="panel panel-primary">
-    <div class="panel-heading"> <h2>{{ 'Shared Elements'|trans }}</h2></div>
+<div class="panel panel-default">
     <div class="panel-body">
-
-    <div class="row">
-        <div class="col-md-5">
-            <ul class="list-unstyled btn-group-list">
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_country') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Countries'|trans }}</a>
-                        <a href="{{ path('superadmin_country_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_city') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Cities'|trans }}</a>
-                        <a href="{{ path('superadmin_city_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-4">
-            <ul class="list-unstyled btn-group-list">
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_institution') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Institutions'|trans }}</a>
-                        <a href="{{ path('superadmin_institution_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_catalog') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Global Catalogs'|trans }}</a>
-                        <a href="{{ path('superadmin_catalog_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-3">
-            <ul class="list-unstyled btn-group-list">
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_mails') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Mail Templates'|trans }}</a>
-                        <a href="{{ path('superadmin_mails_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_journal') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Journals'|trans }}</a>
-                        <a href="{{ path('superadmin_journal_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-            </ul>
+        <h2>{{ 'Shared Elements'|trans }}</h2>
+        <hr class="separator_hr">
+        <div class="row">
+            <div class="col-md-5">
+                <ul class="list-unstyled btn-group-list">
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_country') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Countries'|trans }}</a>
+                            <a href="{{ path('superadmin_country_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_city') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Cities'|trans }}</a>
+                            <a href="{{ path('superadmin_city_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-unstyled btn-group-list">
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_institution') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Institutions'|trans }}</a>
+                            <a href="{{ path('superadmin_institution_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_catalog') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Global Catalogs'|trans }}</a>
+                            <a href="{{ path('superadmin_catalog_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <ul class="list-unstyled btn-group-list">
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_mails') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Mail Templates'|trans }}</a>
+                            <a href="{{ path('superadmin_mails_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_journal') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Journals'|trans }}</a>
+                            <a href="{{ path('superadmin_journal_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
-</div>
-

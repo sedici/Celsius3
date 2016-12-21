@@ -2,43 +2,57 @@
 <br/>
 <br/>
 <br/>
-<div class="panel panel-primary">
-    <div class="panel-heading">
-    <h2>{{ 'Global Elements'|trans }}</h2></div>
+<div class="panel panel-default">
     <div class="panel-body">
-    <div class="row">
-        <div class="col-md-6">
-            <ul class="list-unstyled btn-group-list">
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_instance') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Instances'|trans }}</a>
-                        <a href="{{ path('superadmin_instance_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_instance_legacy') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Legacy Instances'|trans }}</a>
-                        <a href="{{ path('superadmin_instance_legacy_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>&nbsp</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <ul class="list-unstyled btn-group-list">
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_hive') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Hives'|trans }}</a>
-                        <a href="{{ path('superadmin_hive_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-                <li>
-                    <div class="btn-group">
-                        <a href="{{ path('superadmin_contacttype') }}" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> {{ 'Contact types'|trans }}</a>
-                        <a href="{{ path('superadmin_contacttype_new') }}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-                    </div>
-                </li>
-            </ul>
+        <h2>{{ 'Global Elements'|trans }}</h2>
+        <hr class="separator_hr">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-unstyled btn-group-list">
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_instance') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Instances'|trans }}</a>
+                            <a href="{{ path('superadmin_instance_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_instance_legacy') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Legacy Instances'|trans }}</a>
+                            <a href="{{ path('superadmin_instance_legacy_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-unstyled btn-group-list">
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_hive') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Hives'|trans }}</a>
+                            <a href="{{ path('superadmin_hive_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="btn-group">
+                            <a href="{{ path('superadmin_contacttype') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-list"></span>
+                                {{ 'Contact types'|trans }}</a>
+                            <a href="{{ path('superadmin_contacttype_new') }}" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 </div>

@@ -2,11 +2,10 @@
 <br/>
 <br/>
 <br/>
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h2>{{ 'Other'|trans }}</h2>
-    </div>
+<div class="panel panel-default">
     <div class="panel-body">
+        <h2>{{ 'Other'|trans }}</h2>
+        <hr class="separator_hr">
         <div class="row">
             <div class="col-md-6">
                 <ul class="list-unstyled btn-group-list">
@@ -67,10 +66,9 @@
             <div class="col-md-6">
                 <ul class="list-unstyled btn-group-list">
                     <li>
-                            <a href="{{ path('superadmin_admin') }}" class="btn btn-default">
-                                <span class="glyphicon glyphicon-list"></span>
-                                {{ 'Administrator'|trans }}</a>
-
+                        <a href="{{ path('superadmin_admin') }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                            {{ 'Administrator'|trans }}</a>
 
                     </li>
 
