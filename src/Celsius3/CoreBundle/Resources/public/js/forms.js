@@ -383,3 +383,27 @@ $(document).ready(function () {
         $('#orderUndeleteAlert').modal('hide');
     });
 });
+
+$(document).ready(function(){
+    var showSearch = function(e){
+        // e.defaultPrevented;
+        $('div#celsius-search input').removeClass('search-hidden');
+        $('div#celsius-search button.mbtn').removeClass('search-hidden');
+        $('div#celsius-search input').addClass('search-show');
+        $('div#celsius-search button.mbtn').addClass('search-show');
+        $('div#celsius-search input').focus();
+
+    };
+    $('div#celsius-search button.sbtn').on('click', showSearch);
+    $('div#celsius-search input').on('blur', function(){
+        $('div#celsius-search input').val('');
+        $('div#celsius-search input').removeClass('search-show');
+        $('div#celsius-search button.mbtn').removeClass('search-show');
+        $('div#celsius-search input').addClass('search-hidden');
+        $('div#celsius-search button.mbtn').addClass('search-hidden');
+    });
+
+    Mousetrap.bind(['ctrl+alt+b', 'ctrl+alt+f'], function(e){
+        showSearch();
+    });
+});

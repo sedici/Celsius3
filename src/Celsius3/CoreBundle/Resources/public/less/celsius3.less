@@ -1196,3 +1196,43 @@ li:hover .float2 {
   height:4px;
   background-color:#777777;
 }
+
+div#celsius-search {
+    position: fixed;
+    bottom: 60px;
+    right: 60px;
+    width: 500px;
+    z-index: 20;
+    input {
+        right: -25px;
+        z-index: 5;
+        border-top: 1px solid #3C8DBC;
+        border-bottom: 1px solid #3C8DBC;
+        border-left: none;
+    }
+    button.sbtn {
+        border-radius: 50%;
+        z-index: 10;
+    }
+    button.mbtn{
+        border-radius: 50%;
+        z-index: 1;
+        right: -50px;
+        background-color: #FFFFFF;
+
+    }
+    .mbtn:hover {
+        cursor: default;
+        border: 1px solid #3C8DBC;
+    }
+    .mbtn:focus {
+        cursor: default;
+        border: 1px solid #3C8DBC;
+    }
+    .search-hidden {
+        visibility: hidden;
+    }
+    .search-show {
+        visibility: visible;
+    }
+}

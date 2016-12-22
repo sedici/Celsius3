@@ -37,6 +37,7 @@
         "ngclipboard": "~1.1",
         "angular-symfony-translation": "1.0.1",
         "angular-summernote": "~0.8",
-        "adminlte": ""
+        "adminlte": "",
+        "mousetrap": "~1.6"
     }
 }

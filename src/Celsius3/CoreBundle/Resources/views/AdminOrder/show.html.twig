@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ parent() }}
     <div ng-app="orderApp" ng-controller="OrderCtrl">
         <div id="cuerpo_pedido" ng-view></div>
 

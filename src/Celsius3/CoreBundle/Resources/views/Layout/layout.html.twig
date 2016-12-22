@@ -100,8 +100,8 @@
         {% endblock %}
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
                     {% block body_title %}
+                    <div class="col-md-12">
                         <div class="row">
                             <div class="jumbotron page-header clearfix">
 
@@ -201,6 +201,7 @@
                            'bundles/celsius3core/components/clipboard/dist/clipboard.min.js'
                            'bundles/celsius3core/components/ngclipboard/dist/ngclipboard.min.js'
                            'bundles/celsius3core/components/angular-summernote/dist/angular-summernote.min.js'
+                           'bundles/celsius3core/components/mousetrap/mousetrap.min.js'
                              filter='?uglifyjs2'  %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}

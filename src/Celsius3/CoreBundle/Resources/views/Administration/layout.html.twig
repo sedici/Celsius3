@@ -1,16 +1,22 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
-{% block adminpanel %}
-    {% spaceless %}
-        <div class="col-md-4 col-md-offset-8">
-            <form action="{{ path('admin_search') }}" method="GET" role="form">
-                <div class="input-group">
-                    <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control" placeholder="{{ 'Search text' | trans }}" pattern="^([a-zA-Z0-9 äáàëéèíìöóòúùñçÁÉÍÓÚÀÈÌÒÙÄËÖÑÇ])*$"/>
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                    </span>
-                </div>
-            </form>
-        </div>
-    {% endspaceless %}
+{% block content %}
+    {{ parent() }}
+    <div id="celsius-search">
+        <form action="{{ path('admin_search') }}" method="GET" role="form">
+            <div class="input-group">
+                <span class="input-group-btn search-hidden">
+                    <button class="btn btn-lg btn-primary mbtn">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+                <input type="text" name="keyword" id="keyword" value="{{ app.request.get('keyword') }}" class="form-control input-lg search-hidden" placeholder="{{ 'Search text' | trans }}" pattern="^([a-zA-Z0-9 äáàëéèíìöóòúùñçÁÉÍÓÚÀÈÌÒÙÄËÖÑÇ])*$"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-lg btn-primary sbtn">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
 {% endblock %}

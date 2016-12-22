@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ parent() }}
     <div ng-app="administrationApp" ng-controller="AdministrationCtrl">
         <div ng-view>
 
@@ -142,12 +143,12 @@
                 </div>
                 </div>
                 </div>
-        
+
                 <div class="owner_data">
                 <p class="owner">{{ order.request.owner.surname | first_upper }}, {{ order.request.owner.name | first_upper }} ({{ order.request.owner.username | lowercase }})</p>
-                <p class="institution">{{ printInstitutions(order.request.owner.institution) }}</p>        
+                <p class="institution">{{ printInstitutions(order.request.owner.institution) }}</p>
                 </div>
-        
+
                 <div class="order-actions">
                 <ul class="list-unstyled actions">
                 <li ng-if="searchPending(order.request)">
@@ -168,7 +169,7 @@
                 <div class="requests" ng-if="hasRequests(order.request.events)">
                 <h5>{{ 'Requests' | trans }}</h5>
                 <p ng-repeat="event in order.request.events" ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
-                <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> | 
+                <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> |
                 <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
                 <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>
                 </p>
