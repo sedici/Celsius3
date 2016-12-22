@@ -52,7 +52,6 @@ class ConfigurationHelper
     const CONF__DEFAULT_LANGUAGE = 'default_language';
     const CONF__CONFIRMATION_TYPE = 'confirmation_type';
     const CONF__MAIL_SIGNATURE = 'mail_signature';
-    const CONF__API_KEY = 'api_key';
     const CONF__MIN_DAYS_FOR_SEND_MAIL = 'min_days_for_send_mail';
     const CONF__MAX_DAYS_FOR_SEND_MAIL = 'max_days_for_send_mail';
     const CONF__INSTANCE_LOGO = 'instance_logo';
@@ -146,11 +145,6 @@ class ConfigurationHelper
             'name' => 'Mail signature',
             'value' => '',
             'type' => 'text',
-        ),
-        self::CONF__API_KEY => array(
-            'name' => 'Api Key',
-            'value' => '',
-            'type' => 'string',
         ),
         self::CONF__MIN_DAYS_FOR_SEND_MAIL => array(
             'name' => 'Minimun days for send emails',

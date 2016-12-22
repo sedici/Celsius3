@@ -53,7 +53,6 @@ abstract class InstanceController extends BaseController
      */
     private function buildConfigurationArray($configuration, $configurationType)
     {
-        $readonly = $configuration->getKey() === ConfigurationHelper::CONF__API_KEY ? 'readonly' : false;
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
@@ -62,8 +61,7 @@ abstract class InstanceController extends BaseController
             'attr' => array(
                 'value' => $configuration->getValue(),
                 'class' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
-                'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' || $configuration->getKey() === ConfigurationHelper::CONF__API_KEY || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO || $configuration->getKey() === ConfigurationHelper::CONF__SHOW_NEWS ? false : true,
-                'readonly' => $readonly,
+                'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' ||  $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO || $configuration->getKey() === ConfigurationHelper::CONF__SHOW_NEWS ? false : true,
             ),
         );
 
