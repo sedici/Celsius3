@@ -83,6 +83,10 @@
         <target>__link.resseting_question</target>
         <jms:reference-file line="50">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="" resname="form.warning.required_fields">
+        <source>form.warning.required_fields</source>
+        <target>Fields marked with a * are required</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

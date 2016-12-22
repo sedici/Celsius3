@@ -83,6 +83,10 @@
         <target>olvidó su contraseña?</target>
         <jms:reference-file line="50">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="" resname="form.warning.required_fields">
+        <source>form.warning.required_fields</source>
+        <target>Los campos marcados con un * son obligatorios</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

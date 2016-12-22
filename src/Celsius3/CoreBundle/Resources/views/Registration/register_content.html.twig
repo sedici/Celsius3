@@ -8,14 +8,14 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.name, { attr: { class: 'form-control', placeholder: 'label.name' | trans | first_upper } }) }}
+                    {{ form_widget(form.name, { attr: { class: 'form-control', placeholder: 'label.name' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
 
             </div>
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.surname, { attr: { class: 'form-control' , placeholder: 'label.surname' | trans | first_upper } }) }}
+                    {{ form_widget(form.surname, { attr: { class: 'form-control' , placeholder: 'label.surname' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
             </div>
@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.email, { attr: { class: 'form-control', placeholder: 'label.email' | trans | first_upper } }) }}
+                    {{ form_widget(form.email, { attr: { class: 'form-control', placeholder: 'label.email' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
             </div>
@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.username, { attr: { class: 'form-control', placeholder: 'label.username' | trans | first_upper } }) }}
+                    {{ form_widget(form.username, { attr: { class: 'form-control', placeholder: 'label.username' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
             </div>
@@ -42,13 +42,13 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.plainPassword.first, { attr: { class: 'form-control', placeholder: 'label.password' | trans | first_upper } }) }}
+                    {{ form_widget(form.plainPassword.first, { attr: { class: 'form-control', placeholder: 'label.password' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.plainPassword.second, { attr: { class: 'form-control', placeholder: 'label.password.confirm' | trans | first_upper } }) }}
+                    {{ form_widget(form.plainPassword.second, { attr: { class: 'form-control', placeholder: 'label.password.confirm' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
             </div>
@@ -57,7 +57,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.country, { attr: { class: 'form-control country-select', placeholder: 'label.country'| trans | first_upper } }) }}
+                    {{ form_widget(form.country, { attr: { class: 'form-control country-select', placeholder: 'label.country'| trans | first_upper ~ '*' } }) }}
                 </div>
                 {{ form_row(form.country) }}
             </div>
@@ -74,7 +74,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group has-feedback">
-                    {{ form_widget(form.institution, { attr: { class: 'form-control institution-select', placeholder: 'label.institution' | trans | first_upper } }) }}
+                    {{ form_widget(form.institution, { attr: { class: 'form-control institution-select', placeholder: 'label.institution' | trans | first_upper ~ '*' } }) }}
                 </div>
             </div>
         </div>
@@ -99,12 +99,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group has-feedback">
-                            {{ form_widget(child, { attr: { class: 'form-control', placeholder: child.vars.name | first_upper } }) }}
+                            {% set isRequired = '' %}
+                            {% if child.vars.required %}
+                                {% set isRequired = '*' %}
+                            {% endif %}
+                            {{ form_widget(child, { attr: { class: 'form-control', placeholder: child.vars.name | first_upper ~ isRequired} }) }}
                         </div>
                     </div>
                 </div>
             {% endif %}
         {% endfor %}
+
+        <div class="row">
+            <div class="col-xs-12">
+                <p class="text-warning">{{ 'form.warning.required_fields' | trans }}</p>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12">
