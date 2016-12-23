@@ -42,7 +42,7 @@ class FosMailer extends DefaultMailer
     {
         $this->instance = $instanceHelper->getSessionOrUrlInstance();
         if (!is_null($this->instance)) {
-            $transport = \Swift_SmtpTransport::newInstance($this->instance->get('smtp_host')->getValue(), $this->instance->get('smtp_port')->getValue())
+            $transport = \Swift_SmtpTransport::newInstance($this->instance->get('smtp_host')->getValue(), $this->instance->get('smtp_port')->getValue(), $this->instance->get('smtp_protocol')->getValue())
                     ->setUsername($this->instance->get('smtp_username')->getValue())
                     ->setPassword($this->instance->get('smtp_password')->getValue())
             ;
@@ -56,7 +56,7 @@ class FosMailer extends DefaultMailer
 
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
-        if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
+        if (!$this->instance->get('smtp_status')->getValue()) {
             return;
         }
 
@@ -75,7 +75,7 @@ class FosMailer extends DefaultMailer
 
     public function sendResettingEmailMessage(UserInterface $user)
     {
-        if (!$this->mailerHelper->validateSmtpServerData($this->instance)) {
+        if (!$this->instance->get('smtp_status')->getValue()) {
             return;
         }
 
