@@ -33,7 +33,7 @@
       </trans-unit>
       <trans-unit id="40c1a483571045e24d606bf00361cfd4d021ba05" resname="resetting.check_email">
         <source>resetting.check_email</source>
-        <target>__resetting.check_email</target>
+        <target>Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Resetting/checkEmail.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="70c8836a0e3b8dadb494b8de56ebed18939359b5" resname="resetting.email.message">

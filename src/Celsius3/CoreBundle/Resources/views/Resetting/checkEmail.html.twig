@@ -7,6 +7,10 @@
 {% block content %}
     <h2>{{ 'Check your email'|trans }}</h2>
     <p>
-        {{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}
+        {% if resetting_text is defined and resetting_text is not empty %}
+            {{ resetting_text }}
+        {% else %}
+            {{ 'resetting.check_email' | trans({'%email%': email}, 'FOSUserBundle') }}
+        {% endif %}
     </p>
 {% endblock %}

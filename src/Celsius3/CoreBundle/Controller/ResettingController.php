@@ -26,11 +26,11 @@ use FOS\UserBundle\Controller\ResettingController as BaseResettingController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Celsius3\CoreBundle\Exception\Exception;
 
 class ResettingController extends BaseResettingController
 {
-
     public function userResetAction($username)
     {
         /** @var $user UserInterface */
@@ -58,4 +58,20 @@ class ResettingController extends BaseResettingController
         return new RedirectResponse($this->container->get('router')->generate('admin_user_show', array('id' => $user->getId()), UrlGeneratorInterface::ABSOLUTE_PATH));
     }
 
+    public function checkEmailAction(Request $request)
+    {
+        $email = $request->query->get('email');
+
+        if (empty($email)) {
+            return new RedirectResponse($this->generateUrl('fos_user_resetting_request'));
+        }
+
+        $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+        $resetting_text = $this->get('twig')->createTemplate($instance->get('resetting_text')->getValue())->render(['otra' => 'uno']);
+
+        return $this->render('Celsius3CoreBundle:Resetting:checkEmail.html.twig', array(
+            'email' => $email,
+            'resetting_text' => $resetting_text,
+        ));
+    }
 }

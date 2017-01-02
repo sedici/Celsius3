@@ -1,10 +1,18 @@
 {% form_theme configure_form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
 <ul class="nav nav-tabs">
-    <li class="active"><a id="navegacion-tab" href="#navegacion" data-toggle="tab">{{ 'Información y navegación' | trans }}</a></li>
-    <li><a id="visualización-tab" href="#visualización" data-toggle="tab">{{ 'Visualización' | trans }}</a></li>
-    <li><a id="comunicación-tab" href="#comunicación" data-toggle="tab">{{ 'Comunicación' | trans }}</a></li>
-    <li><a id="otros-tab" href="#otros" data-toggle="tab">{{ 'Otros' | trans }}</a></li>
+    <li class="active">
+        <a id="navegacion-tab" href="#navegacion" data-toggle="tab">{{ 'Información y navegación' | trans }}</a>
+    </li>
+    <li>
+        <a id="visualización-tab" href="#visualización" data-toggle="tab">{{ 'Visualización' | trans }}</a>
+    </li>
+    <li>
+        <a id="comunicación-tab" href="#comunicación" data-toggle="tab">{{ 'Comunicación' | trans }}</a>
+    </li>
+    <li>
+        <a id="otros-tab" href="#otros" data-toggle="tab">{{ 'Otros' | trans }}</a>
+    </li>
 
 </ul>
 
@@ -42,15 +50,11 @@
             </div>
         </div>
 
-
-
         <div class="row">
             <div class="col-md-12">
                 {{ form_row(configure_form.instance_tagline) }}
             </div>
         </div>
-
-
 
         <div class="row">
             <div class="col-md-12">
@@ -64,8 +68,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="tab-pane" id="visualización">
         <br/>
         <div class="row">
@@ -79,8 +81,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="tab-pane" id="comunicación">
         <br/>
         <div class="row">
@@ -108,9 +108,11 @@
             </div>
         </div>
         <br/>
-        <div><button type="button" id="form_test_connection" name="form[test_connection]" value="test_connection" class="btn btn-default" >
+        <div>
+            <button type="button" id="form_test_connection" name="form[test_connection]" value="test_connection" class="btn btn-default">
                 Test connection
-            </button></div>
+            </button>
+        </div>
 
         <div class="row">
             <div class="col-md-12">
@@ -118,19 +120,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 {{ form_row(configure_form.min_days_for_send_mail) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(configure_form.max_days_for_send_mail) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                {{ form_row(configure_form.max_days_for_send_mail) }}
+                {{ form_row(configure_form.mail_signature) }}
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
-                {{ form_row(configure_form.mail_signature) }}
+                {{ form_row(configure_form.resetting_text) }}
             </div>
         </div>
 
@@ -144,7 +150,5 @@
         </div>
     </div>
 </div>
-
-
 
 {{ form_rest(configure_form) }}

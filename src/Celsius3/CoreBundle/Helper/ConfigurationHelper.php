@@ -64,6 +64,7 @@ class ConfigurationHelper
     const CONF__SMTP_STATUS = 'smtp_status';
     const CONF__DOWNLOAD_TIME = 'download_time';
     const CONF__SHOW_NEWS = 'show_news';
+    const CONF__RESETTING_TEXT = 'resetting_text';
 
     private $equivalences = array(
         'string' => TextType::class,
@@ -205,6 +206,12 @@ class ConfigurationHelper
             'name' => 'Show news',
             'value' => true,
             'type' => 'boolean',
+            'required' => false,
+        ),
+        self::CONF__RESETTING_TEXT => array(
+            'name' => 'Resetting text',
+            'value' => 'Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.',
+            'type' => 'text',
             'required' => false,
         ),
     );
