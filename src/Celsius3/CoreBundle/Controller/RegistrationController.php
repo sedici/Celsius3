@@ -37,7 +37,6 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class RegistrationController extends BaseRegistrationController
 {
-
     public function registerAction(Request $request)
     {
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
@@ -95,13 +94,19 @@ class RegistrationController extends BaseRegistrationController
             sprintf('The user with email "%s" does not exist', $email));
         }
 
+        $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+        $registrationWaitConfirmationTitle = $instance->get('registration_wait_confirmation_title')->getValue();
+        $registrationWaitConfirmationText = $this->get('twig')->createTemplate($instance->get('registration_wait_confirmation_text')->getValue())->render(['email' => $email]);
+
         return $this->render('FOSUserBundle:Registration:waitConfirmation.html.twig', array(
                     'user' => $user,
+                    'registration_wait_confirmation_title' => $registrationWaitConfirmationTitle,
+                    'registration_wait_confirmation_text' => $registrationWaitConfirmationText,
         ));
     }
 
     /**
-     * Returns the EntityManager
+     * Returns the EntityManager.
      *
      * @return EntityManager
      */
@@ -121,7 +126,7 @@ class RegistrationController extends BaseRegistrationController
     }
 
     /**
-     * Receive the confirmation token from user email provider, login the user
+     * Receive the confirmation token from user email provider, login the user.
      */
     public function confirmAction(Request $request, $token)
     {
@@ -140,7 +145,6 @@ class RegistrationController extends BaseRegistrationController
         $user->setConfirmationToken(null);
         $user->setEnabled(true);
 
-        
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
         $userManager->updateUser($user);
@@ -156,5 +160,4 @@ class RegistrationController extends BaseRegistrationController
 
         return $response;
     }
-
 }

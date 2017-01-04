@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Controller;
 
 use FOS\UserBundle\Controller\ResettingController as BaseResettingController;
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -67,11 +68,61 @@ class ResettingController extends BaseResettingController
         }
 
         $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
-        $resetting_text = $this->get('twig')->createTemplate($instance->get('resetting_text')->getValue())->render(['otra' => 'uno']);
+        $resettingCheckEmailTitle = $instance->get('resetting_check_email_title')->getValue();
+        $resettingCheckEmailText = $this->get('twig')->createTemplate($instance->get('resetting_check_email_text')->getValue())->render(['email' => $email]);
 
         return $this->render('Celsius3CoreBundle:Resetting:checkEmail.html.twig', array(
-            'email' => $email,
-            'resetting_text' => $resetting_text,
+            'resetting_check_email_title' => $resettingCheckEmailTitle,
+            'resetting_check_email_text' => $resettingCheckEmailText,
+        ));
+    }
+
+    protected function getObfuscatedEmail(UserInterface $user)
+    {
+        $email = $user->getEmail();
+        if (false !== $pos = strpos($email, '@')) {
+            $email = substr($email, 0, 3) . '...' . substr($email, $pos);
+        }
+
+        return $email;
+    }
+
+    public function sendEmailAction(Request $request)
+    {
+        $username = $request->request->get('username');
+
+        /** @var $user UserInterface */
+        $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
+
+        if (null === $user) {
+            return $this->render('FOSUserBundle:Resetting:request.html.twig', array(
+                'invalid_username' => $username
+            ));
+        }
+
+        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
+            $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+            $resettingPasswordAlreadyRequestedTitle = $instance->get('resetting_password_already_requested_title')->getValue();
+            $resettingPasswordAlreadyRequestedText = $this->get('twig')->createTemplate($instance->get('resetting_password_already_requested_text')->getValue())->render([]);
+
+            return $this->render('FOSUserBundle:Resetting:passwordAlreadyRequested.html.twig', [
+                'resetting_password_already_requested_title' => $resettingPasswordAlreadyRequestedTitle,
+                'resetting_password_already_requested_text' => $resettingPasswordAlreadyRequestedText
+            ]);
+        }
+
+        if (null === $user->getConfirmationToken()) {
+            /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
+            $tokenGenerator = $this->get('fos_user.util.token_generator');
+            $user->setConfirmationToken($tokenGenerator->generateToken());
+        }
+
+        $this->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        $user->setPasswordRequestedAt(new \DateTime());
+        $this->get('fos_user.user_manager')->updateUser($user);
+
+        return new RedirectResponse($this->generateUrl('fos_user_resetting_check_email',
+            array('email' => $this->getObfuscatedEmail($user))
         ));
     }
 }

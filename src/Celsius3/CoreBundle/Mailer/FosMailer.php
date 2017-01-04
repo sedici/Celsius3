@@ -30,15 +30,16 @@ use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Helper\MailerHelper;
+use Celsius3\CoreBundle\Manager\MailManager;
 
 class FosMailer extends DefaultMailer
 {
-
     protected $request_stack;
     protected $mailerHelper;
     protected $instance;
+    private $mailManager;
 
-    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack, InstanceHelper $instanceHelper, MailerHelper $mailerHelper)
+    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack, InstanceHelper $instanceHelper, MailerHelper $mailerHelper, MailManager $mailManager, \Twig_Environment $twig)
     {
         $this->instance = $instanceHelper->getSessionOrUrlInstance();
         if (!is_null($this->instance)) {
@@ -49,9 +50,12 @@ class FosMailer extends DefaultMailer
             $instanceMailer = \Swift_Mailer::newInstance($transport);
 
             parent::__construct($instanceMailer, $router, $templating, $parameters);
-            $this->request_stack = $request_stack;
-            $this->mailerHelper = $mailerHelper;
         }
+        $this->request_stack = $request_stack;
+        $this->mailerHelper = $mailerHelper;
+        $this->mailManager = $mailManager;
+        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     public function sendConfirmationEmailMessage(UserInterface $user)
@@ -61,15 +65,16 @@ class FosMailer extends DefaultMailer
         }
 
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
+        $template = $this->mailManager->getTemplate('user_confirmation', $this->instance);
 
-        $template = $this->parameters['confirmation.template'];
         $url = $this->router->generate('fos_user_registration_confirm', array(
             'token' => $user->getConfirmationToken(),
                 ), true);
-        $rendered = $this->templating->render($template, array(
+        $rendered = $this->twig->createTemplate($template->getText())->render(array(
                     'user' => $user,
-                    'confirmationUrl' => $url,
-                )) . "\n" . $signature;
+                    'url' => $url,
+                ))."\n".$signature;
+        $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['confirmation'], $user->getEmail());
     }
 
@@ -80,16 +85,16 @@ class FosMailer extends DefaultMailer
         }
 
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
-        $template = $this->parameters['resetting.template'];
+        $template = $this->mailManager->getTemplate('resetting', $this->instance);
 
         $url = $this->router->generate('fos_user_resetting_reset', array(
             'token' => $user->getConfirmationToken(),
                 ), true);
-        $rendered = $this->templating->render($template, array(
+        $rendered = $this->twig->createTemplate($template->getText())->render(array(
                     'user' => $user,
-                    'confirmationUrl' => $url,
-                )) . "\n" . $signature;
-        $rendered = html_entity_decode($rendered);
+                    'url' => $url,
+                ))."\n".$signature;
+        $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
         $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
     }
 
@@ -113,5 +118,4 @@ class FosMailer extends DefaultMailer
 
         $this->mailer->send($message);
     }
-
 }

@@ -31,7 +31,6 @@ use Celsius3\CoreBundle\Manager\MailManager;
 
 class MailTemplateType extends AbstractType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -46,8 +45,10 @@ class MailTemplateType extends AbstractType
                         MailManager::MAIL__USER_LOST => MailManager::MAIL__USER_LOST,
                         MailManager::MAIL__USER_WELCOME => MailManager::MAIL__USER_WELCOME,
                         MailManager::MAIL__USER_WELCOME_PROVISION => MailManager::MAIL__USER_WELCOME_PROVISION,
-                        MailManager::MAIL__NO_HIVE => MailManager::MAIL__NO_HIVE
-                    ]
+                        MailManager::MAIL__NO_HIVE => MailManager::MAIL__NO_HIVE,
+                        MailManager::MAIL__RESETTING => MailManager::MAIL__RESETTING,
+                        MailManager::MAIL__USER_CONFIRMATION => MailManager::MAIL__USER_CONFIRMATION,
+                    ],
                 ])
                 ->add('text', TextareaType::class, array(
                     'attr' => array(
@@ -72,8 +73,7 @@ class MailTemplateType extends AbstractType
     {
         $resolver->setDefaults(array(
             'instance' => null,
-            'code' => null
+            'code' => null,
         ));
     }
-
 }

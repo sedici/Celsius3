@@ -1,14 +1,22 @@
 {% extends 'Celsius3CoreBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-    {{ 'Check your email'|trans }}
+    {{ 'Check your email' | trans }}
 {% endblock %}
 
 {% block content %}
-    <h2>{{ 'Check your email'|trans }}</h2>
+    <h2>
+        {% if resetting_check_email_title is defined and resetting_check_email_title is not empty %}
+            {{ resetting_check_email_title }}
+        {% else %}
+            {{ 'Check your email' | trans }}
+        {% endif %}
+    </h2>
     <p>
-        {% if resetting_text is defined and resetting_text is not empty %}
-            {{ resetting_text }}
+        {% if resetting_check_email_text is defined and resetting_check_email_text is not empty %}
+            {% autoescape false %}
+                {{ resetting_check_email_text }}
+            {% endautoescape %}
         {% else %}
             {{ 'resetting.check_email' | trans({'%email%': email}, 'FOSUserBundle') }}
         {% endif %}

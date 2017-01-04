@@ -5,8 +5,8 @@ namespace Celsius3\CoreBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class MailTemplateValidator extends ConstraintValidator {
-
+class MailTemplateValidator extends ConstraintValidator
+{
     private $variables = [
         'user.full_name',
         'user.surname',
@@ -17,10 +17,12 @@ class MailTemplateValidator extends ConstraintValidator {
         'instance.website',
         'instance.email',
         'order.code',
-        'order.material_data.title'
+        'order.material_data.title',
+        'url',
     ];
 
-    public function validate($value, Constraint $constraint) {
+    public function validate($value, Constraint $constraint)
+    {
         preg_match_all('/\{\{([[:alpha:]\ \.\_])+?\}\}/', $value, $match);
 
         $templateVariables = [];
@@ -31,9 +33,7 @@ class MailTemplateValidator extends ConstraintValidator {
         $intersection = array_intersect($templateVariables, $this->variables);
 
         if (count(array_diff($templateVariables, $intersection)) > 0) {
-            $this->context->buildViolation($constraint->message)
-                    ->addViolation();
+            $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
-
 }

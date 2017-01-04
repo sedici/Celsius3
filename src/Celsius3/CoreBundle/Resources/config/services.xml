@@ -416,6 +416,8 @@
             <argument type="service" id="request_stack"></argument>
             <argument type="service" id="celsius3_core.instance_helper"></argument>
             <argument type="service" id="celsius3_core.mailer_helper"></argument>
+            <argument type="service" id="celsius3_core.mail_manager"></argument>
+            <argument type="service" id="twig"></argument>
         </service>
 
         <service id="celsius3.maintenance_mode_listener" class="%celsius3.maintenance_mode_listener.class%">

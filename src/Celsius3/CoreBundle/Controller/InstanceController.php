@@ -56,12 +56,13 @@ abstract class InstanceController extends BaseController
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
-            /* @Ignore */ 'label' => $configuration->getName(),
+            /** @Ignore */
+            'label' => $configuration->getName(),
             'required' => false,
             'attr' => array(
                 'value' => $configuration->getValue(),
                 'class' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
-                'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' ||  $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO || $configuration->getKey() === ConfigurationHelper::CONF__SHOW_NEWS ? false : true,
+                'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO || $configuration->getKey() === ConfigurationHelper::CONF__SHOW_NEWS ? false : true,
             ),
         );
 

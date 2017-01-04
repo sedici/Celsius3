@@ -26,14 +26,12 @@ use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Manager\InstanceManager;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Exception\Exception;
 
 class MailManager
 {
-
     const MAIL__ORDER_PRINTED = 'order_printed';
     const MAIL__ORDER_DOWNLOAD = 'order_download';
     const MAIL__ORDER_CANCEL = 'order_cancel';
@@ -42,6 +40,8 @@ class MailManager
     const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
     const MAIL__USER_LOST = 'user_lost';
     const MAIL__NO_HIVE = 'no_hive';
+    const MAIL__RESETTING = 'resetting';
+    const MAIL__USER_CONFIRMATION = 'user_confirmation';
 
     private $em;
     private $im;
@@ -78,7 +78,7 @@ class MailManager
             $vars = [
                 'instance' => $instance,
                 'user' => $user,
-                'order' => $order
+                'order' => $order,
             ];
 
             return $template->render($this->serializeData($vars));
@@ -109,5 +109,4 @@ class MailManager
 
         return $data;
     }
-
 }

@@ -64,7 +64,12 @@ class ConfigurationHelper
     const CONF__SMTP_STATUS = 'smtp_status';
     const CONF__DOWNLOAD_TIME = 'download_time';
     const CONF__SHOW_NEWS = 'show_news';
-    const CONF__RESETTING_TEXT = 'resetting_text';
+    const CONF__RESETTING_CHECK_EMAIL_TITLE = 'resetting_check_email_title';
+    const CONF__RESETTING_CHECK_EMAIL_TEXT = 'resetting_check_email_text';
+    const CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TITLE = 'resetting_password_already_requested_title';
+    const CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT = 'resetting_password_already_requested_text';
+    const CONF__REGISTRATION_WAIT_CONFIRMATION_TITLE = 'registration_wait_confirmation_title';
+    const CONF__REGISTRATION_WAIT_CONFIRMATION_TEXT = 'registration_wait_confirmation_text';
 
     private $equivalences = array(
         'string' => TextType::class,
@@ -208,9 +213,39 @@ class ConfigurationHelper
             'type' => 'boolean',
             'required' => false,
         ),
-        self::CONF__RESETTING_TEXT => array(
+        self::CONF__RESETTING_CHECK_EMAIL_TITLE => array(
+            'name' => 'Resetting title',
+            'value' => 'Revise su correo',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__RESETTING_CHECK_EMAIL_TEXT => array(
             'name' => 'Resetting text',
             'value' => 'Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.',
+            'type' => 'text',
+            'required' => false,
+        ),
+        self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TITLE => array(
+            'name' => 'Password already requested title',
+            'value' => 'La contraseña ya ha sido solicitada',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT => array(
+            'name' => 'Password already requested text',
+            'value' => 'La contraseña para este usuario ya ha sido solicitada dentro de las 24 horas.',
+            'type' => 'text',
+            'required' => false,
+        ),
+        self::CONF__REGISTRATION_WAIT_CONFIRMATION_TITLE => array(
+            'name' => 'Wait confirmation title',
+            'value' => 'Esperar confirmación',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__REGISTRATION_WAIT_CONFIRMATION_TEXT => array(
+            'name' => 'Wait confirmation text',
+            'value' => 'Por favor espere hasta que un administrador confirme su cuenta de usuario.',
             'type' => 'text',
             'required' => false,
         ),

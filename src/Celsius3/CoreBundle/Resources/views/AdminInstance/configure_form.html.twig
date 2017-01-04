@@ -5,15 +5,17 @@
         <a id="navegacion-tab" href="#navegacion" data-toggle="tab">{{ 'Información y navegación' | trans }}</a>
     </li>
     <li>
-        <a id="visualización-tab" href="#visualización" data-toggle="tab">{{ 'Visualización' | trans }}</a>
+        <a id="visualización-tab" href="#visualizacion" data-toggle="tab">{{ 'Visualización' | trans }}</a>
     </li>
     <li>
-        <a id="comunicación-tab" href="#comunicación" data-toggle="tab">{{ 'Comunicación' | trans }}</a>
+        <a id="comunicación-tab" href="#comunicacion" data-toggle="tab">{{ 'Comunicación' | trans }}</a>
+    </li>
+    <li>
+        <a id="información-tab" href="#informacion" data-toggle="tab">{{ 'Información' | trans }}</a>
     </li>
     <li>
         <a id="otros-tab" href="#otros" data-toggle="tab">{{ 'Otros' | trans }}</a>
     </li>
-
 </ul>
 
 <!-- Tab panes -->
@@ -64,11 +66,12 @@
 
         <div class="row">
             <div class="col-md-12">
-                {{ form_row(configure_form.show_news) }}
+                {{ form_label(configure_form.show_news) }}
+                {{ form_widget(configure_form.show_news, {'attr': { 'class': 'checkbox' }}) }}
             </div>
         </div>
     </div>
-    <div class="tab-pane" id="visualización">
+    <div class="tab-pane" id="visualizacion">
         <br/>
         <div class="row">
             <div class="col-md-12">
@@ -81,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane" id="comunicación">
+    <div class="tab-pane" id="comunicacion">
         <br/>
         <div class="row">
             <div class="col-md-12">
@@ -133,19 +136,35 @@
                 {{ form_row(configure_form.mail_signature) }}
             </div>
         </div>
-
+    </div>
+    <div class="tab-pane" id="informacion">
         <div class="row">
             <div class="col-md-12">
-                {{ form_row(configure_form.resetting_text) }}
+                {{ form_row(configure_form.resetting_check_email_title) }}
+                {{ form_row(configure_form.resetting_check_email_text) }}
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_password_already_requested_title) }}
+                {{ form_row(configure_form.resetting_password_already_requested_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.registration_wait_confirmation_title) }}
+                {{ form_row(configure_form.registration_wait_confirmation_text) }}
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="otros">
         <br/>
         <div class="row">
             <div class="col-md-12">
                 {{ form_row(configure_form.download_time) }}
+            </div>
+            <div class="col-md-12 hidden">
+                {{ form_row(configure_form.api_key) }}
             </div>
         </div>
     </div>
