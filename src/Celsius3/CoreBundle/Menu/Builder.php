@@ -24,8 +24,9 @@ namespace Celsius3\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class Builder
+class Builder implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
 
@@ -52,21 +53,31 @@ class Builder
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $menu->addChild('Home', array(
-            'route' => 'public_index',
-        ))->setExtra('translation_domain', 'messages');
-        $menu->addChild('News', array(
-            'route' => 'public_news',
-        ))->setExtra('translation_domain', 'messages');
-        $menu->addChild('Information', array(
-            'route' => 'public_information',
-        ))->setExtra('translation_domain', 'messages');
-        $menu->addChild('Statistics', array(
-            'route' => 'public_statistics',
-        ))->setExtra('translation_domain', 'messages');
-        $menu->addChild('Help', array(
-            'route' => 'public_help',
-        ))->setExtra('translation_domain', 'messages');
+        $instance = $this->container->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
+
+        $homeText = !empty($instance->get('home_home_btn_text')->getValue()) ? $instance->get('home_home_btn_text')->getValue() : 'Home';
+        $menu->addChild($homeText, array('route' => 'public_index'))
+            ->setExtra('translation_domain', 'messages');
+        if ($instance->get('home_news_visible')->getValue()) {
+            $newsText = !empty($instance->get('home_news_btn_text')->getValue()) ? $instance->get('home_news_btn_text')->getValue() : 'News';
+            $menu->addChild($newsText, array('route' => 'public_news'))
+                ->setExtra('translation_domain', 'messages');
+        }
+        if ($instance->get('home_information_visible')->getValue()) {
+            $informationText = !empty($instance->get('home_information_btn_text')->getValue()) ? $instance->get('home_information_btn_text')->getValue() : 'Information';
+            $menu->addChild($informationText, array('route' => 'public_information'))
+                ->setExtra('translation_domain', 'messages');
+        }
+        if ($instance->get('home_statistics_visible')->getValue()) {
+            $statisticsText = !empty($instance->get('home_statistics_btn_text')->getValue()) ? $instance->get('home_statistics_btn_text')->getValue() : 'Statistics';
+            $menu->addChild($statisticsText, array('route' => 'public_statistics'))
+                ->setExtra('translation_domain', 'messages');
+        }
+        if ($instance->get('home_help_visible')->getValue()) {
+            $helpText = !empty($instance->get('home_help_btn_text')->getValue()) ? $instance->get('home_help_btn_text')->getValue() : 'Help';
+            $menu->addChild($helpText, array('route' => 'public_help'))
+                ->setExtra('translation_domain', 'messages');
+        }
 
         return $menu;
     }

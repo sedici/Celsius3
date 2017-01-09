@@ -53,16 +53,17 @@ abstract class InstanceController extends BaseController
      */
     private function buildConfigurationArray($configuration, $configurationType)
     {
+        $configs = $this->get('celsius3_core.configuration_helper')->configurations;
         $config_array = array(
             'constraints' => $this->get('celsius3_core.configuration_helper')->getConstraints($configuration),
             'data' => $this->get('celsius3_core.configuration_helper')->getCastedValue($configuration),
             /** @Ignore */
             'label' => $configuration->getName(),
-            'required' => false,
+            'required' => array_key_exists($configuration->getKey(), $configs) && isset($configs[$configuration->getKey()]['required']) ? $configs[$configuration->getKey()]['required'] : false,
             'attr' => array(
                 'value' => $configuration->getValue(),
                 'class' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' && $configuration->getKey() !== ConfigurationHelper::CONF__INSTANCE_CSS ? 'summernote' : '',
-                'required' => $configurationType === 'Symfony\Component\Form\Extension\Core\Type\TextareaType' || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_LOGO || $configuration->getKey() === ConfigurationHelper::CONF__SHOW_NEWS ? false : true,
+                'required' => array_key_exists($configuration->getKey(), $configs) && isset($configs[$configuration->getKey()]['required']) ? $configs[$configuration->getKey()]['required'] : false,
             ),
         );
 

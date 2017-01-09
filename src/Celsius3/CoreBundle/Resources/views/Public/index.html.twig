@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block content %}
+    {% set show_news = instance.get('show_news').getValue() %}
+
     {% if show_news %}
         {% set columns = 6 %}
     {% else %}

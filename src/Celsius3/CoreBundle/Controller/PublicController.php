@@ -51,7 +51,6 @@ class PublicController extends BaseInstanceDependentController
             'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getInstance()),
-            'show_news' => $this->getInstance()->get('show_news')->getValue(),
         );
     }
 
@@ -61,6 +60,11 @@ class PublicController extends BaseInstanceDependentController
      */
     public function informationAction()
     {
+        $instance = $this->getInstance();
+        if ($instance && !boolval($instance->get('home_information_visible')->getValue())) {
+            return $this->redirectToRoute('public_index');
+        }
+
         return array(
             'instance' => $this->getInstance(),
         );
@@ -72,6 +76,11 @@ class PublicController extends BaseInstanceDependentController
      */
     public function newsAction(Request $request)
     {
+        $instance = $this->getInstance();
+        if ($instance && !boolval($instance->get('home_news_visible')->getValue())) {
+            return $this->redirectToRoute('public_index');
+        }
+
         $news = $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:News')
                 ->findByInstanceQB($this->getInstance());
@@ -90,6 +99,11 @@ class PublicController extends BaseInstanceDependentController
      */
     public function statisticsAction()
     {
+        $instance = $this->getInstance();
+        if ($instance && !boolval($instance->get('home_statistics_visible')->getValue())) {
+            return $this->redirectToRoute('public_index');
+        }
+
         return array();
     }
 
@@ -238,6 +252,11 @@ class PublicController extends BaseInstanceDependentController
      */
     public function helpAction()
     {
+        $instance = $this->getInstance();
+        if ($instance && !boolval($instance->get('home_help_visible')->getValue())) {
+            return $this->redirectToRoute('public_index');
+        }
+
         return array('staff' => $this->getInstance()->get('instance_staff')->getValue());
     }
 }

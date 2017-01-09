@@ -70,6 +70,15 @@ class ConfigurationHelper
     const CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT = 'resetting_password_already_requested_text';
     const CONF__REGISTRATION_WAIT_CONFIRMATION_TITLE = 'registration_wait_confirmation_title';
     const CONF__REGISTRATION_WAIT_CONFIRMATION_TEXT = 'registration_wait_confirmation_text';
+    const CONF__HOME_HOME_BTN_TEXT = 'home_home_btn_text';
+    const CONF__HOME_NEWS_BTN_TEXT = 'home_news_btn_text';
+    const CONF__HOME_INFORMATION_BTN_TEXT = 'home_information_btn_text';
+    const CONF__HOME_STATISTICS_BTN_TEXT = 'home_statistics_btn_text';
+    const CONF__HOME_HELP_BTN_TEXT = 'home_help_btn_text';
+    const CONF__HOME_NEWS_VISIBLE = 'home_news_visible';
+    const CONF__HOME_INFORMATION_VISIBLE = 'home_information_visible';
+    const CONF__HOME_STATISTICS_VISIBLE = 'home_statistics_visible';
+    const CONF__HOME_HELP_VISIBLE = 'home_help_visible';
 
     private $equivalences = array(
         'string' => TextType::class,
@@ -116,6 +125,7 @@ class ConfigurationHelper
             'name' => 'Staff',
             'value' => 'Instance Staff',
             'type' => 'text',
+            'required' => false,
         ),
         self::CONF__RESULTS_PER_PAGE => array(
             'name' => 'Results per page',
@@ -131,11 +141,13 @@ class ConfigurationHelper
             'name' => 'Instance description',
             'value' => '',
             'type' => 'text',
+            'required' => false,
         ),
         self::CONF__INSTANCE_INFORMATION => array(
             'name' => 'Instance information',
             'value' => '',
             'type' => 'text',
+            'required' => false,
         ),
         self::CONF__DEFAULT_LANGUAGE => array(
             'name' => 'Default language',
@@ -151,6 +163,7 @@ class ConfigurationHelper
             'name' => 'Mail signature',
             'value' => '',
             'type' => 'text',
+            'required' => false,
         ),
         self::CONF__MIN_DAYS_FOR_SEND_MAIL => array(
             'name' => 'Minimun days for send emails',
@@ -166,11 +179,13 @@ class ConfigurationHelper
             'name' => 'Instance Logo',
             'value' => '',
             'type' => 'image',
+            'required' => false,
         ),
         self::CONF__INSTANCE_CSS => array(
             'name' => 'Instance CSS',
             'value' => '',
             'type' => 'text',
+            'required' => false,
         ),
         self::CONF__SMTP_HOST => array(
             'name' => 'SMTP Host',
@@ -215,38 +230,92 @@ class ConfigurationHelper
         ),
         self::CONF__RESETTING_CHECK_EMAIL_TITLE => array(
             'name' => 'Resetting title',
-            'value' => 'Revise su correo',
+            'value' => '',
             'type' => 'string',
             'required' => false,
         ),
         self::CONF__RESETTING_CHECK_EMAIL_TEXT => array(
             'name' => 'Resetting text',
-            'value' => 'Un email ha sido enviado a %email%. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.',
+            'value' => '',
             'type' => 'text',
             'required' => false,
         ),
         self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TITLE => array(
             'name' => 'Password already requested title',
-            'value' => 'La contraseña ya ha sido solicitada',
+            'value' => '',
             'type' => 'string',
             'required' => false,
         ),
         self::CONF__RESETTING_PASSWORD_ALREADY_REQUESTED_TEXT => array(
             'name' => 'Password already requested text',
-            'value' => 'La contraseña para este usuario ya ha sido solicitada dentro de las 24 horas.',
+            'value' => '',
             'type' => 'text',
             'required' => false,
         ),
         self::CONF__REGISTRATION_WAIT_CONFIRMATION_TITLE => array(
             'name' => 'Wait confirmation title',
-            'value' => 'Esperar confirmación',
+            'value' => '',
             'type' => 'string',
             'required' => false,
         ),
         self::CONF__REGISTRATION_WAIT_CONFIRMATION_TEXT => array(
             'name' => 'Wait confirmation text',
-            'value' => 'Por favor espere hasta que un administrador confirme su cuenta de usuario.',
+            'value' => '',
             'type' => 'text',
+            'required' => false,
+        ),
+        self::CONF__HOME_HOME_BTN_TEXT => array(
+            'name' => 'Home button text',
+            'value' => '',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__HOME_NEWS_BTN_TEXT => array(
+            'name' => 'News button text',
+            'value' => '',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__HOME_NEWS_VISIBLE => array(
+            'name' => '',
+            'value' => true,
+            'type' => 'boolean',
+            'required' => false,
+        ),
+        self::CONF__HOME_INFORMATION_BTN_TEXT => array(
+            'name' => '',
+            'value' => '',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__HOME_INFORMATION_VISIBLE => array(
+            'name' => '',
+            'value' => true,
+            'type' => 'boolean',
+            'required' => false,
+        ),
+        self::CONF__HOME_STATISTICS_BTN_TEXT => array(
+            'name' => '',
+            'value' => '',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__HOME_STATISTICS_VISIBLE => array(
+            'name' => '',
+            'value' => true,
+            'type' => 'boolean',
+            'required' => false,
+        ),
+        self::CONF__HOME_HELP_BTN_TEXT => array(
+            'name' => '',
+            'value' => '',
+            'type' => 'string',
+            'required' => false,
+        ),
+        self::CONF__HOME_HELP_VISIBLE => array(
+            'name' => '',
+            'value' => true,
+            'type' => 'boolean',
             'required' => false,
         ),
     );
@@ -301,8 +370,7 @@ class ConfigurationHelper
     public function updateConfigurations()
     {
         $em = $this->container->get('doctrine.orm.entity_manager');
-        $instances = $em->getRepository('Celsius3CoreBundle:Instance')
-                ->findAll();
+        $instances = $em->getRepository('Celsius3CoreBundle:Instance')->findAll();
 
         foreach ($this->configurations as $key => $configuration) {
             foreach ($instances as $instance) {

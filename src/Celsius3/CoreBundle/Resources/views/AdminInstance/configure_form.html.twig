@@ -11,7 +11,7 @@
         <a id="comunicación-tab" href="#comunicacion" data-toggle="tab">{{ 'Comunicación' | trans }}</a>
     </li>
     <li>
-        <a id="información-tab" href="#informacion" data-toggle="tab">{{ 'Información' | trans }}</a>
+        <a id="inicio-tab" href="#inicio" data-toggle="tab">{{ 'Pagina principal' | trans }}</a>
     </li>
     <li>
         <a id="otros-tab" href="#otros" data-toggle="tab">{{ 'Otros' | trans }}</a>
@@ -68,6 +68,68 @@
             <div class="col-md-12">
                 {{ form_label(configure_form.show_news) }}
                 {{ form_widget(configure_form.show_news, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_home_btn_text) }}
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_news_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_news_visible) }}
+                {{ form_widget(configure_form.home_news_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_information_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_information_visible) }}
+                {{ form_widget(configure_form.home_information_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_statistics_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_statistics_visible) }}
+                {{ form_widget(configure_form.home_statistics_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(configure_form.home_help_btn_text) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(configure_form.home_help_visible) }}
+                {{ form_widget(configure_form.home_help_visible, {'attr': { 'class': 'checkbox' }}) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_check_email_title) }}
+                {{ form_row(configure_form.resetting_check_email_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_password_already_requested_title) }}
+                {{ form_row(configure_form.resetting_password_already_requested_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.registration_wait_confirmation_title) }}
+                {{ form_row(configure_form.registration_wait_confirmation_text) }}
             </div>
         </div>
     </div>
@@ -137,26 +199,7 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane" id="informacion">
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.resetting_check_email_title) }}
-                {{ form_row(configure_form.resetting_check_email_text) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.resetting_password_already_requested_title) }}
-                {{ form_row(configure_form.resetting_password_already_requested_text) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.registration_wait_confirmation_title) }}
-                {{ form_row(configure_form.registration_wait_confirmation_text) }}
-            </div>
-        </div>
-    </div>
+    <div class="tab-pane" id="inicio"></div>
     <div class="tab-pane" id="otros">
         <br/>
         <div class="row">
