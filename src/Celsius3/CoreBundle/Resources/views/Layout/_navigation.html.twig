@@ -111,9 +111,9 @@
             <a href="{{ path('ticket_index') }}">{{ 'Sistema de Ticket'|trans }}</a>
         </li>
     {% endif %}
-    <li><a href="{{ path('admin_instance_configure') }}"><span class="glyphicon glyphicon-wrench"></span></a></li>
 
-    </li>
-
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
+        <li><a href="{{ path('admin_instance_configure') }}"><span class="glyphicon glyphicon-wrench"></span></a></li>
+    {% endif %}
 
 </ul>
