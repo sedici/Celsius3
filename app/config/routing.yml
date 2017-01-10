@@ -5,17 +5,17 @@ celsius3_ticket:
 
 directory_homepage:
     path:   /
-    host:   instancia.celsius3.prebi.unlp.edu.ar
+    host:   celsius3.prebi.unlp.edu.ar
     defaults: { _controller: Celsius3CoreBundle:Directory:index }
 
 directory_instances:
     path:   /instances
-    host:   instancia.celsius3.prebi.unlp.edu.ar
+    host:   celsius3.prebi.unlp.edu.ar
     defaults: { _controller: Celsius3CoreBundle:Directory:instances }
 
 directory_statistics:
     path:   /statistics
-    host:   instancia.celsius3.prebi.unlp.edu.ar
+    host:   celsius3.prebi.unlp.edu.ar
     defaults: { _controller: Celsius3CoreBundle:Directory:statistics }
     options:
         expose: true
