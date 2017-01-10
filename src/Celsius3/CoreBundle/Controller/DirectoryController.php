@@ -22,8 +22,6 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\TicketBundle\Entity\Ticket;
-use Celsius3\TicketBundle\Entity\TicketState;
 use Celsius3\TicketBundle\Entity\TypeState;
 use Celsius3\TicketBundle\Entity\Priority;
 use Celsius3\TicketBundle\Entity\Category;
@@ -141,8 +139,6 @@ class DirectoryController extends BaseController
          */
         public function createAction(Request $request)
         {
-
-
             $em = $this->container->get('doctrine.orm.entity_manager');
 
             $paramteros = $request->get('instance_register');
@@ -168,14 +164,9 @@ class DirectoryController extends BaseController
             $sitio_institucion = $paramteros['sitio_institucion'];
             $sitio_catalogo = $paramteros['sitio_catalogo'];
 
-
-
-            $migrar = empty($paramteros['migrar'])? '': $paramteros['migrar'];
+            $migrar = empty($paramteros['migrar']) ? '' : $paramteros['migrar'];
 
             $observaciones = $paramteros['observaciones'];
-
-
-
 
             $texto = "$apellido_nombre solicito agregar una nueva instancia $text_country -  $text_city - $text_institution con la siguiente informacion: <br/>URL Institucion: $sitio_institucion";
             $texto .= "<br/> URL Biblioteca $sitio_biblioteca <br/> URL Catalogo: $sitio_catalogo";
@@ -185,19 +176,16 @@ class DirectoryController extends BaseController
                 $texto .= '<br/> Se solicita migración.';
             }
 
-            $parametros=array();
-            $parametros['subject']='Nueva Instancia Cargada';
-            $parametros['texto']=$texto;
-            $parametros['priority']=Priority::PRIORITY_MEDIA;
-            $parametros['category']=Category::CATEGORY_NEW_INSTANCE;
-            $parametros['typeState']=TypeState::TYPE_STATE_NEW;
-
-
+            $parametros = array();
+            $parametros['subject'] = 'Nueva Instancia Cargada';
+            $parametros['texto'] = $texto;
+            $parametros['priority'] = Priority::PRIORITY_MEDIA;
+            $parametros['category'] = Category::CATEGORY_NEW_INSTANCE;
+            $parametros['typeState'] = TypeState::TYPE_STATE_NEW;
 
             $ticketHelper = $this->get('celsius3_ticket.ticket_helper');
             $ticketHelper->setParametros($parametros);
             $ticketHelper->createTicket();
-
 
             return array(
             'entity' => $entity,

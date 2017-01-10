@@ -41,7 +41,6 @@ class TicketHelper
         $ticket->setSubject($param['subject']);
         $ticket->setText($param['texto']);
 
-        //$em = $this->getDoctrine()->getManager();
         $priority = $em->getRepository('Celsius3TicketBundle:Priority')->find($param['priority']);
         $ticket->setPriority($priority);
 
