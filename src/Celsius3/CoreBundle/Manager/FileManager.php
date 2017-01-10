@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\FileDownload;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileManager
 {
@@ -41,7 +42,7 @@ class FileManager
         $this->em = $em;
     }
 
-    private function countPages(File $file)
+    private function countPages(UploadedFile $file)
     {
         exec('exiftool '.$file->getRealPath()." | awk '/Page Count/ { print $4 }'", $output);
 
