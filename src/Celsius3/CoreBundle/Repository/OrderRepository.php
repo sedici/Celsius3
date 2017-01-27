@@ -265,4 +265,14 @@ class OrderRepository extends BaseRepository
                         ->getQuery()
                         ->execute();
     }
+
+    public function addFindByRequestInstance($data, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
+    {
+        if ($data instanceof Instance) {
+            $query = $query->andWhere('r.instance = :instance')
+                    ->setParameter('instance', $data->getId());
+        }
+
+        return $query;
+    }
 }

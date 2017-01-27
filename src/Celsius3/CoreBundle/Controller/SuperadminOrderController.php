@@ -261,6 +261,16 @@ class SuperadminOrderController extends OrderController
 
           $em = $this->getDoctrine()->getManager();
 
+          $states = $order->getOriginalRequest()->getStates();
+          foreach ($states as $state) {
+              $em->remove($state);
+          }
+
+          $events = $order->getOriginalRequest()->getEvents();
+          foreach ($events as $event) {
+              $em->remove($event);
+          }
+
           $em->remove($order->getOriginalRequest());
           $em->remove($order->getMaterialData());
           $em->remove($order);
@@ -290,6 +300,16 @@ class SuperadminOrderController extends OrderController
           }
 
           $em = $this->getDoctrine()->getManager();
+
+          $states = $order->getOriginalRequest()->getStates();
+          foreach ($states as $state) {
+              $em->persist($state->setDeletedAt(null));
+          }
+
+            $events = $order->getOriginalRequest()->getEvents();
+            foreach ($events as $event) {
+                $em->persist($event->setDeletedAt(null));
+            }
 
           $em->persist($order->getOriginalRequest()->setDeletedAt(null));
           $em->persist($order->getMaterialData()->setDeletedAt(null));

@@ -28,6 +28,7 @@ use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
@@ -63,11 +64,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *   "searchpendings"="SearchPendingsEvent",
  *   "nosearchpendings"="NoSearchPendingsEvent"
  * })
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 abstract class Event implements EventInterface
 {
 
     use TimestampableEntity;
+    use SoftDeleteableEntity;
 
     /**
      * @ORM\Column(type="integer")
