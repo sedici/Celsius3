@@ -80,16 +80,16 @@ class RegistrationFormType extends AbstractType
         $institutionFiledsSubscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
         $builder->addEventSubscriber($institutionFiledsSubscriber);
 
-        $builder->add('recaptcha', EWZRecaptchaType::class, array(
-            'attr' => array(
-                'options' => array(
-                    'theme' => 'light',
-                    'type' => 'image',
-                    'size' => 'normal',
-                ),
-            ),
-            'mapped' => false,
-        ));
+        // $builder->add('recaptcha', EWZRecaptchaType::class, array(
+        //     'attr' => array(
+        //         'options' => array(
+        //             'theme' => 'light',
+        //             'type' => 'image',
+        //             'size' => 'normal',
+        //         ),
+        //     ),
+        //     'mapped' => false,
+        // ));
     }
 
     public function getParent()

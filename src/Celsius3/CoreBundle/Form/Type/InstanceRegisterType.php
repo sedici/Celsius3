@@ -87,16 +87,16 @@ class InstanceRegisterType extends LegacyInstanceType
             ))
 
         ;
-        $builder->add('recaptcha', EWZRecaptchaType::class, array(
-            'attr' => array(
-                'options' => array(
-                    'theme' => 'light',
-                    'type' => 'image',
-                    'size' => 'normal',
-                ),
-            ),
-            'mapped' => false,
-        ));
+        // $builder->add('recaptcha', EWZRecaptchaType::class, array(
+        //     'attr' => array(
+        //         'options' => array(
+        //             'theme' => 'light',
+        //             'type' => 'image',
+        //             'size' => 'normal',
+        //         ),
+        //     ),
+        //     'mapped' => false,
+        // ));
 
     }
 

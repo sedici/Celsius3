@@ -173,11 +173,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * @ORM\Column(type="string", nullable=true)
      */
     protected $observaciones;
-
-    /**
-     * @Recaptcha\IsTrue
-     */
-    public $recaptcha;
+    //
+    // /**
+    //  * @Recaptcha\IsTrue
+    //  */
+    // public $recaptcha;
 
     public function __toString()
     {
