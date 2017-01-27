@@ -356,7 +356,7 @@ class EventManager
         return $extraData;
     }
 
-    public function getRealEventName($event, array $extraData, Instance $instance, Request $request)
+    public function getRealEventName($event, array $extraData = null, Instance $instance, Request $request)
     {
         switch ($event) {
             case self::EVENT__REQUEST:
