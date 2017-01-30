@@ -43,9 +43,9 @@ class FosMailer extends DefaultMailer
     {
         $this->instance = $instanceHelper->getSessionOrUrlInstance();
         if (!is_null($this->instance)) {
-            $transport = \Swift_SmtpTransport::newInstance($this->instance->get('smtp_host')->getValue(), $this->instance->get('smtp_port')->getValue(), $this->instance->get('smtp_protocol')->getValue())
-                    ->setUsername($this->instance->get('smtp_username')->getValue())
-                    ->setPassword($this->instance->get('smtp_password')->getValue())
+            $transport = \Swift_SmtpTransport::newInstance($this->instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(), $this->instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(), $this->instance->get(ConfigurationHelper::CONF__SMTP_PROTOCOL)->getValue())
+                    ->setUsername($this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue())
+                    ->setPassword($this->instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue())
             ;
             $instanceMailer = \Swift_Mailer::newInstance($transport);
 
@@ -75,7 +75,9 @@ class FosMailer extends DefaultMailer
                     'url' => $url,
                 ))."\n".$signature;
         $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
-        $this->sendEmailMessage($rendered, $this->parameters['from_email']['confirmation'], $user->getEmail());
+        $fromEmail = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
+
+        $this->sendEmailMessage($rendered, $fromEmail, $user->getEmail());
     }
 
     public function sendResettingEmailMessage(UserInterface $user)
@@ -95,7 +97,9 @@ class FosMailer extends DefaultMailer
                     'url' => $url,
                 ))."\n".$signature;
         $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
-        $this->sendEmailMessage($rendered, $this->parameters['from_email']['resetting'], $user->getEmail());
+        $fromEmail = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
+
+        $this->sendEmailMessage($rendered, $fromEmail, $user->getEmail());
     }
 
     /**

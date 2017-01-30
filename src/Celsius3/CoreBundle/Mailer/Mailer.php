@@ -112,7 +112,7 @@ class Mailer
         }
 
         foreach ($emails as $email) {
-            $from = $instance->get(ConfigurationHelper::CONF__EMAIL_REPLY_ADDRESS)->getValue();
+            $from = $instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
             if ($logLevel <= 2) {
                 $output->writeln('Sending mail from ' . $from . ' to ' . $email->getAddress());
                 $logger->info('Sending mail from ' . $from . ' to ' . $email->getAddress());
