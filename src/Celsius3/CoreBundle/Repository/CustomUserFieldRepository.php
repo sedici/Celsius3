@@ -40,6 +40,7 @@ class CustomUserFieldRepository extends BaseRepository
             $qb->andWhere('cuf.private = :private')
                 ->setParameter('private', false);
         }
+        $qb->orderBy('cuf.orden');
 
         return $qb->getQuery()->getResult();
     }
