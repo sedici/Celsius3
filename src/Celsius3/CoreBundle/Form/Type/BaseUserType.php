@@ -44,7 +44,7 @@ class BaseUserType extends RegistrationFormType
         $builder->get('birthdate')->setAttribute('required', false);
         $builder
                 ->add('enabled', null, array(
-                    'required' => false,
+                    'required' => false,'attr'=>array('class'=>'checkbox')
                 ))
                 ->add('locked', null, array(
                     'required' => false,

@@ -95,6 +95,12 @@ class CustomUserField
      */
     private $values;
 
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $orden;
+
     public function __construct()
     {
         $this->values = new \Doctrine\Common\Collections\ArrayCollection();
@@ -331,4 +337,30 @@ class CustomUserField
     {
         return $this->values;
     }
+
+    /**
+     * Get orden.
+     *
+     * @return bool $enabled
+     */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * Set orden
+     *
+     * @param bool $orden
+     *
+     * @return self
+     */
+    public function setOrden($orden)
+    {
+        $this->orden = $orden;
+
+        return $this;
+    }
+
+
 }

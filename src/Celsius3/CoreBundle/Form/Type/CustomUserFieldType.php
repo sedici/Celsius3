@@ -59,6 +59,7 @@ class CustomUserFieldType extends AbstractType
                     'choices_as_values' => true,
                 ))
                 ->add('value', TextType::class, array('label'=>'Valor - Ej: Campo1,Campo2,Campos3','required' => false,))
+            ->add('orden')
 
         ;
 
