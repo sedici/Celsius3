@@ -49,7 +49,7 @@ class AdminJournalController extends BaseInstanceDependentController
     {
         return $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:Journal')
-                    ->findOneForInstanceOrGlobal($this->getInstance()->getId(), $this->getDirectory()->getId(), $id);
+                    ->findOneForInstanceOrGlobal($this->getInstance(), $this->getDirectory(), $id);
     }
 
     protected function getSortDefaults()

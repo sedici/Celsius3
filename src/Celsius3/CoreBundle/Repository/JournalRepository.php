@@ -80,7 +80,7 @@ class JournalRepository extends BaseRepository
 
         if (!$isAdmin) {
             $qb = $qb->andWhere('e.instance = :instance_id')
-            ->setParameter('instance_id', $instance()->getId());
+            ->setParameter('instance_id', $instance->getId());
         }
 
         return $qb->andWhere('e.id = :id')
