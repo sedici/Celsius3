@@ -156,7 +156,7 @@ class EventManager
                     ->findOneBy(array());
         } else {
             $provider = $em->getRepository('Celsius3CoreBundle:Institution')
-                    ->find($httpRequest->request->get('provider'));
+                    ->find($httpRequest->request->get('provider')['id']);
         }
 
         if ($provider) {

@@ -174,11 +174,14 @@
                         <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
                             <div class="form-group" ng-if="contacts !== null">
                                 <label for="contact">{{'contact' | trans}}</label>
-                                <select ui-select2="select2Contacts" ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
-                                    <option></option>
-                                    <option ng-repeat="c in contacts" value="{{c.id}}">{{c.surname + ', ' + c.name}}
-                                        ({{c.type.name}})</option>
-                                </select>
+                                <ui-select ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
+                                    <ui-select-match allow-clear="{{ select2Contacts.allowClear }}" placeholder="{{ select2Contacts.placeholder }}">
+                                        <span ng-bind="$select.selected.surname + ', ' + $select.selected.name"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="c in (contacts | filter: $select.search) track by c.id">
+                                        <span ng-bind="c.surname + ', ' + c.name"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                             <div class="form-group" ng-class="emailerror">
                                 <label for="address">{{'address' | trans}}</label>
@@ -186,10 +189,14 @@
                             </div>
                             <div class="form-group" ng-if="templates.length > 1">
                                 <label for="template">{{'template' | trans}}</label>
-                                <select id="email_template_select" ui-select2="select2Templates" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
-                                    <option></option>
-                                    <option ng-repeat="t in templates" value="{{t.id}}">{{t.title}}</option>
-                                </select>
+                                <ui-select ng-model="forms.email.template" name="template" id="email_template_select" id="template" ng-change="templateChanged()">
+                                    <ui-select-match allow-clear="{{ select2Templates.allowClear }}" placeholder="{{ select2Templates.placeholder }}">
+                                        <span ng-bind="$select.selected.title"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="t in (templates | filter: $select.search) track by t.id">
+                                        <span ng-bind="t.title"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                             <div class="form-group" ng-class="subjecterror">
                                 <label for="subject">{{'subject' | trans}}</label>
@@ -233,11 +240,14 @@
                         <form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate>
                             <div class="form-group" ng-class="delivery_type_error">
                                 <label for="delivery_type">{{'deliveryType' | trans}}</label>
-                                <select ui-select2 ng-model="forms.receive.delivery_type" name="delivery_type" id="delivery_type" required>
-                                    <option value=""></option>
-                                    <option value="PDF">{{'pdf' | trans}}</option>
-                                    <option value="Printed">{{'printed' | trans}}</option>
-                                </select>
+                                <ui-select ng-model="forms.receive.delivery_type" name="delivery_type" id="delivery_type" required>
+                                    <ui-select-match>
+                                        <span ng-bind="$select.selected | trans"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="dt in ([pdf', 'printed'])">
+                                        <span ng-bind="dt | trans"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                             <div class="form-group">
                                 <label for="observations">{{'observations' | trans}}</label>
@@ -480,14 +490,14 @@
                             <div class="relojito">
                                 <span ng-if="!hasApprove(getReceive(request))">
                                     <a ng-if="file.enabled" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                                        <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                                        <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                                        <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o"></span>
+                                        <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text"></span>
                                     </a>
                                 </span>
                                 <span ng-if="hasApprove(getReceive(request))">
                                     <a ng-if="file.enabled" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                                        <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                                        <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                                        <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o"></span>
+                                        <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text"></span>
                                     </a>
                                 </span>
                                 <a href ng-if="!hasApprove(getReceive(request)) && request.type === 'sirequest'" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
@@ -689,34 +699,41 @@
         <script type="text/ng-template" id="order_email_form.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
                 <form class="form-horizontal" id="emailForm" name="formNames.email" ng-submit="sendEmail()">
-                <div class="form-group" ng-if="contacts !== null">
-                <label for="contact">{{'contact' | trans}}</label>
-                <select ui-select2="select2Contacts" ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
-                <option></option>
-                <option ng-repeat="c in contacts" value="{{c.id}}">{{c.surname + ', ' + c.name}} ({{c.type.name}})</option>
-                </select>
-                </div>
-                <div class="form-group" ng-class="emailerror">
-                <label for="address">{{'address' | trans}}</label>
-                <input type="email" class="form-control" ng-model="forms.email.address" name="address" id="address" required />
-                </div>
-                <div class="form-group" ng-if="templates.length > 1">
-                <label for="template">{{'template' | trans}}</label>
-                <select id="email_template_select" ui-select2="select2Templates" ng-model="forms.email.template" class="form-control" name="template" id="template" ng-click="templateChanged()">
-                <option></option>
-                <option ng-repeat="t in templates" value="{{t.id}}">{{t.title}}</option>
-                </select>
-                </div>
-                <div class="form-group" ng-class="subjecterror">
-                <label for="subject">{{'subject' | trans}}</label>
-                <input type="text" class="form-control" ng-model="forms.email.subject" name="subject" id="subject" required />
-                </div>
-                <div class="form-group" ng-class="texterror">
-                <label for="text">{{'text' | trans }}</label>
-                <textarea id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required >
-                </textarea>
-                <input type="hidden" name="order_id" id="order_id" ng-model="order.id"/>
-                </div>
+                    <div class="form-group" ng-if="contacts !== null">
+                        <label for="contact">{{'contact' | trans}}</label>
+                        <ui-select ng-model="forms.email.contact" class="form-control" name="contact" id="contact" ng-change="contactChanged()">
+                            <ui-select-match allow-clear="{{ select2Contacts.allowClear }}" placeholder="{{ select2Contacts.placeholder }}">
+                                <span ng-bind-html="$select.selected.surname + ', ' + $select.selected.name"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="c in (contacts | filter: $select.search) track by c.id">
+                                <span ng-bind-html="c.surname + ', ' + c.name + '(' + c.type.name + ')'}}"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group" ng-class="emailerror">
+                        <label for="address">{{'address' | trans}}</label>
+                        <input type="email" class="form-control" ng-model="forms.email.address" name="address" id="address" required/>
+                    </div>
+                    <div class="form-group" ng-if="templates.length > 1">
+                        <label for="template">{{'template' | trans}}</label>
+                        <ui-select ng-model="forms.email.template" name="template" id="email_template_select" ng-change="templateChanged()">
+                            <ui-select-match allow-clear="{{ select2Templates.allowClear }}" placeholder="{{ select2Templates.placeholder }}">
+                                <span ng-bind="$select.selected.title"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="t in (templates | filter: $select.search) track by t.id">
+                                <span ng-bind="t.title"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group" ng-class="subjecterror">
+                        <label for="subject">{{'subject' | trans}}</label>
+                        <input type="text" class="form-control" ng-model="forms.email.subject" name="subject" id="subject" required/>
+                    </div>
+                    <div class="form-group" ng-class="texterror">
+                        <label for="text">{{'text' | trans }}</label>
+                        <textarea id="email_summernote" class="form-control" name="text" id="text" ng-model="forms.email.text" required></textarea>
+                        <input type="hidden" name="order_id" id="order_id" ng-model="order.id"/>
+                    </div>
                 </form>
             {% endverbatim %}
         </script>
@@ -748,26 +765,33 @@
         <!-- order_receive_form.html -->
         <script type="text/ng-template" id="order_receive_form.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
-                <form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate >
-                <div class="form-group" ng-class="delivery_type_error">
-                <label for="delivery_type">{{'deliveryType' | trans}}</label>
-                <select ui-select2 ng-model="forms.receive.delivery_type" name="delivery_type" id="delivery_type" required>
-                <option value=""></option>
-                <option value="PDF">{{'pdf' | trans}}</option>
-                <option value="Printed">{{'printed' | trans}}</option>
-                </select>
-                </div>
-                <div class="form-group">
-                <label for="observations">{{'observations' | trans}}</label>
-                <textarea class="form-control" ng-model="forms.receive.observations" name="observations" id="observations"></textarea>
-                </div>
-                <div class="form-group" ng-class="files_error">
-                <label for="files">{{'files' | trans}}</label>
-                <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | trans }}</button>
-                <ul>
-                <li ng-repeat="(key, file) in filesToUpload">{{ file.name }} <a href ng-click="removeFiles(filesToUpload, 'filesToUpload', file)"><span class="glyphicon glyphicon-remove"></span></a></li>
-                </ul>
-                </div>
+                <form class="form-horizontal" id="receiveForm" name="formNames.receive" novalidate>
+                    <div class="form-group" ng-class="delivery_type_error">
+                        <label for="delivery_type">{{'deliveryType' | trans}}</label>
+                        <ui-select ng-model="forms.receive.delivery_type" name="delivery_type" id="delivery_type" required>
+                            <ui-select-match>
+                                <span ng-bind="$select.selected | trans"></span>
+                            </ui-select-match>
+                            <ui-select-choices repeat="dt in (['pdf', 'printed'])">
+                                <span ng-bind="dt | trans"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <div class="form-group">
+                        <label for="observations">{{'observations' | trans}}</label>
+                        <textarea class="form-control" ng-model="forms.receive.observations" name="observations" id="observations"></textarea>
+                    </div>
+                    <div class="form-group" ng-class="files_error">
+                        <label for="files">{{'files' | trans}}</label>
+                        <button ngf-select ngf-change="addFilesToUpload($files)" ngf-multiple="true">{{ 'addFiles' | trans }}</button>
+                        <ul>
+                            <li ng-repeat="(key, file) in filesToUpload">{{ file.name }}
+                                <a href ng-click="removeFiles(filesToUpload, 'filesToUpload', file)">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </form>
             {% endverbatim %}
         </script>
@@ -986,14 +1010,14 @@
                 <div class="relojito">
                 <span ng-if="!hasApprove(getReceive(request))">
                 <a ng-if="file.enabled" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o"></span>
+                <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text"></span>
                 </a>
                 </span>
                 <span ng-if="hasApprove(getReceive(request))">
                 <a ng-if="file.enabled" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                <span ng-if="getReceive(request).delivery_type === 'PDF'" class="fa fa-file-pdf-o"></span>
-                <span ng-if="getReceive(request).delivery_type === 'Printed'" class="fa fa-file-text"></span>
+                <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o"></span>
+                <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text"></span>
                 </a>
                 </span>
                 <a href ng-if="!hasApprove(getReceive(request)) && request.type === 'sirequest'" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">

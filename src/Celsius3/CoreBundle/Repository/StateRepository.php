@@ -246,13 +246,13 @@ class StateRepository extends BaseRepository
         $today = new \DateTime();
 
         return $this->createQueryBuilder('s')
-                        ->addSelect('ow.id id')
+                        ->select('ow.id id')
                         ->addSelect('ow.username username')
                         ->addSelect('ow.surname surname')
                         ->addSelect('ow.name name')
                         ->addSelect('ow.email email')
                         ->addSelect('md.title request')
-                        ->addSelect('DATEDIFF(:today,es.createdAt) as days')->setParameter('today', $today)
+                        ->addSelect('ANY_VALUE(DATEDIFF(:today,es.createdAt) as days)')->setParameter('today', $today)
                         ->leftJoin('s.request', 'r')
                         ->leftJoin('r.owner', 'ow')
                         ->leftJoin('r.order', 'or')
@@ -274,7 +274,7 @@ class StateRepository extends BaseRepository
         $today = new \DateTime();
 
         return $this->createQueryBuilder('s')
-                        ->addSelect('ow.id')
+                        ->select('ow.id')
                         ->addSelect('ow.username')
                         ->addSelect('ow.surname')
                         ->addSelect('ow.name')
@@ -292,6 +292,7 @@ class StateRepository extends BaseRepository
                         ->andWhere('ow.wrongEmail = :wrongEmail')->setParameter('wrongEmail', false)
                         ->orderBy('ow.id')
                         ->groupBy('ow.id')
+                        ->addGroupBy('days')
                         ->andHaving('days >= :minDays')->setParameter('minDays', $minDays)
                         ->andHaving('days <= :maxDays')->setParameter('maxDays', $maxDays)
                         ->getQuery()->getResult();

@@ -317,7 +317,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.order = Order.get({id: entity_id}, function (order) {
         $scope.request = Request.get({order_id: order.id}, function (request) {
-            $scope.forms.receive.delivery_type = request.owner.pdf ? 'PDF' : 'Printed';
+            $scope.forms.receive.delivery_type = request.owner.pdf ? 'pdf' : 'printed';
 
             Catalog.query(function (catalogs) {
                 $scope.catalogs = catalogs;
@@ -350,7 +350,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         }).success(function (data, status, headers, config) {
                             $scope.refreshRequest(true);
                             $('.modal').modal('hide');
-                            var template = $scope.forms.receive.delivery_type === 'PDF' ? 'order_download' : 'order_printed';
+                            var template = $scope.forms.receive.delivery_type === 'pdf' ? 'order_download' : 'order_printed';
                             $http.get(Routing.generate('admin_rest_template_compiled_get', {code: template, request_id: $scope.request.id}))
                                     .then(function (response) {
                                         if (response.data) {
@@ -1021,7 +1021,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.templateChanged = function () {
         var template = _.find($scope.templates, function (template) {
-            return template.id === $scope.forms.email.template;
+            return template.id === $scope.forms.email.template.id;
         });
         $scope.forms.email.subject = !_.isUndefined(template) ? template.title : '';
         $scope.forms.email.text = !_.isUndefined(template) ? template.text : '';
@@ -1207,7 +1207,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope.reenableDownload = function (request) {
         $http.post(Routing.generate("admin_rest_request_reenable_download"), {request_id: request.id})
                 .then(function (response) {
-                    console.log(response);
+                    
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
