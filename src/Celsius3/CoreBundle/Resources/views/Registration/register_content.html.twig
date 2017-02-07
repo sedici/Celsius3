@@ -1,96 +1,115 @@
 {% trans_default_domain 'Celsius3CoreBundle_Form' %}
+{% form_theme form _self %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if form.vars.errors | length > 0 %}
+            {% for error in form.vars.errors %}
+                <p class="text-danger">{{ error.message | trans }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
 
 {% block registration_content %}
     <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form">
 
-        {{ form_errors(form) }}
-
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.name.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.name, { attr: { class: 'form-control', placeholder: 'label.name' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
-
+                {{ form_errors(form.name) }}
             </div>
             <div class="col-md-6">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.surname.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.surname, { attr: { class: 'form-control' , placeholder: 'label.surname' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.surname) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.email.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.email, { attr: { class: 'form-control', placeholder: 'label.email' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.email) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.username.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.username, { attr: { class: 'form-control', placeholder: 'label.username' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.username) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.plainPassword.first.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.plainPassword.first, { attr: { class: 'form-control', placeholder: 'label.password' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.plainPassword.first) }}
             </div>
             <div class="col-md-6">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.plainPassword.second.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.plainPassword.second, { attr: { class: 'form-control', placeholder: 'label.password.confirm' | trans | first_upper ~ '*' } }) }}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.plainPassword.second) }}
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.country.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.country, { attr: { class: 'form-control country-select', placeholder: 'label.country'| trans | first_upper ~ '*' } }) }}
                 </div>
                 {{ form_row(form.country) }}
             </div>
+            {{ form_errors(form.country) }}
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.city.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.city, { attr: { class: 'form-control city-select', placeholder: 'label.city' | trans | first_upper } }) }}
                 </div>
             </div>
+            {{ form_errors(form.city) }}
         </div>
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.institution.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.institution, { attr: { class: 'form-control institution-select', placeholder: 'label.institution' | trans | first_upper ~ '*' } }) }}
                 </div>
             </div>
+            {{ form_errors(form.institution) }}
         </div>
 
         <div class="row">
             <div class="col-md-6">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.birthdate.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.birthdate, { attr: { class: 'form-control date', placeholder: 'label.birthdate' | trans | first_upper } }) }}
                     <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.birthdate) }}
             </div>
             <div class="col-md-6">
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedback {% if not form.address.vars.valid %} has-error {% endif %}">
                     {{ form_widget(form.address, { attr: { class: 'form-control', placeholder: 'label.address' | trans | first_upper } }) }}
                     <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
                 </div>
+                {{ form_errors(form.address) }}
             </div>
         </div>
 
@@ -98,13 +117,15 @@
             {% if not child.rendered and "hidden" not in child.vars.block_prefixes and child.vars.name != 'recaptcha' %}
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="form-group has-feedback">
-                            {% set isRequired = '' %}
+                        <div class="form-group has-feedback {% if not child.vars.valid %} has-error {% endif %}">
+                            {% set class = (child.vars.attr.class is defined) ? child.vars.attr.class : '' %}
                             {% if child.vars.required %}
-                                {% set isRequired = '*' %}
+                                {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class, 'placeholder': child.vars.name | first_upper ~ '*', 'required': 'required' } }) }}
+                            {% else %}
+                                {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class, 'placeholder': child.vars.name | first_upper } }) }}
                             {% endif %}
-                            {{ form_widget(child, { attr: { class: 'form-control', placeholder: child.vars.name | first_upper ~ isRequired} }) }}
                         </div>
+                        {{ form_errors(child) }}
                     </div>
                 </div>
             {% endif %}
@@ -116,20 +137,8 @@
             </div>
         </div>
 
-        {#<div class="row">
-            <div class="col-md-12">
-                {{ form_errors(form.recaptcha) }}
-                {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %}
-
-                {{ form_widget(form.recaptcha, { 'attr': {
-            'options' : {
-            'theme': 'light',
-            'type': 'image',
-            'size': 'normal'
-            },
-            } }) }}
-            </div>
-        </div>#}
+        {#<div class="row"> <div class="col-md-12"> {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %} {{ form_widget(form.recaptcha, { 'attr': { 'options' : { 'theme': 'light', 'type': 'image', 'size': 'normal' }, } }) }} {{
+        form_errors(form.recaptcha) }} </div> </div>#}
 
         <br/>
         <div class="row">

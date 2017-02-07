@@ -78,13 +78,21 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                 foreach ($valores as $key => $value) {
                     $array_choices[$value] = $value;
                 }
+
+                $placeholder = ucfirst($field->getName());
+                if ($field->getRequired()) {
+                    $placeholder .= ' *';
+                }
+
                 $form->add($field->getKey(), $field->getType(), array(
                     'choices' => $array_choices,
                     'required' => $field->getRequired(),
                     'mapped' => false,
-                    // *this line is important*
                     'choices_as_values' => true,
-                    'auto_initialize' => false,
+                    'auto_initialize' => true,
+                    'required' => $field->getRequired(),
+                    'placeholder' => '',
+                    'attr' => ['class' => 'select2'],
                 ));
             } else {
                 if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
