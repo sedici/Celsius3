@@ -98,16 +98,16 @@ class AdminMailController extends BaseInstanceDependentController
         //si la plantilla le pertenece al directorio o a la instancia.
         $template = $this->findQuery('MailTemplate', $id);
 
-        if ($template->getInstance()) {
-            $route = 'update';
+        if ($template->getInstance() !== $this->getDirectory()) {
+            $route = $this->generateUrl('admin_mails_update', ['id' => $id]);
         } else {
-            $route = 'create';
+            $route = $this->generateUrl('admin_mails_create');
         }
 
         return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
                     'instance' => $this->getInstance(),
                     'code' => $template->getCode(),
-                        ), $route);
+                    'action' => $route, ));
     }
 
     /**
