@@ -27,6 +27,8 @@ use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Celsius3\CoreBundle\Manager\UserManager;
 
 class FosUserManager extends DoctrineUserManager
 {
@@ -34,11 +36,12 @@ class FosUserManager extends DoctrineUserManager
     private $entityManager;
     private $class;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer, InstanceHelper $instanceHelper, EntityManager $entityManager, $class)
+    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer, InstanceHelper $instanceHelper, EntityManager $entityManager, TokenStorage $tokenStorage, $class)
     {
         parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer);
         $this->instanceHelper = $instanceHelper;
         $this->entityManager = $entityManager;
+        $this->tokenStorage = $tokenStorage;
         $this->class = $class;
     }
 
@@ -50,7 +53,9 @@ class FosUserManager extends DoctrineUserManager
             $user = $this->findUserByUsername($usernameOrEmail);
         }
 
-        return (!is_null($user) && $user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance()) ? $user : null;
+        $currentUser = $this->tokenStorage->getToken()->getUser();
+
+        return (!is_null($user) && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN))) ? $user : null;
     }
 
     public function deleteUser(\FOS\UserBundle\Model\UserInterface $user)
