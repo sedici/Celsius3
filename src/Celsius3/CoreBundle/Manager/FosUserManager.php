@@ -53,9 +53,9 @@ class FosUserManager extends DoctrineUserManager
             $user = $this->findUserByUsername($usernameOrEmail);
         }
 
-        $currentUser = $this->tokenStorage->getToken()->getUser();
+        $currentUser = ($token = $this->tokenStorage->getToken()) ? $token->getUser() : null;
 
-        return (!is_null($user) && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN))) ? $user : null;
+        return (!is_null($user) && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || ($currentUser && $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN)))) ? $user : null;
     }
 
     public function deleteUser(\FOS\UserBundle\Model\UserInterface $user)
