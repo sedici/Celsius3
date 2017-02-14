@@ -35,9 +35,9 @@ trait ApprovableTrait
     private $approved = false;
 
     /**
-     * Set isApproved.
+     * Set approved.
      *
-     * @param bool $isApproved
+     * @param bool $approved
      *
      * @return self
      */
@@ -49,9 +49,9 @@ trait ApprovableTrait
     }
 
     /**
-     * Get isApproved.
+     * Get approved.
      *
-     * @return bool $isApproved
+     * @return bool $approved
      */
     public function isApproved()
     {

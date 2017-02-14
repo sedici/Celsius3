@@ -35,9 +35,9 @@ trait ReclaimableTrait
     private $reclaimed = false;
 
     /**
-     * Set isReclaimed.
+     * Set reclaimed.
      *
-     * @param bool $isReclaimed
+     * @param bool $reclaimed
      *
      * @return self
      */
@@ -49,9 +49,9 @@ trait ReclaimableTrait
     }
 
     /**
-     * Get isReclaimed.
+     * Get reclaimed.
      *
-     * @return bool $isReclaimed
+     * @return bool $reclaimed
      */
     public function isReclaimed()
     {
