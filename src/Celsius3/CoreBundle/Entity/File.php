@@ -317,9 +317,9 @@ class File
     }
 
     /**
-     * Set isDownloaded.
+     * Set downloaded.
      *
-     * @param bool $isDownloaded
+     * @param bool $downloaded
      *
      * @return self
      */
@@ -331,9 +331,9 @@ class File
     }
 
     /**
-     * Get isDownloaded.
+     * Get downloaded.
      *
-     * @return bool $isDownloaded
+     * @return bool $downloaded
      */
     public function isDownloaded()
     {
