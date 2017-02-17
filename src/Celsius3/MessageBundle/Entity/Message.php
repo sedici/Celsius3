@@ -28,7 +28,7 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\MessageBundle\Repository\BaseRepository")
  * @ORM\Table(name="message", indexes={
  *   @ORM\Index(name="idx_thread", columns={"thread_id"}),
  *   @ORM\Index(name="idx_sender", columns={"sender_id"})

@@ -27,7 +27,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Celsius3\CoreBundle\Entity\BaseUser;
 
-class ThreadRepository extends EntityRepository
+class ThreadRepository extends BaseRepository
 {
     public function applyExtraFilters(QueryBuilder $builder, Request $request, BaseUser $user)
     {

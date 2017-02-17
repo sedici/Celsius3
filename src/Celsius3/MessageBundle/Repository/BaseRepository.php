@@ -20,15 +20,25 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Celsius3\NotificationBundle\Entity;
+namespace Celsius3\MessageBundle\Repository;
 
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Entity\Template;
+use Doctrine\ORM\EntityRepository;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\BaseRepository")
+ * BaseRepository.
  */
-class NotificationTemplate extends Template
+class BaseRepository extends EntityRepository
 {
+
+    public function union($field, $main_id, $elements)
+    {
+        return $this->createQueryBuilder('e')
+                    ->update()
+                    ->set('e.'.$field, ':main_id')
+                    ->where('e.'.$field.' IN (:ids)')
+                    ->setParameter('ids', $elements)
+                    ->setParameter('main_id', $main_id)
+                    ->getQuery()->getResult();
+    }
 
 }

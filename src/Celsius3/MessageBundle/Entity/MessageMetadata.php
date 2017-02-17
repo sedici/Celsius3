@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Entity\MessageMetadata as BaseMessageMetadata;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\MessageBundle\Repository\BaseRepository")
  * @ORM\Table(name="message_metadata", indexes={
  *   @ORM\Index(name="idx_message", columns={"message_id"}),
  *   @ORM\Index(name="idx_participant", columns={"participant_id"}),

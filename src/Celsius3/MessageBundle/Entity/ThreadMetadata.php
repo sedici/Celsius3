@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\MessageBundle\Repository\BaseRepository")
  * @ORM\Table(name="thread_metadata", indexes={
  *   @ORM\Index(name="idx_thread", columns={"thread_id"}),
  *   @ORM\Index(name="idx_participant", columns={"participant_id"}),
