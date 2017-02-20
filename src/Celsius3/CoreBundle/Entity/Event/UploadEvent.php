@@ -74,7 +74,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
-        $this->setDeliveryType('PDF');
+        $this->setDeliveryType('pdf');
         $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
         $this->setRemoteInstance($request->getPreviousRequest()->getInstance());
         $data['instance'] = $this->getRemoteInstance();
