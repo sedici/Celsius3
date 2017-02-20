@@ -42,7 +42,7 @@ class CityType extends AbstractType
         $builder->add('country', EntityType::class, array(
                     'class' => Country::class,
                      'query_builder' => function (CountryRepository $cr) {
-                         return $cr->getAllOrderedByName();
+                         return $cr->getAllOrderedByNameQB();
                      },
                      'attr' => array(
                         'class' => 'country-select',
