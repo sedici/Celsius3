@@ -36,7 +36,7 @@
 {% block checkbox_widget -%}
     <div class="checkbox ">
         <label>
-            <input type="checkbox" id="{{ form.vars.id }}" class="" name="{{ form.vars.full_name }}"  {%  if form.vars.checked %} checked {% endif %}   />
+            <input type="checkbox" id="{{ form.vars.id }}" class="" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" {%  if form.vars.checked %} checked {% endif %}   />
 
         </label>
     </div>
