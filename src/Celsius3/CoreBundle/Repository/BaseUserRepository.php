@@ -340,4 +340,20 @@ class BaseUserRepository extends BaseRepository
                     ->setParameter('role', '%'.$role.'%')
                     ->getQuery()->getResult();
     }
+
+
+    public function findByUserInstanceAndRole($user, $role){
+
+        return $this->createQueryBuilder('u')
+            ->where('u.id <> :id')
+            ->andWhere('u.instance = :instance_id')
+            ->andWhere('u.roles LIKE :role')
+            ->setParameter('id', $user->getId())
+            ->setParameter('instance_id', $user->getInstance()->getId())
+            ->setParameter('role', '%' . $role . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 }
