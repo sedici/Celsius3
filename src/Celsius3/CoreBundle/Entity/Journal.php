@@ -125,6 +125,16 @@ class Journal
     }
 
     /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getFullName()
+    {
+        return $this->name . ' - (Instance: ' . $this->getInstance()->getUrl() . ') - (ISSN: ' . $this->ISSN . ')';
+    }
+
+    /**
      * Set abbreviation
      *
      * @param  string $abbreviation

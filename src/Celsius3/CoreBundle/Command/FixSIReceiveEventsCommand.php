@@ -44,7 +44,7 @@ class FixSIReceiveEventsCommand extends ContainerAwareCommand
         foreach ($events as $event) {
             echo 'Updating Event '.$event->getId()."\n";
             $owner = $event->getRequest()->getOwner();
-            $event->setDeliveryType($owner->getPdf() ? 'PDF' : 'Printed');
+            $event->setDeliveryType($owner->getPdf() ? 'pdf' : 'printed');
             $em->persist($event);
             $em->flush($event);
         }

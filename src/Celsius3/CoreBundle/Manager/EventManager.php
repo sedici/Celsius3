@@ -182,7 +182,7 @@ class EventManager
 
         $extraData = array();
         $extraData['observations'] = $httpRequest->request->get('observations', null);
-        $extraData['delivery_type'] = $httpRequest->request->get('delivery_type', $request->getOwner()->getPdf() ? 'PDF' : 'Printed');
+        $extraData['delivery_type'] = $httpRequest->request->get('delivery_type', $request->getOwner()->getPdf() ? 'pdf' : 'printed');
         $extraData['request'] = $this->container
                 ->get('doctrine.orm.entity_manager')
                 ->getRepository('Celsius3CoreBundle:Event\\Event')

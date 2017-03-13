@@ -31,6 +31,19 @@
     </button>
 {%- endblock button_widget -%}
 
+
+
+{% block checkbox_widget -%}
+    <div class="checkbox ">
+        <label>
+            <input type="checkbox" id="{{ form.vars.id }}" class="" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" {%  if form.vars.checked %} checked {% endif %}   />
+
+        </label>
+    </div>
+
+{%- endblock checkbox_widget %}
+
+
 {%- block submit_widget -%}
     {%- set type = type|default('submit') -%}
     {%- set icon = 'ok' -%}

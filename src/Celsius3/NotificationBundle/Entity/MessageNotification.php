@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Celsius3\MessageBundle\Entity\Message;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\BaseRepository")
  */
 class MessageNotification extends Notification
 {
