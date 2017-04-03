@@ -33,7 +33,7 @@ class InstanceNotFoundException extends \RuntimeException implements Celsius3Exc
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, 'exception.not_found.instance');
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
         $response = new RedirectResponse($container->get('router')->generate('directory_homepage'));
         $event->setResponse($response);

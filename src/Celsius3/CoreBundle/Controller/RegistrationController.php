@@ -34,6 +34,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Celsius3\CoreBundle\Exception\Exception;
 
 class RegistrationController extends BaseRegistrationController
 {
@@ -136,7 +137,7 @@ class RegistrationController extends BaseRegistrationController
         $user = $userManager->findUserByConfirmationToken($token);
 
         if (null === $user) {
-            throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $token));
+            throw Exception::create(Exception::NOT_FOUND, "The user with confirmation token $token does not exist");
         }
 
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */

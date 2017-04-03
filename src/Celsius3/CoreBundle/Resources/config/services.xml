@@ -182,6 +182,7 @@
         <service id="celsius3_core.exception_listener" class="%celsius3_core.exception_listener.class%">
             <argument type="service" id="monolog.logger.celsius_exception"></argument>
             <argument type="service" id="monolog.logger.celsius_rest_exception"></argument>
+            <argument type="service" id="router"></argument>
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException"/>
         </service>
 

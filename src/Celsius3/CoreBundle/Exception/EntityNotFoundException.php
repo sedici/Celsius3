@@ -34,7 +34,7 @@ class EntityNotFoundException extends NotFoundHttpException implements Celsius3E
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, 'exception.not_found.entity');
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);

@@ -34,7 +34,7 @@ class AccessDeniedException extends AccessDeniedHttpException implements Celsius
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, 'exception.access_denied');
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);

@@ -33,7 +33,7 @@ class RenderTemplateException extends \RuntimeException implements Celsius3Excep
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, 'exception.render_template');
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);

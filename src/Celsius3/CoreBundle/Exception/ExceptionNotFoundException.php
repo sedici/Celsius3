@@ -34,7 +34,7 @@ class ExceptionNotFoundException extends NotFoundHttpException implements Celsiu
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, 'exception.not_found.exception');
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);

@@ -26,16 +26,19 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Exception\Celsius3ExceptionInterface;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Routing\Router;
 
 class ExceptionListener
 {
     private $exceptionLogger;
     private $restExceptionLogger;
+    private $router;
 
-    public function __construct(Logger $exceptionLogger, Logger $restExceptionLogger)
+    public function __construct(Logger $exceptionLogger, Logger $restExceptionLogger, Router $router)
     {
         $this->exceptionLogger = $exceptionLogger;
         $this->restExceptionLogger = $restExceptionLogger;
+        $this->router = $router;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
@@ -46,6 +49,9 @@ class ExceptionListener
             if (Exception::isRest()) {
                 $exception->handleEvent($event, $this->restExceptionLogger);
             } else {
+                if(method_exists($exception, 'setRouter')) {
+                    $exception->setRouter($this->router);
+                }
                 $exception->handleEvent($event, $this->exceptionLogger);
             }
         }

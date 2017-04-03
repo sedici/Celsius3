@@ -27,18 +27,27 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Celsius3\CoreBundle\Manager\Alert;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bridge\Monolog\Logger;
+use Symfony\Component\Routing\Router;
 
 class NotFoundException extends NotFoundHttpException implements Celsius3ExceptionInterface
 {
+    private $router;
+
     public function handleEvent(GetResponseForExceptionEvent $event, Logger $logger)
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::ERROR, 'exception.not_found');
+        Alert::add(Alert::ERROR, $exception->getMessage());
 
-        $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
+        $referer = $event->getRequest()->headers->get('referer');
+        $response = new RedirectResponse($referer ? $referer : $this->router->generate('public_index'));
+
         $event->setResponse($response);
 
         $logger->error($exception);
+    }
+
+    public function setRouter(Router $router) {
+        $this->router = $router;
     }
 }

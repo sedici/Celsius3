@@ -38,7 +38,7 @@ class NotImplementedException extends \LogicException implements Celsius3Excepti
     {
         $exception = $event->getException();
 
-        Alert::add(Alert::WARNING, 'exception.not_implemented');
+        Alert::add(Alert::WARNING, $exception->getMessage());
 
         $response = new RedirectResponse($event->getRequest()->headers->get('referer'));
         $event->setResponse($response);
