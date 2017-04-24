@@ -137,7 +137,9 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         if (!empty($request->request->get('city'))) {
             $institution->setCity($em->getRepository('Celsius3CoreBundle:City')->find($request->request->get('city')));
         }
-        $institution->setParent($em->getRepository('Celsius3CoreBundle:Institution')->find($request->request->get('institution')));
+        if (!empty($request->request->get('institution'))) {
+            $institution->setParent($em->getRepository('Celsius3CoreBundle:Institution')->find($request->request->get('institution')));
+        }
         $institution->setInstance($em->getRepository('Celsius3CoreBundle:Instance')->find($request->request->get('instance')));
 
         $validator = $this->get('validator');

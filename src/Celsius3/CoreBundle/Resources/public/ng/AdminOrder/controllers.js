@@ -674,8 +674,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
             abbreviation: $scope.forms.institution.abbreviation,
             website: $scope.forms.institution.website,
             address: $scope.forms.institution.address,
-            country: $scope.select.country,
-            city: $scope.select.city,
+            country: ($scope.select.country) ? $scope.select.country.id : null,
+            city: ($scope.select.city) ? $scope.select.city.id : null,
             institution: parent_institution,
             instance: $scope.instance_id
         };
@@ -685,6 +685,8 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                     if (response) {
                         if (!response.hasErrors) {
                             $scope.refreshInstitution(response.institution);
+                            $scope.added.institution.country = response.institution.country.id
+                            $scope.added.institution.city = response.institution.city.id
                             $('#institutionForm').get(0).reset();
                             $scope.$broadcast('reset');
                             $('.modal').modal('hide');
@@ -721,6 +723,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
         $http.post(Routing.generate('admin_rest_journal_create'), data)
                 .then(function (response) {
+                    console.log(response);
                     if (response.data) {
                         if (!response.data.hasErrors) {
                             $scope.refreshJournal(response.data.journal);
@@ -754,6 +757,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.added = {};
     $scope.refreshInstitution = function (institution) {
+        console.log(institution);
         $scope.added.institution = institution;
     };
 
@@ -1207,7 +1211,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
     $scope.reenableDownload = function (request) {
         $http.post(Routing.generate("admin_rest_request_reenable_download"), {request_id: request.id})
                 .then(function (response) {
-                    
+
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
