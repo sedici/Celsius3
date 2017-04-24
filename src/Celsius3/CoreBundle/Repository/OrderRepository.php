@@ -275,4 +275,15 @@ class OrderRepository extends BaseRepository
 
         return $query;
     }
+
+    public function addFindByRequestOwner($data, QueryBuilder $query, Instance $instance = null, BaseUser $user = null)
+    {
+        if ($data instanceof BaseUser) {
+            $query = $query->andWhere('r.owner = :owner')
+                    ->setParameter('owner', $data->getId());
+
+        }
+
+        return $query;
+    }
 }

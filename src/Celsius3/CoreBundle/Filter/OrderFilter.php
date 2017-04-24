@@ -31,7 +31,8 @@ class OrderFilter implements EntityFilterInterface
     private $specialFields = array(
         'state' => 'addFindByStateType',
         'type' => 'addFindByRequestType',
-        'instance' => 'addFindByRequestInstance'
+        'instance' => 'addFindByRequestInstance',
+        'owner' => 'addFindByRequestOwner'
     );
 
     public function __construct(EntityManager $em)
