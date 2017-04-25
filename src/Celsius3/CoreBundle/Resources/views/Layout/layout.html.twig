@@ -15,11 +15,11 @@
             - Celsius3</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
         {% block stylesheets %}
-            {% stylesheets 'bundles/celsius3core/components/bootstrap/dist/css/bootstrap.min.css' 'bundles/celsius3core/components/fontawesome/css/font-awesome.min.css' 'bundles/celsius3core/components/angular-ui-select/dist/select.min.css' 'bundles/celsius3core/components/select2-ng/select2.css'
-            'bundles/celsius3core/components/datatables/media/css/dataTables.bootstrap.min.css' 'bundles/celsius3core/components/select2-bootstrap-css/select2-bootstrap.min.css' 'bundles/celsius3core/components/angular-loading-bar/build/loading-bar.min.css'
-            'bundles/celsius3core/components/summernote/dist/summernote.css' 'bundles/celsius3core/components/c3/c3.min.css' 'bundles/celsius3core/components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css'
-            'bundles/celsius3core/components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css' 'bundles/celsius3core/components/jqueryui/themes/smoothness/jquery-ui.min.css' '@Celsius3CoreBundle/Resources/public/less/*' filter = '?uglifycss'
-            filter = 'cssrewrite' %}
+            {% stylesheets 'bundles/celsius3core/components/bootstrap/dist/css/bootstrap.min.css' 'bundles/celsius3core/components/fontawesome/css/font-awesome.min.css' 'bundles/celsius3core/components/angular-ui-select/dist/select.min.css'
+            'bundles/celsius3core/components/select2-ng/select2.css' 'bundles/celsius3core/components/datatables/media/css/dataTables.bootstrap.min.css' 'bundles/celsius3core/components/select2-bootstrap-css/select2-bootstrap.min.css'
+            'bundles/celsius3core/components/angular-loading-bar/build/loading-bar.min.css' 'bundles/celsius3core/components/summernote/dist/summernote.css' 'bundles/celsius3core/components/c3/c3.min.css'
+            'bundles/celsius3core/components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css' 'bundles/celsius3core/components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css'
+            'bundles/celsius3core/components/jqueryui/themes/smoothness/jquery-ui.min.css' '@Celsius3CoreBundle/Resources/public/less/*' filter = '?uglifycss' filter = 'cssrewrite' %}
             <link rel="stylesheet" type="text/css" href="{{ asset_url }}"/>
             {% endstylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset( 'bundles/celsius3core/components/adminlte/dist/css/AdminLTE.min.css') }}"/>
@@ -135,7 +135,9 @@
                     {% endif %}
                 {% endblock %}
                 {% block navigation_content %}{% endblock %}
-                {% block content %}{% endblock %}
+                <div class="col-xs-12">
+                    {% block content %}{% endblock %}
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
@@ -153,50 +155,48 @@
                 </div>
             </div>
         </div>
-    </div>
-    {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
-    {% block javascripts %}
-        {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
-        {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
-        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
-        {% javascripts 'bundles/celsius3core/components/jquery/dist/jquery.min.js' 'bundles/celsius3core/components/jqueryui/jquery-ui.min.js' 'bundles/celsius3core/components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js'
-        'bundles/celsius3core/components/bootstrap/dist/js/bootstrap.min.js' 'bundles/celsius3core/components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js' 'bundles/celsius3core/components/icanhaz/ICanHaz.min.js'
-        'bundles/celsius3core/components/underscore/underscore-min.js' 'bundles/celsius3core/components/select2-ng/select2.min.js' 'bundles/celsius3core/components/datatables/media/js/jquery.dataTables.min.js'
-        'bundles/celsius3core/components/datatables/media/js/dataTables.bootstrap.min.js' 'bundles/celsius3core/components/angular/angular.min.js' 'bundles/celsius3core/components/angular-route/angular-route.min.js'
-        'bundles/celsius3core/components/angular-resource/angular-resource.min.js' 'bundles/celsius3core/components/angular-animate/angular-animate.min.js' 'bundles/celsius3core/components/angular-ui-sortable/sortable.min.js'
-        'bundles/celsius3core/components/angular-ui-select/dist/select.min.js' 'bundles/celsius3core/components/angular-strap/dist/angular-strap.min.js' 'bundles/celsius3core/components/angular-strap/dist/angular-strap.tpl.min.js'
-        'bundles/celsius3core/components/fabric/dist/fabric.min.js' 'bundles/celsius3core/components/angular-sanitize/angular-sanitize.min.js' 'bundles/celsius3core/components/angular-loading-bar/build/loading-bar.min.js'
-        'bundles/celsius3core/components/angular-translate/angular-translate.min.js' 'bundles/celsius3core/components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
-        'bundles/celsius3core/components/summernote/dist/summernote.min.js' 'bundles/celsius3core/components/angular-bootstrap/ui-bootstrap-tpls.min.js' 'bundles/celsius3core/components/d3/d3.min.js' 'bundles/celsius3core/components/c3/c3.min.js'
-        'bundles/celsius3core/components/ng-file-upload-shim/ng-file-upload-shim.min.js' 'bundles/celsius3core/components/ng-file-upload/ng-file-upload.min.js' 'bundles/celsius3core/components/bootstrap-switch/dist/js/bootstrap-switch.min.js'
-        'bundles/celsius3core/components/remarkable-bootstrap-notify/bootstrap-notify.min.js' 'bundles/celsius3core/components/clipboard/dist/clipboard.min.js' 'bundles/celsius3core/components/ngclipboard/dist/ngclipboard.min.js'
-        'bundles/celsius3core/components/angular-summernote/dist/angular-summernote.min.js' 'bundles/celsius3core/components/mousetrap/mousetrap.min.js' filter = '?uglifyjs2' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
 
-        {% javascripts 'bundles/celsius3core/js/jquery-ui-timepicker-addon.js' 'bundles/celsius3core/js/cosmetics.js' 'bundles/celsius3core/js/forms.js' 'bundles/celsius3core/js/cci.js' 'bundles/celsius3core/js/admin.js' 'bundles/celsius3core/js/dnd.js'
-        'bundles/celsius3core/js/mail.js' 'bundles/celsius3core/js/alert.js' 'bundles/celsius3notification/js/autobahn.min.js' 'bundles/celsius3notification/js/notification.js' package = "celsius3" filter = '?uglifyjs2' %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% include 'Celsius3CoreBundle:Layout:_mail_modal.html.twig' %}
+        {% block javascripts %}
+            {% include 'Celsius3CoreBundle:Layout:var.html.twig' %}
+            {% include 'Celsius3NotificationBundle:Layout:var.html.twig' %}
+            <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script type="text/javascript" src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+            {% javascripts 'bundles/celsius3core/components/jquery/jquery.min.js' 'bundles/celsius3core/components/jqueryui/jquery-ui.min.js' 'bundles/celsius3core/components/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js'
+            'bundles/celsius3core/components/bootstrap/dist/js/bootstrap.min.js' 'bundles/celsius3core/components/jQuery.dotdotdot/src/js/jquery.dotdotdot.min.js' 'bundles/celsius3core/components/icanhaz/ICanHaz.min.js'
+            'bundles/celsius3core/components/underscore/underscore-min.js' 'bundles/celsius3core/components/select2-ng/select2.min.js' 'bundles/celsius3core/components/datatables/media/js/jquery.dataTables.min.js'
+            'bundles/celsius3core/components/datatables/media/js/dataTables.bootstrap.min.js' 'bundles/celsius3core/components/angular/angular.min.js' 'bundles/celsius3core/components/angular-route/angular-route.min.js'
+            'bundles/celsius3core/components/angular-resource/angular-resource.min.js' 'bundles/celsius3core/components/angular-animate/angular-animate.min.js' 'bundles/celsius3core/components/angular-ui-sortable/sortable.min.js'
+            'bundles/celsius3core/components/angular-ui-select/dist/select.min.js' 'bundles/celsius3core/components/angular-strap/dist/angular-strap.min.js' 'bundles/celsius3core/components/angular-strap/dist/angular-strap.tpl.min.js'
+            'bundles/celsius3core/components/fabric/dist/fabric.min.js' 'bundles/celsius3core/components/angular-sanitize/angular-sanitize.min.js' 'bundles/celsius3core/components/angular-loading-bar/build/loading-bar.min.js'
+            'bundles/celsius3core/components/angular-translate/angular-translate.min.js' 'bundles/celsius3core/components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
+            'bundles/celsius3core/components/summernote/dist/summernote.min.js' 'bundles/celsius3core/components/angular-bootstrap/ui-bootstrap-tpls.min.js' 'bundles/celsius3core/components/d3/d3.min.js' 'bundles/celsius3core/components/c3/c3.min.js'
+            'bundles/celsius3core/components/ng-file-upload-shim/ng-file-upload-shim.min.js' 'bundles/celsius3core/components/ng-file-upload/ng-file-upload.min.js' 'bundles/celsius3core/components/bootstrap-switch/dist/js/bootstrap-switch.min.js'
+            'bundles/celsius3core/components/remarkable-bootstrap-notify/bootstrap-notify.min.js' 'bundles/celsius3core/components/clipboard/dist/clipboard.min.js' 'bundles/celsius3core/components/ngclipboard/dist/ngclipboard.min.js'
+            'bundles/celsius3core/components/angular-summernote/dist/angular-summernote.min.js' 'bundles/celsius3core/components/mousetrap/mousetrap.min.js' filter = '?uglifyjs2' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
 
-        <!-- Slimscroll -->
-        <script src="{{ asset('bundles/celsius3core/components/adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
-        <!-- FastClick -->
-        <script src="{{ asset('bundles/celsius3core/components/adminlte/plugins/fastclick/fastclick.js') }}"></script>
+            {% javascripts 'bundles/celsius3core/js/jquery-ui-timepicker-addon.js' 'bundles/celsius3core/js/cosmetics.js' 'bundles/celsius3core/js/forms.js' 'bundles/celsius3core/js/cci.js' 'bundles/celsius3core/js/admin.js' 'bundles/celsius3core/js/dnd.js'
+            'bundles/celsius3core/js/mail.js' 'bundles/celsius3core/js/alert.js' 'bundles/celsius3notification/js/autobahn.min.js' 'bundles/celsius3notification/js/notification.js' package = "celsius3" filter = '?uglifyjs2' %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
 
-        {% endjavascripts %}
+            <!-- Slimscroll -->
+            <script src="{{ asset('bundles/celsius3core/components/adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+            <!-- FastClick -->
+            <script src="{{ asset('bundles/celsius3core/components/adminlte/plugins/fastclick/fastclick.js') }}"></script>
 
-        {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
-        <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
-        {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
-        {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
-        {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}
-        {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
+            {% include 'Celsius3CoreBundle:Layout:locales.html.twig' %}
+            <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="{{ asset('bundles/celsius3core/js/excanvas.min.js') }}"></script><![endif]-->
+            {% include 'Celsius3CoreBundle:Layout:cci.html.twig' %}
+            {% include 'Celsius3CoreBundle:Layout:table.html.twig' %}
+            {% include 'Celsius3CoreBundle:Layout:mail.html.twig' %}
+            {% include 'Celsius3NotificationBundle:Layout:notification.html.twig' %}
 
-        <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-        <script src="{{ url('bazinga_jstranslation_js') }}"></script>
-        <script src="{{ asset('bundles/celsius3core/components/angular-symfony-translation/dist/angular-symfony-translation.js') }}"></script>
-
-    {% endblock %}
-</body>
+            <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+            <script src="{{ url('bazinga_jstranslation_js') }}"></script>
+            <script src="{{ asset('bundles/celsius3core/components/angular-symfony-translation/dist/angular-symfony-translation.js') }}"></script>
+        {% endblock %}
+    </body>
 </html>
