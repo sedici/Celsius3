@@ -22,13 +22,13 @@
 
 namespace Celsius3\CoreBundle\Form\EventListener;
 
+use Celsius3\CoreBundle\Entity\Instance;
+use Doctrine\ORM\EntityManager;
+use JMS\TranslationBundle\Annotation\Ignore;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Doctrine\ORM\EntityManager;
-use JMS\TranslationBundle\Annotation\Ignore;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
@@ -73,10 +73,10 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             }
 
             if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\ChoiceType') {
-                $valores = explode(',', $field->getValue());
+                $values = explode(',', $field->getValue());
                 $array_choices = array();
-                foreach ($valores as $key => $value) {
-                    $array_choices[$value] = $value;
+                foreach ($values as $key => $val) {
+                    $array_choices[$val] = $val;
                 }
 
                 $placeholder = ucfirst($field->getName());
@@ -84,20 +84,20 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                     $placeholder .= ' *';
                 }
 
-                $form->add($field->getKey(), $field->getType(), array(
+                $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
                     'choices' => $array_choices,
                     'required' => $field->getRequired(),
                     'mapped' => false,
                     'choices_as_values' => true,
-                    'auto_initialize' => true,
+                    'auto_initialize' => false,
                     'required' => $field->getRequired(),
                     'placeholder' => '',
                     'attr' => ['class' => 'select2'],
-                ));
+                )));
             } else {
                 if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
-                                /** @Ignore */ 'label' => ucfirst($field->getName()),
+                                /* @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
                                 'widget' => 'single_text',
                                 'format' => 'dd-MM-yyyy',
@@ -109,7 +109,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                     )));
                 } else {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
-                                /** @Ignore */ 'label' => ucfirst($field->getName()),
+                                /* @Ignore */ 'label' => ucfirst($field->getName()),
                                 'required' => $field->getRequired(),
                                 'mapped' => false,
                                 'auto_initialize' => false,
