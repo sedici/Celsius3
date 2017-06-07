@@ -22,14 +22,13 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class InstanceType extends LegacyInstanceType
 {
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -38,17 +37,16 @@ class InstanceType extends LegacyInstanceType
                 ->add('host')
             ->add('latitud')
             ->add('longitud')
-
         ;
 
-        if (array_key_exists('create', $options['data']) && $options['data']['create']) {
+        if (array_key_exists('institution_select', $options) && $options['institution_select']) {
             $builder->add('country', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:Country',
                 'mapped' => false,
                 'placeholder' => '',
-                'required' => false,
+                'required' => true,
                 'attr' => array(
-                    'class' => 'country-select'
+                    'class' => 'country-select',
                 ),
                 'auto_initialize' => false,
             ));
@@ -59,7 +57,7 @@ class InstanceType extends LegacyInstanceType
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
-                    'class' => 'city-select'
+                    'class' => 'city-select',
                 ),
                 'auto_initialize' => false,
             ));
@@ -69,14 +67,12 @@ class InstanceType extends LegacyInstanceType
                 'mapped' => false,
                 'label' => ucfirst('institution'),
                 'placeholder' => '',
-                'required' => false,
+                'required' => true,
                 'attr' => array(
-                    'class' => 'institution-select'
+                    'class' => 'institution-select',
                 ),
                 'auto_initialize' => false,
             ));
-
-
         }
 
         $builder->add('observaciones', TextareaType::class, array(
@@ -92,9 +88,9 @@ class InstanceType extends LegacyInstanceType
         parent::setDefaultOptions($resolver);
         $resolver->setDefaults(
                 array(
-                    'allow_extra_fields' => true
+                    'allow_extra_fields' => true,
+                    'institution_select' => false,
                 )
         );
     }
-
 }

@@ -22,13 +22,15 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Form\Type\Filter\InstanceFilterType;
+use Celsius3\CoreBundle\Form\Type\InstanceType;
+use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Form\Type\InstanceType;
-use Celsius3\CoreBundle\Form\Type\Filter\InstanceFilterType;
-use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Instance controller.
@@ -69,8 +71,7 @@ class SuperadminInstanceController extends InstanceController
     public function newAction()
     {
         $entity = new Instance();
-        $options['data'] = array('create' => true);
-        $form = $this->createForm(InstanceType::class, $entity, $options);
+        $form = $this->createForm(InstanceType::class, $entity, ['institution_select' => true]);
 
         return array(
             'entity' => $entity,
@@ -85,40 +86,46 @@ class SuperadminInstanceController extends InstanceController
      * @Method("post")
      * @Template("Celsius3CoreBundle:SuperadminInstance:new.html.twig")
      *
-     * @return array
+     * @return array|Response
      */
     public function createAction()
     {
+        /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $institution = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->find($request->request->get('instance')['institution']);
-
         $instance = new Instance();
-        $options = array();
-        $type = InstanceType::class;
-        $route = 'superadmin_instance';
-        $name = 'Instance';
-        $form = $this->createForm($type, $instance, $options);
+        $form = $this->createForm(InstanceType::class, $instance, ['institution_select' => true]);
+
         $form->handleRequest($request);
         if ($form->isValid()) {
             try {
-                $this->persistEntity($instance);
+                $institution = $em->getRepository('Celsius3CoreBundle:Institution')
+                    ->find($request->request->get('instance')['institution']);
+                if (is_null($institution)) {
+                    throw Exception::create(Exception::ENTITY_NOT_FOUND, 'Not found institution');
+                }
+                $em->transactional(function ($em) use ($instance, $institution) {
+                    $em->persist($instance);
+                    $em->flush($instance);
 
-                $institution->setCelsiusInstance($instance);
-                $em->persist($institution);
-                $em->flush($institution);
+                    $institution->setCelsiusInstance($instance);
+                    $em->persist($institution);
+                    $em->flush($institution);
+                });
 
-                $this->addFlash('success', $this->get('translator')->trans('The').' '.$name.' was successfully created.');
+                $this->addFlash('success', $this->get('translator')->trans('The Instance was successfully created.'));
 
-                return $this->redirect($this->generateUrl($route));
+                return $this->redirect($this->generateUrl('superadmin_instance'));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The '.$name.' already exists.');
+                $this->addFlash('error', 'The Instance already exists.');
+            } catch (\Exception $e) {
+                dump($e->getMessage());
+                $this->addFlash('error', 'Error to persist Instance.');
             }
         }
 
-        $this->addFlash('error', 'There were errors creating the '.$name.'.');
+        $this->addFlash('error', 'There were errors creating the Instance.');
 
         return array(
             'entity' => $instance,
