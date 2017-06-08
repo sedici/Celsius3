@@ -21,8 +21,8 @@
             {% endif %}
 
             {% if has_batch %}
-                <form class="batch_form" action="{{ path(name ~ '_batch') }}" method="post">
-                    <input type="hidden" id="batch-action" name="action" value=""></input>
+            <form class="batch_form" action="{{ path(name ~ '_batch') }}" method="post">
+                <input type="hidden" id="batch-action" name="action" value="">
                 {% endif %}
 
                 {% if custom_element_template %}
@@ -35,11 +35,13 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     {% if has_batch %}
-                                        <input type="checkbox" name="element[]" id="element{{ element.id }}" value="{{ element.id }}" class="pull-left batch-checkbox"/>
+                                        <input type="checkbox" name="element[]" id="element{{ element.id }}"
+                                               value="{{ element.id }}" class="pull-left batch-checkbox"/>
                                     {% endif %}
 
                                     <h4 class="panel-title">
-                                        <a href="#collapse{{ element.id }}" data-parent="#main-accordion" data-toggle="collapse" class="accordion-toggle">
+                                        <a href="#collapse{{ element.id }}" data-parent="#main-accordion"
+                                           data-toggle="collapse" class="accordion-toggle">
                                             {% include folder ~ ':_index_element_header.html.twig' %}
                                         </a>
                                         {% include folder ~ ':_index_list_actions.html.twig' ignore missing %}
@@ -57,7 +59,7 @@
                     </div>
                 {% endif %}
                 {% if has_batch %}
-                </form>
+            </form>
             {% endif %}
 
             <div class="navigation">
@@ -70,7 +72,8 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                                <a href="#collapseOne" data-parent="#accordion" data-toggle="collapse"
+                                   class="accordion-toggle">
                                     <span class="glyphicon glyphicon-search"></span> {{ 'Filters'|trans }}
                                 </a>
                             </h4>
@@ -87,7 +90,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
                                 <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
                             </a>
                         </h4>
@@ -108,8 +112,11 @@
                 <div class="modal-body">
                     <p>{{ 'alert.delete.order' | trans }}</p>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
-                        <button id="orderDeleteAlertConfirmButton" type="button" class="btn btn-danger" data-order-id="-1" title="{{ 'button.delete' | trans }}">{{ 'button.delete' | trans }}</button>
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
+                        <button id="orderDeleteAlertConfirmButton" type="button" class="btn btn-danger"
+                                data-order-id="-1"
+                                title="{{ 'button.delete' | trans }}">{{ 'button.delete' | trans }}</button>
                     </div>
                 </div>
             </div>
@@ -122,8 +129,11 @@
                 <div class="modal-body">
                     <p>{{ 'alert.undelete.order' | trans }}</p>
                     <div class="pull-right">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
-                        <button id="orderUndeleteAlertConfirmButton" type="button" class="btn btn-success" data-order-id="-1" title="{{ 'button.undelete' | trans }}">{{ 'button.undelete' | trans }}</button>
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">{{ 'button.cancel' | trans }}</button>
+                        <button id="orderUndeleteAlertConfirmButton" type="button" class="btn btn-success"
+                                data-order-id="-1"
+                                title="{{ 'button.undelete' | trans }}">{{ 'button.undelete' | trans }}</button>
                     </div>
                 </div>
             </div>
@@ -137,14 +147,15 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-            {{ form_start(form, { 'attr': { 'action': path(name ~ '_create'), 'class': 'form-horizontal', 'role': 'form' }}) }}
+            {{ form_start(form, { 'attr': { 'action': path(name ~ '_create'), 'class': 'form-horizontal', 'role': 'form', 'novalidate': 'novalidate' }}) }}
             {% if custom_rendering %}
                 {{ form_errors(form) }}
                 {% include folder~':_form.html.twig' %}
             {% else %}
                 {{ form_widget(form) }}
             {% endif %}
-            <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+            <button type="submit" class="btn btn-primary submit-button"><span
+                        class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
             {{ form_end(form) }}
         </div>
         <div class="col-md-3">
@@ -160,7 +171,7 @@
         <div class="col-md-9">
             {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
 
-            {{ form_start(form, { 'attr': { 'action': path(name ~ '_update', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form' }}) }}
+            {{ form_start(form, { 'attr': { 'action': path(name ~ '_update', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form', 'novalidate': 'novalidate' }}) }}
             {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
             {% if custom_rendering %}
@@ -194,7 +205,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
                                 <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
                             </a>
                         </h4>
@@ -232,7 +244,8 @@
 
             {{ form_start(transform_form, { 'attr': { 'action': path(name~'_transform', { 'id': entity.id }), 'class': 'form-horizontal', 'role': 'form' }}) }}
             {{ form_widget(transform_form) }}
-            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ 'Transform'|trans }}</button>
+            <button type="submit" class="btn btn-primary"><span
+                        class="glyphicon glyphicon-ok"></span> {{ 'Transform'|trans }}</button>
             {{ form_end(transform_form) }}
         </div>
         <div class="col-md-3">
@@ -252,13 +265,14 @@
                 <p>{{ 'Please select the element you want to overwrite the others.'|trans }}</p>
                 {% for entity in entities %}
                     <div>
-                        <input type="radio" name="main" id="main{{ entity.id }}" value="{{ entity.id }}" />
-                        <input type="hidden" name="element[]" id="element{{ entity.id }}" value="{{ entity.id }}" />
+                        <input type="radio" name="main" id="main{{ entity.id }}" value="{{ entity.id }}"/>
+                        <input type="hidden" name="element[]" id="element{{ entity.id }}" value="{{ entity.id }}"/>
                         <label for="main{{ entity.id }}">{{ entity.id }} - {{ full_name(entity) }}</label>
                     </div>
                 {% endfor %}
                 <p>
-                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+                    <button type="submit" class="btn btn-primary"><span
+                                class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
                 </p>
             </form>
         </div>
@@ -273,7 +287,8 @@
 {% macro filter(name, filter_form) %}
     {{ form_start(filter_form, { 'attr': { 'action': path(name), 'class': 'form', 'role': 'form', 'method': 'GET', 'novalidate': 'novalidate' }}) }}
     {{ form_widget(filter_form) }}
-    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
+    <button type="submit" class="btn btn-primary submit-button"><span
+                class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
     <a href="{{ path(name) }}"><span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}</a>
     {{ form_end(filter_form) }}
 {% endmacro %}
@@ -298,7 +313,7 @@
                             </a>
                         </li>
                         {% if folder %}
-                            {% include folder~':_item_actions.html.twig' ignore missing  %}
+                            {% include folder~':_item_actions.html.twig' ignore missing %}
                         {% endif %}
                     </ul>
                 </div>
@@ -316,7 +331,8 @@
             {{ form_errors(configure_form) }}
             {% include folder~':configure_form.html.twig' %}
             <div class="form-group">
-                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
+                <button type="submit" class="btn btn-primary submit-button"><span
+                            class="glyphicon glyphicon-ok"></span> {{ 'Save'|trans }}</button>
             </div>
             {{ form_end(configure_form) }}
         </div>
@@ -325,7 +341,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
                                 <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
                             </a>
                         </h4>
@@ -333,7 +350,7 @@
                     <div class="panel-collapse in collapse" id="collapseTwo">
                         <div class="panel-body">
                             <ul class="list-unstyled">
-                                {% include folder~':_configure_actions.html.twig' ignore missing  %}
+                                {% include folder~':_configure_actions.html.twig' ignore missing %}
                             </ul>
                         </div>
                     </div>
