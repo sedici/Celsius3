@@ -3145,7 +3145,10 @@
                 <source>userRequestsIndex</source>
                 <target>El usuario solicita índice</target>
             </trans-unit>
-
+            <trans-unit id="" resname="">
+                 <source>reclaimed</source>
+                 <target>Reclamado</target>
+            </trans-unit>
             <!-- // END // Angular locales -->
 
         </body>

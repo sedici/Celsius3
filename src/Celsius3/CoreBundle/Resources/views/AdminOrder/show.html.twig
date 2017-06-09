@@ -394,7 +394,7 @@
                 <div class="alert alert-danger" ng-if="request.current_state === 'taken' && receptions.length > 0">
                     {{'requestReclaimed' | trans}}
                     <ul>
-                        <li ng-repeat="reclaim in getReclaim(receptions[0])">{{reclaim.created_at | date:'shortDate'}}
+                        <li ng-repeat="reclaim in getReclaims(receptions[0])">{{reclaim.created_at | date:'shortDate'}}
                             -
                             {{reclaim.observations}}</li>
                     </ul>

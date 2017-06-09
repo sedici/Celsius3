@@ -94,6 +94,16 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
         }).length > 0;
     };
 
+    $scope.getReclaims = function (event) {
+        return $scope.reclaims.filter(function (item) {
+            if (['sirequest', 'mirequest'].indexOf(event.type) !== -1) {
+                return !_.isUndefined(item.request_event) && item.request_event.id === event.id;
+            } else {
+                return !_.isUndefined(item.receive_event) && item.receive_event.id === event.id;
+            }
+        });
+    };
+
     $scope.getReclaim = function (event) {
         return _.first($scope.reclaims.filter(function (item) {
             if (['sirequest', 'mirequest'].indexOf(event.type) !== -1) {
@@ -954,7 +964,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
                         $('#email-modal').modal('show');
                     }
                 }, function (response) {
-                    generateCelsiusAlert(response);
+                    generateCelsiusAlert(response);''
                 });
     };
 
