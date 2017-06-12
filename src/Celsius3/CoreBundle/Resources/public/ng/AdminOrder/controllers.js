@@ -24,7 +24,7 @@ orderControllers.controller('OrderCtrl', function ($scope, $http, Upload, $filte
 
     $scope.currentState = function (request) {
         return _.first(request.states.filter(function (item) {
-            return item.is_current === true;
+            return item.current === true;
         }));
     };
 

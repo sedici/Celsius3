@@ -22,10 +22,10 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\QueryBuilder;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * OrderRepository.
@@ -101,27 +101,36 @@ class OrderRepository extends BaseRepository
                 ->setParameter('instance', $instance);
 
         if (is_array($state) && count($state) > 0) {
+            if (in_array(StateManager::STATE__REQUESTED, $state)) {
+                $qb->andWhere('s.searchPending = :searchPending')->setParameter('searchPending', false);
+            }
             if (in_array(StateManager::STATE__SEARCHED, $state)) {
-                $qb = $qb->andWhere('(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = true))')
+                $qb->andWhere('(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = :searchPending))')
                         ->setParameter('state_types', $state)
-                        ->setParameter('requested', StateManager::STATE__REQUESTED);
+                        ->setParameter('requested', StateManager::STATE__REQUESTED)
+                        ->setParameter('searchPending', true);
             } else {
-                $qb = $qb->andWhere('s.type IN (:state_types)')
+                $qb->andWhere('s.type IN (:state_types)')
                         ->setParameter('state_types', $state);
             }
         } elseif (!is_null($state)) {
+            if (StateManager::STATE__REQUESTED === $state) {
+                $qb->andWhere('s.searchPending = :searchPendind')->setParameter('searchPending', false);
+            }
+
             if (StateManager::STATE__SEARCHED === $state) {
-                $qb = $qb->andWhere('(s.type = :state_type OR (s.type = :requested AND s.searchPending = true))')
+                $qb->andWhere('(s.type = :state_type OR (s.type = :requested AND s.searchPending = :searchPending))')
                         ->setParameter('state_type', $state)
-                        ->setParameter('requested', StateManager::STATE__REQUESTED);
+                        ->setParameter('requested', StateManager::STATE__REQUESTED)
+                        ->setParameter('searchPending', true);
             } else {
-                $qb = $qb->andWhere('s.type = :state_type')
+                $qb->andWhere('s.type = :state_type')
                         ->setParameter('state_type', $state);
             }
         }
 
         if ((!is_null($orderType) && !($orderType === 'allTypes'))) {
-            $qb = $qb->andWhere('r.type = :order_type')
+            $qb->andWhere('r.type = :order_type')
                     ->setParameter('order_type', $orderType);
         }
 
@@ -133,7 +142,7 @@ class OrderRepository extends BaseRepository
         }
 
         if (!is_null($owner)) {
-            $qb = $qb->andWhere('r.owner = :owner')
+            $qb->andWhere('r.owner = :owner')
                     ->setParameter('owner', $owner);
         }
 
@@ -281,7 +290,6 @@ class OrderRepository extends BaseRepository
         if ($data instanceof BaseUser) {
             $query = $query->andWhere('r.owner = :owner')
                     ->setParameter('owner', $data->getId());
-
         }
 
         return $query;

@@ -22,10 +22,10 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Doctrine\ORM\Query\Expr\Join;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\StateManager;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * StateRepository.
@@ -94,6 +94,29 @@ class StateRepository extends BaseRepository
             }
         }
 
+        // Se cuentan los pedidos solicitados que tienen busquedas pendientes
+        // para restarlos a los pedidos solicitados
+        $qb4 = $this->createQueryBuilder('s')
+            ->select('s.type, COUNT(s.id) as c')
+            ->leftJoin('s.request', 'r')
+            ->where('s.current = :current')
+            ->setParameter('current', true)
+            ->andWhere('s.type = :type')
+            ->setParameter('type', StateManager::STATE__REQUESTED)
+            ->andWhere('s.searchPending = :pending')
+            ->setParameter('pending', true)
+            ->groupBy('s.type');
+
+        if (!is_null($instance)) {
+            $qb4->andWhere('s.instance = :instance')
+                ->setParameter('instance', $instance->getId());
+        }
+
+        $pending = $qb4->getQuery()->getOneOrNullResult();
+        if (!is_null($pending)) {
+            $result[$pending['type']] -= $pending['c'];
+        }
+
         // Se cuentan aquellos que tienen busquedas pendientes
         $qb2 = $this->createQueryBuilder('s')
                 ->select('COUNT(s.id) as c')
@@ -104,11 +127,13 @@ class StateRepository extends BaseRepository
                 ->groupBy('s.type')
                 ->setParameter('type', StateManager::STATE__REQUESTED)
                 ->setParameter('instance', $instance->getId());
+
         if (!is_null($user)) {
             $qb2 = $qb2->leftJoin('s.request', 'r')
                     ->andWhere('(r.operator = :user)')
                     ->setParameter('user', $user);
         }
+
         $qb2 = $qb2->getQuery()->getResult();
 
         if (count($qb2) > 0) {
