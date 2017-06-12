@@ -22,13 +22,13 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Form\Type\OrderType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Order controller.
@@ -112,6 +112,7 @@ class AdminOrderController extends OrderController
                     'user' => $user,
                     'operator' => $this->getUser(),
                     'actual_user' => $this->getUser(),
+                    'create' => true,
         ));
     }
 
@@ -131,6 +132,7 @@ class AdminOrderController extends OrderController
                     'material' => $this->getMaterialType(),
                     'operator' => $this->getUser(),
                     'actual_user' => $this->getUser(),
+                    'create' => true,
                         ), 'administration');
     }
 

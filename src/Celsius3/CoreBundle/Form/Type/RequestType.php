@@ -22,17 +22,17 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Manager\InstanceManager;
+use Celsius3\CoreBundle\Manager\OrderManager;
+use Doctrine\ORM\EntityRepository;
+use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Celsius3\CoreBundle\Manager\OrderManager;
-use JMS\TranslationBundle\Annotation\Ignore;
-use Celsius3\CoreBundle\Manager\InstanceManager;
-use Doctrine\ORM\EntityRepository;
 
 class RequestType extends AbstractType
 {
@@ -52,7 +52,7 @@ class RequestType extends AbstractType
                     'attr' => array(
                         'readonly' => 'readonly',
                         'value' => OrderManager::getTypeForUser($options['instance'], $options['user']),
-                    )
+                    ),
                 ));
         }
 
@@ -116,7 +116,7 @@ class RequestType extends AbstractType
                     ))
                     ->add('operator', UserSelectorType::class, array(
                         'attr' => array(
-                            'value' => (!is_null($options['operator'])) ? $options['operator']->getId() : '',
+                            'value' => (!$options['create']) ? $options['operator']->getId() : null,
                             'class' => 'container',
                             'readonly' => 'readonly',
                         ),
@@ -153,6 +153,7 @@ class RequestType extends AbstractType
             'user' => null,
             'operator' => null,
             'librarian' => false,
+            'create' => false,
         ));
     }
 }

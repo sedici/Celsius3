@@ -22,14 +22,14 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Valid;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use JMS\TranslationBundle\Annotation\Ignore;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class OrderType extends AbstractType
 {
@@ -57,6 +57,7 @@ class OrderType extends AbstractType
                     'user' => $options['user'],
                     'operator' => $options['operator'],
                     'librarian' => $options['librarian'],
+                    'create' => $options['create'],
                 ))
                 ->add('materialDataType', ChoiceType::class, array(
                     'choices' => array(
@@ -96,6 +97,7 @@ class OrderType extends AbstractType
             'actual_user' => null,
             'journal' => null,
             'other' => '',
+            'create' => false,
         ));
     }
 }
