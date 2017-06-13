@@ -76,7 +76,7 @@
     <h2>{{ 'previous searches' | trans | first_upper }}</h2>
     <div class="row">
         <div class="col-md-9">
-            {% if (searches.found is empty and searches.not_found is empty and searches.partially_found is empty) %}
+            {% if (searches.found is not defined or searches.found is empty and searches.partially_found is not defined or searches.partially_found is empty) %}
                 <p class="alert alert-info">{{'not_previous_searches_info' | trans }}</p>
             {% endif %}
 
