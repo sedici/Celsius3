@@ -184,10 +184,6 @@ class SuperadminInstitutionController extends BaseController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.institution');
         }
 
-        if ($entity->getInstance() !== $this->getDirectory() && $entity->getInstance() !== $this->getInstance()) {
-            throw Exception::create(Exception::ACCESS_DENIED);
-        }
-
         return array(
             'entity' => $entity,
         );
