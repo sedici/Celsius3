@@ -22,18 +22,19 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\Order;
-use Celsius3\CoreBundle\Entity\JournalType;
-use Doctrine\ORM\Query\Expr\Join;
-use Celsius3\CoreBundle\Entity\Event\SearchEvent;
-use Celsius3\CoreBundle\Entity\Journal;
-use Celsius3\CoreBundle\Manager\CatalogManager;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
-use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\SearchEvent;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceReceiveEvent;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Institution;
+use Celsius3\CoreBundle\Entity\Journal;
+use Celsius3\CoreBundle\Entity\JournalType;
+use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Manager\CatalogManager;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * EventRepository.
@@ -59,19 +60,19 @@ class EventRepository extends BaseRepository
 
         return $qb;
     }
+
     public function findSimilarSearches(Order $order, Instance $instance)
     {
         if ($order->getMaterialData() instanceof JournalType) {
             $qb = $this->generalSearch();
 
             $qb->where('jt.journal IS NOT NULL')
-                    ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
-                    ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND])
-                    ->andWhere('o.id <> :order_id')->setParameter('order_id', $order->getId())
-            ;
+                ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
+                ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND])
+                ->andWhere('o.id <> :order_id')->setParameter('order_id', $order->getId());
 
             $qb->orderBy('s.result', 'ASC')
-                    ->addOrderBy('s.createdAt', 'DESC');
+                ->addOrderBy('s.createdAt', 'DESC');
 
             $qb->andWhere('j.name = :name');
 
@@ -82,16 +83,16 @@ class EventRepository extends BaseRepository
             }
         } else {
             $qb = $this->getEntityManager()->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
-                    ->createQueryBuilder('s')
-                    ->select('s, c, r, o')
-                    ->join('s.catalog', 'c')
-                    ->join('s.request', 'r')
-                    ->join('r.order', 'o')
-                    ->join('o.materialData', 'md')
-                    ->where('md.title = :name')
-                    ->andWhere('o.id <> :order_id')
-                    ->setParameter('order_id', $order->getId())
-                    ->setParameter('name', $order->getMaterialData()->getTitle());
+                ->createQueryBuilder('s')
+                ->select('s, c, r, o')
+                ->join('s.catalog', 'c')
+                ->join('s.request', 'r')
+                ->join('r.order', 'o')
+                ->join('o.materialData', 'md')
+                ->where('md.title = :name')
+                ->andWhere('o.id <> :order_id')
+                ->setParameter('order_id', $order->getId())
+                ->setParameter('name', $order->getMaterialData()->getTitle());
         }
 
         return $qb->getQuery()->execute();
@@ -101,27 +102,27 @@ class EventRepository extends BaseRepository
     {
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping();
         $rsm->addScalarResult('countryId', 'countryId')
-                ->addScalarResult('countryName', 'countryName')
-                ->addScalarResult('year', 'year')
-                ->addScalarResult('requestsCount', 'requestsCount');
+            ->addScalarResult('countryName', 'countryName')
+            ->addScalarResult('year', 'year')
+            ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.createdAt) year, COUNT(e.id) requestsCount'
-                .' FROM event e'
-                .' INNER JOIN request r ON r.id = e.request_id'
-                .' INNER JOIN provider p ON p.id = e.provider_id'
-                .' INNER JOIN country c ON c.id = p.country_id'
-                .' WHERE ';
+            . ' FROM event e'
+            . ' INNER JOIN request r ON r.id = e.request_id'
+            . ' INNER JOIN provider p ON p.id = e.provider_id'
+            . ' INNER JOIN country c ON c.id = p.country_id'
+            . ' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
-                    .' AND';
+                . ' AND';
         }
 
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
-                .' AND r.type = :type'
-                .' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-                .' GROUP BY c.id'
-                .' ORDER BY requestsCount DESC';
+            . ' AND r.type = :type'
+            . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
+            . ' GROUP BY c.id'
+            . ' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -130,42 +131,42 @@ class EventRepository extends BaseRepository
         }
 
         return $query->setParameter('type', $type)
-                        ->setParameter('stateTypeA', 'sirequest')
-                        ->setParameter('stateTypeB', 'mirequest')
-                        ->setParameter('initialYear', $initialYear)
-                        ->setParameter('finalYear', $finalYear)
-                        ->getResult();
+            ->setParameter('stateTypeA', 'sirequest')
+            ->setParameter('stateTypeB', 'mirequest')
+            ->setParameter('initialYear', $initialYear)
+            ->setParameter('finalYear', $finalYear)
+            ->getResult();
     }
 
     public function findCancelledRequestDestinyDistributionFor($instance, $type, $initialYear, $finalYear)
     {
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping();
         $rsm->addScalarResult('countryId', 'countryId')
-                ->addScalarResult('countryName', 'countryName')
+            ->addScalarResult('countryName', 'countryName')
 //                ->addScalarResult('year', 'year')
-                ->addScalarResult('requestsCount', 'requestsCount');
+            ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName,  COUNT(re.id) requestsCount'
-                .' FROM event e'
-                .' INNER JOIN state s ON s.id = e.state_id'
-                .' INNER JOIN request r ON r.id = e.request_id'
-                .' INNER JOIN event re ON r.id = re.request_id'
-                .' INNER JOIN provider p ON p.id = re.provider_id'
-                .' INNER JOIN country c ON c.id = p.country_id'
-                .' WHERE ';
+            . ' FROM event e'
+            . ' INNER JOIN state s ON s.id = e.state_id'
+            . ' INNER JOIN request r ON r.id = e.request_id'
+            . ' INNER JOIN event re ON r.id = re.request_id'
+            . ' INNER JOIN provider p ON p.id = re.provider_id'
+            . ' INNER JOIN country c ON c.id = p.country_id'
+            . ' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
-                    .' AND';
+                . ' AND';
         }
 
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
-                .' AND r.type = :type'
-                .' AND s.current = :current'
-                .' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-                .' AND (re.type = :stateTypeC OR re.type = :stateTypeD)'
-                .' GROUP BY c.id'
-                .' ORDER BY requestsCount DESC';
+            . ' AND r.type = :type'
+            . ' AND s.current = :current'
+            . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
+            . ' AND (re.type = :stateTypeC OR re.type = :stateTypeD)'
+            . ' GROUP BY c.id'
+            . ' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -174,13 +175,13 @@ class EventRepository extends BaseRepository
         }
 
         $query->setParameter('type', $type)
-                ->setParameter('stateTypeA', 'cancel')
-                ->setParameter('stateTypeB', 'localcancel')
-                ->setParameter('stateTypeC', 'sirequest')
-                ->setParameter('stateTypeD', 'mirequest')
-                ->setParameter('initialYear', $initialYear)
-                ->setParameter('finalYear', $finalYear)
-                ->setParameter('current', true);
+            ->setParameter('stateTypeA', 'cancel')
+            ->setParameter('stateTypeB', 'localcancel')
+            ->setParameter('stateTypeC', 'sirequest')
+            ->setParameter('stateTypeD', 'mirequest')
+            ->setParameter('initialYear', $initialYear)
+            ->setParameter('finalYear', $finalYear)
+            ->setParameter('current', true);
 
         return $query->getResult();
     }
@@ -189,28 +190,28 @@ class EventRepository extends BaseRepository
     {
         $rsm = new \Doctrine\ORM\Query\ResultSetMapping();
         $rsm->addScalarResult('countryId', 'countryId')
-                ->addScalarResult('countryName', 'countryName')
-                ->addScalarResult('year', 'year')
-                ->addScalarResult('requestsCount', 'requestsCount');
+            ->addScalarResult('countryName', 'countryName')
+            ->addScalarResult('year', 'year')
+            ->addScalarResult('requestsCount', 'requestsCount');
 
         $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.createdAt) year, COUNT(e.id) requestsCount'
-                .' FROM event e'
-                .' INNER JOIN event re ON re.id = e.request_event_id'
-                .' INNER JOIN request r ON r.id = re.request_id'
-                .' INNER JOIN provider p ON p.id = re.provider_id'
-                .' INNER JOIN country c ON c.id = p.country_id'
-                .' WHERE ';
+            . ' FROM event e'
+            . ' INNER JOIN event re ON re.id = e.request_event_id'
+            . ' INNER JOIN request r ON r.id = re.request_id'
+            . ' INNER JOIN provider p ON p.id = re.provider_id'
+            . ' INNER JOIN country c ON c.id = p.country_id'
+            . ' WHERE ';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
-                    .' AND';
+                . ' AND';
         }
 
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
-                .' AND r.type = :type'
-                .' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-                .' GROUP BY c.id'
-                .' ORDER BY requestsCount DESC';
+            . ' AND r.type = :type'
+            . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
+            . ' GROUP BY c.id'
+            . ' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
@@ -219,11 +220,11 @@ class EventRepository extends BaseRepository
         }
 
         return $query->setParameter('type', $type)
-                        ->setParameter('stateTypeA', 'sireceive')
-                        ->setParameter('stateTypeB', 'mireceive')
-                        ->setParameter('initialYear', $initialYear)
-                        ->setParameter('finalYear', $finalYear)
-                        ->getResult();
+            ->setParameter('stateTypeA', 'sireceive')
+            ->setParameter('stateTypeB', 'mireceive')
+            ->setParameter('initialYear', $initialYear)
+            ->setParameter('finalYear', $finalYear)
+            ->getResult();
     }
 
     public function getPreviousJournalSearches(Instance $instance, Journal $journal)
@@ -231,13 +232,12 @@ class EventRepository extends BaseRepository
         $qb = $this->generalSearch();
 
         $qb->where('jt.journal IS NOT NULL')
-                ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
-                ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId())
-                ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND])
-        ;
+            ->andWhere('s.instance = :instance')->setParameter('instance', $instance->getId())
+            ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId())
+            ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND]);
 
         $qb->orderBy('s.result', 'ASC')
-                ->addOrderBy('s.createdAt', 'DESC');
+            ->addOrderBy('s.createdAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
@@ -249,6 +249,13 @@ class EventRepository extends BaseRepository
 
         $results = array_merge($sir, $mir);
 
+        usort($results, function (Event $a, Event $b) {
+            if ($a->getCreatedAt() == $b->getCreatedAt()) {
+                return 0;
+            }
+            return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
+        });
+
         return $results;
     }
 
@@ -256,23 +263,25 @@ class EventRepository extends BaseRepository
     {
         $qb = $this->createQueryBuilder('e');
 
-        $qb->select('erec')
-                ->innerJoin($receiveEventClass, 'erec', Join::WITH, 'e = erec')
-                ->innerJoin($requestEventClass, 'ereq', Join::WITH, 'erec.requestEvent = ereq')
-                ->innerJoin('ereq.request', 'r')
-                ->innerJoin('r.order', 'o')
-                ->innerJoin('o.materialData', 'md')
-                ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
-                ->innerJoin(Institution::class, 'i', Join::WITH, 'ereq.provider = i')
-        ;
+        $qb->select('erec, ereq, r, o, md')
+            ->innerJoin($receiveEventClass, 'erec', Join::WITH, 'e = erec')
+            ->innerJoin($requestEventClass, 'ereq', Join::WITH, 'erec.requestEvent = ereq')
+            ->innerJoin('ereq.request', 'r')
+            ->innerJoin('r.order', 'o')
+            ->innerJoin('o.materialData', 'md')
+            ->innerJoin(JournalType::class, 'jt', Join::WITH, 'md = jt')
+            ->innerJoin(Institution::class, 'i', Join::WITH, 'ereq.provider = i');
 
         $qb->where('jt.journal IS NOT NULL')
-                ->andWhere('ereq.instance = :instance')->setParameter('instance', $instance->getId())
-                ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId())
-        ;
+            ->andWhere('ereq.instance = :instance')->setParameter('instance', $instance->getId())
+            ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId());
 
         $qb->orderBy('erec.createdAt', 'DESC');
 
-        return $qb->getQuery()->getResult();
+        $results = array_filter($qb->getQuery()->getResult(), function ($var) use ($receiveEventClass) {
+            return ($var instanceof $receiveEventClass) ? true : false;
+        });
+
+        return $results;
     }
 }
