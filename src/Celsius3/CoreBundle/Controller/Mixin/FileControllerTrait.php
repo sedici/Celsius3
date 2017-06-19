@@ -22,15 +22,15 @@
 
 namespace Celsius3\CoreBundle\Controller\Mixin;
 
-use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\File;
+use Celsius3\CoreBundle\Entity\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 trait FileControllerTrait
 {
-
     protected function download($request, $file)
     {
+        $fileManager = $this->get('celsius3_core.file_manager');
         $request = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:Request')->find($request);
 
@@ -38,12 +38,12 @@ trait FileControllerTrait
                         ->getRepository('Celsius3CoreBundle:File')->find($file);
 
         $this->validate($request, $file);
-        
-        $filename = $file->getUploadRootDir() . '/' . $file->getPath();
+
+        $filename = $fileManager->getUploadRootDir($file).'/'.$file->getPath();
 
         $response = new Response();
         $response->headers->set('Content-type', mime_content_type($filename));
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $file->getName() . '"');
+        $response->headers->set('Content-Disposition', 'attachment;filename="'.$file->getName().'"');
         $response->headers->set('Content-length', filesize($filename));
         $response->sendHeaders();
         $response->setContent(readfile($filename));

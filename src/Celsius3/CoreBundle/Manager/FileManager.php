@@ -22,24 +22,50 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\File;
-use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\FileDownload;
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Celsius3\CoreBundle\Entity\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 class FileManager
 {
-    const LOGOS_UPLOAD_DIR = '/Users/agustin/php-workspace/Celsius3/web/uploads/logos';
+    private $container;
+    private $uploadRootDir;
+    private $logosUploadDir;
 
-    private $em;
-
-    public function __construct(EntityManager $em)
+    /**
+     * FileManager constructor.
+     *
+     * @param string $uploadRootDir
+     * @param string $logosUploadDir
+     */
+    public function __construct($uploadRootDir, $logosUploadDir)
     {
-        $this->em = $em;
+        $this->uploadRootDir = $uploadRootDir;
+        $this->logosUploadDir = $logosUploadDir;
+    }
+
+    public function setContainer($container)
+    {
+        $this->container = $container;
+    }
+
+    public function getUploadRootDir(File $file)
+    {
+        return $this->uploadRootDir.$file->getInstance()->getUrl();
+    }
+
+    public function getLogosUploadDir()
+    {
+        return $this->logosUploadDir;
+    }
+
+    protected function getUploadDir()
+    {
+        return 'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
     }
 
     private function countPages(UploadedFile $file)
@@ -51,6 +77,8 @@ class FileManager
 
     public function uploadFiles(Request $request, Event $event, array $files = array())
     {
+        $em = $this->container->get('doctrine.orm.entity_manager');
+
         foreach ($files as $uploadedFile) {
             $file = new File();
             $file->setName($uploadedFile->getClientOriginalName());
@@ -60,9 +88,7 @@ class FileManager
             $file->setEnabled(true);
             $file->setPages($this->countPages($uploadedFile));
             $file->setInstance($request->getInstance());
-            $this->em->persist($file);
             $event->addFile($file);
-            $this->em->persist($event);
         }
     }
 
@@ -79,9 +105,9 @@ class FileManager
         $download->setFile($file);
         $download->setRequest($request);
         $download->setInstance($user->getInstance());
-        $this->em->persist($file);
-        $this->em->persist($download);
-        $this->em->flush();
+        $this->container->get('doctrine.orm.entity_manager')->persist($file);
+        $this->container->get('doctrine.orm.entity_manager')->persist($download);
+        $this->container->get('doctrine.orm.entity_manager')->flush();
     }
 
     public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event)
@@ -92,12 +118,12 @@ class FileManager
                 $file->setInstance($previousRequest->getInstance());
                 $file->setRequest($previousRequest);
                 $file->setEvent($event);
-                if (!copy($original->getUploadRootDir().DIRECTORY_SEPARATOR.$original->getPath(), $file->getUploadRootDir().DIRECTORY_SEPARATOR.$file->getPath())) {
+                if (!copy($this->getUploadRootDir($original).DIRECTORY_SEPARATOR.$original->getPath(), $this->getUploadRootDir($file).DIRECTORY_SEPARATOR.$file->getPath())) {
                     throw new \Exception('Copy file error');
                 }
-                $this->em->persist($file);
+                $this->container->get('doctrine.orm.entity_manager')->persist($file);
                 $event->addFile($file);
-                $this->em->persist($event);
+                $this->container->get('doctrine.orm.entity_manager')->persist($event);
             }
         }
     }

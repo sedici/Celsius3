@@ -22,20 +22,20 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Psr\Log\LoggerInterface;
-use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\UndoEvent;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\State;
-use Celsius3\CoreBundle\Entity\Event\Event;
-use Celsius3\CoreBundle\Entity\Instance;
-use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Manager\EventManager;
 use Celsius3\CoreBundle\Manager\FileManager;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\CoreBundle\Exception\Exception;
-use Celsius3\CoreBundle\Entity\Event\UndoEvent;
+use Doctrine\ORM\EntityManager;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class LifecycleHelper
 {
@@ -82,7 +82,7 @@ class LifecycleHelper
 
     private function setEventData(Request $request, array $data)
     {
-        /* @var $event Event */
+        /** @var $event Event */
         $event = new $data['eventClassName']();
         $event->setOperator($this->security_token_storage->getToken()->getUser());
         $event->setInstance($data['instance']);
@@ -208,9 +208,9 @@ class LifecycleHelper
      * Receives the event name and the request document and creates the appropiate
      * event and state.
      *
-     * @param string                              $name     The event name
-     * @param Celsius3\CoreBundle\Entity\Request  $request  The Request document
-     * @param Celsius3\CoreBundle\Entity\Instance $instance The Instance document
+     * @param string   $name     The event name
+     * @param Request  $request  The Request document
+     * @param Instance $instance The Instance document
      */
     public function createEvent($name, Request $request, Instance $instance = null)
     {
@@ -230,8 +230,10 @@ class LifecycleHelper
             } else {
                 $event = $this->setEventData($request, $data);
             }
-            $this->refresh($request);
-            $this->refresh($event);
+
+            $this->em->persist($request);
+            $this->em->persist($event);
+            $this->em->flush();
 
             $this->em->getConnection()->commit();
 

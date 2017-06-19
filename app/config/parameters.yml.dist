@@ -42,3 +42,6 @@ parameters:
 
     recaptcha_public_key: 6LfAACoTAAAAAB7zZ1vZ_cGdMPWyDWPQ66TnFRgd
     recaptcha_private_key:  6LfAACoTAAAAAMghFENgQMHtpL3kXT_DTp44zcws
+
+    upload_root_dir: /var/orders/
+    logos_upload_dir: /var/www/Celsius3/web/uploads/logos/

@@ -73,9 +73,11 @@
         <parameter key="celsius3_core.mailer_helper.class">Celsius3\CoreBundle\Helper\MailerHelper</parameter>
         <parameter key="celsius3.instance_configuration_listener.class">Celsius3\CoreBundle\EventListener\InstanceConfigurationListener</parameter>
         <parameter key="celsius3_core.security.user_provider.username_email.class">Celsius3\CoreBundle\Security\UserProvider</parameter>
-        <parameter key="elsius3.listener.elastica_custom_properties.class">Celsius3\CoreBundle\EventListener\CustomPropertiesListener</parameter>
+        <parameter key="celsius3.listener.elastica_custom_properties.class">Celsius3\CoreBundle\EventListener\CustomPropertiesListener</parameter>
+        <parameter key="celsius3_core.listener.file_upload.class">Celsius3\CoreBundle\EventListener\FileUploadListener</parameter>
         <parameter key="celsius3.validator.mail_template.class">Celsius3\CoreBundle\Validator\Constraint\MailtTemplateValidator</parameter>
         <parameter key="celsius3_core.fos_user_manager.class">Celsius3\CoreBundle\Manager\FosUserManager</parameter>
+        <parameter key="celsius3_core.tests_helper.class">Celsius3\CoreBundle\Features\Context\TestsHelper</parameter>
     </parameters>
 
     <services>
@@ -256,6 +258,7 @@
 
         <service id="celsius3_core.form.logo_selector" class="%celsius3_core.form.logo_selector.class%">
             <tag name="form.type"/>
+            <argument type="service" id="celsius3_core.file_manager"></argument>
         </service>
 
         <service id="celsius3_core.form.type.language" class="%celsius3_core.form.type.language.class%">
@@ -355,7 +358,11 @@
         </service>
 
         <service id="celsius3_core.file_manager" class="%celsius3_core.file_manager.class%">
-            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <call method="setContainer">
+                <argument type="service" id="service_container"></argument>
+            </call>
+            <argument key="upload_root_dir">%upload_root_dir%</argument>
+            <argument key="logos_upload_dir">%logos_upload_dir%</argument>
         </service>
 
         <service id="celsius3_core.filter_manager" class="%celsius3_core.filter_manager.class%">
@@ -439,8 +446,20 @@
             <argument type="service" id="request_stack"></argument>
         </service>
 
-        <service id="celsius3.listener.elastica_custom_properties" class="%elsius3.listener.elastica_custom_properties.class%">
+        <service id="celsius3.listener.elastica_custom_properties" class="%celsius3.listener.elastica_custom_properties.class%">
             <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="celsius3_core.listener.file_upload" class="%celsius3_core.listener.file_upload.class%">
+            <call method="setFileManager">
+                <argument type="service" id="celsius3_core.file_manager"></argument>
+            </call>
+            <!--<argument type="service" id="celsius3_core.file_manager"></argument>-->
+            <!--<tag name="doctrine.orm.entity_listener"></tag>-->
+            <tag name="doctrine.event_listener" event="prePersist" />
+            <tag name="doctrine.event_listener" event="postPersist" />
+            <tag name="doctrine.event_listener" event="preUpdate" />
+            <tag name="doctrine.event_listener" event="postUpdate" />
         </service>
 
         <service id="celsius3.validator.mail_template" class="%celsius3.validator.mail_template.class%">
@@ -456,7 +475,7 @@
             <argument type="service" id="security.token_storage"></argument>
             <argument>%fos_user.model.user.class%</argument>
         </service>
-
+        
     </services>
 
 </container>

@@ -22,10 +22,12 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\FileRepository")
@@ -34,7 +36,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  *   @ORM\Index(name="idx_request", columns={"request_id"}),
  *   @ORM\Index(name="idx_instance", columns={"instance_id"})
  * })
- * @ORM\HasLifecycleCallbacks
  */
 class File
 {
@@ -103,57 +104,12 @@ class File
      */
     private $downloads;
 
-    public function getUploadRootDir()
-    {
-        $class = new \ReflectionClass($this);
-
-        return dirname($class->getFileName()).DIRECTORY_SEPARATOR.'..'.
-                DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.
-                DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'web'.
-                DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
-    }
-
-    protected function getUploadDir()
-    {
-        return 'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
-    }
-
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * Constructor.
      */
-    public function preUpload()
+    public function __construct()
     {
-        if (null !== $this->getFile()) {
-            // do whatever you want to generate a unique name
-            $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->getFile()->guessExtension();
-        }
-    }
-
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function upload()
-    {
-        if (null === $this->getFile()) {
-            return;
-        }
-
-        // if there is an error when moving the file, an exception will
-        // be automatically thrown by move(). This will properly prevent
-        // the entity from being persisted to the database on error
-        $this->getFile()->move($this->getUploadRootDir(), $this->path);
-
-        // check if we have an old image
-        if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
-            // clear the temp image path
-            $this->temp = null;
-        }
-        $this->file = null;
+        $this->downloads = new ArrayCollection();
     }
 
     /**
@@ -295,11 +251,11 @@ class File
     /**
      * Set event.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $event
+     * @param Event $event
      *
      * @return self
      */
-    public function setEvent(\Celsius3\CoreBundle\Entity\Event\Event $event = null)
+    public function setEvent(Event $event = null)
     {
         $this->event = $event;
 
@@ -309,7 +265,7 @@ class File
     /**
      * Get event.
      *
-     * @return Celsius3\CoreBundle\Entity\Event\Event $event
+     * @return Event $event
      */
     public function getEvent()
     {
@@ -343,11 +299,11 @@ class File
     /**
      * Set request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      *
      * @return self
      */
-    public function setRequest(\Celsius3\CoreBundle\Entity\Request $request = null)
+    public function setRequest(Request $request = null)
     {
         $this->request = $request;
 
@@ -357,7 +313,7 @@ class File
     /**
      * Get request.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $request
+     * @return Request $request
      */
     public function getRequest()
     {
@@ -391,11 +347,11 @@ class File
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -405,7 +361,7 @@ class File
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -454,13 +410,6 @@ class File
 
         return false;
     }
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->downloads = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get downloaded.
@@ -475,11 +424,11 @@ class File
     /**
      * Add download.
      *
-     * @param \Celsius3\CoreBundle\Entity\FileDownload $download
+     * @param FileDownload $download
      *
      * @return File
      */
-    public function addDownload(\Celsius3\CoreBundle\Entity\FileDownload $download)
+    public function addDownload(FileDownload $download)
     {
         $this->downloads[] = $download;
 
@@ -489,9 +438,9 @@ class File
     /**
      * Remove download.
      *
-     * @param \Celsius3\CoreBundle\Entity\FileDownload $download
+     * @param FileDownload $download
      */
-    public function removeDownload(\Celsius3\CoreBundle\Entity\FileDownload $download)
+    public function removeDownload(FileDownload $download)
     {
         $this->downloads->removeElement($download);
     }
