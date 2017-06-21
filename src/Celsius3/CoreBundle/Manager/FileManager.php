@@ -127,4 +127,24 @@ class FileManager
             }
         }
     }
+
+    public function createFilesDirectory($url)
+    {
+        $path = $this->uploadRootDir.$url;
+
+        if (!file_exists($path)) {
+            mkdir($path, 0755);
+            chown($path, 'www-data');
+        }
+    }
+
+    public function updateFilesDirectory($oldUrl, $newUrl)
+    {
+        $oldPath = $this->uploadRootDir.$oldUrl;
+        $newPath = $this->uploadRootDir.$newUrl;
+
+        if ($oldPath !== $newPath && file_exists($oldPath)) {
+            rename($oldPath, $newPath);
+        }
+    }
 }

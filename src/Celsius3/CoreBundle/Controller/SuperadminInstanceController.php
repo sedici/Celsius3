@@ -26,10 +26,12 @@ use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Form\Type\Filter\InstanceFilterType;
 use Celsius3\CoreBundle\Form\Type\InstanceType;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -114,13 +116,14 @@ class SuperadminInstanceController extends InstanceController
                     $em->flush($institution);
                 });
 
+                $this->get('celsius3_core.file_manager')->createFilesDirectory($instance->getUrl());
+
                 $this->addFlash('success', $this->get('translator')->trans('The Instance was successfully created.'));
 
                 return $this->redirect($this->generateUrl('superadmin_instance'));
-            } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+            } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('error', 'The Instance already exists.');
             } catch (\Exception $e) {
-                dump($e->getMessage());
                 $this->addFlash('error', 'Error to persist Instance.');
             }
         }
@@ -133,7 +136,7 @@ class SuperadminInstanceController extends InstanceController
         );
     }
 
-    private function getErrorMessages(\Symfony\Component\Form\Form $form)
+    private function getErrorMessages(Form $form)
     {
         $errors = array();
 
