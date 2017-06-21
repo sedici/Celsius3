@@ -22,9 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")

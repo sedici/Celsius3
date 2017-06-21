@@ -22,9 +22,10 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity("")
@@ -62,7 +63,6 @@ class TicketState
      */
     private $tickets;
 
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -71,23 +71,21 @@ class TicketState
     /**
      * Get id.
      *
-     * @return \Celsius3\TicketBundle\Entity\TypeState
+     * @return TypeState
      */
     public function getId()
     {
         return $this->id;
     }
 
-
-
     /**
      * Set typeState.
      *
-     * @param \Celsius3\TicketBundle\Entity\TypeState $typeState
+     * @param TypeState $typeState
      *
      * @return TicketState
      */
-    public function setTypeState(\Celsius3\TicketBundle\Entity\TypeState $typeState = null)
+    public function setTypeState(TypeState $typeState = null)
     {
         $this->typeState = $typeState;
 
@@ -97,7 +95,7 @@ class TicketState
     /**
      * Get typeState.
      *
-     * @return \Celsius3\TicketBundle\Entity\TypeState
+     * @return TypeState
      */
     public function getTypeState()
     {
@@ -105,13 +103,13 @@ class TicketState
     }
 
     /**
-     * Set user
+     * Set user.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param BaseUser $user
      *
      * @return TicketState
      */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user = null)
+    public function setUser(BaseUser $user = null)
     {
         $this->user = $user;
 
@@ -119,9 +117,9 @@ class TicketState
     }
 
     /**
-     * Get user
+     * Get user.
      *
-     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     * @return BaseUser
      */
     public function getUser()
     {
@@ -130,13 +128,13 @@ class TicketState
 
     /**
      * Set tickets.
-     * Set tickets
+     * Set tickets.
      *
-     * @param \Celsius3\TicketBundle\Entity\Ticket $tickets
+     * @param Ticket $tickets
      *
      * @return TicketState
      */
-    public function setTickets(\Celsius3\TicketBundle\Entity\Ticket $tickets)
+    public function setTickets(Ticket $tickets)
     {
         $this->tickets = $tickets;
 
@@ -144,9 +142,9 @@ class TicketState
     }
 
     /**
-     * Get tickets
+     * Get tickets.
      *
-     * @return \Celsius3\TicketBundle\Entity\Ticket
+     * @return Ticket
      */
     public function getTickets()
     {
@@ -154,7 +152,7 @@ class TicketState
     }
 
     /**
-     * Set descripcion
+     * Set descripcion.
      *
      * @param string $descripcion
      *
@@ -168,7 +166,7 @@ class TicketState
     }
 
     /**
-     * Get descripcion
+     * Get descripcion.
      *
      * @return string
      */

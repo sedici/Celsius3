@@ -22,10 +22,9 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity("")
@@ -33,7 +32,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Category
 {
-
     const CATEGORY_NEW_INSTANCE = 2;
 
     use TimestampableEntity;
@@ -50,13 +48,12 @@ class Category
      */
     private $category;
 
-
     public function __construct()
     {
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -65,11 +62,8 @@ class Category
         return $this->id;
     }
 
-
-
-
     /**
-     * Set category
+     * Set category.
      *
      * @param string $category
      *
@@ -83,7 +77,7 @@ class Category
     }
 
     /**
-     * Get category
+     * Get category.
      *
      * @return string
      */
@@ -92,8 +86,8 @@ class Category
         return $this->category;
     }
 
-     public function  __toString(){
-            return $this->getCategory();
+    public function __toString()
+    {
+        return $this->getCategory();
     }
-
 }

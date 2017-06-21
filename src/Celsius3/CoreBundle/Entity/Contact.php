@@ -22,11 +22,11 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
@@ -44,55 +44,65 @@ class Contact
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $surname;
+
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      * @ORM\Column(type="string", length=255)
      */
     private $email;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $address;
+
     /**
      * @ORM\OneToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ContactType", inversedBy="contacts")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
     private $type;
+
     /**
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="contacts")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="contacts")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
      */
     private $institution;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance")
@@ -209,11 +219,11 @@ class Contact
     /**
      * Set user.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param BaseUser $user
      *
      * @return self
      */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user)
+    public function setUser(BaseUser $user)
     {
         $this->user = $user;
 
@@ -223,7 +233,7 @@ class Contact
     /**
      * Get user.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $user
+     * @return BaseUser $user
      */
     public function getUser()
     {
@@ -233,11 +243,11 @@ class Contact
     /**
      * Set type.
      *
-     * @param Celsius3\CoreBundle\Entity\ContactType $type
+     * @param ContactType $type
      *
      * @return self
      */
-    public function setType(\Celsius3\CoreBundle\Entity\ContactType $type)
+    public function setType(ContactType $type)
     {
         $this->type = $type;
 
@@ -247,7 +257,7 @@ class Contact
     /**
      * Get type.
      *
-     * @return Celsius3\CoreBundle\Entity\ContactType $type
+     * @return ContactType $type
      */
     public function getType()
     {
@@ -257,11 +267,11 @@ class Contact
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -271,7 +281,7 @@ class Contact
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -281,11 +291,11 @@ class Contact
     /**
      * Set institution.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institution
+     * @param Institution $institution
      *
      * @return self
      */
-    public function setInstitution(\Celsius3\CoreBundle\Entity\Institution $institution)
+    public function setInstitution(Institution $institution)
     {
         $this->institution = $institution;
 
@@ -295,7 +305,7 @@ class Contact
     /**
      * Get institution.
      *
-     * @return Celsius3\CoreBundle\Entity\Institution $institution
+     * @return Institution $institution
      */
     public function getInstitution()
     {
@@ -303,13 +313,13 @@ class Contact
     }
 
     /**
-     * Set owningInstance.
+     * Set owning instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $owningInstance
+     * @param Instance $owningInstance
      *
      * @return self
      */
-    public function setOwningInstance(\Celsius3\CoreBundle\Entity\Instance $owningInstance)
+    public function setOwningInstance(Instance $owningInstance)
     {
         $this->owningInstance = $owningInstance;
 
@@ -317,9 +327,9 @@ class Contact
     }
 
     /**
-     * Get owningInstance.
+     * Get owning instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $owningInstance
+     * @return Instance $owningInstance
      */
     public function getOwningInstance()
     {

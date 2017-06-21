@@ -22,15 +22,16 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\InstitutionRepository")
  */
 class Institution extends Provider
 {
-
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
@@ -124,20 +125,20 @@ class Institution extends Provider
 
     public function __toString()
     {
-        return $this->abbreviation . ' - ' . $this->name;
+        return $this->abbreviation.' - '.$this->name;
     }
 
     public function getFullName()
     {
-        return ($this->parent ? $this->parent->getFullName() . ' - ' : '') . $this->name;
+        return ($this->parent ? $this->parent->getFullName().' - ' : '').$this->name;
     }
 
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->institutions = new ArrayCollection();
+        $this->catalogs = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     /**
@@ -149,9 +150,10 @@ class Institution extends Provider
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -162,7 +164,7 @@ class Institution extends Provider
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -172,9 +174,10 @@ class Institution extends Provider
     }
 
     /**
-     * Set abbreviation
+     * Set abbreviation.
      *
-     * @param  string $abbreviation
+     * @param string $abbreviation
+     *
      * @return self
      */
     public function setAbbreviation($abbreviation)
@@ -185,7 +188,7 @@ class Institution extends Provider
     }
 
     /**
-     * Get abbreviation
+     * Get abbreviation.
      *
      * @return string $abbreviation
      */
@@ -195,9 +198,10 @@ class Institution extends Provider
     }
 
     /**
-     * Set website
+     * Set website.
      *
-     * @param  string $website
+     * @param string $website
+     *
      * @return self
      */
     public function setWebsite($website)
@@ -208,7 +212,7 @@ class Institution extends Provider
     }
 
     /**
-     * Get website
+     * Get website.
      *
      * @return string $website
      */
@@ -218,9 +222,10 @@ class Institution extends Provider
     }
 
     /**
-     * Set address
+     * Set address.
      *
-     * @param  string $address
+     * @param string $address
+     *
      * @return self
      */
     public function setAddress($address)
@@ -231,7 +236,7 @@ class Institution extends Provider
     }
 
     /**
-     * Get address
+     * Get address.
      *
      * @return string $address
      */
@@ -241,29 +246,29 @@ class Institution extends Provider
     }
 
     /**
-     * Add users
+     * Add users.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $users
+     * @param BaseUser $users
      */
-    public function addUser(\Celsius3\CoreBundle\Entity\BaseUser $users)
+    public function addUser(BaseUser $users)
     {
         $this->users[] = $users;
     }
 
     /**
-     * Remove users
+     * Remove users.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $users
+     * @param BaseUser $users
      */
-    public function removeUser(\Celsius3\CoreBundle\Entity\BaseUser $users)
+    public function removeUser(BaseUser $users)
     {
         $this->users->removeElement($users);
     }
 
     /**
-     * Get users
+     * Get users.
      *
-     * @return Doctrine\Common\Collections\Collection $users
+     * @return Collection $users
      */
     public function getUsers()
     {
@@ -271,31 +276,29 @@ class Institution extends Provider
     }
 
     /**
-     * Add institutions
+     * Add institution.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institution
      */
-    public function addInstitution(
-    \Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function addInstitution(Institution $institution)
     {
-        $this->institutions[] = $institutions;
+        $this->institutions[] = $institution;
     }
 
     /**
-     * Remove institutions
+     * Remove institutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institution
      */
-    public function removeInstitution(
-    \Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function removeInstitution(Institution $institution)
     {
-        $this->institutions->removeElement($institutions);
+        $this->institutions->removeElement($institution);
     }
 
     /**
-     * Get institutions
+     * Get institutions.
      *
-     * @return Doctrine\Common\Collections\Collection $institutions
+     * @return Collection $institutions
      */
     public function getInstitutions()
     {
@@ -303,12 +306,13 @@ class Institution extends Provider
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
-     * @param  Celsius3\CoreBundle\Entity\Institution $parent
+     * @param Institution $parent
+     *
      * @return self
      */
-    public function setParent(\Celsius3\CoreBundle\Entity\Institution $parent = null)
+    public function setParent(Institution $parent = null)
     {
         $this->parent = $parent;
 
@@ -316,9 +320,9 @@ class Institution extends Provider
     }
 
     /**
-     * Get parent
+     * Get parent.
      *
-     * @return Celsius3\CoreBundle\Entity\Institution $parent
+     * @return Institution $parent
      */
     public function getParent()
     {
@@ -326,12 +330,13 @@ class Institution extends Provider
     }
 
     /**
-     * Set city
+     * Set city.
      *
-     * @param  Celsius3\CoreBundle\Entity\City $city
+     * @param City $city
+     *
      * @return self
      */
-    public function setCity(\Celsius3\CoreBundle\Entity\City $city = null)
+    public function setCity(City $city = null)
     {
         $this->city = $city;
 
@@ -339,9 +344,9 @@ class Institution extends Provider
     }
 
     /**
-     * Get city
+     * Get city.
      *
-     * @return Celsius3\CoreBundle\Entity\City $city
+     * @return City $city
      */
     public function getCity()
     {
@@ -349,12 +354,13 @@ class Institution extends Provider
     }
 
     /**
-     * Set country
+     * Set country.
      *
-     * @param  Celsius3\CoreBundle\Entity\Country $country
+     * @param Country $country
+     *
      * @return self
      */
-    public function setCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    public function setCountry(Country $country)
     {
         $this->country = $country;
 
@@ -362,9 +368,9 @@ class Institution extends Provider
     }
 
     /**
-     * Get country
+     * Get country.
      *
-     * @return Celsius3\CoreBundle\Entity\Country $country
+     * @return Country $country
      */
     public function getCountry()
     {
@@ -372,30 +378,29 @@ class Institution extends Provider
     }
 
     /**
-     * Add catalogs
+     * Add catalogs.
      *
-     * @param Celsius3\CoreBundle\Entity\Catalog $catalogs
+     * @param Catalog $catalogs
      */
-    public function addCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalogs)
+    public function addCatalog(Catalog $catalogs)
     {
         $this->catalogs[] = $catalogs;
     }
 
     /**
-     * Remove catalogs
+     * Remove catalogs.
      *
-     * @param Celsius3\CoreBundle\Entity\Catalog $catalogs
+     * @param Catalog $catalogs
      */
-    public function removeCatalog(
-    \Celsius3\CoreBundle\Entity\Catalog $catalogs)
+    public function removeCatalog(Catalog $catalogs)
     {
         $this->catalogs->removeElement($catalogs);
     }
 
     /**
-     * Get catalogs
+     * Get catalogs.
      *
-     * @return Doctrine\Common\Collections\Collection $catalogs
+     * @return Collection $catalogs
      */
     public function getCatalogs()
     {
@@ -403,30 +408,29 @@ class Institution extends Provider
     }
 
     /**
-     * Add contacts
+     * Add contacts.
      *
-     * @param Celsius3\CoreBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function addContact(\Celsius3\CoreBundle\Entity\Contact $contacts)
+    public function addContact(Contact $contacts)
     {
         $this->contacts[] = $contacts;
     }
 
     /**
-     * Remove contacts
+     * Remove contacts.
      *
-     * @param Celsius3\CoreBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function removeContact(
-    \Celsius3\CoreBundle\Entity\Contact $contacts)
+    public function removeContact(Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
 
     /**
-     * Get contacts
+     * Get contacts.
      *
-     * @return Doctrine\Common\Collections\Collection $contacts
+     * @return Collection $contacts
      */
     public function getContacts()
     {
@@ -434,12 +438,13 @@ class Institution extends Provider
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -447,9 +452,9 @@ class Institution extends Provider
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -457,12 +462,13 @@ class Institution extends Provider
     }
 
     /**
-     * Set celsiusInstance
+     * Set celsiusInstance.
      *
-     * @param  Celsius3\CoreBundle\Entity\LegacyInstance $celsiusInstance
+     * @param LegacyInstance $celsiusInstance
+     *
      * @return self
      */
-    public function setCelsiusInstance(\Celsius3\CoreBundle\Entity\LegacyInstance $celsiusInstance = null)
+    public function setCelsiusInstance(LegacyInstance $celsiusInstance = null)
     {
         $this->celsiusInstance = $celsiusInstance;
 
@@ -470,9 +476,9 @@ class Institution extends Provider
     }
 
     /**
-     * Get celsiusInstance
+     * Get celsiusInstance.
      *
-     * @return Celsius3\CoreBundle\Entity\LegacyInstance $celsiusInstance
+     * @return LegacyInstance $celsiusInstance
      */
     public function getCelsiusInstance()
     {
@@ -480,12 +486,13 @@ class Institution extends Provider
     }
 
     /**
-     * Set hive
+     * Set hive.
      *
-     * @param  Celsius3\CoreBundle\Entity\Hive $hive
+     * @param Hive $hive
+     *
      * @return self
      */
-    public function setHive(\Celsius3\CoreBundle\Entity\Hive $hive)
+    public function setHive(Hive $hive)
     {
         $this->hive = $hive;
 
@@ -493,9 +500,9 @@ class Institution extends Provider
     }
 
     /**
-     * Get hive
+     * Get hive.
      *
-     * @return Celsius3\CoreBundle\Entity\Hive $hive
+     * @return Hive $hive
      */
     public function getHive()
     {
@@ -503,13 +510,13 @@ class Institution extends Provider
     }
 
     /**
-     * Add librarian
+     * Add librarian.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $librarian
+     * @param BaseUser $librarian
      *
      * @return Institution
      */
-    public function addLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
+    public function addLibrarian(BaseUser $librarian)
     {
         $this->librarian[] = $librarian;
 
@@ -517,23 +524,22 @@ class Institution extends Provider
     }
 
     /**
-     * Remove librarian
+     * Remove librarian.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $librarian
+     * @param BaseUser $librarian
      */
-    public function removeLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
+    public function removeLibrarian(BaseUser $librarian)
     {
         $this->librarian->removeElement($librarian);
     }
 
     /**
-     * Get librarian
+     * Get librarian.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getLibrarian()
     {
         return $this->librarian;
     }
-
 }

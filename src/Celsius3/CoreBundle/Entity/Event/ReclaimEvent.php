@@ -22,13 +22,13 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ReclaimEventRepository")
@@ -85,11 +85,11 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     /**
      * Set requestEvent.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @param Event $requestEvent
      *
      * @return self
      */
-    public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent)
+    public function setRequestEvent(Event $requestEvent)
     {
         $this->requestEvent = $requestEvent;
 
@@ -99,7 +99,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     /**
      * Get requestEvent.
      *
-     * @return Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @return Event $requestEvent
      */
     public function getRequestEvent()
     {
@@ -109,11 +109,11 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     /**
      * Set receiveEvent.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @param Event $receiveEvent
      *
      * @return self
      */
-    public function setReceiveEvent(\Celsius3\CoreBundle\Entity\Event\Event $receiveEvent)
+    public function setReceiveEvent(Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
 
@@ -123,7 +123,7 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
     /**
      * Get receiveEvent.
      *
-     * @return Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @return Event $receiveEvent
      */
     public function getReceiveEvent()
     {

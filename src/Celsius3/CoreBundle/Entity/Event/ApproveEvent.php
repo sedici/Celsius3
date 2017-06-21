@@ -22,11 +22,12 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\EventManager;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -66,11 +67,11 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Set receiveEvent.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @param Event $receiveEvent
      *
      * @return self
      */
-    public function setReceiveEvent(\Celsius3\CoreBundle\Entity\Event\Event $receiveEvent)
+    public function setReceiveEvent(Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
 
@@ -80,7 +81,7 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Get receiveEvent.
      *
-     * @return Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @return Event $receiveEvent
      */
     public function getReceiveEvent()
     {
@@ -90,9 +91,9 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Add files.
      *
-     * @param Celsius3\CoreBundle\Entity\File $files
+     * @param File $files
      */
-    public function addFile(\Celsius3\CoreBundle\Entity\File $files)
+    public function addFile(File $files)
     {
         $this->files[] = $files;
     }
@@ -100,9 +101,9 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Remove files.
      *
-     * @param Celsius3\CoreBundle\Entity\File $files
+     * @param File $files
      */
-    public function removeFile(\Celsius3\CoreBundle\Entity\File $files)
+    public function removeFile(File $files)
     {
         $this->files->removeElement($files);
     }
@@ -110,17 +111,18 @@ class ApproveEvent extends MultiInstanceEvent
     /**
      * Get files.
      *
-     * @return Doctrine\Common\Collections\Collection $files
+     * @return Collection $files
      */
     public function getFiles()
     {
         return $this->files;
     }
+
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 }

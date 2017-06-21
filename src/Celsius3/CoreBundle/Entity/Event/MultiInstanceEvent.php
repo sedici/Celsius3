@@ -22,8 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\MultiInstanceEventRepository")
@@ -45,11 +46,11 @@ class MultiInstanceEvent extends Event
     /**
      * Set remoteInstance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $remoteInstance
+     * @param Instance $remoteInstance
      *
      * @return self
      */
-    public function setRemoteInstance(\Celsius3\CoreBundle\Entity\Instance $remoteInstance)
+    public function setRemoteInstance(Instance $remoteInstance)
     {
         $this->remoteInstance = $remoteInstance;
 
@@ -59,7 +60,7 @@ class MultiInstanceEvent extends Event
     /**
      * Get remoteInstance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $remoteInstance
+     * @return Instance $remoteInstance
      */
     public function getRemoteInstance()
     {

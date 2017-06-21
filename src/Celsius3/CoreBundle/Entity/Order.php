@@ -22,12 +22,13 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Manager\StateManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Celsius3\CoreBundle\Manager\StateManager;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\OrderRepository")
@@ -41,7 +42,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  */
 class Order
 {
-
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
@@ -83,14 +83,14 @@ class Order
 
     public function __construct()
     {
-        $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
     public function __clone()
     {
         $this->id = null;
         $this->materialData = null;
-        $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->requests = new ArrayCollection();
         $this->originalRequest = null;
     }
 
@@ -103,6 +103,7 @@ class Order
                 $pages += $file->getPages();
             }
         }
+
         return $pages;
     }
 
@@ -122,11 +123,12 @@ class Order
         if (!is_null($receivedState)) {
             $receivedDate = $receivedState->getCreatedAt();
         }
+
         return $receivedDate;
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -136,9 +138,10 @@ class Order
     }
 
     /**
-     * Set code
+     * Set code.
      *
-     * @param  int  $code
+     * @param int $code
+     *
      * @return self
      */
     public function setCode($code)
@@ -149,7 +152,7 @@ class Order
     }
 
     /**
-     * Get code
+     * Get code.
      *
      * @return int $code
      */
@@ -159,12 +162,13 @@ class Order
     }
 
     /**
-     * Set materialData
+     * Set materialData.
      *
-     * @param  Celsius3\CoreBundle\Entity\MaterialType $materialData
+     * @param MaterialType $materialData
+     *
      * @return self
      */
-    public function setMaterialData(\Celsius3\CoreBundle\Entity\MaterialType $materialData = null)
+    public function setMaterialData(MaterialType $materialData = null)
     {
         $this->materialData = $materialData;
 
@@ -172,9 +176,9 @@ class Order
     }
 
     /**
-     * Get materialData
+     * Get materialData.
      *
-     * @return Celsius3\CoreBundle\Entity\MaterialType $materialData
+     * @return MaterialType $materialData
      */
     public function getMaterialData()
     {
@@ -182,12 +186,13 @@ class Order
     }
 
     /**
-     * Set originalRequest
+     * Set originalRequest.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $originalRequest
+     * @param Request $originalRequest
+     *
      * @return self
      */
-    public function setOriginalRequest(\Celsius3\CoreBundle\Entity\Request $originalRequest = null)
+    public function setOriginalRequest(Request $originalRequest = null)
     {
         $this->originalRequest = $originalRequest;
 
@@ -195,9 +200,9 @@ class Order
     }
 
     /**
-     * Get originalRequest
+     * Get originalRequest.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $originalRequest
+     * @return Request $originalRequest
      */
     public function getOriginalRequest()
     {
@@ -205,29 +210,29 @@ class Order
     }
 
     /**
-     * Add request
+     * Add request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      */
-    public function addRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function addRequest(Request $request)
     {
         $this->requests[] = $request;
     }
 
     /**
-     * Remove request
+     * Remove request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      */
-    public function removeRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function removeRequest(Request $request)
     {
         $this->requests->removeElement($request);
     }
 
     /**
-     * Get requests
+     * Get requests.
      *
-     * @return Doctrine\Common\Collections\Collection $requests
+     * @return Collection $requests
      */
     public function getRequests()
     {
@@ -235,15 +240,15 @@ class Order
     }
 
     /**
-     * Retorna si existe o no un request para $instance
+     * Retorna si existe o no un request para $instance.
      */
     public function hasRequest(Instance $instance)
     {
-        return ($this->getRequests()
+        return $this->getRequests()
                         ->filter(
                                 function (Request $entry) use ($instance) {
-                            return $entry->getInstance()->getId() == $instance->getId();
-                        })->count() > 0);
+                                    return $entry->getInstance()->getId() == $instance->getId();
+                                })->count() > 0;
     }
 
     /**
@@ -255,10 +260,9 @@ class Order
         $result = $this->getRequests()
                         ->filter(
                                 function (Request $entry) use ($instance) {
-                            return $entry->getInstance()->getId() == $instance->getId();
-                        })->first();
+                                    return $entry->getInstance()->getId() == $instance->getId();
+                                })->first();
 
         return false !== $result ? $result : null;
     }
-
 }

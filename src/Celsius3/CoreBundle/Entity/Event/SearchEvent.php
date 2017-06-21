@@ -22,12 +22,13 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SearchEventRepository")
@@ -86,11 +87,11 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     /**
      * Set catalog.
      *
-     * @param Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @param Catalog $catalog
      *
      * @return self
      */
-    public function setCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalog)
+    public function setCatalog(Catalog $catalog)
     {
         $this->catalog = $catalog;
 
@@ -100,7 +101,7 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
     /**
      * Get catalog.
      *
-     * @return Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @return Catalog $catalog
      */
     public function getCatalog()
     {

@@ -22,10 +22,11 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\LegacyInstanceRepository")
@@ -101,7 +102,7 @@ class LegacyInstance
 
     public function __construct()
     {
-        $this->ownerInstitutions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ownerInstitutions = new ArrayCollection();
     }
 
     public function __toString()
@@ -247,11 +248,11 @@ class LegacyInstance
     /**
      * Set hive.
      *
-     * @param Celsius3\CoreBundle\Entity\Hive $hive
+     * @param Hive $hive
      *
      * @return self
      */
-    public function setHive(\Celsius3\CoreBundle\Entity\Hive $hive)
+    public function setHive(Hive $hive)
     {
         $this->hive = $hive;
 
@@ -261,7 +262,7 @@ class LegacyInstance
     /**
      * Get hive.
      *
-     * @return Celsius3\CoreBundle\Entity\Hive $hive
+     * @return Hive $hive
      */
     public function getHive()
     {
@@ -271,9 +272,9 @@ class LegacyInstance
     /**
      * Add ownerInstitutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $ownerInstitutions
+     * @param Institution $ownerInstitutions
      */
-    public function addOwnerInstitution(\Celsius3\CoreBundle\Entity\Institution $ownerInstitutions)
+    public function addOwnerInstitution(Institution $ownerInstitutions)
     {
         $this->ownerInstitutions[] = $ownerInstitutions;
     }
@@ -281,9 +282,9 @@ class LegacyInstance
     /**
      * Remove ownerInstitutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $ownerInstitutions
+     * @param Institution $ownerInstitutions
      */
-    public function removeOwnerInstitution(\Celsius3\CoreBundle\Entity\Institution $ownerInstitutions)
+    public function removeOwnerInstitution(Institution $ownerInstitutions)
     {
         $this->ownerInstitutions->removeElement($ownerInstitutions);
     }
@@ -291,7 +292,7 @@ class LegacyInstance
     /**
      * Get ownerInstitutions.
      *
-     * @return Doctrine\Common\Collections\ArrayCollection $ownerInstitutions
+     * @return ArrayCollection $ownerInstitutions
      */
     public function getOwnerInstitutions()
     {

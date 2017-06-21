@@ -22,10 +22,10 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\JournalRepository")
@@ -37,7 +37,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Journal
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -83,7 +82,7 @@ class Journal
 
     public function __construct()
     {
-        $this->materials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->materials = new ArrayCollection();
     }
 
     public function __toString()
@@ -92,7 +91,7 @@ class Journal
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -102,9 +101,10 @@ class Journal
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -115,7 +115,7 @@ class Journal
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -125,19 +125,20 @@ class Journal
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
     public function getFullName()
     {
-        return $this->name . ' - (Instance: ' . $this->getInstance()->getUrl() . ') - (ISSN: ' . $this->ISSN . ')';
+        return $this->name.' - (Instance: '.$this->getInstance()->getUrl().') - (ISSN: '.$this->ISSN.')';
     }
 
     /**
-     * Set abbreviation
+     * Set abbreviation.
      *
-     * @param  string $abbreviation
+     * @param string $abbreviation
+     *
      * @return self
      */
     public function setAbbreviation($abbreviation)
@@ -148,7 +149,7 @@ class Journal
     }
 
     /**
-     * Get abbreviation
+     * Get abbreviation.
      *
      * @return string $abbreviation
      */
@@ -158,9 +159,10 @@ class Journal
     }
 
     /**
-     * Set responsible
+     * Set responsible.
      *
-     * @param  string $responsible
+     * @param string $responsible
+     *
      * @return self
      */
     public function setResponsible($responsible)
@@ -171,7 +173,7 @@ class Journal
     }
 
     /**
-     * Get responsible
+     * Get responsible.
      *
      * @return string $responsible
      */
@@ -181,9 +183,10 @@ class Journal
     }
 
     /**
-     * Set ISSN
+     * Set ISSN.
      *
-     * @param  string $iSSN
+     * @param string $iSSN
+     *
      * @return self
      */
     public function setISSN($iSSN)
@@ -194,7 +197,7 @@ class Journal
     }
 
     /**
-     * Get ISSN
+     * Get ISSN.
      *
      * @return string $iSSN
      */
@@ -204,9 +207,10 @@ class Journal
     }
 
     /**
-     * Set ISSNE
+     * Set ISSNE.
      *
-     * @param  string $iSSNE
+     * @param string $iSSNE
+     *
      * @return self
      */
     public function setISSNE($iSSNE)
@@ -217,7 +221,7 @@ class Journal
     }
 
     /**
-     * Get ISSNE
+     * Get ISSNE.
      *
      * @return string $iSSNE
      */
@@ -227,9 +231,10 @@ class Journal
     }
 
     /**
-     * Set frecuency
+     * Set frecuency.
      *
-     * @param  string $frecuency
+     * @param string $frecuency
+     *
      * @return self
      */
     public function setFrecuency($frecuency)
@@ -240,7 +245,7 @@ class Journal
     }
 
     /**
-     * Get frecuency
+     * Get frecuency.
      *
      * @return string $frecuency
      */
@@ -250,29 +255,29 @@ class Journal
     }
 
     /**
-     * Add materials
+     * Add materials.
      *
-     * @param Celsius3\CoreBundle\Entity\JournalType $materials
+     * @param JournalType $materials
      */
-    public function addMaterial(\Celsius3\CoreBundle\Entity\JournalType $materials)
+    public function addMaterial(JournalType $materials)
     {
         $this->materials[] = $materials;
     }
 
     /**
-     * Remove materials
+     * Remove materials.
      *
-     * @param Celsius3\CoreBundle\Entity\JournalType $materials
+     * @param JournalType $materials
      */
-    public function removeMaterial(\Celsius3\CoreBundle\Entity\JournalType $materials)
+    public function removeMaterial(JournalType $materials)
     {
         $this->materials->removeElement($materials);
     }
 
     /**
-     * Get materials
+     * Get materials.
      *
-     * @return Doctrine\Common\Collections\Collection $materials
+     * @return Collection $materials
      */
     public function getMaterials()
     {
@@ -280,12 +285,13 @@ class Journal
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -293,9 +299,9 @@ class Journal
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {

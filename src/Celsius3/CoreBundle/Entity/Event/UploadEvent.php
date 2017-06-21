@@ -22,15 +22,18 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
+use Celsius3\CoreBundle\Entity\File;
+use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
+use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
+use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
-use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
-use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -69,7 +72,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
 
     public function __construct()
     {
-        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
@@ -109,9 +112,9 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Add files.
      *
-     * @param Celsius3\CoreBundle\Entity\File $files
+     * @param File $files
      */
-    public function addFile(\Celsius3\CoreBundle\Entity\File $files)
+    public function addFile(File $files)
     {
         $this->files[] = $files;
     }
@@ -119,9 +122,9 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Remove files.
      *
-     * @param Celsius3\CoreBundle\Entity\File $files
+     * @param File $files
      */
-    public function removeFile(\Celsius3\CoreBundle\Entity\File $files)
+    public function removeFile(File $files)
     {
         $this->files->removeElement($files);
     }
@@ -129,7 +132,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Get files.
      *
-     * @return Doctrine\Common\Collections\Collection $files
+     * @return Collection $files
      */
     public function getFiles()
     {
@@ -139,11 +142,11 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Set remoteState.
      *
-     * @param Celsius3\CoreBundle\Entity\State $remoteState
+     * @param State $remoteState
      *
      * @return self
      */
-    public function setRemoteState(\Celsius3\CoreBundle\Entity\State $remoteState)
+    public function setRemoteState(State $remoteState)
     {
         $this->remoteState = $remoteState;
 
@@ -153,7 +156,7 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Get remoteState.
      *
-     * @return Celsius3\CoreBundle\Entity\State $remoteState
+     * @return State $remoteState
      */
     public function getRemoteState()
     {

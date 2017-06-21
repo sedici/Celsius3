@@ -22,10 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\NewsRepository")
@@ -37,7 +36,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class News
 {
-
     use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
@@ -81,7 +79,7 @@ class News
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -91,9 +89,10 @@ class News
     }
 
     /**
-     * Set title
+     * Set title.
      *
-     * @param  string $title
+     * @param string $title
+     *
      * @return self
      */
     public function setTitle($title)
@@ -104,7 +103,7 @@ class News
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string $title
      */
@@ -114,9 +113,10 @@ class News
     }
 
     /**
-     * Set text
+     * Set text.
      *
-     * @param  string $text
+     * @param string $text
+     *
      * @return self
      */
     public function setText($text)
@@ -127,7 +127,7 @@ class News
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string $text
      */
@@ -137,9 +137,10 @@ class News
     }
 
     /**
-     * Set date
+     * Set date.
      *
-     * @param  date $date
+     * @param date $date
+     *
      * @return self
      */
     public function setDate($date)
@@ -150,7 +151,7 @@ class News
     }
 
     /**
-     * Get date
+     * Get date.
      *
      * @return date $date
      */
@@ -160,12 +161,13 @@ class News
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -173,9 +175,9 @@ class News
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -183,9 +185,9 @@ class News
     }
 
     /**
-     * Set active
+     * Set active.
      *
-     * @param boolean $active
+     * @param bool $active
      *
      * @return News
      */
@@ -197,9 +199,9 @@ class News
     }
 
     /**
-     * Get active
+     * Get active.
      *
-     * @return boolean
+     * @return bool
      */
     public function getActive()
     {

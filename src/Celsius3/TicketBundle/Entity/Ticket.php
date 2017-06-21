@@ -2,11 +2,12 @@
 
 namespace Celsius3\TicketBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity("")
@@ -35,7 +36,6 @@ class Ticket
      */
     private $text;
 
-
     /**
      * @var Baseuser
      *
@@ -54,7 +54,6 @@ class Ticket
      */
     protected $updatedBy;
 
-
     /**
      * @var Baseuser
      *
@@ -63,13 +62,10 @@ class Ticket
      */
     protected $userAssigned;
 
-
     /**
      * @ORM\OneToMany(targetEntity="Celsius3\TicketBundle\Entity\TicketState", mappedBy="tickets")
      */
     protected $statusHistory;
-
-
 
     /**
      * @var statusCurrent
@@ -78,14 +74,12 @@ class Ticket
      */
     protected $statusCurrent;
 
-
     /**
      * @var category
      * @ORM\ManyToOne(targetEntity="Celsius3\TicketBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=true)
      */
     protected $category;
-
 
     /**
      * @var priority
@@ -94,15 +88,10 @@ class Ticket
      */
     protected $priority;
 
-
-
-
-
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -110,7 +99,7 @@ class Ticket
     }
 
     /**
-     * Set subject
+     * Set subject.
      *
      * @param string $subject
      *
@@ -124,7 +113,7 @@ class Ticket
     }
 
     /**
-     * Get subject
+     * Get subject.
      *
      * @return string
      */
@@ -134,7 +123,7 @@ class Ticket
     }
 
     /**
-     * Set text
+     * Set text.
      *
      * @param string $text
      *
@@ -148,7 +137,7 @@ class Ticket
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string
      */
@@ -158,13 +147,13 @@ class Ticket
     }
 
     /**
-     * Set createdBy
+     * Set createdBy.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $createdBy
+     * @param BaseUser $createdBy
      *
      * @return Ticket
      */
-    public function setCreatedBy(\Celsius3\CoreBundle\Entity\BaseUser $createdBy = null)
+    public function setCreatedBy(BaseUser $createdBy = null)
     {
         $this->createdBy = $createdBy;
 
@@ -172,9 +161,9 @@ class Ticket
     }
 
     /**
-     * Get createdBy
+     * Get createdBy.
      *
-     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     * @return BaseUser
      */
     public function getCreatedBy()
     {
@@ -182,13 +171,13 @@ class Ticket
     }
 
     /**
-     * Set updatedBy
+     * Set updatedBy.
      *
-     * @param \Celsius3\coreBundle\Entity\BaseUser $updatedBy
+     * @param BaseUser $updatedBy
      *
      * @return Ticket
      */
-    public function setUpdatedBy(\Celsius3\coreBundle\Entity\BaseUser $updatedBy = null)
+    public function setUpdatedBy(BaseUser $updatedBy = null)
     {
         $this->updatedBy = $updatedBy;
 
@@ -196,24 +185,25 @@ class Ticket
     }
 
     /**
-     * Get updatedBy
+     * Get updatedBy.
      *
-     * @return \Celsius3\coreBundle\Entity\BaseUser
+     * @return BaseUser
      */
     public function getUpdatedBy()
     {
         return $this->updatedBy;
     }
+
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
-        $this->statusHistory = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->statusHistory = new ArrayCollection();
     }
 
     /**
-     * Set statusCurrent
+     * Set statusCurrent.
      *
      * @param string $statusCurrent
      *
@@ -227,7 +217,7 @@ class Ticket
     }
 
     /**
-     * Get statusCurrent
+     * Get statusCurrent.
      *
      * @return string
      */
@@ -237,7 +227,7 @@ class Ticket
     }
 
     /**
-     * Set priority
+     * Set priority.
      *
      * @param string $priority
      *
@@ -251,7 +241,7 @@ class Ticket
     }
 
     /**
-     * Get priority
+     * Get priority.
      *
      * @return string
      */
@@ -261,13 +251,13 @@ class Ticket
     }
 
     /**
-     * Add statusHistory
+     * Add statusHistory.
      *
-     * @param \Celsius3\TicketBundle\Entity\TicketState $statusHistory
+     * @param TicketState $statusHistory
      *
      * @return Ticket
      */
-    public function addStatusHistory(\Celsius3\TicketBundle\Entity\TicketState $statusHistory)
+    public function addStatusHistory(TicketState $statusHistory)
     {
         $this->statusHistory[] = $statusHistory;
 
@@ -275,19 +265,19 @@ class Ticket
     }
 
     /**
-     * Remove statusHistory
+     * Remove statusHistory.
      *
-     * @param \Celsius3\TicketBundle\Entity\TicketState $statusHistory
+     * @param TicketState $statusHistory
      */
-    public function removeStatusHistory(\Celsius3\TicketBundle\Entity\TicketState $statusHistory)
+    public function removeStatusHistory(TicketState $statusHistory)
     {
         $this->statusHistory->removeElement($statusHistory);
     }
 
     /**
-     * Get statusHistory
+     * Get statusHistory.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getStatusHistory()
     {
@@ -295,13 +285,13 @@ class Ticket
     }
 
     /**
-     * Set category
+     * Set category.
      *
-     * @param \Celsius3\TicketBundle\Entity\Category $category
+     * @param Category $category
      *
      * @return Ticket
      */
-    public function setCategory(\Celsius3\TicketBundle\Entity\Category $category = null)
+    public function setCategory(Category $category = null)
     {
         $this->category = $category;
 
@@ -309,9 +299,9 @@ class Ticket
     }
 
     /**
-     * Get category
+     * Get category.
      *
-     * @return \Celsius3\TicketBundle\Entity\Category
+     * @return Category
      */
     public function getCategory()
     {
@@ -319,7 +309,7 @@ class Ticket
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -333,7 +323,7 @@ class Ticket
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -343,7 +333,7 @@ class Ticket
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -357,7 +347,7 @@ class Ticket
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -367,13 +357,13 @@ class Ticket
     }
 
     /**
-     * Set userAssigned
+     * Set userAssigned.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $userAssigned
+     * @param BaseUser $userAssigned
      *
      * @return Ticket
      */
-    public function setUserAssigned(\Celsius3\CoreBundle\Entity\BaseUser $userAssigned = null)
+    public function setUserAssigned(BaseUser $userAssigned = null)
     {
         $this->userAssigned = $userAssigned;
 
@@ -381,9 +371,9 @@ class Ticket
     }
 
     /**
-     * Get userAssigned
+     * Get userAssigned.
      *
-     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     * @return BaseUser
      */
     public function getUserAssigned()
     {

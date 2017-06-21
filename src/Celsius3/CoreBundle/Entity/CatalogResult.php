@@ -22,9 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CatalogResultRepository")
@@ -37,28 +37,33 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class CatalogResult
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank
      * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     private $searches = 0;
+
     /**
      * @Assert\Type(type="integer")
      * @ORM\Column(type="integer")
      */
     private $matches = 0;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Catalog", inversedBy="positions")
@@ -151,11 +156,11 @@ class CatalogResult
     /**
      * Set catalog.
      *
-     * @param Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @param Catalog $catalog
      *
      * @return self
      */
-    public function setCatalog(\Celsius3\CoreBundle\Entity\Catalog $catalog)
+    public function setCatalog(Catalog $catalog)
     {
         $this->catalog = $catalog;
 
@@ -165,7 +170,7 @@ class CatalogResult
     /**
      * Get catalog.
      *
-     * @return Celsius3\CoreBundle\Entity\Catalog $catalog
+     * @return Catalog $catalog
      */
     public function getCatalog()
     {

@@ -22,17 +22,17 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
-use Celsius3\CoreBundle\Manager\StateManager;
-use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
+use Celsius3\CoreBundle\Entity\Mixin\AnnullableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\CancellableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ProviderTrait;
-use Celsius3\CoreBundle\Entity\Mixin\AnnullableTrait;
+use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Manager\OrderManager;
+use Celsius3\CoreBundle\Manager\StateManager;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -82,11 +82,11 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Set remoteRequest.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $remoteRequest
+     * @param Request $remoteRequest
      *
      * @return self
      */
-    public function setRemoteRequest(\Celsius3\CoreBundle\Entity\Request $remoteRequest)
+    public function setRemoteRequest(Request $remoteRequest)
     {
         $this->remoteRequest = $remoteRequest;
 
@@ -96,7 +96,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     /**
      * Get remoteRequest.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $remoteRequest
+     * @return Request $remoteRequest
      */
     public function getRemoteRequest()
     {

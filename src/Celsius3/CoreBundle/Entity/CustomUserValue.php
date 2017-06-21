@@ -22,9 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -96,11 +96,11 @@ class CustomUserValue
     /**
      * Set field.
      *
-     * @param Celsius3\CoreBundle\Entity\CustomUserField $field
+     * @param CustomUserField $field
      *
      * @return self
      */
-    public function setField(\Celsius3\CoreBundle\Entity\CustomUserField $field)
+    public function setField(CustomUserField $field)
     {
         $this->field = $field;
 
@@ -110,7 +110,7 @@ class CustomUserValue
     /**
      * Get field.
      *
-     * @return Celsius3\CoreBundle\Entity\CustomUserField $field
+     * @return CustomUserField $field
      */
     public function getField()
     {
@@ -120,11 +120,11 @@ class CustomUserValue
     /**
      * Set user.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param BaseUser $user
      *
      * @return self
      */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user)
+    public function setUser(BaseUser $user)
     {
         $this->user = $user;
 
@@ -134,7 +134,7 @@ class CustomUserValue
     /**
      * Get user.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $user
+     * @return BaseUser $user
      */
     public function getUser()
     {

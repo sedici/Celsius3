@@ -22,6 +22,8 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
+use Celsius3\CoreBundle\Entity\Contact;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -35,17 +37,20 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class ContactType
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @ORM\OneToMany(targetEntity="Contact", mappedBy="type")
      */
@@ -53,7 +58,7 @@ class ContactType
 
     public function __construct()
     {
-        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function __toString()
@@ -98,9 +103,9 @@ class ContactType
     /**
      * Add contacts.
      *
-     * @param Celsius3\CoreBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function addContact(\Celsius3\CoreBundle\Entity\Contact $contacts)
+    public function addContact(Contact $contacts)
     {
         $this->contacts[] = $contacts;
     }
@@ -108,9 +113,9 @@ class ContactType
     /**
      * Remove contacts.
      *
-     * @param Celsius3\CoreBundle\Entity\Contact $contacts
+     * @param Contact $contacts
      */
-    public function removeContact(\Celsius3\CoreBundle\Entity\Contact $contacts)
+    public function removeContact(Contact $contacts)
     {
         $this->contacts->removeElement($contacts);
     }
@@ -118,7 +123,7 @@ class ContactType
     /**
      * Get contacts.
      *
-     * @return Doctrine\Common\Collections\Collection $contacts
+     * @return Collection $contacts
      */
     public function getContacts()
     {

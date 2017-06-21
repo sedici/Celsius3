@@ -22,10 +22,10 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CatalogRepository")
@@ -38,7 +38,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Catalog
 {
-
     use TimestampableEntity;
 
     /**
@@ -92,7 +91,7 @@ class Catalog
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -102,9 +101,10 @@ class Catalog
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -115,7 +115,7 @@ class Catalog
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -125,9 +125,10 @@ class Catalog
     }
 
     /**
-     * Set url
+     * Set url.
      *
-     * @param  string $url
+     * @param string $url
+     *
      * @return self
      */
     public function setUrl($url)
@@ -138,7 +139,7 @@ class Catalog
     }
 
     /**
-     * Get url
+     * Get url.
      *
      * @return string $url
      */
@@ -148,9 +149,10 @@ class Catalog
     }
 
     /**
-     * Set comments
+     * Set comments.
      *
-     * @param  string $comments
+     * @param string $comments
+     *
      * @return self
      */
     public function setComments($comments)
@@ -161,7 +163,7 @@ class Catalog
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return string $comments
      */
@@ -171,12 +173,13 @@ class Catalog
     }
 
     /**
-     * Set institution
+     * Set institution.
      *
-     * @param  Celsius3\CoreBundle\Entity\Institution $institution
+     * @param Institution $institution
+     *
      * @return self
      */
-    public function setInstitution(\Celsius3\CoreBundle\Entity\Institution $institution = null)
+    public function setInstitution(Institution $institution = null)
     {
         $this->institution = $institution;
 
@@ -184,9 +187,9 @@ class Catalog
     }
 
     /**
-     * Get institution
+     * Get institution.
      *
-     * @return Celsius3\CoreBundle\Entity\Institution $institution
+     * @return Institution $institution
      */
     public function getInstitution()
     {
@@ -194,12 +197,13 @@ class Catalog
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -207,59 +211,68 @@ class Catalog
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
         return $this->instance;
     }
 
+    /**
+     * Catalog constructor.
+     */
     public function __construct()
     {
-        $this->positions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->positions = new ArrayCollection();
     }
 
     /**
-     * Add position
+     * Add position.
      *
-     * @param Celsius3\CoreBundle\Entity\CatalogPosition $position
+     * @param CatalogPosition $position
      */
-    public function addPosition(\Celsius3\CoreBundle\Entity\CatalogPosition $position)
+    public function addPosition(CatalogPosition $position)
     {
         $this->positions[] = $position;
     }
 
     /**
-     * Remove position
+     * Remove position.
      *
-     * @param Celsius3\CoreBundle\Entity\CatalogPosition $position
+     * @param CatalogPosition $position
      */
-    public function removePosition(\Celsius3\CoreBundle\Entity\CatalogPosition $position)
+    public function removePosition(CatalogPosition $position)
     {
         $this->positions->removeElement($position);
     }
 
     /**
-     * Get positions
+     * Get positions.
      *
-     * @return Doctrine\Common\Collections\Collection $positions
+     * @return Collection $positions
      */
     public function getPositions()
     {
         return $this->positions;
     }
 
+    /**
+     * Get position.
+     *
+     * @param Instance $instance
+     *
+     * @return CatalogPosition|null
+     */
     public function getPosition(Instance $instance)
     {
         $result = $this->getPositions()
                         ->filter(
                                 function (CatalogPosition $entry) use ($instance) {
-                            return $entry->getInstance()->getId() == $instance->getId();
-                        })->first();
+                                    return $entry->getInstance()->getId() == $instance->getId();
+                                })->first();
 
         return false !== $result ? $result : null;
     }
-
 }

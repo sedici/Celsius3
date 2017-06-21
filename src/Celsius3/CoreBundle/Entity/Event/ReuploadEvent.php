@@ -22,10 +22,10 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -55,11 +55,11 @@ class ReuploadEvent extends SingleInstanceEvent
     /**
      * Set receiveEvent.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @param Event $receiveEvent
      *
      * @return self
      */
-    public function setReceiveEvent(\Celsius3\CoreBundle\Entity\Event\Event $receiveEvent)
+    public function setReceiveEvent(Event $receiveEvent)
     {
         $this->receiveEvent = $receiveEvent;
 
@@ -69,7 +69,7 @@ class ReuploadEvent extends SingleInstanceEvent
     /**
      * Get receiveEvent.
      *
-     * @return Celsius3\CoreBundle\Entity\Event\Event $receiveEvent
+     * @return Event $receiveEvent
      */
     public function getReceiveEvent()
     {

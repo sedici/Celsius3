@@ -22,11 +22,14 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\StateRepository")
@@ -44,7 +47,7 @@ class State
 {
     use TimestampableEntity;
     use SoftDeleteableEntity;
-    
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -106,8 +109,8 @@ class State
 
     public function __construct()
     {
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->remoteEvents = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->remoteEvents = new ArrayCollection();
     }
 
     public function __toString()
@@ -224,11 +227,11 @@ class State
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -238,7 +241,7 @@ class State
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -248,9 +251,9 @@ class State
     /**
      * Add events.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $events
+     * @param Event $events
      */
-    public function addEvent(\Celsius3\CoreBundle\Entity\Event\Event $events)
+    public function addEvent(Event $events)
     {
         $this->events[] = $events;
     }
@@ -258,9 +261,9 @@ class State
     /**
      * Remove events.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $events
+     * @param Event $events
      */
-    public function removeEvent(\Celsius3\CoreBundle\Entity\Event\Event $events)
+    public function removeEvent(Event $events)
     {
         $this->events->removeElement($events);
     }
@@ -268,7 +271,7 @@ class State
     /**
      * Get events.
      *
-     * @return Doctrine\Common\Collections\Collection $events
+     * @return Collection $events
      */
     public function getEvents()
     {
@@ -278,9 +281,9 @@ class State
     /**
      * Add remoteEvents.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent $remoteEvents
+     * @param MultiInstanceReceiveEvent $remoteEvents
      */
-    public function addRemoteEvent(\Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent $remoteEvents)
+    public function addRemoteEvent(MultiInstanceReceiveEvent $remoteEvents)
     {
         $this->remoteEvents[] = $remoteEvents;
     }
@@ -288,9 +291,9 @@ class State
     /**
      * Remove remoteEvents.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent $remoteEvents
+     * @param MultiInstanceReceiveEvent $remoteEvents
      */
-    public function removeRemoteEvent(\Celsius3\CoreBundle\Entity\Event\MultiInstanceReceiveEvent $remoteEvents)
+    public function removeRemoteEvent(MultiInstanceReceiveEvent $remoteEvents)
     {
         $this->remoteEvents->removeElement($remoteEvents);
     }
@@ -298,7 +301,7 @@ class State
     /**
      * Get remoteEvents.
      *
-     * @return Doctrine\Common\Collections\Collection $remoteEvents
+     * @return Collection $remoteEvents
      */
     public function getRemoteEvents()
     {
@@ -308,11 +311,11 @@ class State
     /**
      * Set previous.
      *
-     * @param Celsius3\CoreBundle\Entity\State $previous
+     * @param State $previous
      *
      * @return self
      */
-    public function setPrevious(\Celsius3\CoreBundle\Entity\State $previous = null)
+    public function setPrevious(State $previous = null)
     {
         $this->previous = $previous;
 
@@ -322,7 +325,7 @@ class State
     /**
      * Get previous.
      *
-     * @return Celsius3\CoreBundle\Entity\State $previous
+     * @return State $previous
      */
     public function getPrevious()
     {
@@ -332,11 +335,11 @@ class State
     /**
      * Set request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      *
      * @return self
      */
-    public function setRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
 
@@ -346,7 +349,7 @@ class State
     /**
      * Get request.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $request
+     * @return Request $request
      */
     public function getRequest()
     {
@@ -356,11 +359,11 @@ class State
     /**
      * Set operator.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @param BaseUser $operator
      *
      * @return self
      */
-    public function setOperator(\Celsius3\CoreBundle\Entity\BaseUser $operator)
+    public function setOperator(BaseUser $operator)
     {
         $this->operator = $operator;
 
@@ -370,7 +373,7 @@ class State
     /**
      * Get operator.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @return BaseUser $operator
      */
     public function getOperator()
     {

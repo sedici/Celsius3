@@ -22,9 +22,10 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -63,8 +64,8 @@ class Hive
 
     public function __construct()
     {
-        $this->instances = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->instances = new ArrayCollection();
+        $this->institutions = new ArrayCollection();
     }
 
     /**
@@ -104,9 +105,9 @@ class Hive
     /**
      * Add instance.
      *
-     * @param Celsius3\CoreBundle\Entity\LegacyInstance $instance
+     * @param LegacyInstance $instance
      */
-    public function addInstance(\Celsius3\CoreBundle\Entity\LegacyInstance $instance)
+    public function addInstance(LegacyInstance $instance)
     {
         $this->instances[] = $instance;
     }
@@ -114,9 +115,9 @@ class Hive
     /**
      * Remove instance.
      *
-     * @param Celsius3\CoreBundle\Entity\LegacyInstance $instance
+     * @param LegacyInstance $instance
      */
-    public function removeInstance(\Celsius3\CoreBundle\Entity\LegacyInstance $instance)
+    public function removeInstance(LegacyInstance $instance)
     {
         $this->instances->removeElement($instance);
     }
@@ -124,7 +125,7 @@ class Hive
     /**
      * Get instances.
      *
-     * @return Doctrine\Common\Collections\Collection $instances
+     * @return Collection $instances
      */
     public function getInstances()
     {
@@ -134,9 +135,9 @@ class Hive
     /**
      * Add institution.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institution
+     * @param Institution $institution
      */
-    public function addInstitution(\Celsius3\CoreBundle\Entity\Institution $institution)
+    public function addInstitution(Institution $institution)
     {
         $this->institutions[] = $institution;
     }
@@ -144,9 +145,9 @@ class Hive
     /**
      * Remove institution.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institution
+     * @param Institution $institution
      */
-    public function removeInstitution(\Celsius3\CoreBundle\Entity\Institution $institution)
+    public function removeInstitution(Institution $institution)
     {
         $this->institutions->removeElement($institution);
     }
@@ -154,7 +155,7 @@ class Hive
     /**
      * Get institutions.
      *
-     * @return Doctrine\Common\Collections\Collection $institutions
+     * @return Collection $institutions
      */
     public function getInstitutions()
     {

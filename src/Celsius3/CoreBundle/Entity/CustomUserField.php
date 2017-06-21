@@ -22,10 +22,11 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CustomUserFieldRepository")
@@ -95,7 +96,6 @@ class CustomUserField
      */
     private $values;
 
-
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -103,7 +103,7 @@ class CustomUserField
 
     public function __construct()
     {
-        $this->values = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->values = new ArrayCollection();
     }
 
     /**
@@ -287,11 +287,11 @@ class CustomUserField
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -301,7 +301,7 @@ class CustomUserField
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -311,9 +311,9 @@ class CustomUserField
     /**
      * Add values.
      *
-     * @param Celsius3\CoreBundle\Entity\CustomUserValue $values
+     * @param CustomUserValue $values
      */
-    public function addValue(\Celsius3\CoreBundle\Entity\CustomUserValue $values)
+    public function addValue(CustomUserValue $values)
     {
         $this->values[] = $values;
     }
@@ -321,9 +321,9 @@ class CustomUserField
     /**
      * Remove values.
      *
-     * @param Celsius3\CoreBundle\Entity\CustomUserValue $values
+     * @param CustomUserValue $values
      */
-    public function removeValue(\Celsius3\CoreBundle\Entity\CustomUserValue $values)
+    public function removeValue(CustomUserValue $values)
     {
         $this->values->removeElement($values);
     }
@@ -331,7 +331,7 @@ class CustomUserField
     /**
      * Get values.
      *
-     * @return Doctrine\Common\Collections\Collection $values
+     * @return Collection $values
      */
     public function getValues()
     {
@@ -349,7 +349,7 @@ class CustomUserField
     }
 
     /**
-     * Set orden
+     * Set orden.
      *
      * @param bool $orden
      *
@@ -361,6 +361,4 @@ class CustomUserField
 
         return $this;
     }
-
-
 }

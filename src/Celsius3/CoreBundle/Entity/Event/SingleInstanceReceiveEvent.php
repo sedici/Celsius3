@@ -22,13 +22,15 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\SingleInstanceReceiveEventRepository")
@@ -74,7 +76,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
 
     public function __construct()
     {
-        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     /**
@@ -104,9 +106,9 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     /**
      * Add files.
      *
-     * @param Celsius3\CoreBundle\Entity\File $files
+     * @param File $files
      */
-    public function addFile(\Celsius3\CoreBundle\Entity\File $files)
+    public function addFile(File $files)
     {
         $this->files[] = $files;
     }
@@ -114,9 +116,9 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     /**
      * Remove files.
      *
-     * @param Celsius3\CoreBundle\Entity\File $files
+     * @param File $files
      */
-    public function removeFile(\Celsius3\CoreBundle\Entity\File $files)
+    public function removeFile(File $files)
     {
         $this->files->removeElement($files);
     }
@@ -124,7 +126,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     /**
      * Get files.
      *
-     * @return Doctrine\Common\Collections\Collection $files
+     * @return Collection $files
      */
     public function getFiles()
     {
@@ -134,11 +136,11 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     /**
      * Set requestEvent.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @param Event $requestEvent
      *
      * @return self
      */
-    public function setRequestEvent(\Celsius3\CoreBundle\Entity\Event\Event $requestEvent = null)
+    public function setRequestEvent(Event $requestEvent = null)
     {
         $this->requestEvent = $requestEvent;
 
@@ -148,7 +150,7 @@ class SingleInstanceReceiveEvent extends SingleInstanceEvent implements Notifiab
     /**
      * Get requestEvent.
      *
-     * @return Celsius3\CoreBundle\Entity\Event\Event $requestEvent
+     * @return Event $requestEvent
      */
     public function getRequestEvent()
     {

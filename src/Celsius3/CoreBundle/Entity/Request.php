@@ -22,11 +22,13 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\Event\Event;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\RequestRepository")
@@ -133,10 +135,10 @@ class Request
 
     public function __construct()
     {
-        $this->files = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->states = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->requests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->files = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->states = new ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
     /**
@@ -200,11 +202,11 @@ class Request
     /**
      * Set owner.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $owner
+     * @param BaseUser $owner
      *
      * @return self
      */
-    public function setOwner(\Celsius3\CoreBundle\Entity\BaseUser $owner)
+    public function setOwner(BaseUser $owner)
     {
         $this->owner = $owner;
 
@@ -214,7 +216,7 @@ class Request
     /**
      * Get owner.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $owner
+     * @return BaseUser $owner
      */
     public function getOwner()
     {
@@ -224,11 +226,11 @@ class Request
     /**
      * Set creator.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $creator
+     * @param BaseUser $creator
      *
      * @return self
      */
-    public function setCreator(\Celsius3\CoreBundle\Entity\BaseUser $creator)
+    public function setCreator(BaseUser $creator)
     {
         $this->creator = $creator;
 
@@ -238,7 +240,7 @@ class Request
     /**
      * Get creator.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $creator
+     * @return BaseUser $creator
      */
     public function getCreator()
     {
@@ -248,11 +250,11 @@ class Request
     /**
      * Set librarian.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $librarian
+     * @param BaseUser $librarian
      *
      * @return self
      */
-    public function setLibrarian(\Celsius3\CoreBundle\Entity\BaseUser $librarian)
+    public function setLibrarian(BaseUser $librarian)
     {
         $this->librarian = $librarian;
 
@@ -262,7 +264,7 @@ class Request
     /**
      * Get librarian.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $librarian
+     * @return BaseUser $librarian
      */
     public function getLibrarian()
     {
@@ -272,9 +274,9 @@ class Request
     /**
      * Add file.
      *
-     * @param Celsius3\CoreBundle\Entity\File $file
+     * @param File $file
      */
-    public function addFile(\Celsius3\CoreBundle\Entity\File $file)
+    public function addFile(File $file)
     {
         $this->files[] = $file;
     }
@@ -282,9 +284,9 @@ class Request
     /**
      * Remove file.
      *
-     * @param Celsius3\CoreBundle\Entity\File $file
+     * @param File $file
      */
-    public function removeFile(\Celsius3\CoreBundle\Entity\File $file)
+    public function removeFile(File $file)
     {
         $this->files->removeElement($file);
     }
@@ -292,7 +294,7 @@ class Request
     /**
      * Get files.
      *
-     * @return Doctrine\Common\Collections\Collection $files
+     * @return Collection $files
      */
     public function getFiles()
     {
@@ -302,9 +304,9 @@ class Request
     /**
      * Add event.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $event
+     * @param Event $event
      */
-    public function addEvent(\Celsius3\CoreBundle\Entity\Event\Event $event)
+    public function addEvent(Event $event)
     {
         $this->events[] = $event;
     }
@@ -312,9 +314,9 @@ class Request
     /**
      * Remove event.
      *
-     * @param Celsius3\CoreBundle\Entity\Event\Event $event
+     * @param Event $event
      */
-    public function removeEvent(\Celsius3\CoreBundle\Entity\Event\Event $event)
+    public function removeEvent(Event $event)
     {
         $this->events->removeElement($event);
     }
@@ -322,7 +324,7 @@ class Request
     /**
      * Get events.
      *
-     * @return Doctrine\Common\Collections\Collection $events
+     * @return Collection $events
      */
     public function getEvents()
     {
@@ -332,9 +334,9 @@ class Request
     /**
      * Add state.
      *
-     * @param Celsius3\CoreBundle\Entity\State $state
+     * @param State $state
      */
-    public function addState(\Celsius3\CoreBundle\Entity\State $state)
+    public function addState(State $state)
     {
         $this->states[] = $state;
     }
@@ -342,9 +344,9 @@ class Request
     /**
      * Remove state.
      *
-     * @param Celsius3\CoreBundle\Entity\State $state
+     * @param State $state
      */
-    public function removeState(\Celsius3\CoreBundle\Entity\State $state)
+    public function removeState(State $state)
     {
         $this->states->removeElement($state);
     }
@@ -352,7 +354,7 @@ class Request
     /**
      * Get states.
      *
-     * @return Doctrine\Common\Collections\Collection $states
+     * @return Collection $states
      */
     public function getStates()
     {
@@ -362,11 +364,11 @@ class Request
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -376,7 +378,7 @@ class Request
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -386,11 +388,11 @@ class Request
     /**
      * Set operator.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @param BaseUser $operator
      *
      * @return self
      */
-    public function setOperator(\Celsius3\CoreBundle\Entity\BaseUser $operator)
+    public function setOperator(BaseUser $operator)
     {
         $this->operator = $operator;
 
@@ -400,7 +402,7 @@ class Request
     /**
      * Get operator.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @return BaseUser $operator
      */
     public function getOperator()
     {
@@ -410,11 +412,11 @@ class Request
     /**
      * Set order.
      *
-     * @param Celsius3\CoreBundle\Entity\Order $order
+     * @param Order $order
      *
      * @return self
      */
-    public function setOrder(\Celsius3\CoreBundle\Entity\Order $order)
+    public function setOrder(Order $order)
     {
         $this->order = $order;
 
@@ -424,7 +426,7 @@ class Request
     /**
      * Get order.
      *
-     * @return Celsius3\CoreBundle\Entity\Order $order
+     * @return Order $order
      */
     public function getOrder()
     {
@@ -519,11 +521,11 @@ class Request
     /**
      * Set previousRequest.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $previousRequest
+     * @param Request $previousRequest
      *
      * @return self
      */
-    public function setPreviousRequest(\Celsius3\CoreBundle\Entity\Request $previousRequest)
+    public function setPreviousRequest(Request $previousRequest)
     {
         $this->previousRequest = $previousRequest;
 
@@ -533,7 +535,7 @@ class Request
     /**
      * Get previousRequest.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $previousRequest
+     * @return Request $previousRequest
      */
     public function getPreviousRequest()
     {
@@ -543,9 +545,9 @@ class Request
     /**
      * Add request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      */
-    public function addRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function addRequest(Request $request)
     {
         $this->requests[] = $request;
     }
@@ -553,9 +555,9 @@ class Request
     /**
      * Remove request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      */
-    public function removeRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function removeRequest(Request $request)
     {
         $this->requests->removeElement($request);
     }
@@ -563,7 +565,7 @@ class Request
     /**
      * Get requests.
      *
-     * @return Doctrine\Common\Collections\Collection $requests
+     * @return Collection $requests
      */
     public function getRequests()
     {

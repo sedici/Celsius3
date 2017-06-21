@@ -33,11 +33,17 @@ class CongressType extends MaterialType
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $place;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $communication;
 
+    /**
+     * Get material type.
+     *
+     * @return string
+     */
     public function getMaterialType()
     {
         return 'congress';

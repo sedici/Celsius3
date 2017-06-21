@@ -79,11 +79,11 @@ class Thread extends BaseThread
     /**
      * Add metadatum.
      *
-     * @param \Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum
+     * @param ThreadMetadata $metadatum
      *
      * @return Thread
      */
-    public function addMetadatum(\Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum)
+    public function addMetadatum(ThreadMetadata $metadatum)
     {
         $this->metadata[] = $metadatum;
 
@@ -93,9 +93,9 @@ class Thread extends BaseThread
     /**
      * Remove metadatum.
      *
-     * @param \Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum
+     * @param ThreadMetadata $metadatum
      */
-    public function removeMetadatum(\Celsius3\MessageBundle\Entity\ThreadMetadata $metadatum)
+    public function removeMetadatum(ThreadMetadata $metadatum)
     {
         $this->metadata->removeElement($metadatum);
     }
@@ -103,7 +103,7 @@ class Thread extends BaseThread
     /**
      * Get metadata.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMetadata()
     {

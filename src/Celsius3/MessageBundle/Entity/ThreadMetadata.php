@@ -46,11 +46,13 @@ class ThreadMetadata extends BaseThreadMetadata
      *   targetEntity="Celsius3\MessageBundle\Entity\Thread",
      *   inversedBy="metadata"
      * )
+     *
      * @var \FOS\MessageBundle\Model\ThreadInterface
      */
     protected $thread;
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     *
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;

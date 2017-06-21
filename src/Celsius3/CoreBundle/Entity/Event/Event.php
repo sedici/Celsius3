@@ -22,13 +22,16 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Request;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Celsius3\CoreBundle\Entity\State;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
+use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EventRepository")
@@ -68,7 +71,6 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
  */
 abstract class Event implements EventInterface
 {
-
     use TimestampableEntity;
     use SoftDeleteableEntity;
 
@@ -123,11 +125,10 @@ abstract class Event implements EventInterface
 
     public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
     {
-
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -137,9 +138,10 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Set observations
+     * Set observations.
      *
-     * @param  string $observations
+     * @param string $observations
+     *
      * @return self
      */
     public function setObservations($observations)
@@ -150,7 +152,7 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get observations
+     * Get observations.
      *
      * @return string $observations
      */
@@ -160,12 +162,13 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Set operator
+     * Set operator.
      *
-     * @param  Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @param BaseUser $operator
+     *
      * @return self
      */
-    public function setOperator(\Celsius3\CoreBundle\Entity\BaseUser $operator = null)
+    public function setOperator(BaseUser $operator = null)
     {
         $this->operator = $operator;
 
@@ -173,9 +176,9 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get operator
+     * Get operator.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $operator
+     * @return BaseUser $operator
      */
     public function getOperator()
     {
@@ -183,12 +186,13 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Set state
+     * Set state.
      *
-     * @param  Celsius3\CoreBundle\Entity\State $state
+     * @param State $state
+     *
      * @return self
      */
-    public function setState(\Celsius3\CoreBundle\Entity\State $state)
+    public function setState(State $state)
     {
         $this->state = $state;
 
@@ -196,9 +200,9 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get state
+     * Get state.
      *
-     * @return Celsius3\CoreBundle\Entity\State $state
+     * @return State $state
      */
     public function getState()
     {
@@ -206,12 +210,13 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -219,9 +224,9 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -229,12 +234,13 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Set request
+     * Set request.
      *
-     * @param  Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
+     *
      * @return self
      */
-    public function setRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
 
@@ -242,13 +248,12 @@ abstract class Event implements EventInterface
     }
 
     /**
-     * Get request
+     * Get request.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $request
+     * @return Request $request
      */
     public function getRequest()
     {
         return $this->request;
     }
-
 }

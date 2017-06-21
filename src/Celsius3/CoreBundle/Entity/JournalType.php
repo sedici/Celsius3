@@ -22,8 +22,8 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\JournalTypeRepository")
@@ -49,14 +49,16 @@ class JournalType extends MaterialType
      */
     protected $journal;
 
-    public function getMaterialType() {
+    public function getMaterialType()
+    {
         return 'journal';
     }
 
     /**
-     * Set volume
+     * Set volume.
      *
-     * @param  string $volume
+     * @param string $volume
+     *
      * @return self
      */
     public function setVolume($volume)
@@ -67,7 +69,7 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Get volume
+     * Get volume.
      *
      * @return string $volume
      */
@@ -77,9 +79,10 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Set number
+     * Set number.
      *
-     * @param  string $number
+     * @param string $number
+     *
      * @return self
      */
     public function setNumber($number)
@@ -90,7 +93,7 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Get number
+     * Get number.
      *
      * @return string $number
      */
@@ -100,12 +103,13 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Set journal
+     * Set journal.
      *
-     * @param  Celsius3\CoreBundle\Entity\Journal $journal
+     * @param Journal $journal
+     *
      * @return self
      */
-    public function setJournal(\Celsius3\CoreBundle\Entity\Journal $journal = null)
+    public function setJournal(Journal $journal = null)
     {
         $this->journal = $journal;
 
@@ -113,9 +117,9 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Get journal
+     * Get journal.
      *
-     * @return Celsius3\CoreBundle\Entity\Journal $journal
+     * @return Journal $journal
      */
     public function getJournal()
     {
@@ -123,9 +127,10 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Set other
+     * Set other.
      *
-     * @param  string $other
+     * @param string $other
+     *
      * @return self
      */
     public function setOther($other)
@@ -136,7 +141,7 @@ class JournalType extends MaterialType
     }
 
     /**
-     * Get other
+     * Get other.
      *
      * @return string $other
      */

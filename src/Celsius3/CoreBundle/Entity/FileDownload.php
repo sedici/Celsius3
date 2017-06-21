@@ -22,9 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -147,11 +147,11 @@ class FileDownload
     /**
      * Set user.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param BaseUser $user
      *
      * @return self
      */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user)
+    public function setUser(BaseUser $user)
     {
         $this->user = $user;
 
@@ -161,7 +161,7 @@ class FileDownload
     /**
      * Get user.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $user
+     * @return BaseUser $user
      */
     public function getUser()
     {
@@ -171,11 +171,11 @@ class FileDownload
     /**
      * Set file.
      *
-     * @param Celsius3\CoreBundle\Entity\File $file
+     * @param File $file
      *
      * @return self
      */
-    public function setFile(\Celsius3\CoreBundle\Entity\File $file)
+    public function setFile(File $file)
     {
         $this->file = $file;
 
@@ -185,7 +185,7 @@ class FileDownload
     /**
      * Get file.
      *
-     * @return Celsius3\CoreBundle\Entity\File $file
+     * @return File $file
      */
     public function getFile()
     {
@@ -195,11 +195,11 @@ class FileDownload
     /**
      * Set request.
      *
-     * @param Celsius3\CoreBundle\Entity\Request $request
+     * @param Request $request
      *
      * @return self
      */
-    public function setRequest(\Celsius3\CoreBundle\Entity\Request $request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
 
@@ -209,7 +209,7 @@ class FileDownload
     /**
      * Get request.
      *
-     * @return Celsius3\CoreBundle\Entity\Request $request
+     * @return Request $request
      */
     public function getRequest()
     {
@@ -219,11 +219,11 @@ class FileDownload
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -233,7 +233,7 @@ class FileDownload
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {

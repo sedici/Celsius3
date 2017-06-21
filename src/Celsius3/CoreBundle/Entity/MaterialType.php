@@ -22,11 +22,11 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -235,11 +235,11 @@ abstract class MaterialType
     /**
      * Set order.
      *
-     * @param Celsius3\CoreBundle\Entity\Order $order
+     * @param Order $order
      *
      * @return self
      */
-    public function setOrder(\Celsius3\CoreBundle\Entity\Order $order)
+    public function setOrder(Order $order)
     {
         $this->order = $order;
 
@@ -249,7 +249,7 @@ abstract class MaterialType
     /**
      * Get order.
      *
-     * @return Celsius3\CoreBundle\Entity\Order $order
+     * @return Order $order
      */
     public function getOrder()
     {

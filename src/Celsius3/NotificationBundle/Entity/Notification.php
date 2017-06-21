@@ -22,10 +22,13 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Template;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\NotificationRepository")
@@ -100,7 +103,7 @@ abstract class Notification
 
     public function __construct()
     {
-        $this->receivers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->receivers = new ArrayCollection();
     }
 
     /**
@@ -234,11 +237,11 @@ abstract class Notification
     /**
      * Set template.
      *
-     * @param Celsius3\CoreBundle\Entity\Template $template
+     * @param Template $template
      *
      * @return self
      */
-    public function setTemplate(\Celsius3\CoreBundle\Entity\Template $template)
+    public function setTemplate(Template $template)
     {
         $this->template = $template;
 
@@ -248,7 +251,7 @@ abstract class Notification
     /**
      * Get template.
      *
-     * @return Celsius3\CoreBundle\Entity\Template $template
+     * @return Template $template
      */
     public function getTemplate()
     {
@@ -258,9 +261,9 @@ abstract class Notification
     /**
      * Add receivers.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $receivers
+     * @param BaseUser $receivers
      */
-    public function addReceiver(\Celsius3\CoreBundle\Entity\BaseUser $receivers)
+    public function addReceiver(BaseUser $receivers)
     {
         $this->receivers[] = $receivers;
     }
@@ -268,9 +271,9 @@ abstract class Notification
     /**
      * Remove receivers.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $receivers
+     * @param BaseUser $receivers
      */
-    public function removeReceiver(\Celsius3\CoreBundle\Entity\BaseUser $receivers)
+    public function removeReceiver(BaseUser $receivers)
     {
         $this->receivers->removeElement($receivers);
     }
@@ -278,7 +281,7 @@ abstract class Notification
     /**
      * Get receivers.
      *
-     * @return Doctrine\Common\Collections\Collection $receivers
+     * @return Collection $receivers
      */
     public function getReceivers()
     {
@@ -288,11 +291,11 @@ abstract class Notification
     /**
      * Set viewer.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $viewer
+     * @param BaseUser $viewer
      *
      * @return self
      */
-    public function setViewer(\Celsius3\CoreBundle\Entity\BaseUser $viewer)
+    public function setViewer(BaseUser $viewer)
     {
         $this->viewer = $viewer;
 
@@ -302,7 +305,7 @@ abstract class Notification
     /**
      * Get viewer.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $viewer
+     * @return BaseUser $viewer
      */
     public function getViewer()
     {
@@ -322,11 +325,11 @@ abstract class Notification
     /**
      * Add viewer.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $viewer
+     * @param BaseUser $viewer
      *
      * @return Notification
      */
-    public function addViewer(\Celsius3\CoreBundle\Entity\BaseUser $viewer)
+    public function addViewer(BaseUser $viewer)
     {
         $this->viewer[] = $viewer;
 
@@ -336,9 +339,9 @@ abstract class Notification
     /**
      * Remove viewer.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $viewer
+     * @param BaseUser $viewer
      */
-    public function removeViewer(\Celsius3\CoreBundle\Entity\BaseUser $viewer)
+    public function removeViewer(BaseUser $viewer)
     {
         $this->viewer->removeElement($viewer);
     }

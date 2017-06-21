@@ -328,7 +328,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *
      * @param Order $orders
      */
-    public function addOrder(\Celsius3\CoreBundle\Entity\Order $orders)
+    public function addOrder(Order $orders)
     {
         $this->orders[] = $orders;
     }
@@ -338,7 +338,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *
      * @param Order $orders
      */
-    public function removeOrder(\Celsius3\CoreBundle\Entity\Order $orders)
+    public function removeOrder(Order $orders)
     {
         $this->orders->removeElement($orders);
     }
@@ -354,29 +354,27 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add operatedOrders.
+     * Add operated order.
      *
-     * @param Order $operatedOrders
+     * @param Order $operatedOrder
      */
-    public function addOperatedOrder(
-    \Celsius3\CoreBundle\Entity\Order $operatedOrders)
+    public function addOperatedOrder(Order $operatedOrder)
     {
-        $this->operatedOrders[] = $operatedOrders;
+        $this->operatedOrders[] = $operatedOrder;
     }
 
     /**
-     * Remove operatedOrders.
+     * Remove operated order.
      *
-     * @param Order $operatedOrders
+     * @param Order $operatedOrder
      */
-    public function removeOperatedOrder(
-    \Celsius3\CoreBundle\Entity\Order $operatedOrders)
+    public function removeOperatedOrder(Order $operatedOrder)
     {
-        $this->operatedOrders->removeElement($operatedOrders);
+        $this->operatedOrders->removeElement($operatedOrder);
     }
 
     /**
-     * Get operatedOrders.
+     * Get operated orders.
      *
      * @return Collection $operatedOrders
      */
@@ -386,29 +384,27 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add createdOrders.
+     * Add created order.
      *
-     * @param Order $createdOrders
+     * @param Order $createdOrder
      */
-    public function addCreatedOrder(
-    \Celsius3\CoreBundle\Entity\Order $createdOrders)
+    public function addCreatedOrder(Order $createdOrder)
     {
-        $this->createdOrders[] = $createdOrders;
+        $this->createdOrders[] = $createdOrder;
     }
 
     /**
-     * Remove createdOrders.
+     * Remove created order.
      *
-     * @param Order $createdOrders
+     * @param Order $createdOrder
      */
-    public function removeCreatedOrder(
-    \Celsius3\CoreBundle\Entity\Order $createdOrders)
+    public function removeCreatedOrder(Order $createdOrder)
     {
-        $this->createdOrders->removeElement($createdOrders);
+        $this->createdOrders->removeElement($createdOrder);
     }
 
     /**
-     * Get createdOrders.
+     * Get created orders.
      *
      * @return Collection $createdOrders
      */
@@ -424,8 +420,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *
      * @return self
      */
-    public function setInstance(
-        Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -473,8 +468,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      *
      * @return self
      */
-    public function setInstitution(
-    Institution $institution)
+    public function setInstitution(Institution $institution)
     {
         $this->institution = $institution;
 
@@ -546,7 +540,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add secondaryInstance.
+     * Add secondary instance.
      *
      * @param Instance $secondaryInstance
      * @param array    $roles
@@ -557,7 +551,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove secondaryInstance.
+     * Remove secondary instance.
      *
      * @param Instance $secondaryInstance
      */
@@ -567,7 +561,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get secondaryInstances.
+     * Get secondary instances.
      *
      * @return array $secondaryInstances
      */
@@ -577,7 +571,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Has secondaryInstances.
+     * Has secondary instances.
      *
      * @param Instance $secondaryInstance
      *
@@ -588,6 +582,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return array_key_exists($secondaryInstance->getId(), $this->secondaryInstances);
     }
 
+    /**
+     * Get country.
+     *
+     * @return Country|null
+     */
     public function getCountry()
     {
         if (!$this->getInstitution()) {
@@ -597,6 +596,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->getInstitution()->getCountry();
     }
 
+    /**
+     * Get city.
+     *
+     * @return City|null
+     */
     public function getCity()
     {
         if (!$this->getInstitution()) {
@@ -606,13 +610,18 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->getInstitution()->getCity();
     }
 
+    /**
+     * Is librarian.
+     *
+     * @return bool
+     */
     public function isLibrarian()
     {
         return in_array(UserManager::ROLE_LIBRARIAN, $this->getRoles());
     }
 
     /**
-     * Set wrongEmail.
+     * Set wrong email.
      *
      * @param bool $wrongEmail
      *
@@ -626,7 +635,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get wrongEmail.
+     * Get wrong email.
      *
      * @return bool $wrongEmail
      */
@@ -660,6 +669,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Is authorized client.
+     *
      * @param Client $client
      *
      * @return bool
@@ -670,6 +681,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Add client application.
+     *
      * @param Client $client
      */
     public function addClientApplication(Client $client)
@@ -678,6 +691,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Remove client application.
+     *
      * @param Client $client
      */
     public function removeClientApplication(Client $client)
@@ -686,6 +701,8 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Get client application.
+     *
      * @return ArrayCollection
      */
     public function getClientApplications()
@@ -693,6 +710,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->clientApplications;
     }
 
+    /**
+     * Get base institution.
+     *
+     * @return Institution
+     */
     public function getBaseInstitution()
     {
         return $this->getBaseInstitutionRec($this->getInstitution());
@@ -708,7 +730,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set secondaryInstances.
+     * Set secondary instances.
      *
      * @param array $secondaryInstances
      *
@@ -722,7 +744,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add notificationSetting.
+     * Add notification setting.
      *
      * @param NotificationSettings $notificationSetting
      *
@@ -736,9 +758,9 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove notificationSetting.
+     * Remove notification setting.
      *
-     * @param \Celsius3\CoreBundle\Entity\Celsius3CoreBundle:NotificationSettings $notificationSetting
+     * @param NotificationSettings $notificationSetting
      */
     public function removeNotificationSetting(NotificationSettings $notificationSetting)
     {
@@ -746,9 +768,9 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get notificationSettings.
+     * Get notification settings.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection $notificationSettings
      */
     public function getNotificationSettings()
     {
@@ -778,7 +800,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Get notifications.
      *
-     * @return Collection $customValues
+     * @return Collection $notifications
      */
     public function getNotifications()
     {
@@ -786,7 +808,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Add librarianInstitution.
+     * Add librarian institution.
      *
      * @param Institution $librarianInstitution
      *
@@ -800,7 +822,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Remove librarianInstitution.
+     * Remove librarian institution.
      *
      * @param Institution $librarianInstitution
      */
@@ -810,9 +832,9 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get librarianInstitution.
+     * Get librarian institution.
      *
-     * @return Collection
+     * @return Collection $librarianInstitution
      */
     public function getLibrarianInstitution()
     {

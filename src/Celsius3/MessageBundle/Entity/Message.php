@@ -22,10 +22,10 @@
 
 namespace Celsius3\MessageBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use FOS\MessageBundle\Entity\Message as BaseMessage;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\Mapping as ORM;
+use FOS\MessageBundle\Entity\Message as BaseMessage;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\MessageBundle\Repository\BaseRepository")
@@ -81,11 +81,11 @@ class Message extends BaseMessage implements Notifiable
     /**
      * Add metadatum.
      *
-     * @param \Celsius3\MessageBundle\Entity\MessageMetadata $metadatum
+     * @param MessageMetadata $metadatum
      *
      * @return Message
      */
-    public function addMetadatum(\Celsius3\MessageBundle\Entity\MessageMetadata $metadatum)
+    public function addMetadatum(MessageMetadata $metadatum)
     {
         $this->metadata[] = $metadatum;
 
@@ -95,9 +95,9 @@ class Message extends BaseMessage implements Notifiable
     /**
      * Remove metadatum.
      *
-     * @param \Celsius3\MessageBundle\Entity\MessageMetadata $metadatum
+     * @param MessageMetadata $metadatum
      */
-    public function removeMetadatum(\Celsius3\MessageBundle\Entity\MessageMetadata $metadatum)
+    public function removeMetadatum(MessageMetadata $metadatum)
     {
         $this->metadata->removeElement($metadatum);
     }
@@ -105,7 +105,7 @@ class Message extends BaseMessage implements Notifiable
     /**
      * Get metadata.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMetadata()
     {

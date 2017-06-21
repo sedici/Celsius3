@@ -22,10 +22,11 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CityRepository")
@@ -37,33 +38,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class City
 {
-
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $postalCode;
+
     /**
      * @ORM\OneToMany(targetEntity="Institution", mappedBy="city")
      */
     private $institutions;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="cities")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
      */
     private $country;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="cities")
@@ -71,18 +77,26 @@ class City
      */
     private $instance;
 
+    /**
+     * To string.
+     *
+     * @return mixed
+     */
     public function __toString()
     {
         return $this->name;
     }
 
+    /**
+     * City constructor.
+     */
     public function __construct()
     {
-        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->institutions = new ArrayCollection();
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -92,9 +106,10 @@ class City
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return self
      */
     public function setName($name)
@@ -105,7 +120,7 @@ class City
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string $name
      */
@@ -115,9 +130,10 @@ class City
     }
 
     /**
-     * Set postalCode
+     * Set postal code.
      *
-     * @param  string $postalCode
+     * @param string $postalCode
+     *
      * @return self
      */
     public function setPostalCode($postalCode)
@@ -128,7 +144,7 @@ class City
     }
 
     /**
-     * Get postalCode
+     * Get postal code.
      *
      * @return string $postalCode
      */
@@ -138,29 +154,29 @@ class City
     }
 
     /**
-     * Add institutions
+     * Add institution.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institution
      */
-    public function addInstitution(\Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function addInstitution(Institution $institution)
     {
-        $this->institutions[] = $institutions;
+        $this->institutions[] = $institution;
     }
 
     /**
-     * Remove institutions
+     * Remove institution.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institution
      */
-    public function removeInstitution(\Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function removeInstitution(Institution $institution)
     {
-        $this->institutions->removeElement($institutions);
+        $this->institutions->removeElement($institution);
     }
 
     /**
-     * Get institutions
+     * Get institutions.
      *
-     * @return Doctrine\Common\Collections\Collection $institutions
+     * @return Collection $institutions
      */
     public function getInstitutions()
     {
@@ -168,12 +184,13 @@ class City
     }
 
     /**
-     * Set country
+     * Set country.
      *
-     * @param  Celsius3\CoreBundle\Entity\Country $country
+     * @param Country $country
+     *
      * @return self
      */
-    public function setCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    public function setCountry(Country $country)
     {
         $this->country = $country;
 
@@ -181,9 +198,9 @@ class City
     }
 
     /**
-     * Get country
+     * Get country.
      *
-     * @return Celsius3\CoreBundle\Entity\Country $country
+     * @return Country $country
      */
     public function getCountry()
     {
@@ -191,12 +208,13 @@ class City
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -204,9 +222,9 @@ class City
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {

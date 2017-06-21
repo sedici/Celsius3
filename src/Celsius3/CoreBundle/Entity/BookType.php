@@ -22,8 +22,8 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -34,14 +34,17 @@ class BookType extends MaterialType
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $editor;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $chapter;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $ISBN;
+
     /**
      * @Assert\NotNull()
      * @Assert\Type(type="boolean")
@@ -115,7 +118,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Set withIndex.
+     * Set with index.
      *
      * @param bool $withIndex
      */
@@ -125,7 +128,7 @@ class BookType extends MaterialType
     }
 
     /**
-     * Get withIndex.
+     * Get with index.
      *
      * @return bool $withIndex
      */

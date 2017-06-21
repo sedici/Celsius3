@@ -22,8 +22,8 @@
 
 namespace Celsius3\CoreBundle\Entity\Mixin;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait ReclaimableTrait
 {

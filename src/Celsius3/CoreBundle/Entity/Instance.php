@@ -22,10 +22,11 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Celsius3\CoreBundle\Entity\Event\Event;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\InstanceRepository")
@@ -131,18 +132,18 @@ class Instance extends LegacyInstance
     public function __construct()
     {
         parent::__construct();
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->orders = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->news = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contacts = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->templates = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->configurations = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->states = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->countries = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cities = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+        $this->news = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
+        $this->institutions = new ArrayCollection();
+        $this->templates = new ArrayCollection();
+        $this->configurations = new ArrayCollection();
+        $this->catalogs = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->states = new ArrayCollection();
+        $this->countries = new ArrayCollection();
+        $this->cities = new ArrayCollection();
     }
 
     public function isCurrent()
@@ -603,7 +604,7 @@ class Instance extends LegacyInstance
     /**
      * Get cities.
      *
-     * @return Doctrine\Common\Collections\Collection $cities
+     * @return Collection $cities
      */
     public function getCities()
     {
@@ -709,11 +710,11 @@ class Instance extends LegacyInstance
     /**
      * Add country.
      *
-     * @param \Celsius3\CoreBundle\Entity\Country $country
+     * @param Country $country
      *
      * @return Instance
      */
-    public function addCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    public function addCountry(Country $country)
     {
         $this->countries[] = $country;
 
@@ -723,9 +724,9 @@ class Instance extends LegacyInstance
     /**
      * Remove country.
      *
-     * @param \Celsius3\CoreBundle\Entity\Country $country
+     * @param Country $country
      */
-    public function removeCountry(\Celsius3\CoreBundle\Entity\Country $country)
+    public function removeCountry(Country $country)
     {
         $this->countries->removeElement($country);
     }
@@ -733,11 +734,11 @@ class Instance extends LegacyInstance
     /**
      * Add city.
      *
-     * @param \Celsius3\CoreBundle\Entity\City $city
+     * @param City $city
      *
      * @return Instance
      */
-    public function addCity(\Celsius3\CoreBundle\Entity\City $city)
+    public function addCity(City $city)
     {
         $this->cities[] = $city;
 
@@ -747,9 +748,9 @@ class Instance extends LegacyInstance
     /**
      * Remove city.
      *
-     * @param \Celsius3\CoreBundle\Entity\City $city
+     * @param City $city
      */
-    public function removeCity(\Celsius3\CoreBundle\Entity\City $city)
+    public function removeCity(City $city)
     {
         $this->cities->removeElement($city);
     }

@@ -22,9 +22,10 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CountryRepository")
@@ -36,30 +37,36 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Country
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $abbreviation;
+
     /**
      * @ORM\OneToMany(targetEntity="City", mappedBy="country")
      */
     private $cities;
+
     /**
      * @ORM\OneToMany(targetEntity="Institution", mappedBy="country")
      */
     private $institutions;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="countries")
@@ -74,8 +81,8 @@ class Country
 
     public function __construct()
     {
-        $this->institutions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->cities = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->institutions = new ArrayCollection();
+        $this->cities = new ArrayCollection();
     }
 
     /**
@@ -139,9 +146,9 @@ class Country
     /**
      * Add cities.
      *
-     * @param Celsius3\CoreBundle\Entity\City $cities
+     * @param City $cities
      */
-    public function addCitie(\Celsius3\CoreBundle\Entity\City $cities)
+    public function addCitie(City $cities)
     {
         $this->cities[] = $cities;
     }
@@ -149,9 +156,9 @@ class Country
     /**
      * Remove cities.
      *
-     * @param Celsius3\CoreBundle\Entity\City $cities
+     * @param City $cities
      */
-    public function removeCitie(\Celsius3\CoreBundle\Entity\City $cities)
+    public function removeCitie(City $cities)
     {
         $this->cities->removeElement($cities);
     }
@@ -159,7 +166,7 @@ class Country
     /**
      * Get cities.
      *
-     * @return Doctrine\Common\Collections\Collection $cities
+     * @return Collection $cities
      */
     public function getCities()
     {
@@ -169,9 +176,9 @@ class Country
     /**
      * Add institutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institutions
      */
-    public function addInstitution(\Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function addInstitution(Institution $institutions)
     {
         $this->institutions[] = $institutions;
     }
@@ -179,9 +186,9 @@ class Country
     /**
      * Remove institutions.
      *
-     * @param Celsius3\CoreBundle\Entity\Institution $institutions
+     * @param Institution $institutions
      */
-    public function removeInstitution(\Celsius3\CoreBundle\Entity\Institution $institutions)
+    public function removeInstitution(Institution $institutions)
     {
         $this->institutions->removeElement($institutions);
     }
@@ -189,7 +196,7 @@ class Country
     /**
      * Get institutions.
      *
-     * @return Doctrine\Common\Collections\Collection $institutions
+     * @return Collection $institutions
      */
     public function getInstitutions()
     {
@@ -199,11 +206,11 @@ class Country
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -213,7 +220,7 @@ class Country
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -223,11 +230,11 @@ class Country
     /**
      * Add city.
      *
-     * @param \Celsius3\CoreBundle\Entity\City $city
+     * @param City $city
      *
      * @return Country
      */
-    public function addCity(\Celsius3\CoreBundle\Entity\City $city)
+    public function addCity(City $city)
     {
         $this->cities[] = $city;
 
@@ -237,9 +244,9 @@ class Country
     /**
      * Remove city.
      *
-     * @param \Celsius3\CoreBundle\Entity\City $city
+     * @param City $city
      */
-    public function removeCity(\Celsius3\CoreBundle\Entity\City $city)
+    public function removeCity(City $city)
     {
         $this->cities->removeElement($city);
     }

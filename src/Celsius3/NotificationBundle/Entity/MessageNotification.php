@@ -22,9 +22,9 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
+use Celsius3\MessageBundle\Entity\Message;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Celsius3\MessageBundle\Entity\Message;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\BaseRepository")

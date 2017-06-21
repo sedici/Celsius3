@@ -2,19 +2,20 @@
 
 namespace Celsius3\NotificationBundle\Entity;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * NotificationSettings
+ * NotificationSettings.
  *
  * @ORM\Table(name="notification_settings")
  * @ORM\Entity(repositoryClass="Celsius3\NotificationBundle\Repository\BaseRepository")
  */
 class NotificationSettings
 {
-
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -23,7 +24,7 @@ class NotificationSettings
     private $id;
 
     /**
-     * @var \Celsius3\CoreBundle\Entity\BaseUser
+     * @var BaseUser
      *
      * @ORM\ManyToOne(targetEntity="\Celsius3\CoreBundle\Entity\BaseUser", inversedBy="notificationSettings")
      * @ORM\JoinColumn(name="user", referencedColumnName="id")
@@ -31,7 +32,7 @@ class NotificationSettings
     private $user;
 
     /**
-     * @var \Celsius3\CoreBundle\Entity\Instance
+     * @var Instance
      *
      * @ORM\ManyToOne(targetEntity="\Celsius3\CoreBundle\Entity\Instance")
      * @ORM\JoinColumn(name="instance", referencedColumnName="id")
@@ -46,23 +47,23 @@ class NotificationSettings
     private $type;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="subscribedToInterfaceNotifications", type="boolean")
      */
     private $subscribedToInterfaceNotifications;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="subscribedToEmailNotifications", type="boolean")
      */
     private $subscribedToEmailNotifications;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -70,7 +71,7 @@ class NotificationSettings
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param string $type
      *
@@ -84,7 +85,7 @@ class NotificationSettings
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return string
      */
@@ -94,9 +95,9 @@ class NotificationSettings
     }
 
     /**
-     * Set subscribedToInterfaceNotifications
+     * Set subscribedToInterfaceNotifications.
      *
-     * @param boolean $subscribedToInterfaceNotifications
+     * @param bool $subscribedToInterfaceNotifications
      *
      * @return NotificationSettings
      */
@@ -108,9 +109,9 @@ class NotificationSettings
     }
 
     /**
-     * Get subscribedToInterfaceNotifications
+     * Get subscribedToInterfaceNotifications.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSubscribedToInterfaceNotifications()
     {
@@ -118,9 +119,9 @@ class NotificationSettings
     }
 
     /**
-     * Set subscribedToEmailNotifiations
+     * Set subscribedToEmailNotifiations.
      *
-     * @param boolean $subscribedToEmailNotifiations
+     * @param bool $subscribedToEmailNotifiations
      *
      * @return NotificationSettings
      */
@@ -132,9 +133,9 @@ class NotificationSettings
     }
 
     /**
-     * Get subscribedToEmailNotifiations
+     * Get subscribedToEmailNotifiations.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSubscribedToEmailNotifications()
     {
@@ -142,13 +143,13 @@ class NotificationSettings
     }
 
     /**
-     * Set user
+     * Set user.
      *
-     * @param \Celsius3\CoreBundle\Entity\BaseUser $user
+     * @param BaseUser $user
      *
      * @return NotificationSettings
      */
-    public function setUser(\Celsius3\CoreBundle\Entity\BaseUser $user = null)
+    public function setUser(BaseUser $user = null)
     {
         $this->user = $user;
 
@@ -156,9 +157,9 @@ class NotificationSettings
     }
 
     /**
-     * Get user
+     * Get user.
      *
-     * @return \Celsius3\CoreBundle\Entity\BaseUser
+     * @return BaseUser
      */
     public function getUser()
     {
@@ -166,13 +167,13 @@ class NotificationSettings
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param \Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return NotificationSettings
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance = null)
+    public function setInstance(Instance $instance = null)
     {
         $this->instance = $instance;
 
@@ -180,13 +181,12 @@ class NotificationSettings
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return \Celsius3\CoreBundle\Entity\Instance
+     * @return Instance
      */
     public function getInstance()
     {
         return $this->instance;
     }
-
 }

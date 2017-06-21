@@ -22,15 +22,14 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\MailTemplateRepository")
  */
 class MailTemplate extends Template
 {
-
     /**
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
@@ -51,9 +50,10 @@ class MailTemplate extends Template
     private $instance;
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param  boolean $enabled
+     * @param bool $enabled
+     *
      * @return self
      */
     public function setEnabled($enabled)
@@ -64,9 +64,9 @@ class MailTemplate extends Template
     }
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean $enabled
+     * @return bool $enabled
      */
     public function getEnabled()
     {
@@ -74,9 +74,10 @@ class MailTemplate extends Template
     }
 
     /**
-     * Set title
+     * Set title.
      *
-     * @param  string $title
+     * @param string $title
+     *
      * @return self
      */
     public function setTitle($title)
@@ -87,7 +88,7 @@ class MailTemplate extends Template
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string $title
      */
@@ -97,12 +98,13 @@ class MailTemplate extends Template
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param  Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -110,13 +112,12 @@ class MailTemplate extends Template
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
         return $this->instance;
     }
-
 }

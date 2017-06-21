@@ -22,10 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\EmailRepository")
@@ -33,7 +32,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Email
 {
-
     use TimestampableEntity;
 
     /**
@@ -81,7 +79,7 @@ class Email
     private $sent;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id $id
      */
@@ -91,19 +89,21 @@ class Email
     }
 
     /**
-     * Set address
+     * Set address.
      *
      * @param string $address
+     *
      * @return self
      */
     public function setAddress($address)
     {
         $this->address = $address;
+
         return $this;
     }
 
     /**
-     * Get address
+     * Get address.
      *
      * @return string $address
      */
@@ -113,19 +113,21 @@ class Email
     }
 
     /**
-     * Set subject
+     * Set subject.
      *
      * @param string $subject
+     *
      * @return self
      */
     public function setSubject($subject)
     {
         $this->subject = $subject;
+
         return $this;
     }
 
     /**
-     * Get subject
+     * Get subject.
      *
      * @return string $subject
      */
@@ -135,19 +137,21 @@ class Email
     }
 
     /**
-     * Set text
+     * Set text.
      *
      * @param string $text
+     *
      * @return self
      */
     public function setText($text)
     {
         $this->text = $text;
+
         return $this;
     }
 
     /**
-     * Get text
+     * Get text.
      *
      * @return string $text
      */
@@ -157,21 +161,23 @@ class Email
     }
 
     /**
-     * Set sender
+     * Set sender.
      *
-     * @param Celsius3\CoreBundle\Entity\BaseUser $sender
+     * @param BaseUser $sender
+     *
      * @return self
      */
-    public function setSender(\Celsius3\CoreBundle\Entity\BaseUser $sender)
+    public function setSender(BaseUser $sender)
     {
         $this->sender = $sender;
+
         return $this;
     }
 
     /**
-     * Get sender
+     * Get sender.
      *
-     * @return Celsius3\CoreBundle\Entity\BaseUser $sender
+     * @return BaseUser $sender
      */
     public function getSender()
     {
@@ -179,21 +185,23 @@ class Email
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
+     *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
+
         return $this;
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {
@@ -201,9 +209,9 @@ class Email
     }
 
     /**
-     * Set sent
+     * Set sent.
      *
-     * @param boolean $sent
+     * @param bool $sent
      *
      * @return Email
      */
@@ -215,13 +223,12 @@ class Email
     }
 
     /**
-     * Get sent
+     * Get sent.
      *
-     * @return boolean
+     * @return bool
      */
     public function getSent()
     {
         return $this->sent;
     }
-
 }

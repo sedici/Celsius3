@@ -22,9 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ConfigurationRepository")
@@ -38,31 +38,37 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Configuration
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(name="`key`", type="string", length=255)
      */
     private $key;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $value;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $type;
+
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="configurations")
@@ -179,11 +185,11 @@ class Configuration
     /**
      * Set instance.
      *
-     * @param Celsius3\CoreBundle\Entity\Instance $instance
+     * @param Instance $instance
      *
      * @return self
      */
-    public function setInstance(\Celsius3\CoreBundle\Entity\Instance $instance)
+    public function setInstance(Instance $instance)
     {
         $this->instance = $instance;
 
@@ -193,7 +199,7 @@ class Configuration
     /**
      * Get instance.
      *
-     * @return Celsius3\CoreBundle\Entity\Instance $instance
+     * @return Instance $instance
      */
     public function getInstance()
     {

@@ -46,11 +46,13 @@ class MessageMetadata extends BaseMessageMetadata
      *   targetEntity="Celsius3\MessageBundle\Entity\Message",
      *   inversedBy="metadata"
      * )
+     *
      * @var \FOS\MessageBundle\Model\MessageInterface
      */
     protected $message;
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser")
+     *
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
     protected $participant;

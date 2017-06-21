@@ -22,8 +22,9 @@
 
 namespace Celsius3\CoreBundle\Entity\Mixin;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use Celsius3\CoreBundle\Entity\Provider;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait ProviderTrait
 {
@@ -37,11 +38,11 @@ trait ProviderTrait
     /**
      * Set provider.
      *
-     * @param Celsius3\CoreBundle\Entity\Provider $provider
+     * @param Provider $provider
      *
-     * @return \SingleInstanceRequest
+     * @return SingleInstanceRequest
      */
-    public function setProvider(\Celsius3\CoreBundle\Entity\Provider $provider)
+    public function setProvider(Provider $provider)
     {
         $this->provider = $provider;
 
@@ -51,7 +52,7 @@ trait ProviderTrait
     /**
      * Get provider.
      *
-     * @return Celsius3\CoreBundle\Entity\Provider $provider
+     * @return Provider $provider
      */
     public function getProvider()
     {

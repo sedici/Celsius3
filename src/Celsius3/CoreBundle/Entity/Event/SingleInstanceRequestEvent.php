@@ -22,14 +22,14 @@
 
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Doctrine\ORM\Mapping as ORM;
-use Celsius3\CoreBundle\Helper\LifecycleHelper;
-use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\CancellableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ProviderTrait;
+use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
