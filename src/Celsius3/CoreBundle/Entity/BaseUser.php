@@ -34,6 +34,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\MessageBundle\Model\ParticipantInterface;
 use FOS\UserBundle\Model\User;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -49,6 +50,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   @ORM\Index(name="idx_institution", columns={"institution_id"})
  * })
  * @ORM\HasLifecycleCallbacks
+ * @DoctrineAssert\UniqueEntity("username")
+ * @DoctrineAssert\UniqueEntity("email")
  */
 class BaseUser extends User implements ParticipantInterface, Notifiable
 {
