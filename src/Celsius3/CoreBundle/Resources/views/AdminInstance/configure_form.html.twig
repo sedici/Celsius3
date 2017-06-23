@@ -110,25 +110,6 @@
                 {{ form_widget(configure_form.home_help_visible, {'attr': { 'class': 'checkbox' }}) }}
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.resetting_check_email_title) }}
-                {{ form_row(configure_form.resetting_check_email_text) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.resetting_password_already_requested_title) }}
-                {{ form_row(configure_form.resetting_password_already_requested_text) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(configure_form.registration_wait_confirmation_title) }}
-                {{ form_row(configure_form.registration_wait_confirmation_text) }}
-            </div>
-        </div>
     </div>
     <div class="tab-pane" id="visualizacion">
         <br/>
@@ -171,11 +152,11 @@
         </div>
         <br/>
         <div>
-            <button type="button" id="form_test_connection" name="form[test_connection]" value="test_connection" class="btn btn-default">
+            <button type="button" id="form_test_connection" name="form[test_connection]" value="test_connection"
+                    class="btn btn-default">
                 Test connection
             </button>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 {{ form_row(configure_form.confirmation_type) }}
@@ -189,10 +170,27 @@
                 {{ form_row(configure_form.max_days_for_send_mail) }}
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12">
                 {{ form_row(configure_form.mail_signature) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_check_email_title) }}
+                {{ form_row(configure_form.resetting_check_email_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.resetting_password_already_requested_title) }}
+                {{ form_row(configure_form.resetting_password_already_requested_text) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(configure_form.registration_wait_confirmation_title) }}
+                {{ form_row(configure_form.registration_wait_confirmation_text) }}
             </div>
         </div>
     </div>
