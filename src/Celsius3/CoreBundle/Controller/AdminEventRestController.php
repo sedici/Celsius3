@@ -22,12 +22,14 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\Post;
 use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Entity\Event\Event;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -108,6 +110,31 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $view = $this->view($event, 200)->setFormat('json');
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @Post("/update_observations/{id}", name="admin_rest_event_update_observations", options={"expose"=true})
+     *
+     * @param $id
+     */
+    public function updateObservations(Request $request, $id)
+    {
+        /** @var EntityManager */
+        $em = $this->get('doctrine.orm.entity_manager');
+        $result['updated'] = true;
+
+        /** @var Event */
+        $event = $em->getRepository('Celsius3CoreBundle:Event\Event')->find($id);
+        if (!$event) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND);
+        }
+
+        $event->setObservations($request->request->get('observations'));
+
+        $em->persist($event);
+        $em->flush($event);
+
+        return $this->handleView($this->view(['updated' => true], 200)->setFormat('json'));
     }
 
     /**

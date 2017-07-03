@@ -3149,6 +3149,55 @@
                  <source>reclaimed</source>
                  <target>Reclamado</target>
             </trans-unit>
+
+            <trans-unit id="" resname="">
+                 <source>requested to</source>
+                 <target>Solicitado a</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>in</source>
+                 <target>en</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>event type</source>
+                 <target>Tipo de evento</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>operator</source>
+                 <target>Operador</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>search</source>
+                 <target>Búsqueda</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>mirequest</source>
+                 <target>Solicitud</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>sirequest</source>
+                 <target>Solicitud</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>localcancel</source>
+                 <target>Cancelación local</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>remotecancel</source>
+                 <target>Cancelación remota</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>cancel</source>
+                 <target>Cancelación</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Provided by the author</source>
+                 <target>Provisto por el autor</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Found on the Web</source>
+                 <target>Encontrado en la Web</target>
+            </trans-unit>
             <!-- // END // Angular locales -->
 
         </body>

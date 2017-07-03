@@ -3148,6 +3148,55 @@
                 <source>reclaimed</source>
                 <target>Reclaimed</target>
             </trans-unit>
+
+            <trans-unit id="" resname="">
+                 <source>requested to</source>
+                 <target>Requested to</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>in</source>
+                 <target>in</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>event type</source>
+                 <target>Event type</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>operator</source>
+                 <target>Operator</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>search</source>
+                 <target>Search</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>mirequest</source>
+                 <target>Request</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>sirequest</source>
+                 <target>Request</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>localcancel</source>
+                 <target>Local cancel</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>remotecancel</source>
+                 <target>Remote cancel</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>cancel</source>
+                 <target>Cancel</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Provided by the author</source>
+                 <target>Provided by the author</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Found on the Web</source>
+                 <target>Found on the Web</target>
+            </trans-unit>
             <!-- // END // Angular locales -->
 
         </body>

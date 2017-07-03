@@ -1224,7 +1224,7 @@
                     </div>
                 </div>
                 <div class="comments" ng-if="request.comments">
-                    <h5>{{'comments'|trans}}</h5>
+                            <h5>{{'comments'|trans}}</h5>
                     <p>{{request.comments}}</p>
                 </div>
             {% endverbatim %}
@@ -1239,15 +1239,78 @@
                 </div>
                 <div ng-if="!_.isEmpty(groupedEvents)" ng-repeat="(key, value) in groupedEvents">
                     <h2>{{key}}</h2>
-                    <div ng-repeat="event in value" ng-if="event.type !== 'creation'">
-                        <span>{{event.created_at|date:'shortDate'}}</span>
-                        <div class="iconhistorial-{{event.type|get_history_icon}}" data-toggle="tooltip" title="{{ event.type | get_state | trans | first_upper }}"></div>
-                        <span>
-                            {{'by' | trans}}
-                            {{event.operator.name}}
-                            <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | trans }}</span>
-                        </span>
+                    <div ng-repeat="event in value" ng-if="event.type !== 'creation'  && event.result !== 'not_found'">
+                        <a href data-toggle="modal" data-target="#eventModal" data-id="{{event.id}}" ng-click="getEventModalData(event.id)">
+                            <span>{{ event.created_at | date:'shortDate' }}</span>
+                            <div class="iconhistorial-{{event.type|get_history_icon}}" data-toggle="tooltip" title="{{ event.type | get_state | trans | first_upper }}"></div>
+                            <span ng-if="event.type === 'search'">
+                                {{ event.result | trans }}
+                                {{ 'in' | trans }}
+                                {{ event.catalog.name }}
+                            </span>
+                            <span ng-if="event.type === 'sirequest' || event.type === 'mirequest'">
+                                <span ng-if="event.provider.type === 'institution'">{{ 'requested to' | trans }}</span>
+                                {{ event.provider.provider_name }}
+                            </span>
+                            <span>
+                                {{ 'by' | trans }}
+                                {{ event.operator.name }}
+                                <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | trans }}</span>
+                            </span>
+                            <br>
+                            <br>
+                        </a>
                     </div>
+                </div>
+
+                <!-- Event modal -->
+                <div class="modal fade" id="eventModal" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{{ 'event information' | trans }}</h4>
+                      </div>
+                      <div class="modal-body">
+                        <dl class="dl-horizontal">
+                            <dt>{{ 'event type' | trans }}</dt>
+                            <dd>{{ eventModalData.type | trans }}</dd>
+
+                            <dt>{{ 'date' | trans }}</dt>
+                            <dd>{{ eventModalData.created_at | date }}</dd>
+
+                            <dt>{{ 'operator' | trans }}</dt>
+                            <dd>{{ eventModalData.operator.surname }}, {{ eventModalData.operator.name }}</dd>
+
+                            <dt ng-if="eventModalData.type === 'search'">{{ 'result' | trans }}</dt>
+                            <dd ng-if="eventModalData.type === 'search'">{{ eventModalData.result | trans }}</dd>
+                            <dt ng-if="eventModalData.type === 'search'">{{ 'catalog' | trans }}</dt>
+                            <dd ng-if="eventModalData.type === 'search'">{{ eventModalData.catalog.name }}</dd>
+
+                            <dt ng-if="eventModalData.type === 'sirequest' || eventModalData.type === 'mirequest'">{{ 'requested to' | trans  }}</dt>
+                            <dt ng-if="eventModalData.type === 'localcancel' || eventModalData.type === 'remotecancel'">{{ 'cancelled to' | trans  }}</dt>
+                            <dt ng-if="eventModalData.type === 'reclaim'">{{ 'reclaimed to' | trans  }}</dt>
+                            <dd ng-if="eventModalData.type === 'sirequest' || eventModalData.type === 'mirequest' || eventModalData.type === 'reclaim'">
+                                {{ eventModalData.provider.provider_name | trans }}
+                            </dd>
+
+                            <dd ng-if="eventModalData.type === 'localcancel' || eventModalData.type === 'remotecancel'">{{  }}</dd>
+
+                            <dt>{{ 'observations' | trans }}</dt>
+                            <dd>
+                                <p id="observationsText" ng-if="!_.isEmpty(eventModalData.observations)">{{ eventModalData.observations }}</p>
+                                <a href onclick="$('#editObservations').removeClass('hidden'); $('#observationsText').addClass('hidden');">{{ 'Add observations' }}</a>
+
+                                <form id="editObservations" class="hidden">
+                                    <textarea cols="40" rows="8" ng-model="eventModalData.observations">{{eventModalData.observations}}</textarea>
+                                    <button ng-click="updateObservations()" class="btn btn-success">Guardar</button>
+                                </form>
+
+                            </dd>
+                        </dl>
+                      </div>
+                    </div>
+                  </div>
                 </div>
             {% endverbatim %}
         </script>
@@ -1392,6 +1455,7 @@
             height: auto !important;
             max-height: 400px !important;
         }
+
         .popover-content {
             width: auto !important;
             max-width: 500px !important;
