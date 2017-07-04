@@ -174,4 +174,43 @@ class AdminCatalogController extends BaseInstanceDependentController
 
         return new Response(json_encode(array('success' => 'Success')));
     }
+
+    /**
+     * @Route("/{id}/enable", name="admin_catalog_enable", options={"expose"=true})
+     * @Method("get")
+     */
+    public function enableCatalogAction($id)
+    {
+        $this->updateEnable($id, true);
+
+        return $this->redirectToRoute('admin_catalog');
+    }
+
+    /**
+     * @Route("/{id}/disable", name="admin_catalog_disable", options={"expose"=true})
+     * @Method("get")
+     */
+    public function disableCatalogAction($id)
+    {
+        $this->updateEnable($id, false);
+
+        return $this->redirectToRoute('admin_catalog');
+    }
+
+    /**
+     * @param $id
+     */
+    private function updateEnable($id, $state)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var CatalogPosition */
+        $catalogPosition = $em->getRepository('Celsius3CoreBundle:CatalogPosition')
+            ->findOneBy(['catalog' => $id, 'instance' => $this->getInstance()->getId()]);
+
+        $catalogPosition->setEnabled($state);
+
+        $em->persist($catalogPosition);
+        $em->flush($catalogPosition);
+    }
 }

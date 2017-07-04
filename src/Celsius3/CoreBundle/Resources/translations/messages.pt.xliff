@@ -3078,6 +3078,18 @@
                  <source>Found on the Web</source>
                  <target>Found on the Web</target>
             </trans-unit>
+            <trans-unit id="" resname="">
+                  <source>Edit catalog</source>
+                  <target>Edit catalog</target>
+             </trans-unit>
+             <trans-unit id="" resname="">
+                  <source>Enable catalog</source>
+                  <target>Enable catalog</target>
+             </trans-unit>
+             <trans-unit id="" resname="">
+                  <source>Disable catalog</source>
+                  <target>Disable catalog</target>
+             </trans-unit>
             <!-- // END // Angular locales -->
 
         </body>

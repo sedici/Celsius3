@@ -1,7 +1,23 @@
 <ul class="list-unstyled pull-right actions">
     {% if element.instance.id == instance.id %}
-    <li>
-        <a href="{{ path('admin_catalog_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
-    </li>
+        <li>
+            <a href="{{ path('admin_catalog_edit', { 'id': element.id }) }}" data-toggle="tooltip"
+               title="{{ 'Edit catalog' | trans }}">
+                <span class="glyphicon glyphicon-pencil"></span></a>
+        </li>
+    {% endif %}
+
+    {% if is_catalog_enabled(element) %}
+        <li>
+            <a href="{{ path('admin_catalog_disable', { 'id': element.id }) }}" data-toggle="tooltip"
+               title="{{ 'Disable catalog' | trans }}">
+                <span class="glyphicon glyphicon-remove"></span></a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{{ path('admin_catalog_enable', { 'id': element.id }) }}" data-toggle="tooltip"
+               title="{{ 'Enable catalog' | trans }}">
+                <span class="glyphicon glyphicon-ok"></span></a>
+        </li>
     {% endif %}
 </ul>

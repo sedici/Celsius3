@@ -3198,6 +3198,18 @@
                  <source>Found on the Web</source>
                  <target>Encontrado en la Web</target>
             </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Edit catalog</source>
+                 <target>Editar catálogo</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Enable catalog</source>
+                 <target>Habilitar catálogo</target>
+            </trans-unit>
+            <trans-unit id="" resname="">
+                 <source>Disable catalog</source>
+                 <target>Deshabilitar catálogo</target>
+            </trans-unit>
             <!-- // END // Angular locales -->
 
         </body>
