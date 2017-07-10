@@ -1,4 +1,5 @@
-$.fn.modal.Constructor.prototype.enforceFocus = function() {};
+$.fn.modal.Constructor.prototype.enforceFocus = function () {
+};
 
 $('.summernote').summernote({
     height: 200
@@ -40,9 +41,9 @@ function registerSearch() {
         url: Routing.generate('admin_catalog_search_mark'),
         dataType: 'json',
         data: 'order_id=' + document_id + '&instance_id=' +
-            instance_id + '&catalog_id=' + catalogId + '&result=' +
-            input.val()
-    }).done(function(data) {
+        instance_id + '&catalog_id=' + catalogId + '&result=' +
+        input.val()
+    }).done(function (data) {
         input.parent().siblings('.catalog-result').text(data.date);
     });
 }
@@ -68,9 +69,9 @@ $('.date').datepicker({
 /**
  * Autocomplete fields related event
  */
-$(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", function() {
+$(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", function () {
     $(this).autocomplete({
-        source: function(request, response) {
+        source: function (request, response) {
             var field = $(this);
             $.ajax({
                 url: ajax_path,
@@ -79,20 +80,20 @@ $(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", functi
                     term: request.term,
                     target: field[0].element.attr('target')
                 },
-                success: function(data) {
+                success: function (data) {
                     response(data);
                 }
             });
         },
         minLength: 2,
-        select: function(event, ui) {
+        select: function (event, ui) {
             var id = $(this).attr('id').replace('_autocomplete', '', 'gi');
             $('#' + id).val(ui.item.id);
         }
     });
 });
 
-$(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", function() {
+$(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", function () {
     function split(val) {
         return val.split(/,\s*/);
     }
@@ -102,7 +103,7 @@ $(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", 
     }
 
     $(this).autocomplete({
-        source: function(request, response) {
+        source: function (request, response) {
             var field = $(this);
             $.ajax({
                 url: ajax_path,
@@ -111,23 +112,23 @@ $(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", 
                     term: extractLast(request.term),
                     target: field[0].element.attr('target')
                 },
-                success: function(data) {
+                success: function (data) {
                     response(data);
                 }
             });
         },
-        search: function() {
+        search: function () {
             // custom minLength
             var term = extractLast(this.value);
             if (term.length < 2) {
                 return false;
             }
         },
-        focus: function() {
+        focus: function () {
             // prevent value inserted on focus
             return false;
         },
-        select: function(event, ui) {
+        select: function (event, ui) {
             var terms = split(this.value);
             // remove the current input
             terms.pop();
@@ -142,7 +143,7 @@ $(document).on("focus", "input.autocomplete_multi:not(.ui-autocomplete-input)", 
     });
 });
 
-var loadMaterialData = function() {
+var loadMaterialData = function () {
     var oldValues = getOldValues();
     var urlChange;
 
@@ -158,7 +159,7 @@ var loadMaterialData = function() {
         data: {
             material: $('#order_materialDataType').val()
         },
-        success: function(data) {
+        success: function (data) {
             $('#material_data').html(data);
             for (var key in oldValues) {
                 $('#' + key).val(oldValues[key]);
@@ -171,12 +172,12 @@ var loadMaterialData = function() {
  */
 $('#order_materialDataType').change(loadMaterialData);
 
-$('#order_instance').change(function() {
+$('#order_instance').change(function () {
     $('#order_owner_autocomplete').val('');
     $('#order_owner').val('');
 });
 
-$('form[name="order"]').on('submit', function(e) {
+$('form[name="order"]').on('submit', function (e) {
     if (_.isEmpty($('#order_originalRequest_owner').val())) {
         e.preventDefault();
         $('#order_originalRequest_owner_autocomplete').parent().addClass('has-error');
@@ -195,7 +196,7 @@ if (user_exists) {
         noLibrarian(user_id);
     }
 
-    $('#order_originalRequest_target').change(function() {
+    $('#order_originalRequest_target').change(function () {
         if ($('#order_originalRequest_target').val() === 'me') {
             noLibrarian(user_id);
         } else {
@@ -204,7 +205,7 @@ if (user_exists) {
     });
 }
 
-$('.union_link').click(function() {
+$('.union_link').click(function () {
     $('#batch-action').val($(this).attr('class').split('_')[0]);
     if ($('input[type=checkbox]:checked').length >= 2) {
         $('.batch_form').submit();
@@ -212,7 +213,7 @@ $('.union_link').click(function() {
 });
 
 
-$('.enable_link').click(function() {
+$('.enable_link').click(function () {
     $('#batch-action').val($(this).attr('class').split('_')[0]);
     if ($('input[type=checkbox]:checked').length >= 1) {
         $('.batch_form').submit();
@@ -232,7 +233,7 @@ $('.news-date').parent().append(
     '<div class="date-text form-control">' + dateWidgets.val() +
     '</div><div><a class="show-date-widget btn btn-default">' +
     news_text_change + '</a></div>');
-$(document).on('click', '.show-date-widget', function() {
+$(document).on('click', '.show-date-widget', function () {
     $('.news-date').parent().children('div').hide();
     dateWidgets.show();
 });
@@ -241,47 +242,46 @@ $(document).on('click', '.show-date-widget', function() {
  * Como no se utiliza accordion-group hay que ocultar "a mano" los elementos
  * mostrados cuando se presiona otro link en el flujo de Order
  */
-$('.state-list a.pointer').click(function(e) {
+$('.state-list a.pointer').click(function (e) {
     $('#state-info .in').collapse('hide');
 });
 
 /*
  * Form submission
  */
-$('.delete-message').click(function() {
+$('.delete-message').click(function () {
     $(this).parent('form').submit();
 });
 
-$('.submit-download-form').click(function() {
+$('.submit-download-form').click(function () {
     var form = $(this).parent();
     form.submit();
     form.remove();
 });
 
-$(document).on('click', '.submit-form', function(e) {
+$(document).on('click', '.submit-form', function (e) {
     e.preventDefault();
     $(this).parent().submit();
 });
 
-$(document).on('click', '.doSubmit', function() {
+$(document).on('click', '.doSubmit', function () {
     $($(this).attr('value')).submit();
 });
 
 /*
  * Form batch selection
  */
-$('.check-all').click(function() {
+$('.check-all').click(function () {
     $('.batch-checkbox').prop('checked', 'checked');
 });
 
-$('.uncheck-all').click(function() {
+$('.uncheck-all').click(function () {
     $('.batch-checkbox').prop('checked', '');
 });
 
-$(document).ready(function() {
-    $('#form_test_connection').click(function() {
-        $('.test-message').remove();
-        $('#form_test_connection').parent().append('<img class="test-message" alt="" src="/bundles/celsius3core/images/select2-spinner.gif" align="center" />');
+$(document).ready(function () {
+    $('#form_test_connection').click(function () {
+        $('#form_test_connection').append('<img class="process-spinner" alt="" src="/bundles/celsius3core/images/select2-spinner.gif" align="center" />');
         $.ajax({
             type: 'POST',
             url: Routing.generate('admin_instance_rest_test_smtp'),
@@ -292,24 +292,65 @@ $(document).ready(function() {
                 'smtp_username': $('#form_smtp_username').val(),
                 'smtp_password': $('#form_smtp_password').val()
             },
-            success: function(data) {
-                $('.test-message').remove();
+            success: function (data) {
+                $('.process-spinner').remove();
 
                 var icon = 'remove';
+                var status = 'danger';
                 if (data.test) {
                     icon = 'ok';
+                    status = 'success';
                 }
 
-                $('#form_test_connection').parent().append('<span class="test-message"><span class="glyphicon glyphicon-' + icon + '"></span>' + data.message + '</span>');
+                $('#form_test_smtp_send_email').addClass('hidden');
+                $('#form_test_smtp_alert span.glyphicon').removeClass('glyphicon-ok glyphicon-remove').addClass('glyphicon-' + icon);
+                $('#form_test_smtp_alert span.message').html(data.message);
+                $('#form_test_smtp_alert .send_test_email').removeClass('hidden');
+                $('#form_test_smtp_alert .resend_test_email').addClass('hidden');
+                $('#form_test_smtp_alert').removeClass('hidden text-danger text-success').addClass('text-' + status);
+            }
+        });
+    });
 
+    $(document).on('click', '#form_test_smtp_alert a.form_send_test_email', function (e) {
+        e.preventDefault();
+        $('#form_test_smtp_send_email').removeClass('hidden');
+        $('#form_test_smtp_alert').addClass('hidden');
+    });
+
+    $(document).on('click', '#submit_send_test_email', function () {
+        $('#submit_send_test_email').append('<img class="process-spinner" alt="" src="/bundles/celsius3core/images/select2-spinner.gif" align="center" />');
+
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('admin_instance_rest_test_send_email'),
+            data: {
+                'form_email_to': $('#form_email_to').val()
+            },
+            success: function (data) {
+                $('.process-spinner').remove();
+
+                var icon = 'remove';
+                var status = 'danger';
+                if (data.test) {
+                    icon = 'ok';
+                    status = 'success';
+                }
+
+                $('#form_test_smtp_send_email').addClass('hidden');
+                $('#form_test_smtp_alert span.glyphicon').removeClass('glyphicon-ok glyphicon-remove').addClass('glyphicon-' + icon);
+                $('#form_test_smtp_alert span.message').html(data.message);
+                $('#form_test_smtp_alert .resend_test_email').removeClass('hidden');
+                $('#form_test_smtp_alert .send_test_email').addClass('hidden');
+                $('#form_test_smtp_alert').removeClass('hidden text-danger text-success').addClass('text-' + status);
             }
         });
     });
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     var tempChapter = '';
-    $(document).on('change', '#order_materialData_withIndex', function() {
+    $(document).on('change', '#order_materialData_withIndex', function () {
         if ($('#order_materialData_withIndex:checked').val()) {
             tempChapter = $('#order_materialData_chapter').val();
             $('#order_materialData_chapter')
@@ -323,19 +364,19 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('html').on('click', '.orderDeleteButton', function() {
+$(document).ready(function () {
+    $('html').on('click', '.orderDeleteButton', function () {
         $('#orderDeleteAlert #orderDeleteAlertConfirmButton').attr('data-order-id', $(this).attr('data-order-id'));
         $('#orderDeleteAlert').modal('show');
     });
 
-    $('#orderDeleteAlert #orderDeleteAlertConfirmButton').click(function() {
+    $('#orderDeleteAlert #orderDeleteAlertConfirmButton').click(function () {
         $.ajax({
             type: 'POST',
             url: Routing.generate('superadmin_order_delete', {
                 'id': $(this).attr('data-order-id')
             }),
-            success: function(data) {
+            success: function (data) {
                 if (data.success) {
                     $('#order_' + data.id + ' .main_info .title_and_author > .titulo').first()
                         .append('<span class="text-danger">[DELETED]</span>');
@@ -355,22 +396,21 @@ $(document).ready(function() {
     });
 
 
-
-    $('html').on('click', '.orderUndeleteButton', function() {
+    $('html').on('click', '.orderUndeleteButton', function () {
         $('#orderUndeleteAlert #orderUndeleteAlertConfirmButton').attr('data-order-id', $(this).attr('data-order-id'));
         $('#orderUndeleteAlert').modal('show');
     });
 
-    $('#orderUndeleteAlert #orderUndeleteAlertConfirmButton').click(function() {
+    $('#orderUndeleteAlert #orderUndeleteAlertConfirmButton').click(function () {
         $.ajax({
             type: 'POST',
             url: Routing.generate('superadmin_order_undelete', {
                 'id': $(this).attr('data-order-id')
             }),
-            success: function(data) {
+            success: function (data) {
                 if (data.success) {
                     $('#order_' + data.id + ' .main_info .title_and_author > .titulo').first()
-                        .text(function() {
+                        .text(function () {
                             return $(this).text().replace('[DELETED]', '');
                         });
 
@@ -390,10 +430,10 @@ $(document).ready(function() {
 });
 
 // Search widget functionality
-$(document).ready(function() {
+$(document).ready(function () {
     var keyword = $('input#keyword');
 
-    keyword.closest('form').on('submit', function(e) {
+    keyword.closest('form').on('submit', function (e) {
         keyword.val($.trim(keyword.val()));
 
         if (keyword.val().length < 3) {
@@ -411,7 +451,7 @@ $(document).ready(function() {
         }
     });
 
-    var showSearch = function(e) {
+    var showSearch = function (e) {
         $('div#celsius-search input').removeClass('search-hidden');
         $('div#celsius-search button.mbtn').removeClass('search-hidden');
         $('div#celsius-search input').addClass('search-show');
@@ -421,7 +461,7 @@ $(document).ready(function() {
         e.preventDefault();
     };
 
-    var hideSearch = function() {
+    var hideSearch = function () {
         $('div#celsius-search input').val('');
         $('div#celsius-search input').removeClass('search-show');
         $('div#celsius-search button.mbtn').removeClass('search-show');
@@ -433,12 +473,12 @@ $(document).ready(function() {
     $('div#celsius-search button.sbtn').on('click', showSearch);
     $('div#celsius-search input').on('blur', hideSearch);
 
-    Mousetrap.bind(['ctrl+alt+b', 'ctrl+alt+f'], function(e) {
+    Mousetrap.bind(['ctrl+alt+b', 'ctrl+alt+f'], function (e) {
         showSearch();
     });
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('select.select2').select2({
         'allowClear': true
     });

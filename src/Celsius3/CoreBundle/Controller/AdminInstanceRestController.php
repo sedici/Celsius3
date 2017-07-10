@@ -22,9 +22,9 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Instance controller.
@@ -43,6 +43,29 @@ class AdminInstanceRestController extends BaseInstanceDependentRestController
         $data = $mailerHelper->testConnection(
                 $request->request->get('smtp_host'), $request->request->get('smtp_port'), $request->request->get('smtp_protocol'), $request->request->get('smtp_username'), $request->request->get('smtp_password')
         );
+
+        $view = $this->view($data, 200)->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Post("/send_email", name="admin_instance_rest_test_send_email", options={"expose"=true})
+     */
+    public function sendEmailAction(Request $request)
+    {
+        $mailerHelper = $this->get('celsius3_core.mailer');
+        $translator = $this->get('translator');
+        $address = $request->request->get('form_email_to');
+        $from = $this->getInstance()->getEmail();
+        $subject = $translator->trans('Test');
+        $message = 'Celsius3. '.$translator->trans('Test email from')." $from to $address.";
+
+        $data['test'] = $mailerHelper->sendEmail($address, $subject, $message, $this->getInstance());
+        $data['message'] = $translator->trans('A test mail was sent to')." $address";
+        if (!$data['test']) {
+            $data['message'] = $translator->trans('Test mail could not be sent.');
+        }
 
         $view = $this->view($data, 200)->setFormat('json');
 

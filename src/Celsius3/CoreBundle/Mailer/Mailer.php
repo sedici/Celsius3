@@ -22,17 +22,18 @@
 
 namespace Celsius3\CoreBundle\Mailer;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Email;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Helper\MailerHelper;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class Mailer
 {
-
     private $container;
     private $mailerHelper;
 
@@ -60,10 +61,18 @@ class Mailer
 
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
+        $errors = $this->container->get('validator')->validateValue($address, [new EmailConstraint(), new NotBlank()]);
+
+        if (count($errors) > 0) {
+            return false;
+        }
+
         if (!is_null($this->container->get('security.token_storage')->getToken()) && $this->container->get('security.token_storage')->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
             $this->saveEmail($address, $subject, $text, $instance);
+
             return true;
         }
+
         return false;
     }
 
@@ -71,9 +80,10 @@ class Mailer
     {
         if (!$this->mailerHelper->validateSmtpServerData($instance)) {
             if ($logLevel <= 2) {
-                $output->writeln('Instance ' . $instance->getUrl() . ': The SMTP server data are not valid.');
-                $logger->error('Instance ' . $instance->getUrl() . ': The SMTP server data are not valid.');
+                $output->writeln('Instance '.$instance->getUrl().': The SMTP server data are not valid.');
+                $logger->error('Instance '.$instance->getUrl().': The SMTP server data are not valid.');
             }
+
             return;
         }
 
@@ -95,39 +105,40 @@ class Mailer
             $mailer = \Swift_Mailer::newInstance($transport);
             $mailer->getTransport()->start();
         } catch (\Exception $e) {
-            $output->writeln('Connection error from instance ' . $instance->getUrl() . '. ' . $e->getMessage());
-            $logger->error('Connection error from instance ' . $instance->getUrl() . '. ' . $e->getMessage());
+            $output->writeln('Connection error from instance '.$instance->getUrl().'. '.$e->getMessage());
+            $logger->error('Connection error from instance '.$instance->getUrl().'. '.$e->getMessage());
+
             return;
         }
 
         if ($logLevel <= 3) {
-            $output->writeln('Sending mails from instance ' . $instance->getUrl());
-            $logger->info('Sending mails from instance ' . $instance->getUrl());
+            $output->writeln('Sending mails from instance '.$instance->getUrl());
+            $logger->info('Sending mails from instance '.$instance->getUrl());
         }
         if ($logLevel === 1) {
-            $output->writeln('SMTP Host: ' . $instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue());
-            $output->writeln('SMTP Port: ' . $instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue());
-            $logger->info('SMTP Host: ' . $instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue());
-            $logger->info('SMTP Port: ' . $instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue());
+            $output->writeln('SMTP Host: '.$instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue());
+            $output->writeln('SMTP Port: '.$instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue());
+            $logger->info('SMTP Host: '.$instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue());
+            $logger->info('SMTP Port: '.$instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue());
         }
 
         foreach ($emails as $email) {
             $from = $instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
             if ($logLevel <= 2) {
-                $output->writeln('Sending mail from ' . $from . ' to ' . $email->getAddress());
-                $logger->info('Sending mail from ' . $from . ' to ' . $email->getAddress());
+                $output->writeln('Sending mail from '.$from.' to '.$email->getAddress());
+                $logger->info('Sending mail from '.$from.' to '.$email->getAddress());
             }
             if ($logLevel === 1) {
-                $output->writeln('Subject: ' . $email->getSubject());
-                $logger->info('Instance ' . $instance->getUrl() . ': The SMTP server data are not valid.');
+                $output->writeln('Subject: '.$email->getSubject());
+                $logger->info('Instance '.$instance->getUrl().': The SMTP server data are not valid.');
             }
 
             $message = \Swift_Message::newInstance()
                     ->setSubject($email->getSubject())
                     ->setFrom($from)
                     ->setTo($email->getAddress())
-                    ->setBody($email->getText() . "\n" . $signature, 'text/html')
-                    ->addPart($email->getText() . "\n" . $signature, 'text/html')
+                    ->setBody($email->getText()."\n".$signature, 'text/html')
+                    ->addPart($email->getText()."\n".$signature, 'text/html')
             ;
 
             if ($mailer->send($message)) {
@@ -136,5 +147,4 @@ class Mailer
             }
         }
     }
-
 }

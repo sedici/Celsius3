@@ -154,8 +154,21 @@
         <div>
             <button type="button" id="form_test_connection" name="form[test_connection]" value="test_connection"
                     class="btn btn-default">
-                Test connection
+                {{ 'Test connection' | trans }}
             </button>
+            <span id="form_test_smtp_alert" class="hidden">
+                <span class="glyphicon"></span>
+                <span class="message"></span>
+                <a class="form_send_test_email" href>
+                    <span class="send_test_email hidden">{{ 'Send test email' | trans }}</span>
+                    <span class="resend_test_email hidden">{{ 'Resend test email' | trans }}</span>
+                </a>
+            </span>
+            <span id="form_test_smtp_send_email" class="hidden">
+                <label>{{ 'Email' | trans }}:</label>
+                <input type="email" id="form_email_to">
+                <button type="button" id="submit_send_test_email" class="btn btn-default">{{ 'Send' | trans }}</button>
+            </span>
         </div>
         <div class="row">
             <div class="col-md-12">
