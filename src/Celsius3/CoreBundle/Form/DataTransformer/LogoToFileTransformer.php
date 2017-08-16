@@ -22,25 +22,33 @@
 
 namespace Celsius3\CoreBundle\Form\DataTransformer;
 
+use Celsius3\CoreBundle\Manager\FileManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\HttpFoundation\File\File;
-use Celsius3\CoreBundle\Manager\FileManager;
 
 class LogoToFileTransformer implements DataTransformerInterface
 {
+    private $fileManager;
+
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
+
     /**
      * Transforms an object (File) to a string (id).
      *
-     * @param  String $filename
+     * @param string $filename
+     *
      * @return File
      */
     public function transform($filename)
     {
-        if (!$filename || !file_exists(FileManager::LOGOS_UPLOAD_DIR . '/' . $filename)) {
+        if (!$filename || !file_exists($this->fileManager->getLogosUploadDir().'/'.$filename)) {
             return null;
         }
 
-        $file = new File(FileManager::LOGOS_UPLOAD_DIR . '/' . $filename);
+        $file = new File($this->fileManager->getLogosUploadDir().'/'.$filename);
 
         return $file;
     }
@@ -48,7 +56,8 @@ class LogoToFileTransformer implements DataTransformerInterface
     /**
      * Transforms a string (filename) to an object (File).
      *
-     * @param  File                       $file
+     * @param File $file
+     *
      * @return string
      */
     public function reverseTransform($file)

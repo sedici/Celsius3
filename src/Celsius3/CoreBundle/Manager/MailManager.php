@@ -22,13 +22,13 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use Doctrine\ORM\EntityManager;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
-use JMS\Serializer\Serializer;
-use JMS\Serializer\SerializationContext;
 use Celsius3\CoreBundle\Exception\Exception;
+use Doctrine\ORM\EntityManager;
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\Serializer;
 
 class MailManager
 {
@@ -60,8 +60,7 @@ class MailManager
     {
         $template = $this->em->getRepository('Celsius3CoreBundle:MailTemplate')
                 ->findGlobalAndForInstance($instance, $this->im->getDirectory(), $code)
-                ->getQuery()
-                ->getSingleResult();
+                ->getQuery()->getResult()[0];
 
         if (!$template) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.mail_template');

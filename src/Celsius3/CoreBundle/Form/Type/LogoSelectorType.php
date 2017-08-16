@@ -22,18 +22,23 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Form\DataTransformer\LogoToFileTransformer;
+use Celsius3\CoreBundle\Manager\FileManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType as FormFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType as FormFileType;
-use Celsius3\CoreBundle\Form\DataTransformer\LogoToFileTransformer;
 
 class LogoSelectorType extends AbstractType
 {
+    public function __construct(FileManager $fileManager)
+    {
+        $this->fileManager = $fileManager;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $transformer = new LogoToFileTransformer();
+        $transformer = new LogoToFileTransformer($this->fileManager);
         $builder->addModelTransformer($transformer);
     }
 
@@ -48,5 +53,4 @@ class LogoSelectorType extends AbstractType
     {
         return FormFileType::class;
     }
-
 }
