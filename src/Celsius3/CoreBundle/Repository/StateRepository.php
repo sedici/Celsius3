@@ -65,7 +65,7 @@ class StateRepository extends BaseRepository
         $qb = $this->createQueryBuilder('s')
                 ->select('s.type, COUNT(s.id) as c')
                 ->leftJoin('s.request', 'r')
-                ->andWhere('s.current = true')
+                ->where('s.current = true')
                 ->groupBy('s.type');
 
         if (!is_null($orderType)) {
@@ -110,6 +110,10 @@ class StateRepository extends BaseRepository
         if (!is_null($instance)) {
             $qb4->andWhere('s.instance = :instance')
                 ->setParameter('instance', $instance->getId());
+        }
+        if (!is_null($user)) {
+            $qb4->andWhere('(r.operator = :user)')
+                ->setParameter('user', $user);
         }
 
         $pending = $qb4->getQuery()->getOneOrNullResult();

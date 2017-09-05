@@ -96,14 +96,15 @@ class OrderRepository extends BaseRepository
                 ->leftJoin('r.operator', 'op')
                 ->leftJoin('ow.institution', 'i')
                 ->join('o.materialData', 'm')
-                ->andWhere('s.current = true')
+                ->where('s.current = true')
                 ->andWhere('r.instance = :instance')
                 ->setParameter('instance', $instance);
 
         if (is_array($state) && count($state) > 0) {
-            if (in_array(StateManager::STATE__REQUESTED, $state)) {
-                $qb->andWhere('s.searchPending = :searchPending')->setParameter('searchPending', false);
-            }
+            //            if (in_array(StateManager::STATE__REQUESTED, $state)) {
+//                $qb->andWhere('s.searchPending = :searchPending')
+//                    ->setParameter('searchPending', false);
+//            }
             if (in_array(StateManager::STATE__SEARCHED, $state)) {
                 $qb->andWhere('(s.type IN (:state_types) OR (s.type = :requested AND s.searchPending = :searchPending))')
                         ->setParameter('state_types', $state)
