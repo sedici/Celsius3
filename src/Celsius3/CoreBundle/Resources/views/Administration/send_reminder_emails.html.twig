@@ -5,8 +5,15 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="row">
-        <h3>{{ 'Send Reminder Email' | trans }}</h3>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">   <h3>{{ 'Send Reminder Email' | trans }}</h3>
+        </div>
+            <div class="panel-body">
+           
+       
         <form method="post" action="{{ path('admin_send_reminder_emails_batch') }}">
             <div class="col-xs-9">
                 <div class="form-group">
@@ -44,7 +51,8 @@
                 </div>
             </div>
         </form>
-        <div class="col-md-3">
+
+<div class="col-md-3">
             <div id="accordion" class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -69,6 +77,16 @@
             </div>
         </div>
     </div>
+
+            </div>
+        </div>
+        
+        
+        
+
+
+
+
 {% endblock %}
 
 {% block javascripts %}
