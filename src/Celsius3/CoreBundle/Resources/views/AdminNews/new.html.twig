@@ -7,14 +7,13 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'News Creation'|trans }}</h2>
-
-    {{ new('admin_news', form) }}
-
+    
+   
 <div class="panel panel-default">
-    <div class="panel-heading">     <h2>{{ 'News Edit'|trans }} - {{ entity.title | raw }}</h2></div>
+    <div class="panel-heading">     <h2>{{ 'News Creation'|trans }}</h2>
+</div>
     <div class="panel-body">
-       {{ edit('admin_news', entity, edit_form) }}
+     {{ new('admin_news', form) }}
     </div>
   </div>
 
