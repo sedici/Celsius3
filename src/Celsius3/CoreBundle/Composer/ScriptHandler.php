@@ -34,20 +34,20 @@ class ScriptHandler
      *
      * @param $event CommandEvent A instance
      */
-    public static function asseticDump(Event $event)
+    public static function yarnRunEncore(Event $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir (' . $appDir
-            . ') specified in composer.json was not found in '
-            . getcwd() . ', can not clear the cache.' . PHP_EOL;
+                . ') specified in composer.json was not found in '
+                . getcwd() . ', can not clear the cache.' . PHP_EOL;
 
             return;
         }
 
-        static::executeCommand($event, $appDir, 'assetic:dump', $options['process-timeout']);
+        static::executeCommand($event, $appDir, 'celsius3:yarn:encore', $options['process-timeout']);
     }
 
     public static function redisFlushAll(Event $event)
@@ -57,8 +57,8 @@ class ScriptHandler
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir (' . $appDir
-            . ') specified in composer.json was not found in '
-            . getcwd() . ', can not clear the cache.' . PHP_EOL;
+                . ') specified in composer.json was not found in '
+                . getcwd() . ', can not clear the cache.' . PHP_EOL;
 
             return;
         }
@@ -80,7 +80,7 @@ class ScriptHandler
         });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(
-            sprintf(
+                sprintf(
                     'An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
     }
@@ -88,11 +88,11 @@ class ScriptHandler
     protected static function getOptions(Event $event)
     {
         $options = array_merge(
-                array('symfony-app-dir' => 'app', 'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'), $event->getComposer()->getPackage()->getExtra());
+            array('symfony-app-dir' => 'app', 'symfony-web-dir' => 'web',
+                'symfony-assets-install' => 'hard'), $event->getComposer()->getPackage()->getExtra());
 
         $options['process-timeout'] = $event->getComposer()->getConfig()
-                ->get('process-timeout');
+            ->get('process-timeout');
 
         return $options;
     }
@@ -102,7 +102,7 @@ class ScriptHandler
         $phpFinder = new PhpExecutableFinder;
         if (!$phpPath = $phpFinder->find()) {
             throw new \RuntimeException(
-            'The php executable could not be found, add it to your PATH environment variable and try again');
+                'The php executable could not be found, add it to your PATH environment variable and try again');
         }
 
         return $phpPath;

@@ -1,0 +1,302 @@
+services:
+    twig.extension.text:
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+    salavert.twig.time_ago:
+        class: Salavert\Twig\Extension\TimeAgoExtension
+        tags:
+            - { name: twig.extension }
+        arguments: ['@translator']
+    celsius3_core.twig.extension.administration:
+        class: Celsius3\CoreBundle\Twig\AdministrationExtension
+        tags:
+            - { name: twig.extension }
+        arguments: ['@service_container']
+    celsius3_core.twig.extension.institution:
+        class: Celsius3\CoreBundle\Twig\InstitutionExtension
+        tags:
+            - { name: twig.extension }
+    celsius3_core.twig.extension.events:
+        class: Celsius3\CoreBundle\Twig\EventExtension
+        tags:
+            - { name: twig.extension }
+    celsius3_core.twig.extension.catalogs:
+        class: Celsius3\CoreBundle\Twig\CatalogExtension
+        tags:
+            - { name: twig.extension }
+        arguments: ['@celsius3_core.catalog_manager']
+    celsius3_core.twig.extension.material_type:
+        class: Celsius3\CoreBundle\Twig\MaterialTypeExtension
+        tags:
+            - { name: twig.extension }
+    celsius3_core.twig.extension.journal:
+        class: Celsius3\CoreBundle\Twig\JournalExtension
+        tags:
+            - { name: twig.extension }
+        arguments: ['@service_container']
+    celsius3_core.twig.extension.request:
+        class: Celsius3\CoreBundle\Twig\RequestExtension
+        tags:
+            - { name: twig.extension }
+    celsius3_core.twig.extension.assets:
+        class: Celsius3\CoreBundle\Twig\AssetsExtension
+        tags:
+            - { name: twig.extension }
+        arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']
+    celsius3_core.mailer:
+        class: Celsius3\CoreBundle\Mailer\Mailer
+        arguments: ['@service_container', '@celsius3_core.mailer_helper']
+    celsius3_core.counter_listener:
+        class: Celsius3\CoreBundle\Listener\CounterListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+    celsius3_core.catalog_listener:
+        class: Celsius3\CoreBundle\Listener\CatalogListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+        arguments: ['@service_container']
+    celsius3_core.configuration_listener:
+        class: Celsius3\CoreBundle\Listener\ConfigurationListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+        arguments: ['@celsius3_core.configuration_helper']
+    celsius3_core.order_listener:
+        class: Celsius3\CoreBundle\Listener\OrderListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+        arguments: ['@service_container']
+    celsius3_core.search_event_listener:
+        class: Celsius3\CoreBundle\Listener\SearchEventListener
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+    celsius3_core.security.login_listener:
+        class: Celsius3\CoreBundle\EventListener\LoginListener
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+        arguments: ['@session']
+    celsius3_core.locale_choosing_listener:
+        class: Celsius3\CoreBundle\EventListener\LocaleChoosingListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+        arguments: ['', {  }, '@jms_i18n_routing.locale_resolver', '@celsius3_core.instance_helper']
+    celsius3_core.exception_listener:
+        class: Celsius3\CoreBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+        arguments: ['@monolog.logger.celsius_exception', '@monolog.logger.celsius_rest_exception', '@router']
+    celsius3_core.context_listener:
+        class: Celsius3\CoreBundle\EventListener\ContextListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+    celsius3_core.response_listener:
+        class: Celsius3\CoreBundle\EventListener\ResponseListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+        arguments: ['@session']
+    celsius3_core.form.admin_contact:
+        class: Celsius3\CoreBundle\Form\Type\AdminContactType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.superadmin_contact:
+        class: Celsius3\CoreBundle\Form\Type\SuperadminContactType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.base_user:
+        class: Celsius3\CoreBundle\Form\Type\BaseUserType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper', '']
+    celsius3_core.form.catalog:
+        class: Celsius3\CoreBundle\Form\Type\CatalogType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.institution:
+        class: Celsius3\CoreBundle\Form\Type\InstitutionType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.registration_form:
+        class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper', '']
+    celsius3_core.form.user_selector:
+        class: Celsius3\CoreBundle\Form\Type\UserSelectorType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.users_selector:
+        class: Celsius3\CoreBundle\Form\Type\UsersSelectorType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.order_selector:
+        class: Celsius3\CoreBundle\Form\Type\OrderSelectorType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.instance_selector:
+        class: Celsius3\CoreBundle\Form\Type\InstanceSelectorType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.journal_selector:
+        class: Celsius3\CoreBundle\Form\Type\JournalSelectorType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.form.logo_selector:
+        class: Celsius3\CoreBundle\Form\Type\LogoSelectorType
+        tags:
+            - { name: form.type }
+        arguments: ['@celsius3_core.file_manager']
+    celsius3_core.form.type.language:
+        class: Celsius3\CoreBundle\Form\Type\LanguageType
+        tags:
+            - { name: form.type }
+        arguments: ['@celsius3_core.configuration_helper']
+    celsius3_core.form.type.confirmation:
+        class: Celsius3\CoreBundle\Form\Type\ConfirmationType
+        tags:
+            - { name: form.type }
+        arguments: ['@celsius3_core.configuration_helper']
+    celsius3_core.form.type.results:
+        class: Celsius3\CoreBundle\Form\Type\ResultsType
+        tags:
+            - { name: form.type }
+        arguments: ['@celsius3_core.configuration_helper']
+    celsius3_core.security.authentication_failure_handler:
+        class: Celsius3\CoreBundle\Handler\CustomAuthenticationFailureHandler
+        tags:
+            - { name: monolog.logger, channel: security }
+        arguments: ['@router', '@http_kernel', '@security.http_utils', {  }, '@?logger']
+    celsius3_core.security.authentication_success_handler:
+        class: Celsius3\CoreBundle\Handler\CustomAuthenticationSuccessHandler
+        arguments: ['@router', '@security.authorization_checker', '@security.http_utils', {  }]
+    celsius3_core.security.logout_success_handler:
+        class: Celsius3\CoreBundle\Handler\CustomLogoutSuccessHandler
+        arguments: ['@router']
+    celsius3_core.login_logging_aspect:
+        class: Celsius3\CoreBundle\Aop\LoginLoggingAspect
+        tags:
+            - { name: jms_aop.pointcut, interceptor: celsius3_core.login_logging_aspect }
+        arguments: ['@service_container']
+    celsius3_core.instance_injection_aspect:
+        class: Celsius3\CoreBundle\Aop\InstanceInjectionAspect
+        tags:
+            - { name: jms_aop.pointcut, interceptor: celsius3_core.instance_injection_aspect }
+        arguments: ['@celsius3_core.instance_helper']
+    celsius3_core.menu.voter.exact:
+        class: Celsius3\CoreBundle\Voter\ExactRequestVoter
+        tags:
+            - { name: knp_menu.voter }
+        arguments: ['@request_stack']
+    celsius3_core.field.guesser:
+        class: Celsius3\CoreBundle\Guesser\FieldGuesser
+        arguments: ['@doctrine']
+    celsius3_core.lifecycle_helper:
+        class: Celsius3\CoreBundle\Helper\LifecycleHelper
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.state_manager', '@celsius3_core.event_manager', '@celsius3_core.file_manager', '@celsius3_core.instance_helper', '@security.token_storage', '@logger']
+    celsius3_core.configuration_helper:
+        class: Celsius3\CoreBundle\Helper\ConfigurationHelper
+        arguments: ['@service_container']
+    celsius3_core.custom_field_helper:
+        class: Celsius3\CoreBundle\Helper\CustomFieldHelper
+        arguments: ['@request_stack', '@doctrine.orm.entity_manager']
+    celsius3_core.instance_helper:
+        class: Celsius3\CoreBundle\Helper\InstanceHelper
+        arguments: ['@service_container']
+    celsius3_core.database_helper:
+        class: Celsius3\CoreBundle\Helper\DatabaseHelper
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.event_manager:
+        class: Celsius3\CoreBundle\Manager\EventManager
+        arguments: ['@service_container']
+    celsius3_core.search_manager:
+        class: Celsius3\CoreBundle\Manager\SearchManager
+        arguments: ['@service_container']
+    celsius3_core.state_manager:
+        class: Celsius3\CoreBundle\Manager\StateManager
+        arguments: ['@celsius3_core.event_manager', '@request_stack']
+    celsius3_core.file_manager:
+        class: Celsius3\CoreBundle\Manager\FileManager
+        arguments: { $uploadRootDir: '%upload_root_dir%', $logosUploadDir: '%logos_upload_dir%' }
+        calls:
+            - [setContainer, ['@service_container']]
+
+    celsius3_core.filter_manager:
+        class: Celsius3\CoreBundle\Manager\FilterManager
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.field.guesser']
+    celsius3_core.user_manager:
+        class: Celsius3\CoreBundle\Manager\UserManager
+    celsius3_core.union_manager:
+        class: Celsius3\CoreBundle\Manager\UnionManager
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager']
+    celsius3_core.catalog_manager:
+        class: Celsius3\CoreBundle\Manager\CatalogManager
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper', '@celsius3_core.instance_manager']
+    celsius3_core.map_manager:
+        class: Celsius3\CoreBundle\Manager\MapManager
+    celsius3_core.statistic_manager:
+        class: Celsius3\CoreBundle\Manager\StatisticManager
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.instance_manager:
+        class: Celsius3\CoreBundle\Manager\InstanceManager
+        arguments: ['@doctrine.orm.entity_manager']
+    celsius3_core.mail_manager:
+        class: Celsius3\CoreBundle\Manager\MailManager
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_manager', '@twig', '@jms_serializer']
+    celsius3_core.listener.confirmation:
+        class: Celsius3\CoreBundle\EventListener\ConfirmationListener
+        tags:
+            - { name: kernel.event_subscriber }
+        arguments: ['@fos_user.mailer', '@fos_user.util.token_generator', '@router', '@session', '@celsius3_core.configuration_helper']
+    celsius3_core.fos_mailer.custom:
+        class: Celsius3\CoreBundle\Mailer\FosMailer
+        public: false
+        arguments: ['@mailer', '@router', '@templating', { confirmation.template: '%fos_user.registration.confirmation.template%', resetting.template: '%fos_user.resetting.email.template%', from_email: { confirmation: '%fos_user.registration.confirmation.from_email%', resetting: '%fos_user.resetting.email.from_email%' } }, '@request_stack', '@celsius3_core.instance_helper', '@celsius3_core.mailer_helper', '@celsius3_core.mail_manager', '@twig']
+    celsius3.maintenance_mode_listener:
+        class: Celsius3\CoreBundle\EventListener\MaintenanceModeListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 10 }
+        arguments: ['%maintenance_mode_file%', '%maintenance_mode_dir%', '%maintenance_mode_template%', '@templating']
+    celsius3_core.mailer_helper:
+        class: Celsius3\CoreBundle\Helper\MailerHelper
+        arguments: ['@service_container']
+    celsius3_core.security.user_provider.username_email:
+        class: Celsius3\CoreBundle\Security\UserProvider
+        arguments: ['@fos_user.user_manager', '@doctrine.orm.entity_manager', '@request_stack']
+    celsius3.listener.elastica_custom_properties:
+        class: Celsius3\CoreBundle\EventListener\CustomPropertiesListener
+        tags:
+            - { name: kernel.event_subscriber }
+    celsius3_core.listener.file_upload:
+        class: Celsius3\CoreBundle\EventListener\FileUploadListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: postUpdate }
+        calls:
+            - [setFileManager, ['@celsius3_core.file_manager']]
+
+    celsius3.validator.mail_template:
+        class: Celsius3\CoreBundle\Validator\Constraint\MailtTemplateValidator
+        tags:
+            - { name: validator.constraint_validator, alias: mail_template }
+    celsius3_core.fos_user_manager:
+        class: Celsius3\CoreBundle\Manager\FosUserManager
+        arguments: ['@fos_user.util.password_updater', '@fos_user.util.canonical_fields_updater', '@celsius3_core.instance_helper', '@doctrine.orm.entity_manager', '@security.token_storage', '%fos_user.model.user.class%']

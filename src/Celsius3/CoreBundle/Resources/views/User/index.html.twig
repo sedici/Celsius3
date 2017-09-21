@@ -182,10 +182,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts 'bundles/celsius3core/ng/User/app.js'
-                           'bundles/celsius3core/ng/User/resources.js'
-                           'bundles/celsius3core/ng/User/controllers.js'
-                           'bundles/celsius3core/ng/User/filters.js' package="user" filter='?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/user.js') }}"></script>
 {% endblock %}

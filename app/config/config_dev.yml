@@ -32,9 +32,3 @@ monolog:
                 VERBOSITY_VERY_VERBOSE: NOTICE
                 VERBOSITY_DEBUG: DEBUG
             channels: ["doctrine"]
-
-assetic:
-    use_controller: false
-
-#swiftmailer:
-#    delivery_address: me@example.com

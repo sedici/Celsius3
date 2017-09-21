@@ -15,18 +15,15 @@ var orderApp = angular.module('orderApp', [
     'pascalprecht.translate',
     'ngclipboard',
     'boxuk.translation',
-    'summernote'
 ]);
 
 orderApp.config(['$routeProvider', '$tooltipProvider', '$translateProvider',
     function ($routeProvider, $tooltipProvider, $translateProvider) {
-        $routeProvider.
-                when('/', {
-                    templateUrl: 'show.html?' + assets_version_admin_order
-                }).
-                otherwise({
-                    redirectTo: '/'
-                });
+        $routeProvider.when('/', {
+            templateUrl: 'show.html?' + assets_version_admin_order
+        }).otherwise({
+            redirectTo: '/'
+        });
         angular.extend($tooltipProvider.defaults, {
             html: true
         });

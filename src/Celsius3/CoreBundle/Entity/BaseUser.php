@@ -185,14 +185,19 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     //  */
     // public $recaptcha;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $locked;
+
     public function __toString()
     {
-        return ucwords(strtolower($this->getSurname())).', '.ucwords(strtolower($this->getName()));
+        return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
     }
 
     public function getFullName()
     {
-        return $this->getSurname().', '.$this->getName();
+        return $this->getSurname() . ', ' . $this->getName();
     }
 
     public function notify(NotificationManager $manager)
@@ -546,7 +551,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      * Add secondary instance.
      *
      * @param Instance $secondaryInstance
-     * @param array    $roles
+     * @param array $roles
      */
     public function addSecondaryInstance(Instance $secondaryInstance, array $roles)
     {
@@ -866,5 +871,15 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     public function getObservaciones()
     {
         return $this->observaciones;
+    }
+
+    public function setLocked($locked)
+    {
+        $this->locked = $locked;
+    }
+
+    public function isLocked()
+    {
+        return $this->locked;
     }
 }

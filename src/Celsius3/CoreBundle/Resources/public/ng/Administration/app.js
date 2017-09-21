@@ -12,25 +12,21 @@ var administrationApp = angular.module('administrationApp', [
 
 administrationApp.config(['$routeProvider', '$translateProvider',
     function ($routeProvider, $translateProvider) {
-        $routeProvider.
-                when('/:type', {
-                    templateUrl: 'index.html?' + assets_version_administration,
-                    controller: 'AdministrationCtrl'
-                }).
-                when('/:type/:state', {
-                    templateUrl: 'index.html?' + assets_version_administration,
-                    controller: 'AdministrationCtrl'
-                }).
-                when('/:type/:state/:orderType', {
-                    templateUrl: 'index.html?' + assets_version_administration,
-                    controller: 'AdministrationCtrl'
-                }).
-                when('/', {
-                    redirectTo: '/mine',
-                }).
-                otherwise({
-                    redirectTo: '/'
-                });
+        'use strict';
+        $routeProvider.when('/:type', {
+            templateUrl: 'index.html?' + assets_version_administration,
+            controller: 'AdministrationCtrl'
+        }).when('/:type/:state', {
+            templateUrl: 'index.html?' + assets_version_administration,
+            controller: 'AdministrationCtrl'
+        }).when('/:type/:state/:orderType', {
+            templateUrl: 'index.html?' + assets_version_administration,
+            controller: 'AdministrationCtrl'
+        }).when('/', {
+            redirectTo: '/mine',
+        }).otherwise({
+            redirectTo: '/'
+        });
 
         $translateProvider.useStaticFilesLoader({
             prefix: '/bundles/celsius3core/ng/locales/locale-',

@@ -7,53 +7,54 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import show as show %}
 
 {% block content %}
-    <div ng-app="institutionApp">
-        <h2>{{ 'Institution Edit' | trans }} - {{ entity.name }}</h2>
+<div ng-app="institutionApp">
+    <h2>{{ 'Institution Edit' | trans }} - {{ entity.name }}</h2>
 
-        <div class="row">
-            <div class="col-md-9" ng-controller="institutionCtrl">
-                <div ng-view>
+    <div class="row">
+        <div class="col-md-9" ng-controller="institutionCtrl">
+            <div ng-view>
 
-                </div>
             </div>
-            <div class="col-md-3">
-                <div id="accordion" class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
-                                    <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
-                                </a>
-                            </h4>
-                        </div>
-                        <div class="panel-collapse in collapse" id="collapseTwo">
-                            <div class="panel-body">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="{{ path('admin_institution') }}">
-                                            <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
-                                        </a>
-                                    </li>
-                                    {% if entity.instance.id == instance.id %}
+        </div>
+        <div class="col-md-3">
+            <div id="accordion" class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
+                                <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                            </a>
+                        </h4>
+                    </div>
+                    <div class="panel-collapse in collapse" id="collapseTwo">
+                        <div class="panel-body">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="{{ path('admin_institution') }}">
+                                        <span class="glyphicon glyphicon-home"></span> {{ 'Go to the list'|trans }}
+                                    </a>
+                                </li>
+                                {% if entity.instance.id == instance.id %}
                                     <li>
                                         <a href="{{ path(['admin_institution_edit']|join, { 'id': entity.id }) }}">
                                             <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
                                         </a>
                                     </li>
-                                        {% else %}
-                                            {{ 'centralized institution'|trans }}
+                                {% else %}
+                                    {{ 'centralized institution'|trans }}
 
-                                    {% endif %}
-                                    {% include 'AdminInstitution:_show_actions.html.twig' ignore missing %}
-                                </ul>
-                            </div>
+                                {% endif %}
+                                {% include 'AdminInstitution:_show_actions.html.twig' ignore missing %}
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- institution_tree.html -->
-            <script type="text/ng-template" id="institution_tree.html?{{ assets_version('admin_institution') }}">
-                {% verbatim %}
+        </div>
+        <!-- institution_tree.html -->
+        <script type="text/ng-template" id="institution_tree.html?{{ assets_version('admin_institution') }}">
+            {% verbatim %}
                     <h3>{{ 'Institution tree' | trans }}</h3>
                     <div class="list-group">
                     <a ng-if="institution.parent" ng-click="getInstitution(institution.parent.id)" href class="list-group-item">
@@ -67,22 +68,22 @@
                     </a>
                     </div>
                 {% endverbatim %}
-            </script>
+        </script>
 
-            <!-- institution_users.html -->
-            <script type="text/ng-template" id="institution_users.html?{{ assets_version('admin_institution') }}">
-                {% verbatim %}
+        <!-- institution_users.html -->
+        <script type="text/ng-template" id="institution_users.html?{{ assets_version('admin_institution') }}">
+            {% verbatim %}
                 <h3>{{ 'Institution users' | trans }}</h3>
                 <div class="list-group">
                 <a ng-href="{{ { path: 'admin_user_show', params: {'id': user.id} } | get_url }}" class="list-group-item" ng-repeat="user in institution.users">{{ user.full_name }}</a>
                 </div>
         
                 {% endverbatim %}
-            </script>
+        </script>
 
-            <!-- institution_info.html -->
-            <script type="text/ng-template" id="institution_info.html?{{ assets_version('admin_institution') }}">
-                {% verbatim %}
+        <!-- institution_info.html -->
+        <script type="text/ng-template" id="institution_info.html?{{ assets_version('admin_institution') }}">
+            {% verbatim %}
                     <dl class="dl-horizontal">
                     <dt>{{ 'Name' | trans }}</dt>
                     <dd>{{ institution.name }}</dd>
@@ -96,11 +97,11 @@
                     <dd>{{ institution.city.name ? institution.city.name : '----' }}</dd>
                     </dl>
                 {% endverbatim %}
-            </script>
+        </script>
 
-            <!-- institution.html -->
-            <script type="text/ng-template" id="institution.html?{{ assets_version('admin_institution') }}">
-                {% verbatim %}
+        <!-- institution.html -->
+        <script type="text/ng-template" id="institution.html?{{ assets_version('admin_institution') }}">
+            {% verbatim %}
                     <div ng-include="'institution_info.html?' + assets_version">
 
                     </div>
@@ -113,8 +114,8 @@
                     </div>
                     </div>
                 {% endverbatim %}
-            </script>
-        </div>
+        </script>
+    </div>
     {% endblock %}
 
     {% block stylesheets %}
@@ -138,9 +139,6 @@
     {% block javascripts %}
         {{ parent() }}
 
-        {% javascripts 'bundles/celsius3core/ng/AdminInstitution/app.js'
-                        'bundles/celsius3core/ng/AdminInstitution/controllers.js'
-                        'bundles/celsius3core/ng/AdminInstitution/filters.js' package="admin_institution" filter='?uglifyjs2'  %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-        {% endjavascripts %}
+        <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('build/admin_institution.js') }}"></script>
     {% endblock %}

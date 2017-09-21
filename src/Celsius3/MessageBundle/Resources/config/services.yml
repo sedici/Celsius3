@@ -1,0 +1,32 @@
+services:
+    celsius3_message.custom_recipients_data_transformer:
+        class: Celsius3\MessageBundle\DataTransformer\CustomRecipientsDataTransformer
+        public: false
+        arguments: ['@fos_user.user_to_username_transformer']
+    celsius3_message.new_thread_form.type.custom:
+        class: Celsius3\MessageBundle\Form\Type\NewThreadMultipleMessageFormType
+        public: false
+        arguments: ['@security.authorization_checker', '@security.token_storage', '@doctrine.orm.entity_manager']
+    celsius3_message.reply_form.type.custom:
+        class: Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType
+        public: false
+    celsius3_message.participant_provider:
+        class: FOS\MessageBundle\Security\ParticipantProvider
+        arguments: ['@security.token_storage']
+    celsius3_message.twig.extension.threads:
+        class: Celsius3\MessageBundle\Twig\ThreadExtension
+        tags:
+            - { name: twig.extension }
+        arguments: ['@fos_message.reply_form.factory', '@fos_message.participant_provider']
+    celsius3_message.provider.default:
+        class: Celsius3\MessageBundle\Provider\Provider
+        arguments: ['@celsius3_message.thread_manager.default', '@fos_message.message_manager', '@fos_message.thread_reader', '@fos_message.authorizer', '@fos_message.participant_provider']
+    celsius3_message.thread_manager.default:
+        class: Celsius3\MessageBundle\EntityManager\ThreadManager
+        public: false
+        arguments: ['@doctrine.orm.entity_manager', '%fos_message.thread_class%', '%fos_message.thread_meta_class%', '@fos_message.message_manager']
+    celsius3_message.recipients_selector_hidden:
+        class: Celsius3\MessageBundle\Form\Type\RecipientsHiddenType
+        tags:
+            - { name: form.type, alias: celsius3_messagebundle_recipients_selector_hidden }
+        arguments: ['@fos_message.recipients_data_transformer']

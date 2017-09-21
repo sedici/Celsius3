@@ -1,13 +1,5 @@
 {% if app.request.get('_locale') == 'es' %}
-    {% javascripts 'bundles/celsius3core/js/jquery.ui.datepicker-es.min.js'
-                   'bundles/celsius3core/js/select2_locale_es.js'
-                   'bundles/celsius3core/components/angular-i18n/angular-locale_es.js' filter='?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('build/locales_es.js') }}"></script>
 {% elseif app.request.get('_locale') == 'pt' %}
-    {% javascripts 'bundles/celsius3core/js/jquery.ui.datepicker-pt.min.js'
-                   'bundles/celsius3core/js/select2_locale_pt-BR.js'
-                   'bundles/celsius3core/components/angular-i18n/angular-locale_pt.js' filter='?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('build/locales_pt.js') }}"></script>
 {% endif %}

@@ -1,4 +1,7 @@
+var $ = require('jquery');
+
 $('#orderuser-accordion').one('show.bs.collapse', function () {
+    'use strict';
     $.ajax({
         type: 'get',
         format: 'json',

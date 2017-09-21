@@ -1,5 +1,9 @@
-<form action="{{ path('admin_catalog') }}" method="get" novalidate="novalidate" {{ form_enctype(filter_form) }} class="form" role="form">
+{{ form_start(filter_form, { 'action': path('admin_catalog'), 'method': 'GET', 'novalidate': 'novalidate','class': 'form', 'role': 'form' }) }}
     {{ form_widget(filter_form) }}
-    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
-    <a href="{{ path('admin_catalog') }}"><span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}</a>
-</form>
+<button type="submit" class="btn btn-primary submit-button">
+    <span class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}
+</button>
+<a href="{{ path('admin_catalog') }}">
+    <span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}
+</a>
+{{ form_end(filter_form) }}

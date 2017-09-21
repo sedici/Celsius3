@@ -25,11 +25,6 @@ monolog:
         console:
             type:  console
 
-assetic:
-    workers:
-        cache_busting:
-            enabled: true
-
 services:
     assetic.worker.cache_busting:
         class: Assetic\Factory\Worker\CacheBustingWorker

@@ -6,7 +6,7 @@
 
 {% block content %}
     {{ parent() }}
-    <div ng-app="administrationApp" ng-controller="AdministrationCtrl">
+    <div ng-app="administrationApp" ng-controller="AdministrationCtrl" ng-strict-di>
         <div ng-view>
 
         </div>
@@ -33,10 +33,10 @@
                 <div class="clearfix row">
                 <ul class="nav nav-pills pull-left" id="pedidos">
                 <li role="presentation" ng-class="isActiveType('all')">
-                <a href="#/all/{{state}}/{{orderType}}">{{'orders'|trans}}</a>
+                <a href="#!/all/{{state}}/{{orderType}}">{{'orders'|trans}}</a>
                 </li>
                 <li role="presentation" ng-class="isActiveType('mine')">
-                <a href="#/mine/{{state}}/{{orderType}}">{{'myOrders'|trans}}</a>
+                <a href="#!/mine/{{state}}/{{orderType}}">{{'myOrders'|trans}}</a>
                 </li>
                 <li>
                 <select ng-options="admin as fullAdminName(admin) for admin in admins track by admin.id" class="form-control operators-select" ng-model="selectedAdmin.selected" ng-change="adminSelectChange(selectedAdmin.selected)"></select>
@@ -44,13 +44,13 @@
                 </ul>
                 <ul class="nav nav-pills pull-right" id="filtrado">
                 <li role="presentation" ng-class="isActiveOrderType('allTypes')">
-                <a href="#/{{type}}/{{state}}/allTypes">{{'allTypes'|trans}}</a>
+                <a href="#!/{{type}}/{{state}}/allTypes">{{'allTypes'|trans}}</a>
                 </li>
                 <li role="presentation" ng-class="isActiveOrderType('provision')">
-                <a href="#/{{type}}/{{state}}/provision">{{'provision'|trans}}</a>
+                <a href="#!/{{type}}/{{state}}/provision">{{'provision'|trans}}</a>
                 </li>
                 <li role="presentation" ng-class="isActiveOrderType('search')">
-                <a href="#/{{type}}/{{state}}/search">{{'search'|trans}}</a>
+                <a href="#!/{{type}}/{{state}}/search">{{'search'|trans}}</a>
                 </li>
                 </ul>
                 </div>
@@ -63,12 +63,12 @@
                 </div>
                 <div class="col-md-11">
                 <div class="btn-group btn-group-justified" role="group">
-                <a id="createdOrdersButton" class="lead btn btn-default" ng-class="isActive('created')" href="#/{{type}}/created/{{orderType}}"><span class="numero">{{orderCount.created}}</span><span class="texto">{{'created'|trans}}</span></a>
-                <a id="searchedOrdersButton" class="lead btn btn-default" ng-class="isActive('searched')" href="#/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched + orderCount.taken}}</span><span class="texto">{{'beingSearched'|trans}}</span></a>
-                <a id="requestedOrdersButton" class="lead btn btn-default" ng-class="isActive('requested')" href="#/{{type}}/requested/{{orderType}}"><span class="numero">{{orderCount.requested}}</span><span class="texto">{{'requested'|trans}}</span></a>
-                <a id="approvalPendingOrdersButton" class="lead btn btn-default" ng-class="isActive('approval_pending')" href="#/{{type}}/approval_pending/{{orderType}}"><span class="numero">{{orderCount.approval_pending}}</span><span class="texto">{{'approvalPending'|trans}}</span></a>
-                <a id="receivedOrdersButton" class="lead btn btn-default" ng-class="isActive('received')" href="#/{{type}}/received/{{orderType}}"><span class="numero">{{orderCount.received}}</span><span class="texto">{{'received'|trans}}</span></a>
-                <a id="finishedOrdersButton" class="lead btn btn-default" ng-class="isActive('finished')" href="#/{{type}}/finished/{{orderType}}"><span class="numero">{{ orderCount.delivered + orderCount.cancelled + orderCount.annulled}}</span><span class="texto">{{'finished'|trans}}</span></a>
+                <a id="createdOrdersButton" class="lead btn btn-default" ng-class="isActive('created')" href="#!/{{type}}/created/{{orderType}}"><span class="numero">{{orderCount.created}}</span><span class="texto">{{'created'|trans}}</span></a>
+                <a id="searchedOrdersButton" class="lead btn btn-default" ng-class="isActive('searched')" href="#!/{{type}}/searched/{{orderType}}"><span class="numero">{{orderCount.searched + orderCount.taken}}</span><span class="texto">{{'beingSearched'|trans}}</span></a>
+                <a id="requestedOrdersButton" class="lead btn btn-default" ng-class="isActive('requested')" href="#!/{{type}}/requested/{{orderType}}"><span class="numero">{{orderCount.requested}}</span><span class="texto">{{'requested'|trans}}</span></a>
+                <a id="approvalPendingOrdersButton" class="lead btn btn-default" ng-class="isActive('approval_pending')" href="#!/{{type}}/approval_pending/{{orderType}}"><span class="numero">{{orderCount.approval_pending}}</span><span class="texto">{{'approvalPending'|trans}}</span></a>
+                <a id="receivedOrdersButton" class="lead btn btn-default" ng-class="isActive('received')" href="#!/{{type}}/received/{{orderType}}"><span class="numero">{{orderCount.received}}</span><span class="texto">{{'received'|trans}}</span></a>
+                <a id="finishedOrdersButton" class="lead btn btn-default" ng-class="isActive('finished')" href="#!/{{type}}/finished/{{orderType}}"><span class="numero">{{ orderCount.delivered + orderCount.cancelled + orderCount.annulled}}</span><span class="texto">{{'finished'|trans}}</span></a>
                 </div>
                 </div>
                 </div>
@@ -308,10 +308,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {% javascripts 'bundles/celsius3core/ng/Administration/app.js'
-    'bundles/celsius3core/ng/Administration/resources.js'
-    'bundles/celsius3core/ng/Administration/controllers.js'
-    'bundles/celsius3core/ng/Administration/filters.js' package="administration" filter='?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/administration.js') }}"></script>
 {% endblock %}

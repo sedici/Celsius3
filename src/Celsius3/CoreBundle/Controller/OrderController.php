@@ -36,7 +36,7 @@ abstract class OrderController extends BaseInstanceDependentController
         if ($form->isValid()) {
             if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
-                        $request->request->get('order[materialData][journal]', null, true)
+                    $request->request->get('order[materialData][journal]', null, true)
                 );
                 if (is_null($journal) || ($journal->getName() !== $request->request->get('order[materialData][journal_autocomplete]', null, true))) {
                     $entity->getMaterialData()->setOther($request->request->get('order[materialData][journal_autocomplete]', null, true));
@@ -46,8 +46,8 @@ abstract class OrderController extends BaseInstanceDependentController
 
             $this->persistEntity($entity);
             $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The '.$name.' was successfully created.');
+                ->getFlashBag()
+                ->add('success', 'The ' . $name . ' was successfully created.');
 
             if ($form->has('save_and_show')) {
                 if ($form->get('save_and_show')->isClicked()) {
@@ -59,8 +59,8 @@ abstract class OrderController extends BaseInstanceDependentController
         }
 
         $this->get('session')
-                ->getFlashBag()
-                ->add('error', 'There were errors creating the '.$name.'.');
+            ->getFlashBag()
+            ->add('error', 'There were errors creating the ' . $name . '.');
 
         return array(
             'entity' => $entity,
@@ -72,7 +72,7 @@ abstract class OrderController extends BaseInstanceDependentController
     {
         $request = $this->get('request_stack')->getCurrentRequest();
 
-        $material = 'Celsius3\\CoreBundle\\Form\\Type\\'.ucfirst($request->get('material')).'TypeType';
+        $material = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->get('material')) . 'TypeType';
 
         if (!class_exists($material)) {
             $this->createNotFoundException('Inexistent Material Type');
@@ -85,8 +85,8 @@ abstract class OrderController extends BaseInstanceDependentController
         ));
 
         return $this->render('Celsius3CoreBundle:Order:_materialData.html.twig', array(
-                    'form' => $form->createView(),
-                    'material' => $request->get('material'), )
+                'form' => $form->createView(),
+                'material' => $request->get('material'),)
         );
     }
 
@@ -95,10 +95,10 @@ abstract class OrderController extends BaseInstanceDependentController
         $request = $this->get('request_stack')->getCurrentRequest();
 
         if (is_null($materialData)) {
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'.ucfirst($request->request->get('order[materialDataType]', null, true)).'TypeType';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . ucfirst($request->request->get('order', null, true)['materialDataType']) . 'TypeType';
         } else {
             $class = explode('\\', $materialData);
-            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\'.end($class).'Type';
+            $materialTypeName = 'Celsius3\\CoreBundle\\Form\\Type\\' . end($class) . 'Type';
         }
 
         return $materialTypeName;

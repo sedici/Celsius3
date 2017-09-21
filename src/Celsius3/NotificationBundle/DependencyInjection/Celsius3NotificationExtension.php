@@ -50,14 +50,14 @@ class Celsius3NotificationExtension extends Extension
             $this->setupWebSocketServer($config['web_socket_server']);
         }
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
     }
 
     private function setupWebSocketServer($config)
     {
         if (isset($config['port']) && $config['port']) {
-            $port = (int) $config['port'];
+            $port = (int)$config['port'];
         }
 
         $this->container->setParameter('celsius3_notification.web_socket_server.port', $port);
@@ -67,7 +67,7 @@ class Celsius3NotificationExtension extends Extension
         }
 
         if (isset($config['zmq_port']) && $config['zmq_port']) {
-            $zmq_port = (int) $config['zmq_port'];
+            $zmq_port = (int)$config['zmq_port'];
         }
 
         $this->container->setParameter('celsius3_notification.web_socket_server.zmq_port', $zmq_port);

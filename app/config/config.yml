@@ -18,7 +18,7 @@ framework:
     session:
         handler_id:  snc_redis.session.handler
     assets:
-        version: %assets_version%
+        json_manifest_path: '%kernel.project_dir%/web/build/manifest.json'
         packages:
             administration:
                 version: %assets_version_administration%
@@ -41,34 +41,8 @@ twig:
         notification_public_url: %notification_public_url%
         notification_port: %notification_port%
         notification_limit: %notification_limit%
-    form:
-        resources:
-            - 'Celsius3CoreBundle:Form:fields.html.twig'
-
-# Assetic Configuration
-assetic:
-    bundles:        [Celsius3CoreBundle,TwigBundle, FOSUserBundle]
-    debug:          %kernel.debug%
-    use_controller: false
-    # java: /usr/bin/java
-    filters:
-        cssrewrite: ~
-        yui_css:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
-        yui_js:
-            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
-        less:
-            node: %node_path%
-            node_paths: [%node_modules%]
-            apply_to:   "\.less$"
-        uglifyjs2:
-            bin: /usr/bin/uglifyjs
-        uglifycss:
-            bin: /usr/bin/uglifycss
-        # closure:
-        #     jar: %kernel.root_dir%/java/compiler.jar
-        # yui_css:
-        #     jar: %kernel.root_dir%/java/yuicompressor-2.4.2.jar
+    form_themes:
+        - 'Celsius3CoreBundle:Form:fields.html.twig'
 
 doctrine:
     dbal:
@@ -167,6 +141,9 @@ fos_user:
     service:
         mailer: celsius3_core.fos_mailer.custom
         user_manager: celsius3_core.fos_user_manager
+    from_email:
+            address: "%mailer_user%"
+            sender_name: "%mailer_user%"
 
 services:
     monolog_processor:
@@ -207,12 +184,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
-            - [ setAnnotationReader, [ @annotation_reader ] ]
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
 
     kernel.listener.command_dispatch:
         class: Celsius3\CoreBundle\EventListener\ConsoleLoggingListener
         arguments:
-            logger: "@logger"
+            $logger: "@logger"
         tags:
             - { name: kernel.event_listener, event: console.exception }
             - { name: kernel.event_listener, event: console.terminate }
@@ -220,7 +197,7 @@ services:
     oauth_event_listener:
         class:  Celsius3\ApiBundle\EventListener\OAuthEventListener
         arguments:
-            entityManager: "@doctrine.orm.entity_manager"
+            $em: "@doctrine.orm.entity_manager"
         tags:
             - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
             - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
@@ -229,11 +206,11 @@ services:
         class:     Symfony\Bridge\Monolog\Logger
         arguments: [app]
         calls:
-            - [pushHandler, [@celsius3_core.mailer.logger_handler]]
+            - [ pushHandler, [ "@celsius3_core.mailer.logger_handler" ] ]
 
     celsius3_core.mailer.logger_handler:
         class:     Monolog\Handler\StreamHandler
-        arguments: [%kernel.logs_dir%/%kernel.environment%.mailer.log, 200]
+        arguments: [ %kernel.logs_dir%/%kernel.environment%.mailer.log, 200 ]
 
     # Usado temporalmente para corregir error de migración a Symfony3
     fos_user.doctrine_registry:
@@ -342,13 +319,6 @@ jms_serializer:
                 namespace_prefix: Celsius3\MessageBundle
                 path: "@Celsius3ApiBundle/Resources/config/serializer/message"
 
-sp_bower:
-    install_on_warmup: true
-    assetic:
-        nest_dependencies: false
-    bundles:
-        Celsius3CoreBundle: ~
-
 snc_redis:
     clients:
         default:
@@ -383,7 +353,7 @@ fos_oauth_server:
     refresh_token_class: Celsius3\ApiBundle\Entity\RefreshToken
     auth_code_class: Celsius3\ApiBundle\Entity\AuthCode
     service:
-        user_provider: fos_user.user_manager
+        user_provider: fos_userbundle
         options:
             supported_scopes: admin superadmin
             access_token_lifetime: 3600 # Una hora
@@ -470,10 +440,18 @@ monolog:
             channels: [celsius_rest_exception]
             max_files: 5
 
+httplug:
+    classes:
+        client: Http\Adapter\Guzzle6\Client
+        message_factory: Http\Message\MessageFactory\GuzzleMessageFactory
+    clients:
+        acme:
+            factory: httplug.factory.guzzle6
+
 ivory_google_map:
     geocoder:
-        # Enable the service
-        enabled: true
+        client: httplug.client.default
+        message_factory: httplug.message_factory.default
 
 ewz_recaptcha:
     public_key:  %recaptcha_public_key%
@@ -482,3 +460,8 @@ ewz_recaptcha:
   #  ajax: true
     # Not needed as "%kernel.default_locale%" is the default value for the locale key
     #locale_key:  %kernel.default_locale%
+ivory_serializer:
+    mapping:
+        auto:
+            enabled: false
+        reflection: false

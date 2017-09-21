@@ -15,15 +15,9 @@
 /bin/
 /vendor/
 
-# Bower
-/src/Celsius3/CoreBundle/Resources/public/components/*
-!src/Celsius3/CoreBundle/Resources/public/components/cache/.gitkeep
-
-# Assetic, Assets and user uploads
-/web/assetic/
+# Assets and user uploads
 /web/bundles/
-/web/css/
-/web/js/
+/web/build/
 /web/uploads/
 /web/uploads/temp/*
 !web/uploads/temp/.gitkeep
@@ -32,9 +26,11 @@
 /app/phpunit.xml
 .rules
 
-/composer.lock
 *~
 
 # Maintenance Mode
 /app/mode/*
 !/app/mode/.gitkeep
+
+# Node modules
+/node_modules/

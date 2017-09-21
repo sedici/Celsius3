@@ -22,13 +22,13 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
-use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use FOS\UserBundle\Util\CanonicalizerInterface;
 use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
+use FOS\UserBundle\Util\CanonicalFieldsUpdater;
+use FOS\UserBundle\Util\PasswordUpdaterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Celsius3\CoreBundle\Manager\UserManager;
+
 
 class FosUserManager extends DoctrineUserManager
 {
@@ -36,9 +36,9 @@ class FosUserManager extends DoctrineUserManager
     private $entityManager;
     private $class;
 
-    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer, InstanceHelper $instanceHelper, EntityManager $entityManager, TokenStorage $tokenStorage, $class)
+    public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater, InstanceHelper $instanceHelper, EntityManager $entityManager, TokenStorage $tokenStorage, $class)
     {
-        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer);
+        parent::__construct($passwordUpdater, $canonicalFieldsUpdater);
         $this->instanceHelper = $instanceHelper;
         $this->entityManager = $entityManager;
         $this->tokenStorage = $tokenStorage;

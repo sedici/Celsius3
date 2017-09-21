@@ -7,14 +7,10 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        var element_id
-        = {{ (element is defined and element) ? element.id : '' }};
+        var element_id = {{ (element is defined and element) ? element.id : '' }};
     </script>
-    {% javascripts 'bundles/celsius3core/ng/AdminBaseUser/app.js'
-                           'bundles/celsius3core/ng/AdminBaseUser/controllers.js'
-                           'bundles/celsius3core/ng/AdminBaseUser/filters.js' package="admin_base_user" filter='?uglifyjs2'  %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/admin_base_user.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -235,7 +231,7 @@
                         <div class="message-heading {{ fos_message_is_read(thread)?'message-read':'' }}">
                             <a href="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}">
                                 <span class="label label-default message-creator col-md-4">
-                                    {{  thread.lastMessage.sender.fullName }}
+                                    {{ thread.lastMessage.sender.fullName }}
                                 </span>
                                 <span class="message-subject col-md-7 autoellipsis">
                                     ({{ get_unread_messages(thread) }}) {{ thread.subject }}
@@ -255,7 +251,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
                                 <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
                             </a>
                         </h4>

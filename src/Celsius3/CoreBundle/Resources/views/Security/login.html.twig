@@ -6,8 +6,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <!-- iCheck -->
-    <link rel="stylesheet" type="text/css" href="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/iCheck/square/blue.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'build/login.css') }}"/>
 {% endblock %}
 
 {% block content %}
@@ -24,11 +23,14 @@
                     {% endif %}
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
                     <div class="form-group has-feedback">
-                        <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" placeholder="{{ 'label.username' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}"/>
+                        <input type="text" id="username" class="form-control" name="_username"
+                               value="{{ last_username }}"
+                               placeholder="{{ 'label.username' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}"/>
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" id="password" class="form-control" name="_password" placeholder="{{ 'label.password' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}"/>
+                        <input type="password" id="password" class="form-control" name="_password"
+                               placeholder="{{ 'label.password' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}"/>
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
 
@@ -45,7 +47,8 @@
                                 <span class="glyphicon glyphicon-ok"></span>
                                 {{ 'label.login' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}
                             </button>
-                            <a href="{{ path('fos_user_resetting_request') }}" class="">{{ 'link.resseting_question' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}</a>
+                            <a href="{{ path('fos_user_resetting_request') }}"
+                               class="">{{ 'link.resseting_question' | trans({}, 'Celsius3CoreBundle_Form') | first_upper }}</a>
                         </div>
                     </div>
                 </form>
@@ -57,15 +60,7 @@
     </div>
     {% block javascripts %}
         {{ parent() }}
-        <!-- iCheck -->
-        <script src="{{ asset( 'bundles/celsius3core/components/adminlte/plugins/iCheck/icheck.min.js') }}"></script>
-        <script>
-            $(function() {
-                $('input').iCheck({
-                    checkboxClass: 'icheckbox_square-blue', radioClass: 'iradio_square-blue', increaseArea: '20%' // optional
-                });
-            });
-        </script>
+        <script src="{{ asset( 'build/login.js') }}"></script>
     {% endblock %}
 
 {% endblock content %}

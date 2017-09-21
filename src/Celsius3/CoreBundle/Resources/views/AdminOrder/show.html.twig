@@ -1431,19 +1431,10 @@
     <script type="text/javascript">
         var request_id = {{ entity.code }};
     </script>
-    {% javascripts 'bundles/celsius3core/ng/CCI/app.js'
-    'bundles/celsius3core/ng/CCI/directives.js'
-    'bundles/celsius3core/ng/CCI/resources.js' package = "admin_order" filter = '?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    {% javascripts 'bundles/celsius3core/ng/StateBar/app.js'
-    'bundles/celsius3core/ng/StateBar/directives.js' package = "admin_order" filter = '?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    {% javascripts 'bundles/celsius3core/ng/AdminOrder/app.js' 'bundles/celsius3core/ng/AdminOrder/resources.js' 'bundles/celsius3core/ng/AdminOrder/controllers.js' 'bundles/celsius3core/ng/AdminOrder/filters.js' package = "admin_order" filter =
-    '?uglifyjs2' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    <script type="text/javascript" src="{{ asset('build/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/cci.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/state_bar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('build/admin_order.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}

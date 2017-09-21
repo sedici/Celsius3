@@ -1,4 +1,6 @@
-<form action="{{ path('fos_user_resetting_reset', { 'token': token }) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset form">
-    {{ form_widget(form) }}
-    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}</button>
-</form>
+{{ form_start(form, { 'action': path('fos_user_resetting_reset', { 'token': token }), 'method': 'POST', 'class': 'form', 'role': 'form' }) }}
+{{ form_widget(form) }}
+<button type="submit" class="btn btn-primary submit-button">
+    <span class="glyphicon glyphicon-ok"></span> {{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}
+</button>
+{{ form_end(form) }}
