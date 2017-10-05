@@ -77,8 +77,6 @@ class FileManager
 
     public function uploadFiles(Request $request, Event $event, array $files = array())
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
-
         foreach ($files as $uploadedFile) {
             $file = new File();
             $file->setName($uploadedFile->getClientOriginalName());

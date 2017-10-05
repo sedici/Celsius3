@@ -22,13 +22,10 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
-use FOS\RestBundle\Controller\Annotations\Route;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use JMS\Serializer\SerializationContext;
-use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Exception\Exception;
+use Doctrine\ORM\EntityManager;
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -55,7 +52,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
             return $item->getId();
         }, $requests);
         $remoteEvents = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
-                            ->getRemoteEvents($requestsIds);
+            ->getRemoteEvents($requestsIds);
 
         $all = array_merge($events, $remoteEvents);
         $keys = array_map(function (Event $e) {
@@ -63,7 +60,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         }, $all);
 
         $reclaimEvents = $em->getRepository('Celsius3CoreBundle:Event\\ReclaimEvent')
-                            ->getReclaimEventsFor($keys);
+            ->getReclaimEventsFor($keys);
 
         foreach ($reclaimEvents as $e) {
             if (!in_array($e->getId(), $keys)) {
@@ -101,7 +98,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $event = $em->getRepository('Celsius3CoreBundle:Event')
-                ->find($id);
+            ->find($id);
 
         if (!$event) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.event');
@@ -117,11 +114,10 @@ class AdminEventRestController extends BaseInstanceDependentRestController
      *
      * @param $id
      */
-    public function updateObservations(Request $request, $id)
+    public function updateObservationsAction(Request $request, $id)
     {
         /** @var EntityManager */
         $em = $this->get('doctrine.orm.entity_manager');
-        $result['updated'] = true;
 
         /** @var Event */
         $event = $em->getRepository('Celsius3CoreBundle:Event\Event')->find($id);
