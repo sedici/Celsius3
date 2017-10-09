@@ -25,6 +25,9 @@ namespace Celsius3\CoreBundle\Controller;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManager;
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\Route;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 
