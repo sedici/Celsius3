@@ -22,15 +22,15 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Form\Type\BaseUserType;
+use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
+use Celsius3\CoreBundle\Form\Type\UserTransformType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Form\Type\BaseUserType;
-use Celsius3\CoreBundle\Form\Type\UserTransformType;
-use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
-use Celsius3\CoreBundle\Exception\Exception;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
@@ -100,35 +100,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function createAction(Request $request)
     {
-        $entity = new BaseUser();
-
-        $form = $this->createForm(BaseUserType::class, $entity);
-
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $entity);
-
-            $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The BaseUser was successfully created.');
-
-            return $this->redirect($this->generateUrl('admin_user'));
-        }
-
-        $this->get('session')
-                ->getFlashBag()
-                ->add('error', 'There were errors creating the BaseUser.');
-
-        $parameters = array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        );
-
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:new.html.twig', $parameters);
+        return $this->baseCreateAction($request, 'Celsius3CoreBundle:AdminBaseUser:new.html.twig');
     }
 
     /**

@@ -22,8 +22,6 @@
 
 namespace Celsius3\NotificationBundle\Server;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 class PusherType
 {
     private $loop;
@@ -32,11 +30,11 @@ class PusherType
     private $port;
     private $zmq_host;
     private $zmq_port;
-    private $container;
+    private $pusher;
 
-    public function __construct(ContainerInterface $container, $host, $port, $zmq_host, $zmq_port)
+    public function __construct(Pusher $pusher, $host, $port, $zmq_host, $zmq_port)
     {
-        $this->container = $container;
+        $this->pusher = $pusher;
         $this->host = $host;
         $this->port = $port;
         $this->zmq_host = $zmq_host;
@@ -64,7 +62,7 @@ class PusherType
         $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
         $pull->bind('tcp://'.$this->zmq_host.':'.$this->zmq_port); // Binding to 127.0.0.1 means the only client that can connect is itself
         $pull->on('message', array(
-            $this->container->get('celsius3_notification.wamp_server'),
+            $this->pusher,
             'onEntry',
         ));
 
@@ -77,7 +75,7 @@ class PusherType
                     new \Ratchet\Http\HttpServer(
                         new \Ratchet\WebSocket\WsServer(
                             new \Ratchet\Wamp\WampServer(
-                                $this->container->get('celsius3_notification.wamp_server')
+                                $this->pusher
                             )
                         )
                     ), $this->socket);

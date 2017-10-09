@@ -2,27 +2,23 @@
 
 namespace Celsius3\TicketBundle\Manager;
 
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManager;
 
 class TicketManager
 {
+    private $entityManager;
 
-    private $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->container = $container;
+        $this->entityManager = $entityManager;
     }
 
-
-    public function findAll(){
-
-        $em = $this->container->get('doctrine.orm.entity_manager');
+    public function findAll()
+    {
+        $em = $this->entityManager;
         $tickets = $em->getRepository('Celsius3TicketBundle:Ticket')
             ->findAll();
+
         return $tickets;
     }
-
-
 }

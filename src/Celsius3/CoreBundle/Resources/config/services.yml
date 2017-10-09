@@ -16,7 +16,7 @@ services:
         class: Celsius3\CoreBundle\Twig\AdministrationExtension
         tags:
             - { name: twig.extension }
-        arguments: ['@service_container']
+        arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.user_manager']
     celsius3_core.twig.extension.institution:
         class: Celsius3\CoreBundle\Twig\InstitutionExtension
         tags:
@@ -50,7 +50,7 @@ services:
         arguments: ['%assets_version_administration%', '%assets_version_admin_order%', '%assets_version_admin_base_user%', '%assets_version_admin_institution%', '%assets_version_user%', '%assets_version_celsius3%']
     celsius3_core.mailer:
         class: Celsius3\CoreBundle\Mailer\Mailer
-        arguments: ['@service_container', '@celsius3_core.mailer_helper']
+        arguments: ['@doctrine.orm.entity_manager', '@security.token_storage', '@validator', '@celsius3_core.mailer_helper']
     celsius3_core.counter_listener:
         class: Celsius3\CoreBundle\Listener\CounterListener
         tags:
@@ -163,6 +163,11 @@ services:
         tags:
             - { name: form.type }
         arguments: ['@celsius3_core.file_manager']
+    celsius3_core.form.type.filter.institution:
+        class: Celsius3\CoreBundle\Form\Type\Filter\InstitutionFilterType
+        tags:
+            - { name: form.type }
+        arguments: ['@doctrine.orm.entity_manager']
     celsius3_core.form.type.language:
         class: Celsius3\CoreBundle\Form\Type\LanguageType
         tags:
@@ -193,7 +198,7 @@ services:
         class: Celsius3\CoreBundle\Aop\LoginLoggingAspect
         tags:
             - { name: jms_aop.pointcut, interceptor: celsius3_core.login_logging_aspect }
-        arguments: ['@service_container']
+        arguments: ['@request_stack', '@doctrine.orm.entity_manager']
     celsius3_core.instance_injection_aspect:
         class: Celsius3\CoreBundle\Aop\InstanceInjectionAspect
         tags:
@@ -218,7 +223,7 @@ services:
         arguments: ['@request_stack', '@doctrine.orm.entity_manager']
     celsius3_core.instance_helper:
         class: Celsius3\CoreBundle\Helper\InstanceHelper
-        arguments: ['@service_container']
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack', '@session']
     celsius3_core.database_helper:
         class: Celsius3\CoreBundle\Helper\DatabaseHelper
         arguments: ['@doctrine.orm.entity_manager']
@@ -236,7 +241,6 @@ services:
         arguments: { $uploadRootDir: '%upload_root_dir%', $logosUploadDir: '%logos_upload_dir%' }
         calls:
             - [setContainer, ['@service_container']]
-
     celsius3_core.filter_manager:
         class: Celsius3\CoreBundle\Manager\FilterManager
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.field.guesser']

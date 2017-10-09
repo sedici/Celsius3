@@ -1,41 +1,36 @@
 <?php
 
-
 namespace Celsius3\TicketBundle\Helper;
 
 use Celsius3\TicketBundle\Entity\Ticket;
 use Celsius3\TicketBundle\Entity\TicketState;
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\ORM\EntityManager;
 
 class TicketHelper
 {
-    private $container;
+    private $entityManager;
     private $parametros;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->container = $container;
-
-
+        $this->entityManager = $entityManager;
     }
 
-
-    public function setParametros($parametros){
-        $this->parametros=$parametros;
+    public function setParametros($parametros)
+    {
+        $this->parametros = $parametros;
     }
 
-    public function getParametros(){
+    public function getParametros()
+    {
         return $this->parametros;
     }
 
-
-
     public function createTicket()
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->entityManager;
 
-        $param=$this->getParametros();
+        $param = $this->getParametros();
 
         $ticket = new Ticket();
         $ticket->setSubject($param['subject']);
@@ -61,17 +56,11 @@ class TicketHelper
         $ticketState->setTickets($ticket);
         $em->persist($ticketState);
 
-
         $ticket->setStatusCurrent($ticketState);
 
         $em->flush($ticket);
         $em->flush($ticketState);
 
-
-
         $em->flush();
     }
-
-
-
 }

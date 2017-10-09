@@ -2,21 +2,21 @@
 
 namespace Celsius3\TicketBundle\Twig;
 
-use Symfony\Component\DependencyInjection\Container;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Routing\Router;
 
 class AppExtension extends \Twig_Extension
 {
     protected $_em;
     protected $router;
     protected $kernel;
-    protected $container;
 
-    public function __construct(Container $container)
+    public function __construct(EntityManager $entityManager, Router $router, Kernel $kernel)
     {
-        $this->_em = $container->get('doctrine.orm.default_entity_manager');
-        $this->router = $container->get('router');
-        $this->kernel = $container->get('kernel');
-        $this->container = $container;
+        $this->_em = $entityManager;
+        $this->router = $router;
+        $this->kernel = $kernel;
     }
 
     public function getFunctions()
@@ -33,7 +33,7 @@ class AppExtension extends \Twig_Extension
                 $name = 'label-danger';
                 break;
 
-            case "2":
+            case '2':
                 $name = 'label-info';
                 break;
 
@@ -41,7 +41,7 @@ class AppExtension extends \Twig_Extension
                 $name = 'label-success';
                 break;
 
-            case "4":
+            case '4':
                 $name = 'label-warning';
                 break;
 

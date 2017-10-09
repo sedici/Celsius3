@@ -13,7 +13,7 @@ services:
         arguments: ['@celsius3_notification.notification_manager', '@doctrine.orm.entity_manager']
     celsius3_notification.web_socket_server:
         class: Celsius3\NotificationBundle\Server\PusherType
-        arguments: ['@service_container', '%celsius3_notification.web_socket_server.host%', '%celsius3_notification.web_socket_server.port%', '%celsius3_notification.web_socket_server.zmq_host%', '%celsius3_notification.web_socket_server.zmq_port%']
+        arguments: ['@celsius3_notification.wamp_server', '%celsius3_notification.web_socket_server.host%', '%celsius3_notification.web_socket_server.port%', '%celsius3_notification.web_socket_server.zmq_host%', '%celsius3_notification.web_socket_server.zmq_port%']
     celsius3_notification.entry_point:
         class: Celsius3\NotificationBundle\Server\EntryPoint
         arguments: ['@celsius3_notification.web_socket_server']

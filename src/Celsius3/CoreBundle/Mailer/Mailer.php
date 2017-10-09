@@ -26,32 +26,38 @@ use Celsius3\CoreBundle\Entity\Email;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Helper\MailerHelper;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Mailer
 {
-    private $container;
+    private $em;
+    private $tokenStorage;
+    private $validator;
     private $mailerHelper;
 
-    public function __construct(ContainerInterface $container, MailerHelper $mailerHelper)
+    public function __construct(EntityManager $em, TokenStorage $tokenStorage, ValidatorInterface $validator, MailerHelper $mailerHelper)
     {
-        $this->container = $container;
+        $this->em = $em;
+        $this->tokenStorage = $tokenStorage;
+        $this->validator = $validator;
         $this->mailerHelper = $mailerHelper;
     }
 
     public function saveEmail($address, $subject, $text, Instance $instance)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->em;
 
         $email = new Email();
         $email->setAddress($address);
         $email->setSubject($subject);
         $email->setText($text);
-        $email->setSender($this->container->get('security.token_storage')->getToken()->getUser());
+        $email->setSender($this->tokenStorage->getToken()->getUser());
         $email->setInstance($instance);
         $email->setSent(false);
 
@@ -61,13 +67,13 @@ class Mailer
 
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
-        $errors = $this->container->get('validator')->validateValue($address, [new EmailConstraint(), new NotBlank()]);
+        $errors = $this->validator->validateValue($address, [new EmailConstraint(), new NotBlank()]);
 
         if (count($errors) > 0) {
             return false;
         }
 
-        if (!is_null($this->container->get('security.token_storage')->getToken()) && $this->container->get('security.token_storage')->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
+        if (!is_null($this->tokenStorage->getToken()) && $this->tokenStorage->getToken()->getUser() instanceof \Celsius3\CoreBundle\Entity\BaseUser) {
             $this->saveEmail($address, $subject, $text, $instance);
 
             return true;
@@ -87,7 +93,7 @@ class Mailer
             return;
         }
 
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->em;
 
         $emails = $em->getRepository('Celsius3CoreBundle:Email')
                 ->findNotSentEmailsWithLimit($instance, $limit);

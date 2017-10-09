@@ -22,24 +22,29 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Celsius3\CoreBundle\Exception\Exception;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class InstanceHelper
 {
-    private $container;
+    private $em;
+    private $requestStack;
+    private $session;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManager $em, RequestStack $requestStack, Session $session)
     {
-        $this->container = $container;
+        $this->em = $em;
+        $this->requestStack = $requestStack;
+        $this->session = $session;
     }
 
     public function getSessionInstance()
     {
-        $instance = $this->container
-                ->get('doctrine.orm.entity_manager')
+        $instance = $this->em
                 ->getRepository('Celsius3CoreBundle:Instance')
-                ->find($this->container->get('session')->get('instance_id'));
+                ->find($this->session->get('instance_id'));
 
         if (!$instance) {
             throw Exception::create(Exception::INSTANCE_NOT_FOUND);
@@ -50,9 +55,8 @@ class InstanceHelper
 
     public function getUrlInstance()
     {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
-        $instance = $this->container
-                ->get('doctrine.orm.entity_manager')
+        $request = $this->requestStack->getCurrentRequest();
+        $instance = $this->em
                 ->getRepository('Celsius3CoreBundle:Instance')
                 ->findOneBy(array(
             'host' => $request->getHost(),
@@ -67,15 +71,14 @@ class InstanceHelper
 
     public function getSessionOrUrlInstance()
     {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
-        if ($this->container->get('session')->has('instance_url')) {
-            $instance = $this->container->get('doctrine.orm.entity_manager')
+        if ($this->session->has('instance_url')) {
+            $instance = $this->em
                     ->getRepository('Celsius3CoreBundle:Instance')
-                    ->findOneBy(array('url' => $this->container->get('session')->get('instance_url')));
+                    ->findOneBy(array('url' => $this->session->get('instance_url')));
         } else {
-            $instance = $this->container
-                    ->get('doctrine.orm.entity_manager')
+            $instance = $this->em
                     ->getRepository('Celsius3CoreBundle:Instance')
                     ->findOneBy(array(
                 'host' => (!is_null($request)) ? $request->getHost() : '',

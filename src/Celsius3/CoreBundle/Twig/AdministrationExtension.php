@@ -22,19 +22,20 @@
 
 namespace Celsius3\CoreBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Doctrine\ORM\EntityManager;
 
 class AdministrationExtension extends \Twig_Extension
 {
+    private $entityManager;
+    private $userManager;
 
-    private $container;
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(EntityManager $entityManager, UserManager $userManager)
     {
-        $this->container = $container;
+        $this->entityManager = $entityManager;
+        $this->userManager = $userManager;
     }
 
     public function getFunctions()
@@ -57,16 +58,15 @@ class AdministrationExtension extends \Twig_Extension
 
     public function countUsers(Instance $instance)
     {
-        return $this->container
-                        ->get('doctrine.orm.entity_manager')
-                        ->getRepository('Celsius3CoreBundle:BaseUser')
-                        ->countUsers($instance);
+        return $this->entityManager
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->countUsers($instance);
     }
 
     public function hasHigherRoles(BaseUser $user1, BaseUser $user2)
     {
-        return $this->container->get('celsius3_core.user_manager')
-                        ->hasHigherRoles($user1, $user2);
+        return $this->userManager
+            ->hasHigherRoles($user1, $user2);
     }
 
     public function roleName($role)
@@ -80,11 +80,11 @@ class AdministrationExtension extends \Twig_Extension
             return $text;
         }
 
-        $arr = explode(" ", $text);
+        $arr = explode(' ', $text);
 
         $t = '';
         foreach ($arr as $a) {
-            $t .= ucfirst(strtolower($a)) . ' ';
+            $t .= ucfirst(strtolower($a)).' ';
         }
 
         return $t;
@@ -110,5 +110,4 @@ class AdministrationExtension extends \Twig_Extension
             return [];
         }
     }
-
 }

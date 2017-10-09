@@ -22,20 +22,23 @@
 
 namespace Celsius3\CoreBundle\Aop;
 
+use Doctrine\ORM\EntityManager;
 use JMS\AopBundle\Aop\PointcutInterface;
 use CG\Proxy\MethodInterceptorInterface;
 use CG\Proxy\MethodInvocation;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Celsius3\CoreBundle\Entity\Login;
 
 class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterface
 {
-    private $container;
+    private $requestStack;
+    private $em;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(RequestStack $requestStack, EntityManager $em)
     {
-        $this->container = $container;
+        $this->requestStack = $requestStack;
+        $this->em = $em;
     }
 
     public function matchesClass(\ReflectionClass $class)
@@ -50,14 +53,14 @@ class LoginLoggingAspect implements MethodInterceptorInterface, PointcutInterfac
 
     public function intercept(MethodInvocation $invocation)
     {
-        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $request = $this->requestStack->getCurrentRequest();
         $ip = $request->getClientIp();
 
         $log = new Login();
         $log->setCategory('login');
         $log->setDate(new \DateTime());
 
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        $em = $this->em;
 
         try {
             $token = $invocation->proceed();

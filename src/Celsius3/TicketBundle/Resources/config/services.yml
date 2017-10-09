@@ -2,16 +2,18 @@ services:
     celsius3_ticket.ticket_manager:
         class: Celsius3\TicketBundle\Manager\TicketManager
         arguments:
-           - "@service_container"
+           - "@doctrine.orm.entity_manager"
     celsius3_ticket.ticket_helper:
             class: Celsius3\TicketBundle\Helper\TicketHelper
             arguments:
-               - "@service_container"
+               - "@doctrine.orm.entity_manager"
 
     app.twig.extension:
              class: Celsius3\TicketBundle\Twig\AppExtension
              public: false
              arguments:
-                - "@service_container"
+                - "@doctrine.orm.entity_manager"
+                - "@router"
+                - "@kernel"
              tags:
                  - { name: twig.extension }

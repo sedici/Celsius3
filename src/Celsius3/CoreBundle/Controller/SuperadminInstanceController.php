@@ -107,7 +107,7 @@ class SuperadminInstanceController extends InstanceController
                 if (is_null($institution)) {
                     throw Exception::create(Exception::ENTITY_NOT_FOUND, 'Not found institution');
                 }
-                $em->transactional(function ($em) use ($instance, $institution) {
+                $em->transactional(function (EntityManager $em) use ($instance, $institution) {
                     $em->persist($instance);
                     $em->flush($instance);
 
