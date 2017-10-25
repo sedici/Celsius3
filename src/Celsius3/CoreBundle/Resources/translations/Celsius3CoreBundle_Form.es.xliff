@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2016-10-25T17:10:48Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2017-10-25T09:06:29Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -9,83 +9,84 @@
       <trans-unit id="bcacf3ff629696d01ce7995c30368eed5c5ad163" resname="form.submit">
         <source>form.submit</source>
         <target>enviar</target>
-        <jms:reference-file line="127">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="146">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="121a0ecca57d926aa3ef9803cfb3d72d5073a6c9" resname="form.warning.required_fields">
+        <source>form.warning.required_fields</source>
+        <target>Los campos marcados con un * son obligatorios</target>
+        <jms:reference-file line="135">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c5c0e827d9a57c3e52118c740c43661c8c954acc" resname="label.address">
         <source>label.address</source>
         <target>dirección</target>
-        <jms:reference-file line="91">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="108">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="effc10a1129bd6c61428ed5588e3240f08c270e2" resname="label.birthdate">
         <source>label.birthdate</source>
         <target>fecha de nacimiento</target>
-        <jms:reference-file line="85">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="101">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="27849b72fd3cdce303918d5504d7c08168eafd8e" resname="label.city">
         <source>label.city</source>
         <target>ciudad</target>
-        <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="83">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e190847dfb0225b0a5fe943ddb0ebd55667a574c" resname="label.country">
         <source>label.country</source>
         <target>país</target>
-        <jms:reference-file line="60">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fc8413fdfd53e23e0f6ad278406aa827b4548642" resname="label.email">
         <source>label.email</source>
         <target>correo electrónico</target>
-        <jms:reference-file line="27">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c5eb74dfde485e7e27a0874038106733a20c6874" resname="label.institution">
         <source>label.institution</source>
         <target>institución</target>
-        <jms:reference-file line="77">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="92">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8dfe7aaa1b9672b3c6257667adfb852daecbbf5a" resname="label.login">
         <source>label.login</source>
         <target>ingreso</target>
-        <jms:reference-file line="47">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
+        <jms:reference-file line="48">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f34120955ae39f4fb49e72f45f3ce583a085075d" resname="label.name">
         <source>label.name</source>
         <target>nombre</target>
-        <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="19">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cfa8968dae7b2e10025cf371de43768dea0fa1ef" resname="label.password">
         <source>label.password</source>
         <target>contraseña</target>
-        <jms:reference-file line="45">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
-        <jms:reference-file line="32">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
+        <jms:reference-file line="56">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="33">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e5f71241c48baf6451389449c69fccc5221da0f0" resname="label.password.confirm">
         <source>label.password.confirm</source>
         <target>confirmación</target>
-        <jms:reference-file line="51">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="63">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="04c693258539ab5be318d63daa804edb3728252d" resname="label.remember_me">
         <source>label.remember_me</source>
         <target>recordarme</target>
-        <jms:reference-file line="39">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
+        <jms:reference-file line="40">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="efccaef97431df3d3fd3e1975cf9e3a7127bdecf" resname="label.surname">
         <source>label.surname</source>
         <target>apellido</target>
-        <jms:reference-file line="18">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="05353914133c4c4be543a454c6da7e36249a974a" resname="label.username">
         <source>label.username</source>
         <target>nombre de usuario</target>
-        <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
+        <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Resources/views/Registration/register_content.html.twig</jms:reference-file>
         <jms:reference-file line="28">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="432256e717824ac59bb93914fdf470b59b8af85e" resname="link.resseting_question">
         <source>link.resseting_question</source>
         <target>olvidó su contraseña?</target>
-        <jms:reference-file line="50">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="" resname="form.warning.required_fields">
-        <source>form.warning.required_fields</source>
-        <target>Los campos marcados con un * son obligatorios</target>
+        <jms:reference-file line="51">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
     </body>
   </file>
