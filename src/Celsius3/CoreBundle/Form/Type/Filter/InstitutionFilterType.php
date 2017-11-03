@@ -25,6 +25,8 @@ namespace Celsius3\CoreBundle\Form\Type\Filter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InstitutionFilterType extends AbstractType
@@ -53,6 +55,7 @@ class InstitutionFilterType extends AbstractType
 
         $builder->add('city', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:City',
+                'choices' => [],
                 'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
@@ -64,8 +67,9 @@ class InstitutionFilterType extends AbstractType
 
         $builder->add('parent', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:Institution',
+                'choices' => [],
                 'mapped' => true,
-                'label' => ucfirst('institution padre'),
+                'label' => ucfirst('parent institution'),
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -73,6 +77,60 @@ class InstitutionFilterType extends AbstractType
                 ),
                 'auto_initialize' => false,
             ));
+
+
+        $builder->get('country')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $country = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
+
+                $cities = null === $country ? array() : $country->getCities();
+                $form->add('city', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:City',
+                    'choices' => $cities,
+                    'mapped' => true,
+                    'placeholder' => '',
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'institution-select',
+                    ),
+                    'auto_initialize' => false,
+
+                ));
+
+                $institutions = null === $country ? array() : $country->getInstitutions();
+                $form->add('parent', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:Institution',
+                    'choices' => $institutions,
+                    'mapped' => true,
+                    'label' => ucfirst('parent institution'),
+                    'placeholder' => '',
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'institution-select',
+                    ),
+                    'auto_initialize' => false,
+                ));
+            }
+        );
+
+        $builder->get('city')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $city = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
+                $form->remove('parent');
+
+                $institutions = null === $city ? array() : $city->getInstitutions();
+                $form->add('parent', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:Institution',
+                    'placeholder' => '',
+                    'choices' => $institutions,
+                ));
+            }
+        );
+
         if (is_null($options['instance'])) {
             $builder
                     ->add('instance', EntityType::class, array(
@@ -84,8 +142,7 @@ class InstitutionFilterType extends AbstractType
                         'required' => false,
                         'class' => 'Celsius3CoreBundle:Instance',
                         'label' => 'Celsius Instance',
-                    ))
-            ;
+                    ));
         }
     }
 

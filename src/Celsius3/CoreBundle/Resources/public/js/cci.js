@@ -108,7 +108,7 @@ var filter = '';
 var refresh = function () {
     if (!done) {
         done = true;
-        $('.institution-select').select2('val', value);
+        $('.institution-select').val(value);
     }
 };
 if (value !== '') {
