@@ -513,13 +513,22 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                     });
                 };
 
+                $scope.addObservations = function() {
+                    $scope.eventModalData.temporalObservations = $scope.eventModalData.observations;
+                    $('#editObservations').removeClass('hidden');
+                    $('#observationsText').addClass('hidden');
+                }
+
                 $scope.updateObservations = function () {
                     var data = {
-                        'observations': $scope.eventModalData.observations
+                        'observations': $scope.eventModalData.temporalObservations
                     };
                     $http.post(Routing.generate('admin_rest_event_update_observations', {'id': $scope.eventModalData.id}), data).then(function (response) {
                         $('#editObservations').addClass('hidden');
                         $('#observationsText').removeClass('hidden');
+
+                        $scope.eventModalData.observations = $scope.eventModalData.temporalObservations;
+                        $scope.eventModalData.temporalObservations = '';
                     }, function (response) {
                         generateCelsiusAlert(response);
                     });

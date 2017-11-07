@@ -1257,6 +1257,9 @@
                                 {{ event.operator.name }}
                                 <span ng-if="event.type === 'cancel' && event.cancelled_by_user">{{ 'byUserRequest' | trans }}</span>
                             </span>
+                            <span ng-if="event.observations.length > 0" class="glyphicon glyphicon-comment" aria-hidden="true">
+
+                            </span>
                             <br>
                             <br>
                         </a>
@@ -1299,11 +1302,11 @@
                             <dt>{{ 'observations' | trans }}</dt>
                             <dd>
                                 <p id="observationsText" ng-if="!_.isEmpty(eventModalData.observations)">{{ eventModalData.observations }}</p>
-                                <a href onclick="$('#editObservations').removeClass('hidden'); $('#observationsText').addClass('hidden');">{{ 'Add observations' }}</a>
+                                <a href ng-click="addObservations()">{{ 'Add observations' | trans }}</a>
 
                                 <form id="editObservations" class="hidden">
-                                    <textarea cols="40" rows="8" ng-model="eventModalData.observations">{{eventModalData.observations}}</textarea>
-                                    <button ng-click="updateObservations()" class="btn btn-success">Guardar</button>
+                                    <textarea cols="40" rows="8" ng-model="eventModalData.temporalObservations"></textarea>
+                                    <button ng-click="updateObservations()" class="btn btn-success">{{ 'save' | trans }}</button>
                                 </form>
 
                             </dd>
