@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-10-25T09:07:16Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+  <file date="2017-11-08T08:24:50Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -8,7 +8,7 @@
     <body>
       <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
         <source></source>
-        <target state="new"></target>
+        <target></target>
         <jms:reference-file line="94">/../src/Celsius3/CoreBundle/Form/EventListener/AddCustomFieldsSubscriber.php</jms:reference-file>
         <jms:reference-file line="118">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
         <jms:reference-file line="133">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
@@ -48,7 +48,7 @@
       </trans-unit>
       <trans-unit id="1222e24f034d6e46dda9e697407a202353f8faf6" resname="A test mail was sent to">
         <source>A test mail was sent to</source>
-        <target state="new">A test mail was sent to</target>
+        <target>Um correio eletrônico de prova foi enviado</target>
         <jms:reference-file line="65">/../src/Celsius3/CoreBundle/Controller/AdminInstanceRestController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cd437865cbac7655f8b86519aea764f378093804" resname="Abbreviation">
@@ -67,7 +67,7 @@
       </trans-unit>
       <trans-unit id="8669f0380c89977e26a2dc025fd2a20e2323cdf8" resname="Acerca de">
         <source>Acerca de</source>
-        <target>__Acerca de</target>
+        <target>Acerca de</target>
         <jms:reference-file line="38">/../src/Celsius3/CoreBundle/Resources/views/Public/help.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c3cd636a585b20c40ac2df5ffb403e83cb2eef51" resname="Actions">
@@ -91,7 +91,7 @@
       </trans-unit>
       <trans-unit id="8f7c750003a1b000d0732c1148b65f13c3fb992a" resname="Active Users">
         <source>Active Users</source>
-        <target state="new">Active Users</target>
+        <target>Usuários ativos</target>
         <jms:reference-file line="163">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="511632950b93dfd2d3224ed5a19b1dca5e5b82c4" resname="Add order">
@@ -117,7 +117,7 @@
       </trans-unit>
       <trans-unit id="99f096bc02444298b9ea95d94c5be79af49db1d0" resname="Admin List">
         <source>Admin List</source>
-        <target state="new">Admin List</target>
+        <target>Listado de administradores</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/administradores.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b8be3d1264310c3b8c848d4b90d5206179a40cc4" resname="Administration">
@@ -129,58 +129,58 @@
       </trans-unit>
       <trans-unit id="4b3f80b7b21199031cfb4e202e00ed163e7962b7" resname="Administration Technical">
         <source>Administration Technical</source>
-        <target>__Administration Technical</target>
+        <target>Administração técnica</target>
         <jms:reference-file line="105">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1eda23758be9e36e5e0d2a6a87de584aaca0193f" resname="Administrator">
         <source>Administrator</source>
-        <target state="new">Administrator</target>
+        <target>Administrador</target>
         <jms:reference-file line="71">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6db75ea6a0b04a4ef96fc7537561215bfe20a5fa" resname="Advanced search">
         <source>Advanced search</source>
-        <target>Busca avançada</target>
+        <target>Procura avançada</target>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/Macro/admin.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6a72085653e4c5be8c7640c868ef787cbcf063d1" resname="All">
         <source>All</source>
-        <target state="new">All</target>
+        <target>Todos</target>
         <jms:reference-file line="105">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c641b7dd52749320140718898818087d3cd03fc8" resname="An Error Occurred">
         <source>An Error Occurred</source>
-        <target state="new">An Error Occurred</target>
+        <target>Ocorreu um erro</target>
         <jms:reference-file line="7">/Resources/TwigBundle/views/Exception/error404.html.twig</jms:reference-file>
         <jms:reference-file line="7">/Resources/TwigBundle/views/Exception/error500.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6c0590ce3f81545b976f33f5b868257ed0030bb2" resname="Annulled">
         <source>Annulled</source>
-        <target state="new">Annulled</target>
+        <target>Anulado</target>
         <jms:reference-file line="228">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="96220c544607a7d69acd985938512fc2e01e04d5" resname="Api Key">
         <source>Api Key</source>
-        <target state="new">Api Key</target>
+        <target>Senha da api</target>
         <jms:reference-file line="277">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c87372e83277f089c7398bb152a823db970711e6" resname="Approval pending">
         <source>Approval pending</source>
-        <target state="new">Approval pending</target>
+        <target>Aprovação pendente</target>
         <jms:reference-file line="227">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="80c4cf60782c90046e4fe38abec74c5f760b58c9" resname="Asignar Usuario">
         <source>Asignar Usuario</source>
-        <target state="new">Asignar Usuario</target>
+        <target>Nomear Usuário</target>
         <jms:reference-file line="83">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c223831856dd1e4bb95ae4c9e613bc18d8810980" resname="BUTTON_BACK_TO_LIST">
         <source>BUTTON_BACK_TO_LIST</source>
-        <target state="new">BUTTON_BACK_TO_LIST</target>
+        <target>Voltar para a lista</target>
         <jms:reference-file line="24">/../src/Celsius3/TicketBundle/Resources/views/Ticket/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cfb781d0d9f2e206aa0901cad23877e713404660" resname="BUTTON_CREATE">
         <source>BUTTON_CREATE</source>
-        <target state="new">BUTTON_CREATE</target>
+        <target>Criar</target>
         <jms:reference-file line="21">/../src/Celsius3/TicketBundle/Resources/views/Ticket/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ab5815528f107fb73554828de0ec21098ccbc5a3" resname="Birthdate">
@@ -196,7 +196,7 @@
       </trans-unit>
       <trans-unit id="a1bf92eff40dd4adea2328f9e0f7c938ae031dec" resname="Cancelled">
         <source>Cancelled</source>
-        <target state="new">Cancelled</target>
+        <target>Cancelado</target>
         <jms:reference-file line="156">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="541bd5df11204ff7febf0d957bb7b114c03c580f" resname="Catalog Creation">
@@ -237,12 +237,12 @@
       </trans-unit>
       <trans-unit id="08f98583c1ffe2e492a2510d98ff6f120d45719e" resname="Cause">
         <source>Cause</source>
-        <target state="new">Cause</target>
+        <target>Razão</target>
         <jms:reference-file line="5">/../src/Celsius3/NotificationBundle/Resources/views/Notification/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8bbe14b3daa554ede1ac9817ebabda375edc6381" resname="Celsius Instance">
         <source>Celsius Instance</source>
-        <target state="new">Celsius Instance</target>
+        <target>Instância Celsius</target>
         <jms:reference-file line="86">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
         <jms:reference-file line="72">/../src/Celsius3/CoreBundle/Form/Type/InstitutionType.php</jms:reference-file>
       </trans-unit>
@@ -337,7 +337,7 @@
       </trans-unit>
       <trans-unit id="b38fefc667d138e0de8347bd2ac951769083e2ab" resname="CloneOrder">
         <source>CloneOrder</source>
-        <target state="new">Clonar petição</target>
+        <target>Clonar petição</target>
         <jms:reference-file line="187">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="90">/../src/Celsius3/CoreBundle/Resources/views/Order/_index_element.html.twig</jms:reference-file>
       </trans-unit>
@@ -370,7 +370,7 @@
       </trans-unit>
       <trans-unit id="80d0e9bbc79383f0719b506bb63802565b51b0a7" resname="Comunicación">
         <source>Comunicación</source>
-        <target state="new">Comunicación</target>
+        <target>Comunicação</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="754164850f38c1ecdaf6b8ed894cb192bc36c5f4" resname="Configuration">
@@ -385,7 +385,7 @@
       </trans-unit>
       <trans-unit id="fb0209f1eeda5e1b4cc2655a8ce12c5388d31b01" resname="Confirmation type">
         <source>Confirmation type</source>
-        <target state="new">Confirmation type</target>
+        <target>Tipo de confirmação</target>
         <jms:reference-file line="264">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c9f975cfac9edf17757ed0a9711fc7b0922d3016" resname="Congress">
@@ -461,12 +461,12 @@
       </trans-unit>
       <trans-unit id="4f9be057f0ea5d2ba72fd2c810e8d7b9aa98b469" resname="Content">
         <source>Content</source>
-        <target state="new">Content</target>
+        <target>Conteúdo</target>
         <jms:reference-file line="9">/Resources/FOSMessageBundle/views/Message/search.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2e616de0ef62b87c63806092b15bc9a39d635583" resname="Content or participant">
         <source>Content or participant</source>
-        <target state="new">Content or participant</target>
+        <target>Conteúdo ou participante</target>
         <jms:reference-file line="38">/../src/Celsius3/MessageBundle/Form/Type/Filter/MessageFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="8467c0d99c7925d9e5fdb471fce551ee2115df40" resname="Countries">
@@ -610,17 +610,17 @@
       </trans-unit>
       <trans-unit id="accf40c89baa4fa88e6a7ff11e1f805beecafd3f" resname="Created">
         <source>Created</source>
-        <target state="new">Created</target>
+        <target>Criado</target>
         <jms:reference-file line="157">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1c69716be47f3a1cb7d0bfc922d70909efbe2b6" resname="Created at">
         <source>Created at</source>
-        <target state="new">Created at</target>
+        <target>Criado em</target>
         <jms:reference-file line="8">/../src/Celsius3/NotificationBundle/Resources/views/Notification/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c175379b0389b2d6057b0b7db996720f1fb92fc7" resname="Creation date">
         <source>Creation date</source>
-        <target>Creation date</target>
+        <target>Data de criação</target>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/BaseUser/_show_fields.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8e20a6a9466eaa6a5399fe9629c245f8979701b4" resname="Current state">
@@ -672,22 +672,24 @@
       </trans-unit>
       <trans-unit id="7d092ffa2497aac806b3aaf2a3b3a5e166755c71" resname="DELETED">
         <source>DELETED</source>
-        <target state="new">DELETED</target>
+        <target>Deletado</target>
         <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/SuperadminOrder/_index_element.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d87f47b47e4d5794d53fe0734c49417bd046cde0" resname="Dashboard">
         <source>Dashboard</source>
-        <target>__Dashboard</target>
+        <target xml:space="preserve">Painel de controle
+</target>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="628dcbddd689876e7906e1ec39e0baa1cc7a075a" resname="Dashboard Statistic">
         <source>Dashboard Statistic</source>
-        <target>__Dashboard Statistic</target>
+        <target xml:space="preserve">Painel de estadísticas
+</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc2421d7ec5f4eb8c315765e9d2aa27ff8c4861c" resname="Dashboard Technical">
         <source>Dashboard Technical</source>
-        <target>__Dashboard Technical</target>
+        <target>Painel Técnico</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Technical/index.html.twig</jms:reference-file>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/Technical/index.html.twig</jms:reference-file>
       </trans-unit>
@@ -727,12 +729,12 @@
       </trans-unit>
       <trans-unit id="808d7dca8a74d84af27a2d6602c3d786de45fe1e" resname="Default">
         <source>Default</source>
-        <target state="new">Default</target>
+        <target>Por omissão</target>
         <jms:reference-file line="2">/../src/Celsius3/NotificationBundle/Resources/views/Notification/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="852814f288cc2951733962464a5ac17702f46f35" resname="Default language">
         <source>Default language</source>
-        <target state="new">Default language</target>
+        <target>Língua por omissão</target>
         <jms:reference-file line="235">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="41c26b83b688d816cd49d60e0e2c8be032feacea" resname="Degree">
@@ -748,22 +750,22 @@
       </trans-unit>
       <trans-unit id="eea956cde875f0a66e187118fc8a37c868699e7d" resname="Delivered">
         <source>Delivered</source>
-        <target state="new">Delivered</target>
+        <target>Entregue</target>
         <jms:reference-file line="159">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4ccdf5f0d848f16071c4cf56238b50bdd0a6845f" resname="Descarga">
         <source>Descarga</source>
-        <target>__Descarga</target>
+        <target>Descarregar</target>
         <jms:reference-file line="45">/../src/Celsius3/CoreBundle/Resources/views/Public/help.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3e5f4fd6af3f50de62e7a501eb6d009b6c4a342d" resname="Detalle del Ticket">
         <source>Detalle del Ticket</source>
-        <target state="new">Detalle del Ticket</target>
+        <target>Detalhe do Ticket</target>
         <jms:reference-file line="10">/../src/Celsius3/TicketBundle/Resources/views/Ticket/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="97a2d2002091ad738280edc7089d97fea6a0a831" resname="DevelopedBy">
         <source>DevelopedBy</source>
-        <target>Desarrollado por</target>
+        <target>Desenvolvido por</target>
         <jms:reference-file line="146">/../src/Celsius3/CoreBundle/Resources/views/Layout/layout.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="12a447b6bda6611f1ca0ff50a33eb90bf89e3451" resname="Director">
@@ -790,13 +792,13 @@
       </trans-unit>
       <trans-unit id="3a2bc84d28b86835bcafe69a9606a4d5f487be2c" resname="Disable catalog">
         <source>Disable catalog</source>
-        <target>Disable catalog</target>
+        <target>Desativar catálogo</target>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_list_actions.html.twig</jms:reference-file>
         <jms:reference-file line="226">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e1aba99bc35e0fe86734859880924f7d34d68d81" resname="Disabled catalogs">
         <source>Disabled catalogs</source>
-        <target>Disabled catalogs</target>
+        <target>Catálogos desabilitados</target>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a479c9c34e878d07b4d67a73a48f432ad7dc53c8" resname="Download">
@@ -806,7 +808,7 @@
       </trans-unit>
       <trans-unit id="a3d653e82c1b603240dad0a84ffb9674e5649d20" resname="Download time in hours">
         <source>Download time in hours</source>
-        <target state="new">Download time in hours</target>
+        <target>Tempo de Download em horas</target>
         <jms:reference-file line="276">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5301648dcf6b53cefc9ed52999aaa92d4603cae0" resname="Edit">
@@ -850,13 +852,13 @@
       </trans-unit>
       <trans-unit id="f5b3139ef07a69382fbaa44a2dbbd41bb7e39319" resname="Edit catalog">
         <source>Edit catalog</source>
-        <target>Edit catalog</target>
+        <target>Editar catálogo</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_list_actions.html.twig</jms:reference-file>
         <jms:reference-file line="224">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1301937e89b896cffd622d948fa930916090d4d3" resname="EditOrder">
         <source>EditOrder</source>
-        <target state="new">Editar petição</target>
+        <target>Editar petição</target>
         <jms:reference-file line="186">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="86">/../src/Celsius3/CoreBundle/Resources/views/Order/_index_element.html.twig</jms:reference-file>
       </trans-unit>
@@ -905,7 +907,7 @@
       </trans-unit>
       <trans-unit id="df174a3f2faa31814e06540acda7af8825403fac" resname="Enabled">
         <source>Enabled</source>
-        <target state="new">Enabled</target>
+        <target>Ativado</target>
         <jms:reference-file line="59">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c7324cb4fdcaaac3bd9f261965444b76b7a71c87" resname="End page">
@@ -922,7 +924,7 @@
       </trans-unit>
       <trans-unit id="bcc476092dcf939d7a85ca79d76ff9e48d5597f3" resname="Fecha">
         <source>Fecha</source>
-        <target state="new">Fecha</target>
+        <target>Data</target>
         <jms:reference-file line="56">/../src/Celsius3/CoreBundle/Form/Type/CustomUserFieldType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="2c3cafa4db3f3e1e51b3dff4303502dbe42b7a89" resname="File">
@@ -976,12 +978,12 @@
       </trans-unit>
       <trans-unit id="916a78d701ded328cd66da58a97ef8cd28a99e84" resname="First">
         <source>First</source>
-        <target>First</target>
+        <target>Primeiro</target>
         <jms:reference-file line="171">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1a42c9441546dbc3609e4e0000ab0e2b135be3f1" resname="Found on the Web">
         <source>Found on the Web</source>
-        <target>Found on the Web</target>
+        <target>Encontrado na web</target>
         <jms:reference-file line="223">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b3392d2dd20b79812d38650815733bfce36674e2" resname="Frecuency">
@@ -1013,12 +1015,12 @@
       </trans-unit>
       <trans-unit id="a09a73bacfd409e597f6ec9ade544253500728ea" resname="Go to Administration">
         <source>Go to Administration</source>
-        <target>Go to Administração</target>
+        <target>Ir para Administração</target>
         <jms:reference-file line="62">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0ba7a097228e2674c1d005fcd54a19989ec3c461" resname="Go to Configuration">
         <source>Go to Configuration</source>
-        <target>Go to Configuração</target>
+        <target>Ir para Configuração</target>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/_index_actions.html.twig</jms:reference-file>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/AdminMail/_index_actions.html.twig</jms:reference-file>
       </trans-unit>
@@ -1034,22 +1036,22 @@
       </trans-unit>
       <trans-unit id="265a474886756f9337c0aeedbcaebd8856393f57" resname="HEADING_NEW_TICKET">
         <source>HEADING_NEW_TICKET</source>
-        <target state="new">HEADING_NEW_TICKET</target>
+        <target>Novo ticket</target>
         <jms:reference-file line="4">/../src/Celsius3/TicketBundle/Resources/views/Ticket/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c47ae15370cfe1ed2781eedc1dc2547d12d9e972" resname="Help">
         <source>Help</source>
-        <target>Help</target>
+        <target>Ajuda</target>
         <jms:reference-file line="30">/../src/Celsius3/CoreBundle/Resources/views/Public/help.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d4c2792a72452846f75dc4893e851977cb133db3" resname="Hidden">
         <source>Hidden</source>
-        <target>__Hidden</target>
+        <target>Oculto</target>
         <jms:reference-file line="31">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstance/_index_list_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="34d8b60fe25332f7b98585e82e753eaf502c3e50" resname="Hide">
         <source>Hide</source>
-        <target>Hide</target>
+        <target>Ocultar</target>
         <jms:reference-file line="16">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="68786245c3ce16089546eeb4b8e0fba84d16ec2c" resname="Hive Creation">
@@ -1088,42 +1090,42 @@
       </trans-unit>
       <trans-unit id="65e160278c43da737092180f2d5833a33c300ce4" resname="Home button text">
         <source>Home button text</source>
-        <target state="new">Home button text</target>
+        <target>Texto do botão de Início</target>
         <jms:reference-file line="245">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6cef0464890b0397375b238ddd891dcc557e4cfa" resname="Home help btn text">
         <source>Home help btn text</source>
-        <target state="new">Home help btn text</target>
+        <target>Texto do botão de Ajuda</target>
         <jms:reference-file line="252">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="56fc2bb5f216aed7164ff240b9a12822f86437e9" resname="Home help visible">
         <source>Home help visible</source>
-        <target state="new">Home help visible</target>
+        <target>Mostar ajuda no Início?</target>
         <jms:reference-file line="253">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="329d598d79ec73b7c72d4e8511c6a6222288c64a" resname="Home information btn text">
         <source>Home information btn text</source>
-        <target state="new">Home information btn text</target>
+        <target>Texto do botão de Informação na página principal</target>
         <jms:reference-file line="248">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e6f61c0dc98f737cf70e72c0371a9830790498c9" resname="Home information visible">
         <source>Home information visible</source>
-        <target state="new">Home information visible</target>
+        <target>Mostar Informação na página principal?</target>
         <jms:reference-file line="249">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf165fb6cd043a420987a1b18225e3bdbdccfa85" resname="Home news visible">
         <source>Home news visible</source>
-        <target state="new">Home news visible</target>
+        <target>Mostar Notícias na página principal?</target>
         <jms:reference-file line="247">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="23242390f3b3c52adca978d43aea04b15dcf84fa" resname="Home statistics btn text">
         <source>Home statistics btn text</source>
-        <target state="new">Home statistics btn text</target>
+        <target>Texto do botão de Estadísticas na página principal</target>
         <jms:reference-file line="250">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d9ced7f4599615c0cdd8b8357b7299a60ffc9fea" resname="Home statistics visible">
         <source>Home statistics visible</source>
-        <target state="new">Home statistics visible</target>
+        <target>Mostar Estadísticas na página principal?</target>
         <jms:reference-file line="251">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ea424d38af72dd1366a08aad1f47eca3e7ec3d24" resname="IP">
@@ -1151,17 +1153,17 @@
       </trans-unit>
       <trans-unit id="44caf74675ceb79ba5cc13bafa102509369c2b53" resname="Inbox">
         <source>Inbox</source>
-        <target state="new">Inbox</target>
+        <target>Caixa de entrada</target>
         <jms:reference-file line="13">/../src/Celsius3/MessageBundle/Resources/views/Layout/_message_panel.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a89bba37fc0bcdbedee59285b8f2fab22fc9c018" resname="Información y navegación">
         <source>Información y navegación</source>
-        <target state="new">Información y navegación</target>
+        <target>Informação e navegação</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0eb5ed506e4923c28d7f4a8aa69efe99b3ad75d1" resname="Information">
         <source>Information</source>
-        <target>__Information</target>
+        <target>Informação</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Public/information.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5f97f8775628e86310829ab9e8c465258ab92a5e" resname="Instance">
@@ -1178,7 +1180,7 @@
       </trans-unit>
       <trans-unit id="04faeaecb2cd9cbe0dc33bdbc4a4ac740a630ad8" resname="Instance CSS">
         <source>Instance CSS</source>
-        <target state="new">Instance CSS</target>
+        <target>CSS da Instância</target>
         <jms:reference-file line="255">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e0f2d5bbc7f4b54c1d8d2df1dcbd99da8b53d212" resname="Instance Configuration">
@@ -1207,22 +1209,22 @@
       </trans-unit>
       <trans-unit id="b10f78a9e1bc56ba7c7dd4f76413b94f9924e7cb" resname="Instance Logo">
         <source>Instance Logo</source>
-        <target state="new">Instance Logo</target>
+        <target>Logotipo da Instância</target>
         <jms:reference-file line="254">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8d515b25fe06f656a353f32e25f1d28c645cf6cc" resname="Instance Register">
         <source>Instance Register</source>
-        <target>__Instance Register</target>
+        <target>Registro de instância</target>
         <jms:reference-file line="19">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fda62ac87123f3c30ea4296385621ce4eab510f1" resname="Instance description">
         <source>Instance description</source>
-        <target state="new">Instance description</target>
+        <target>Descrição da Instância</target>
         <jms:reference-file line="232">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="20daacbdfe251d25fe2a989b74c04ebc161e89b3" resname="Instance information">
         <source>Instance information</source>
-        <target state="new">Instance information</target>
+        <target>Informação da Instância</target>
         <jms:reference-file line="233">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="86d67413e7f102d37a19a41e92518fd07b196a5a" resname="Instances">
@@ -1267,7 +1269,7 @@
       </trans-unit>
       <trans-unit id="bd507a1806952cb07bf020c857a7dca2ef3e2c30" resname="Institution Show">
         <source>Institution Show</source>
-        <target>__Institution Show</target>
+        <target>Mostrar Instituição</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminInstitution/show.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstitution/show.html.twig</jms:reference-file>
       </trans-unit>
@@ -1279,17 +1281,17 @@
       </trans-unit>
       <trans-unit id="4cb0498a8d4639f7f40e3b672833bd4c0c4205cf" resname="Institution from received requests">
         <source>Institution from received requests</source>
-        <target>__Institution from received requests</target>
+        <target>Instituição de pedidos recebidos</target>
         <jms:reference-file line="78">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b74f20e8f5293c98c024f2a9af19598e9cc649b7" resname="Institution tree">
         <source>Institution tree</source>
-        <target state="new">Institution tree</target>
+        <target>Arvore da Instância</target>
         <jms:reference-file line="208">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a7f56e63b3549d15b9f01404375cce0301155bd9" resname="Institution users">
         <source>Institution users</source>
-        <target state="new">Institution users</target>
+        <target>Usuários da Instituição</target>
         <jms:reference-file line="209">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0ec05742a32ab77c2fda4ca6ca9fa5aafb812407" resname="Institutional data">
@@ -1309,12 +1311,12 @@
       </trans-unit>
       <trans-unit id="8e4bbc2f2ec0a6cf3da60edaacf7e4d61909c22b" resname="Internal server error.">
         <source>Internal server error.</source>
-        <target state="new">Internal server error.</target>
+        <target>Erro interno do servidor</target>
         <jms:reference-file line="8">/Resources/TwigBundle/views/Exception/error500.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3f489673867c88d849310515e837cdfb70bc6415" resname="Ip">
         <source>Ip</source>
-        <target state="new">Ip</target>
+        <target>Ip</target>
         <jms:reference-file line="230">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="57d7f743bbd1a2854e826cf8632ea381237162bf" resname="Journal">
@@ -1357,7 +1359,7 @@
       </trans-unit>
       <trans-unit id="b5fcffb3090082c829f35f3049caf010eee9bccb" resname="Journal View">
         <source>Journal View</source>
-        <target>Journal View</target>
+        <target>Visualização do Jornal</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
         <jms:reference-file line="75">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
@@ -1370,7 +1372,7 @@
       </trans-unit>
       <trans-unit id="d1c69a859a9638b242f2dabf8acf1c0b1450ce6b" resname="Last">
         <source>Last</source>
-        <target>Last</target>
+        <target>Último</target>
         <jms:reference-file line="172">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4e115e2b503ed6d661d1535b5fb62d950c1851ab" resname="Latest News">
@@ -1381,31 +1383,31 @@
       </trans-unit>
       <trans-unit id="1addb2917e584d6e89fd9d873a6b2e489c8089f6" resname="Legacy Instance Creation">
         <source>Legacy Instance Creation</source>
-        <target>Criar uma Instância Legada</target>
+        <target>Criar uma Instância Antiga</target>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b9dc81cb8fc6e1660d1368e7521fe125838df8ae" resname="Legacy Instance Edit">
         <source>Legacy Instance Edit</source>
-        <target>Editar Instância Legada</target>
+        <target>Editar Instância Antiga</target>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/edit.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="53bd7bcc30ff3117e004a69f5065307504b8a7c1" resname="Legacy Instance List">
         <source>Legacy Instance List</source>
-        <target>Lista de Instâncias Legadas</target>
+        <target>Lista de Instâncias Antigas</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/index.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a68e9c1f835f8eb4da654ff7fe2601e0354c5395" resname="Legacy Instances">
         <source>Legacy Instances</source>
-        <target>Instâncias Legadas</target>
+        <target>Instâncias Antigas</target>
         <jms:reference-file line="29">/../src/Celsius3/CoreBundle/Resources/views/Directory/instances.html.twig</jms:reference-file>
         <jms:reference-file line="25">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_global_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cba71e2bf7209bc1b0442fdc245383e65041d42f" resname="Librarian">
         <source>Librarian</source>
-        <target state="new">Librarian</target>
+        <target>Bibliotecário</target>
         <jms:reference-file line="71">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="4e5a2893bdcc7d239c1db72e4c4ffbe4bea73174" resname="Login">
@@ -1417,26 +1419,26 @@
       </trans-unit>
       <trans-unit id="9911d8650bfb588d2ed80ed333ffd89aad32ee17" resname="Login as">
         <source>Login as</source>
-        <target>Loguearse como</target>
+        <target>Faça o login como</target>
         <jms:reference-file line="15">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/_index_element_actions.html.twig</jms:reference-file>
         <jms:reference-file line="15">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/_index_element_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e43d612e11f1568f2373e719d4c4b08dcecdc7cc" resname="Logout">
         <source>Logout</source>
-        <target>Logout</target>
+        <target>Sair</target>
         <jms:reference-file line="15">/../src/Celsius3/CoreBundle/Resources/views/Layout/_user_panel.html.twig</jms:reference-file>
         <jms:reference-file line="19">/../src/Celsius3/CoreBundle/Resources/views/Layout/_user_panel.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="dcf74a789b7bde588721b73586b4b9c19f860bac" resname="MESSAGE_PRIORITY_CHANGED">
         <source>MESSAGE_PRIORITY_CHANGED</source>
-        <target state="new">MESSAGE_PRIORITY_CHANGED</target>
+        <target>Prioridade alterada</target>
         <jms:reference-file line="70">/../src/Celsius3/TicketBundle/Resources/views/Ticket/macros.html.twig</jms:reference-file>
         <jms:reference-file line="73">/../src/Celsius3/TicketBundle/Resources/views/Ticket/macros.html.twig</jms:reference-file>
         <jms:reference-file line="77">/../src/Celsius3/TicketBundle/Resources/views/Ticket/macros.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e1ab284e4987f16ad47cf278ff524794084929a4" resname="MESSAGE_STATUS_CHANGED">
         <source>MESSAGE_STATUS_CHANGED</source>
-        <target state="new">MESSAGE_STATUS_CHANGED</target>
+        <target>Estado alterado</target>
         <jms:reference-file line="28">/../src/Celsius3/TicketBundle/Resources/views/Ticket/macros.html.twig</jms:reference-file>
         <jms:reference-file line="32">/../src/Celsius3/TicketBundle/Resources/views/Ticket/macros.html.twig</jms:reference-file>
         <jms:reference-file line="36">/../src/Celsius3/TicketBundle/Resources/views/Ticket/macros.html.twig</jms:reference-file>
@@ -1474,7 +1476,7 @@
       </trans-unit>
       <trans-unit id="f5859012eb50479e6a4dc977bff9cef84cb8ef41" resname="Mail signature">
         <source>Mail signature</source>
-        <target state="new">Mail signature</target>
+        <target>Assinatura do correio eletrônico</target>
         <jms:reference-file line="269">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3b8246d0a9a84252d4c9ae859e80c82375803f29" resname="Mail templates">
@@ -1484,17 +1486,17 @@
       </trans-unit>
       <trans-unit id="839de310ff883dc5f22ec85eb75776dc0946a190" resname="Material Type">
         <source>Material Type</source>
-        <target state="new">Material Type</target>
+        <target>Tipo de material</target>
         <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Form/Type/OrderType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="e64121cb20c69ea23591414c6f42a13778a68664" resname="Maximun days for send emails">
         <source>Maximun days for send emails</source>
-        <target state="new">Maximun days for send emails</target>
+        <target>Dias máximos para enviar emails</target>
         <jms:reference-file line="268">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="94563ec383e29aa3743abd9b337b2e084fb199fb" resname="Me">
         <source>Me</source>
-        <target state="new">Me</target>
+        <target>Eu</target>
         <jms:reference-file line="83">/../src/Celsius3/CoreBundle/Form/Type/RequestType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1702b4686278becffc88baabe6f4b7a8355532c" resname="Messages">
@@ -1506,17 +1508,17 @@
       </trans-unit>
       <trans-unit id="0c20a733c791bc6c68cf4bbb6e99762c4b45c18e" resname="Migrar_otra_version">
         <source>Migrar_otra_version</source>
-        <target state="new">Migrar_otra_version</target>
+        <target>Migrar outra versão</target>
         <jms:reference-file line="108">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc5d196ce88b190547d85d7eab56322ba1372615" resname="Minimun days for send emails">
         <source>Minimun days for send emails</source>
-        <target state="new">Minimun days for send emails</target>
+        <target>Dias mínimos para enviar emails</target>
         <jms:reference-file line="267">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="83ad0f358e44ef7659fdb25c983e2bae38166a74" resname="Modificar Estado">
         <source>Modificar Estado</source>
-        <target state="new">Modificar Estado</target>
+        <target>Alterar Estado</target>
         <jms:reference-file line="111">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4bab2d8fe13fa6ab57f80098b414f0f734c5dd25" resname="More">
@@ -1526,7 +1528,7 @@
       </trans-unit>
       <trans-unit id="f9e48aa380036e8770ab31a82a6aae265e088ce8" resname="My Instance">
         <source>My Instance</source>
-        <target>__My Instance</target>
+        <target>Minha Instância</target>
         <jms:reference-file line="92">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a32ce0054f8866e91bef29f96ed7667ab47e86fc" resname="My Site">
@@ -1577,7 +1579,7 @@
       </trans-unit>
       <trans-unit id="878ad905fff2b1d2544001e7a38a7805dd525832" resname="Network Admin">
         <source>Network Admin</source>
-        <target state="new">Network Admin</target>
+        <target>Administrador da rede</target>
         <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="76806fafc50b9870d93cacdbe2aded23b156d65d" resname="Network Administration">
@@ -1588,22 +1590,22 @@
       </trans-unit>
       <trans-unit id="6403f2b7eb2aaafe6de34cbf2a029b01afebc512" resname="New">
         <source>New</source>
-        <target state="new">New</target>
+        <target>Novo</target>
         <jms:reference-file line="10">/../src/Celsius3/MessageBundle/Resources/views/Layout/_message_panel.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1c3b20d39ec83dd2b62e5827adadc05132f62392" resname="New Message">
         <source>New Message</source>
-        <target state="new">New Message</target>
+        <target>Nova Mensagem</target>
         <jms:reference-file line="60">/../src/Celsius3/NotificationBundle/Form/Type/SubscriptionType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="b85e445f60044c26c53dc928d018cf9dfb200a6e" resname="New User">
         <source>New User</source>
-        <target state="new">New User</target>
+        <target>Novo Usuário</target>
         <jms:reference-file line="47">/../src/Celsius3/NotificationBundle/Form/Type/SubscriptionType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="3a6d445511d36167b879ddfdb2f3bd3ed4a74c0d" resname="New Users">
         <source>New Users</source>
-        <target state="new">New Users</target>
+        <target>Novos Usuários</target>
         <jms:reference-file line="164">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="34c808d0a63f277e04fb23a5f76cc83d0a3e024b" resname="News">
@@ -1639,12 +1641,12 @@
       </trans-unit>
       <trans-unit id="10728d3968350b681c7defea13c2cb60bb45ae5f" resname="News button text">
         <source>News button text</source>
-        <target state="new">News button text</target>
+        <target>Texto do botão de notícias</target>
         <jms:reference-file line="246">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc981983e7f547dc62e19a1e383acfe00782a6d5" resname="Next">
         <source>Next</source>
-        <target>Next</target>
+        <target>Seguinte</target>
         <jms:reference-file line="170">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="816c52fd2bdd94a63cd0944823a6c0aa9384c103" resname="No">
@@ -1655,35 +1657,35 @@
       </trans-unit>
       <trans-unit id="ead5c1e7b1ea9e81242aa532ddc10ac9d79e4c70" resname="No elements to display.">
         <source>No elements to display.</source>
-        <target>Não há elementos para serem mostrados.</target>
+        <target>Sem elementos a serem exibidos</target>
         <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6eef6648406c333a4035cd5e60d0bf2ecf2606d7" resname="None">
         <source>None</source>
-        <target state="new">None</target>
+        <target>Nenhuma</target>
         <jms:reference-file line="265">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="31a193776311abb2498e58e168bddc9feb36e8f7" resname="Not found institution">
         <source>Not found institution</source>
-        <target state="new">Not found institution</target>
+        <target>Instituição não encontrada</target>
         <jms:reference-file line="294">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c18f8f255ab9c208f23d0340eb9dff5a84efe311" resname="Notification">
         <source>Notification</source>
-        <target state="new">Notification</target>
+        <target>Notificação</target>
         <jms:reference-file line="58">/../src/Celsius3/NotificationBundle/Form/Type/EventSubscriptionType.php</jms:reference-file>
         <jms:reference-file line="41">/../src/Celsius3/NotificationBundle/Form/Type/SubscriptionType.php</jms:reference-file>
         <jms:reference-file line="54">/../src/Celsius3/NotificationBundle/Form/Type/SubscriptionType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="e1d848c33a6714fba3eb89a5c3f0d6d9894fd265" resname="Notification List">
         <source>Notification List</source>
-        <target state="new">Notification List</target>
+        <target>Lista de Notificações</target>
         <jms:reference-file line="10">/../src/Celsius3/NotificationBundle/Resources/views/Notification/index.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/NotificationBundle/Resources/views/Notification/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="036d07cb9d13e7ae217593356ef9a3e9072d7a5f" resname="Notification Subscriptions">
         <source>Notification Subscriptions</source>
-        <target state="new">Notification Subscriptions</target>
+        <target>Subscrições a notificações</target>
         <jms:reference-file line="10">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
@@ -1703,14 +1705,14 @@
       </trans-unit>
       <trans-unit id="e30bc93b95a1a7cdede583c8b088755d59aba472" resname="Order Edit">
         <source>Order Edit</source>
-        <target>Order Edit</target>
+        <target>Edição de Pedido</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminOrder/edit.html.twig</jms:reference-file>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/SuperadminOrder/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminOrder/edit.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="900ac40ddf74949a4194b43ca67e04071b2e0fce" resname="Order Events">
         <source>Order Events</source>
-        <target state="new">Order Events</target>
+        <target>Eventos do pedido</target>
         <jms:reference-file line="63">/../src/Celsius3/NotificationBundle/Form/Type/SubscriptionType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="b5e7a19361ff63d2eb0c8bb3689f4919e32169af" resname="Order List">
@@ -1755,18 +1757,18 @@
       </trans-unit>
       <trans-unit id="addfa495edbd8a650c67c44fc94a7d10cea29949" resname="Otros">
         <source>Otros</source>
-        <target state="new">Otros</target>
+        <target>Outros</target>
         <jms:reference-file line="14">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="89ff31225c5f042fff61e92ec8cf80e417a7140c" resname="Owner">
         <source>Owner</source>
-        <target state="new">Owner</target>
+        <target>Propietário</target>
         <jms:reference-file line="101">/../src/Celsius3/CoreBundle/Form/Type/RequestType.php</jms:reference-file>
         <jms:reference-file line="115">/../src/Celsius3/CoreBundle/Form/Type/RequestType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="8db0817a8769c6f4c1200d140d4265256ef2a83d" resname="Owning Instance">
         <source>Owning Instance</source>
-        <target state="new">Owning Instance</target>
+        <target>Propietário da Instância</target>
         <jms:reference-file line="81">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
         <jms:reference-file line="67">/../src/Celsius3/CoreBundle/Form/Type/InstitutionType.php</jms:reference-file>
       </trans-unit>
@@ -1803,12 +1805,12 @@
       </trans-unit>
       <trans-unit id="8a942c32f62b633d4f902dc7604107eea9ead8f2" resname="Password already requested text">
         <source>Password already requested text</source>
-        <target state="new">Password already requested text</target>
+        <target>Texto para a senha já solicitada</target>
         <jms:reference-file line="273">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b473afcaca8635fba242027feacc5e86e08a4ef0" resname="Password already requested title">
         <source>Password already requested title</source>
-        <target state="new">Password already requested title</target>
+        <target>Titulo para a senha já solicitada</target>
         <jms:reference-file line="272">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e0e936e726d2e7f3323705da3645059597437730" resname="Patent">
@@ -1825,7 +1827,7 @@
       </trans-unit>
       <trans-unit id="3445c99ad41ed2b214b60d57a85f93cf16296809" resname="Pending searchs">
         <source>Pending searchs</source>
-        <target>__Pending searchs</target>
+        <target>Procuras pendentes</target>
         <jms:reference-file line="194">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="82">/../src/Celsius3/CoreBundle/Resources/views/Order/_index_element.html.twig</jms:reference-file>
       </trans-unit>
@@ -1842,12 +1844,13 @@
       </trans-unit>
       <trans-unit id="dac7f91c47d3758805e2a1d14a69926ec239c1ae" resname="Please select the element you want to overwrite the others.">
         <source>Please select the element you want to overwrite the others.</source>
-        <target>Por favor, selecione o elemento com o qual quer regravar os outros.</target>
+        <target>Por favor, selecione o elemento com o qual quer substituir os outros.</target>
         <jms:reference-file line="265">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5ee1f0b8e52eb521f0a3518dd6b7855d2432b505" resname="Please wait ...">
         <source>Please wait ...</source>
-        <target state="new">Please wait ...</target>
+        <target xml:space="preserve">Por favor, aguarde...
+</target>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Layout/var.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="57e03bfa6cba867c03f5504b69e9852805e93b14" resname="Please wait until some administrator confirms your account.">
@@ -1884,12 +1887,12 @@
       </trans-unit>
       <trans-unit id="e47c410c07fc3c436bbd4ced31c59e7364f09c80" resname="Provided by the author">
         <source>Provided by the author</source>
-        <target>Provided by the author</target>
+        <target>Fornecido pelo autor</target>
         <jms:reference-file line="222">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e11d5b69e044e4357dad317ba5efc7f85c9d36f9" resname="Provision">
         <source>Provision</source>
-        <target state="new">Provision</target>
+        <target>Provisão</target>
         <jms:reference-file line="58">/../src/Celsius3/CoreBundle/Form/Type/Filter/OrderFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="2fba50bc8bc858941e28a59632c794a38a7468df" resname="Provision Orders">
@@ -1899,33 +1902,33 @@
       </trans-unit>
       <trans-unit id="ad4082ddc5a35d240d0116854e715937ad4cb29a" resname="Publication year">
         <source>Publication year</source>
-        <target state="new">Publication year</target>
+        <target>Ano de publicação</target>
         <jms:reference-file line="168">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="27548c4fc95d7c7fdabb7df9f94a1e05cc1d7cb7" resname="Received">
         <source>Received</source>
-        <target>Received</target>
+        <target>Recebido</target>
         <jms:reference-file line="28">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d672995a14650d0e018026b64f297663d8c71c8d" resname="Register">
         <source>Register</source>
-        <target>Registrador</target>
+        <target>Registro</target>
         <jms:reference-file line="28">/../src/Celsius3/CoreBundle/Resources/views/Layout/_user_panel.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Public/public.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="27eeb7a291bfc566447d9cd928e98caf90f70ee6" resname="Rejected">
         <source>Rejected</source>
-        <target state="new">Rejected</target>
+        <target>Rejeitado</target>
         <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf5aed5f7abd0a4240199dad32c8d8ee9615b813" resname="Reply to">
         <source>Reply to</source>
-        <target state="new">Reply to</target>
+        <target>Responder a</target>
         <jms:reference-file line="256">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3a84b1d962f3bdb447a238d24a3a6db2e0a95a01" resname="Request Instance">
         <source>Request Instance</source>
-        <target state="new">Request Instance</target>
+        <target> Solicitação de Instância </target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
         <jms:reference-file line="18">/../src/Celsius3/CoreBundle/Resources/views/Layout/directory_layout.html.twig</jms:reference-file>
       </trans-unit>
@@ -1948,7 +1951,7 @@
       </trans-unit>
       <trans-unit id="8463299ee73a459f962c98b640776bd3811c853d" resname="Resend test email">
         <source>Resend test email</source>
-        <target state="new">Resend test email</target>
+        <target>Reenviar email de teste</target>
         <jms:reference-file line="164">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="44c57abd888a66b36d4b7c902134063e4a097223" resname="Reset">
@@ -1967,12 +1970,12 @@
       </trans-unit>
       <trans-unit id="0535f0ddc0f7c69c3b120c73c85ff6e716e30f44" resname="Resetting text">
         <source>Resetting text</source>
-        <target state="new">Resetting text</target>
+        <target>Texto para redefinir senha</target>
         <jms:reference-file line="271">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c99988053eb21d45df265af95c6bd5ddeb87cb99" resname="Resetting title">
         <source>Resetting title</source>
-        <target state="new">Resetting title</target>
+        <target>Titulo para redefinir senha</target>
         <jms:reference-file line="270">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="96cd625f32068aa16ba9bcd824e0a8b3ef5ed4f3" resname="Responsible">
@@ -1983,17 +1986,18 @@
       </trans-unit>
       <trans-unit id="612e12d29278b5519294bc25cdaddffec6d0f1c6" resname="Results">
         <source>Results</source>
-        <target state="new">Results</target>
+        <target>Resultados</target>
         <jms:reference-file line="11">/Resources/FOSMessageBundle/views/Message/search.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e08b0f0cdec57fe8860ddaf468b9e5654b98cc9d" resname="Results per page">
         <source>Results per page</source>
-        <target state="new">Results per page</target>
+        <target xml:space="preserve">Resultados por página
+</target>
         <jms:reference-file line="240">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="47dcc27d6e87ece8baebe7e3877a261a5467093d" resname="Roles">
         <source>Roles</source>
-        <target>Roles</target>
+        <target>Rol</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/_show_fields.html.twig</jms:reference-file>
       </trans-unit>
@@ -2004,27 +2008,27 @@
       </trans-unit>
       <trans-unit id="3c02df915fea7ac44a423b6218c4b4ac41370fe7" resname="SMTP Host">
         <source>SMTP Host</source>
-        <target state="new">SMTP Host</target>
+        <target>Servidor SMTP </target>
         <jms:reference-file line="257">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ac4178b3bdb5a6dffaf2f5f85aa030c381e97229" resname="SMTP Password">
         <source>SMTP Password</source>
-        <target state="new">SMTP Password</target>
+        <target>Senha SMTP </target>
         <jms:reference-file line="263">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="40ec4bdc33210b19ba60f69daa19d1973ad36a45" resname="SMTP Port">
         <source>SMTP Port</source>
-        <target state="new">SMTP Port</target>
+        <target>Port SMTP</target>
         <jms:reference-file line="258">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b8d5d700d8c9d27e926e7379a906f175c6efd73a" resname="SMTP Protocol">
         <source>SMTP Protocol</source>
-        <target state="new">SMTP Protocol</target>
+        <target>Protocolo SMTP</target>
         <jms:reference-file line="259">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c05323ba9bd468d66ae007e1141753ce170f7d0a" resname="SMTP Username">
         <source>SMTP Username</source>
-        <target state="new">SMTP Username</target>
+        <target>Usuário SMTP</target>
         <jms:reference-file line="262">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="154e46efcd9b019e327ac7c0bab28be0fcaac3a7" resname="Satisfied">
@@ -2050,34 +2054,34 @@
       </trans-unit>
       <trans-unit id="bce06414177f72ab70e6387b6af9f8ceef0d6049" resname="Search">
         <source>Search</source>
-        <target>Busca</target>
+        <target>Procurar</target>
         <jms:reference-file line="59">/../src/Celsius3/CoreBundle/Form/Type/Filter/OrderFilterType.php</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/Macro/admin.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="abe40d1113580d5a7304e0ccf4ae56b8498816ad" resname="Search Orders">
         <source>Search Orders</source>
-        <target>Buscar Petições</target>
+        <target>Procurar Petições</target>
         <jms:reference-file line="21">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_dash.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0144dae8fb18fc9c75bdd6b191b93bae5f7a68f8" resname="Search results">
         <source>Search results</source>
-        <target>Buscar Resultados</target>
+        <target>Procurar Resultados</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/AdminSearch/search.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminSearch/search.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="36ff8eb3be206345fbc07a5029411b0e73718420" resname="Search text">
         <source>Search text</source>
-        <target>Search text</target>
+        <target>Texto para pesquisar</target>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/AdminSearch/_search_widget.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ba050ff7a3fbc18e49e4ce8e37c08208759a7d99" resname="Searched">
         <source>Searched</source>
-        <target>Buscado</target>
+        <target>Procurado</target>
         <jms:reference-file line="30">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_dash.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e0005533a5dd453ff800e8aecbb00f4fc6e2f219" resname="Seleccion">
         <source>Seleccion</source>
-        <target state="new">Seleccion</target>
+        <target>Seleção</target>
         <jms:reference-file line="54">/../src/Celsius3/CoreBundle/Form/Type/CustomUserFieldType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="9bc2575c3930437e80555f78757b783c842e8e66" resname="Send">
@@ -2090,7 +2094,7 @@
       </trans-unit>
       <trans-unit id="ef48ef2c2db8145058d32999450f157c9834eafb" resname="Send Reminder Email">
         <source>Send Reminder Email</source>
-        <target>__Send Reminder Email</target>
+        <target>Enviar email de lembrete</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="34">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
@@ -2098,7 +2102,7 @@
       </trans-unit>
       <trans-unit id="fc552c754dd8f66b415bc0e0df960c5ad545e7bb" resname="Send test email">
         <source>Send test email</source>
-        <target state="new">Send test email</target>
+        <target>Enviar email de teste</target>
         <jms:reference-file line="163">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0617ee64c47923969f5aa6ce740f9481ee13fd23" resname="Shared Elements">
@@ -2117,12 +2121,12 @@
       </trans-unit>
       <trans-unit id="50a279de829f2dc398ac2ac7c9367508ea4b5df5" resname="Show all">
         <source>Show all</source>
-        <target state="new">Show all</target>
+        <target>Mostrar todos</target>
         <jms:reference-file line="10">/../src/Celsius3/NotificationBundle/Resources/views/Layout/_notification_panel.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5063b66b4bdfb9894c39c94383404c617f75ca21" resname="Show news">
         <source>Show news</source>
-        <target state="new">Show news</target>
+        <target>Mostrar notícias</target>
         <jms:reference-file line="244">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="da5eaf23b70fcab6b370535d19b2691e1ded414a" resname="ShowOrder">
@@ -2132,17 +2136,17 @@
       </trans-unit>
       <trans-unit id="b94923c7517eba450fc7855670903e1c1ad1d308" resname="Sistema Ticket">
         <source>Sistema Ticket</source>
-        <target state="new">Sistema Ticket</target>
+        <target>Sistema de Ticket</target>
         <jms:reference-file line="4">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1f02ea14ad7c03c99282d3efea6e812caaf3856d" resname="Sistema de Ticket">
         <source>Sistema de Ticket</source>
-        <target>__Sistema de Ticket</target>
+        <target>Sistema de Ticket</target>
         <jms:reference-file line="111">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8afab21dbebaf5a3c62c327cf4674e6243b3459d" resname="Software update message">
         <source>Software update message</source>
-        <target>__Software update message</target>
+        <target>Mensagem de atualização de software</target>
         <jms:reference-file line="62">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a2a5bdeca9391be1e0cdff1c19895bae7fadc2c2" resname="Sort by">
@@ -2155,34 +2159,34 @@
       </trans-unit>
       <trans-unit id="a4730a22cf494f758716c5c83bbf4c258c37a8b8" resname="Staff">
         <source>Staff</source>
-        <target state="new">Staff</target>
+        <target>Staff</target>
         <jms:reference-file line="234">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="63beec4cc66e159ef79e34b5cd0a380c0a858e8b" resname="Start page">
         <source>Start page</source>
-        <target>Página inicial</target>
+        <target>Página de início</target>
         <jms:reference-file line="17">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
         <jms:reference-file line="37">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/MaterialType/_materialType.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a72502067518684f9deeec70cf119fd26326cd33" resname="State">
         <source>State</source>
-        <target state="new">State</target>
+        <target>Estado</target>
         <jms:reference-file line="229">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cd4e9febd5df78059c09dd96054f499aeeb33035" resname="Statistic">
         <source>Statistic</source>
-        <target>__Statistic</target>
+        <target>Estadística</target>
         <jms:reference-file line="37">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2086b21f8f49274138c38d476bee317a84a8aecc" resname="Statistics">
         <source>Statistics</source>
-        <target state="new">Statistics</target>
+        <target>Estadísticas</target>
         <jms:reference-file line="134">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e703dd66c67e4f5390a6c06c335f65b902e92d4d" resname="Statistics Administration">
         <source>Statistics Administration</source>
-        <target>__Statistics Administration</target>
+        <target>Administração de estatística</target>
         <jms:reference-file line="98">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8d183dbdcea3b29906090bd83fa6fa37923cc8ec" resname="Subject">
@@ -2194,7 +2198,7 @@
       </trans-unit>
       <trans-unit id="32b4122ec3f6ce679347784c23f46a1393910d0f" resname="Sucefull connection">
         <source>Sucefull connection</source>
-        <target state="new">Sucefull connection</target>
+        <target>Conexão bem-sucedida</target>
         <jms:reference-file line="70">/../src/Celsius3/CoreBundle/Helper/MailerHelper.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="77dfca2a56f9b1ffc2b6687e230088cf86fbc074" resname="Surname">
@@ -2207,17 +2211,17 @@
       </trans-unit>
       <trans-unit id="d0914783635b6293bb26c026dcdbc494fc636909" resname="Susbcriptions">
         <source>Susbcriptions</source>
-        <target state="new">Susbcriptions</target>
+        <target>Subscrições</target>
         <jms:reference-file line="13">/../src/Celsius3/NotificationBundle/Resources/views/Layout/_notification_panel.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9c63bbb4cb510cecd1aa951c04536ec02f2c7e44" resname="System maintenance">
         <source>System maintenance</source>
-        <target>System maintenance</target>
+        <target>Manutenção de sistema</target>
         <jms:reference-file line="14">/../src/Celsius3/CoreBundle/Resources/views/Mode/maintenance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b0f794835fa03c22f59c3a0c0efe64d0512fdab3" resname="Tagline">
         <source>Tagline</source>
-        <target state="new">Tagline</target>
+        <target>Lema</target>
         <jms:reference-file line="239">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3ec1ae061c27325c7ecb543adf91235e22cbc9ed" resname="Template">
@@ -2232,22 +2236,22 @@
       </trans-unit>
       <trans-unit id="640ab2bae07bedc4c163f679a746f7ab7fb5d1fa" resname="Test">
         <source>Test</source>
-        <target state="new">Test</target>
+        <target>Prova</target>
         <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Controller/AdminInstanceRestController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="ccf66f0746494db1ae22b97fa706e21fdd0ddce0" resname="Test connection">
         <source>Test connection</source>
-        <target state="new">Test connection</target>
+        <target>Testar conexão</target>
         <jms:reference-file line="157">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="abf4766663d3ccf342eddc56ef656be633973b9c" resname="Test email from">
         <source>Test email from</source>
-        <target state="new">Test email from</target>
+        <target>Email de prova desde</target>
         <jms:reference-file line="62">/../src/Celsius3/CoreBundle/Controller/AdminInstanceRestController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c4d86b822fe16096cfe6d2382de656b46d6358ea" resname="Test mail could not be sent.">
         <source>Test mail could not be sent.</source>
-        <target state="new">Test mail could not be sent.</target>
+        <target>O correio eletrônico de prova não conseguiu ser enviado</target>
         <jms:reference-file line="67">/../src/Celsius3/CoreBundle/Controller/AdminInstanceRestController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="c3328c39b0e29f78e9ff45db674248b1d245887d" resname="Text">
@@ -2261,28 +2265,28 @@
       </trans-unit>
       <trans-unit id="6eeba656c0f3cafd6e0af4fcd90468390e8ee571" resname="Texto">
         <source>Texto</source>
-        <target state="new">Texto</target>
+        <target>Texto</target>
         <jms:reference-file line="55">/../src/Celsius3/CoreBundle/Form/Type/CustomUserFieldType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="93ef0dd827103681fcee453b78be2ff14e1a261d" resname="The">
         <source>The</source>
-        <target state="new">The</target>
+        <target>O/A</target>
         <jms:reference-file line="133">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
         <jms:reference-file line="135">/../src/Celsius3/CoreBundle/Controller/BaseController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="a3cc7cb6b9d5686c60a0a9ccf32b681416ed6ddf" resname="The Instance was successfully created.">
         <source>The Instance was successfully created.</source>
-        <target state="new">The Instance was successfully created.</target>
+        <target>A Instância foi criada com sucesso</target>
         <jms:reference-file line="121">/../src/Celsius3/CoreBundle/Controller/SuperadminInstanceController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="1d11b6a708d248e2ac882575f51bb4f863727322" resname="The resource was not found.">
         <source>The resource was not found.</source>
-        <target state="new">The resource was not found.</target>
+        <target>O recurso não foi encontrado</target>
         <jms:reference-file line="8">/Resources/TwigBundle/views/Exception/error404.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0341447d387b4786a452d5dd236ee2f375af3d1e" resname="The user with confirmation token does not exist">
         <source>The user with confirmation token does not exist</source>
-        <target state="new">The user with confirmation token does not exist</target>
+        <target>O usuário com token de confirmação não existe</target>
         <jms:reference-file line="295">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e8ac9a3fd8cc2ceb4273fcfc80e2a75d27dc1deb" resname="There are no instances.">
@@ -2293,7 +2297,7 @@
       </trans-unit>
       <trans-unit id="831f1ee033d12d1d32fdb39b1e30a65de9c221b8" resname="There are no orders">
         <source>There are no orders</source>
-        <target state="new">There are no orders</target>
+        <target>Não há ordens</target>
         <jms:reference-file line="199">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fae48a8f67fd81fb5d54b5a9c2d60929cd5da2f7" resname="Thesis">
@@ -2319,7 +2323,7 @@
       </trans-unit>
       <trans-unit id="ae79ea1e9c6391a9ed83a2e18a031b835feec0c9" resname="To">
         <source>To</source>
-        <target state="new">To</target>
+        <target>para</target>
         <jms:reference-file line="19">/Resources/FOSMessageBundle/views/Message/thread.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b25928c69902557b0ef0a628490a3a1768d7b82f" resname="Total">
@@ -2334,7 +2338,7 @@
       </trans-unit>
       <trans-unit id="a028fce203b4622b1e4f2483988cdf6acd41ee5b" resname="Total Users">
         <source>Total Users</source>
-        <target state="new">Total Users</target>
+        <target>Total de usuários</target>
         <jms:reference-file line="165">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="dea51bb13a4467c505ee6181171375f497334d54" resname="Transform">
@@ -2462,7 +2466,7 @@
       </trans-unit>
       <trans-unit id="dbcd80b33b37c1c825efcd508340071159da1133" resname="User agent">
         <source>User agent</source>
-        <target state="new">User agent</target>
+        <target>Navegador web</target>
         <jms:reference-file line="231">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="84c29015de33e5d22422382a372caba5c58f8c01" resname="Username">
@@ -2495,22 +2499,22 @@
       </trans-unit>
       <trans-unit id="704f615a9c50c8c23407085fdbe797ecee8b0eb8" resname="Valor - Ej: Campo1,Campo2,Campos3">
         <source>Valor - Ej: Campo1,Campo2,Campos3</source>
-        <target state="new">Valor - Ej: Campo1,Campo2,Campos3</target>
+        <target>Valor - Ex: Campo1,Campo2,Campo3</target>
         <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Form/Type/CustomUserFieldType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="8dce170de238b1feda2ecd9674ea3ca0d068fbcb" resname="Value">
         <source>Value</source>
-        <target>__Value</target>
+        <target>Valor</target>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/_show_fields.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="04c3ff1b8348e00599a68f8a5df2fbd61d519355" resname="Variables available">
         <source>Variables available</source>
-        <target>Variables available</target>
+        <target>Variáveis disponíveis</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminMail/_help.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="69bd4ef9fbd0894a22759c3766b859defbdedbc8" resname="View">
         <source>View</source>
-        <target>__View</target>
+        <target>Vista</target>
         <jms:reference-file line="16">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_actions.html.twig</jms:reference-file>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/AdminInstitution/_index_list_actions.html.twig</jms:reference-file>
         <jms:reference-file line="6">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstitution/_index_list_actions.html.twig</jms:reference-file>
@@ -2518,12 +2522,12 @@
       </trans-unit>
       <trans-unit id="f357562267187a09a657ee77d7c9194e8fafb291" resname="Viewed">
         <source>Viewed</source>
-        <target state="new">Viewed</target>
+        <target>Visto</target>
         <jms:reference-file line="11">/../src/Celsius3/NotificationBundle/Resources/views/Notification/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="585ce519d7d9bc84c3392ccf878081e3520688ad" resname="Visualización">
         <source>Visualización</source>
-        <target state="new">Visualización</target>
+        <target>Visualização</target>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3b18e8e332500f3dfedb21b0aed686cfa9832cfe" resname="Volume">
@@ -2540,22 +2544,22 @@
       </trans-unit>
       <trans-unit id="70decf6590df7a83ab53d05d92541da2dc8cead6" resname="Wait confirmation text">
         <source>Wait confirmation text</source>
-        <target state="new">Wait confirmation text</target>
+        <target>Mensagem de espera de confirmação</target>
         <jms:reference-file line="275">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="75e3799873088c2432e70f56989f0ba4fcfe86fd" resname="Wait confirmation title">
         <source>Wait confirmation title</source>
-        <target state="new">Wait confirmation title</target>
+        <target>Título de espera de confirmação</target>
         <jms:reference-file line="274">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4f4b95845033c973ff1d5451374468c5618dcec5" resname="We are performing system maintenance">
         <source>We are performing system maintenance</source>
-        <target>We are performing system maintenance</target>
+        <target>Estamos realizando a manutenção do sistema</target>
         <jms:reference-file line="66">/../src/Celsius3/CoreBundle/Resources/views/Mode/maintenance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2e8a57cc5c472f4ac3b071979a38e80db7e59e87" resname="Website">
         <source>Website</source>
-        <target>Website</target>
+        <target>Site</target>
         <jms:reference-file line="6">/../src/Celsius3/CoreBundle/Resources/views/AdminInstitution/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Directory/_instance.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstance/_index_sort.html.twig</jms:reference-file>
@@ -2588,52 +2592,52 @@
       </trans-unit>
       <trans-unit id="58d1bbce297de3c304a9fefc3b483181872a5c6b" resname="add">
         <source>add</source>
-        <target>Add</target>
+        <target>Adicionar</target>
         <jms:reference-file line="195">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2931491778b90d1b65dc741f3991017b72c65b0d" resname="addFiles">
         <source>addFiles</source>
-        <target>Add Files</target>
+        <target>Adicionar arquivos</target>
         <jms:reference-file line="175">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3d5ba2e4206ac91b224c723571100d21631af602" resname="addInstitution">
         <source>addInstitution</source>
-        <target>Add Institution</target>
+        <target>Adicionar instituição</target>
         <jms:reference-file line="197">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0968bb4f087737927bcb1315eab14905bbbfa118" resname="addOrder">
         <source>addOrder</source>
-        <target>Agregar pedido</target>
+        <target>Adicionar pedido</target>
         <jms:reference-file line="117">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="72347e72089a30497df8efdac527078cdbb03865" resname="addRequest">
         <source>addRequest</source>
-        <target>Agregar solicitud</target>
+        <target>Adicionar pedido</target>
         <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c662180230cad14787d4ab7e77aa08681ce783fa" resname="address">
         <source>address</source>
-        <target>Dirección</target>
+        <target>Endereço</target>
         <jms:reference-file line="25">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d033e22ae348aeb5660fc2140aec35850c4da997" resname="admin">
         <source>admin</source>
-        <target state="new">admin</target>
+        <target>Administrador</target>
         <jms:reference-file line="266">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e62854369199d65b6a66cd90fe8203ac4d5be26c" resname="advanced">
         <source>advanced</source>
-        <target>Avanzado</target>
+        <target>Avançado</target>
         <jms:reference-file line="42">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="37a1dff0f67997f6a249865d57b14e4c6ab2c760" resname="alert.delete.order">
         <source>alert.delete.order</source>
-        <target state="new">alert.delete.order</target>
+        <target>Eliminar pedido</target>
         <jms:reference-file line="113">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2f752d1ef7e235068e1d74d0ea6aa0c8b15f5438" resname="alert.undelete.order">
         <source>alert.undelete.order</source>
-        <target state="new">alert.undelete.order</target>
+        <target>Desfazer Eliminar Pedido</target>
         <jms:reference-file line="130">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d87c448044defb778f33158d8ccf94a20531d600" resname="all">
@@ -2653,32 +2657,32 @@
       </trans-unit>
       <trans-unit id="e9ffb4ebacea7ff5b500194b9f0b93f11063b333" resname="annulled">
         <source>annulled</source>
-        <target>anulled</target>
+        <target>Anulado</target>
         <jms:reference-file line="204">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fe01ce59ecc0101b210a500b23c0d39010b3e430" resname="approvalPending">
         <source>approvalPending</source>
-        <target>Pendiente de aprobación</target>
+        <target>Aprovação pendente</target>
         <jms:reference-file line="113">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1f8a80799c5b4ab47e4c7369537ba9c984a5c9e" resname="approveTooltipTitle">
         <source>approveTooltipTitle</source>
-        <target>Aprobar</target>
+        <target>Aprobvar</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f64cd8e32f5ac7553c150bd05d6f2252bb73f68d" resname="author">
         <source>author</source>
-        <target>Author</target>
+        <target>Autor</target>
         <jms:reference-file line="177">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="90e3fd0f012c27834ea5ef3cf1dfef96e9190b40" resname="authors">
         <source>authors</source>
-        <target state="new">authors</target>
+        <target>Autores</target>
         <jms:reference-file line="178">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="eb9e1df4a836ce3077d16e4317de47530ca1df2a" resname="backToPreviousState">
         <source>backToPreviousState</source>
-        <target>Volver al estado anterior</target>
+        <target>Voltar ao estado anterior</target>
         <jms:reference-file line="50">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="61a7508ed1b04e9ada836fcd14d4d8ef5687c7dd" resname="basic">
@@ -2688,43 +2692,43 @@
       </trans-unit>
       <trans-unit id="08111e14b56a6ac77af30faa52dd64c2c0e4fdc5" resname="beingSearched">
         <source>beingSearched</source>
-        <target>En búsqueda</target>
+        <target>Sendo pesquisado</target>
         <jms:reference-file line="118">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="754767d9c01e38c8f8bb2f62444f26cdc7571659" resname="bibliograficMaterial">
         <source>bibliograficMaterial</source>
-        <target state="new">bibliograficMaterial</target>
+        <target>Material bibliográfico</target>
         <jms:reference-file line="146">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="10bc8a0e355cbbfe23346f02501ee87c1c88502c" resname="birthdate">
         <source>birthdate</source>
-        <target>Fecha de nacimiento</target>
+        <target>Data de nascimento</target>
         <jms:reference-file line="125">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e7e694c58cd50e0324ec96918800bc35cd17629b" resname="book">
         <source>book</source>
-        <target>Book</target>
+        <target>Livro</target>
         <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="83494767d24527265ca727a3dabb495b82095bb2" resname="button.cancel">
         <source>button.cancel</source>
-        <target state="new">button.cancel</target>
+        <target>Cancelar</target>
         <jms:reference-file line="116">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="133">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5cbbc6a5584a3e034e59f99a050736a558567e38" resname="button.delete">
         <source>button.delete</source>
-        <target state="new">button.delete</target>
+        <target>Eliminar</target>
         <jms:reference-file line="119">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3a4051a8632ccc67226dc0f318274052d4239159" resname="button.mark_read">
         <source>button.mark_read</source>
-        <target state="new">button.mark_read</target>
+        <target>Marcar como lido</target>
         <jms:reference-file line="22">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="72d5c8ca044c69e462b04b0198eb0814b4e0bba3" resname="button.undelete">
         <source>button.undelete</source>
-        <target state="new">button.undelete</target>
+        <target>Desfazer Eliminar</target>
         <jms:reference-file line="136">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="408158643ed564c72fa0921826f8294d71ccbf7c" resname="by">
@@ -2734,12 +2738,12 @@
       </trans-unit>
       <trans-unit id="49426290b07c3808e09cc8af90f5c25b9896dd7f" resname="byUserRequest">
         <source>byUserRequest</source>
-        <target>by user request</target>
+        <target>por solicitação do usuário</target>
         <jms:reference-file line="205">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4fd0653c4f2aef3b19a3c145bbdc5f4740715a09" resname="cancel">
         <source>cancel</source>
-        <target state="new">Cancel</target>
+        <target>Cancelamento</target>
         <jms:reference-file line="221">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="49">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
@@ -2755,7 +2759,7 @@
       </trans-unit>
       <trans-unit id="fa52ec820de0cd56cd15b6b256bec97c4272c30b" resname="cancelledByUser">
         <source>cancelledByUser</source>
-        <target state="new">Cancelled by user</target>
+        <target>Cancelado pelo usuário</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminOrder/_index_element.html.twig</jms:reference-file>
         <jms:reference-file line="202">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
@@ -2772,7 +2776,7 @@
       </trans-unit>
       <trans-unit id="f1dc80200efe3706efd96948feb72df4a14b5f77" resname="centralized institution">
         <source>centralized institution</source>
-        <target state="new">centralized institution</target>
+        <target>Instituição centralizada</target>
         <jms:reference-file line="45">/../src/Celsius3/CoreBundle/Resources/views/AdminInstitution/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c0c31e0132cd5e7bf6976b5cceeb716865bb1ac9" resname="changeState">
@@ -2807,7 +2811,7 @@
       </trans-unit>
       <trans-unit id="5b17a6c606a82dafd93db84a19945afe2d559ed4" resname="comments">
         <source>comments</source>
-        <target state="new">comments</target>
+        <target>Comentários</target>
         <jms:reference-file line="181">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="60c58ad2ef34d96fae028f1039fab03dec9eb9a2" resname="communication">
@@ -2847,12 +2851,12 @@
       </trans-unit>
       <trans-unit id="e927d0677c77241b707442314346326278051dd6" resname="date">
         <source>date</source>
-        <target>Fecha</target>
+        <target>Data</target>
         <jms:reference-file line="16">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7955b936c48c9e75940ab4eb9d965657ef4fbc91" resname="degree">
         <source>degree</source>
-        <target>Grado</target>
+        <target>Grau</target>
         <jms:reference-file line="72">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c3a71b15188728829ec565f4ad9cd36e66dfc593" resname="deliver">
@@ -2872,17 +2876,17 @@
       </trans-unit>
       <trans-unit id="235acfdf1375f5efd80203aca782a2f5e0f135ab" resname="director">
         <source>director</source>
-        <target>Director</target>
+        <target>Diretor</target>
         <jms:reference-file line="71">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="07596f183f5e91b1778d5e47b2752b8d42aa763d" resname="disabled">
         <source>disabled</source>
-        <target>Deshabilitado</target>
+        <target>Desativado</target>
         <jms:reference-file line="99">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="817248fb77fb5c2cef3f2c732ad257cb1fb9c5e4" resname="download">
         <source>download</source>
-        <target state="new">Download</target>
+        <target>Descarregar</target>
         <jms:reference-file line="180">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="66">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/_index_element.html.twig</jms:reference-file>
       </trans-unit>
@@ -2903,18 +2907,18 @@
       </trans-unit>
       <trans-unit id="a88b7dcd1a9e3e17770bbaa6d7515b31a2d7e85d" resname="email">
         <source>email</source>
-        <target state="new">Correo Electrónico</target>
+        <target>Correio Eletrônico</target>
         <jms:reference-file line="79">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="25">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="094b0fe0e302854af1311afab85b5203ba457a3b" resname="en">
         <source>en</source>
-        <target state="new">en</target>
+        <target>em</target>
         <jms:reference-file line="237">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9905c33933602ae804e94f7731ecb5faaf4d6770" resname="enable">
         <source>enable</source>
-        <target state="new">Habilitar</target>
+        <target>Habilitar</target>
         <jms:reference-file line="114">/../src/Celsius3/CoreBundle/Form/EventListener/AddEnableCatalogFieldSubscriber.php</jms:reference-file>
         <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Form/EventListener/AddEnableCatalogFieldSubscriber.php</jms:reference-file>
         <jms:reference-file line="122">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
@@ -2931,107 +2935,107 @@
       </trans-unit>
       <trans-unit id="09cd68a2a77b22a312dded612dd0d9988685189f" resname="es">
         <source>es</source>
-        <target state="new">es</target>
+        <target>es</target>
         <jms:reference-file line="236">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="040eb9f918a0d6e4fb44908ad5b4d9935a675a3d" resname="event type">
         <source>event type</source>
-        <target>Event type</target>
+        <target>Tipo de evento</target>
         <jms:reference-file line="214">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="23c7e3856d75cda5743558cb173fd6725d320582" resname="exception.entity_not_found.catalog">
         <source>exception.entity_not_found.catalog</source>
-        <target state="new">exception.entity_not_found.catalog</target>
+        <target>O catálogo não foi encontrado</target>
         <jms:reference-file line="291">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cf81a9d773b7b74bbd1455da01ed27972fcd923d" resname="exception.entity_not_found.contact">
         <source>exception.entity_not_found.contact</source>
-        <target state="new">exception.entity_not_found.contact</target>
+        <target>O contato não foi encontrado</target>
         <jms:reference-file line="289">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9080ec5d244471213e463184933c14773fb3c448" resname="exception.entity_not_found.country">
         <source>exception.entity_not_found.country</source>
-        <target state="new">exception.entity_not_found.country</target>
+        <target>O país não foi encontrado</target>
         <jms:reference-file line="287">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0cbd35f55736edd78d5af59b377d49667b7dbfcc" resname="exception.entity_not_found.event">
         <source>exception.entity_not_found.event</source>
-        <target state="new">exception.entity_not_found.event</target>
+        <target>O evento não foi encontrado</target>
         <jms:reference-file line="281">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="99cd66c8ec44832b4dab991b79d6e1e3e7b5e9a2" resname="exception.entity_not_found.file">
         <source>exception.entity_not_found.file</source>
-        <target state="new">exception.entity_not_found.file</target>
+        <target>O arquivo não foi encontrado</target>
         <jms:reference-file line="283">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f8bc3706c5f0b3a90198fc9bb05dc351d2eedb04" resname="exception.entity_not_found.instance">
         <source>exception.entity_not_found.instance</source>
-        <target state="new">exception.entity_not_found.instance</target>
+        <target>A instância não foi encontrada</target>
         <jms:reference-file line="284">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6ff77a78a2a47014a1c1a0da05fb656c17e1ba82" resname="exception.entity_not_found.institution">
         <source>exception.entity_not_found.institution</source>
-        <target state="new">exception.entity_not_found.institution</target>
+        <target>A instituição não foi encontrada</target>
         <jms:reference-file line="278">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b12c7b86a90be7b6a6892b63f2bd600cf59f8f4a" resname="exception.entity_not_found.journal">
         <source>exception.entity_not_found.journal</source>
-        <target state="new">exception.entity_not_found.journal</target>
+        <target>O diário não foi encontrado</target>
         <jms:reference-file line="290">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="be64f5cac4b064472f1e094a13410b79a2274ae2" resname="exception.entity_not_found.mail_template">
         <source>exception.entity_not_found.mail_template</source>
-        <target state="new">exception.entity_not_found.mail_template</target>
+        <target>O modelo de e-mail não foi encontrado</target>
         <jms:reference-file line="280">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="40bb38209b08f9eea550d1ff9adb265424964f59" resname="exception.entity_not_found.notification">
         <source>exception.entity_not_found.notification</source>
-        <target state="new">exception.entity_not_found.notification</target>
+        <target>A notificação não foi encontrada</target>
         <jms:reference-file line="285">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6c0e6118dfb14ef81d5f6e0999d3907ccfea34d" resname="exception.entity_not_found.order">
         <source>exception.entity_not_found.order</source>
-        <target state="new">exception.entity_not_found.order</target>
+        <target>A petição não foi encontrada</target>
         <jms:reference-file line="286">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2a44269804098af8cfbce2763f5082b2387ec251" resname="exception.entity_not_found.request">
         <source>exception.entity_not_found.request</source>
-        <target state="new">exception.entity_not_found.request</target>
+        <target>O pedido não foi encontrado</target>
         <jms:reference-file line="282">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8aca4ce012a3f89d7cdd6a1d284ed02f785b26bb" resname="exception.entity_not_found.state">
         <source>exception.entity_not_found.state</source>
-        <target state="new">exception.entity_not_found.state</target>
+        <target>O estado não foi encontrado</target>
         <jms:reference-file line="288">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9d0947520dc8510a0c6c182d3c1aca7ef0a3d254" resname="exception.entity_not_found.user">
         <source>exception.entity_not_found.user</source>
-        <target state="new">exception.entity_not_found.user</target>
+        <target>O usuário não foi encontrado</target>
         <jms:reference-file line="279">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="aab1efeaa7fa82073360441c1c97b021a4982741" resname="exception.invalid.search">
         <source>exception.invalid.search</source>
-        <target state="new">exception.invalid.search</target>
+        <target>Pesquisa inválida</target>
         <jms:reference-file line="293">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="273615825e696983caa246e5366e95750c2bb420" resname="exception.template.mail_template">
         <source>exception.template.mail_template</source>
-        <target state="new">exception.template.mail_template</target>
+        <target>Erro para renderizar modelo de e-mail</target>
         <jms:reference-file line="292">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="46de0822921c7383284031a3ff592cf8a48da9dc" resname="exploreCatalogs">
         <source>exploreCatalogs</source>
-        <target>Explorar catálogos</target>
+        <target>Explore catálogos</target>
         <jms:reference-file line="74">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a1f13b3bc20a296e08c212be9c56c706c10abc4f" resname="files">
         <source>files</source>
-        <target>Archivos</target>
+        <target>Arquivos</target>
         <jms:reference-file line="34">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6f54e009591f72c25b4fbe9675fb1ecbd3b71891" resname="filesSuccessUpload">
         <source>filesSuccessUpload</source>
-        <target>Los archivos fueron subidos con éxito.</target>
+        <target>Os arquivos foram carregados com sucesso.</target>
         <jms:reference-file line="35">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4bb4ca75941b7bbc5bc6a12be44b22fc9c8d234e" resname="filter">
@@ -3041,7 +3045,8 @@
       </trans-unit>
       <trans-unit id="82ec7c06c119e2af7ecf4528ed526918948ac85a" resname="finalYear">
         <source>finalYear</source>
-        <target state="new">finalYear</target>
+        <target xml:space="preserve">Ano final
+</target>
         <jms:reference-file line="137">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f957097d7a22775f6bea41b46cae4d14274dac9f" resname="finished">
@@ -3056,22 +3061,22 @@
       </trans-unit>
       <trans-unit id="633fd6864c4a4c689915b9e3708da5c35a437d37" resname="foundOnTheWeb">
         <source>foundOnTheWeb</source>
-        <target>Found on the Web</target>
+        <target>Encontrado na web</target>
         <jms:reference-file line="184">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ccc3e2de1389d090af4306cb3c6c78e305fc977f" resname="goToList">
         <source>goToList</source>
-        <target>Ir a la lista</target>
+        <target>Ir para a lista</target>
         <jms:reference-file line="43">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="66f79d8a6327c82c9033e6d65ff03322a3766c87" resname="history">
         <source>history</source>
-        <target>Historial</target>
+        <target>Histórico</target>
         <jms:reference-file line="83">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="801d027309b0f931b1c155dc9f844a295cd51a2b" resname="hive">
         <source>hive</source>
-        <target>Enjambre</target>
+        <target>Colméia</target>
         <jms:reference-file line="102">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="43a9519ed4b5e9c75eb7d683e3d1e09708f9b34a" resname="http://">
@@ -3083,27 +3088,27 @@
       </trans-unit>
       <trans-unit id="af10ef20dd9060bbeead0afbc55381a66af442ef" resname="in">
         <source>in</source>
-        <target>in</target>
+        <target>em</target>
         <jms:reference-file line="213">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="59cc34d2751eaf7caf3e26a599cb649fe888be57" resname="initialYear">
         <source>initialYear</source>
-        <target state="new">initialYear</target>
+        <target>Ano inicial</target>
         <jms:reference-file line="136">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1adc83a3838bce4a383059cfbb5d390d0590101e" resname="institution">
         <source>institution</source>
-        <target>Institución</target>
+        <target>Instituição</target>
         <jms:reference-file line="108">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="88a9a4d067ffc9e7cbe0583d15f99434c10e7a64" resname="institutionUsers">
         <source>institutionUsers</source>
-        <target>Usuarios de la Institución</target>
+        <target>Usuários da instituição</target>
         <jms:reference-file line="129">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e30bfbda31bb3fe440056e5ca0cc50000cc7eb71" resname="interactionSummary">
         <source>interactionSummary</source>
-        <target>Resumen de interacción</target>
+        <target>Resumo de interação</target>
         <jms:reference-file line="51">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9aa403ad1a228582f3ec873609a1cbfa96f9e5ed" resname="isbn">
@@ -3113,7 +3118,7 @@
       </trans-unit>
       <trans-unit id="74a307593e0f665af571c43e5af2f6e8cd21b221" resname="itemInformation">
         <source>itemInformation</source>
-        <target>Información general del item</target>
+        <target>Informações gerais do item</target>
         <jms:reference-file line="52">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4954ccf587d793166896009bfa073d68c339583a" resname="journal">
@@ -3123,134 +3128,135 @@
       </trans-unit>
       <trans-unit id="8043c8112a810b3ddfa271ebf328a890887aa7be" resname="lastMessages">
         <source>lastMessages</source>
-        <target>Últimos mensajes</target>
+        <target>Últimas mensagens</target>
         <jms:reference-file line="130">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1566e4db435687fd6ccb2b9270605b4cf2af92f9" resname="liblink">
         <source>liblink</source>
-        <target state="new">liblink</target>
+        <target>Liblink</target>
         <jms:reference-file line="101">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="b79e122292b0392cd715ebd96cf41f0a79791151" resname="localcancel">
         <source>localcancel</source>
-        <target>Local cancel</target>
+        <target>Cancelamento local</target>
         <jms:reference-file line="219">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9968493fc2148649575716b324d3fabbc9b14493" resname="locationDelay">
         <source>locationDelay</source>
-        <target state="new">locationDelay</target>
+        <target>Atraso na localização</target>
         <jms:reference-file line="161">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2736fab291f04e69b62d490c3c09361f5b82461a" resname="login">
         <source>login</source>
-        <target state="new">login</target>
+        <target>login</target>
         <jms:reference-file line="16">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7652b6a5ce86c4e9de49f6b5e214a7e44fecdb26" resname="message.modal.button.save">
         <source>message.modal.button.save</source>
-        <target>Send message</target>
+        <target>Enviar mensagem</target>
         <jms:reference-file line="95">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5927d8c6b93167d46190f4fd7049250a9d9d4346" resname="message.modal.header">
         <source>message.modal.header</source>
-        <target>Software update message</target>
+        <target>Mensagem de atualização de software</target>
         <jms:reference-file line="88">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="18fa3fe00c487f3b2f96f28f72e4eee7ba7df278" resname="mirequest">
         <source>mirequest</source>
-        <target>Request</target>
+        <target>Pedido</target>
         <jms:reference-file line="217">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9c6d51b72da01a6f73c4493275e770f739a2aec6" resname="modal.button.close">
         <source>modal.button.close</source>
-        <target>Close</target>
+        <target>Fechar</target>
         <jms:reference-file line="94">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
         <jms:reference-file line="126">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
         <jms:reference-file line="93">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="48e8903c4d07e0e7a50aca4c0de6a69097635742" resname="myOrders">
         <source>myOrders</source>
-        <target>Mis pedidos</target>
+        <target>Meus pedidos</target>
         <jms:reference-file line="119">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6ae999552a0d2dca14d62e2bc8b764d377b1dd6c" resname="name">
         <source>name</source>
-        <target>Nombre</target>
+        <target>Nome</target>
         <jms:reference-file line="19">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c2a6b03f190dfb2b4aa91f8af8d477a9bc3401dc" resname="new">
         <source>new</source>
-        <target>Nuevo</target>
+        <target>Novo</target>
         <jms:reference-file line="126">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fd1286353570c5703799ba76999323b7c7447b06" resname="no">
         <source>no</source>
-        <target>No</target>
+        <target>Não</target>
         <jms:reference-file line="97">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="13370236e38ac443b1129cec5431bee16c771ac0" resname="noContinueSearch">
         <source>noContinueSearch</source>
-        <target>No continue search</target>
+        <target>Não continue a pesquisa</target>
         <jms:reference-file line="188">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4286b35622dcb8398727eca143644dfbd3526f33" resname="noEvents">
         <source>noEvents</source>
-        <target>No hay eventos en el historial.</target>
+        <target>Não há eventos no histórico.</target>
         <jms:reference-file line="84">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1c50d54f03de94e4cb6cc27bf1d58f5423c62796" resname="noMatchingOrders">
         <source>noMatchingOrders</source>
-        <target>No hay órdenes que coincidan.</target>
+        <target>Não há pedidos correspondentes.</target>
         <jms:reference-file line="121">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="706de3b4ed4bcd52c4d213899ab62ac847d670f9" resname="noPendingUsers">
         <source>noPendingUsers</source>
-        <target>No hay usuarios pendientes.</target>
+        <target>Não há usuários pendentes.</target>
         <jms:reference-file line="123">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="988d5b6fa0e86b3f6e7ff35bc8b39cba9c9fef6e" resname="noRequests">
         <source>noRequests</source>
-        <target>No hay solicitudes.</target>
+        <target>Não há usuários pendentes.</target>
         <jms:reference-file line="87">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ea22f891265451fa63ca114ed9a5ce5142c39d57" resname="noSearches">
         <source>noSearches</source>
-        <target>No hay búsquedas.</target>
+        <target>Não há pesquisas.</target>
         <jms:reference-file line="82">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c923149c71dac8040b6f351454372848ba5e6bbd" resname="nonSearched">
         <source>nonSearched</source>
-        <target>No Buscado</target>
+        <target>Não procurado</target>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e8591cc9bf597dcc1c19d43b6f185a2a69c555e0" resname="non_searched">
         <source>non_searched</source>
-        <target>No Buscado</target>
+        <target>Não procurado</target>
         <jms:reference-file line="14">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b18d1e57ecc075dfad419983ead13712ac6a2d67" resname="notFound">
         <source>notFound</source>
-        <target>No encontrado</target>
+        <target>Não encontrado</target>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6960b7ab39483c678a994c593b4fc99e6656cfa4" resname="not_found">
         <source>not_found</source>
-        <target>No encontrado</target>
+        <target xml:space="preserve">Não encontrado
+</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4c18345c6b036d14f650bfa75e2f97bf336993d2" resname="not_previous_searches_info">
         <source>not_previous_searches_info</source>
-        <target>Not found previous searches</target>
+        <target>Não foram encontradas pesquisas anteriores</target>
         <jms:reference-file line="95">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d878d5737d6bd7778e2b6695881c8991c662cde0" resname="not_request_received_info">
         <source>not_request_received_info</source>
-        <target>__not_request_received_info</target>
+        <target>Não informação de solicitudes recebidas</target>
         <jms:reference-file line="82">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="310ec4e6213b134f6c2813bed00192195a756ee0" resname="notification">
         <source>notification</source>
-        <target state="new">notification</target>
+        <target>notificação</target>
         <jms:reference-file line="24">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="53b0a1b2fadf4e040cdc2155a7340de24aca93cb" resname="number">
@@ -3260,7 +3266,7 @@
       </trans-unit>
       <trans-unit id="1943334c78820f2e8712c155c2dbd302c387db1c" resname="observations">
         <source>observations</source>
-        <target>Observaciones</target>
+        <target>Observações</target>
         <jms:reference-file line="23">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="de04fa0e29f9b35e24905d2e512bedc9bb6e09e4" resname="of">
@@ -3270,27 +3276,27 @@
       </trans-unit>
       <trans-unit id="fe96dd39756ac41b74283a9292652d366d73931f" resname="operator">
         <source>operator</source>
-        <target>Operator</target>
+        <target>Operador</target>
         <jms:reference-file line="215">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b54e3b580ece7c8a8180d41aeadbf4b3ac713dfe" resname="orderData">
         <source>orderData</source>
-        <target>Order data</target>
+        <target>Dados da petição</target>
         <jms:reference-file line="196">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="993893a5889dea89468efd3e42137e05b01d0cb3" resname="orderHistory">
         <source>orderHistory</source>
-        <target>Historial de Pedidos</target>
+        <target>Histórico de Pedidos</target>
         <jms:reference-file line="128">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9658403816409e66eba2175f8eff8b53a9681573" resname="orders">
         <source>orders</source>
-        <target>Orders</target>
+        <target>Petições</target>
         <jms:reference-file line="173">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="69cd7ab384484e0e1c719b327a83250988f8b958" resname="ordersAmounts">
         <source>ordersAmounts</source>
-        <target state="new">ordersAmounts</target>
+        <target>Pedidos y quantidades</target>
         <jms:reference-file line="138">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="eec6542d2e2e50b05427f53d6208ac21a02ad012" resname="pages">
@@ -3310,7 +3316,7 @@
       </trans-unit>
       <trans-unit id="6612af2ed3b6119792a7340f894f46124130ed62" resname="patent">
         <source>patent</source>
-        <target>Patent</target>
+        <target>Patente</target>
         <jms:reference-file line="64">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ce9f44bc3d348133b47226685a8f75bbf17e757b" resname="pdf">
@@ -3320,7 +3326,7 @@
       </trans-unit>
       <trans-unit id="1d44892e951e91cd2b4429dc6dd57110cc432496" resname="pdfUserTooltipTitle">
         <source>pdfUserTooltipTitle</source>
-        <target>Este usuario descarga los pedidos en formato PDF</target>
+        <target>Este usuário descarrega solicitações em formato PDF</target>
         <jms:reference-file line="6">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e22586930a5b2f196cd9070b9a4af5c47c1380fa" resname="pending">
@@ -3330,7 +3336,7 @@
       </trans-unit>
       <trans-unit id="75130b974d3922766a427ca38baad6d0e7575074" resname="pendingUsersTitle">
         <source>pendingUsersTitle</source>
-        <target state="new">pendingUsersTitle</target>
+        <target>Usuários pendentes</target>
         <jms:reference-file line="154">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9da8f1fa7d3a9fd015ae3c831a765e25ae03e4d7" resname="place">
@@ -3340,58 +3346,58 @@
       </trans-unit>
       <trans-unit id="6d1604b9aadffbb939d931970d797c0246403fed" resname="previous searches">
         <source>previous searches</source>
-        <target>previous searches</target>
+        <target>pesquisas anteriores</target>
         <jms:reference-file line="91">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f7af2b016ba28fee89816eed1e6222d536f85dfa" resname="previousRelatedSearches">
         <source>previousRelatedSearches</source>
-        <target>previous searches</target>
+        <target>pesquisas anteriores</target>
         <jms:reference-file line="206">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f0243192ae82eaccc4f7b95212baddb9214929d4" resname="previousSearches">
         <source>previousSearches</source>
-        <target>Previous Searches</target>
+        <target>Pesquisas Anteriores</target>
         <jms:reference-file line="198">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1c8f15dab796c5c96b98fb02918198eec0c6b99e" resname="printed">
         <source>printed</source>
-        <target>Impreso</target>
+        <target>Impresso</target>
         <jms:reference-file line="33">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5bd9955f918d3263feae149d7622692115ecf399" resname="printedUserTooltipTitle">
         <source>printedUserTooltipTitle</source>
-        <target>Este usuario retira los pedidos impresos en papel</target>
+        <target>Este usuário retira pedidos em papel impresso</target>
         <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5d6227e65d035c8a0c21b78613c727451d1f20e5" resname="providedByTheAuthor">
         <source>providedByTheAuthor</source>
-        <target>Provided by the Author</target>
+        <target>Fornecido pelo autor</target>
         <jms:reference-file line="183">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="868b357f69316d1e9bc7a3d4a8d0637f6779223f" resname="provision">
         <source>provision</source>
-        <target state="new">Provisión</target>
+        <target>Provisión</target>
         <jms:reference-file line="131">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="93">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6365bcaf67d4dea714713e5d51655e530d6a9aa9" resname="provisionModeText">
         <source>provisionModeText</source>
-        <target state="new">Si usted no necesita realizar búsquedas en catálogos para satisfacer el pedido, seleccione Básico, de lo contrario elija avanzado</target>
+        <target>Se você não precisa pesquisar em catálogos para satisfazer este pedido, escolha Básico, caso contrário escolha Avançado.</target>
         <jms:reference-file line="40">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc811258ae9f9fcb0494bb2785a876a59993024e" resname="pt">
         <source>pt</source>
-        <target state="new">pt</target>
+        <target>pt</target>
         <jms:reference-file line="238">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f1655af968944cb00df7acf9c88447a72068cddc" resname="receive">
         <source>receive</source>
-        <target>Recibir</target>
+        <target>Receber</target>
         <jms:reference-file line="88">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="38428a698ab1222540680e7ab78e1d739e9afd1c" resname="received">
         <source>received</source>
-        <target>Recibido</target>
+        <target>Recebido</target>
         <jms:reference-file line="114">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0ad27ba556db9d1ed05ee79708c0e2dd82dddbb1" resname="reclaim">
@@ -3406,87 +3412,87 @@
       </trans-unit>
       <trans-unit id="bc76f6e1af2c2863a8eff1aadd1898857ed36abc" resname="reclaimed">
         <source>reclaimed</source>
-        <target>Reclaimed</target>
+        <target>Reclamado</target>
         <jms:reference-file line="211">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="63ba8b7430a22e98afa33660321fb5047cf5b0f8" resname="reenableDownload">
         <source>reenableDownload</source>
-        <target>Reenable download</target>
+        <target>Re Habilitar o download</target>
         <jms:reference-file line="207">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9e4e7312a21f3ef1f4f92af63dc1542c9b57c5ef" resname="registar_instance.abrev_institucion">
         <source>registar_instance.abrev_institucion</source>
-        <target state="new">registar_instance.abrev_institucion</target>
+        <target>Abreviatura da instituição</target>
         <jms:reference-file line="67">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f53c934c455565301d9711e150cd9991e8105a12" resname="registar_instance.apellido_nombre">
         <source>registar_instance.apellido_nombre</source>
-        <target state="new">registar_instance.apellido_nombre</target>
+        <target>Sobrenome e nome</target>
         <jms:reference-file line="24">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="31eaba2a19fb86df1934990783e70b40644954b7" resname="registar_instance.city">
         <source>registar_instance.city</source>
-        <target state="new">registar_instance.city</target>
+        <target>Cidade</target>
         <jms:reference-file line="50">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1f3d5e76e759ba5c44113569e1d02e928feb6157" resname="registar_instance.country">
         <source>registar_instance.country</source>
-        <target state="new">registar_instance.country</target>
+        <target>Pais</target>
         <jms:reference-file line="41">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cc2e032f613b6a6211aa7bff7cfddfebc7c2bd7e" resname="registar_instance.email">
         <source>registar_instance.email</source>
-        <target state="new">registar_instance.email</target>
+        <target>endereço de email</target>
         <jms:reference-file line="31">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="93653747c22123b8c809dbbbb6752dfb1300dda3" resname="registar_instance.institution">
         <source>registar_instance.institution</source>
-        <target state="new">registar_instance.institution</target>
+        <target>Instituição</target>
         <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3bd453e4028c6d8b95b8a43292f35e27b83207d4" resname="registar_instance.migrar_otra_version">
         <source>registar_instance.migrar_otra_version</source>
-        <target state="new">registar_instance.migrar_otra_version</target>
+        <target>Migrar outra versão</target>
         <jms:reference-file line="109">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ddfe60383bb93e7bce35a9b737f6fa1a17381b72" resname="registar_instance.observaciones">
         <source>registar_instance.observaciones</source>
-        <target state="new">registar_instance.observaciones</target>
+        <target>Observações</target>
         <jms:reference-file line="100">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ad890f5600ad25085afcaed59894cab7b46eeaa1" resname="registar_instance.url_biblioteca">
         <source>registar_instance.url_biblioteca</source>
-        <target state="new">registar_instance.url_biblioteca</target>
+        <target>URL da biblioteca</target>
         <jms:reference-file line="83">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d05b0354dbd79e8189af68f49008f0395ff38ae2" resname="registar_instance.url_catalogo">
         <source>registar_instance.url_catalogo</source>
-        <target state="new">registar_instance.url_catalogo</target>
+        <target>URL do catálogo</target>
         <jms:reference-file line="90">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a4ae01e75fbac8b8061d6c2cb5acb67873b18647" resname="registar_instance.url_institucion">
         <source>registar_instance.url_institucion</source>
-        <target state="new">registar_instance.url_institucion</target>
+        <target>URL da instituição</target>
         <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Resources/views/Directory/registerInstance.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="90afb8c10d80d7b84837590eb43cb0b81ca22390" resname="reject">
         <source>reject</source>
-        <target>Reject</target>
+        <target>Rejeitar</target>
         <jms:reference-file line="191">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cd316bccf63bd90a8ff041d59f0088e5537a2b08" resname="rejectUser">
         <source>rejectUser</source>
-        <target>Reject User</target>
+        <target>Rejeitar Usuário</target>
         <jms:reference-file line="189">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4f7b68952388778dab6667e589e43c8823834419" resname="rejectUserQuestion">
         <source>rejectUserQuestion</source>
-        <target>Are you sure you want to remove this user?</target>
+        <target>Tem certeza de que deseja remover esse usuário?</target>
         <jms:reference-file line="190">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9c9e0af99d98f3f66641cdbf619e8561ec676536" resname="remotecancel">
         <source>remotecancel</source>
-        <target>Remote cancel</target>
+        <target>Cancelamento remoto</target>
         <jms:reference-file line="220">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="088e29b0ab0079560dea5d3e5aeb2f7868af661e" resname="request">
@@ -3496,7 +3502,7 @@
       </trans-unit>
       <trans-unit id="bc1076ba1cc3f7718b88b31612dd9b00300d0442" resname="requestReclaimed">
         <source>requestReclaimed</source>
-        <target>The order has been reclaimed with the following comments:</target>
+        <target>A ordem foi reclamada com os seguintes comentários:</target>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c13d95cec9db3a374a099ac069f7856e7486fb2f" resname="requestSatisfied">
@@ -3506,7 +3512,7 @@
       </trans-unit>
       <trans-unit id="060fd938a9926800ca8d2d89071527f595ba0ed7" resname="requestTooltipTitle">
         <source>requestTooltipTitle</source>
-        <target>Se debe realizar una búsqueda antes de hacer una solicitud</target>
+        <target>Você deve procurar nos catálogos antes de solicitar um pedido</target>
         <jms:reference-file line="1">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fcb0885159dfe15b8d42ad42750ddc7b6729c66d" resname="requested">
@@ -3516,7 +3522,7 @@
       </trans-unit>
       <trans-unit id="990683eacbcda32997d5042f6fe64d1fc95bc3d4" resname="requested to">
         <source>requested to</source>
-        <target>Requested to</target>
+        <target>Solicitado a</target>
         <jms:reference-file line="212">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="54faec366d11efdac0f9d2da560e273f92288c2a" resname="requests">
@@ -3526,54 +3532,53 @@
       </trans-unit>
       <trans-unit id="4a1f1135cd86a1ba4c537453bd486e8e2a9ebca8" resname="requestsCount">
         <source>requestsCount</source>
-        <target state="new">requestsCount</target>
+        <target>Contagem de pedidos</target>
         <jms:reference-file line="139">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f78acb4cad36239fd1e138e2b4d79d300a836384" resname="requestsCountDescription">
         <source>requestsCountDescription</source>
-        <target xml:space="preserve">Esta estadística nos muestra el número de pedidos iniciados, satisfechos y cancelados por año durante el período temporal elegido, el cual será por defecto el año actual. Se muestra ademas el número de páginas impresas durante dicho periodo.
-                    En caso de que el periodo de tiempo elegido sea sólo un año, se mostrara la distribución de pedidos detallada mes a mes.</target>
+        <target>Esta estatística mostra o número de pedidos iniciados, satisfeitos e cancelados por ano durante o período de tempo escolhido, que por padrão é definido para o ano atual. Também mostra o número de páginas impressas para um período de tempo selecionado. No caso dum período de um ano, você verá dados detalhados mês a mês.</target>
         <jms:reference-file line="153">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="556f4ff22ce9a09fa32ad0c12855c4685d3c5cf5" resname="requestsDelay">
         <source>requestsDelay</source>
-        <target state="new">requestsDelay</target>
+        <target>Atraso de pedidos</target>
         <jms:reference-file line="141">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="83d0bac35545256dca4f1249646ad889dc2d5927" resname="requestsDestinyDistribution">
         <source>requestsDestinyDistribution</source>
-        <target state="new">requestsDestinyDistribution</target>
+        <target xml:space="preserve">
+Distribuição de destino das petições</target>
         <jms:reference-file line="140">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5e4d4b008c4434ca3c732bd76b19529b788dcd68" resname="requestsDestinyDistributionDescription">
         <source>requestsDestinyDistributionDescription</source>
-        <target xml:space="preserve">Esta estadística nos brinda la posibilidad de observar la cantidad de pedidos iniciados, satisfechos y cancelados por país durante un período determinado. Al seleccionar un país, accederemos a datos de sus instituciones. Similarmente, al
-                    seleccionar una institución, podremos ver estadisticas de sus dependencias.</target>
+        <target>Esta estatística mostra o número de pedidos iniciados, satisfeitos e cancelados por país durante o período de tempo escolhido. É possível selecionar um único país para acessar as estatísticas sobre suas instituições. Da mesma forma, é possível escolher uma instituição e ver dados de suas dependências.</target>
         <jms:reference-file line="152">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b6cb7bb022e12a252c71f76ed02145c6a99566a6" resname="requestsOrigin">
         <source>requestsOrigin</source>
-        <target state="new">requestsOrigin</target>
+        <target>Origem dos pedidos</target>
         <jms:reference-file line="145">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="41e3e5c08bbb874c6ad1415a704304ac6cca8afb" resname="requestsOriginDescription">
         <source>requestsOriginDescription</source>
-        <target>Esta estadística presenta la cantidad de pedidos cargados por el país elegido. Al seleccionar una institucion en particular, accederemos a datos de sus dependencias.</target>
+        <target>Esta estatística mostra o número de pedidos para cada país. A Web pode acessar dados detalhados sobre instituições selecionando um país. A mesma idéia se aplica a uma instituição e depende dela.</target>
         <jms:reference-file line="149">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d548cf36f9f30a08e2226de62f4edd8e3c6772da" resname="requestsPublicationYear">
         <source>requestsPublicationYear</source>
-        <target state="new">requestsPublicationYear</target>
+        <target>Ano de publicação das petições</target>
         <jms:reference-file line="147">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3b382e21d2bb2c505ac067edb36f46ce78f5825f" resname="requestsPublicationYearDescription">
         <source>requestsPublicationYearDescription</source>
-        <target>Esta estadística clasifica y totaliza los pedidos dependiendo el año de publicación del material involucrado en los mismos (revista, libro, acta).</target>
+        <target>Esta estatística classifica e acumula ordens de acordo com o ano de publicação dos materiais envolvidos (revista, livro, processo).</target>
         <jms:reference-file line="148">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="9d0e530d42f059157c3ab12e0a9b6ef7f603f72b" resname="responseDelay">
         <source>responseDelay</source>
-        <target state="new">responseDelay</target>
+        <target>Atraso da resposta</target>
         <jms:reference-file line="162">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="37a5301a88da334dc5afc5b63979daa0f3f45e68" resname="result">
@@ -3583,40 +3588,40 @@
       </trans-unit>
       <trans-unit id="63143b6f8007b98c53ca2149822777b3566f9241" resname="return">
         <source>return</source>
-        <target state="new">return</target>
+        <target>voltar</target>
         <jms:reference-file line="11">/Resources/TwigBundle/views/Exception/error404.html.twig</jms:reference-file>
         <jms:reference-file line="11">/Resources/TwigBundle/views/Exception/error500.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="082088b63635158f076217852bbb384db56ee14e" resname="reuploadTooltipTitle">
         <source>reuploadTooltipTitle</source>
-        <target>Subir más</target>
+        <target>Carregue mais</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="13a4a11319d31c1b323d5774f44240a9ffc984d0" resname="save">
         <source>save</source>
-        <target>Guardar</target>
+        <target>Salvar</target>
         <jms:reference-file line="78">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3559d7accf00360971961ca18989adc0614089c0" resname="search">
         <source>search</source>
-        <target state="new">Search</target>
+        <target>Procurar</target>
         <jms:reference-file line="132">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="216">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="92">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="81bb51367d3bf87892ef3b596a2156f7a5f2adb8" resname="search filter">
         <source>search filter</source>
-        <target>search filter</target>
+        <target>filtro de pesquisa</target>
         <jms:reference-file line="1">/../src/Celsius3/CoreBundle/Resources/views/AdminSearch/_aggregations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="729ff03bf240b454a10e299ad0cbfb6c95861b99" resname="searchCatalogs">
         <source>searchCatalogs</source>
-        <target>Buscar en catálogos</target>
+        <target>Pesquisar em catálogos</target>
         <jms:reference-file line="75">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="200a4eeceb23812607056fd2fbd63a0e877f08d7" resname="searched">
         <source>searched</source>
-        <target>Buscado</target>
+        <target>Procurado</target>
         <jms:reference-file line="111">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6ba90f34b3fd2469bbf0bb78b7eb878339303bd" resname="searches">
@@ -3627,27 +3632,27 @@
       </trans-unit>
       <trans-unit id="b50c7a3bb3ba1bc082426347375ac30fdd9c7838" resname="selectCity">
         <source>selectCity</source>
-        <target>Seleccione una ciudad</target>
+        <target>Selecione uma cidade</target>
         <jms:reference-file line="107">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8f9c3086e25b499fab48b0584c516f4ecddf4f81" resname="selectContact">
         <source>selectContact</source>
-        <target>Seleccione un contacto</target>
+        <target>Selecione um contato</target>
         <jms:reference-file line="30">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="891e057f8eb8c8182da3f81ed22f042b265e9097" resname="selectCountry">
         <source>selectCountry</source>
-        <target>Seleccione un país</target>
+        <target>Selecione um país</target>
         <jms:reference-file line="105">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fc17bdf8639e6f6b729dd152ca2681f0f5157754" resname="selectInstitution">
         <source>selectInstitution</source>
-        <target>Seleccione una institución</target>
+        <target>Selecione uma instituição</target>
         <jms:reference-file line="109">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="caba4571f317489a371a1806050a76780202e338" resname="selectTemplate">
         <source>selectTemplate</source>
-        <target>Selecciona una plantilla de correo</target>
+        <target>Selecione um modelo de email</target>
         <jms:reference-file line="29">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="37ed539c0cef13959abd980bebf30f4922f606e3" resname="send">
@@ -3657,42 +3662,40 @@
       </trans-unit>
       <trans-unit id="2ed4859efba2533df22ea7d1b0dd9f76502c2052" resname="sendMail">
         <source>sendMail</source>
-        <target>Enviar correo electrónico</target>
+        <target>Enviar email</target>
         <jms:reference-file line="45">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="eabcb0734b3b75e33af9a781459960f28dad1614" resname="sendMessage">
         <source>sendMessage</source>
-        <target>Enviar Mensaje</target>
+        <target>Enviar Mensagem</target>
         <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d92438e3b2fb2404fec9dc6307cc67ef57da718b" resname="serviceEfficiency">
         <source>serviceEfficiency</source>
-        <target state="new">serviceEfficiency</target>
+        <target>Eficiência do serviço</target>
         <jms:reference-file line="142">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="66b1075859cb4d98ec96aaef7f3e59159a4eaf55" resname="serviceEfficiencyDescription">
         <source>serviceEfficiencyDescription</source>
-        <target xml:space="preserve">Esta estadística muestra la demora de los pedidos, la cual se clasifica en tres categorias:\n -La demora total, que es el tiempo transcurrido desde que el usuario carga su pedido hasta que lo descarga o imprime.\n -La demora en localización,
-                    que es el tiempo transcurrido desde que el usuario carga el pedido hasta que un administrador del sistema lo atiende, lo busca en los catálogos, lo localiza y lo solicita a la institución correspondiente.\n -La demora en respuesta, que es el tiempo
-                    desde que los pedidos son solicitados por un operador a una institución externa, hasta que el pedido está listo para ser descargado, una vez que dicha institución lo ha enviado.</target>
+        <target>Esta estatística mostra o atraso dos pedidos, que é medido em três categorias: \ n - O atraso total, o tempo decorrido desde que o usuário fez o pedido até que ele esteja pronto para ser baixado ou impresso \ n - O atraso na localização, o tempo decorrido desde o usuário cria seu pedido até que um operador o solicite para uma instituição estrangeira. Durante esse período, a ordem foi normalizada, pesquisada em todos os catálogos e localizada \ n - O atraso em resposta, o tempo decorrido desde que as ordens foram solicitadas por Os operadores para instituições estrangeiras, até estarem prontos para serem baixados ou impressos, uma vez que a instituição o enviou.</target>
         <jms:reference-file line="151">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b12cd1d0c301df9498263fb5b283fe144b1c2452" resname="sinTitulo">
         <source>sinTitulo</source>
-        <target state="new">Sin título</target>
+        <target>Sem título</target>
         <jms:reference-file line="179">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Resources/views/Order/_index_element.html.twig</jms:reference-file>
         <jms:reference-file line="56">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/_index_element.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2eb888e95f113117c63e0d526f68ad90267a45e6" resname="since">
         <source>since</source>
-        <target>de</target>
+        <target>desde</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminOrder/_index_order_fields.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/_show_fields.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="484032fa30084152e2322310c3b1db5c0ee450de" resname="sirequest">
         <source>sirequest</source>
-        <target>Request</target>
+        <target>Pedido</target>
         <jms:reference-file line="218">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="20a24593f82e573953076a0eeaf8f3cfb817a534" resname="ssl">
@@ -3702,7 +3705,7 @@
       </trans-unit>
       <trans-unit id="1baf76a9540066f3fd6b5a9704d9315ea3d3410d" resname="startPage">
         <source>startPage</source>
-        <target>Página de inicio</target>
+        <target>Página de início</target>
         <jms:reference-file line="56">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="aa4a5f8125f234182e2dea92805afdfb747a86be" resname="state">
@@ -3712,12 +3715,12 @@
       </trans-unit>
       <trans-unit id="335ce16b3fe40346cc3af2a4efce2ef04bc4ea55" resname="subject">
         <source>subject</source>
-        <target>Asunto</target>
+        <target>Assunto</target>
         <jms:reference-file line="27">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3226ecbe650213a49cd03ae67140750e4f340083" resname="template">
         <source>template</source>
-        <target state="new">Plantilla</target>
+        <target>Modelo</target>
         <jms:reference-file line="17">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
@@ -3728,12 +3731,12 @@
       </trans-unit>
       <trans-unit id="348e767041c11cc207792497fccb77f2fd2c8f44" resname="thesis">
         <source>thesis</source>
-        <target>Thesis</target>
+        <target>Tese</target>
         <jms:reference-file line="63">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bf6f68747db45429a307dcbca3c04dcab92fccb8" resname="ticket.asignar_usuario.modal.button.save">
         <source>ticket.asignar_usuario.modal.button.save</source>
-        <target state="new">ticket.asignar_usuario.modal.button.save</target>
+        <target>Salvar</target>
         <jms:reference-file line="127">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
         <jms:reference-file line="94">/../src/Celsius3/TicketBundle/Resources/views/Ticket/index.html.twig</jms:reference-file>
       </trans-unit>
@@ -3744,7 +3747,7 @@
       </trans-unit>
       <trans-unit id="4929fca9d47db1f6c2520ce3d6bdd6a9304c9812" resname="tls">
         <source>tls</source>
-        <target state="new">tls</target>
+        <target>tls</target>
         <jms:reference-file line="261">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4374aaee247fb237ce6c97d5c8d64bbe474d16de" resname="to">
@@ -3754,7 +3757,7 @@
       </trans-unit>
       <trans-unit id="375b044d8251806bc984d656b7936b1f9cd50b6e" resname="totalDelay">
         <source>totalDelay</source>
-        <target state="new">totalDelay</target>
+        <target>Atraso total</target>
         <jms:reference-file line="160">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d0a3e7f81a9885e99049d1cae0336d269d5e47a9" resname="type">
@@ -3764,7 +3767,7 @@
       </trans-unit>
       <trans-unit id="0a25ba5991316bdda4a9b3abcee2106016df28a0" resname="update">
         <source>update</source>
-        <target state="new">update</target>
+        <target>Atualizar</target>
         <jms:reference-file line="135">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bb73aaafa1596e5425dc514a361ad4ef658f2758" resname="upload">
@@ -3774,12 +3777,12 @@
       </trans-unit>
       <trans-unit id="ea11986a9f527724e03bc69675e5c25c69e294c8" resname="uploadAgain">
         <source>uploadAgain</source>
-        <target>Subir de nuevo</target>
+        <target>Subir novamente</target>
         <jms:reference-file line="89">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="77f7525420e478c07a6b1a8e9ff9a79f4fe328bc" resname="uploadedFiles">
         <source>uploadedFiles</source>
-        <target>Subir archivos</target>
+        <target>Subir arquivos</target>
         <jms:reference-file line="91">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="91cb6d1538d3cb04e54d7a9d7e6c9f3cee800120" resname="userAgent">
@@ -3789,39 +3792,37 @@
       </trans-unit>
       <trans-unit id="630e1da2ff7ff3703bc13d213719f80b6140cc65" resname="userRequestsIndex">
         <source>userRequestsIndex</source>
-        <target>User requests index</target>
+        <target>Índice de pedidos do usuário</target>
         <jms:reference-file line="210">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="249ba36000029bbe97499c03db5a9001f6b734ec" resname="username">
         <source>username</source>
-        <target>Nombre de usuario</target>
+        <target>Nome de usuário</target>
         <jms:reference-file line="124">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2e920130ada2cb5509de770289b1da3feb496862" resname="usersCount">
         <source>usersCount</source>
-        <target state="new">usersCount</target>
+        <target>Contagem de usuários</target>
         <jms:reference-file line="144">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="34b7d1833cd3a5912a89cf1d63bc4206842389f3" resname="usersCountDescription">
         <source>usersCountDescription</source>
-        <target xml:space="preserve">Esta estadística presenta la cantidad de usuarios nuevos incorporados al sistema mes a mes. El gráfico nos muestra dos barras: la barra azul muestra el número de usuarios dados de alta , mientras que la barra verde muestra el número de
-                    usuarios activos, es decir, quienes efectivamente utilizan el servicio. Por otro lado, la línea roja muestra la cantidad de usuarios nuevos en forma acumulativa, desde el año 2000 hasta el año seleccionado (por defecto, será el año actual).
-                </target>
+        <target>Esta estatística apresenta o número de usuários adicionados ao sistema por mês. O gráfico exibe duas barras: a barra azul mostra o número de novos usuários registrados e a barra verde mostra o número de usuários ativos, aqueles que realmente usam o serviço. Por outro lado, a linha vermelha mostra a quantidade de novos usuários cumulativamente, a partir do ano 2000.</target>
         <jms:reference-file line="150">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d1d467cc1e716c76a1b4b0b4f327dffed99bb481" resname="usersStatistics">
         <source>usersStatistics</source>
-        <target state="new">usersStatistics</target>
+        <target>Estatísticas dos usuários</target>
         <jms:reference-file line="143">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8f3a07543988e4673dcae5e59c35323c5791f370" resname="view">
         <source>view</source>
-        <target>View</target>
+        <target>Ver</target>
         <jms:reference-file line="192">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="40e91027f1df638ad6c81760c1e722f2a797638a" resname="view more">
         <source>view more</source>
-        <target>view more</target>
+        <target>veja mais</target>
         <jms:reference-file line="66">/../src/Celsius3/CoreBundle/Resources/views/AdminJournal/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="cb8d1ed27f1c23a6861a75fa17d60f7fd01f845a" resname="viewAll">
@@ -3831,12 +3832,12 @@
       </trans-unit>
       <trans-unit id="44a39f1296247eb1a8c9cc8f9defd5c75dab896c" resname="viewFiles">
         <source>viewFiles</source>
-        <target>View files</target>
+        <target>Ver arquivos</target>
         <jms:reference-file line="182">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d387fc8d57b2e3dccc525701c8a6c2c147ff9ed6" resname="volume">
         <source>volume</source>
-        <target>Volumen</target>
+        <target>Volume</target>
         <jms:reference-file line="58">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ca84d1343b96baa8137c943ed1860e522cacb238" resname="web">
@@ -3851,12 +3852,12 @@
       </trans-unit>
       <trans-unit id="4ff0b1538469338a0073e2cdaab6a517801b6ab4" resname="year">
         <source>year</source>
-        <target>Año</target>
+        <target>Ano</target>
         <jms:reference-file line="55">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fb360f9c09ac8c5edb2f18be5de4e80ea4c430d0" resname="yes">
         <source>yes</source>
-        <target>Si</target>
+        <target>Sim</target>
         <jms:reference-file line="96">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
     </body>

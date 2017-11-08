@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-10-25T09:07:17Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+  <file date="2017-11-03T09:11:46Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -8,12 +8,12 @@
     <body>
       <trans-unit id="35e5076dbb493c3e7d0b030a3d8c240e6226ecef" resname="authorize.accept">
         <source>authorize.accept</source>
-        <target state="new">authorize.accept</target>
+        <target>aceitar</target>
         <jms:reference-file line="6">/Resources/FOSOAuthServerBundle/views/Authorize/authorize_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0864bf449131f0500f8e4d0a5a66b25ba4d17281" resname="authorize.reject">
         <source>authorize.reject</source>
-        <target state="new">authorize.reject</target>
+        <target>rejeitar</target>
         <jms:reference-file line="7">/Resources/FOSOAuthServerBundle/views/Authorize/authorize_content.html.twig</jms:reference-file>
       </trans-unit>
     </body>
