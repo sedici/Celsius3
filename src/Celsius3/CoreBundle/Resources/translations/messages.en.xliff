@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-10-25T09:24:51Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
+  <file date="2017-11-08T11:08:49Z" source-language="en" target-language="en" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -225,7 +225,7 @@
       </trans-unit>
       <trans-unit id="1496c9ab025cc1cb2f57bdfc996c002cffb8e24b" resname="Catalog Union">
         <source>Catalog Union</source>
-        <target>Catalog union</target>
+        <target>Combine catalogs</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCatalog/batchUnion.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCatalog/batchUnion.html.twig</jms:reference-file>
       </trans-unit>
@@ -3360,7 +3360,7 @@
       </trans-unit>
       <trans-unit id="5bd9955f918d3263feae149d7622692115ecf399" resname="printedUserTooltipTitle">
         <source>printedUserTooltipTitle</source>
-        <target>This user withdraws requests in printed paper</target>
+        <target>This user picks up the orders in printed paper</target>
         <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5d6227e65d035c8a0c21b78613c727451d1f20e5" resname="providedByTheAuthor">
@@ -3396,17 +3396,17 @@
       </trans-unit>
       <trans-unit id="0ad27ba556db9d1ed05ee79708c0e2dd82dddbb1" resname="reclaim">
         <source>reclaim</source>
-        <target>Reclaim</target>
+        <target>Claim</target>
         <jms:reference-file line="90">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="850067a0f12edc14931d2432eb9ba8c198a4d4cb" resname="reclaimTooltipTitle">
         <source>reclaimTooltipTitle</source>
-        <target>Reclaim</target>
+        <target>Claim</target>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc76f6e1af2c2863a8eff1aadd1898857ed36abc" resname="reclaimed">
         <source>reclaimed</source>
-        <target>Reclaimed</target>
+        <target>Claimed</target>
         <jms:reference-file line="211">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="63ba8b7430a22e98afa33660321fb5047cf5b0f8" resname="reenableDownload">
@@ -3496,7 +3496,7 @@
       </trans-unit>
       <trans-unit id="bc1076ba1cc3f7718b88b31612dd9b00300d0442" resname="requestReclaimed">
         <source>requestReclaimed</source>
-        <target>The order has been reclaimed with the following comments:</target>
+        <target>The order has been claimed with the following comments:</target>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="c13d95cec9db3a374a099ac069f7856e7486fb2f" resname="requestSatisfied">
@@ -3506,7 +3506,7 @@
       </trans-unit>
       <trans-unit id="060fd938a9926800ca8d2d89071527f595ba0ed7" resname="requestTooltipTitle">
         <source>requestTooltipTitle</source>
-        <target>You must search before making a request</target>
+        <target>A search must be made before making an request</target>
         <jms:reference-file line="1">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fcb0885159dfe15b8d42ad42750ddc7b6729c66d" resname="requested">
@@ -3563,7 +3563,7 @@
       </trans-unit>
       <trans-unit id="d548cf36f9f30a08e2226de62f4edd8e3c6772da" resname="requestsPublicationYear">
         <source>requestsPublicationYear</source>
-        <target>Requests publication year</target>
+        <target>Orders publication year</target>
         <jms:reference-file line="147">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="3b382e21d2bb2c505ac067edb36f46ce78f5825f" resname="requestsPublicationYearDescription">

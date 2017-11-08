@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-11-08T08:24:50Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+  <file date="2017-11-08T11:21:27Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -579,7 +579,7 @@
       </trans-unit>
       <trans-unit id="127fe5e9275ec509ebcee816b44daee626b96282" resname="Create a new legacy instance">
         <source>Create a new legacy instance</source>
-        <target>Criar uma nova instância legada</target>
+        <target>Criar uma nova Instância Antiga</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/_index_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="64dc65e4c3cd50bfeb2358e15b0261291fe5c88f" resname="Create a new mail">
@@ -646,28 +646,28 @@
       </trans-unit>
       <trans-unit id="e28106464f54e7b87a58f5732f611c965e157438" resname="Custom User Field Creation">
         <source>Custom User Field Creation</source>
-        <target>Criar campo de dados sob medida de usuário</target>
+        <target>Criar campo personalizado de usuário </target>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="784eb429ea340c10986bcf5352c540e5d88addd8" resname="Custom User Field Edit">
         <source>Custom User Field Edit</source>
-        <target>Editar o campo de dados sob medida de usuário</target>
+        <target>Editar o campo personalizado de usuário</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/edit.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f51f3a2bbefd9b52fad1cb20e7cc72b129949dc7" resname="Custom User Field List">
         <source>Custom User Field List</source>
-        <target>Lista de campo de dados sob medida de usuário</target>
+        <target>Lista de campos personalizados de usuário </target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f55708d7fb0bfabfe2d9a27b08625a55cb2bf5d9" resname="Custom field">
         <source>Custom field</source>
-        <target>Campo de dados sob medida</target>
+        <target>Campo personalizado</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/_index_element_actions.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/_index_element_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6b26aad1950b4fe68965c591a904a89b679fd3cc" resname="Custom user fields">
         <source>Custom user fields</source>
-        <target>Campo de dados sob medida de usuário</target>
+        <target>Campos de usuário personalizados</target>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/_configure_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7d092ffa2497aac806b3aaf2a3b3a5e166755c71" resname="DELETED">

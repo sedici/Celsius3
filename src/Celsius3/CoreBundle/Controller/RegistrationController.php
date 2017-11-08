@@ -137,7 +137,7 @@ class RegistrationController extends BaseRegistrationController
         $user = $userManager->findUserByConfirmationToken($token);
 
         if (null === $user) {
-            throw Exception::create(Exception::NOT_FOUND, "The user with confirmation token $token does not exist");
+            throw Exception::create(Exception::NOT_FOUND, "The user with confirmation token does not exist");
         }
 
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
