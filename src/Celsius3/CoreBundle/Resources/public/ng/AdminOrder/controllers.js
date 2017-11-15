@@ -727,17 +727,17 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                 address: $scope.forms.institution.address,
                 country: ($scope.select.country) ? $scope.select.country.id : null,
                 city: ($scope.select.city) ? $scope.select.city.id : null,
-                institution: parent_institution,
+                institution: (parent_institution) ? parent_institution.id : null,
                 instance: $scope.instance_id
             };
 
             $http.post(Routing.generate('admin_rest_institution_create'), data)
-                .success(function (response) {
-                    if (response) {
-                        if (!response.hasErrors) {
-                            $scope.refreshInstitution(response.institution);
-                            $scope.added.institution.country = response.institution.country.id
-                            $scope.added.institution.city = response.institution.city.id
+                .then(function (response) {
+                    if (response.data) {
+                        if (!response.data.hasErrors) {
+                            $scope.refreshInstitution(response.data.institution);
+                            $scope.added.institution.country = response.data.institution.country;
+                            $scope.added.institution.city = response.data.institution.city;
                             $('#institutionForm').get(0).reset();
                             $scope.$broadcast('reset');
                             $('.modal').modal('hide');
@@ -747,7 +747,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                             $('#institutionForm div.form-group').has('input').each(function () {
                                 $(this).removeClass('has-error');
                             });
-                            $(response.errors).each(function () {
+                            $(response.data.errors).each(function () {
                                 $('#institutionForm div.form-group')
                                     .has('input[name="institution[' + $(this).get(0).property_path + ']"]')
                                     .addClass('has-error')
@@ -756,7 +756,7 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                         }
                     }
                 }, function (response) {
-                    generateCelsiusAlert(response);
+                    generateCelsiusAlert(response.data);
                 });
         };
 

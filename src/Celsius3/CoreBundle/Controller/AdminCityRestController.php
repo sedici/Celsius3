@@ -37,9 +37,10 @@ class AdminCityRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
+     * @Get("/", name="admin_rest_city_index", options={"expose"=true})
      * @Get("/{country_id}", name="admin_rest_city", options={"expose"=true})
      */
-    public function getCitiesAction($country_id)
+    public function getCitiesAction($country_id = null)
     {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 

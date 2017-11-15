@@ -8,6 +8,7 @@ cciWidget.directive('cciWidget', ['$translate', 'Country', 'City', 'Institution'
             this.institutions = [];
             this.child = [];
             this.institution = {};
+            this.count = count;
         }
 
         function link(scope, element, attrs) {
@@ -35,15 +36,14 @@ cciWidget.directive('cciWidget', ['$translate', 'Country', 'City', 'Institution'
             scope.select.city = {};
             scope.select.tree = [new Node(scope.select_count)];
             scope.buildTree = function (node, institution, count) {
-                node.institution = institution.id;
+                node.institution = institution;
                 scope.institutionChanged(node);
                 if (_.isUndefined(institution.parent)) {
                     return [node];
                 } else {
                     var parentNode = new Node(count - 1);
-                    scope.buildTree(parentNode, institution.parent, count - 1);
                     parentNode.child = [node];
-                    return [parentNode];
+                    return scope.buildTree(parentNode, institution.parent, count - 1);
                 }
             };
             scope.setInstitutionFromPreset = function (institution) {
@@ -53,11 +53,14 @@ cciWidget.directive('cciWidget', ['$translate', 'Country', 'City', 'Institution'
                     top = top.parent;
                     count++;
                 }
+
+                scope.select.country = !_.isUndefined(top.country) ? top.country : {};
+                scope.countryChanged();
+                scope.select.city = !_.isUndefined(top.city) ? top.city : {};
+                scope.cityChanged();
+
                 var node = new Node(count);
                 scope.select.tree = scope.buildTree(node, institution, count);
-                scope.select.country = !_.isUndefined(top.country) ? top.country.id : {};
-                scope.select.city = !_.isUndefined(top.city) ? top.city.id : {};
-                scope.countryChanged();
             };
             scope.updateFilter = function () {
                 if (_.isEmpty(scope.select.city)) {
@@ -68,24 +71,42 @@ cciWidget.directive('cciWidget', ['$translate', 'Country', 'City', 'Institution'
             };
 
             scope.countryChanged = function () {
-                scope.cities = City.query({
-                    country_id: scope.select.country.id
-                });
-                scope.institutions = Institution.query({
-                    country_id: scope.select.country.id,
-                    filter: scope.select.filter
-                }, function (institutions) {
-                    _.first(scope.select.tree).institutions = institutions;
-                });
+                if (scope.select.country) {
+                    scope.cities = City.query({
+                        country_id: scope.select.country.id
+                    });
+                    scope.institutions = Institution.query({
+                        country_id: scope.select.country.id,
+                        filter: scope.select.filter
+                    }, function (institutions) {
+                        if (_.first(scope.select.tree).institution.country !== scope.select.country) {
+                            scope.select.tree = [new Node(0)];
+                        }
+                        _.first(scope.select.tree).institutions = institutions;
+                    });
+                } else {
+                    scope.cities = [];
+                    scope.institutions = [];
+                    scope.select.city = null;
+                    scope.select.tree = [new Node(0)];
+                }
             };
             scope.cityChanged = function () {
-                scope.institutions = Institution.query({
-                    country_id: scope.select.country.id,
-                    city_id: scope.select.city.id,
-                    filter: scope.select.filter
-                }, function (institutions) {
-                    _.first(scope.select.tree).institutions = institutions;
-                });
+                if (scope.select.country && scope.select.city) {
+                    scope.institutions = Institution.query({
+                        country_id: scope.select.country.id,
+                        city_id: (scope.select.city) ? scope.select.city.id : null,
+                        filter: scope.select.filter
+                    }, function (institutions) {
+                        if (_.first(scope.select.tree).institution.city !== scope.select.city) {
+                            scope.select.tree = [new Node(0)];
+                        }
+                        _.first(scope.select.tree).institutions = institutions;
+                    });
+                } else {
+                    scope.institutions = [];
+                    scope.select.tree = [new Node(0)];
+                }
             };
             scope.institutionChanged = function (data) {
                 Institution.parent({

@@ -993,11 +993,11 @@ body {
   }
 }
 
-#panel_add .explorar_catalogos {
+.explorar_catalogos {
   text-align: right;
   color: #a0a0a0;
-  margin-bottom: 10px;
-  width: 150px;
+  margin-bottom: 5px;
+  width: auto;
   height: 40px;
 }
 
@@ -1008,7 +1008,6 @@ body {
 #catalogs_link {
   text-decoration: none;
   color: grey;
-  text-transform: uppercase;
 }
 
 .catalogSortable {
