@@ -220,7 +220,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $total = $totalQuery->select('count(DISTINCT o)')->getQuery()->getSingleScalarResult();
 
         $paginator = $this->get('knp_paginator');
-        $orders = $paginator->paginate($ordersQuery, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
+        $orders = $paginator->paginate($ordersQuery, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
 
         $view = $this->view(array('orders' => $orders, 'total' => $total), 200)->setFormat('json');
         $view->setSerializationContext($context);

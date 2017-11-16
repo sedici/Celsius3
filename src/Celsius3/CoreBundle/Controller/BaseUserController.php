@@ -110,7 +110,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         $this->enableUser($entity);
 
-        return $this->redirect($this->get('request')->headers->get('referer'));
+        return $this->redirect($this->get('request_stack')->getCurrentRequest()->headers->get('referer'));
     }
 
     protected function baseBatchEnable($element_ids)
@@ -122,7 +122,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             $this->enableUser($user);
         }
 
-        return $this->redirect($this->get('request')->headers->get('referer'));
+        return $this->redirect($this->get('request_stack')->getCurrentRequest()->headers->get('referer'));
     }
 
     protected function mergeSecondaryInstances(BaseUser $main, array $entities)

@@ -63,7 +63,7 @@ class AdminOrderRestController extends BaseInstanceDependentRestController
                 ->findForInstance($this->getInstance(), $user, $state);
 
         $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($orders, $this->get('request')->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
+        $pagination = $paginator->paginate($orders, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
 
         $view = $this->view(array_values($pagination), 200)->setFormat('json');
 
