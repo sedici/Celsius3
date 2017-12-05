@@ -1,24 +1,37 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
 
-
-
-
 <div class="row">
-    <div class="col-md-6">
-        {% if(form.originalRequest.target is defined) %}
-            {{ form_row(form.originalRequest.target) }}
-        {% endif %}
-     </div>
-    <div class="col-md-6">
-        {% if(form.originalRequest.owner_autocomplete is defined) %}
-                {{ form_row(form.originalRequest.owner_autocomplete) }}
-            {% endif %}
-    </div>
-    <div class="col-md-12">
-        {{ form_row(form.materialDataType) }}
+    {% if(form.originalRequest.target is defined) %}
+        <div class="col-md-6">
+            <div class="form-group {% if not form.originalRequest.target.vars.valid %} has-error {% endif %}">
+                {{ form_row(form.originalRequest.target) }}
+            </div>
+            {% for error in form.originalRequest.target.vars.errors %}
+                <p class="text-danger">{{ error.message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
+    {% if(form.originalRequest.owner_autocomplete is defined) %}
+        <div class="col-md-6">
+            <div class="form-group {% if not form.originalRequest.owner_autocomplete.vars.valid %} has-error {% endif %}">
+                {{ form_row(form.originalRequest.owner_autocomplete) }}
+            </div>
+            {% for error in form.originalRequest.owner_autocomplete.vars.errors %}
+                <p class="text-danger">{{ error.message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="col-md-12">
+        <div class="form-group {% if not form.materialDataType.vars.valid %} has-error {% endif %}">
+            {{ form_row(form.materialDataType) }}
+        </div>
+        {% for error in form.materialDataType.vars.errors %}
+            <p class="text-danger">{{ error.message }}</p>
+        {% endfor %}
     </div>
-    </div>
+</div>
 <br>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
@@ -36,7 +49,12 @@
 <br>
 <div class="row">
     <div class="col-md-12">
-        {{ form_row(form.originalRequest.comments) }}
+        <div class="form-group {% if not form.originalRequest.comments.vars.valid %} has-error {% endif %}">
+            {{ form_row(form.originalRequest.comments) }}
+        </div>
+        {% for error in form.originalRequest.comments.vars.errors %}
+            <p class="text-danger">{{ error.message }}</p>
+        {% endfor %}
     </div>
 </div>
 {% if (form.save_and_show is defined) %}

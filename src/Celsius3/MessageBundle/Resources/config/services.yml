@@ -7,9 +7,13 @@ services:
         class: Celsius3\MessageBundle\Form\Type\NewThreadMultipleMessageFormType
         public: false
         arguments: ['@security.authorization_checker', '@security.token_storage', '@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
     celsius3_message.reply_form.type.custom:
         class: Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType
         public: false
+        tags:
+            - { name: form.type }
     celsius3_message.participant_provider:
         class: FOS\MessageBundle\Security\ParticipantProvider
         arguments: ['@security.token_storage']
@@ -30,3 +34,9 @@ services:
         tags:
             - { name: form.type, alias: celsius3_messagebundle_recipients_selector_hidden }
         arguments: ['@fos_message.recipients_data_transformer']
+    celsius3_message.new_thread_form.factory:
+        class: Celsius3\MessageBundle\FormFactory\NewThreadMessageFormFactory
+        arguments: ['@form.factory', '@fos_message.new_thread_form.type', '%fos_message.new_thread_form.name%', '%fos_message.new_thread_form.model%']
+    celsius3_message.reply_form.factory:
+        class: Celsius3\MessageBundle\FormFactory\ReplyMessageFormFactory
+        arguments: ['@form.factory', '@fos_message.reply_form.type', '%fos_message.reply_form.name%', '%fos_message.reply_form.model%']

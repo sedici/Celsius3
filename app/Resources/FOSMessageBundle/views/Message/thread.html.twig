@@ -28,11 +28,11 @@
                     </div>
                 </div>
             {% endfor %}
-            <h4>{% trans from 'FOSMessageBundle' %}reply{% endtrans %}</h4>
-            <form action="{{ url('fos_message_thread_view', {'threadId': thread.id}) }}" method="post" class="form">
-                {{ form_widget(form) }}
+            <h4>{{ 'reply' | trans({}, 'FOSMessageBundle') | first_upper }}</h4>
+            {{ form_start(form, {'action': url('fos_message_thread_view', {'threadId': thread.id}), 'method': 'POST', 'attr': {'class': 'form' } }) }}
+                {{ form_widget(form.body) }}
                 <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-envelope"></span> {{ 'Send'|trans }}</button>
-            </form>
+            {{ form_end(form) }}
         </div>
         <div class="col-md-3">
             {% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}

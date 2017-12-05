@@ -677,14 +677,12 @@
       </trans-unit>
       <trans-unit id="d87f47b47e4d5794d53fe0734c49417bd046cde0" resname="Dashboard">
         <source>Dashboard</source>
-        <target xml:space="preserve">Painel de controle
-</target>
+        <target xml:space="preserve">Painel de controle</target>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="628dcbddd689876e7906e1ec39e0baa1cc7a075a" resname="Dashboard Statistic">
         <source>Dashboard Statistic</source>
-        <target xml:space="preserve">Painel de estadísticas
-</target>
+        <target xml:space="preserve">Painel de estadísticas</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc2421d7ec5f4eb8c315765e9d2aa27ff8c4861c" resname="Dashboard Technical">
@@ -846,7 +844,7 @@
       </trans-unit>
       <trans-unit id="cd280a41f75884f718df358791a18a5eb7bf6493" resname="Edit Profile">
         <source>Edit Profile</source>
-        <target>Editar Perfil</target>
+        <target>Editar perfil</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Profile/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Profile/edit.html.twig</jms:reference-file>
       </trans-unit>
@@ -1849,8 +1847,7 @@
       </trans-unit>
       <trans-unit id="5ee1f0b8e52eb521f0a3518dd6b7855d2432b505" resname="Please wait ...">
         <source>Please wait ...</source>
-        <target xml:space="preserve">Por favor, aguarde...
-</target>
+        <target xml:space="preserve">Por favor, aguarde...</target>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Layout/var.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="57e03bfa6cba867c03f5504b69e9852805e93b14" resname="Please wait until some administrator confirms your account.">
@@ -1991,8 +1988,7 @@
       </trans-unit>
       <trans-unit id="e08b0f0cdec57fe8860ddaf468b9e5654b98cc9d" resname="Results per page">
         <source>Results per page</source>
-        <target xml:space="preserve">Resultados por página
-</target>
+        <target xml:space="preserve">Resultados por página</target>
         <jms:reference-file line="240">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="47dcc27d6e87ece8baebe7e3877a261a5467093d" resname="Roles">
@@ -3045,8 +3041,7 @@
       </trans-unit>
       <trans-unit id="82ec7c06c119e2af7ecf4528ed526918948ac85a" resname="finalYear">
         <source>finalYear</source>
-        <target xml:space="preserve">Ano final
-</target>
+        <target xml:space="preserve">Ano final</target>
         <jms:reference-file line="137">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f957097d7a22775f6bea41b46cae4d14274dac9f" resname="finished">
@@ -3240,8 +3235,7 @@
       </trans-unit>
       <trans-unit id="6960b7ab39483c678a994c593b4fc99e6656cfa4" resname="not_found">
         <source>not_found</source>
-        <target xml:space="preserve">Não encontrado
-</target>
+        <target xml:space="preserve">Não encontrado</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4c18345c6b036d14f650bfa75e2f97bf336993d2" resname="not_previous_searches_info">
@@ -3547,8 +3541,7 @@
       </trans-unit>
       <trans-unit id="83d0bac35545256dca4f1249646ad889dc2d5927" resname="requestsDestinyDistribution">
         <source>requestsDestinyDistribution</source>
-        <target xml:space="preserve">
-Distribuição de destino das petições</target>
+        <target xml:space="preserve">Distribuição de destino das petições</target>
         <jms:reference-file line="140">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5e4d4b008c4434ca3c732bd76b19529b788dcd68" resname="requestsDestinyDistributionDescription">

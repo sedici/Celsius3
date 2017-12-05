@@ -33,6 +33,7 @@ body {
   background-image: url(/bundles/celsius3core/images/mundo_fondo.png);
   background-repeat: no-repeat;
   background-position: bottom right;
+  background-attachment: fixed;
 }
 
 .mantenimiento {
@@ -1253,4 +1254,32 @@ div#celsius-search {
 
 .login-box {
   margin: 3% auto;
+}
+
+.ui-widget-header {
+  border: 1px solid #1b70bc;
+  background: #3C8DBC;
+  color: #3C8DBC;
+  font-weight: 700;
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active {
+  border: 1px solid #1b70bc;
+  background: #7facbc;
+  color: #3C8DBC;
+}
+
+.ui-state-hover a, .ui-state-hover a:hover {
+  color: #3C8DBC;
+  background: #7facbc;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+  border: 1px solid #1b70bc;
+  background: #7facbc;
+  color: #3C8DBC;
+}
+
+.ui-state-hover .ui-icon {
+  background-image: url('/build/images/ui-icons_228ef1_256x240.b5c094c2.png');
 }

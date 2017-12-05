@@ -287,9 +287,14 @@
 {% macro filter(name, filter_form) %}
     {{ form_start(filter_form, { 'attr': { 'action': path(name), 'class': 'form', 'role': 'form', 'method': 'GET', 'novalidate': 'novalidate' }}) }}
     {{ form_widget(filter_form) }}
-    <button type="submit" class="btn btn-primary submit-button"><span
-                class="glyphicon glyphicon-ok"></span> {{ 'Filter'|trans }}</button>
-    <a href="{{ path(name) }}"><span class="glyphicon glyphicon-remove"></span> {{ 'Reset'|trans }}</a>
+    <button type="submit" class="btn btn-primary submit-button">
+        <span class="glyphicon glyphicon-ok"></span>
+        {{ 'Filter'|trans }}
+    </button>
+    <a href="{{ path(name) }}">
+        <span class="glyphicon glyphicon-remove"></span>
+        {{ 'Reset'|trans }}
+    </a>
     {{ form_end(filter_form) }}
 {% endmacro %}
 

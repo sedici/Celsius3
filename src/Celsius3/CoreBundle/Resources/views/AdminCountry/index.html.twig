@@ -7,7 +7,11 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import index as index %}
 
 {% block content %}
-    <h2>{{ 'Country List'|trans }}</h2>
-
-    {{ index('admin_country', pagination, 'Celsius3CoreBundle:AdminCountry', filter_form, instance) }}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ 'Country List'|trans }}</h2>
+            <hr class="separator_hr">
+            {{ index('admin_country', pagination, 'Celsius3CoreBundle:AdminCountry', filter_form, instance) }}
+        </div>
+    </div>
 {% endblock %}

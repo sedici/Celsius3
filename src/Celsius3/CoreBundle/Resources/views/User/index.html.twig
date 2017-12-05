@@ -24,8 +24,10 @@
         <!-- messages.html -->
         <script type="text/ng-template" id="messages.html?{{ assets_version('user') }}">
             {% verbatim %}
-                <h2 class="pull-left">{{'lastMessages'|trans}}</h2>
-                <div class="pull-right user-message-actions">
+                <div class="col-md-12">
+                <h2>{{'lastMessages'|trans}}</h2>
+                <hr class="separator_hr">
+                <div class="user-message-actions">
                 <a class="btn btn-primary" href="{{ {path: 'fos_message_thread_new'}|get_url }}">
                 <span class="glyphicon glyphicon-envelope"></span> {{'new'|trans}}
                 </a>
@@ -34,22 +36,29 @@
                 </a>
                 </div>
                 <div class="clearfix"></div>
+                <br />
                 <ul class="list-group">
                 <li class="list-group-item" ng-repeat="thread in threads">
                 <a href="{{ {path: 'fos_message_thread_view', params: {'threadId': thread.id} }|get_url }}"><span class="label label-default">{{ thread.createdBy.fullName }}</span> {{ thread.subject }}</a>
                 </li>
                 </ul>
+                </div>
             {% endverbatim %}
         </script>
 
         <!-- orders.html -->
         <script type="text/ng-template" id="orders.html?{{ assets_version('user') }}">
             {% verbatim %}
-                <div class="col-md-11">
-                <h2 class="pull-left">{{'orders'|trans}}</h2>
-                <div class="row pull-right">
-                <a class="btn btn-success btn-lg" href="{{ {path: 'user_order_new'}|get_url}}"><span class="glyphicon glyphicon-plus"></span> {{'addOrder'|trans}}</a>
-                </div>
+                <div class="row">
+                <div class="col-md-12">
+                <h2>{{'orders'|trans}}
+                <a class="btn btn-success btn-md pull-right" href="{{ {path: 'user_order_new'}|get_url}}">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span>{{'addOrder'|trans}}</span>
+                </a>
+                </h2>
+                <hr class="separator_hr">
+
                 <div class="clearfix"></div>
                 <div ng-include="'pagination.html?' + assets_version" ng-if="total > pagination.resultsPerPage"></div>
 
@@ -127,6 +136,7 @@
                 </div>
                 <div ng-include="'pagination.html?' + assets_version" ng-if="total > pagination.resultsPerPage"></div>
                 </div>
+                </div>
             {% endverbatim %}
         </script>
 
@@ -154,14 +164,13 @@
         <!-- sidebar.html -->
         <script type="text/ng-template" id="sidebar.html?{{ assets_version('user') }}">
             {% verbatim %}
-
                 <div class="row">
-                <h2 class="pull-left">{{'Operaciones'|trans}}</h2>
-                </div>
-                <div class="row">
+                <div class="col-md-12">
+                <h2>{{'Operaciones'|trans}}</h2>
+                <hr class="separator_hr">
                 <ul class="list-group">
                 <li class="list-group-item">
-                <a href="{{ {path: 'fos_user_profile_edit'}|get_url }}"><span class="glyphicon glyphicon-user"></span>  {{'editProfile'|trans}}</a>
+                <a href="{{ {path: 'fos_user_profile_show'}|get_url }}"><span class="glyphicon glyphicon-user"></span>  {{'Profile'|trans}}</a>
                 </li>
                 <li class="list-group-item">
                 <a href="{{ {path: 'user_order', params: {state: ['delivered', 'cancelled', 'annulled']} }|get_url}}"><span class="glyphicon glyphicon-book"></span> {{'orderHistory'|trans}}</a>
@@ -170,10 +179,10 @@
                 <a href="{{ {path: 'bibliotecario_user'}|get_url }}"><span class="glyphicon glyphicon-list"></span>  {{'institutionUsers'|trans}}</a>
                 </li>
                 </ul>
-                </div>
                 <div class="row" ng-include="'messages.html?' + assets_version">
                 </div>
-
+                </div>
+                </div>
             {% endverbatim %}
         </script>
 

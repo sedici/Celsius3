@@ -21,6 +21,7 @@
 /web/uploads/
 /web/uploads/temp/*
 !web/uploads/temp/.gitkeep
+/web/js/*
 
 # PHPUnit
 /app/phpunit.xml

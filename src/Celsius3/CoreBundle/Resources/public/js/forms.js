@@ -483,3 +483,18 @@ $(document).ready(function () {
         'allowClear': true
     });
 });
+
+$(document).ready(function () {
+    'use strict';
+    $('input').on('change', function () {
+        var formGroup = $(this).closest('.has-error');
+        formGroup.find('.text-danger').hide();
+        formGroup.removeClass('has-error');
+    });
+
+    $('.institution-select').on('change', function (e) {
+        var formGroup = $(this).closest('.has-error');
+        formGroup.find('.text-danger').hide();
+        formGroup.removeClass('has-error');
+    });
+});

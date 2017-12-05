@@ -110,6 +110,8 @@ class UserOrderController extends OrderController
      */
     public function newAction()
     {
+        $request = $this->get('request_stack')->getCurrentRequest();
+        dump($request);
         $options = array(
             'instance' => $this->getInstance(),
             'user' => $this->getUser(),

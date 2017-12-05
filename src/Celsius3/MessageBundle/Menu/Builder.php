@@ -36,7 +36,7 @@ class Builder
 
         $menu->addChild('Inbox', array('route' => 'fos_message_inbox'))->setAttribute('class', 'fa fa-inbox');
         $menu->addChild('Sent', array('route' => 'fos_message_sent'))->setAttribute('class', 'fa fa-inbox');
-        $menu->addChild('Trash', array('route' => 'fos_message_sent'));
+        $menu->addChild('Trash', array('route' => 'fos_message_deleted'))->setAttribute('class', 'fa fa-inbox');
 
         return $menu;
     }

@@ -7,10 +7,10 @@ framework:
     trusted_proxies: ['127.0.0.1', '10.0.0.1'] # a list of proxy IPs you trust
     default_locale: es
     translator:      { fallback: en }
-    secret:          %secret%
+    secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
-        strict_requirements: %kernel.debug%
+        strict_requirements: "%kernel.debug%"
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
@@ -21,26 +21,26 @@ framework:
         json_manifest_path: '%kernel.project_dir%/web/build/manifest.json'
         packages:
             administration:
-                version: %assets_version_administration%
+                version: "%assets_version_administration%"
             admin_order:
-                version: %assets_version_admin_order%
+                version: "%assets_version_admin_order%"
             admin_base_user:
-                version: %assets_version_admin_base_user%
+                version: "%assets_version_admin_base_user%"
             admin_institution:
-                version: %assets_version_admin_institution%
+                version: "%assets_version_admin_institution%"
             user:
-                version: %assets_version_user%
+                version: "%assets_version_user%"
             celsius3:
-                version: %assets_version_celsius3%
+                version: "%assets_version_celsius3%"
 
 # Twig Configuration
 twig:
-    debug:            %kernel.debug%
-    strict_variables: %kernel.debug%
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
     globals:
-        notification_public_url: %notification_public_url%
-        notification_port: %notification_port%
-        notification_limit: %notification_limit%
+        notification_public_url: "%notification_public_url%"
+        notification_port: "%notification_port%"
+        notification_limit: "%notification_limit%"
     form_themes:
         - 'Celsius3CoreBundle:Form:fields.html.twig'
 
@@ -108,11 +108,11 @@ swiftmailer:
     spool:
         type: file
         path: "%kernel.root_dir%/spool"
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    port:      %mailer_port%
-    username:  %mailer_user%
-    password:  %mailer_password%
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    port:      "%mailer_port%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -165,17 +165,17 @@ services:
 
     profile.form.type:
         class: Celsius3\CoreBundle\Form\Type\ProfileFormType
-        arguments: [%fos_user.model.user.class%]
+        arguments: ["%fos_user.model.user.class%"]
         tags:
             - { name: form.type }
 
     jms_serializer.metadata.doctrine_type_driver:
-        class:        %jms_serializer.metadata.doctrine_type_driver.class%
+        class:        "%jms_serializer.metadata.doctrine_type_driver.class%"
         public:       false
         arguments:    ["@jms_serializer.metadata.chain_driver", "@doctrine"]
 
     jms_serializer.metadata.doctrine_object_constructor:
-        class:        %jms_serializer.doctrine_object_constructor.class%
+        class:        "%jms_serializer.doctrine_object_constructor.class%"
         public:       false
         arguments:    ["@doctrine", "@jms_serializer.unserialize_object_constructor"]
 
@@ -210,7 +210,7 @@ services:
 
     celsius3_core.mailer.logger_handler:
         class:     Monolog\Handler\StreamHandler
-        arguments: [ %kernel.logs_dir%/%kernel.environment%.mailer.log, 200 ]
+        arguments: [ "%kernel.logs_dir%/%kernel.environment%.mailer.log", 200 ]
 
     # Usado temporalmente para corregir error de migración a Symfony3
     fos_user.doctrine_registry:
@@ -222,7 +222,7 @@ services:
             - name: twig.extension
 
 jms_aop:
-    cache_dir: %kernel.cache_dir%/jms_aop
+    cache_dir: "%kernel.cache_dir%/jms_aop"
 
 jms_i18n_routing:
     default_locale: es
@@ -232,8 +232,8 @@ jms_i18n_routing:
 jms_translation:
     configs:
         app:
-            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
-            output_dir: %kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations
+            dirs: ["%kernel.root_dir%", "%kernel.root_dir%/../src"]
+            output_dir: "%kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations"
             ignored_domains: [routes]
             excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [cache, data, logs]
@@ -242,18 +242,8 @@ jms_translation:
 jms_translation:
     configs:
         app:
-            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
-            output_dir: %kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations
-            ignored_domains: [routes]
-            excluded_names: ["*TestCase.php", "*Test.php"]
-            excluded_dirs: [cache, data, logs]
-            extractors: [jms_i18n_routing]
-
-jms_translation:
-    configs:
-        app:
-            dirs: [%kernel.root_dir%, %kernel.root_dir%/../src]
-            output_dir: %kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations
+            dirs: ["%kernel.root_dir%", "%kernel.root_dir%/../src"]
+            output_dir: "%kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations"
             ignored_domains: [routes]
             excluded_names: ["*TestCase.php", "*Test.php"]
             excluded_dirs: [cache, data, logs]
@@ -265,14 +255,15 @@ fos_message:
     message_class: Celsius3\MessageBundle\Entity\Message
     provider: celsius3_message.provider.default
     new_thread_form:
-        type:               celsius3_message.new_thread_form.type.custom
-        handler:            fos_message.new_thread_multiple_form.handler
-        model:              FOS\MessageBundle\FormModel\NewThreadMultipleMessage
+        name: message
+        type: celsius3_message.new_thread_form.type.custom
+        handler: fos_message.new_thread_multiple_form.handler
+        model: FOS\MessageBundle\FormModel\NewThreadMultipleMessage
     reply_form:
-        type:               celsius3_message.reply_form.type.custom
+        type: celsius3_message.reply_form.type.custom
 
 stof_doctrine_extensions:
-    default_locale: %locale%
+    default_locale: "%locale%"
     orm:
         default:
             timestampable: true
@@ -282,10 +273,10 @@ stof_doctrine_extensions:
 
 celsius3_notification:
     web_socket_server:
-        port: %notification_port%        #The port the socket server will listen on
-        host: %notification_host%   #(optional) The host ip to bind to
-        zmq_port: %notification_zmq_port%
-        zmq_host: %notification_zmq_host%
+        port: "%notification_port%"        #The port the socket server will listen on
+        host: "%notification_host%"   #(optional) The host ip to bind to
+        zmq_port: "%notification_zmq_port%"
+        zmq_host: "%notification_zmq_host%"
 
 fos_rest:
     param_fetcher_listener: true
@@ -454,12 +445,12 @@ ivory_google_map:
         message_factory: httplug.message_factory.default
 
 ewz_recaptcha:
-    public_key:  %recaptcha_public_key%
-    private_key: %recaptcha_private_key%
+    public_key:  "%recaptcha_public_key%"
+    private_key: "%recaptcha_private_key%"
     enabled: true
   #  ajax: true
     # Not needed as "%kernel.default_locale%" is the default value for the locale key
-    #locale_key:  %kernel.default_locale%
+    #locale_key:  "%kernel.default_locale%"
 ivory_serializer:
     mapping:
         auto:

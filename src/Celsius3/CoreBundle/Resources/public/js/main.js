@@ -1,5 +1,4 @@
 require('jquery');
-require('jquery.dotdotdot');
 require('select2');
 require('select2/dist/css/select2.min.css');
 require('select2-bootstrap-theme/dist/select2-bootstrap.min.css');
@@ -21,3 +20,6 @@ require('datatables.net');
 
 require('when');
 require('fabric');
+
+require('d3');
+require('c3');

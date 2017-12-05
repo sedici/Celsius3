@@ -1,60 +1,80 @@
+{#{% set ajax_path = 'admin_ajax_usernames' %}#}
+{#{% extends 'FOSMessageBundle::layout.html.twig' %}#}
+
+{#{% block fos_message_content %}#}
+    {#<div class="row">#}
+        {#<div class="col-md-9">#}
+            {#<div class="box box-primary">#}
+                {#<div class="box-header with-border">#}
+                    {#<h3 class="box-title">{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>#}
+                {#</div>#}
+
+                {#{{ form_errors(form) }}#}
+
+                {#{% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}#}
+
+
+
+                {#<!-- /.box-header -->#}
+                {#<form action="{{ url('fos_message_thread_new') }}" method="post" class="form">#}
+
+                    {#<div class="box-body">#}
+                        {#<div class="form-group">#}
+                            {#{{ form_widget(form.recipients,{attr:{class:'form-control container autocomplete_multi',placeholder:"To:" }} ) }}#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#{{ form_widget(form.subject,{attr:{class:'form-control',placeholder:"Subject:" }} ) }}#}
+
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#{{ form_widget(form.body) }}#}
+
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<div class="btn btn-default btn-file">#}
+                                {#<i class="fa fa-paperclip"></i> Attachment#}
+                                {#<input type="file" name="attachment">#}
+                            {#</div>#}
+                            {#<p class="help-block">Max. 32MB</p>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<!-- /.box-body -->#}
+                    {#<div class="box-footer">#}
+                        {#<div class="pull-right">#}
+                            {#<button type="submit" class="btn btn-primary "><span class="fa fa-envelope-o"></span> {{ 'Send'|trans }}</button>#}
+                        {#</div>#}
+                        {# <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>#}
+                    {#</div>#}
+                    {#<!-- /.box-footer -->#}
+            {#</div>#}
+            {#<!-- /. box -->#}
+            {#{{ form_rest(form) }}#}
+
+            {#</form>#}
+        {#</div>#}
+        {#<div class="col-md-3">#}
+            {#{% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}#}
+        {#</div>#}
+    {#</div>#}
+
+{#{% endblock %}#}
+
+
+
 {% set ajax_path = 'admin_ajax_usernames' %}
 {% extends 'FOSMessageBundle::layout.html.twig' %}
 
 {% block fos_message_content %}
+    <h3>{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
     <div class="row">
         <div class="col-md-9">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{% trans from 'FOSMessageBundle' %}send_new{% endtrans %}</h3>
-                </div>
-
-                {{ form_errors(form) }}
-
-                {% include 'Celsius3CoreBundle:Layout:_flashes.html.twig' %}
-
-
-
-                <!-- /.box-header -->
-                <form action="{{ url('fos_message_thread_new') }}" method="post" class="form">
-
-                    <div class="box-body">
-                        <div class="form-group">
-                            {{ form_widget(form.recipients,{attr:{class:'form-control container autocomplete_multi',placeholder:"To:" }} ) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_widget(form.subject,{attr:{class:'form-control',placeholder:"Subject:" }} ) }}
-
-                        </div>
-                        <div class="form-group">
-                            {{ form_widget(form.body) }}
-
-                        </div>
-                        {#<div class="form-group">
-                            <div class="btn btn-default btn-file">
-                                <i class="fa fa-paperclip"></i> Attachment
-                                <input type="file" name="attachment">
-                            </div>
-                            <p class="help-block">Max. 32MB</p>
-                        </div>#}
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        <div class="pull-right">
-                            <button type="submit" class="btn btn-primary "><span class="fa fa-envelope-o"></span> {{ 'Send'|trans }}</button>
-                        </div>
-                        {# <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>#}
-                    </div>
-                    <!-- /.box-footer -->
-            </div>
-            <!-- /. box -->
-            {{ form_rest(form) }}
-
+            <form action="{{ url('fos_message_thread_new') }}" method="post" class="form">
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-envelope"></span> {{ 'Send'|trans }}</button>
             </form>
         </div>
         <div class="col-md-3">
             {% include 'FOSMessageBundle:Message:sidebar_new.html.twig' %}
         </div>
     </div>
-
 {% endblock %}

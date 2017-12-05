@@ -48,7 +48,10 @@ class JournalTypeType extends MaterialTypeType
                     ),
                     'mapped' => false,
                     'label' => 'Journal',
-                    'required' => false,
+                    'required' => true,
+                    'constraints' => array(
+                        new \Symfony\Component\Validator\Constraints\NotBlank()
+                    )
                 ))
         ;
 

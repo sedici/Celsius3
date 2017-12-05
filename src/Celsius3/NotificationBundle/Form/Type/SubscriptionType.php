@@ -33,7 +33,7 @@ class SubscriptionType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPERADMIN')) {
+        if ($options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPER_ADMIN')) {
             $builder
                     ->add('user_notification', ChoiceType::class, array(
                         'choices_as_values' => true,
@@ -61,7 +61,7 @@ class SubscriptionType extends AbstractType
                 ))
                 ->add('event_notification', EventSubscriptionType::class, array(
                     'label' => 'Order Events',
-                    'is_admin' => $options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPERADMIN'),
+                    'is_admin' => $options['user']->hasRole('ROLE_ADMIN') || $options['user']->hasRole('ROLE_SUPER_ADMIN'),
                 ))
         ;
     }

@@ -7,7 +7,7 @@
             <ul class="dropdown-menu dropdown-menu-right">
                 {% if app.user %}
                     <li>
-                        <a href="{{ path('fos_user_profile_edit') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile'|trans }}</a>
+                        <a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'Profile' | trans }}</a>
                     </li>
                     
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}

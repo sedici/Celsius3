@@ -1,25 +1,40 @@
-<div class="box box-solid">
-    <div class="box-header with-border">
-        <h3 class="box-title">Carpetas</h3>
+{#<div class="box box-solid">#}
+    {#<div class="box-header with-border">#}
+        {#<h3 class="box-title">Carpetas</h3>#}
 
-        <div class="box-tools">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                <i class="fa fa-minus"></i>
-            </button>
+        {#<div class="box-tools">#}
+            {#<button type="button" class="btn btn-box-tool" data-widget="collapse">#}
+                {#<i class="fa fa-minus"></i>#}
+            {#</button>#}
 
+        {#</div>#}
+    {#</div>#}
+    {#<div class="box-body no-padding">#}
+        {#<ul class="nav nav-pills nav-stacked">#}
+
+            {#{{ knp_menu_render('Celsius3MessageBundle:Builder:messageMenu', { 'currentClass': 'active', 'template': 'FOSMessageBundle:Message:knp_menu.html.twig' }) }}#}
+
+        {#</ul>#}
+    {#</div>#}
+    {#<!-- /.box-body -->#}
+{#</div>#}
+
+<div id="accordion2" class="panel-group">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a href="#collapseOne2" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle">
+                    <span class="glyphicon glyphicon-search"></span>
+                    {{ 'Directories' | trans }}
+                </a>
+            </h4>
+        </div>
+        <div class="panel-collapse in collapse" id="collapseOne2">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    {{ knp_menu_render('Celsius3MessageBundle:Builder:messageMenu', { 'currentClass': 'active', 'template': 'FOSMessageBundle:Message:knp_menu.html.twig' }) }}
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="box-body no-padding">
-        <ul class="nav nav-pills nav-stacked">
-
-            {{ knp_menu_render('Celsius3MessageBundle:Builder:messageMenu', { 'currentClass': 'active', 'template': 'FOSMessageBundle:Message:knp_menu.html.twig' }) }}
-
-        </ul>
-    </div>
-    <!-- /.box-body -->
 </div>
-
-
-{#<div id="accordion" class="panel-group"> <div class="panel panel-default"> <div class="panel-heading"> <h4 class="panel-title"> <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle"> <span class="glyphicon
-glyphicon-wrench"></span> {{ 'Actions'|trans }} </a> </h4> </div> <div class="panel-collapse in collapse" id="collapseTwo"> <div class="panel-body"> <ul class="list-unstyled"> <li> <a href="{{ path('fos_message_inbox' )}}"><span class="glyphicon
-glyphicon-inbox"></span> {{ 'Go to Inbox'|trans }}</a> </li> <li> <a href="{{ path('fos_message_sent' )}}"><span class="glyphicon glyphicon-envelope"></span> {{ 'Go to Sent'|trans }}</a> </li> </ul> </div> </div> </div> </div> #}

@@ -80,14 +80,7 @@ class AdministrationExtension extends \Twig_Extension
             return $text;
         }
 
-        $arr = explode(' ', $text);
-
-        $t = '';
-        foreach ($arr as $a) {
-            $t .= ucfirst(strtolower($a)).' ';
-        }
-
-        return $t;
+        return ucfirst(strtolower($text));
     }
 
     public function getName()

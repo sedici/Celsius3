@@ -1,7 +1,3 @@
-$('.autoellipsis').dotdotdot({
-    watch: true
-});
-
 $('.navbar .main-navbar li').each(function (index, element) {
     var href = $(element).children('a').attr('href');
     if (!_.isUndefined(href)) {
