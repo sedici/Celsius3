@@ -34,9 +34,8 @@ class UserTransformType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = array(
-            //UserManager::ROLE_USER => 'User',
-            UserManager::ROLE_LIBRARIAN => 'Librarian',
-            UserManager::ROLE_ADMIN => 'Admin',
+            UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
+            UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
         );
 
         if (!is_null($options['instance'])) {
@@ -47,7 +46,7 @@ class UserTransformType extends AbstractType
                 'data' => $options['user']->getRoles()
             ));
         } else {
-            $choices[UserManager::ROLE_SUPER_ADMIN] = 'Superadmin';
+            $choices[UserManager::$roles_names[UserManager::ROLE_SUPER_ADMIN]] = UserManager::ROLE_SUPER_ADMIN;
 
             $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
                 'choices' => $choices,
@@ -66,17 +65,20 @@ class UserTransformType extends AbstractType
             }
         }
 
-        $builder->add('institution', EntityType::class, array(
-            'class' => 'Celsius3CoreBundle:Institution',
-            'mapped' => false,
-            'label' => ucfirst('institution'),
-            'placeholder' => '',
-            'required' => false,
-            'attr' => array(
-                'class' => 'institution-select'
-            ),
-            'auto_initialize' => false,
-        ));
+//        Esto se utiliza para la selección de la institución base sobre la que tiene injerencia
+//        Un usuario con rol bibliotecario. Se comenta por no estar completamente implementado.
+//
+//        $builder->add('institution', EntityType::class, array(
+//            'class' => 'Celsius3CoreBundle:Institution',
+//            'mapped' => false,
+//            'label' => ucfirst('institution'),
+//            'placeholder' => '',
+//            'required' => false,
+//            'attr' => array(
+//                'class' => 'institution-select'
+//            ),
+//            'auto_initialize' => false,
+//        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

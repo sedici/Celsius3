@@ -498,3 +498,17 @@ $(document).ready(function () {
         formGroup.removeClass('has-error');
     });
 });
+
+$(document).ready(function () {
+    $('#user_transform_institution').parent().hide();
+    $('#user_transform_prebi_0').click(function () {
+        $("input:checked")
+
+        if ($('#user_transform_prebi_0:checked').val() == 'ROLE_LIBRARIAN') {
+            $('#user_transform_institution').parent().show();
+        } else {
+            $('#user_transform_institution').parent().hide();
+        }
+
+    });
+});

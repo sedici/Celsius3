@@ -178,9 +178,15 @@ class SuperadminBaseUserController extends BaseUserController
             ), 'superadmin_user');
         }
 
-        return $this->baseTransformAction($id, UserTransformType::class, array(
+        $response = $this->baseTransformAction($id, UserTransformType::class, array(
             'user' => $entity,
         ));
+
+        if($response instanceof RedirectResponse){
+            return $response;
+        }
+
+        return $this->render('Celsius3CoreBundle:SuperadminBaseUser:transform.html.twig', $response);
     }
 
     /**

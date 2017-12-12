@@ -30,6 +30,7 @@ use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -183,12 +184,16 @@ class AdminBaseUserController extends BaseUserController
                             ), 'admin_user');
         }
 
-        $parameters = $this->baseTransformAction($id, UserTransformType::class, array(
+        $response = $this->baseTransformAction($id, UserTransformType::class, array(
                     'instance' => $this->getInstance(),
                     'user' => $entity,
         ));
 
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:transform.html.twig', $parameters);
+        if($response instanceof RedirectResponse){
+            return $response;
+        }
+
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:transform.html.twig', $response);
     }
 
     /**

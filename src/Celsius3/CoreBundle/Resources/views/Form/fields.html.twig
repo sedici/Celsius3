@@ -25,7 +25,7 @@
     {%- endif -%}
     <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
         {% if icon is defined %}
-        <span class="glyphicon glyphicon-{{ icon }}"></span>
+            <span class="glyphicon glyphicon-{{ icon }}"></span>
         {% endif %}
         {{ label|trans({}, translation_domain) }}
     </button>
@@ -34,13 +34,8 @@
 
 
 {% block checkbox_widget -%}
-    <div class="checkbox ">
-        <label>
-            <input type="checkbox" id="{{ form.vars.id }}" class="" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" {%  if form.vars.checked %} checked {% endif %}   />
-
-        </label>
-    </div>
-
+    <input type="checkbox" id="{{ form.vars.id }}" class="form-check-input" name="{{ form.vars.full_name }}"
+           value="{{ form.vars.value }}" {% if form.vars.checked %} checked {% endif %} />
 {%- endblock checkbox_widget %}
 
 
@@ -49,3 +44,16 @@
     {%- set icon = 'ok' -%}
     {{ block('button_widget') }}
 {%- endblock submit_widget -%}
+
+{%- block choice_widget_expanded -%}
+    <div {{ block('widget_container_attributes') }}>
+        {%- for child in form %}
+            <div class="form-check">
+                <label class="form-check-label">
+                    {{- form_widget(child) -}}
+                    {{ child.vars.label | trans }}
+                </label>
+            </div>
+        {% endfor -%}
+    </div>
+{%- endblock choice_widget_expanded -%}

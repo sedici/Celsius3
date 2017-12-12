@@ -1,34 +1,17 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+{% form_theme transform_form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+
 
 {% block title %}
-    {{ 'User Transform'|trans }}
+    {{ 'User Transform' | trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import transform as transform %}
 
 {% block content %}
-    <h2>{{ 'User Transform'|trans }}
-        -
-        {{ entity.name }}</h2>
+    <h2>{{ 'User Transform' | trans }} - {{ entity.name }}</h2>
+    <hr class="separator_hr">
 
     {{ transform('admin_user', entity, transform_form) }}
 
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-
-        $('#user_transform_institution').parent().hide();
-        $('#user_transform_prebi_0').click(function() {
-            $("input:checked")
-
-            if ($('#user_transform_prebi_0:checked').val() == 'ROLE_LIBRARIAN') {
-                $('#user_transform_institution').parent().show();
-            } else {
-                $('#user_transform_institution').parent().hide();
-            }
-
-        });
-    </script>
 {% endblock %}
