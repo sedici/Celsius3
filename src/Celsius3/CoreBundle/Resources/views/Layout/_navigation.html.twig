@@ -1,119 +1,87 @@
 {% set local = app.request.getHost() == app.session.get('instance_host') %}
-<ul class="nav navbar-nav main-navbar">
-    <li>
-        <a href="{{ path('public_index') }}">{{ 'Home'|trans }}</a>
-    </li>
+{% import _self as local_macro %}
 
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
-        <li>
-            <a href="{{ path('administration') }}">{{ 'Administration'|trans }}{% if count_users(instance)['pending'] > 0 %}
-                    <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
-                {% endif %}</a>
-        </li>
-        <li class="dropdown">
-            <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a></li>
-                <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a></li>
-                <li>
-                    <a href="{% if count_users(instance)['pending'] > 0 %}{{ path('admin_user', { 'state[]': 'pending' }) }}{% else %}{{ path('admin_user') }}{% endif %}">{{ 'Users'|trans }}
-                        {% if count_users(instance)['pending'] > 0 %}<span class="label label-danger">{{ count_users(instance)['pending'] }}</span>{% endif %}
-                    </a>
-                </li>
-
-                <li><a href="{{ path('admin_news') }}">{{ 'News'|trans }}</a></li>
-                <li><a href="{{ path('admin_contact') }}">{{ 'Contacts'|trans }}</a></li>
-                <li><a href="{{ path('admin_country') }}">{{ 'Countries'|trans }}</a></li>
-                <li><a href="{{ path('admin_city') }}">{{ 'Cities'|trans }}</a></li>
-                <li><a href="{{ path('admin_institution') }}">{{ 'Institutions'|trans }}</a></li>
-                <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads'|trans }}</a></li>
-                <li><a href="{{ path('admin_send_reminder_emails') }}">{{ 'Send Reminder Email'|trans }}</a></li>
-            </ul>
-        </li>
-    {% endif %}
-
-
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
-    <li>
-        <a href="{{ path('administration') }}">{{ 'Administration'|trans }}{% if count_users(instance)['pending'] > 0 %}
-            <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
-        {% endif %}</a>
-    </li>
+{% macro admin_menu(instance) %}
     <li class="dropdown">
-        <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a href="{{ url('administration') }}">
+            {{ 'Administration' | trans }}
+            {% if count_users(instance)['pending'] > 0 %}
+                <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+            {% endif %}
             <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
         </a>
-        <ul class="dropdown-menu">
-            <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs'|trans }}</a></li>
-            <li><a href="{{ path('admin_journal') }}">{{ 'Journals'|trans }}</a></li>
+        <ul class="dropdown-menu admin-dropdown-menu">
+            <li class="dropdown-header">{{ 'Elements' | trans }}</li>
+            <li><a href="{{ path('admin_catalog') }}">{{ 'Catalogs' | trans }}</a></li>
+            <li><a href="{{ path('admin_journal') }}">{{ 'Journals' | trans }}</a></li>
             <li>
-                <a href="{% if count_users(instance)['pending'] > 0 %}{{ path('admin_user', { 'state[]': 'pending' }) }}{% else %}{{ path('admin_user') }}{% endif %}">{{ 'Users'|trans }}
-                    {% if count_users(instance)['pending'] > 0 %}<span class="label label-danger">{{ count_users(instance)['pending'] }}</span>{% endif %}
+                <a href="{% if count_users(instance)['pending'] > 0 %}{{ path('admin_user', { 'state[]': 'pending' }) }}{% else %}{{ path('admin_user') }}{% endif %}">
+                    {{ 'Users' | trans }}
+                    {% if count_users(instance)['pending'] > 0 %}
+                        <span class="label label-danger">{{ count_users(instance)['pending'] }}</span>
+                    {% endif %}
                 </a>
             </li>
-            <li><a href="{{ path('admin_news') }}">{{ 'News'|trans }}</a></li>
-            <li><a href="{{ path('admin_contact') }}">{{ 'Contacts'|trans }}</a></li>
-            <li><a href="{{ path('admin_country') }}">{{ 'Countries'|trans }}</a></li>
-            <li><a href="{{ path('admin_city') }}">{{ 'Cities'|trans }}</a></li>
-            <li><a href="{{ path('admin_institution') }}">{{ 'Institutions'|trans }}</a></li>
-            <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads'|trans }}</a></li>
-            <li><a href="{{ path('admin_send_reminder_emails') }}">{{ 'Send Reminder Email'|trans }}</a></li>
+            <li><a href="{{ path('admin_contact') }}">{{ 'Contacts' | trans }}</a></li>
+            <li><a href="{{ path('admin_country') }}">{{ 'Countries' | trans }}</a></li>
+            <li><a href="{{ path('admin_city') }}">{{ 'Cities' | trans }}</a></li>
+            <li><a href="{{ path('admin_institution') }}">{{ 'Institutions' | trans }}</a></li>
+            <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads' | trans }}</a></li>
+            <li><a href="{{ path('admin_send_reminder_emails') }}">{{ 'Send Reminder Email' | trans }}</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">{{ 'Instance' | trans }}</li>
+            <li>
+                <a href="{{ path('admin_news') }}">
+                    <span class="glyphicon glyphicon-bullhorn"></span>
+                    {{ 'News' | trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('admin_instance_configure') }}">
+                    <span class="glyphicon glyphicon-wrench"></span>
+                    {{ 'Configuration' | trans }}
+                </a>
+            </li>
         </ul>
     </li>
-    {% endif %}
-    <li>
+{% endmacro %}
 
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN'))  %}
-    <li>
-        <a href="{{ path('superadministration') }}">{{ 'Network Administration'|trans }}</a>
-    </li>
-    {% endif %}
+<ul class="nav navbar-nav main-navbar">
+    <li><a href="{{ path('public_index') }}">{{ 'Home' | trans }}</a></li>
 
     {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
-        <li>
-            <a href="{{ path('user_index') }}">{{ 'My Site'|trans }}</a>
-        </li>
-    {% endif %}
-
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local %}
-    <li>
-        <a href="{{ path('user_index') }}">{{ 'My Site'|trans }}</a>
-    </li>
-    {% endif %}
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}
-    <li>
-        <a href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance'|trans }}</a>
-    </li>
-    {% endif %}
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_STATISTICS'))  %}
-        <li>
-            <a href="{{ path('superadmin_statistics') }}">{{ 'Statistics Administration'|trans }}</a>
-        </li>
-    {% endif %}
-
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_TECHNICAL'))  %}
-        <li>
-            <a href="{{ path('tichnical_index') }}">{{ 'Administration Technical'|trans }}</a>
-        </li>
-    {% endif %}
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_TICKET'))  %}
-        <li>
-            <a href="{{ path('ticket_index') }}">{{ 'Sistema de Ticket'|trans }}</a>
-        </li>
+        {{ local_macro.admin_menu(instance) }}
     {% endif %}
 
     {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
-        <li><a href="{{ path('admin_instance_configure') }}"><span class="glyphicon glyphicon-wrench"></span></a></li>
+        {{ local_macro.admin_menu(instance) }}
     {% endif %}
 
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) %}
+        <li><a href="{{ path('superadministration') }}">{{ 'Network Administration' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
+        <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local %}
+        <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}
+        <li><a href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_STATISTICS')) %}
+        <li><a href="{{ path('superadmin_statistics') }}">{{ 'Statistics Administration' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_TECHNICAL')) %}
+        <li><a href="{{ path('tichnical_index') }}">{{ 'Administration Technical' | trans }}</a></li>
+    {% endif %}
+
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_TICKET')) %}
+        <li><a href="{{ path('ticket_index') }}">{{ 'Sistema de Ticket' | trans }}</a></li>
+    {% endif %}
 </ul>

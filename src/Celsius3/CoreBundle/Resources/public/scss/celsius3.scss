@@ -1283,3 +1283,13 @@ div#celsius-search {
 .ui-state-hover .ui-icon {
   background-image: url('/build/images/ui-icons_228ef1_256x240.b5c094c2.png');
 }
+
+// Se utiliza para desplegar el menú de administración
+ul.nav li.dropdown:hover ul.dropdown-menu.admin-dropdown-menu {
+  display: block;
+}
+
+ul.nav li.active:hover ul.dropdown-menu.admin-dropdown-menu {
+  display: block;
+}
+// ----------------------------------------------------
