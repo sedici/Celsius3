@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 class OrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {dump($options);
+    {
         $class = explode('\\', $options['material']);
         $preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
 

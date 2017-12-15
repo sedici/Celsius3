@@ -85,7 +85,7 @@ $(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", functi
                 }
             });
         },
-        minLength: 2,
+        // minLength: 2,
         select: function (event, ui) {
             var id = $(this).attr('id').replace('_autocomplete', '', 'gi');
             $('#' + id).val(ui.item.id);
@@ -177,17 +177,17 @@ $('#order_instance').change(function () {
     $('#order_owner').val('');
 });
 
-$('form[name="order"]').on('submit', function (e) {
-    if (_.isEmpty($('#order_originalRequest_owner').val())) {
-        e.preventDefault();
-        $('#order_originalRequest_owner_autocomplete').parent().addClass('has-error');
-        $('#order_originalRequest_owner_autocomplete').focus();
-        $('html, body').animate({
-            scrollTop: $('#order_originalRequest_owner_autocomplete').offset().top,
-            marginTop: '100px'
-        }, 1000);
-    }
-});
+// $('form[name="order"]').on('submit', function (e) {
+//     if (_.isEmpty($('#order_originalRequest_owner').val())) {
+//         e.preventDefault();
+//         $('#order_originalRequest_owner_autocomplete').parent().addClass('has-error');
+//         $('#order_originalRequest_owner_autocomplete').focus();
+//         $('html, body').animate({
+//             scrollTop: $('#order_originalRequest_owner_autocomplete').offset().top,
+//             marginTop: '100px'
+//         }, 1000);
+//     }
+// });
 
 if (user_exists) {
     // Controles para los widgets del formulario de carga de pedidos de un
