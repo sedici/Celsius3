@@ -1,5 +1,5 @@
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
-@import '~jqueryui/jquery-ui.min.css';
+@import '~jquery-ui-dist/jquery-ui.min.css';
 @import '~font-awesome/css/font-awesome.min.css';
 @import '~ui-select/dist/select.css';
 @import '~select2-bootstrap-css/select2-bootstrap.css';
@@ -9,7 +9,7 @@
 @import '~c3/c3.min.css';
 @import '~bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
 @import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css';
-@import '~adminlte/dist/css/AdminLTE.min.css';
+@import '~admin-lte/dist/css/AdminLTE.min.css';
 
 .panel-group .panel + .panel {
   margin-top: -1px;
@@ -1292,4 +1292,15 @@ ul.nav li.dropdown:hover ul.dropdown-menu.admin-dropdown-menu {
 ul.nav li.active:hover ul.dropdown-menu.admin-dropdown-menu {
   display: block;
 }
+
+// ----------------------------------------------------
+
+// Este fragmento corrige scrolling del "autocomplete"
+.ui-autocomplete {
+  max-height: 100px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+}
+
 // ----------------------------------------------------

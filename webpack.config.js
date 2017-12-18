@@ -7,7 +7,7 @@ Encore
     .cleanupOutputBeforeBuild()
     .createSharedEntry('vendor', [
         'jquery',
-        'jqueryui',
+        'jquery-ui',
         'bootstrap-sass',
         'angular',
         'icanhaz'

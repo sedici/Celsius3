@@ -3,7 +3,7 @@ require('select2');
 require('select2/dist/css/select2.min.css');
 require('select2-bootstrap-theme/dist/select2-bootstrap.min.css');
 
-require('jqueryui');
+require('jquery-ui-dist/jquery-ui.min.js');
 require('jquery-slimscroll');
 require('fastclick');
 require('mousetrap');
@@ -23,3 +23,11 @@ require('fabric');
 
 require('d3');
 require('c3');
+
+// Este fragmento corrige el ancho del "autocomplete"
+jQuery.ui.autocomplete.prototype._resizeMenu = function () {
+    'use strict';
+    var ul = this.menu.element;
+    ul.outerWidth(this.element.outerWidth());
+};
+// -------------------------------------------------
