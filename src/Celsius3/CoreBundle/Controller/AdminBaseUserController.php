@@ -266,12 +266,12 @@ class AdminBaseUserController extends BaseUserController
      */
     public function switchUserAction(Request $request)
     {
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $userManager = $this->get('fos_user.user_manager');
             $user = $userManager->findUserByUsername($_switch_user);
             $firewallName = 'secured_area';
             $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
-            $this->container->get('security.context')->setToken($token);
+            $this->container->get('security.token_storage')->setToken($token);
         }
 
         return $this->redirectToRoute('user_index', array());
