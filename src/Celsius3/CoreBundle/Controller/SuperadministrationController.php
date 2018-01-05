@@ -27,6 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Administration controller.
@@ -123,7 +124,10 @@ class SuperadministrationController extends BaseController
 
         $sender->send($message);
 
-        $this->addFlash('success', 'The message was sent');
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
+        $this->addFlash('success', $translator->trans('The message was sent', [], 'Flashes'));
 
         return $this->redirectToRoute('superadministration');
     }

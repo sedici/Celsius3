@@ -33,6 +33,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Instance controller.
@@ -101,6 +102,9 @@ class SuperadminInstanceController extends InstanceController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
+            /** @var $translator Translator */
+            $translator = $this->get('translator');
+
             try {
                 $institution = $em->getRepository('Celsius3CoreBundle:Institution')
                     ->find($request->request->get('instance')['institution']);
@@ -118,17 +122,17 @@ class SuperadminInstanceController extends InstanceController
 
                 $this->get('celsius3_core.file_manager')->createFilesDirectory($instance->getUrl());
 
-                $this->addFlash('success', $this->get('translator')->trans('The Instance was successfully created.'));
+                $this->addFlash('success', $translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
 
                 return $this->redirect($this->generateUrl('superadmin_instance'));
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The Instance already exists.');
+                $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
             } catch (\Exception $e) {
-                $this->addFlash('error', 'Error to persist Instance.');
+                $this->addFlash('error', $translator->trans('Error to persist %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
             }
         }
 
-        $this->addFlash('error', 'There were errors creating the Instance.');
+        $this->addFlash('error', $translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('Instance')], 'Flashes'));
 
         return array(
             'entity' => $instance,

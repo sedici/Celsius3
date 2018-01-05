@@ -31,6 +31,7 @@ use Celsius3\CoreBundle\Form\Type\Filter\MailTemplateFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Validator\Constraints as CelsiusAssert;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Order controller.
@@ -121,6 +122,9 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function createAction()
     {
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
         $entity = new MailTemplate();
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm(MailTemplateType::class, $entity, ['instance' => $this->getInstance()]);
@@ -130,16 +134,16 @@ class AdminMailController extends BaseInstanceDependentController
             if (0 === count($errorList)) {
                 try {
                     $this->persistEntity($entity);
-                    $this->addFlash('success', $this->get('translator')->trans('The').' MailTemplate was successfully created.');
+                    $this->addFlash('success', $translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
 
                     return $this->redirect($this->generateUrl('admin_mails'));
                 } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                    $this->addFlash('error', 'The MailTemplate already exists.');
+                    $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
                 }
             }
         }
 
-        $this->addFlash('error', 'There were errors creating the MailTemplate.');
+        $this->addFlash('error', $translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
 
         return array(
             'entity' => $entity,
@@ -162,6 +166,9 @@ class AdminMailController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
         $entity = $this->findQuery('MailTemplate', $id);
 
         if (!$entity) {
@@ -180,18 +187,18 @@ class AdminMailController extends BaseInstanceDependentController
                 try {
                     $this->persistEntity($entity);
 
-                    $this->addFlash('success', 'The MailTemplate was successfully edited.');
+                    $this->addFlash('success', $translator->trans('The %entity% was successfully edited.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
 
                     return $this->redirect($this->generateUrl('admin_mails_edit', array('id' => $id)));
                 } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                    $this->addFlash('error', 'The MailTemplate already exists.');
+                    $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
                 }
             } else {
                 $editForm->get('text')->addError(new FormError('error.invalid.mail_template'));
             }
         }
 
-        $this->addFlash('error', 'There were errors editing the MailTemplate.');
+        $this->addFlash('error', $translator->trans('There were errors editing the %entity%.', ['%entity%' => $translator->trans('MailTemplate')], 'Flashes'));
 
         return array(
             'entity' => $entity,

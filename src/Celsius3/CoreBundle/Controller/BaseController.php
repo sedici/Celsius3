@@ -29,6 +29,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\Translation\Translator;
 
 abstract class BaseController extends Controller
 {
@@ -126,21 +127,24 @@ abstract class BaseController extends Controller
 
     protected function baseCreate($name, $entity, $type, array $options, $route)
     {
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
         $request = $this->get('request_stack')->getCurrentRequest();
         $form = $this->createForm($type, $entity, $options);
         $form->handleRequest($request);
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
-                $this->addFlash('success', $this->get('translator')->trans('The').' '.$name.' was successfully created.');
+                $this->addFlash('success', $translator->trans('The %name% was successfully created.', ['%entity%' => $translator->trans($name)], 'Flashes'));
 
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The '.$name.' already exists.');
+                $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans($name)], 'Flashes'));
             }
         }
 
-        $this->addFlash('error', 'There were errors creating the '.$name.'.');
+        $this->addFlash('error', $translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans($name)], 'Flashes'));
 
         return array(
             'entity' => $entity,
@@ -167,6 +171,9 @@ abstract class BaseController extends Controller
 
     protected function baseUpdate($name, $id, $type, array $options, $route)
     {
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
         $entity = $this->findQuery($name, $id);
 
         if (!$entity) {
@@ -183,15 +190,15 @@ abstract class BaseController extends Controller
             try {
                 $this->persistEntity($entity);
 
-                $this->addFlash('success', 'The '.$name.' was successfully edited.');
+                $this->addFlash('success', $translator->trans('The %entity% was successfully edited.', ['%entity%' => $translator->trans($name)], 'Flashes'));
 
                 return $this->redirect($this->generateUrl($route.'_edit', array('id' => $id)));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
-                $this->addFlash('error', 'The '.$name.' already exists.');
+                $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans($name)], 'Flashes'));
             }
         }
 
-        $this->addFlash('error', 'There were errors editing the '.$name.'.');
+        $this->addFlash('error', $translator->trans('There were errors editing the %entity%.', ['%entity%' => $translator->trans($name)], 'Flashes'));
 
         return array(
             'entity' => $entity,
@@ -217,7 +224,10 @@ abstract class BaseController extends Controller
             $em->remove($entity);
             $em->flush();
 
-            $this->addFlash('success', 'The '.$name.' was successfully deleted.');
+            /** @var $translator Translator */
+            $translator = $this->get('translator');
+
+            $this->addFlash('success', $translator->trans('The %entity% was successfully deleted.', ['%entity%' => $name], 'Flashes'));
         }
 
         return $this->redirect($this->generateUrl($route));
@@ -266,7 +276,10 @@ abstract class BaseController extends Controller
         $this->get('celsius3_core.union_manager')
                 ->union($this->getBundle().':'.$name, $main, $entities, $updateInstance);
 
-        $this->addFlash('success', 'The elements were successfully joined.');
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
+        $this->addFlash('success', $translator->trans('The %entities% were successfully joined.', ['%entities%' => $translator->transChoice($name, count($entities), $name, 'Flashes')]));
 
         return $this->redirect($this->generateUrl($route));
     }
