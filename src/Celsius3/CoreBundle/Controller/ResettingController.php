@@ -72,6 +72,7 @@ class ResettingController extends BaseResettingController
         $resettingCheckEmailText = $this->get('twig')->createTemplate($instance->get('resetting_check_email_text')->getValue())->render(['email' => $email]);
 
         return $this->render('Celsius3CoreBundle:Resetting:checkEmail.html.twig', array(
+            'email' => $email,
             'resetting_check_email_title' => $resettingCheckEmailTitle,
             'resetting_check_email_text' => $resettingCheckEmailText,
         ));
