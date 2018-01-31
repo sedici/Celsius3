@@ -31,32 +31,34 @@
 </div>
 <br>
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="form-group {% if not form.plainPassword.first.vars.valid %} has-error {% endif %}">
-            {{ form_label(form.plainPassword.first, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
-            <div class="col-md-8">
-                {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
-                {% for error in form.plainPassword.first.vars.errors %}
-                    <p class="text-danger">{{ error.message }}</p>
-                {% endfor %}
+{% if form.plainPassword is defined %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group {% if not form.plainPassword.first.vars.valid %} has-error {% endif %}">
+                {{ form_label(form.plainPassword.first, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+                    {% for error in form.plainPassword.first.vars.errors %}
+                        <p class="text-danger">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-6">
-        <div class="form-group {% if not form.plainPassword.second.vars.valid %} has-error {% endif %}">
-            {{ form_label(form.plainPassword.second, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
-            <div class="col-md-8">
-                {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
-                {% for error in form.plainPassword.second.vars.errors %}
-                    <p class="text-danger">{{ error.message }}</p>
-                {% endfor %}
+        <div class="col-md-6">
+            <div class="form-group {% if not form.plainPassword.second.vars.valid %} has-error {% endif %}">
+                {{ form_label(form.plainPassword.second, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                <div class="col-md-8">
+                    {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+                    {% for error in form.plainPassword.second.vars.errors %}
+                        <p class="text-danger">{{ error.message }}</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
-</div>
-<br>
+    <br>
+{% endif %}
 
 <div class="row">
     <div class="col-md-6">

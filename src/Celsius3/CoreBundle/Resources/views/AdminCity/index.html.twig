@@ -8,6 +8,6 @@
 
 {% block content %}
     <h2>{{ 'City List'|trans }}</h2>
-
+    <hr class="separator_hr">
     {{ index('admin_city', pagination, 'Celsius3CoreBundle:AdminCity', filter_form, instance) }}
 {% endblock %}

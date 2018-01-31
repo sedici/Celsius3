@@ -1,0 +1,99 @@
+{% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.name.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.name, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.name.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group {% if not form.private.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.private, null, { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            <div class="col-md-6">
+                {{ form_widget(form.private, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.private.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group {% if not form.required.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.required, null, { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            <div class="col-md-6">
+                {{ form_widget(form.required, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.required.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group {% if not form.enabled.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.enabled, null, { 'label_attr': {'class': 'col-md-6 control-label'} }) }}
+            <div class="col-md-6">
+                {{ form_widget(form.enabled, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.enabled.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.type.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.type, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.type.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.value.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.value, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.value, { 'attr': {'class': 'form-control', 'placeholder' : 'Ej: Campo1,Campo2,Campos3' | trans } }) }}
+                {% for error in form.value.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.orden.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.orden, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.orden, { 'attr': {'class': 'form-control' } }) }}
+                {% for error in form.orden.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>

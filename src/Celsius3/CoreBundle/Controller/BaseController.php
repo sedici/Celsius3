@@ -136,7 +136,7 @@ abstract class BaseController extends Controller
         if ($form->isValid()) {
             try {
                 $this->persistEntity($entity);
-                $this->addFlash('success', $translator->trans('The %name% was successfully created.', ['%entity%' => $translator->trans($name)], 'Flashes'));
+                $this->addFlash('success', $translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans($name)], 'Flashes'));
 
                 return $this->redirect($this->generateUrl($route));
             } catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
@@ -279,7 +279,7 @@ abstract class BaseController extends Controller
         /** @var $translator Translator */
         $translator = $this->get('translator');
 
-        $this->addFlash('success', $translator->trans('The %entities% were successfully joined.', ['%entities%' => $translator->transChoice($name, count($entities), $name, 'Flashes')]));
+        $this->addFlash('success', $translator->trans('The %entities% were successfully joined.', ['%entities%' => $translator->transChoice($name, count($entities), [], 'Flashes')]));
 
         return $this->redirect($this->generateUrl($route));
     }

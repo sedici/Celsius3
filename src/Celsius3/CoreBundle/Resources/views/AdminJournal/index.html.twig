@@ -8,6 +8,6 @@
 
 {% block content %}
     <h2>{{ 'Journal List'|trans }}</h2>
-
+    <hr class="separator_hr">
     {{ index('admin_journal', pagination, 'Celsius3CoreBundle:AdminJournal', filter_form, instance) }}
 {% endblock %}

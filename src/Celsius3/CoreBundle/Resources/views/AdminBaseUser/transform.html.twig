@@ -11,7 +11,5 @@
 {% block content %}
     <h2>{{ 'User Transform' | trans }} - {{ entity.name }}</h2>
     <hr class="separator_hr">
-
     {{ transform('admin_user', entity, transform_form) }}
-
 {% endblock %}

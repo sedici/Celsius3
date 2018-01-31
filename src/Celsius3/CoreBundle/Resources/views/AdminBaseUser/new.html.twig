@@ -7,11 +7,7 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-sm-12">
-            <h2>{{ 'User Creation' | trans }}</h2>
-            <hr class="separator_hr">
-            {{ new('admin_user', form, 'Celsius3CoreBundle:AdminBaseUser', true) }}
-        </div>
-    </div>
+    <h2>{{ 'User Creation' | trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_user', form, 'Celsius3CoreBundle:AdminBaseUser', true) }}
 {% endblock %}
