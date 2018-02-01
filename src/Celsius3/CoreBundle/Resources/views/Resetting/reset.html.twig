@@ -5,16 +5,11 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="panel panel-default">
-    <div class="panel-heading">  <h2>{{ 'Password Reset'|trans }}</h2></div>
-    <div class="panel-body">
+    <h3>{{ 'Password Reset'|trans }}</h3>
+    <hr class="separator_hr">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-
             {% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
         </div>
     </div>
-    </div>
-</div>
 {% endblock %}

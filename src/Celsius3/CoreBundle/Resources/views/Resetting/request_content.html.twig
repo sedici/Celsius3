@@ -1,12 +1,30 @@
-<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form" role="form">
-    <div>
-        {% if invalid_username is defined %}
-            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
-        {% endif %}
-        <div class="form-group">
-            <label for="username">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
-            <input type="text" id="username" class="form-control" name="username" />
+{#{% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}#}
+
+<form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request form"
+      role="form">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group {% if invalid_username is defined %} has-error {% endif %}">
+                <label for="username"
+                       class="col-md-12 control-label">{{ 'resetting.request.username'|trans({}, 'FOSUserBundle') }}</label>
+                <div class="col-md-12">
+                    <input type="text" id="username" class="form-control" name="username"/>
+                    {% if invalid_username is defined and invalid_username is not empty %}
+                        <p class="text-danger">{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}, 'FOSUserBundle') }}</p>
+                    {% endif %}
+                    {% if invalid_username is defined and invalid_username is empty %}
+                        <p class="text-danger">{{ 'This field is required'|trans({}, 'FOSUserBundle') }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary submit-button">
+                    <span class="glyphicon glyphicon-ok"></span>
+                    {{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}
+                </button>
+            </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary submit-button"><span class="glyphicon glyphicon-ok"></span> {{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}</button>
+
 </form>
