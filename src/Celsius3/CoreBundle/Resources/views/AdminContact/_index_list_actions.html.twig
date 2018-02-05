@@ -3,7 +3,7 @@
         <a href="{{ path('admin_contact_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
     </li>
     <li>
-        <form action="{{ path('admin_contact_delete', { 'id': element.id }) }}" method="post">
+        <form action="{{ path('admin_contact_delete', { 'id': element.id }) }}" method="post" class="delete-form">
             {{ form_widget(context.deleteForms[element.id]) }}
             <a href="#" class="submit-form"><span class="glyphicon glyphicon-remove"></span> {{ 'Delete'|trans }}</a>
         </form>

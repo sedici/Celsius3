@@ -31,7 +31,7 @@ class ContactRepository extends BaseRepository
 {
     public function findByInstance(Instance $instance, $id)
     {
-        $this->createQueryBuilder('e')
+        return $this->createQueryBuilder('e')
                 ->where('e.owningInstance = :owning')->setParameter('owning', $instance->getId())
                 ->andWhere('e.id = :id')->setParameter('id', $id)
                 ->getQuery()->getSingleResult();

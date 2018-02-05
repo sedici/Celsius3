@@ -492,7 +492,7 @@ $(document).ready(function () {
         formGroup.removeClass('has-error');
     });
 
-    $('.institution-select').on('change', function (e) {
+    $('select').on('change', function (e) {
         var formGroup = $(this).closest('.has-error');
         formGroup.find('.text-danger').hide();
         formGroup.removeClass('has-error');
@@ -504,11 +504,20 @@ $(document).ready(function () {
     $('#user_transform_prebi_0').click(function () {
         $("input:checked")
 
-        if ($('#user_transform_prebi_0:checked').val() == 'ROLE_LIBRARIAN') {
+        if ($('#user_transform_prebi_0:checked').val() === 'ROLE_LIBRARIAN') {
             $('#user_transform_institution').parent().show();
         } else {
             $('#user_transform_institution').parent().hide();
         }
 
+    });
+});
+
+$(document).ready(function () {
+    "use strict";
+    $('form.delete-form').on('submit', function(e) {
+        if (!confirm("¿Delete this element?")) {
+            e.preventDefault();
+        }
     });
 });
