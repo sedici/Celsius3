@@ -244,6 +244,9 @@
                 {{'noPendingUsers'|trans}}
                 </p>
 
+                <h2>{{ 'Other tasks' | trans }}</h2>
+                <a href="{{ { path: 'admin_send_reminder_emails' } | get_url }}" data-toggle="tooltip" title="{{ 'Send reminder email to users with pending deliver orders' | trans }}">{{ 'Send Reminder Email' | trans }}</a>
+
                 <div id="reject-user-modal" class="modal fade">
                 <div class="modal-dialog">
                 <div class="modal-content">

@@ -97,6 +97,7 @@ doctrine:
                         YEAR: DoctrineExtensions\Query\Mysql\Year
                         IFNULL: DoctrineExtensions\Query\Mysql\IfNull
                         DATEDIFF: DoctrineExtensions\Query\Mysql\DateDiff
+                        ANY_VALUE: DoctrineExtensions\Query\Mysql\AnyValue
                     numeric_functions:
                         ACOS: DoctrineExtensions\Query\Mysql\Acos
                         COS: DoctrineExtensions\Query\Mysql\Cos

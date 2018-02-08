@@ -515,9 +515,42 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     "use strict";
-    $('form.delete-form').on('submit', function(e) {
+    $('form.delete-form').on('submit', function (e) {
         if (!confirm("¿Delete this element?")) {
             e.preventDefault();
         }
     });
+});
+
+$(document).ready(function () {
+    $('select#template').select2({
+        placeholder: "",
+        allowClear: true
+    });
+    $('select#template').on('change', function () {
+        if ($(this).val()) {
+            $('#subject').val($('option#' + $(this).val()).text());
+            $('#text').val($('option#' + $(this).val()).attr('data-text'));
+        } else {
+            $('#subject').val('');
+            $('#text').val('');
+        }
+    });
+
+    $('#addUser').click(function () {
+        $('#text').val(
+            $('#text').val() + '{{ user.surname }} {{ user.name }}'
+        );
+
+        return false;
+    });
+
+    $('#addRequests').click(function () {
+        $('#text').val(
+            $('#text').val() + '{% for request in user.requests %} {{ request }} {% endfor %}'
+        );
+
+        return false;
+    });
+
 });
