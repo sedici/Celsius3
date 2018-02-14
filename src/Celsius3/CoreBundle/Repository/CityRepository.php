@@ -33,6 +33,9 @@ class CityRepository extends BaseRepository
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $country_id = null)
     {
         $qb = $this->createQueryBuilder('e')
+                ->select('e')
+                ->addSelect('c')
+                ->innerJoin('e.country', 'c')
                 ->where('e.instance = :instance_id')
                 ->orWhere('e.instance = :directory_id')
                 ->orderBy('e.name', 'asc')
