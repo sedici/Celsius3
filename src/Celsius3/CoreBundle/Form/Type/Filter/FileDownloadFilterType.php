@@ -33,7 +33,6 @@ class FileDownloadFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        dump($options);
         $builder->setMethod('GET');
 
         $builder
