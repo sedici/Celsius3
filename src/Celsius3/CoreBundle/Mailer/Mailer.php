@@ -67,7 +67,7 @@ class Mailer
 
     public function sendEmail($address, $subject, $text, Instance $instance)
     {
-        $errors = $this->validator->validateValue($address, [new EmailConstraint(), new NotBlank()]);
+        $errors = $this->validator->validate($address, [new EmailConstraint(), new NotBlank()]);
 
         if (count($errors) > 0) {
             return false;
