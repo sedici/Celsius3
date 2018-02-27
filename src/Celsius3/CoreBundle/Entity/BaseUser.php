@@ -204,7 +204,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $locked;
+    protected $locked = false;
 
     public function __toString()
     {
