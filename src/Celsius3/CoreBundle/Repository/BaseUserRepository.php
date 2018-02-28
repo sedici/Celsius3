@@ -299,12 +299,12 @@ class BaseUserRepository extends BaseRepository
 
     public function findUsersFrom(Instance $instance, $startDate)
     {
-        $this->createQueryBuilder('u')
+        $qb = $this->createQueryBuilder('u')
           ->where('u.instance = :instance_id')
           ->setParameter('instance_id', $instance->getId());
 
         if (!is_null($startDate)) {
-            $qb = $qb->andWhere('u.createdAt >= :date')->setParameter('date', $startDate);
+            $qb->andWhere('u.createdAt >= :date')->setParameter('date', $startDate);
         }
 
         return $qb;

@@ -8,8 +8,8 @@
 
 {% block content %}
 <div ng-app="institutionApp">
-    <h2>{{ 'Institution Edit' | trans }} - {{ entity.name }}</h2>
-
+    <h2>{{ 'Institution' | trans }} - {{ entity.name }}</h2>
+    <hr class="separator_hr">
     <div class="row">
         <div class="col-md-9" ng-controller="institutionCtrl">
             <div ng-view>

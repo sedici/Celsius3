@@ -1,6 +1,29 @@
 {{ form_start(form, { 'action': path('fos_user_resetting_reset', { 'token': token }), 'method': 'POST', 'class': 'form', 'role': 'form' }) }}
-{{ form_widget(form) }}
-{{ 'hola' }}
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.plainPassword.first.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.plainPassword.first, null, { 'label_attr': {'class': 'col-md-12 control-label'} }) }}
+            <div class="col-md-12">
+                {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.plainPassword.first.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="form-group {% if not form.plainPassword.second.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.plainPassword.second, null, { 'label_attr': {'class': 'col-md-12 control-label'} }) }}
+            <div class="col-md-12">
+                {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.plainPassword.second.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 <button type="submit" class="btn btn-primary submit-button">
     <span class="glyphicon glyphicon-ok"></span> {{ 'resetting.reset.submit'|trans({}, 'FOSUserBundle') }}
 </button>

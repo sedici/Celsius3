@@ -26,6 +26,7 @@ use Celsius3\CoreBundle\Helper\ConfigurationHelper;
 use Celsius3\CoreBundle\Validator\Constraints\ContainsCSS;
 use Celsius3\CoreBundle\Exception\Exception;
 use JMS\TranslationBundle\Annotation\Ignore;
+use Symfony\Component\Translation\Translator;
 
 abstract class InstanceController extends BaseController
 {
@@ -151,7 +152,10 @@ abstract class InstanceController extends BaseController
 
             $em->flush();
 
-            $this->addFlash('success', 'The instance was successfully configured.');
+            /** @var $translator Translator */
+            $translator = $this->get('translator');
+
+            $this->addFlash('success', $translator->trans('The %entity% was successfully configured.', ['%entity%' =>  $translator->trans('Instance')], 'Flashes'));
 
             return $this->redirect($this->generateUrl($route.'_configure', array('id' => $id)));
         }

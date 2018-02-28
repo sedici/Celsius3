@@ -49,7 +49,6 @@ class Catalog
 
     /**
      * @Assert\NotBlank
-     * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -57,7 +56,6 @@ class Catalog
     /**
      * @Assert\NotBlank
      * @Assert\Url
-     * @Assert\NotNull
      * @ORM\Column(type="string", length=255)
      */
     private $url;

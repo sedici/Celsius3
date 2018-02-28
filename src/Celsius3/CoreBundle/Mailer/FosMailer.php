@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Mailer;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use FOS\UserBundle\Model\UserInterface;
 use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
@@ -89,9 +90,7 @@ class FosMailer extends DefaultMailer
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
         $template = $this->mailManager->getTemplate('resetting', $this->instance);
 
-        $url = $this->router->generate('fos_user_resetting_reset', array(
-            'token' => $user->getConfirmationToken(),
-                ), true);
+        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), Router::ABSOLUTE_URL);
         $rendered = $this->twig->createTemplate($template->getText())->render(array(
                     'user' => $user,
                     'url' => $url,

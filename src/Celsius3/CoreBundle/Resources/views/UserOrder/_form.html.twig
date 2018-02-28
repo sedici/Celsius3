@@ -15,11 +15,12 @@
     {% if(form.originalRequest.owner_autocomplete is defined) %}
         <div class="col-md-6">
             <div class="form-group {% if not form.originalRequest.owner_autocomplete.vars.valid %} has-error {% endif %}">
-                {{ form_row(form.originalRequest.owner_autocomplete) }}
+                {{ form_label(form.originalRequest.owner_autocomplete) }}
+                {{ form_widget(form.originalRequest.owner_autocomplete, { 'attr': { 'class': 'form-control' } }) }}
+                {% for error in form.originalRequest.owner_autocomplete.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
             </div>
-            {% for error in form.originalRequest.owner_autocomplete.vars.errors %}
-                <p class="text-danger">{{ error.message }}</p>
-            {% endfor %}
         </div>
     {% endif %}
 

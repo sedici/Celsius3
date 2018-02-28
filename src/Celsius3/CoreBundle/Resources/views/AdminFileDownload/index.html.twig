@@ -1,3 +1,4 @@
+{% set ajax_path = 'admin_ajax' %}
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
@@ -8,6 +9,6 @@
 
 {% block content %}
     <h2>{{ 'File Download List'|trans }}</h2>
-
+    <hr class="separator_hr">
     {{ index('admin_file_download', pagination, 'Celsius3CoreBundle:AdminFileDownload', filter_form) }}
 {% endblock %}

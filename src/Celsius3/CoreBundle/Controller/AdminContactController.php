@@ -40,14 +40,18 @@ class AdminContactController extends BaseInstanceDependentController
     {
         return $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:'.$name)
-                    ->findBy(['owningInstance' => $this->getInstance()->getId()]);
+                    ->createQueryBuilder('e')
+                    ->select('e')
+                    ->where('e.owningInstance = :instance')
+                    ->setParameter('instance', $this->getInstance()->getId())
+            ;
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:'.$name)
-                        ->findByInstance($this->getInstance, $id);
+                        ->findByInstance($this->getInstance(), $id);
     }
 
     /**
@@ -100,7 +104,7 @@ class AdminContactController extends BaseInstanceDependentController
     public function newAction()
     {
         return $this->baseNew('Contact', new Contact(), AdminContactType::class, array(
-                    'owning_instance' => $this->getInstance(),
+            'owning_instance' => $this->getInstance(),
         ));
     }
 
@@ -116,8 +120,8 @@ class AdminContactController extends BaseInstanceDependentController
     public function createAction()
     {
         return $this->baseCreate('Contact', new Contact(), AdminContactType::class, array(
-                    'owning_instance' => $this->getInstance(),
-                        ), 'admin_contact');
+            'owning_instance' => $this->getInstance(),
+        ), 'admin_contact');
     }
 
     /**
@@ -140,8 +144,8 @@ class AdminContactController extends BaseInstanceDependentController
         }
 
         return $this->baseEdit('Contact', $id, AdminContactType::class, array(
-                    'owning_instance' => $this->getInstance(),
-                    'user' => $entity->getUser(),
+            'owning_instance' => $this->getInstance(),
+            'user' => $entity->getUser(),
         ));
     }
 
@@ -166,9 +170,9 @@ class AdminContactController extends BaseInstanceDependentController
         }
 
         return $this->baseUpdate('Contact', $id, AdminContactType::class, array(
-                    'owning_instance' => $this->getInstance(),
-                    'user' => $entity->getUser(),
-                        ), 'admin_contact');
+            'owning_instance' => $this->getInstance(),
+            'user' => $entity->getUser(),
+        ), 'admin_contact');
     }
 
     /**

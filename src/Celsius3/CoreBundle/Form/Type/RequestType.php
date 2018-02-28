@@ -99,6 +99,10 @@ class RequestType extends AbstractType
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
+                        'required' => true,
+                        'constraints' => array(
+                            new \Symfony\Component\Validator\Constraints\NotBlank()
+                        )
                     ))
             ;
         }
@@ -113,6 +117,10 @@ class RequestType extends AbstractType
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
+                        'required' => true,
+                        'constraints' => array(
+                            new \Symfony\Component\Validator\Constraints\NotBlank()
+                        )
                     ))
                     ->add('operator', UserSelectorType::class, array(
                         'attr' => array(

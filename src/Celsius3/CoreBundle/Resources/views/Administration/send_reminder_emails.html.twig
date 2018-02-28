@@ -5,36 +5,22 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="row">
-        
-        <div class="panel panel-default">
-            <div class="panel-heading">   <h3>{{ 'Send Reminder Email' | trans }}</h3>
-        </div>
-            <div class="panel-body">
-           
-       
+        <h3>{{ 'Send Reminder Email' | trans }}</h3>
+        <hr class="separator_hr">
+
         <form method="post" action="{{ path('admin_send_reminder_emails_batch') }}">
             <div class="col-xs-9">
                 <div class="form-group">
-                    <label for="subject">{{'Subject' | trans }}</label>
-                    <input class="form-control" type="text" name="subject" id="subject" required >
-                </div>
-                <div class="form-group">
-                    <label for="template">{{ 'template' | trans }}</label>
-                    <select class="form-control" name="template" id="template">
-                        <option></option>
-                        {% for t in templates %}
-                            <option id="{{t.id}}" value="{{t.id}}" data-text="{{t.text}}">{{t.title}}</option>
-                        {% endfor %}
-                    </select>
+                    <label for="subject">{{ 'Subject' | trans }}</label>
+                    <input class="form-control" type="text" name="subject" id="subject" required>
                 </div>
                 <div class="form-group {% if error %}has-error{% endif %}">
-                    <label for="text">{{'Email content' | trans }}</label>
-                    <span>[<a href id="addUser" >Add user</a>]</span>
-                    <span>[<a href id="addRequests" >Add requests</a>]</span>
+                    <label for="text">{{ 'Email content' | trans }}</label>
+                    <span>[<a href id="addUser">Add user</a>]</span>
+                    <span>[<a href id="addRequests">Add requests</a>]</span>
                     <br>{% if error %}<p class="text-danger">{{ errorMessage }}</p>{% endif %}
-                    <textarea class="form-control" name="text" id="text" required style="height: 140px;" >
+                    <textarea class="form-control" name="text" id="text" required style="height: 140px;">
 
                     </textarea>
                 </div>
@@ -45,19 +31,22 @@
                     <label>{{ 'Users with pending requests' | trans }}</label>
                     <ul class="list-group">
                         {% for u in users %}
-                            <li class="list-group-item">{{u.surname}}, {{u.name}} ({{u.username}}) <span class="pull-right">[{{u.requestsCount}} {{ 'pending' | trans }}]</span></li>
-                            {% endfor %}
+                            <li class="list-group-item">{{ u.surname }}, {{ u.name }} ({{ u.username }}) <span
+                                        class="pull-right">[{{ u.requestsCount }} {{ 'pending' | trans }}]</span></li>
+                        {% endfor %}
                     </ul>
+                    <p class="alert alert-warning">{{ 'There are not users with recent pending orders' | trans }}</p>
                 </div>
             </div>
         </form>
 
-<div class="col-md-3">
+        <div class="col-md-3">
             <div id="accordion" class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse" class="accordion-toggle">
+                            <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                               class="accordion-toggle">
                                 <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
                             </a>
                         </h4>
@@ -77,52 +66,11 @@
             </div>
         </div>
     </div>
-
-            </div>
-        </div>
-        
-        
-        
-
-
-
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('select#template').select2({
-                placeholder: "",
-                allowClear: true
-            });
-            $('select#template').on('change', function () {
-                if($(this).val()){
-                    $('#subject').val($('option#' + $(this).val()).text());
-                    $('#text').val($('option#' + $(this).val()).attr('data-text'));
-                } else {
-                    $('#subject').val('');
-                    $('#text').val('');
-                }
-            });
 
-            $('#addUser').click(function () {
-                $('#text').val(
-                    $('#text').val() + '{{ '{{ user.surname }}'  }} {{ '{{ user.name }}' }}'
-                );
-
-                return false;
-            });
-
-            $('#addRequests').click(function () {
-                $('#text').val(
-                    $('#text').val() + '{{ '{% for request in user.requests %}'  }} {{ '{{ request }}' }} {{ '{% endfor %}' }}'
-                );
-
-                return false;
-            });
-
-        });
     </script>
 {% endblock %}

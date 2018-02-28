@@ -1,0 +1,29 @@
+{% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.name.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.name, null, { 'label_attr': {'class': 'col-lg-2 control-label'} }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.name.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.abbreviation.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.abbreviation, null, { 'label_attr': {'class': 'col-lg-2 control-label'} }) }}
+            <div class="col-lg-10">
+                {{ form_widget(form.abbreviation, { 'attr': {'class': 'form-control'} }) }}
+                {% for error in form.abbreviation.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

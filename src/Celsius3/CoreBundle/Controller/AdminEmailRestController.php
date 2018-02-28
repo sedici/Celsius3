@@ -49,7 +49,7 @@ class AdminEmailRestController extends BaseInstanceDependentRestController
         $emailConstraint = new Email();
         $emailConstraint->message = 'Invalid email';
 
-        $errors = $this->get('validator')->validateValue($email, $emailConstraint);
+        $errors = $this->get('validator')->validate($email, $emailConstraint);
 
         if (count($errors) !== 0) {
             throw new NotFoundHttpException('Error sending email');

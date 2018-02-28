@@ -45,12 +45,13 @@ class AdministrationController extends BaseInstanceDependentController
     {
         $configHelper = $this->get('celsius3_core.configuration_helper');
         $resultsPerPageConfig = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('Celsius3CoreBundle:Configuration')
-                ->findOneBy(
+            ->getManager()
+            ->getRepository('Celsius3CoreBundle:Configuration')
+            ->findOneBy(
                 array(
                     'instance' => $this->getInstance(),
-                    'key' => $configHelper::CONF__RESULTS_PER_PAGE, ));
+                    'key' => $configHelper::CONF__RESULTS_PER_PAGE,)
+            );
 
         return array(
             'resultsPerPage' => $resultsPerPageConfig->getValue(),
@@ -78,9 +79,9 @@ class AdministrationController extends BaseInstanceDependentController
         $term = $request->query->get('term');
 
         $result = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions(null))
-                ->getResult();
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->findByTerm($term, $instance, null, $this->get('celsius3_core.user_manager')->getLibrarianInstitutions(null))
+            ->getResult();
 
         $json = array();
         foreach ($result as $element) {
@@ -109,14 +110,14 @@ class AdministrationController extends BaseInstanceDependentController
     /**
      * GET Route annotation.
      *
-     * @Route("/send_reminder_emails", name="admin_send_reminder_emails")
+     * @Route("/send_reminder_emails", name="admin_send_reminder_emails", options={"expose"=true})
      * @Template("Celsius3CoreBundle:Administration:send_reminder_emails.html.twig")
      */
     public function sendReminderEmailsAction()
     {
         $em = $this->getDoctrine()->getManager();
         $usersWithPendingRequets = $em->getRepository('Celsius3CoreBundle:State')
-                ->countUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
+            ->countUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
 
         $templates = $em->getRepository('Celsius3CoreBundle:MailTemplate')->findAllEnabled();
 
@@ -135,7 +136,7 @@ class AdministrationController extends BaseInstanceDependentController
                 'username' => $x['username'],
                 'surname' => $x['surname'],
                 'name' => $x['name'],
-                'requestsCount' => $x['requestsCount'], );
+                'requestsCount' => $x['requestsCount'],);
         }
 
         return array(
@@ -156,8 +157,8 @@ class AdministrationController extends BaseInstanceDependentController
         $text = $request->request->get('text');
 
         $usersRequests = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:State')
-                ->getUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
+            ->getRepository('Celsius3CoreBundle:State')
+            ->getUsersWithPendingRequests($this->getInstance(), $this->getInstance()->get('min_days_for_send_mail')->getValue(), $this->getInstance()->get('max_days_for_send_mail')->getValue());
 
         $i = 0;
         $users = array();

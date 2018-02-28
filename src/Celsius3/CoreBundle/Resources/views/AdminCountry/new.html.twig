@@ -1,16 +1,17 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-    {{ 'Country Creation'|trans }}
+    {{ 'Country Creation' | trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-<div class="panel panel-default">
-    <div class="panel-heading"> <h2>{{ 'Country Creation'|trans }}</h2></div>
-    <div class="panel-body">
-        {{ new('admin_country', form) }}
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>{{ 'Country Creation' | trans }}</h2>
+            <hr class="separator_hr">
+            {{ new('admin_country', form, 'Celsius3CoreBundle:AdminCountry', true) }}
+        </div>
     </div>
-</div>
 {% endblock %}

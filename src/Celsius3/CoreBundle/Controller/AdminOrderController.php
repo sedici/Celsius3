@@ -48,15 +48,15 @@ class AdminOrderController extends OrderController
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
-                        ->findForInstance($this->getInstance());
+            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:'.$name)
-                    ->findOneForInstance($this->getInstance(), $id);
+            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->findOneForInstance($this->getInstance(), $id);
     }
 
     /**
@@ -101,18 +101,18 @@ class AdminOrderController extends OrderController
     {
         if ($request->query->has('user_id')) {
             $user = $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:BaseUser')
-                    ->find($request->query->get('user_id'));
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->find($request->query->get('user_id'));
         } else {
             $user = null;
         }
 
         return $this->baseNew('Order', new Order(), OrderType::class, array(
-                    'instance' => $this->getInstance(),
-                    'user' => $user,
-                    'operator' => $this->getUser(),
-                    'actual_user' => $this->getUser(),
-                    'create' => true,
+            'instance' => $this->getInstance(),
+            'user' => $user,
+            'operator' => $this->getUser(),
+            'actual_user' => $this->getUser(),
+            'create' => true,
         ));
     }
 
@@ -128,12 +128,12 @@ class AdminOrderController extends OrderController
     public function createAction(Request $request)
     {
         return $this->baseCreate('Order', new Order(), OrderType::class, array(
-                    'instance' => $this->getInstance(),
-                    'material' => $this->getMaterialType(),
-                    'operator' => $this->getUser(),
-                    'actual_user' => $this->getUser(),
-                    'create' => true,
-                        ), 'administration');
+            'instance' => $this->getInstance(),
+            'material' => $this->getMaterialType(),
+            'operator' => $this->getUser(),
+            'actual_user' => $this->getUser(),
+            'create' => true,
+        ), 'administration');
     }
 
     /**
@@ -263,7 +263,7 @@ class AdminOrderController extends OrderController
 
         // Se extrae el usuario del request y se setea en la construccion del form
         $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
-                ->find($request->request->get('order[originalRequest][owner]', null, true));
+            ->find($request->request->get('order', null)['originalRequest']['owner']);
 
         $editForm = $this->createForm(OrderType::class, $entity, array(
             'instance' => $this->getInstance(),
@@ -278,10 +278,10 @@ class AdminOrderController extends OrderController
         if ($editForm->isValid()) {
             if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
-                        $request->request->get('order[materialData][journal]', null, true)
+                    $request->request->get('order', null)['materialData']['journal']
                 );
-                if (is_null($journal) || ($journal->getName() !== $request->request->get('order[materialData][journal_autocomplete]', null, true))) {
-                    $entity->getMaterialData()->setOther($request->request->get('order[materialData][journal_autocomplete]', null, true));
+                if (is_null($journal) || ($journal->getName() !== $request->request->get('order', null)['materialData']['journal_autocomplete'])) {
+                    $entity->getMaterialData()->setOther($request->request->get('order', null)['materialData']['journal_autocomplete']);
                     $entity->getMaterialData()->setJournal(null);
                 }
             }

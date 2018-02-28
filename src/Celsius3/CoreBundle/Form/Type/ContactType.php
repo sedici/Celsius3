@@ -57,9 +57,11 @@ class ContactType extends AbstractType
                 ))
                 ->add('type', EntityType::class, array(
                     'class' => Entity::class,
+                    'required' => false
                 ))
                 ->add('instance', EntityType::class, array(
                     'class' => Instance::class,
+                    'required' => false
                 ))
         ;
     }

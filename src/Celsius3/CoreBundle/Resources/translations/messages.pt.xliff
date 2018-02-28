@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2017-11-08T11:21:27Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
+  <file date="2018-01-05T11:48:00Z" source-language="en" target-language="pt" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -14,13 +14,19 @@
         <jms:reference-file line="133">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
         <jms:reference-file line="148">/../src/Celsius3/CoreBundle/Form/EventListener/AddInstitutionFieldsSubscriber.php</jms:reference-file>
         <jms:reference-file line="53">/../src/Celsius3/CoreBundle/Form/Type/CustomUserFieldType.php</jms:reference-file>
-        <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
-        <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
-        <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+        <jms:reference-file line="107">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+        <jms:reference-file line="130">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+        <jms:reference-file line="48">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+        <jms:reference-file line="60">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+        <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
+        <jms:reference-file line="92">/../src/Celsius3/CoreBundle/Form/Type/Filter/CatalogFilterType.php</jms:reference-file>
         <jms:reference-file line="40">/../src/Celsius3/CoreBundle/Form/Type/Filter/FileDownloadFilterType.php</jms:reference-file>
-        <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
-        <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
-        <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="108">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="128">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="48">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="60">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="93">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
         <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/Filter/OrderFilterType.php</jms:reference-file>
         <jms:reference-file line="53">/../src/Celsius3/CoreBundle/Form/Type/InstanceRegisterType.php</jms:reference-file>
         <jms:reference-file line="64">/../src/Celsius3/CoreBundle/Form/Type/InstanceRegisterType.php</jms:reference-file>
@@ -29,7 +35,6 @@
         <jms:reference-file line="57">/../src/Celsius3/CoreBundle/Form/Type/InstanceType.php</jms:reference-file>
         <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Form/Type/InstanceType.php</jms:reference-file>
         <jms:reference-file line="40">/../src/Celsius3/CoreBundle/Form/Type/MailTemplateType.php</jms:reference-file>
-        <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Form/Type/UserTransformType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="b1d5781111d84f7b3fe45a0852e59758cd7a87e5" resname="10">
         <source>10</source>
@@ -75,14 +80,15 @@
         <target>Ações</target>
         <jms:reference-file line="256">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/show.html.twig</jms:reference-file>
         <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/AdminInstitution/show.html.twig</jms:reference-file>
-        <jms:reference-file line="53">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="256">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/show.html.twig</jms:reference-file>
         <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/File/_index_fields.html.twig</jms:reference-file>
         <jms:reference-file line="210">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
-        <jms:reference-file line="303">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
-        <jms:reference-file line="346">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="308">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="351">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="95">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstitution/show.html.twig</jms:reference-file>
+        <jms:reference-file line="71">/Resources/FOSMessageBundle/views/Message/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a733b809d2f1233496ab516eed0f3ef75cf3791a" resname="Active">
         <source>Active</source>
@@ -106,7 +112,7 @@
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminContact/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="14">/../src/Celsius3/CoreBundle/Resources/views/BaseUser/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="22">/../src/Celsius3/CoreBundle/Resources/views/Layout/mail.html.twig</jms:reference-file>
-        <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
+        <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminContact/_show_fields.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4e7afebcfbae000b22c7c85e5560f89a2a0280b4" resname="Admin">
@@ -124,13 +130,12 @@
         <source>Administration</source>
         <target>Administração</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Administration/index.html.twig</jms:reference-file>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="43">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4b3f80b7b21199031cfb4e202e00ed163e7962b7" resname="Administration Technical">
         <source>Administration Technical</source>
         <target>Administração técnica</target>
-        <jms:reference-file line="105">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="81">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1eda23758be9e36e5e0d2a6a87de584aaca0193f" resname="Administrator">
         <source>Administrator</source>
@@ -187,7 +192,7 @@
         <source>Birthdate</source>
         <target>Data de nascimento</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/BaseUser/_show_fields.html.twig</jms:reference-file>
-        <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
+        <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f69f233005f15802770fd26fbf7ead52ec13d9e6" resname="Book">
         <source>Book</source>
@@ -232,8 +237,7 @@
       <trans-unit id="d99c226d02cb06df9c4f96d0e0140b91c9b8f41f" resname="Catalogs">
         <source>Catalogs</source>
         <target>Catálogos</target>
-        <jms:reference-file line="20">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="53">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="15">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="08f98583c1ffe2e492a2510d98ff6f120d45719e" resname="Cause">
         <source>Cause</source>
@@ -243,7 +247,7 @@
       <trans-unit id="8bbe14b3daa554ede1ac9817ebabda375edc6381" resname="Celsius Instance">
         <source>Celsius Instance</source>
         <target>Instância Celsius</target>
-        <jms:reference-file line="86">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="144">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
         <jms:reference-file line="72">/../src/Celsius3/CoreBundle/Form/Type/InstitutionType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="68cc46871e6ea5e5e54200edc43a0ba0139299a9" resname="Celsius instance">
@@ -264,13 +268,13 @@
       <trans-unit id="49289db43e663a3df5e2c70714722ecc54895565" resname="Change Password">
         <source>Change Password</source>
         <target>Mudar Senha</target>
-        <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/ChangePassword/changePassword.html.twig</jms:reference-file>
-        <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/ChangePassword/changePassword.html.twig</jms:reference-file>
+        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/ChangePassword/change_password.html.twig</jms:reference-file>
+        <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/ChangePassword/change_password.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8c684290ce0b8a8e6cee79a145e17554064a4760" resname="Change password">
         <source>Change password</source>
         <target>Mudar Senha</target>
-        <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/Profile/edit_content.html.twig</jms:reference-file>
+        <jms:reference-file line="46">/../src/Celsius3/CoreBundle/Resources/views/Profile/edit_content.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="46b005909e66f5a13a9b8a1cefa818249d85e3d1" resname="Chapter">
         <source>Chapter</source>
@@ -294,8 +298,7 @@
       <trans-unit id="7735fd308fcee819cbf6417a79de845a4ff42eba" resname="Cities">
         <source>Cities</source>
         <target>Cidades</target>
-        <jms:reference-file line="31">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="63">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="27">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="22">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_shared_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4271627f4f0bef6104a95cca7bb21cda4d74503e" resname="City">
@@ -376,6 +379,7 @@
       <trans-unit id="754164850f38c1ecdaf6b8ed894cb192bc36c5f4" resname="Configuration">
         <source>Configuration</source>
         <target>Configuração</target>
+        <jms:reference-file line="42">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstance/_index_list_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="568e8ffe5b3da97db2d3c496e71d02544059a208" resname="Configure Directory">
@@ -448,8 +452,7 @@
       <trans-unit id="b0dd615cbbdcbf21ffb72115599ca915634fcb85" resname="Contacts">
         <source>Contacts</source>
         <target>Contatos</target>
-        <jms:reference-file line="29">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="25">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstance/_index_actions.html.twig</jms:reference-file>
         <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/_index_actions.html.twig</jms:reference-file>
         <jms:reference-file line="55">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
@@ -472,8 +475,7 @@
       <trans-unit id="8467c0d99c7925d9e5fdb471fce551ee2115df40" resname="Countries">
         <source>Countries</source>
         <target>Países</target>
-        <jms:reference-file line="30">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="62">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_shared_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d523ebbd10146cdfd39dee077f04c9d08468d0bc" resname="Country">
@@ -490,7 +492,7 @@
       <trans-unit id="ff3e595d68362939ffdf9f17a6a2cbf7a1312eb0" resname="Country Creation">
         <source>Country Creation</source>
         <target>Criação de País</target>
-        <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/AdminCountry/new.html.twig</jms:reference-file>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminCountry/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminCountry/new.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminFileDownload/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminFileDownload/new.html.twig</jms:reference-file>
@@ -510,7 +512,7 @@
       <trans-unit id="72c3337648a77f1dd088e011628afafd6d057a59" resname="Country List">
         <source>Country List</source>
         <target>Lista de Países</target>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminCountry/index.html.twig</jms:reference-file>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminCountry/index.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminCountry/index.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCountry/index.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCountry/index.html.twig</jms:reference-file>
@@ -677,12 +679,12 @@
       </trans-unit>
       <trans-unit id="d87f47b47e4d5794d53fe0734c49417bd046cde0" resname="Dashboard">
         <source>Dashboard</source>
-        <target xml:space="preserve">Painel de controle</target>
+        <target>Painel de controle</target>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="628dcbddd689876e7906e1ec39e0baa1cc7a075a" resname="Dashboard Statistic">
         <source>Dashboard Statistic</source>
-        <target xml:space="preserve">Painel de estadísticas</target>
+        <target>Painel de estadísticas</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminStatistics/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="bc2421d7ec5f4eb8c315765e9d2aa27ff8c4861c" resname="Dashboard Technical">
@@ -723,7 +725,7 @@
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminNews/_index_sort.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminNews/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="2">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/_index_sort.html.twig</jms:reference-file>
-        <jms:reference-file line="16">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
+        <jms:reference-file line="183">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="808d7dca8a74d84af27a2d6602c3d786de45fe1e" resname="Default">
         <source>Default</source>
@@ -770,6 +772,12 @@
         <source>Director</source>
         <target>Diretor</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/MaterialType/_thesis.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="1029544ae8b46287a52a74595462c217cf60a5a9" resname="Directories">
+        <source>Directories</source>
+        <target state="new">Directories</target>
+        <jms:reference-file line="33">/Resources/FOSMessageBundle/views/Message/sidebar.html.twig</jms:reference-file>
+        <jms:reference-file line="28">/Resources/FOSMessageBundle/views/Message/sidebar_new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4b892fe0c040fa8a944037d1d2817c41ab7da958" resname="Directory">
         <source>Directory</source>
@@ -827,6 +835,7 @@
         <jms:reference-file line="270">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/show.html.twig</jms:reference-file>
         <jms:reference-file line="22">/../src/Celsius3/CoreBundle/Resources/views/File/_index_fields.html.twig</jms:reference-file>
         <jms:reference-file line="225">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/Profile/show.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCatalog/_index_list_actions.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCity/_index_list_actions.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/SuperadminContact/_index_list_actions.html.twig</jms:reference-file>
@@ -865,6 +874,11 @@
         <target>Editor</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/MaterialType/_book.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="a563972e807d43617dfb0a4b0398984476c03544" resname="Elements">
+        <source>Elements</source>
+        <target state="new">Elements</target>
+        <jms:reference-file line="14">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+      </trans-unit>
       <trans-unit id="84add5b2952787581cb9a8851eef63d1ec75d22b" resname="Email">
         <source>Email</source>
         <target>Email</target>
@@ -885,7 +899,7 @@
       <trans-unit id="3c4de1dc5045ef807755ff23fca2eb193cb6c972" resname="Email content">
         <source>Email content</source>
         <target>Conteúdo do Email</target>
-        <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="33">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="20063ad9053289cecaa20ae630ed2dd758282a07" resname="Enable">
         <source>Enable</source>
@@ -939,8 +953,7 @@
       <trans-unit id="95a9dfcd4100cffd3bbfdd8cd63e61e7ac690c07" resname="File Downloads">
         <source>File Downloads</source>
         <target>Descargas de arquivo</target>
-        <jms:reference-file line="33">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="65">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="29">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="55569e9c6ac6d1d844ea2dd9bb1ca00ade191117" resname="File Edit">
         <source>File Edit</source>
@@ -966,13 +979,14 @@
         <source>Filter</source>
         <target>Filtro</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_filters.html.twig</jms:reference-file>
-        <jms:reference-file line="291">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="292">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="96e578211aa295317cf257310712fa28ccd8f6c6" resname="Filters">
         <source>Filters</source>
         <target>Filtros</target>
         <jms:reference-file line="22">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/index.html.twig</jms:reference-file>
         <jms:reference-file line="77">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="54">/Resources/FOSMessageBundle/views/Message/sidebar.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="916a78d701ded328cd66da58a97ef8cd28a99e84" resname="First">
         <source>First</source>
@@ -1014,7 +1028,7 @@
       <trans-unit id="a09a73bacfd409e597f6ec9ade544253500728ea" resname="Go to Administration">
         <source>Go to Administration</source>
         <target>Ir para Administração</target>
-        <jms:reference-file line="62">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="70">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="0ba7a097228e2674c1d005fcd54a19989ec3c461" resname="Go to Configuration">
         <source>Go to Configuration</source>
@@ -1029,7 +1043,7 @@
         <jms:reference-file line="35">/../src/Celsius3/CoreBundle/Resources/views/AdminInstitution/show.html.twig</jms:reference-file>
         <jms:reference-file line="265">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/show.html.twig</jms:reference-file>
         <jms:reference-file line="219">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
-        <jms:reference-file line="312">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="317">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="35">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstitution/show.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="265a474886756f9337c0aeedbcaebd8856393f57" resname="HEADING_NEW_TICKET">
@@ -1079,7 +1093,7 @@
         <source>Home</source>
         <target>Início</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Directory/statistics.html.twig</jms:reference-file>
-        <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="50">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Public/help.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Public/index.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Public/information.html.twig</jms:reference-file>
@@ -1167,6 +1181,12 @@
       <trans-unit id="5f97f8775628e86310829ab9e8c465258ab92a5e" resname="Instance">
         <source>Instance</source>
         <target>Instância</target>
+        <jms:reference-file line="158">/../src/Celsius3/CoreBundle/Controller/InstanceController.php</jms:reference-file>
+        <jms:reference-file line="125">/../src/Celsius3/CoreBundle/Controller/SuperadminInstanceController.php</jms:reference-file>
+        <jms:reference-file line="129">/../src/Celsius3/CoreBundle/Controller/SuperadminInstanceController.php</jms:reference-file>
+        <jms:reference-file line="131">/../src/Celsius3/CoreBundle/Controller/SuperadminInstanceController.php</jms:reference-file>
+        <jms:reference-file line="135">/../src/Celsius3/CoreBundle/Controller/SuperadminInstanceController.php</jms:reference-file>
+        <jms:reference-file line="32">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminBaseUser/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCatalog/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCity/_show_fields.html.twig</jms:reference-file>
@@ -1301,8 +1321,7 @@
       <trans-unit id="dcd439a7322864e79ebb16b566f6870d846c27d2" resname="Institutions">
         <source>Institutions</source>
         <target>Instituições</target>
-        <jms:reference-file line="32">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="64">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="28">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminInstance/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/SuperadminLegacyInstance/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_shared_span.html.twig</jms:reference-file>
@@ -1364,8 +1383,7 @@
       <trans-unit id="6d4ae6f862f0075a3104ffeaefd25e1f03018534" resname="Journals">
         <source>Journals</source>
         <target>Revistas</target>
-        <jms:reference-file line="21">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="54">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="16">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="70">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_shared_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d1c69a859a9638b242f2dabf8acf1c0b1450ce6b" resname="Last">
@@ -1482,6 +1500,16 @@
         <target>Modelos de Mail</target>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/_configure_actions.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="d8d5cfc9c52ed8dc1d607ab514997ec3f912645b" resname="MailTemplate">
+        <source>MailTemplate</source>
+        <target state="new">MailTemplate</target>
+        <jms:reference-file line="137">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
+        <jms:reference-file line="141">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
+        <jms:reference-file line="146">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
+        <jms:reference-file line="190">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
+        <jms:reference-file line="194">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
+        <jms:reference-file line="201">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
+      </trans-unit>
       <trans-unit id="839de310ff883dc5f22ec85eb75776dc0946a190" resname="Material Type">
         <source>Material Type</source>
         <target>Tipo de material</target>
@@ -1527,13 +1555,13 @@
       <trans-unit id="f9e48aa380036e8770ab31a82a6aae265e088ce8" resname="My Instance">
         <source>My Instance</source>
         <target>Minha Instância</target>
-        <jms:reference-file line="92">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="73">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a32ce0054f8866e91bef29f96ed7667ab47e86fc" resname="My Site">
         <source>My Site</source>
         <target>Meu Site</target>
-        <jms:reference-file line="80">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="87">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="65">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="69">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/User/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="709a23220f2c3d64d1e1d6d18c4d5280f8d82fca" resname="Name">
@@ -1557,7 +1585,7 @@
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/BaseUser/_index_sort.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/File/_index_fields.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/File/_show_fields.html.twig</jms:reference-file>
-        <jms:reference-file line="2">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
+        <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCatalog/_index_sort.html.twig</jms:reference-file>
         <jms:reference-file line="2">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCatalog/_show_fields.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/SuperadminCity/_index_sort.html.twig</jms:reference-file>
@@ -1583,7 +1611,7 @@
       <trans-unit id="76806fafc50b9870d93cacdbe2aded23b156d65d" resname="Network Administration">
         <source>Network Administration</source>
         <target>Administração de Rede</target>
-        <jms:reference-file line="74">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="61">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="6403f2b7eb2aaafe6de34cbf2a029b01afebc512" resname="New">
@@ -1609,14 +1637,13 @@
       <trans-unit id="34c808d0a63f277e04fb23a5f76cc83d0a3e024b" resname="News">
         <source>News</source>
         <target>Notícias</target>
-        <jms:reference-file line="28">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="60">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="36">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Public/news.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="1107dd9d719fc4b0be735b6834f90c0a70fcf830" resname="News Creation">
         <source>News Creation</source>
         <target>Criação de Notícias</target>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminNews/new.html.twig</jms:reference-file>
+        <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/AdminNews/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminNews/new.html.twig</jms:reference-file>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/SuperadminNews/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminNews/new.html.twig</jms:reference-file>
@@ -1624,7 +1651,7 @@
       <trans-unit id="845842917b9a4cdf5925dbf839355e8997c92e1f" resname="News Edit">
         <source>News Edit</source>
         <target>Editar Notícias</target>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminNews/edit.html.twig</jms:reference-file>
+        <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/AdminNews/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminNews/edit.html.twig</jms:reference-file>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/SuperadminNews/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminNews/edit.html.twig</jms:reference-file>
@@ -1684,8 +1711,8 @@
       <trans-unit id="036d07cb9d13e7ae217593356ef9a3e9072d7a5f" resname="Notification Subscriptions">
         <source>Notification Subscriptions</source>
         <target>Subscrições a notificações</target>
-        <jms:reference-file line="10">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
+        <jms:reference-file line="9">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="b7baa1d40c4ea29afc9098732bffee2a861a6c44" resname="Number">
         <source>Number</source>
@@ -1695,10 +1722,11 @@
       <trans-unit id="0c6c88df824236cc30cc81ae68fca9d5c395b9c0" resname="Order Creation">
         <source>Order Creation</source>
         <target>Criação de petição</target>
+        <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/AdminOrder/new.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminOrder/new.html.twig</jms:reference-file>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/SuperadminOrder/new.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/SuperadminOrder/new.html.twig</jms:reference-file>
-        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/new.html.twig</jms:reference-file>
+        <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/new.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/UserOrder/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e30bc93b95a1a7cdede583c8b088755d59aba472" resname="Order Edit">
@@ -1762,12 +1790,12 @@
         <source>Owner</source>
         <target>Propietário</target>
         <jms:reference-file line="101">/../src/Celsius3/CoreBundle/Form/Type/RequestType.php</jms:reference-file>
-        <jms:reference-file line="115">/../src/Celsius3/CoreBundle/Form/Type/RequestType.php</jms:reference-file>
+        <jms:reference-file line="119">/../src/Celsius3/CoreBundle/Form/Type/RequestType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="8db0817a8769c6f4c1200d140d4265256ef2a83d" resname="Owning Instance">
         <source>Owning Instance</source>
         <target>Propietário da Instância</target>
-        <jms:reference-file line="81">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
+        <jms:reference-file line="139">/../src/Celsius3/CoreBundle/Form/Type/Filter/InstitutionFilterType.php</jms:reference-file>
         <jms:reference-file line="67">/../src/Celsius3/CoreBundle/Form/Type/InstitutionType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="f6c29cf014c6272844b3d5ed6f698b33f4fe3e6e" resname="Owning instance">
@@ -1791,9 +1819,9 @@
         <source>Password Reset</source>
         <target>Resturar Palavra-chave</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Resetting/request.html.twig</jms:reference-file>
-        <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/Resetting/request.html.twig</jms:reference-file>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Resetting/reset.html.twig</jms:reference-file>
+        <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/Resetting/request.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Resetting/reset.html.twig</jms:reference-file>
+        <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/Resetting/reset.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5a8dffb865965488ad23eb3f899413a8880a3044" resname="Password already requested">
         <source>Password already requested</source>
@@ -1847,7 +1875,7 @@
       </trans-unit>
       <trans-unit id="5ee1f0b8e52eb521f0a3518dd6b7855d2432b505" resname="Please wait ...">
         <source>Please wait ...</source>
-        <target xml:space="preserve">Por favor, aguarde...</target>
+        <target>Por favor, aguarde...</target>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Layout/var.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="57e03bfa6cba867c03f5504b69e9852805e93b14" resname="Please wait until some administrator confirms your account.">
@@ -1875,10 +1903,6 @@
         <source>Profile</source>
         <target>Perfil</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Layout/_user_panel.html.twig</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="51a7fe75dd3cd07bbf03ec97a09ec3a7f896ee13" resname="Profile View">
-        <source>Profile View</source>
-        <target>VIsualizar Perfil</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Profile/show.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Profile/show.html.twig</jms:reference-file>
       </trans-unit>
@@ -1955,7 +1979,7 @@
         <source>Reset</source>
         <target>Reinicializar</target>
         <jms:reference-file line="7">/../src/Celsius3/CoreBundle/Resources/views/AdminCatalog/_index_filters.html.twig</jms:reference-file>
-        <jms:reference-file line="292">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="296">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5c4bc97ee5d0ac344829dbcef02d7302feb098a8" resname="Reset password">
         <source>Reset password</source>
@@ -1988,7 +2012,7 @@
       </trans-unit>
       <trans-unit id="e08b0f0cdec57fe8860ddaf468b9e5654b98cc9d" resname="Results per page">
         <source>Results per page</source>
-        <target xml:space="preserve">Resultados por página</target>
+        <target>Resultados por página</target>
         <jms:reference-file line="240">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="47dcc27d6e87ece8baebe7e3877a261a5467093d" resname="Roles">
@@ -2040,7 +2064,7 @@
         <jms:reference-file line="158">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="185">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="275">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
-        <jms:reference-file line="335">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
+        <jms:reference-file line="340">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="59">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="179359b39edbd0bf0cdf3bb6b7dfb4223f663af2" resname="Save changes">
@@ -2085,16 +2109,15 @@
         <target>Enviar</target>
         <jms:reference-file line="170">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/configure_form.html.twig</jms:reference-file>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/Layout/mail.html.twig</jms:reference-file>
-        <jms:reference-file line="44">/Resources/FOSMessageBundle/views/Message/newThread.html.twig</jms:reference-file>
+        <jms:reference-file line="73">/Resources/FOSMessageBundle/views/Message/newThread.html.twig</jms:reference-file>
         <jms:reference-file line="34">/Resources/FOSMessageBundle/views/Message/thread.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="ef48ef2c2db8145058d32999450f157c9834eafb" resname="Send Reminder Email">
         <source>Send Reminder Email</source>
         <target>Enviar email de lembrete</target>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
-        <jms:reference-file line="9">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
-        <jms:reference-file line="34">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="66">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="30">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="fc552c754dd8f66b415bc0e0df960c5ad545e7bb" resname="Send test email">
         <source>Send test email</source>
@@ -2138,7 +2161,7 @@
       <trans-unit id="1f02ea14ad7c03c99282d3efea6e812caaf3856d" resname="Sistema de Ticket">
         <source>Sistema de Ticket</source>
         <target>Sistema de Ticket</target>
-        <jms:reference-file line="111">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="85">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8afab21dbebaf5a3c62c327cf4674e6243b3459d" resname="Software update message">
         <source>Software update message</source>
@@ -2151,7 +2174,7 @@
         <jms:reference-file line="193">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
         <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
         <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Order/_index_fields.html.twig</jms:reference-file>
-        <jms:reference-file line="13">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
+        <jms:reference-file line="180">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="a4730a22cf494f758716c5c83bbf4c258c37a8b8" resname="Staff">
         <source>Staff</source>
@@ -2183,14 +2206,14 @@
       <trans-unit id="e703dd66c67e4f5390a6c06c335f65b902e92d4d" resname="Statistics Administration">
         <source>Statistics Administration</source>
         <target>Administração de estatística</target>
-        <jms:reference-file line="98">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="77">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="8d183dbdcea3b29906090bd83fa6fa37923cc8ec" resname="Subject">
         <source>Subject</source>
         <target>Assunto</target>
-        <jms:reference-file line="13">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="20">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="39">/../src/Celsius3/CoreBundle/Resources/views/Layout/mail.html.twig</jms:reference-file>
-        <jms:reference-file line="19">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
+        <jms:reference-file line="184">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="32b4122ec3f6ce679347784c23f46a1393910d0f" resname="Sucefull connection">
         <source>Sucefull connection</source>
@@ -2202,7 +2225,7 @@
         <target>Sobrenome</target>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminContact/_index_sort.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/BaseUser/_index_sort.html.twig</jms:reference-file>
-        <jms:reference-file line="3">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
+        <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/Profile/show_content.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/SuperadminContact/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d0914783635b6293bb26c026dcdbc494fc636909" resname="Susbcriptions">
@@ -2264,16 +2287,10 @@
         <target>Texto</target>
         <jms:reference-file line="55">/../src/Celsius3/CoreBundle/Form/Type/CustomUserFieldType.php</jms:reference-file>
       </trans-unit>
-      <trans-unit id="93ef0dd827103681fcee453b78be2ff14e1a261d" resname="The">
-        <source>The</source>
-        <target>O/A</target>
-        <jms:reference-file line="133">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
-        <jms:reference-file line="135">/../src/Celsius3/CoreBundle/Controller/BaseController.php</jms:reference-file>
-      </trans-unit>
-      <trans-unit id="a3cc7cb6b9d5686c60a0a9ccf32b681416ed6ddf" resname="The Instance was successfully created.">
-        <source>The Instance was successfully created.</source>
-        <target>A Instância foi criada com sucesso</target>
-        <jms:reference-file line="121">/../src/Celsius3/CoreBundle/Controller/SuperadminInstanceController.php</jms:reference-file>
+      <trans-unit id="8c056efb2a11b3ff59ec12f2c3c557efe1119078" resname="The %entities% were successfully joined.">
+        <source>The %entities% were successfully joined.</source>
+        <target state="new">The %entities% were successfully joined.</target>
+        <jms:reference-file line="282">/../src/Celsius3/CoreBundle/Controller/BaseController.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="1d11b6a708d248e2ac882575f51bb4f863727322" resname="The resource was not found.">
         <source>The resource was not found.</source>
@@ -2410,7 +2427,7 @@
       <trans-unit id="fdc9c6c3a5c4f27f703a2d18281550ac85464264" resname="User Creation">
         <source>User Creation</source>
         <target>Criação de Usuário</target>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/new.html.twig</jms:reference-file>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/new.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/new.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/new.html.twig</jms:reference-file>
@@ -2420,7 +2437,7 @@
       <trans-unit id="937d7e7d1f91a68263a1d390e554fed520d2e21c" resname="User Edit">
         <source>User Edit</source>
         <target>Editar Usuário</target>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/edit.html.twig</jms:reference-file>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/edit.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/edit.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/edit.html.twig</jms:reference-file>
@@ -2437,8 +2454,8 @@
       <trans-unit id="aa9476f4a44bdec74e42897dd026c49d64684ad3" resname="User Transform">
         <source>User Transform</source>
         <target>Transformação de Usuário</target>
-        <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/transform.html.twig</jms:reference-file>
-        <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/transform.html.twig</jms:reference-file>
+        <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/transform.html.twig</jms:reference-file>
+        <jms:reference-file line="6">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/transform.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/transform.html.twig</jms:reference-file>
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/transform.html.twig</jms:reference-file>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/SuperadminBaseUser/transform.html.twig</jms:reference-file>
@@ -2475,8 +2492,7 @@
       <trans-unit id="57f2b181d0a5e79a147ea1cdf41457f58dbbb3c9" resname="Users">
         <source>Users</source>
         <target>Usuário</target>
-        <jms:reference-file line="23">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
-        <jms:reference-file line="56">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
+        <jms:reference-file line="19">/../src/Celsius3/CoreBundle/Resources/views/Layout/_navigation.html.twig</jms:reference-file>
         <jms:reference-file line="22">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_dash.html.twig</jms:reference-file>
         <jms:reference-file line="16">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
       </trans-unit>
@@ -2491,7 +2507,7 @@
       <trans-unit id="48c93e5ff6a78d3448ecb04215104cdf10060c5e" resname="Users with pending requests">
         <source>Users with pending requests</source>
         <target>Usuários com Petições Pendentes</target>
-        <jms:reference-file line="38">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="45">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="704f615a9c50c8c23407085fdbe797ecee8b0eb8" resname="Valor - Ej: Campo1,Campo2,Campos3">
         <source>Valor - Ej: Campo1,Campo2,Campos3</source>
@@ -2720,7 +2736,7 @@
       <trans-unit id="3a4051a8632ccc67226dc0f318274052d4239159" resname="button.mark_read">
         <source>button.mark_read</source>
         <target>Marcar como lido</target>
-        <jms:reference-file line="22">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
+        <jms:reference-file line="187">/Resources/FOSMessageBundle/views/Message/threads_list.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="72d5c8ca044c69e462b04b0198eb0814b4e0bba3" resname="button.undelete">
         <source>button.undelete</source>
@@ -2905,7 +2921,7 @@
         <source>email</source>
         <target>Correio Eletrônico</target>
         <jms:reference-file line="79">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
-        <jms:reference-file line="25">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
+        <jms:reference-file line="23">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="094b0fe0e302854af1311afab85b5203ba457a3b" resname="en">
         <source>en</source>
@@ -3041,7 +3057,7 @@
       </trans-unit>
       <trans-unit id="82ec7c06c119e2af7ecf4528ed526918948ac85a" resname="finalYear">
         <source>finalYear</source>
-        <target xml:space="preserve">Ano final</target>
+        <target>Ano final</target>
         <jms:reference-file line="137">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f957097d7a22775f6bea41b46cae4d14274dac9f" resname="finished">
@@ -3235,7 +3251,7 @@
       </trans-unit>
       <trans-unit id="6960b7ab39483c678a994c593b4fc99e6656cfa4" resname="not_found">
         <source>not_found</source>
-        <target xml:space="preserve">Não encontrado</target>
+        <target>Não encontrado</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="4c18345c6b036d14f650bfa75e2f97bf336993d2" resname="not_previous_searches_info">
@@ -3251,7 +3267,7 @@
       <trans-unit id="310ec4e6213b134f6c2813bed00192195a756ee0" resname="notification">
         <source>notification</source>
         <target>notificação</target>
-        <jms:reference-file line="24">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
+        <jms:reference-file line="22">/../src/Celsius3/NotificationBundle/Resources/views/Notification/subscriptions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="53b0a1b2fadf4e040cdc2155a7340de24aca93cb" resname="number">
         <source>number</source>
@@ -3326,7 +3342,7 @@
       <trans-unit id="e22586930a5b2f196cd9070b9a4af5c47c1380fa" resname="pending">
         <source>pending</source>
         <target>pendente</target>
-        <jms:reference-file line="41">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="48">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="75130b974d3922766a427ca38baad6d0e7575074" resname="pendingUsersTitle">
         <source>pendingUsersTitle</source>
@@ -3541,7 +3557,7 @@
       </trans-unit>
       <trans-unit id="83d0bac35545256dca4f1249646ad889dc2d5927" resname="requestsDestinyDistribution">
         <source>requestsDestinyDistribution</source>
-        <target xml:space="preserve">Distribuição de destino das petições</target>
+        <target>Distribuição de destino das petições</target>
         <jms:reference-file line="140">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="5e4d4b008c4434ca3c732bd76b19529b788dcd68" resname="requestsDestinyDistributionDescription">
@@ -3714,7 +3730,7 @@
       <trans-unit id="3226ecbe650213a49cd03ae67140750e4f340083" resname="template">
         <source>template</source>
         <target>Modelo</target>
-        <jms:reference-file line="17">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
+        <jms:reference-file line="24">/../src/Celsius3/CoreBundle/Resources/views/Administration/send_reminder_emails.html.twig</jms:reference-file>
         <jms:reference-file line="26">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="372ea08cab33e71c02c651dbc83a474d32c676ea" resname="text">

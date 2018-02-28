@@ -22,7 +22,9 @@
 
 namespace Celsius3\CoreBundle\Form\Type\Filter;
 
+use Celsius3\CoreBundle\Form\Type\UserSelectorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,23 +36,30 @@ class FileDownloadFilterType extends AbstractType
         $builder->setMethod('GET');
 
         $builder
-             ->add('user', EntityType::class, array(
-                 'class' => 'Celsius3CoreBundle:BaseUser',
-                 'mapped' => true,
-                 'placeholder' => '',
-                 'required' => false,
-                 'attr' => array(
-                     'class' => 'user-select',
-                 ),
-                 'auto_initialize' => false,
-             ))
-               ->add('ip', null, array(
-                    'required' => false,
-                ))
-                ->add('userAgent', null, array(
-                    'required' => false,
-                ))
-        ;
+            ->add('user', UserSelectorType::class, array(
+                'attr' => array(
+                    'class' => 'container',
+                    'readonly' => 'readonly',
+                    'value' => (!is_null($options['user'])) ? $options['user']->getId() : null,
+                ),
+                'required' => false
+            ))
+            ->add('user_autocomplete', TextType::class, array(
+                'attr' => array(
+                    'value' => (!is_null($options['user'])) ? $options['user']->getId() : null,
+                    'class' => 'autocomplete',
+                    'target' => 'BaseUser',
+                ),
+                'mapped' => false,
+                'label' => 'User',
+                'required' => false,
+            ))
+            ->add('ip', null, array(
+                'required' => false,
+            ))
+            ->add('userAgent', null, array(
+                'required' => false,
+            ));
         if (is_null($options['instance'])) {
             $builder->add('instance', EntityType::class, array(
                 'required' => false,
@@ -64,6 +73,7 @@ class FileDownloadFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'instance' => null,
+            'user' => null,
         ));
     }
 

@@ -65,6 +65,22 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
+    protected $email;
+
+    /**
+     * @Assert\NotBlank()
+     */
+    protected $username;
+
+    /**
+     * @Assert\NotBlank()
+     */
+    protected $plainPassword;
+
+    /**
      * @Assert\NotBlank(groups={"Default"})
      * @ORM\Column(type="string", length=255)
      */
@@ -188,7 +204,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $locked;
+    protected $locked = false;
 
     public function __toString()
     {

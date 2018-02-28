@@ -2,18 +2,23 @@
 
 {% block extraactions %}
     <li>
-        <a href="{{ path('admin_customuserfield_new') }}"><span class="glyphicon glyphicon-plus"></span> {{ 'Custom field'|trans }}</a>
+        <a href="{{ path('admin_user_show', {'id': element.id}) }}">
+            <span class="glyphicon glyphicon-eye-open"></span> {{ 'Show' | trans }}
+        </a>
     </li>
-    <li>
-        <a href="{{ path('admin_user_show', {'id': element.id}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Show'|trans }}</a>
-    </li>
-    <li>
-        <a href="{{ path('fos_user_resetting_admin', {'username': element.username}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Reset password'|trans }}</a>
-    </li>
-    {% if not is_granted('ROLE_PREVIOUS_ADMIN') %}
+    {% if (element.username is not empty) %}
         <li>
-            <a href="{{ path('switch_user', {'_switch_user': element.username}) }}"><span class="glyphicon glyphicon-file"></span> {{ 'Login as'|trans }}</a>
+            <a href="{{ path('fos_user_resetting_admin', {'username': element.username}) }}">
+                <span class="fa fa-key"></span> {{ 'Reset password' | trans }}
+            </a>
         </li>
-    {% endif %}
 
+        {% if not is_granted('ROLE_PREVIOUS_ADMIN') %}
+            <li>
+                <a href="{{ path('switch_user', {'_switch_user': element.username}) }}">
+                    <span class="glyphicon glyphicon-log-in"></span> {{ 'Login as' | trans }}
+                </a>
+            </li>
+        {% endif %}
+    {% endif %}
 {% endblock %}

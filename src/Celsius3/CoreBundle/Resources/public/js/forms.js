@@ -85,7 +85,7 @@ $(document).on("focus", "input.autocomplete:not(.ui-autocomplete-input)", functi
                 }
             });
         },
-        minLength: 2,
+        // minLength: 2,
         select: function (event, ui) {
             var id = $(this).attr('id').replace('_autocomplete', '', 'gi');
             $('#' + id).val(ui.item.id);
@@ -177,17 +177,17 @@ $('#order_instance').change(function () {
     $('#order_owner').val('');
 });
 
-$('form[name="order"]').on('submit', function (e) {
-    if (_.isEmpty($('#order_originalRequest_owner').val())) {
-        e.preventDefault();
-        $('#order_originalRequest_owner_autocomplete').parent().addClass('has-error');
-        $('#order_originalRequest_owner_autocomplete').focus();
-        $('html, body').animate({
-            scrollTop: $('#order_originalRequest_owner_autocomplete').offset().top,
-            marginTop: '100px'
-        }, 1000);
-    }
-});
+// $('form[name="order"]').on('submit', function (e) {
+//     if (_.isEmpty($('#order_originalRequest_owner').val())) {
+//         e.preventDefault();
+//         $('#order_originalRequest_owner_autocomplete').parent().addClass('has-error');
+//         $('#order_originalRequest_owner_autocomplete').focus();
+//         $('html, body').animate({
+//             scrollTop: $('#order_originalRequest_owner_autocomplete').offset().top,
+//             marginTop: '100px'
+//         }, 1000);
+//     }
+// });
 
 if (user_exists) {
     // Controles para los widgets del formulario de carga de pedidos de un
@@ -492,7 +492,7 @@ $(document).ready(function () {
         formGroup.removeClass('has-error');
     });
 
-    $('.institution-select').on('change', function (e) {
+    $('select').on('change', function (e) {
         var formGroup = $(this).closest('.has-error');
         formGroup.find('.text-danger').hide();
         formGroup.removeClass('has-error');
@@ -504,11 +504,53 @@ $(document).ready(function () {
     $('#user_transform_prebi_0').click(function () {
         $("input:checked")
 
-        if ($('#user_transform_prebi_0:checked').val() == 'ROLE_LIBRARIAN') {
+        if ($('#user_transform_prebi_0:checked').val() === 'ROLE_LIBRARIAN') {
             $('#user_transform_institution').parent().show();
         } else {
             $('#user_transform_institution').parent().hide();
         }
 
     });
+});
+
+$(document).ready(function () {
+    "use strict";
+    $('form.delete-form').on('submit', function (e) {
+        if (!confirm("¿Delete this element?")) {
+            e.preventDefault();
+        }
+    });
+});
+
+$(document).ready(function () {
+    $('select#template').select2({
+        placeholder: "",
+        allowClear: true
+    });
+    $('select#template').on('change', function () {
+        if ($(this).val()) {
+            $('#subject').val($('option#' + $(this).val()).text());
+            $('#text').val($('option#' + $(this).val()).attr('data-text'));
+        } else {
+            $('#subject').val('');
+            $('#text').val('');
+        }
+    });
+
+    $('#addUser').click(function () {
+        $('#text').val(
+            $('#text').val() + '{{ user.surname }} {{ user.name }}'
+        );
+
+        return false;
+    });
+
+    $('#addRequests').click(function () {
+        $('#text').val(
+            $('#text').val() + '{% for request in user.requests %} {{ request }} {% endfor %}'
+        );
+
+        return false;
+    });
+
 });

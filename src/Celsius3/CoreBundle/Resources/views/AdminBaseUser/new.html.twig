@@ -1,22 +1,13 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-    {{ 'User Creation'|trans }}
+    {{ 'User Creation' | trans }}
 {% endblock %}
 
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-  
-  <div class="panel panel-default">
-    <div class="panel-heading"> <h2>{{ 'User Creation'|trans }}</h2></div>
-    <div class="panel-body">
-         {{ new('admin_user', form) }}
-    </div>
-</div>
-  
-  
-   
-
-  
+    <h2>{{ 'User Creation' | trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_user', form, 'Celsius3CoreBundle:AdminBaseUser', true) }}
 {% endblock %}
