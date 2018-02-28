@@ -10,7 +10,8 @@ Encore
         'jquery-ui',
         'bootstrap-sass',
         'angular',
-        'icanhaz'
+        'icanhaz',
+        'underscore'
     ])
     .addEntry('celsius3core', [
         './web/bundles/celsius3core/js/main.js',
