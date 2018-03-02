@@ -38,7 +38,7 @@
             <div class="titulo">
                 {% if (get_material_type(element.materialData) == 'journal') %}
                     {% if (element.materialData.journal) %}
-                        <a href="{{ path('admin_order_show', {'id': element.id}) }}">{{ element.materialData.journal.name | upper }}</a>
+                        <a href="{{ path('admin_journal_show', {'id': element.materialData.journal.id}) }}">{{ element.materialData.journal.name | upper }}</a>
                     {% else %}
                         {{ element.materialData.other | upper }}
                     {% endif %}
