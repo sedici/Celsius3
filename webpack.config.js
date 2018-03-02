@@ -87,6 +87,9 @@ Encore
     .addEntry('login', [
         './web/bundles/celsius3core/js/login.js'
     ])
+    .addEntry('search',[
+        './web/bundles/celsius3core/js/search.js'
+    ])
     .addStyleEntry('global', './web/bundles/celsius3core/scss/celsius3.scss')
     .enableSassLoader()
     .autoProvideVariables({
