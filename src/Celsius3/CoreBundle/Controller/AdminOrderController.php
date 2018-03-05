@@ -120,7 +120,7 @@ class AdminOrderController extends OrderController
      * Creates a new Order entity.
      *
      * @Route("/create", name="admin_order_create")
-     * @Method({"POST"})
+     * @Method("POST")
      * @Template("Celsius3CoreBundle:AdminOrder:new.html.twig")
      *
      * @return array

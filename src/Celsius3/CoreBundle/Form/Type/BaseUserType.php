@@ -84,10 +84,7 @@ class BaseUserType extends RegistrationFormType
             $builder->remove('plainPassword');
             $builder->remove('recaptcha');
         }
-        if (!is_null($options['instance'])) {
-            $subscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $options['instance'], false);
-            $builder->addEventSubscriber($subscriber);
-        }
+
         $builder->add('observaciones', TextareaType::class, array(
             'attr' => array(
                 'class' => 'summernote',

@@ -33,8 +33,9 @@ class CustomUserFieldRepository extends BaseRepository
     {
         $qb = $this->createQueryBuilder('cuf')
             ->where('cuf.instance = :instance_id')
-            ->andWhere('cuf.enabled = true')
-            ->setParameter('instance_id', $instance->getId());
+            ->andWhere('cuf.enabled = :enabled')
+            ->setParameter('instance_id', $instance->getId())
+            ->setParameter('enabled', true);
 
         if ($registration) {
             $qb->andWhere('cuf.private = :private')

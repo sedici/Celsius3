@@ -14,7 +14,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <div class="row">
     <div class="col-md-12">
@@ -29,7 +28,6 @@
         </div>
     </div>
 </div>
-<br>
 
 {% if form.plainPassword is defined %}
     <div class="row">
@@ -57,7 +55,6 @@
             </div>
         </div>
     </div>
-    <br>
 {% endif %}
 
 <div class="row">
@@ -85,7 +82,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <div class="row">
     <div class="col-md-4">
@@ -112,7 +108,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <div class="row">
     <div class="col-md-3">
@@ -163,7 +158,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <div class="row">
     <div class="col-md-12">
@@ -178,7 +172,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <div class="row">
     <div class="col-md-12">
@@ -193,7 +186,6 @@
         </div>
     </div>
 </div>
-<br>
 
 <div class="row">
     <div class="col-md-12">
@@ -208,14 +200,34 @@
         </div>
     </div>
 </div>
-<br>
+
+{% for child in form.children %}
+    {% if not child.rendered and "hidden" not in child.vars.block_prefixes and child.vars.name != 'observaciones' %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group {% if not child.vars.valid %} has-error {% endif %}">
+                    {{ form_label(child, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+                    <div class="col-md-10">
+                        {% set class = (child.vars.attr.class is defined) ? child.vars.attr.class : '' %}
+                        {% if child.vars.required %}
+                            {{ form_widget(child, { 'attr': { 'class': 'form-control ' ~ class } }) }}
+                        {% endif %}
+                        {% for error in child.vars.errors %}
+                            <p class="text-danger">{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
 
 <div class="row">
     <div class="col-md-12">
         <div class="form-group {% if not form.observaciones.vars.valid %} has-error {% endif %}">
             {{ form_label(form.observaciones, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
             <div class="col-md-10">
-                {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control summernote'} }) }}
                 {% for error in form.observaciones.vars.errors %}
                     <p class="text-danger">{{ error.message }}</p>
                 {% endfor %}
@@ -223,5 +235,3 @@
         </div>
     </div>
 </div>
-<br>
-

@@ -381,7 +381,7 @@ class EventManager
     {
         switch ($event) {
             case 'search': return $this->prepareExtraDataForSearch(); break;
-            case 'request': return $this->prepareExtraDataForRequest($request); break;
+            case 'request': return $this->prepareExtraDataForRequest(); break;
             case 'receive': return $this->prepareExtraDataForReceive($request); break;
             case 'deliver': return $this->prepareExtraDataForDeliver(); break;
             case 'upload': return $this->prepareExtraDataForUpload(); break;

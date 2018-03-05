@@ -29,6 +29,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
@@ -62,12 +64,12 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
         $userId = $data->getId() ? $data->getId() : null;
 
         $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
-                        ->getByInstance($this->instance, $this->registration);
+            ->getByInstance($this->instance, $this->registration);
 
         foreach ($fields as $field) {
             if ($userId) {
                 $value = $this->em->getRepository('Celsius3CoreBundle:CustomUserValue')
-                        ->findOneBy(array('field' => $field->getId(), 'user' => $userId));
+                    ->findOneBy(array('field' => $field->getId(), 'user' => $userId));
             } else {
                 $value = null;
             }
@@ -93,26 +95,31 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
                     'required' => $field->getRequired(),
                     'placeholder' => '',
                     'attr' => ['class' => 'select2'],
+                    'constraints' => ($field->getRequired()) ? new NotNull() : null,
                 )));
             } else {
                 if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
-                                /* @Ignore */ 'label' => ucfirst($field->getName()),
-                                'required' => $field->getRequired(),
-                                'widget' => 'single_text',
-                                'format' => 'dd-MM-yyyy',
-                                'attr' => array(
-                                    'class' => 'date',
-                                ),
-                                'mapped' => false,
-                                'auto_initialize' => false,
+                        /* @Ignore */
+                        'label' => ucfirst($field->getName()),
+                        'required' => $field->getRequired(),
+                        'widget' => 'single_text',
+                        'format' => 'dd-MM-yyyy',
+                        'attr' => array(
+                            'class' => 'date',
+                        ),
+                        'mapped' => false,
+                        'auto_initialize' => false,
+                        'constraints' => ($field->getRequired()) ? new NotNull() : null,
                     )));
                 } else {
                     $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
-                                /* @Ignore */ 'label' => ucfirst($field->getName()),
-                                'required' => $field->getRequired(),
-                                'mapped' => false,
-                                'auto_initialize' => false,
+                        /* @Ignore */
+                        'label' => ucfirst($field->getName()),
+                        'required' => $field->getRequired(),
+                        'mapped' => false,
+                        'auto_initialize' => false,
+                        'constraints' => ($field->getRequired()) ? new NotBlank() : null,
                     )));
                 }
             }
