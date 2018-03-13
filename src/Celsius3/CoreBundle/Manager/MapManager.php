@@ -4,9 +4,17 @@ namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Entity\Instance;
 use Ivory\GoogleMap\Map;
-use Ivory\GoogleMap\Overlays\InfoWindow;
-use Ivory\GoogleMap\Overlays\Marker;
-use Ivory\GoogleMap\Overlays\MarkerImage;
+
+use Ivory\GoogleMap\Base\Coordinate;
+use Ivory\GoogleMap\Overlay\Animation;
+use Ivory\GoogleMap\Overlay\Icon;
+use Ivory\GoogleMap\Overlay\Marker;
+use Ivory\GoogleMap\Overlay\MarkerShape;
+use Ivory\GoogleMap\Overlay\MarkerShapeType;
+use Ivory\GoogleMap\Overlay\Symbol;
+use Ivory\GoogleMap\Overlay\SymbolPath;
+
+
 
 class MapManager
 {
@@ -30,7 +38,7 @@ class MapManager
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)
     {
-        if (!$instance->getLatitud() || !$instance->getLongitud()) {
+      /*  if (!$instance->getLatitud() || !$instance->getLongitud()) {
             return;
         }
 
@@ -49,7 +57,7 @@ class MapManager
         $marker->setPosition((float) $instance->getLatitud(), (float) $instance->getLongitud());
         $marker->setInfoWindow($infoWindow);
         $map->addMarker($marker);
-        $map->setCenter((float) $instance->getLatitud(), (float) $instance->getLongitud());
+        $map->setCenter((float) $instance->getLatitud(), (float) $instance->getLongitud());*/
     }
 
     /**
@@ -61,10 +69,8 @@ class MapManager
     {
         $map = new Map();
         $map->setAutoZoom(true);
-        $map->setAsync(true);
-        /* @var $instance */
         foreach ($instancias as $instancia) {
-            $this->addMarker($map, $instancia, $windowOpen);
+            $map->getOverlayManager()->addMarker(new Marker(new Coordinate($instancia->getLatitud(), $instancia->getLongitud())));
         }
         $map->setStylesheetOptions(array(
             'width' => '100%',
@@ -87,10 +93,7 @@ class MapManager
     public function createMapFromApiSearch($instancias, $latitude, $longitude)
     {
         $map = $this->createMap($instancias);
-        // my position
-        $myPosition = new Marker();
-        $myPosition->setPosition($latitude, $longitude);
-        $map->addMarker($myPosition);
+        $map->setHtmlId('map_canvas');
 
         return $map;
     }

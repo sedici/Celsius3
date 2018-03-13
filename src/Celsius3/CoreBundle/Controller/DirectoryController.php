@@ -90,10 +90,9 @@ class DirectoryController extends BaseController
 
         $instancia_mapa = $this->get('celsius3_core.instance_manager')->findInstance($latitude, $longitude);
 
-        $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
-
-        $map->setMapOption('zoom', (int) $request->get('zoom'));
-
+       $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
+       
+      //  $map->setMapOption('zoom', (int) $request->get('zoom'));
         return array(
             'directory' => $this->getDirectory(),
             'instances' => $cInstances,

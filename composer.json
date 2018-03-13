@@ -50,7 +50,8 @@
     "snc/redis-bundle": "~2.0",
     "predis/predis": "^1.0",
     "sabberworm/php-css-parser": "8.0.*",
-    "egeloen/google-map-bundle": "~3.0",
+    "egeloen/google-map": "dev-master",
+    "egeloen/google-map-bundle": "^3.0",
     "willdurand/geocoder": "~2.8",
     "excelwebzone/recaptcha-bundle": "^1.4",
     "willdurand/js-translation-bundle": "^2.6",
@@ -58,7 +59,8 @@
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/httplug-bundle": "^1.7",
     "egeloen/serializer-bundle": "^1.0",
-    "symfony/intl": "^3.4"
+    "symfony/intl": "^3.4",
+    "symfony/webpack-encore-pack": "^1.0"
   },
   "require-dev": {
     "sensio/generator-bundle": "~3.0",
