@@ -97,13 +97,13 @@ class ConfigurationHelper
         'hidden' => HiddenType::class,
     );
     public $languages = array(
-        'es' => 'Spanish',
-        'en' => 'English',
-        'pt' => 'Portuguese',
+        'Spanish' => 'es',
+        'English' => 'en',
+        'Portuguese' => 'pt',
     );
     public $confirmation = array(
-        'admin' => 'Administrator confirmation',
-        'email' => 'Email confirmation',
+        'Administrator confirmation' => 'admin',
+        'Email confirmation' => 'email',
     );
     public $results = array(
         '10' => '10',
