@@ -211,7 +211,7 @@ services:
 
     celsius3_core.mailer.logger_handler:
         class:     Monolog\Handler\StreamHandler
-        arguments: [ "%kernel.logs_dir%/%kernel.environment%.mailer.log", 200 ]
+        arguments: [ "%kernel.logs_dir%/%kernel.environment%.mailer.log", 400 ]
 
     # Usado temporalmente para corregir error de migración a Symfony3
     fos_user.doctrine_registry:
@@ -420,13 +420,13 @@ monolog:
      - 'celsius_rest_exception'
     handlers:
         celsius_exception:
-            level:    debug
+            level:    error
             type:     rotating_file
             path:     '%kernel.logs_dir%/celsius_exception.log'
             channels: [celsius_exception]
             max_files: 5
         celsius_rest_exception:
-            level:    debug
+            level:    error
             type:     rotating_file
             path:     '%kernel.logs_dir%/celsius_rest_exception.log'
             channels: [celsius_rest_exception]
