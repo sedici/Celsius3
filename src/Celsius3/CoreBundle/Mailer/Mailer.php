@@ -130,28 +130,41 @@ class Mailer
 
         foreach ($emails as $email) {
             try {
-                $from = $instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
-                if ($logLevel <= 2) {
-                    $output->writeln('Sending mail from ' . $from . ' to ' . $email->getAddress());
-                    $logger->info('Sending mail from ' . $from . ' to ' . $email->getAddress());
-                }
-                if ($logLevel === 1) {
-                    $output->writeln('Subject: ' . $email->getSubject());
-                    $logger->info('Instance ' . $instance->getUrl() . ': The SMTP server data are not valid.');
-                }
+                if ($email->getAttempts() < 10 || $email->getUpdatedAt()->diff(new \DateTime())->h > 2) {
+                    $from = $instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
+                    if ($logLevel <= 2) {
+                        $output->writeln('Sending mail from ' . $from . ' to ' . $email->getAddress());
+                        $logger->info('Sending mail from ' . $from . ' to ' . $email->getAddress());
+                    }
+                    if ($logLevel === 1) {
+                        $output->writeln('Subject: ' . $email->getSubject());
+                        $logger->info('Instance ' . $instance->getUrl() . ': The SMTP server data are not valid.');
+                    }
 
-                $message = \Swift_Message::newInstance()
-                    ->setSubject($email->getSubject())
-                    ->setFrom($from)
-                    ->setTo($email->getAddress())
-                    ->setBody($email->getText() . "\n" . $signature, 'text/html')
-                    ->addPart($email->getText() . "\n" . $signature, 'text/html');
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject($email->getSubject())
+                        ->setFrom($from)
+                        ->setTo($email->getAddress())
+                        ->setBody($email->getText() . "\n" . $signature, 'text/html')
+                        ->addPart($email->getText() . "\n" . $signature, 'text/html');
 
-                if ($mailer->send($message)) {
-                    $em->persist($email->setSent(true));
-                    $em->flush($email);
+                    if ($mailer->send($message)) {
+                        $em->persist($email->setSent(true));
+                        $em->flush($email);
+                    }
                 }
             } catch (\Exception $e) {
+                $email->addAttempt();
+
+                $diff = $email->getCreatedAt()->diff(new \DateTime());
+                $hours = $diff->h + ($diff->days * 24);
+                if($hours > 48) {
+                    $email->setError(true);
+                }
+
+                $this->em->persist($email);
+                $this->em->flush();
+
                 $message = "Error al enviar el correo con ID: " . $email->getId();
 
                 $logger->error($message);

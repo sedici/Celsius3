@@ -37,6 +37,8 @@ class EmailRepository extends BaseRepository
                 ->setParameter('instance', $instance->getId())
                 ->andWhere('e.sent = :sent')
                 ->setParameter('sent', false)
+                ->andWhere('e.error = :error')
+                ->setParameter('error', false)
                 ->setMaxResults($limit)
         ;
 

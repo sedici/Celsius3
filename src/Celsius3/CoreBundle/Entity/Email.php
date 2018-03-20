@@ -79,6 +79,16 @@ class Email
     private $sent;
 
     /**
+     * @ORM\Column(name="attempts", type="integer")
+     */
+    private $attempts = 0;
+
+    /**
+     * @ORM\Column(name="error", type="boolean")
+     */
+    private $error = false;
+
+    /**
      * Get id.
      *
      * @return id $id
@@ -231,4 +241,38 @@ class Email
     {
         return $this->sent;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getAttempts()
+    {
+        return $this->attempts;
+    }
+
+    /**
+     * Add attempt
+     */
+    public function addAttempt()
+    {
+        $this->attempts++;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * @param mixed $error
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
+    }
+
+
 }
