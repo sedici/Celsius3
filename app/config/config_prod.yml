@@ -17,10 +17,9 @@ monolog:
                 - ^/phpmyadmin
                 - ^/tutoriales
         nested:
-            type:  rotating_file
+            type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
-            level: debug
-            max_files: 10
+            level: error
             formatter: monolog_formatter
         console:
             type:  console
