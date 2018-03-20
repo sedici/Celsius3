@@ -48,9 +48,9 @@ class PublicController extends BaseInstanceDependentController
     {
         return array(
             'instance' => $this->getInstance(),
-            'lastNews' => $this->getDoctrine()->getManager()
+            'lastNews' => ($this->getInstance()) ? $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
-                    ->findLastNews($this->getInstance()),
+                    ->findLastNews($this->getInstance()) : [],
         );
     }
 
