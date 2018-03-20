@@ -161,11 +161,11 @@ abstract class BaseUserController extends BaseInstanceDependentController
         );
     }
 
-    protected function baseCreateAction($request, $template)
+    protected function baseCreateAction($request, $template, array $options = array())
     {
         $entity = new BaseUser();
 
-        $form = $this->createForm(BaseUserType::class, $entity);
+        $form = $this->createForm(BaseUserType::class, $entity, $options);
 
         $form->handleRequest($request);
         if ($form->isValid()) {

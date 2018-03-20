@@ -88,7 +88,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
+        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array('validation_groups' => 'Registration'));
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:new.html.twig', $parameters);
     }
@@ -101,7 +101,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function createAction(Request $request)
     {
-        return $this->baseCreateAction($request, 'Celsius3CoreBundle:AdminBaseUser:new.html.twig');
+        return $this->baseCreateAction($request, 'Celsius3CoreBundle:AdminBaseUser:new.html.twig', array('validation_groups' => ['Registration', 'Default']));
     }
 
     /**
@@ -136,6 +136,7 @@ class AdminBaseUserController extends BaseUserController
 
         $editForm = $this->createForm(BaseUserType::class, $entity, array(
             'editing' => true,
+            'validation_groups' => [ 'Profile', 'Default' ]
         ));
 
         $editForm->handleRequest($request);

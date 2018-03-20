@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserManager as DoctrineUserManager;
@@ -55,7 +56,7 @@ class FosUserManager extends DoctrineUserManager
 
         $currentUser = ($token = $this->tokenStorage->getToken()) ? $token->getUser() : null;
 
-        return (!is_null($user) && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || ($currentUser && $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN)))) ? $user : null;
+        return (!is_null($user) && ($user->getInstance() === $this->instanceHelper->getSessionOrUrlInstance() || (($currentUser instanceof BaseUser) && $currentUser->hasRole(UserManager::ROLE_SUPER_ADMIN)))) ? $user : null;
     }
 
     public function deleteUser(\FOS\UserBundle\Model\UserInterface $user)

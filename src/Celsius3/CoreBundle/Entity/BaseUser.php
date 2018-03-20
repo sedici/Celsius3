@@ -65,20 +65,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $id;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\Email(
+     *     strict = true,
+     *     checkMX = true,
+     *     checkHost = true,
+     *     groups = {"Default"}
+     * )
      */
     protected $email;
-
-    /**
-     * @Assert\NotBlank()
-     */
-    protected $username;
-
-    /**
-     * @Assert\NotBlank()
-     */
-    protected $plainPassword;
 
     /**
      * @Assert\NotBlank(groups={"Default"})
@@ -140,14 +134,14 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     protected $createdOrders;
 
     /**
-     * @Assert\NotNull
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="users")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     protected $instance;
 
     /**
-     * @Assert\NotNull
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="users")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
      */
