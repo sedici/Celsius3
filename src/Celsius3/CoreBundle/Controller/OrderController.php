@@ -38,8 +38,8 @@ abstract class OrderController extends BaseInstanceDependentController
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
                     $request->request->get('order', null, true)['materialData']['journal']
                 );
-                if (is_null($journal) || ($journal->getName() !== $request->request->get('order[materialData][journal_autocomplete]', null, true))) {
-                    $entity->getMaterialData()->setOther($request->request->get('order[materialData][journal_autocomplete]', null, true));
+                if (is_null($journal) || ($journal->getName() !== $request->request->get('order', null, true)['materialData']['journal_autocomplete'])) {
+                    $entity->getMaterialData()->setOther($request->request->get('order', null, true)['materialData']['journal_autocomplete']);
                     $entity->getMaterialData()->setJournal(null);
                 }
             }
