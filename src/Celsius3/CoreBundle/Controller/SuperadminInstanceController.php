@@ -93,6 +93,8 @@ class SuperadminInstanceController extends InstanceController
      */
     public function createAction()
     {
+        /** @var Translator $translator */
+        $translator = $this->get('translator');
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
         $request = $this->get('request_stack')->getCurrentRequest();
@@ -102,9 +104,6 @@ class SuperadminInstanceController extends InstanceController
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-            /** @var $translator Translator */
-            $translator = $this->get('translator');
-
             try {
                 $institution = $em->getRepository('Celsius3CoreBundle:Institution')
                     ->find($request->request->get('instance')['institution']);
