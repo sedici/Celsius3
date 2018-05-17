@@ -105,7 +105,7 @@ class UserController extends BaseInstanceDependentController
             $this->container->get('security.token_storage')->setToken($token);
         }
 
-        if (isset($user->getRoles()['ROLE_ADMIN'])) {
+        if ($user->hasRole('ROLE_ADMIN')) {
             return $this->redirect($this->generateUrl('administration'));
         } else {
             return $this->redirect($this->generateUrl('public_index'));

@@ -22,6 +22,11 @@ services:
         class: Celsius3\CoreBundle\Twig\InstitutionExtension
         tags:
             - { name: twig.extension }
+    celsius3_core.twig.extension.instance:
+            class: Celsius3\CoreBundle\Twig\InstanceExtension
+            arguments: ['@doctrine.orm.entity_manager']
+            tags:
+                - { name: twig.extension }
     celsius3_core.twig.extension.events:
         class: Celsius3\CoreBundle\Twig\EventExtension
         tags:
