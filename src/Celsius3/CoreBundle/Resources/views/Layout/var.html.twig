@@ -28,6 +28,8 @@
             var user_role = 'ROLE_SUPER_ADMIN';
         {% elseif (app.user.hasRole('ROLE_ADMIN')) %}
             var user_role = 'ROLE_ADMIN';
+        {% elseif (app.user.hasRole('ROLE_LIBRARIAN')) %}
+            var user_role = 'ROLE_LIBRARIAN';
         {% elseif (app.user.hasRole('ROLE_USER')) %}
             var user_role = 'ROLE_USER';
         {% else %}

@@ -71,4 +71,6 @@ userControllers.controller('UserCtrl', ['$scope', '$http', 'Order', 'Message', '
         $scope.hasDownloadableFiles = function (e) {
             return (!e.downloaded || e.has_download_time);
         };
+
+        $scope.user_role = user_role;
     }]);
