@@ -24,6 +24,12 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+
+
+use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Post;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Location controller.
@@ -40,7 +46,117 @@ class SuperadminStatisticsController extends BaseController
      *
      * @return array
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+
+        $instance=$this->get('celsius3_core.instance_helper')->getSessionInstance();
+        $orderType = null;
+        $user=null;
+        $orderCount = $this->getDoctrine()->getManager()
+            ->getRepository('Celsius3CoreBundle:State')
+            ->countOrders($instance, $user, $orderType);
+
+        $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+
+        $admins = $repository->findManagerOrder($instance);
+
+        return array(
+            'orderCount' => $orderCount,
+            'admin' =>$admins
+
+        );
     }
+
+
+
+    /**
+     * GET Route annotation.
+     * @POST("/pedidos-por-estado", name="pedidos_por_estados", options={"expose"=true})
+     */
+    public function getPedidosPorEstadoAction(Request $request)
+    {
+        $usuario = $request->request->get('user');
+        $fecha_desde = $request->request->get('fecha_desde');
+        $fecha_hasta = $request->request->get('fecha_hasta');
+        $instance=$this->get('celsius3_core.instance_helper')->getSessionInstance();
+
+        $array_json=array();
+        if (empty($usuario)){
+            $orderType = null;
+            $usuario=null;
+            $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+            $managers = $repository->findManagerOrder($instance);
+            $array_user=array();
+            foreach ($managers as $m){
+                $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($m);
+                $countUserOrders = $this->getDoctrine()->getManager()
+                    ->getRepository('Celsius3CoreBundle:State')
+                    ->countOrdersEntreFechas($instance, $user,null,$fecha_desde,$fecha_hasta);
+                $array_user[$user->getId()]['nombre']=$user->getFullName();
+                $array_user[$user->getId()]['estados']=$countUserOrders;
+            }
+
+
+
+        }else{
+            $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($usuario);
+            $countUserOrders = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:State')
+                ->countOrdersEntreFechas($instance, $user,null,$fecha_desde,$fecha_hasta);
+
+            $array_user[$user->getId()]['nombre']=$user->getFullName();
+            $array_user[$user->getId()]['estados']=$countUserOrders;
+        }
+        $array_json['result']=$array_user;
+
+        return new JsonResponse($array_json);
+    }
+
+
+
+    /**
+     * GET Route annotation.
+     * @POST("/pedidos-por-estado-por-anio", name="pedidos_por_estados_anio", options={"expose"=true})
+     */
+    public function getPedidosPorEstadoPorAnioAction(Request $request)
+    {
+        $usuario = $request->request->get('user');
+        $anio_desde = $request->request->get('anio_desde');
+        $anio_hasta = $request->request->get('anio_hasta');
+        $instance=$this->get('celsius3_core.instance_helper')->getSessionInstance();
+
+        $array_json=array();
+        if (empty($usuario)){
+            $orderType = null;
+            $usuario=null;
+            $repository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser');
+            $managers = $repository->findManagerOrder($instance);
+            $array_user=array();
+            foreach ($managers as $m){
+                $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($m);
+                $countUserOrders = $this->getDoctrine()->getManager()
+                    ->getRepository('Celsius3CoreBundle:State')
+                    ->findRequestsStateCountForUser($instance,$anio_desde,$anio_hasta,$user);
+                $array_user[$user->getId()]['nombre']=$user->getFullName();
+                $array_user[$user->getId()]['estados']=$countUserOrders;
+            }
+
+
+
+        }else{
+            $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')->find($usuario);
+            $countUserOrders = $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:State')
+                ->findRequestsStateCountForUser($instance,$anio_desde,$anio_hasta,$user);
+
+            $array_user[$user->getId()]['nombre']=$user->getFullName();
+            $array_user[$user->getId()]['estados']=$countUserOrders;
+        }
+        $array_json['result']=$array_user;
+
+        return new JsonResponse($array_json);
+    }
+
+
+
 }
