@@ -139,6 +139,12 @@ services:
         tags:
             - { name: form.type }
         arguments: ['@doctrine.orm.entity_manager', '@celsius3_core.instance_helper', '']
+    celsius3_core.form.statitistics_form:
+         class: Celsius3\CoreBundle\Form\Type\SuperadminStatisticsType
+         tags:
+            - { name: form.type }
+         arguments: ['@doctrine.orm.entity_manager']
+
     celsius3_core.form.user_selector:
         class: Celsius3\CoreBundle\Form\Type\UserSelectorType
         tags:
