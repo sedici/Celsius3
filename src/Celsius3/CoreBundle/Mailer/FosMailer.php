@@ -70,7 +70,8 @@ class FosMailer extends DefaultMailer
 
         $url = $this->router->generate('fos_user_registration_confirm', array(
             'token' => $user->getConfirmationToken(),
-                ), true);
+                ), UrlGeneratorInterface::ABSOLUTE_URL);
+
         $rendered = $this->twig->createTemplate($template->getText())->render(array(
                     'user' => $user,
                     'url' => $url,
