@@ -95,6 +95,10 @@ class City
         $this->institutions = new ArrayCollection();
     }
 
+    public function getFullName() {
+        return $this->getCountry()->getFullName() . ' - ' . $this->getName();
+    }
+
     /**
      * Get id.
      *

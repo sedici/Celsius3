@@ -85,6 +85,10 @@ class Country
         $this->cities = new ArrayCollection();
     }
 
+    public function getFullName() {
+        return $this->getName();
+    }
+
     /**
      * Get id.
      *

@@ -268,6 +268,15 @@
                         <input type="radio" name="main" id="main{{ entity.id }}" value="{{ entity.id }}"/>
                         <input type="hidden" name="element[]" id="element{{ entity.id }}" value="{{ entity.id }}"/>
                         <label for="main{{ entity.id }}">{{ entity.id }} - {{ full_name(entity) }}</label>
+                        <p>
+                            {{ 'Created at' | trans }}: {{ entity.createdAt | localizeddate }}<br>
+                            {% if '/admin/user/' in app.request.getPathInfo() %}
+                                {{ 'institution' | trans }}: {{ entity.getInstitution().getFullName() }}
+                            {% endif %}
+                            {% if app.user.hasRole('ROLE_SUPER_ADMIN') and '/admin/user/' not in app.request.getPathInfo() %}
+                                {{ 'Instance' | trans }}: {{ entity.instance }}
+                            {% endif %}
+                        </p>
                     </div>
                 {% endfor %}
                 <p>

@@ -98,6 +98,10 @@ class Catalog
         return $this->id;
     }
 
+    public function getFullName() {
+        return $this->getName();
+    }
+
     /**
      * Set name.
      *
