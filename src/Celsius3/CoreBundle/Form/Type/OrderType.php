@@ -58,6 +58,7 @@ class OrderType extends AbstractType
                     'operator' => $options['operator'],
                     'librarian' => $options['librarian'],
                     'create' => $options['create'],
+                    'target' => $options['target']
                 ))
                 ->add('materialDataType', ChoiceType::class, array(
                     'choices' => array(
@@ -98,6 +99,7 @@ class OrderType extends AbstractType
             'journal' => null,
             'other' => '',
             'create' => false,
+            'target' => ''
         ));
     }
 }

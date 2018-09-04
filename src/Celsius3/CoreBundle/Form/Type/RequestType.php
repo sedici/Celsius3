@@ -100,14 +100,12 @@ class RequestType extends AbstractType
                         'mapped' => false,
                         'label' => 'Owner',
                         'required' => true,
-                        'constraints' => array(
-                            new \Symfony\Component\Validator\Constraints\NotBlank()
-                        )
+                        'constraints' => $options['target'] === 'other' ? [new \Symfony\Component\Validator\Constraints\NotBlank()] : []
                     ))
             ;
         }
 
-        if (!is_null($options['operator'])) {
+        if ($options['operator'] !== null) {
             $builder
                     ->add('owner_autocomplete', TextType::class, array(
                         'attr' => array(
@@ -132,7 +130,7 @@ class RequestType extends AbstractType
             ;
         }
 
-        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+        if (array_key_exists('instance', $options) && $options['instance'] !== null) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
                         ->add('instance', null, array(
@@ -162,6 +160,7 @@ class RequestType extends AbstractType
             'operator' => null,
             'librarian' => false,
             'create' => false,
+            'target' => ''
         ));
     }
 }
