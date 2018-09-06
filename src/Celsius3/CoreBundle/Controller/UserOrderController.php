@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -29,6 +30,7 @@ use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Manager\UserManager;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Order controller.
@@ -133,7 +135,7 @@ class UserOrderController extends OrderController
      *
      * @return array
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
 
         $options = array(
@@ -149,6 +151,9 @@ class UserOrderController extends OrderController
         } else {
             $options['librarian'] = false;
         }
+
+        if ($this->getMaterialType() === JournalTypeType::class)
+            $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
 
         return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'user_index');
     }

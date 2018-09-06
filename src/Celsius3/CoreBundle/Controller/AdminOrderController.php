@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Form\Type\JournalTypeType;
 use Celsius3\CoreBundle\Form\Type\OrderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -127,13 +128,18 @@ class AdminOrderController extends OrderController
      */
     public function createAction(Request $request)
     {
-        return $this->baseCreate('Order', new Order(), OrderType::class, array(
+        $options = array(
             'instance' => $this->getInstance(),
             'material' => $this->getMaterialType(),
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
             'create' => true,
-        ), 'administration');
+        );
+
+        if ($this->getMaterialType() === JournalTypeType::class)
+            $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
+
+        return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'administration');
     }
 
     /**

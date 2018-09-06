@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Form\Type\JournalTypeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -30,6 +31,7 @@ use Celsius3\CoreBundle\Form\Type\OrderType;
 use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Order controller.
@@ -131,17 +133,22 @@ class SuperadminOrderController extends OrderController
      *
      * @return array
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $entity = new Order();
 
-        return $this->baseCreate('Order', $entity, OrderType::class, array(
-                    'instance' => $this->getDirectory(),
-                    'material' => $this->getMaterialType($entity),
-                    'user' => $this->getUser(),
-                    'librarian' => false,
-                    'actual_user' => $this->getUser(),
-                        ), 'superadmin_order');
+        $options = array(
+            'instance' => $this->getDirectory(),
+            'material' => $this->getMaterialType(),
+            'user' => $this->getUser(),
+            'librarian' => false,
+            'actual_user' => $this->getUser(),
+        );
+
+        if ($this->getMaterialType() === JournalTypeType::class)
+            $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
+
+        return $this->baseCreate('Order', $entity, OrderType::class, $options, 'superadmin_order');
     }
 
     /**
