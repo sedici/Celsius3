@@ -74,6 +74,7 @@ class FileDownloadFilterType extends AbstractType
             'csrf_protection' => false,
             'instance' => null,
             'user' => null,
+            'allow_extra_fields' => true,
         ));
     }
 

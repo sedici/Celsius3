@@ -58,6 +58,7 @@ class CityFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'instance' => null,
+            'allow_extra_fields' => true,
         ));
     }
 
