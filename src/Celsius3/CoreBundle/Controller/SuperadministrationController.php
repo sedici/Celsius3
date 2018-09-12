@@ -96,10 +96,11 @@ class SuperadministrationController extends BaseController
     }
 
     /**
-     * @Route("/software_change_message", name="superadmin_software_update_message", options={"expose"=true})
+     * @Route("/admins_message", name="superadmin_admins_message", options={"expose"=true})
      */
-    public function softwareUpdateMessageAction(Request $request)
+    public function adminsMessageAction(Request $request)
     {
+        $subject = $request->request->get('subject');
         $content = $request->request->get('message');
 
         if (!$content || empty($content)) {
@@ -116,7 +117,7 @@ class SuperadministrationController extends BaseController
         $message = $composer->newThread()
                 ->setSender($user)
                 ->addRecipients($admins)
-                ->setSubject('Actualización del software Celsius3')
+                ->setSubject($subject)
                 ->setBody($content)
                 ->getMessage();
 

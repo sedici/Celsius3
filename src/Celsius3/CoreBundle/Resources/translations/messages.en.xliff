@@ -3169,7 +3169,7 @@
       </trans-unit>
       <trans-unit id="5927d8c6b93167d46190f4fd7049250a9d9d4346" resname="message.modal.header">
         <source>message.modal.header</source>
-        <target>Software update message</target>
+        <target>Message for administrators.</target>
         <jms:reference-file line="88">/../src/Celsius3/CoreBundle/Resources/views/Superadministration/_other_span.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="18fa3fe00c487f3b2f96f28f72e4eee7ba7df278" resname="mirequest">
