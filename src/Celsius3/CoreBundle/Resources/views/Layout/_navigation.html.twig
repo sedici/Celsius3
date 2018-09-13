@@ -52,7 +52,7 @@
         {{ local_macro.admin_menu(instance) }}
     {% endif %}
 
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
         {{ local_macro.admin_menu(instance) }}
     {% endif %}
 
@@ -64,7 +64,7 @@
         <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
     {% endif %}
 
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local %}
         <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
     {% endif %}
 
