@@ -72,6 +72,7 @@ Encore
         './web/bundles/celsius3core/js/dash_table.js'
     ])
     .addEntry('statistics', [
+        './web/bundles/celsius3core/js/statistics.js',
         './web/bundles/celsius3core/ng/Statistics/app.js',
         './web/bundles/celsius3core/ng/Statistics/controllers.js',
         './web/bundles/celsius3core/ng/Statistics/filters.js'
@@ -99,7 +100,8 @@ Encore
         'window.$': 'jquery',
         'window.jQuery': 'jquery',
         when: 'when',
-        ich: 'icanhaz'
+        ich: 'icanhaz',
+        c3: 'c3'
     })
     .autoProvidejQuery()
     .enableSourceMaps(!Encore.isProduction())

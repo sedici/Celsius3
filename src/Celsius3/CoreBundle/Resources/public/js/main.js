@@ -21,9 +21,6 @@ require('datatables.net');
 require('when');
 require('fabric');
 
-require('d3');
-require('c3');
-
 // Este fragmento corrige el ancho del "autocomplete"
 jQuery.ui.autocomplete.prototype._resizeMenu = function () {
     'use strict';
