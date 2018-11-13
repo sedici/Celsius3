@@ -3875,6 +3875,10 @@
         <target>Si</target>
         <jms:reference-file line="96">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit>
+          <source>save_and_show</source>
+          <target>Guardar y mostrar</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
