@@ -23,7 +23,7 @@
     </div>
 </div>
 {% if (form.save_and_show is defined) %}
-    {{ form_row(form.save_and_show, {'label': 'save_and_show'}) }}
+    {{ form_row(form.save_and_show) }}
 {% endif %}
 
 {{ form_rest(form.originalRequest) }}

@@ -80,7 +80,10 @@ class OrderType extends AbstractType
                 $builder->add('save_and_show', SubmitType::class, array(
                     'attr' => array(
                         'class' => 'btn btn-primary submit-button pull-left',
+                        
+                        
                     ),
+                    'label' => 'save_and_show',
                 ));
             }
         }
