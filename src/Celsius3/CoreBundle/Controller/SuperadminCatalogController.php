@@ -59,7 +59,9 @@ class SuperadminCatalogController extends BaseController
      */
     public function newAction()
     {
-        return $this->baseNew('Catalog', new Catalog(), CatalogType::class);
+        return $this->baseNew('Catalog', new Catalog(), CatalogType::class, array(
+            'instance' => $this->getDirectory(),
+        ));
     }
 
     /**

@@ -43,6 +43,7 @@ class CatalogType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+     
         $builder
                 ->add('name')
                 ->add('url', null, array(
@@ -61,7 +62,7 @@ class CatalogType extends AbstractType
         $enableCatalogFieldSubscriber = new AddEnableCatalogFieldSubscriber($this->em, $builder->getFormFactory());
         $builder->addEventSubscriber($enableCatalogFieldSubscriber);
 
-        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+        if (array_key_exists('instance', $options)) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder->add('instance');
             } else {
