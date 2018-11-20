@@ -63,14 +63,15 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
         $catalogPosition = $this->em->getRepository('Celsius3CoreBundle:CatalogPosition')
                 ->findOneBy(array('catalog' => $data->getId(), 'instance' => $data->getInstance())
         );
-
+       
         $form->add($this->factory->createNamed('enable', CheckboxType::class, null, array(
                     'mapped' => false,
                     'label' => 'enable',
                     'required' => false,
-                    'attr' => array(
+                    /*  'attr' => array(   LO DEJO COMENTADO POR SI ES NECESARIO EL CAMPO CHECKED
                         'checked' => ($catalogPosition) ? $catalogPosition->getEnabled() : false,
-                    ),
+                    ),*/
+                    'data' => ($catalogPosition) ? $catalogPosition->getEnabled() : false,
                     'auto_initialize' => false, ))
         );
 
@@ -83,6 +84,7 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
 
     public function preSubmit(FormEvent $event)
     {
+        
         $form = $event->getForm();
         $data = $event->getData();
 
