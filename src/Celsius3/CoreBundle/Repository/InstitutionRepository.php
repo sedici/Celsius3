@@ -104,15 +104,17 @@ class InstitutionRepository extends BaseRepository
             $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
         }
 
-        $query = $qb->select('country.name name')
-                ->addSelect('country.id id')
+        $query = $qb->select('country.id id')
+                ->addSelect('country.name name')
                 ->addSelect('IDENTITY(institution.country) institutionCountry')
                 ->addSelect('COUNT(request) requestsCount')
                 ->leftJoin('institution.users', 'user')
                 ->leftJoin('user.orders', 'request')
                 ->leftJoin('institution.country', 'country')
                 ->andWhere('request.type = :type OR request.type IS NULL')->setParameter('type', $type)
-                ->groupBy('country.id');
+                ->groupBy('id')
+                ->addGroupBy('name')
+                ->addGroupBy('institutionCountry');
 
         if ($initialYear === $finalYear) {
             $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);

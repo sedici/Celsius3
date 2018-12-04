@@ -111,7 +111,7 @@ class EventRepository extends BaseRepository
             . ' INNER JOIN request r ON r.id = e.request_id'
             . ' INNER JOIN provider p ON p.id = e.provider_id'
             . ' INNER JOIN country c ON c.id = p.country_id'
-            . ' WHERE ';
+            . ' WHERE e.deletedAt IS NULL AND';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
@@ -121,7 +121,7 @@ class EventRepository extends BaseRepository
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
             . ' AND r.type = :type'
             . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-            . ' GROUP BY c.id'
+            . ' GROUP BY countryId, countryName, year'
             . ' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
@@ -153,7 +153,7 @@ class EventRepository extends BaseRepository
             . ' INNER JOIN event re ON r.id = re.request_id'
             . ' INNER JOIN provider p ON p.id = re.provider_id'
             . ' INNER JOIN country c ON c.id = p.country_id'
-            . ' WHERE ';
+            . ' WHERE e.deletedAt IS NULL AND';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
@@ -200,7 +200,7 @@ class EventRepository extends BaseRepository
             . ' INNER JOIN request r ON r.id = re.request_id'
             . ' INNER JOIN provider p ON p.id = re.provider_id'
             . ' INNER JOIN country c ON c.id = p.country_id'
-            . ' WHERE ';
+            . ' WHERE e.deletedAt IS NULL AND';
 
         if (!is_null($instance)) {
             $sql .= ' e.instance_id = :instance'
@@ -210,7 +210,7 @@ class EventRepository extends BaseRepository
         $sql .= ' YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear'
             . ' AND r.type = :type'
             . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
-            . ' GROUP BY c.id'
+            . ' GROUP BY countryId, countryName, year'
             . ' ORDER BY requestsCount DESC';
 
         $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);

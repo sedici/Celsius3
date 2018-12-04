@@ -142,12 +142,14 @@ class PublicRestController extends BaseInstanceDependentRestController
         $values['columns']['created'][] = 'Created';
         $values['columns']['cancelled'][] = 'Cancelled';
         $values['columns']['satisfied'][] = 'Satisfied';
+        $values['columns']['searched'][] = 'Searched';
         $values['totalPages'][] = 'Total Pages';
         foreach ($rows as $key => $row) {
             $values['categories'][] = $key;
             $values['columns']['created'][] = (isset($row['created'])) ? $row['created']['requestCount'] : 0;
             $values['columns']['cancelled'][] = (isset($row['cancelled'])) ? $row['cancelled']['requestCount'] : 0;
             $values['columns']['satisfied'][] = (isset($row['received'])) ? $row['received']['requestCount'] : 0;
+            $values['columns']['searched'][] = (isset($row['searched'])) ? $row['searched']['requestCount'] : 0;
             $values['totalPages'][] = (isset($row['received'])) ? $row['received']['totalPages'] : 0;
         }
 
@@ -235,9 +237,11 @@ class PublicRestController extends BaseInstanceDependentRestController
             $data['categories'][] = $row['materialDataYear'];
             $data['columns']['counts'][] = $row['materialDataCount'];
         }
-        $div = count($data['categories']) * 0.1;
-        for ($i = 1; $i <= (count($data['categories']) / $div ); $i++) {
-            $data['tickValue'][] = $i * $div;
+        if (array_key_exists('categories', $data) && $count = count($data['categories']) > 0) {
+            $div = $count * 0.1;
+            for ($i = 1; $i <= (count($data['categories']) / $div); $i++) {
+                $data['tickValue'][] = $i * $div;
+            }
         }
 
         $view = $this->view($data, 200)->setFormat('json');

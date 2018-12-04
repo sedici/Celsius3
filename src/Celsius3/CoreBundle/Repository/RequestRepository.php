@@ -62,7 +62,7 @@ class RequestRepository extends BaseRepository
             $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
 
-        $qb = $qb->addSelect('md.year materialDataYear')
+        $qb = $qb->select('md.year materialDataYear')
                 ->addSelect('COUNT(md.id) materialDataCount')
                 ->innerJoin('r.order', 'o')
                 ->innerJoin('o.materialData', 'md')

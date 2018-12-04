@@ -185,7 +185,7 @@ class BaseUserRepository extends BaseRepository
             $qb = $qb->select('MONTH(user.createdAt) axisValue')
                             ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->addSelect('YEAR(user.createdAt) axisValue')
+            $qb = $qb->select('YEAR(user.createdAt) axisValue')
                             ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
