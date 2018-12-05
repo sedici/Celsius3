@@ -260,6 +260,7 @@ class SuperadminOrderController extends OrderController
        */
       public function softDeleteAction($id)
       {
+          /** @var $order Order */
           $order = $this->findQuery('Order', $id);
 
           if (!$order) {
@@ -268,17 +269,22 @@ class SuperadminOrderController extends OrderController
 
           $em = $this->getDoctrine()->getManager();
 
-          $states = $order->getOriginalRequest()->getStates();
-          foreach ($states as $state) {
-              $em->remove($state);
+          $requests = $order->getRequests();
+          dump($requests);
+          foreach ($requests as $request) {
+              $states = $request->getStates();
+              foreach ($states as $state) {
+                  $em->remove($state);
+              }
+
+              $events = $request->getEvents();
+              foreach ($events as $event) {
+                  $em->remove($event);
+              }
+
+              $em->remove($request);
           }
 
-          $events = $order->getOriginalRequest()->getEvents();
-          foreach ($events as $event) {
-              $em->remove($event);
-          }
-
-          $em->remove($order->getOriginalRequest());
           $em->remove($order->getMaterialData());
           $em->remove($order);
           $em->flush();
@@ -308,17 +314,21 @@ class SuperadminOrderController extends OrderController
 
           $em = $this->getDoctrine()->getManager();
 
-          $states = $order->getOriginalRequest()->getStates();
-          foreach ($states as $state) {
-              $em->persist($state->setDeletedAt(null));
+          $requests = $order->getRequests();
+          foreach($requests as $request) {
+              $states = $request->getStates();
+              foreach ($states as $state) {
+                  $em->persist($state->setDeletedAt(null));
+              }
+
+              $events = $request->getEvents();
+              foreach ($events as $event) {
+                  $em->persist($event->setDeletedAt(null));
+              }
+
+              $em->persist($request->setDeletedAt(null));
           }
 
-            $events = $order->getOriginalRequest()->getEvents();
-            foreach ($events as $event) {
-                $em->persist($event->setDeletedAt(null));
-            }
-
-          $em->persist($order->getOriginalRequest()->setDeletedAt(null));
           $em->persist($order->getMaterialData()->setDeletedAt(null));
           $em->persist($order->setDeletedAt(null));
           $em->flush();

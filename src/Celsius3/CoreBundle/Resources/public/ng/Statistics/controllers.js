@@ -118,7 +118,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                 .then(function (response) {
                     $scope.data = response.data;
                     $scope.showTotal = false;
-                    $scope.generateUsersCountChart(response);
+                    $scope.generateUsersCountChart(response.data);
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -309,12 +309,14 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                         'Total Pages': 'line',
                         'Cancelled': 'bar',
                         'Created': 'bar',
-                        'Satisfied': 'bar'
+                        'Satisfied': 'bar',
+                        'Searched': 'bar'
                     },
                     axes: {
                         'Cancelled': 'y',
                         'Created': 'y',
                         'Satisfied': 'y',
+                        'Searched': 'y',
                         'Total Pages': 'y2'
                     }
                 },
