@@ -90,6 +90,14 @@ class Journal
         return $this->name;
     }
 
+    public function asJson()
+    {
+        return  array(
+            'id' => $this->getId(),
+            'value' => $this->name.' - (ISSN: '.$this->ISSN.') - (Responsable: '. $this->getResponsible().')'
+        );
+        
+    }
     /**
      * Get id.
      *

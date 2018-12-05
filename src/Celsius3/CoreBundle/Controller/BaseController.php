@@ -158,9 +158,9 @@ abstract class BaseController extends Controller
         if (!$entity) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.'.$name);
         }
-
+        
         $editForm = $this->createForm($type, $entity, $options);
-
+    
         return array(
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -317,12 +317,20 @@ abstract class BaseController extends Controller
                 ->getResult();
 
         $json = array();
-        foreach ($result as $element) {
-            $json[] = array(
-                'id' => $element->getId(),
-                'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
-            );
-        }
+
+        if (method_exists( $result[1],  'asJson' )){
+           foreach($result as $element){ 
+                $json[] = $element -> asJSon();
+           }
+        }else{
+            foreach ($result as $element) {
+                $json[] = array(
+                    'id' => $element->getId(),
+                    'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
+                    
+                );
+            }
+         }
 
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
