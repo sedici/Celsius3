@@ -2644,12 +2644,12 @@
       </trans-unit>
       <trans-unit id="37a1dff0f67997f6a249865d57b14e4c6ab2c760" resname="alert.delete.order">
         <source>alert.delete.order</source>
-        <target>Eliminar pedido</target>
+        <target>¡Advertencia! Esta acción eliminará todas las solicitudes, eventos y estados asociados al pedido, pudiendo afectar las estadisticas de otras instancias al eliminarse solicitudes y eventos multiinstancia.</target>
         <jms:reference-file line="113">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="2f752d1ef7e235068e1d74d0ea6aa0c8b15f5438" resname="alert.undelete.order">
         <source>alert.undelete.order</source>
-        <target>Deshacer eliminar pedido</target>
+        <target>¡Advertencia! Esta acción deshace la eliminación del pedido junto a todas sus solicitudes, eventos y estados asociados, pudiendo afectar las estadisticas de otras instancias al deshacer la eliminación de solicitudes y eventos multiinstancia.</target>
         <jms:reference-file line="130">/../src/Celsius3/CoreBundle/Resources/views/Macro/crud.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="d87c448044defb778f33158d8ccf94a20531d600" resname="all">
@@ -3878,6 +3878,10 @@
       <trans-unit>
           <source>save_and_show</source>
           <target>Guardar y mostrar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>downloadPending</source>
+        <target>Descarga pendiente</target>
       </trans-unit>
     </body>
   </file>
