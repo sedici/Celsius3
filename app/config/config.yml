@@ -217,11 +217,6 @@ services:
     fos_user.doctrine_registry:
         alias: doctrine
 
-    twig.text_extension:
-        class: Twig_Extensions_Extension_Text
-        tags:
-            - name: twig.extension
-
 jms_aop:
     cache_dir: "%kernel.cache_dir%/jms_aop"
 
