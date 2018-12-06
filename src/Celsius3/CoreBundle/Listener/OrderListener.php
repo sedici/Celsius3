@@ -65,10 +65,12 @@ class OrderListener
         $entity = $args->getEntity();
 
         if ($entity instanceof Order) {
-            // Update elasticsearch index
-            $this->container->get('fos_elastica.object_persister.app.request')
-                    ->replaceOne($entity->getRequest($this->container->get('celsius3_core.instance_helper')->getSessionInstance())
-            );
+            $instance = $this->container->get('celsius3_core.instance_helper')->getSessionInstance();
+            $request = $entity->getRequest($instance);
+            if ($request !== null) {
+                // Update elasticsearch index
+                $this->container->get('fos_elastica.object_persister.app.request')->replaceOne($request);
+            }
         }
     }
 
