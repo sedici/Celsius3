@@ -318,19 +318,20 @@ abstract class BaseController extends Controller
 
         $json = array();
 
-        if (method_exists( $result[1],  'asJson' )){
-           foreach($result as $element){ 
-                $json[] = $element -> asJSon();
-           }
-        }else{
+       
             foreach ($result as $element) {
-                $json[] = array(
-                    'id' => $element->getId(),
-                    'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
-                    
-                );
+                if (method_exists( $result[1],  'asJson' )){
+                    $json[] = $element -> asJSon();
+                }
+                else{
+                    $json[] = array(
+                        'id' => $element->getId(),
+                        'value' => ($target === 'BaseUser') ? $element->__toString().' ('.$element->getUsername().')' : $element->__toString(),
+                        
+                    );
+                }
             }
-         }
+         
 
         $response = new Response(json_encode($json));
         $response->headers->set('Content-Type', 'application/json');
