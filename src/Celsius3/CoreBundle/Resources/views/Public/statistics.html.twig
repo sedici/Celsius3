@@ -28,7 +28,12 @@
                         <ul class="nav nav-tabs">
                             <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|trans}}</a></li>
                             <li class="{{provisionClass}}"><a href ng-click="setTypeProvision()">{{'provision'|trans}}</a></li>
+                            <a class="pull-right" href="{{urlCSV}}">{{ 'download' | trans }} CSV</a>
                         </ul>
+                    </div>
+                    <div class="row" ng-if="!searchProvision">
+                        <a class="pull-right" href="{{urlCSV}}">{{ 'download' | trans }} CSV</a>
+                        <hr>
                     </div>
                     <div class="row">
                         <form>
@@ -37,6 +42,7 @@
                                 <select id="initialYear" ng-model="rangeYears.initialYear" ng-options="year for year in years" ng-change="initialYearChange()"></select>
                                 <label for="finalYear">{{'finalYear'|trans}}:</label>
                                 <select id="finalYear" name="finalYear" ng-model="rangeYears.finalYear" ng-options="year for year in years" ng-change="finalYearChange()"></select>
+
                             </p>
                             <p ng-if="locationFields">
                                 <label for="country">{{'country'|trans}}:</label>

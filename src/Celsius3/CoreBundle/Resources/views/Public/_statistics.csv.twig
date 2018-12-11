@@ -1,0 +1,12 @@
+{% set row = firstColumn | trans %}
+{% for v in data.columns %}
+    {% set row = row ~ "," ~ v[0] | trans %}
+{% endfor %}
+{{ row }}
+{% for k,v in data.categories %}
+    {% set row = v %}
+    {% for c in data.columns %}
+        {% set row = row ~ "," ~ c[k+1] %}
+    {% endfor %}
+    {{ row }}
+{% endfor %}

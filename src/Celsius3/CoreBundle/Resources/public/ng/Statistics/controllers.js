@@ -114,6 +114,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
             }
             params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
+            $scope.urlCSV = Routing.generate('public_rest_get_users_count_data_for', {'_format': 'csv'}) + params;
+
             $http.get(Routing.generate('public_rest_get_users_count_data_for') + params)
                 .then(function (response) {
                     $scope.data = response.data;
@@ -146,6 +148,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
 
             params += 'type=' + type + parameters;
 
+            $scope.urlCSV = Routing.generate('public_rest_get_requests_origin_data', {'_format': 'csv'}) + params;
+
             $http.get(Routing.generate('public_rest_get_requests_origin_data') + params)
                 .then(function (response) {
                     $scope.data = response.data;
@@ -170,6 +174,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
 
             params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
+            $scope.urlCSV = Routing.generate('public_rest_get_requests_count_data_for', {'_format': 'csv'}) + params;
+
             $http.get(Routing.generate('public_rest_get_requests_count_data_for') + params)
                 .then(function (response) {
                     $scope.data = response.data;
@@ -192,6 +198,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
 
             params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
 
+            $scope.urlCSV = Routing.generate('public_rest_get_requests_destiny_distribution_data_for', {'_format': 'csv'}) + params;
+
             $http.get(Routing.generate('public_rest_get_requests_destiny_distribution_data_for') + params)
                 .then(function (response) {
                     $scope.data = response.data;
@@ -212,6 +220,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                 params += 'instance=' + instance_id + '&';
             }
             params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear);
+
+            $scope.urlCSV = Routing.generate('public_rest_get_requests_number_by_publication_year_data_for', {'_format': 'csv'}) + params
 
             $http.get(Routing.generate('public_rest_get_requests_number_by_publication_year_data_for') + params)
                 .then(function (response) {
@@ -235,6 +245,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                 params += 'instance=' + instance_id + '&';
             }
             params += 'type=' + type + '&initialYear=' + parseInt(initialYear) + '&finalYear=' + parseInt(finalYear) + '&delayType=' + delayType;
+
+            $scope.urlCSV = Routing.generate('public_rest_get_requests_total_delay_data_for', {'_format': 'csv'}) + params;
 
             $http.get(Routing.generate('public_rest_get_requests_total_delay_data_for') + params)
                 .then(function (response) {
@@ -383,9 +395,11 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                     x: {
                         type: 'category',
                         categories: data.categories,
-                        label: 'Años de publicacion',
                         tick: {
-                            values: data.tickValue
+                            width: 100,
+                            culling: {
+                                max: 10
+                            },
                         }
                     }
                 }

@@ -36,7 +36,7 @@ class PublicRestController extends BaseInstanceDependentRestController
 
     /**
      * GET Route annotation.
-     * @Get("/users_count", name="public_rest_get_users_count_data_for", options={"expose"=true})
+     * @Get("/users_count.{_format}", name="public_rest_get_users_count_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
     public function getUsersCountDataForAction(Request $request)
     {
@@ -76,13 +76,18 @@ class PublicRestController extends BaseInstanceDependentRestController
             $values['columns']['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
         }
 
+        $format = $request->getRequestFormat();
+        if ($format === 'csv') {
+            return $this->toCSV($request, $values, 'Year');
+        }
+
         $view = $this->view($values, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
     /**
      * GET Route annotation.
-     * @Get("/requests_origin", name="public_rest_get_requests_origin_data", options={"expose"=true})
+     * @Get("/requests_origin.{_format}", name="public_rest_get_requests_origin_data", options={"expose"=true}, defaults={"_format"="json"})
      */
     public function getRequestsOriginCountDataAction(Request $request)
     {
@@ -113,13 +118,18 @@ class PublicRestController extends BaseInstanceDependentRestController
             $data['ids'][] = (Integer) $count['id'];
         }
 
+        $format = $request->getRequestFormat();
+        if ($format === 'csv') {
+            return $this->toCSV($request, $data, 'Country');
+        }
+
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
     /**
      * GET Route annotation.
-     * @Get("/requests_count", name="public_rest_get_requests_count_data_for", options={"expose"=true})
+     * @Get("/requests_count.{_format}", name="public_rest_get_requests_count_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
     public function getRequestsCountDataForAction(Request $request)
     {
@@ -153,13 +163,28 @@ class PublicRestController extends BaseInstanceDependentRestController
             $values['totalPages'][] = (isset($row['received'])) ? $row['received']['totalPages'] : 0;
         }
 
+        $format = $request->getRequestFormat();
+        if ($format === 'csv') {
+            $values['columns']['totalPages'] = $values['totalPages'];
+            return $this->toCSV($request, $values, 'Year');
+        }
+
         $view = $this->view($values, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
+    private function toCSV(Request $request, $data, $firstColumn = '') {
+        $response = $this->render('Celsius3CoreBundle:Public:_statistics.csv.twig', ['data' => $data, 'firstColumn' => $firstColumn]);
+        $filename = preg_replace('/_public_rest/', '', preg_replace('/\.csv/', '_' . date("YmdHis") . '.csv', preg_replace('/\//', '_', preg_replace('/\//', '', $request->getPathInfo(), 1))));
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename='.$filename);
+
+        return $response;
+    }
+
     /**
      * GET Route annotation.
-     * @Get("/requests_destiny_distribution", name="public_rest_get_requests_destiny_distribution_data_for", options={"expose"=true})
+     * @Get("/requests_destiny_distribution.{_format}", name="public_rest_get_requests_destiny_distribution_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
     public function getRequestsDestinyDistributionDataForAction(Request $request)
     {
@@ -212,13 +237,18 @@ class PublicRestController extends BaseInstanceDependentRestController
             $data['columns']['delivered'][] = (isset($val['delivered'])) ? $val['delivered'][0] : 0;
         }
 
+        $format = $request->getRequestFormat();
+        if ($format === 'csv') {
+            return $this->toCSV($request, $data, 'Country');
+        }
+
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
     /**
      * GET Route annotation.
-     * @Get("/requests_number_by_publication_year", name="public_rest_get_requests_number_by_publication_year_data_for", options={"expose"=true})
+     * @Get("/requests_number_by_publication_year.{_format}", name="public_rest_get_requests_number_by_publication_year_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
     public function getRequestsNumberByPublicationYearDataForAction(Request $request)
     {
@@ -244,13 +274,18 @@ class PublicRestController extends BaseInstanceDependentRestController
             }
         }
 
+        $format = $request->getRequestFormat();
+        if ($format === 'csv') {
+            return $this->toCSV($request, $data, 'Publication year');
+        }
+
         $view = $this->view($data, 200)->setFormat('json');
         return $this->handleView($view);
     }
 
     /**
      * GET Route annotation.
-     * @Get("/requests_total_delay", name="public_rest_get_requests_total_delay_data_for", options={"expose"=true})
+     * @Get("/requests_total_delay.{_format}", name="public_rest_get_requests_total_delay_data_for", options={"expose"=true}, defaults={"_format"="json"})
      */
     public function getRequestsTotalDelayDataForAction(Request $request)
     {
@@ -295,6 +330,11 @@ class PublicRestController extends BaseInstanceDependentRestController
             $data['columns']['delay7'][] = isset($d[7]) ? $d[7] : 0;
             $data['columns']['delay8'][] = isset($d[8]) ? $d[8] : 0;
             $data['columns']['delay9'][] = isset($d[9]) ? $d[9] : 0;
+        }
+
+        $format = $request->getRequestFormat();
+        if ($format === 'csv') {
+            return $this->toCSV($request, $data, 'Year');
         }
 
         $view = $this->view($data, 200)->setFormat('json');
