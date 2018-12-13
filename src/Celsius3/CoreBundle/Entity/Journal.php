@@ -92,9 +92,16 @@ class Journal
 
     public function asJson()
     {
+        $value = $this->name;
+        if($this->getISSN()){
+            $value = $value.' - (ISSN: '.$this->ISSN.')'; 
+        }
+        if($this->getResponsible()){
+        $value = $value.' - (Responsable: '. $this->getResponsible().')';
+        }
         return  array(
             'id' => $this->getId(),
-            'value' => $this->name.' - (ISSN: '.$this->ISSN.') - (Responsable: '. $this->getResponsible().')'
+            'value' => $value
         );
         
     }
