@@ -27,6 +27,12 @@
   margin-top: 10px;
 }
 
+.required:after {
+  content: "*";
+}
+
+
+
 body {
   padding-top: 60px;
   padding-bottom: 40px;

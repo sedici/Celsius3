@@ -34,8 +34,20 @@ class CongressTypeType extends MaterialTypeType
 
         $builder
                 ->add('place')
-                ->add('communication')
+                ->add('communication',null ,array(
+                                             'attr' => array(
+                                                         'placeholder' => 'Nombre de la ponencia'
+                                                         )        
+                   )   )
+                
+                ->add('title', null, array(
+                                        'attr' => array(
+                                                    'placeholder' => 'Titulo del Congreso'
+                                                )        
+                                     ) )
         ;
+
+       
     }
 
     public function configureOptions(OptionsResolver $resolver)
