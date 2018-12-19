@@ -44,7 +44,7 @@ class InstitutionFilterType extends AbstractType
                 ));
         $builder->add('country', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:Country',
-                'mapped' => false,
+                'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -144,6 +144,8 @@ class InstitutionFilterType extends AbstractType
                         'label' => 'Celsius Instance',
                     ));
         }
+
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)
