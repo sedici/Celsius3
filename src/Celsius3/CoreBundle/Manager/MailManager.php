@@ -42,6 +42,7 @@ class MailManager
     const MAIL__NO_HIVE = 'no_hive';
     const MAIL__RESETTING = 'resetting';
     const MAIL__USER_CONFIRMATION = 'user_confirmation';
+    const MAIL__CUSTOM = 'custom';
 
     private $em;
     private $im;

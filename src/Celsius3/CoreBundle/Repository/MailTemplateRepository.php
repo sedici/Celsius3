@@ -23,6 +23,8 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\MailTemplate;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 /**
  * MailTemplateRepository.
@@ -62,5 +64,21 @@ class MailTemplateRepository extends BaseRepository
                         ->where('t.enabled = :enabled')
                         ->setParameter('enabled', true)
                         ->getQuery()->getResult();
+    }
+
+    public function templateEdited(MailTemplate $template)
+    {
+        $qb = $this->createQueryBuilder('mt');
+
+        $qb->select('mt')
+            ->innerJoin('mt.instance', 'i')
+            ->where('mt.code = :code')
+            ->setParameter('code', $template->getCode())
+            ->andWhere('mt.instance = :instance')
+            ->setParameter('instance', $template->getInstance())
+            ->andWhere('i.url != :directory')
+            ->setParameter('directory', 'directory');
+
+        return $qb->getQuery()->getResult();
     }
 }
