@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\Translator;
 
 class CongressTypeType extends MaterialTypeType
 {
@@ -31,18 +32,18 @@ class CongressTypeType extends MaterialTypeType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-
+        $translator = new Translator('en_EN');
         $builder
                 ->add('place')
                 ->add('communication',null ,array(
                                              'attr' => array(
-                                                         'placeholder' => 'Nombre de la ponencia'
+                                                         'placeholder' =>  $translator->trans('congress_ponency_example')
                                                          )        
                    )   )
                 
                 ->add('title', null, array(
                                         'attr' => array(
-                                                    'placeholder' => 'Titulo del Congreso'
+                                                    'placeholder' => $translator->trans('congress_title_example')
                                                 )        
                                      ) )
         ;

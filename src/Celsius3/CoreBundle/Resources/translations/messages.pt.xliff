@@ -3877,6 +3877,14 @@
         <source>downloadPending</source>
         <target>Download pending</target>
       </trans-unit>
+      <trans-unit id="congress_ponency_example" resname="congress_ponency_example">
+        <source>congress_ponency_example</source>
+        <target>Digite o título do artigo</target>
+      </trans-unit>
+      <trans-unit id="congress_title_example" resname="congress_title_example">
+        <source>congress_title_example</source>
+        <target>Título do congresso</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
