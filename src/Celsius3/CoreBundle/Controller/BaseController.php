@@ -320,7 +320,7 @@ abstract class BaseController extends Controller
 
        
             foreach ($result as $element) {
-                if (method_exists( $result[1],  'asJson' )){
+                if (method_exists( $element,  'asJson' )){
                     $json[] = $element -> asJSon();
                 }
                 else{
