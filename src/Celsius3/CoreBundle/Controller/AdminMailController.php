@@ -22,6 +22,8 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -78,6 +80,7 @@ class AdminMailController extends BaseInstanceDependentController
     {
         return $this->baseNew('MailTemplate', new MailTemplate(), MailTemplateType::class, array(
                     'instance' => $this->getInstance(),
+                    'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
         ));
     }
 
@@ -102,13 +105,23 @@ class AdminMailController extends BaseInstanceDependentController
         if ($template->getInstance() !== $this->getDirectory()) {
             $route = $this->generateUrl('admin_mails_update', ['id' => $id]);
         } else {
+            $result = $this->getDoctrine()->getManager()
+                ->getRepository(MailTemplate::class)
+                ->findBy(['code' => $template->getCode(), 'instance' => $this->getInstance()]);
+
+            if (count($result) > 0) {
+                return $this->redirectToRoute('admin_mails');
+            }
+
             $route = $this->generateUrl('admin_mails_create');
         }
 
         return $this->baseEdit('MailTemplate', $id, MailTemplateType::class, array(
                     'instance' => $this->getInstance(),
                     'code' => $template->getCode(),
-                    'action' => $route, ));
+                    'action' => $route,
+                    'super_admin' => $this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')
+            ));
     }
 
     /**
