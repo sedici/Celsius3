@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Entity\Instance;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * CatalogRepository.
@@ -69,5 +70,22 @@ class CatalogRepository extends BaseRepository
                 ->setParameter('enabled', false)
                 ->getQuery()
                 ->getSingleScalarResult();
+    }
+
+    public function addFindByCity($city, QueryBuilder $query, Instance $instance = null)
+    {
+        $alias = $query->getRootAliases()[0];
+        $query = $query->andWhere('ci.city = :city_id')
+                        ->setParameter('city_id', $city->getId());
+        return $query;
+    }
+
+    public function addFindByCountry($country, QueryBuilder $query, Instance $instance = null)
+    {
+        $alias = $query->getRootAliases()[0];
+        $query = $query->join($alias.'.institution', 'ci')
+                        ->andWhere('ci.country = :country_id')
+                        ->setParameter('country_id', $country->getId());
+        return $query;
     }
 }

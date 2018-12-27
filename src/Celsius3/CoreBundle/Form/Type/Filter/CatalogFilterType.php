@@ -44,7 +44,7 @@ class CatalogFilterType extends AbstractType
 
         $builder->add('country', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:Country',
-                'mapped' => false,
+                'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -56,7 +56,7 @@ class CatalogFilterType extends AbstractType
         $builder->add('city', EntityType::class, array(
                 'class' => 'Celsius3CoreBundle:City',
                 'choices' => [],
-                'mapped' => false,
+                'mapped' => true,
                 'placeholder' => '',
                 'required' => false,
                 'attr' => array(
@@ -88,7 +88,7 @@ class CatalogFilterType extends AbstractType
                 $form->add('city', EntityType::class, array(
                     'class' => 'Celsius3CoreBundle:City',
                     'choices' => $cities,
-                    'mapped' => false,
+                    'mapped' => true,
                     'placeholder' => '',
                     'required' => false,
                     'attr' => array(
