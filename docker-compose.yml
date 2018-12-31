@@ -1,0 +1,50 @@
+version: "3"
+services:
+    web:
+        build: .
+        container_name: celsius3_web
+        network_mode: host
+        ports:
+          - 80:80
+        volumes:
+          - .:/var/www/html
+#        links:
+#          - mysql
+#          - elasticsearch
+         #- redis
+
+#    mysql:
+#        image: mysql
+#        container_name: celsius3_mysql
+#        network_mode: host
+#        environment:
+#            MYSQL_ROOT_PASSWORD: root
+#            MYSQL_DATABASE: celsius3
+#            MYSQL_USER: celsius3
+#            MYSQL_PASSWORD: celsius3
+
+    elasticsearch:
+        image: elasticsearch:2
+        container_name: celsius3_elasticsearch
+        network_mode: host
+        ports:
+          - 9200:9200
+
+    redis:
+        image: redis:alpine
+        container_name: celsius3_redis
+        network_mode: host
+        #command: redis-server /usr/local/etc/redis/redis.conf
+        #volumes:
+        #  - ./redis.conf:/usr/local/etc/redis/redis.conf
+        ports:
+          - 6379:6379
+
+#    phpmyadmin:
+#        image: phpmyadmin/phpmyadmin
+#        container_name: celsius3_phpmyadmin
+#        network_mode: host
+#        ports:
+#          - 8000:80
+        #links:
+        #  - mysql

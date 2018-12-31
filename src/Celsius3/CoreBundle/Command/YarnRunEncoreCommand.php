@@ -39,6 +39,6 @@ class YarnRunEncoreCommand extends ContainerAwareCommand
     {
         $output->writeln('Packaging assets');
 
-        $output->writeln(shell_exec('yarn run encore production'));
+        $output->writeln(shell_exec('yarn encore dev'));
     }
 }
