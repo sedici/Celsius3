@@ -31,12 +31,8 @@ services:
 #    phpmyadmin:
 #        image: phpmyadmin/phpmyadmin
 #        container_name: celsius3_phpmyadmin
-#        environment:
-#              PMA_PORT: 3306
-#              PMA_HOST: localhost
-#              PMA_USER: root
-#              PMA_PASSWORD: root
+#        network_mode: host
 #        ports:
-#          - "8080:80"
-#        depends_on:
-#          - mysql
+#          - 8000:80
+        #links:
+        #  - mysql

@@ -19,6 +19,7 @@ stop:
 shell:
 	docker exec -ti $(WEB_CONTAINER) bash
 
+<<<<<<< HEAD
 build:
 	@echo "$(CS)Building image for $(PROJECT)...$(CE)"
 	docker-compose build
