@@ -43,7 +43,7 @@ class OrderType extends AbstractType
                'constraints' => new Valid(),
                'journal' => $options['journal'],
                'other' => $options['other'],
-               'otherid' => $options['otherid'],
+               'journal_id' => $options['journal_id'],
            );
         } else {
             $materialOptions = array(
@@ -102,7 +102,7 @@ class OrderType extends AbstractType
             'actual_user' => null,
             'journal' => null,
             'other' => '',
-            'otherid' => '',
+            'journal_id' => '',
             'create' => false,
             'target' => ''
         ));

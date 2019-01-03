@@ -139,7 +139,7 @@ class AdminOrderController extends OrderController
        
         if ($this->getMaterialType() === JournalTypeType::class){
             $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
-            $options['otherid'] = $request->request->get('order')['materialData']['journal'];
+            $options['journal_id'] = $request->request->get('order')['materialData']['journal'];
         }
 
         return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'administration');
