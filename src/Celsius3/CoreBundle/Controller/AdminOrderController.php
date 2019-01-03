@@ -134,9 +134,11 @@ class AdminOrderController extends OrderController
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
             'create' => true,
+            'user' =>   $this->getDoctrine()->getManager()
+                             ->getRepository('Celsius3CoreBundle:BaseUser')
+                             ->find($request->request->get('order')['originalRequest']['owner']), 
         );
-
-       
+       #dump($request->request->get('order')['originalRequest']['owner']);die;
         if ($this->getMaterialType() === JournalTypeType::class){
             $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
             $options['journal_id'] = $request->request->get('order')['materialData']['journal'];

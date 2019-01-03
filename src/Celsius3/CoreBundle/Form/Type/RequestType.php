@@ -95,7 +95,7 @@ class RequestType extends AbstractType
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => $options['user'],
+                            'value' => (!is_null($options['user'])) ? $options['user'] : '',
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
@@ -111,7 +111,7 @@ class RequestType extends AbstractType
                         'attr' => array(
                             'class' => 'autocomplete',
                             'target' => 'BaseUser',
-                            'value' => $options['user'],
+                            'value' => (!is_null($options['user'])) ? $options['user'] : '',
                         ),
                         'mapped' => false,
                         'label' => 'Owner',
@@ -129,7 +129,7 @@ class RequestType extends AbstractType
                     ))
             ;
         }
-
+        
         if (array_key_exists('instance', $options) && $options['instance'] !== null) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
