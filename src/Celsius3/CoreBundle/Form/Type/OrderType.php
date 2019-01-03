@@ -37,16 +37,17 @@ class OrderType extends AbstractType
     {
         $class = explode('\\', $options['material']);
         $preferredMaterial = lcfirst(str_replace('Type', '', end($class)));
-
+        
         if ($preferredMaterial === 'journal') {
             $materialOptions = array(
                'constraints' => new Valid(),
                'journal' => $options['journal'],
                'other' => $options['other'],
+               'otherid' => $options['otherid'],
            );
         } else {
             $materialOptions = array(
-              'constraints' => new Valid(),
+              'constraints' => new Valid(), 
           );
         }
 
@@ -101,6 +102,7 @@ class OrderType extends AbstractType
             'actual_user' => null,
             'journal' => null,
             'other' => '',
+            'otherid' => '',
             'create' => false,
             'target' => ''
         ));

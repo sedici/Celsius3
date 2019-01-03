@@ -34,7 +34,7 @@ class JournalTypeType extends MaterialTypeType
                 ->add('journal', JournalSelectorType::class, array(
                     'attr' => array(
                         'required' => true,
-                        'value' => (!is_null($options['journal'])) ? $options['journal']->getId() : '',
+                        'value' => (!is_null($options['journal'])) ? $options['journal']->getId() : ((!is_null($options['otherid'])) ? $options['otherid'] : ''),
                         'class' => 'container',
                         'readonly' => 'readonly',
                     ),
@@ -69,6 +69,7 @@ class JournalTypeType extends MaterialTypeType
             'data_class' => 'Celsius3\\CoreBundle\\Entity\\JournalType',
             'journal' => null,
             'other' => '',
+            'otherid' => '',
         ));
     }
 }

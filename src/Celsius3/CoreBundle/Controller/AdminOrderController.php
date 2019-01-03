@@ -107,7 +107,7 @@ class AdminOrderController extends OrderController
         } else {
             $user = null;
         }
-
+        
         return $this->baseNew('Order', new Order(), OrderType::class, array(
             'instance' => $this->getInstance(),
             'user' => $user,
@@ -136,8 +136,11 @@ class AdminOrderController extends OrderController
             'create' => true,
         );
 
-        if ($this->getMaterialType() === JournalTypeType::class)
+       
+        if ($this->getMaterialType() === JournalTypeType::class){
             $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
+            $options['otherid'] = $request->request->get('order')['materialData']['journal'];
+        }
 
         return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'administration');
     }
@@ -179,6 +182,7 @@ class AdminOrderController extends OrderController
             'actual_user' => $this->getUser(),
             'journal' => $journal,
             'other' => $other,
+          
         ));
 
         return array('entity' => $entity,
