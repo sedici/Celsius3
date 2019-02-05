@@ -76,7 +76,7 @@ class FileUploadListener
                 $entity->setTemp(null);
             }
 
-          
+
         }
     }
 

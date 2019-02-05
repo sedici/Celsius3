@@ -134,10 +134,12 @@ abstract class InstanceController extends BaseController
             }
 
             $em = $this->getDoctrine()->getManager();
-
             foreach ($entity->getConfigurations() as $configuration) {
                 if ($configuration->getKey() === 'instance_logo' && $configuration->getValue() !== '' && !is_null($configuration->getValue()) && !is_null($values[$configuration->getKey()])) {
-                    unlink($basedir.'/web/uploads/logos/'.$configuration->getValue());
+                   if (file_exists($basedir.'/web/uploads/logos/'.$configuration->getValue())){
+                        unlink($basedir.'/web/uploads/logos/'.$configuration->getValue());
+                    }
+
                 }
                 if (!is_null($values[$configuration->getKey()]) || $configuration->getKey() === ConfigurationHelper::CONF__INSTANCE_CSS) {
                     $configuration->setValue($values[$configuration->getKey()]);
