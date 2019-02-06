@@ -1,5 +1,10 @@
 <dl class="dl-horizontal">
+    <dt>{{ 'Sender'|trans }}</dt>
+    <dd>{{ element.sender }}</dd>
     <dt>{{ 'Address'|trans }}</dt>
     <dd>{{ element.address }}</dd>
+    <dt>{{ 'Date'|trans }}</dt>
+    <dd>{{ element.createdAt | localizeddate('medium','short') }}</dd>
+   
    
 </dl>

@@ -22,6 +22,8 @@
 
 namespace Celsius3\CoreBundle\Form\Type\Filter;
 
+use Celsius3\CoreBundle\Form\Type\UserSelectorType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -32,12 +34,27 @@ class MailFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('GET');
-
+        
         $builder
-                ->add('sender', null, array(
+                ->add('sender', UserSelectorType::class, array(
+                    'attr' => array(
+                        'class' => 'container',
+                        'readonly' => 'readonly',
+                        'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
+                    ),
+                    'required' => false
+                ))
+                ->add('sender_autocomplete', TextType::class, array(
+                    'attr' => array(
+                        'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
+                        'class' => 'autocomplete',
+                        'target' => 'BaseUser',
+                    ),
+                    'mapped' => false,
+                    'label' => 'Sender',
                     'required' => false,
                 ))
-                ->add('receiver', null, array(
+                ->add('address', null, array(
                     'required' => false,
                 ))
                 
@@ -58,6 +75,7 @@ class MailFilterType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_protection' => false,
             'instance' => null,
+            'sender' => null,
             'allow_extra_fields' => true,
         ));
     }
