@@ -47,7 +47,7 @@ class MailFilterType extends AbstractType
                 ->add('sender_autocomplete', TextType::class, array(
                     'attr' => array(
                         'value' => (!is_null($options['sender'])) ? $options['sender']->getId() : null,
-                        'class' => 'autocomplete',
+                       'class' => 'autocomplete',
                         'target' => 'BaseUser',
                     ),
                     'mapped' => false,
