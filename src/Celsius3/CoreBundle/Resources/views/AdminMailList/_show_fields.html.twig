@@ -5,6 +5,8 @@
     <dd>{{ element.address }}</dd>
     <dt>{{ 'Date'|trans }}</dt>
     <dd>{{ element.createdAt | localizeddate('medium','short') }}</dd>
+    <dt>{{ 'Text'|trans }}</dt>
+    <dd>{{ element.text | raw }}</dd>
    
    
 </dl>
