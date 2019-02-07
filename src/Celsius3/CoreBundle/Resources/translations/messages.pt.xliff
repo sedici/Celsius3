@@ -3885,6 +3885,15 @@
         <source>congress_title_example</source>
         <target>Título do congresso</target>
       </trans-unit>
+      <trans-unit id="Mail List" resname="Mail List">
+        <source>Mail List</source>
+        <target>Lista de correios</target>
+      </trans-unit>
+       <trans-unit id="Sender" resname="Sender">
+        <source>Sender</source>
+        <target>Remetente</target>
+      </trans-unit>
+      
     </body>
   </file>
 </xliff>

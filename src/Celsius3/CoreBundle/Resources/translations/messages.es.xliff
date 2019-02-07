@@ -3891,6 +3891,14 @@
         <source>congress_ponency_example</source>
         <target>Ingrese el titulo de la ponencia</target>
       </trans-unit>
+        <trans-unit id="Mail List" resname="Mail List">
+        <source>Mail List</source>
+        <target>Listado de Mails</target>
+      </trans-unit>
+       <trans-unit id="Sender" resname="Sender">
+        <source>Sender</source>
+        <target>Remitente</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
