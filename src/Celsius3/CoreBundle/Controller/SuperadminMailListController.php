@@ -50,8 +50,6 @@ class SuperadminMailListController extends BaseController
      */
     public function indexAction()
     {
-        return $this->baseIndex('Email', $this->createForm(MailFilterType::class, null, array(
-            'instance' => $this->getInstance(),
-        )));
+        return $this->baseIndex('Email', $this->createForm(MailFilterType::class));
     }
 }
