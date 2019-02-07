@@ -34,6 +34,22 @@
                             <span class="glyphicon glyphicon-list"></span>
                             {{ 'Configure Directory'|trans }}</a>
                     </li>
+
+                    <li>
+                        
+                            <ul class="list-unstyled btn-group-list">
+                                <li>
+                                    <a href="{{ path('superadmin_maillist') }}" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-list"></span>
+                                        {{ 'Mail List'|trans }}</a>
+
+                                </li>
+
+                            </ul>
+                        
+                    </li>
+
+
                 </ul>
             </div>
             <div class="col-md-6">
@@ -61,19 +77,25 @@
                     <li>
                         <a data-toggle="modal" data-target="#message-modal" class="btn btn-default btn-group-alone">{{ 'message.modal.header'|trans }}</a>
                     </li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <ul class="list-unstyled btn-group-list">
+                    
                     <li>
-                        <a href="{{ path('superadmin_admin') }}" class="btn btn-default">
-                            <span class="glyphicon glyphicon-list"></span>
-                            {{ 'Administrator'|trans }}</a>
+                        </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled btn-group-list">
+                                    <li>
+                                        <a href="{{ path('superadmin_admin') }}" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-list"></span>
+                                            {{ 'Administrator'|trans }}</a>
 
+                                    </li>
+
+                                </ul>
+                        </div>
                     </li>
-
                 </ul>
-            </div>
+            
+              
+           
         </div>
     </div>
 </div>

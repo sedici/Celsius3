@@ -3890,6 +3890,10 @@
         <source>congress_ponency_example</source>
         <target>Enter the title of the paper</target>
       </trans-unit>
+      <trans-unit id="Mail List" resname="Mail List">
+        <source>Mail List</source>
+        <target>Mail List</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
