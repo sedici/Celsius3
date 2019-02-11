@@ -18,10 +18,12 @@
         <div class="col-md-6">
 
             <div class="map">
-                <!-- <img src="{{ asset('images/mapa.jpg') }}" alt="" style="width:100%; height:auto;">-->
-                {{ ivory_google_map_css(map) }}
-                {{ ivory_google_map_container(map) }}
-                {{ ivory_google_map_js(map) }}
+             <img src="{{ asset('images/mapa.jpg') }}" alt="" style="width:100%; height:auto;"> 
+                
+
+                {{ ivory_google_map(map) }}
+                {{ ivory_google_api([map]) }}
+                
 
                 {#{{ ivory_google_map_css(map) }}
                 {{ ivory_google_map_container(map) }}

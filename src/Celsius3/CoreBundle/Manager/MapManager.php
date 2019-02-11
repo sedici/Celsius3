@@ -16,6 +16,7 @@ use Ivory\GoogleMap\Overlay\SymbolPath;
 
 
 
+
 class MapManager
 {
     public function getCiudades($provincia)
@@ -38,7 +39,7 @@ class MapManager
 
     private function addMarker(Map $map, Instance $instance, $windowOpen = false)
     {
-      /*  if (!$instance->getLatitud() || !$instance->getLongitud()) {
+        if (!$instance->getLatitud() || !$instance->getLongitud()) {
             return;
         }
 
@@ -57,7 +58,7 @@ class MapManager
         $marker->setPosition((float) $instance->getLatitud(), (float) $instance->getLongitud());
         $marker->setInfoWindow($infoWindow);
         $map->addMarker($marker);
-        $map->setCenter((float) $instance->getLatitud(), (float) $instance->getLongitud());*/
+        $map->setCenter((float) $instance->getLatitud(), (float) $instance->getLongitud());
     }
 
     /**
@@ -66,12 +67,14 @@ class MapManager
      * @return Map
      */
     public function createMap($instancias, $windowOpen = false)
-    {
+    {      
+        
         $map = new Map();
         $map->setAutoZoom(true);
-        foreach ($instancias as $instancia) {
+        /*foreach ($instancias as $instancia) {
             $map->getOverlayManager()->addMarker(new Marker(new Coordinate($instancia->getLatitud(), $instancia->getLongitud())));
-        }
+        }*/
+        $map->getOverlayManager()->addMarker(new Marker(new Coordinate(-57.9523734, -34.9189929)));
         $map->setStylesheetOptions(array(
             'width' => '100%',
             'height' => '1000px',
@@ -94,7 +97,8 @@ class MapManager
     {
         $map = $this->createMap($instancias);
         $map->setHtmlId('map_canvas');
-
+       
+        
         return $map;
     }
 }

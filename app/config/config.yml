@@ -437,6 +437,9 @@ ivory_google_map:
     geocoder:
         client: httplug.client.default
         message_factory: httplug.message_factory.default
+    map:
+        api_key: AIzaSyBkTsFdYml7el5uD1F8CCj4oOeNBBsR_fg
+        debug: "%kernel.debug%"
 
 ewz_recaptcha:
     public_key:  "%recaptcha_public_key%"
@@ -450,3 +453,4 @@ ivory_serializer:
         auto:
             enabled: false
         reflection: false
+    
