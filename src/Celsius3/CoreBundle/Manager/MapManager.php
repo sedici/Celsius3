@@ -71,10 +71,13 @@ class MapManager
         
         $map = new Map();
         $map->setAutoZoom(true);
-        /*foreach ($instancias as $instancia) {
-            $map->getOverlayManager()->addMarker(new Marker(new Coordinate($instancia->getLatitud(), $instancia->getLongitud())));
-        }*/
-        $map->getOverlayManager()->addMarker(new Marker(new Coordinate(-57.9523734, -34.9189929)));
+        foreach ($instancias as $instancia) {
+            if (!is_null($instancia->getLatitud()) && !is_null($instancia->getLongitud()) ){
+                $map->getOverlayManager()->addMarker(new Marker( new Coordinate($instancia->getLatitud(), $instancia->getLongitud())));
+            
+            }
+        } 
+        
         $map->setStylesheetOptions(array(
             'width' => '100%',
             'height' => '1000px',
@@ -95,6 +98,7 @@ class MapManager
      */
     public function createMapFromApiSearch($instancias, $latitude, $longitude)
     {
+
         $map = $this->createMap($instancias);
         $map->setHtmlId('map_canvas');
        

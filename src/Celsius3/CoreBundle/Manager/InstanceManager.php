@@ -51,7 +51,7 @@ class InstanceManager
                 'lon' => $longitude,
             ))
             ->addOrderBy('distance', 'ASC')
-            ->setMaxResults($limit)->getQuery()->getResult();
+            /*->setMaxResults($limit)*/->getQuery()->getResult();
 
 
         $res = [];

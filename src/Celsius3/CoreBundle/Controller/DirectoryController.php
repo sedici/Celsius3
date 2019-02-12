@@ -32,6 +32,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
 
+
+
 /**
  * Directory controller.
  *
@@ -89,10 +91,14 @@ class DirectoryController extends BaseController
         $longitude = '-57.9523734';
 
         $instancia_mapa = $this->get('celsius3_core.instance_manager')->findInstance($latitude, $longitude);
-
-       $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
        
-      //  $map->setMapOption('zoom', (int) $request->get('zoom'));
+       $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
+      
+       $map->setMapOption('zoom', (int) $request->get('zoom'));
+
+     
+                
+       
         return array(
             'directory' => $this->getDirectory(),
             'instances' => $cInstances,
