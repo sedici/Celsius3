@@ -86,7 +86,9 @@ class AdminOrderController extends OrderController
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
+
     {
+        
         return $this->baseShow('Order', $id);
     }
 
@@ -138,7 +140,7 @@ class AdminOrderController extends OrderController
                              ->getRepository('Celsius3CoreBundle:BaseUser')
                              ->find($request->request->get('order')['originalRequest']['owner']), 
         );
-       #dump($request->request->get('order')['originalRequest']['owner']);die;
+      
         if ($this->getMaterialType() === JournalTypeType::class){
             $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
             $options['journal_id'] = $request->request->get('order')['materialData']['journal'];
@@ -171,11 +173,13 @@ class AdminOrderController extends OrderController
 
         if ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) {
             $journal = $entity->getMaterialData()->getJournal();
+            
         } else {
             $journal = null;
         }
 
         $other = ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $entity->getMaterialData()->getOther() : '';
+     
         $editForm = $this->createForm(OrderType::class, $entity, array(
             'instance' => $this->getInstance(),
             'material' => $this->getMaterialType($materialClass),
@@ -184,8 +188,11 @@ class AdminOrderController extends OrderController
             'actual_user' => $this->getUser(),
             'journal' => $journal,
             'other' => $other,
+            'journal_id' => $journal->getId(),
           
         ));
+
+        
 
         return array('entity' => $entity,
             'edit_form' => $editForm->createView(),
@@ -292,7 +299,7 @@ class AdminOrderController extends OrderController
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
                     $request->request->get('order', null)['materialData']['journal']
                 );
-                if (is_null($journal) || ($journal->getName() !== $request->request->get('order', null)['materialData']['journal_autocomplete'])) {
+                if (is_null($journal) ) {
                     $entity->getMaterialData()->setOther($request->request->get('order', null)['materialData']['journal_autocomplete']);
                     $entity->getMaterialData()->setJournal(null);
                 }
