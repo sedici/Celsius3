@@ -4,47 +4,38 @@ services:
         build: .
         container_name: celsius3_web
         network_mode: host
-        ports:
-          - 80:80
         volumes:
           - .:/var/www/html
-#        links:
-#          - mysql
-#          - elasticsearch
-         #- redis
 
-#    mysql:
-#        image: mysql
-#        container_name: celsius3_mysql
-#        network_mode: host
-#        environment:
-#            MYSQL_ROOT_PASSWORD: root
-#            MYSQL_DATABASE: celsius3
-#            MYSQL_USER: celsius3
-#            MYSQL_PASSWORD: celsius3
+    mysql:
+        image: mysql:5
+        container_name: celsius3_mysql
+        network_mode: host
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: celsius3
+        volumes:
+          - ./.docker/mysql:/var/lib/mysql
 
     elasticsearch:
-        image: elasticsearch:2
+        image: elasticsearch:2.3.1
         container_name: celsius3_elasticsearch
         network_mode: host
-        ports:
-          - 9200:9200
+        volumes:
+          - ./.docker/elasticsearch/data:/usr/share/elasticsearch/data
 
     redis:
         image: redis:alpine
         container_name: celsius3_redis
         network_mode: host
-        #command: redis-server /usr/local/etc/redis/redis.conf
-        #volumes:
-        #  - ./redis.conf:/usr/local/etc/redis/redis.conf
-        ports:
-          - 6379:6379
+        volumes:
+          - ./.docker/redis:/data
 
-#    phpmyadmin:
-#        image: phpmyadmin/phpmyadmin
-#        container_name: celsius3_phpmyadmin
-#        network_mode: host
-#        ports:
-#          - 8000:80
-        #links:
-        #  - mysql
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: celsius3_phpmyadmin
+        ports:
+          - "8080:80"
+        links:
+          - mysql:db
