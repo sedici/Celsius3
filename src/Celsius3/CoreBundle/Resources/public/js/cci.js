@@ -1,10 +1,15 @@
 function loadCities(json) {
     var city_data;
+  
     city_data = {
         value: '',
         name: ''
     };
-    $('select.city-select').append(ich.city(city_data));
+    var ci = function(city_data){ return "<option value='"+city_data.value+"'>"+city_data.name+"</option>"};
+
+    
+    
+    $('select.city-select').append(ci(city_data));
 
     $.each(json, function (i, val) {
         var city_data;
@@ -12,7 +17,7 @@ function loadCities(json) {
             value: val.value,
             name: val.name
         };
-        $('select.city-select').append(ich.city(city_data));
+        $('select.city-select').append(ci(city_data));
     });
 }
 
@@ -25,8 +30,17 @@ function loadInstitutions(json) {
         hasChildren: false,
         children: []
     };
-    $('select.institution-select').append(ich.institution(institution_data));
+    var ins = function(institution_data){ return "<option value='"+institution_data.value+"'>"+institution_data.name+"</option>"};
+    
+    function recursiveInstitutionPrint(institution_data){
+        $('select.institution-select').append("<option value='"+institution_data.value+"'>"+institution_data.name+"</option>");
+        if (institution_data['hasChildren']){
+            institution_data['children'].forEach(recursiveInstitutionPrint);
+        }
+    
+    }
 
+    $('select.institution-select').append(ins(institution_data));
     $.each(json, function (i, val) {
         var institution_data;
         institution_data = {
@@ -36,7 +50,9 @@ function loadInstitutions(json) {
             hasChildren: val.hasChildren,
             children: val.children
         };
-        $('select.institution-select').append(ich.institution(institution_data));
+        
+      
+        recursiveInstitutionPrint(institution_data);
     });
     refresh();
 }
@@ -53,6 +69,7 @@ $(document).on('change', 'select.country-select', function () {
             data: 'country_id=' + $(this).val(),
             url: Routing.generate('public_cities'),
             success: function (data) {
+               
                 loadCities(JSON.parse(data));
             }
         });
@@ -62,6 +79,7 @@ $(document).on('change', 'select.country-select', function () {
             data: 'country_id=' + $(this).val() + '&filter=' + filter,
             url: Routing.generate('public_institutions_full'),
             success: function (data) {
+              
                 loadInstitutions(JSON.parse(data));
             }
         });
@@ -69,16 +87,19 @@ $(document).on('change', 'select.country-select', function () {
 });
 
 $(document).on('change', 'select.city-select', function () {
+    
     $('select.institution-select').children().remove();
-    $('.institution-select').select2('val', '');
+   // $('.institution-select').select2('val', '');
     if ($(this).val()) {
         $.ajax({
             type: 'GET',
             data: 'city_id=' + $(this).val() + '&filter=' + filter,
             url: Routing.generate('public_institutions_full'),
             success: function (data) {
+                
                 loadInstitutions(JSON.parse(data));
             }
+            
         });
     }
 });
