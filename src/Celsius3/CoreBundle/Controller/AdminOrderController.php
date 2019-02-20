@@ -188,7 +188,7 @@ class AdminOrderController extends OrderController
             'actual_user' => $this->getUser(),
             'journal' => $journal,
             'other' => $other,
-            'journal_id' => $journal->getId(),
+            'journal_id' => !is_null($journal) ? $journal->getId() : '',
           
         ));
 
