@@ -69,6 +69,9 @@ class UnionManager
             'Celsius3CoreBundle:CatalogPosition' => array(
                 'catalog',
             ),
+            'Celsius3CoreBundle:CatalogResult' => array(
+                'catalog'
+            )
         ),
         'Celsius3CoreBundle:Journal' => array(
             'Celsius3CoreBundle:JournalType' => array(
@@ -120,6 +123,8 @@ class UnionManager
 
     public function union($name, $main, array $elements, $updateInstance)
     {
+        $this->em->getFilters()->disable('softdeleteable');
+
         if (array_key_exists($name, $this->references)) {
             foreach ($this->references[$name] as $key => $reference) {
                 foreach ($reference as $field) {
@@ -127,6 +132,8 @@ class UnionManager
                 }
             }
         }
+
+        $this->em->getFilters()->enable('softdeleteable');
 
         $this->em->getRepository($name)->deleteUnitedEntities($elements);
 
