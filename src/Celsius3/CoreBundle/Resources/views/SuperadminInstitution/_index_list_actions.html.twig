@@ -1,8 +1,8 @@
 <ul class="list-unstyled pull-right actions">
     <li>
-        <a href="{{ path('superadmin_institution_edit', { 'id': element.id }) }}"><span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}</a>
+        <a href="{{ path('superadmin_institution_edit', { 'id': element.id }) }}" data-toggle="tooltip" title="{{ 'Edit'|trans }}"><span class="glyphicon glyphicon-pencil"></span></a>
     </li>
     <li>
-        <a href="{{ path('superadmin_institution_show', { 'id': element.id }) }}"><span class="glyphicon glyphicon-search"></span> {{ 'View'|trans }}</a>
+        <a href="{{ path('superadmin_institution_show', { 'id': element.id }) }}" data-toggle="tooltip" title="{{ 'View'|trans }}"><span class="glyphicon glyphicon-search"></span></a>
     </li>
 </ul>
