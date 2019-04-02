@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-    <br/>
     <div ng-app="statisticsApp" ng-controller="StatisticsCtrl">
         <div ng-view>
 
@@ -14,11 +13,8 @@
             <script type="text/ng-template" id="index.html">
             <div class="row">
 
-                <div class="panel panel-default">
-                    <div class="panel-body"><h2>{{ title | trans }} - {{ subtitle | trans }}</h2>
-                    </div>
-                </div>
-
+                <h2>{{ title | trans }} - {{ subtitle | trans }}</h2>
+                <hr class="separator_hr">
                 <div class="col-md-3" ng-include="'menu.html'"></div>
                 <div class="col-md-9" >
                     <div class="row">

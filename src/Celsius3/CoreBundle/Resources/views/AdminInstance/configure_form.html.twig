@@ -115,7 +115,9 @@
         <br/>
         <div class="row">
             <div class="col-md-12">
-                {{ form_row(configure_form.instance_logo) }}
+                {% do configure_form.instance_logo.setRendered %}
+                {{ form_label(configure_form.instance_logo) }}
+                <input type="file" id="{{ configure_form.instance_logo.vars.id }}" name="{{ configure_form.instance_logo.vars.full_name }}" value="{{ configure_form.instance_logo.vars.attr.value }}">
             </div>
         </div>
         <div class="row">

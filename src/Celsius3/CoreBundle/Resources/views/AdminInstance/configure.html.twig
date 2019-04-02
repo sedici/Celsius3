@@ -17,3 +17,13 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        label.form-check-label input {
+            margin-right: 20px;
+        }
+    </style>
+
+{% endblock %}

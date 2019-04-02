@@ -5,11 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    <br/>
-    <div class="panel panel-default">
-        <div class="panel-body"> <h2>{{ 'News'|trans }}</h2> </div>
-    </div>
 
+    <h2>{{ 'News'|trans }}</h2>
+    <hr class="separator_hr">
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
     </div>

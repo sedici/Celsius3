@@ -1333,7 +1333,7 @@
       </trans-unit>
       <trans-unit id="3f489673867c88d849310515e837cdfb70bc6415" resname="Ip">
         <source>Ip</source>
-        <target>Ip</target>
+        <target>IP</target>
         <jms:reference-file line="230">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="57d7f743bbd1a2854e826cf8632ea381237162bf" resname="Journal">
@@ -3800,7 +3800,7 @@
       </trans-unit>
       <trans-unit id="91cb6d1538d3cb04e54d7a9d7e6c9f3cee800120" resname="userAgent">
         <source>userAgent</source>
-        <target>navegador</target>
+        <target>Navegador</target>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminFileDownload/_index_sort.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="630e1da2ff7ff3703bc13d213719f80b6140cc65" resname="userRequestsIndex">
@@ -3893,7 +3893,7 @@
       </trans-unit>
         <trans-unit id="Mail List" resname="Mail List">
         <source>Mail List</source>
-        <target>Listado de Mails</target>
+        <target>Listado de correos</target>
       </trans-unit>
        <trans-unit id="Sender" resname="Sender">
         <source>Sender</source>
@@ -3962,6 +3962,98 @@
       <trans-unit id="Other tasks" resname="Other tasks">
         <source>Other tasks</source>
         <target>Otras tareas</target>
+      </trans-unit>
+      <trans-unit id="I s s n" resname="I s s n">
+        <source>I s s n</source>
+        <target>ISSN</target>
+      </trans-unit>
+      <trans-unit id="I s s n e" resname="I s s n e">
+        <source>I s s n e</source>
+        <target>ISSNE</target>
+      </trans-unit>
+      <trans-unit id="Locked" resname="Locked">
+        <source>Locked</source>
+        <target>Bloqueado</target>
+      </trans-unit>
+      <trans-unit id="Pdf" resname="Pdf">
+        <source>Pdf</source>
+        <target>PDF</target>
+      </trans-unit>
+      <trans-unit id="Download auth" resname="Download auth">
+        <source>Download auth</source>
+        <target>Autorizado a descargar</target>
+      </trans-unit>
+      <trans-unit id="Observaciones" resname="Observaciones">
+        <source>Observaciones</source>
+        <target>Observatciones</target>
+      </trans-unit>
+      <trans-unit id="Private" resname="Private">
+        <source>Private</source>
+        <target>Privado</target>
+      </trans-unit>
+      <trans-unit id="Required" resname="Required">
+        <source>Required</source>
+        <target>Requerido</target>
+      </trans-unit>
+      <trans-unit id="Orden" resname="Orden">
+        <source>Orden</source>
+        <target>Orden</target>
+      </trans-unit>
+      <trans-unit id="Ej: Campo1,Campo2,Campos3" resname="Ej: Campo1,Campo2,Campos3">
+        <source>Ej: Campo1,Campo2,Campos3</source>
+        <target>Ej: Campo1,Campo2,Campos3</target>
+      </trans-unit>
+      <trans-unit id="There are not users with recent pending orders" resname="There are not users with recent pending orders">
+        <source>There are not users with recent pending orders</source>
+        <target>No hay usuarios con pedidos pendientes recientes</target>
+      </trans-unit>
+      <trans-unit id="Add user" resname="Add user">
+        <source>Add user</source>
+        <target>Agregar usuario</target>
+      </trans-unit>
+      <trans-unit id="Add requests" resname="Add requests">
+        <source>Add requests</source>
+        <target>Agregar solicitudes</target>
+      </trans-unit>
+      <trans-unit id="Send email" resname="Send email">
+        <source>Send email</source>
+        <target>Enviar correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="Spanish" resname="Spanish">
+        <source>Spanish</source>
+        <target>Español</target>
+      </trans-unit>
+      <trans-unit id="English" resname="English">
+        <source>English</source>
+        <target>Inglés</target>
+      </trans-unit>
+      <trans-unit id="Portuguese" resname="Portuguese">
+        <source>Portuguese</source>
+        <target>Portugués</target>
+      </trans-unit>
+      <trans-unit id="SSL" resname="SSL">
+        <source>SSL</source>
+        <target>SSL</target>
+      </trans-unit>
+      <trans-unit id="TLS" resname="TLS">
+        <source>TLS</source>
+        <target>TLS</target>
+      </trans-unit>
+      <trans-unit id="Administrator confirmation" resname="Administrator confirmation">
+        <source>Administrator confirmation</source>
+        <target>Confirmación por administrador</target>
+      </trans-unit>
+      <trans-unit id="Email confirmation" resname="Email confirmation">
+        <source>Email confirmation</source>
+        <target>Confirmación por correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="Material data" resname="Material data">
+        <source>Material data</source>
+        <target>Datos del material</target>
+      </trans-unit>
+      <trans-unit id="Target" resname="Target">
+        <source>Target</source>
+        <target>Objetivo</target>
       </trans-unit>
     </body>
   </file>

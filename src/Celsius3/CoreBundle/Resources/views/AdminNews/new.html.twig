@@ -7,15 +7,9 @@
 {% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    
-   
-<div class="panel panel-default">
-    <div class="panel-heading">     <h2>{{ 'News Creation'|trans }}</h2>
-</div>
-    <div class="panel-body">
-     {{ new('admin_news', form) }}
-    </div>
-  </div>
+    <h2>{{ 'News Creation'|trans }}</h2>
+    <hr class="separator_hr">
+    {{ new('admin_news', form) }}
 
 {% endblock %}
 

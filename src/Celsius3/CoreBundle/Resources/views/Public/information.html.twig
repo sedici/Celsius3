@@ -5,13 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <br/>
-    <div class="panel panel-default">
-        <div class="panel-heading"><h2> {{ 'Information'|trans }} </h2> </div>
-        <div class="panel-body">
-    <div class="row">
-            {{ instance.get('instance_information').value|raw }}
-    </div>
-    </div>
-    </div>
+    <h2> {{ 'Information'|trans }} </h2>
+    <hr class="separator_hr">
+    {{ instance.get('instance_information').value|raw }}
 {% endblock %}
