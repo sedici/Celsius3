@@ -129,6 +129,11 @@ class Instance extends LegacyInstance
      */
     protected $observaciones;
 
+    /**
+     * @ORM\OneToMany(targetEntity="DataRequest", mappedBy="instance")
+     */
+    protected $dataRequests;
+
     public function __construct()
     {
         parent::__construct();
@@ -144,6 +149,7 @@ class Instance extends LegacyInstance
         $this->states = new ArrayCollection();
         $this->countries = new ArrayCollection();
         $this->cities = new ArrayCollection();
+        $this->dataRequests = new ArrayCollection();
     }
 
     public function isCurrent()
@@ -175,8 +181,8 @@ class Instance extends LegacyInstance
     public function has($key)
     {
         return $this->getConfigurations()->filter(function (Configuration $entry) use ($key) {
-            return $entry->getKey() === $key;
-        })->count() > 0;
+                return $entry->getKey() === $key;
+            })->count() > 0;
     }
 
     /**
@@ -753,5 +759,35 @@ class Instance extends LegacyInstance
     public function removeCity(City $city)
     {
         $this->cities->removeElement($city);
+    }
+
+    /**
+     * Add data request.
+     *
+     * @param DataRequest $dataRequest
+     */
+    public function addDataRequest(DataRequest $dataRequest)
+    {
+        $this->dataRequests[] = $dataRequest;
+    }
+
+    /**
+     * Remove data request.
+     *
+     * @param DataRequest $dataRequest
+     */
+    public function removeDataRequest(DataRequest $dataRequest)
+    {
+        $this->institutions->removeElement($dataRequest);
+    }
+
+    /**
+     * Get data requests.
+     *
+     * @return Collection $dataRequests
+     */
+    public function getDataRequests()
+    {
+        return $this->dataRequests;
     }
 }

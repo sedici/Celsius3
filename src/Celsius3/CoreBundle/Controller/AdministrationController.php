@@ -22,9 +22,11 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\DataRequest;
+use Celsius3\CoreBundle\Form\Type\DataRequestType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -193,5 +195,40 @@ class AdministrationController extends BaseInstanceDependentController
         }
 
         return $this->redirectToRoute('administration');
+    }
+
+    /**
+     * @Route("/data_request", name="admin_instance_data_request", options={"expose"=true})
+     */
+    public function dataRequestAction(Request $request)
+    {
+        $form = $this->createForm(DataRequestType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $dataRequest = new DataRequest($this->getInstance(), $form->get('initialDate')->getData(), $form->get('finalDate')->getData());
+
+            if ($form->has('name') && $name = $form->get('name')->getData()) {
+                $dataRequest->setName($name);
+            }
+
+            foreach ($form->getData() as $k => $v) {
+                if (is_bool($v) && $v) {
+                    $data[] = $k;
+                } elseif (is_array($v) && !empty($v)) {
+                    $data[] = [$k => $v];
+                }
+            }
+
+            $dataRequest->setData(serialize($data));
+
+            $em->persist($dataRequest);
+            $em->flush();
+
+            return $this->render('Celsius3CoreBundle:Administration:index.html.twig');
+
+        }
+
+        return $this->render('Celsius3CoreBundle:Administration:request_data.html.twig', ['form' => $form->createView()]);
     }
 }

@@ -3899,6 +3899,70 @@
         <source>Sender</source>
         <target>Remitente</target>
       </trans-unit>
+      <trans-unit id="Send reminder email" resname="Send reminder email">
+        <source>Send reminder email</source>
+        <target>Enviar correo electrónico de recordatorio</target>
+      </trans-unit>
+      <trans-unit id="Instance data request" resname="Instance data request">
+        <source>Instance data request</source>
+        <target>Solicitud de datos de la instancia</target>
+      </trans-unit>
+      <trans-unit id="Send reminder email to users with pending deliver orders" resname="Send reminder email to users with pending deliver orders">
+        <source>Send reminder email to users with pending deliver orders</source>
+        <target>Enviar correo electrónico de recordatorio a usuarios que tengan pedidos con entrega pendiente</target>
+      </trans-unit>
+      <trans-unit id="Select a name for the request" resname="Select a name for the request">
+        <source>Select a name for the request</source>
+        <target>Seleccione un nombre para la solicitud</target>
+      </trans-unit>
+      <trans-unit id="Select dates range on which you wish to consult" resname="Select dates range on which you wish to consult">
+        <source>Select dates range on which you wish to consult</source>
+        <target>Seleccione el rango de fechas sobre el cual desea consultar</target>
+      </trans-unit>
+      <trans-unit id="Select the data set that you want to export" resname="Select the data set that you want to export">
+        <source>Select the data set that you want to export</source>
+        <target>Seleccione el conjunto de datos que desea exportar</target>
+      </trans-unit>
+      <trans-unit id="Material type" resname="Material type">
+        <source>Material type</source>
+        <target>Tipo de material</target>
+      </trans-unit>
+      <trans-unit id="Authors" resname="Authors">
+        <source>Authors</source>
+        <target>Autores</target>
+      </trans-unit>
+      <trans-unit id="Order states dates" resname="Order states dates">
+        <source>Order states dates</source>
+        <target>Fechas de los estados de un pedido</target>
+      </trans-unit>
+      <trans-unit id="Request data" resname="Request data">
+        <source>Request data</source>
+        <target>Solicitar datos</target>
+      </trans-unit>
+      <trans-unit id="Initial date" resname="Initial date">
+        <source>Initial date</source>
+        <target>Fecha inicial</target>
+      </trans-unit>
+      <trans-unit id="Final date" resname="Final date">
+        <source>Final date</source>
+        <target>Fecha final</target>
+      </trans-unit>
+      <trans-unit id="Created_s" resname="Created_s">
+        <source>Created_s</source>
+        <target>Creado</target>
+      </trans-unit>
+      <trans-unit id="Cancelled_s" resname="Cancelled_s">
+        <source>Cancelled_s</source>
+        <target>Cancelado</target>
+      </trans-unit>
+      <trans-unit id="Delivered_s" resname="Delivered_s">
+        <source>Delivered_s</source>
+        <target>Entregado</target>
+      </trans-unit>
+      <trans-unit id="Other tasks" resname="Other tasks">
+        <source>Other tasks</source>
+        <target>Otras tareas</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

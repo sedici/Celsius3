@@ -1,0 +1,211 @@
+{% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
+
+{% block title %}
+    {{ 'Instance data request' | trans }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        label.form-check-label input {
+            margin-right: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h3>{{ 'Instance data request' | trans }}</h3>
+        <hr class="separator_hr">
+        <div class="col-md-9">
+            {{ form_start(form) }}
+            <div class="row">
+                <fieldset>
+                    <legend>{{ 'Select a name for the request' | trans }}</legend>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form_label(form.name, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+                            <div class="col-md-10">
+                                {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <br>
+            <div class="row">
+                <fieldset>
+                    <legend>{{ 'Select dates range on which you wish to consult' | trans }}</legend>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.initialDate, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                            <div class="col-md-8">
+                                {{ form_widget(form.initialDate, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {{ form_label(form.finalDate, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                            <div class="col-md-8">
+                                {{ form_widget(form.finalDate, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <br>
+            <div class="row">
+                <fieldset>
+                    <legend>{{ 'Select the data set that you want to export' | trans }}</legend>
+                    <div class="row"
+                         style="border-top: 1px solid grey; border-left: 1px solid grey; border-right: 1px solid grey">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.code, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.code, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.date, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.type, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="border-left: 1px solid grey; border-right: 1px solid grey">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.materialType, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.materialType, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.title, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.authors, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.authors, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="border-left: 1px solid grey; border-right: 1px solid grey">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.year, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.year, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.startPage, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.startPage, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.endPage, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.endPage, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"
+                         style="border-top: 1px solid grey; border-left: 1px solid grey; border-right: 1px solid grey">
+                        <div class="col-md-3" style="border-right: 1px solid grey; height: 300px">
+                            <div class="form-group">
+                                {{ form_label(form.journal, null, { 'label_attr': {'class': 'control-label'} }) }}
+                                {{ form_widget(form.journal) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="border-right: 1px solid grey; height: 300px">
+                            <div class="form-group">
+                                {{ form_label(form.book, null, { 'label_attr': {'class': 'control-label'} }) }}
+                                {{ form_widget(form.book) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="border-right: 1px solid grey; height: 300px">
+                            <div class="form-group">
+                                {{ form_label(form.thesis, null, { 'label_attr': {'class': 'control-label'} }) }}
+                                {{ form_widget(form.thesis) }}
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {{ form_label(form.congress, null, { 'label_attr': {'class': 'control-label'} }) }}
+                                {{ form_widget(form.congress) }}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row" style="border-top: 1px solid grey">
+                        <div class="col-md-3"
+                             style="border-right: 1px solid grey; height: 300px; border-left: 1px solid grey; border-bottom: 1px solid grey"
+                        ">
+                        <div class="form-group">
+                            {{ form_label(form.states, null, { 'label_attr': {'class': 'control-label'} }) }}
+                            {{ form_widget(form.states) }}
+                        </div>
+                    </div>
+            </div>
+            <br>
+            </fieldset>
+        </div>
+        <br>
+        {{ form_end(form) }}
+    </div>
+
+    <div class="col-md-3">
+        <div id="accordion" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#collapseTwo" data-parent="#accordion" data-toggle="collapse"
+                           class="accordion-toggle">
+                            <span class="glyphicon glyphicon-wrench"></span> {{ 'Actions'|trans }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse in collapse" id="collapseTwo">
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="{{ path('administration') }}">
+                                    <span class="glyphicon glyphicon-plus"></span> {{ 'Go to Administration'|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

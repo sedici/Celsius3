@@ -245,7 +245,8 @@
                 </p>
 
                 <h2>{{ 'Other tasks' | trans }}</h2>
-                <a href="{{ { path: 'admin_send_reminder_emails' } | get_url }}" data-toggle="tooltip" title="{{ 'Send reminder email to users with pending deliver orders' | trans }}">{{ 'Send Reminder Email' | trans }}</a>
+                <div><a href="{{ { path: 'admin_send_reminder_emails' } | get_url }}" data-toggle="tooltip" title="{{ 'Send reminder email to users with pending deliver orders' | trans }}">{{ 'Send reminder email' | trans }}</a></div>
+                <div><a href="{{ { path: 'admin_instance_data_request' } | get_url }}" data-toggle="tooltip" title="{{ 'Instance data request' | trans }}">{{ 'Instance data request' | trans }}</a></div>
 
                 <div id="reject-user-modal" class="modal fade">
                 <div class="modal-dialog">
