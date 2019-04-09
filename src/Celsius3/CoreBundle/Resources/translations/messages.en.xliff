@@ -4050,6 +4050,38 @@
         <source>Target</source>
         <target>Target</target>
       </trans-unit>
+      <trans-unit id="Data requests list" resname="Data requests list">
+        <source>Data requests list</source>
+        <target>Data requests list</target>
+      </trans-unit>
+      <trans-unit id="Data" resname="Data">
+        <source>Data</source>
+        <target>Data</target>
+      </trans-unit>
+      <trans-unit id="states" resname="states">
+        <source>states</source>
+        <target>States</target>
+      </trans-unit>
+      <trans-unit id="materialType" resname="materialType">
+        <source>materialType</source>
+        <target>Material type</target>
+      </trans-unit>
+      <trans-unit id="frecuency" resname="frecuency">
+        <source>frecuency</source>
+        <target>Frecuency</target>
+      </trans-unit>
+      <trans-unit id="abbreviation" resname="abbreviation">
+        <source>abbreviation</source>
+        <target>Abbreviation</target>
+      </trans-unit>
+      <trans-unit id="Data requests" resname="Data requests">
+        <source>Data requests</source>
+        <target>Data requests</target>
+      </trans-unit>
+      <trans-unit id="Export" resname="Export">
+        <source>Export</source>
+        <target>Export</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

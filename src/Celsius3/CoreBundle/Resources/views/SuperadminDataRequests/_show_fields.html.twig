@@ -1,0 +1,23 @@
+<dl class="dl-horizontal">
+    <dt>{{ 'Initial date' | trans }}</dt>
+    <dd>{{ element.startDate | localizeddate('medium', 'none') }}</dd>
+    <dt>{{ 'Final date' | trans }}</dt>
+    <dd>{{ element.endDate | localizeddate('medium', 'none') }}</dd>
+    <dt>{{ 'Data' | trans }}</dt>
+    <dd>
+        {% for k,v in element.getArrayData() %}
+            {% if v is iterable %}
+                {% for i,a in v %}
+                    {% set first = true %}
+                    {{ i | trans }}{{ ' [' }}{% for e in a %}{% if not first %}{{ ', ' }}{{ e | trans }}{% else %}{{ e | trans }}{% set first = false %}{% endif %}{% endfor %}{{ ']' }}
+                {% endfor %}
+                <br>
+            {% else %}
+                {{ v | trans }}
+                <br>
+            {% endif %}
+        {% endfor %}
+    </dd>
+    <dt>{{ 'File' | trans }}</dt>
+    <dd>{{ element.file }}</dd>
+</dl>

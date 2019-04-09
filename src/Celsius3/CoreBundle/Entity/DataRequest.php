@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\DataRequestRepository")
+ * @ORM\Entity
  * @ORM\Table(name="data_request")
  */
 class DataRequest
@@ -47,12 +47,12 @@ class DataRequest
     protected $name;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(name="start_date", type="date")
      */
     protected $startDate;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(name="end_date", type="date")
      */
     protected $endDate;
 
@@ -66,6 +66,21 @@ class DataRequest
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $exported = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $downloaded = false;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $file;
 
     /**
      * DataRequest constructor.
@@ -94,6 +109,11 @@ class DataRequest
     public function getData()
     {
         return $this->data;
+    }
+
+    public function getArrayData()
+    {
+        return unserialize($this->data);
     }
 
     /**
@@ -172,6 +192,58 @@ class DataRequest
     {
         $this->endDate = $endDate;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExported()
+    {
+        return $this->exported;
+    }
+
+    /**
+     * @param mixed $exported
+     */
+    public function setExported($exported)
+    {
+        $this->exported = $exported;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDownloaded()
+    {
+        return $this->downloaded;
+    }
+
+    /**
+     * @param mixed $downloaded
+     */
+    public function setDownloaded($downloaded)
+    {
+        $this->downloaded = $downloaded;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param mixed $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
     }
 
 }

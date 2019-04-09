@@ -49,10 +49,6 @@ class DataRequestType extends AbstractType
                 'data' => new \DateTime('now'),
                 'widget' => 'single_text'
             ])
-            ->add('code', CheckboxType::class, [
-                'label' => 'Code',
-                'required' => false,
-            ])
             ->add('date', CheckboxType::class, [
                 'label' => 'Date',
                 'required' => false,

@@ -45,3 +45,4 @@ parameters:
 
     upload_root_dir: /var/orders/
     logos_upload_dir: /var/www/Celsius3/web/uploads/logos/
+    data_requests_directory: '/var/data_requests/'
