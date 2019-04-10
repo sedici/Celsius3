@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller;
 
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Form\Type\DataRequestType;
+use Celsius3\CoreBundle\Manager\Alert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -202,17 +203,13 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function dataRequestAction(Request $request)
     {
-        $form = $this->createForm(DataRequestType::class);
+        $dataRequest = new DataRequest($this->getInstance());
+        $form = $this->createForm(DataRequestType::class, $dataRequest);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $dataRequest = new DataRequest($this->getInstance(), $form->get('initialDate')->getData(), $form->get('finalDate')->getData());
 
-            if ($form->has('name') && $name = $form->get('name')->getData()) {
-                $dataRequest->setName($name);
-            }
-
-            foreach ($form->getData() as $k => $v) {
+        if ($form->isSubmitted()) {
+            $data = null;
+            foreach ($request->request->get('data_request') as $k => $v) {
                 if (is_bool($v) && $v) {
                     $data[] = $k;
                 } elseif (is_array($v) && !empty($v)) {
@@ -220,12 +217,18 @@ class AdministrationController extends BaseInstanceDependentController
                 }
             }
 
-            $dataRequest->setData(serialize($data));
+            if ($data) {
+                $dataRequest->setData(serialize($data));
+            }
 
-            $em->persist($dataRequest);
-            $em->flush();
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($dataRequest);
+                $em->flush();
 
-            return $this->render('Celsius3CoreBundle:Administration:index.html.twig');
+                Alert::add(Alert::SUCCESS, 'The data request was successfully registered.');
+                return $this->render('Celsius3CoreBundle:Administration:index.html.twig');
+            }
 
         }
 

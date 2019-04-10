@@ -39,12 +39,12 @@ class DataRequestType extends AbstractType
                 'label' => 'Name',
                 'required' => false
             ])
-            ->add('initialDate', DateType::class, [
+            ->add('startDate', DateType::class, [
                 'label' => 'Initial date',
                 'data' => \DateTime::createFromFormat('Y-m-d', '1990-01-01'),
                 'widget' => 'single_text'
             ])
-            ->add('finalDate', DateType::class, [
+            ->add('endDate', DateType::class, [
                 'label' => 'Final date',
                 'data' => new \DateTime('now'),
                 'widget' => 'single_text'
@@ -52,10 +52,12 @@ class DataRequestType extends AbstractType
             ->add('date', CheckboxType::class, [
                 'label' => 'Date',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('type', CheckboxType::class, [
                 'label' => 'Type',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('states', ChoiceType::class, [
                 'label' => 'Order states dates',
@@ -71,30 +73,37 @@ class DataRequestType extends AbstractType
                     'Received' => 'received',
                     'Delivered_s' => 'delivered'
                 ],
+                'mapped' => false
             ])
             ->add('materialType', CheckboxType::class, [
                 'label' => 'Material type',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('title', CheckboxType::class, [
                 'label' => 'Title',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('authors', CheckboxType::class, [
                 'label' => 'Authors',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('year', CheckboxType::class, [
                 'label' => 'Year',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('startPage', CheckboxType::class, [
                 'label' => 'Start page',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('endPage', CheckboxType::class, [
                 'label' => 'End page',
                 'required' => false,
+                'mapped' => false
             ])
             ->add('journal', ChoiceType::class, [
                 'label' => 'Journal',
@@ -110,7 +119,8 @@ class DataRequestType extends AbstractType
                     'Responsible' => 'responsible',
                     'Frecuency' => 'frecuency',
                     'Abbreviation' => 'abbreviation'
-                ]
+                ],
+                'mapped' => false
             ])
             ->add('book', ChoiceType::class, [
                 'label' => 'Book',
@@ -121,7 +131,8 @@ class DataRequestType extends AbstractType
                     'Editor' => 'editor',
                     'Chapter' => 'chapter',
                     'ISBN' => 'isbn'
-                ]
+                ],
+                'mapped' => false
             ])
             ->add('thesis', ChoiceType::class, [
                 'label' => 'Thesis',
@@ -131,7 +142,8 @@ class DataRequestType extends AbstractType
                 'choices' => [
                     'Director' => 'director',
                     'Degree' => 'degree'
-                ]
+                ],
+                'mapped' => false
             ])
             ->add('congress', ChoiceType::class, [
                 'label' => 'Congress',
@@ -141,7 +153,8 @@ class DataRequestType extends AbstractType
                 'choices' => [
                     'Place' => 'place',
                     'Communication' => 'communication'
-                ]
+                ],
+                'mapped' => false
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Request data'

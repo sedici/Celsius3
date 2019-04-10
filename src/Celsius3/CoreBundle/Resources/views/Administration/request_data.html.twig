@@ -23,10 +23,13 @@
                 <fieldset>
                     <legend>{{ 'Select a name for the request' | trans }}</legend>
                     <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group {% if form.name.vars.errors | length > 0 %}has-error{% endif %}">
                             {{ form_label(form.name, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
                             <div class="col-md-10">
                                 {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+                                {% for error in form.name.vars.errors %}
+                                    <p class="text-danger">{{ error.message }}</p>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -38,17 +41,17 @@
                     <legend>{{ 'Select dates range on which you wish to consult' | trans }}</legend>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ form_label(form.initialDate, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                            {{ form_label(form.startDate, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
                             <div class="col-md-8">
-                                {{ form_widget(form.initialDate, { 'attr': {'class': 'form-control'} }) }}
+                                {{ form_widget(form.startDate, { 'attr': {'class': 'form-control'} }) }}
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ form_label(form.finalDate, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
+                            {{ form_label(form.endDate, null, { 'label_attr': {'class': 'col-md-4 control-label'} }) }}
                             <div class="col-md-8">
-                                {{ form_widget(form.finalDate, { 'attr': {'class': 'form-control'} }) }}
+                                {{ form_widget(form.endDate, { 'attr': {'class': 'form-control'} }) }}
                             </div>
                         </div>
                     </div>
@@ -58,6 +61,9 @@
             <div class="row">
                 <fieldset>
                     <legend>{{ 'Select the data set that you want to export' | trans }}</legend>
+                    {% for error in form.vars.errors %}
+                        <p class="text-danger">{{ 'No data selected' | trans }}</p>
+                    {% endfor %}
                     <div class="row"
                          style="border-top: 1px solid grey; border-left: 1px solid grey; border-right: 1px solid grey">
                         <div class="col-md-4">

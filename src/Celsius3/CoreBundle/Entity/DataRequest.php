@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -43,21 +44,25 @@ class DataRequest
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     protected $name;
 
     /**
      * @ORM\Column(name="start_date", type="date")
+     * @Assert\Date()
      */
     protected $startDate;
 
     /**
      * @ORM\Column(name="end_date", type="date")
+     * @Assert\Date()
      */
     protected $endDate;
 
     /**
      * @ORM\Column(type="text", nullable=false)
+     * @Assert\NotNull()
      */
     protected $data;
 
@@ -84,14 +89,12 @@ class DataRequest
 
     /**
      * DataRequest constructor.
-     * @param $startDate
-     * @param $endDate
+     *
+     * @param $instance Instance
      */
-    public function __construct($instance, $startDate, $endDate)
+    public function __construct($instance)
     {
         $this->instance = $instance;
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
     }
 
 
@@ -143,7 +146,7 @@ class DataRequest
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -152,7 +155,7 @@ class DataRequest
      * @param string $name
      * @return DataRequest
      */
-    public function setName(string $name): DataRequest
+    public function setName(string $name)
     {
         $this->name = $name;
         return $this;

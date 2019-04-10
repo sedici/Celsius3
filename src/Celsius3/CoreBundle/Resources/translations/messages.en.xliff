@@ -4082,6 +4082,10 @@
         <source>Export</source>
         <target>Export</target>
       </trans-unit>
+      <trans-unit id="No data selected" resname="No data selected">
+        <source>No data selected</source>
+        <target>No data selected</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
