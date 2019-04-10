@@ -44,10 +44,10 @@ class ExportDataCommand extends ContainerAwareCommand
     private $thesisTypeJoined = false;
     private $congressTypeJoined = false;
     private $statesJoined = false;
+    private $requestJoined = false;
 
     protected function configure()
     {
-        // Hacer argumento opcional y si no
         $this->setName('celsius3:export-data')
             ->setDescription('Exporta los datos de una instancia dada una solicitud de datos.')
             ->addArgument('data-request-id', InputArgument::REQUIRED, 'Data request identifier');
@@ -131,6 +131,41 @@ class ExportDataCommand extends ContainerAwareCommand
         $this->$f($qb);
     }
 
+    private function addCreated(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'created', s.createdAt, NULL)) AS created_date");
+    }
+
+    private function addAnnulled(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'annulled', s.createdAt, NULL)) AS annulled_date");
+    }
+
+    private function addCancelled(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'cancelled', s.createdAt, NULL)) AS cancelled_date");
+    }
+
+    private function addSearched(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'searched', s.createdAt, NULL)) AS searched_date");
+    }
+
+    private function addRequested(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'requested', s.createdAt, NULL)) AS requested_date");
+    }
+
+    private function addReceived(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'received', s.createdAt, NULL)) AS received_date");
+    }
+
+    private function addDelivered(&$qb)
+    {
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'delivered', s.createdAt, NULL)) AS delivered_date");
+    }
+
     private function addDate(&$qb)
     {
         $qb->addSelect('o.createdAt date');
@@ -145,7 +180,7 @@ class ExportDataCommand extends ContainerAwareCommand
     private function addMaterialType(&$qb)
     {
         $this->joinMaterialType($qb);
-        $qb->addSelect('m.type material_type');
+        $qb->addSelect('TYPE(m) AS material_type');
     }
 
     private function addTitle(&$qb)
@@ -270,7 +305,10 @@ class ExportDataCommand extends ContainerAwareCommand
 
     private function joinRequest(&$qb)
     {
-        $qb->innerJoin('o.originalRequest', 'r');
+        if (!$this->requestJoined) {
+            $qb->innerJoin('o.originalRequest', 'r');
+            $this->requestJoined = true;
+        }
     }
 
     private function joinMaterialType(&$qb)
@@ -327,7 +365,8 @@ class ExportDataCommand extends ContainerAwareCommand
         $this->joinRequest($qb);
 
         if (!$this->statesJoined) {
-            $qb->leftJoin(State::class, 's', Join::ON, 's.request_id = r.id');
+            $qb->groupBy('o.id');
+            $qb->leftJoin(State::class, 's', Join::WITH, 's.request = r.id');
             $this->statesJoined = true;
         }
     }
