@@ -247,4 +247,15 @@ administrationControllers.controller('AdministrationCtrl', ['$scope', '$routePar
         $scope.fullAdminName = function (admin) {
             return $filter('first_upper')(admin.surname) + ', ' + $filter('first_upper')(admin.name) + ' (' + $filter('lowercase')(admin.username) + ')';
         }
+
+        $scope.loadDataRequests = function() {
+            $http.post(Routing.generate('admin_instance_data_requests_get'))
+                .then(function (response) {
+                    console.log(response);
+                    $scope.data_requests = response.data;
+                }, function (response) {
+                    generateCelsiusAlert(response);
+                });
+        }
+        $scope.loadDataRequests();
     }]);

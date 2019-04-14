@@ -204,34 +204,68 @@ class AdministrationController extends BaseInstanceDependentController
     public function dataRequestAction(Request $request)
     {
         $dataRequest = new DataRequest($this->getInstance());
+
+        $data = null;
+        foreach ($request->request->get('data_request') as $k => $v) {
+            if ($v === "1") {
+                $data[] = $k;
+            } elseif (is_array($v) && !empty($v)) {
+                $data[] = [$k => $v];
+            }
+        }
+
+        if ($data) {
+            $dataRequest->setData(serialize($data));
+        }
+
         $form = $this->createForm(DataRequestType::class, $dataRequest);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $data = null;
-            foreach ($request->request->get('data_request') as $k => $v) {
-                if (is_bool($v) && $v) {
-                    $data[] = $k;
-                } elseif (is_array($v) && !empty($v)) {
-                    $data[] = [$k => $v];
-                }
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($dataRequest);
+            $em->flush();
 
-            if ($data) {
-                $dataRequest->setData(serialize($data));
-            }
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($dataRequest);
-                $em->flush();
-
-                Alert::add(Alert::SUCCESS, 'The data request was successfully registered.');
-                return $this->render('Celsius3CoreBundle:Administration:index.html.twig');
-            }
-
+            Alert::add(Alert::SUCCESS, 'The data request was successfully registered.');
+            return $this->render('Celsius3CoreBundle:Administration:index.html.twig');
         }
 
         return $this->render('Celsius3CoreBundle:Administration:request_data.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/{id}/data_request_download", name="admin_instance_data_request_download", options={"expose"=true})
+     */
+    public function dataRequestDownloadAction(Request $request, DataRequest $dataRequest)
+    {
+        $filename = $dataRequest->getFile();
+        $directory = $directory = $this->getParameter('data_requests_directory');
+        $filepath = $directory . $filename;
+
+        if (!file_exists($filepath)) {
+            Alert::add(Alert::ERROR, 'The requested file does not exists.');
+            return $this->redirectToRoute('administration');
+        }
+
+        $response = new Response();
+        $response->headers->set('Content-type', mime_content_type($filepath));
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');
+        $response->headers->set('Content-length', filesize($filepath));
+        $response->sendHeaders();
+        $response->setContent(readfile($filepath));
+
+        return $response;
+    }
+
+
+    /**
+     * @Route("/data_request_get", name="admin_instance_data_requests_get", options={"expose"=true})
+     */
+    public function dataRequestGetAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $result = $em->getRepository(DataRequest::class)->findExportedRequests($this->getInstance());
+
+        return new Response(json_encode($result));
     }
 }
