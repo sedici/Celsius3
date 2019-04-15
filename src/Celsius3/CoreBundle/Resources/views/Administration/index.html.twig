@@ -246,7 +246,7 @@
 
                 <h2>{{ 'Other tasks' | trans }}</h2>
                 <div><p><a href="{{ { path: 'admin_send_reminder_emails' } | get_url }}" data-toggle="tooltip" title="{{ 'Send reminder email to users with pending deliver orders' | trans }}">{{ 'Send reminder email' | trans }}</a></p></div>
-                <div>
+                <div ng-if="user_role == 'ROLE_SUPER_ADMIN'">
                  <p>
                     <div>
                         <a href="{{ { path: 'admin_instance_data_request' } | get_url }}" data-toggle="tooltip" title="{{ 'Instance data request' | trans }}">

@@ -12,6 +12,8 @@ administrationControllers.controller('AdministrationCtrl', ['$scope', '$routePar
             direction: 'asc'
         };
 
+        $scope.user_role = user_role;
+
         $scope.countSearches = function (request) {
             return _.filter(request.events, function (e) {
                 return e.type === 'search' && e.result !== 'non_searched';
