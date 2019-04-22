@@ -54,6 +54,10 @@ class ConfigurationListener
                     $new->setValue(sha1($entity->getUrl().$entity->getName()));
                 }
 
+                if ($new->getKey() == 'instance_title') {
+                    $new->setValue($entity->getName());
+                }
+
                 $em->persist($new);
             }
             $em->flush();
