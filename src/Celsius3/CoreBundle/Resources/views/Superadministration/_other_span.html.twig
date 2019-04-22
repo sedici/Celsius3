@@ -4,7 +4,7 @@
 <br/>
 <div class="panel panel-default">
     <div class="panel-body">
-        <h2>{{ 'Other'|trans }}</h2>
+        <h2>{{ 'Other' | trans }}</h2>
         <hr class="separator_hr">
         <div class="row">
             <div class="col-md-6">
@@ -13,7 +13,7 @@
                         <div class="btn-group">
                             <a href="{{ path('superadmin_user') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-list"></span>
-                                {{ 'Users'|trans }}</a>
+                                {{ 'Users' | trans }}</a>
                             <a href="{{ path('superadmin_user_new') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
@@ -23,7 +23,7 @@
                         <div class="btn-group">
                             <a href="{{ path('superadmin_news') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-font"></span>
-                                {{ 'Directory News'|trans }}</a>
+                                {{ 'Directory News' | trans }}</a>
                             <a href="{{ path('superadmin_news_new') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
@@ -32,24 +32,18 @@
                     <li>
                         <a href="{{ path('superadmin_directory_configure') }}" class="btn btn-default btn-group-alone">
                             <span class="glyphicon glyphicon-list"></span>
-                            {{ 'Configure Directory'|trans }}</a>
+                            {{ 'Configure Directory' | trans }}</a>
                     </li>
-
                     <li>
-                        
-                            <ul class="list-unstyled btn-group-list">
-                                <li>
-                                    <a href="{{ path('superadmin_maillist') }}" class="btn btn-default">
-                                        <span class="glyphicon glyphicon-list"></span>
-                                        {{ 'Mail List'|trans }}</a>
-
-                                </li>
-
-                            </ul>
-                        
+                        <a href="{{ path('superadmin_maillist') }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                            {{ 'Mail List' | trans }}</a>
                     </li>
-
-
+                    <li>
+                        <a href="{{ path('superadmin_data_request_index') }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                            {{ 'Data requests' | trans }}</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-6">
@@ -58,7 +52,7 @@
                         <div class="btn-group">
                             <a href="{{ path('superadmin_order') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-list"></span>
-                                {{ 'Orders'|trans }}</a>
+                                {{ 'Orders' | trans }}</a>
                             <a href="{{ path('superadmin_order_new') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
@@ -68,34 +62,25 @@
                         <div class="btn-group">
                             <a href="{{ path('superadmin_contact') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-list"></span>
-                                {{ 'Contacts'|trans }}</a>
+                                {{ 'Contacts' | trans }}</a>
                             <a href="{{ path('superadmin_contact_new') }}" class="btn btn-default">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
                         </div>
                     </li>
                     <li>
-                        <a data-toggle="modal" data-target="#message-modal" class="btn btn-default btn-group-alone">{{ 'message.modal.header'|trans }}</a>
+                        <a data-toggle="modal" data-target="#message-modal"
+                           class="btn btn-default btn-group-alone">{{ 'message.modal.header' | trans }}</a>
                     </li>
-                    
                     <li>
-                        </div>
-                            <div class="col-md-6">
-                                <ul class="list-unstyled btn-group-list">
-                                    <li>
-                                        <a href="{{ path('superadmin_admin') }}" class="btn btn-default">
-                                            <span class="glyphicon glyphicon-list"></span>
-                                            {{ 'Administrator'|trans }}</a>
+                        <a href="{{ path('superadmin_admin') }}" class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                            {{ 'Administrator' | trans }}</a>
 
-                                    </li>
-
-                                </ul>
-                        </div>
                     </li>
+
                 </ul>
-            
-              
-           
+            </div>
         </div>
     </div>
 </div>
@@ -133,7 +118,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'modal.button.close' | trans }}</button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">{{ 'modal.button.close' | trans }}</button>
                     <button type="submit" class="btn btn-primary">{{ 'message.modal.button.save' | trans }}</button>
                 </div>
             </form>

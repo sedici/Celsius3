@@ -1,0 +1,8 @@
+{% if not element.exported %}
+    <ul class="list-unstyled pull-right actions">
+        <li>
+            <a href="{{ path('superadmin_data_request_export', { 'id': element.id }) }}"><span
+                        class="glyphicon glyphicon-export"></span> {{ 'Export' | trans }}</a>
+        </li>
+    </ul>
+{% endif %}

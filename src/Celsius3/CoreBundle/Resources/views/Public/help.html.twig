@@ -5,68 +5,74 @@
 {% endblock %}
 
 {% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#id_acerca_de').show();
+        $('#id_manual').hide();
 
-     {{parent()}}
-   <script>
-   $('#id_acerca_de').show();
-   $('#id_manual').hide();
-     
-    function cambiarContenido(id_show,id_hide){
-        $('#'+id_show).show();
-        $('#'+id_hide).hide();
-
-
-       
-    }
+        function cambiarContenido(id_show, id_hide) {
+            $('#' + id_show).show();
+            $('#' + id_hide).hide();
+        }
     </script>
 {% endblock %}
 
 {% block content %}
-
-<br/>
-
-
-    <div class="panel panel-default">
-        <div class="panel-body"><h2> {{ 'Help'|trans }} </h2> </div>
-    </div>
- <div class="col-md-3">
- 	   <div id="accordion" class="panel-group">
-    	<div class="panel panel-default">
-        	<div class="panel-heading">
-                <h4 class="panel-title">
-                <a href="javascript:cambiarContenido('id_acerca_de','id_manual')">
-                {{ 'Acerca de'|trans }}
-                </a>
-                </h4>
-            </div>
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                <a href="javascript:cambiarContenido('id_manual','id_acerca_de')">
-                	{{ 'Descarga'|trans }}
-                 </a>
-                </h4>
+    <h2> {{ 'Help'|trans }} </h2>
+    <hr class="separator_hr">
+    <div class="col-md-3">
+        <div id="accordion" class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="javascript:cambiarContenido('id_acerca_de','id_manual')">
+                            {{ 'Acerca de'|trans }}
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="javascript:cambiarContenido('id_manual','id_acerca_de')">
+                            {{ 'Descarga'|trans }}
+                        </a>
+                    </h4>
+                </div>
             </div>
         </div>
     </div>
- </div>
- <div class="col-md-9" >
- 	<div id='id_acerca_de'>
-    
+    <div class="col-md-9">
+        <div id='id_acerca_de'>
+            <h2>CELSIUS 3</h2>
+            <p>
+                Celsius es el software utilizado por los miembros de ISTEC que participan de la iniciativa LibLink para
+                gestionar los pedidos de material bibliográfico de sus usuarios, atender solicitudes de provisión desde
+                otras instituciones participantes, facilitar el intercambio de los documentos y generar estadísticas que
+                permiten transparentar el intercambio y evaluar la calidad del trabajo de los participantes. Este
+                software es desarrollado por la UNLP, y su primera versión data del año 2001. Celsius es ofrecido a
+                todas las instituciones participantes de manera gratuita, a quienes también se les brinda documentación
+                actualizada y asistencia personalizada para realizar la instalación y mantenimiento, instalar
+                actualizaciones y formar al equipo de personas que utilizarán esta herramienta en cada institución.
+            </p>
+            <p>
+                El proyecto Celsius3 tiene como característica principal la gestión centralizada de todas las instancias
+                de Celsius de los miembros de LibLink. Esto implica, por un lado, la creación de instancias a medidas
+                que se incorporan nuevos miembros, y por el otro la centralización todas las instalaciones existentes de
+                Celsius 1.x y 2.x, lo que implica a su vez las migraciones y normalizaciones de sus respectivas bases de
+                datos. Cabe aclarar que, si bien se busca contar con una instalación única y centralizada de esta
+                plataforma, las instituciones seguirán contando con su propia instancia de Celsius: usuarios, pedidos,
+                administradores, comunicaciones y estadísticas de cada instancia serán datos que gestionará cada
+                institución de manera independiente del resto. Además la plataforma está pensada para que puedan
+                mantener sus dominios actuales de acceso a Celsius.
+            </p>
 
-    <h2>CELSIUS 3</h2>
-    <p>
-        Celsius es el software utilizado por los miembros de ISTEC que participan de la iniciativa LibLink para gestionar los pedidos de material bibliográfico de sus usuarios, atender solicitudes de provisión desde otras instituciones participantes, facilitar el intercambio de los documentos y generar estadísticas que permiten transparentar el intercambio y evaluar la calidad del trabajo de los participantes. Este software es desarrollado por la UNLP, y su primera versión data del año 2001. Celsius es ofrecido a todas las instituciones participantes de manera gratuita, a quienes también se les brinda documentación actualizada y asistencia personalizada para realizar la instalación y mantenimiento, instalar actualizaciones y formar al equipo de personas que utilizarán esta herramienta en cada institución.
-    </p>
-    <p>
-        El proyecto Celsius3 tiene como característica principal la gestión centralizada de todas las instancias de Celsius de los miembros de LibLink. Esto implica, por un lado, la creación de instancias a medidas que se incorporan nuevos miembros, y por el otro la centralización todas las instalaciones existentes de Celsius 1.x y 2.x, lo que implica a su vez las migraciones y normalizaciones de sus respectivas bases de datos. Cabe aclarar que, si bien se busca contar con una instalación única y centralizada de esta plataforma, las instituciones seguirán contando con su propia instancia de Celsius: usuarios, pedidos, administradores, comunicaciones y estadísticas de cada instancia serán datos que gestionará cada institución de manera independiente del resto. Además la plataforma está pensada para que puedan mantener sus dominios actuales de acceso a Celsius.
-    </p>
+            {{ staff | raw }}
 
-    {{ staff | raw }}
-
+        </div>
+        <div id="id_manual"><h2>Manual de administración</h2><br/>
+            Descargue el manual desde el siguiente link: <a
+                    href="http://servicio.prebi.unlp.edu.ar/uploads/ayuda/Manual_de_administracion_de_Celsius3_v1.0.pdf"
+                    target="_blank"> Manual de administración</a>
+        </div>
     </div>
- 	<div id="id_manual"><h2>Manual de administración</h2><br/>
-        Descargue el manual desde el siguiente link: <a href="http://servicio.prebi.unlp.edu.ar/uploads/ayuda/Manual_de_administracion_de_Celsius3_v1.0.pdf" target="_blank"> Manual de administración</a>
-    </div>
- </div>
 
 {% endblock %}
