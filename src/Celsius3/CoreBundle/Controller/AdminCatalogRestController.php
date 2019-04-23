@@ -47,7 +47,7 @@ class AdminCatalogRestController extends BaseInstanceDependentRestController
         $em = $this->getDoctrine()->getManager();
 
         $catalogs = $em->getRepository('Celsius3CoreBundle:Catalog')
-                ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory())
+                ->findForInstanceAndGlobalWithoutDisabled($this->getInstance(), $this->getDirectory())
                 ->getQuery()
                 ->execute();
 
