@@ -284,11 +284,6 @@ services:
         class: Celsius3\CoreBundle\Mailer\FosMailer
         public: false
         arguments: ['@mailer', '@router', '@templating', { confirmation.template: '%fos_user.registration.confirmation.template%', resetting.template: '%fos_user.resetting.email.template%', from_email: { confirmation: '%fos_user.registration.confirmation.from_email%', resetting: '%fos_user.resetting.email.from_email%' } }, '@request_stack', '@celsius3_core.instance_helper', '@celsius3_core.mailer_helper', '@celsius3_core.mail_manager', '@twig']
-    celsius3.maintenance_mode_listener:
-        class: Celsius3\CoreBundle\EventListener\MaintenanceModeListener
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 10 }
-        arguments: ['%maintenance_mode_file%', '%maintenance_mode_dir%', '%maintenance_mode_template%', '@templating']
     celsius3_core.mailer_helper:
         class: Celsius3\CoreBundle\Helper\MailerHelper
         arguments: ['@service_container']

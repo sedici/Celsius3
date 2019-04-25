@@ -28,10 +28,8 @@ parameters:
     node_path: /usr/bin/nodejs
     node_modules: /usr/lib/node_modules
 
-    maintenance_mode_dir: /app/mode/
-    maintenance_mode_file: maintenance.mode
-    maintenance_mode_template: 'Celsius3CoreBundle:Mode:maintenance.html.twig'
-    
+    virtual_host_config_file: /etc/apache2/sites-enabled/Celsius3.conf
+
     assets_version: v0.0.0
     assets_version_administration: v0.0.0
     assets_version_admin_order: v0.0.0

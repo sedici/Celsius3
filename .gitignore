@@ -30,8 +30,7 @@
 *~
 
 # Maintenance Mode
-/app/mode/*
-!/app/mode/.gitkeep
+/web/maintenance/index.html
 
 # Node modules
 /node_modules/

@@ -41,29 +41,35 @@ class MaintenanceModeCommand extends ContainerAwareCommand
     {
         $status = $input->getArgument('status');
 
-        $class = new \ReflectionClass($this);
-        $basedir = dirname($class->getFileName()) . '/../../../..';
-        $modedir = $basedir . $this->getContainer()->getParameter('maintenance_mode_dir');
-        $filename = $modedir . $this->getContainer()->getParameter('maintenance_mode_file');
+        $projectDir = $this->getContainer()->getParameter('kernel.project_dir');
+        $configFile = $this->getContainer()->getParameter('virtual_host_config_file');
+
+        $directoryIndex = 'DirectoryIndex app.php';
+        $maintenanceDirectoryIndex = 'DirectoryIndex index.html';
+        $documentRoot = $projectDir .'/web';
+        $maintenanceDocumentRoot = $documentRoot . '/maintenance';
 
         if ($status === 'enabled') {
-            if (!file_exists($filename)) {
-                $file = fopen($filename, 'w');
-                fclose($file);
-            }
-            $output->writeln('The maintenance mode has been enabled.');
-        }
+            $file = $projectDir . '/web/maintenance/index.html';
+            $data = $this->getContainer()->get('twig')->render('Celsius3CoreBundle:Mode:maintenance.html.twig');
 
-        if ($status === 'disabled') {
-            if (file_exists($filename)) {
-                unlink($filename);
-            }
-            $output->writeln('The maintenance mode has been enabled.');
-        }
+            file_put_contents($file, $data);
 
-        if ($status !== 'enabled' && $status !== 'disabled') {
+            shell_exec("sudo sed -i 's%$documentRoot\"%$maintenanceDocumentRoot\"%g' $configFile");
+            shell_exec("sudo sed -i 's%$directoryIndex%$maintenanceDirectoryIndex%g' $configFile");
+
+            $output->writeln('The maintenance mode has been enabled.');
+        } elseif ($status === 'disabled') {
+            shell_exec("sudo sed -i 's%$maintenanceDocumentRoot\"%$documentRoot\"%g' $configFile");
+            shell_exec("sudo sed -i 's%$maintenanceDirectoryIndex%$directoryIndex%g' $configFile");
+
+            $output->writeln('The maintenance mode has been disabled.');
+        } else {
             $output->writeln('The argument ' . $status . ' is not supported.');
+            return;
         }
+
+        shell_exec('sudo service apache2 reload');
     }
 
 }
