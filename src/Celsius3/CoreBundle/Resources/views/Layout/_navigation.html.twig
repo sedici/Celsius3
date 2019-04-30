@@ -53,7 +53,7 @@
         {{ local_macro.admin_menu(instance) }}
     {% endif %}
 
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) and local %}
+    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) %}
         {{ local_macro.admin_menu(instance) }}
     {% endif %}
 
