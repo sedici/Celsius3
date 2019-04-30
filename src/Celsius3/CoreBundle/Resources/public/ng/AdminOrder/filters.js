@@ -24,7 +24,7 @@ orderFilters.filter('get_url', function () {
     };
 });
 
-orderFilters.filter('state', function ($translate) {
+orderFilters.filter('state', function () {
     return function (input) {
         return input.enabled === true ? 'enabled' : 'disabled';
     };
