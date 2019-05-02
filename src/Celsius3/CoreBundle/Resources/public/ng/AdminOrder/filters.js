@@ -74,7 +74,11 @@ orderFilters.filter('first_upper', function () {
 
         var t = '';
         for (var i = 0; i < words.length; i++) {
-            t += words[i].charAt(0).toUpperCase() + words[i].substr(1).toLowerCase() + ' ';
+            if (words[i].length > 3 || i === 0) {
+                t += words[i].charAt(0).toUpperCase() + words[i].substr(1).toLowerCase() + ' ';
+            } else {
+                t += words[i].toLowerCase() + ' ';
+            }
         }
 
         return t;

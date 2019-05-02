@@ -18,7 +18,7 @@
                     <span ng-bind="$select.selected.name"></span>
                 </ui-select-match>
                 <ui-select-choices repeat="c in (countries | filter: $select.search) track by c.id">
-                    <span ng-bind="c.name"></span>
+                    <span ng-bind="c.name | first_upper"></span>jajaja
                 </ui-select-choices>
             </ui-select>
         </div>
@@ -29,7 +29,7 @@
                     <span ng-bind="$select.selected.name"></span>
                 </ui-select-match>
                 <ui-select-choices repeat="c in (cities | filter: $select.search) track by c.id">
-                    <span ng-bind="c.name"></span>
+                    <span ng-bind-html="c.name | first_upper"></span>
                 </ui-select-choices>
             </ui-select>
         </div>

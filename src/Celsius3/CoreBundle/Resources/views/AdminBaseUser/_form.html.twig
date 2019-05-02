@@ -164,7 +164,7 @@
         <div class="form-group {% if not form.country.vars.valid %} has-error {% endif %}">
             {{ form_label(form.country, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
             <div class="col-md-10">
-                {{ form_widget(form.country, { 'attr': {'class': 'form-control country-select'} }) }}
+                {{ form_widget(form.country, { 'attr': {'class': 'form-control country-select', 'data-placeholder': 'label.country' | trans([], 'Celsius3CoreBundle_Form') | first_upper} }) }}
                 {% for error in form.country.vars.errors %}
                     <p class="text-danger">{{ error.message }}</p>
                 {% endfor %}
@@ -178,7 +178,7 @@
         <div class="form-group {% if not form.city.vars.valid %} has-error {% endif %}">
             {{ form_label(form.city, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
             <div class="col-md-10">
-                {{ form_widget(form.city, { 'attr': {'class': 'form-control city-select'} }) }}
+                {{ form_widget(form.city, { 'attr': {'class': 'form-control city-select', 'data-placeholder': 'label.city' | trans([], 'Celsius3CoreBundle_Form') | first_upper} }) }}
                 {% for error in form.city.vars.errors %}
                     <p class="text-danger">{{ error.message }}</p>
                 {% endfor %}
@@ -192,7 +192,7 @@
         <div class="form-group {% if not form.institution.vars.valid %} has-error {% endif %}">
             {{ form_label(form.institution, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
             <div class="col-md-10">
-                {{ form_widget(form.institution, { 'attr': {'class': 'form-control institution-select'} }) }}
+                {{ form_widget(form.institution, { 'attr': {'class': 'form-control institution-select', 'data-placeholder': 'label.institution' | trans([], 'Celsius3CoreBundle_Form') | first_upper} }) }}
                 {% for error in form.institution.vars.errors %}
                     <p class="text-danger">{{ error.message }}</p>
                 {% endfor %}

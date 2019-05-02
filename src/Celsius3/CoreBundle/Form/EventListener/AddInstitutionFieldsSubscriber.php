@@ -124,6 +124,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         'class' => 'country-select',
                     ),
                     'auto_initialize' => false,
+                    'choice_label' => function ($category) {
+                        return $this->firstUpper($category);
+                    }
 
         )));
 
@@ -139,6 +142,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                         'class' => 'city-select',
                     ),
                     'auto_initialize' => false,
+                    'choice_label' => function ($category) {
+                        return $this->firstUpper($category);
+                    }
         )));
 
         $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, array(
@@ -165,5 +171,25 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     public function preBind(FormEvent $event)
     {
         $this->addInstitutionFields($event, true);
+    }
+
+    private function firstUpper($category)
+    {
+        if (!is_string($category)){
+            return $category;
+        }
+
+        $words = explode(' ', $category);
+
+        $t = '';
+        foreach ($words as $k => $word) {
+            if (strlen($word) > 3 || $k === 0 ) {
+                $t .= ucfirst(mb_strtolower($word)) . ' ';
+            } else {
+                $t .= mb_strtolower($word) . ' ';
+            }
+        }
+
+        return $t;
     }
 }
