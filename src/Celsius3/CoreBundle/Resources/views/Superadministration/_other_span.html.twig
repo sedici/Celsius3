@@ -35,14 +35,19 @@
                             {{ 'Configure Directory' | trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('superadmin_maillist') }}" class="btn btn-default">
+                        <a href="{{ path('superadmin_maillist') }}" class="btn btn-default btn-group-alone">
                             <span class="glyphicon glyphicon-list"></span>
                             {{ 'Mail List' | trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('superadmin_data_request_index') }}" class="btn btn-default">
+                        <a href="{{ path('superadmin_data_request_index') }}" class="btn btn-default btn-group-alone">
                             <span class="glyphicon glyphicon-list"></span>
-                            {{ 'Data requests' | trans }}</a>
+                            {{ 'Data requests' | trans }}
+                            {% set pending_dr = pending_data_requests(app.user) %}
+                            {% if pending_dr > 0 %}
+                                <span class="label label-danger">{{ pending_dr }}</span>
+                            {% endif %}
+                        </a>
                     </li>
                 </ul>
             </div>

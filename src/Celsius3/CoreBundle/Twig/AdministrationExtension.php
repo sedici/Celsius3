@@ -46,6 +46,7 @@ class AdministrationExtension extends \Twig_Extension
             new \Twig_SimpleFunction('role_name', array($this, 'roleName')),
             new \Twig_SimpleFunction('full_name', array($this, 'fullName')),
             new \Twig_SimpleFunction('get_buckets', array($this, 'getBuckets')),
+            new \Twig_SimpleFunction('pending_data_requests', array($this, 'getPendingDataRequests')),
         );
     }
 
@@ -102,5 +103,14 @@ class AdministrationExtension extends \Twig_Extension
         } else {
             return [];
         }
+    }
+
+    public function getPendingDataRequests(BaseUser $user) {
+        if ($user->hasRole(UserManager::ROLE_SUPER_ADMIN)) {
+            return count($this->entityManager
+                ->getRepository('Celsius3CoreBundle:DataRequest')->findBy(['exported' => false]));
+        }
+
+        return 0;
     }
 }

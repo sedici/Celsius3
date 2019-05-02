@@ -54,7 +54,14 @@
     {% endif %}
 
     {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) %}
-        <li><a href="{{ path('superadministration') }}">{{ 'Network Administration' | trans }}</a></li>
+        <li>
+            <a href="{{ path('superadministration') }}">{{ 'Network Administration' | trans }}
+                {% set pending_dr = pending_data_requests(app.user) %}
+                {% if pending_dr > 0 %}
+                    <span class="label label-danger">{{ pending_dr }}</span>
+                {% endif %}
+            </a>
+        </li>
     {% endif %}
 
     {% if (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local) or (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local) %}
