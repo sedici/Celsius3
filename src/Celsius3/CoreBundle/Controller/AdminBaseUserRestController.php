@@ -101,7 +101,10 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
-        $user->setEnabled(true);
+        $user->setEnabled(true)
+            ->setPdf(true)
+            ->setDownloadAuth(true);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
