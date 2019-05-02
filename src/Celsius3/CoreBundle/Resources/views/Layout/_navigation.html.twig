@@ -57,11 +57,7 @@
         <li><a href="{{ path('superadministration') }}">{{ 'Network Administration' | trans }}</a></li>
     {% endif %}
 
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
-        <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
-    {% endif %}
-
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local %}
+    {% if (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local) or (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local) %}
         <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
     {% endif %}
 
