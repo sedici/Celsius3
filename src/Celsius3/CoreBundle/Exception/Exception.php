@@ -33,6 +33,7 @@ class Exception {
     const RENDER_TEMPLATE = 'render_template';
     const INVALID_SEARCH = 'invalid_search';
     const ACCESS_DENIED = 'access_denied';
+    const CAN_NOT_DELETE = 'can_not_delete';
 
     private static $rest = false;
     private static $class_prefix = 'Celsius3\\CoreBundle\\Exception\\';
@@ -45,6 +46,7 @@ class Exception {
         , self::RENDER_TEMPLATE => 'RenderTemplate'
         , self::INVALID_SEARCH => 'InvalidSearch'
         , self::ACCESS_DENIED => 'AccessDenied'
+        , self::CAN_NOT_DELETE => 'CanNotDelete'
     ];
 
     public static function isRest() {

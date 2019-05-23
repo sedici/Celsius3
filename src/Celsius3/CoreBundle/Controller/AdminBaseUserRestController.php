@@ -139,10 +139,14 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
-        if (!$user->isEnabled()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
-            $em->flush();
+        try {
+            if (!$user->isEnabled()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($user);
+                $em->flush();
+            }
+        } catch (\Exception $e) {
+            throw Exception::create(Exception::CAN_NOT_DELETE, 'exception.can_not_delete.user');
         }
 
         $view = $this->view(!$user->isEnabled(), 200)->setFormat('json');
