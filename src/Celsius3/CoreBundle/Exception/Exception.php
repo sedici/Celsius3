@@ -74,9 +74,10 @@ class Exception {
     }
 
     public static function create($type, $message = '') {
+        $translator = $GLOBALS['kernel']->getContainer()->get('translator');
         $class = self::getClass($type);
 
-        return new $class($message);
+        return new $class($translator->trans($message, [], 'Flashes'));
     }
 
 }

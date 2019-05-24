@@ -57,4 +57,7 @@
     {% else %}
         var smtp_status = true;
     {% endif %}
+
+    var smtp_error_message = '{{ "alert.warning.smtp_conection_error" | trans({}, "Flashes") }}';
+    var default_error_message = '{{ "alert.error.default_message" | trans({}, 'Flashes') }}';
 </script>

@@ -65,6 +65,78 @@
         <jms:reference-file line="201">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
         <jms:reference-file line="201">/../src/Celsius3/CoreBundle/Controller/BaseController.php</jms:reference-file>
       </trans-unit>
+      <trans-unit id="exception.entity_not_found.catalog" resname="exception.entity_not_found.catalog">
+        <source>exception.entity_not_found.catalog</source>
+        <target>El catálogo no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.contact" resname="exception.entity_not_found.contact">
+        <source>exception.entity_not_found.contact</source>
+        <target>El contacto no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.country" resname="exception.entity_not_found.country">
+        <source>exception.entity_not_found.country</source>
+        <target>El país no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.event" resname="exception.entity_not_found.event">
+        <source>exception.entity_not_found.event</source>
+        <target>El evento no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.file" resname="exception.entity_not_found.file">
+        <source>exception.entity_not_found.file</source>
+        <target>El archivo no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.instance" resname="exception.entity_not_found.instance">
+        <source>exception.entity_not_found.instance</source>
+        <target>La instancia no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.institution" resname="exception.entity_not_found.institution">
+        <source>exception.entity_not_found.institution</source>
+        <target>La institución no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.journal" resname="exception.entity_not_found.journal">
+        <source>exception.entity_not_found.journal</source>
+        <target>La revista no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.mail_template" resname="exception.entity_not_found.mail_template">
+        <source>exception.entity_not_found.mail_template</source>
+        <target>La plantilla de correo no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.notification" resname="exception.entity_not_found.notification">
+        <source>exception.entity_not_found.notification</source>
+        <target>La notificación no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.order" resname="exception.entity_not_found.order">
+        <source>exception.entity_not_found.order</source>
+        <target>El pedido no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.request" resname="exception.entity_not_found.request">
+        <source>exception.entity_not_found.request</source>
+        <target>La solicitud no fue encontrada</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.state" resname="exception.entity_not_found.state">
+        <source>exception.entity_not_found.state</source>
+        <target>El estado no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.user" resname="exception.entity_not_found.user">
+        <source>exception.entity_not_found.user</source>
+        <target>El usuario no fue encontrado</target>
+      </trans-unit>
+      <trans-unit id="exception.invalid.search" resname="exception.invalid.search">
+        <source>exception.invalid.search</source>
+        <target>Búsqueda inválida</target>
+      </trans-unit>
+      <trans-unit id="exception.template.mail_template" resname="exception.template.mail_template">
+        <source>exception.template.mail_template</source>
+        <target>Error al procesar la plantilla de correo electrónico</target>
+      </trans-unit>
+      <trans-unit id="alert.warning.smtp_conection_error" resname="alert.warning.smtp_conection_error">
+        <source>alert.warning.smtp_conection_error</source>
+        <target>Error en la configuración SMTP</target>
+      </trans-unit>
+      <trans-unit id="alert.error.default_message" resname="alert.error.default_message">
+        <source>alert.error.default_message</source>
+        <target>Se ha producido un error</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

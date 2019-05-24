@@ -65,6 +65,78 @@
         <jms:reference-file line="201">/../src/Celsius3/CoreBundle/Controller/AdminMailController.php</jms:reference-file>
         <jms:reference-file line="201">/../src/Celsius3/CoreBundle/Controller/BaseController.php</jms:reference-file>
       </trans-unit>
+      <trans-unit id="exception.entity_not_found.catalog" resname="exception.entity_not_found.catalog">
+        <source>exception.entity_not_found.catalog</source>
+        <target>The catalog was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.contact" resname="exception.entity_not_found.contact">
+        <source>exception.entity_not_found.contact</source>
+        <target>The contact was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.country" resname="exception.entity_not_found.country">
+        <source>exception.entity_not_found.country</source>
+        <target>The country was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.event" resname="exception.entity_not_found.event">
+        <source>exception.entity_not_found.event</source>
+        <target>The event was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.file" resname="exception.entity_not_found.file">
+        <source>exception.entity_not_found.file</source>
+        <target>The file was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.instance" resname="exception.entity_not_found.instance">
+        <source>exception.entity_not_found.instance</source>
+        <target>The instance was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.institution" resname="exception.entity_not_found.institution">
+        <source>exception.entity_not_found.institution</source>
+        <target>The institution was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.journal" resname="exception.entity_not_found.journal">
+        <source>exception.entity_not_found.journal</source>
+        <target>The journal was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.mail_template" resname="exception.entity_not_found.mail_template">
+        <source>exception.entity_not_found.mail_template</source>
+        <target>The email template was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.notification" resname="exception.entity_not_found.notification">
+        <source>exception.entity_not_found.notification</source>
+        <target>The notification was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.order" resname="exception.entity_not_found.order">
+        <source>exception.entity_not_found.order</source>
+        <target>The order was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.request" resname="exception.entity_not_found.request">
+        <source>exception.entity_not_found.request</source>
+        <target>The request was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.state" resname="exception.entity_not_found.state">
+        <source>exception.entity_not_found.state</source>
+        <target>The state was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.entity_not_found.user" resname="exception.entity_not_found.user">
+        <source>exception.entity_not_found.user</source>
+        <target>The user was not found</target>
+      </trans-unit>
+      <trans-unit id="exception.invalid.search" resname="exception.invalid.search">
+        <source>exception.invalid.search</source>
+        <target>Invalid search</target>
+      </trans-unit>
+      <trans-unit id="exception.template.mail_template" resname="exception.template.mail_template">
+        <source>exception.template.mail_template</source>
+        <target>Error to render email template</target>
+      </trans-unit>
+      <trans-unit id="alert.warning.smtp_conection_error" resname="alert.warning.smtp_conection_error">
+        <source>alert.warning.smtp_conection_error</source>
+        <target>SMTP configuration error</target>
+      </trans-unit>
+      <trans-unit id="alert.error.default_message" resname="alert.error.default_message">
+        <source>alert.error.default_message</source>
+        <target>An error has occurred</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

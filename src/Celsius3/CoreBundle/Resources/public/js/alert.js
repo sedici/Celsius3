@@ -22,7 +22,7 @@ generateCelsiusAlert = function(response) {
     if (!_.isUndefined(response.data.error) && response.data.error) {
         celsiusAlert(response.data.message, 'error');
     } else {
-        celsiusAlert('alert.error.default_message', 'danger');
+        celsiusAlert(default_error_message, 'danger');
     }
 };
 
@@ -38,6 +38,6 @@ $(document).ready(function() {
 
     if (!smtp_status) {
         smtp_status = true;
-        celsiusAlert('alert.warning.smtp_conection_error', 'warning');
+        celsiusAlert(smtp_error_message, 'warning');
     }
 });
