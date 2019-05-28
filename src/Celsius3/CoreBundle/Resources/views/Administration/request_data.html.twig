@@ -60,7 +60,13 @@
             <br>
             <div class="row">
                 <fieldset>
-                    <legend>{{ 'Select the data set that you want to export' | trans }}</legend>
+                    <legend>
+                        {{ 'Select the data set that you want to export' | trans }}
+                        <label class="col-md-10 control-label text-md" for="selectAll" style="font-weight: normal">
+                            <input type="checkbox" id="selectAll" class="form-check-input">
+                            {{ 'select all' | trans }}
+                        </label>
+                    </legend>
                     {% for error in form.vars.errors %}
                         <p class="text-danger">{{ 'No data selected' | trans }}</p>
                     {% endfor %}

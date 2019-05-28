@@ -206,11 +206,13 @@ class AdministrationController extends BaseInstanceDependentController
         $dataRequest = new DataRequest($this->getInstance());
 
         $data = null;
-        foreach ($request->request->get('data_request') as $k => $v) {
-            if ($v === "1") {
-                $data[] = $k;
-            } elseif (is_array($v) && !empty($v)) {
-                $data[] = [$k => $v];
+        if ($dr = $request->request->get('data_request')) {
+            foreach ($request->request->get('data_request') as $k => $v) {
+                if ($v === "1") {
+                    $data[] = $k;
+                } elseif (is_array($v) && !empty($v)) {
+                    $data[] = [$k => $v];
+                }
             }
         }
 

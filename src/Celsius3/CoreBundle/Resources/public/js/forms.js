@@ -554,3 +554,24 @@ $(document).ready(function () {
     });
 
 });
+
+$(document).ready(function () {
+    $('#selectAll').on('click', function () {
+        if ($(this).is(':checked')) {
+            $('input:checkbox').prop('checked', true);
+        } else {
+            $('input:checkbox').prop('checked', false);
+        }
+
+    });
+});
+
+// $(document).ready(function(){
+//     $('input.batch-checkbox').on('change',function() {
+//         if ($(this).is(':checked')) {
+//             // agregar a las urls
+//         } else {
+//             //quitar de las urls
+//         }
+//     });
+// });

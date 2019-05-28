@@ -4085,6 +4085,10 @@
         <source>No data selected</source>
         <target>No data selected</target>
       </trans-unit>
+      <trans-unit id="select all" resname="select all">
+        <source>select all</source>
+        <target>Selecione tudo</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
