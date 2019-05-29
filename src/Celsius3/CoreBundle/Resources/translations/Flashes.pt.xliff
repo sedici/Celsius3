@@ -137,6 +137,10 @@
         <source>alert.error.default_message</source>
         <target>Ocorreu um erro.</target>
       </trans-unit>
+      <trans-unit id="The data request was successfully registered" resname="The data request was successfully registered">
+        <source>The data request was successfully registered</source>
+        <target>The data request was successfully registered</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

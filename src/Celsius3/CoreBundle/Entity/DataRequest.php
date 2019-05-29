@@ -83,6 +83,11 @@ class DataRequest
     private $downloaded = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible = false;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $file;
@@ -248,5 +253,24 @@ class DataRequest
     {
         $this->file = $file;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVisible()
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @param mixed $visible
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
 
 }

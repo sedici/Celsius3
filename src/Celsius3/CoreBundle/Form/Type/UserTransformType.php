@@ -56,6 +56,7 @@ class UserTransformType extends AbstractType
             ));
 
             foreach ($options['user']->getSecondaryInstances() as $instance) {
+                dump($instance);
                 $builder->add($instance['url'], ChoiceType::class, array(
                     'choices' => $choices,
                     'expanded' => true,

@@ -5,4 +5,10 @@
                         class="glyphicon glyphicon-export"></span> {{ 'Export' | trans }}</a>
         </li>
     </ul>
+    <ul class="list-unstyled pull-right actions">
+        <li>
+            <a href="{{ path('superadmin_data_request_annul', { 'id': element.id }) }}"><span
+                        class="glyphicon glyphicon-export"></span> {{ 'Annul' | trans }}</a>
+        </li>
+    </ul>
 {% endif %}

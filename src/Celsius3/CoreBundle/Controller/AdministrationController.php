@@ -228,8 +228,8 @@ class AdministrationController extends BaseInstanceDependentController
             $em->persist($dataRequest);
             $em->flush();
 
-            Alert::add(Alert::SUCCESS, 'The data request was successfully registered.');
-            return $this->render('Celsius3CoreBundle:Administration:index.html.twig');
+            Alert::add(Alert::SUCCESS, $this->get('translator')->trans('The data request was successfully registered', [], 'Flashes'));
+            return $this->redirectToRoute('administration');
         }
 
         return $this->render('Celsius3CoreBundle:Administration:request_data.html.twig', ['form' => $form->createView()]);

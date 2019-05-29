@@ -58,9 +58,6 @@ class SuperadminDataRequestController extends BaseController
     }
 
     /**
-     * @param Request $request
-     * @param DataRequest $dataRequest
-     *
      * @Route("/{id}/export", name="superadmin_data_request_export")
      */
     public function exportAction(Request $request, DataRequest $dataRequest)
@@ -77,5 +74,16 @@ class SuperadminDataRequestController extends BaseController
 
     }
 
+    /**
+     * @Route("/{id}/annul", name="superadmin_data_request_annul")
+     */
+    public function annulAction(Request $request, DataRequest $dataRequest) {
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($dataRequest->setVisible(false));
+        $em->flush();
+
+        return $this->redirectToRoute('superadmin_data_request_index');
+    }
 
 }
