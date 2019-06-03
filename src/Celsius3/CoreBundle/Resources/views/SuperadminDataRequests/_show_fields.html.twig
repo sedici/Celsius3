@@ -9,13 +9,12 @@
             {% if v is iterable %}
                 {% for i,a in v %}
                     {% set first = true %}
-                    {{ i | trans }}{{ ' [' }}{% for e in a %}{% if not first %}{{ ', ' }}{{ e | trans }}{% else %}{{ e | trans }}{% set first = false %}{% endif %}{% endfor %}{{ ']' }}
+                    {{ i | trans }}{{ ' [' }}{% for e in a %}{% if not first %}{{ ', ' }}{{ e | trans | first_upper }}{% else %}{{ e | trans | first_upper }}{% set first = false %}{% endif %}{% endfor %}{{ ']' }}
                 {% endfor %}
-                <br>
             {% else %}
-                {{ v | trans }}
-                <br>
+                {{ v | trans | first_upper }}
             {% endif %}
+            {{ ', ' }}&nbsp;
         {% endfor %}
     </dd>
     <dt>{{ 'File' | trans }}</dt>

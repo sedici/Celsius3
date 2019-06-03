@@ -4,11 +4,12 @@
             <a href="{{ path('superadmin_data_request_export', { 'id': element.id }) }}"><span
                         class="glyphicon glyphicon-export"></span> {{ 'Export' | trans }}</a>
         </li>
-    </ul>
-    <ul class="list-unstyled pull-right actions">
+        &nbsp;
         <li>
             <a href="{{ path('superadmin_data_request_annul', { 'id': element.id }) }}"><span
-                        class="glyphicon glyphicon-export"></span> {{ 'Annul' | trans }}</a>
+                        class="glyphicon glyphicon-remove"></span> {{ 'Annul_inf' | trans }}</a>
         </li>
-    </ul>
+    </ul>&nbsp;
+{% elseif element.downloaded %}
+    <span class="pull-right text-success">[{{ 'Downloaded' | trans }}]</span>
 {% endif %}

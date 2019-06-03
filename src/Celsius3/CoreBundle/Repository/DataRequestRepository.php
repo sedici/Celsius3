@@ -28,11 +28,16 @@ class DataRequestRepository extends EntityRepository
 
     public function findAllDownloadedOrExpired()
     {
+        $date = (new \DateTime())->sub(new \DateInterval('P3D'));
+
         $qb = $this->createQueryBuilder('dr');
 
-        $qb->select('dr.id')
-            ->addSelect('dr.file')
+        $qb->select('dr')
             ->where('dr.downloaded = :downloaded')
-            ->andWhere('dr.')
+            ->orWhere('dr.createdAt < :date')
+            ->setParameter('downloaded', true)
+            ->setParameter('date', $date);
+
+        return $qb->getQuery()->execute();
     }
 }

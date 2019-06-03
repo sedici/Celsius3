@@ -4095,6 +4095,26 @@
         <source>select all</source>
         <target>Seleccionar todos</target>
       </trans-unit>
+      <trans-unit id="Annul_inf" resname="Annul_inf">
+        <source>Annul_inf</source>
+        <target>Anular</target>
+      </trans-unit>
+      <trans-unit id="Downloaded" resname="Downloaded">
+        <source>Downloaded</source>
+        <target>Descargado</target>
+      </trans-unit>
+      <trans-unit id="issn" resname="issn">
+        <source>issn</source>
+        <target>ISSN</target>
+      </trans-unit>
+      <trans-unit id="issne" resname="issne">
+        <source>issne</source>
+        <target>ISSNE</target>
+      </trans-unit>
+      <trans-unit id="responsible" resname="responsible">
+        <source>responsible</source>
+        <target>Responsable</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

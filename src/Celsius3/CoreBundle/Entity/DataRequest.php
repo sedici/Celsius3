@@ -85,7 +85,7 @@ class DataRequest
     /**
      * @ORM\Column(type="boolean")
      */
-    private $visible = false;
+    private $visible = true;
 
     /**
      * @ORM\Column(type="string", nullable=true)

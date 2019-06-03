@@ -59,7 +59,7 @@ class ExportDataCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         /** @var DataRequest $dr */
         $dr = $em->find(DataRequest::class, (int)$input->getArgument('data-request-id'));
-        $filename = $dr->getInstance()->getAbbreviation() . '_' . $dr->getName() . '_' . $dr->getStartDate()->format('Ymd') . '_' . $dr->getEndDate()->format('Ymd') . '.csv';
+        $filename = $dr->getInstance()->getAbbreviation() . '_' . str_replace(' ', '_', $dr->getName()) . '_' . $dr->getStartDate()->format('Ymd') . '_' . $dr->getEndDate()->format('Ymd') . '.csv';
         $directory = $this->getContainer()->getParameter('data_requests_directory');
 
         $qb = $em->getRepository(Order::class)->createQueryBuilder('o');
@@ -100,6 +100,7 @@ class ExportDataCommand extends ContainerAwareCommand
         fclose($handle);
 
         $dr->setFile($filename);
+        $dr->setVisible(true);
         $em->persist($dr);
         $em->flush();
     }

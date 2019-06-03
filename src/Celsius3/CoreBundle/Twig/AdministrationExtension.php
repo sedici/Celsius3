@@ -108,7 +108,7 @@ class AdministrationExtension extends \Twig_Extension
     public function getPendingDataRequests(BaseUser $user) {
         if ($user->hasRole(UserManager::ROLE_SUPER_ADMIN)) {
             return count($this->entityManager
-                ->getRepository('Celsius3CoreBundle:DataRequest')->findBy(['exported' => false]));
+                ->getRepository('Celsius3CoreBundle:DataRequest')->findBy(['visible' => true, 'exported' => false]));
         }
 
         return 0;

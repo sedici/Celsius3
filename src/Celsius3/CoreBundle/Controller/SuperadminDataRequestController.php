@@ -46,10 +46,8 @@ class SuperadminDataRequestController extends BaseController
             ->getRepository(DataRequest::class)
             ->createQueryBuilder('e');
 
-        $query = $qb->where('e.exported = :exported')
-            ->orWhere('e.downloaded = :downloaded')
-            ->setParameter('exported', false)
-            ->setParameter('downloaded', false);
+        $query = $qb->where('e.visible = :visible')
+            ->setParameter('visible', true);
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($query, $request->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults());

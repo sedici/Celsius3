@@ -240,6 +240,8 @@ class AdministrationController extends BaseInstanceDependentController
      */
     public function dataRequestDownloadAction(Request $request, DataRequest $dataRequest)
     {
+        $em = $this->get('doctrine.orm.entity_manager');
+
         $filename = $dataRequest->getFile();
         $directory = $directory = $this->getParameter('data_requests_directory');
         $filepath = $directory . $filename;
@@ -248,6 +250,9 @@ class AdministrationController extends BaseInstanceDependentController
             Alert::add(Alert::ERROR, 'The requested file does not exists.');
             return $this->redirectToRoute('administration');
         }
+
+        $em->persist($dataRequest->setDownloaded(true));
+        $em->flush($dataRequest);
 
         $response = new Response();
         $response->headers->set('Content-type', mime_content_type($filepath));
