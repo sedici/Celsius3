@@ -141,6 +141,10 @@
         <source>The data request was successfully registered</source>
         <target>La solicitud de datos se registró correctamente</target>
       </trans-unit>
+      <trans-unit id="exception.file_not_found" resname="exception.file_not_found">
+        <source>exception.file_not_found</source>
+        <target>Archivo no encontrado</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

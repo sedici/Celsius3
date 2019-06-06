@@ -141,6 +141,10 @@
         <source>The data request was successfully registered</source>
         <target>The data request was successfully registered</target>
       </trans-unit>
+      <trans-unit id="exception.file_not_found" resname="exception.file_not_found">
+        <source>exception.file_not_found</source>
+        <target>File not found</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Controller\Mixin;
 
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 trait FileControllerTrait
@@ -37,9 +38,12 @@ trait FileControllerTrait
         $file = $this->getDoctrine()->getManager()
                         ->getRepository('Celsius3CoreBundle:File')->find($file);
 
-        $this->validate($request, $file);
-
         $filename = $fileManager->getUploadRootDir($file).'/'.$file->getPath();
+        if (!file_exists($filename)) {
+            throw Exception::create(Exception::NOT_FOUND, 'exception.file_not_found');
+        }
+
+        $this->validate($request, $file);
 
         $response = new Response();
         $response->headers->set('Content-type', mime_content_type($filename));
