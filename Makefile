@@ -52,9 +52,9 @@ populate:
 
 database:
 	@echo "$(CS)Loading database...$(CE)"
-	docker exec --user $(shell id -u):$(shell id -g) celsius3_mysql mysql --user=root --password=root -e "DROP DATABASE IF EXISTS celsius3"
-	docker exec --user $(shell id -u):$(shell id -g) celsius3_mysql mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS celsius3"
-	docker exec --user $(shell id -u):$(shell id -g) celsius3_mysql mysql --user=root --password=root celsius3 < ./.docker/celsius3.sql
+	docker exec --user $(shell id -u):$(shell id -g) celsius3_mysql mysql --user=celsius3_usr --password=celsius3_pass -e "DROP DATABASE IF EXISTS celsius3" 2>/dev/null
+	docker exec --user $(shell id -u):$(shell id -g) celsius3_mysql mysql --user=celsius3_usr --password=celsius3_pass -e "CREATE DATABASE IF NOT EXISTS celsius3" 2>/dev/null
+	cat ./.docker/celsius3.sql | docker exec --user $(shell id -u):$(shell id -g) -i celsius3_mysql /usr/bin/mysql --user=celsius3_usr --password=celsius3_pass celsius3 2>/dev/null
 
 schema:
 	@echo "$(CS)Generating schema...$(CE)"

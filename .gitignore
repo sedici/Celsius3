@@ -41,8 +41,7 @@
 ###< symfony/webpack-encore-pack ###
 
 # Docker folder
-!/.docker/celsius3.sql
+!/.docker/.gitignore
 !/.docker/mysql/.gitignore
 !/.docker/elasticsearch/.gitignore
 !/.docker/redis/.gitignore
-/.docker/

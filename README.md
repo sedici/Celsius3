@@ -3,9 +3,9 @@ Celsius3
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/76c2e8aa-1471-4b67-bfe3-b2e770df3907/big.png)](https://insight.sensiolabs.com/projects/76c2e8aa-1471-4b67-bfe3-b2e770df3907)
 
-[Instalación](doc/instalacion.md)
+[Instalación manual](doc/instalacion.md)
 
-[Instalacion](doc/instalacion.md)
+[Despliegue Docker](doc/docker.md)
 
 [Reporte técnico](http://sedici.unlp.edu.ar/handle/10915/34504)
 

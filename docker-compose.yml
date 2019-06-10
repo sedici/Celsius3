@@ -15,8 +15,8 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: "root"
             MYSQL_DATABASE: "celsius3"
-            MYSQL_USER: "celsius3"
-            MYSQL_PASSWORD: "celsius3"
+            MYSQL_USER: "celsius3_usr"
+            MYSQL_PASSWORD: "celsius3_pass"
 
     elasticsearch:
         image: elasticsearch:2.3.1
