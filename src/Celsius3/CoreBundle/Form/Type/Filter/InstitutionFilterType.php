@@ -93,7 +93,7 @@ class InstitutionFilterType extends AbstractType
                     'placeholder' => '',
                     'required' => false,
                     'attr' => array(
-                        'class' => 'institution-select',
+                        'class' => 'city-select',
                     ),
                     'auto_initialize' => false,
 
