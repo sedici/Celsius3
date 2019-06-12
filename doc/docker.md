@@ -60,3 +60,16 @@ Finalmente se accede al sistema mediante la url asignada.
 ```
 http://prebi.localhost/app_dev.php
 ```
+
+### Contenedores
+
+Una vez instalados los contenedores con los servicios para Celsius3, para el uso diario se inician y detienen con los siguientes comandos.
+
+```
+make up
+```
+
+```
+make stop
+```
+
