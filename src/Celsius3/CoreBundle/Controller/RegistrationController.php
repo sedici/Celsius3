@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -57,6 +58,15 @@ class RegistrationController extends BaseRegistrationController
 
         if ('POST' === $request->getMethod()) {
             $form->handleRequest($request);
+
+            if ($email = $form->get('email')->getData()) {
+                $emailDomain = (strpos($email, '@')) ? explode('@', $email)[1] : '';
+                $instanceDomain = $this->getInstance()->get('email_domain_for_registration')->getValue();
+                if ($instanceDomain && $emailDomain && $emailDomain !== $instanceDomain) {
+                    $error = new FormError($this->get('translator')->trans('invalid.email.domain', ['%domain%' => $instanceDomain], 'Celsius3CoreBundle_Form'));
+                    $form->get('email')->addError($error);
+                }
+            }
 
             if ($form->isValid()) {
                 $event = new FormEvent($form, $request);

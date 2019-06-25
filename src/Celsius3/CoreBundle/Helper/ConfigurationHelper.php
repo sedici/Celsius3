@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Helper;
 
 use Celsius3\CoreBundle\Entity\Configuration;
+use Celsius3\CoreBundle\Validator\Constraints\EmailDomain;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -39,6 +40,7 @@ use Celsius3\CoreBundle\Form\Type\LanguageType;
 use Celsius3\CoreBundle\Form\Type\ConfirmationType;
 use Celsius3\CoreBundle\Form\Type\ResultsType;
 use Celsius3\CoreBundle\Form\Type\LogoSelectorType;
+use Symfony\Component\Validator\Constraints\Email;
 
 class ConfigurationHelper
 {
@@ -79,6 +81,7 @@ class ConfigurationHelper
     const CONF__HOME_INFORMATION_VISIBLE = 'home_information_visible';
     const CONF__HOME_STATISTICS_VISIBLE = 'home_statistics_visible';
     const CONF__HOME_HELP_VISIBLE = 'home_help_visible';
+    const CONF__EMAIL_DOMAIN_FOR_REGISTRATION = 'email_domain_for_registration';
 
     private $equivalences = array(
         'string' => TextType::class,
@@ -318,6 +321,12 @@ class ConfigurationHelper
             'type' => 'boolean',
             'required' => false,
         ),
+        self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION => array(
+            'name' => '',
+            'value' => '',
+            'type' => 'string',
+            'required' => false,
+        ),
     );
     private $container;
 
@@ -430,5 +439,11 @@ class ConfigurationHelper
         );
 
         $this->configurations['instance_logo']['constraints'] = array($imageConstraints);
+
+        $this->configurations[self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION]['constraints'] = [
+            new EmailDomain([
+                'message' => $this->container->get('translator')->trans('The domain is not valid', [], 'Celsius3CoreBundle_Form'),
+            ]),
+        ];
     }
 }

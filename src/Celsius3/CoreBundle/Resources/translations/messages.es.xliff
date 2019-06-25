@@ -4115,6 +4115,10 @@
         <source>responsible</source>
         <target>Responsable</target>
       </trans-unit>
+      <trans-unit id="Email domain for registration" resname="Email domain for registration">
+        <source>Email domain for registration</source>
+        <target>Dominio de correo electrónico para el registro</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

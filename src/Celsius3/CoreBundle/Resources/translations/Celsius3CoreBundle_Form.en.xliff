@@ -88,6 +88,14 @@
         <target>forgot your password?</target>
         <jms:reference-file line="51">/../src/Celsius3/CoreBundle/Resources/views/Security/login.html.twig</jms:reference-file>
       </trans-unit>
+      <trans-unit id="invalid.email.domain" resname="invalid.email.domain">
+        <source>invalid.email.domain</source>
+        <target>The email domain is not valid. Use an email of %domain% domain</target>
+      </trans-unit>
+      <trans-unit id="The domain is not valid" resname="The domain is not valid">
+        <source>The domain is not valid</source>
+        <target>The domain is not valid</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
