@@ -29,7 +29,7 @@ class EmailDomainValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        if (!checkdnsrr($value, "MX")) {
+        if ($value && !checkdnsrr($value, "MX")) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
