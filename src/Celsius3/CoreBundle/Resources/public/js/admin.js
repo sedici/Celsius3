@@ -42,3 +42,11 @@ $(document).ready(function() {
         $(this).addClass('dc-disabled');
     });
 });
+
+$('.view_more').on('click', function (e) {
+    e.preventDefault();
+
+    $(this).parent('.list-group').children('.hidden').removeClass('hidden');
+
+    $(this).addClass('hidden');
+});
