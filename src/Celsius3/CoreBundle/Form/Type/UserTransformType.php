@@ -35,6 +35,7 @@ class UserTransformType extends AbstractType
     {
         $choices = array(
             UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
+            UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
             UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
         );
 
@@ -46,6 +47,7 @@ class UserTransformType extends AbstractType
                 'data' => $options['user']->getRoles()
             ));
         } else {
+            $choices[UserManager::$roles_names[UserManager::ROLE_STATISTICS]] = UserManager::ROLE_STATISTICS;
             $choices[UserManager::$roles_names[UserManager::ROLE_SUPER_ADMIN]] = UserManager::ROLE_SUPER_ADMIN;
 
             $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
@@ -56,14 +58,15 @@ class UserTransformType extends AbstractType
             ));
 
             foreach ($options['user']->getSecondaryInstances() as $instance) {
-                dump($instance);
-                $builder->add($instance['url'], ChoiceType::class, array(
-                    'choices' => $choices,
-                    'expanded' => true,
-                    'multiple' => true,
-                    'data' => $instance['roles']
-                ));
-            }
+                if (array_keys($instance,'url')){
+                    $builder->add($instance['url'], ChoiceType::class, array(
+                        'choices' => $choices,
+                        'expanded' => true,
+                        'multiple' => true,
+                        'data' => $instance['roles']
+                    ));
+                }
+                            }
         }
 
 //        Esto se utiliza para la selección de la institución base sobre la que tiene injerencia
