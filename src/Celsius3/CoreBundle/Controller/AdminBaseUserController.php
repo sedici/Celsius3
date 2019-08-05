@@ -182,12 +182,14 @@ class AdminBaseUserController extends BaseUserController
             return $this->baseDoTransformAction($id, UserTransformType::class, array(
                         'instance' => $this->getInstance(),
                         'user' => $entity,
+                         'user_actual'=>$this->getUser()
                             ), 'admin_user');
         }
 
         $response = $this->baseTransformAction($id, UserTransformType::class, array(
                     'instance' => $this->getInstance(),
                     'user' => $entity,
+                    'user_actual'=>$this->getUser()
         ));
 
         if($response instanceof RedirectResponse){
