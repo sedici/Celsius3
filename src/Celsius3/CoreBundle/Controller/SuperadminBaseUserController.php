@@ -175,11 +175,13 @@ class SuperadminBaseUserController extends BaseUserController
         if ($request->getMethod() === 'POST') {
             return $this->baseDoTransformAction($id, UserTransformType::class, array(
                 'user' => $entity,
+                'user_actual'=>$this->getUser()
             ), 'superadmin_user');
         }
 
         $response = $this->baseTransformAction($id, UserTransformType::class, array(
             'user' => $entity,
+            'user_actual'=>$this->getUser()
         ));
 
         if($response instanceof RedirectResponse){
