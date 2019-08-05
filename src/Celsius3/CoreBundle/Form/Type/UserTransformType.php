@@ -55,6 +55,8 @@ class UserTransformType extends AbstractType
             ));
         } else {
             $choices[UserManager::$roles_names[UserManager::ROLE_STATISTICS]] = UserManager::ROLE_STATISTICS;
+            $choices[UserManager::$roles_names[UserManager::ROLE_TECHNICAL]] = UserManager::ROLE_TECHNICAL;
+            $choices[UserManager::$roles_names[UserManager::ROLE_TICKET]] = UserManager::ROLE_TICKET;
             $choices[UserManager::$roles_names[UserManager::ROLE_SUPER_ADMIN]] = UserManager::ROLE_SUPER_ADMIN;
 
             $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
