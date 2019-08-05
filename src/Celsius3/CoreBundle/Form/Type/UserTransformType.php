@@ -33,12 +33,19 @@ class UserTransformType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $choices = array(
-            UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
-            UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
-            UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
-        );
 
+        if (array_keys($options['user_actual']->getRoles(),UserManager::ROLE_ADMIN)){
+            $choices = array(
+                UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
+                UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
+                UserManager::$roles_names[UserManager::ROLE_ADMIN] => UserManager::ROLE_ADMIN,
+            );
+        }else{
+            $choices = array(
+                UserManager::$roles_names[UserManager::ROLE_LIBRARIAN] => UserManager::ROLE_LIBRARIAN,
+                UserManager::$roles_names[UserManager::ROLE_ORDER_MANAGER] => UserManager::ROLE_ORDER_MANAGER,
+            );
+        }
         if (!is_null($options['instance'])) {
             $builder->add($options['user']->getInstance()->getUrl(), ChoiceType::class, array(
                 'choices' => $choices,
@@ -90,6 +97,7 @@ class UserTransformType extends AbstractType
         $resolver->setDefaults(array(
             'user' => null,
             'instance' => null,
+            'user_actual'=>null
         ));
     }
 }
