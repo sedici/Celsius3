@@ -16,7 +16,7 @@ RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini \
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Se instalan paquetes básicos necesarios
-RUN apt-get -y update && apt-get install -y apt-utils gnupg apt-transport-https acl wget make
+RUN apt-get -y update && apt-get install -y apt-utils gnupg apt-transport-https acl wget make gawk exiftool
 
 # Se agregan repositorios para NodeJS y Yarn
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
