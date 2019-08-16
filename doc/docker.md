@@ -11,6 +11,7 @@ Requerimientos:
     - 3306 (MySQL)
     - 9200 (Elasticsearch)
     - 6379 (Redis)
+    - 8000 (PHPMyAdmin)
 
 ### Proyecto
 
@@ -35,7 +36,7 @@ Se debe copiar un dump de la base de datos en el directorio **.docker** con el n
 Se ejecuta el despliegue de todos los servicios en docker.
 
 ```
-sudo make
+make
 ```
 
 ### Dominios
@@ -50,7 +51,7 @@ Se debe agregar la siguiente línea por cada dominio por ejemplo el dominio **pr
 Luego se debe asignar ese dominio en la base de datos.
 
 ```
-sudo docker exec celsius3_mysql mysql --user=celsius3_usr --password=celsius3_pass celsius3 -e "UPDATE instance SET host='prebi.localhost' WHERE url='prebi';"
+docker exec celsius3_mysql mysql --user=celsius3_usr --password=celsius3_pass celsius3 -e "UPDATE instance SET host='prebi.localhost' WHERE url='prebi';"
 ```
 
 ### Acceso
@@ -59,6 +60,12 @@ Finalmente se accede al sistema mediante la url asignada.
 
 ```
 http://prebi.localhost/app_dev.php
+```
+
+También acceder al administrador de la base de datos PHPMyAdmin
+
+```
+http://localhost:8000/
 ```
 
 ### Contenedores

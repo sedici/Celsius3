@@ -6,6 +6,10 @@ services:
         network_mode: host
         volumes:
           - .:/var/www/html
+        depends_on:
+          - mysql
+          - elasticsearch
+          - redis
 
     mysql:
         image: mysql:5
@@ -28,11 +32,15 @@ services:
         container_name: celsius3_redis
         network_mode: host
 
-#    phpmyadmin:
-#        image: phpmyadmin/phpmyadmin
-#        container_name: celsius3_phpmyadmin
-#        network_mode: host
-#        ports:
-#          - 8000:80
-        #links:
-        #  - mysql
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: celsius3_phpmyadmin
+        ports:
+          - 8000:80
+        environment:
+          PMA_HOST: "172.17.0.1"
+          PMA_PORT: "3306"
+          PMA_USER: "celsius3_usr"
+          PMA_PASSWORD: "celsius3_pass"
+        depends_on:
+          - mysql
