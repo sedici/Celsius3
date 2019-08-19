@@ -21,16 +21,26 @@ services:
             MYSQL_DATABASE: "celsius3"
             MYSQL_USER: "celsius3_usr"
             MYSQL_PASSWORD: "celsius3_pass"
+        volumes:
+          - c3data:/var/lib/mysql
+          - c3logs:/var/log/mysql
+          - .docker/mysql:/docker-entrypoint-initdb.d
 
     elasticsearch:
-        image: elasticsearch:2.3.1
+        image: elasticsearch:7.2.0
         container_name: celsius3_elasticsearch
         network_mode: host
+        environment:
+          discovery.type: single-node
+        volumes:
+          - c3elastic:/usr/share/elasticsearch/data
 
     redis:
         image: redis:alpine
         container_name: celsius3_redis
         network_mode: host
+        volumes:
+          - c3redis:/data
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -44,3 +54,21 @@ services:
           PMA_PASSWORD: "celsius3_pass"
         depends_on:
           - mysql
+
+    deploy:
+        image: docker
+        container_name: celsius3_deploy
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - .docker/deploy.sh:/bin/deploy.sh
+        depends_on:
+          - web
+        privileged: true
+        entrypoint: /bin/sh
+        command: /bin/deploy.sh
+
+volumes:
+    c3data:
+    c3logs:
+    c3redis:
+    c3elastic:
