@@ -43,5 +43,3 @@
 # Docker folder
 !/.docker/.gitignore
 !/.docker/mysql/.gitignore
-!/.docker/elasticsearch/.gitignore
-!/.docker/redis/.gitignore

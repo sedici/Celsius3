@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:7.1-apache
 
 # Se modifica el 'document root'
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
@@ -31,3 +31,5 @@ RUN apt-get -y update \
 && rm -fr /tmp/pear \
 && docker-php-ext-enable zmq redis
 
+# Se limpia la imagen
+RUN apt-get clean
