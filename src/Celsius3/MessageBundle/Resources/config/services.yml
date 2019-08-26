@@ -36,7 +36,7 @@ services:
         arguments: ['@fos_message.recipients_data_transformer']
     celsius3_message.new_thread_form.factory:
         class: Celsius3\MessageBundle\FormFactory\NewThreadMessageFormFactory
-        arguments: ['@form.factory', '@fos_message.new_thread_form.type', '%fos_message.new_thread_form.name%', '%fos_message.new_thread_form.model%']
+        arguments: ['@form.factory', Celsius3\MessageBundle\Form\Type\NewThreadMultipleMessageFormType, '%fos_message.new_thread_form.name%', '%fos_message.new_thread_form.model%']
     celsius3_message.reply_form.factory:
         class: Celsius3\MessageBundle\FormFactory\ReplyMessageFormFactory
-        arguments: ['@form.factory', '@fos_message.reply_form.type', '%fos_message.reply_form.name%', '%fos_message.reply_form.model%']
+        arguments: ['@form.factory', Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType, '%fos_message.reply_form.name%', '%fos_message.reply_form.model%']

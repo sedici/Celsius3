@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    trusted_proxies: ['127.0.0.1', '10.0.0.1'] # a list of proxy IPs you trust
+    #    trusted_proxies: ['127.0.0.1', '10.0.0.1'] # a list of proxy IPs you trust
     default_locale: es
     translator:      { fallback: en }
     secret:          "%secret%"
@@ -146,8 +146,8 @@ fos_user:
         mailer: celsius3_core.fos_mailer.custom
         user_manager: celsius3_core.fos_user_manager
     from_email:
-            address: "%mailer_user%"
-            sender_name: "%mailer_user%"
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
 
 services:
     monolog_processor:
@@ -238,16 +238,6 @@ jms_translation:
             excluded_dirs: [cache, data, logs]
             extractors: [jms_i18n_routing]
 
-jms_translation:
-    configs:
-        app:
-            dirs: ["%kernel.root_dir%", "%kernel.root_dir%/../src"]
-            output_dir: "%kernel.root_dir%/../src/Celsius3/CoreBundle/Resources/translations"
-            ignored_domains: [routes]
-            excluded_names: ["*TestCase.php", "*Test.php"]
-            excluded_dirs: [cache, data, logs]
-            extractors: [jms_i18n_routing]
-
 fos_message:
     db_driver: orm
     thread_class: Celsius3\MessageBundle\Entity\Thread
@@ -255,11 +245,11 @@ fos_message:
     provider: celsius3_message.provider.default
     new_thread_form:
         name: message
-        type: celsius3_message.new_thread_form.type.custom
+        type: Celsius3\MessageBundle\Form\Type\NewThreadMultipleMessageFormType
         handler: fos_message.new_thread_multiple_form.handler
         model: FOS\MessageBundle\FormModel\NewThreadMultipleMessage
     reply_form:
-        type: celsius3_message.reply_form.type.custom
+        type: Celsius3\MessageBundle\Form\Type\ReplyMessageFormCustomType
 
 stof_doctrine_extensions:
     default_locale: "%locale%"
@@ -359,10 +349,18 @@ fos_elastica:
         default: { host: localhost, port: 9200 }
     indexes:
         app:
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            text_analyzer:
+                                type: custom
+                                tokenizer: standard
+                                filter: [lowercase, stop, stemmer]
             types:
                 request:
                     properties:
-                        type: { type: string }
+                        type: { type: text }
                         instance:
                             type: "nested"
                             properties:
@@ -370,27 +368,9 @@ fos_elastica:
                         owner:
                             type: "nested"
                             properties:
-                                name: { type: string, boost: 15 }
-                                surname: { type: string, boost: 17 }
-                                username: { type: string, boost: 16 }
-                        creator:
-                            type: "nested"
-                            properties:
-                                name: { type: string, boost: 12 }
-                                surname: { type: string, boost: 14 }
-                                username: { type: string, boost: 13 }
-                        librarian:
-                            type: "nested"
-                            properties:
-                                name: { type: string, boost: 6 }
-                                surname: { type: string, boost: 8 }
-                                username: { type: string, boost: 7 }
-                        operator:
-                            type: "nested"
-                            properties:
-                                name: { type: string, boost: 9 }
-                                surname: { type: string, boost: 11 }
-                                username: { type: string, boost: 10 }
+                                name: { type: text }
+                                surname: { type: text }
+                                username: { type: keyword }
                         order:
                             type: "nested"
                             properties:
@@ -398,13 +378,13 @@ fos_elastica:
                                 materialData:
                                     type: "nested"
                                     properties:
-                                        materialType: ~
-                                        title: { type: string, boost: 20 }
-                                        authors: { type: string, boost: 18 }
+                                        materialType: { type: keyword }
+                                        title: { type: text, analyzer: text_analyzer }
+                                        authors: { type: text, analyzer: text_analyzer }
                         currentState:
                             type: "nested"
                             properties:
-                                type: { type: string, boost: 5 }
+                                type: { type: keyword }
                     persistence:
                         driver: orm
                         model: Celsius3\CoreBundle\Entity\Request
@@ -414,8 +394,8 @@ fos_elastica:
 
 monolog:
     channels:
-     - 'celsius_exception'
-     - 'celsius_rest_exception'
+        - 'celsius_exception'
+        - 'celsius_rest_exception'
     handlers:
         celsius_exception:
             level:    error
@@ -448,7 +428,7 @@ ewz_recaptcha:
     public_key:  "%recaptcha_public_key%"
     private_key: "%recaptcha_private_key%"
     enabled: true
-  #  ajax: true
+    #  ajax: true
     # Not needed as "%kernel.default_locale%" is the default value for the locale key
     #locale_key:  "%kernel.default_locale%"
 ivory_serializer:
@@ -456,10 +436,10 @@ ivory_serializer:
         auto:
             enabled: false
         reflection: false
-    
+
 enqueue:
     default:
-        transport: 'file:'
+        transport: 'null:'
         client:
             traceable_producer: true
 

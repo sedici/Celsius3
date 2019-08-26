@@ -8,6 +8,7 @@ security:
 
     firewalls:
         main:
+            logout_on_user_change: true
             pattern: ^/
             form_login:
                 provider: fos_userbundle
@@ -34,6 +35,7 @@ security:
             security:   false
 
         oauth_authorize:
+            logout_on_user_change: true
             pattern:    ^/api/oauth/v2/auth
             form_login:
                 provider: fos_userbundle
