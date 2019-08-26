@@ -457,3 +457,11 @@ ivory_serializer:
             enabled: false
         reflection: false
     
+enqueue:
+    default:
+        transport: 'file:'
+        client:
+            traceable_producer: true
+
+enqueue_elastica:
+    transport: default
