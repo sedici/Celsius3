@@ -47,10 +47,6 @@ class AdminSearchController extends BaseInstanceDependentController
         $filters = $request->query->get('filters', []);
         $searchManager = $this->container->get('celsius3_core.search_manager');
 
-        if (!$searchManager->validate($keyword)) {
-            throw Exception::create(Exception::INVALID_SEARCH, 'exception.invalid.search');
-        }
-
         $delFilter = $request->query->get('del-filter', []);
         if (!empty($delFilter) && array_key_exists($delFilter['name'], $filters)) {
             unset($filters[$delFilter['name']]);

@@ -16,6 +16,7 @@ class CustomPropertiesListener implements EventSubscriberInterface
         if ($object instanceof \Celsius3\CoreBundle\Entity\BookType) {
             $document->set('editor', $object->getEditor());
             $document->set('isbn', $object->getISBN());
+            $document->set('chapter', $object->getChapter());
         } elseif ($object instanceof \Celsius3\CoreBundle\Entity\JournalType) {
             if (!is_null($object->getJournal())) {
                 $document->set('journal', $object->getJournal()->getName());

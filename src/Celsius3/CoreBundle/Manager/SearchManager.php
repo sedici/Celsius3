@@ -23,13 +23,12 @@
 namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Entity\Instance;
+use Elastica\Query\Term;
 use Symfony\Component\DependencyInjection\Container;
 use Elastica\Query;
 use Elastica\Aggregation\Terms;
 use Elastica\Aggregation\Nested;
-use Elastica\Query\QueryString;
-use Elastica\Query\Filtered;
-use Elastica\Filter\BoolFilter;
+use Elastica\Query\BoolQuery;
 
 class SearchManager
 {
@@ -54,13 +53,13 @@ class SearchManager
     {
         $typesAgg = (new Terms('types'))->setField('type');
         $ownersAgg = (new Nested('owners', 'owner'))
-                ->addAggregation((new Terms('owners'))->setField('owner.username'));
+            ->addAggregation((new Terms('owners'))->setField('owner.username'));
         $operatorsAgg = (new Nested('operators', 'operator'))
-                ->addAggregation((new Terms('operators'))->setField('operator.username'));
+            ->addAggregation((new Terms('operators'))->setField('operator.username'));
         $materialsAgg = (new Nested('materials', 'order.materialData'))
-                ->addAggregation((new Terms('materials'))->setField('order.materialData.materialType'));
+            ->addAggregation((new Terms('materials'))->setField('order.materialData.materialType'));
         $statesAgg = (new Nested('states', 'currentState'))
-                ->addAggregation((new Terms('states'))->setField('currentState.type'));
+            ->addAggregation((new Terms('states'))->setField('currentState.type'));
 
         $query->addAggregation($typesAgg);
         $query->addAggregation($ownersAgg);
@@ -69,92 +68,92 @@ class SearchManager
         $query->addAggregation($statesAgg);
     }
 
-    private function addInstanceFilter(BoolFilter $boolFilter, Instance $instance)
+    private function addInstanceFilter(BoolQuery $boolQuery, Instance $instance)
     {
-        $nestedFilter = new \Elastica\Filter\Nested();
-        $nestedFilter->setPath('instance');
-        $nestedFilter->setName('instance');
-        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('instance.id', $instance->getId()));
-        $boolFilter->addMust($nestedFilter);
+        $nested = new \Elastica\Query\Nested();
+        $nested->setPath('instance');
+        $nested->setQuery((new Term())->setTerm('instance.id', $instance->getId()));
+        $boolQuery->addFilter($nested);
     }
 
-    private function addOperatorsFilter(BoolFilter $boolFilter, $value)
+    private function addOperatorsFilter(BoolQuery $boolQuery, $value)
     {
-        $nestedFilter = new \Elastica\Filter\Nested();
-        $nestedFilter->setPath('operator');
-        $nestedFilter->setName('operator');
-        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('operator.username', $value));
-        $boolFilter->addMust($nestedFilter);
+        $nested = new \Elastica\Query\Nested();
+        $nested->setPath('operator');
+        $nested->setQuery((new Term())->setTerm('operator.username', $value));
+        $boolQuery->addFilter($nested);
     }
 
-    private function addOwnersFilter(BoolFilter $boolFilter, $value)
+    private function addOwnersFilter(BoolQuery $boolQuery, $value)
     {
-        $nestedFilter = new \Elastica\Filter\Nested();
-        $nestedFilter->setPath('owner');
-        $nestedFilter->setName('owner');
-        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('owner.username', $value));
-        $boolFilter->addMust($nestedFilter);
+        $nested = new \Elastica\Query\Nested();
+        $nested->setPath('owner');
+        $nested->setQuery((new Term())->setTerm('owner.username', $value));
+        $boolQuery->addMust($nested);
     }
 
-    private function addMaterialsFilter(BoolFilter $boolFilter, $value)
+    private function addMaterialsFilter(BoolQuery $boolQuery, $value)
     {
-        $nestedFilter = new \Elastica\Filter\Nested();
-        $nestedFilter->setPath('order.materialData');
-        $nestedFilter->setName('materials');
-        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('order.materialData.materialType', $value));
-        $boolFilter->addMust($nestedFilter);
+        $nested = new \Elastica\Query\Nested();
+        $nested->setPath('order.materialData');
+        $nested->setQuery((new Term())->setTerm('order.materialData.materialType', $value));
+        $boolQuery->addMust($nested);
     }
 
-    private function addStatesFilter(BoolFilter $boolFilter, $value)
+    private function addStatesFilter(BoolQuery $boolQuery, $value)
     {
-        $nestedFilter = new \Elastica\Filter\Nested();
-        $nestedFilter->setPath('currentState');
-        $nestedFilter->setName('states');
-        $nestedFilter->setFilter((new \Elastica\Filter\Term())->setTerm('currentState.type', $value));
-        $boolFilter->addMust($nestedFilter);
+        $nested = new \Elastica\Query\Nested();
+        $nested->setPath('currentState');
+        $nested->setQuery((new Term())->setTerm('currentState.type', $value));
+        $boolQuery->addMust($nested);
     }
 
-    private function addTypesFilter(BoolFilter $boolFilter, $value)
+    private function addTypesFilter(BoolQuery $boolQuery, $value)
     {
-        $boolFilter->addMust((new \Elastica\Filter\Term())->setTerm('type', $value));
+        $boolQuery->addMust((new Term())->setTerm('type', $value));
     }
 
-    private function addAggregationsFilters(BoolFilter $boolFilter, array $filters = array())
+    private function addAggregationsFilters(BoolQuery $boolQuery, array $filters = array())
     {
         if (array_key_exists('instance', $filters)) {
-            $this->addInstanceFilter($boolFilter, $filters['instance']);
+            $this->addInstanceFilter($boolQuery, $filters['instance']);
         }
         if (array_key_exists('operators', $filters)) {
-            $this->addOperatorsFilter($boolFilter, $filters['operators']);
+            $this->addOperatorsFilter($boolQuery, $filters['operators']);
         }
         if (array_key_exists('owners', $filters)) {
-            $this->addOwnersFilter($boolFilter, $filters['owners']);
+            $this->addOwnersFilter($boolQuery, $filters['owners']);
         }
         if (array_key_exists('materials', $filters)) {
-            $this->addMaterialsFilter($boolFilter, $filters['materials']);
+            $this->addMaterialsFilter($boolQuery, $filters['materials']);
         }
         if (array_key_exists('states', $filters)) {
-            $this->addStatesFilter($boolFilter, $filters['states']);
+            $this->addStatesFilter($boolQuery, $filters['states']);
         }
         if (array_key_exists('types', $filters)) {
-            $this->addTypesFilter($boolFilter, $filters['types']);
+            $this->addTypesFilter($boolQuery, $filters['types']);
         }
     }
 
     public function search($keyword, $filters, Instance $instance)
     {
         $query = new Query();
+        $boolQuery = new BoolQuery();
+
         $this->addAgregations($query);
+        $this->addInstanceFilter($boolQuery, $instance);
+        $this->addAggregationsFilters($boolQuery, $filters);
 
-        $queryString = new QueryString($this->prepareKeyword($keyword));
-        $boolFilter = new \Elastica\Filter\BoolFilter();
+        $boolQuery->addShould($this->getTypeQuery($keyword));
+        $boolQuery->addShould($this->getTitleQuery($keyword));
+        $boolQuery->addShould($this->getJournalQuery($keyword));
+        $boolQuery->addShould($this->getCodeQuery($keyword));
+        $boolQuery->addShould($this->getMaterialTypeQuery($keyword));
+        $boolQuery->addShould($this->getISBNQuery($keyword));
+        $boolQuery->addShould($this->getEditorQuery($keyword));
+        $boolQuery->setMinimumShouldMatch(1);
 
-        $this->addInstanceFilter($boolFilter, $instance);
-        $this->addAggregationsFilters($boolFilter, $filters);
-
-        $filtered = new Filtered($queryString, $boolFilter);
-
-        $query->setQuery($filtered);
+        $query->setQuery($boolQuery);
 
         $finder = $this->container->get('fos_elastica.finder.app.request');
 
@@ -175,12 +174,12 @@ class SearchManager
         $usernames = array_unique($usernames);
 
         $baseusers = $this->container->get('doctrine.orm.entity_manager')
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findBy(['username' => $usernames]);
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->findBy(['username' => $usernames]);
 
         $users = [];
         foreach ($baseusers as $user) {
-            $users[strtolower($user->getUsername())] = [
+            $users[$user->getUsername()] = [
                 'name' => $user->getName(),
                 'surname' => $user->getSurname(),
             ];
@@ -189,14 +188,105 @@ class SearchManager
         return $users;
     }
 
-    public function validate(&$keyword)
+    private function getTitleQuery($keyword): Query\AbstractQuery
     {
-        $keyword = trim($keyword);
+        $matchQuery = new Query\Match();
+        $matchQuery->setFieldQuery('order.materialData.title', $keyword);
+        $matchQuery->setFieldOperator('order.materialData.title', Query\Match::OPERATOR_AND);
 
-        if (preg_match('/^([[:alnum:][:blank:]äáàëéèíìöóòúùñçÁÉÍÓÚÀÈÌÒÙÄËÖÑÇ])*$/', $keyword)) {
-            return true;
-        }
+        $nestedMaterialDataQuery = new Query\Nested();
+        $nestedMaterialDataQuery->setQuery($matchQuery);
+        $nestedMaterialDataQuery->setPath('order.materialData');
 
-        return false;
+        $nestedOrderQuery = new Query\Nested();
+        $nestedOrderQuery->setQuery($nestedMaterialDataQuery);
+        $nestedOrderQuery->setPath('order');
+
+        return $nestedOrderQuery;
+    }
+
+    private function getMaterialTypeQuery($keyword): Query\AbstractQuery
+    {
+        $termsQuery = new Query\Terms('order.materialData.materialType', explode(" ", preg_replace('/[^a-z0-9 ]/i', '', $keyword)));
+
+        $nestedMaterialDataQuery = new Query\Nested();
+        $nestedMaterialDataQuery->setQuery($termsQuery);
+        $nestedMaterialDataQuery->setPath('order.materialData');
+
+        $nestedOrderQuery = new Query\Nested();
+        $nestedOrderQuery->setQuery($nestedMaterialDataQuery);
+        $nestedOrderQuery->setPath('order');
+
+        return $nestedOrderQuery;
+    }
+
+    private function getJournalQuery($keyword): Query\AbstractQuery
+    {
+        $matchQuery = new Query\Match();
+        $matchQuery->setFieldQuery('order.materialData.journal', $keyword);
+        $matchQuery->setFieldOperator('order.materialData.journal', Query\Match::OPERATOR_AND);
+
+        $nestedMaterialDataQuery = new Query\Nested();
+        $nestedMaterialDataQuery->setQuery($matchQuery);
+        $nestedMaterialDataQuery->setPath('order.materialData');
+
+        $nestedOrderQuery = new Query\Nested();
+        $nestedOrderQuery->setQuery($nestedMaterialDataQuery);
+        $nestedOrderQuery->setPath('order');
+
+        return $nestedOrderQuery;
+    }
+
+    private function getEditorQuery($keyword): Query\AbstractQuery
+    {
+        $matchQuery = new Query\Match();
+        $matchQuery->setFieldQuery('order.materialData.editor', $keyword);
+        $matchQuery->setFieldOperator('order.materialData.editor', Query\Match::OPERATOR_AND);
+
+        $nestedMaterialDataQuery = new Query\Nested();
+        $nestedMaterialDataQuery->setQuery($matchQuery);
+        $nestedMaterialDataQuery->setPath('order.materialData');
+
+        $nestedOrderQuery = new Query\Nested();
+        $nestedOrderQuery->setQuery($nestedMaterialDataQuery);
+        $nestedOrderQuery->setPath('order');
+
+        return $nestedOrderQuery;
+    }
+
+    private function getCodeQuery($keyword): Query\AbstractQuery
+    {
+        $terms = explode(' ', preg_replace('/[^0-9 ]/i', '', $keyword));
+        $termsQuery = new Query\Terms('order.code', $terms);
+
+        $nestedOrderQuery = new Query\Nested();
+        $nestedOrderQuery->setQuery($termsQuery);
+        $nestedOrderQuery->setPath('order');
+
+        return $nestedOrderQuery;
+    }
+
+    private function getTypeQuery($keyword): Query\AbstractQuery
+    {
+        $terms = explode(' ', preg_replace('/[^a-z ]/i', '', $keyword));
+        $termsQuery = new Query\Terms('type', $terms);
+
+        return $termsQuery;
+    }
+
+    private function getISBNQuery($keyword): Query\AbstractQuery
+    {
+        $terms = explode(' ', $keyword);
+        $termsQuery = new Query\Terms('order.materialData.isbn', $terms);
+
+        $nestedMaterialDataQuery = new Query\Nested();
+        $nestedMaterialDataQuery->setQuery($termsQuery);
+        $nestedMaterialDataQuery->setPath('order.materialData');
+
+        $nestedOrderQuery = new Query\Nested();
+        $nestedOrderQuery->setQuery($nestedMaterialDataQuery);
+        $nestedOrderQuery->setPath('order');
+
+        return $nestedOrderQuery;
     }
 }
