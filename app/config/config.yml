@@ -360,7 +360,7 @@ fos_elastica:
             types:
                 request:
                     properties:
-                        type: { type: text }
+                        type: { type: keyword }
                         instance:
                             type: "nested"
                             properties:
@@ -368,23 +368,52 @@ fos_elastica:
                         owner:
                             type: "nested"
                             properties:
-                                name: { type: text }
-                                surname: { type: text }
+                                name: { type: text, analyzer: text_analyzer }
+                                surname: { type: text, analyzer: text_analyzer }
+                                username: { type: keyword }
+                        operator:
+                            type: "nested"
+                            properties:
+                                name: { type: text, analyzer: text_analyzer }
+                                surname: { type: text, analyzer: text_analyzer }
                                 username: { type: keyword }
                         order:
                             type: "nested"
                             properties:
-                                code: { type: integer }
+                                code: { type: text }
                                 materialData:
                                     type: "nested"
                                     properties:
                                         materialType: { type: keyword }
-                                        title: { type: text, analyzer: text_analyzer }
+                                        title: { type: text, analyzer: text_analyzer, boost: 2 }
                                         authors: { type: text, analyzer: text_analyzer }
                         currentState:
                             type: "nested"
                             properties:
                                 type: { type: keyword }
+                    dynamic_templates:
+                        isbn:
+                            match: "isbn"
+                            mapping:
+                                type: text
+                                analyzer: text_analyzer
+                        editor:
+                            match: "editor"
+                            mapping:
+                                type: text
+                                analyzer: text_analyzer
+                        chapter:
+                            match: "chapter"
+                            mapping:
+                                type: text
+                                analyzer: text_analyzer
+                                boost: 2
+                        journal:
+                            match: "journal"
+                            mapping:
+                                type: text
+                                analyzer: text_analyzer
+                                boost: 2
                     persistence:
                         driver: orm
                         model: Celsius3\CoreBundle\Entity\Request
