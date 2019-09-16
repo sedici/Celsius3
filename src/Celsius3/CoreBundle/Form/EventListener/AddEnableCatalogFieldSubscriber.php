@@ -102,12 +102,6 @@ class AddEnableCatalogFieldSubscriber implements EventSubscriberInterface
                 $catalogPosition->setCatalog($catalog);
             }
 
-            if (isset($data['enable'])) {
-                $catalogPosition->setEnabled($data['enable']);
-            } else {
-                $catalogPosition->setEnabled(false);
-            }
-
             $this->em->persist($catalogPosition);
             $this->em->flush();
 
