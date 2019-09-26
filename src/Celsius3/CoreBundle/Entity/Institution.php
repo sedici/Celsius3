@@ -128,9 +128,10 @@ class Institution extends Provider
         return $this->abbreviation.' - '.$this->name;
     }
 
-    public function getFullName()
+    public function getFullName($ids = [])
     {
-        return ($this->parent ? $this->parent->getFullName().' - ' : '').$this->name;
+        $ids[] = $this->getId();
+        return ($this->parent && !in_array($this->parent->getId(), $ids) ? $this->parent->getFullName().' - ' : '').$this->name;
     }
 
     public function __construct()
