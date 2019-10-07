@@ -1,5 +1,5 @@
 <ul class="list-unstyled pull-right actions">
-    {% if template_edited(element) %}
+    {% if template_edited(element) or element.instance.id == 1 %}
     <li>
         <a href="{{ path('admin_mails_edit', { 'id': element.id }) }}">
             <span class="glyphicon glyphicon-pencil"></span> {{ 'Edit'|trans }}
