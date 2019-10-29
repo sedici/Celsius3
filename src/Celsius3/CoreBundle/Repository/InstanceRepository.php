@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ORM\Query;
 
 /**
  * InstanceRepository.
@@ -49,6 +50,17 @@ class InstanceRepository extends BaseRepository
                     ->setParameter('enabled', true)
                     ->setParameter('invisible', false)
                     ->getQuery()->getResult();
+    }
+
+    public function findAllEnabledAndVisibleDomains()
+    {
+        return $this->createQueryBuilder('i')
+            ->select('i.host')
+            ->where('i.enabled = :enabled')
+            ->andWhere('i.invisible = :invisible')
+            ->setParameter('enabled', true)
+            ->setParameter('invisible', false)
+            ->getQuery()->getResult();
     }
 
     public function findAllInstancesExceptByUrl($url)
