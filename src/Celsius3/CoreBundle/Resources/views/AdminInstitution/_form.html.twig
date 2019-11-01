@@ -98,7 +98,7 @@
             <div class="col-md-10">
                 {{ form_widget(form.parent, { 'attr': {'class': 'form-control institution-select'} }) }}
                 {% for error in form.parent.vars.errors %}
-                    <p class="text-danger">{{ error.message }}</p>
+                    <p class="text-danger">{{ error.message | trans }}</p>
                 {% endfor %}
             </div>
         </div>

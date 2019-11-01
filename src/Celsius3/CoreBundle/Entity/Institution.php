@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
+use Celsius3\CoreBundle\Validator\Constraints\ParentInstitution;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -66,6 +67,7 @@ class Institution extends Provider
     private $institutions;
 
     /**
+     * @ParentInstitution()
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="institutions")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */

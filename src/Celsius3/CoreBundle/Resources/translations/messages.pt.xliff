@@ -4113,6 +4113,10 @@
         <source>Email domain for registration</source>
         <target>Domínio de email para registro</target>
       </trans-unit>
+      <trans-unit id="constraint.message.parent_institution" resname="constraint.message.parent_institution">
+        <source>constraint.message.parent_institution</source>
+        <target>A instituição-mãe selecionada corresponde à mesma instituição ou a uma de suas dependências.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
