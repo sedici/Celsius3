@@ -65,6 +65,23 @@ class SearchEventListener
                     'catalog' => $entity->getCatalog()->getId(),
                     'title' => $title,
                 ));
+
+                if (!$result) {
+                    $result = new CatalogResult();
+                    $result->setCatalog($entity->getCatalog());
+                    $result->setTitle($title);
+
+                    if ($entity->getResult() !== CatalogManager::CATALOG__NON_SEARCHED) {
+                        $result->setSearches($result->getSearches() + 1);
+                    }
+                    if (in_array($entity->getResult(), $this->positive)) {
+                        $result->setMatches($result->getMatches() + 1);
+                    }
+
+                    $em->persist($result);
+                    $em->flush($result);
+                }
+
                 $old = $changeset['result'][0];
                 $new = $changeset['result'][1];
 
