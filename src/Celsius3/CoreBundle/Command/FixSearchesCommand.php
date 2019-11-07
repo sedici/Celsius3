@@ -51,7 +51,7 @@ class FixSearchesCommand extends ContainerAwareCommand
         $offset = 0;
 
         $event_count = $em->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
-            ->getSearchEventCount()->getQuery()->getSingleScalarResult();
+            ->getEventSearchCount()->getQuery()->getSingleScalarResult();
 
         while ($offset < $event_count) {
             $events = $em->getRepository('Celsius3CoreBundle:Event\\SearchEvent')
@@ -80,24 +80,26 @@ class FixSearchesCommand extends ContainerAwareCommand
                         $title = $event->getRequest()->getOrder()->getMaterialData()->getTitle();
                     }
 
-                    $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
-                            ->getCatalogResultByTitle($event->getCatalog()->getId(), $title)
+                    if (!is_null($title)) {
+                        $result = $em->getRepository('Celsius3CoreBundle:CatalogResult')
+                            ->getCatalogResultByTitle($event->getCatalog(), $title)
                             ->getQuery()->getOneOrNullResult();
 
-                    if (!$result) {
-                        $result = new CatalogResult();
-                        $result->setCatalog($event->getCatalog());
-                        $result->setTitle($title);
-                    }
-                    if ($event->getResult() !== CatalogManager::CATALOG__NON_SEARCHED) {
-                        $result->setSearches($result->getSearches() + 1);
-                    }
-                    if (in_array($event->getResult(), $this->positive)) {
-                        $result->setMatches($result->getMatches() + 1);
-                    }
+                        if (!$result) {
+                            $result = new CatalogResult();
+                            $result->setCatalog($event->getCatalog());
+                            $result->setTitle($title);
+                        }
+                        if ($event->getResult() !== CatalogManager::CATALOG__NON_SEARCHED) {
+                            $result->setSearches($result->getSearches() + 1);
+                        }
+                        if (in_array($event->getResult(), $this->positive)) {
+                            $result->setMatches($result->getMatches() + 1);
+                        }
 
-                    $em->persist($result);
-                    $em->flush($result);
+                        $em->persist($result);
+                        $em->flush($result);
+                    }
                 }
 
                 unset($query, $t, $data, $event, $result, $title, $id, $entity);
