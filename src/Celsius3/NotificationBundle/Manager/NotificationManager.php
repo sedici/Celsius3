@@ -32,6 +32,7 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\MessageBundle\Entity\Message;
 use JMS\TranslationBundle\Annotation\Ignore;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NotificationManager
 {
@@ -243,8 +244,8 @@ class NotificationManager
             $this->notifyInterface($notification, array($user));
         }
 
-        $otherText = "\n\nPara acceder al pedido ingrese al siguiente enlace.\n";
-        $otherText .= $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), true);
+        $otherText = "\n\n" . $this->container->get('translator')->trans("Para acceder al pedido ingrese al siguiente enlace") . ".\n";
+        $otherText .= $router->generate('admin_order_show', array('id' => $notification->getObject()->getRequest()->getOrder()->getId()), UrlGeneratorInterface::ABSOLUTE_URL);
 
         $this->notifyEmail($notification, $usersEmailNotification, $event->getInstance(), $otherText);
     }

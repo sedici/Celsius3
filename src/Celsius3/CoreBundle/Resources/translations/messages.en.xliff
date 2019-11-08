@@ -4118,6 +4118,10 @@
         <source>constraint.message.parent_institution</source>
         <target>The selected parent institution corresponds to the same institution or one of its dependencies.</target>
       </trans-unit>
+      <trans-unit id="Para acceder al pedido ingrese al siguiente enlace" resname="Para acceder al pedido ingrese al siguiente enlace">
+        <source>Para acceder al pedido ingrese al siguiente enlace</source>
+        <target>To access the order enter the following link</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
