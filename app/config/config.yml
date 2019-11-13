@@ -41,6 +41,7 @@ twig:
         notification_public_url: "%notification_public_url%"
         notification_port: "%notification_port%"
         notification_limit: "%notification_limit%"
+        instance_helper: "@celsius3_core.instance_helper"
     form_themes:
         - 'Celsius3CoreBundle:Form:fields.html.twig'
 
