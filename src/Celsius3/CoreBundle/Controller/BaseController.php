@@ -59,7 +59,8 @@ abstract class BaseController extends Controller
 
     protected function getResultsPerPage()
     {
-        return $this->container->getParameter('max_per_page');
+        return $this->get('celsius3_core.configuration_helper')
+            ->getCastedValue($this->getDirectory()->get('results_per_page'));
     }
 
     protected function getSortDefaults()
