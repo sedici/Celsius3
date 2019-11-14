@@ -261,13 +261,10 @@ class InstitutionRepository extends BaseRepository
         return $qb->orderBy('i.name', 'asc');
     }
 
-    public function findByCountry($country_id)
+    public function findByCountry($country_id, Instance $instance, Instance $directory)
     {
-        return $this->createQueryBuilder('i')
-                    ->where('i.country = :country')
-                    ->setParameter('country', $country_id)
-                    ->andWhere('i.parent IS NULL')
-                    ->getQuery()->getResult();
+        return $this->findForInstanceAndGlobal($instance, $directory, true, null, $country_id)
+            ->getQuery()->execute();
     }
 
     public function findForCountryOrCity($country_id, $city_id)

@@ -116,11 +116,13 @@ class PublicController extends BaseInstanceDependentController
     public function countriesAction()
     {
         $countries = $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:Country')->findAll();
+            ->getRepository('Celsius3CoreBundle:Country')
+            ->getAllOrderedByNameQB()
+            ->getQuery()->execute();
 
         $response = array();
         foreach ($countries as $country) {
-            $response[] = array('value' => $country->getId(), 'name' => $country->getName());
+            $response[] = array('value' => $country->getId(), 'name' => ucfirst(strtolower($country->getName())));
         }
 
         return new Response(json_encode($response));
@@ -164,8 +166,8 @@ class PublicController extends BaseInstanceDependentController
         }
 
         $institutions = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Institution')
-                ->findByCountry($request->query->get('country_id'));
+            ->getRepository('Celsius3CoreBundle:Institution')
+            ->findByCountry($request->query->get('country_id'), $this->getInstance(), $this->getDirectory());
 
         $response = array();
         foreach ($institutions as $institution) {
