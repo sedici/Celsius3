@@ -212,6 +212,37 @@ $('.union_link').click(function () {
     }
 });
 
+$('.email_link').click(function () {
+    let addresses = [];
+    $('input[type=checkbox]:checked').each(function (k, v) {
+        addresses.push($(v).parents(".panel").find("a.emailModal").attr('data-email'));
+    });
+
+    if (addresses.length >= 2) {
+        $('.modal').modal('hide');
+        var address = addresses.join(', ');
+        $.get(Routing.generate('admin_rest_mail_template'))
+            .done(function (data) {
+                templates = data;
+
+                data = {
+                    address: address,
+                    templates: templates
+                };
+
+                $('#emailModal .modal-body').html(ich.mail(data));
+
+                $('select.select2').select2({
+                    allowClear: true
+                });
+
+                $('#emailModal button#sendEmail').attr('id', 'sendBatchEmail');
+
+                $('#emailModal').modal('show');
+
+            });
+    }
+});
 
 $('.enable_link').click(function () {
     $('#batch-action').val($(this).attr('class').split('_')[0]);

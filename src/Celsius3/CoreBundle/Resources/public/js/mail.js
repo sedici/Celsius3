@@ -19,6 +19,8 @@ $(document).ready(function () {
                     allowClear: true
                 });
 
+                $('#emailModal button#sendBatchEmail').attr('id', 'sendEmail');
+
                 $('#emailModal').modal('show');
             });
     });
@@ -46,5 +48,28 @@ $(document).ready(function () {
                     $('.modal').modal('hide');
                 }
             });
+    });
+
+    $(document).on('click', '#sendBatchEmail', function () {
+        let emails = $('#emailAddress').attr('value').split(/ *, */);
+        let subject = $('#emailSubject').val();
+        let text = $('#emailBody').val();
+        let url = Routing.generate('admin_rest_email');
+
+        for (let i = 0; i < emails.length; ++i) {
+            let data = {
+                email: emails[i],
+                subject: subject,
+                text: text
+            };
+
+            $.post(url, data)
+                .done(function (data) {
+                    if (data) {
+                        $('#emailForm').get(0).reset;
+                        $('.modal').modal('hide');
+                    }
+                });
+        }
     });
 });
