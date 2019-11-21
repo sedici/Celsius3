@@ -30,6 +30,8 @@ class BaseUserFilter implements EntityFilterInterface
     private $specialFields = array(
         'state' => 'addFindByStateType',
         'roles' => 'addFindByRole',
+        'country' => 'addFindByCountry',
+        'city' => 'addFindByCity',
     );
 
     public function __construct(EntityManager $em)

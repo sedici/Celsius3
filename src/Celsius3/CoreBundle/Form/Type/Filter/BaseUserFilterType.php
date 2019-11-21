@@ -27,6 +27,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use JMS\TranslationBundle\Annotation\Ignore;
 
@@ -73,7 +75,99 @@ class BaseUserFilterType extends AbstractType
                         /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
                     ),
                 ))
-        ;
+            ->add('country', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Country',
+                'mapped' => true,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'country-select',
+                ),
+                'auto_initialize' => false,
+            ))
+            ->add('city', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:City',
+                'choices' => [],
+                'mapped' => true,
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'city-select',
+                ),
+                'auto_initialize' => false,
+            ))
+            ->add('institution', EntityType::class, array(
+                'class' => 'Celsius3CoreBundle:Institution',
+                'choices' => [],
+                'mapped' => true,
+                'label' => ucfirst('institution'),
+                'placeholder' => '',
+                'required' => false,
+                'attr' => array(
+                    'class' => 'institution-select',
+                ),
+                'auto_initialize' => false,
+            ));
+
+
+        $builder->get('country')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $country = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
+
+                $cities = null === $country ? array() : $country->getCities();
+                $form->add('city', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:City',
+                    'choices' => $cities,
+                    'mapped' => true,
+                    'placeholder' => '',
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'institution-select',
+                    ),
+                    'auto_initialize' => false,
+
+                ));
+
+                $institutions = null === $country ? array() : $country->getInstitutions();
+                $form->add('institution', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:Institution',
+                    'choices' => $institutions,
+                    'mapped' => true,
+                    'label' => ucfirst('institution'),
+                    'placeholder' => '',
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'institution-select',
+                    ),
+                    'auto_initialize' => false,
+                ));
+            }
+        );
+
+        $builder->get('city')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $city = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
+                $form->remove('institution');
+
+                $institutions = null === $city ? array() : $city->getInstitutions();
+                $form->add('institution', EntityType::class, array(
+                    'class' => 'Celsius3CoreBundle:Institution',
+                    'choices' => $institutions,
+                    'mapped' => true,
+                    'label' => ucfirst('institution'),
+                    'placeholder' => '',
+                    'required' => false,
+                    'attr' => array(
+                        'class' => 'institution-select',
+                    ),
+                    'auto_initialize' => false,
+                ));
+            }
+        );
 
         if (is_null($options['instance'])) {
             $builder
@@ -91,6 +185,7 @@ class BaseUserFilterType extends AbstractType
             'csrf_protection' => false,
             'instance' => null,
             'allow_extra_fields' => true,
+            'validation_groups' => ['base_user_filter_type']
         ));
     }
 

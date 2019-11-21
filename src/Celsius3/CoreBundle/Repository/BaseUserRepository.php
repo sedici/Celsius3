@@ -370,4 +370,36 @@ class BaseUserRepository extends BaseRepository
     }
 
 
+    public function addFindByCountry($data, QueryBuilder $query, Instance $instance = null)
+    {
+        $alias = $query->getRootAliases()[0];
+
+        $query = $query->join($alias . '.institution', 'i')
+            ->join('i.country', 'c')
+            ->andWhere('c.id = :country')
+            ->setParameter('country', $data);
+
+        if (!is_null($instance)) {
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
+        }
+
+        return $query;
+    }
+
+    public function addFindByCity($data, QueryBuilder $query, Instance $instance = null)
+    {
+        $alias = $query->getRootAliases()[0];
+
+        $query = $query->join('i.city', 'cy')
+            ->andWhere('cy.id = :city')
+            ->setParameter('city', $data);
+
+        if (!is_null($instance)) {
+            $query = $query->andWhere($alias . '.instance = :instance_id')
+                ->setParameter('instance_id', $instance->getId());
+        }
+
+        return $query;
+    }
 }
