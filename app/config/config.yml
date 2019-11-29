@@ -152,7 +152,9 @@ fos_user:
 
 services:
     monolog_processor:
-        class: Monolog\Processor\IntrospectionProcessor
+        class: Celsius3\CoreBundle\Logger\ClientProcessor
+        arguments:
+            - '@request_stack'
         tags:
             - { name: monolog.processor }
 
