@@ -4121,6 +4121,10 @@
         <source>Para acceder al pedido ingrese al siguiente enlace</source>
         <target>Para acessar o pedido, digite o seguinte link</target>
       </trans-unit>
+      <trans-unit id="disabled_instance_message" resname="disabled_instance_message">
+        <source>disabled_instance_message</source>
+        <target>A instância não está ativada</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

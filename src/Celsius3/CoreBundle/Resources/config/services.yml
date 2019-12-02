@@ -311,3 +311,8 @@ services:
     celsius3_core.fos_user_manager:
         class: Celsius3\CoreBundle\Manager\FosUserManager
         arguments: ['@fos_user.util.password_updater', '@fos_user.util.canonical_fields_updater', '@celsius3_core.instance_helper', '@doctrine.orm.entity_manager', '@security.token_storage', '%fos_user.model.user.class%']
+    celsius3_core.instance_disabled_listener:
+        class: Celsius3\CoreBundle\EventListener\InstanceDisabledListener
+        arguments: [ '@celsius3_core.instance_helper', '@twig' , '@security.helper', '@router' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
