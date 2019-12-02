@@ -1,1 +1,1 @@
-<span>{{ element.name }}</span>
+<span {% if not element.enabled %} style="color: #d9534f" {% endif %}>{{ element.name }}</span>
