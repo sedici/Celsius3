@@ -194,7 +194,7 @@ class PublicController extends BaseInstanceDependentController
 
         $em = $this->getDoctrine()->getManager();
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
-                ->findForCountryOrCity($request->query->get('country_id'), $request->query->get('city_id'));
+                ->findForCountryOrCity($request->query->get('country_id'), $request->query->get('city_id'), $this->getDirectory(), $this->getInstance());
 
         $actual = array_filter($institutions, function ($i) {
             return is_null($i['parent_id']);

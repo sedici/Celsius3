@@ -52,7 +52,14 @@ function loadInstitutions(json) {
     var ins = function(institution_data){ return "<option value='"+institution_data.value+"'>"+institution_data.name+"</option>"};
     
     function recursiveInstitutionPrint(institution_data){
-        $('select.institution-select').append("<option value='"+institution_data.value+"'>"+institution_data.name+"</option>");
+
+        let tab = '';
+        for (let i = 0; i < institution_data.level; i++) {
+            tab = tab + '&nbsp;&nbsp;&nbsp;&nbsp;';
+        }
+
+        $('select.institution-select').append("<option value='"+institution_data.value+"'>"+tab+institution_data.name+"</option>");
+
         if (institution_data['hasChildren']){
             institution_data['children'].forEach(recursiveInstitutionPrint);
         }

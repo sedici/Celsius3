@@ -267,7 +267,7 @@ class InstitutionRepository extends BaseRepository
             ->getQuery()->execute();
     }
 
-    public function findForCountryOrCity($country_id, $city_id)
+    public function findForCountryOrCity($country_id, $city_id, Instance $directory = null, Instance $instance = null)
     {
         $qb = $this->createQueryBuilder('i')
                     ->select('i.id, i.name, i.abbreviation, p.id as parent_id, ins.id AS celsiusInstance, h.id AS hive_id')
@@ -279,6 +279,12 @@ class InstitutionRepository extends BaseRepository
             $qb = $qb->where('i.city = :cid')->setParameter('cid', $city_id);
         } elseif ($country_id) {
             $qb = $qb->where('i.country = :country')->setParameter('country', $country_id);
+        }
+
+        if ($directory and $instance) {
+            $qb->andWhere('(i.instance = :directory or i.instance = :instance)')
+                ->setParameter('directory', $directory)
+                ->setParameter('instance', $instance);
         }
 
         $qb->orderBy('i.name', 'ASC');
