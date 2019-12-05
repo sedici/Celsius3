@@ -281,6 +281,8 @@ class InstitutionRepository extends BaseRepository
             $qb = $qb->where('i.country = :country')->setParameter('country', $country_id);
         }
 
+        $qb->orderBy('i.name', 'ASC');
+
         return $qb->getQuery()->getArrayResult();
     }
 }

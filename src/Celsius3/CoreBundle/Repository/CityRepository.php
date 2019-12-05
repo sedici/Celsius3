@@ -69,6 +69,7 @@ class CityRepository extends BaseRepository
         return $this->createQueryBuilder('c')
                     ->where('c.country = :cid')
                     ->setParameter('cid', $country_id)
+                    ->orderBy('c.name', 'ASC')
                     ->getQuery()->getResult();
     }
 }
