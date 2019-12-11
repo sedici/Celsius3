@@ -430,8 +430,8 @@
                 <div class="panel2_cancel col-md-1"></div>
                 <div class="panel3_cancel col-md-3">
                     <div class="relojito">
-                        <span ng-if="request.cancelled" class="glyphicon glyphicon-remove"></span>
-                        <span ng-if="request.annulled" class="glyphicon glyphicon-ban-circle"></span>
+                        <span ng-if="request.cancelled" class="glyphicon glyphicon-remove" style="font-size: x-large"></span>
+                        <span ng-if="request.annulled" class="glyphicon glyphicon-ban-circle" style="font-size: x-large"></span>
                     </div>
                     <div class="fecha_hoja">{{request.created_at | date:'mediumDate'}}</div>
                 </div>
@@ -448,20 +448,19 @@
                 <div class="panel3 col-md-3" ng-if="request.type === 'sirequest'">
                     <div class="relojito">
                         <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
-                            <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting"/>
+                            <span class="glyphicon glyphicon-upload" style="font-size: x-large" data-toggle="tooltip" title="{{ 'upload' | trans }}"></span>
                         </a>
-                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign" style="font-size: x-large"></span>
                     </div>
-                    <div class="fecha_relojito">
-                        <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+                    <div class="fecha_relojito" style="vertical-align: middle">
+                            <img src="/bundles/celsius3core/images/icon_relojito.png" width="6" height="11" alt="waiting"/>
                             {{request.created_at|date:'mediumDate'}}
-                        </a>
                     </div>
                 </div>
                 <div class="panel3 col-md-3" ng-if="request.type === 'mirequest'">
                     <div class="relojito">
                         <img src="/bundles/celsius3core/images/icon_relojito.png" width="11" height="20" alt="waiting"/>
-                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign"></span>
+                        <span ng-if="hasReclaim(request)" class="glyphicon glyphicon-warning-sign" style="font-size: x-large"></span>
                     </div>
                     <div class="fecha_relojito">
                         {{request.created_at|date:'mediumDate'}}
@@ -479,6 +478,11 @@
                                 <span class="glyphicon glyphicon-repeat"></span>
                             </a>
                         </li>
+                        <li ng-if="request.type === 'mirequest'">
+                            <a href ng-click="forms.receive.request = request.id" data-target="#receive-modal" role="button" data-toggle="modal">
+                                <span class="glyphicon glyphicon-upload" data-toggle="tooltip" title="{{ 'upload' | trans }}"></span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             {% endverbatim %}
@@ -492,23 +496,23 @@
                     <div class="relojito">
                         <span ng-if="!hasApprove(getReceive(request))">
                             <a ng-if="file.enabled" ng-repeat="file in getReceive(request).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                                <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o"></span>
-                                <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text"></span>
+                                <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o" style="font-size: large"></span>
+                                <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text" style="font-size: large"></span>
                             </a>
                         </span>
                         <span ng-if="hasApprove(getReceive(request))">
                             <a ng-if="file.enabled" ng-repeat="file in getApprove(getReceive(request)).files.slice(0,3)" ng-href="{{getFileDownloadRoute(file)}}" title="{{file.name}}">
-                                <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o"></span>
-                                <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text"></span>
+                                <span ng-if="getReceive(request).delivery_type === 'pdf'" class="fa fa-file-pdf-o" style="font-size: large"></span>
+                                <span ng-if="getReceive(request).delivery_type === 'printed'" class="fa fa-file-text" style="font-size: large"></span>
                             </a>
                         </span>
                         <a href ng-if="!hasApprove(getReceive(request)) && request.type === 'sirequest'" bs-tooltip="viewAllTooltip" ng-click="files.list = getReceive(request).files" data-target="#files-modal" role="button" data-toggle="modal">
-                            <span class="glyphicon glyphicon-list-alt"></span>
+                            <span class="glyphicon glyphicon-list-alt" style="font-size: large"></span>
                         </a>
                         <a href ng-if="hasApprove(getReceive(request))" bs-tooltip="viewAllTooltip" ng-click="files.list = getApprove(getReceive(request)).files" data-target="#files-modal" role="button" data-toggle="modal">
-                            <span class="glyphicon glyphicon-list-alt"></span>
+                            <span class="glyphicon glyphicon-list-alt" style="font-size: large"></span>
                         </a>
-                        <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).reclaimed" class="glyphicon glyphicon-warning-sign"></span>
+                        <span ng-if="hasReclaim(getReceive(request)) && getReceive(request).reclaimed" class="glyphicon glyphicon-warning-sign" style="font-size: x-large"></span>
                     </div>
                     <div class="fecha_hoja">{{getReceive(request).created_at | date:'mediumDate'}}</div>
                 </div>
