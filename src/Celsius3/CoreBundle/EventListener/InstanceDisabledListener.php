@@ -23,6 +23,7 @@
 namespace Celsius3\CoreBundle\EventListener;
 
 use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,7 +51,7 @@ class InstanceDisabledListener
     {
         $instance = $this->instanceHelper->getSessionOrUrlInstance();
 
-        if ($instance && !$instance->getEnabled()) {
+        if ($instance && !$instance->getEnabled() && $instance->getUrl() !== InstanceManager::INSTANCE__DIRECTORY) {
             if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {
                 $event->setResponse(new RedirectResponse($this->router->generate('fos_user_security_logout')));
                 return;
