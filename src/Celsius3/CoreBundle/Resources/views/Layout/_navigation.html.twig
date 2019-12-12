@@ -69,13 +69,13 @@
         </li>
     {% endif %}
 
-    {% if (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and local) or (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local) %}
+    {% if (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER'))) or (is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local) %}
         <li><a href="{{ path('user_index') }}">{{ 'My Site' | trans }}</a></li>
     {% endif %}
 
-    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}
-        <li><a href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance' | trans }}</a></li>
-    {% endif %}
+{#    {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_USER')) and not local %}#}
+{#        <li><a href="{{ 'http://' ~ app.session.get('instance_host') }}">{{ 'My Instance' | trans }}</a></li>#}
+{#    {% endif %}#}
 
     {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_STATISTICS')) %}
         <li><a href="{{ path('superadmin_statistics') }}">{{ 'Statistics Administration' | trans }}</a></li>

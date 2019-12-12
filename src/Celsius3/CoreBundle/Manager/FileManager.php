@@ -116,8 +116,10 @@ class FileManager
                 $file->setInstance($previousRequest->getInstance());
                 $file->setRequest($previousRequest);
                 $file->setEvent($event);
-                if (!copy($this->getUploadRootDir($original).DIRECTORY_SEPARATOR.$original->getPath(), $this->getUploadRootDir($file).DIRECTORY_SEPARATOR.$file->getPath())) {
-                    throw new \Exception('Copy file error');
+                if (!empty($original->getPath())) {
+                    if (!copy($this->getUploadRootDir($original) . DIRECTORY_SEPARATOR . $original->getPath(), $this->getUploadRootDir($file) . DIRECTORY_SEPARATOR . $file->getPath())) {
+                        throw new \Exception('Copy file error');
+                    }
                 }
                 $this->container->get('doctrine.orm.entity_manager')->persist($file);
                 $event->addFile($file);

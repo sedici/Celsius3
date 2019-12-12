@@ -53,7 +53,7 @@ security:
         - { path: ^/.*/api/oauth, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*/api, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*/public, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/.*/bibliotecario/user, role: ROLE_LIBRARIAN }
+        - { path: ^/.*/bibliotecario, role: ROLE_LIBRARIAN }
         - { path: ^/.*/user, role: ROLE_USER }
         - { path: ^/.*/admin, role: ROLE_ORDER_MANAGER }
         - { path: ^/.*/superadmin, role: ROLE_SUPER_ADMIN }
