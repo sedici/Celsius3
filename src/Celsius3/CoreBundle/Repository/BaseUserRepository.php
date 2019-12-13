@@ -38,7 +38,7 @@ class BaseUserRepository extends BaseRepository
                         ->where('u.instance = :instance_id')
                         ->andWhere('u.roles LIKE :roles')
                         ->setParameter('instance_id', $instance->getId())
-                        ->setParameter('roles', '%"'.UserManager::ROLE_ADMIN.'"%')
+                        ->setParameter('roles', '%"'.UserManager::ROLE_ORDER_MANAGER.'"%')
                         ->getQuery()
                         ->getResult();
     }
