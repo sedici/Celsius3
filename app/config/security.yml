@@ -60,8 +60,8 @@ security:
         - { path: ^/.*/migration, role: ROLE_MIGRATOR }
         
     role_hierarchy:
+        ROLE_ADMIN: [ROLE_LIBRARIAN, ROLE_ORDER_MANAGER]
         ROLE_LIBRARIAN:   ROLE_USER
-        ROLE_ADMIN:       ROLE_LIBRARIAN
         ROLE_SUPER_ADMIN: ROLE_ADMIN
         ROLE_ORDER_MANAGER: ROLE_USER
         ROLE_STATISTICS: ROLE_ADMIN
