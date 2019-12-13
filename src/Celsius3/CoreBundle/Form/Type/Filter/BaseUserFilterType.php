@@ -70,6 +70,7 @@ class BaseUserFilterType extends AbstractType
                     'required' => false,
                     'choices' => array(
                         /** @Ignore */ 'User' => 'ROLE_USER',
+                        /** @Ignore */ 'Manager Orden' => 'ROLE_ORDER_MANAGER',
                         /** @Ignore */ 'Librarian' => 'ROLE_LIBRARIAN',
                         /** @Ignore */ 'Admin' => 'ROLE_ADMIN',
                         /** @Ignore */ 'Network Admin' => 'ROLE_SUPER_ADMIN',
