@@ -28,7 +28,7 @@ class CertificateCommand extends ContainerAwareCommand
 
         # Se toman dominios de instancias activas
         /** @var DataRequest $dr */
-        $domains = $em->getRepository(Instance::class)->findAllEnabledAndVisibleDomains();
+        $domains = $em->getRepository(Instance::class)->findAllDomains();
 
         # Se descartan aquellos que no apunten a nuestro servidor
         $validDomains = array();
