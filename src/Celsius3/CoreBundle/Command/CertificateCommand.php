@@ -6,9 +6,7 @@ use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CertificateCommand extends ContainerAwareCommand
@@ -17,8 +15,7 @@ class CertificateCommand extends ContainerAwareCommand
     {
         $this
             ->setName('celsius3:certificate:update')
-            ->setDescription('Update certificates for enabled instances.')
-        ;
+            ->setDescription('Update certificates for enabled instances.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -26,10 +23,8 @@ class CertificateCommand extends ContainerAwareCommand
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $output->writeln(shell_exec('acmephp register soporte.celsius@prebi.unlp.edu.ar'));
-
         # Se toma la ip actual del servidor
-        $serverIp = getHostByName(getHostName());
+        $serverIp = getHostByName('servicio.prebi.unlp.edu.ar');
 
         # Se toman dominios de instancias activas
         /** @var DataRequest $dr */
@@ -43,13 +38,8 @@ class CertificateCommand extends ContainerAwareCommand
             }
         }
 
-        # Se authorizan y prueban los dominios
-        $output->writeln(shell_exec('acmephp authorize ' . implode(" ", $validDomains)));
-        $output->writeln(shell_exec('acmephp check ' . implode(" ", $validDomains)));
-
-        # Se solicita el certificado
-        echo implode(" -a ", $validDomains);
-        $output->writeln(shell_exec('acmephp request ' . implode(" -a ", $validDomains)));
+        # Solicitud de certificado
+        $output->writeln(shell_exec('certbot --non-interactive --agree-tos -m soporte.celsius@prebi.unlp.edu.ar certonly --webroot -w /var/www/Celsius3/web -d ' . implode(" -d ", $validDomains)));
     }
 
 }
