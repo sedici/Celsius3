@@ -22,6 +22,7 @@ class CertificateCommand extends ContainerAwareCommand
     {
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $publicPath = $this->getContainer()->get('kernel')->getRootDir().'/../web';
 
         # Se toma la ip actual del servidor
         $serverIp = getHostByName('servicio.prebi.unlp.edu.ar');
@@ -29,6 +30,7 @@ class CertificateCommand extends ContainerAwareCommand
         # Se toman dominios de instancias activas
         /** @var DataRequest $dr */
         $domains = $em->getRepository(Instance::class)->findAllDomains();
+        $directory = $em->getRepository(Instance::class)->findOneBy(['url' => 'directory']);
 
         # Se descartan aquellos que no apunten a nuestro servidor
         $validDomains = array();
@@ -39,7 +41,7 @@ class CertificateCommand extends ContainerAwareCommand
         }
 
         # Solicitud de certificado
-        $output->writeln(shell_exec('certbot --non-interactive --agree-tos -m soporte.celsius@prebi.unlp.edu.ar certonly --webroot -w /var/www/Celsius3/web -d ' . implode(" -d ", $validDomains)));
+        $output->writeln(shell_exec('certbot --non-interactive --agree-tos -m soporte.celsius@prebi.unlp.edu.ar --expand certonly --webroot -w '.$publicPath.' -d ' . implode(" -d ", $validDomains) . ' -d ' . $directory->getHost()));
     }
 
 }
