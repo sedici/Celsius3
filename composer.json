@@ -63,7 +63,8 @@
     "symfony/process": "^3.4",
     "enqueue/elastica-bundle": "^0.9.3",
     "enqueue/fs": "^0.9.12",
-    "symfony/webpack-encore-bundle": "^1.7"
+    "symfony/webpack-encore-bundle": "^1.7",
+    "ext-zip": "*"
   },
   "require-dev": {
     "sensio/generator-bundle": "~3.0",

@@ -99,7 +99,17 @@ class ExportDataCommand extends ContainerAwareCommand
         }
         fclose($handle);
 
-        $dr->setFile($filename);
+        $zip = new \ZipArchive();
+        $zipFilename = $filename . ".zip";
+        if ($zip->open($directory . $zipFilename, \ZipArchive::CREATE)!==TRUE) {
+            exit("No se puede abrir el archivo $directory$zipFilename\n");
+        }
+        $zip->addFile($directory . $filename);
+        $zip->close();
+
+        unlink($directory . $filename);
+
+        $dr->setFile($zipFilename);
         $dr->setVisible(true);
         $em->persist($dr);
         $em->flush();
