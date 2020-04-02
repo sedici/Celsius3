@@ -56,6 +56,7 @@ security:
         - { path: ^/.*/bibliotecario, role: ROLE_LIBRARIAN }
         - { path: ^/.*/user, role: ROLE_USER }
         - { path: ^/.*/admin, role: ROLE_ORDER_MANAGER }
+        - { path: ^/.*/superadmin/data_request/delete, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.*/superadmin, role: ROLE_SUPER_ADMIN }
         - { path: ^/.*/migration, role: ROLE_MIGRATOR }
         

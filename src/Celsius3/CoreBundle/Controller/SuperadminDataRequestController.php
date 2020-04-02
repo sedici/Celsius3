@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 
 /**
@@ -75,13 +76,30 @@ class SuperadminDataRequestController extends BaseController
     /**
      * @Route("/{id}/annul", name="superadmin_data_request_annul")
      */
-    public function annulAction(Request $request, DataRequest $dataRequest) {
+    public function annulAction(Request $request, DataRequest $dataRequest)
+    {
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($dataRequest->setVisible(false));
         $em->flush();
 
         return $this->redirectToRoute('superadmin_data_request_index');
+    }
+
+
+    /**
+     * @Route("/delete", name="superadmin_data_requests_delete", options={"expose"=true}, methods={"DELETE"})
+     *
+     * ************************************************************************************* *
+     * WARNING!!! THIS METHOD IS PUBLIC FOR EVERYONE!!! See the file app/config/security.yml *
+     * ************************************************************************************* *
+     */
+    public function deleteDataRequests(Request $request)
+    {
+        $rootDir = $this->get('kernel')->getRootDir();
+        shell_exec("php $rootDir/console celsius3:delete-data-requests");
+
+        return new Response();
     }
 
 }
