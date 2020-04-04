@@ -86,7 +86,7 @@ class ExportDataCommand extends ContainerAwareCommand
         $keys = array_keys($qb2->getQuery()->getArrayResult()[0]);
 
         $handle = fopen($directory . $filename, 'w+');
-        fputcsv($handle, $keys);
+        fputcsv($handle, $keys, ';', '"', '\\');
 
         $results = $qb->getQuery()->iterate();
         while (false !== ($row = $results->next())) {
@@ -95,13 +95,13 @@ class ExportDataCommand extends ContainerAwareCommand
                 $arr['date'] = $arr['date']->format('Y-m-d');
             }
 
-            fputcsv($handle, $arr);
+            fputcsv($handle, $arr, ';', '"', '\\');
         }
         fclose($handle);
 
         $zip = new \ZipArchive();
         $zipFilename = $filename . ".zip";
-        if ($zip->open($directory . $zipFilename, \ZipArchive::CREATE)!==TRUE) {
+        if ($zip->open($directory . $zipFilename, \ZipArchive::CREATE) !== TRUE) {
             exit("No se puede abrir el archivo $directory$zipFilename\n");
         }
         $zip->addFile($directory . $filename);
