@@ -368,7 +368,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                 axis: {
                     x: {
                         type: 'category',
-                        categories: data.categories.slice(0, 10),
+                        categories: data.categories ? data.categories.slice(0, 10) : data.categories,
                         label: 'Countries'
                     },
                     y: {
@@ -407,8 +407,11 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
         };
 
         $scope.generateRequestsTotalDelayChart = function (data) {
+            if(data.categories == undefined) {
+                data.categories = [];
+            }
             var groups = ['Delay 0', 'Delay 1', 'Delay 2', 'Delay 3', 'Delay 4', 'Delay 5', 'Delay 6', 'Delay 7', 'Delay 8', 'Delay 9'];
-            var columns = (data.categories.length > 1) ? $scope.columnsToArray(data.columns) : [$scope.columnsForOneYear(data.columns, data.categories[0])];
+            var columns = (data.categories.length > 1) ? $scope.columnsToArray(data.columns) : (data.categories.length === 0) ? [] : [$scope.columnsForOneYear(data.columns, data.categories[0])];
             var chartType = (data.categories.length > 1) ? 'area-spline' : 'bar';
             var chartGroups = (data.categories.length > 1) ? groups : [];
             var chartCategories = (data.categories.length > 1) ? data.categories : groups;
