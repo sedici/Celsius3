@@ -151,7 +151,8 @@ class StatisticManager
         }
         foreach ($data as $key => $item) {
             foreach ($item as $instance) {
-                $response[$instance[1]][$key] = $instance['c'];
+                if (array_key_exists($instance[1], $response))
+                    $response[$instance[1]][$key] = $instance['c'];
             }
         }
 
