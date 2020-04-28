@@ -453,7 +453,7 @@ ivory_google_map:
         client: httplug.client.default
         message_factory: httplug.message_factory.default
     map:
-        api_key: AIzaSyD0zns4Qlvt-wf-kx__kpBpKkt8p1Z2mfg
+        api_key: "%api_key_map%"
         debug: "%kernel.debug%"
 
 ewz_recaptcha:
