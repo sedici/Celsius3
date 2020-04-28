@@ -143,7 +143,7 @@ class UserOrderController extends OrderController
             'material' => $this->getMaterialType(),
             'user' => $this->getUser(),
             'actual_user' => $this->getUser(),
-            'target' => $this->get('request_stack')->getCurrentRequest()->request->get('order')['originalRequest']['target']
+            'target' => $this->get('request_stack')->getCurrentRequest()->request->get('order')['originalRequest']['target'] ?? ''
 
         );
         if ($this->get('security.authorization_checker')->isGranted(UserManager::ROLE_LIBRARIAN)) {

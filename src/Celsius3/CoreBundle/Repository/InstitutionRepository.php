@@ -27,6 +27,8 @@ use Celsius3\CoreBundle\Entity\Country;
 use Celsius3\CoreBundle\Entity\City;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Hive;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Manager\InstanceManager;
 
 /**
  * InstitutionRepository.
@@ -101,7 +103,7 @@ class InstitutionRepository extends BaseRepository
         $qb = $this->createQueryBuilder('institution');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+            $qb = $qb->andWhere('user.instance = :instance')->setParameter('instance', $instance);
         }
 
         $query = $qb->select('country.id id')
@@ -131,7 +133,7 @@ class InstitutionRepository extends BaseRepository
         $qb = $this->createQueryBuilder('institution');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+            $qb = $qb->andWhere('user.instance = :instance')->setParameter('instance', $instance);
         }
 
         $query = $qb->select('institution.name name')
@@ -160,7 +162,7 @@ class InstitutionRepository extends BaseRepository
         $qb = $this->createQueryBuilder('institution');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('institution.instance = :instance')->setParameter('instance', $instance);
+            $qb = $qb->andWhere('user.instance = :instance')->setParameter('instance', $instance);
         }
 
         $query = $qb->addSelect('institution.name name')
