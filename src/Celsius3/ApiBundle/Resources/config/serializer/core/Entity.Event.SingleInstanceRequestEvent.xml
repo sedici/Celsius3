@@ -2,6 +2,6 @@
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent" exclusion-policy="all">
         <property name="provider" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show"></property>
-        <property name="cancelled" expose="true" access-type="public_method" groups="administration_order_show"></property>
+        <property name="cancelled" expose="true" access-type="public_method" groups="administration_list,administration_order_show"></property>
     </class>
 </serializer>

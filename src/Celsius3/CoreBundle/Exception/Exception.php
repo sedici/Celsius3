@@ -22,6 +22,8 @@
 
 namespace Celsius3\CoreBundle\Exception;
 
+use Symfony\Component\VarDumper\VarDumper;
+
 class Exception {
 
     const NOT_FOUND = 'not_found';
@@ -74,7 +76,9 @@ class Exception {
     }
 
     public static function create($type, $message = '') {
-        $translator = $GLOBALS['kernel']->getContainer()->get('translator');
+        $kernel = ($GLOBALS['kernel'] instanceof \AppKernel) ? $GLOBALS['kernel'] : $GLOBALS['kernel']->getKernel();
+
+        $translator = $kernel->getContainer()->get('translator');
         $class = self::getClass($type);
 
         return new $class($translator->trans($message, [], 'Flashes'));

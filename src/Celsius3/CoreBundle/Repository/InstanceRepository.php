@@ -52,14 +52,10 @@ class InstanceRepository extends BaseRepository
                     ->getQuery()->getResult();
     }
 
-    public function findAllEnabledAndVisibleDomains()
+    public function findAllDomains()
     {
         return $this->createQueryBuilder('i')
             ->select('i.host')
-            ->where('i.enabled = :enabled')
-            ->andWhere('i.invisible = :invisible')
-            ->setParameter('enabled', true)
-            ->setParameter('invisible', false)
             ->getQuery()->getResult();
     }
 

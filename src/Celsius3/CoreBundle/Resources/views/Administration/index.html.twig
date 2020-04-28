@@ -183,7 +183,7 @@
                     <div class="requests" ng-if="hasRequests(order.request.events)">
                         <h5>{{ 'Requests' | trans }}</h5>
                         <p ng-repeat="event in order.request.events"
-                           ng-if="(event.type == 'sirequest' || event.type == 'mirequest')">
+                           ng-if="(event.type == 'sirequest' || event.type == 'mirequest')" ng-style="{ 'text-decoration': (event.cancelled || event.annulled) ? 'line-through' : 'none' }">
                             <span class="event_date">{{ event.created_at | date : 'dd MMM yyyy HH:mm' }}</span> |
                             <span ng-if="event.provider.type === 'institution'">{{ printInstitutions(event.provider) }}</span>
                             <span ng-if="event.provider.type === 'author' || event.provider.type === 'web'">{{ event.provider.provider_name }}</span>

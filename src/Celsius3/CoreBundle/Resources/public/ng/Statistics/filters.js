@@ -8,7 +8,7 @@ statisticsFilters.filter('get_url', function () {
 
 statisticsFilters.filter('totalize_column', function () {
     return function (input) {
-        return _.reduce(_.rest(input, 2), function (memo, num) {
+        return _.reduce(_.rest(input, 1), function (memo, num) {
             return memo + parseInt(num);
         }, 0);
     };
