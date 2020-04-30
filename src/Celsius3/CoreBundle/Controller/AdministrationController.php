@@ -278,9 +278,9 @@ class AdministrationController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/interaction_get/{id}", name="admin_instance_interaction_get", options={"expose"=true})
+     * @Route("/interaction_get/{id}/{initialYear}/{finalYear}", name="admin_instance_interaction_get", options={"expose"=true})
      */
-    public function getInteractionWithAction($id) {
+    public function getInteractionWithAction($id,$initialYear, $finalYear) {
         $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
         $institution = $institutionRepository->find($id);
         $instance = $this->getInstance();
@@ -294,26 +294,18 @@ class AdministrationController extends BaseInstanceDependentController
             $institutions = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
 
             $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
-            $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions);
-            $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions);
+            $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions, $initialYear, $finalYear);
+            $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions, $initialYear, $finalYear);
 
             $interaction['institution'] = $institution->getName();
             $interaction['instance'] = $instance->getName();
 
-            $interaction['institutionInteraction']['data']['created'] = 0;
-            $interaction['institutionInteraction']['data']['delivered'] = 0;
-            $interaction['institutionInteraction']['data']['annulled'] = 0;
-            $interaction['institutionInteraction']['data']['cancelled'] = 0;
             foreach ($response['institutionInteraction'] as $res) {
-                $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
+                $interaction['institutionInteraction']['data'][$res['year']][$res['st']] = $res['c'];
             }
 
-            $interaction['instanceInteraction']['data']['created'] = 0;
-            $interaction['instanceInteraction']['data']['delivered'] = 0;
-            $interaction['instanceInteraction']['data']['annulled'] = 0;
-            $interaction['instanceInteraction']['data']['cancelled'] = 0;
             foreach ($response['instanceInteraction'] as $res) {
-                $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
+                $interaction['instanceInteraction']['data'][$res['year']][$res['st']] = $res['c'];
             }
         }
 

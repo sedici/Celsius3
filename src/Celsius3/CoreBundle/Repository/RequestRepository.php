@@ -147,33 +147,44 @@ class RequestRepository extends BaseRepository
         return $query->getResult();
     }
 
-    public function getInteractionOfInstitutionWithInstance($instance, $institutions)
+    public function getInteractionOfInstitutionWithInstance($instance, $institutions, $initialYear, $finalYear)
     {
         $qb = $this->createQueryBuilder('r');
 
-        $qb = $qb->select('s.type st')
+        $qb = $qb->select('YEAR(s.createdAt) year')
+                ->addSelect('s.type st')
                 ->addSelect('COUNT(r.id) c')
                 ->innerJoin('r.owner', 'o', Join::WITH, $qb->expr()->in('o.institution', $institutions))
                 ->innerJoin('r.states', 's')
+                ->groupBy('year')
                 ->addGroupBy('s.type');
 
         if (!is_null($instance)) {
             $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
 
+        if ($initialYear < $finalYear) {
+            $qb = $qb->andWhere('YEAR(s.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
+                ->andWhere('YEAR(s.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+        }
+
         return $qb->getQuery()->getArrayResult();
     }
 
-    public function getInteractionOfInstanceWithInstitution($instance, $institutions)
+    public function getInteractionOfInstanceWithInstitution($instance, $institutions, $initialYear, $finalYear)
     {
-        $dql = 'SELECT s.type st, COUNT(s.request) c '
+        $dql = 'SELECT YEAR(s.createdAt) year, s.type st, COUNT(s.request) c '
                 .'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
                 .'JOIN e.request r WITH e.provider IN (:institutions) '
                 .'JOIN r.states s ';
 
         $dql .= 'WHERE e.instance = :instance ';
 
-        $dql .= 'GROUP BY s.type';
+        if ($initialYear < $finalYear) {
+            $dql .= 'AND YEAR(s.createdAt) >= :initialYear AND YEAR(s.createdAt) <= :finalYear ';
+        }
+
+        $dql .= 'GROUP BY year, s.type';
 
         $query = $this->getEntityManager()
                 ->createQuery($dql);
@@ -181,6 +192,10 @@ class RequestRepository extends BaseRepository
         $query->setParameter('institutions', $institutions);
         if (!is_null($instance)) {
             $query->setParameter('instance', $instance->getId());
+        }
+        if ($initialYear < $finalYear) {
+            $query->setParameter('initialYear', $initialYear);
+            $query->setParameter('finalYear', $finalYear);
         }
 
         return $query->getResult();
