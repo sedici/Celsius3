@@ -28,6 +28,7 @@ use Celsius3\CoreBundle\Manager\Alert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -274,5 +275,49 @@ class AdministrationController extends BaseInstanceDependentController
         $result = $em->getRepository(DataRequest::class)->findExportedRequests($this->getInstance());
 
         return new Response(json_encode($result));
+    }
+
+    /**
+     * @Route("/interaction_get/{id}", name="admin_instance_interaction_get", options={"expose"=true})
+     */
+    public function getInteractionWithAction($id) {
+        $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
+        $institution = $institutionRepository->find($id);
+        $instance = $this->getInstance();
+
+        $interaction['result'] = false;
+        if (true) {
+            if ($institution->getParent() !== null)
+                $institution = $institutionRepository->getBaseInstitution($institution);
+
+            $interaction['result'] = true;
+            $institutions = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution')->getInstitutionsTree($institution);
+
+            $requestRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Request');
+            $response['institutionInteraction'] = $requestRepository->getInteractionOfInstitutionWithInstance($instance, $institutions);
+            $response['instanceInteraction'] = $requestRepository->getInteractionOfInstanceWithInstitution($instance, $institutions);
+
+            $interaction['institution'] = $institution->getName();
+            $interaction['instance'] = $instance->getName();
+
+            $interaction['institutionInteraction']['data']['created'] = 0;
+            $interaction['institutionInteraction']['data']['delivered'] = 0;
+            $interaction['institutionInteraction']['data']['annulled'] = 0;
+            $interaction['institutionInteraction']['data']['cancelled'] = 0;
+            foreach ($response['institutionInteraction'] as $res) {
+                $interaction['institutionInteraction']['data'][$res['st']] = $res['c'];
+            }
+
+            $interaction['instanceInteraction']['data']['created'] = 0;
+            $interaction['instanceInteraction']['data']['delivered'] = 0;
+            $interaction['instanceInteraction']['data']['annulled'] = 0;
+            $interaction['instanceInteraction']['data']['cancelled'] = 0;
+            foreach ($response['instanceInteraction'] as $res) {
+                $interaction['instanceInteraction']['data'][$res['st']] = $res['c'];
+            }
+        }
+
+        $response = new JsonResponse($interaction, 200);
+        return $response;
     }
 }
