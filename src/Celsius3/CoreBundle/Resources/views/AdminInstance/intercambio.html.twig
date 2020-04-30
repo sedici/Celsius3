@@ -38,12 +38,46 @@
                     </div>
                     <div class='col-md-3'>
                         <div class="form-group">
-                            <input type='text' size="30" class="form-control"  id='form_fecha_desde'  />
+                            <select class="form-control operators-select" name="user" id="form_anio_desde">
+                                <option value="">Todos</option>
+                                <option value="2015">2004</option>
+                                <option value="2015">2005</option>
+                                <option value="2015">2006</option>
+                                <option value="2015">2007</option>
+                                <option value="2015">2008</option>
+                                <option value="2015">2009</option>
+
+                                <option value="2015">2010</option>
+                                <option value="2015">2011</option>
+                                <option value="2015">2012</option>
+                                <option value="2015">2013</option>
+                                <option value="2015">2014</option>
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                            </select>
                         </div>
                     </div>
                     <div class='col-md-3'>
                         <div class="form-group">
-                            <input type='text' size="30" class="form-control" id='form_fecha_hasta'  />
+                            <select class="form-control operators-select" name="user" id="form_anio_hasta">
+                                <option value="">Todos</option>
+                                <option value="2015">2010</option>
+                                <option value="2015">2011</option>
+                                <option value="2015">2012</option>
+                                <option value="2015">2013</option>
+                                <option value="2015">2014</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019">2019</option>
+                                <option value="2020">2020</option>
+                                <option value="2021">2021</option>
+                            </select>
                         </div>
                     </div>
                     <div class='col-md-2'>
@@ -139,7 +173,33 @@
                        var html_resultado_instanceInteraction="<table class='table'><tr><th>Anio</th><th>created</th><th>delivered</th><th>received</th><th>requested</th><th>searched</th></tr>"
                        var tr_resultado_instanceInteraction='';
                        jQuery.each( resultado_instanceInteraction, function( i, val ) {
-                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+val.created+"</td><td>"+val.delivered+"</td><td>"+val.received+"</td><td>"+val.requested+"</td><td>"+val.searched+"</td></tr>";
+                           var created=val.created;
+                           if (val.created==undefined){
+                               created=0;
+                           }
+
+                           var delivered=val.delivered;
+                           if (val.delivered==undefined){
+                               delivered=0;
+                           }
+
+                           var received=val.received;
+                           if (val.received==undefined){
+                               received=0;
+                           }
+
+                           var requested=val.requested;
+                           if (val.requested==undefined){
+                               requested=0;
+                           }
+
+
+                           var searched=val.searched;
+                           if (val.searched==undefined){
+                               searched=0;
+                           }
+
+                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+delivered+"</td><td>"+received+"</td><td>"+requested+"</td><td>"+searched+"</td></tr>";
                             console.log(i)
                        });
                        html_resultado_instanceInteraction=html_resultado_instanceInteraction+tr_resultado_instanceInteraction+"</table>";
@@ -148,7 +208,35 @@
                        var html_resultado_institutionInteraction="<table class='table'><tr><th>Anio</th><th>created</th><th>delivered</th><th>received</th><th>requested</th><th>searched</th></tr>"
                        var tr_resultado_institutionInteraction='';
                        jQuery.each( resultado_institutionInteraction, function( i, val ) {
-                           tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+val.created+"</td><td>"+val.delivered+"</td><td>"+val.received+"</td><td>"+val.requested+"</td><td>"+val.searched+"</td></tr>";
+
+                           var created=val.created;
+                           if (val.created==undefined){
+                               created=0;
+                           }
+
+                           var delivered=val.delivered;
+                           if (val.delivered==undefined){
+                               delivered=0;
+                           }
+
+                           var received=val.received;
+                           if (val.received==undefined){
+                               received=0;
+                           }
+
+                           var requested=val.requested;
+                           if (val.requested==undefined){
+                               requested=0;
+                           }
+
+
+                           var searched=val.searched;
+                           if (val.searched==undefined){
+                               searched=0;
+                           }
+
+
+                           tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+delivered+"</td><td>"+received+"</td><td>"+requested+"</td><td>"+searched+"</td></tr>";
                            console.log(i)
                        });
                        html_resultado_institutionInteraction=html_resultado_institutionInteraction+tr_resultado_institutionInteraction+"</table>";

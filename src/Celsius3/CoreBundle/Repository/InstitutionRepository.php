@@ -39,7 +39,8 @@ class InstitutionRepository extends BaseRepository
     public function findInstitutionParentInstance(){
         $qb = $this->createQueryBuilder('e')
             ->innerJoin('e.celsiusInstance','i')
-            ->andWhere('e.parent IS NULL');
+            ->andWhere('e.parent IS NULL')
+            ->orderBy('e.name', 'asc');
 
         return $qb->getQuery()->getResult();
         }
