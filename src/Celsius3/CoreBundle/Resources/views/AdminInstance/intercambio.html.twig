@@ -81,7 +81,7 @@
                     </div>
                     <div class="box-body">
                         <div class="chart">
-                            <div id="resultado_institutionInteraction:">
+                            <div id="resultado_institutionInteraction">
 
                             </div>
                         </div>
@@ -143,8 +143,19 @@
                             console.log(i)
                        });
                        html_resultado_instanceInteraction=html_resultado_instanceInteraction+tr_resultado_instanceInteraction+"</table>";
+
+
+                       var html_resultado_institutionInteraction="<table class='table'><tr><th>Anio</th><th>created</th><th>delivered</th><th>received</th><th>requested</th><th>searched</th></tr>"
+                       var tr_resultado_institutionInteraction='';
+                       jQuery.each( resultado_institutionInteraction, function( i, val ) {
+                           tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+val.created+"</td><td>"+val.delivered+"</td><td>"+val.received+"</td><td>"+val.requested+"</td><td>"+val.searched+"</td></tr>";
+                           console.log(i)
+                       });
+                       html_resultado_institutionInteraction=html_resultado_institutionInteraction+tr_resultado_institutionInteraction+"</table>";
+
+
                        $("#resultado_instanceInteraction").html(html_resultado_instanceInteraction);
-                       $("#resultado_institutionInteraction").html(html_completo);
+                       $("#resultado_institutionInteraction").html(html_resultado_institutionInteraction);
 
                    }
                });
