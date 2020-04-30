@@ -43,3 +43,7 @@
 # Docker folder
 !/.docker/.gitignore
 !/.docker/mysql/.gitignore
+
+
+# Editors
+.idea/
