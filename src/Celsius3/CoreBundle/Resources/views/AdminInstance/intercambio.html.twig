@@ -94,7 +94,7 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
-
+                        <p></p>
                     </div>
                     <div class="box-body">
                         <div class="chart">
@@ -170,7 +170,7 @@
 
                        var resultado_instanceInteraction=response.instanceInteraction.data;
                        var resultado_institutionInteraction=response.institutionInteraction.data;
-                       var html_resultado_instanceInteraction="<table class='table'><tr><th>Anio</th><th>created</th><th>delivered</th><th>received</th><th>requested</th><th>searched</th></tr>"
+                       var html_resultado_instanceInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Delivered' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Searched_s' | trans }}</th></tr>"
                        var tr_resultado_instanceInteraction='';
                        jQuery.each( resultado_instanceInteraction, function( i, val ) {
                            var created=val.created;
@@ -205,7 +205,7 @@
                        html_resultado_instanceInteraction=html_resultado_instanceInteraction+tr_resultado_instanceInteraction+"</table>";
 
 
-                       var html_resultado_institutionInteraction="<table class='table'><tr><th>Anio</th><th>created</th><th>delivered</th><th>received</th><th>requested</th><th>searched</th></tr>"
+                       var html_resultado_institutionInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Delivered' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Searched_s' | trans }}</th></tr>"
                        var tr_resultado_institutionInteraction='';
                        jQuery.each( resultado_institutionInteraction, function( i, val ) {
 

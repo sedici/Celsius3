@@ -4126,10 +4126,34 @@
         <source>disabled_instance_message</source>
         <target>The instance is not enabled</target>
       </trans-unit>
-       <trans-unit id="intercambio" resname="intercambio">
-              <source>intercambio</source>
-              <target>Intercambio</target>
-            </trans-unit>
+      <trans-unit id="intercambio" resname="intercambio">
+         <source>intercambio</source>
+         <target>Intercambio</target>
+      </trans-unit>
+      <trans-unit id="Searched_s" resname="Searched_s">
+        <source>Searched_s</source>
+        <target>Searched</target>
+      </trans-unit>
+      <trans-unit id="Total Pages" resname="Total Pages">
+        <source>Total Pages</source>
+        <target>Total Pages</target>
+      </trans-unit>
+      <trans-unit id="Month" resname="Month">
+        <source>Month</source>
+        <target>Month</target>
+      </trans-unit>
+      <trans-unit id="Received_s" resname="Received_s">
+        <source>Received_s</source>
+        <target>Received</target>
+      </trans-unit>
+      <trans-unit id="Requested_s" resname="Requested_s">
+        <source>Requested_s</source>
+        <target>Requested</target>
+      </trans-unit>
+      <trans-unit id="Anio" resname="Anio">
+        <source>Anio</source>
+        <target>Year</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

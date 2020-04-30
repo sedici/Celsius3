@@ -4125,10 +4125,34 @@
         <source>disabled_instance_message</source>
         <target>A instância não está ativada</target>
       </trans-unit>
-       <trans-unit id="intercambio" resname="intercambio">
-              <source>intercambio</source>
-              <target>Intercambio</target>
-            </trans-unit>
+      <trans-unit id="intercambio" resname="intercambio">
+         <source>intercambio</source>
+         <target>Intercambio</target>
+      </trans-unit>
+      <trans-unit id="Searched_s" resname="Searched_s">
+        <source>Searched_s</source>
+        <target>Pesquizados</target>
+      </trans-unit>
+      <trans-unit id="Total Pages" resname="Total Pages">
+        <source>Total Pages</source>
+        <target>Total de páginas</target>
+      </trans-unit>
+      <trans-unit id="Month" resname="Month">
+        <source>Month</source>
+        <target>Mês</target>
+      </trans-unit>
+      <trans-unit id="Received_s" resname="Received_s">
+        <source>Received_s</source>
+        <target>Recebido</target>
+      </trans-unit>
+      <trans-unit id="Requested_s" resname="Requested_s">
+        <source>Requested_s</source>
+        <target>Solicitados</target>
+      </trans-unit>
+      <trans-unit id="Anio" resname="Anio">
+        <source>Anio</source>
+        <target>Ano</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
