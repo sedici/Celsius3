@@ -278,7 +278,7 @@ class AdministrationController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/interaction_get", name="admin_instance_interaction_get", options={"expose"=true})
+     * @Route("/interaction_get", name="admin_instance_interaction_get", options={"expose"=true}, methods={"POST"})
      */
     public function getInteractionWithAction(Request $request) {
 

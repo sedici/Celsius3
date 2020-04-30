@@ -94,7 +94,7 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
-                        <p></p>
+                        <p>Solicitudes realizadas por esta instancia a la institución seleccionada, junto a los eventos asociados que corresponden al accionar de la institución.</p>
                     </div>
                     <div class="box-body">
                         <div class="chart">
@@ -111,7 +111,7 @@
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title">Institucion: <span id="institucion_nombre"></span></h3>
-
+                        <p>Solicitudes realizadas por la institución seleccionada a esta instancia, junto a los eventos asociados que corresponden al accionar de esta instancia.</p>
                     </div>
                     <div class="box-body">
                         <div class="chart">
@@ -168,9 +168,9 @@
                        $('#instancia_nombre').html(response.instance);
                        $("#institucion_nombre").html(response.institution)
 
-                       var resultado_instanceInteraction=response.instanceInteraction.data;
-                       var resultado_institutionInteraction=response.institutionInteraction.data;
-                       var html_resultado_instanceInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Delivered' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Searched_s' | trans }}</th></tr>"
+                       var resultado_instanceInteraction= (response.instanceInteraction) ? response.instanceInteraction.data : [];
+                       var resultado_institutionInteraction= (response.institutionInteraction) ? response.institutionInteraction.data : [];
+                       var html_resultado_instanceInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Delivered' | trans }}</th></tr>"
                        var tr_resultado_instanceInteraction='';
                        jQuery.each( resultado_instanceInteraction, function( i, val ) {
                            var created=val.created;
@@ -199,13 +199,13 @@
                                searched=0;
                            }
 
-                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+delivered+"</td><td>"+received+"</td><td>"+requested+"</td><td>"+searched+"</td></tr>";
+                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+searched+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+delivered+"</td></tr>";
                             console.log(i)
                        });
                        html_resultado_instanceInteraction=html_resultado_instanceInteraction+tr_resultado_instanceInteraction+"</table>";
 
 
-                       var html_resultado_institutionInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Delivered' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Searched_s' | trans }}</th></tr>"
+                       var html_resultado_institutionInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Delivered' | trans }}</th></tr>"
                        var tr_resultado_institutionInteraction='';
                        jQuery.each( resultado_institutionInteraction, function( i, val ) {
 
@@ -236,7 +236,7 @@
                            }
 
 
-                           tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+delivered+"</td><td>"+received+"</td><td>"+requested+"</td><td>"+searched+"</td></tr>";
+                           tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+searched+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+delivered+"</td></tr>";
                            console.log(i)
                        });
                        html_resultado_institutionInteraction=html_resultado_institutionInteraction+tr_resultado_institutionInteraction+"</table>";
