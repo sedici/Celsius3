@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -86,11 +87,10 @@ class AdminInstanceController extends InstanceController
     {
         $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
         $institutions = $institutionRepository->findInstitutionParentInstance();
-       // $instance = $this->getInstance();
+        //$institutions = $institutionRepository->findForInstanceAndGlobal($this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance(), $this->getDirectory(), true)->getQuery()->execute();
 
         return array(
             'instituciones' => $institutions,
-
         );
     }
 

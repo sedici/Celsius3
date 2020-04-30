@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <select class="form-control operators-select" name="institucion" id="form_institucion">
-                            <option value=""></option>
+                            <option value="">{{ 'institution' | trans }}</option>
                             {% for i in instituciones %}
                                 <option value="{{ i.id }}">{{ i.name|e }}</option>
                             {% endfor %}
@@ -39,44 +39,22 @@
                     <div class='col-md-3'>
                         <div class="form-group">
                             <select class="form-control operators-select" name="user" id="form_anio_desde">
-                                <option value="">Todos</option>
-                                <option value="2015">2004</option>
-                                <option value="2015">2005</option>
-                                <option value="2015">2006</option>
-                                <option value="2015">2007</option>
-                                <option value="2015">2008</option>
-                                <option value="2015">2009</option>
-
-                                <option value="2015">2010</option>
-                                <option value="2015">2011</option>
-                                <option value="2015">2012</option>
-                                <option value="2015">2013</option>
-                                <option value="2015">2014</option>
-                                <option value="2015">2015</option>
-                                <option value="2016">2016</option>
-                                <option value="2017">2017</option>
-                                <option value="2018">2018</option>
-                                <option value="2019">2019</option>
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>
+                                <option value="">{{ 'initialYear' | trans }}</option>
+                                {% set actual = date().format('Y') %}
+                                {% for i in 2001..actual %}
+                                <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class='col-md-3'>
                         <div class="form-group">
                             <select class="form-control operators-select" name="user" id="form_anio_hasta">
-                                <option value="">Todos</option>
-                                <option value="2015">2010</option>
-                                <option value="2015">2011</option>
-                                <option value="2015">2012</option>
-                                <option value="2015">2013</option>
-                                <option value="2015">2014</option>
-                                <option value="2016">2016</option>
-                                <option value="2017">2017</option>
-                                <option value="2018">2018</option>
-                                <option value="2019">2019</option>
-                                <option value="2020">2020</option>
-                                <option value="2021">2021</option>
+                                <option value="">{{ 'finalYear' | trans }}</option>
+                                {% set actual = date().format('Y') %}
+                                {% for i in 2001..actual %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
@@ -94,11 +72,11 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                         <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
-                        <p>Solicitudes realizadas por esta instancia a la institución seleccionada, junto a los eventos asociados que corresponden al accionar de la institución.</p>
+                        <p>Solicitudes de usuarios de la institución seleccionada atendidas por esta instancia.</p>
                     </div>
                     <div class="box-body">
                         <div class="chart">
-                            <div id="resultado_instanceInteraction">
+                            <div id="resultado_institutionInteraction">
 
                             </div>
 
@@ -111,11 +89,11 @@
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title">Institucion: <span id="institucion_nombre"></span></h3>
-                        <p>Solicitudes realizadas por la institución seleccionada a esta instancia, junto a los eventos asociados que corresponden al accionar de esta instancia.</p>
+                        <p>Solicitudes de esta instancia atendidas por la institución seleccionada.</p>
                     </div>
                     <div class="box-body">
                         <div class="chart">
-                            <div id="resultado_institutionInteraction">
+                            <div id="resultado_instanceInteraction">
 
                             </div>
                         </div>

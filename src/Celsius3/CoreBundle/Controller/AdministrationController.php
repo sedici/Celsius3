@@ -283,8 +283,9 @@ class AdministrationController extends BaseInstanceDependentController
     public function getInteractionWithAction(Request $request) {
 
         $id = $request->request->get('id');
-        $initialYear = $request->request->get('anio_desde');
-        $finalYear = $request->request->get('anio_hasta');
+        $initialYear = !empty($request->request->get('anio_desde')) ? $request->request->get('anio_desde') : 2001;
+        $finalYear = !empty($request->request->get('anio_hasta')) ? $request->request->get('anio_hasta') : (int) (new \DateTime())->format('Y');
+
         $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
         $institution = $institutionRepository->find($id);
         $instance = $this->getInstance();

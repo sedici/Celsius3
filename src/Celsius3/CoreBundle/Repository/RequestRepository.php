@@ -163,7 +163,7 @@ class RequestRepository extends BaseRepository
             $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
 
-        if ($initialYear < $finalYear) {
+        if ($initialYear <= $finalYear) {
             $qb = $qb->andWhere('YEAR(s.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
                 ->andWhere('YEAR(s.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
