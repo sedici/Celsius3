@@ -278,9 +278,13 @@ class AdministrationController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/interaction_get/{id}/{initialYear}/{finalYear}", name="admin_instance_interaction_get", options={"expose"=true})
+     * @Route("/interaction_get", name="admin_instance_interaction_get", options={"expose"=true})
      */
-    public function getInteractionWithAction($id,$initialYear, $finalYear) {
+    public function getInteractionWithAction(Request $request) {
+
+        $id = $request->request->get('id');
+        $initialYear = $request->request->get('anio_desde');
+        $finalYear = $request->request->get('anio_hasta');
         $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
         $institution = $institutionRepository->find($id);
         $instance = $this->getInstance();

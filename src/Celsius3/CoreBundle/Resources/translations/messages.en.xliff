@@ -4126,6 +4126,10 @@
         <source>disabled_instance_message</source>
         <target>The instance is not enabled</target>
       </trans-unit>
+       <trans-unit id="intercambio" resname="intercambio">
+              <source>intercambio</source>
+              <target>Intercambio</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

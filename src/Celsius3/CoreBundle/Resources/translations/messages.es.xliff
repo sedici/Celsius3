@@ -4131,6 +4131,11 @@
         <source>disabled_instance_message</source>
         <target>La instancia no se encuentra habilitada</target>
       </trans-unit>
+      <trans-unit id="intercambio" resname="intercambio">
+        <source>intercambio</source>
+        <target>Intercambio</target>
+      </trans-unit>
+
     </body>
   </file>
 </xliff>

@@ -35,6 +35,17 @@ use Celsius3\CoreBundle\Manager\InstanceManager;
  */
 class InstitutionRepository extends BaseRepository
 {
+
+    public function findInstitutionParentInstance(){
+        $qb = $this->createQueryBuilder('e')
+            ->innerJoin('e.celsiusInstance','i')
+            ->andWhere('e.parent IS NULL');
+
+        return $qb->getQuery()->getResult();
+        }
+
+
+
     public function findForInstanceAndGlobal(Instance $instance, Instance $directory, $firstLevel = false, Hive $hive = null, $country_id = null, $city_id = null, $filter = null)
     {
         $qb = $this->createQueryBuilder('e')

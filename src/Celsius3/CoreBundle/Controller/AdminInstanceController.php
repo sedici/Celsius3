@@ -68,4 +68,33 @@ class AdminInstanceController extends InstanceController
     {
         return $this->baseConfigureUpdateAction($id, 'admin_instance');
     }
+
+    /**
+     * Edits the existing Instance configuration.
+     *
+     * @Route("/intercambio", name="admin_instance_intercambio")
+     * @Method("get")
+     * @Template("Celsius3CoreBundle:AdminInstance:intercambio.html.twig")
+     *
+     * @param string $id The entity ID
+     *
+     * @return array
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     */
+    public function intercambioUIAction()
+    {
+        $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
+        $institutions = $institutionRepository->findInstitutionParentInstance();
+       // $instance = $this->getInstance();
+
+        return array(
+            'instituciones' => $institutions,
+
+        );
+    }
+
+
+
+
 }

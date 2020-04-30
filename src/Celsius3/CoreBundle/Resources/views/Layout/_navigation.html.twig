@@ -29,7 +29,6 @@
             <li><a href="{{ path('admin_file_download') }}">{{ 'File Downloads' | trans }}</a></li>
             <li><a href="{{ path('admin_maillist') }}">{{ 'Mail List' | trans }}</a></li>
 
-
             {% if is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_ADMIN')) or is_granted(constant('Celsius3\\CoreBundle\\Manager\\UserManager::ROLE_SUPER_ADMIN')) and not local %}
 
             <li role="separator" class="divider"></li>
@@ -46,6 +45,13 @@
                     {{ 'Configuration' | trans }}
                 </a>
             </li>
+                <li>
+                    <a href="{{ path('admin_instance_intercambio') }}">
+                        <span class="glyphicon glyphicon-wrench"></span>
+                        {{ 'intercambio' | trans }}
+                    </a>
+                </li>
+
             {% endif %}
         </ul>
     </li>
