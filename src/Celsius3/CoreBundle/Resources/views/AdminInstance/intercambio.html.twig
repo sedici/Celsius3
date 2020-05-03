@@ -148,36 +148,15 @@
 
                        var resultado_instanceInteraction= (response.instanceInteraction) ? response.instanceInteraction.data : [];
                        var resultado_institutionInteraction= (response.institutionInteraction) ? response.institutionInteraction.data : [];
-                       var html_resultado_instanceInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Delivered' | trans }}</th></tr>"
+                       var html_resultado_instanceInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th></tr>"
                        var tr_resultado_instanceInteraction='';
                        jQuery.each( resultado_instanceInteraction, function( i, val ) {
-                           var created=val.created;
-                           if (val.created==undefined){
-                               created=0;
-                           }
+                           var received=val.received ?? 0;
+                           var requested=val.requested ?? 0;
+                           var reclaimed=val.reclaimed ?? 0;
+                           var cancelled=val.cancelled ?? 0;
 
-                           var delivered=val.delivered;
-                           if (val.delivered==undefined){
-                               delivered=0;
-                           }
-
-                           var received=val.received;
-                           if (val.received==undefined){
-                               received=0;
-                           }
-
-                           var requested=val.requested;
-                           if (val.requested==undefined){
-                               requested=0;
-                           }
-
-
-                           var searched=val.searched;
-                           if (val.searched==undefined){
-                               searched=0;
-                           }
-
-                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+searched+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+delivered+"</td></tr>";
+                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+reclaimed+"</td><td>"+cancelled+"</td></tr>";
                             console.log(i)
                        });
                        html_resultado_instanceInteraction=html_resultado_instanceInteraction+tr_resultado_instanceInteraction+"</table>";
@@ -186,33 +165,11 @@
                        var html_resultado_institutionInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Delivered' | trans }}</th></tr>"
                        var tr_resultado_institutionInteraction='';
                        jQuery.each( resultado_institutionInteraction, function( i, val ) {
-
-                           var created=val.created;
-                           if (val.created==undefined){
-                               created=0;
-                           }
-
-                           var delivered=val.delivered;
-                           if (val.delivered==undefined){
-                               delivered=0;
-                           }
-
-                           var received=val.received;
-                           if (val.received==undefined){
-                               received=0;
-                           }
-
-                           var requested=val.requested;
-                           if (val.requested==undefined){
-                               requested=0;
-                           }
-
-
-                           var searched=val.searched;
-                           if (val.searched==undefined){
-                               searched=0;
-                           }
-
+                           var created=val.created ?? 0;
+                           var delivered=val.delivered ?? 0;
+                           var received=val.received ?? 0;
+                           var requested=val.requested ?? 0;
+                           var searched=val.searched ?? 0;
 
                            tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+searched+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+delivered+"</td></tr>";
                            console.log(i)

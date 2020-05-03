@@ -22,7 +22,11 @@
 
 namespace Celsius3\CoreBundle\Repository;
 
+use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
+use Celsius3\CoreBundle\Entity\Event\SingleInstanceRequestEvent;
+use Celsius3\CoreBundle\Manager\EventManager;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * RequestRepository.
@@ -147,7 +151,7 @@ class RequestRepository extends BaseRepository
         return $query->getResult();
     }
 
-    public function getInteractionOfInstitutionWithInstance($instance, $institutions, $initialYear, $finalYear)
+    public function getInteractionOfInstitutionWithInstance($instance, $institutions, $initialYear = null, $finalYear = null)
     {
         $qb = $this->createQueryBuilder('r');
 
@@ -163,7 +167,7 @@ class RequestRepository extends BaseRepository
             $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
 
-        if ($initialYear <= $finalYear) {
+        if ($initialYear && $finalYear && $initialYear <= $finalYear) {
             $qb = $qb->andWhere('YEAR(s.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
                 ->andWhere('YEAR(s.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -171,34 +175,74 @@ class RequestRepository extends BaseRepository
         return $qb->getQuery()->getArrayResult();
     }
 
-    public function getInteractionOfInstanceWithInstitution($instance, $institutions, $initialYear, $finalYear)
-    {
-        $dql = 'SELECT YEAR(s.createdAt) year, s.type st, COUNT(s.request) c '
-                .'FROM Celsius3CoreBundle:Event\SingleInstanceRequestEvent e '
-                .'JOIN e.request r WITH e.provider IN (:institutions) '
-                .'JOIN r.states s ';
+    private function getRequestsEventsForInteraction($instance, $institutions, $initialYear, $finalYear) {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('year', 'year');
+        $rsm->addScalarResult('st', 'st');
+        $rsm->addScalarResult('c', 'c');
 
-        $dql .= 'WHERE e.instance = :instance ';
-
-        if ($initialYear < $finalYear) {
-            $dql .= 'AND YEAR(s.createdAt) >= :initialYear AND YEAR(s.createdAt) <= :finalYear ';
-        }
-
-        $dql .= 'GROUP BY year, s.type';
+        $sql = 'SELECT YEAR(e.createdAt) year, s.type st, COUNT(e.id) c '
+            . 'FROM event e '
+            . 'LEFT JOIN state s ON e.state_id = s.id '
+            . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND e.provider_id IN (:institutions) '
+        ;
+        $sql .= 'AND YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear ';
+        $sql .= 'GROUP BY year, st';
 
         $query = $this->getEntityManager()
-                ->createQuery($dql);
+            ->createNativeQuery($sql, $rsm);
 
+        $query->setParameter('instance_id', $instance->getId());
         $query->setParameter('institutions', $institutions);
-        if (!is_null($instance)) {
-            $query->setParameter('instance', $instance->getId());
-        }
-        if ($initialYear < $finalYear) {
-            $query->setParameter('initialYear', $initialYear);
-            $query->setParameter('finalYear', $finalYear);
-        }
+        $query->setParameter('initialYear', $initialYear);
+        $query->setParameter('finalYear', $finalYear);
+        $query->setParameter('types', [
+            EventManager::EVENT__MULTI_INSTANCE_REQUEST,
+            EventManager::EVENT__SINGLE_INSTANCE_REQUEST
+        ]);
 
         return $query->getResult();
+    }
+
+    private function getReceiveEventsForInteraction($instance, $institutions, $initialYear, $finalYear) {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('year', 'year');
+        $rsm->addScalarResult('c', 'c');
+
+        $sql = 'SELECT YEAR(e.createdAt) year, COUNT(e.id) c '
+            . 'FROM event e '
+            . 'INNER JOIN event re ON e.request_event_id = re.id '
+            . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND re.provider_id IN (:institutions) '
+            . 'AND YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear '
+            . 'GROUP BY year '
+        ;
+
+        $query = $this->getEntityManager()
+            ->createNativeQuery($sql, $rsm);
+
+        $query->setParameter('instance_id', $instance->getId());
+        $query->setParameter('institutions', $institutions);
+        $query->setParameter('initialYear', $initialYear);
+        $query->setParameter('finalYear', $finalYear);
+        $query->setParameter('types', [
+            EventManager::EVENT__MULTI_INSTANCE_RECEIVE,
+            EventManager::EVENT__SINGLE_INSTANCE_RECEIVE
+        ]);
+
+        return $query->getResult();
+    }
+
+    public function getInteractionOfInstanceWithInstitution($instance, $institutions, $initialYear, $finalYear)
+    {
+        $req = $this->getRequestsEventsForInteraction($instance, $institutions, $initialYear, $finalYear);
+        $rec = $this->getReceiveEventsForInteraction($instance, $institutions, $initialYear, $finalYear);
+
+        $rec = array_map(function($r) {
+            $r['st'] = 'received';
+            return $r;
+        }, $rec);
+
+        return array_merge($req,$rec);
     }
 
     public function findRequestForOrders(array $orders)
