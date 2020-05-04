@@ -31,7 +31,7 @@
                         <select class="form-control operators-select" name="institucion" id="form_institucion">
                             <option value="">{{ 'institution' | trans }}</option>
                             {% for i in instituciones %}
-                                <option value="{{ i.id }}">{{ i.name|e }}</option>
+                                <option value="{{ i.id }}">({{ i.abbreviation }}) {{ i.name|e }}</option>
                             {% endfor %}
                         </select>
 
