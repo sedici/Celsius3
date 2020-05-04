@@ -1173,16 +1173,6 @@ orderControllers.controller('OrderCtrl', ['$scope', '$http', 'Upload', '$filter'
                 });
         };
 
-        $scope.getInteraction = function () {
-            $http.get(Routing.generate("admin_rest_order_interaction") + '/' + entity_id)
-                .then(function (response) {
-                    $scope.interaction = response.data;
-                }, function (response) {
-                    generateCelsiusAlert(response);
-                });
-        };
-        $scope.getInteraction();
-
         $scope.printInstitutions = function (ins) {
             var txt = '';
             if (!_.isUndefined(ins)) {

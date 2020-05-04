@@ -699,55 +699,6 @@
 
         </script>
 
-        <!-- show_interaction.html -->
-        <script type="text/ng-template" id="show_interaction.html?{{ assets_version('admin_order') }}">
-            {% verbatim %}
-                <div class="row">
-                    <div class="col-xs-10" ng-if="interaction.result">
-                        <h5>{{ interaction.institution }}</h5>
-
-                        <table class="table table-condensed">
-                            <tbody>
-                                <tr>
-                                    <td class="success text-center">{{ 'requested' | trans }}:
-                                        {{ interaction.institutionInteraction.data.created }}</td>
-                                    <td class="text-center">{{ 'delivered' | trans }}:
-                                        {{ interaction.institutionInteraction.data.delivered }}</td>
-                                    <td class="text-center">{{ 'annulled' | trans }}:
-                                        {{ interaction.institutionInteraction.data.annulled }}</td>
-                                    <td class="text-center">{{ 'cancelled' | trans }}:
-                                        {{ interaction.institutionInteraction.data.cancelled }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="row">
-                            <div class="col-xs-2 col-xs-offset-5">
-                                <span class="glyphicon glyphicon-arrow-up"></span>
-                                <span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                        </div>
-                        <h5>{{ interaction.instance }}</h5>
-
-                        <table class="table table-condensed">
-                            <tbody>
-                                <tr>
-                                    <td class="success text-center">{{ 'requested' | trans }}:
-                                        {{ interaction.instanceInteraction.data.created }}</td>
-                                    <td class="text-center">{{ 'delivered' | trans }}:
-                                        {{ interaction.instanceInteraction.data.delivered }}</td>
-                                    <td class="text-center">{{ 'annulled' | trans }}:
-                                        {{ interaction.instanceInteraction.data.annulled }}</td>
-                                    <td class="text-center">{{ 'cancelled' | trans }}:
-                                        {{ interaction.instanceInteraction.data.cancelled }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            {% endverbatim %}
-        </script>
-
         <!-- journal_data.html -->
         <script type="text/ng-template" id="journal_data.html?{{ assets_version('admin_order') }}">
             {% verbatim %}
@@ -1207,7 +1158,7 @@
                         <div ng-include="'show_material_data.html?' + assets_version"></div>
                     </div>
 
-                    <div id="columna2" class="col-md-5" ng-include="'show_interaction.html?' + assets_version"></div>
+<!--                    <div id="columna2" class="col-md-5" ng-include="'show_interaction.html?' + assets_version"></div>-->
 
                     <div id="columna3" class="col-md-3" ng-include="'show_actions.html?' + assets_version"></div>
                 </div>
