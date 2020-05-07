@@ -87,6 +87,10 @@
         hr {
             border: 1px solid black;
         }
+
+        .large {
+            font-size: large;
+        }
     </style>
 
     <style type="text/css" about="animations">
@@ -158,7 +162,8 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <select class="select2 form-control operators-select select2" name="institucion" id="form_institucion">
+                        <select class="select2 form-control operators-select select2" name="institucion"
+                                id="form_institucion">
                             <option value="">{{ 'institution' | trans }}</option>
                             {% for i in instituciones %}
                                 <option value="{{ i.id }}">({{ i.abbreviation }}) {{ i.name|e }}</option>
@@ -172,6 +177,8 @@
                     <div class='col-md-6'>
                         <div class="form-group">
                             <select class="form-control operators-select" name="user" id="form_anio_desde" >
+                            <select class="form-control operators-select" name="user" id="form_anio_desde"
+                                    onchange="buscarInstituciones()">
                                 <option value="">{{ 'initialYear' | trans }}</option>
                                 {% set actual = date().format('Y') %}
                                 {% for i in 2001..actual %}
@@ -205,13 +212,16 @@
             <div>
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#tab-table" aria-controls="tab-table" role="tab"
-                                                              data-toggle="tab">{{ 'Table' | trans }}</a></li>
+                                                              data-toggle="tab" class="large">{{ 'Table' | trans }}</a>
+                    </li>
                     <li role="presentation"><a href="#tab-diagram" aria-controls="tab-diagram" role="tab"
-                                               data-toggle="tab">{{ 'Diagram' | trans }}</a></li>
+                                               data-toggle="tab" class="large">{{ 'Diagram' | trans }}</a></li>
                 </ul>
-
+                <br>
                 <div class="tab-content">
-                    <div style="display: none" id="resultado">Procesando, espere por favor...</div>
+                    <div style="display: none" id="resultado">{{ 'Procesando, espere por favor...' | trans }}</div>
+                    <div id="not-found-data-message"
+                         style="display: none">{{ 'Not found interation data' | trans }}</div>
                     <div role="tabpanel" class="tab-pane active animated fadeIn" id="tab-table">
                         <div id="table" class="row"></div>
                     </div>
@@ -352,7 +362,6 @@
             var ai = response.instanceInteraction ?? {};
             var ii = response.institutionInteraction ?? {};
             var diagram = document.querySelector('#diagram');
-            diagram.innerHTML = '';
 
             var diagramHeaders = document.querySelector('#diagram-headers');
             diagramHeaders.content.querySelector('#instance-name').textContent = response.instance;
@@ -395,7 +404,6 @@
 
         function table(response) {
             var table = document.querySelector('#table');
-            table.innerHTML = '';
             var tt = document.querySelector('#table-template');
             tt.content.querySelector('#instancia_nombre').textContent = response.instance;
             tt.content.querySelector('#institucion_nombre').textContent = response.institution;
@@ -427,7 +435,6 @@
             });
             html_resultado_institutionInteraction = html_resultado_institutionInteraction + tr_resultado_institutionInteraction + "</table>";
 
-
             tt.content.querySelector("#resultado_instanceInteraction").innerHTML = html_resultado_instanceInteraction;
             tt.content.querySelector("#resultado_institutionInteraction").innerHTML = html_resultado_institutionInteraction;
 
@@ -451,8 +458,16 @@
                 },
                 success: function (response) {
                     $("#resultado").hide();
-                    table(response);
-                    diagram(response);
+
+                    document.querySelector('#table').innerHTML = '';
+                    document.querySelector('#diagram').innerHTML = '';
+
+                    if (response.instanceInteraction || response.institutionInteraction) {
+                        table(response);
+                        diagram(response);
+                    } else {
+                        $('#not-found-data-message').show();
+                    }
                 }
             });
         }

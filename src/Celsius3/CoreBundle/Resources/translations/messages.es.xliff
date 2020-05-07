@@ -4159,6 +4159,22 @@
         <source>Anio</source>
         <target>Año</target>
       </trans-unit>
+      <trans-unit id="Table" resname="Table">
+        <source>Table</source>
+        <target>Tabla</target>
+      </trans-unit>
+      <trans-unit id="Diagram" resname="Diagram">
+        <source>Diagram</source>
+        <target>Diagrama</target>
+      </trans-unit>
+      <trans-unit id="Not found interation data" resname="Not found interation data">
+        <source>Not found interation data</source>
+        <target>No se encontraron datos de interacción</target>
+      </trans-unit>
+      <trans-unit id="Procesando, espere por favor..." resname="Procesando, espere por favor...">
+        <source>Procesando, espere por favor...</source>
+        <target>Procesando, espere por favor...</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
