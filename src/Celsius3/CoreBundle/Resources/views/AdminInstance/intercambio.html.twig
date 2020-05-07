@@ -329,21 +329,26 @@
         });
 
         function diagram(response) {
-            var ai = response.instanceInteraction ?? [];
-            var ii = response.institutionInteraction ?? [];
+            var ai = response.instanceInteraction ?? {};
+            var ii = response.institutionInteraction ?? {};
             var diagram = document.querySelector('#diagram');
+            diagram.innerHTML = '';
 
             var diagramHeaders = document.querySelector('#diagram-headers');
             diagramHeaders.content.querySelector('#instance-name').textContent = response.instance;
             diagramHeaders.content.querySelector('#institution-name').textContent = response.institution;
             diagram.appendChild(document.importNode(diagramHeaders.content, true));
 
-            var a1 = Object.keys(ii.data).map(function (e) {
-                return parseInt(e);
-            });
-            var a2 = Object.keys(ai.data).map(function (e) {
-                return parseInt(e);
-            });
+            if ('data' in ii) {
+                var a1 = Object.keys(ii.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+            if ('data' in ai) {
+                var a2 = Object.keys(ai.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
 
             var min = (minA = Math.min.apply(null, a1)) < (minB = Math.min.apply(null, a2)) ? minA : minB;
             var max = (minA = Math.max.apply(null, a1)) > (minB = Math.max.apply(null, a2)) ? minA : minB;
@@ -353,12 +358,12 @@
 
                 dataRow.content.querySelector('.year').textContent = i;
 
-                if (i in ai.data) {
+                if ('data' in ai && i in ai.data) {
                     dataRow.content.querySelector('#requested-number').textContent = ai.data[i].requested ?? 0;
                     dataRow.content.querySelector('#received-number').textContent = ai.data[i].received ?? 0;
                 }
 
-                if (i in ii.data) {
+                if ('data' in ii && i in ii.data) {
                     dataRow.content.querySelector('#created-number').textContent = ii.data[i].created ?? 0;
                     dataRow.content.querySelector('#delivered-number').textContent = ii.data[i].delivered ?? 0;
                 }
@@ -369,6 +374,8 @@
         }
 
         function table(response) {
+            var table = document.querySelector('#table');
+            table.innerHTML = '';
             var tt = document.querySelector('#table-template');
             tt.content.querySelector('#instancia_nombre').textContent = response.instance;
             tt.content.querySelector('#institucion_nombre').textContent = response.institution;
@@ -404,7 +411,6 @@
             tt.content.querySelector("#resultado_instanceInteraction").innerHTML = html_resultado_instanceInteraction;
             tt.content.querySelector("#resultado_institutionInteraction").innerHTML = html_resultado_institutionInteraction;
 
-            var table = document.querySelector('#table');
             table.appendChild(document.importNode(tt.content, true));
         }
 
