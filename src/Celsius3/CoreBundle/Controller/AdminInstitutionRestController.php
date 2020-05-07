@@ -126,12 +126,12 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
      *
      * @Get("/intercambio", name="admin_rest_institution_intercambio", options={"expose"=true})
      */
-    public function getInstitutionsActionIntercambio(Request $request)
+    public function getInteractionInstitutionsAction(Request $request)
     {
         $context = SerializationContext::create()->setGroups(array('administration_order_show'));
 
         $em = $this->getDoctrine()->getManager();
-        $city_id=null;
+        $city_id = null;
         $filter = null;
         if ($request->query->has('filter') && $request->query->get('filter') !== '') {
             $filter = $request->query->get('filter');
@@ -142,7 +142,6 @@ class AdminInstitutionRestController extends BaseInstanceDependentRestController
         $institutions = $em->getRepository('Celsius3CoreBundle:Institution')
             ->findForInstanceAndGlobal($this->getInstance(), $this->getDirectory(), true, $hive, $country_id, $city_id, $filter)
             ->getQuery()->getResult();
-       echo count($institutions);die;
         $view = $this->view(array_values($institutions), 200)->setFormat('json');
         $view->setSerializationContext($context);
 
