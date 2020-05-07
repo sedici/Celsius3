@@ -15,6 +15,109 @@
         }
     </style>
 
+    <style type="text/css" about="diagram">
+        .mb {
+            border: 1px solid #777;
+        }
+
+        .center {
+            vertical-align: middle;
+            text-align: center;
+            font-size: large;
+        }
+
+        .data {
+            border-left: 2px solid #5bc0de;
+            border-right: 2px solid #5cb85c;
+            padding-top: 20px;
+        }
+
+        .year {
+            display: inline-block;
+            line-height: 200px;
+            float: right;
+            font-size: x-large;
+        }
+
+        .row-height {
+            height: 200px;
+            border-bottom-color: #363636;
+            border-bottom-style: dashed;
+            border-bottom-width: 1px;
+        }
+
+        .arrow-icon {
+            font-size: x-large;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .institution:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            border-bottom: 2px solid #5cb85c;
+        }
+
+        .instance:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 25%;
+            width: 50%;
+            border-bottom: 2px solid #5bc0de;
+        }
+
+        .institution-color {
+            color: #5cb85c
+        }
+
+        .instance-color {
+            color: #5bc0de;
+        }
+
+        hr {
+            border: 1px solid black;
+        }
+    </style>
+
+    <style type="text/css" about="animations">
+        .animated {
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .fast {
+            -webkit-animation-duration: 0.4s;
+            animation-duration: 0.4s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeIn {
+            animation-name: fadeIn;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="col-xs-12">
@@ -23,8 +126,6 @@
                 <h2>{{ 'Intercambio entre Instituciones con nuestra Instancia' }}</h2>
             </div>
             <hr class="separator_hr">
-
-
             <form method="post" name="form_intercambio">
                 <div class="row">
                     <div class="col-lg-3">
@@ -42,7 +143,7 @@
                                 <option value="">{{ 'initialYear' | trans }}</option>
                                 {% set actual = date().format('Y') %}
                                 {% for i in 2001..actual %}
-                                <option value="{{ i }}">{{ i }}</option>
+                                    <option value="{{ i }}">{{ i }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -60,57 +161,140 @@
                     </div>
                     <div class='col-md-2'>
                         <div class="form-group">
-                            <button  type="button" class="btn btn-success" onclick="buscarResultado()">Procesar</button>
+                            <button type="button" class="btn btn-success" onclick="buscarResultado()">Procesar</button>
                         </div>
                     </div>
                 </div>
             </form>
             <br/>
-            <div style="display: none" id="resultado">Procesando, espere por favor...</div>
-            <div class="col-md-12">
-                <!-- LINE CHART -->
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
-                        <p>Solicitudes de usuarios de la institución seleccionada atendidas por esta instancia.</p>
-                    </div>
-                    <div class="box-body">
-                        <div class="chart">
-                            <div id="resultado_institutionInteraction">
 
-                            </div>
+            <div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab-table" aria-controls="tab-table" role="tab"
+                                                              data-toggle="tab">{{ 'Table' | trans }}</a></li>
+                    <li role="presentation"><a href="#tab-diagram" aria-controls="tab-diagram" role="tab"
+                                               data-toggle="tab">{{ 'Diagram' | trans }}</a></li>
+                </ul>
 
-                        </div>
+                <div class="tab-content">
+                    <div style="display: none" id="resultado">Procesando, espere por favor...</div>
+                    <div role="tabpanel" class="tab-pane active animated fadeIn" id="tab-table">
+                        <div id="table" class="row"></div>
                     </div>
-                    <!-- /.box-body -->
+                    <div role="tabpanel" class="tab-pane animated fadeIn" id="tab-diagram">
+                        <div id="diagram" class="row"></div>
+                    </div>
                 </div>
-                <!-- /.box -->
-                <!-- BAR CHART -->
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Institucion: <span id="institucion_nombre"></span></h3>
-                        <p>Solicitudes de esta instancia atendidas por la institución seleccionada.</p>
-                    </div>
-                    <div class="box-body">
-                        <div class="chart">
-                            <div id="resultado_instanceInteraction">
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-
-
-
 
             </div>
 
-
         </div>
-
     </div>
+
+    <template id="table-template">
+        <div class="col-md-12 animated fadeIn">
+            <!-- LINE CHART -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
+                    <p>Solicitudes de usuarios de la institución seleccionada atendidas por esta instancia.</p>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <div id="resultado_institutionInteraction">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <!-- BAR CHART -->
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Institucion: <span id="institucion_nombre"></span></h3>
+                    <p>Solicitudes de esta instancia atendidas por la institución seleccionada.</p>
+                </div>
+                <div class="box-body">
+                    <div class="chart">
+                        <div id="resultado_instanceInteraction">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </template>
+    <template id="diagram-headers">
+        <div class="row animated fadeIn">
+            <div class="col-md-6 text-center instance">
+                <h3 class="box-title"><span id="instance-name"></span></h3>
+            </div>
+            <div class="col-md-6 text-center institution">
+                <h3 class=""><span id="institution-name"></span></h3>
+            </div>
+        </div>
+    </template>
+    <template id="diagram-data-row">
+        <div class="row animated fadeIn">
+            <div class="col-md-3 row-height center"><span class="year"></span></div>
+            <div class="col-md-6 data center row-height">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        Solicitados <span id="requested-number">0</span>
+                    </div>
+                    <div class="col-md-4 left">
+                        <span class="glyphicon glyphicon-arrow-right arrow-icon instance-color"
+                              aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 right">
+                        <span class="glyphicon glyphicon-arrow-left arrow-icon institution-color"
+                              aria-hidden="true"></span>
+                    </div>
+                    <div class="col-md-4">
+                        Recibidos <span id="received-number">0</span>
+                    </div>
+                </div>
+                {#                <div class="row">#}
+                {#                    <div class="col-md-6">#}
+                {#                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>#}
+                {#                        Cancelados#}
+                {#                    </div>#}
+                {#                    <div class="col-md-6">#}
+                {#                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>#}
+                {#                        Anulados#}
+                {#                    </div>#}
+                {#                </div>#}
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-4 right">
+                        <span class="glyphicon glyphicon-arrow-left arrow-icon institution-color"
+                              aria-hidden="true"></span>
+                    </div>
+                    <div class="col-md-4">
+                        Creados <span id="created-number">0</span>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        Entregados <span id="delivered-number">0</span>
+                    </div>
+                    <div class="col-md-4 left">
+                        <span class="glyphicon glyphicon-arrow-right arrow-icon instance-color"
+                              aria-hidden="true"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 row-height"></div>
+        </div>
+    </template>
 {% endblock %}
 
 
@@ -118,70 +302,117 @@
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+            crossorigin="anonymous"></script>
 
     <script type="text/javascript">
         $(function () {
-            $('#form_fecha_desde').datepicker({ dateFormat: 'yy-mm-dd' });
-            $('#form_fecha_hasta').datepicker({ dateFormat: 'yy-mm-dd' });
+            $('#form_fecha_desde').datepicker({dateFormat: 'yy-mm-dd'});
+            $('#form_fecha_hasta').datepicker({dateFormat: 'yy-mm-dd'});
         });
 
-           function buscarResultado() {
-               var parametros = {
-                   "id": $("#form_institucion").val(),
-                   'anio_desde': $("#form_anio_desde").val(),
-                   'anio_hasta': $("#form_anio_hasta").val()
+        function diagram(response) {
+            var ai = response.instanceInteraction ?? [];
+            var ii = response.institutionInteraction ?? [];
+            var diagram = document.querySelector('#diagram');
 
-               };
-               $.ajax({
-                   data: parametros,
-                   url: '{{ path('admin_instance_interaction_get') }}',
-                   type: 'post',
-                   beforeSend: function () {
-                       $("#resultado").show();
-                       $("#resultado_operadores").html("");
-                   },
-                   success: function (response) {
-                       $("#resultado").hide();
-                       console.log(response);
-                       $('#instancia_nombre').html(response.instance);
-                       $("#institucion_nombre").html(response.institution)
+            var diagramHeaders = document.querySelector('#diagram-headers');
+            diagramHeaders.content.querySelector('#instance-name').textContent = response.instance;
+            diagramHeaders.content.querySelector('#institution-name').textContent = response.institution;
+            diagram.appendChild(document.importNode(diagramHeaders.content, true));
 
-                       var resultado_instanceInteraction= (response.instanceInteraction) ? response.instanceInteraction.data : [];
-                       var resultado_institutionInteraction= (response.institutionInteraction) ? response.institutionInteraction.data : [];
-                       var html_resultado_instanceInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th></tr>"
-                       var tr_resultado_instanceInteraction='';
-                       jQuery.each( resultado_instanceInteraction, function( i, val ) {
-                           var received=val.received ?? 0;
-                           var requested=val.requested ?? 0;
-                           var reclaimed=val.reclaimed ?? 0;
-                           var cancelled=val.cancelled ?? 0;
+            var a1 = Object.keys(ii.data).map(function (e) {
+                return parseInt(e);
+            });
+            var a2 = Object.keys(ai.data).map(function (e) {
+                return parseInt(e);
+            });
 
-                           tr_resultado_instanceInteraction=tr_resultado_instanceInteraction+"<tr><td>"+i+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+reclaimed+"</td><td>"+cancelled+"</td></tr>";
-                            console.log(i)
-                       });
-                       html_resultado_instanceInteraction=html_resultado_instanceInteraction+tr_resultado_instanceInteraction+"</table>";
+            var min = (minA = Math.min.apply(null, a1)) < (minB = Math.min.apply(null, a2)) ? minA : minB;
+            var max = (minA = Math.max.apply(null, a1)) > (minB = Math.max.apply(null, a2)) ? minA : minB;
+
+            for (var i = min; i <= max; i++) {
+                var dataRow = document.querySelector('#diagram-data-row');
+
+                dataRow.content.querySelector('.year').textContent = i;
+
+                if (i in ai.data) {
+                    dataRow.content.querySelector('#requested-number').textContent = ai.data[i].requested ?? 0;
+                    dataRow.content.querySelector('#received-number').textContent = ai.data[i].received ?? 0;
+                }
+
+                if (i in ii.data) {
+                    dataRow.content.querySelector('#created-number').textContent = ii.data[i].created ?? 0;
+                    dataRow.content.querySelector('#delivered-number').textContent = ii.data[i].delivered ?? 0;
+                }
+
+                var clone = document.importNode(dataRow.content, true);
+                diagram.appendChild(clone);
+            }
+        }
+
+        function table(response) {
+            var tt = document.querySelector('#table-template');
+            tt.content.querySelector('#instancia_nombre').textContent = response.instance;
+            tt.content.querySelector('#institucion_nombre').textContent = response.institution;
+
+            var resultado_instanceInteraction = (response.instanceInteraction) ? response.instanceInteraction.data : [];
+            var resultado_institutionInteraction = (response.institutionInteraction) ? response.institutionInteraction.data : [];
+            var html_resultado_instanceInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"; //<th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th>
+            var tr_resultado_instanceInteraction = '';
+            jQuery.each(resultado_instanceInteraction, function (i, val) {
+                var received = val.received ?? 0;
+                var requested = val.requested ?? 0;
+                var reclaimed = val.reclaimed ?? 0;
+                var cancelled = val.cancelled ?? 0;
+
+                tr_resultado_instanceInteraction = tr_resultado_instanceInteraction + "<tr><td>" + i + "</td><td>" + requested + "</td><td>" + received + "</td></tr>"; //<td>" + reclaimed + "</td><td>" + cancelled + "</td>
+            });
+            html_resultado_instanceInteraction = html_resultado_instanceInteraction + tr_resultado_instanceInteraction + "</table>";
+
+            var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th><th>{{ 'Delivered' | trans }}</th></tr>"
+            var tr_resultado_institutionInteraction = '';
+            jQuery.each(resultado_institutionInteraction, function (i, val) {
+                var created = val.created ?? 0;
+                var delivered = val.delivered ?? 0;
+                var received = val.received ?? 0;
+                var requested = val.requested ?? 0;
+                var searched = val.searched ?? 0;
+
+                tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>" + i + "</td><td>" + created + "</td><td>" + searched + "</td><td>" + requested + "</td><td>" + received + "</td><td>" + delivered + "</td></tr>";
+            });
+            html_resultado_institutionInteraction = html_resultado_institutionInteraction + tr_resultado_institutionInteraction + "</table>";
 
 
-                       var html_resultado_institutionInteraction="<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans}}</th><th>{{ 'Delivered' | trans }}</th></tr>"
-                       var tr_resultado_institutionInteraction='';
-                       jQuery.each( resultado_institutionInteraction, function( i, val ) {
-                           var created=val.created ?? 0;
-                           var delivered=val.delivered ?? 0;
-                           var received=val.received ?? 0;
-                           var requested=val.requested ?? 0;
-                           var searched=val.searched ?? 0;
+            tt.content.querySelector("#resultado_instanceInteraction").innerHTML = html_resultado_instanceInteraction;
+            tt.content.querySelector("#resultado_institutionInteraction").innerHTML = html_resultado_institutionInteraction;
 
-                           tr_resultado_institutionInteraction=tr_resultado_institutionInteraction+"<tr><td>"+i+"</td><td>"+created+"</td><td>"+searched+"</td><td>"+requested+"</td><td>"+received+"</td><td>"+delivered+"</td></tr>";
-                           console.log(i)
-                       });
-                       html_resultado_institutionInteraction=html_resultado_institutionInteraction+tr_resultado_institutionInteraction+"</table>";
+            var table = document.querySelector('#table');
+            table.appendChild(document.importNode(tt.content, true));
+        }
 
+        function buscarResultado() {
+            var parametros = {
+                "id": $("#form_institucion").val(),
+                'anio_desde': $("#form_anio_desde").val(),
+                'anio_hasta': $("#form_anio_hasta").val()
+            };
 
-                       $("#resultado_instanceInteraction").html(html_resultado_instanceInteraction);
-                       $("#resultado_institutionInteraction").html(html_resultado_institutionInteraction);
-
-                   }
-               });
-           }
+            $.ajax({
+                data: parametros,
+                url: '{{ path('admin_instance_interaction_get') }}',
+                type: 'post',
+                beforeSend: function () {
+                    $("#resultado").show();
+                    $("#resultado_operadores").html("");
+                },
+                success: function (response) {
+                    $("#resultado").hide();
+                    table(response);
+                    diagram(response);
+                }
+            });
+        }
     </script>
 {% endblock %}
