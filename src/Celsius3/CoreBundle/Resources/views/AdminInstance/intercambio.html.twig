@@ -127,9 +127,24 @@
             </div>
             <hr class="separator_hr">
             <form method="post" name="form_intercambio">
+
                 <div class="row">
                     <div class="col-lg-6">
-                        <select class="select2 form-control operators-select " name="country" id="form_country">
+                        <div class="form-group">
+                            <label></label>
+                            <div class="filter-select" id="filter">
+                                <input type="radio" value="" name="provider" checked />
+                                <label for="provider_institution">Todos</label>
+                                <input type="radio" value="celsius3" name="provider" />
+                                <label for="provider_web">Celsius3</label>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                    <div class="col-lg-6">
+                        <select class="select2 form-control operators-select " name="country" id="form_country" onchange="buscarInstituciones()">
                             <option value="">{{ 'country' | trans }}</option>
                             {% for c in countries %}
                                 <option value="{{ c.id }}">{{ c.name|e }}</option>
@@ -137,6 +152,11 @@
                         </select>
 
                     </div>
+                </div>
+
+
+                </div>
+                <div class="row">
                     <div class="col-lg-6">
                         <select class="select2 form-control operators-select select2" name="institucion" id="form_institucion">
                             <option value="">{{ 'institution' | trans }}</option>
@@ -151,7 +171,7 @@
                 <div class="row">
                     <div class='col-md-6'>
                         <div class="form-group">
-                            <select class="form-control operators-select" name="user" id="form_anio_desde" onchange="buscarInstituciones()">
+                            <select class="form-control operators-select" name="user" id="form_anio_desde" >
                                 <option value="">{{ 'initialYear' | trans }}</option>
                                 {% set actual = date().format('Y') %}
                                 {% for i in 2001..actual %}
@@ -436,6 +456,29 @@
                 }
             });
         }
+
+        function buscarInstituciones(){
+            var country_id=$("#form_country").val();
+            var filter=$("input[name='provider']:checked").val();
+            var parametros = {
+                "filter": filter,
+                "country_id": country_id
+            };
+            $.ajax({
+                data: parametros,
+                url: '{{ path('admin_rest_institution_intercambio') }}',
+                type: 'get',
+                beforeSend: function () {
+                    console.log('ddd');
+                },
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+
+
+
 
     </script>
 {% endblock %}
