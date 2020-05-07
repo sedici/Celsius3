@@ -133,21 +133,18 @@
             <form method="post" name="form_intercambio">
 
                 <div class="row">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label></label>
-                            <div class="filter-select" id="filter">
-                                <input type="radio" value="" name="provider" checked onchange="buscarInstituciones()" />
-                                <label for="provider_institution">Todos</label>
-                                <input type="radio" value="celsius3" name="provider" onchange="buscarInstituciones()" />
-                                <label for="provider_web">Celsius3</label>
-
-                            </div>
+                    <div class="col-lg-4 text-center">
+                        <div class="filter-select" id="filter">
+                            <input type="radio" value="" name="provider" checked onchange="buscarInstituciones()"/>
+                            <label for="provider_institution">Todos</label>
+                            <input type="radio" value="celsius3" name="provider" onchange="buscarInstituciones()"/>
+                            <label for="provider_web">Celsius3</label>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <select class="select2 form-control operators-select " name="country" id="form_country" onchange="buscarInstituciones()">
-                            <option value="">{{ 'country' | trans }}</option>
+                        <select class="select2 form-control operators-select " name="country" id="form_country"
+                                onchange="buscarInstituciones()">
+                            <option></option>
                             {% for c in countries %}
                                 <option value="{{ c.id }}">{{ c.name|e }}</option>
                             {% endfor %}
@@ -158,21 +155,19 @@
                     <div class="col-lg-4">
                         <select class="select2 form-control operators-select select2" name="institucion"
                                 id="form_institucion">
-                            <option value="">{{ 'institution' | trans }}</option>
+                            <option></option>
                             {% for i in instituciones %}
                                 <option value="{{ i.id }}">({{ i.abbreviation }}) {{ i.name|e }}</option>
                             {% endfor %}
                         </select>
-
                     </div>
                 </div>
                 <br/>
                 <div class="row">
-                    <div class='col-md-6'>
+                    <div class='col-md-4'>
                         <div class="form-group">
-                            <select class="form-control operators-select" name="user" id="form_anio_desde"
-                                    onchange="buscarInstituciones()">
-                                <option value="">{{ 'initialYear' | trans }}</option>
+                            <select class="form-control operators-select" name="initialYear" id="form_anio_desde">
+                                <option></option>
                                 {% set actual = date().format('Y') %}
                                 {% for i in 2001..actual %}
                                     <option value="{{ i }}">{{ i }}</option>
@@ -180,10 +175,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class='col-md-6'>
+                    <div class='col-md-4'>
                         <div class="form-group">
-                            <select class="form-control operators-select" name="user" id="form_anio_hasta">
-                                <option value="">{{ 'finalYear' | trans }}</option>
+                            <select class="form-control operators-select" name="finalYear" id="form_anio_hasta">
+                                <option></option>
                                 {% set actual = date().format('Y') %}
                                 {% for i in 2001..actual %}
                                     <option value="{{ i }}">{{ i }}</option>
@@ -191,11 +186,12 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class='col-md-2'>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-success" onclick="buscarResultado()">Procesar</button>
+                    <div class="row">
+                        <div class='col-md-4'>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success" onclick="buscarResultado()">Procesar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -346,11 +342,24 @@
 
     <script type="text/javascript">
         $(function () {
-            //$("#form_institucion").options.remove();
-
-            $('select').select2();
-            $('#form_fecha_desde').datepicker({dateFormat: 'yy-mm-dd'});
-            $('#form_fecha_hasta').datepicker({dateFormat: 'yy-mm-dd'});
+            $("#form_institucion").select2({
+                placeholder: "{{ 'institution' | trans }}",
+                allowClear: true
+            });
+            $("#form_country").select2({
+                placeholder: "{{ 'country' | trans }}",
+                allowClear: true
+            });
+            $('#form_anio_desde').select2({
+                minimumResultsForSearch: -1,
+                placeholder: "{{ 'initialYear' | trans }}",
+                allowClear: true
+            });
+            $('#form_anio_hasta').select2({
+                minimumResultsForSearch: -1,
+                placeholder: "{{ 'finalYear' | trans }}",
+                allowClear: true
+            });
         });
 
         function diagram(response) {
@@ -448,6 +457,7 @@
                 url: '{{ path('admin_instance_interaction_get') }}',
                 type: 'post',
                 beforeSend: function () {
+                    $("#not-found-data-message").hide();
                     $("#resultado").show();
                     $("#resultado_operadores").html("");
                 },
@@ -467,9 +477,9 @@
             });
         }
 
-        function buscarInstituciones(){
-            var country_id=$("#form_country").val();
-            var filter=$("input[name='provider']:checked").val();
+        function buscarInstituciones() {
+            var country_id = $("#form_country").val();
+            var filter = $("input[name='provider']:checked").val();
             var parametros = {
                 "filter": filter,
                 "country_id": country_id
@@ -479,21 +489,14 @@
                 data: parametros,
                 url: '{{ path('admin_rest_institution_intercambio') }}',
                 type: 'get',
-                beforeSend: function () {
-                    console.log('ddd');
-                },
                 success: function (response) {
                     $("#form_institucion option").remove();
+                    $('#form_institucion').append('<option value=""></option>');
                     jQuery.each(response, function (i, val) {
-                        console.log(i);
-                        console.log(val.provider_name);
-                       // $('#form_institucion').append(new Option(val.provider_name, i));
-                        $('#form_institucion').append('<option value="'+i+'" selected="selected">'+val.provider_name+'</option>');
+                        $('#form_institucion').append('<option value="' + val.id + '">' + val.provider_name + '</option>');
                     })
-                    console.log(response);
                 }
             });
         }
-
     </script>
 {% endblock %}
