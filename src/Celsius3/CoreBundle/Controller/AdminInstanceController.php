@@ -85,12 +85,16 @@ class AdminInstanceController extends InstanceController
      */
     public function intercambioUIAction()
     {
+
+        $paisRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Country');
+        $country=$paisRepository->findAll();
         $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
 //        $institutions = $institutionRepository->findInstitutionParentInstance();
         $institutions = $institutionRepository->findForInstanceAndGlobal($this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance(), $this->getDirectory(), true)->getQuery()->execute();
 
         return array(
             'instituciones' => $institutions,
+            'countries'=>$country
         );
     }
 
