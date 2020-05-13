@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
     <style type="text/css">
         label.form-check-label input {
             margin-right: 20px;
         }
     </style>
-
     <style type="text/css" about="diagram">
         .mb {
             border: 1px solid #777;
@@ -84,15 +84,10 @@
             color: #5bc0de;
         }
 
-        hr {
-            border: 1px solid black;
-        }
-
         .large {
             font-size: large;
         }
     </style>
-
     <style type="text/css" about="animations">
         .animated {
             -webkit-animation-duration: 1s;
@@ -230,7 +225,7 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
-                    <p>Solicitudes de usuarios de la institución seleccionada atendidas por esta instancia.</p>
+                    <p>{{ 'Solicitudes de la institución seleccionada atendidas por su instancia' | trans }}</p>
                 </div>
                 <div class="box-body">
                     <div class="chart">
@@ -245,7 +240,7 @@
             <div class="box box-success">
                 <div class="box-header with-border">
                     <h3 class="box-title">Institucion: <span id="institucion_nombre"></span></h3>
-                    <p>Solicitudes de esta instancia atendidas por la institución seleccionada.</p>
+                    <p>{{ 'Solicitudes de su instancia atendidas por la institución seleccionada' | trans }}</p>
                 </div>
                 <div class="box-body">
                     <div class="chart">

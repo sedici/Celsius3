@@ -4169,6 +4169,14 @@
         <source>Procesando, espere por favor...</source>
         <target>Processando, aguarde...</target>
       </trans-unit>
+      <trans-unit id="Solicitudes de la institución seleccionada atendidas por su instancia" resname="Solicitudes de la institución seleccionada atendidas por su instancia">
+        <source>Solicitudes de la institución seleccionada atendidas por su instancia</source>
+        <target>Solicitações da instituição selecionada atendida por sua instância</target>
+      </trans-unit>
+      <trans-unit id="Solicitudes de su instancia atendidas por la institución seleccionada" resname="Solicitudes de su instancia atendidas por la institución seleccionada">
+        <source>Solicitudes de su instancia atendidas por la institución seleccionada</source>
+        <target>Solicitações da sua instância atendidas pela instituição selecionada</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
