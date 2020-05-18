@@ -270,7 +270,7 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        Solicitados <span id="requested-number">0</span>
+                        {{ 'Requested_s' | trans }} <span id="requested-number">0</span>
                     </div>
                     <div class="col-md-4 left">
                         <span class="glyphicon glyphicon-arrow-right arrow-icon instance-color"
@@ -283,19 +283,9 @@
                               aria-hidden="true"></span>
                     </div>
                     <div class="col-md-4">
-                        Recibidos <span id="received-number">0</span>
+                        {{ 'Received_s' | trans }} <span id="received-number">0</span>
                     </div>
                 </div>
-                {#                <div class="row">#}
-                {#                    <div class="col-md-6">#}
-                {#                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>#}
-                {#                        Cancelados#}
-                {#                    </div>#}
-                {#                    <div class="col-md-6">#}
-                {#                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>#}
-                {#                        Anulados#}
-                {#                    </div>#}
-                {#                </div>#}
 
                 <br>
 
@@ -305,14 +295,14 @@
                               aria-hidden="true"></span>
                     </div>
                     <div class="col-md-4">
-                        Creados <span id="created-number">0</span>
+                        {{ 'Requested_s' | trans }} <span id="created-number">0</span>
                     </div>
                     <div class="col-md-4"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        Entregados <span id="delivered-number">0</span>
+                        {{ 'Received_s' | trans }} <span id="delivered-number">0</span>
                     </div>
                     <div class="col-md-4 left">
                         <span class="glyphicon glyphicon-arrow-right arrow-icon instance-color"
@@ -414,7 +404,7 @@
 
                 if ('data' in ii && i in ii.data) {
                     dataRow.content.querySelector('#created-number').textContent = ii.data[i].created ?? 0;
-                    dataRow.content.querySelector('#delivered-number').textContent = ii.data[i].delivered ?? 0;
+                    dataRow.content.querySelector('#delivered-number').textContent = ii.data[i].received ?? 0;
                 }
 
                 var clone = document.importNode(dataRow.content, true);
