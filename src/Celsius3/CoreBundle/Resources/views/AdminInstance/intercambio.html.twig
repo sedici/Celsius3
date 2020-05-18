@@ -381,8 +381,9 @@
             var min = (minA = Math.min.apply(null, a1)) < (minB = Math.min.apply(null, a2)) ? minA : minB;
             var max = (minA = Math.max.apply(null, a1)) > (minB = Math.max.apply(null, a2)) ? minA : minB;
 
+            var emptyDataRow = document.querySelector('#diagram-data-row');
             for (var i = min; i <= max; i++) {
-                var dataRow = document.querySelector('#diagram-data-row');
+                var dataRow = emptyDataRow.cloneNode(true);
 
                 dataRow.content.querySelector('.year').textContent = i;
 
