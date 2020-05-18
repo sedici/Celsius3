@@ -357,6 +357,26 @@
             });
         });
 
+        function minYear(a1, a2) {
+            var min = (minA = Math.min.apply(null, a1)) < (minB = Math.min.apply(null, a2)) ? minA : minB;
+            var anioDesde = document.querySelector('#form_anio_desde').value;
+            if (anioDesde) {
+                min = min < anioDesde ? min : anioDesde;
+            }
+
+            return min;
+        }
+
+        function maxYear(a1, a2) {
+            var max = (maxA = Math.max.apply(null, a1)) > (maxB = Math.max.apply(null, a2)) ? maxA : maxB;
+            var anioHasta = document.querySelector('#form_anio_hasta').value;
+            if (anioHasta) {
+                max = max > anioHasta ? max : anioHasta;
+            }
+
+            return max;
+        }
+
         function diagram(response) {
             var ai = response.instanceInteraction ?? {};
             var ii = response.institutionInteraction ?? {};
@@ -378,8 +398,8 @@
                 });
             }
 
-            var min = (minA = Math.min.apply(null, a1)) < (minB = Math.min.apply(null, a2)) ? minA : minB;
-            var max = (minA = Math.max.apply(null, a1)) > (minB = Math.max.apply(null, a2)) ? minA : minB;
+            var min = minYear(a1, a2);
+            var max = maxYear(a1, a2);
 
             var emptyDataRow = document.querySelector('#diagram-data-row');
             for (var i = min; i <= max; i++) {
@@ -408,31 +428,52 @@
             tt.content.querySelector('#instancia_nombre').textContent = response.instance;
             tt.content.querySelector('#institucion_nombre').textContent = response.institution;
 
-            var resultado_instanceInteraction = (response.instanceInteraction) ? response.instanceInteraction.data : [];
-            var resultado_institutionInteraction = (response.institutionInteraction) ? response.institutionInteraction.data : [];
+            var resultado_instanceInteraction = (response.instanceInteraction) ? response.instanceInteraction : [];
+            var resultado_institutionInteraction = (response.institutionInteraction) ? response.institutionInteraction : [];
+
+            if ('data' in resultado_institutionInteraction) {
+                var a1 = Object.keys(resultado_institutionInteraction.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+            if ('data' in resultado_instanceInteraction) {
+                var a2 = Object.keys(resultado_instanceInteraction.data).map(function (e) {
+                    return parseInt(e);
+                });
+            }
+
+            var min = minYear(a1, a2);
+            var max = maxYear(a1, a2);
+
             var html_resultado_instanceInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"; //<th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th>
             var tr_resultado_instanceInteraction = '';
-            jQuery.each(resultado_instanceInteraction, function (i, val) {
-                var received = val.received ?? 0;
-                var requested = val.requested ?? 0;
-                var reclaimed = val.reclaimed ?? 0;
-                var cancelled = val.cancelled ?? 0;
+            var aidata = resultado_instanceInteraction.data;
+            for (var i = min; i <= max; i++) {
+                aidatarow = aidata[i] ?? {};
+
+                var received = aidatarow.received ?? 0;
+                var requested = aidatarow.requested ?? 0;
+                var reclaimed = aidatarow.reclaimed ?? 0;
+                var cancelled = aidatarow.cancelled ?? 0;
 
                 tr_resultado_instanceInteraction = tr_resultado_instanceInteraction + "<tr><td>" + i + "</td><td>" + requested + "</td><td>" + received + "</td></tr>"; //<td>" + reclaimed + "</td><td>" + cancelled + "</td>
-            });
+            }
             html_resultado_instanceInteraction = html_resultado_instanceInteraction + tr_resultado_instanceInteraction + "</table>";
 
             var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th><th>{{ 'Delivered' | trans }}</th></tr>"
             var tr_resultado_institutionInteraction = '';
-            jQuery.each(resultado_institutionInteraction, function (i, val) {
-                var created = val.created ?? 0;
-                var delivered = val.delivered ?? 0;
-                var received = val.received ?? 0;
-                var requested = val.requested ?? 0;
-                var searched = val.searched ?? 0;
+            var iidata = resultado_institutionInteraction.data;
+            for (var i = min; i <= max; i++) {
+                iidatarow = iidata[i] ?? {};
+
+                var created = iidatarow.created ?? 0;
+                var delivered = iidatarow.delivered ?? 0;
+                var received = iidatarow.received ?? 0;
+                var requested = iidatarow.requested ?? 0;
+                var searched = iidatarow.searched ?? 0;
 
                 tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>" + i + "</td><td>" + created + "</td><td>" + searched + "</td><td>" + requested + "</td><td>" + received + "</td><td>" + delivered + "</td></tr>";
-            });
+            }
             html_resultado_institutionInteraction = html_resultado_institutionInteraction + tr_resultado_institutionInteraction + "</table>";
 
             tt.content.querySelector("#resultado_instanceInteraction").innerHTML = html_resultado_instanceInteraction;
