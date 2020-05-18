@@ -155,7 +155,7 @@ class RequestRepository extends BaseRepository
     {
         $qb = $this->createQueryBuilder('r');
 
-        $qb = $qb->select('YEAR(s.createdAt) year')
+        $qb = $qb->select('YEAR(r.createdAt) year')
                 ->addSelect('s.type st')
                 ->addSelect('COUNT(r.id) c')
                 ->innerJoin('r.owner', 'o', Join::WITH, $qb->expr()->in('o.institution', $institutions))
@@ -181,8 +181,9 @@ class RequestRepository extends BaseRepository
         $rsm->addScalarResult('st', 'st');
         $rsm->addScalarResult('c', 'c');
 
-        $sql = 'SELECT YEAR(e.createdAt) year, s.type st, COUNT(e.id) c '
+        $sql = 'SELECT YEAR(r.createdAt) year, s.type st, COUNT(e.id) c '
             . 'FROM event e '
+            . 'INNER JOIN request r ON e.request_id = r.id '
             . 'LEFT JOIN state s ON e.state_id = s.id '
             . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND e.provider_id IN (:institutions) '
         ;
@@ -209,8 +210,9 @@ class RequestRepository extends BaseRepository
         $rsm->addScalarResult('year', 'year');
         $rsm->addScalarResult('c', 'c');
 
-        $sql = 'SELECT YEAR(e.createdAt) year, COUNT(e.id) c '
+        $sql = 'SELECT YEAR(r.createdAt) year, COUNT(e.id) c '
             . 'FROM event e '
+            . 'INNER JOIN request r ON e.request_id = r.id '
             . 'INNER JOIN event re ON e.request_event_id = re.id '
             . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND re.provider_id IN (:institutions) '
             . 'AND YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear '

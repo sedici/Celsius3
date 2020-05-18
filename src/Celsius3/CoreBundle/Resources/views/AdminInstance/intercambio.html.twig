@@ -460,19 +460,20 @@
             }
             html_resultado_instanceInteraction = html_resultado_instanceInteraction + tr_resultado_instanceInteraction + "</table>";
 
-            var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Searched_s' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th><th>{{ 'Delivered' | trans }}</th></tr>"
+            var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Annulled' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Cancelled' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"
             var tr_resultado_institutionInteraction = '';
             var iidata = resultado_institutionInteraction.data;
             for (var i = min; i <= max; i++) {
                 iidatarow = iidata[i] ?? {};
 
                 var created = iidatarow.created ?? 0;
-                var delivered = iidatarow.delivered ?? 0;
                 var received = iidatarow.received ?? 0;
                 var requested = iidatarow.requested ?? 0;
                 var searched = iidatarow.searched ?? 0;
+                var cancelled = iidatarow.cancelled ?? 0;
+                var annulled = iidatarow.annulled ?? 0;
 
-                tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>" + i + "</td><td>" + created + "</td><td>" + searched + "</td><td>" + requested + "</td><td>" + received + "</td><td>" + delivered + "</td></tr>";
+                tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>" + i + "</td><td>" + created + "</td><td>" + annulled + "</td><td>" + requested + "</td><td>" + cancelled + "</td><td>" + received + "</td></tr>";
             }
             html_resultado_institutionInteraction = html_resultado_institutionInteraction + tr_resultado_institutionInteraction + "</table>";
 
