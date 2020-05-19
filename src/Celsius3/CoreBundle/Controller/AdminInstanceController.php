@@ -89,10 +89,8 @@ class AdminInstanceController extends InstanceController
         $paisRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Country');
         $country = $paisRepository->findForInstanceAndGlobal($instance, $this->getDirectory())->getQuery()->execute();
         $institutionRepository = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Institution');
-        $institutions = $institutionRepository->findForInstanceAndGlobal($instance, $this->getDirectory(), true)->getQuery()->execute();
 
         return array(
-            'instituciones' => $institutions,
             'countries' => $country
         );
     }

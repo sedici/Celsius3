@@ -122,7 +122,7 @@
     <div class="col-xs-12">
         <div class="panel panel-body">
             <div class="panel-heading">
-                <h2>{{ 'Intercambio entre Instituciones con nuestra Instancia' }}</h2>
+                <h2>{{ 'Exchange' | trans }}</h2>
             </div>
             <hr class="separator_hr">
             <form method="post" name="form_intercambio">
@@ -131,7 +131,7 @@
                     <div class="col-lg-4 text-center">
                         <div class="filter-select" id="filter">
                             <input type="radio" value="" name="provider" checked onchange="buscarInstituciones()"/>
-                            <label for="provider_institution">Todos</label>
+                            <label for="provider_institution">{{ 'All' | trans }}</label>
                             <input type="radio" value="celsius3" name="provider" onchange="buscarInstituciones()"/>
                             <label for="provider_web">Celsius3</label>
                         </div>
@@ -151,9 +151,9 @@
                         <select class="select2 form-control operators-select select2" name="institucion"
                                 id="form_institucion">
                             <option></option>
-                            {% for i in instituciones %}
-                                <option value="{{ i.id }}">({{ i.abbreviation }}) {{ i.name|e }}</option>
-                            {% endfor %}
+{#                            {% for i in instituciones %}#}
+{#                                <option value="{{ i.id }}">({{ i.abbreviation }}) {{ i.name|e }}</option>#}
+{#                            {% endfor %}#}
                         </select>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                     <div class="row">
                         <div class='col-md-4'>
                             <div class="form-group">
-                                <button type="button" class="btn btn-success" onclick="buscarResultado()">Procesar
+                                <button type="button" class="btn btn-success" onclick="buscarResultado()">{{ 'View exchange' | trans }}
                                 </button>
                             </div>
                         </div>
@@ -204,8 +204,7 @@
                 <br>
                 <div class="tab-content">
                     <div style="display: none" id="resultado">{{ 'Procesando, espere por favor...' | trans }}</div>
-                    <div id="not-found-data-message"
-                         style="display: none">{{ 'Not found interation data' | trans }}</div>
+                    <div id="not-found-data-message" style="display: none">{{ 'Not found interation data' | trans }}</div>
                     <div role="tabpanel" class="tab-pane active animated fadeIn" id="tab-table">
                         <div id="table" class="row"></div>
                     </div>
@@ -224,7 +223,7 @@
             <!-- LINE CHART -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Instancia: <span id="instancia_nombre"></span></h3>
+                    <h3 class="box-title">{{ 'Instance' | trans }}: <span id="instancia_nombre"></span></h3>
                     <p>{{ 'Solicitudes de la institución seleccionada atendidas por su instancia' | trans }}</p>
                 </div>
                 <div class="box-body">
@@ -239,7 +238,7 @@
             <!-- BAR CHART -->
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Institucion: <span id="institucion_nombre"></span></h3>
+                    <h3 class="box-title">{{ 'institution' | trans }}: <span id="institucion_nombre"></span></h3>
                     <p>{{ 'Solicitudes de su instancia atendidas por la institución seleccionada' | trans }}</p>
                 </div>
                 <div class="box-body">
@@ -345,6 +344,10 @@
                 placeholder: "{{ 'finalYear' | trans }}",
                 allowClear: true
             });
+
+            if($("#form_country").val()) {
+                buscarInstituciones();
+            }
         });
 
         function minYear(a1, a2) {
@@ -437,7 +440,7 @@
 
             var html_resultado_instanceInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"; //<th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th>
             var tr_resultado_instanceInteraction = '';
-            var aidata = resultado_instanceInteraction.data;
+            var aidata = resultado_instanceInteraction.data ?? [];
             for (var i = min; i <= max; i++) {
                 aidatarow = aidata[i] ?? {};
 
@@ -452,7 +455,7 @@
 
             var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Annulled' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Cancelled' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"
             var tr_resultado_institutionInteraction = '';
-            var iidata = resultado_institutionInteraction.data;
+            var iidata = resultado_institutionInteraction.data ?? [];
             for (var i = min; i <= max; i++) {
                 iidatarow = iidata[i] ?? {};
 
@@ -488,18 +491,18 @@
                     $("#not-found-data-message").hide();
                     $("#resultado").show();
                     $("#resultado_operadores").html("");
+                    document.querySelector('#table').innerHTML = '';
+                    document.querySelector('#diagram').innerHTML = '';
                 },
                 success: function (response) {
                     $("#resultado").hide();
-
-                    document.querySelector('#table').innerHTML = '';
-                    document.querySelector('#diagram').innerHTML = '';
 
                     if (response.instanceInteraction || response.institutionInteraction) {
                         table(response);
                         diagram(response);
                     } else {
                         $('#not-found-data-message').show();
+                        console.log('datay');
                     }
                 }
             });

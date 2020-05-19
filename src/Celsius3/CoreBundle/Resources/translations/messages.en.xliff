@@ -4178,6 +4178,14 @@
         <source>Solicitudes de su instancia atendidas por la institución seleccionada</source>
         <target>Requests from your instance attended by the selected institution</target>
       </trans-unit>
+      <trans-unit id="Exchange" resname="Exchange">
+        <source>Exchange</source>
+        <target>Exchange</target>
+      </trans-unit>
+      <trans-unit id="View exchange" resname="View exchange">
+        <source>View exchange</source>
+        <target>View exchange</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
