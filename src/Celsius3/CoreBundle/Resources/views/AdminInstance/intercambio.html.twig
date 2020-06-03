@@ -151,9 +151,6 @@
                         <select class="select2 form-control operators-select select2" name="institucion"
                                 id="form_institucion">
                             <option></option>
-{#                            {% for i in instituciones %}#}
-{#                                <option value="{{ i.id }}">({{ i.abbreviation }}) {{ i.name|e }}</option>#}
-{#                            {% endfor %}#}
                         </select>
                     </div>
                 </div>
@@ -441,6 +438,13 @@
             var html_resultado_instanceInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"; //<th>{{ 'Reclaimed' | trans }}</th><th>{{ 'Cancelled' | trans }}</th>
             var tr_resultado_instanceInteraction = '';
             var aidata = resultado_instanceInteraction.data ?? [];
+
+            var totalsInstance = [];
+            totalsInstance['received'] = 0;
+            totalsInstance['requested'] = 0;
+            totalsInstance['reclaimed'] = 0;
+            totalsInstance['cancelled'] = 0;
+
             for (var i = min; i <= max; i++) {
                 aidatarow = aidata[i] ?? {};
 
@@ -449,13 +453,29 @@
                 var reclaimed = aidatarow.reclaimed ?? 0;
                 var cancelled = aidatarow.cancelled ?? 0;
 
+                totalsInstance['received'] += parseInt(received);
+                totalsInstance['requested'] += parseInt(requested);
+                totalsInstance['reclaimed'] += parseInt(reclaimed);
+                totalsInstance['cancelled'] += parseInt(cancelled);
+
                 tr_resultado_instanceInteraction = tr_resultado_instanceInteraction + "<tr><td>" + i + "</td><td>" + requested + "</td><td>" + received + "</td></tr>"; //<td>" + reclaimed + "</td><td>" + cancelled + "</td>
             }
+            tr_resultado_instanceInteraction = tr_resultado_instanceInteraction + "<tr><td>{{ 'Total' | trans }}</td><td>" + totalsInstance['requested'] + "</td><td>" + totalsInstance['received'] + "</td></tr>"; //<td>" + reclaimed + "</td><td>" + cancelled + "</td>
+
             html_resultado_instanceInteraction = html_resultado_instanceInteraction + tr_resultado_instanceInteraction + "</table>";
 
             var html_resultado_institutionInteraction = "<table class='table'><tr><th>{{ 'Anio' | trans }}</th><th>{{ 'Created' | trans }}</th><th>{{ 'Annulled' | trans }}</th><th>{{ 'Requested_s' | trans }}</th><th>{{ 'Cancelled' | trans }}</th><th>{{ 'Received_s' | trans }}</th></tr>"
             var tr_resultado_institutionInteraction = '';
             var iidata = resultado_institutionInteraction.data ?? [];
+
+            var totalsInstitution = [];
+            totalsInstitution['created'] = 0;
+            totalsInstitution['received'] = 0;
+            totalsInstitution['requested'] = 0;
+            totalsInstitution['searched'] = 0;
+            totalsInstitution['cancelled'] = 0;
+            totalsInstitution['annulled'] = 0;
+
             for (var i = min; i <= max; i++) {
                 iidatarow = iidata[i] ?? {};
 
@@ -466,8 +486,17 @@
                 var cancelled = iidatarow.cancelled ?? 0;
                 var annulled = iidatarow.annulled ?? 0;
 
+                totalsInstitution['created'] += parseInt(created);
+                totalsInstitution['received'] += parseInt(received);
+                totalsInstitution['requested'] += parseInt(requested);
+                totalsInstitution['searched'] += parseInt(searched);
+                totalsInstitution['cancelled'] += parseInt(cancelled);
+                totalsInstitution['annulled'] += parseInt(annulled);
+
                 tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>" + i + "</td><td>" + created + "</td><td>" + annulled + "</td><td>" + requested + "</td><td>" + cancelled + "</td><td>" + received + "</td></tr>";
             }
+            tr_resultado_institutionInteraction = tr_resultado_institutionInteraction + "<tr><td>{{ 'Total' | trans }}</td><td>" + totalsInstitution['created'] + "</td><td>" + totalsInstitution['annulled'] + "</td><td>" + totalsInstitution['requested'] + "</td><td>" + totalsInstitution['cancelled'] + "</td><td>" + totalsInstitution['received'] + "</td></tr>";
+
             html_resultado_institutionInteraction = html_resultado_institutionInteraction + tr_resultado_institutionInteraction + "</table>";
 
             tt.content.querySelector("#resultado_instanceInteraction").innerHTML = html_resultado_instanceInteraction;
