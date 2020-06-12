@@ -1631,7 +1631,7 @@
       </trans-unit>
       <trans-unit id="3a6d445511d36167b879ddfdb2f3bd3ed4a74c0d" resname="New Users">
         <source>New Users</source>
-        <target>Nuevo usuario</target>
+        <target>Nuevos usuarios</target>
         <jms:reference-file line="164">/../src/Celsius3/CoreBundle/Resources/views/Layout/_angular_translations.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="34c808d0a63f277e04fb23a5f76cc83d0a3e024b" resname="News">
@@ -4190,6 +4190,98 @@
       <trans-unit id="View exchange" resname="View exchange">
         <source>View exchange</source>
         <target>Ver intercambio</target>
+      </trans-unit>
+            <trans-unit id="January" resname="January">
+              <source>January</source>
+              <target>Enero</target>
+            </trans-unit>
+            <trans-unit id="February" resname="February">
+              <source>February</source>
+              <target>Febrero</target>
+            </trans-unit>
+            <trans-unit id="March" resname="March">
+              <source>March</source>
+              <target>Marzo</target>
+            </trans-unit>
+            <trans-unit id="April" resname="April">
+              <source>April</source>
+              <target>Abril</target>
+            </trans-unit>
+            <trans-unit id="May" resname="May">
+              <source>May</source>
+              <target>Mayo</target>
+            </trans-unit>
+            <trans-unit id="June" resname="June">
+              <source>June</source>
+              <target>Junio</target>
+            </trans-unit>
+            <trans-unit id="July" resname="July">
+              <source>July</source>
+              <target>Julio</target>
+            </trans-unit>
+            <trans-unit id="August" resname="August">
+              <source>August</source>
+              <target>Agosto</target>
+            </trans-unit>
+            <trans-unit id="September" resname="September">
+              <source>September</source>
+              <target>Septiembre</target>
+            </trans-unit>
+            <trans-unit id="October" resname="October">
+              <source>October</source>
+              <target>Octubre</target>
+            </trans-unit>
+            <trans-unit id="November" resname="November">
+              <source>November</source>
+              <target>Noviembre</target>
+            </trans-unit>
+            <trans-unit id="December" resname="December">
+              <source>December</source>
+              <target>Diciembre</target>
+            </trans-unit>
+      <trans-unit id="Annulled_s" resname="Annulled_s">
+        <source>Annulled_s</source>
+        <target>Anulados</target>
+      </trans-unit>
+      <trans-unit id="delay0" resname="delay0">
+        <source>delay0</source>
+        <target>En el día</target>
+      </trans-unit>
+      <trans-unit id="delay1" resname="delay1">
+        <source>delay1</source>
+        <target>1 día</target>
+      </trans-unit>
+      <trans-unit id="delay2" resname="delay2">
+        <source>delay2</source>
+        <target>2 días</target>
+      </trans-unit>
+      <trans-unit id="delay3" resname="delay3">
+        <source>delay3</source>
+        <target>3 días</target>
+      </trans-unit>
+      <trans-unit id="delay4" resname="delay4">
+        <source>delay4</source>
+        <target>4 días</target>
+      </trans-unit>
+      <trans-unit id="delay5" resname="delay5">
+        <source>delay5</source>
+        <target>5 días</target>
+      </trans-unit>
+      <trans-unit id="delay6" resname="delay6">
+        <source>delay6</source>
+        <target>6 días</target>
+      </trans-unit>
+      <trans-unit id="delay7" resname="delay7">
+        <source>delay7</source>
+        <target>7 días</target>
+      </trans-unit>
+      <trans-unit id="delay8" resname="delay8">
+        <source>delay8</source>
+        <target>8 días</target>
+      </trans-unit>
+      <trans-unit id="delay9" resname="delay9">
+        <source>delay9</source>
+        <target>9 días o más</target>
       </trans-unit>
     </body>
   </file>

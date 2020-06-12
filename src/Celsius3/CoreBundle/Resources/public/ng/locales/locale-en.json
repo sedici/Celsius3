@@ -90,8 +90,6 @@
     "uploadAgain": "Upload again",
     "reclaim": "Reclaim",
     "uploadedFiles": "Uploaded files",
-    "search": "search",
-    "provision": "provision",
     "S": "S",
     "P": "P",
     "yes": "Yes",
@@ -208,5 +206,11 @@
     "reenableDownload": "Reenable download",
     "Institution tree": "Institution tree",
     "Institution users": "Institution users",
-    "userRequestsIndex": "User requests index"
+    "userRequestsIndex": "User requests index",
+    "Month": "Month",
+    "requestsCountForCountry": "Requests count for country",
+    "countries": "Countries",
+    "delayDays": "Delay days",
+    "totalUsersCountAxis": "Total users count",
+    "usersCountAxis": "Users count"
 }

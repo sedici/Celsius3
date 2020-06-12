@@ -200,25 +200,22 @@ class StateRepository extends BaseRepository
         $qb = $this->createQueryBuilder('s');
 
         if (!is_null($instance)) {
-            $qb = $qb->andWhere('s.instance = :instance')->setParameter('instance', $instance);
+            $qb = $qb->andWhere('r.instance = :instance')->setParameter('instance', $instance);
         }
 
         $qb = $qb->select('s.type stateType')
             ->addSelect('COUNT(r.id) requestsCount')
-            ->addSelect('SUM(f.pages) pages')
-            ->innerJoin('s.request', 'r')
-            ->leftJoin('r.files', 'f')
-            ->andWhere('s.type <> :stateType')->setParameter('stateType', 'annulled')
+            ->join('s.request', 'r')
             ->andWhere('r.type = :type')->setParameter('type', $type)
             ->groupBy('stateType');
 
         if ($initialYear === $finalYear) {
-            $qb = $qb->addSelect('YEAR(s.createdAt) year')
-                ->addSelect('MONTH(s.createdAt) axisValue')
-                ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $initialYear)
+            $qb = $qb->addSelect('YEAR(r.createdAt) year')
+                ->addSelect('MONTH(r.createdAt) axisValue')
+                ->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear)
                 ->addGroupBy('year');
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->addSelect('YEAR(s.createdAt) axisValue')
+            $qb = $qb->addSelect('YEAR(r.createdAt) axisValue')
                 ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                 ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }

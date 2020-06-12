@@ -4186,6 +4186,98 @@
         <source>View exchange</source>
         <target>View exchange</target>
       </trans-unit>
+      <trans-unit id="January" resname="January">
+        <source>January</source>
+        <target>January</target>
+      </trans-unit>
+      <trans-unit id="February" resname="February">
+        <source>February</source>
+        <target>February</target>
+      </trans-unit>
+      <trans-unit id="March" resname="March">
+        <source>March</source>
+        <target>March</target>
+      </trans-unit>
+      <trans-unit id="April" resname="April">
+        <source>April</source>
+        <target>April</target>
+      </trans-unit>
+      <trans-unit id="May" resname="May">
+        <source>May</source>
+        <target>May</target>
+      </trans-unit>
+      <trans-unit id="June" resname="June">
+        <source>June</source>
+        <target>June</target>
+      </trans-unit>
+      <trans-unit id="July" resname="July">
+        <source>July</source>
+        <target>July</target>
+      </trans-unit>
+      <trans-unit id="August" resname="August">
+        <source>August</source>
+        <target>August</target>
+      </trans-unit>
+      <trans-unit id="September" resname="September">
+        <source>September</source>
+        <target>September</target>
+      </trans-unit>
+      <trans-unit id="October" resname="October">
+        <source>October</source>
+        <target>October</target>
+      </trans-unit>
+      <trans-unit id="November" resname="November">
+        <source>November</source>
+        <target>November</target>
+      </trans-unit>
+      <trans-unit id="December" resname="December">
+        <source>December</source>
+        <target>December</target>
+      </trans-unit>
+      <trans-unit id="Annulled_s" resname="Annulled_s">
+        <source>Annulled_s</source>
+        <target>Annulled</target>
+      </trans-unit>
+      <trans-unit id="delay0" resname="delay0">
+        <source>delay0</source>
+        <target>On day</target>
+      </trans-unit>
+      <trans-unit id="delay1" resname="delay1">
+        <source>delay1</source>
+        <target>1 day</target>
+      </trans-unit>
+      <trans-unit id="delay2" resname="delay2">
+        <source>delay2</source>
+        <target>2 days</target>
+      </trans-unit>
+      <trans-unit id="delay3" resname="delay3">
+        <source>delay3</source>
+        <target>3 days</target>
+      </trans-unit>
+      <trans-unit id="delay4" resname="delay4">
+        <source>delay4</source>
+        <target>4 days</target>
+      </trans-unit>
+      <trans-unit id="delay5" resname="delay5">
+        <source>delay5</source>
+        <target>5 days</target>
+      </trans-unit>
+      <trans-unit id="delay6" resname="delay6">
+        <source>delay6</source>
+        <target>6 days</target>
+      </trans-unit>
+      <trans-unit id="delay7" resname="delay7">
+        <source>delay7</source>
+        <target>7 days</target>
+      </trans-unit>
+      <trans-unit id="delay8" resname="delay8">
+        <source>delay8</source>
+        <target>8 days</target>
+      </trans-unit>
+      <trans-unit id="delay9" resname="delay9">
+        <source>delay9</source>
+        <target>9 days or more</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

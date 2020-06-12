@@ -17,9 +17,6 @@
                 <hr class="separator_hr">
                 <div class="col-md-3" ng-include="'menu.html'"></div>
                 <div class="col-md-9" >
-                    <div class="row">
-                        <p>{{ description | trans }}</p>
-                    </div>
                     <div class="row" ng-if="searchProvision">
                         <ul class="nav nav-tabs">
                             <li class="{{searchClass}}"><a href ng-click="setTypeSearch()">{{'search'|trans}}</a></li>
@@ -31,6 +28,7 @@
                         <a class="pull-right" href="{{urlCSV}}">{{ 'download' | trans }} CSV</a>
                         <hr>
                     </div>
+                    <br>
                     <div class="row">
                         <form>
                             <p>
@@ -54,15 +52,20 @@
                                 </select>
                             </p>
                             <p ng-show="selectDelayType">
-                                <input type="radio" ng-model="delayType" value="totalDelay">{{'totalDelay'|trans}}
-                                <input type="radio" ng-model="delayType" value="locationDelay">{{'locationDelay'|trans}}
-                                <input type="radio" ng-model="delayType" value="responseDelay">{{'responseDelay'|trans}}
+                                <input type="radio" ng-model="delayType.name" value="totalDelay" checked>{{'totalDelay'|trans}}
+                                <input type="radio" ng-model="delayType.name" value="locationDelay">{{'locationDelay'|trans}}
+                                <input type="radio" ng-model="delayType.name" value="responseDelay">{{'responseDelay'|trans}}
                             </p>
                             <button id="updateChart" ng-click="updateChart()">{{'update'|trans}}</button>
                         </form>
                     </div>
+                    <br>
                     <div id="chart" class="row"></div>
-                    <div id="table" class="row" ng-include="'table.html'"></div>
+                    <br>
+                    <div class="row">
+                        <p>{{ description | trans }}</p>
+                    </div>
+<!--                    <div id="table" class="row" ng-include="'table.html'"></div>-->
                 </div>
             </div>
             </script>
@@ -160,7 +163,7 @@
                 <thead>
                 <tr>
                 <td><b>{{ firstColumnTitle | trans }}</b></td>
-                <td ng-repeat="v in data.columns"><b>{{ v[0] | trans }}</b></td>
+                <td ng-repeat="v in data.columns"><b>{{ v[0] }}</b></td>
                 </tr>
                 </thead>
                 <tbody>

@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\Get;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * User controller.
@@ -40,6 +41,8 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getUsersCountDataForAction(Request $request)
     {
+        $translator = $this->get('translator');
+
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
@@ -66,11 +69,18 @@ class PublicRestController extends BaseInstanceDependentRestController
         ksort($result, SORT_NUMERIC);
 
         $values = array();
-        $values['columns']['newUsers'][] = 'New Users';
-        $values['columns']['activeUsers'][] = 'Active Users';
-        $values['columns']['totalUsers'][] = 'Total Users';
-        foreach ($result as $year => $count) {
-            $values['categories'][] = $year;
+
+        $values['names']['newUsers'][] = $translator->trans('New Users');
+        $values['names']['activeUsers'][] = $translator->trans('Active Users');
+        $values['names']['totalUsers'][] = $translator->trans('Total Users');
+
+        $values['columns']['newUsers'][] = 'newUsers';
+        $values['columns']['activeUsers'][] = 'activeUsers';
+        $values['columns']['totalUsers'][] = 'totalUsers';
+        foreach ($result as $axis => $count) {
+            $values['categories'][] = ($initialYear === $finalYear) ?
+                $translator->trans(strftime('%B', mktime(0, 0, 0, $axis, 10)))
+                : $axis;
             $values['columns']['newUsers'][] = (isset($count['newUsers'])) ? $count['newUsers'] : 0;
             $values['columns']['activeUsers'][] = (isset($count['activeUsers'])) ? $count['activeUsers'] : 0;
             $values['columns']['totalUsers'][] = (isset($count['totalUsers'])) ? $count['totalUsers'] : 0;
@@ -91,6 +101,8 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getRequestsOriginCountDataAction(Request $request)
     {
+        $translator = $this->get('translator');
+
         $instance = $request->query->get('instance');
         $type = $request->query->get('type');
         $country = $request->query->get('country');
@@ -109,7 +121,7 @@ class PublicRestController extends BaseInstanceDependentRestController
         });
 
         $data = array();
-        $data['columns']['requestsCount'][] = 'Requests';
+        $data['columns']['requestsCount'][] = $translator->trans('Requests');
         $data['categories'] = Array();
         foreach ($counts as $count) {
             $data['columns']['requestsCount'][] = $count['requestsCount'];
@@ -133,6 +145,8 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getRequestsCountDataForAction(Request $request)
     {
+        $translator = $this->get('translator');
+
         $instance = $request->query->get('instance');
         $type = $request->query->get('type');
         $initialYear = $request->query->get('initialYear');
@@ -144,28 +158,30 @@ class PublicRestController extends BaseInstanceDependentRestController
 
         $rows = array();
         foreach ($result as $count) {
-            $rows[$count['axisValue']][$count['stateType']]['requestCount'] = $count['requestsCount'];
-            $rows[$count['axisValue']][$count['stateType']]['totalPages'] = intval($count['pages']);
+            $axis = ($initialYear === $finalYear) ?
+                $translator->trans(strftime('%B', mktime(0, 0, 0, $count['axisValue'], 10)))
+                : $count['axisValue'];
+
+            $rows[$axis][$count['stateType']]['requestCount'] = $count['requestsCount'];
         }
 
         $values = array();
-        $values['columns']['created'][] = 'Created';
-        $values['columns']['cancelled'][] = 'Cancelled';
-        $values['columns']['satisfied'][] = 'Satisfied';
-        $values['columns']['searched'][] = 'Searched';
-        $values['totalPages'][] = 'Total Pages';
+        $values['columns']['created'][] = $translator->trans('Created');
+        $values['columns']['cancelled'][] = $translator->trans('Cancelled');
+        $values['columns']['satisfied'][] = $translator->trans('Satisfied');
+        $values['columns']['searched'][] = $translator->trans('Searched_s');
+        $values['columns']['annulled'][] = $translator->trans('Annulled_s');
         foreach ($rows as $key => $row) {
             $values['categories'][] = $key;
             $values['columns']['created'][] = (isset($row['created'])) ? $row['created']['requestCount'] : 0;
             $values['columns']['cancelled'][] = (isset($row['cancelled'])) ? $row['cancelled']['requestCount'] : 0;
             $values['columns']['satisfied'][] = (isset($row['received'])) ? $row['received']['requestCount'] : 0;
             $values['columns']['searched'][] = (isset($row['searched'])) ? $row['searched']['requestCount'] : 0;
-            $values['totalPages'][] = (isset($row['received'])) ? $row['received']['totalPages'] : 0;
+            $values['columns']['annulled'][] = (isset($row['annulled'])) ? $row['annulled']['requestCount'] : 0;
         }
 
         $format = $request->getRequestFormat();
         if ($format === 'csv') {
-            $values['columns']['totalPages'] = $values['totalPages'];
             return $this->toCSV($request, $values, 'Year');
         }
 
@@ -188,6 +204,8 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getRequestsDestinyDistributionDataForAction(Request $request)
     {
+        $translator = $this->get('translator');
+
         $instance = $request->query->get('instance');
         $initialYear = intval($request->query->get('initialYear'));
         $finalYear = intval($request->query->get('finalYear'));
@@ -227,9 +245,9 @@ class PublicRestController extends BaseInstanceDependentRestController
         });
 
         $data = array();
-        $data['columns']['created'][] = 'Created';
-        $data['columns']['cancelled'][] = 'Cancelled';
-        $data['columns']['delivered'][] = 'Delivered';
+        $data['columns']['created'][] = $translator->trans('Created');
+        $data['columns']['cancelled'][] = $translator->trans('Cancelled');
+        $data['columns']['delivered'][] = $translator->trans('Delivered');
         foreach ($values as $key => $val) {
             $data['categories'][] = $key;
             $data['columns']['created'][] = (isset($val['created'])) ? $val['created'][0] : 0;
@@ -263,9 +281,15 @@ class PublicRestController extends BaseInstanceDependentRestController
 
         $data = array();
         $data['columns']['counts'][] = 'Cantidad';
+        $data['categories'][0] = '< 1950';
+        $data['columns']['counts'][0] = 0;
         foreach ($result as $row) {
-            $data['categories'][] = $row['materialDataYear'];
-            $data['columns']['counts'][] = $row['materialDataCount'];
+            if($row['materialDataYear'] <= 1950) {
+                $data['columns']['counts'][0] += $row['materialDataCount'];
+            } else {
+                $data['categories'][] = $row['materialDataYear'];
+                $data['columns']['counts'][] = $row['materialDataCount'];
+            }
         }
         if (array_key_exists('categories', $data) && $count = count($data['categories']) > 0) {
             $div = $count * 0.1;
@@ -289,6 +313,8 @@ class PublicRestController extends BaseInstanceDependentRestController
      */
     public function getRequestsTotalDelayDataForAction(Request $request)
     {
+        $translator = $this->get('translator');
+
         $instance = $request->query->get('instance');
         $initialYear = $request->query->get('initialYear');
         $finalYear = $request->query->get('finalYear');
@@ -308,16 +334,19 @@ class PublicRestController extends BaseInstanceDependentRestController
         }
 
         $data = array();
-        $data['columns']['delay0'][] = 'Delay 0';
-        $data['columns']['delay1'][] = 'Delay 1';
-        $data['columns']['delay2'][] = 'Delay 2';
-        $data['columns']['delay3'][] = 'Delay 3';
-        $data['columns']['delay4'][] = 'Delay 4';
-        $data['columns']['delay5'][] = 'Delay 5';
-        $data['columns']['delay6'][] = 'Delay 6';
-        $data['columns']['delay7'][] = 'Delay 7';
-        $data['columns']['delay8'][] = 'Delay 8';
-        $data['columns']['delay9'][] = 'Delay 9';
+        $data['columns']['delay0'][] = $d0 = $translator->trans('delay0');
+        $data['columns']['delay1'][] = $d1 = $translator->trans('delay1');
+        $data['columns']['delay2'][] = $d2 = $translator->trans('delay2');
+        $data['columns']['delay3'][] = $d3 = $translator->trans('delay3');
+        $data['columns']['delay4'][] = $d4 = $translator->trans('delay4');
+        $data['columns']['delay5'][] = $d5 = $translator->trans('delay5');
+        $data['columns']['delay6'][] = $d6 = $translator->trans('delay6');
+        $data['columns']['delay7'][] = $d7 = $translator->trans('delay7');
+        $data['columns']['delay8'][] = $d8 = $translator->trans('delay8');
+        $data['columns']['delay9'][] = $d9 = $translator->trans('delay9');
+
+        $data['groups'] = [$d0, $d1, $d2, $d3, $d4, $d5, $d6, $d7, $d8, $d9];
+
         foreach ($order as $k => $d) {
             $data['categories'][] = $k;
             $data['columns']['delay0'][] = isset($d[0]) ? $d[0] : 0;

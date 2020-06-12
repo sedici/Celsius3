@@ -1,7 +1,49 @@
 var statisticsControllers = angular.module('statisticsControllers', []);
 
-statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routeParams',
-    function ($scope, $http, $routeParams) {
+statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routeParams', '$translate',
+    function ($scope, $http, $routeParams, $translate) {
+    'use strict';
+
+        $translate('Month').then(function (e) {
+            $scope.monthAxis = e;
+        }, function (e) {
+            $scope.monthAxis = e;
+        });
+        $translate('year').then(function (e) {
+            $scope.yearAxis = e;
+        }, function (e) {
+            $scope.yearAxis = e;
+        });
+        $translate('requestsCount').then(function (e) {
+            $scope.requestCountAxis = e;
+        }, function (e) {
+            $scope.requestCountAxis = e;
+        });
+        $translate('requestsCountForCountry').then(function (e) {
+            $scope.requestsCountForCountryAxis = e;
+        }, function (e) {
+            $scope.requestsCountForCountryAxis = e;
+        });
+        $translate('countries').then(function (e) {
+            $scope.countriesAxis = e;
+        }, function (e) {
+            $scope.countriesAxis = e;
+        });
+        $translate('delayDays').then(function (e) {
+            $scope.delayDays = e;
+        }, function (e) {
+            $scope.delayDays = e;
+        });
+        $translate('totalUsersCountAxis').then(function (e) {
+            $scope.totalUsersCountAxis = e;
+        }, function (e) {
+            $scope.totalUsersCountAxis = e;
+        });
+        $translate('usersCountAxis').then(function (e) {
+            $scope.usersCountAxis = e;
+        }, function (e) {
+            $scope.usersCountAxis = e;
+        });
 
         function filterYears(years) {
             return _.filter(years, function (year) {
@@ -16,7 +58,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
         $scope.locationFields = false;
         $scope.searchProvision = false;
         $scope.selectDelayType = false;
-        $scope.delayType = 'totalDelay';
+        $scope.delayType = {name: 'totalDelay'};
         $scope.currentYear = new Date().getFullYear();
         $scope.requestType = 'search';
         $scope.rangeYears = {};
@@ -48,7 +90,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
 
         $scope.generateYears = function () {
             var years = [];
-            for (i = 2001; i <= $scope.currentYear; i++) {
+            for (var i = 2001; i <= $scope.currentYear; i++) {
                 years.push(i);
             }
             $scope.years = years;
@@ -56,13 +98,13 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
 
         $scope.initialYearChange = function () {
             if ($scope.rangeYears.finalYear < $scope.rangeYears.initialYear) {
-                $scope.rangeYears.initialYear = $scope.rangeYears.finalYear;
+                $scope.rangeYears.finalYear = $scope.rangeYears.initialYear;
             }
         };
 
         $scope.finalYearChange = function () {
             if ($scope.rangeYears.finalYear < $scope.rangeYears.initialYear) {
-                $scope.rangeYears.finalYear = $scope.rangeYears.initialYear;
+                $scope.rangeYears.initialYear = $scope.rangeYears.finalYear;
             }
         };
 
@@ -181,6 +223,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                     $scope.data = response.data;
                     $scope.showTotal = true;
                     $scope.generateRequestsCountChart(response.data);
+                    $scope.firstColumnTitle = ($scope.rangeYears.initialYear === $scope.rangeYears.finalYear) ? 'Month' : 'Year';
                 }, function (response) {
                     generateCelsiusAlert(response);
                 });
@@ -234,7 +277,6 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
         };
 
         $scope.getRequestsTotalDelayDataFor = function (type, initialYear, finalYear, delayType) {
-
             initialYear = _.isUndefined(initialYear) ? 0 : initialYear;
             finalYear = _.isUndefined(finalYear) ? $scope.currentYear : finalYear;
             type = _.isUndefined(type) ? 'search' : type;
@@ -267,15 +309,31 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                 data: {
                     columns: columns,
                     types: {
-                        'Total Users': 'line',
-                        'Active Users': 'bar',
-                        'New Users': 'bar'
+                        'totalUsers': 'line',
+                        'activeUsers': 'bar',
+                        'newUsers': 'bar'
+                    },
+                    axes: {
+                        'totalUsers': 'y2'
+                    },
+                    names: {
+                        'totalUsers': data.names.totalUsers,
+                        'activeUsers': data.names.activeUsers,
+                        'newUsers': data.names.newUsers
                     }
                 },
                 axis: {
                     x: {
                         type: 'category',
-                        categories: data.categories
+                        categories: data.categories,
+                        label: $scope.yearAxis
+                    },
+                    y: {
+                        label: $scope.usersCountAxis
+                    },
+                    y2: {
+                        show: true,
+                        label: $scope.totalUsersCountAxis
                     }
                 }
             });
@@ -304,53 +362,48 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                         tick: {
                             rotate: 20
                         },
-                        height: 50
+                        height: 50,
+                        label: $scope.countriesAxis
+                    },
+                    y: {
+                        label: $scope.requestCountAxis
                     }
                 }
             });
         };
 
         $scope.generateRequestsCountChart = function (data) {
+            var xaxis = ($scope.rangeYears.initialYear === $scope.rangeYears.finalYear) ? $scope.monthAxis : $scope.yearAxis;
             var columns = $scope.columnsToArray(data.columns);
-            columns.push(data.totalPages);
             var chart = c3.generate({
                 bindto: '#chart',
                 data: {
-                    columns: columns,
-                    types: {
-                        'Total Pages': 'line',
-                        'Cancelled': 'bar',
-                        'Created': 'bar',
-                        'Satisfied': 'bar',
-                        'Searched': 'bar'
-                    },
+                    columns: [],
+                    type: 'bar',
                     axes: {
                         'Cancelled': 'y',
                         'Created': 'y',
                         'Satisfied': 'y',
                         'Searched': 'y',
-                        'Total Pages': 'y2'
                     }
                 },
                 axis: {
                     x: {
                         type: 'category',
                         categories: data.categories,
-                        label: 'Years'
+                        label: xaxis
                     },
                     y: {
-                        label: 'Requests count for type',
-                    },
-                    y2: {
-                        show: true
-                    }
-                },
-                grid: {
-                    y: {
-                        lines: [{value: 0}]
+                        label: $scope.requestCountAxis
                     }
                 }
             });
+            setTimeout(function () {
+                chart.load({
+                    columns: columns
+
+                });
+            }, 300);
         };
 
         $scope.generateRequestsDestinyDistributionChart = function (data) {
@@ -369,10 +422,10 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                     x: {
                         type: 'category',
                         categories: data.categories ? data.categories.slice(0, 10) : data.categories,
-                        label: 'Countries'
+                        label: $scope.countriesAxis
                     },
                     y: {
-                        label: 'Requests count for country'
+                        label: $scope.requestsCountForCountryAxis
                     }
                 },
                 grid: {
@@ -400,7 +453,11 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                             culling: {
                                 max: 10
                             },
-                        }
+                        },
+                        label: $scope.yearAxis
+                    },
+                    y: {
+                        label: $scope.requestCountAxis
                     }
                 }
             });
@@ -410,7 +467,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
             if(data.categories == undefined) {
                 data.categories = [];
             }
-            var groups = ['Delay 0', 'Delay 1', 'Delay 2', 'Delay 3', 'Delay 4', 'Delay 5', 'Delay 6', 'Delay 7', 'Delay 8', 'Delay 9'];
+            var groups = data.groups;
             var columns = (data.categories.length > 1) ? $scope.columnsToArray(data.columns) : (data.categories.length === 0) ? [] : [$scope.columnsForOneYear(data.columns, data.categories[0])];
             var chartType = (data.categories.length > 1) ? 'area-spline' : 'bar';
             var chartGroups = (data.categories.length > 1) ? groups : [];
@@ -424,7 +481,11 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
                 axis: {
                     x: {
                         type: 'category',
-                        categories: chartCategories
+                        categories: chartCategories,
+                        label: $scope.delayDays
+                    },
+                    y: {
+                        label: $scope.requestCountAxis
                     }
                 }
             });
@@ -449,7 +510,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
         };
 
         $scope.updateRequestsTotalDelay = function () {
-            $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.rangeYears.initialYear, $scope.rangeYears.finalYear, $scope.delayType);
+            $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.rangeYears.initialYear, $scope.rangeYears.finalYear, $scope.delayType.name);
         };
 
         //Funciones de inicialización//
@@ -489,7 +550,6 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
             $scope.locationFields = false;
             $scope.searchProvision = true;
             $scope.selectDelayType = false;
-            $scope.firstColumnTitle = 'Year';
             $scope.description = 'requestsCountDescription';
         };
 
@@ -524,8 +584,8 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
             $scope.actualMethod = function () {
                 return $scope.updateRequestsTotalDelay();
             };
-            $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.rangeYears.initialYear, $scope.rangeYears.finalYear, $scope.delayType);
-            $scope.subtitle = 'requestsTotalDelay.';
+            $scope.getRequestsTotalDelayDataFor($scope.requestType, $scope.rangeYears.initialYear, $scope.rangeYears.finalYear, $scope.delayType.name);
+            $scope.subtitle = 'serviceEfficiency';
             $scope.selectDelayType = true;
             $scope.locationFields = false;
             $scope.searchProvision = true;
@@ -537,7 +597,7 @@ statisticsControllers.controller('StatisticsCtrl', ['$scope', '$http', '$routePa
             $scope.actualMethod = function () {
                 return $scope.updateAverageDelayByDestinyCountry();
             };
-            $scope.getAverageDelayByDestinyCountryFor($scope.requestType, $scope.rangeYears.initialYear, $scope.rangeYears.finalYear, $scope.delayType);
+            $scope.getAverageDelayByDestinyCountryFor($scope.requestType, $scope.rangeYears.initialYear, $scope.rangeYears.finalYear, $scope.delayType.name);
             $scope.subtitle = 'Average delay by destiny country.';
             $scope.selectDelayType = false;
             $scope.locationFields = false;
