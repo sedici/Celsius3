@@ -360,8 +360,9 @@ class EventManager
     {
         switch ($event) {
             case self::EVENT__REQUEST:
+                $celsiusInstance = $extraData['provider']->findCelsiusInstance();
                 $event = (
-                        $extraData['provider'] instanceof Institution && $extraData['provider']->getCelsiusInstance() && !$request->getOrder()->hasRequest($extraData['provider']->getCelsiusInstance()) && $extraData['provider']->getCelsiusInstance() !== $instance->getId() && is_null($request->getPreviousRequest())
+                        $extraData['provider'] instanceof Institution && $celsiusInstance && !$request->getOrder()->hasRequest($celsiusInstance) && $celsiusInstance->getId() !== $instance->getId() && is_null($request->getPreviousRequest())
                         ) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
                 break;
             case self::EVENT__RECEIVE:

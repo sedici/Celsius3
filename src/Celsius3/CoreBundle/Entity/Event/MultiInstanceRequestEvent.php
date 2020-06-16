@@ -59,7 +59,7 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
     {
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);
-        $this->setRemoteInstance($data['extraData']['provider']->getCelsiusInstance());
+        $this->setRemoteInstance($data['extraData']['provider']->findCelsiusInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__CREATED;
         $remoteRequest = $lifecycleHelper->createRequest($request->getOrder(), $request->getOperator(), OrderManager::TYPE__PROVISION, $this->getRemoteInstance(), $request->getOperator());

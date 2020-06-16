@@ -546,4 +546,16 @@ class Institution extends Provider
     {
         return $this->librarian;
     }
+
+    public function findCelsiusInstance()
+    {
+        $institution = $this;
+        do {
+            $celsiusInstance = $institution->getCelsiusInstance();
+            $institution = $institution->getParent();
+        }
+        while ($institution && !$celsiusInstance);
+
+        return $celsiusInstance;
+    }
 }
