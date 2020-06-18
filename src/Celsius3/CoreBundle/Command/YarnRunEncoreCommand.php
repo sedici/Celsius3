@@ -25,6 +25,7 @@ namespace Celsius3\CoreBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class YarnRunEncoreCommand extends ContainerAwareCommand
@@ -34,14 +35,21 @@ class YarnRunEncoreCommand extends ContainerAwareCommand
     {
         $this->setName('celsius3:yarn:encore')
             ->setDescription('Package assets')
-            ->addArgument('env', InputArgument::OPTIONAL, 'Environment', 'dev');
+            ->addArgument('env', InputArgument::OPTIONAL, 'Environment', 'dev')
+            ->addOption('watch', 'w', InputOption::VALUE_NONE, 'Watch mode');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $env = $input->getArgument('env');
+        $watch = $input->getOption('watch');
+
+        $params = '';
+        if ($watch) {
+            $params .= ' --watch';
+        }
 
         $output->writeln('Packaging assets');
-        $output->writeln(shell_exec('yarn encore ' . $env));
+        $output->writeln(shell_exec("yarn encore $env $params"));
     }
 }
