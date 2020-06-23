@@ -53,7 +53,7 @@ class UserManager
         /** @Ignore */ 'ROLE_LIBRARIAN' => 'Librarian',
         /** @Ignore */ 'ROLE_ADMIN' => 'Admin',
         /** @Ignore */ 'ROLE_SUPER_ADMIN' => 'Network Admin',
-        /** @Ignore */ 'ROLE_ORDER_MANAGER' => 'Manager Order',
+        /** @Ignore */ 'ROLE_ORDER_MANAGER' => 'Order Manager',
         /** @Ignore */ 'ROLE_STATISTICS' => 'Network Admin Statistics',
         /** @Ignore */ 'ROLE_TECHNICAL' => 'Network TECHNICAL',
         /** @Ignore */ 'ROLE_TICKET' => 'Sistem de Ticket',

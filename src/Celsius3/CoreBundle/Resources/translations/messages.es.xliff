@@ -1423,7 +1423,7 @@
       </trans-unit>
       <trans-unit id="cba71e2bf7209bc1b0442fdc245383e65041d42f" resname="Librarian">
         <source>Librarian</source>
-        <target>Bibliotecario</target>
+        <target>Gestor de unidad</target>
         <jms:reference-file line="71">/../src/Celsius3/CoreBundle/Form/Type/Filter/BaseUserFilterType.php</jms:reference-file>
       </trans-unit>
       <trans-unit id="4e5a2893bdcc7d239c1db72e4c4ffbe4bea73174" resname="Login">
@@ -4282,6 +4282,10 @@
       <trans-unit id="delay9" resname="delay9">
         <source>delay9</source>
         <target>9 días o más</target>
+      </trans-unit>
+      <trans-unit id="Order Manager" resname="Order Manager">
+        <source>Order Manager</source>
+        <target>Gestor de institucion</target>
       </trans-unit>
     </body>
   </file>
