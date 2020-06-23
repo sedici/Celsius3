@@ -166,10 +166,12 @@ var refresh = function () {
         $('.institution-select').val(value);
     }
 };
-if (value !== '') {
-    if ($('select.city-select').val() !== '') {
+var country = $('select.country-select').val()
+var city = $('select.city-select').val();
+if (value !== '' || country || city) {
+    if (city && city !== '') {
         $('select.city-select').change();
-    } else if ($('select.country-select').val() !== '') {
+    } else if (country && country !== '') {
         $('select.country-select').change();
     }
 }

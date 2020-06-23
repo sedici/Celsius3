@@ -80,15 +80,6 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="form-group has-feedback {% if not form.city.vars.valid %} has-error {% endif %}">
-                {{ form_widget(form.city, { attr: { class: 'form-control city-select', 'data-placeholder': 'label.city' | trans | first_upper } }) }}
-                {{ form_errors(form.city) }}
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
             <div class="form-group has-feedback {% if not form.institution.vars.valid %} has-error {% endif %}">
                 {{ form_widget(form.institution, { attr: { class: 'form-control institution-select', 'data-placeholder': 'label.institution' | trans | first_upper ~ '*' } }) }}
                 {{ form_errors(form.institution) }}

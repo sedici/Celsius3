@@ -42,8 +42,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
     private $country_mapped;
     private $city_mapped;
     private $with_filter;
+    private $showCity;
 
-    public function __construct(FormFactoryInterface $factory, EntityManager $em, $property_path = 'institution', $required = true, $country_mapped = false, $city_mapped = false, $with_filter = false)
+    public function __construct(FormFactoryInterface $factory, EntityManager $em, $property_path = 'institution', $required = true, $country_mapped = false, $city_mapped = false, $with_filter = false, $showCity = false)
     {
         $this->factory = $factory;
         $this->em = $em;
@@ -52,6 +53,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         $this->country_mapped = $country_mapped;
         $this->city_mapped = $city_mapped;
         $this->with_filter = $with_filter;
+        $this->showCity = $showCity;
     }
 
     public static function getSubscribedEvents()
@@ -130,22 +132,24 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         )));
 
-        $form->add($this->factory->createNamed('city', EntityType::class, $city, array(
-                    'class' => 'Celsius3CoreBundle:City',
-                    'mapped' => $this->city_mapped,
-                    'placeholder' => '',
-                    'required' => false,
-                    'query_builder' => function (CityRepository $cr) use ($country) {
-                        return $cr->findForCountryQB($country);
-                    },
-                    'attr' => array(
-                        'class' => 'city-select',
-                    ),
-                    'auto_initialize' => false,
-                    'choice_label' => function ($category) {
-                        return $this->firstUpper($category);
-                    }
-        )));
+        if($this->showCity) {
+            $form->add($this->factory->createNamed('city', EntityType::class, $city, array(
+                'class' => 'Celsius3CoreBundle:City',
+                'mapped' => $this->city_mapped,
+                'placeholder' => '',
+                'required' => false,
+                'query_builder' => function (CityRepository $cr) use ($country) {
+                    return $cr->findForCountryQB($country);
+                },
+                'attr' => array(
+                    'class' => 'city-select',
+                ),
+                'auto_initialize' => false,
+                'choice_label' => function ($category) {
+                    return $this->firstUpper($category);
+                }
+            )));
+        }
 
         $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, array(
                     'class' => 'Celsius3CoreBundle:Institution',

@@ -22,17 +22,6 @@
                 </ui-select-choices>
             </ui-select>
         </div>
-        <div class="form-group">
-            <label for="city">{{'city' | trans}}</label>
-            <ui-select ng-model="select.city" name="city" id="city" ng-change="cityChanged()">
-                <ui-select-match allow-clear="true">
-                    <span ng-bind="$select.selected.name"></span>
-                </ui-select-match>
-                <ui-select-choices repeat="c in (cities | filter: $select.search) track by c.id">
-                    <span ng-bind-html="c.name | first_upper"></span>
-                </ui-select-choices>
-            </ui-select>
-        </div>
         <div ng-repeat="data in select.tree" ng-include="'institution_select.html'"></div>
     </script>
     <script type="text/ng-template" id="institution_select.html">

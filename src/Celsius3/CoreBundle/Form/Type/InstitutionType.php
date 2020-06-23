@@ -56,7 +56,7 @@ class InstitutionType extends AbstractType
                 ))
         ;
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'parent', false, true, true);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em, 'parent', false, true, true, false, $options['show_city']);
         $builder->addEventSubscriber($subscriber);
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
@@ -88,6 +88,7 @@ class InstitutionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'instance' => null,
+            'show_city' => false
         ));
     }
 }

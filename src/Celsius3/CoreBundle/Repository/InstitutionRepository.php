@@ -265,7 +265,6 @@ class InstitutionRepository extends BaseRepository
                     ->setParameter('city_id', $city->getId());
         } elseif ($country instanceof Country) {
             $qb = $qb->where('i.country = :country_id')
-                    ->andWhere('i.city IS NULL')
                     ->setParameter('country_id', $country->getId());
         } else {
             $qb = $qb->where('i.city IS NULL')

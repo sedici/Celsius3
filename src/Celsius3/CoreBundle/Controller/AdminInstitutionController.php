@@ -79,6 +79,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->baseNew('Institution', new Institution(), InstitutionType::class, array(
                     'instance' => $this->getInstance(),
+                    'show_city' => true
         ));
     }
 
@@ -114,6 +115,7 @@ class AdminInstitutionController extends BaseInstanceDependentController
     {
         return $this->baseEdit('Institution', $id, InstitutionType::class, array(
                     'instance' => $this->getInstance(),
+                    'show_city' => true
         ));
     }
 
