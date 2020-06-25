@@ -41,7 +41,10 @@ orderFilters.filter('get_history_icon', function () {
             deliver: 'ok',
             undo: 'undo',
             cancel: 'cancel',
-            annul: 'annul'
+            annul: 'annul',
+            remotecancel: 'remotecancel',
+            localcancel: 'localcancel',
+            reclaim: 'reclaim'
         };
         return icons[input];
     };
@@ -58,7 +61,10 @@ orderFilters.filter('get_state', function () {
             deliver: 'delivered',
             undo: 'undone',
             cancel: 'cancelled',
-            annul: 'annulled'
+            annul: 'annulled',
+            remotecancel: 'cancelled remotely',
+            localcancel: 'cancelled locally',
+            reclaim: 'reclaimed'
         };
         return states[input];
     };

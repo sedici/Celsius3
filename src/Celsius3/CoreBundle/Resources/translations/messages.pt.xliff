@@ -4281,6 +4281,38 @@
         <source>Order Manager</source>
         <target>Gerente da instituição</target>
       </trans-unit>
+      <trans-unit id="event information" resname="event information">
+        <source>event information</source>
+        <target>Informações do evento</target>
+      </trans-unit>
+      <trans-unit id="Add observations" resname="Add observations">
+        <source>Add observations</source>
+        <target>Adicionar observações</target>
+      </trans-unit>
+      <trans-unit id="undo" resname="undo">
+        <source>undo</source>
+        <target>Desfazer</target>
+      </trans-unit>
+      <trans-unit id="undone" resname="undone">
+        <source>undone</source>
+        <target>Desfeito</target>
+      </trans-unit>
+      <trans-unit id="reclaimed to" resname="reclaimed to">
+        <source>reclaimed to</source>
+        <target>Recuperado para</target>
+      </trans-unit>
+      <trans-unit id="cancelled to" resname="cancelled to">
+        <source>cancelled to</source>
+        <target>Cancelado para</target>
+      </trans-unit>
+      <trans-unit id="cancelled locally" resname="cancelled locally">
+        <source>cancelled locally</source>
+        <target>Cancelado localmente</target>
+      </trans-unit>
+      <trans-unit id="cancelled remotely" resname="cancelled remotely">
+        <source>cancelled remotely</source>
+        <target>Cancelado remotamente</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

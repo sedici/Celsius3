@@ -688,6 +688,20 @@ body {
   background-image: url(/bundles/celsius3core/images/icono_historial_annul.png);
 }
 
+.iconhistorial-reclaim {
+  @extend .iconhistorial;
+  background-image: url(/bundles/celsius3core/images/icono_historial_reclaim.png);
+}
+
+.iconhistorial-localcancel {
+  @extend .iconhistorial;
+  background-image: url(/bundles/celsius3core/images/icono_historial_rcancel.png);
+}
+.iconhistorial-remotecancel {
+  @extend .iconhistorial;
+  background-image: url(/bundles/celsius3core/images/icono_historial_rcancel.png);
+}
+
 .historial_encargado {
   text-align: left;
 }

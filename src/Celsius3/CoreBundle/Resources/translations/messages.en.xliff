@@ -4282,6 +4282,38 @@
         <source>Order Manager</source>
         <target>Institution manager</target>
       </trans-unit>
+      <trans-unit id="event information" resname="event information">
+        <source>event information</source>
+        <target>Event information</target>
+      </trans-unit>
+      <trans-unit id="Add observations" resname="Add observations">
+        <source>Add observations</source>
+        <target>Add observations</target>
+      </trans-unit>
+      <trans-unit id="undo" resname="undo">
+        <source>undo</source>
+        <target>Undo</target>
+      </trans-unit>
+      <trans-unit id="undone" resname="undone">
+        <source>undone</source>
+        <target>Undone</target>
+      </trans-unit>
+      <trans-unit id="reclaim to" resname="reclaim to">
+        <source>reclaim to</source>
+        <target>Reclaim to</target>
+      </trans-unit>
+      <trans-unit id="cancelled to" resname="cancelled to">
+        <source>cancelled to</source>
+        <target>Cancelled to</target>
+      </trans-unit>
+      <trans-unit id="cancelled locally" resname="cancelled locally">
+        <source>cancelled locally</source>
+        <target>Cancelled locally</target>
+      </trans-unit>
+      <trans-unit id="cancelled remotely" resname="cancelled remotely">
+        <source>cancelled remotely</source>
+        <target>Cancelled remotely</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

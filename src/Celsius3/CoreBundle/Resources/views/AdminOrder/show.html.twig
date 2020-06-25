@@ -1246,14 +1246,10 @@
                             <dd ng-if="eventModalData.type === 'search'">{{ eventModalData.catalog.name }}</dd>
 
                             <dt ng-if="eventModalData.type === 'sirequest' || eventModalData.type === 'mirequest'">{{ 'requested to' | trans  }}</dt>
-                            <dt ng-if="eventModalData.type === 'localcancel' || eventModalData.type === 'remotecancel'">{{ 'cancelled to' | trans  }}</dt>
                             <dt ng-if="eventModalData.type === 'reclaim'">{{ 'reclaimed to' | trans  }}</dt>
                             <dd ng-if="eventModalData.type === 'sirequest' || eventModalData.type === 'mirequest' || eventModalData.type === 'reclaim'">
-                                {{ eventModalData.provider.provider_name | trans }}
+                                {{ eventModalData.request_event.provider.name }}
                             </dd>
-
-                            <dd ng-if="eventModalData.type === 'localcancel' || eventModalData.type === 'remotecancel'">{{  }}</dd>
-
                             <dt>{{ 'observations' | trans }}</dt>
                             <dd>
                                 <p id="observationsText" ng-if="!_.isEmpty(eventModalData.observations)">{{ eventModalData.observations }}</p>
