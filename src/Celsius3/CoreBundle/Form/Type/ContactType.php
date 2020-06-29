@@ -22,48 +22,48 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\ContactType as Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('name')
-                ->add('surname')
-                ->add('email')
-                ->add('address')
-                ->add('user', UserSelectorType::class, array(
-                    'attr' => array(
-                        'class' => 'container',
-                        'readonly' => 'readonly',
-                        'value' => (!is_null($options['user'])) ? $options['user']->getId() : '',
-                    ),
-                ))
-                ->add('user_autocomplete', TextType::class, array(
-                    'attr' => array(
-                        'value' => $options['user'],
-                        'class' => 'autocomplete',
-                        'target' => 'BaseUser',
-                    ),
-                    'mapped' => false,
-                    'label' => 'User',
-                ))
-                ->add('type', EntityType::class, array(
-                    'class' => Entity::class,
-                    'required' => false
-                ))
-                ->add('instance', EntityType::class, array(
-                    'class' => Instance::class,
-                    'required' => false
-                ))
-        ;
+            ->add('name')
+            ->add('surname')
+            ->add('email', null, [
+                'label' => 'mail'
+            ])
+            ->add('address', null, [
+                'required' => false
+            ])
+            ->add('user', UserSelectorType::class, array(
+                'attr' => array(
+                    'class' => 'container',
+                    'readonly' => 'readonly',
+                    'value' => (!is_null($options['user'])) ? $options['user']->getId() : '',
+                ),
+                'required' => false
+            ))
+            ->add('user_autocomplete', TextType::class, array(
+                'attr' => array(
+                    'value' => $options['user'],
+                    'class' => 'autocomplete',
+                    'target' => 'BaseUser',
+                ),
+                'mapped' => false,
+                'label' => 'User',
+                'required' => false
+            ))
+            ->add('type', EntityType::class, array(
+                'class' => Entity::class,
+                'choice_translation_domain' => 'messages'
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

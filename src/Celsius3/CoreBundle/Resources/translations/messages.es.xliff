@@ -4319,6 +4319,14 @@
         <source>cancelled remotely</source>
         <target>Cancelado remotamente</target>
       </trans-unit>
+      <trans-unit id="mail" resname="mail">
+        <source>mail</source>
+        <target>Correo</target>
+      </trans-unit>
+      <trans-unit id="Technician" resname="Technician">
+        <source>Technician</source>
+        <target>Técnico</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
