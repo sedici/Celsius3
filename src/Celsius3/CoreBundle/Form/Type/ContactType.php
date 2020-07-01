@@ -62,7 +62,8 @@ class ContactType extends AbstractType
             ))
             ->add('type', EntityType::class, array(
                 'class' => Entity::class,
-                'choice_translation_domain' => 'messages'
+                'choice_translation_domain' => 'messages',
+                'placeholder' => ' '
             ));
     }
 

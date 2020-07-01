@@ -1,10 +1,17 @@
 <dl class="dl-horizontal">
     <dt>{{ 'Email'|trans }}</dt>
-    <dd>{{ element.email }}</dd>
+    <dd>
+        {{ element.email }}
+        <a href="#" class="emailModal" data-email="{{ element.email }}"><span class="glyphicon glyphicon-envelope"></span></a>
+    </dd>
     <dt>{{ 'Address'|trans }}</dt>
     <dd>{{ element.address }}</dd>
     <dt>{{ 'Type'|trans }}</dt>
     <dd>{{ element.type.name | trans }}</dd>
     <dt>{{ 'User'|trans }}</dt>
     <dd>{{ element.user }}</dd>
+    <dt>{{ 'Country'|trans }}</dt>
+    <dd>{{ element.institution.country }}</dd>
+    <dt>{{ 'institution'| trans }}</dt>
+    <dd>{{ element.institution.fullName }}</dd>
 </dl>
