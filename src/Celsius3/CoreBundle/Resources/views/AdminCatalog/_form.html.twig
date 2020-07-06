@@ -49,21 +49,6 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="form-group {% if not form.city.vars.valid %} has-error {% endif %}">
-            {{ form_label(form.city, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
-            <div class="col-md-10">
-                {{ form_widget(form.city, { 'attr': {'class': 'form-control city-select'} }) }}
-                {% for error in form.city.vars.errors %}
-                    <p class="text-danger">{{ error.message }}</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
-<br>
-
-<div class="row">
-    <div class="col-md-12">
         <div class="form-group {% if not form.institution.vars.valid %} has-error {% endif %}">
             {{ form_label(form.institution, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
             <div class="col-md-10">
