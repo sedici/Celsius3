@@ -22,17 +22,15 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Celsius3\TicketBundle\Entity\TypeState;
-use Celsius3\TicketBundle\Entity\Priority;
-use Celsius3\TicketBundle\Entity\Category;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\Type\InstanceRegisterType;
-
-
+use Celsius3\TicketBundle\Entity\Category;
+use Celsius3\TicketBundle\Entity\Priority;
+use Celsius3\TicketBundle\Entity\TypeState;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Directory controller.
@@ -51,8 +49,8 @@ class DirectoryController extends BaseController
         return array(
             'directory' => $this->getDirectory(),
             'lastNews' => $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:News')
-                    ->findLastNews($this->getDirectory()),
+                ->getRepository('Celsius3CoreBundle:News')
+                ->findLastNews($this->getDirectory()),
         );
     }
 
@@ -64,19 +62,30 @@ class DirectoryController extends BaseController
     public function instancesAction(Request $request)
     {
         $instances = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:Instance')
-                ->findAllEnabledAndVisible();
+            ->getRepository('Celsius3CoreBundle:Instance')
+            ->findAllEnabledAndVisible();
 
         $legacyInstances = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:LegacyInstance')
-                ->findEnabled();
+            ->getRepository('Celsius3CoreBundle:LegacyInstance')
+            ->findEnabled();
 
         $cInstances = array();
+        $instancesMarkers = array();
         foreach ($instances as $instance) {
             if (!array_key_exists($instance->getOwnerInstitutions()->first()->getCountry()->getName(), $cInstances)) {
                 $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()] = array();
             }
             $cInstances[$instance->getOwnerInstitutions()->first()->getCountry()->getName()][] = $instance;
+
+            $instanceLatitude = $instance->getLatitud();
+            $instanceLongitude = $instance->getLongitud();
+            if ($instanceLatitude && $instanceLongitude) {
+                $instancesMarkers[] = [
+                    'latitude' => addcslashes($instanceLatitude, ','),
+                    'longitude' => addcslashes($instanceLongitude, ','),
+                    'title' => $instance->getName()
+                ];
+            }
         }
 
         $lInstances = array();
@@ -90,20 +99,13 @@ class DirectoryController extends BaseController
         $latitude = '-34.9189929';
         $longitude = '-57.9523734';
 
-        $instancia_mapa = $this->get('celsius3_core.instance_manager')->findInstance($latitude, $longitude);
-       
-       $map = $this->get('celsius3_core.map_manager')->createMapFromApiSearch($instancia_mapa, $latitude, $longitude);
-      
-       $map->setMapOption('zoom', (int) $request->get('zoom'));
-
-     
-                
-       
         return array(
             'directory' => $this->getDirectory(),
             'instances' => $cInstances,
             'legacyInstances' => $lInstances,
-            'map' => $map,
+            'google_maps_api_key' => $this->getParameter('api_key_map'),
+            'google_maps_center_position' => ['latitude' => $latitude, 'longitude' => $longitude],
+            'google_maps_markers' => $instancesMarkers
         );
     }
 
@@ -133,69 +135,69 @@ class DirectoryController extends BaseController
         );
     }
 
-        /**
-         * Creates a new Instance entity.
-         *
-         * @Route("/create-register", name="directory_instance_create")
-         * @Method("post")
-         * @Template("Celsius3CoreBundle:Directory:registerInstance.html.twig")
-         *
-         * @return array
-         */
-        public function createAction(Request $request)
-        {
-            $em = $this->container->get('doctrine.orm.entity_manager');
+    /**
+     * Creates a new Instance entity.
+     *
+     * @Route("/create-register", name="directory_instance_create")
+     * @Method("post")
+     * @Template("Celsius3CoreBundle:Directory:registerInstance.html.twig")
+     *
+     * @return array
+     */
+    public function createAction(Request $request)
+    {
+        $em = $this->container->get('doctrine.orm.entity_manager');
 
-            $paramteros = $request->get('instance_register');
+        $paramteros = $request->get('instance_register');
 
-            $entity = new Instance();
-            $form = $this->createForm(InstanceRegisterType::class, $entity);
-            /*
-             * Informacion de la instancia
-             * */
+        $entity = new Instance();
+        $form = $this->createForm(InstanceRegisterType::class, $entity);
+        /*
+         * Informacion de la instancia
+         * */
 
-            $apellido_nombre = $paramteros['apellido_nombre'];
-            $email = $paramteros['email'];
+        $apellido_nombre = $paramteros['apellido_nombre'];
+        $email = $paramteros['email'];
 
-            $country = $paramteros['country'];
-            $text_country = $em->getRepository('Celsius3CoreBundle:Country')->find($country);
-            $city = $paramteros['city'];
-            $text_city = $em->getRepository('Celsius3CoreBundle:City')->find($city);
+        $country = $paramteros['country'];
+        $text_country = $em->getRepository('Celsius3CoreBundle:Country')->find($country);
+        $city = $paramteros['city'];
+        $text_city = $em->getRepository('Celsius3CoreBundle:City')->find($city);
 
-            $institution = $paramteros['institution'];
-            $text_institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($institution);
+        $institution = $paramteros['institution'];
+        $text_institution = $em->getRepository('Celsius3CoreBundle:Institution')->find($institution);
 
-            $sitio_biblioteca = $paramteros['sitio_biblioteca'];
-            $sitio_institucion = $paramteros['sitio_institucion'];
-            $sitio_catalogo = $paramteros['sitio_catalogo'];
+        $sitio_biblioteca = $paramteros['sitio_biblioteca'];
+        $sitio_institucion = $paramteros['sitio_institucion'];
+        $sitio_catalogo = $paramteros['sitio_catalogo'];
 
-            $migrar = empty($paramteros['migrar']) ? '' : $paramteros['migrar'];
+        $migrar = empty($paramteros['migrar']) ? '' : $paramteros['migrar'];
 
-            $observaciones = $paramteros['observaciones'];
+        $observaciones = $paramteros['observaciones'];
 
-            $texto = "$apellido_nombre solicito agregar una nueva instancia $text_country -  $text_city - $text_institution con la siguiente informacion: <br/>URL Institucion: $sitio_institucion";
-            $texto .= "<br/> URL Biblioteca $sitio_biblioteca <br/> URL Catalogo: $sitio_catalogo";
-            $texto .= "<br/> Correo de contacto $email";
-            $texto .= "<br/> Observaciones: $observaciones";
-            if (!empty($migrar)) {
-                $texto .= '<br/> Se solicita migración.';
-            }
+        $texto = "$apellido_nombre solicito agregar una nueva instancia $text_country -  $text_city - $text_institution con la siguiente informacion: <br/>URL Institucion: $sitio_institucion";
+        $texto .= "<br/> URL Biblioteca $sitio_biblioteca <br/> URL Catalogo: $sitio_catalogo";
+        $texto .= "<br/> Correo de contacto $email";
+        $texto .= "<br/> Observaciones: $observaciones";
+        if (!empty($migrar)) {
+            $texto .= '<br/> Se solicita migración.';
+        }
 
-            $parametros = array();
-            $parametros['subject'] = 'Nueva Instancia Cargada';
-            $parametros['texto'] = $texto;
-            $parametros['priority'] = Priority::PRIORITY_MEDIA;
-            $parametros['category'] = Category::CATEGORY_NEW_INSTANCE;
-            $parametros['typeState'] = TypeState::TYPE_STATE_NEW;
+        $parametros = array();
+        $parametros['subject'] = 'Nueva Instancia Cargada';
+        $parametros['texto'] = $texto;
+        $parametros['priority'] = Priority::PRIORITY_MEDIA;
+        $parametros['category'] = Category::CATEGORY_NEW_INSTANCE;
+        $parametros['typeState'] = TypeState::TYPE_STATE_NEW;
 
-            $ticketHelper = $this->get('celsius3_ticket.ticket_helper');
-            $ticketHelper->setParametros($parametros);
-            $ticketHelper->createTicket();
+        $ticketHelper = $this->get('celsius3_ticket.ticket_helper');
+        $ticketHelper->setParametros($parametros);
+        $ticketHelper->createTicket();
 
-            return array(
+        return array(
             'entity' => $entity,
             'form' => $form->createView(),
             'directory' => $this->getDirectory(),
         );
-        }
+    }
 }

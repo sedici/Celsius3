@@ -18,12 +18,12 @@
         <div class="col-md-6">
 
             <div class="map">
-             <img src="{{ asset('images/mapa.jpg') }}" alt="" style="width:100%; height:auto;"> 
-                
+                {#             <img src="{{ asset('images/mapa.jpg') }}" alt="" style="width:100%; height:auto;"> #}
 
-                {{ ivory_google_map(map) }}
-                {{ ivory_google_api([map]) }}
-                
+
+                {#                {{ ivory_google_map(map) }}#}
+                {#                {{ ivory_google_api([map]) }}#}
+
 
                 {#{{ ivory_google_map_css(map) }}
                 {{ ivory_google_map_container(map) }}
@@ -39,4 +39,49 @@
             {{ 'There are no instances.' | trans }}
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap">
+    </script>
+
+    <script type="text/javascript">
+        function initMap() {
+            var map = new google.maps.Map(
+                document.getElementById('map'),
+                {
+                    zoom: 4,
+                    center: {
+                        lat: {{ google_maps_center_position.latitude }},
+                        lng: {{ google_maps_center_position.longitude }}
+                    }
+                }
+            );
+
+            var markers = [];
+            {% for marker in google_maps_markers %}
+            markers.push(new google.maps.Marker({
+                position: {
+                    lat: {{ marker.latitude }},
+                    lng: {{ marker.longitude }}
+                },
+                map: map,
+                title: "{{ marker.title }}"
+            }));
+            {% endfor %}
+        }
+    </script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style type="text/css">
+        #map {
+            height: 1000px;
+            width: 100%;
+        }
+    </style>
 {% endblock %}

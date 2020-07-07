@@ -129,7 +129,7 @@
                 </div>
             </div>
 
-            {% if (is_granted('ROLE_SUPERADMIN')or is_granted('ROLE_ADMIN')) %}
+            {% if (is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN')) %}
                 {% for label, flashes in app.session.flashbag.get('configuration') %}
                     {% for flash in flashes %}
                         <div class="alert alert-warning">

@@ -450,14 +450,6 @@ httplug:
         acme:
             factory: httplug.factory.guzzle6
 
-ivory_google_map:
-    geocoder:
-        client: httplug.client.default
-        message_factory: httplug.message_factory.default
-    map:
-        api_key: "%api_key_map%"
-        debug: "%kernel.debug%"
-
 ewz_recaptcha:
     public_key:  "%recaptcha_public_key%"
     private_key: "%recaptcha_private_key%"

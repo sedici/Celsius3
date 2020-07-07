@@ -37,7 +37,6 @@ class AppKernel extends Kernel
             new Celsius3\ApiBundle\Celsius3ApiBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Celsius3\TicketBundle\Celsius3TicketBundle(),
-            new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
             new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
