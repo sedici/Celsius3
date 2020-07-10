@@ -41,7 +41,7 @@ class RequestType extends AbstractType
         if (array_key_exists('operator', $options) && !is_null($options['operator'])) {
             $builder->add('type', ChoiceType::class, array(
                     'choices' => array(
-                        /** @Ignore */ ucfirst(OrderManager::TYPE__SEARCH) => OrderManager::TYPE__SEARCH,
+                        /** @Ignore */ OrderManager::TYPE__SEARCH => OrderManager::TYPE__SEARCH,
                         /** @Ignore */ ucfirst(OrderManager::TYPE__PROVISION) => OrderManager::TYPE__PROVISION,
                     ),
                     'choices_as_values' => true,

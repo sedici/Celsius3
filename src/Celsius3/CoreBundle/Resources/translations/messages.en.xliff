@@ -4322,6 +4322,10 @@
         <source>Technician</source>
         <target>Technician</target>
       </trans-unit>
+      <trans-unit id="Join users" resname="Join users">
+        <source>Join users</source>
+        <target>Join users</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

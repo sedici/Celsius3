@@ -4321,6 +4321,10 @@
         <source>Technician</source>
         <target>Técnico</target>
       </trans-unit>
+      <trans-unit id="Join users" resname="Join users">
+        <source>Join users</source>
+        <target>Junte-se a usuários</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
