@@ -147,8 +147,13 @@ class BaseUserRepository extends BaseRepository
     {
         $alias = $query->getRootAliases()[0];
 
-        $query = $query->andWhere($alias.'.roles LIKE :role')
+        if ($data === 'ROLE_USER') {
+            $query = $query->andWhere($alias . '.roles = :role')
+                ->setParameter('role', serialize([]));
+        } else {
+            $query = $query->andWhere($alias.'.roles LIKE :role')
                 ->setParameter('role', '%"'.$data.'"%');
+        }
 
         if (!is_null($instance)) {
             $query = $query->andWhere($alias.'.instance = :instance_id')
