@@ -27,7 +27,7 @@
     {% set name = 'owners' %}
     {% set agg = aggregations[name] %}
     {% set buckets = get_buckets(name, agg) %}
-    {% if buckets is not empty and filters[name]is not defined %}
+    {% if buckets is not empty and filters[name] is not defined %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 {{ name | trans | first_upper }}
@@ -57,7 +57,7 @@
     {% set name = 'operators' %}
     {% set agg = aggregations[name] %}
     {% set buckets = get_buckets(name, agg) %}
-    {% if buckets is not empty and filters[name]is not defined %}
+    {% if buckets is not empty and filters[name] is not defined %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 {{ name | trans | first_upper }}
