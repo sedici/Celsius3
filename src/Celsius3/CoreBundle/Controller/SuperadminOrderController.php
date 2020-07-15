@@ -270,7 +270,7 @@ class SuperadminOrderController extends OrderController
           $em = $this->getDoctrine()->getManager();
 
           $requests = $order->getRequests();
-          dump($requests);
+
           foreach ($requests as $request) {
               $states = $request->getStates();
               foreach ($states as $state) {
