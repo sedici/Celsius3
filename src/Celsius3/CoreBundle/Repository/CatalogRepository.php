@@ -89,7 +89,6 @@ class CatalogRepository extends BaseRepository
 
     public function addFindByCity($city, QueryBuilder $query, Instance $instance = null)
     {
-        $alias = $query->getRootAliases()[0];
         $query = $query->andWhere('ci.city = :city_id')
                         ->setParameter('city_id', $city->getId());
         return $query;
