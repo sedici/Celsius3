@@ -398,7 +398,6 @@ class StateManager
                 $httpRequest->request->remove('observations');
                 break;
             default:
-                ;
         }
     }
 

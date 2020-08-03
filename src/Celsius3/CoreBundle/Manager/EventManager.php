@@ -371,7 +371,6 @@ class EventManager
                 $event = array_key_exists('request', $extraData) ? (($extraData['request'] instanceof MultiInstanceRequestEvent) ? self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL) : self::EVENT__CANCEL;
                 break;
             default:
-                ;
         }
 
         return $event;

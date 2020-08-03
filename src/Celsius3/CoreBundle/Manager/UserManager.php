@@ -75,7 +75,7 @@ class UserManager
         foreach ($types as $type) {
             if (in_array($type, self::$types)) {
                 $entity->addRole($type);
-            };
+            }
         }
     }
 
