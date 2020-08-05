@@ -263,7 +263,6 @@ class AdminBaseUserController extends BaseUserController
      * Shows the data of a user.
      *
      * @Route("/switch-user", name="switch_user")
-     * @Template()
      *
      * @return array
      */
@@ -271,7 +270,7 @@ class AdminBaseUserController extends BaseUserController
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $userManager = $this->get('fos_user.user_manager');
-            $user = $userManager->findUserByUsername($_switch_user);
+            $user = $userManager->findUserByUsername($request->get('_switch_user'));
             $firewallName = 'secured_area';
             $token = new UsernamePasswordToken($user, $user->getPassword(), $firewallName, $user->getRoles());
             $this->container->get('security.token_storage')->setToken($token);

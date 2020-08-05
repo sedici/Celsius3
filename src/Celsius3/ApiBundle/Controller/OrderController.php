@@ -115,7 +115,7 @@ class OrderController extends BaseController
      * GET Route annotation.
      * @Get("/{user_id}/state/{state}")
      */
-    public function ordersByUserAndStateAction($user_id, $state)
+    public function ordersByUserAndStateAction(Request $request, $user_id, $state)
     {
         $context = SerializationContext::create()->setGroups(array('api'));
         $accessToken = $this->getAccessTokenByToken($request->get('access_token'));
