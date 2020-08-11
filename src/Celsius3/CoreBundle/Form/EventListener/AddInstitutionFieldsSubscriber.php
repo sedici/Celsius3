@@ -22,16 +22,17 @@
 
 namespace Celsius3\CoreBundle\Form\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Doctrine\ORM\EntityManager;
+use Celsius3\CoreBundle\Entity\Institution;
 use Celsius3\CoreBundle\Repository\CityRepository;
 use Celsius3\CoreBundle\Repository\CountryRepository;
 use Celsius3\CoreBundle\Repository\InstitutionRepository;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 {
@@ -58,10 +59,15 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             FormEvents::PRE_SET_DATA => 'preSetData',
             FormEvents::PRE_SUBMIT => 'preBind',
-        );
+        ];
+    }
+
+    public function preSetData(FormEvent $event)
+    {
+        $this->addInstitutionFields($event, false);
     }
 
     private function addInstitutionFields(FormEvent $event, $bind)
@@ -75,9 +81,9 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         if ($bind && array_key_exists($this->property_path, $data)) {
             $institution = $this->em->getRepository('Celsius3CoreBundle:Institution')
-                    ->find($data[$this->property_path]);
-        } elseif (is_object($data)) {
-            $function = 'get'.ucfirst($this->property_path);
+                ->find($data[$this->property_path]);
+        } else if (is_object($data)) {
+            $function = 'get' . ucfirst($this->property_path);
             $institution = $data->$function();
         }
 
@@ -88,52 +94,52 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
             } else {
                 $country = $city->getCountry();
             }
-        } elseif (is_object($data) && ($data instanceof \Celsius3\CoreBundle\Entity\Institution)) {
+        } else if (is_object($data) && ($data instanceof Institution)) {
             $city = $data->getCity();
             $country = $data->getCountry();
-        } elseif (is_array($data) && array_key_exists('city', $data) && array_key_exists('country', $data)) {
+        } else if (is_array($data) && array_key_exists('city', $data) && array_key_exists('country', $data)) {
             $city = $this->em->getRepository('Celsius3CoreBundle:City')->find($data['city']);
             $country = $this->em->getRepository('Celsius3CoreBundle:Country')->find($data['country']);
         }
 
         if ($this->with_filter) {
             $filter = null;
-            $form->add($this->factory->createNamed('filter', ChoiceType::class, $filter, array(
-                        'choices' => array(
-                            'liblink' => 'Liblink',
-                            'celsius3' => 'Celsius3',
-                        ),
-                        'mapped' => false,
-                        'placeholder' => 'All',
-                        'required' => false,
-                        'expanded' => true,
-                        'attr' => array(
-                            'class' => 'filter-select',
-                        ),
-                        'auto_initialize' => false,
-            )));
+            $form->add($this->factory->createNamed('filter', ChoiceType::class, $filter, [
+                'choices' => [
+                    'liblink' => 'Liblink',
+                    'celsius3' => 'Celsius3',
+                ],
+                'mapped' => false,
+                'placeholder' => 'All',
+                'required' => false,
+                'expanded' => true,
+                'attr' => [
+                    'class' => 'filter-select',
+                ],
+                'auto_initialize' => false,
+            ]));
         }
 
-        $form->add($this->factory->createNamed('country', EntityType::class, $country, array(
-                    'class' => 'Celsius3CoreBundle:Country',
-                    'mapped' => $this->country_mapped,
-                    'placeholder' => '',
-                    'required' => false,
-                    'query_builder' => function (CountryRepository $cr) {
-                        return $cr->getAllOrderedByNameQB();
-                    },
-                    'attr' => array(
-                        'class' => 'country-select',
-                    ),
-                    'auto_initialize' => false,
-                    'choice_label' => function ($category) {
-                        return $this->firstUpper($category);
-                    }
+        $form->add($this->factory->createNamed('country', EntityType::class, $country, [
+            'class' => 'Celsius3CoreBundle:Country',
+            'mapped' => $this->country_mapped,
+            'placeholder' => '',
+            'required' => false,
+            'query_builder' => function (CountryRepository $cr) {
+                return $cr->getAllOrderedByNameQB();
+            },
+            'attr' => [
+                'class' => 'country-select',
+            ],
+            'auto_initialize' => false,
+            'choice_label' => function ($category) {
+                return $this->firstUpper($category);
+            }
 
-        )));
+        ]));
 
-        if($this->showCity) {
-            $form->add($this->factory->createNamed('city', EntityType::class, $city, array(
+        if ($this->showCity) {
+            $form->add($this->factory->createNamed('city', EntityType::class, $city, [
                 'class' => 'Celsius3CoreBundle:City',
                 'mapped' => $this->city_mapped,
                 'placeholder' => '',
@@ -141,45 +147,35 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
                 'query_builder' => function (CityRepository $cr) use ($country) {
                     return $cr->findForCountryQB($country);
                 },
-                'attr' => array(
+                'attr' => [
                     'class' => 'city-select',
-                ),
+                ],
                 'auto_initialize' => false,
                 'choice_label' => function ($category) {
                     return $this->firstUpper($category);
                 }
-            )));
+            ]));
         }
 
-        $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, array(
-                    'class' => 'Celsius3CoreBundle:Institution',
-                    'property_path' => $this->property_path,
-                    'label' => ucfirst($this->property_path),
-                    'placeholder' => '',
-                    'required' => $this->required,
-                    'query_builder' => function (InstitutionRepository $ir) use ($city, $country) {
-                        return $ir->findByCountryAndCityQB($country, $city);
-                    },
-                    'attr' => array(
-                        'class' => 'institution-select',
-                    ),
-                    'auto_initialize' => false,
-        )));
-    }
-
-    public function preSetData(FormEvent $event)
-    {
-        $this->addInstitutionFields($event, false);
-    }
-
-    public function preBind(FormEvent $event)
-    {
-        $this->addInstitutionFields($event, true);
+        $form->add($this->factory->createNamed($this->property_path, EntityType::class, $institution, [
+            'class' => 'Celsius3CoreBundle:Institution',
+            'property_path' => $this->property_path,
+            'label' => ucfirst($this->property_path),
+            'placeholder' => '',
+            'required' => $this->required,
+            'query_builder' => function (InstitutionRepository $ir) use ($city, $country) {
+                return $ir->findByCountryAndCityQB($country, $city);
+            },
+            'attr' => [
+                'class' => 'institution-select',
+            ],
+            'auto_initialize' => false,
+        ]));
     }
 
     private function firstUpper($category)
     {
-        if (!is_string($category)){
+        if (!is_string($category)) {
             return $category;
         }
 
@@ -187,7 +183,7 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
 
         $t = '';
         foreach ($words as $k => $word) {
-            if (strlen($word) > 3 || $k === 0 ) {
+            if (strlen($word) > 3 || $k === 0) {
                 $t .= ucfirst(mb_strtolower($word)) . ' ';
             } else {
                 $t .= mb_strtolower($word) . ' ';
@@ -195,5 +191,10 @@ class AddInstitutionFieldsSubscriber implements EventSubscriberInterface
         }
 
         return $t;
+    }
+
+    public function preBind(FormEvent $event)
+    {
+        $this->addInstitutionFields($event, true);
     }
 }

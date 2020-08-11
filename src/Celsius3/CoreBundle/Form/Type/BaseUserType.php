@@ -22,20 +22,19 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BaseUserType extends RegistrationFormType
 {
-    public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
+    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
     {
-        parent::__construct($em, $instance_helper, $class);
+        parent::__construct($entityManager, $instanceHelper);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -43,40 +42,36 @@ class BaseUserType extends RegistrationFormType
         parent::buildForm($builder, $options);
         $builder->get('birthdate')->setAttribute('required', false);
         $builder
-                ->add('enabled', null, array(
-                    'required' => false,'attr'=>array('class'=>'checkbox')
-                ))
-                ->add('locked', null, array(
-                    'required' => false,
-                ))
-                ->add('pdf', null, array(
-                    'required' => false,
-                ))
-                ->add('downloadAuth', null, array(
-                    'required' => false,
-                ))
-
-        ;
+            ->add('enabled', null, [
+                'required' => false, 'attr' => ['class' => 'checkbox']
+            ])
+            ->add('locked', null, [
+                'required' => false,
+            ])
+            ->add('pdf', null, [
+                'required' => false,
+            ])
+            ->add('downloadAuth', null, [
+                'required' => false,
+            ]);
 
         if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
-                        ->add('instance', null, array(
-                            'query_builder' => function (EntityRepository $repository) {
-                                return $repository->findAllExceptDirectory();
-                            },
-                        ))
-                ;
+                    ->add('instance', null, [
+                        'query_builder' => function (EntityRepository $repository) {
+                            return $repository->findAllExceptDirectory();
+                        },
+                    ]);
             } else {
                 $builder
-                        ->add('instance', InstanceSelectorType::class, array(
-                            'data' => $options['instance'],
-                            'attr' => array(
-                                'value' => $options['instance']->getId(),
-                                'readonly' => 'readonly',
-                            ),
-                        ))
-                ;
+                    ->add('instance', InstanceSelectorType::class, [
+                        'data' => $options['instance'],
+                        'attr' => [
+                            'value' => $options['instance']->getId(),
+                            'readonly' => 'readonly',
+                        ],
+                    ]);
             }
         }
 
@@ -85,20 +80,21 @@ class BaseUserType extends RegistrationFormType
             $builder->remove('recaptcha');
         }
 
-        $builder->add('observaciones', TextareaType::class, array(
-            'attr' => array(
+        $builder->add('observaciones', TextareaType::class, [
+            'attr' => [
                 'class' => 'summernote',
-            ),
+            ],
             'required' => false,
-        ));
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'instance' => null,
             'editing' => false,
             'registration' => false,
-        ));
+            'show_privates' => true
+        ]);
     }
 }

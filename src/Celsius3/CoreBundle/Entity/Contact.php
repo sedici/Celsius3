@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -46,62 +47,57 @@ class Contact
     use SoftDeleteableEntity;
 
     /**
+     * @ORM\OneToMany(targetEntity="CustomContactValue", mappedBy="contact", cascade={"remove"})
+     */
+    protected $customValues;
+    /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $surname;
-
     /**
      * @Assert\NotBlank()
      * @Assert\Email()
      * @ORM\Column(type="string", length=255)
      */
     private $email;
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address;
-
     /**
      * @ORM\OneToOne(targetEntity="BaseUser")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
-
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ContactType", inversedBy="contacts")
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id", nullable=false)
      */
     private $type;
-
     /**
      * @ORM\ManyToOne(targetEntity="Instance", inversedBy="contacts")
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id")
      */
     private $instance;
-
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Institution", inversedBy="contacts")
      * @ORM\JoinColumn(name="institution_id", referencedColumnName="id", nullable=false)
      */
     private $institution;
-
     /**
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="Instance")
@@ -120,6 +116,16 @@ class Contact
     }
 
     /**
+     * Get name.
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Set name.
      *
      * @param string $name
@@ -134,13 +140,13 @@ class Contact
     }
 
     /**
-     * Get name.
+     * Get surname.
      *
-     * @return string $name
+     * @return string $surname
      */
-    public function getName()
+    public function getSurname()
     {
-        return $this->name;
+        return $this->surname;
     }
 
     /**
@@ -158,13 +164,13 @@ class Contact
     }
 
     /**
-     * Get surname.
+     * Get email.
      *
-     * @return string $surname
+     * @return string $email
      */
-    public function getSurname()
+    public function getEmail()
     {
-        return $this->surname;
+        return $this->email;
     }
 
     /**
@@ -182,13 +188,13 @@ class Contact
     }
 
     /**
-     * Get email.
+     * Get address.
      *
-     * @return string $email
+     * @return string $address
      */
-    public function getEmail()
+    public function getAddress()
     {
-        return $this->email;
+        return $this->address;
     }
 
     /**
@@ -206,13 +212,13 @@ class Contact
     }
 
     /**
-     * Get address.
+     * Get user.
      *
-     * @return string $address
+     * @return BaseUser $user
      */
-    public function getAddress()
+    public function getUser()
     {
-        return $this->address;
+        return $this->user;
     }
 
     /**
@@ -230,13 +236,13 @@ class Contact
     }
 
     /**
-     * Get user.
+     * Get type.
      *
-     * @return BaseUser $user
+     * @return ContactType $type
      */
-    public function getUser()
+    public function getType()
     {
-        return $this->user;
+        return $this->type;
     }
 
     /**
@@ -254,13 +260,13 @@ class Contact
     }
 
     /**
-     * Get type.
+     * Get instance.
      *
-     * @return ContactType $type
+     * @return Instance $instance
      */
-    public function getType()
+    public function getInstance()
     {
-        return $this->type;
+        return $this->instance;
     }
 
     /**
@@ -278,13 +284,13 @@ class Contact
     }
 
     /**
-     * Get instance.
+     * Get institution.
      *
-     * @return Instance $instance
+     * @return Institution $institution
      */
-    public function getInstance()
+    public function getInstitution()
     {
-        return $this->instance;
+        return $this->institution;
     }
 
     /**
@@ -302,13 +308,13 @@ class Contact
     }
 
     /**
-     * Get institution.
+     * Get owning instance.
      *
-     * @return Institution $institution
+     * @return Instance $owningInstance
      */
-    public function getInstitution()
+    public function getOwningInstance()
     {
-        return $this->institution;
+        return $this->owningInstance;
     }
 
     /**
@@ -325,13 +331,20 @@ class Contact
         return $this;
     }
 
-    /**
-     * Get owning instance.
-     *
-     * @return Instance $owningInstance
-     */
-    public function getOwningInstance()
+    public function addCustomValue(CustomValue $customValues): self
     {
-        return $this->owningInstance;
+        $this->customValues[] = $customValues;
+
+        return $this;
+    }
+
+    public function removeCustomValue(CustomValue $customValues): void
+    {
+        $this->customValues->removeElement($customValues);
+    }
+
+    public function getCustomValues(): Collection
+    {
+        return $this->customValues;
     }
 }

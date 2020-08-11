@@ -22,10 +22,17 @@
 
 namespace Celsius3\CoreBundle\Form\EventListener;
 
+use Celsius3\CoreBundle\Entity\CustomContactValue;
+use Celsius3\CoreBundle\Entity\CustomField;
+use Celsius3\CoreBundle\Entity\CustomUserValue;
 use Celsius3\CoreBundle\Entity\Instance;
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -34,22 +41,30 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class AddCustomFieldsSubscriber implements EventSubscriberInterface
 {
+    private $entity;
     private $factory;
-    private $em;
+    private $entityManager;
     private $instance;
-    private $registration;
+    private $showPrivates;
 
-    public function __construct(FormFactoryInterface $factory, EntityManager $em, Instance $instance, $registration)
+    public function __construct(
+        string $entity,
+        FormFactoryInterface $factory,
+        EntityManager $entityManager,
+        Instance $instance,
+        bool $showPrivates
+    )
     {
+        $this->entity = $entity;
         $this->factory = $factory;
-        $this->em = $em;
+        $this->entityManager = $entityManager;
         $this->instance = $instance;
-        $this->registration = $registration;
+        $this->showPrivates = $showPrivates;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
-        return array(FormEvents::POST_SET_DATA => 'postSetData');
+        return [FormEvents::POST_SET_DATA => 'postSetData'];
     }
 
     public function postSetData(FormEvent $event)
@@ -61,67 +76,82 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $userId = $data->getId() ? $data->getId() : null;
+        $entiy_id = $data->getId() ? $data->getId() : null;
 
-        $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
-            ->getByInstance($this->instance, $this->registration);
+        $fields = $this->entityManager->getRepository(CustomField::class)
+            ->getByInstance($this->instance, $this->entity, $this->showPrivates);
 
         foreach ($fields as $field) {
-            if ($userId) {
-                $value = $this->em->getRepository('Celsius3CoreBundle:CustomUserValue')
-                    ->findOneBy(array('field' => $field->getId(), 'user' => $userId));
+            if ($entiy_id && 'BaseUser' === $field->getEntity()) {
+                $value = $this->entityManager->getRepository(CustomUserValue::class)
+                    ->findOneBy(['field' => $field->getId(), 'user' => $entiy_id]);
+            } else if ($entiy_id && 'Contact' === $field->getEntity()) {
+                $value = $this->entityManager->getRepository(CustomContactValue::class)
+                    ->findOneBy(['field' => $field->getId(), 'contact' => $entiy_id]);
             } else {
                 $value = null;
             }
 
-            if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\ChoiceType') {
+            $placeholder = ucfirst($field->getName());
+            if ($field->isRequired()) {
+                $placeholder .= '*';
+            }
+
+            if (ChoiceType::class === $field->getType()) {
                 $values = explode(',', $field->getValue());
-                $array_choices = array();
+                $array_choices = [];
                 foreach ($values as $key => $val) {
                     $array_choices[$val] = $val;
                 }
 
-                $placeholder = ucfirst($field->getName());
-                if ($field->getRequired()) {
-                    $placeholder .= ' *';
-                }
-
-                $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
+                $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, [
                     'choices' => $array_choices,
-                    'required' => $field->getRequired(),
+                    'required' => $field->isRequired(),
                     'mapped' => false,
                     'choices_as_values' => true,
                     'auto_initialize' => false,
-                    'required' => $field->getRequired(),
-                    'placeholder' => '',
-                    'attr' => ['class' => 'select2'],
+                    'attr' => [
+                        'class' => 'select2 select2-without-search',
+                        'data-placeholder' => $placeholder,
+                    ],
+                    'constraints' => ($field->isRequired()) ? new NotNull() : null,
+                    'label' => $field->getName()
+                ]));
+            } else if (DateType::class === $field->getType()) {
+                $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new DateTime($value->getValue()) : null, [
+                    /* @Ignore */
+                    'label' => ucfirst($field->getName()),
+                    'required' => $field->isRequired(),
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => [
+                        'class' => 'date',
+                    ],
+                    'mapped' => false,
+                    'auto_initialize' => false,
                     'constraints' => ($field->getRequired()) ? new NotNull() : null,
-                )));
+                ]));
+            } else if (TextType::class === $field->getType()) {
+                $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, [
+                    /* @Ignore */
+                    'label' => ucfirst($field->getName()),
+                    'required' => $field->isRequired(),
+                    'mapped' => false,
+                    'auto_initialize' => false,
+                    'constraints' => ($field->isRequired()) ? new NotBlank() : null,
+                    'attr' => [
+                        'placeholder' => $placeholder
+                    ]
+                ]));
             } else {
-                if ($field->getType() == 'Symfony\Component\Form\Extension\Core\Type\DateType') {
-                    $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? new \DateTime($value->getValue()) : null, array(
-                        /* @Ignore */
-                        'label' => ucfirst($field->getName()),
-                        'required' => $field->getRequired(),
-                        'widget' => 'single_text',
-                        'format' => 'dd-MM-yyyy',
-                        'attr' => array(
-                            'class' => 'date',
-                        ),
-                        'mapped' => false,
-                        'auto_initialize' => false,
-                        'constraints' => ($field->getRequired()) ? new NotNull() : null,
-                    )));
-                } else {
-                    $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, array(
-                        /* @Ignore */
-                        'label' => ucfirst($field->getName()),
-                        'required' => $field->getRequired(),
-                        'mapped' => false,
-                        'auto_initialize' => false,
-                        'constraints' => ($field->getRequired()) ? new NotBlank() : null,
-                    )));
-                }
+                $form->add($this->factory->createNamed($field->getKey(), $field->getType(), $value ? $value->getValue() : null, [
+                    /* @Ignore */
+                    'label' => ucfirst($field->getName()),
+                    'required' => $field->isRequired(),
+                    'mapped' => false,
+                    'auto_initialize' => false,
+                    'constraints' => ($field->isRequired()) ? new NotBlank() : null,
+                ]));
             }
         }
     }

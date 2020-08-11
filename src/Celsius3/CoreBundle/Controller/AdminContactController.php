@@ -22,12 +22,15 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\Contact;
+use Celsius3\CoreBundle\Exception\Exception;
+use Celsius3\CoreBundle\Form\Type\AdminContactType;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\Contact;
-use Celsius3\CoreBundle\Form\Type\AdminContactType;
-use Celsius3\CoreBundle\Exception\Exception;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Translator;
 
 /**
  * AdminContact controller.
@@ -36,24 +39,6 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class AdminContactController extends BaseInstanceDependentController
 {
-    protected function listQuery($name)
-    {
-        return $this->getDoctrine()->getManager()
-                    ->getRepository('Celsius3CoreBundle:'.$name)
-                    ->createQueryBuilder('e')
-                    ->select('e')
-                    ->where('e.owningInstance = :instance')
-                    ->setParameter('instance', $this->getInstance()->getId())
-            ;
-    }
-
-    protected function findQuery($name, $id)
-    {
-        return $this->getDoctrine()->getManager()
-                        ->getRepository('Celsius3CoreBundle:'.$name)
-                        ->findByInstance($this->getInstance(), $id);
-    }
-
     /**
      * Lists all Contact documents.
      *
@@ -65,7 +50,7 @@ class AdminContactController extends BaseInstanceDependentController
     public function indexAction()
     {
         $data = $this->baseIndex('Contact');
-        $deleteForms = array();
+        $deleteForms = [];
 
         foreach ($data['pagination'] as $entity) {
             $deleteForms[$entity->getId()] = $this->createDeleteForm($entity->getId())->createView();
@@ -86,7 +71,7 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws NotFoundHttpException If document doesn't exists
      */
     public function showAction($id)
     {
@@ -103,9 +88,9 @@ class AdminContactController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('Contact', new Contact(), AdminContactType::class, array(
+        return $this->baseNew('Contact', new Contact(), AdminContactType::class, [
             'owning_instance' => $this->getInstance(),
-        ));
+        ]);
     }
 
     /**
@@ -113,15 +98,39 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @Route("/create", name="admin_contact_create")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminContact:new.html.twig")
      *
-     * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('Contact', new Contact(), AdminContactType::class, array(
+        $entity = new Contact();
+
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+        $form = $this->createForm(AdminContactType::class, $entity, [
             'owning_instance' => $this->getInstance(),
-        ), 'admin_contact');
+        ]);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            try {
+                $this->persistEntity($entity);
+                $this->get('celsius3_core.custom_field_helper')->processCustomContactFields($this->getInstance(), $form, $entity);
+
+                $this->addFlash('success', $translator->trans('The %entity% was successfully created.', ['%entity%' => $translator->trans('Contact')], 'Flashes'));
+
+                return $this->redirect($this->generateUrl('admin_contact'));
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('Contact')], 'Flashes'));
+            }
+        }
+
+        $this->addFlash('error', $translator->trans('There were errors creating the %entity%.', ['%entity%' => $translator->trans('Contact')], 'Flashes'));
+
+        return $this->render('Celsius3CoreBundle:AdminContact:new.html.twig', [
+            'entity' => $entity,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -134,7 +143,7 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws NotFoundHttpException If document doesn't exists
      */
     public function editAction($id)
     {
@@ -143,10 +152,17 @@ class AdminContactController extends BaseInstanceDependentController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
-        return $this->baseEdit('Contact', $id, AdminContactType::class, array(
+        return $this->baseEdit('Contact', $id, AdminContactType::class, [
             'owning_instance' => $this->getInstance(),
             'user' => $entity->getUser(),
-        ));
+        ]);
+    }
+
+    protected function findQuery($name, $id)
+    {
+        return $this->getDoctrine()->getManager()
+            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->findByInstance($this->getInstance(), $id);
     }
 
     /**
@@ -154,13 +170,10 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @Route("/{id}/update", name="admin_contact_update")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminContact:edit.html.twig")
      *
      * @param string $id The document ID
      *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
@@ -169,10 +182,43 @@ class AdminContactController extends BaseInstanceDependentController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
         }
 
-        return $this->baseUpdate('Contact', $id, AdminContactType::class, array(
+        /** @var $translator Translator */
+        $translator = $this->get('translator');
+
+        $entity = $this->findQuery('Contact', $id);
+
+        if (!$entity) {
+            throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.contact');
+        }
+
+        $edit_form = $this->createForm(AdminContactType::class, $entity, [
             'owning_instance' => $this->getInstance(),
             'user' => $entity->getUser(),
-        ), 'admin_contact');
+        ]);
+
+        $request = $this->get('request_stack')->getCurrentRequest();
+
+        $edit_form->handleRequest($request);
+
+        if ($edit_form->isValid()) {
+            try {
+                $this->persistEntity($entity);
+                $this->get('celsius3_core.custom_field_helper')->processCustomContactFields($this->getInstance(), $edit_form, $entity);
+
+                $this->addFlash('success', $translator->trans('The %entity% was successfully edited.', ['%entity%' => $translator->trans('Contact')], 'Flashes'));
+
+                return $this->redirect($this->generateUrl('admin_contact_edit', ['id' => $id]));
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('error', $translator->trans('The %entity% already exists.', ['%entity%' => $translator->trans('Contact')], 'Flashes'));
+            }
+        }
+
+        $this->addFlash('error', $translator->trans('There were errors editing the %entity%.', ['%entity%' => $translator->trans('Contact')], 'Flashes'));
+
+        return $this->render('Celsius3CoreBundle:AdminContact:edit.html.twig', [
+            'entity' => $entity,
+            'edit_form' => $edit_form->createView(),
+        ]);
     }
 
     /**
@@ -185,10 +231,20 @@ class AdminContactController extends BaseInstanceDependentController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
+     * @throws NotFoundHttpException If document doesn't exists
      */
     public function deleteAction($id)
     {
         return $this->baseDelete('Contact', $id, 'admin_contact');
+    }
+
+    protected function listQuery($name)
+    {
+        return $this->getDoctrine()->getManager()
+            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->createQueryBuilder('e')
+            ->select('e')
+            ->where('e.owningInstance = :instance')
+            ->setParameter('instance', $this->getInstance()->getId());
     }
 }

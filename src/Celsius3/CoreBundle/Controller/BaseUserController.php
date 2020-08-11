@@ -28,15 +28,7 @@ use Celsius3\CoreBundle\Form\Type\BaseUserType;
 
 abstract class BaseUserController extends BaseInstanceDependentController
 {
-    protected function enableUser(BaseUser $user)
-    {
-        $user->setEnabled(true);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-    }
-
-    protected function baseTransformAction($id, $transformType, array $options = array())
+    protected function baseTransformAction($id, $transformType, array $options = [])
     {
         $entity = $this->findQuery('BaseUser', $id);
 
@@ -50,11 +42,11 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
         $transformForm = $this->createForm($transformType, null, $options);
 
-        return array(
+        return [
             'entity' => $entity,
             'transform_form' => $transformForm->createView(),
             'route' => null,
-        );
+        ];
     }
 
     protected function baseDoTransformAction($id, $transformType, array $options, $route)
@@ -88,16 +80,16 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
             $this->get('session')->getFlashBag()->add('success', 'The User was successfully transformed.');
 
-            return $this->redirect($this->generateUrl($route.'_transform', array('id' => $id)));
+            return $this->redirect($this->generateUrl($route . '_transform', ['id' => $id]));
         }
 
         $this->get('session')->getFlashBag()
-                ->add('error', 'There were errors transforming the User.');
+            ->add('error', 'There were errors transforming the User.');
 
-        return array(
+        return [
             'entity' => $entity,
             'edit_form' => $transformForm->createView(),
-        );
+        ];
     }
 
     protected function baseEnableAction($id)
@@ -111,6 +103,14 @@ abstract class BaseUserController extends BaseInstanceDependentController
         $this->enableUser($entity);
 
         return $this->redirect($this->get('request_stack')->getCurrentRequest()->headers->get('referer'));
+    }
+
+    protected function enableUser(BaseUser $user)
+    {
+        $user->setEnabled(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
     }
 
     protected function baseBatchEnable($element_ids)
@@ -130,7 +130,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
         foreach ($entities as $entity) {
             if ($main->getInstance() === $entity->getInstance()) {
                 $main->setRoles(array_unique(array_merge($main->getRoles(), $entity->getRoles())));
-            } elseif ($main->hasSecondaryInstance($entity->getInstance())) {
+            } else if ($main->hasSecondaryInstance($entity->getInstance())) {
                 $main->addSecondaryInstance($entity->getInstance(), array_unique(array_merge($main->getSecondaryInstances()[$entity->getId()]['roles'], $entity->getRoles())));
             } else {
                 $main->addSecondaryInstance($entity->getInstance(), $entity->getRoles());
@@ -141,7 +141,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
                 if ($main->getInstance() === $instance) {
                     $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
-                } elseif ($main->hasSecondaryInstance($instance)) {
+                } else if ($main->hasSecondaryInstance($instance)) {
                     $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
                 } else {
                     $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
@@ -155,13 +155,13 @@ abstract class BaseUserController extends BaseInstanceDependentController
 
     protected function getSortDefaults()
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.surname',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
-    protected function baseCreateAction($request, $template, array $options = array())
+    protected function baseCreateAction($request, $template, array $options = [])
     {
         $entity = new BaseUser();
 
@@ -173,7 +173,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             $em->persist($entity);
             $em->flush();
 
-            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $entity);
+            $this->get('celsius3_core.custom_field_helper')->processCustomUserFields($this->getInstance(), $form, $entity);
 
             $this->get('session')
                 ->getFlashBag()
@@ -186,10 +186,10 @@ abstract class BaseUserController extends BaseInstanceDependentController
             ->getFlashBag()
             ->add('error', 'There were errors creating the BaseUser.');
 
-        $parameters = array(
+        $parameters = [
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+        ];
 
         return $this->render($template, $parameters);
     }

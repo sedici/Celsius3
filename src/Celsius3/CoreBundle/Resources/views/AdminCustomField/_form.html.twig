@@ -1,5 +1,17 @@
 {% form_theme form 'Celsius3CoreBundle:Form:fields.html.twig' %}
-
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {% if not form.entity.vars.valid %} has-error {% endif %}">
+            {{ form_label(form.entity, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+            <div class="col-md-10">
+                {{ form_widget(form.entity, { 'attr': {'class': 'form-control' } }) }}
+                {% for error in form.entity.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -83,17 +95,17 @@
 </div>
 <br>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group {% if not form.orden.vars.valid %} has-error {% endif %}">
-            {{ form_label(form.orden, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
-            <div class="col-md-10">
-                {{ form_widget(form.orden, { 'attr': {'class': 'form-control' } }) }}
-                {% for error in form.orden.vars.errors %}
-                    <p class="text-danger">{{ error.message }}</p>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+{#<div class="row">#}
+{#    <div class="col-md-12">#}
+{#        <div class="form-group {% if not form.orden.vars.valid %} has-error {% endif %}">#}
+{#            {{ form_label(form.orden, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}#}
+{#            <div class="col-md-10">#}
+{#                {{ form_widget(form.orden, { 'attr': {'class': 'form-control' } }) }}#}
+{#                {% for error in form.orden.vars.errors %}#}
+{#                    <p class="text-danger">{{ error.message }}</p>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 <br>

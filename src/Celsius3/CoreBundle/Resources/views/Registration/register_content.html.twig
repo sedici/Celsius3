@@ -112,9 +112,9 @@
                     <div class="form-group has-feedback {% if not child.vars.valid %} has-error {% endif %}">
                         {% set class = (child.vars.attr.class is defined) ? child.vars.attr.class : '' %}
                         {% if child.vars.required %}
-                            {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class, 'placeholder': child.vars.name | first_upper ~ '*', 'required': 'required' } }) }}
+                            {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class, 'required': 'required' } }) }}
                         {% else %}
-                            {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class, 'placeholder': child.vars.name | first_upper } }) }}
+                            {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class } }) }}
                         {% endif %}
                     </div>
                     {{ form_errors(child) }}
@@ -129,8 +129,8 @@
         </div>
     </div>
 
-    {#<div class="row"> <div class="col-md-12"> {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %} {{ form_widget(form.recaptcha, { 'attr': { 'options' : { 'theme': 'light', 'type': 'image', 'size': 'normal' }, } }) }} {{
-    form_errors(form.recaptcha) }} </div> </div>#}
+    {# <div class="row"> <div class="col-md-12"> {% form_theme form 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %} {{ form_widget(form.recaptcha, { 'attr': { 'options' : { 'theme': 'light', 'type': 'image', 'size': 'normal' }, } }) }} {{
+    form_errors(form.recaptcha) }} </div> </div> #}
 
     <br/>
     <div class="row">

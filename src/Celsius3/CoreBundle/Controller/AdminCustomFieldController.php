@@ -22,30 +22,30 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\CustomField;
+use Celsius3\CoreBundle\Form\Type\CustomFieldType;
+use Celsius3\CoreBundle\Form\Type\Filter\CustomFieldFilterType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Celsius3\CoreBundle\Entity\CustomUserField;
-use Celsius3\CoreBundle\Form\Type\CustomUserFieldType;
-use Celsius3\CoreBundle\Form\Type\Filter\CustomUserFieldFilterType;
 
 /**
  * Order controller.
  *
  * @Route("/admin/customuserfield")
  */
-class AdminCustomUserFieldController extends BaseInstanceDependentController
+class AdminCustomFieldController extends BaseInstanceDependentController
 {
-    protected function getSortDefaults()
+    protected function getSortDefaults(): array
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'e.name',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
     /**
-     * Lists all CustomUserField entities.
+     * Lists all CustomField entities.
      *
      * @Route("/", name="admin_customuserfield")
      * @Template()
@@ -54,13 +54,13 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function indexAction()
     {
-        return $this->baseIndex('CustomUserField', $this->createForm(CustomUserFieldFilterType::class, null, array(
+        return $this->baseIndex('CustomField', $this->createForm(CustomFieldFilterType::class, null, [
             'instance' => $this->getInstance(),
-        )));
+        ]));
     }
 
     /**
-     * Displays a form to create a new CustomUserField entity.
+     * Displays a form to create a new CustomField entity.
      *
      * @Route("/new", name="admin_customuserfield_new")
      * @Template()
@@ -69,29 +69,30 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function newAction()
     {
-        return $this->baseNew('CustomUserField', new CustomUserField(), CustomUserFieldType::class, array(
+        return $this->baseNew('CustomField', new CustomField(), CustomFieldType::class, [
             'instance' => $this->getInstance(),
-        ));
+        ]);
     }
 
     /**
-     * Creates a new CustomUserField entity.
+     * Creates a new CustomField entity.
      *
      * @Route("/create", name="admin_customuserfield_create")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminCustomUserField:new.html.twig")
+     * @Template("Celsius3CoreBundle:AdminCustomField:new.html.twig")
      *
      * @return array
      */
     public function createAction()
     {
-        return $this->baseCreate('CustomUserField', new CustomUserField(), CustomUserFieldType::class, array(
+        return $this->baseCreate('CustomField', new CustomField(), CustomFieldType::class, [
             'instance' => $this->getInstance(),
-        ), 'admin_customuserfield');
+        ], 'admin_customuserfield');
+
     }
 
     /**
-     * Displays a form to edit an existing CustomUserField entity.
+     * Displays a form to edit an existing CustomField entity.
      *
      * @Route("/{id}/edit", name="admin_customuserfield_edit")
      * @Template()
@@ -104,17 +105,17 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function editAction($id)
     {
-        return $this->baseEdit('CustomUserField', $id, CustomUserFieldType::class, array(
+        return $this->baseEdit('CustomField', $id, CustomFieldType::class, [
             'instance' => $this->getInstance(),
-        ));
+        ]);
     }
 
     /**
-     * Edits an existing CustomUserField entity.
+     * Edits an existing CustomField entity.
      *
      * @Route("/{id}/update", name="admin_customuserfield_update")
      * @Method("post")
-     * @Template("Celsius3CoreBundle:AdminCustomUserField:edit.html.twig")
+     * @Template("Celsius3CoreBundle:AdminCustomField:edit.html.twig")
      *
      * @param string $id The entity ID
      *
@@ -124,8 +125,8 @@ class AdminCustomUserFieldController extends BaseInstanceDependentController
      */
     public function updateAction($id)
     {
-        return $this->baseUpdate('CustomUserField', $id, CustomUserFieldType::class, array(
+        return $this->baseUpdate('CustomField', $id, CustomFieldType::class, [
             'instance' => $this->getInstance(),
-        ), 'admin_customuserfield');
+        ], 'admin_customuserfield');
     }
 }

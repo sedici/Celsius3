@@ -107,3 +107,26 @@
     </div>
 </div>
 <br>
+
+<div class="row">
+    {% for child in form.children %}
+        {% if not child.rendered and "hidden" not in child.vars.block_prefixes and child.vars.name != 'recaptcha' %}
+            <div class="col-md-6">
+                <div class="form-group has-feedback {% if not child.vars.valid %} has-error {% endif %}">
+                    {{ form_label(child, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
+                    <div class="col-md-10">
+                        {% set class = (child.vars.attr.class is defined) ? child.vars.attr.class : '' %}
+                        {% if child.vars.required %}
+                            {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class, 'required': true } }) }}
+                        {% else %}
+                            {{ form_widget(child, { attr: { 'class': 'form-control ' ~ class } }) }}
+                        {% endif %}
+                    </div>
+                </div>
+                {% for error in form.institution.vars.errors %}
+                    <p class="text-danger">{{ error.message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

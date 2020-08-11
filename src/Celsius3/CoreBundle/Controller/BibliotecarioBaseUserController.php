@@ -31,6 +31,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * BibliotecarioBaseUser controller.
@@ -39,14 +40,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BibliotecarioBaseUserController extends BaseUserController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        );
-    }
-
     /**
      * Lists all BaseUser entities.
      *
@@ -54,9 +47,9 @@ class BibliotecarioBaseUserController extends BaseUserController
      */
     public function indexAction()
     {
-        $parameters = $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
-                            'instance' => $this->getInstance(),
-        )));
+        $parameters = $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, [
+            'instance' => $this->getInstance(),
+        ]));
 
         return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:index.html.twig', $parameters);
     }
@@ -75,14 +68,14 @@ class BibliotecarioBaseUserController extends BaseUserController
         }
 
         $messages = $this->get('fos_message.thread_manager')
-                        ->getParticipantSentThreadsQueryBuilder($entity)
-                        ->getQuery()->getResult();
+            ->getParticipantSentThreadsQueryBuilder($entity)
+            ->getQuery()->getResult();
 
-        $parameters = array(
+        $parameters = [
             'element' => $entity,
             'messages' => $messages,
             'resultsPerPage' => $this->getResultsPerPage(),
-        );
+        ];
 
         return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:show.html.twig', $parameters);
     }
@@ -94,7 +87,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array());
+        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, []);
 
         return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:new.html.twig', $parameters);
     }
@@ -115,11 +108,11 @@ class BibliotecarioBaseUserController extends BaseUserController
      *
      * @Route("/{id}/edit", name="bibliotecario_user_edit", options={"expose"=true})
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, array('editing' => true));
+        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, ['editing' => true]);
 
         return $this->render('Celsius3CoreBundle:BibliotecarioBaseUser:edit.html.twig', $parameters);
     }
@@ -130,7 +123,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      * @Route("/{id}/update", name="bibliotecario_user_update")
      * @Method("post")
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id, Request $request)
     {
@@ -140,9 +133,9 @@ class BibliotecarioBaseUserController extends BaseUserController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
-        $editForm = $this->createForm(BaseUserType::class, $entity, array(
+        $editForm = $this->createForm(BaseUserType::class, $entity, [
             'editing' => true,
-        ));
+        ]);
 
         $editForm->handleRequest($request);
 
@@ -151,25 +144,25 @@ class BibliotecarioBaseUserController extends BaseUserController
             $em->persist($entity);
             $em->flush();
 
-            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $entity);
+            $this->get('celsius3_core.custom_field_helper')->processCustomUserFields($this->getInstance(), $editForm, $entity);
 
             $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The BaseUser was successfully edited.');
+                ->getFlashBag()
+                ->add('success', 'The BaseUser was successfully edited.');
 
-            return $this->redirect($this->generateUrl('admin_user_edit', array(
-                                'id' => $id,
-            )));
+            return $this->redirect($this->generateUrl('admin_user_edit', [
+                'id' => $id,
+            ]));
         }
 
         $this->get('session')
-                ->getFlashBag()
-                ->add('error', 'There were errors editing the BaseUser.');
+            ->getFlashBag()
+            ->add('error', 'There were errors editing the BaseUser.');
 
-        $parameters = array(
+        $parameters = [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-        );
+        ];
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
     }
@@ -179,25 +172,25 @@ class BibliotecarioBaseUserController extends BaseUserController
      *
      * @Route("/{id}/transform", name="bibliotecario_user_transform")
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function transformAction($id, Request $request)
     {
         $entity = $this->findQuery('BaseUser', $id);
 
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, UserTransformType::class, array(
-                        'instance' => $this->getInstance(),
-                        'user' => $entity,
-                            ), 'admin_user');
+            return $this->baseDoTransformAction($id, UserTransformType::class, [
+                'instance' => $this->getInstance(),
+                'user' => $entity,
+            ], 'admin_user');
         }
 
-        $response = $this->baseTransformAction($id, UserTransformType::class, array(
-                    'instance' => $this->getInstance(),
-                    'user' => $entity,
-        ));
+        $response = $this->baseTransformAction($id, UserTransformType::class, [
+            'instance' => $this->getInstance(),
+            'user' => $entity,
+        ]);
 
-        if($response instanceof RedirectResponse){
+        if ($response instanceof RedirectResponse) {
             return $response;
         }
 
@@ -214,7 +207,7 @@ class BibliotecarioBaseUserController extends BaseUserController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function enableAction($id)
     {
@@ -233,16 +226,6 @@ class BibliotecarioBaseUserController extends BaseUserController
         return $this->baseBatch();
     }
 
-    protected function batchEnable($element_ids)
-    {
-        return $this->baseBatchEnable($element_ids);
-    }
-
-    protected function batchUnion($element_ids)
-    {
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:batchUnion.html.twig', $this->baseUnion('BaseUser', $element_ids));
-    }
-
     /**
      * Unifies a group of Journal entities.
      *
@@ -257,6 +240,24 @@ class BibliotecarioBaseUserController extends BaseUserController
         $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
+    }
+
+    protected function getSortDefaults()
+    {
+        return [
+            'defaultSortFieldName' => 'e.surname',
+            'defaultSortDirection' => 'asc',
+        ];
+    }
+
+    protected function batchEnable($element_ids)
+    {
+        return $this->baseBatchEnable($element_ids);
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:batchUnion.html.twig', $this->baseUnion('BaseUser', $element_ids));
     }
 
     protected function getUserListRoute()

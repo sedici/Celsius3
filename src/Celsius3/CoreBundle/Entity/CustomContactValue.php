@@ -30,23 +30,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
-final class CustomUserValue extends CustomValue
+final class CustomContactValue extends CustomValue
 {
     /**
      * @Assert\NotNull()
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\BaseUser", inversedBy="customValues")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Contact", inversedBy="customValues")
+     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true)
      */
-    private $user;
+    private $contact;
 
-    public function getUser(): BaseUser
+    public function getContact(): BaseUser
     {
-        return $this->user;
+        return $this->contact;
     }
 
-    public function setUser(BaseUser $user): self
+    public function setContact(Contact $contact): self
     {
-        $this->user = $user;
+        $this->contact = $contact;
 
         return $this;
     }

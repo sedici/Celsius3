@@ -29,9 +29,9 @@ use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
 use Celsius3\CoreBundle\Form\Type\UserTransformType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
@@ -48,9 +48,9 @@ class AdminBaseUserController extends BaseUserController
      */
     public function indexAction()
     {
-        $parameters = $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, array(
-                            'instance' => $this->getInstance(),
-        )));
+        $parameters = $this->baseIndex('BaseUser', $this->createForm(BaseUserFilterType::class, null, [
+            'instance' => $this->getInstance(),
+        ]));
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:index.html.twig', $parameters);
     }
@@ -69,14 +69,14 @@ class AdminBaseUserController extends BaseUserController
         }
 
         $messages = $this->get('fos_message.thread_manager')
-                        ->getParticipantSentThreadsQueryBuilder($entity)
-                        ->getQuery()->getResult();
+            ->getParticipantSentThreadsQueryBuilder($entity)
+            ->getQuery()->getResult();
 
-        $parameters = array(
+        $parameters = [
             'element' => $entity,
             'messages' => $messages,
             'resultsPerPage' => $this->getResultsPerPage(),
-        );
+        ];
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:show.html.twig', $parameters);
     }
@@ -88,7 +88,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function newAction()
     {
-        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, array('validation_groups' => 'Registration'));
+        $parameters = $this->baseNew('BaseUser', new BaseUser(), BaseUserType::class, ['validation_groups' => 'Registration']);
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:new.html.twig', $parameters);
     }
@@ -101,7 +101,7 @@ class AdminBaseUserController extends BaseUserController
      */
     public function createAction(Request $request)
     {
-        return $this->baseCreateAction($request, 'Celsius3CoreBundle:AdminBaseUser:new.html.twig', array('validation_groups' => ['Registration', 'Default']));
+        return $this->baseCreateAction($request, 'Celsius3CoreBundle:AdminBaseUser:new.html.twig', ['validation_groups' => ['Registration', 'Default']]);
     }
 
     /**
@@ -109,11 +109,11 @@ class AdminBaseUserController extends BaseUserController
      *
      * @Route("/{id}/edit", name="admin_user_edit", options={"expose"=true})
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function editAction($id)
     {
-        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, array('editing' => true));
+        $parameters = $this->baseEdit('BaseUser', $id, BaseUserType::class, ['editing' => true]);
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
     }
@@ -124,7 +124,7 @@ class AdminBaseUserController extends BaseUserController
      * @Route("/{id}/update", name="admin_user_update")
      * @Method("post")
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function updateAction($id, Request $request)
     {
@@ -134,10 +134,10 @@ class AdminBaseUserController extends BaseUserController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
-        $editForm = $this->createForm(BaseUserType::class, $entity, array(
+        $editForm = $this->createForm(BaseUserType::class, $entity, [
             'editing' => true,
-            'validation_groups' => [ 'Profile', 'Default' ]
-        ));
+            'validation_groups' => ['Profile', 'Default']
+        ]);
 
         $editForm->handleRequest($request);
 
@@ -146,23 +146,23 @@ class AdminBaseUserController extends BaseUserController
             $em->persist($entity);
             $em->flush();
 
-            $this->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $editForm, $entity);
+            $this->get('celsius3_core.custom_field_helper')->processCustomUserFields($this->getInstance(), $editForm, $entity);
 
             $this->get('session')
-                    ->getFlashBag()
-                    ->add('success', 'The BaseUser was successfully edited.');
+                ->getFlashBag()
+                ->add('success', 'The BaseUser was successfully edited.');
 
-            return $this->redirect($this->generateUrl('admin_user_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_user_edit', ['id' => $id]));
         }
 
         $this->get('session')
-                ->getFlashBag()
-                ->add('error', 'There were errors editing the BaseUser.');
+            ->getFlashBag()
+            ->add('error', 'There were errors editing the BaseUser.');
 
-        $parameters = array(
+        $parameters = [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-        );
+        ];
 
         return $this->render('Celsius3CoreBundle:AdminBaseUser:edit.html.twig', $parameters);
     }
@@ -172,27 +172,27 @@ class AdminBaseUserController extends BaseUserController
      *
      * @Route("/{id}/transform", name="admin_user_transform")
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function transformAction($id, Request $request)
     {
         $entity = $this->findQuery('BaseUser', $id);
 
         if ($request->getMethod() === 'POST') {
-            return $this->baseDoTransformAction($id, UserTransformType::class, array(
-                        'instance' => $this->getInstance(),
-                        'user' => $entity,
-                         'user_actual'=>$this->getUser()
-                            ), 'admin_user');
+            return $this->baseDoTransformAction($id, UserTransformType::class, [
+                'instance' => $this->getInstance(),
+                'user' => $entity,
+                'user_actual' => $this->getUser()
+            ], 'admin_user');
         }
 
-        $response = $this->baseTransformAction($id, UserTransformType::class, array(
-                    'instance' => $this->getInstance(),
-                    'user' => $entity,
-                    'user_actual'=>$this->getUser()
-        ));
+        $response = $this->baseTransformAction($id, UserTransformType::class, [
+            'instance' => $this->getInstance(),
+            'user' => $entity,
+            'user_actual' => $this->getUser()
+        ]);
 
-        if($response instanceof RedirectResponse){
+        if ($response instanceof RedirectResponse) {
             return $response;
         }
 
@@ -209,7 +209,7 @@ class AdminBaseUserController extends BaseUserController
      *
      * @return array
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
+     * @throws NotFoundHttpException If entity doesn't exists
      */
     public function enableAction($id)
     {
@@ -228,16 +228,6 @@ class AdminBaseUserController extends BaseUserController
         return $this->baseBatch();
     }
 
-    protected function batchEnable($element_ids)
-    {
-        return $this->baseBatchEnable($element_ids);
-    }
-
-    protected function batchUnion($element_ids)
-    {
-        return $this->render('Celsius3CoreBundle:AdminBaseUser:batchUnion.html.twig', $this->baseUnion('BaseUser', $element_ids));
-    }
-
     /**
      * Unifies a group of Journal entities.
      *
@@ -252,11 +242,6 @@ class AdminBaseUserController extends BaseUserController
         $main_id = $request->request->get('main');
 
         return $this->baseDoUnion('BaseUser', $element_ids, $main_id, 'admin_user', false);
-    }
-
-    protected function getUserListRoute()
-    {
-        return 'admin_user';
     }
 
     /**
@@ -276,6 +261,21 @@ class AdminBaseUserController extends BaseUserController
             $this->container->get('security.token_storage')->setToken($token);
         }
 
-        return $this->redirectToRoute('user_index', array());
+        return $this->redirectToRoute('user_index', []);
+    }
+
+    protected function batchEnable($element_ids)
+    {
+        return $this->baseBatchEnable($element_ids);
+    }
+
+    protected function batchUnion($element_ids)
+    {
+        return $this->render('Celsius3CoreBundle:AdminBaseUser:batchUnion.html.twig', $this->baseUnion('BaseUser', $element_ids));
+    }
+
+    protected function getUserListRoute()
+    {
+        return 'admin_user';
     }
 }
