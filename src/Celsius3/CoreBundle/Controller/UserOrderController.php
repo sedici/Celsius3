@@ -41,7 +41,7 @@ class UserOrderController extends OrderController
 {
     protected function listQuery($name)
     {
-        $qb = $this->getDoctrine()->getManager()
+        return $this->getDoctrine()->getManager()
                 ->getRepository('Celsius3CoreBundle:'.$name)
                 ->createQueryBuilder('e')
                 ->join('e.originalRequest', 'r')
@@ -50,8 +50,6 @@ class UserOrderController extends OrderController
                 ->setParameter('instance', $this->getInstance()->getId())
                 ->andWhere('r.owner = :owner OR r.librarian = :owner')
                 ->setParameter('owner', $this->getUser()->getId());
-
-        return $qb;
     }
 
     protected function findQuery($name, $id)

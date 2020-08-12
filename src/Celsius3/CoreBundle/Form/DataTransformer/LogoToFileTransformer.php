@@ -48,9 +48,7 @@ class LogoToFileTransformer implements DataTransformerInterface
             return null;
         }
 
-        $file = new File($this->fileManager->getLogosUploadDir().'/'.$filename);
-
-        return $file;
+        return new File($this->fileManager->getLogosUploadDir().'/'.$filename);
     }
 
     /**

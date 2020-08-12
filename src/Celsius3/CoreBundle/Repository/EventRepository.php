@@ -278,10 +278,8 @@ class EventRepository extends BaseRepository
 
         $qb->orderBy('erec.createdAt', 'DESC');
 
-        $results = array_filter($qb->getQuery()->getResult(), function ($var) use ($receiveEventClass) {
+         return array_filter($qb->getQuery()->getResult(), function ($var) use ($receiveEventClass) {
             return ($var instanceof $receiveEventClass) ? true : false;
         });
-
-        return $results;
     }
 }

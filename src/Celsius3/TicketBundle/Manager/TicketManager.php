@@ -15,10 +15,8 @@ class TicketManager
 
     public function findAll()
     {
-        $em = $this->entityManager;
-        $tickets = $em->getRepository('Celsius3TicketBundle:Ticket')
+        return $this->entityManager
+            ->getRepository('Celsius3TicketBundle:Ticket')
             ->findAll();
-
-        return $tickets;
     }
 }

@@ -331,13 +331,11 @@ class BaseUserRepository extends BaseRepository
 
     public function findPdfUsers(Instance $instance)
     {
-        $qb = $this->createQueryBuilder('u')
+        return $this->createQueryBuilder('u')
               ->where('u.instance = :instance_id')
               ->andWhere('u.pdf = :pdf')
               ->setParameter('instance_id', $instance->getId())
               ->setParameter('pdf', true);
-
-        return $qb;
     }
 
     public function findUsers($ids)

@@ -115,14 +115,14 @@ class ExportDataCommand extends ContainerAwareCommand
         $em->flush();
     }
 
-    private function whereInstance(&$qb, $dr)
+    private function whereInstance($qb, $dr)
     {
         $this->joinRequest($qb);
         $qb->where('r.instance = :instance_id')
             ->setParameter('instance_id', $dr->getInstance()->getId());
     }
 
-    private function whereDates(&$qb, $dr)
+    private function whereDates($qb, $dr)
     {
         $qb->andWhere('o.createdAt > :startDate')
             ->andWhere('o.createdAt < :endDate')
@@ -130,191 +130,191 @@ class ExportDataCommand extends ContainerAwareCommand
             ->setParameter('endDate', $dr->getEndDate());
     }
 
-    private function add($v, &$qb)
+    private function add($v, $qb)
     {
         $f = 'add' . ucfirst($v);
         $this->$f($qb);
     }
 
-    private function join($d, &$qb)
+    private function join($d, $qb)
     {
         $f = 'join' . ucfirst($d);
         $this->$f($qb);
     }
 
-    private function addCreated(&$qb)
+    private function addCreated($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'created', s.createdAt, NULL)) AS created_date");
     }
 
-    private function addAnnulled(&$qb)
+    private function addAnnulled($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'annulled', s.createdAt, NULL)) AS annulled_date");
     }
 
-    private function addCancelled(&$qb)
+    private function addCancelled($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'cancelled', s.createdAt, NULL)) AS cancelled_date");
     }
 
-    private function addSearched(&$qb)
+    private function addSearched($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'searched', s.createdAt, NULL)) AS searched_date");
     }
 
-    private function addRequested(&$qb)
+    private function addRequested($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'requested', s.createdAt, NULL)) AS requested_date");
     }
 
-    private function addReceived(&$qb)
+    private function addReceived($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'received', s.createdAt, NULL)) AS received_date");
     }
 
-    private function addDelivered(&$qb)
+    private function addDelivered($qb)
     {
         $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'delivered', s.createdAt, NULL)) AS delivered_date");
     }
 
-    private function addDate(&$qb)
+    private function addDate($qb)
     {
         $qb->addSelect('o.createdAt date');
     }
 
-    private function addType(&$qb)
+    private function addType($qb)
     {
         $this->joinRequest($qb);
         $qb->addSelect('r.type');
     }
 
-    private function addMaterialType(&$qb)
+    private function addMaterialType($qb)
     {
         $this->joinMaterialType($qb);
         $qb->addSelect('TYPE(m) AS material_type');
     }
 
-    private function addTitle(&$qb)
+    private function addTitle($qb)
     {
         $this->joinMaterialType($qb);
         $qb->addSelect('m.title');
     }
 
-    private function addAuthors(&$qb)
+    private function addAuthors($qb)
     {
         $this->joinMaterialType($qb);
         $qb->addSelect('m.authors');
     }
 
-    private function addYear(&$qb)
+    private function addYear($qb)
     {
         $this->joinMaterialType($qb);
         $qb->addSelect('m.year');
     }
 
-    private function addStartPage(&$qb)
+    private function addStartPage($qb)
     {
         $this->joinMaterialType($qb);
         $qb->addSelect('m.startPage');
     }
 
-    private function addEndPage(&$qb)
+    private function addEndPage($qb)
     {
         $this->joinMaterialType($qb);
         $qb->addSelect('m.endPage');
     }
 
-    private function addVolume(&$qb)
+    private function addVolume($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('jt.volume');
     }
 
-    private function addNumber(&$qb)
+    private function addNumber($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('jt.number');
     }
 
-    private function addIssn(&$qb)
+    private function addIssn($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('j.ISSN');
     }
 
-    private function addIssne(&$qb)
+    private function addIssne($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('j.ISSNE');
     }
 
-    private function addResponsible(&$qb)
+    private function addResponsible($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('j.responsible');
     }
 
-    private function addFrecuency(&$qb)
+    private function addFrecuency($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('j.frecuency');
     }
 
-    private function addAbbreviation(&$qb)
+    private function addAbbreviation($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('j.abbreviation');
     }
 
-    private function addEditor(&$qb)
+    private function addEditor($qb)
     {
         $this->joinBook($qb);
         $qb->addSelect('bt.editor');
     }
 
-    private function addChapter(&$qb)
+    private function addChapter($qb)
     {
         $this->joinBook($qb);
         $qb->addSelect('bt.chapter');
     }
 
-    private function addIsbn(&$qb)
+    private function addIsbn($qb)
     {
         $this->joinBook($qb);
         $qb->addSelect('bt.ISBN');
     }
 
-    private function addDirector(&$qb)
+    private function addDirector($qb)
     {
         $this->joinThesis($qb);
         $qb->addSelect('tt.director');
     }
 
-    private function addDegree(&$qb)
+    private function addDegree($qb)
     {
         $this->joinThesis($qb);
         $qb->addSelect('tt.degree');
     }
 
-    private function addPlace(&$qb)
+    private function addPlace($qb)
     {
         $this->joinCongress($qb);
         $qb->addSelect('ct.place');
     }
 
-    private function addCommunication(&$qb)
+    private function addCommunication($qb)
     {
         $this->joinCongress($qb);
         $qb->addSelect('ct.communication');
     }
 
-    private function addName(&$qb)
+    private function addName($qb)
     {
         $this->joinJournal($qb);
         $qb->addSelect('COALESCE(jt.other, j.name) name');
     }
 
-    private function joinRequest(&$qb)
+    private function joinRequest($qb)
     {
         if (!$this->requestJoined) {
             $qb->innerJoin('o.originalRequest', 'r');
@@ -322,7 +322,7 @@ class ExportDataCommand extends ContainerAwareCommand
         }
     }
 
-    private function joinMaterialType(&$qb)
+    private function joinMaterialType($qb)
     {
         if (!$this->materialTypeJoined) {
             $qb->innerJoin('o.materialData', 'm');
@@ -330,7 +330,7 @@ class ExportDataCommand extends ContainerAwareCommand
         }
     }
 
-    private function joinJournal(&$qb)
+    private function joinJournal($qb)
     {
         $this->joinMaterialType($qb);
 
@@ -341,7 +341,7 @@ class ExportDataCommand extends ContainerAwareCommand
         }
     }
 
-    private function joinBook(&$qb)
+    private function joinBook($qb)
     {
         $this->joinMaterialType($qb);
 
@@ -351,7 +351,7 @@ class ExportDataCommand extends ContainerAwareCommand
         }
     }
 
-    private function joinThesis(&$qb)
+    private function joinThesis($qb)
     {
         $this->joinMaterialType($qb);
 
@@ -361,7 +361,7 @@ class ExportDataCommand extends ContainerAwareCommand
         }
     }
 
-    private function joinCongress(&$qb)
+    private function joinCongress($qb)
     {
         $this->joinMaterialType($qb);
 
@@ -371,7 +371,7 @@ class ExportDataCommand extends ContainerAwareCommand
         }
     }
 
-    private function joinStates(&$qb)
+    private function joinStates($qb)
     {
         $this->joinRequest($qb);
 

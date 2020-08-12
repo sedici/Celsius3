@@ -269,9 +269,8 @@ class SearchManager
     private function getTypeQuery($keyword): Query\AbstractQuery
     {
         $terms = explode(' ', preg_replace('/[^a-z ]/i', '', $keyword));
-        $termsQuery = new Query\Terms('type', $terms);
 
-        return $termsQuery;
+        return new Query\Terms('type', $terms);
     }
 
     private function getISBNQuery($keyword): Query\AbstractQuery

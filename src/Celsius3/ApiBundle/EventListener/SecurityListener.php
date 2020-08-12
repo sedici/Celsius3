@@ -80,8 +80,6 @@ class SecurityListener
                 return;
             }
         }
-
-        return;
     }
 
     private function validateToken($accessToken)

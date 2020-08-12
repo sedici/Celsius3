@@ -57,14 +57,14 @@ class NewsFeedsController extends BaseInstanceDependentController
     public function rssAction(Request $request)
     {
         $full_url = $this->getUrl($request);
-        $array = array('instance' => $this->getInstance(),
+
+        return [
+            'instance' => $this->getInstance(),
             'lastNews' => $this->getDoctrine()->getManager()
                     ->getRepository('Celsius3CoreBundle:News')
                     ->findLastNews($this->getInstance()),
             'url' => $full_url . '/newsFeeds/rss',
-        );
-
-        return $array;
+        ];
     }
 
 }
