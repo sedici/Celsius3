@@ -22,23 +22,32 @@
 
 namespace Celsius3\NotificationBundle\Server;
 
-class PusherType
+use Ratchet\Http\HttpServer;
+use Ratchet\Server\IoServer;
+use Ratchet\Wamp\WampServer;
+use Ratchet\WebSocket\WsServer;
+use React\EventLoop\Factory;
+use React\EventLoop\LoopInterface;
+use React\Socket\Server;
+use React\ZMQ\Context;
+use ZMQ;
+
+final class PusherType
 {
     private $loop;
-    private $socket;
     private $host;
     private $port;
-    private $zmq_host;
-    private $zmq_port;
+    private $zmqHost;
+    private $zmqPort;
     private $pusher;
 
-    public function __construct(Pusher $pusher, $host, $port, $zmq_host, $zmq_port)
+    public function __construct(Pusher $pusher, $host, $port, $zmqHost, $zmqPort)
     {
         $this->pusher = $pusher;
         $this->host = $host;
         $this->port = $port;
-        $this->zmq_host = $zmq_host;
-        $this->zmq_port = $zmq_port;
+        $this->zmqHost = $zmqHost;
+        $this->zmqPort = $zmqPort;
     }
 
     public function launch()
@@ -53,40 +62,35 @@ class PusherType
      */
     private function setupServer()
     {
-        /* @var $loop \React\EventLoop\LoopInterface */
-        $this->loop = \React\EventLoop\Factory::create();
+        /* @var $loop LoopInterface */
+        $this->loop = Factory::create();
 
-        $this->socket = new \React\Socket\Server($this->loop);
+        $socket = new Server($this->loop);
+        $context = new Context($this->loop);
 
-        $context = new \React\ZMQ\Context($this->loop);
-        $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
-        $pull->bind('tcp://'.$this->zmq_host.':'.$this->zmq_port); // Binding to 127.0.0.1 means the only client that can connect is itself
-        $pull->on('message', array(
+        $pull = $context->getSocket(ZMQ::SOCKET_PULL);
+        // Binding to 127.0.0.1 means the only client that can connect is itself
+        $pull->bind('tcp://' . $this->zmqHost . ':' . $this->zmqPort);
+        $pull->on('message', [
             $this->pusher,
             'onEntry',
-        ));
+        ]);
 
         if ($this->host) {
-            $this->socket->listen($this->port, $this->host);
+            $socket->listen($this->port, $this->host);
         } else {
-            $this->socket->listen($this->port);
+            $socket->listen($this->port);
         }
-        $this->server = new \Ratchet\Server\IoServer(
-                    new \Ratchet\Http\HttpServer(
-                        new \Ratchet\WebSocket\WsServer(
-                            new \Ratchet\Wamp\WampServer(
-                                $this->pusher
-                            )
-                        )
-                    ), $this->socket);
+
+        $server = new IoServer(new HttpServer(new WsServer(new WampServer($this->pusher))), $socket);
     }
 
-    public function getAddress()
+    public function getAddress(): string
     {
-        return (($this->host) ? $this->host : '*').':'.$this->port;
+        return (($this->host) ? $this->host : '*') . ':' . $this->port;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'Notification Server';
     }
