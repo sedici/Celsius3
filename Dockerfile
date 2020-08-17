@@ -27,9 +27,9 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
 RUN apt-get -y update \
 && apt-get install -y libzmq3-dev libzip-dev zip unzip libcairo2-dev libjpeg-dev libgif-dev nodejs yarn \
 && docker-php-ext-install zip pdo_mysql \
-&& pecl install -o -f zmq-beta redis \
+&& pecl install -o -f zmq-beta redis xdebug \
 && rm -fr /tmp/pear \
-&& docker-php-ext-enable zmq redis
+&& docker-php-ext-enable zmq redis xdebug
 
 # Se limpia la imagen
 RUN apt-get clean
