@@ -1,26 +1,15 @@
 default:
-    autoload:
-        '': %paths.base%/src
     extensions:
-        Behat\Symfony2Extension: ~
+        FriendsOfBehat\SymfonyExtension:
+            kernel:
+                class: AppKernel
         Behat\MinkExtension:
             sessions:
-                default:
-                    symfony2: ~
+                symfony:
+                    symfony: ~
     suites:
-        core_features:
+        default:
             paths:
-                - %paths.base%/src/Celsius3/CoreBundle/Features
-            type: symfony_bundle
-            bundle: Celsius3CoreBundle
+                - "%paths.base%/tests/Instance/Contact/Features"
             contexts:
-                - Celsius3\CoreBundle\Features\Context\OrderContext
-                - Celsius3\CoreBundle\Features\Context\PruebaContext
-
-        api_features:
-            paths:
-                - %paths.base%/src/Celsius3/ApiBundle/Features
-            type: symfony_bundle
-            bundle: Celsius3ApiBundle
-            contexts:
-                - Celsius3\ApiBundle\Features\Context\FeatureContext
+                - Celsius3\Tests\Instance\Contact\Features\Contexts\CreateContactContext

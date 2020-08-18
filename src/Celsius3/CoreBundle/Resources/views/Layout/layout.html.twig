@@ -36,6 +36,16 @@
         <script type="text/javascript" src="{{ asset('bundles/celsius3core/js/html5shiv.js') }}"></script>
         <script type="text/javascript"
                 src="{{ asset('bundles/celsius3core/js/respond.min.js') }}"></script> <![endif]-->
+        <style>
+            .col {
+                position: relative;
+                min-height: 1px;
+                padding-right: 15px;
+                padding-left: 15px;
+                float: left;
+                width: auto;
+            }
+        </style>
     {% endblock %}
     {% if app.environment == 'prod' %}
         <script>
@@ -99,14 +109,15 @@
 
                         <div class="col-xs-12 col-sm-12 instance-info">
                             <div class="row">
-                                {% if instance.get('instance_logo').value is valid_logo %}
-                                    <div class="col-xs-3 col-sm-3">
+                                {% set valid_logo = instance.get('instance_logo').value is valid_logo %}
+                                {% if valid_logo %}
+                                    <div class="col">
                                         <img id="instance-logo"
                                              src="/uploads/logos/{{ instance.get('instance_logo').value }}"
                                              alt="Instance logo" class="instance-logo"/>
                                     </div>
                                 {% endif %}
-                                <div class="col-xs-9 col-sm-9">
+                                <div class="col">
                                     <h2 class="instance-title">{{ instance.get('instance_title').value }}</h2>
                                     <h3 class="instance-tagline">
                                         {% if instance.get('instance_tagline') %}{{ instance.get('instance_tagline').value }}{% endif %}

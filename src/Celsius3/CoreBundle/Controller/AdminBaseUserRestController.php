@@ -38,14 +38,6 @@ use Celsius3\CoreBundle\Entity\BaseUser;
  */
 class AdminBaseUserRestController extends BaseInstanceDependentRestController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'o.updatedAt',
-            'defaultSortDirection' => 'asc',
-        );
-    }
-
     /**
      * GET Route annotation.
      *
@@ -54,10 +46,12 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     public function getUsersAction()
     {
         $users = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findBy(array(
-            'instance' => $this->getInstance(),
-        ));
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->findBy(
+                [
+                    'instance' => $this->getInstance(),
+                ]
+            );
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
 
@@ -71,11 +65,11 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getPendingUsersAction()
     {
-        $context = SerializationContext::create()->setGroups(array('administration'));
+        $context = SerializationContext::create()->setGroups(['administration']);
 
         $users = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findPendingUsers($this->getInstance());
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->findPendingUsers($this->getInstance());
 
         $view = $this->view(array_values($users), 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -88,14 +82,16 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function enableUserAction(Request $request)
     {
-        $user_id = $request->request->get('id', null);
+        $user_id = $request->request->get("id", null);
 
         $user = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findOneBy(array(
-            'instance' => $this->getInstance()->getId(),
-            'id' => $user_id,
-        ));
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->findOneBy(
+                [
+                    'instance' => $this->getInstance()->getId(),
+                    'id' => $user_id,
+                ]
+            );
 
         if (!$user) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
@@ -113,7 +109,15 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
             $mailManager = $this->get('celsius3_core.mail_manager');
             $text = $mailManager->renderTemplate('user_welcome', $this->getInstance(), $user);
 
-            $this->get('celsius3_core.mailer')->sendEmail($user->getEmail(), $mailManager->getTemplate('user_welcome', $this->getInstance())->getTitle(), $text, $this->getInstance());
+            $this->get('celsius3_core.mailer')->sendEmail(
+                $user->getEmail(),
+                $mailManager->getTemplate(
+                    'user_welcome',
+                    $this->getInstance()
+                )->getTitle(),
+                $text,
+                $this->getInstance()
+            );
         }
 
         $view = $this->view($user->isEnabled(), 200)->setFormat('json');
@@ -129,11 +133,13 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
         $user_id = $request->request->get('id', null);
 
         $user = $this->getDoctrine()->getManager()
-                ->getRepository('Celsius3CoreBundle:BaseUser')
-                ->findOneBy(array(
-            'instance' => $this->getInstance()->getId(),
-            'id' => $user_id,
-        ));
+            ->getRepository('Celsius3CoreBundle:BaseUser')
+            ->findOneBy(
+                [
+                    'instance' => $this->getInstance()->getId(),
+                    'id' => $user_id,
+                ]
+            );
 
         if (!$user) {
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
@@ -163,11 +169,14 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
         $admins = $repository->findAdmins($this->getInstance());
 
-        $filteredAdmins = array_filter($admins, function (BaseUser $admin) {
-            return intval($admin->getId()) !== intval($this->getUser()->getId());
-        });
+        $filteredAdmins = array_filter(
+            $admins,
+            function (BaseUser $admin) {
+                return (int)$admin->getId() !== (int)$this->getUser()->getId();
+            }
+        );
 
-        $context = SerializationContext::create()->setGroups(array('admins-select'));
+        $context = SerializationContext::create()->setGroups(['admins-select']);
 
         $view = $this->view(array_values($filteredAdmins), 200)->setFormat('json');
         $view->setSerializationContext($context);
@@ -202,7 +211,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
      */
     public function getOrdersAction($id, $type)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_user_show'));
+        $context = SerializationContext::create()->setGroups(['administration_user_show']);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -214,24 +223,57 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
 
         if ($type === 'active') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findForInstance($this->getInstance(), null, array(StateManager::STATE__CREATED, StateManager::STATE__SEARCHED, StateManager::STATE__REQUESTED, StateManager::STATE__APPROVAL_PENDING), $entity);
+                ->findForInstance(
+                    $this->getInstance(),
+                    null,
+                    [
+                        StateManager::STATE__CREATED,
+                        StateManager::STATE__SEARCHED,
+                        StateManager::STATE__REQUESTED,
+                        StateManager::STATE__APPROVAL_PENDING
+                    ],
+                    $entity
+                );
         } elseif ($type === 'ready') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
+                ->findForInstance($this->getInstance(), null, StateManager::STATE__RECEIVED, $entity);
         } elseif ($type === 'history') {
             $ordersQuery = $em->getRepository('Celsius3CoreBundle:Order')
-                    ->findForInstance($this->getInstance(), null, array(StateManager::STATE__DELIVERED, StateManager::STATE__ANNULLED, StateManager::STATE__CANCELLED), $entity);
+                ->findForInstance(
+                    $this->getInstance(),
+                    null,
+                    [
+                        StateManager::STATE__DELIVERED,
+                        StateManager::STATE__ANNULLED,
+                        StateManager::STATE__CANCELLED
+                    ],
+                    $entity
+                );
         }
 
         $totalQuery = clone $ordersQuery;
         $total = $totalQuery->select('count(DISTINCT o)')->getQuery()->getSingleScalarResult();
 
         $paginator = $this->get('knp_paginator');
-        $orders = $paginator->paginate($ordersQuery, $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)/* page number */, $this->getResultsPerPage()/* limit per page */, $this->getSortDefaults())->getItems();
+        $orders = $paginator->paginate(
+            $ordersQuery,
+            $this->get('request_stack')->getCurrentRequest()->query->get('page', 1)
+            /* page number */,
+            $this->getResultsPerPage()/* limit per page */,
+            $this->getSortDefaults()
+        )->getItems();
 
-        $view = $this->view(array('orders' => $orders, 'total' => $total), 200)->setFormat('json');
+        $view = $this->view(['orders' => $orders, 'total' => $total], 200)->setFormat('json');
         $view->setSerializationContext($context);
 
         return $this->handleView($view);
+    }
+
+    protected function getSortDefaults()
+    {
+        return [
+            'defaultSortFieldName' => 'o.updatedAt',
+            'defaultSortDirection' => 'asc',
+        ];
     }
 }
