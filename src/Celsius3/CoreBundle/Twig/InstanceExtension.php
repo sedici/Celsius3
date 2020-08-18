@@ -3,10 +3,12 @@
 namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\MailTemplate;
-use Celsius3\CoreBundle\Entity\Template;
 use Doctrine\ORM\EntityManager;
+use Twig_Extension;
+use Twig_SimpleFunction;
+use Twig_SimpleTest;
 
-class InstanceExtension extends \Twig_Extension
+class InstanceExtension extends Twig_Extension
 {
     private $entityManager;
 
@@ -15,12 +17,23 @@ class InstanceExtension extends \Twig_Extension
         $this->entityManager = $entityManager;
     }
 
+    public function getTests()
+    {
+        return [
+                new Twig_SimpleTest(
+                        'valid_logo', function ($file) {
+                    return file_exists(__DIR__.'/../../../../web/uploads/logos/'.$file);
+                }
+                ),
+        ];
+    }
+
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('get_instance_url', array($this, 'getInstanceUrl')),
-            new \Twig_SimpleFunction('template_edited', array($this, 'templateEdited'))
-        );
+        return [
+                new Twig_SimpleFunction('get_instance_url', [$this, 'getInstanceUrl']),
+                new Twig_SimpleFunction('template_edited', [$this, 'templateEdited'])
+        ];
     }
 
     public function getInstanceUrl($id)
@@ -30,7 +43,8 @@ class InstanceExtension extends \Twig_Extension
         return $instance->getUrl();
     }
 
-    public function templateEdited(MailTemplate $template) {
+    public function templateEdited(MailTemplate $template)
+    {
         if ($template->getInstance() !== null && $template->getInstance()->getUrl() !== 'directory') {
             return true;
         } else {
