@@ -1053,17 +1053,17 @@ body {
 }
 
 .instance-logo-min {
-  width: 80px;
-  height: 40px;
+  max-width: 80px;
+  max-height: 40px;
 }
 
 .instance-logo {
   @media screen {
-    width: 200px;
-    height: 100px;
+    max-width: 200px;
+    max-height: 100px;
     @media (max-width: 768px) {
-      width: 80px;
-      height: 40px;
+      max-width: 80px;
+      max-height: 40px;
     }
   }
 }
