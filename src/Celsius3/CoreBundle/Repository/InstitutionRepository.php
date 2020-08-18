@@ -245,15 +245,15 @@ class InstitutionRepository extends BaseRepository
 
     public function getInstitutionsTree(Institution $institution)
     {
-        $institutions = array($institution->getId());
-        $ids = array();
+        $institutions = [$institution->getId()];
+        $ids = [];
 
-        while (count($institutions) > 0) {
-            $ids = array_merge($ids, $institutions);
+        while (\count($institutions) > 0) {
+            $ids[] = $institutions;
             $institutions = $this->getChilds($institutions);
         }
 
-        return $ids;
+        return array_merge(...$ids);
     }
 
     public function findByCountryAndCityQB(Country $country = null, City $city = null)

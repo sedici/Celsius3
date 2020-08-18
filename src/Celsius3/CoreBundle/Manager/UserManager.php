@@ -61,12 +61,12 @@ class UserManager
 
     private function iterateInstitutions(Institution $institution)
     {
-        $results = array($institution->getId());
+        $results[] = [$institution->getId()];
         foreach ($institution->getInstitutions() as $child) {
-            $results = array_merge($results, $this->iterateInstitutions($child));
+            $results[] = $this->iterateInstitutions($child);
         }
 
-        return $results;
+        return array_merge(...$results);
     }
 
     public function transform($types, BaseUser $entity)

@@ -22,6 +22,8 @@
 
 namespace Celsius3\CoreBundle\Manager;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Celsius3\CoreBundle\Entity\Event\MultiInstanceRequestEvent;
@@ -422,32 +424,32 @@ class EventManager
 
     public function getEvents($event, $request_id)
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
+        /** @var EntityManagerInterface $entity_manager */
+        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
 
         if ($event === self::EVENT__REQUEST) {
-            $repositories = array(
+            $repositories = [
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_REQUEST],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_REQUEST],
-            );
+            ];
         } elseif ($event === self::EVENT__RECEIVE) {
-            $repositories = array(
+            $repositories = [
                 $this->event_classes[self::EVENT__MULTI_INSTANCE_RECEIVE],
                 $this->event_classes[self::EVENT__SINGLE_INSTANCE_RECEIVE],
                 $this->event_classes[self::EVENT__UPLOAD],
-            );
+            ];
         } else {
-            $repositories = array(
+            $repositories = [
                 $this->event_classes[$event],
-            );
+            ];
         }
 
-        $results = array();
-
+        $results = [];
         foreach ($repositories as $repository) {
-            $results = array_merge($results, $em->getRepository('Celsius3CoreBundle:Event\\'.$repository)
-                            ->findBy(array('request' => $request_id)));
+            $results[] = $entity_manager->getRepository('Celsius3CoreBundle:Event\\'.$repository)
+                            ->findBy(['request' => $request_id]);
         }
 
-        return $results;
+        return array_merge(...$results);
     }
 }
