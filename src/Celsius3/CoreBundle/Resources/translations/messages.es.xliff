@@ -4331,6 +4331,10 @@
         <source>Join users</source>
         <target>Unir usuarios</target>
       </trans-unit>
+      <trans-unit id="Logo alert" resname="Logo alert">
+        <source>Invalid image size. The image must be a maximum of 100px wide x 200px high.</source>
+        <target>Tamaño de imagen inválido. La imagen debe tener un máximo de 200 px de ancho x 100 px de alto.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

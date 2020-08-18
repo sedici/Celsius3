@@ -421,24 +421,22 @@ class ConfigurationHelper
 
     private function configureConstraints()
     {
-        $message = 'Invalid image size. Images must be '.$this->getHeight().' x '.$this->getWidth();
+        $message = 'Invalid image size. The image must be a maximum of '.$this->getHeight().'px wide x '.$this->getWidth().'px high.';
 
-        $imageConstraints = new Image(
-                array(
-            'mimeTypes' => array('image/png', 'image/jpeg'),
-            'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
-            'minWidth' => $this->getWidth(),
-            'maxWidth' => $this->getWidth(),
-            'minHeight' => $this->getHeight(),
-            'maxHeight' => $this->getHeight(),
-            'maxWidthMessage' => $message,
-            'minWidthMessage' => $message,
-            'maxHeightMessage' => $message,
-            'minHeightMessage' => $message,
-                )
+        $image_constraints = new Image(
+            [
+                'mimeTypes' => ['image/png', 'image/jpeg'],
+                'mimeTypesMessage' => 'Invalid image type. Please use only PNG or JPG images',
+                'maxWidth' => $this->getWidth(),
+                'maxHeight' => $this->getHeight(),
+                'maxWidthMessage' => $message,
+                'minWidthMessage' => $message,
+                'maxHeightMessage' => $message,
+                'minHeightMessage' => $message,
+            ]
         );
 
-        $this->configurations['instance_logo']['constraints'] = array($imageConstraints);
+        $this->configurations[self::CONF__INSTANCE_LOGO]['constraints'] = [$image_constraints];
 
         $this->configurations[self::CONF__EMAIL_DOMAIN_FOR_REGISTRATION]['constraints'] = [
             new EmailDomain([
