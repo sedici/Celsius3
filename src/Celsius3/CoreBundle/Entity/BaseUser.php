@@ -565,7 +565,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     public function addSecondaryInstance(Instance $secondaryInstance, array $roles)
     {
-        $this->secondaryInstances[$secondaryInstance->getId()] = $roles;
+        $this->secondaryInstances[(int)$secondaryInstance->getId()] = $roles;
     }
 
     /**
@@ -575,7 +575,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     public function removeSecondaryInstance(Instance $secondaryInstance)
     {
-        unset($this->secondaryInstances[$secondaryInstance->getId()]);
+        unset($this->secondaryInstances[(int)$secondaryInstance->getId()]);
     }
 
     /**

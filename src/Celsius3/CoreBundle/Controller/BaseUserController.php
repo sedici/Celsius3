@@ -142,7 +142,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
                 if ($main->getInstance() === $instance) {
                     $main->setRoles(array_unique(array_merge($main->getRoles(), $secondaryInstance['roles'])));
                 } elseif ($main->hasSecondaryInstance($instance)) {
-                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[$instance->getId()]['roles'], $secondaryInstance['roles'])));
+                    $main->addSecondaryInstance($instance, array_unique(array_merge($main->getSecondaryInstances()[(int)$instance->getId()]['roles'], $secondaryInstance['roles'])));
                 } else {
                     $main->addSecondaryInstance($instance, $secondaryInstance['roles']);
                 }
