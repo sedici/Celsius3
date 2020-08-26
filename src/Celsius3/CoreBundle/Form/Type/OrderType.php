@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Manager\MaterialTypeManager;
 use JMS\TranslationBundle\Annotation\Ignore;
 use Symfony\Component\Form\AbstractType;
@@ -95,7 +96,7 @@ class OrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Entity\\Order',
+            'data_class' => Order::class,
             'instance' => null,
             'material' => JournalTypeType::class,
             'user' => null,

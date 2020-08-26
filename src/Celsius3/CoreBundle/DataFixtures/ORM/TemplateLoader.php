@@ -42,15 +42,15 @@ class TemplateLoader extends AbstractFixture implements FixtureInterface, Contai
 {
     private $notification_templates = array(
         NotificationManager::CAUSE__NEW_MESSAGE => array(
-            'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
+            'class' => NotificationTemplate::class,
             'text' => 'You have a new message from {{ user }}.',
         ),
         NotificationManager::CAUSE__NEW_USER => array(
-            'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
+            'class' => NotificationTemplate::class,
             'text' => 'There\'s a new registered user called {{ user }}.',
         ),
         'order_event' => array(
-            'class' => '\\Celsius3\\NotificationBundle\\Entity\\NotificationTemplate',
+            'class' => NotificationTemplate::class,
             'text' => 'El pedido {{ request.order.id }} cambio al estado "{{ event }}".',
         )
     );

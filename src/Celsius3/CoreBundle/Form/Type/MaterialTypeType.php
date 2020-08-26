@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Entity\MaterialType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,7 +51,7 @@ class MaterialTypeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Entity\\MaterialType',
+            'data_class' => MaterialType::class,
         ));
     }
 }

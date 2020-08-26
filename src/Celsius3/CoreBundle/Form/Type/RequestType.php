@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Manager\InstanceManager;
 use Celsius3\CoreBundle\Manager\OrderManager;
 use Doctrine\ORM\EntityRepository;
@@ -154,7 +155,7 @@ class RequestType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Entity\\Request',
+            'data_class' => Request::class,
             'instance' => null,
             'user' => null,
             'operator' => null,

@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
@@ -46,7 +47,7 @@ class ProfileFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\CoreBundle\Entity\BaseUser',
+            'data_class' => BaseUser::class,
             'csrf_token_id' => 'profile',
         ));
     }

@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Entity\BookType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -44,8 +45,6 @@ class BookTypeType extends MaterialTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Celsius3\\CoreBundle\\Entity\\BookType',
-        ));
+        $resolver->setDefaults(['data_class' => BookType::class]);
     }
 }
