@@ -40,8 +40,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class UploadEvent extends MultiInstanceEvent implements Notifiable
 {
-    use ReclaimableTrait,
-        ApprovableTrait;
+    use ReclaimableTrait;
+    use ApprovableTrait;
 
     /**
      * @Assert\NotBlank

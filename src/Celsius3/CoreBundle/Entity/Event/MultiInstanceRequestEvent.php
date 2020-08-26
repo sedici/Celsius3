@@ -39,10 +39,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
 {
-    use ReclaimableTrait,
-        CancellableTrait,
-        AnnullableTrait,
-        ProviderTrait;
+    use ReclaimableTrait;
+    use CancellableTrait;
+    use AnnullableTrait;
+    use ProviderTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Request", cascade={"persist", "refresh"})

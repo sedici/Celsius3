@@ -36,9 +36,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiable
 {
-    use ReclaimableTrait,
-        CancellableTrait,
-        ProviderTrait;
+    use ReclaimableTrait;
+    use CancellableTrait;
+    use ProviderTrait;
 
     public function getEventType()
     {
