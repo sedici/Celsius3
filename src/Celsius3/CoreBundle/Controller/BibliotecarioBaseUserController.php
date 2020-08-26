@@ -39,14 +39,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BibliotecarioBaseUserController extends BaseUserController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        );
-    }
-
     /**
      * Lists all BaseUser entities.
      *

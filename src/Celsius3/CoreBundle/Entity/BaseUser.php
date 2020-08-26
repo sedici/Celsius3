@@ -236,16 +236,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Set name.
      *
      * @param string $name

@@ -38,13 +38,6 @@ use Celsius3\CoreBundle\Form\Type\Filter\BaseUserFilterType;
  */
 class SuperadminBaseUserController extends BaseUserController
 {
-    protected function getSortDefaults()
-    {
-        return array(
-            'defaultSortFieldName' => 'e.surname',
-            'defaultSortDirection' => 'asc',
-        );
-    }
 
     protected function listQuery($name)
     {

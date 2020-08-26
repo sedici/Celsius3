@@ -47,11 +47,6 @@ class MessageNotification extends Notification
         $this->setTemplate($template);
     }
 
-    public function getObject()
-    {
-        return $this->object;
-    }
-
     public function setObject($object)
     {
         $this->object = $object;
