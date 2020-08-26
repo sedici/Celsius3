@@ -20,50 +20,68 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Twig;
 
-class AssetsExtension extends \Twig_Extension
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
+
+class AssetsExtension extends AbstractExtension
 {
-    private $assets_version_administration;
-    private $assets_version_admin_order;
-    private $assets_version_admin_base_user;
-    private $assets_version_admin_institution;
-    private $assets_version_user;
-    private $assets_version_celsius3;
+    private $assetsVersionAdministration;
+    private $assetsVersionAdminOrder;
+    private $assetsVersionAdminBaseUser;
+    private $assetsVersionAdminInstitution;
+    private $assetsVersionUser;
+    private $assetsVersionCelsius3;
 
     public function __construct($administration, $admin_order, $admin_base_user, $admin_institution, $user, $celsius3)
     {
-        $this->assets_version_administration = $administration;
-        $this->assets_version_admin_order = $admin_order;
-        $this->assets_version_admin_base_user = $admin_base_user;
-        $this->assets_version_admin_institution = $admin_institution;
-        $this->assets_version_user = $user;
-        $this->assets_version_celsius3 = $celsius3;
+        $this->assetsVersionAdministration = $administration;
+        $this->assetsVersionAdminOrder = $admin_order;
+        $this->assetsVersionAdminBaseUser = $admin_base_user;
+        $this->assetsVersionAdminInstitution = $admin_institution;
+        $this->assetsVersionUser = $user;
+        $this->assetsVersionCelsius3 = $celsius3;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new \Twig_SimpleFunction('assets_version', array($this, 'getVersionForGroup')),
-        );
+        return [
+            new TwigFunction('assets_version', [$this, 'getVersionForGroup']),
+        ];
     }
 
-    public function getVersionForGroup($group)
+    public function getVersionForGroup($group): string
     {
         $version = null;
+
         switch ($group) {
-            case 'administration': $version = $this->assets_version_administration; break;
-            case 'admin_order': $version = $this->assets_version_admin_order; break;
-            case 'admin_base_user': $version = $this->assets_version_admin_base_user; break;
-            case 'admin_institution': $version = $this->assets_version_admin_institution; break;
-            case 'user': $version = $this->assets_version_user; break;
-            case 'celsius3': $version = $this->assets_version_celsius3; break;
+            case 'administration':
+                $version = $this->assetsVersionAdministration;
+                break;
+            case 'admin_order':
+                $version = $this->assetsVersionAdminOrder;
+                break;
+            case 'admin_base_user':
+                $version = $this->assetsVersionAdminBaseUser;
+                break;
+            case 'admin_institution':
+                $version = $this->assetsVersionAdminInstitution;
+                break;
+            case 'user':
+                $version = $this->assetsVersionUser;
+                break;
+            case 'celsius3':
+                $version = $this->assetsVersionCelsius3;
+                break;
         }
 
-        return (!is_null($version)) ? $version : '';
+        return $version ?? '';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_core.assets_extension';
     }

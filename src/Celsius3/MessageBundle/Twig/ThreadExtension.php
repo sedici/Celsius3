@@ -20,13 +20,18 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\MessageBundle\Twig;
 
+use FOS\MessageBundle\FormFactory\ReplyMessageFormFactory;
 use FOS\MessageBundle\Model\ThreadInterface;
 use FOS\MessageBundle\Security\ParticipantProvider;
-use FOS\MessageBundle\FormFactory\ReplyMessageFormFactory;
+use Symfony\Component\Form\FormView;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class ThreadExtension extends \Twig_Extension
+class ThreadExtension extends AbstractExtension
 {
     private $factory;
     private $participantProvider;
@@ -37,20 +42,20 @@ class ThreadExtension extends \Twig_Extension
         $this->participantProvider = $participantProvider;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new \Twig_SimpleFunction('form_to_thread', array($this, 'formToThread')),
-            new \Twig_SimpleFunction('get_unread_messages', array($this, 'getUnreadMessages')),
-        );
+        return [
+            new TwigFunction('form_to_thread', [$this, 'formToThread']),
+            new TwigFunction('get_unread_messages', [$this, 'getUnreadMessages']),
+        ];
     }
 
-    public function formToThread(ThreadInterface $thread)
+    public function formToThread(ThreadInterface $thread): FormView
     {
         return $this->factory->create($thread)->createView();
     }
 
-    public function getUnreadMessages(ThreadInterface $thread)
+    public function getUnreadMessages(ThreadInterface $thread): int
     {
         $count = 0;
         foreach ($thread->getMessages() as $message) {
@@ -62,7 +67,7 @@ class ThreadExtension extends \Twig_Extension
         return $count;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_message.thread_extension';
     }

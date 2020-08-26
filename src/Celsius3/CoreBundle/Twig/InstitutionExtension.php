@@ -20,20 +20,23 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\Institution;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class InstitutionExtension extends \Twig_Extension
+class InstitutionExtension extends AbstractExtension
 {
-
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new \Twig_SimpleFunction('get_country', array($this, 'getCountry')),
-            new \Twig_SimpleFunction('get_city', array($this, 'getCity')),
-            new \Twig_SimpleFunction('print_institutions', array($this, 'printInstitutions'))
-        );
+        return [
+            new TwigFunction('get_country', [$this, 'getCountry']),
+            new TwigFunction('get_city', [$this, 'getCity']),
+            new TwigFunction('print_institutions', [$this, 'printInstitutions'])
+        ];
     }
 
     public function getCountry(Institution $institution = null)
@@ -46,7 +49,7 @@ class InstitutionExtension extends \Twig_Extension
         return $institution ? $institution->getCity() ?: '' : '';
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_core.institution_extension';
     }
@@ -54,14 +57,14 @@ class InstitutionExtension extends \Twig_Extension
     public function printInstitutions(Institution $institution = null)
     {
         $txt = '';
-        if (!is_null($institution)) {
-            if (!is_null($institution->getParent())) {
-                $txt .= $this->printInstitutions($institution->getParent()) . ' - ' . $institution->getName();
+        if ($institution !== null) {
+            if ($institution->getParent() !== null) {
+                $txt .= $this->printInstitutions($institution->getParent()).' - '.$institution->getName();
             } else {
                 $txt .= $institution->getName();
             }
         }
+
         return $txt;
     }
-
 }

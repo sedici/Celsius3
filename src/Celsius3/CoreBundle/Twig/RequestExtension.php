@@ -20,30 +20,39 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Twig;
 
-use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Entity\Request;
+use Celsius3\CoreBundle\Entity\State;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class RequestExtension extends \Twig_Extension
+use function count;
+
+class RequestExtension extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new \Twig_SimpleFunction('search_pending', array($this, 'searchPending')),
-        );
+        return [
+            new TwigFunction('search_pending', [$this, 'searchPending']),
+        ];
     }
 
-    public function searchPending(Request $request)
+    public function searchPending(Request $request): bool
     {
-        $array = array_filter($request->getStates()->toArray(), function (State $item) {
-            return $item->getType() === 'requested' && $item->getSearchPending();
-        });
+        $array = array_filter(
+            $request->getStates()->toArray(),
+            static function (State $item) {
+                return $item->getType() === 'requested' && $item->getSearchPending();
+            }
+        );
 
         return count($array) > 0;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_core.request_extension';
     }

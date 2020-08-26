@@ -20,13 +20,17 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Twig;
 
-use Celsius3\CoreBundle\Entity\Journal;
-use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\Journal;
+use Symfony\Component\Form\AbstractExtension;
+use Twig\TwigFunction;
 
-class JournalExtension extends \Twig_Extension
+class JournalExtension extends AbstractExtension
 {
     private $container;
 
@@ -35,30 +39,30 @@ class JournalExtension extends \Twig_Extension
         $this->container = $container;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_core.journal_extension';
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new \Twig_SimpleFunction('is_editable_journal', array($this, 'isEditableJournal')),
-        );
+        return [
+            new TwigFunction('is_editable_journal', [$this, 'isEditableJournal']),
+        ];
     }
 
-    public function isEditableJournal(Journal $journal, Instance $instance, BaseUser $user)
+    public function isEditableJournal(Journal $journal, Instance $instance, BaseUser $user): bool
     {
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        $um = $this->container->get('celsius3_core.user_manager');
+        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
+        $user_manager = $this->container->get('celsius3_core.user_manager');
 
-        if ($um->getCurrentRole($user) === 'ROLE_SUPER_ADMIN') {
+        if ($user_manager->getCurrentRole($user) === 'ROLE_SUPER_ADMIN') {
             return true;
         }
 
-        $entity = $em->getRepository('Celsius3CoreBundle:Journal')
-                ->findOneBy(array('id' => $journal->getId(), 'instance' => $instance->getId()));
+        $entity = $entity_manager->getRepository('Celsius3CoreBundle:Journal')
+            ->findOneBy(['id' => $journal->getId(), 'instance' => $instance->getId()]);
 
-        return (is_null($entity)) ? false : true;
+        return $entity !== null;
     }
 }

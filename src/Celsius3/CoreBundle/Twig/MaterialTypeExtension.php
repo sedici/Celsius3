@@ -20,19 +20,37 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\MaterialType;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class MaterialTypeExtension extends \Twig_Extension
+use function get_class;
+
+class MaterialTypeExtension extends AbstractExtension
 {
-    private $materials = array(
+    private const MATERIALS = [
         'BookType' => 'book',
         'CongressType' => 'congress',
         'JournalType' => 'journal',
         'PatentType' => 'patent',
         'ThesisType' => 'thesis',
-    );
+    ];
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('get_material_type', [$this, 'getMaterialType']),
+        ];
+    }
+
+    public function getMaterialType(MaterialType $material): string
+    {
+        return self::MATERIALS[$this->getClassName($material)];
+    }
 
     private function getClassName(MaterialType $material)
     {
@@ -41,19 +59,7 @@ class MaterialTypeExtension extends \Twig_Extension
         return end($class);
     }
 
-    public function getFunctions()
-    {
-        return array(
-            new \Twig_SimpleFunction('get_material_type', array($this, 'getMaterialType')),
-        );
-    }
-
-    public function getMaterialType(MaterialType $material)
-    {
-        return $this->materials[$this->getClassName($material)];
-    }
-
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_core.material_type_extension';
     }

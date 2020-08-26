@@ -20,43 +20,46 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Twig;
 
+use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Manager\CatalogManager;
-use Celsius3\CoreBundle\Entity\Catalog;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class CatalogExtension extends \Twig_Extension
+class CatalogExtension extends AbstractExtension
 {
 
-    private $catalog_manager;
+    private $catalogManager;
 
-    public function __construct(CatalogManager $catalog_manager)
+    public function __construct(CatalogManager $catalogManager)
     {
-        $this->catalog_manager = $catalog_manager;
+        $this->catalogManager = $catalogManager;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
-        return array(
-            new \Twig_SimpleFunction('is_catalog_enabled', array($this, 'isCatalogEnabled')),
-            new \Twig_SimpleFunction('get_disabled_catalogs_count', array($this, 'getDisabledCatalogsCount')),
-        );
+        return [
+            new TwigFunction('is_catalog_enabled', [$this, 'isCatalogEnabled']),
+            new TwigFunction('get_disabled_catalogs_count', [$this, 'getDisabledCatalogsCount']),
+        ];
     }
 
-    public function isCatalogEnabled(Catalog $catalog)
+    public function isCatalogEnabled(Catalog $catalog): bool
     {
-        return $this->catalog_manager->isCatalogEnabled($catalog);
+        return $this->catalogManager->isCatalogEnabled($catalog);
     }
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
-        return $this->catalog_manager->getDisabledCatalogsCount($instance, $directory);
+        return $this->catalogManager->getDisabledCatalogsCount($instance, $directory);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'celsius3_core.catalog_extension';
     }
-
 }

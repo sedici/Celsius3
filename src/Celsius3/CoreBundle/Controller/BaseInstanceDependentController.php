@@ -20,43 +20,42 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Controller;
+
+use Celsius3\CoreBundle\Entity\Instance;
 
 abstract class BaseInstanceDependentController extends BaseController
 {
     protected function listQuery($name)
     {
         return parent::listQuery($name)
-                        ->andWhere('e.instance = :instance_id')
-                        ->setParameter('instance_id', $this->getInstance()->getId());
+            ->andWhere('e.instance = :instance_id')
+            ->setParameter('instance_id', $this->getInstance()->getId());
+    }
+
+    protected function getInstance(): Instance
+    {
+        return $this->get('celsius3_core.instance_helper')->getSessionInstance();
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-                    ->getRepository($this->getBundle().':'.$name)
-                    ->findOneForInstance($this->getInstance(), $id);
+            ->getRepository($this->getBundle().':'.$name)
+            ->findOneForInstance($this->getInstance(), $id);
     }
 
     protected function getResultsPerPage()
     {
         return $this->get('celsius3_core.configuration_helper')
-                        ->getCastedValue($this->getInstance()->get('results_per_page'));
+            ->getCastedValue($this->getInstance()->get('results_per_page'));
     }
 
     protected function filter($name, $filter_form, $query)
     {
         return $this->get('celsius3_core.filter_manager')
-                        ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name, $this->getInstance());
-    }
-
-    /**
-     * Returns the instance related to the users instance.
-     *
-     * @return Instance
-     */
-    protected function getInstance()
-    {
-        return $this->get('celsius3_core.instance_helper')->getSessionInstance();
+            ->filter($query, $filter_form, 'Celsius3\\CoreBundle\\Entity\\'.$name, $this->getInstance());
     }
 }

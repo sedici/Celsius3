@@ -68,7 +68,9 @@
     "enqueue/fs": "^0.9.12",
     "symfony/webpack-encore-bundle": "^1.7",
     "ext-zip": "*",
-    "ext-zmq": "*"
+    "ext-zmq": "*",
+    "ext-json": "*",
+    "ext-fileinfo": "*"
   },
   "require-dev": {
     "sensio/generator-bundle": "~3.0",
