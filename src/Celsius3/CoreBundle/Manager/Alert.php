@@ -26,10 +26,10 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 
 class Alert
 {
-    const INFO = 'info';
-    const SUCCESS = 'success';
-    const WARNING = 'warning';
-    const ERROR = 'danger';
+    public const INFO = 'info';
+    public const SUCCESS = 'success';
+    public const WARNING = 'warning';
+    public const ERROR = 'danger';
 
     private static $alerts = [];
     private static $rest = false;

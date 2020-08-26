@@ -32,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Category
 {
-    const CATEGORY_NEW_INSTANCE = 2;
+    public const CATEGORY_NEW_INSTANCE = 2;
 
     use TimestampableEntity;
     /**

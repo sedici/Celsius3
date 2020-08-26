@@ -32,9 +32,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Priority
 {
-    const PRIORITY_ALTA = 1;
-    const PRIORITY_MEDIA = 2;
-    const PRIORITY_BAJA = 3;
+    public const PRIORITY_ALTA = 1;
+    public const PRIORITY_MEDIA = 2;
+    public const PRIORITY_BAJA = 3;
 
     use TimestampableEntity;
 

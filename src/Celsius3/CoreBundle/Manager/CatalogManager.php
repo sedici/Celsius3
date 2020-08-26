@@ -29,10 +29,10 @@ use Celsius3\CoreBundle\Helper\InstanceHelper;
 
 class CatalogManager
 {
-    const CATALOG__NON_SEARCHED = 'non_searched';
-    const CATALOG__FOUND = 'found';
-    const CATALOG__PARTIALLY_FOUND = 'partially_found';
-    const CATALOG__NOT_FOUND = 'not_found';
+    public const CATALOG__NON_SEARCHED = 'non_searched';
+    public const CATALOG__FOUND = 'found';
+    public const CATALOG__PARTIALLY_FOUND = 'partially_found';
+    public const CATALOG__NOT_FOUND = 'not_found';
 
     private $entityManager;
     private $instanceHelper;

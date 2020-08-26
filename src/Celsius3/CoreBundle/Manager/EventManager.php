@@ -37,27 +37,27 @@ use Celsius3\CoreBundle\Entity\Instance;
 
 class EventManager
 {
-    const EVENT__CREATION = 'creation';
-    const EVENT__SEARCH = 'search';
-    const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
-    const EVENT__MULTI_INSTANCE_REQUEST = 'mirequest';
-    const EVENT__APPROVE = 'approve';
-    const EVENT__RECLAIM = 'reclaim';
-    const EVENT__SINGLE_INSTANCE_RECEIVE = 'sireceive';
-    const EVENT__MULTI_INSTANCE_RECEIVE = 'mireceive';
-    const EVENT__DELIVER = 'deliver';
-    const EVENT__CANCEL = 'cancel';
-    const EVENT__LOCAL_CANCEL = 'lcancel';
-    const EVENT__REMOTE_CANCEL = 'rcancel';
-    const EVENT__ANNUL = 'annul';
-    const EVENT__TAKE = 'take';
-    const EVENT__UPLOAD = 'upload';
-    const EVENT__REUPLOAD = 'reupload';
-    const EVENT__SEARCH_PENDINGS = 'searchpendings';
-    const EVENT__NO_SEARCH_PENDINGS = 'nosearchpendings';
+    public const EVENT__CREATION = 'creation';
+    public const EVENT__SEARCH = 'search';
+    public const EVENT__SINGLE_INSTANCE_REQUEST = 'sirequest';
+    public const EVENT__MULTI_INSTANCE_REQUEST = 'mirequest';
+    public const EVENT__APPROVE = 'approve';
+    public const EVENT__RECLAIM = 'reclaim';
+    public const EVENT__SINGLE_INSTANCE_RECEIVE = 'sireceive';
+    public const EVENT__MULTI_INSTANCE_RECEIVE = 'mireceive';
+    public const EVENT__DELIVER = 'deliver';
+    public const EVENT__CANCEL = 'cancel';
+    public const EVENT__LOCAL_CANCEL = 'lcancel';
+    public const EVENT__REMOTE_CANCEL = 'rcancel';
+    public const EVENT__ANNUL = 'annul';
+    public const EVENT__TAKE = 'take';
+    public const EVENT__UPLOAD = 'upload';
+    public const EVENT__REUPLOAD = 'reupload';
+    public const EVENT__SEARCH_PENDINGS = 'searchpendings';
+    public const EVENT__NO_SEARCH_PENDINGS = 'nosearchpendings';
     // Fake events
-    const EVENT__REQUEST = 'request';
-    const EVENT__RECEIVE = 'receive';
+    public const EVENT__REQUEST = 'request';
+    public const EVENT__RECEIVE = 'receive';
 
     private $class_prefix = 'Celsius3\\CoreBundle\\Entity\\Event\\';
     public $event_classes = array(

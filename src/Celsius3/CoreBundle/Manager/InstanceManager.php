@@ -26,7 +26,7 @@ use Doctrine\ORM\EntityManager;
 
 class InstanceManager
 {
-    const INSTANCE__DIRECTORY = 'directory';
+    public const INSTANCE__DIRECTORY = 'directory';
     private $em;
 
     public function __construct(EntityManager $em)

@@ -32,17 +32,17 @@ use JMS\Serializer\Serializer;
 
 class MailManager
 {
-    const MAIL__ORDER_PRINTED = 'order_printed';
-    const MAIL__ORDER_DOWNLOAD = 'order_download';
-    const MAIL__ORDER_CANCEL = 'order_cancel';
-    const MAIL__ORDER_PRINTED_RECONFIRM = 'order_printed_reconfirm';
-    const MAIL__USER_WELCOME = 'user_welcome';
-    const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
-    const MAIL__USER_LOST = 'user_lost';
-    const MAIL__NO_HIVE = 'no_hive';
-    const MAIL__RESETTING = 'resetting';
-    const MAIL__USER_CONFIRMATION = 'user_confirmation';
-    const MAIL__CUSTOM = 'custom';
+    public const MAIL__ORDER_PRINTED = 'order_printed';
+    public const MAIL__ORDER_DOWNLOAD = 'order_download';
+    public const MAIL__ORDER_CANCEL = 'order_cancel';
+    public const MAIL__ORDER_PRINTED_RECONFIRM = 'order_printed_reconfirm';
+    public const MAIL__USER_WELCOME = 'user_welcome';
+    public const MAIL__USER_WELCOME_PROVISION = 'user_welcome_provision';
+    public const MAIL__USER_LOST = 'user_lost';
+    public const MAIL__NO_HIVE = 'no_hive';
+    public const MAIL__RESETTING = 'resetting';
+    public const MAIL__USER_CONFIRMATION = 'user_confirmation';
+    public const MAIL__CUSTOM = 'custom';
 
     private $em;
     private $im;

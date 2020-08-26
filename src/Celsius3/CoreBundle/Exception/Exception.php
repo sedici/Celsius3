@@ -26,16 +26,16 @@ use Symfony\Component\VarDumper\VarDumper;
 
 class Exception {
 
-    const NOT_FOUND = 'not_found';
-    const PREVIOUS_STATE_NOT_FOUND = 'previous_state_not_found';
-    const EXCEPTION_NOT_FOUND = 'exception_not_found';
-    const ENTITY_NOT_FOUND = 'entity_not_found';
-    const INSTANCE_NOT_FOUND = 'instance_not_found';
-    const NOT_IMPLEMENTED = 'not_implemented';
-    const RENDER_TEMPLATE = 'render_template';
-    const INVALID_SEARCH = 'invalid_search';
-    const ACCESS_DENIED = 'access_denied';
-    const CAN_NOT_DELETE = 'can_not_delete';
+    public const NOT_FOUND = 'not_found';
+    public const PREVIOUS_STATE_NOT_FOUND = 'previous_state_not_found';
+    public const EXCEPTION_NOT_FOUND = 'exception_not_found';
+    public const ENTITY_NOT_FOUND = 'entity_not_found';
+    public const INSTANCE_NOT_FOUND = 'instance_not_found';
+    public const NOT_IMPLEMENTED = 'not_implemented';
+    public const RENDER_TEMPLATE = 'render_template';
+    public const INVALID_SEARCH = 'invalid_search';
+    public const ACCESS_DENIED = 'access_denied';
+    public const CAN_NOT_DELETE = 'can_not_delete';
 
     private static $rest = false;
     private static $class_prefix = 'Celsius3\\CoreBundle\\Exception\\';

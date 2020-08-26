@@ -31,7 +31,7 @@ use Celsius3\CoreBundle\Entity\Instance;
 class FilterManager
 {
 
-    const PATH__FILTERS = 'Celsius3\\CoreBundle\\Filter\\';
+    public const PATH__FILTERS = 'Celsius3\\CoreBundle\\Filter\\';
 
     private $em;
     private $field_guesser;

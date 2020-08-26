@@ -27,8 +27,8 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 
 class OrderManager
 {
-    const TYPE__SEARCH = 'search';
-    const TYPE__PROVISION = 'provision';
+    public const TYPE__SEARCH = 'search';
+    public const TYPE__PROVISION = 'provision';
 
     public static function getTypes()
     {

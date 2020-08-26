@@ -24,9 +24,9 @@ namespace Celsius3\CoreBundle\Manager;
 
 class MaterialTypeManager
 {
-    const TYPE__JOURNAL = 'journal';
-    const TYPE__BOOK = 'book';
-    const TYPE__CONGRESS = 'congress';
-    const TYPE__THESIS = 'thesis';
-    const TYPE__PATENT = 'patent';
+    public const TYPE__JOURNAL = 'journal';
+    public const TYPE__BOOK = 'book';
+    public const TYPE__CONGRESS = 'congress';
+    public const TYPE__THESIS = 'thesis';
+    public const TYPE__PATENT = 'patent';
 }

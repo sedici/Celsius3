@@ -36,17 +36,17 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NotificationManager
 {
-    const CAUSE__NEW_MESSAGE = 'new_message';
-    const CAUSE__NEW_USER = 'new_user';
-    const CAUSE__CREATE = 'creation';
-    const CAUSE__SEARCH = 'search';
-    const CAUSE__ANNUL = 'annul';
-    const CAUSE__REQUEST = 'request';
-    const CAUSE__RECEIVE = 'receive';
-    const CAUSE__CANCEL = 'cancel';
-    const CAUSE__DELIVER = 'deliver';
-    const CAUSE__UPLOAD = 'upload';
-    const CAUSE__RECLAIM = 'reclaim';
+    public const CAUSE__NEW_MESSAGE = 'new_message';
+    public const CAUSE__NEW_USER = 'new_user';
+    public const CAUSE__CREATE = 'creation';
+    public const CAUSE__SEARCH = 'search';
+    public const CAUSE__ANNUL = 'annul';
+    public const CAUSE__REQUEST = 'request';
+    public const CAUSE__RECEIVE = 'receive';
+    public const CAUSE__CANCEL = 'cancel';
+    public const CAUSE__DELIVER = 'deliver';
+    public const CAUSE__UPLOAD = 'upload';
+    public const CAUSE__RECLAIM = 'reclaim';
 
     private $container;
     private $zmq_port;

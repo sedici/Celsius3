@@ -30,15 +30,15 @@ use Celsius3\CoreBundle\Exception\Exception;
 class StateManager
 {
 
-    const STATE__CREATED = 'created';
-    const STATE__SEARCHED = 'searched';
-    const STATE__REQUESTED = 'requested';
-    const STATE__APPROVAL_PENDING = 'approval_pending';
-    const STATE__RECEIVED = 'received';
-    const STATE__DELIVERED = 'delivered';
-    const STATE__CANCELLED = 'cancelled';
-    const STATE__ANNULLED = 'annulled';
-    const STATE__TAKEN = 'taken';
+    public const STATE__CREATED = 'created';
+    public const STATE__SEARCHED = 'searched';
+    public const STATE__REQUESTED = 'requested';
+    public const STATE__APPROVAL_PENDING = 'approval_pending';
+    public const STATE__RECEIVED = 'received';
+    public const STATE__DELIVERED = 'delivered';
+    public const STATE__CANCELLED = 'cancelled';
+    public const STATE__ANNULLED = 'annulled';
+    public const STATE__TAKEN = 'taken';
 
     public static $stateTypes = array(
         self::STATE__CREATED,

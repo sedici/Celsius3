@@ -29,14 +29,14 @@ use JMS\TranslationBundle\Annotation\Ignore;
 class UserManager
 {
 
-    const ROLE_USER = 'ROLE_USER';
-    const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
-    const ROLE_ADMIN = 'ROLE_ADMIN';
-    const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
-    const ROLE_ORDER_MANAGER = 'ROLE_ORDER_MANAGER';
-    const ROLE_STATISTICS = 'ROLE_STATISTICS';
-    const ROLE_TECHNICAL = 'ROLE_TECHNICAL';
-    const ROLE_TICKET = 'ROLE_TICKET';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_LIBRARIAN = 'ROLE_LIBRARIAN';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    public const ROLE_ORDER_MANAGER = 'ROLE_ORDER_MANAGER';
+    public const ROLE_STATISTICS = 'ROLE_STATISTICS';
+    public const ROLE_TECHNICAL = 'ROLE_TECHNICAL';
+    public const ROLE_TICKET = 'ROLE_TICKET';
 
     public static $types = array(
         self::ROLE_USER,
