@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,7 @@ class NewsFeedsController extends BaseInstanceDependentController
         return 'http://' . $domain . $name_file . '/' . $language;
     }
 
-    protected function getInstance()
+    protected function getInstance(): Instance
     {
         return $this->get('celsius3_core.instance_helper')->getUrlInstance();
     }
@@ -66,5 +67,4 @@ class NewsFeedsController extends BaseInstanceDependentController
             'url' => $full_url . '/newsFeeds/rss',
         ];
     }
-
 }

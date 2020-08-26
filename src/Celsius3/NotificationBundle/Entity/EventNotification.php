@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\NotificationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -35,7 +37,7 @@ class EventNotification extends Notification
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
      * @ORM\JoinColumn(name="event_notification_id", referencedColumnName="id")
      */
-    private $object;
+    protected $object;
 
     public function __construct($cause, $object, $template)
     {

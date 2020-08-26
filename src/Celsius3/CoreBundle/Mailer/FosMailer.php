@@ -20,47 +20,69 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Mailer;
 
+use Celsius3\CoreBundle\Helper\ConfigurationHelper;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Celsius3\CoreBundle\Helper\MailerHelper;
+use Celsius3\CoreBundle\Manager\MailManager;
+use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
+use FOS\UserBundle\Model\UserInterface;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
-use FOS\UserBundle\Model\UserInterface;
-use FOS\UserBundle\Mailer\Mailer as DefaultMailer;
-use Celsius3\CoreBundle\Helper\ConfigurationHelper;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Helper\MailerHelper;
-use Celsius3\CoreBundle\Manager\MailManager;
+use Twig\Environment;
+
+use function array_slice;
+use function compact;
+use function html_entity_decode;
 
 class FosMailer extends DefaultMailer
 {
-    protected $request_stack;
+    protected $requestStack;
     protected $mailerHelper;
     protected $instance;
-    private $mailManager;
+    protected $mailManager;
+    protected $twig;
 
-    public function __construct($mailer, RouterInterface $router, EngineInterface $templating, array $parameters, RequestStack $request_stack, InstanceHelper $instanceHelper, MailerHelper $mailerHelper, MailManager $mailManager, \Twig_Environment $twig)
-    {
+    public function __construct(
+        RouterInterface $router,
+        EngineInterface $templating,
+        array $parameters,
+        RequestStack $requestStack,
+        InstanceHelper $instanceHelper,
+        MailerHelper $mailerHelper,
+        MailManager $mailManager,
+        Environment $twig
+    ) {
         $this->instance = $instanceHelper->getSessionOrUrlInstance();
-        if (!is_null($this->instance)) {
-            $transport = \Swift_SmtpTransport::newInstance($this->instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(), $this->instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(), $this->instance->get(ConfigurationHelper::CONF__SMTP_PROTOCOL)->getValue())
-                    ->setUsername($this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue())
-                    ->setPassword($this->instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue())
-            ;
-            $instanceMailer = \Swift_Mailer::newInstance($transport);
+        if ($this->instance !== null) {
+            $transport = Swift_SmtpTransport::newInstance(
+                $this->instance->get(ConfigurationHelper::CONF__SMTP_HOST)->getValue(),
+                $this->instance->get(ConfigurationHelper::CONF__SMTP_PORT)->getValue(),
+                $this->instance->get(ConfigurationHelper::CONF__SMTP_PROTOCOL)->getValue()
+            )
+                ->setUsername($this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue())
+                ->setPassword($this->instance->get(ConfigurationHelper::CONF__SMTP_PASSWORD)->getValue());
+            $instance_mailer = Swift_Mailer::newInstance($transport);
 
-            parent::__construct($instanceMailer, $router, $templating, $parameters);
+            parent::__construct($instance_mailer, $router, $templating, $parameters);
         }
-        $this->request_stack = $request_stack;
+        $this->requestStack = $requestStack;
         $this->mailerHelper = $mailerHelper;
         $this->mailManager = $mailManager;
         $this->templating = $templating;
         $this->twig = $twig;
     }
 
-    public function sendConfirmationEmailMessage(UserInterface $user)
+    public function sendConfirmationEmailMessage(UserInterface $user): void
     {
         if (!$this->instance->get('smtp_status')->getValue()) {
             return;
@@ -69,21 +91,43 @@ class FosMailer extends DefaultMailer
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
         $template = $this->mailManager->getTemplate('user_confirmation', $this->instance);
 
-        $url = $this->router->generate('fos_user_registration_confirm', array(
-            'token' => $user->getConfirmationToken(),
-                ), UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->router->generate(
+            'fos_user_registration_confirm',
+            [
+                'token' => $user->getConfirmationToken(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
-        $rendered = $this->twig->createTemplate($template->getText())->render(array(
-                    'user' => $user,
-                    'url' => $url,
-                ))."\n".$signature;
+        $rendered = $this->twig->createTemplate($template->getText())->render(compact('user', 'url'))."\n".$signature;
         $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
-        $fromEmail = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
+        $from_email = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
 
-        $this->sendEmailMessage($rendered, $fromEmail, $user->getEmail());
+        $this->sendEmailMessage($rendered, $from_email, $user->getEmail());
     }
 
-    public function sendResettingEmailMessage(UserInterface $user)
+    /**
+     * @param  string  $renderedTemplate
+     * @param  string  $fromEmail
+     * @param  string  $toEmail
+     */
+    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail): void
+    {
+        // Render the email, use the first line as the subject, and the rest as the body
+        $rendered_lines = explode("\n", trim($renderedTemplate));
+        $subject = $rendered_lines[0];
+        $body = implode("\n", array_slice($rendered_lines, 1));
+
+        $message = Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom($fromEmail)
+            ->setTo($toEmail)
+            ->setBody($body, 'text/html');
+
+        $this->mailer->send($message);
+    }
+
+    public function sendResettingEmailMessage(UserInterface $user): void
     {
         if (!$this->instance->get('smtp_status')->getValue()) {
             return;
@@ -92,35 +136,15 @@ class FosMailer extends DefaultMailer
         $signature = $user->getInstance()->get(ConfigurationHelper::CONF__MAIL_SIGNATURE)->getValue();
         $template = $this->mailManager->getTemplate('resetting', $this->instance);
 
-        $url = $this->router->generate('fos_user_resetting_reset', array('token' => $user->getConfirmationToken()), Router::ABSOLUTE_URL);
-        $rendered = $this->twig->createTemplate($template->getText())->render(array(
-                    'user' => $user,
-                    'url' => $url,
-                ))."\n".$signature;
+        $url = $this->router->generate(
+            'fos_user_resetting_reset',
+            ['token' => $user->getConfirmationToken()],
+            Router::ABSOLUTE_URL
+        );
+        $rendered = $this->twig->createTemplate($template->getText())->render(compact('user', 'url'))."\n".$signature;
         $rendered = html_entity_decode($template->getTitle()."\n".$rendered);
-        $fromEmail = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
+        $from_email = $this->instance->get(ConfigurationHelper::CONF__SMTP_USERNAME)->getValue();
 
-        $this->sendEmailMessage($rendered, $fromEmail, $user->getEmail());
-    }
-
-    /**
-     * @param string $renderedTemplate
-     * @param string $fromEmail
-     * @param string $toEmail
-     */
-    protected function sendEmailMessage($renderedTemplate, $fromEmail, $toEmail)
-    {
-        // Render the email, use the first line as the subject, and the rest as the body
-        $renderedLines = explode("\n", trim($renderedTemplate));
-        $subject = $renderedLines[0];
-        $body = implode("\n", array_slice($renderedLines, 1));
-
-        $message = \Swift_Message::newInstance()
-                ->setSubject($subject)
-                ->setFrom($fromEmail)
-                ->setTo($toEmail)
-                ->setBody($body, 'text/html');
-
-        $this->mailer->send($message);
+        $this->sendEmailMessage($rendered, $from_email, $user->getEmail());
     }
 }

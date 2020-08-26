@@ -22,6 +22,7 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
+use Celsius3\CoreBundle\Entity\Instance;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,7 +36,7 @@ use Celsius3\CoreBundle\Exception\Exception;
  */
 class PublicController extends BaseInstanceDependentController
 {
-    protected function getInstance()
+    protected function getInstance(): Instance
     {
         return $this->get('celsius3_core.instance_helper')->getSessionOrUrlInstance();
     }

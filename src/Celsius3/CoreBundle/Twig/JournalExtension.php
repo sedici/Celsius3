@@ -27,7 +27,7 @@ namespace Celsius3\CoreBundle\Twig;
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Journal;
-use Symfony\Component\Form\AbstractExtension;
+use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class JournalExtension extends AbstractExtension

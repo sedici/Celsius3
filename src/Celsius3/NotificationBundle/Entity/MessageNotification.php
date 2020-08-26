@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\NotificationBundle\Entity;
 
 use Celsius3\MessageBundle\Entity\Message;
@@ -36,7 +38,7 @@ class MessageNotification extends Notification
      * @ORM\ManyToOne(targetEntity="Celsius3\MessageBundle\Entity\Message")
      * @ORM\JoinColumn(name="message_notification_id", referencedColumnName="id")
      */
-    private $object;
+    protected $object;
 
     public function __construct($cause, Message $object, $template)
     {
