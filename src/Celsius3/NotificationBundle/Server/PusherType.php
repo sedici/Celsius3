@@ -87,7 +87,7 @@ final class PusherType
 
     public function getAddress(): string
     {
-        return (($this->host) ? $this->host : '*') . ':' . $this->port;
+        return (($this->host) ?: '*') . ':' . $this->port;
     }
 
     public function getName(): string

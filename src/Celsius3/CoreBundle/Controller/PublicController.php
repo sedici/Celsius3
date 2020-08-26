@@ -210,7 +210,7 @@ class PublicController extends BaseInstanceDependentController
                     return $i['parent_id'] === $institution['id'];
                 });
 
-                $instAbbr = ' | '.(($institution['abbreviation']) ? $institution['abbreviation'] : $institution['name']);
+                $instAbbr = ' | '.(($institution['abbreviation']) ?: $institution['name']);
 
                 $response[] = array(
                     'value' => $institution['id'],

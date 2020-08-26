@@ -40,7 +40,7 @@ class NotFoundException extends NotFoundHttpException implements Celsius3Excepti
         Alert::add(Alert::ERROR, $exception->getMessage());
 
         $referer = $event->getRequest()->headers->get('referer');
-        $response = new RedirectResponse($referer ? $referer : $this->router->generate('public_index'));
+        $response = new RedirectResponse($referer ?: $this->router->generate('public_index'));
 
         $event->setResponse($response);
 

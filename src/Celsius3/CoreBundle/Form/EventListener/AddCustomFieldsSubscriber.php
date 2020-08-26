@@ -61,7 +61,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $userId = $data->getId() ? $data->getId() : null;
+        $userId = $data->getId() ?: null;
 
         $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
             ->getByInstance($this->instance, $this->registration);

@@ -38,12 +38,12 @@ class InstitutionExtension extends \Twig_Extension
 
     public function getCountry(Institution $institution = null)
     {
-        return $institution ? $institution->getCountry() ? $institution->getCountry() : '' : '';
+        return $institution ? $institution->getCountry() ?: '' : '';
     }
 
     public function getCity(Institution $institution = null)
     {
-        return $institution ? $institution->getCity() ? $institution->getCity() : '' : '';
+        return $institution ? $institution->getCity() ?: '' : '';
     }
 
     public function getName()
