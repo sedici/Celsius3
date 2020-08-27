@@ -62,7 +62,7 @@ class SuperadminDataRequestController extends BaseController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $process = new Process('php ../app/console celsius3:export-data ' . $dataRequest->getId());
+        $process = new Process('php ../app/console --env=prod celsius3:export-data ' . $dataRequest->getId());
         $process->run();
 
         $em->persist($dataRequest->setExported(true));
