@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Manager;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
@@ -27,6 +29,8 @@ use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\FileDownload;
 use Celsius3\CoreBundle\Entity\Request;
+use Exception;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
@@ -36,36 +40,35 @@ class FileManager
     private $uploadRootDir;
     private $logosUploadDir;
 
-    /**
-     * FileManager constructor.
-     *
-     * @param string $uploadRootDir
-     * @param string $logosUploadDir
-     */
-    public function __construct($uploadRootDir, $logosUploadDir)
+    public function __construct(string $uploadRootDir, string $logosUploadDir)
     {
         $this->uploadRootDir = $uploadRootDir;
         $this->logosUploadDir = $logosUploadDir;
     }
 
-    public function setContainer($container)
+    public function setContainer($container): void
     {
         $this->container = $container;
     }
 
-    public function getUploadRootDir(File $file)
-    {
-        return $this->uploadRootDir.$file->getInstance()->getUrl();
-    }
-
-    public function getLogosUploadDir()
+    public function getLogosUploadDir(): string
     {
         return $this->logosUploadDir;
     }
 
-    protected function getUploadDir()
+    public function uploadFiles(Request $request, Event $event, array $files = []): void
     {
-        return 'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
+        foreach ($files as $uploaded_file) {
+            $file = new File();
+            $file->setName($uploaded_file->getClientOriginalName());
+            $file->setFile($uploaded_file);
+            $file->setEvent($event);
+            $file->setRequest($request);
+            $file->setEnabled(true);
+            $file->setPages($this->countPages($uploaded_file));
+            $file->setInstance($request->getInstance());
+            $event->addFile($file);
+        }
     }
 
     private function countPages(UploadedFile $file)
@@ -75,22 +78,7 @@ class FileManager
         return $output[0];
     }
 
-    public function uploadFiles(Request $request, Event $event, array $files = array())
-    {
-        foreach ($files as $uploadedFile) {
-            $file = new File();
-            $file->setName($uploadedFile->getClientOriginalName());
-            $file->setFile($uploadedFile);
-            $file->setEvent($event);
-            $file->setRequest($request);
-            $file->setEnabled(true);
-            $file->setPages($this->countPages($uploadedFile));
-            $file->setInstance($request->getInstance());
-            $event->addFile($file);
-        }
-    }
-
-    public function registerDownload(Request $request, File $file, HttpRequest $httpRequest, BaseUser $user)
+    public function registerDownload(Request $request, File $file, HttpRequest $httpRequest, BaseUser $user): void
     {
         if (!$user->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN')) {
             $file->setDownloaded(true);
@@ -108,7 +96,7 @@ class FileManager
         $this->container->get('doctrine.orm.entity_manager')->flush();
     }
 
-    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event)
+    public function copyFilesToPreviousRequest(Request $previousRequest, Request $request, Event $event): void
     {
         foreach ($request->getFiles() as $original) {
             if ($original->getEnabled()) {
@@ -116,11 +104,14 @@ class FileManager
                 $file->setInstance($previousRequest->getInstance());
                 $file->setRequest($previousRequest);
                 $file->setEvent($event);
-                if (!empty($original->getPath())) {
-                    if (!copy($this->getUploadRootDir($original) . DIRECTORY_SEPARATOR . $original->getPath(), $this->getUploadRootDir($file) . DIRECTORY_SEPARATOR . $file->getPath())) {
-                        throw new \Exception('Copy file error');
-                    }
+
+                if (!empty($original->getPath()) && !copy(
+                    $this->getUploadRootDir($original).DIRECTORY_SEPARATOR.$original->getPath(),
+                    $this->getUploadRootDir($file).DIRECTORY_SEPARATOR.$file->getPath()
+                )) {
+                    throw new Exception('Copy file error');
                 }
+
                 $this->container->get('doctrine.orm.entity_manager')->persist($file);
                 $event->addFile($file);
                 $this->container->get('doctrine.orm.entity_manager')->persist($event);
@@ -128,23 +119,35 @@ class FileManager
         }
     }
 
-    public function createFilesDirectory($url)
+    public function getUploadRootDir(File $file): string
+    {
+        return $this->uploadRootDir.$file->getInstance()->getUrl();
+    }
+
+    public function createFilesDirectory($url): void
     {
         $path = $this->uploadRootDir.$url;
 
         if (!file_exists($path)) {
-            mkdir($path, 0755);
+            if (!mkdir($path, 0755) && !is_dir($path)) {
+                throw new RuntimeException(sprintf('El directorio "%s" no fue creado', $path));
+            }
             chown($path, 'www-data');
         }
     }
 
-    public function updateFilesDirectory($oldUrl, $newUrl)
+    public function updateFilesDirectory($oldUrl, $newUrl): void
     {
-        $oldPath = $this->uploadRootDir.$oldUrl;
-        $newPath = $this->uploadRootDir.$newUrl;
+        $old_path = $this->uploadRootDir.$oldUrl;
+        $new_path = $this->uploadRootDir.$newUrl;
 
-        if ($oldPath !== $newPath && file_exists($oldPath)) {
-            rename($oldPath, $newPath);
+        if ($old_path !== $new_path && file_exists($old_path)) {
+            rename($old_path, $new_path);
         }
+    }
+
+    protected function getUploadDir(): string
+    {
+        return 'uploads'.DIRECTORY_SEPARATOR.$this->getInstance()->getUrl();
     }
 }
