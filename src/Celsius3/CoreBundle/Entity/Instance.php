@@ -28,6 +28,7 @@ use Celsius3\CoreBundle\Entity\Event\Event;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -179,7 +180,7 @@ class Instance extends LegacyInstance
         )->first();
     }
 
-    public function getConfigurations(): ArrayCollection
+    public function getConfigurations()
     {
         return $this->configurations;
     }
@@ -240,7 +241,7 @@ class Instance extends LegacyInstance
         $this->users->removeElement($user);
     }
 
-    public function getUsers(): ArrayCollection
+    public function getUsers()
     {
         return $this->users;
     }
@@ -255,7 +256,7 @@ class Instance extends LegacyInstance
         $this->orders->removeElement($order);
     }
 
-    public function getOrders(): ArrayCollection
+    public function getOrders()
     {
         return $this->orders;
     }
@@ -270,7 +271,7 @@ class Instance extends LegacyInstance
         $this->news->removeElement($news);
     }
 
-    public function getNews(): ArrayCollection
+    public function getNews()
     {
         return $this->news;
     }
@@ -285,7 +286,7 @@ class Instance extends LegacyInstance
         $this->contacts->removeElement($contact);
     }
 
-    public function getContacts(): ArrayCollection
+    public function getContacts()
     {
         return $this->contacts;
     }
@@ -300,7 +301,7 @@ class Instance extends LegacyInstance
         $this->institutions->removeElement($institution);
     }
 
-    public function getInstitutions(): ArrayCollection
+    public function getInstitutions()
     {
         return $this->institutions;
     }
@@ -315,7 +316,7 @@ class Instance extends LegacyInstance
         $this->templates->removeElement($template);
     }
 
-    public function getTemplates(): ArrayCollection
+    public function getTemplates()
     {
         return $this->templates;
     }
@@ -340,7 +341,7 @@ class Instance extends LegacyInstance
         $this->catalogs->removeElement($catalog);
     }
 
-    public function getCatalogs(): ArrayCollection
+    public function getCatalogs()
     {
         return $this->catalogs;
     }
@@ -355,7 +356,7 @@ class Instance extends LegacyInstance
         $this->events->removeElement($event);
     }
 
-    public function getEvents(): ArrayCollection
+    public function getEvents()
     {
         return $this->events;
     }
@@ -370,12 +371,12 @@ class Instance extends LegacyInstance
         $this->states->removeElement($state);
     }
 
-    public function getStates(): ArrayCollection
+    public function getStates()
     {
         return $this->states;
     }
 
-    public function getCountries(): ArrayCollection
+    public function getCountries()
     {
         return $this->countries;
     }
@@ -390,7 +391,7 @@ class Instance extends LegacyInstance
         $this->cities->removeElement($city);
     }
 
-    public function getCities(): ArrayCollection
+    public function getCities()
     {
         return $this->cities;
     }
@@ -477,7 +478,7 @@ class Instance extends LegacyInstance
         $this->institutions->removeElement($dataRequest);
     }
 
-    public function getDataRequests(): ArrayCollection
+    public function getDataRequests()
     {
         return $this->dataRequests;
     }
