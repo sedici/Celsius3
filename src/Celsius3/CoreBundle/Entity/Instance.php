@@ -20,9 +20,12 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity;
 
 use Celsius3\CoreBundle\Entity\Event\Event;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -134,6 +137,16 @@ class Instance extends LegacyInstance
      */
     protected $dataRequests;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    protected $inTestMode = false;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $testModeLimitDate;
+
     public function __construct()
     {
         parent::__construct();
@@ -152,642 +165,353 @@ class Instance extends LegacyInstance
         $this->dataRequests = new ArrayCollection();
     }
 
-    public function isCurrent()
+    public function isCurrent(): bool
     {
         return true;
     }
 
-    /**
-     * Returns the Configuration object associated with key.
-     *
-     * @param string $key
-     *
-     * @return Configuration
-     */
-    public function get($key)
+    public function get($key): Configuration
     {
-        return $this->getConfigurations()->filter(function (Configuration $entry) use ($key) {
-            return $entry->getKey() === $key;
-        })->first();
-    }
-
-    /**
-     * Returns the if the instance has a Configuration with $key.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function has($key)
-    {
-        return $this->getConfigurations()->filter(function (Configuration $entry) use ($key) {
+        return $this->getConfigurations()->filter(
+            static function (Configuration $entry) use ($key) {
                 return $entry->getKey() === $key;
-            })->count() > 0;
+            }
+        )->first();
     }
 
-    /**
-     * Set url.
-     *
-     * @param string $url
-     *
-     * @return self
-     */
-    public function setUrl($url)
+    public function getConfigurations(): ArrayCollection
+    {
+        return $this->configurations;
+    }
+
+    public function has($key): bool
+    {
+        return $this->getConfigurations()
+                ->filter(
+                    static function (Configuration $entry) use ($key) {
+                        return $entry->getKey() === $key;
+                    }
+                )->count() > 0;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
     {
         $this->url = $url;
 
         return $this;
     }
 
-    /**
-     * Get url.
-     *
-     * @return string $url
-     */
-    public function getUrl()
+    public function getHost(): string
     {
-        return $this->url;
+        return $this->host;
     }
 
-    /**
-     * Set host.
-     *
-     * @param string $host
-     *
-     * @return self
-     */
-    public function setHost($host)
+    public function setHost(string $host): self
     {
         $this->host = $host;
 
         return $this;
     }
 
-    /**
-     * Get host.
-     *
-     * @return string $host
-     */
-    public function getHost()
+    public function getInvisible(): bool
     {
-        return $this->host;
+        return $this->invisible;
     }
 
-    /**
-     * Set invisible.
-     *
-     * @param string $invisible
-     *
-     * @return self
-     */
-    public function setInvisible($invisible)
+    public function setInvisible(bool $invisible): self
     {
         $this->invisible = $invisible;
 
         return $this;
     }
 
-    /**
-     * Get invisible.
-     *
-     * @return string $invisible
-     */
-    public function getInvisible()
+    public function addUser(BaseUser $user): void
     {
-        return $this->invisible;
+        $this->users[] = $user;
     }
 
-    /**
-     * Add users.
-     *
-     * @param BaseUser $users
-     */
-    public function addUser(BaseUser $users)
+    public function removeUser(BaseUser $user): void
     {
-        $this->users[] = $users;
+        $this->users->removeElement($user);
     }
 
-    /**
-     * Remove users.
-     *
-     * @param BaseUser $users
-     */
-    public function removeUser(BaseUser $users)
-    {
-        $this->users->removeElement($users);
-    }
-
-    /**
-     * Get users.
-     *
-     * @return Collection $users
-     */
-    public function getUsers()
+    public function getUsers(): ArrayCollection
     {
         return $this->users;
     }
 
-    /**
-     * Add orders.
-     *
-     * @param Order $orders
-     */
-    public function addOrder(Request $order)
+    public function addOrder(Request $order): void
     {
         $this->orders[] = $order;
     }
 
-    /**
-     * Remove orders.
-     *
-     * @param Order $orders
-     */
-    public function removeOrder(Request $order)
+    public function removeOrder(Request $order): void
     {
         $this->orders->removeElement($order);
     }
 
-    /**
-     * Get orders.
-     *
-     * @return Collection $orders
-     */
-    public function getOrders()
+    public function getOrders(): ArrayCollection
     {
         return $this->orders;
     }
 
-    /**
-     * Add news.
-     *
-     * @param News $news
-     */
-    public function addNew(News $news)
+    public function addNew(News $news): void
     {
         $this->news[] = $news;
     }
 
-    /**
-     * Remove news.
-     *
-     * @param News $news
-     */
-    public function removeNew(News $news)
+    public function removeNew(News $news): void
     {
         $this->news->removeElement($news);
     }
 
-    /**
-     * Get news.
-     *
-     * @return Collection $news
-     */
-    public function getNews()
+    public function getNews(): ArrayCollection
     {
         return $this->news;
     }
 
-    /**
-     * Add contacts.
-     *
-     * @param Contact $contacts
-     */
-    public function addContact(Contact $contact)
+    public function addContact(Contact $contact): void
     {
         $this->contacts[] = $contact;
     }
 
-    /**
-     * Remove contacts.
-     *
-     * @param Contact $contacts
-     */
-    public function removeContact(Contact $contact)
+    public function removeContact(Contact $contact): void
     {
         $this->contacts->removeElement($contact);
     }
 
-    /**
-     * Get contacts.
-     *
-     * @return Collection $contacts
-     */
-    public function getContacts()
+    public function getContacts(): ArrayCollection
     {
         return $this->contacts;
     }
 
-    /**
-     * Add institutions.
-     *
-     * @param Institution $institution
-     */
-    public function addInstitution(Institution $institution)
+    public function addInstitution(Institution $institution): void
     {
         $this->institutions[] = $institution;
     }
 
-    /**
-     * Remove institutions.
-     *
-     * @param Institution $institution
-     */
-    public function removeInstitution(Institution $institution)
+    public function removeInstitution(Institution $institution): void
     {
         $this->institutions->removeElement($institution);
     }
 
-    /**
-     * Get institutions.
-     *
-     * @return Collection $institutions
-     */
-    public function getInstitutions()
+    public function getInstitutions(): ArrayCollection
     {
         return $this->institutions;
     }
 
-    /**
-     * Add templates.
-     *
-     * @param MailTemplate $template
-     */
-    public function addTemplate(MailTemplate $template)
+    public function addTemplate(MailTemplate $template): void
     {
         $this->templates[] = $template;
     }
 
-    /**
-     * Remove templates.
-     *
-     * @param MailTemplate $template
-     */
-    public function removeTemplate(MailTemplate $template)
+    public function removeTemplate(MailTemplate $template): void
     {
         $this->templates->removeElement($template);
     }
 
-    /**
-     * Get templates.
-     *
-     * @return Collection $templates
-     */
-    public function getTemplates()
+    public function getTemplates(): ArrayCollection
     {
         return $this->templates;
     }
 
-    /**
-     * Add configurations.
-     *
-     * @param Configuration $configuration
-     */
-    public function addConfiguration(Configuration $configuration)
+    public function addConfiguration(Configuration $configuration): void
     {
         $this->configurations[] = $configuration;
     }
 
-    /**
-     * Remove configurations.
-     *
-     * @param Configuration $configuration
-     */
-    public function removeConfiguration(Configuration $configuration)
+    public function removeConfiguration(Configuration $configuration): void
     {
         $this->configurations->removeElement($configuration);
     }
 
-    /**
-     * Get configurations.
-     *
-     * @return Collection $configurations
-     */
-    public function getConfigurations()
-    {
-        return $this->configurations;
-    }
-
-    /**
-     * Add catalog.
-     *
-     * @param Catalog $catalog
-     */
-    public function addCatalog(Catalog $catalog)
+    public function addCatalog(Catalog $catalog): void
     {
         $this->catalogs[] = $catalog;
     }
 
-    /**
-     * Remove catalog.
-     *
-     * @param Catalog $catalog
-     */
-    public function removeCatalog(Catalog $catalog)
+    public function removeCatalog(Catalog $catalog): void
     {
         $this->catalogs->removeElement($catalog);
     }
 
-    /**
-     * Get catalogs.
-     *
-     * @return Collection $catalog
-     */
-    public function getCatalogs()
+    public function getCatalogs(): ArrayCollection
     {
-        return $this->catalog;
+        return $this->catalogs;
     }
 
-    /**
-     * Add event.
-     *
-     * @param Event $event
-     */
-    public function addEvent(Event $event)
+    public function addEvent(Event $event): void
     {
         $this->events[] = $event;
     }
 
-    /**
-     * Remove event.
-     *
-     * @param Event $event
-     */
-    public function removeEvent(Event $event)
+    public function removeEvent(Event $event): void
     {
         $this->events->removeElement($event);
     }
 
-    /**
-     * Get events.
-     *
-     * @return Collection $events
-     */
-    public function getEvents()
+    public function getEvents(): ArrayCollection
     {
         return $this->events;
     }
 
-    /**
-     * Add state.
-     *
-     * @param State $state
-     */
-    public function addState(State $state)
+    public function addState(State $state): void
     {
         $this->states[] = $state;
     }
 
-    /**
-     * Remove state.
-     *
-     * @param State $state
-     */
-    public function removeState(State $state)
+    public function removeState(State $state): void
     {
         $this->states->removeElement($state);
     }
 
-    /**
-     * Get states.
-     *
-     * @return Collection $states
-     */
-    public function getStates()
+    public function getStates(): ArrayCollection
     {
         return $this->states;
     }
 
-    /**
-     * Add country.
-     *
-     * @param Country $country
-     */
-    public function addCountrie(Country $country)
-    {
-        $this->countries[] = $country;
-    }
-
-    /**
-     * Remove country.
-     *
-     * @param Country $country
-     */
-    public function removeCountrie(Country $country)
-    {
-        $this->countries->removeElement($country);
-    }
-
-    /**
-     * Get countries.
-     *
-     * @return Collection $countries
-     */
-    public function getCountries()
+    public function getCountries(): ArrayCollection
     {
         return $this->countries;
     }
 
-    /**
-     * Add city.
-     *
-     * @param City $city
-     */
-    public function addCitie(City $city)
+    public function addCitie(City $city): void
     {
         $this->cities[] = $city;
     }
 
-    /**
-     * Remove city.
-     *
-     * @param City $city
-     */
-    public function removeCitie(City $city)
+    public function removeCitie(City $city): void
     {
         $this->cities->removeElement($city);
     }
 
-    /**
-     * Get cities.
-     *
-     * @return Collection $cities
-     */
-    public function getCities()
+    public function getCities(): ArrayCollection
     {
         return $this->cities;
     }
 
-    /**
-     * Set observaciones.
-     *
-     * @param string $observaciones
-     *
-     * @return Instance
-     */
-    public function setObservaciones($observaciones)
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    public function setObservaciones($observaciones): Instance
     {
         $this->observaciones = $observaciones;
 
         return $this;
     }
 
-    /**
-     * Get observaciones.
-     *
-     * @return string
-     */
-    public function getObservaciones()
-    {
-        return $this->observaciones;
-    }
-
-    /**
-     * Add news.
-     *
-     * @param News $news
-     *
-     * @return Instance
-     */
-    public function addNews(News $news)
+    public function addNews(News $news): Instance
     {
         $this->news[] = $news;
 
         return $this;
     }
 
-    /**
-     * Remove news.
-     *
-     * @param News $news
-     */
-    public function removeNews(News $news)
+    public function removeNews(News $news): void
     {
         $this->news->removeElement($news);
     }
 
-    /**
-     * Set latitud.
-     *
-     * @param string $latitud
-     *
-     * @return Instance
-     */
-    public function setLatitud($latitud)
+    public function getLatitud(): string
+    {
+        return $this->latitud;
+    }
+
+    public function setLatitud(string $latitud): Instance
     {
         $this->latitud = $latitud;
 
         return $this;
     }
 
-    /**
-     * Get latitud.
-     *
-     * @return string
-     */
-    public function getLatitud()
+    public function getLongitud(): string
     {
-        return $this->latitud;
+        return $this->longitud;
     }
 
-    /**
-     * Set longitud.
-     *
-     * @param string $longitud
-     *
-     * @return Instance
-     */
-    public function setLongitud($longitud)
+    public function setLongitud(string $longitud): Instance
     {
         $this->longitud = $longitud;
 
         return $this;
     }
 
-    /**
-     * Get longitud.
-     *
-     * @return string
-     */
-    public function getLongitud()
-    {
-        return $this->longitud;
-    }
-
-    /**
-     * Add country.
-     *
-     * @param Country $country
-     *
-     * @return Instance
-     */
-    public function addCountry(Country $country)
+    public function addCountry(Country $country): Instance
     {
         $this->countries[] = $country;
 
         return $this;
     }
 
-    /**
-     * Remove country.
-     *
-     * @param Country $country
-     */
-    public function removeCountry(Country $country)
+    public function removeCountry(Country $country): void
     {
         $this->countries->removeElement($country);
     }
 
-    /**
-     * Add city.
-     *
-     * @param City $city
-     *
-     * @return Instance
-     */
-    public function addCity(City $city)
+    public function addCity(City $city): Instance
     {
         $this->cities[] = $city;
 
         return $this;
     }
 
-    /**
-     * Remove city.
-     *
-     * @param City $city
-     */
-    public function removeCity(City $city)
+    public function removeCity(City $city): void
     {
         $this->cities->removeElement($city);
     }
 
-    /**
-     * Add data request.
-     *
-     * @param DataRequest $dataRequest
-     */
-    public function addDataRequest(DataRequest $dataRequest)
+    public function addDataRequest(DataRequest $dataRequest): void
     {
         $this->dataRequests[] = $dataRequest;
     }
 
-    /**
-     * Remove data request.
-     *
-     * @param DataRequest $dataRequest
-     */
-    public function removeDataRequest(DataRequest $dataRequest)
+    public function removeDataRequest(DataRequest $dataRequest): void
     {
         $this->institutions->removeElement($dataRequest);
     }
 
-    /**
-     * Get data requests.
-     *
-     * @return Collection $dataRequests
-     */
-    public function getDataRequests()
+    public function getDataRequests(): ArrayCollection
     {
         return $this->dataRequests;
+    }
+
+    public function isInTestMode(): bool
+    {
+        return $this->inTestMode;
+    }
+
+    public function setInTestMode(bool $inTestMode): Instance
+    {
+        $this->inTestMode = $inTestMode;
+        return $this;
+    }
+
+    public function getTestModeLimitDate(): ?DateTime
+    {
+        return $this->testModeLimitDate;
+    }
+
+    public function setTestModeLimitDate(DateTime $testModeLimitDate = null): Instance
+    {
+        $this->testModeLimitDate = $testModeLimitDate;
+        return $this;
+    }
+
+    public function testTimeIsOver(): bool
+    {
+        return $this->testModeLimitDate ? 0 < $this->testModeLimitDate->diff(new DateTime())->format('%a') : false;
+    }
+
+    public function endTestMode(): void
+    {
+        $this->testModeLimitDate = null;
+        $this->inTestMode = false;
     }
 }

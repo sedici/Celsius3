@@ -4330,6 +4330,10 @@
         <source>Invalid image size. The image must be a maximum of 100px wide x 200px high.</source>
         <target>Invalid image size. The image must be a maximum of 100px wide x 200px high.</target>
       </trans-unit>
+      <trans-unit id="IN TEST MODE" resname="IN TEST MODE">
+        <source>IN TEST MODE</source>
+        <target>IN TEST MODE</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

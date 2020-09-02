@@ -26,6 +26,7 @@ namespace Celsius3\CoreBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
+use Symfony\Component\Console\Event\ConsoleExceptionEvent;
 use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 
 use function get_class;
@@ -39,10 +40,10 @@ class ConsoleLoggingListener
         $this->logger = $logger;
     }
 
-    public function onConsoleException(ConsoleErrorEvent $event): void
+    public function onConsoleException(ConsoleExceptionEvent $event): void
     {
         $command = $event->getCommand();
-        $error = $event->getError();
+        $error = $event->getException();
 
         $message = sprintf(
             '%s: %s (uncaught exception) at %s line %s while running console command `%s`',
