@@ -28,6 +28,7 @@ use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Form\Type\RegistrationFormType as FOSRegistrationFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,9 +39,6 @@ class RegistrationFormType extends AbstractType
     protected $entityManager;
     protected $instanceHelper;
 
-    /**
-     * @param string $class The User class name
-     */
     public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
     {
         $this->entityManager = $entityManager;
@@ -50,34 +48,59 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, [
-                'label' => 'Name',
-            ])
+            ->add(
+                'name',
+                null,
+                [
+                    'label' => 'Name',
+                ]
+            )
             ->add('surname')
-            ->add('birthdate', BirthdayType::class, [
-                'required' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                'attr' => [
-                    'class' => 'date',
-                ],
-            ])
-            ->add('address', null, [
-                'required' => false,
-            ])
-            ->add('instance', InstanceSelectorType::class, [
-                'data' => $this->instanceHelper->getSessionOrUrlInstance(),
-                'attr' => [
-                    'value' => $this->instanceHelper->getSessionOrUrlInstance()->getId(),
-                    'readonly' => 'readonly',
-                ],
-            ]);
+            ->add(
+                'birthdate',
+                BirthdayType::class,
+                [
+                    'required' => false,
+                    'widget' => 'single_text',
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => [
+                        'class' => 'date',
+                    ],
+                ]
+            )
+            ->add(
+                'address',
+                null,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'instance',
+                InstanceSelectorType::class,
+                [
+                    'data' => $this->instanceHelper->getSessionOrUrlInstance(),
+                    'attr' => [
+                        'value' => $this->instanceHelper->getSessionOrUrlInstance()->getId(),
+                        'readonly' => 'readonly',
+                    ],
+                ]
+            );
 
-        $customFiledsSubscriber = new AddCustomFieldsSubscriber('BaseUser', $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionOrUrlInstance(), $options['show_privates']);
-        $builder->addEventSubscriber($customFiledsSubscriber);
+        $custom_fileds_subscriber = new AddCustomFieldsSubscriber(
+            'BaseUser',
+            $builder->getFormFactory(),
+            $this->entityManager,
+            $this->instanceHelper->getSessionOrUrlInstance(),
+            $options['show_privates']
+        );
+        $builder->addEventSubscriber($custom_fileds_subscriber);
 
-        $institutionFiledsSubscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->entityManager);
-        $builder->addEventSubscriber($institutionFiledsSubscriber);
+        $institution_fileds_subscriber = new AddInstitutionFieldsSubscriber(
+            $builder->getFormFactory(),
+            $this->entityManager
+        );
+        $builder->addEventSubscriber($institution_fileds_subscriber);
     }
 
     public function getParent(): string

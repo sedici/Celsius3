@@ -24,47 +24,59 @@ declare(strict_types=1);
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\InstanceManager;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use function array_key_exists;
+
 class BaseUserType extends RegistrationFormType
 {
-    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
-    {
-        parent::__construct($entityManager, $instanceHelper);
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
         $builder->get('birthdate')->setAttribute('required', false);
         $builder
-            ->add('enabled', null, [
-                'required' => false, 'attr' => ['class' => 'checkbox']
-            ])
-            ->add('locked', null, [
-                'required' => false,
-            ])
-            ->add('pdf', null, [
-                'required' => false,
-            ])
-            ->add('downloadAuth', null, [
-                'required' => false,
-            ]);
+            ->add(
+                'enabled',
+                null,
+                [
+                    'required' => false,
+                    'attr' => ['class' => 'checkbox']
+                ]
+            )
+            ->add(
+                'locked',
+                null,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'pdf',
+                null,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'downloadAuth',
+                null,
+                [
+                    'required' => false,
+                ]
+            );
 
-        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+        if (array_key_exists('instance', $options) && $options['instance'] !== null) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
                     ->add(
                         'instance',
                         null,
                         [
-                        'query_builder' => static function (EntityRepository $repository) {
+                            'query_builder' => static function (EntityRepository $repository) {
                                 return $repository->findAllExceptDirectory();
                             },
                         ]
@@ -75,12 +87,12 @@ class BaseUserType extends RegistrationFormType
                         'instance',
                         InstanceSelectorType::class,
                         [
-                        'data' => $options['instance'],
-                        'attr' => [
-                            'value' => $options['instance']->getId(),
-                            'readonly' => 'readonly',
-                        ],
-                    ]
+                            'data' => $options['instance'],
+                            'attr' => [
+                                'value' => $options['instance']->getId(),
+                                'readonly' => 'readonly',
+                            ],
+                        ]
                     );
             }
         }
@@ -104,11 +116,13 @@ class BaseUserType extends RegistrationFormType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'instance' => null,
-            'editing' => false,
-            'registration' => false,
-            'show_privates' => true
-        ]);
+        $resolver->setDefaults(
+            [
+                'instance' => null,
+                'editing' => false,
+                'registration' => false,
+                'show_privates' => true
+            ]
+        );
     }
 }

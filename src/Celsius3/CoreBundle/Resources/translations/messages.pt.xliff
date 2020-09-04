@@ -4333,6 +4333,10 @@
         <source>IN TEST MODE</source>
         <target>EM MODO DE TESTE</target>
       </trans-unit>
+      <trans-unit id="Associated to" resname="Associated to">
+        <source>Associated to</source>
+        <target>Associado a</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
