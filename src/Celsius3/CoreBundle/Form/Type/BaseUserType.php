@@ -20,63 +20,80 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
-use Celsius3\CoreBundle\Helper\InstanceHelper;
-use Celsius3\CoreBundle\Manager\InstanceManager;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+use function array_key_exists;
 
 class BaseUserType extends RegistrationFormType
 {
-    public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
-    {
-        parent::__construct($em, $instance_helper, $class);
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
         $builder->get('birthdate')->setAttribute('required', false);
         $builder
-                ->add('enabled', null, array(
-                    'required' => false,'attr'=>array('class'=>'checkbox')
-                ))
-                ->add('locked', null, array(
+            ->add(
+                'enabled',
+                null,
+                [
                     'required' => false,
-                ))
-                ->add('pdf', null, array(
+                    'attr' => ['class' => 'checkbox']
+                ]
+            )
+            ->add(
+                'locked',
+                null,
+                [
                     'required' => false,
-                ))
-                ->add('downloadAuth', null, array(
+                ]
+            )
+            ->add(
+                'pdf',
+                null,
+                [
                     'required' => false,
-                ))
+                ]
+            )
+            ->add(
+                'downloadAuth',
+                null,
+                [
+                    'required' => false,
+                ]
+            );
 
-        ;
-
-        if (array_key_exists('instance', $options) && !is_null($options['instance'])) {
+        if (array_key_exists('instance', $options) && $options['instance'] !== null) {
             if ($options['instance']->getUrl() === InstanceManager::INSTANCE__DIRECTORY) {
                 $builder
-                        ->add('instance', null, array(
-                            'query_builder' => function (EntityRepository $repository) {
+                    ->add(
+                        'instance',
+                        null,
+                        [
+                            'query_builder' => static function (EntityRepository $repository) {
                                 return $repository->findAllExceptDirectory();
                             },
-                        ))
-                ;
+                        ]
+                    );
             } else {
                 $builder
-                        ->add('instance', InstanceSelectorType::class, array(
+                    ->add(
+                        'instance',
+                        InstanceSelectorType::class,
+                        [
                             'data' => $options['instance'],
-                            'attr' => array(
+                            'attr' => [
                                 'value' => $options['instance']->getId(),
                                 'readonly' => 'readonly',
-                            ),
-                        ))
-                ;
+                            ],
+                        ]
+                    );
             }
         }
 
@@ -85,20 +102,26 @@ class BaseUserType extends RegistrationFormType
             $builder->remove('recaptcha');
         }
 
-        $builder->add('observaciones', TextareaType::class, array(
-            'attr' => array(
-                'class' => 'summernote',
-            ),
-            'required' => false,
-        ));
+        $builder->add(
+            'observaciones',
+            TextareaType::class,
+            [
+                'attr' => [
+                    'class' => 'summernote',
+                ],
+                'required' => false,
+            ]
+        );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'instance' => null,
-            'editing' => false,
-            'registration' => false,
-        ));
+        $resolver->setDefaults(
+            [
+                'instance' => null,
+                'editing' => false,
+                'registration' => false,
+            ]
+        );
     }
 }

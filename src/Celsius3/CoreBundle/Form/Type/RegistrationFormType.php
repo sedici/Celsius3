@@ -20,87 +20,101 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Form\AbstractType;
 use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 use Celsius3\CoreBundle\Helper\InstanceHelper;
-use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Form\Type\RegistrationFormType as FOSRegistrationFormType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RegistrationFormType extends AbstractType
 {
-    protected $em;
-    protected $instance_helper;
+    protected $entityManager;
+    protected $instanceHelper;
 
-    /**
-     * @param string $class The User class name
-     */
-    public function __construct(EntityManager $em, InstanceHelper $instance_helper, $class)
+    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
     {
-        $this->em = $em;
-        $this->instance_helper = $instance_helper;
+        $this->entityManager = $entityManager;
+        $this->instanceHelper = $instanceHelper;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-                ->add('name', null, array(
+            ->add(
+                'name',
+                null,
+                [
                     'label' => 'Name',
-                ))
-                ->add('surname')
-                ->add('birthdate', BirthdayType::class, array(
+                ]
+            )
+            ->add('surname')
+            ->add(
+                'birthdate',
+                BirthdayType::class,
+                [
                     'required' => false,
                     'widget' => 'single_text',
                     'format' => 'dd-MM-yyyy',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'date',
-                    ),
-                ))
-                ->add('address', null, array(
+                    ],
+                ]
+            )
+            ->add(
+                'address',
+                null,
+                [
                     'required' => false,
-                ))
-                ->add('instance', InstanceSelectorType::class, array(
-                    'data' => $this->instance_helper->getSessionOrUrlInstance(),
-                    'attr' => array(
-                        'value' => $this->instance_helper->getSessionOrUrlInstance()->getId(),
+                ]
+            )
+            ->add(
+                'instance',
+                InstanceSelectorType::class,
+                [
+                    'data' => $this->instanceHelper->getSessionOrUrlInstance(),
+                    'attr' => [
+                        'value' => $this->instanceHelper->getSessionOrUrlInstance()->getId(),
                         'readonly' => 'readonly',
-                    ),
-                ))
-        ;
+                    ],
+                ]
+            );
 
-        $registration = (isset($options['registration'])) ? $options['registration'] : true;
-        $customFiledsSubscriber = new AddCustomFieldsSubscriber($builder->getFormFactory(), $this->em, $this->instance_helper->getSessionOrUrlInstance(), $registration);
-        $builder->addEventSubscriber($customFiledsSubscriber);
+        $registration = $options['registration'] ?? true;
 
-        $institutionFiledsSubscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
-        $builder->addEventSubscriber($institutionFiledsSubscriber);
+        $custom_fileds_subscriber = new AddCustomFieldsSubscriber(
+            $builder->getFormFactory(),
+            $this->entityManager,
+            $this->instanceHelper->getSessionOrUrlInstance(),
+            $registration
+        );
+        $builder->addEventSubscriber($custom_fileds_subscriber);
 
-        // $builder->add('recaptcha', EWZRecaptchaType::class, array(
-        //     'attr' => array(
-        //         'options' => array(
-        //             'theme' => 'light',
-        //             'type' => 'image',
-        //             'size' => 'normal',
-        //         ),
-        //     ),
-        //     'mapped' => false,
-        // ));
+        $institution_fileds_subscriber = new AddInstitutionFieldsSubscriber(
+            $builder->getFormFactory(),
+            $this->entityManager
+        );
+        $builder->addEventSubscriber($institution_fileds_subscriber);
     }
 
-    public function getParent()
+    public function getParent(): string
     {
-        return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+        return FOSRegistrationFormType::class;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'registration' => true,
-        ));
+        $resolver->setDefaults(
+            [
+                'registration' => true,
+            ]
+        );
     }
 }
