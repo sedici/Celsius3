@@ -150,7 +150,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * @ORM\Column(type="array", name="secondary_instances")
      */
-    protected $secondaryInstances = array();
+    protected $secondaryInstances = [];
 
     /**
      * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="user", cascade={"remove"})
@@ -200,9 +200,69 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
      */
     protected $locked = false;
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->orders = new ArrayCollection();
+        $this->operatedOrders = new ArrayCollection();
+        $this->createdOrders = new ArrayCollection();
+        $this->customValues = new ArrayCollection();
+        $this->clientApplications = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
+        $this->librarianInstitution = new ArrayCollection();
+    }
+
     public function __toString()
     {
         return ucwords(strtolower($this->getSurname())) . ', ' . ucwords(strtolower($this->getName()));
+    }
+
+    /**
+     * Get surname.
+     *
+     * @return string $surname
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
+     * Set surname.
+     *
+     * @param string $surname
+     *
+     * @return self
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getFullName()
@@ -223,64 +283,24 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->addRole(UserManager::ROLE_USER);
     }
 
-    public function __construct()
+    /**
+     * Get id.
+     *
+     * @return id $id
+     */
+    public function getId()
     {
-        parent::__construct();
-        $this->orders = new ArrayCollection();
-        $this->operatedOrders = new ArrayCollection();
-        $this->createdOrders = new ArrayCollection();
-        $this->customValues = new ArrayCollection();
-        $this->clientApplications = new ArrayCollection();
-        $this->notifications = new ArrayCollection();
-        $this->librarianInstitution = new ArrayCollection();
+        return $this->id;
     }
 
     /**
-     * Set name.
+     * Get birthdate.
      *
-     * @param string $name
-     *
-     * @return self
+     * @return date $birthdate
      */
-    public function setName($name)
+    public function getBirthdate()
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set surname.
-     *
-     * @param string $surname
-     *
-     * @return self
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname.
-     *
-     * @return string $surname
-     */
-    public function getSurname()
-    {
-        return $this->surname;
+        return $this->birthdate;
     }
 
     /**
@@ -298,13 +318,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get birthdate.
+     * Get address.
      *
-     * @return date $birthdate
+     * @return string $address
      */
-    public function getBirthdate()
+    public function getAddress()
     {
-        return $this->birthdate;
+        return $this->address;
     }
 
     /**
@@ -319,16 +339,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->address = $address;
 
         return $this;
-    }
-
-    /**
-     * Get address.
-     *
-     * @return string $address
-     */
-    public function getAddress()
-    {
-        return $this->address;
     }
 
     /**
@@ -422,6 +432,16 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Get instance.
+     *
+     * @return Instance $instance
+     */
+    public function getInstance()
+    {
+        return $this->instance;
+    }
+
+    /**
      * Set instance.
      *
      * @param Instance $instance
@@ -433,16 +453,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->instance = $instance;
 
         return $this;
-    }
-
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
     }
 
     /**
@@ -470,35 +480,11 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Set institution.
-     *
-     * @param Institution $institution
-     *
-     * @return self
-     */
-    public function setInstitution(Institution $institution)
-    {
-        $this->institution = $institution;
-
-        return $this;
-    }
-
-    /**
-     * Get institution.
-     *
-     * @return Institution $institution
-     */
-    public function getInstitution()
-    {
-        return $this->institution;
-    }
-
-    /**
      * Add customValues.
      *
-     * @param CustomUserValue $customValues
+     * @param CustomValue $customValues
      */
-    public function addCustomValue(CustomUserValue $customValues)
+    public function addCustomValue(CustomValue $customValues)
     {
         $this->customValues[] = $customValues;
     }
@@ -506,9 +492,9 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     /**
      * Remove customValues.
      *
-     * @param CustomUserValue $customValues
+     * @param CustomValue $customValues
      */
-    public function removeCustomValue(CustomUserValue $customValues)
+    public function removeCustomValue(CustomValue $customValues)
     {
         $this->customValues->removeElement($customValues);
     }
@@ -524,6 +510,16 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Get downloadAuth.
+     *
+     * @return bool $downloadAuth
+     */
+    public function getDownloadAuth()
+    {
+        return $this->downloadAuth;
+    }
+
+    /**
      * Set downloadAuth.
      *
      * @param bool $downloadAuth
@@ -535,16 +531,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->downloadAuth = $downloadAuth;
 
         return $this;
-    }
-
-    /**
-     * Get downloadAuth.
-     *
-     * @return bool $downloadAuth
-     */
-    public function getDownloadAuth()
-    {
-        return $this->downloadAuth;
     }
 
     /**
@@ -579,6 +565,20 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Set secondary instances.
+     *
+     * @param array $secondaryInstances
+     *
+     * @return BaseUser
+     */
+    public function setSecondaryInstances($secondaryInstances)
+    {
+        $this->secondaryInstances = $secondaryInstances;
+
+        return $this;
+    }
+
+    /**
      * Has secondary instances.
      *
      * @param Instance $secondaryInstance
@@ -602,6 +602,30 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         }
 
         return $this->getInstitution()->getCountry();
+    }
+
+    /**
+     * Get institution.
+     *
+     * @return Institution $institution
+     */
+    public function getInstitution()
+    {
+        return $this->institution;
+    }
+
+    /**
+     * Set institution.
+     *
+     * @param Institution $institution
+     *
+     * @return self
+     */
+    public function setInstitution(Institution $institution)
+    {
+        $this->institution = $institution;
+
+        return $this;
     }
 
     /**
@@ -629,6 +653,16 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Get wrong email.
+     *
+     * @return bool $wrongEmail
+     */
+    public function getWrongEmail()
+    {
+        return $this->wrongEmail;
+    }
+
+    /**
      * Set wrong email.
      *
      * @param bool $wrongEmail
@@ -643,13 +677,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
-     * Get wrong email.
+     * Get pdf.
      *
-     * @return bool $wrongEmail
+     * @return bool $pdf
      */
-    public function getWrongEmail()
+    public function getPdf()
     {
-        return $this->wrongEmail;
+        return $this->pdf;
     }
 
     /**
@@ -664,16 +698,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         $this->pdf = $pdf;
 
         return $this;
-    }
-
-    /**
-     * Get pdf.
-     *
-     * @return bool $pdf
-     */
-    public function getPdf()
-    {
-        return $this->pdf;
     }
 
     /**
@@ -735,20 +759,6 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         } else {
             return $this->getBaseInstitutionRec($institution->getParent());
         }
-    }
-
-    /**
-     * Set secondary instances.
-     *
-     * @param array $secondaryInstances
-     *
-     * @return BaseUser
-     */
-    public function setSecondaryInstances($secondaryInstances)
-    {
-        $this->secondaryInstances = $secondaryInstances;
-
-        return $this;
     }
 
     /**
@@ -850,6 +860,16 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     }
 
     /**
+     * Get observaciones.
+     *
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    /**
      * Set observaciones.
      *
      * @param string $observaciones
@@ -863,23 +883,13 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this;
     }
 
-    /**
-     * Get observaciones.
-     *
-     * @return string
-     */
-    public function getObservaciones()
+    public function isLocked()
     {
-        return $this->observaciones;
+        return $this->locked;
     }
 
     public function setLocked($locked)
     {
         $this->locked = $locked;
-    }
-
-    public function isLocked()
-    {
-        return $this->locked;
     }
 }

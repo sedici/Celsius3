@@ -22,18 +22,18 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
+use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
+use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
-use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
 
 class AdminContactType extends ContactType
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
     {
-        $this->em = $em;
+        parent::__construct($entityManager, $instanceHelper);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -41,25 +41,27 @@ class AdminContactType extends ContactType
         parent::buildForm($builder, $options);
         if (array_key_exists('owning_instance', $options) && !is_null($options['owning_instance'])) {
             $builder
-                    ->add('owningInstance', InstanceSelectorType::class, array(
-                        'data' => $options['owning_instance'],
-                        'attr' => array(
-                            'value' => $options['owning_instance']->getId(),
-                            'readonly' => 'readonly',
-                        ),
-                    ))
-            ;
+                ->add('owningInstance', InstanceSelectorType::class, [
+                    'data' => $options['owning_instance'],
+                    'attr' => [
+                        'value' => $options['owning_instance']->getId(),
+                        'readonly' => 'readonly',
+                    ],
+                ]);
         }
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->entityManager);
         $builder->addEventSubscriber($subscriber);
+
+        $customFieldsSubscriber = new AddCustomFieldsSubscriber('Contact', $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionInstance(), true);
+        $builder->addEventSubscriber($customFieldsSubscriber);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'owning_instance' => null,
             'user' => null,
-        ));
+        ]);
     }
 }

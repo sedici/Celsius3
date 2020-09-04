@@ -22,44 +22,42 @@
 
 namespace Celsius3\CoreBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Form\EventListener\AddInstitutionFieldsSubscriber;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SuperadminContactType extends ContactType
 {
-    private $em;
-
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
     {
-        $this->em = $em;
+        parent::__construct($entityManager, $instanceHelper);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
         $builder
-                ->add('owningInstance', EntityType::class, array(
-                    'class' => Instance::class,
-                    'data' => $options['owning_instance'],
-                    'attr' => array(
-                        'value' => (!is_null($options['owning_instance'])) ? $options['owning_instance']->getId() : '',
-                    ),
-                ))
-        ;
+            ->add('owningInstance', EntityType::class, [
+                'class' => Instance::class,
+                'data' => $options['owning_instance'],
+                'attr' => [
+                    'value' => (!is_null($options['owning_instance'])) ? $options['owning_instance']->getId() : '',
+                ],
+            ]);
 
-        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->em);
+        $subscriber = new AddInstitutionFieldsSubscriber($builder->getFormFactory(), $this->entityManager);
         $builder->addEventSubscriber($subscriber);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'user' => null,
             'owning_instance' => null,
-        ));
+        ]);
     }
 }

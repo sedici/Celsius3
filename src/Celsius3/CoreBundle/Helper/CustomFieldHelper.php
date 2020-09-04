@@ -22,49 +22,86 @@
 
 namespace Celsius3\CoreBundle\Helper;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Contact;
+use Celsius3\CoreBundle\Entity\CustomContactValue;
+use Celsius3\CoreBundle\Entity\CustomField;
+use Celsius3\CoreBundle\Entity\CustomUserValue;
+use Celsius3\CoreBundle\Entity\Instance;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Celsius3\CoreBundle\Entity\BaseUser;
-use Celsius3\CoreBundle\Entity\CustomUserValue;
-use Celsius3\CoreBundle\Entity\Instance;
 
 class CustomFieldHelper
 {
-    private $request_stack;
-    private $em;
+    private $requestStack;
+    private $entityManager;
 
-    public function __construct(RequestStack $request_stack, EntityManager $em)
+    public function __construct(RequestStack $requestStack, EntityManager $entityManager)
     {
-        $this->request_stack = $request_stack;
-        $this->em = $em;
+        $this->requestStack = $requestStack;
+        $this->entityManager = $entityManager;
     }
 
-    public function processCustomFields(Instance $instance, FormInterface $form, BaseUser $entity)
+    public function processCustomUserFields(Instance $instance, FormInterface $form, BaseUser $user)
     {
-        $fields = $this->em->getRepository('Celsius3CoreBundle:CustomUserField')
-                ->findBy(array('instance' => $instance->getId()));
+        $fields = $this->entityManager->getRepository(CustomField::class)
+            ->findBy([
+                'instance' => $instance->getId(),
+                'entity' => 'BaseUser'
+            ]);
 
-        $data = $this->request_stack->getCurrentRequest()->get($form->getName());
+        $data = $this->requestStack->getCurrentRequest()->get($form->getName());
 
         foreach ($fields as $field) {
             if (array_key_exists($field->getKey(), $data)) {
-                $value = $this->em
-                        ->getRepository('Celsius3CoreBundle:CustomUserValue')
-                        ->findOneBy(array(
-                    'field' => $field->getId(),
-                    'user' => $entity->getId(),
-                ));
+                $value = $this->entityManager
+                    ->getRepository(CustomUserValue::class)
+                    ->findOneBy([
+                        'field' => $field->getId(),
+                        'user' => $user->getId()
+                    ]);
 
                 if (!$value) {
                     $value = new CustomUserValue();
                     $value->setField($field);
-                    $value->setUser($entity);
+                    $value->setUser($user);
                 }
                 $value->setValue($data[$field->getKey()]);
-                $this->em->persist($value);
+                $this->entityManager->persist($value);
             }
         }
-        $this->em->flush();
+        $this->entityManager->flush();
+    }
+
+    public function processCustomContactFields(Instance $instance, FormInterface $form, Contact $contact)
+    {
+        $fields = $this->entityManager->getRepository(CustomField::class)
+            ->findBy([
+                'instance' => $instance->getId(),
+                'entity' => 'Contact'
+            ]);
+
+        $data = $this->requestStack->getCurrentRequest()->get($form->getName());
+
+        foreach ($fields as $field) {
+            if (array_key_exists($field->getKey(), $data)) {
+                $value = $this->entityManager
+                    ->getRepository(CustomContactValue::class)
+                    ->findOneBy([
+                        'field' => $field->getId(),
+                        'contact' => $contact->getId()
+                    ]);
+
+                if (!$value) {
+                    $value = new CustomContactValue();
+                    $value->setField($field);
+                    $value->setContact($contact);
+                }
+                $value->setValue($data[$field->getKey()]);
+                $this->entityManager->persist($value);
+            }
+        }
+        $this->entityManager->flush();
     }
 }

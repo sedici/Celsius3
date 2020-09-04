@@ -41,8 +41,8 @@ function registerSearch() {
         url: Routing.generate('admin_catalog_search_mark'),
         dataType: 'json',
         data: 'order_id=' + document_id + '&instance_id=' +
-        instance_id + '&catalog_id=' + catalogId + '&result=' +
-        input.val()
+            instance_id + '&catalog_id=' + catalogId + '&result=' +
+            input.val()
     }).done(function (data) {
         input.parent().siblings('.catalog-result').text(data.date);
     });
@@ -478,7 +478,7 @@ $(document).ready(function () {
             });
             keyword.tooltip('show');
 
-            return;
+
         }
     });
 
@@ -533,7 +533,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#user_transform_institution').parent().hide();
     $('#user_transform_prebi_0').click(function () {
-        $("input:checked")
+        $("input:checked");
 
         if ($('#user_transform_prebi_0:checked').val() === 'ROLE_LIBRARIAN') {
             $('#user_transform_institution').parent().show();
@@ -606,3 +606,10 @@ $(document).ready(function () {
 //         }
 //     });
 // });
+
+$(document).ready(function () {
+    $('.select2-without-search').select2({
+        minimumResultsForSearch: Infinity,
+        allowClear: true
+    });
+});

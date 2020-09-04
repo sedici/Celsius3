@@ -23,6 +23,9 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Celsius3\CoreBundle\Entity\ContactType as Entity;
+use Celsius3\CoreBundle\Form\EventListener\AddCustomFieldsSubscriber;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -31,6 +34,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContactType extends AbstractType
 {
+    protected $entityManager;
+    protected $instanceHelper;
+
+    /**
+     * @param string $class The User class name
+     */
+    public function __construct(EntityManager $entityManager, InstanceHelper $instanceHelper)
+    {
+        $this->entityManager = $entityManager;
+        $this->instanceHelper = $instanceHelper;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -42,35 +57,38 @@ class ContactType extends AbstractType
             ->add('address', null, [
                 'required' => false
             ])
-            ->add('user', UserSelectorType::class, array(
-                'attr' => array(
+            ->add('user', UserSelectorType::class, [
+                'attr' => [
                     'class' => 'container',
                     'readonly' => 'readonly',
                     'value' => (!is_null($options['user'])) ? $options['user']->getId() : '',
-                ),
+                ],
                 'required' => false
-            ))
-            ->add('user_autocomplete', TextType::class, array(
-                'attr' => array(
+            ])
+            ->add('user_autocomplete', TextType::class, [
+                'attr' => [
                     'value' => $options['user'],
                     'class' => 'autocomplete',
                     'target' => 'BaseUser',
-                ),
+                ],
                 'mapped' => false,
                 'label' => 'User',
                 'required' => false
-            ))
-            ->add('type', EntityType::class, array(
+            ])
+            ->add('type', EntityType::class, [
                 'class' => Entity::class,
                 'choice_translation_domain' => 'messages',
                 'placeholder' => ' '
-            ));
+            ]);
+
+        $customFiledsSubscriber = new AddCustomFieldsSubscriber('Contact', $builder->getFormFactory(), $this->entityManager, $this->instanceHelper->getSessionOrUrlInstance(), true);
+        $builder->addEventSubscriber($customFiledsSubscriber);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'user' => null,
-        ));
+        ]);
     }
 }

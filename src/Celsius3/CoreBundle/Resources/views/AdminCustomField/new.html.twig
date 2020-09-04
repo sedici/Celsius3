@@ -1,26 +1,21 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
 {% block title %}
-    {{ 'Custom Field Edit'|trans }}
+    {{ 'Custom Field Creation'|trans }}
 {% endblock %}
 
-{% from "Celsius3CoreBundle:Macro:crud.html.twig" import edit as edit %}
+{% from "Celsius3CoreBundle:Macro:crud.html.twig" import new as new %}
 
 {% block content %}
-    <h2>{{ 'Custom User Field Edit'|trans }} - {{ entity.name }}</h2>
+    <h2>{{ 'Custom User Field Creation'|trans }}</h2>
     <hr class="separator_hr">
-    {{ edit('admin_customuserfield', entity, edit_form, 'Celsius3CoreBundle:AdminCustomUserField', true) }}
+    {{ new('admin_customuserfield', form, 'Celsius3CoreBundle:AdminCustomField', true) }}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
-        /* Ver el valor 1 */
         $('#custom_user_field_value').parent().hide();
-        if ($('#custom_user_field_type').val() == '1') {
-            $('#custom_user_field_value').parent().show();
-        }
-
         $('#custom_user_field_type').bind('change', function () {
             /*
                1 = select
@@ -30,7 +25,9 @@
             } else {
                 $('#custom_user_field_value').parent().hide();
                 $('#custom_user_field_value').val("");
+
             }
         });
+
     </script>
 {% endblock %}

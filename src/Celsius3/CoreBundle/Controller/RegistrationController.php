@@ -22,20 +22,20 @@
 
 namespace Celsius3\CoreBundle\Controller;
 
-use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use FOS\UserBundle\Controller\RegistrationController as BaseRegistrationController;
-use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\UserEvent;
-use FOS\UserBundle\Event\FormEvent;
-use FOS\UserBundle\Event\FilterUserResponseEvent;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use FOS\UserBundle\Event\GetResponseUserEvent;
-use Symfony\Component\Security\Http\SecurityEvents;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Celsius3\CoreBundle\Exception\Exception;
+use FOS\UserBundle\Controller\RegistrationController as BaseRegistrationController;
+use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Event\UserEvent;
+use FOS\UserBundle\FOSUserEvents;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Security\Http\SecurityEvents;
 
 class RegistrationController extends BaseRegistrationController
 {
@@ -73,7 +73,7 @@ class RegistrationController extends BaseRegistrationController
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
                 $userManager->updateUser($user);
-                $this->container->get('celsius3_core.custom_field_helper')->processCustomFields($this->getInstance(), $form, $user);
+                $this->container->get('celsius3_core.custom_field_helper')->processCustomUserFields($this->getInstance(), $form, $user);
 
                 if (null === $response = $event->getResponse()) {
                     $url = $this->container->get('router')->generate('fos_user_registration_confirmed');

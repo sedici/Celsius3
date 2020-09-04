@@ -29,8 +29,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CustomUserFieldRepository")
- * @ORM\Table(name="custom_user_field", uniqueConstraints={
+ * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\CustomFieldRepository")
+ * @ORM\Table(name="custom_field", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="unique_idx", columns={"key", "instance_id"})
  * }, indexes={
  *   @ORM\Index(name="idx_key", columns={"key"}),
@@ -38,20 +38,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   @ORM\Index(name="idx_instance", columns={"instance_id"})
  * })
  */
-class CustomUserField
+class CustomField
 {
     use TimestampableEntity;
+
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @Gedmo\Slug(fields={"name"})
      * @ORM\Column(type="string", length=255, name="`key`")
      */
     private $key;
+
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
@@ -74,6 +77,7 @@ class CustomUserField
      * @ORM\Column(type="boolean")
      */
     private $private = true;
+
     /**
      * @Assert\Type(type="boolean")
      * @ORM\Column(type="boolean")
@@ -91,273 +95,164 @@ class CustomUserField
      * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
+
     /**
-     * @ORM\OneToMany(targetEntity="CustomUserValue", mappedBy="field")
+     * @ORM\OneToMany(targetEntity="CustomValue", mappedBy="field")
      */
     private $values;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $orden;
+    private $position;
+
+    /**
+     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $entity;
 
     public function __construct()
     {
         $this->values = new ArrayCollection();
     }
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
+    public function getEntity(): ?string
+    {
+        return $this->entity;
+    }
+
+    public function setEntity(string $entity): self
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set key.
-     *
-     * @param string $key
-     *
-     * @return self
-     */
-    public function setKey($key)
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function setKey(string $key): self
     {
         $this->key = $key;
 
         return $this;
     }
 
-    /**
-     * Get key.
-     *
-     * @return string $key
-     */
-    public function getKey()
+    public function getName(): ?string
     {
-        return $this->key;
+        return $this->name;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return self
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string $name
-     */
-    public function getName()
+    public function getType(): ?string
     {
-        return $this->name;
+        return $this->type;
     }
 
-    /**
-     * Set type.
-     *
-     * @param string $type
-     *
-     * @return self
-     */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * Get type.
-     *
-     * @return string $type
-     */
-    public function getType()
+    public function getValue(): ?string
     {
-        return $this->type;
+        return $this->value;
     }
 
-    /**
-     * Set value.
-     *
-     * @param string $value
-     *
-     * @return self
-     */
-    public function setValue($value)
+    public function setValue(string $value): self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    /**
-     * Get value.
-     *
-     * @return string $value
-     */
-    public function getValue()
+    public function isPrivate(): bool
     {
-        return $this->value;
+        return $this->private;
     }
 
-    /**
-     * Set private.
-     *
-     * @param bool $private
-     *
-     * @return self
-     */
-    public function setPrivate($private)
+    public function setPrivate(bool $private): self
     {
         $this->private = $private;
 
         return $this;
     }
 
-    /**
-     * Get private.
-     *
-     * @return bool $private
-     */
-    public function getPrivate()
+    public function isRequired(): bool
     {
-        return $this->private;
+        return $this->required;
     }
 
-    /**
-     * Set required.
-     *
-     * @param bool $required
-     *
-     * @return self
-     */
-    public function setRequired($required)
+    public function setRequired(bool $required): self
     {
         $this->required = $required;
 
         return $this;
     }
 
-    /**
-     * Get required.
-     *
-     * @return bool $required
-     */
-    public function getRequired()
-    {
-        return $this->required;
-    }
-
-    /**
-     * Get enabled.
-     *
-     * @return bool $enabled
-     */
-    public function getEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * Set enabled.
-     *
-     * @param bool $enabled
-     *
-     * @return self
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
+    public function getInstance(): ?Instance
+    {
+        return $this->instance;
+    }
+
+    public function setInstance(Instance $instance): self
     {
         $this->instance = $instance;
 
         return $this;
     }
 
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
-
-    /**
-     * Add values.
-     *
-     * @param CustomUserValue $values
-     */
-    public function addValue(CustomUserValue $values)
+    public function addValue(CustomValue $values): void
     {
         $this->values[] = $values;
     }
 
-    /**
-     * Remove values.
-     *
-     * @param CustomUserValue $values
-     */
-    public function removeValue(CustomUserValue $values)
+    public function removeValue(CustomValue $values): void
     {
         $this->values->removeElement($values);
     }
 
-    /**
-     * Get values.
-     *
-     * @return Collection $values
-     */
-    public function getValues()
+    public function getValues(): ArrayCollection
     {
         return $this->values;
     }
 
-    /**
-     * Get orden.
-     *
-     * @return bool $enabled
-     */
-    public function getOrden()
+    public function getPosition(): int
     {
-        return $this->orden;
+        return $this->position;
     }
 
-    /**
-     * Set orden.
-     *
-     * @param bool $orden
-     *
-     * @return self
-     */
-    public function setOrden($orden)
+    public function setPosition(int $position): self
     {
-        $this->orden = $orden;
+        $this->position = $position;
 
         return $this;
     }

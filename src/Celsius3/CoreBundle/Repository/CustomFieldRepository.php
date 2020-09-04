@@ -24,25 +24,25 @@ namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Entity\Instance;
 
-/**
- * CustomUserFieldRepository.
- */
-class CustomUserFieldRepository extends BaseRepository
+class CustomFieldRepository extends BaseRepository
 {
-    public function getByInstance(Instance $instance, $registration)
+    public function getByInstance(Instance $instance, string $entity, bool $showPrivates)
     {
-        $qb = $this->createQueryBuilder('cuf')
-            ->where('cuf.instance = :instance_id')
+        $builder = $this->createQueryBuilder('cuf');
+
+        $builder->where('cuf.instance = :instance_id')
+            ->andWhere('cuf.entity = :entity')
             ->andWhere('cuf.enabled = :enabled')
             ->setParameter('instance_id', $instance->getId())
-            ->setParameter('enabled', true);
+            ->setParameter('entity', $entity)
+            ->setParameter('enabled', true)
+            ->orderBy('cuf.position');
 
-        if ($registration) {
-            $qb->andWhere('cuf.private = :private')
+        if (!$showPrivates) {
+            $builder->andWhere('cuf.private = :private')
                 ->setParameter('private', false);
         }
-        $qb->orderBy('cuf.orden');
 
-        return $qb->getQuery()->getResult();
+        return $builder->getQuery()->getResult();
     }
 }

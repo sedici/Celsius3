@@ -647,18 +647,18 @@
         <jms:reference-file line="4">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="e28106464f54e7b87a58f5732f611c965e157438" resname="Custom User Field Creation">
-        <source>Custom User Field Creation</source>
-        <target>Creación de campo personalizado de usuario</target>
+        <source>Custom Field Creation</source>
+        <target>Creación de campo personalizado</target>
         <jms:reference-file line="12">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/new.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="784eb429ea340c10986bcf5352c540e5d88addd8" resname="Custom User Field Edit">
-        <source>Custom User Field Edit</source>
-        <target>Edición de campo personalizado de usuario</target>
+        <source>Custom Field Edit</source>
+        <target>Edición de campo personalizado</target>
         <jms:reference-file line="11">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/edit.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f51f3a2bbefd9b52fad1cb20e7cc72b129949dc7" resname="Custom User Field List">
-        <source>Custom User Field List</source>
-        <target>Lista de campos personalizados de usuario</target>
+        <source>Custom Field List</source>
+        <target>Lista de campos personalizados</target>
         <jms:reference-file line="10">/../src/Celsius3/CoreBundle/Resources/views/AdminCustomUserField/index.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="f55708d7fb0bfabfe2d9a27b08625a55cb2bf5d9" resname="Custom field">
@@ -667,9 +667,9 @@
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/AdminBaseUser/_index_element_actions.html.twig</jms:reference-file>
         <jms:reference-file line="5">/../src/Celsius3/CoreBundle/Resources/views/BibliotecarioBaseUser/_index_element_actions.html.twig</jms:reference-file>
       </trans-unit>
-      <trans-unit id="6b26aad1950b4fe68965c591a904a89b679fd3cc" resname="Custom user fields">
-        <source>Custom user fields</source>
-        <target>Campos de usuario personalizados</target>
+      <trans-unit id="6b26aad1950b4fe68965c591a904a89b679fd3cc" resname="Custom fields">
+        <source>Custom fields</source>
+        <target>Campos personalizados</target>
         <jms:reference-file line="8">/../src/Celsius3/CoreBundle/Resources/views/AdminInstance/_configure_actions.html.twig</jms:reference-file>
       </trans-unit>
       <trans-unit id="7d092ffa2497aac806b3aaf2a3b3a5e166755c71" resname="DELETED">
