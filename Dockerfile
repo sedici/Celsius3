@@ -25,8 +25,8 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - \
 
 # Se instalan dependencias del sistema
 RUN apt-get -y update \
-&& apt-get install -y libzmq3-dev libzip-dev zip unzip libcairo2-dev libjpeg-dev libgif-dev nodejs yarn \
-&& docker-php-ext-install zip pdo_mysql \
+&& apt-get install -y libzmq3-dev libzip-dev zip unzip libcairo2-dev libjpeg-dev libgif-dev nodejs yarn libicu-dev \
+&& docker-php-ext-install zip pdo_mysql intl \
 && pecl install -o -f zmq-beta redis xdebug \
 && rm -fr /tmp/pear \
 && docker-php-ext-enable zmq redis xdebug

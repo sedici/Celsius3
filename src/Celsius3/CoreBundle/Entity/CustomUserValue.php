@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
  */
-final class CustomUserValue extends CustomValue
+class CustomUserValue extends CustomValue
 {
     /**
      * @Assert\NotNull()
