@@ -195,9 +195,7 @@
                     {{ form_label(child, null, { 'label_attr': {'class': 'col-md-2 control-label'} }) }}
                     <div class="col-md-10">
                         {% set class = (child.vars.attr.class is defined) ? child.vars.attr.class : '' %}
-                        {% if child.vars.required %}
-                            {{ form_widget(child, { 'attr': { 'class': 'form-control ' ~ class } }) }}
-                        {% endif %}
+                        {{ form_widget(child, { 'attr': { 'class': 'form-control ' ~ class } }) }}
                         {% for error in child.vars.errors %}
                             <p class="text-danger">{{ error.message }}</p>
                         {% endfor %}
