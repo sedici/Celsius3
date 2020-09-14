@@ -40,10 +40,6 @@ class ResettingController extends BaseResettingController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
-        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            throw new NotFoundHttpException('The reset was already requested.');
-        }
-
         if (null === $user->getConfirmationToken()) {
             /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
             $tokenGenerator = $this->container->get('fos_user.util.token_generator');
