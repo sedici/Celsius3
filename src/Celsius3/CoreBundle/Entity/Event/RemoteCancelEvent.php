@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
@@ -34,20 +36,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RemoteCancelEvent extends MultiInstanceEvent implements Notifiable
 {
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'remotecancel';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $data['extraData']['request']->setCancelled(true);
         $lifecycleHelper->refresh($data['extraData']['request']);
         $this->setRemoteInstance($data['extraData']['request']->getRemoteInstance());
-        $lifecycleHelper->createEvent(EventManager::EVENT__CANCEL, $request->getOrder()->getRequest($this->getRemoteInstance()), $this->getRemoteInstance());
+        $lifecycleHelper->createEvent(
+            EventManager::EVENT__CANCEL,
+            $request->getOrder()->getRequest($this->getRemoteInstance()),
+            $this->getRemoteInstance()
+        );
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyRemoteEvent($this, 'cancel');
     }

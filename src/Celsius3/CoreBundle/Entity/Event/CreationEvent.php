@@ -31,12 +31,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CreationEvent extends SingleInstanceEvent implements Notifiable
 {
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'creation';
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyEvent($this, 'creation');
     }

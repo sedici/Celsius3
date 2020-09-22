@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
@@ -39,12 +41,12 @@ class ReuploadEvent extends SingleInstanceEvent
      */
     private $receiveEvent;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'reupload';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $this->setReceiveEvent($data['extraData']['receive']);
         $this->getReceiveEvent()->setReclaimed(false);
@@ -52,27 +54,15 @@ class ReuploadEvent extends SingleInstanceEvent
         $lifecycleHelper->uploadFiles($request, $this->getReceiveEvent(), $data['extraData']['files']);
     }
 
-    /**
-     * Set receiveEvent.
-     *
-     * @param Event $receiveEvent
-     *
-     * @return self
-     */
-    public function setReceiveEvent(Event $receiveEvent)
+    public function getReceiveEvent(): Event
+    {
+        return $this->receiveEvent;
+    }
+
+    public function setReceiveEvent(Event $receiveEvent): self
     {
         $this->receiveEvent = $receiveEvent;
 
         return $this;
-    }
-
-    /**
-     * Get receiveEvent.
-     *
-     * @return Event $receiveEvent
-     */
-    public function getReceiveEvent()
-    {
-        return $this->receiveEvent;
     }
 }

@@ -26,5 +26,5 @@ use Celsius3\NotificationBundle\Manager\NotificationManager;
 
 interface Notifiable
 {
-    public function notify(NotificationManager $manager);
+    public function notify(NotificationManager $manager): void;
 }

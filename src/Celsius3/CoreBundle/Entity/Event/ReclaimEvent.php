@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
@@ -29,6 +31,8 @@ use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use function array_key_exists;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\ReclaimEventRepository")
@@ -47,12 +51,12 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
      */
     private $receiveEvent;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'reclaim';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         if (array_key_exists('request', $data['extraData'])) {
             $this->setRequestEvent($data['extraData']['request']);
@@ -60,7 +64,14 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
         } else {
             $this->setReceiveEvent($data['extraData']['receive']);
             $this->getReceiveEvent()->setReclaimed(true);
-            if (!($data['extraData']['receive'] instanceof UploadEvent)) {
+            if ($data['extraData']['receive'] instanceof UploadEvent) {
+                // Se vuelve a posicionar el currentState en requested
+                $r = $this->getReceiveEvent()->getRequest();
+                $old = $r->getCurrentState()->setCurrent(false);
+                $new = $r->getState(StateManager::STATE__TAKEN)->setCurrent(true);
+                $lifecycleHelper->refresh($old);
+                $lifecycleHelper->refresh($new);
+            } else {
                 $this->setRequestEvent($this->getReceiveEvent()->getRequestEvent());
                 $this->getRequestEvent()->setReclaimed(true);
 
@@ -70,80 +81,59 @@ class ReclaimEvent extends SingleInstanceEvent implements Notifiable
                 $new = $r->getState(StateManager::STATE__REQUESTED)->setCurrent(true);
                 $lifecycleHelper->refresh($old);
                 $lifecycleHelper->refresh($new);
-            } else {
-                // Se vuelve a posicionar el currentState en requested
-                $r = $this->getReceiveEvent()->getRequest();
-                $old = $r->getCurrentState()->setCurrent(false);
-                $new = $r->getState(StateManager::STATE__TAKEN)->setCurrent(true);
-                $lifecycleHelper->refresh($old);
-                $lifecycleHelper->refresh($new);
             }
         }
         $this->setObservations($data['extraData']['observations']);
     }
 
-    /**
-     * Set requestEvent.
-     *
-     * @param Event $requestEvent
-     *
-     * @return self
-     */
-    public function setRequestEvent(Event $requestEvent)
+    public function getRequestEvent(): Event
+    {
+        return $this->requestEvent;
+    }
+
+    public function setRequestEvent(Event $requestEvent): self
     {
         $this->requestEvent = $requestEvent;
 
         return $this;
     }
 
-    /**
-     * Get requestEvent.
-     *
-     * @return Event $requestEvent
-     */
-    public function getRequestEvent()
+    public function getReceiveEvent(): Event
     {
-        return $this->requestEvent;
+        return $this->receiveEvent;
     }
 
-    /**
-     * Set receiveEvent.
-     *
-     * @param Event $receiveEvent
-     *
-     * @return self
-     */
-    public function setReceiveEvent(Event $receiveEvent)
+    public function setReceiveEvent(Event $receiveEvent): self
     {
         $this->receiveEvent = $receiveEvent;
 
         return $this;
     }
 
-    /**
-     * Get receiveEvent.
-     *
-     * @return Event $receiveEvent
-     */
-    public function getReceiveEvent()
+    public function notify(NotificationManager $manager): void
     {
-        return $this->receiveEvent;
-    }
-
-    public function notify(NotificationManager $manager)
-    {
-        if ((!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent) ||
-         (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent)) {
+        if (($this->getReceiveEvent() !== null && $this->getReceiveEvent() instanceof MultiInstanceEvent) ||
+            ($this->getRequestEvent() !== null && $this->getRequestEvent() instanceof MultiInstanceEvent)) {
             $manager->notifyRemoteEvent($this, 'reclaim');
         }
     }
 
     public function getRemoteNotificationTarget()
     {
-        if (!is_null($this->getReceiveEvent()) && $this->getReceiveEvent() instanceof MultiInstanceEvent) {
-            return $this->getRequest()->getOrder()->getRequest($this->getReceiveEvent()->getInstance())->getOperator();
-        } elseif (!is_null($this->getRequestEvent()) && $this->getRequestEvent() instanceof MultiInstanceEvent) {
-            return $this->getRequest()->getOrder()->getRequest($this->getRequestEvent()->getRemoteRequest()->getInstance())->getOperator();
+        $operator = null;
+
+        if ($this->getReceiveEvent() instanceof MultiInstanceEvent) {
+            $operator = $this->getRequest()->getOrder()->getRequest(
+                $this->getReceiveEvent()->getInstance()
+            )->getOperator();
         }
+
+        if ($this->getRequestEvent() instanceof MultiInstanceEvent) {
+            $operator = $this->getRequest()->getOrder()->getRequest(
+                $this->getRequestEvent()->getRemoteRequest()->getInstance()
+            )->getOperator();
+        }
+
+        return $operator;
     }
 }

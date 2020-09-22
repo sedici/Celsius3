@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
@@ -31,12 +33,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class NoSearchPendingsEvent extends SingleInstanceEvent
 {
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'nosearchpendings';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $this->getState()->setSearchPending(false);
     }

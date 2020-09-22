@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\File;
@@ -35,11 +37,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ApproveEvent extends MultiInstanceEvent
 {
-    public function getEventType()
-    {
-        return 'approve';
-    }
-
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
      * @ORM\JoinTable(name="approves_files",
@@ -48,7 +45,6 @@ class ApproveEvent extends MultiInstanceEvent
      *      )
      */
     private $files;
-
     /**
      * @Assert\NotNull
      * @ORM\OneToOne(targetEntity="Celsius3\CoreBundle\Entity\Event\Event")
@@ -56,74 +52,56 @@ class ApproveEvent extends MultiInstanceEvent
      */
     private $receiveEvent;
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
-    {
-        $this->setReceiveEvent($data['extraData']['receive']);
-        $this->getReceiveEvent()->setApproved(true);
-        $lifecycleHelper->refresh($this->getReceiveEvent());
-        $lifecycleHelper->copyFilesToPreviousRequest($request, $data['extraData']['receive']->getRequest(), $this);
-        $lifecycleHelper->createEvent(EventManager::EVENT__DELIVER, $data['extraData']['receive']->getRequest(), $data['extraData']['receive']->getRequest()->getInstance());
-    }
-
-    /**
-     * Set receiveEvent.
-     *
-     * @param Event $receiveEvent
-     *
-     * @return self
-     */
-    public function setReceiveEvent(Event $receiveEvent)
-    {
-        $this->receiveEvent = $receiveEvent;
-
-        return $this;
-    }
-
-    /**
-     * Get receiveEvent.
-     *
-     * @return Event $receiveEvent
-     */
-    public function getReceiveEvent()
-    {
-        return $this->receiveEvent;
-    }
-
-    /**
-     * Add files.
-     *
-     * @param File $files
-     */
-    public function addFile(File $files)
-    {
-        $this->files[] = $files;
-    }
-
-    /**
-     * Remove files.
-     *
-     * @param File $files
-     */
-    public function removeFile(File $files)
-    {
-        $this->files->removeElement($files);
-    }
-
-    /**
-     * Get files.
-     *
-     * @return Collection $files
-     */
-    public function getFiles()
-    {
-        return $this->files;
-    }
-
     /**
      * Constructor.
      */
     public function __construct()
     {
         $this->files = new ArrayCollection();
+    }
+
+    public function getEventType(): string
+    {
+        return 'approve';
+    }
+
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
+    {
+        $this->setReceiveEvent($data['extraData']['receive']);
+        $this->getReceiveEvent()->setApproved(true);
+        $lifecycleHelper->refresh($this->getReceiveEvent());
+        $lifecycleHelper->copyFilesToPreviousRequest($request, $data['extraData']['receive']->getRequest(), $this);
+        $lifecycleHelper->createEvent(
+            EventManager::EVENT__DELIVER,
+            $data['extraData']['receive']->getRequest(),
+            $data['extraData']['receive']->getRequest()->getInstance()
+        );
+    }
+
+    public function getReceiveEvent(): Event
+    {
+        return $this->receiveEvent;
+    }
+
+    public function setReceiveEvent(Event $receiveEvent): self
+    {
+        $this->receiveEvent = $receiveEvent;
+
+        return $this;
+    }
+
+    public function addFile(File $files): void
+    {
+        $this->files[] = $files;
+    }
+
+    public function removeFile(File $files): void
+    {
+        $this->files->removeElement($files);
+    }
+
+    public function getFiles()
+    {
+        return $this->files;
     }
 }

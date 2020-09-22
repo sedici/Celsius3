@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Request;
@@ -27,6 +29,8 @@ use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Celsius3\NotificationBundle\Entity\Notifiable;
 use Celsius3\NotificationBundle\Manager\NotificationManager;
 use Doctrine\ORM\Mapping as ORM;
+
+use function array_key_exists;
 
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\BaseRepository")
@@ -38,12 +42,12 @@ class CancelEvent extends SingleInstanceEvent implements Notifiable
      */
     private $cancelledByUser = false;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'cancel';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         if (array_key_exists('remoterequest', $data['extraData'])) {
             $data['extraData']['remoterequest']->setCancelled(true);
@@ -53,21 +57,27 @@ class CancelEvent extends SingleInstanceEvent implements Notifiable
         $this->setCancelledByUser($data['extraData']['cancelled_by_user']);
         $this->setObservations($data['extraData']['observations']);
 
-        $lifecycleHelper->getEventManager()->cancelRequests($data['extraData']['sirequests'], $data['extraData']['httprequest']);
-        $lifecycleHelper->getEventManager()->cancelRequests($data['extraData']['mirequests'], $data['extraData']['httprequest']);
+        $lifecycleHelper->getEventManager()->cancelRequests(
+            $data['extraData']['sirequests'],
+            $data['extraData']['httprequest']
+        );
+        $lifecycleHelper->getEventManager()->cancelRequests(
+            $data['extraData']['mirequests'],
+            $data['extraData']['httprequest']
+        );
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyEvent($this, 'cancel');
     }
 
-    public function getCancelledByUser()
+    public function getCancelledByUser(): bool
     {
         return $this->cancelledByUser;
     }
 
-    public function setCancelledByUser($cancelledByUser)
+    public function setCancelledByUser($cancelledByUser): CancelEvent
     {
         $this->cancelledByUser = $cancelledByUser;
 

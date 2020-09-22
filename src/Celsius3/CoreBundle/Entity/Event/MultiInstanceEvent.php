@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Instance;
@@ -38,32 +40,20 @@ class MultiInstanceEvent extends Event
      */
     private $remoteInstance;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'mi';
     }
 
-    /**
-     * Set remoteInstance.
-     *
-     * @param Instance $remoteInstance
-     *
-     * @return self
-     */
-    public function setRemoteInstance(Instance $remoteInstance)
+    public function getRemoteInstance(): Instance
+    {
+        return $this->remoteInstance;
+    }
+
+    public function setRemoteInstance(Instance $remoteInstance): self
     {
         $this->remoteInstance = $remoteInstance;
 
         return $this;
-    }
-
-    /**
-     * Get remoteInstance.
-     *
-     * @return Instance $remoteInstance
-     */
-    public function getRemoteInstance()
-    {
-        return $this->remoteInstance;
     }
 }

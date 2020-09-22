@@ -20,8 +20,11 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
+use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\File;
 use Celsius3\CoreBundle\Entity\Mixin\ApprovableTrait;
 use Celsius3\CoreBundle\Entity\Mixin\ReclaimableTrait;
@@ -51,31 +54,35 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="remoteEvents", cascade={"persist",  "refresh"})
+     * @ORM\ManyToOne(
+     *     targetEntity="Celsius3\CoreBundle\Entity\State",
+     *     inversedBy="remoteEvents",
+     *     cascade={"persist",  "refresh"})
      * @ORM\JoinColumn(name="remote_state_id", referencedColumnName="id")
      */
     private $remoteState;
 
     /**
      * @ORM\ManyToMany(targetEntity="Celsius3\CoreBundle\Entity\File", cascade={"persist"})
-     * @ORM\JoinTable(name="uploads_files",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @ORM\JoinTable(
+     *     name="uploads_files",
+     *     joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id", unique=true)}
+     * )
      */
     private $files;
-
-    public function getEventType()
-    {
-        return 'upload';
-    }
 
     public function __construct()
     {
         $this->files = new ArrayCollection();
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function getEventType(): string
+    {
+        return 'upload';
+    }
+
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $this->setDeliveryType('pdf');
         $lifecycleHelper->uploadFiles($request, $this, $data['extraData']['files']);
@@ -85,110 +92,61 @@ class UploadEvent extends MultiInstanceEvent implements Notifiable
         $this->setRemoteState($lifecycleHelper->getState($request->getPreviousRequest(), $data, $this));
     }
 
-    /**
-     * Set deliveryType.
-     *
-     * @param string $deliveryType
-     *
-     * @return self
-     */
-    public function setDeliveryType($deliveryType)
+    public function getDeliveryType(): string
+    {
+        return $this->deliveryType;
+    }
+
+    public function setDeliveryType($deliveryType): self
     {
         $this->deliveryType = $deliveryType;
 
         return $this;
     }
 
-    /**
-     * Get deliveryType.
-     *
-     * @return string $deliveryType
-     */
-    public function getDeliveryType()
-    {
-        return $this->deliveryType;
-    }
-
-    /**
-     * Add files.
-     *
-     * @param File $files
-     */
-    public function addFile(File $files)
+    public function addFile(File $files): void
     {
         $this->files[] = $files;
     }
 
-    /**
-     * Remove files.
-     *
-     * @param File $files
-     */
-    public function removeFile(File $files)
+    public function removeFile(File $files): void
     {
         $this->files->removeElement($files);
     }
 
-    /**
-     * Get files.
-     *
-     * @return Collection $files
-     */
     public function getFiles()
     {
         return $this->files;
     }
 
-    /**
-     * Set remoteState.
-     *
-     * @param State $remoteState
-     *
-     * @return self
-     */
-    public function setRemoteState(State $remoteState)
+    public function getRemoteState(): State
+    {
+        return $this->remoteState;
+    }
+
+    public function setRemoteState(State $remoteState): self
     {
         $this->remoteState = $remoteState;
 
         return $this;
     }
 
-    /**
-     * Get remoteState.
-     *
-     * @return State $remoteState
-     */
-    public function getRemoteState()
-    {
-        return $this->remoteState;
-    }
-
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyRemoteEvent($this, 'upload');
     }
 
-    public function getRemoteNotificationTarget()
+    public function getRemoteNotificationTarget(): BaseUser
     {
         return $this->getRequest()->getPreviousRequest()->getOwner();
     }
 
-    /**
-     * Get reclaimed.
-     *
-     * @return bool
-     */
-    public function getReclaimed()
+    public function getReclaimed(): bool
     {
         return $this->reclaimed;
     }
 
-    /**
-     * Get approved.
-     *
-     * @return bool
-     */
-    public function getApproved()
+    public function getApproved(): bool
     {
         return $this->approved;
     }

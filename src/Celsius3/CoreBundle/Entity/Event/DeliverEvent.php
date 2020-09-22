@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\NotificationBundle\Entity\Notifiable;
@@ -31,12 +33,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DeliverEvent extends SingleInstanceEvent implements Notifiable
 {
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'deliver';
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyEvent($this, 'deliver');
     }

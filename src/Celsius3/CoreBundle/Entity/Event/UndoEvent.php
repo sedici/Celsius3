@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -29,7 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class UndoEvent extends SingleInstanceEvent
 {
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'undo';
     }

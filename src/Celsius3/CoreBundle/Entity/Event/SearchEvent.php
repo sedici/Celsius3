@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Catalog;
@@ -37,7 +39,10 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
 {
     /**
      * @Assert\NotBlank
-     * @Assert\Choice(callback = {"\Celsius3\CoreBundle\Manager\CatalogManager", "getResults"}, message = "Choose a valid result.")
+     * @Assert\Choice(
+     *     callback = {"\Celsius3\CoreBundle\Manager\CatalogManager", "getResults"},
+     *     message = "Choose a valid result."
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $result;
@@ -49,29 +54,15 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
      */
     private $catalog;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'search';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $this->setResult($data['extraData']['result']);
         $this->setCatalog($data['extraData']['catalog']);
-    }
-
-    /**
-     * Set result.
-     *
-     * @param string $result
-     *
-     * @return self
-     */
-    public function setResult($result)
-    {
-        $this->result = $result;
-
-        return $this;
     }
 
     /**
@@ -79,36 +70,31 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
      *
      * @return string $result
      */
-    public function getResult()
+    public function getResult(): string
     {
         return $this->result;
     }
 
-    /**
-     * Set catalog.
-     *
-     * @param Catalog $catalog
-     *
-     * @return self
-     */
-    public function setCatalog(Catalog $catalog)
+    public function setResult(string $result): self
+    {
+        $this->result = $result;
+
+        return $this;
+    }
+
+    public function getCatalog(): Catalog
+    {
+        return $this->catalog;
+    }
+
+    public function setCatalog(Catalog $catalog): self
     {
         $this->catalog = $catalog;
 
         return $this;
     }
 
-    /**
-     * Get catalog.
-     *
-     * @return Catalog $catalog
-     */
-    public function getCatalog()
-    {
-        return $this->catalog;
-    }
-
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyEvent($this, 'search');
     }

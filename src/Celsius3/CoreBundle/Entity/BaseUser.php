@@ -270,7 +270,7 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
         return $this->getSurname() . ', ' . $this->getName();
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyNewUser($this);
     }

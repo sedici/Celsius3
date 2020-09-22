@@ -73,7 +73,7 @@ class Message extends BaseMessage implements Notifiable
         return $this->getSender().' - '.$this->getThread()->getSubject();
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyNewMessage($this);
     }

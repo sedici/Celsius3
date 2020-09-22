@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Mixin\CancellableTrait;
@@ -40,38 +42,28 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiab
     use CancellableTrait;
     use ProviderTrait;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'sirequest';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);
     }
 
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyEvent($this, 'request');
     }
 
-    /**
-     * Get reclaimed.
-     *
-     * @return bool
-     */
-    public function getReclaimed()
+    public function getReclaimed(): bool
     {
         return $this->reclaimed;
     }
-
-    /**
-     * Get cancelled.
-     *
-     * @return bool
-     */
-    public function getCancelled()
+    
+    public function getCancelled(): bool
     {
         return $this->cancelled;
     }

@@ -20,14 +20,16 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
-use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\UserInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -101,7 +103,11 @@ abstract class Event implements EventInterface
 
     /**
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\State", inversedBy="events", cascade={"persist", "refresh"})
+     * @ORM\ManyToOne(
+     *     targetEntity="Celsius3\CoreBundle\Entity\State",
+     *     inversedBy="events",
+     *     cascade={"persist", "refresh"}
+     * )
      * @ORM\JoinColumn(name="state_id", referencedColumnName="id", nullable=false)
      */
     private $state;
@@ -113,147 +119,82 @@ abstract class Event implements EventInterface
      */
     private $instance;
 
-    abstract public function getEventType();
+    abstract public function getEventType(): string;
 
     public function __toString()
     {
         $title = $this->getRequest()->getOrder()->getMaterialData()->getTitle();
         $code = $this->getRequest()->getOrder()->getCode();
 
-        return  "($code) $title";
+        return "($code) $title";
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function getRequest(): Request
     {
+        return $this->request;
     }
 
-    /**
-     * Get id.
-     *
-     * @return id $id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set observations.
-     *
-     * @param string $observations
-     *
-     * @return self
-     */
-    public function setObservations($observations)
-    {
-        $this->observations = $observations;
-
-        return $this;
-    }
-
-    /**
-     * Get observations.
-     *
-     * @return string $observations
-     */
-    public function getObservations()
-    {
-        return $this->observations;
-    }
-
-    /**
-     * Set operator.
-     *
-     * @param BaseUser $operator
-     *
-     * @return self
-     */
-    public function setOperator(BaseUser $operator = null)
-    {
-        $this->operator = $operator;
-
-        return $this;
-    }
-
-    /**
-     * Get operator.
-     *
-     * @return BaseUser $operator
-     */
-    public function getOperator()
-    {
-        return $this->operator;
-    }
-
-    /**
-     * Set state.
-     *
-     * @param State $state
-     *
-     * @return self
-     */
-    public function setState(State $state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * Get state.
-     *
-     * @return State $state
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * Set instance.
-     *
-     * @param Instance $instance
-     *
-     * @return self
-     */
-    public function setInstance(Instance $instance)
-    {
-        $this->instance = $instance;
-
-        return $this;
-    }
-
-    /**
-     * Get instance.
-     *
-     * @return Instance $instance
-     */
-    public function getInstance()
-    {
-        return $this->instance;
-    }
-
-    /**
-     * Set request.
-     *
-     * @param Request $request
-     *
-     * @return self
-     */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
 
         return $this;
     }
 
-    /**
-     * Get request.
-     *
-     * @return Request $request
-     */
-    public function getRequest()
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
-        return $this->request;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getObservations(): string
+    {
+        return $this->observations;
+    }
+
+    public function setObservations(string $observations): self
+    {
+        $this->observations = $observations;
+
+        return $this;
+    }
+
+    public function getOperator(): UserInterface
+    {
+        return $this->operator;
+    }
+
+    public function setOperator(UserInterface $operator = null): Event
+    {
+        $this->operator = $operator;
+
+        return $this;
+    }
+
+    public function getState(): State
+    {
+        return $this->state;
+    }
+
+    public function setState(State $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getInstance(): Instance
+    {
+        return $this->instance;
+    }
+    
+    public function setInstance(Instance $instance): self
+    {
+        $this->instance = $instance;
+
+        return $this;
     }
 }

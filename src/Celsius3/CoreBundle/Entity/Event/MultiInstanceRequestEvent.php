@@ -20,6 +20,8 @@
  * along with Celsius3.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace Celsius3\CoreBundle\Entity\Event;
 
 use Celsius3\CoreBundle\Entity\Mixin\AnnullableTrait;
@@ -50,90 +52,70 @@ class MultiInstanceRequestEvent extends MultiInstanceEvent implements Notifiable
      */
     private $remoteRequest;
 
-    public function getEventType()
+    public function getEventType(): string
     {
         return 'mirequest';
     }
 
-    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date)
+    public function applyExtraData(Request $request, array $data, LifecycleHelper $lifecycleHelper, $date): void
     {
         $this->setProvider($data['extraData']['provider']);
         $this->setObservations($data['extraData']['observations']);
         $this->setRemoteInstance($data['extraData']['provider']->findCelsiusInstance());
         $data['instance'] = $this->getRemoteInstance();
         $data['stateName'] = StateManager::STATE__CREATED;
-        $remoteRequest = $lifecycleHelper->createRequest($request->getOrder(), $request->getOperator(), OrderManager::TYPE__PROVISION, $this->getRemoteInstance(), $request->getOperator());
-        $remoteRequest->setOrder($request->getOrder());
-        $this->setRemoteRequest($remoteRequest);
-        $remoteRequest->setPreviousRequest($request);
-        $lifecycleHelper->refresh($remoteRequest);
-        $remoteCreation = $remoteRequest->getState(StateManager::STATE__CREATED);
-        $remoteCreation->setRemoteEvent($this);
+        $remote_request = $lifecycleHelper->createRequest(
+            $request->getOrder(),
+            $request->getOperator(),
+            OrderManager::TYPE__PROVISION,
+            $this->getRemoteInstance(),
+            $request->getOperator()
+        );
+        $remote_request->setOrder($request->getOrder());
+        $this->setRemoteRequest($remote_request);
+        $remote_request->setPreviousRequest($request);
+        $lifecycleHelper->refresh($remote_request);
+        $remote_creation = $remote_request->getState(StateManager::STATE__CREATED);
+        $remote_creation->setRemoteEvent($this);
 
-        // En caso de que se esté haciendo una segunda petición a la misma instancia, se vuelve a dejar el estado actual como creado
-        $currentState = $remoteRequest->getCurrentState();
-        if ($currentState->getId() !== $remoteCreation->getId()) {
-            $remoteCreation->setCurrent(true);
-            $currentState->setCurrent(false);
-            $lifecycleHelper->refresh($currentState);
+        /* En caso de que se esté haciendo una segunda petición a la misma instancia,
+           se vuelve a dejar el estado actual como creado */
+        $current_state = $remote_request->getCurrentState();
+        if ($current_state->getId() !== $remote_creation->getId()) {
+            $remote_creation->setCurrent(true);
+            $current_state->setCurrent(false);
+            $lifecycleHelper->refresh($current_state);
         }
     }
 
-    /**
-     * Set remoteRequest.
-     *
-     * @param Request $remoteRequest
-     *
-     * @return self
-     */
-    public function setRemoteRequest(Request $remoteRequest)
+    public function getRemoteRequest(): Request
+    {
+        return $this->remoteRequest;
+    }
+
+    public function setRemoteRequest(Request $remoteRequest): self
     {
         $this->remoteRequest = $remoteRequest;
 
         return $this;
     }
 
-    /**
-     * Get remoteRequest.
-     *
-     * @return Request $remoteRequest
-     */
-    public function getRemoteRequest()
-    {
-        return $this->remoteRequest;
-    }
-
-    public function notify(NotificationManager $manager)
+    public function notify(NotificationManager $manager): void
     {
         $manager->notifyEvent($this, 'request');
     }
 
-    /**
-     * Get reclaimed.
-     *
-     * @return bool
-     */
-    public function getReclaimed()
+    public function getReclaimed(): bool
     {
         return $this->reclaimed;
     }
 
-    /**
-     * Get cancelled.
-     *
-     * @return bool
-     */
-    public function getCancelled()
+    public function getCancelled(): bool
     {
         return $this->cancelled;
     }
 
-    /**
-     * Get annulled.
-     *
-     * @return bool
-     */
-    public function getAnnulled()
+    public function getAnnulled(): bool
     {
         return $this->annulled;
     }
