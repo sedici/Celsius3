@@ -25,10 +25,8 @@ declare(strict_types=1);
 namespace Celsius3\CoreBundle\Entity;
 
 use Celsius3\CoreBundle\Entity\Event\Event;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\PersistentCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -137,16 +135,6 @@ class Instance extends LegacyInstance
      * @ORM\OneToMany(targetEntity="DataRequest", mappedBy="instance")
      */
     protected $dataRequests;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    protected $inTestMode = false;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    protected $testModeLimitDate;
 
     public function __construct()
     {
@@ -481,38 +469,5 @@ class Instance extends LegacyInstance
     public function getDataRequests()
     {
         return $this->dataRequests;
-    }
-
-    public function isInTestMode(): bool
-    {
-        return $this->inTestMode;
-    }
-
-    public function setInTestMode(bool $inTestMode): Instance
-    {
-        $this->inTestMode = $inTestMode;
-        return $this;
-    }
-
-    public function getTestModeLimitDate(): ?DateTime
-    {
-        return $this->testModeLimitDate;
-    }
-
-    public function setTestModeLimitDate(DateTime $testModeLimitDate = null): Instance
-    {
-        $this->testModeLimitDate = $testModeLimitDate;
-        return $this;
-    }
-
-    public function testTimeIsOver(): bool
-    {
-        return $this->testModeLimitDate ? 0 < $this->testModeLimitDate->diff(new DateTime())->format('%a') : false;
-    }
-
-    public function endTestMode(): void
-    {
-        $this->testModeLimitDate = null;
-        $this->inTestMode = false;
     }
 }

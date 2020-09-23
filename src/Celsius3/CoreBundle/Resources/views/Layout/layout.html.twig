@@ -45,18 +45,6 @@
                 float: left;
                 width: auto;
             }
-            #test-mode {
-                width: 20%;
-                height: auto;
-                background-color: indianred;
-                position: fixed;
-                top: 0;
-                left: 40%;
-                z-index: 1500;
-                color: white;
-                text-align: center;
-                font-weight: bold;
-            }
         </style>
     {% endblock %}
     {% if app.environment == 'prod' %}
@@ -85,9 +73,6 @@
         href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your
     experience.</p> <![endif]-->
 {% block header %}
-    {% if instance.isInTestMode %}
-        <div id="test-mode">{{ 'IN TEST MODE' | trans }}</div>
-    {% endif %}
     <div id="header">
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
             <div class="navbar-header">

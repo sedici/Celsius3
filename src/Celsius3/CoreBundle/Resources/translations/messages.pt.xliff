@@ -4329,10 +4329,6 @@
         <source>Invalid image size. The image must be a maximum of 100px wide x 200px high.</source>
         <target>Tamanho de imagem inválido. A imagem deve ter no máximo 200 px de largura x 100 px de altura.</target>
       </trans-unit>
-      <trans-unit id="IN TEST MODE" resname="IN TEST MODE">
-        <source>IN TEST MODE</source>
-        <target>EM MODO DE TESTE</target>
-      </trans-unit>
       <trans-unit id="Associated to" resname="Associated to">
         <source>Associated to</source>
         <target>Associado a</target>
