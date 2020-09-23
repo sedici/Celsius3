@@ -408,7 +408,7 @@ class Instance extends LegacyInstance
         $this->news->removeElement($news);
     }
 
-    public function getLatitud(): string
+    public function getLatitud(): ?string
     {
         return $this->latitud;
     }
@@ -420,7 +420,7 @@ class Instance extends LegacyInstance
         return $this;
     }
 
-    public function getLongitud(): string
+    public function getLongitud(): ?string
     {
         return $this->longitud;
     }
