@@ -8,36 +8,16 @@
     <br/>
     <div class="row">
         <div class="col-md-6">
-            <h2>{{ 'Celsius3 Instances'|trans }}</h2>
+            <h2>{{ 'Celsius3 Instances' | trans }}</h2>
             {% for country, insts in instances %}
                 {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
             {% else %}
-                {{ 'There are no instances.'|trans }}
+                {{ 'There are no instances.' | trans }}
             {% endfor %}
         </div>
         <div class="col-md-6">
-
-            <div id="map" class="map">
-                {#             <img src="{{ asset('images/mapa.jpg') }}" alt="" style="width:100%; height:auto;"> #}
-
-
-                {#                {{ ivory_google_map(map) }}#}
-                {#                {{ ivory_google_api([map]) }}#}
-
-
-                {#{{ ivory_google_map_css(map) }}
-                {{ ivory_google_map_container(map) }}
-                {{ ivory_google_map_js(map) }}#}
-            </div>
+            <div id="map" class="map"></div>
         </div>
-    </div>
-    <div class="row">
-        <h2>{{ 'Legacy Instances'|trans }}</h2>
-        {% for country, insts in legacyInstances %}
-            {% include 'Celsius3CoreBundle:Directory:_instance.html.twig' %}
-        {% else %}
-            {{ 'There are no instances.' | trans }}
-        {% endfor %}
     </div>
 {% endblock %}
 
@@ -50,10 +30,10 @@
 
     <script type="text/javascript">
         function initMap() {
-            var map = new google.maps.Map(
+            let map = new google.maps.Map(
                 document.getElementById('map'),
                 {
-                    zoom: 4,
+                    zoom: 3,
                     center: {
                         lat: {{ google_maps_center_position.latitude }},
                         lng: {{ google_maps_center_position.longitude }}
@@ -61,7 +41,7 @@
                 }
             );
 
-            var markers = [];
+            let markers = [];
             {% for marker in google_maps_markers %}
             markers.push(new google.maps.Marker({
                 position: {
