@@ -150,7 +150,7 @@ abstract class Event implements EventInterface
         return $this->id;
     }
 
-    public function getObservations(): string
+    public function getObservations(): ?string
     {
         return $this->observations;
     }
