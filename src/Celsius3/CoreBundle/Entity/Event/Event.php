@@ -155,7 +155,7 @@ abstract class Event implements EventInterface
         return $this->observations;
     }
 
-    public function setObservations(string $observations): self
+    public function setObservations(?string $observations): self
     {
         $this->observations = $observations;
 
