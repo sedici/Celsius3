@@ -45,12 +45,12 @@ class MultiInstanceEvent extends Event
         return 'mi';
     }
 
-    public function getRemoteInstance(): Instance
+    public function getRemoteInstance(): ?Instance
     {
         return $this->remoteInstance;
     }
 
-    public function setRemoteInstance(Instance $remoteInstance): self
+    public function setRemoteInstance(?Instance $remoteInstance): self
     {
         $this->remoteInstance = $remoteInstance;
 

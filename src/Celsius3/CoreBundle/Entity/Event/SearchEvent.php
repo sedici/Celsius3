@@ -65,17 +65,12 @@ class SearchEvent extends SingleInstanceEvent implements Notifiable
         $this->setCatalog($data['extraData']['catalog']);
     }
 
-    /**
-     * Get result.
-     *
-     * @return string $result
-     */
-    public function getResult(): string
+    public function getResult(): ?string
     {
         return $this->result;
     }
 
-    public function setResult(string $result): self
+    public function setResult(?string $result): self
     {
         $this->result = $result;
 

@@ -58,12 +58,12 @@ class SingleInstanceRequestEvent extends SingleInstanceEvent implements Notifiab
         $manager->notifyEvent($this, 'request');
     }
 
-    public function getReclaimed(): bool
+    public function getReclaimed(): ?bool
     {
         return $this->reclaimed;
     }
     
-    public function getCancelled(): bool
+    public function getCancelled(): ?bool
     {
         return $this->cancelled;
     }
