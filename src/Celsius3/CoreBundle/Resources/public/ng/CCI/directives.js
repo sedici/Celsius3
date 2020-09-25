@@ -12,13 +12,15 @@ cciWidget.directive('cciWidget', ['$translate', 'Country', 'City', 'Institution'
         }
 
         function link(scope, element, attrs) {
-            scope.formatInstitution = function (element) {
-                if (_.isEmpty(element)) {
+            scope.formatInstitution = function (institution) {
+                if (_.isEmpty(institution)) {
                     return;
                 }
 
-                var institution = element;
-                if (_.isUndefined(institution.celsius_instance) || institution.celsius_instance.invisible) {
+                if (_.isUndefined(institution.celsius_instance)
+                    || institution.celsius_instance.invisible
+                    || !institution.celsius_instance.enabled
+                ) {
                     return institution.name;
                 } else {
                     return institution.name + ' <span class="glyphicon glyphicon-cloud"></span>';

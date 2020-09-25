@@ -8,7 +8,7 @@
         <property name="abbreviation" type="string" expose="true" access-type="public_method" groups="administration_order_show, email_template"></property>
         <property name="website" type="string" expose="true" access-type="public_method" groups="email_template"></property>
         <property name="email" type="string" expose="true" access-type="public_method" groups="email_template"></property>
-        <property name="enabled" type="boolean" expose="true" access-type="public_method"></property>
+        <property name="enabled" type="boolean" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="hive" type="Celsius3\CoreBundle\Entity\Hive" expose="true" access-type="public_method" groups="administration_order_show"></property>
     </class>
 </serializer>
