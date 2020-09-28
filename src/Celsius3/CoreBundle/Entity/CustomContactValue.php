@@ -33,11 +33,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CustomContactValue extends CustomValue
 {
     /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Celsius3\CoreBundle\Entity\Contact", inversedBy="customValues")
      * @ORM\JoinColumn(name="contact_id", referencedColumnName="id", nullable=true)
      */
     private $contact;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     public function getContact(): BaseUser
     {
