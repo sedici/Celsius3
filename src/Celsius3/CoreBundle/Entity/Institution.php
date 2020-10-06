@@ -551,11 +551,10 @@ class Institution extends Provider
     {
         $institution = $this;
         do {
-            $celsiusInstance = $institution->getCelsiusInstance();
+            $celsius_instance = $institution->getCelsiusInstance();
             $institution = $institution->getParent();
-        }
-        while ($institution && !$celsiusInstance);
+        } while ($institution && !$celsius_instance);
 
-        return $celsiusInstance;
+        return $celsius_instance && $celsius_instance->getEnabled() ? $celsius_instance : false;
     }
 }
