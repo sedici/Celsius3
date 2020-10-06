@@ -11,23 +11,3 @@
     <hr class="separator_hr">
     {{ new('admin_customuserfield', form, 'Celsius3CoreBundle:AdminCustomField', true) }}
 {% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $('#custom_user_field_value').parent().hide();
-        $('#custom_user_field_type').bind('change', function () {
-            /*
-               1 = select
-            */
-            if ($('#custom_user_field_type').val() == '1') {
-                $('#custom_user_field_value').parent().show();
-            } else {
-                $('#custom_user_field_value').parent().hide();
-                $('#custom_user_field_value').val("");
-
-            }
-        });
-
-    </script>
-{% endblock %}

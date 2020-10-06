@@ -613,3 +613,20 @@ $(document).ready(function () {
         allowClear: true
     });
 });
+
+$(document).ready(function () {
+    $('#custom_field_type').bind('change', function () {
+        var field_type = $('#custom_field_type').val().split("\\").pop();
+        var field_value = $('#custom_field_value');
+        var field_value_form_group = field_value.closest(".form-group");
+
+        if (field_type === 'ChoiceType') {
+            field_value_form_group.show();
+        } else {
+            field_value_form_group.hide();
+            field_value.val("");
+        }
+    });
+
+    $('#custom_field_type').trigger("change");
+});
