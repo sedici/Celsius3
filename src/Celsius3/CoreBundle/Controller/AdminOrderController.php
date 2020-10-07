@@ -29,6 +29,7 @@ use Celsius3\CoreBundle\Form\Type\OrderType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -40,23 +41,23 @@ class AdminOrderController extends OrderController
 {
     protected function getSortDefaults()
     {
-        return array(
+        return [
             'defaultSortFieldName' => 'o.updatedAt',
             'defaultSortDirection' => 'asc',
-        );
+        ];
     }
 
     protected function listQuery($name)
     {
         return $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->getRepository('Celsius3CoreBundle:'.$name)
             ->findForInstance($this->getInstance());
     }
 
     protected function findQuery($name, $id)
     {
         return $this->getDoctrine()->getManager()
-            ->getRepository('Celsius3CoreBundle:' . $name)
+            ->getRepository('Celsius3CoreBundle:'.$name)
             ->findOneForInstance($this->getInstance(), $id);
     }
 
@@ -79,16 +80,14 @@ class AdminOrderController extends OrderController
      * @Route("/{id}/show", name="admin_order_show", options={"expose"=true})
      * @Template()
      *
-     * @param string $id The entity ID
+     * @param  string  $id  The entity ID
      *
      * @return array
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
      */
     public function showAction($id)
-
     {
-        
         return $this->baseShow('Order', $id);
     }
 
@@ -109,44 +108,93 @@ class AdminOrderController extends OrderController
         } else {
             $user = null;
         }
-        
-        return $this->baseNew('Order', new Order(), OrderType::class, array(
-            'instance' => $this->getInstance(),
-            'user' => $user,
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-            'create' => true,
-        ));
+
+        return $this->baseNew(
+            'Order',
+            new Order(),
+            OrderType::class,
+            [
+                'instance' => $this->getInstance(),
+                'user' => $user,
+                'operator' => $this->getUser(),
+                'actual_user' => $this->getUser(),
+                'create' => true,
+            ]
+        );
     }
 
     /**
      * Creates a new Order entity.
      *
-     * @Route("/create", name="admin_order_create")
-     * @Method("POST")
-     * @Template("Celsius3CoreBundle:AdminOrder:new.html.twig")
-     *
-     * @return array
+     * @Route("/create", name="admin_order_create", methods={"POST"})
      */
     public function createAction(Request $request)
     {
-        $options = array(
+        $options = [
             'instance' => $this->getInstance(),
             'material' => $this->getMaterialType(),
             'operator' => $this->getUser(),
             'actual_user' => $this->getUser(),
             'create' => true,
-            'user' =>   $this->getDoctrine()->getManager()
-                             ->getRepository('Celsius3CoreBundle:BaseUser')
-                             ->find($request->request->get('order')['originalRequest']['owner']), 
-        );
-      
-        if ($this->getMaterialType() === JournalTypeType::class){
+            'user' => $this->getDoctrine()->getManager()
+                ->getRepository('Celsius3CoreBundle:BaseUser')
+                ->find($request->request->get('order')['originalRequest']['owner']),
+        ];
+
+        if ($this->getMaterialType() === JournalTypeType::class) {
             $options['other'] = $request->request->get('order')['materialData']['journal_autocomplete'];
             $options['journal_id'] = $request->request->get('order')['materialData']['journal'];
         }
 
-        return $this->baseCreate('Order', new Order(), OrderType::class, $options, 'administration');
+        $order = new Order();
+        $type = OrderType::class;
+        $route = 'administration';
+
+        $form = $this->createForm($type, $order, $options);
+        $form->handleRequest($request);
+
+        if (!$order->getOriginalRequest()->getOwner()) {
+            $form->get('originalRequest')
+                ->get('owner_autocomplete')
+                ->addError(new FormError('El usuario seleccionado no es válido'));
+        }
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getMaterialType() === 'Celsius3\CoreBundle\Form\Type\JournalTypeType') {
+                $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
+                    $request->request->get('order')['materialData']['journal']
+                );
+                if ($journal === null) {
+                    $order->getMaterialData()->setOther(
+                        $request->request->get('order')['materialData']['journal_autocomplete']
+                    );
+                    $order->getMaterialData()->setJournal(null);
+                }
+            }
+
+            $this->persistEntity($order);
+            $this->get('session')
+                ->getFlashBag()
+                ->add('success', 'The Order was successfully created.');
+
+            if ($form->has('save_and_show') && $form->get('save_and_show')->isClicked()) {
+                return $this->redirect($this->generateUrl('admin_order_show', ['id' => $order->getId()]));
+            }
+
+            return $this->redirect($this->generateUrl($route));
+        }
+
+        $this->get('session')
+            ->getFlashBag()
+            ->add('error', 'There were errors creating the Order.');
+
+        return $this->render(
+            'Celsius3CoreBundle:AdminOrder:new.html.twig',
+            [
+                'entity' => $order,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -155,7 +203,7 @@ class AdminOrderController extends OrderController
      * @Route("/{id}/edit", name="admin_order_edit", options={"expose"=true})
      * @Template()
      *
-     * @param string $id The entity ID
+     * @param  string  $id  The entity ID
      *
      * @return array
      *
@@ -173,30 +221,34 @@ class AdminOrderController extends OrderController
 
         if ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) {
             $journal = $entity->getMaterialData()->getJournal();
-            
         } else {
             $journal = null;
         }
 
-        $other = ($entity->getMaterialData() instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $entity->getMaterialData()->getOther() : '';
-     
-        $editForm = $this->createForm(OrderType::class, $entity, array(
-            'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType($materialClass),
-            'user' => $entity->getOriginalRequest()->getOwner(),
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-            'journal' => $journal,
-            'other' => $other,
-            'journal_id' => !is_null($journal) ? $journal->getId() : '',
-          
-        ));
+        $other = ($entity->getMaterialData(
+            ) instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $entity->getMaterialData()->getOther() : '';
 
-        
+        $editForm = $this->createForm(
+            OrderType::class,
+            $entity,
+            [
+                'instance' => $this->getInstance(),
+                'material' => $this->getMaterialType($materialClass),
+                'user' => $entity->getOriginalRequest()->getOwner(),
+                'operator' => $this->getUser(),
+                'actual_user' => $this->getUser(),
+                'journal' => $journal,
+                'other' => $other,
+                'journal_id' => !is_null($journal) ? $journal->getId() : '',
 
-        return array('entity' => $entity,
-            'edit_form' => $editForm->createView(),
+            ]
         );
+
+
+        return [
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
+        ];
     }
 
     /**
@@ -221,7 +273,13 @@ class AdminOrderController extends OrderController
         //Clonar Orden original
         $duplicatedOrder = clone $order;
 
-        $request = $this->get('celsius3_core.lifecycle_helper')->createRequest($duplicatedOrder, $order->getOriginalRequest()->getOwner(), $order->getOriginalRequest()->getType(), $this->getInstance(), $order->getOriginalRequest()->getCreator());
+        $request = $this->get('celsius3_core.lifecycle_helper')->createRequest(
+            $duplicatedOrder,
+            $order->getOriginalRequest()->getOwner(),
+            $order->getOriginalRequest()->getType(),
+            $this->getInstance(),
+            $order->getOriginalRequest()->getCreator()
+        );
         $duplicatedOrder->setOriginalRequest($request);
         $duplicatedMaterialData = clone $order->getMaterialData();
         $duplicatedOrder->setMaterialData($duplicatedMaterialData);
@@ -232,7 +290,8 @@ class AdminOrderController extends OrderController
             $journal = null;
         }
 
-        $other = ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $duplicatedMaterialData->getOther() : '';
+        $other = ($duplicatedMaterialData instanceof \Celsius3\CoreBundle\Entity\JournalType) ? $duplicatedMaterialData->getOther(
+        ) : '';
 
         //Se registra duplicado en la base de datos
         $entity_manager->persist($duplicatedOrder);
@@ -241,20 +300,24 @@ class AdminOrderController extends OrderController
 
         $materialClass = get_class($duplicatedOrder->getMaterialData());
 
-        $editForm = $this->createForm(OrderType::class, $duplicatedOrder, array(
-            'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType($materialClass),
-            'user' => $duplicatedOrder->getOriginalRequest()->getOwner(),
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-            'journal' => $journal,
-            'other' => $other,
-        ));
+        $editForm = $this->createForm(
+            OrderType::class,
+            $duplicatedOrder,
+            [
+                'instance' => $this->getInstance(),
+                'material' => $this->getMaterialType($materialClass),
+                'user' => $duplicatedOrder->getOriginalRequest()->getOwner(),
+                'operator' => $this->getUser(),
+                'actual_user' => $this->getUser(),
+                'journal' => $journal,
+                'other' => $other,
+            ]
+        );
 
-        return array(
+        return [
             'entity' => $duplicatedOrder,
             'edit_form' => $editForm->createView(),
-        );
+        ];
     }
 
     /**
@@ -264,7 +327,7 @@ class AdminOrderController extends OrderController
      * @Method("post")
      * @Template("Celsius3CoreBundle:AdminOrder:edit.html.twig")
      *
-     * @param string $id The entity ID
+     * @param  string  $id  The entity ID
      *
      * @return array
      *
@@ -284,13 +347,17 @@ class AdminOrderController extends OrderController
         $user = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:BaseUser')
             ->find($request->request->get('order', null)['originalRequest']['owner']);
 
-        $editForm = $this->createForm(OrderType::class, $entity, array(
-            'instance' => $this->getInstance(),
-            'material' => $this->getMaterialType(),
-            'user' => $user,
-            'operator' => $this->getUser(),
-            'actual_user' => $this->getUser(),
-        ));
+        $editForm = $this->createForm(
+            OrderType::class,
+            $entity,
+            [
+                'instance' => $this->getInstance(),
+                'material' => $this->getMaterialType(),
+                'user' => $user,
+                'operator' => $this->getUser(),
+                'actual_user' => $this->getUser(),
+            ]
+        );
 
         $editForm->handleRequest($request);
 
@@ -299,8 +366,10 @@ class AdminOrderController extends OrderController
                 $journal = $this->getDoctrine()->getManager()->getRepository('Celsius3CoreBundle:Journal')->find(
                     $request->request->get('order', null)['materialData']['journal']
                 );
-                if (is_null($journal) ) {
-                    $entity->getMaterialData()->setOther($request->request->get('order', null)['materialData']['journal_autocomplete']);
+                if (is_null($journal)) {
+                    $entity->getMaterialData()->setOther(
+                        $request->request->get('order', null)['materialData']['journal_autocomplete']
+                    );
                     $entity->getMaterialData()->setJournal(null);
                 }
             }
@@ -310,17 +379,17 @@ class AdminOrderController extends OrderController
 
             if ($editForm->has('save_and_show')) {
                 if ($editForm->get('save_and_show')->isClicked()) {
-                    return $this->redirect($this->generateUrl('admin_order_show', array('id' => $id)));
+                    return $this->redirect($this->generateUrl('admin_order_show', ['id' => $id]));
                 }
             }
 
-            return $this->redirect($this->generateUrl('admin_order_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_order_edit', ['id' => $id]));
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
-        );
+        ];
     }
 
     /**
