@@ -102,7 +102,7 @@ class AddCustomFieldsSubscriber implements EventSubscriberInterface
             }
 
             if (ChoiceType::class === $field->getType()) {
-                $values = explode(',', $field->getValue());
+                $values =  $field->getValue() ? explode(',', $field->getValue()) : [];
                 $array_choices = ['' => ''];
                 foreach ($values as $key => $val) {
                     $array_choices[$val] = $val;
