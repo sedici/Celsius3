@@ -25,42 +25,35 @@ namespace Celsius3\CoreBundle\Controller;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Exception\Exception;
 use Doctrine\ORM\EntityManager;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Route;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * User controller.
- *
- * @Route("/admin/rest/event")
- */
 class AdminEventRestController extends BaseInstanceDependentRestController
 {
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/{request_id}", name="admin_rest_events", options={"expose"=true})
-     */
     public function getAllEventsAction($request_id)
     {
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+        $context = SerializationContext::create()->setGroups(['administration_order_show']);
         $em = $this->getDoctrine()->getManager();
 
-        $events = $em->getRepository('Celsius3CoreBundle:Event\\Event')->findBy(array('request' => $request_id));
-        $requests = $em->getRepository('Celsius3CoreBundle:Request')->findBy(array('previousRequest' => $request_id));
+        $events = $em->getRepository('Celsius3CoreBundle:Event\\Event')->findBy(['request' => $request_id]);
+        $requests = $em->getRepository('Celsius3CoreBundle:Request')->findBy(['previousRequest' => $request_id]);
 
-        $requestsIds = array_map(function (\Celsius3\CoreBundle\Entity\Request $item) {
-            return $item->getId();
-        }, $requests);
+        $requestsIds = array_map(
+            function (\Celsius3\CoreBundle\Entity\Request $item) {
+                return $item->getId();
+            },
+            $requests
+        );
         $remoteEvents = $em->getRepository('Celsius3CoreBundle:Event\\MultiInstanceEvent')
             ->getRemoteEvents($requestsIds);
 
         $all = array_merge($events, $remoteEvents);
-        $keys = array_map(function (Event $e) {
-            return $e->getId();
-        }, $all);
+        $keys = array_map(
+            function (Event $e) {
+                return $e->getId();
+            },
+            $all
+        );
 
         $reclaimEvents = $em->getRepository('Celsius3CoreBundle:Event\\ReclaimEvent')
             ->getReclaimEventsFor($keys);
@@ -77,11 +70,6 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/{request_id}/{event}", name="admin_rest_event", options={"expose"=true})
-     */
     public function getEventsAction($request_id, $event)
     {
         $events = $this->get('celsius3_core.event_manager')->getEvents($event, $request_id);
@@ -91,11 +79,6 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
-    /**
-     * GET Route annotation.
-     *
-     * @Get("/{id}/get", name="admin_rest_event_get", options={"expose"=true})
-     */
     public function getEventAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -112,11 +95,6 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
-    /**
-     * @Post("/update_observations/{id}", name="admin_rest_event_update_observations", options={"expose"=true})
-     *
-     * @param $id
-     */
     public function updateObservationsAction(Request $request, $id)
     {
         /** @var EntityManager */
@@ -136,9 +114,6 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         return $this->handleView($this->view(['updated' => true], 200)->setFormat('json'));
     }
 
-    /**
-     * @Post("/{request_id}/undo", name="admin_rest_order_event_undo", options={"expose"=true})
-     */
     public function undoAction($request_id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -160,9 +135,6 @@ class AdminEventRestController extends BaseInstanceDependentRestController
         return $this->handleView($view);
     }
 
-    /**
-     * @Post("/{request_id}/{event}", name="admin_rest_order_event", options={"expose"=true})
-     */
     public function createEventAction($request_id, $event)
     {
         $em = $this->getDoctrine()->getManager();
@@ -181,7 +153,7 @@ class AdminEventRestController extends BaseInstanceDependentRestController
 
         $view = $this->view($result, 200)->setFormat('json');
 
-        $context = SerializationContext::create()->setGroups(array('administration_order_show'));
+        $context = SerializationContext::create()->setGroups(['administration_order_show']);
         $view->setSerializationContext($context);
 
         return $this->handleView($view);

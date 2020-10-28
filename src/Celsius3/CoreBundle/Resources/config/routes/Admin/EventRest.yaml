@@ -1,0 +1,41 @@
+admin_rest_events:
+    path: /{request_id}
+    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:getAllEvents }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_event:
+    path: /{request_id}/{event}
+    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:getEvents }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_event_get:
+    path: /{id}/get
+    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:getEvent }
+    methods: [ GET ]
+    options:
+        expose: true
+
+admin_rest_event_update_observations:
+    path: /update_observations/{id}
+    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:updateObservations }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_event_undo:
+    path: /{request_id}/undo
+    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:undo }
+    methods: [ POST ]
+    options:
+        expose: true
+
+admin_rest_order_event:
+    path: /{request_id}/{event}
+    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:createEvent }
+    methods: [ POST ]
+    options:
+        expose: true

@@ -44,6 +44,10 @@ celsius3_core:
     type:     annotation
     prefix:   /
 
+celsius3_admin_event_rest:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/EventRest.yaml"
+    prefix: /admin/rest/event
+
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3CoreBundle:Public:index }
@@ -92,3 +96,4 @@ fos_oauth_server_authorize:
 
 _bazinga_jstranslation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
