@@ -33,6 +33,13 @@ admin_rest_order_event_undo:
     options:
         expose: true
 
+admin_rest_order_request_event:
+    path: /{request_id}/request
+    defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\CreateRequestEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
 admin_rest_order_event:
     path: /{request_id}/{event}
     defaults: { _controller: Celsius3CoreBundle:AdminEventRest:createEvent }

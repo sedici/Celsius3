@@ -22,17 +22,24 @@
 
 namespace Celsius3\CoreBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Celsius3\CoreBundle\Controller\BaseRestController;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Manager\Alert;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+
+use function is_array;
 
 class ContextListener
 {
     public function onKernelController(FilterControllerEvent $event)
     {
-        $controller = $event->getController()[0];
+        $controller = $event->getController();
 
-        if ($controller instanceof \Celsius3\CoreBundle\Controller\BaseRestController) {
+        if (is_array($controller)) {
+            $controller = $controller[0];
+        }
+
+        if ($controller instanceof BaseRestController) {
             Exception::setRest();
             Alert::setRest();
         }
