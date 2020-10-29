@@ -63,7 +63,7 @@ final class CreateRequestEventPostController extends BaseInstanceDependentRestCo
             $request->setOperator($this->getUser());
         }
 
-        $result = $this->lifecycleHelper->createEvent('request', $request, $this->getInstance());
+        $result = $this->lifecycleHelper->createRequestEvent($request, $this->getInstance());
 
         $view = $this->view($result, 200)->setFormat('json');
 
