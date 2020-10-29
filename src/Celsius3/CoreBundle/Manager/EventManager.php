@@ -144,32 +144,32 @@ class EventManager
 
     public function prepareExtraDataForRequest()
     {
-        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $http_request = $this->container->get('request_stack')->getCurrentRequest();
 
-        $extraData = array();
-        $extraData['observations'] = $httpRequest->request->get('observations', null);
+        $extra_data = [];
+        $extra_data['observations'] = $http_request->request->get('observations', null);
 
-        $em = $this->container->get('doctrine.orm.entity_manager');
-        if ($httpRequest->request->get('provider') === 'web') {
-            $provider = $em->getRepository('Celsius3CoreBundle:Web')
-                    ->findOneBy(array());
-        } elseif ($httpRequest->request->get('provider') === 'author') {
-            $provider = $em->getRepository('Celsius3CoreBundle:Author')
-                    ->findOneBy(array());
+        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
+        if ($http_request->request->get('provider') === 'web') {
+            $provider = $entity_manager->getRepository('Celsius3CoreBundle:Web')
+                    ->findOneBy([]);
+        } elseif ($http_request->request->get('provider') === 'author') {
+            $provider = $entity_manager->getRepository('Celsius3CoreBundle:Author')
+                    ->findOneBy([]);
         } else {
-            $provider = $em->getRepository('Celsius3CoreBundle:Institution')
-                    ->find($httpRequest->request->get('provider')['id']);
+            $provider = $entity_manager->getRepository('Celsius3CoreBundle:Institution')
+                    ->find($http_request->request->get('provider')['id']);
         }
 
         if ($provider) {
-            $extraData['provider'] = $provider;
+            $extra_data['provider'] = $provider;
         } else {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        return $extraData;
+        return $extra_data;
     }
 
     private function prepareExtraDataForReceive(Request $request)
