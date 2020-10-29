@@ -171,8 +171,33 @@ class LifecycleHelper
         }
 
         if ($name !== EventManager::EVENT__CREATION && !$request->hasState(
-                $this->stateManager->getPreviousMandatoryStates($data['stateName'])
-            )) {
+            $this->stateManager->getPreviousMandatoryStates($data['stateName'])
+        )) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
+    private function preValidateRequestEvent(Request $request, Instance $instance = null): array
+    {
+        $session_instance = $this->instanceHelper->getSessionInstance();
+
+        $instance = $instance ?? $session_instance;
+        $extra_data = $this->eventManager->prepareExtraData('request', $request, $instance);
+        $event_name = $this->eventManager->getRealEventName('request', $extra_data, $instance, $request);
+        $data = [
+            'eventName' => $event_name,
+            'stateName' => $this->stateManager->getStateForEvent($event_name),
+            'instance' => $instance,
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => $extra_data,
+            'eventClassName' => $this->eventManager->getFullClassNameForEvent($event_name),
+        ];
+
+        if (!$request->hasState(
+            $this->stateManager->getPreviousMandatoryStates($data['stateName'])
+        )) {
             throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
         }
 
