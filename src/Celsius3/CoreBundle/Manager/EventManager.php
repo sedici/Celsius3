@@ -142,7 +142,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForRequest()
+    public function prepareExtraDataForRequest()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
