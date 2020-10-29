@@ -378,6 +378,16 @@ class EventManager
         return $event;
     }
 
+    public function getRealRequestEventName(array $extraData, Instance $instance, Request $request)
+    {
+        return (
+            $extraData['provider'] instanceof Institution && $extraData['provider']->findCelsiusInstance()
+            && !$request->getOrder()->hasRequest($extraData['provider']->findCelsiusInstance())
+            && $extraData['provider']->findCelsiusInstance()->getId() !== $instance->getId()
+            && $request->getPreviousRequest() === null
+        ) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
+    }
+
     public function prepareExtraData($event, Request $request, Instance $instance)
     {
         switch ($event) {

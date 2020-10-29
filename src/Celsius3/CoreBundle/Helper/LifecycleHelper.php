@@ -185,7 +185,7 @@ class LifecycleHelper
 
         $instance = $instance ?? $session_instance;
         $extra_data = $this->eventManager->prepareExtraDataForRequest();
-        $event_name = $this->eventManager->getRealEventName('request', $extra_data, $instance, $request);
+        $event_name = $this->eventManager->getRealRequestEventName($extra_data, $instance, $request);
         $data = [
             'eventName' => $event_name,
             'stateName' => $this->stateManager->getStateForEvent($event_name),
