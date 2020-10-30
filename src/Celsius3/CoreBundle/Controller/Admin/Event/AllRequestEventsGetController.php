@@ -51,8 +51,33 @@ final class AllRequestEventsGetController extends BaseInstanceDependentRestContr
     {
         $context = SerializationContext::create()->setGroups(['administration_order_show']);
 
+        $all = $this->allEvents($request_id);
+
+        $view = $this->view(array_values($all), 200)->setFormat('json');
+        $view->setSerializationContext($context);
+
+        return $this->handleView($view);
+    }
+
+    private function allEvents($request_id): array
+    {
+        $events = $this->events($request_id);
+        $remote_events = $this->remoteEvents($request_id);
+
+        $all = array_merge($events, $remote_events);
+
+        return $this->addReclaimEvents($all);
+    }
+
+    private function events($request_id)
+    {
         $events = $this->entityManager->getRepository(Event::class)
             ->findBy(['request' => $request_id]);
+        return $events;
+    }
+
+    private function remoteEvents($request_id)
+    {
         $requests = $this->entityManager->getRepository(Request::class)
             ->findBy(['previousRequest' => $request_id]);
         $requests_ids = array_map(
@@ -63,8 +88,11 @@ final class AllRequestEventsGetController extends BaseInstanceDependentRestContr
         );
         $remote_events = $this->entityManager->getRepository(MultiInstanceEvent::class)
             ->getRemoteEvents($requests_ids);
+        return $remote_events;
+    }
 
-        $all = array_merge($events, $remote_events);
+    private function addReclaimEvents(array $all): array
+    {
         $keys = array_map(
             function (Event $e) {
                 return $e->getId();
@@ -79,10 +107,6 @@ final class AllRequestEventsGetController extends BaseInstanceDependentRestContr
                 $all[] = $e;
             }
         }
-
-        $view = $this->view(array_values($all), 200)->setFormat('json');
-        $view->setSerializationContext($context);
-
-        return $this->handleView($view);
+        return $all;
     }
 }
