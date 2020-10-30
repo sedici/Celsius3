@@ -7,7 +7,7 @@ admin_rest_events:
 
 admin_rest_event:
     path: /{request_id}/{event}
-    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:getEvents }
+    defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\RequestEventsByTypeGetController }
     methods: [ GET ]
     options:
         expose: true
