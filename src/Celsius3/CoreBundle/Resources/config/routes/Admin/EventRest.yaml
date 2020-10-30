@@ -28,7 +28,7 @@ admin_rest_event_update_observations:
 
 admin_rest_order_event_undo:
     path: /{request_id}/undo
-    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:undo }
+    defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\CreateUndoEventPostController }
     methods: [ POST ]
     options:
         expose: true
