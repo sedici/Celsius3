@@ -21,7 +21,7 @@ admin_rest_event_get:
 
 admin_rest_event_update_observations:
     path: /update_observations/{id}
-    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:updateObservations }
+    defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\UpdateEventObservationsPostController }
     methods: [ POST ]
     options:
         expose: true
