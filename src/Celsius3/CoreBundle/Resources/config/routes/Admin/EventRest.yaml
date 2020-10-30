@@ -42,7 +42,7 @@ admin_rest_order_request_event:
 
 admin_rest_order_event:
     path: /{request_id}/{event}
-    defaults: { _controller: Celsius3CoreBundle:AdminEventRest:createEvent }
+    defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\CreateEventPostController }
     methods: [ POST ]
     options:
         expose: true
