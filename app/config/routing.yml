@@ -48,6 +48,10 @@ celsius3_admin_event_rest:
     resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/EventRest.yaml"
     prefix: /admin/rest/event
 
+celsius3_admin_base_user:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/BaseUser.yaml"
+    prefix: /admin/user
+
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3CoreBundle:Public:index }
