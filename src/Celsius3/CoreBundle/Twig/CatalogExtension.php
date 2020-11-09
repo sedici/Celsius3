@@ -26,18 +26,27 @@ namespace Celsius3\CoreBundle\Twig;
 
 use Celsius3\CoreBundle\Entity\Catalog;
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Helper\InstanceHelper;
 use Celsius3\CoreBundle\Manager\CatalogManager;
+use Celsius3\CoreBundle\Manager\InstanceManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class CatalogExtension extends AbstractExtension
 {
+    private $entityManager;
+    private $instanceHelper;
+    private $instanceManager;
 
-    private $catalogManager;
-
-    public function __construct(CatalogManager $catalogManager)
-    {
-        $this->catalogManager = $catalogManager;
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        InstanceHelper $instanceHelper,
+        InstanceManager $instanceManager
+    ) {
+        $this->entityManager = $entityManager;
+        $this->instanceHelper = $instanceHelper;
+        $this->instanceManager = $instanceManager;
     }
 
     public function getFunctions(): array
@@ -50,12 +59,27 @@ class CatalogExtension extends AbstractExtension
 
     public function isCatalogEnabled(Catalog $catalog): bool
     {
-        return $this->catalogManager->isCatalogEnabled($catalog);
+        $position = $catalog->getPosition($this->instanceHelper->getSessionInstance());
+
+        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
+            return true;
+        }
+
+        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
+            return true;
+        }
+
+        if ($position) {
+            return $position->getEnabled();
+        }
+
+        return false;
     }
 
     public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
     {
-        return $this->catalogManager->getDisabledCatalogsCount($instance, $directory);
+        return $this->entityManager->getRepository(Catalog::class)
+            ->getDisabledCatalogsCount($instance, $directory);
     }
 
     public function getName(): string

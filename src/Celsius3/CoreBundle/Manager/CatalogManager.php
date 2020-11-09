@@ -60,29 +60,4 @@ class CatalogManager
         return $this->entityManager->getRepository('Celsius3CoreBundle:Catalog')
                         ->findBy(array('instance' => $instance->getId()));
     }
-
-    public function isCatalogEnabled(Catalog $catalog)
-    {
-        $position = $catalog->getPosition($this->instanceHelper->getSessionInstance());
-
-        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
-            return true;
-        }
-
-        if (!$position && ($catalog->getInstance()->getId() === $this->instanceManager->getDirectory()->getId())) {
-            return true;
-        }
-
-        if ($position) {
-            return $position->getEnabled();
-        }
-
-        return false;
-    }
-
-    public function getDisabledCatalogsCount(Instance $instance, Instance $directory)
-    {
-        return $this->entityManager->getRepository('Celsius3CoreBundle:Catalog')
-                ->getDisabledCatalogsCount($instance, $directory);
-    }
 }

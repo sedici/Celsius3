@@ -35,7 +35,7 @@ services:
         class: Celsius3\CoreBundle\Twig\CatalogExtension
         tags:
             - { name: twig.extension }
-        arguments: ['@celsius3_core.catalog_manager']
+        arguments: ['@doctrine.orm.default_entity_manager', '@celsius3_core.instance_helper', '@celsius3_core.instance_manager']
     celsius3_core.twig.extension.material_type:
         class: Celsius3\CoreBundle\Twig\MaterialTypeExtension
         tags:
