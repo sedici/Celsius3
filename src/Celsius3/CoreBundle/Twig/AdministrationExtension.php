@@ -39,12 +39,10 @@ use function is_string;
 class AdministrationExtension extends AbstractExtension
 {
     private $entityManager;
-    private $userManager;
 
-    public function __construct(EntityManager $entityManager, UserManager $userManager)
+    public function __construct(EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->userManager = $userManager;
     }
 
     public function getFunctions(): array
@@ -75,8 +73,7 @@ class AdministrationExtension extends AbstractExtension
 
     public function hasHigherRoles(BaseUser $user1, BaseUser $user2): bool
     {
-        return $this->userManager
-            ->hasHigherRoles($user1, $user2);
+        return $user1->hasHigherRolesThan($user2);
     }
 
     public function roleName($role)
