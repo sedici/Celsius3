@@ -1,0 +1,6 @@
+user_order:
+    path: /
+    defaults: { _controller: Celsius3\CoreBundle\Controller\User\Order\ListUserOrdersViewController }
+    methods: [ GET ]
+    options:
+        expose: true
