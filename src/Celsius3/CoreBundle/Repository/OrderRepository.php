@@ -309,4 +309,22 @@ class OrderRepository extends BaseRepository
             ->andWhere('r.owner = :owner OR r.librarian = :owner')
             ->setParameter('owner', $user->getId());
     }
+
+    public function findUserOrder($id, Instance $instance, BaseUser $user): Order
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->join('e.originalRequest', 'r')
+            ->where('r.instance = :instance')
+            ->setParameter('instance', $instance->getId());
+
+        $qb = $qb->orWhere($qb->expr()->eq('r.owner', ':owner'))->setParameter('owner', $user->getId());
+        $qb = $qb->orWhere(
+            $qb->expr()->eq('r.librarian', ':librarian')
+        )->setParameter(
+            'librarian',
+            $user->getId()
+        );
+
+        return $qb->andWhere('e.id = :id')->setParameter('id', $id)->getQuery()->getSingleResult();
+    }
 }

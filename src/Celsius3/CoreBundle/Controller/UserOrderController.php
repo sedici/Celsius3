@@ -67,23 +67,6 @@ class UserOrderController extends OrderController
     }
 
     /**
-     * Finds and displays a Order entity.
-     *
-     * @Route("/{id}/show", name="user_order_show")
-     * @Template()
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function showAction($id)
-    {
-        return $this->baseShow('Order', $id);
-    }
-
-    /**
      * Displays a form to create a new Order entity.
      *
      * @Route("/new", name="user_order_new", options={"expose"=true})
