@@ -1,0 +1,6 @@
+admin_instance_data_request:
+    path: /
+    defaults: { _controller: Celsius3\CoreBundle\Controller\Admin\DataRequest\NewDataRequestViewController }
+    methods: [ GET, POST ]
+    options:
+        expose: true

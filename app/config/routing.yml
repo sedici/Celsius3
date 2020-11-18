@@ -56,6 +56,10 @@ celsius3_user_order:
     resource: "@Celsius3CoreBundle/Resources/config/routes/User/Order.yaml"
     prefix: /user/order
 
+celsius3_admin_data_request:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/DataRequest.yaml"
+    prefix: /admin/data_request
+
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3CoreBundle:Public:index }

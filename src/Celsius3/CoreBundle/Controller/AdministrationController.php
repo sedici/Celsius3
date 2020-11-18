@@ -218,49 +218,6 @@ class AdministrationController extends BaseInstanceDependentController
     }
 
     /**
-     * @Route("/data_request", name="admin_instance_data_request", options={"expose"=true})
-     */
-    public function dataRequestAction(Request $request)
-    {
-        $data_request = new DataRequest($this->getInstance());
-
-        $data = null;
-        if ($dr = $request->request->get('data_request')) {
-            foreach ($request->request->get('data_request') as $k => $v) {
-                if ($v === '1') {
-                    $data[] = $k;
-                } elseif (is_array($v) && !empty($v)) {
-                    $data[] = [$k => $v];
-                }
-            }
-        }
-
-        if ($data) {
-            $data_request->setData(serialize($data));
-        }
-
-        $form = $this->createForm(DataRequestType::class, $data_request);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($data_request);
-            $em->flush();
-
-            Alert::add(
-                Alert::SUCCESS,
-                $this->get('translator')->trans('The data request was successfully registered', [], 'Flashes')
-            );
-            return $this->redirectToRoute('administration');
-        }
-
-        return $this->render(
-            'Celsius3CoreBundle:Administration:request_data.html.twig',
-            ['form' => $form->createView()]
-        );
-    }
-
-    /**
      * @Route("/{id}/data_request_download", name="admin_instance_data_request_download", options={"expose"=true})
      * @param  DataRequest  $dataRequest
      * @return RedirectResponse|Response
