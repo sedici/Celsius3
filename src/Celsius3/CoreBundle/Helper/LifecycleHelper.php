@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace Celsius3\CoreBundle\Helper;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
+use Celsius3\CoreBundle\Entity\Event\CreationEvent;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 use Celsius3\CoreBundle\Entity\Instance;
@@ -204,6 +205,18 @@ class LifecycleHelper
         return $data;
     }
 
+    private function preValidateCreationEvent(Request $request, ?Instance $instance): array
+    {
+        return [
+            'eventName' => 'creation',
+            'stateName' => StateManager::STATE__CREATED,
+            'instance' => $instance ?? $request->getInstance(),
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => [],
+            'eventClassName' => CreationEvent::class,
+        ];
+    }
+
     public function uploadFiles(Request $request, Event $event, array $files): void
     {
         $this->fileManager->uploadFiles($request, $event, $files);
@@ -362,6 +375,29 @@ class LifecycleHelper
             $this->entityManager->getConnection()->commit();
 
             return $event;
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
+
+            return null;
+        }
+    }
+
+    public function createCreationEvent(Request $request, ?Instance $instance)
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $data = $this->preValidateCreationEvent($request, $instance);
+            $creation_event = $data['event'] ?? $this->setEventData($request, $data);
+
+            $this->entityManager->persist($request);
+            $this->entityManager->persist($creation_event);
+            $this->entityManager->flush();
+
+            $this->entityManager->getConnection()->commit();
+
+            return $creation_event;
         } catch (\Exception $ex) {
             $this->entityManager->getConnection()->rollBack();
             $this->logger->error($ex->getMessage());
