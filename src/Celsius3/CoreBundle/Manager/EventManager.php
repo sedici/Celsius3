@@ -122,24 +122,24 @@ class EventManager
         return $this->class_prefix.$this->event_classes[$event];
     }
 
-    private function prepareExtraDataForSearch()
+    public function prepareExtraDataForSearch()
     {
-        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $http_request = $this->container->get('request_stack')->getCurrentRequest();
 
-        $extraData = array();
-        $extraData['result'] = $httpRequest->request->get('result', null);
+        $extra_data = [];
+        $extra_data['result'] = $http_request->request->get('result', null);
 
-        if ($httpRequest->request->has('catalog_id')) {
-            $em = $this->container->get('doctrine.orm.entity_manager');
-            $extraData['catalog'] = $em->getRepository('Celsius3CoreBundle:Catalog')
-                    ->find($httpRequest->request->get('catalog_id'));
-        } else {
+        if (!$http_request->request->has('catalog_id')) {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        return $extraData;
+        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
+        $extra_data['catalog'] = $entity_manager->getRepository('Celsius3CoreBundle:Catalog')
+            ->find($http_request->request->get('catalog_id'));
+
+        return $extra_data;
     }
 
     public function prepareExtraDataForRequest()

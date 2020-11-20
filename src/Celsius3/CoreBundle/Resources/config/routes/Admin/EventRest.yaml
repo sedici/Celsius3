@@ -47,6 +47,13 @@ admin_rest_order_creation_event:
     options:
         expose: true
 
+admin_rest_order_search_event:
+    path: /{request_id}/search
+    defaults: { _controller: Celsius3\CoreBundle\Controller\Admin\Event\CreateSearchEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
 admin_rest_order_event:
     path: /{request_id}/{event}
     defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\CreateEventPostController }
