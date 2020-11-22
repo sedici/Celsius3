@@ -225,7 +225,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForApprove()
+    public function prepareExtraDataForApprove()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
