@@ -28,6 +28,7 @@ use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Event\ApproveEvent;
 use Celsius3\CoreBundle\Entity\Event\CreationEvent;
 use Celsius3\CoreBundle\Entity\Event\Event;
+use Celsius3\CoreBundle\Entity\Event\ReclaimEvent;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
 use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 use Celsius3\CoreBundle\Entity\Instance;
@@ -395,6 +396,30 @@ class LifecycleHelper
         }
     }
 
+    public function createReclaimEvent(Request $request, ?Instance $instance)
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $data = $this->preValidateReclaimEvent($request, $instance);
+
+            $event = $data['event'] ?? $this->setEventData($request, $data);
+
+            $this->entityManager->persist($request);
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
+
+            $this->entityManager->getConnection()->commit();
+
+            return $event;
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
+
+            return null;
+        }
+    }
+
     private function preValidateCreationEvent(Request $request, ?Instance $instance): array
     {
         return [
@@ -505,6 +530,24 @@ class LifecycleHelper
             'date' => date('Y-m-d H:i:s'),
             'extraData' => $this->eventManager->prepareExtraDataForApprove(),
             'eventClassName' => ApproveEvent::class
+        ];
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
+    private function preValidateReclaimEvent(Request $request, Instance $instance = null): array
+    {
+        $data = [
+            'eventName' => EventManager::EVENT__RECLAIM,
+            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__RECLAIM),
+            'instance' => $instance ?? $this->instanceHelper->getSessionInstance(),
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => $this->eventManager->prepareExtraDataForReclaim(),
+            'eventClassName' => ReclaimEvent::class,
         ];
 
         if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {

@@ -247,7 +247,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReclaim()
+    public function prepareExtraDataForReclaim()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
