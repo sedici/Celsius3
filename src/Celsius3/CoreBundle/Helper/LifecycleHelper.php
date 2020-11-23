@@ -420,6 +420,29 @@ class LifecycleHelper
         }
     }
 
+    public function createDeliverEvent(Request $request, ?Instance $instance)
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $data = $this->preValidateDeliverEvent($request, $instance);
+            $event = $data['event'] ?? $this->setEventData($request, $data);
+
+            $this->entityManager->persist($request);
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
+
+            $this->entityManager->getConnection()->commit();
+
+            return $event;
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
+
+            return null;
+        }
+    }
+
     private function preValidateCreationEvent(Request $request, ?Instance $instance): array
     {
         return [
@@ -548,6 +571,24 @@ class LifecycleHelper
             'date' => date('Y-m-d H:i:s'),
             'extraData' => $this->eventManager->prepareExtraDataForReclaim(),
             'eventClassName' => ReclaimEvent::class,
+        ];
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
+    private function preValidateDeliverEvent(Request $request, ?Instance $instance): array
+    {
+        $data = [
+            'eventName' => EventManager::EVENT__DELIVER,
+            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__DELIVER),
+            'instance' => $instance ?? $this->instanceHelper->getSessionInstance(),
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => [],
+            'eventClassName' => $this->eventManager->getFullClassNameForEvent(EventManager::EVENT__DELIVER),
         ];
 
         if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {

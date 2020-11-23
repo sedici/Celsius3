@@ -68,6 +68,13 @@ admin_rest_order_reclaim_event:
     options:
         expose: true
 
+admin_rest_order_deliver_event:
+    path: /{request_id}/deliver
+    defaults: { _controller: Celsius3\CoreBundle\Controller\Admin\Event\CreateDeliverEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
 admin_rest_order_event:
     path: /{request_id}/{event}
     defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\CreateEventPostController }
