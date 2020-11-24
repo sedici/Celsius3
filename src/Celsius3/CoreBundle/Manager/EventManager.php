@@ -345,7 +345,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForAnnul(Request $request, Instance $instance)
+    public function prepareExtraDataForAnnul(Request $request, Instance $instance)
     {
         $extraData = array();
 
