@@ -31,6 +31,7 @@ use Celsius3\CoreBundle\Entity\Event\CreationEvent;
 use Celsius3\CoreBundle\Entity\Event\Event;
 use Celsius3\CoreBundle\Entity\Event\ReclaimEvent;
 use Celsius3\CoreBundle\Entity\Event\SearchEvent;
+use Celsius3\CoreBundle\Entity\Event\TakeEvent;
 use Celsius3\CoreBundle\Entity\Event\UndoEvent;
 use Celsius3\CoreBundle\Entity\Instance;
 use Celsius3\CoreBundle\Entity\Order;
@@ -634,6 +635,50 @@ class LifecycleHelper
             'date' => date('Y-m-d H:i:s'),
             'extraData' => $this->eventManager->prepareExtraDataForAnnul($request, $instance),
             'eventClassName' => AnnulEvent::class
+        ];
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
+    public function createTakeEvent(Request $request, ?Instance $instance)
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $data = $this->preValidateTakeEvent($request, $instance);
+            $event = $data['event'] ?? $this->setEventData($request, $data);
+
+            $this->entityManager->persist($request);
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
+
+            $this->entityManager->getConnection()->commit();
+
+            return $event;
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
+
+            return null;
+        }
+    }
+
+    private function preValidateTakeEvent(Request $request, Instance $instance = null): array
+    {
+        $session_instance = $this->instanceHelper->getSessionInstance();
+        $event_name = EventManager::EVENT__TAKE;
+
+        $data = [
+            'eventName' => $event_name,
+            'stateName' => $this->stateManager->getStateForEvent($event_name),
+            'instance' => $instance ?? $session_instance,
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => [],
+            'eventClassName' => TakeEvent::class
         ];
 
         if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
