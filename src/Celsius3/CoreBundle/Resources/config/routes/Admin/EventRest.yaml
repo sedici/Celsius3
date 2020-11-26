@@ -89,6 +89,13 @@ admin_rest_order_take_event:
     options:
         expose: true
 
+admin_rest_order_receive_event:
+    path: /{request_id}/receive
+    defaults: { _controller: Celsius3\CoreBundle\Controller\Admin\Event\CreateReceiveEventPostController }
+    methods: [ POST ]
+    options:
+        expose: true
+
 admin_rest_order_event:
     path: /{request_id}/{event}
     defaults: { _controller: \Celsius3\CoreBundle\Controller\Admin\Event\CreateEventPostController }

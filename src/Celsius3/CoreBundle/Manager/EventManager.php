@@ -172,7 +172,7 @@ class EventManager
         return $extra_data;
     }
 
-    private function prepareExtraDataForReceive(Request $request)
+    public function prepareExtraDataForReceive(Request $request)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -386,6 +386,12 @@ class EventManager
             && $extraData['provider']->findCelsiusInstance()->getId() !== $instance->getId()
             && $request->getPreviousRequest() === null
         ) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
+    }
+
+    public function getRealReceiveEventName(array $extraData, Instance $instance, Request $request): string
+    {
+        return $extraData['request']->getRequest()->getPreviousRequest()
+            ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
     }
 
     public function prepareExtraData($event, Request $request, Instance $instance)
