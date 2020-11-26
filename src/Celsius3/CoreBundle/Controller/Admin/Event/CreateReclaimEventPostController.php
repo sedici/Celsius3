@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Celsius3\CoreBundle\Controller\Admin\Event;
 
+use Celsius3\CoreBundle\Controller\BaseInstanceDependentRestController;
 use Celsius3\CoreBundle\Entity\Request;
 use Celsius3\CoreBundle\Exception\Exception;
 use Celsius3\CoreBundle\Helper\LifecycleHelper;
@@ -31,7 +32,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\SerializationContext;
 
-final class CreateReclaimEventPostController
+final class CreateReclaimEventPostController extends BaseInstanceDependentRestController
 {
     private $entityManager;
     private $lifecycleHelper;
