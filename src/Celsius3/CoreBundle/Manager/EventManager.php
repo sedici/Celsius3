@@ -291,7 +291,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForCancel(Request $request, Instance $instance)
+    public function prepareExtraDataForCancel(Request $request, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -392,6 +392,16 @@ class EventManager
     {
         return $extraData['request']->getRequest()->getPreviousRequest()
             ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+    }
+
+    public function getRealCancelEventName(array $extraData): string
+    {
+        if (!isset($extraData['request'])) {
+            return self::EVENT__CANCEL;
+        }
+
+        return $extraData['request'] instanceof MultiInstanceRequestEvent ?
+                self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL;
     }
 
     public function prepareExtraData($event, Request $request, Instance $instance)

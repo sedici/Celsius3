@@ -177,8 +177,8 @@ class LifecycleHelper
         }
 
         if ($name !== EventManager::EVENT__CREATION && !$request->hasState(
-                $this->stateManager->getPreviousMandatoryStates($data['stateName'])
-            )) {
+            $this->stateManager->getPreviousMandatoryStates($data['stateName'])
+        )) {
             throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
         }
 
@@ -352,6 +352,31 @@ class LifecycleHelper
         }
     }
 
+    private function preValidateRequestEvent(Request $request, Instance $instance = null): array
+    {
+        $session_instance = $this->instanceHelper->getSessionInstance();
+
+        $instance = $instance ?? $session_instance;
+        $extra_data = $this->eventManager->prepareExtraDataForRequest();
+        $event_name = $this->eventManager->getRealRequestEventName($extra_data, $instance, $request);
+        $data = [
+            'eventName' => $event_name,
+            'stateName' => $this->stateManager->getStateForEvent($event_name),
+            'instance' => $instance,
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => $extra_data,
+            'eventClassName' => $this->eventManager->getFullClassNameForEvent($event_name),
+        ];
+
+        if (!$request->hasState(
+            $this->stateManager->getPreviousMandatoryStates($data['stateName'])
+        )) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
     public function createCreationEvent(Request $request, ?Instance $instance)
     {
         $this->entityManager->getConnection()->beginTransaction();
@@ -375,6 +400,18 @@ class LifecycleHelper
         }
     }
 
+    private function preValidateCreationEvent(Request $request, ?Instance $instance): array
+    {
+        return [
+            'eventName' => 'creation',
+            'stateName' => StateManager::STATE__CREATED,
+            'instance' => $instance ?? $request->getInstance(),
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => [],
+            'eventClassName' => CreationEvent::class,
+        ];
+    }
+
     public function createApproveEvent(Request $request, ?Instance $instance)
     {
         $this->entityManager->getConnection()->beginTransaction();
@@ -396,6 +433,26 @@ class LifecycleHelper
 
             return null;
         }
+    }
+
+    private function preValidateApproveEvent(Request $request, Instance $instance = null): array
+    {
+        $session_instance = $this->instanceHelper->getSessionInstance();
+
+        $data = [
+            'eventName' => EventManager::EVENT__APPROVE,
+            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__APPROVE),
+            'instance' => $instance ?? $session_instance,
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => $this->eventManager->prepareExtraDataForApprove(),
+            'eventClassName' => ApproveEvent::class
+        ];
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
     }
 
     public function createReclaimEvent(Request $request, ?Instance $instance)
@@ -422,6 +479,24 @@ class LifecycleHelper
         }
     }
 
+    private function preValidateReclaimEvent(Request $request, Instance $instance = null): array
+    {
+        $data = [
+            'eventName' => EventManager::EVENT__RECLAIM,
+            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__RECLAIM),
+            'instance' => $instance ?? $this->instanceHelper->getSessionInstance(),
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => $this->eventManager->prepareExtraDataForReclaim(),
+            'eventClassName' => ReclaimEvent::class,
+        ];
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
     public function createDeliverEvent(Request $request, ?Instance $instance)
     {
         $this->entityManager->getConnection()->beginTransaction();
@@ -445,16 +520,22 @@ class LifecycleHelper
         }
     }
 
-    private function preValidateCreationEvent(Request $request, ?Instance $instance): array
+    private function preValidateDeliverEvent(Request $request, ?Instance $instance): array
     {
-        return [
-            'eventName' => 'creation',
-            'stateName' => StateManager::STATE__CREATED,
-            'instance' => $instance ?? $request->getInstance(),
+        $data = [
+            'eventName' => EventManager::EVENT__DELIVER,
+            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__DELIVER),
+            'instance' => $instance ?? $this->instanceHelper->getSessionInstance(),
             'date' => date('Y-m-d H:i:s'),
             'extraData' => [],
-            'eventClassName' => CreationEvent::class,
+            'eventClassName' => $this->eventManager->getFullClassNameForEvent(EventManager::EVENT__DELIVER),
         ];
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
     }
 
     public function createSearchEvent(Request $request, ?Instance $instance)
@@ -511,87 +592,6 @@ class LifecycleHelper
             $data['event'] = array_pop($events);
         }
 
-
-        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
-            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
-        }
-
-        return $data;
-    }
-
-    private function preValidateRequestEvent(Request $request, Instance $instance = null): array
-    {
-        $session_instance = $this->instanceHelper->getSessionInstance();
-
-        $instance = $instance ?? $session_instance;
-        $extra_data = $this->eventManager->prepareExtraDataForRequest();
-        $event_name = $this->eventManager->getRealRequestEventName($extra_data, $instance, $request);
-        $data = [
-            'eventName' => $event_name,
-            'stateName' => $this->stateManager->getStateForEvent($event_name),
-            'instance' => $instance,
-            'date' => date('Y-m-d H:i:s'),
-            'extraData' => $extra_data,
-            'eventClassName' => $this->eventManager->getFullClassNameForEvent($event_name),
-        ];
-
-        if (!$request->hasState(
-            $this->stateManager->getPreviousMandatoryStates($data['stateName'])
-        )) {
-            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
-        }
-
-        return $data;
-    }
-
-    private function preValidateApproveEvent(Request $request, Instance $instance = null): array
-    {
-        $session_instance = $this->instanceHelper->getSessionInstance();
-
-        $data = [
-            'eventName' => EventManager::EVENT__APPROVE,
-            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__APPROVE),
-            'instance' => $instance ?? $session_instance,
-            'date' => date('Y-m-d H:i:s'),
-            'extraData' => $this->eventManager->prepareExtraDataForApprove(),
-            'eventClassName' => ApproveEvent::class
-        ];
-
-        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
-            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
-        }
-
-        return $data;
-    }
-
-    private function preValidateReclaimEvent(Request $request, Instance $instance = null): array
-    {
-        $data = [
-            'eventName' => EventManager::EVENT__RECLAIM,
-            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__RECLAIM),
-            'instance' => $instance ?? $this->instanceHelper->getSessionInstance(),
-            'date' => date('Y-m-d H:i:s'),
-            'extraData' => $this->eventManager->prepareExtraDataForReclaim(),
-            'eventClassName' => ReclaimEvent::class,
-        ];
-
-        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
-            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
-        }
-
-        return $data;
-    }
-
-    private function preValidateDeliverEvent(Request $request, ?Instance $instance): array
-    {
-        $data = [
-            'eventName' => EventManager::EVENT__DELIVER,
-            'stateName' => $this->stateManager->getStateForEvent(EventManager::EVENT__DELIVER),
-            'instance' => $instance ?? $this->instanceHelper->getSessionInstance(),
-            'date' => date('Y-m-d H:i:s'),
-            'extraData' => [],
-            'eventClassName' => $this->eventManager->getFullClassNameForEvent(EventManager::EVENT__DELIVER),
-        ];
 
         if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
             throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
@@ -743,6 +743,53 @@ class LifecycleHelper
         if (count($events) > 0) {
             $data['event'] = array_pop($events);
         }
+
+        if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
+            throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
+        }
+
+        return $data;
+    }
+
+    public function createCancelEvent(Request $request, Instance $instance = null)
+    {
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $data = $this->preValidateCancelEvent($request, $instance);
+
+            $event = $data['event'] ?? $this->setEventData($request, $data);
+
+            $this->entityManager->persist($request);
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
+
+            $this->entityManager->getConnection()->commit();
+
+            return $event;
+        } catch (\Exception $ex) {
+            $this->entityManager->getConnection()->rollBack();
+            $this->logger->error($ex->getMessage());
+            $this->logger->error($ex->getTraceAsString());
+
+            return null;
+        }
+    }
+
+    private function preValidateCancelEvent(Request $request, Instance $instance = null): array
+    {
+        $session_instance = $this->instanceHelper->getSessionInstance();
+        $instance = $instance ?? $session_instance;
+        $extra_data = $this->eventManager->prepareExtraDataForCancel($request, $instance);
+        $event_name = $this->eventManager->getRealCancelEventName($extra_data);
+
+        $data = [
+            'eventName' => $event_name,
+            'stateName' => $this->stateManager->getStateForEvent($event_name),
+            'instance' => $instance,
+            'date' => date('Y-m-d H:i:s'),
+            'extraData' => $extra_data,
+            'eventClassName' => $this->eventManager->getFullClassNameForEvent($event_name),
+        ];
 
         if (!$request->hasState($this->stateManager->getPreviousMandatoryStates($data['stateName']))) {
             throw Exception::create(Exception::PREVIOUS_STATE_NOT_FOUND);
