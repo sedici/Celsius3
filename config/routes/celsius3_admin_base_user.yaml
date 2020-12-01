@@ -1,0 +1,3 @@
+celsius3_admin_base_user:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/BaseUser.yaml"
+    prefix: /admin/user

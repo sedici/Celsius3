@@ -1,0 +1,15 @@
+monolog:
+    channels:
+        - 'celsius_exception'
+        - 'celsius_rest_exception'
+    handlers:
+        celsius_exception:
+            level:    error
+            type:     stream
+            path:     '%kernel.logs_dir%/celsius_exception.log'
+            channels: [celsius_exception]
+        celsius_rest_exception:
+            level:    error
+            type:     stream
+            path:     '%kernel.logs_dir%/celsius_rest_exception.log'
+            channels: [celsius_rest_exception]

@@ -5,6 +5,34 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    #    mailer_transport: smtp
+    #    mailer_host: 127.0.0.1
+    #    mailer_port: 1025
+    mailer_user: user@domain.com
+    #    mailer_password: null
+    locale: en
+    #    secret: Celsius3hfaksjdhfkajs
+    max_per_page: 10
+    notification_public_url: celsius3.prebi.unlp.edu.ar
+    notification_host: 0.0.0.0
+    notification_port: 8080
+    notification_zmq_host: 127.0.0.1
+    notification_zmq_port: 5555
+    notification_limit: 10
+    node_path: /usr/bin/nodejs
+    node_modules: /usr/lib/node_modules
+    virtual_host_config_file: /etc/apache2/sites-enabled/Celsius3.conf
+    assets_version: v0.0.0
+    assets_version_administration: v0.0.0
+    assets_version_admin_order: v0.0.0
+    assets_version_admin_base_user: v0.0.0
+    assets_version_admin_institution: v0.0.1
+    assets_version_user: v0.0.0
+    assets_version_celsius3: v0.0.0
+    upload_root_dir: /var/www/html/web/orders/
+    logos_upload_dir: /var/www/html/web/uploads/logos/
+    data_requests_directory: /tmp/
+    api_key_map: AIzaSyD0zns4Qlvt-wf-kx__kpBpKkt8p1Z2mfg
 
 services:
     # default configuration for services in *this* file
@@ -12,20 +40,92 @@ services:
         autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
-                            # fetching services directly from the container via $container->get() won't work.
-                            # The best practice is to be explicit about your dependencies anyway.
+          # fetching services directly from the container via $container->get() won't work.
+        # The best practice is to be explicit about your dependencies anyway.
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-#    App\:
-#        resource: '../src/*'
-#        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+    #    App\:
+    #        resource: '../src/*'
+    #        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-#    App\Controller\:
-#        resource: '../src/Controller'
-#        tags: ['controller.service_arguments']
+    #    App\Controller\:
+    #        resource: '../src/Controller'
+    #        tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    monolog_processor:
+        class: Celsius3\CoreBundle\Logger\ClientProcessor
+        arguments:
+            - '@request_stack'
+        tags:
+            - { name: monolog.processor }
+
+    monolog_formatter:
+        class: Monolog\Formatter\LineFormatter
+        calls:
+            - [ includeStacktraces ]
+
+    # Formulario de registro personalizado
+    registration.form.type:
+        class: Celsius3\CoreBundle\Form\Type\RegistrationFormType
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container" ]
+        tags:
+            - { name: form.type }
+
+    profile.form.type:
+        class: Celsius3\CoreBundle\Form\Type\ProfileFormType
+        arguments: [ "%fos_user.model.user.class%" ]
+        tags:
+            - { name: form.type }
+
+    jms_serializer.metadata.doctrine_type_driver:
+        class: "%jms_serializer.metadata.doctrine_type_driver.class%"
+        public: false
+        arguments: [ "@jms_serializer.metadata.chain_driver", "@doctrine" ]
+
+    jms_serializer.metadata.doctrine_object_constructor:
+        class: "%jms_serializer.doctrine_object_constructor.class%"
+        public: false
+        arguments: [ "@doctrine", "@jms_serializer.unserialize_object_constructor" ]
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    kernel.listener.command_dispatch:
+        class: Celsius3\CoreBundle\EventListener\ConsoleLoggingListener
+        arguments:
+            $logger: "@logger"
+        tags:
+            - { name: kernel.event_listener, event: console.exception }
+            - { name: kernel.event_listener, event: console.terminate }
+
+    oauth_event_listener:
+        class: Celsius3\ApiBundle\EventListener\OAuthEventListener
+        arguments:
+            $em: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: kernel.event_listener, event: fos_oauth_server.pre_authorization_process, method: onPreAuthorizationProcess }
+            - { name: kernel.event_listener, event: fos_oauth_server.post_authorization_process, method: onPostAuthorizationProcess }
+
+    celsius3_core.mailer.logger:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments: [ app ]
+        calls:
+            - [ pushHandler, [ "@celsius3_core.mailer.logger_handler" ] ]
+
+    celsius3_core.mailer.logger_handler:
+        class: Monolog\Handler\StreamHandler
+        arguments: [ "%kernel.logs_dir%/%kernel.environment%.mailer.log", 400 ]
+
+    # Usado temporalmente para corregir error de migración a Symfony3
+    fos_user.doctrine_registry:
+        alias: doctrine

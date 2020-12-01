@@ -12,3 +12,7 @@ httplug:
             plugins:
                 - 'httplug.plugin.content_length'
                 - 'httplug.plugin.redirect'
+
+    classes:
+        client: Http\Adapter\Guzzle6\Client
+        message_factory: Http\Message\MessageFactory\GuzzleMessageFactory

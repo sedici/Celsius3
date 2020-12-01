@@ -1,0 +1,13 @@
+fos_oauth_server:
+    db_driver: orm
+    client_class: Celsius3\ApiBundle\Entity\Client
+    access_token_class: Celsius3\ApiBundle\Entity\AccessToken
+    refresh_token_class: Celsius3\ApiBundle\Entity\RefreshToken
+    auth_code_class: Celsius3\ApiBundle\Entity\AuthCode
+    service:
+        user_provider: fos_userbundle
+        options:
+            supported_scopes: admin superadmin
+            access_token_lifetime: 3600 # Una hora
+            refresh_token_lifetime: 43200 # Un día
+            auth_code_lifetime: 60 # Un minuto

@@ -1,0 +1,3 @@
+fos_oauth_server_authorize:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
+    prefix: /api

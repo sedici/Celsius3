@@ -2,3 +2,11 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+
+    globals:
+        notification_public_url: "%notification_public_url%"
+        notification_port: "%notification_port%"
+        notification_limit: "%notification_limit%"
+        instance_helper: "@celsius3_core.instance_helper"
+    form_themes:
+        - 'Celsius3CoreBundle:Form:fields.html.twig'

@@ -1,0 +1,4 @@
+celsius3_message:
+    resource: "@Celsius3MessageBundle/Controller/"
+    type:     annotation
+    prefix:   /

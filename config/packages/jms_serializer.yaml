@@ -1,0 +1,15 @@
+jms_serializer:
+    metadata:
+        directories:
+            FOSUserBundle:
+                namespace_prefix: FOS\UserBundle
+                path: "@Celsius3ApiBundle/Resources/config/serializer/fos"
+            FOSMessageBundle:
+                namespace_prefix: FOS\MessageBundle
+                path: "@Celsius3ApiBundle/Resources/config/serializer/fos"
+            Celsius3CoreBundle:
+                namespace_prefix: Celsius3\CoreBundle
+                path: "@Celsius3ApiBundle/Resources/config/serializer/core"
+            Celsius3MessageBundle:
+                namespace_prefix: Celsius3\MessageBundle
+                path: "@Celsius3ApiBundle/Resources/config/serializer/message"
