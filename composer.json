@@ -1,121 +1,117 @@
 {
-  "name": "sedici/celsius3",
-  "license": "GPL-3.0",
   "type": "project",
+  "license": "GPL-3.0",
+  "name": "sedici/celsius3",
   "description": "The Celsius3 Project",
-  "autoload": {
-    "psr-4": {
-      "Celsius3\\": "src/Celsius3/"
-    },
-    "files": [
-      "app/AppKernel.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Celsius3\\Tests\\": ["tests"]
-    }
-  },
   "require": {
-    "php": "^7.1",
-    "symfony/symfony": "~3.4",
-    "symfony/swiftmailer-bundle": "~2.3",
-    "symfony/monolog-bundle": "~2.4",
-    "sensio/distribution-bundle": "~5.0",
-    "sensio/framework-extra-bundle": "^3.0.2",
-    "incenteev/composer-parameter-handler": "~2.0",
-    "doctrine/doctrine-bundle": "~1.4",
-    "doctrine/data-fixtures": "~1.1",
-    "doctrine/doctrine-fixtures-bundle": "~2.2",
+    "php": ">=7.0.8",
+    "ext-ctype": "*",
+    "ext-fileinfo": "*",
+    "ext-iconv": "*",
+    "ext-json": "*",
+    "ext-zip": "*",
+    "ext-zmq": "*",
+    "beberlei/doctrineextensions": "~1.0",
+    "cboden/ratchet": "0.3.*",
     "doctrine/annotations": "~1.2",
+    "doctrine/data-fixtures": "~1.1",
     "doctrine/dbal": "~2.5",
+    "doctrine/doctrine-bundle": "~1.4",
+    "doctrine/doctrine-fixtures-bundle": "~2.2",
     "doctrine/orm": "~2.5",
-    "twig/extensions": "^1.5",
+    "egeloen/serializer-bundle": "^1.0",
+    "egulias/email-validator": "^2.1",
+    "enqueue/elastica-bundle": "^0.9.3",
+    "enqueue/fs": "^0.9.12",
+    "excelwebzone/recaptcha-bundle": "^1.4",
+    "friendsofsymfony/elastica-bundle": "^5.0",
+    "friendsofsymfony/http-cache-bundle": "~2.1",
+    "friendsofsymfony/jsrouting-bundle": "~1.5",
+    "friendsofsymfony/message-bundle": "~1.3",
+    "friendsofsymfony/oauth-server-bundle": "~1.5",
+    "friendsofsymfony/rest-bundle": "~1.7",
+    "friendsofsymfony/user-bundle": "2.0.2",
+    "incenteev/composer-parameter-handler": "~2.0",
+    "jms/aop-bundle": "^1.2",
+    "jms/di-extra-bundle": "^1.8",
+    "jms/i18n-routing-bundle": "^2.0",
+    "jms/serializer-bundle": "~1.1",
+    "jms/translation-bundle": "^1.3",
     "knplabs/knp-components": "~1.3",
     "knplabs/knp-menu-bundle": "~2.1",
     "knplabs/knp-paginator-bundle": "2.5.*",
-    "friendsofsymfony/user-bundle": "2.0.2",
-    "friendsofsymfony/message-bundle": "~1.3",
-    "friendsofsymfony/jsrouting-bundle": "~1.5",
-    "friendsofsymfony/rest-bundle": "~1.7",
-    "friendsofsymfony/http-cache-bundle": "~2.1",
-    "friendsofsymfony/oauth-server-bundle": "~1.5",
-    "friendsofsymfony/elastica-bundle": "^5.0",
-    "stof/doctrine-extensions-bundle": "~1.2",
-    "jms/serializer-bundle": "~1.1",
-    "jms/i18n-routing-bundle": "^2.0",
-    "jms/aop-bundle": "^1.2",
-    "jms/translation-bundle": "^1.3",
-    "cboden/ratchet": "0.3.*",
-    "react/zmq": "~0.3",
-    "umpirsky/composer-permissions-handler": "~1.4",
-    "beberlei/doctrineextensions": "~1.0",
-    "salavert/time-ago-in-words": "1.*",
-    "snc/redis-bundle": "~2.0",
-    "predis/predis": "^1.0",
-    "sabberworm/php-css-parser": "~8.0",
-    "willdurand/geocoder": "~2.8",
-    "excelwebzone/recaptcha-bundle": "^1.4",
-    "willdurand/js-translation-bundle": "^2.6",
-    "jms/di-extra-bundle": "^1.8",
     "php-http/guzzle6-adapter": "^1.1",
     "php-http/httplug-bundle": "^1.7",
-    "egeloen/serializer-bundle": "^1.0",
+    "predis/predis": "^1.0",
+    "react/zmq": "~0.3",
+    "sabberworm/php-css-parser": "~8.0",
+    "salavert/time-ago-in-words": "1.*",
+    "sensio/distribution-bundle": "~5.0",
+    "sensio/framework-extra-bundle": "^3.0.2",
+    "snc/redis-bundle": "~2.0",
+    "stof/doctrine-extensions-bundle": "~1.2",
+    "symfony/console": "3.4.*",
+    "symfony/dotenv": "3.4.*",
+    "symfony/flex": "^1.3.1",
+    "symfony/framework-bundle": "3.4.*",
     "symfony/intl": "^3.4",
-    "egulias/email-validator": "^2.1",
+    "symfony/monolog-bundle": "~2.4",
     "symfony/process": "^3.4",
-    "enqueue/elastica-bundle": "^0.9.3",
-    "enqueue/fs": "^0.9.12",
-    "symfony/webpack-encore-bundle": "^1.7",
-    "ext-zip": "*",
-    "ext-zmq": "*",
-    "ext-json": "*",
-    "ext-fileinfo": "*"
+    "symfony/swiftmailer-bundle": "~2.3",
+    "symfony/twig-bundle": "^3.4",
+    "symfony/webpack-encore-bundle": "^1.8",
+    "symfony/yaml": "3.4.*",
+    "twig/extensions": "^1.5",
+    "umpirsky/composer-permissions-handler": "~1.4",
+    "willdurand/geocoder": "~2.8",
+    "willdurand/js-translation-bundle": "^2.6"
   },
   "require-dev": {
-    "sensio/generator-bundle": "~3.0",
-    "symfony/phpunit-bridge": "~2.7",
     "phpunit/phpunit": "~4.7",
-    "behat/behat": "^3.7",
-    "friends-of-behat/symfony-extension": "^2.0",
-    "behat/mink": "^1.8",
-    "behat/mink-extension": "^2.3",
-    "behat/mink-browserkit-driver": "^1.3"
-  },
-  "scripts": {
-    "post-root-package-install": [
-      "SymfonyStandard\\Composer::hookRootPackageInstall"
-    ],
-    "post-install-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
-      "Umpirsky\\PermissionsHandler\\ScriptHandler::setPermissions",
-      "Celsius3\\CoreBundle\\Composer\\ScriptHandler::yarnRunEncore"
-    ],
-    "post-update-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles",
-      "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget",
-      "Celsius3\\CoreBundle\\Composer\\ScriptHandler::yarnRunEncore",
-      "Celsius3\\CoreBundle\\Composer\\ScriptHandler::redisFlushAll"
-    ]
+    "symfony/phpunit-bridge": "~2.7",
+    "symfony/stopwatch": "^3.4",
+    "symfony/web-profiler-bundle": "^3.4"
   },
   "config": {
-    "bin-dir": "bin"
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Celsius3\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Celsius3\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "paragonie/random_compat": "2.*",
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php70": "*",
+    "symfony/polyfill-php56": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "security-checker security:check": "script"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
+  },
+  "conflict": {
+    "symfony/symfony": "*"
   },
   "extra": {
-    "symfony-app-dir": "app",
-    "symfony-web-dir": "web",
-    "symfony-assets-install": "relative",
     "writable-dirs": [
       "app/cache",
       "app/logs",
@@ -129,7 +125,8 @@
       "dev-master": "2.8-dev"
     },
     "symfony": {
-      "allow-contrib": true
+      "allow-contrib": false,
+      "require": "3.4.*"
     }
   }
 }
