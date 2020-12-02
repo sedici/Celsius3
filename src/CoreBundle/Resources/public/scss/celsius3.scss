@@ -1,15 +1,15 @@
-@import '../../../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
-@import '../../../../../node_modules/jquery-ui-dist/jquery-ui.min.css';
-@import '../../../../../node_modules/font-awesome/css/font-awesome.min.css';
-@import '../../../../../node_modules/ui-select/dist/select.css';
-@import '../../../../../node_modules/select2-bootstrap-css/select2-bootstrap.css';
-@import '../../../../../node_modules/datatables/media/css/jquery.dataTables.min.css';
-@import '../../../../../node_modules/angular-loading-bar/build/loading-bar.min.css';
-@import '../../../../../node_modules/summernote/dist/summernote.css';
-@import '../../../../../node_modules/c3/c3.min.css';
-@import '../../../../../node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
-@import '../../../../../node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css';
-@import '../../../../../node_modules/admin-lte/dist/css/AdminLTE.min.css';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import '~jquery-ui-dist/jquery-ui.min.css';
+@import '~font-awesome/css/font-awesome.min.css';
+@import '~ui-select/dist/select.css';
+@import '~select2-bootstrap-css/select2-bootstrap.css';
+@import '~datatables/media/css/jquery.dataTables.min.css';
+@import '~angular-loading-bar/build/loading-bar.min.css';
+@import '~summernote/dist/summernote.css';
+@import '~c3/c3.min.css';
+@import '~bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css';
+@import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css';
+@import '~admin-lte/dist/css/AdminLTE.min.css';
 
 .panel-group .panel + .panel {
   margin-top: -1px;
