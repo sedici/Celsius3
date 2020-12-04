@@ -35,16 +35,16 @@ class ThreadRepository extends BaseRepository
             $between = $request->query->get('created_between');
             if ($request->query->has('and') && $request->query->get('and') != '') {
                 $and = $request->query->get('and');
-                $builder = $builder->where($builder->getRootAliases()[0].'.createdAt BETWEEN :between AND :and')
+                $builder = $builder->where($builder->getRootAliases()[0].'.created_at BETWEEN :between AND :and')
                         ->setParameter('between', $between)
                         ->setParameter('and', $and);
             } else {
-                $builder = $builder->where($builder->getRootAliases()[0].'.createdAt >= :between')
+                $builder = $builder->where($builder->getRootAliases()[0].'.created_at >= :between')
                         ->setParameter('between', $between);
             }
         } elseif ($request->query->has('and') && $request->query->get('and') != '') {
             $and = $request->query->get('and');
-            $builder = $builder->where($builder->getRootAliases()[0].'.createdAt <= :and')
+            $builder = $builder->where($builder->getRootAliases()[0].'.created_at <= :and')
                     ->setParameter('and', $and);
         }
 

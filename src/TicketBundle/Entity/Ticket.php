@@ -309,51 +309,51 @@ class Ticket
     }
 
     /**
-     * Set createdAt.
+     * Set created_at.
      *
-     * @param \DateTime $createdAt
+     * @param \DateTime $created_at
      *
      * @return Ticket
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($created_at)
     {
-        $this->createdAt = $createdAt;
+        $this->created_at = $created_at;
 
         return $this;
     }
 
     /**
-     * Get createdAt.
+     * Get created_at.
      *
      * @return \DateTime
      */
     public function getCreatedAt()
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     /**
-     * Set updatedAt.
+     * Set updated_at.
      *
-     * @param \DateTime $updatedAt
+     * @param \DateTime $updated_at
      *
      * @return Ticket
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt($updated_at)
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
 
         return $this;
     }
 
     /**
-     * Get updatedAt.
+     * Get updated_at.
      *
      * @return \DateTime
      */
     public function getUpdatedAt()
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     /**

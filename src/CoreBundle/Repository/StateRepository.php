@@ -210,12 +210,12 @@ class StateRepository extends BaseRepository
             ->groupBy('stateType');
 
         if ($initialYear === $finalYear) {
-            $qb = $qb->addSelect('YEAR(r.createdAt) year')
-                ->addSelect('MONTH(r.createdAt) axisValue')
-                ->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear)
+            $qb = $qb->addSelect('YEAR(r.created_at) year')
+                ->addSelect('MONTH(r.created_at) axisValue')
+                ->andWhere('YEAR(r.created_at) = :year')->setParameter('year', $initialYear)
                 ->addGroupBy('year');
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->addSelect('YEAR(r.createdAt) axisValue')
+            $qb = $qb->addSelect('YEAR(r.created_at) axisValue')
                 ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                 ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -235,7 +235,7 @@ class StateRepository extends BaseRepository
             ->addScalarResult('year', 'year')
             ->addScalarResult('requestsCount', 'requestsCount');
 
-        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(s.createdAt) year, s.type stateType, COUNT(r.id) requestsCount'
+        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(s.created_at) year, s.type stateType, COUNT(r.id) requestsCount'
             . ' FROM state s'
             . ' INNER JOIN request r ON r.id = s.request_id'
             . ' INNER JOIN event e ON e.request_id = r.id'
@@ -278,7 +278,7 @@ class StateRepository extends BaseRepository
             ->addSelect('ow.name name')
             ->addSelect('ow.email email')
             ->addSelect('md.title request')
-            ->addSelect('ANY_VALUE(DATEDIFF(:today,es.createdAt)) as days')->setParameter('today', $today)
+            ->addSelect('ANY_VALUE(DATEDIFF(:today,es.created_at)) as days')->setParameter('today', $today)
             ->leftJoin('s.request', 'r')
             ->leftJoin('r.owner', 'ow')
             ->leftJoin('r.order', 'or')
@@ -305,7 +305,7 @@ class StateRepository extends BaseRepository
             ->addSelect('ow.surname')
             ->addSelect('ow.name')
             ->addSelect('count(md.id) requestsCount')
-            ->addSelect('DATEDIFF(:today,es.createdAt) as days')->setParameter('today', $today)
+            ->addSelect('DATEDIFF(:today,es.created_at) as days')->setParameter('today', $today)
             ->leftJoin('s.request', 'r')
             ->leftJoin('r.order', 'or')
             ->leftJoin('or.materialData', 'md')
@@ -381,8 +381,8 @@ class StateRepository extends BaseRepository
         }
 
         if (($fecha_desde!=null) and ($fecha_hasta!=null)) {
-            $qb ->andWhere('s.createdAt >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
-                ->andWhere('s.createdAt <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
+            $qb ->andWhere('s.created_at >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
+                ->andWhere('s.created_at <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
         }
     //echo $instance->getId();
      //   echo $user->getId();
@@ -426,8 +426,8 @@ class StateRepository extends BaseRepository
         }
 
         if (($fecha_desde!=null) and ($fecha_hasta!=null)) {
-            $qb4 ->andWhere('s.createdAt >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
-                ->andWhere('s.createdAt <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
+            $qb4 ->andWhere('s.created_at >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
+                ->andWhere('s.created_at <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
         }
 
 
@@ -454,8 +454,8 @@ class StateRepository extends BaseRepository
         }
 
         if (($fecha_desde!=null) and ($fecha_hasta!=null)) {
-            $qb2 ->andWhere('s.createdAt >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
-                ->andWhere('s.createdAt <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
+            $qb2 ->andWhere('s.created_at >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
+                ->andWhere('s.created_at <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
         }
         $qb2 = $qb2->getQuery()->getResult();
 
@@ -480,8 +480,8 @@ class StateRepository extends BaseRepository
                     ->setParameter('orderType', $orderType);
             }
             if (($fecha_desde!=null) and ($fecha_hasta!=null)) {
-                $qb3 ->andWhere('s.createdAt >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
-                    ->andWhere('s.createdAt <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
+                $qb3 ->andWhere('s.created_at >= :fecha_desde')->setParameter('fecha_desde', $fecha_desde)
+                    ->andWhere('s.created_at <= :fecha_hasta')->setParameter('fecha_hasta', $fecha_hasta);
             }
             $qb3 = $qb3->getQuery()->getResult();
 
@@ -510,12 +510,12 @@ class StateRepository extends BaseRepository
             ->groupBy('stateType');
 
         if ($initialYear === $finalYear) {
-            $qb = $qb->addSelect('YEAR(s.createdAt) year')
-                ->addSelect('MONTH(s.createdAt) axisValue')
-                ->andWhere('YEAR(s.createdAt) = :year')->setParameter('year', $initialYear)
+            $qb = $qb->addSelect('YEAR(s.created_at) year')
+                ->addSelect('MONTH(s.created_at) axisValue')
+                ->andWhere('YEAR(s.created_at) = :year')->setParameter('year', $initialYear)
                 ->addGroupBy('year');
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->addSelect('YEAR(s.createdAt) axisValue')
+            $qb = $qb->addSelect('YEAR(s.created_at) axisValue')
                 ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                 ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }

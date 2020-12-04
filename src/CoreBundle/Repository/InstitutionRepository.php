@@ -131,10 +131,10 @@ class InstitutionRepository extends BaseRepository
                 ->addGroupBy('institutionCountry');
 
         if ($initialYear === $finalYear) {
-            $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+            $query = $query->andWhere('YEAR(request.created_at) = :year')->setParameter('year', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-                            ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+            $query = $query->andWhere('YEAR(request.created_at) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(request.created_at) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
         return $query->getQuery()->getResult();
@@ -160,10 +160,10 @@ class InstitutionRepository extends BaseRepository
                 ->groupBy('institution.id');
 
         if ($initialYear === $finalYear) {
-            $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+            $query = $query->andWhere('YEAR(request.created_at) = :year')->setParameter('year', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-                            ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+            $query = $query->andWhere('YEAR(request.created_at) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(request.created_at) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
         return $query->getQuery()->getResult();
@@ -188,10 +188,10 @@ class InstitutionRepository extends BaseRepository
                 ->groupBy('institution.id');
 
         if ($initialYear === $finalYear) {
-            $query = $query->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+            $query = $query->andWhere('YEAR(request.created_at) = :year')->setParameter('year', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $query = $query->andWhere('YEAR(request.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-                            ->andWhere('YEAR(request.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+            $query = $query->andWhere('YEAR(request.created_at) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(request.created_at) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
         return $query->getQuery()->getResult();

@@ -10,7 +10,7 @@
     <a href="{{ search.catalog.url }}" class="list-group-item {% if hide %} hidden {% endif %}">
         <span class="badge {{ class }}">{{ search.result | trans | first_upper }}</span>
         <h4 class="list-group-item-heading">{{ search.catalog.name }}</h4>
-        <p class="list-group-item-text">{{ search.createdAt | date }}</p>
+        <p class="list-group-item-text">{{ search.created_at | date }}</p>
         <p class="list-group-item-text">
             <span>{{ 'Volume' | trans }}: {{ search.request.order.materialData.volume }}</span>
             <span>{{ 'Year' | trans }}: {{ search.request.order.materialData.year }}</span>
@@ -24,8 +24,8 @@
     <div class="list-group-item {% if hide %} hidden {% endif %}">
         <h4 class="list-group-item-heading">{{ reception.requestEvent.provider.getFullName() }}</h4>
         <p class="list-group-item-text">
-            <span><b>{{ 'Requested' | trans }}</b>: {{ reception.requestEvent.createdAt | date('m M Y') }}                            </span>
-            | <span><b>{{ 'Received' | trans }}</b>: {{ reception.createdAt | date('d M Y') }}</span>
+            <span><b>{{ 'Requested' | trans }}</b>: {{ reception.requestEvent.created_at | date('m M Y') }}                            </span>
+            | <span><b>{{ 'Received' | trans }}</b>: {{ reception.created_at | date('d M Y') }}</span>
             {% if reception.request.order.materialData.journal is defined %}
                 | <span><b>{{ 'Journal' | trans }}</b>: {{ reception.request.order.materialData.journal }}</span>
             {% endif %}

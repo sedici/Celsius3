@@ -7,7 +7,7 @@ userControllers.controller('UserCtrl', ['$scope', '$http', 'Order', 'Message', '
         $scope.assets_version = assets_version_user;
 
         $scope.sortData = {
-            sort: 'o.createdAt',
+            sort: 'o.created_at',
             direction: 'desc'
         };
 

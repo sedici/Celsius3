@@ -38,10 +38,10 @@ class RequestRepository extends BaseRepository
         $qb = $this->createQueryBuilder('request');
 
         if ($initialYear === $finalYear) {
-            $qb = $qb->select('MONTH(request.createdAt) axisValue')
-                            ->andWhere('YEAR(request.createdAt) = :year')->setParameter('year', $initialYear);
+            $qb = $qb->select('MONTH(request.created_at) axisValue')
+                            ->andWhere('YEAR(request.created_at) = :year')->setParameter('year', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->select('YEAR(request.createdAt) axisValue')
+            $qb = $qb->select('YEAR(request.created_at) axisValue')
                             ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -77,10 +77,10 @@ class RequestRepository extends BaseRepository
                 ->andHaving('materialDataYear <= :fYear')->setParameter('fYear', date('Y'));
 
         if ($initialYear === $finalYear) {
-            $qb = $qb->andWhere('YEAR(r.createdAt) = :year')->setParameter('year', $initialYear);
+            $qb = $qb->andWhere('YEAR(r.created_at) = :year')->setParameter('year', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->andWhere('YEAR(r.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-                            ->andWhere('YEAR(r.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+            $qb = $qb->andWhere('YEAR(r.created_at) >= :initialYear')->setParameter('initialYear', $initialYear)
+                            ->andWhere('YEAR(r.created_at) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
         return $qb->getQuery()->getResult();
@@ -88,7 +88,7 @@ class RequestRepository extends BaseRepository
 
     public function findRequestsDelay($instance, $type, $initialYear, $finalYear, $delayType)
     {
-        $dql = "SELECT YEAR(r.createdAt) cYear, DATEDIFF(sB.createdAt,sA.createdAt) delay, COUNT(r.id) rCount
+        $dql = "SELECT YEAR(r.created_at) cYear, DATEDIFF(sB.created_at,sA.created_at) delay, COUNT(r.id) rCount
                 FROM Celsius3\CoreBundle\Entity\Request r
                 JOIN Celsius3\CoreBundle\Entity\State sA WITH r = sA.request
                 LEFT JOIN Celsius3\CoreBundle\Entity\State sB WITH sA.request = sB.request
@@ -119,7 +119,7 @@ class RequestRepository extends BaseRepository
         }
 
         if ($initialYear === $finalYear) {
-            $dql .= 'AND YEAR(r.createdAt) = :year ';
+            $dql .= 'AND YEAR(r.created_at) = :year ';
         }
 
         $dql .= 'GROUP BY cYear,delay ';
@@ -155,7 +155,7 @@ class RequestRepository extends BaseRepository
     {
         $qb = $this->createQueryBuilder('r');
 
-        $qb = $qb->select('YEAR(r.createdAt) year')
+        $qb = $qb->select('YEAR(r.created_at) year')
                 ->addSelect('s.type st')
                 ->addSelect('COUNT(r.id) c')
                 ->innerJoin('r.owner', 'o', Join::WITH, $qb->expr()->in('o.institution', $institutions))
@@ -168,8 +168,8 @@ class RequestRepository extends BaseRepository
         }
 
         if ($initialYear && $finalYear && $initialYear <= $finalYear) {
-            $qb = $qb->andWhere('YEAR(s.createdAt) >= :initialYear')->setParameter('initialYear', $initialYear)
-                ->andWhere('YEAR(s.createdAt) <= :finalYear')->setParameter('finalYear', $finalYear);
+            $qb = $qb->andWhere('YEAR(s.created_at) >= :initialYear')->setParameter('initialYear', $initialYear)
+                ->andWhere('YEAR(s.created_at) <= :finalYear')->setParameter('finalYear', $finalYear);
         }
 
         return $qb->getQuery()->getArrayResult();
@@ -181,13 +181,13 @@ class RequestRepository extends BaseRepository
         $rsm->addScalarResult('st', 'st');
         $rsm->addScalarResult('c', 'c');
 
-        $sql = 'SELECT YEAR(r.createdAt) year, s.type st, COUNT(e.id) c '
+        $sql = 'SELECT YEAR(r.created_at) year, s.type st, COUNT(e.id) c '
             . 'FROM event e '
             . 'INNER JOIN request r ON e.request_id = r.id '
             . 'LEFT JOIN state s ON e.state_id = s.id '
             . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND e.provider_id IN (:institutions) '
         ;
-        $sql .= 'AND YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear ';
+        $sql .= 'AND YEAR(e.created_at) >= :initialYear AND YEAR(e.created_at) <= :finalYear ';
         $sql .= 'GROUP BY year, st';
 
         $query = $this->getEntityManager()
@@ -210,12 +210,12 @@ class RequestRepository extends BaseRepository
         $rsm->addScalarResult('year', 'year');
         $rsm->addScalarResult('c', 'c');
 
-        $sql = 'SELECT YEAR(r.createdAt) year, COUNT(e.id) c '
+        $sql = 'SELECT YEAR(r.created_at) year, COUNT(e.id) c '
             . 'FROM event e '
             . 'INNER JOIN request r ON e.request_id = r.id '
             . 'INNER JOIN event re ON e.request_event_id = re.id '
             . 'WHERE e.instance_id = :instance_id AND e.type IN (:types) AND re.provider_id IN (:institutions) '
-            . 'AND YEAR(e.createdAt) >= :initialYear AND YEAR(e.createdAt) <= :finalYear '
+            . 'AND YEAR(e.created_at) >= :initialYear AND YEAR(e.created_at) <= :finalYear '
             . 'GROUP BY year '
         ;
 

@@ -2,7 +2,7 @@
 <serializer>
     <class name="Celsius3\CoreBundle\Entity\State" exclusion-policy="all">
         <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
-        <property name="createdAt" type="DateTime" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
+        <property name="created_at" type="DateTime" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="current" type="boolean" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>
         <property name="searchPending" type="boolean" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="type" type="string" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show,user_list"></property>

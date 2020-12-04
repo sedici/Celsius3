@@ -124,8 +124,8 @@ class ExportDataCommand extends ContainerAwareCommand
 
     private function whereDates($qb, $dr)
     {
-        $qb->andWhere('o.createdAt > :startDate')
-            ->andWhere('o.createdAt < :endDate')
+        $qb->andWhere('o.created_at > :startDate')
+            ->andWhere('o.created_at < :endDate')
             ->setParameter('startDate', $dr->getStartDate())
             ->setParameter('endDate', $dr->getEndDate());
     }
@@ -144,42 +144,42 @@ class ExportDataCommand extends ContainerAwareCommand
 
     private function addCreated($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'created', s.createdAt, NULL)) AS created_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'created', s.created_at, NULL)) AS created_date");
     }
 
     private function addAnnulled($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'annulled', s.createdAt, NULL)) AS annulled_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'annulled', s.created_at, NULL)) AS annulled_date");
     }
 
     private function addCancelled($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'cancelled', s.createdAt, NULL)) AS cancelled_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'cancelled', s.created_at, NULL)) AS cancelled_date");
     }
 
     private function addSearched($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'searched', s.createdAt, NULL)) AS searched_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'searched', s.created_at, NULL)) AS searched_date");
     }
 
     private function addRequested($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'requested', s.createdAt, NULL)) AS requested_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'requested', s.created_at, NULL)) AS requested_date");
     }
 
     private function addReceived($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'received', s.createdAt, NULL)) AS received_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'received', s.created_at, NULL)) AS received_date");
     }
 
     private function addDelivered($qb)
     {
-        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'delivered', s.createdAt, NULL)) AS delivered_date");
+        $qb->addSelect("GROUP_CONCAT(IFELSE(s.type = 'delivered', s.created_at, NULL)) AS delivered_date");
     }
 
     private function addDate($qb)
     {
-        $qb->addSelect('o.createdAt date');
+        $qb->addSelect('o.created_at date');
     }
 
     private function addType($qb)

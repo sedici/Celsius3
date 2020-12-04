@@ -28,8 +28,7 @@ use FOS\MessageBundle\Entity\Thread as BaseThread;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\MessageBundle\Repository\ThreadRepository")
  * @ORM\Table(name="thread", indexes={
- *   @ORM\Index(name="idx_created_by", columns={"createdBy_id"}),
- *   @ORM\Index(name="idx_created_at", columns={"createdAt"})
+ *   @ORM\Index(name="idx_created_at", columns={"created_at"})
  * })
  */
 class Thread extends BaseThread

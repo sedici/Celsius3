@@ -187,10 +187,10 @@ class BaseUserRepository extends BaseRepository
         $qb = $this->createQueryBuilder('user');
 
         if ($initialYear === $finalYear) {
-            $qb = $qb->select('MONTH(user.createdAt) axisValue')
-                            ->andWhere('YEAR(user.createdAt) = :y')->setParameter('y', $initialYear);
+            $qb = $qb->select('MONTH(user.created_at) axisValue')
+                            ->andWhere('YEAR(user.created_at) = :y')->setParameter('y', $initialYear);
         } elseif ($initialYear < $finalYear) {
-            $qb = $qb->select('YEAR(user.createdAt) axisValue')
+            $qb = $qb->select('YEAR(user.created_at) axisValue')
                             ->andHaving('axisValue >= :initialYear')->setParameter('initialYear', $initialYear)
                             ->andHaving('axisValue <= :finalYear')->setParameter('finalYear', $finalYear);
         }
@@ -221,14 +221,14 @@ class BaseUserRepository extends BaseRepository
         }
 
         return $qb->select('COUNT(user.id) newUsers')
-                        ->andWhere('user.createdAt <= :date')->setParameter('date', $date)
+                        ->andWhere('user.created_at <= :date')->setParameter('date', $date)
                         ->getQuery()->getSingleResult();
     }
 
     public function getYears($instance)
     {
         return $this->createQueryBuilder('user')
-                        ->select('YEAR(user.createdAt) year')
+                        ->select('YEAR(user.created_at) year')
                         ->where('user.instance = :instance')->setParameter('instance', $instance)
                         ->groupBy('year')
                         ->orderBy('year')
@@ -323,7 +323,7 @@ class BaseUserRepository extends BaseRepository
           ->setParameter('instance_id', $instance->getId());
 
         if (!is_null($startDate)) {
-            $qb->andWhere('u.createdAt >= :date')->setParameter('date', $startDate);
+            $qb->andWhere('u.created_at >= :date')->setParameter('date', $startDate);
         }
 
         return $qb;

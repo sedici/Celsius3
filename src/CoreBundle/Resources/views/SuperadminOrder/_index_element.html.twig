@@ -3,7 +3,7 @@
 {% block deleted_title %}
     {{ parent() }}
 
-    {% if (element.deletedAt is not null) and (app.user.hasRole('ROLE_SUPER_ADMIN')) %}
+    {% if (element.deleted_at is not null) and (app.user.hasRole('ROLE_SUPER_ADMIN')) %}
         <span class="text-danger">[{{ 'DELETED' | trans }}]</span>
     {% endif %}
 {% endblock %}
@@ -13,7 +13,7 @@
 
     {% if app.user.hasRole('ROLE_SUPER_ADMIN') %}
         <li>
-            {% if element.deletedAt is null %}
+            {% if element.deleted_at is null %}
                 <button type="button" class="btn btn-danger orderDelUndelButton orderDeleteButton" data-order-id="{{ request.order.id }}">
                     <span class="fa fa-remove"></span>
                 </button>
