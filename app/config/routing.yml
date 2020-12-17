@@ -60,6 +60,10 @@ celsius3_admin_data_request:
     resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/DataRequest.yaml"
     prefix: /admin/data_request
 
+celsius3_admin_file_download:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/FileDownload.yaml"
+    prefix: /admin/file_download
+
 blog_show:
     path:      /
     defaults:  { _controller: Celsius3CoreBundle:Public:index }
