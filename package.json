@@ -28,6 +28,7 @@
     "bootstrap-tour": "^0.12.0",
     "c3": "^0.4.18",
     "codemirror": "^5.29.0",
+    "contextify": "^1.0.0",
     "d3": "^4.10.0",
     "datatables": "^1.10.13",
     "datatables.net": "^1.10.15",
