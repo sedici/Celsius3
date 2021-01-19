@@ -35,17 +35,13 @@ class CertificateCommand extends ContainerAwareCommand
 {
     protected function configure(): void
     {
-        parent::configure();
-
         $this
             ->setName('celsius3:certificate:update')
             ->setDescription('Update certificates for enabled instances.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        parent::execute($input, $output);
-
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $public_path = $this->getContainer()->get('kernel')->getRootDir().'/../web';
@@ -53,8 +49,6 @@ class CertificateCommand extends ContainerAwareCommand
         # Se toma la ip actual del servidor
         $server_ip = gethostbyname('servicio.prebi.unlp.edu.ar');
 
-        # Se toman dominios de instancias activas
-        /** @var DataRequest $dr */
         $domains = $em->getRepository(Instance::class)->findAllDomains();
         $directory = $em->getRepository(Instance::class)->findOneBy(['url' => 'directory']);
 
@@ -69,7 +63,7 @@ class CertificateCommand extends ContainerAwareCommand
         $command = 'certbot --non-interactive '.
             '--agree-tos -m soporte.celsius@prebi.unlp.edu.ar '.
             '--expand certonly '.
-            '--webroot -w '.$public_path.
+            '--webroot -w '.$public_path.' '.
             '-d '.implode(' -d ', $valid_domains).' -d '.$directory->getHost();
 
         # Solicitud de certificado
