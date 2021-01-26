@@ -27,6 +27,7 @@ use Celsius3\CoreBundle\Entity\CongressType;
 use Celsius3\CoreBundle\Entity\DataRequest;
 use Celsius3\CoreBundle\Entity\JournalType;
 use Celsius3\CoreBundle\Entity\Order;
+use Celsius3\CoreBundle\Entity\OrdersDataRequest;
 use Celsius3\CoreBundle\Entity\State;
 use Celsius3\CoreBundle\Entity\ThesisType;
 use Doctrine\ORM\EntityManager;
@@ -36,7 +37,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExportDataCommand extends ContainerAwareCommand
+class ExportOrdersDataCommand extends ContainerAwareCommand
 {
     private $materialTypeJoined = false;
     private $journalTypeJoined = false;
@@ -48,9 +49,9 @@ class ExportDataCommand extends ContainerAwareCommand
 
     protected function configure()
     {
-        $this->setName('celsius3:export-data')
-            ->setDescription('Exporta los datos de una instancia dada una solicitud de datos.')
-            ->addArgument('data-request-id', InputArgument::REQUIRED, 'Data request identifier');
+        $this->setName('celsius3:export:orders-data-requests')
+            ->setDescription('Exporta los datos de pedidos dada una solicitud.')
+            ->addArgument('orders-data-request-id', InputArgument::REQUIRED, 'Orders data request identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -58,7 +59,7 @@ class ExportDataCommand extends ContainerAwareCommand
         /** @var EntityManager $em */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         /** @var DataRequest $dr */
-        $dr = $em->find(DataRequest::class, (int)$input->getArgument('data-request-id'));
+        $dr = $em->find(OrdersDataRequest::class, (int)$input->getArgument('orders-data-request-id'));
         $filename = $dr->getInstance()->getAbbreviation() . '_' . str_replace(' ', '_', $dr->getName()) . '_' . $dr->getStartDate()->format('Ymd') . '_' . $dr->getEndDate()->format('Ymd') . '.csv';
         $directory = $this->getContainer()->getParameter('data_requests_directory');
 
@@ -104,7 +105,7 @@ class ExportDataCommand extends ContainerAwareCommand
         if ($zip->open($directory . $zipFilename, \ZipArchive::CREATE) !== TRUE) {
             exit("No se puede abrir el archivo $directory$zipFilename\n");
         }
-        $zip->addFile($directory . $filename);
+        $zip->addFile($directory . $filename, $filename);
         $zip->close();
 
         unlink($directory . $filename);

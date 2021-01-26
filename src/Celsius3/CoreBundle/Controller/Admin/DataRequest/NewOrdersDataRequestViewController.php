@@ -26,13 +26,14 @@ namespace Celsius3\CoreBundle\Controller\Admin\DataRequest;
 
 use Celsius3\CoreBundle\Controller\BaseInstanceDependentController;
 use Celsius3\CoreBundle\Entity\DataRequest;
-use Celsius3\CoreBundle\Form\Type\DataRequestType;
+use Celsius3\CoreBundle\Entity\OrdersDataRequest;
+use Celsius3\CoreBundle\Form\Type\OrdersDataRequestType;
 use Celsius3\CoreBundle\Manager\Alert;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpFoundation\Request;
 
-final class NewDataRequestViewController extends BaseInstanceDependentController
+final class NewOrdersDataRequestViewController extends BaseInstanceDependentController
 {
     private $dataRequestRepository;
 
@@ -50,20 +51,17 @@ final class NewDataRequestViewController extends BaseInstanceDependentController
     {
         $data_request = $this->createDataRequest($request->request->get('data_request'));
 
-        $form = $this->createForm(DataRequestType::class, $data_request);
+        $form = $this->createForm(OrdersDataRequestType::class, $data_request);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($data_request);
-            $em->flush();
-
             $this->dataRequestRepository->save($data_request);
 
             Alert::add(
                 Alert::SUCCESS,
                 $this->get('translator')->trans('The data request was successfully registered', [], 'Flashes')
             );
+
             return $this->redirectToRoute('administration');
         }
 
@@ -75,7 +73,7 @@ final class NewDataRequestViewController extends BaseInstanceDependentController
 
     private function createDataRequest(?array $dr): DataRequest
     {
-        $data_request = new DataRequest($this->getInstance());
+        $data_request = new OrdersDataRequest($this->getInstance());
 
         $data = null;
         if ($dr) {

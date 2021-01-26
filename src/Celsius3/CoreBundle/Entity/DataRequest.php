@@ -29,8 +29,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="Celsius3\CoreBundle\Repository\DataRequestRepository")
  * @ORM\Table(name="data_request")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *   "users_data_request"="UsersDataRequest",
+ *   "orders_data_reques"="OrdersDataRequest"
+ * })
  */
-class DataRequest
+abstract class DataRequest
 {
     use TimestampableEntity;
 
@@ -102,9 +108,8 @@ class DataRequest
         $this->instance = $instance;
     }
 
-
     /**
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -119,17 +124,17 @@ class DataRequest
         return $this->data;
     }
 
-    public function getArrayData()
-    {
-        return unserialize($this->data);
-    }
-
     /**
      * @param string $data
      */
     public function setData($data)
     {
         $this->data = $data;
+    }
+
+    public function getArrayData()
+    {
+        return unserialize($this->data);
     }
 
     /**
@@ -271,6 +276,4 @@ class DataRequest
 
         return $this;
     }
-
-
 }
