@@ -447,23 +447,8 @@
     "sebastian/version": {
         "version": "1.0.6"
     },
-    "sensio/distribution-bundle": {
-        "version": "v5.0.25"
-    },
     "sensio/framework-extra-bundle": {
         "version": "v3.0.12"
-    },
-    "sensiolabs/security-checker": {
-        "version": "4.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "4.0",
-            "ref": "160c9b600564faa1224e8f387d49ef13ceb8b793"
-        },
-        "files": [
-            "config/packages/security_checker.yaml"
-        ]
     },
     "snc/redis-bundle": {
         "version": "2.0",
@@ -572,12 +557,6 @@
             "src/Kernel.php"
         ]
     },
-    "symfony/http-client": {
-        "version": "v4.4.17"
-    },
-    "symfony/http-client-contracts": {
-        "version": "v1.1.10"
-    },
     "symfony/http-foundation": {
         "version": "v3.4.47"
     },
@@ -589,9 +568,6 @@
     },
     "symfony/intl": {
         "version": "v3.4.47"
-    },
-    "symfony/mime": {
-        "version": "v4.4.17"
     },
     "symfony/monolog-bridge": {
         "version": "v3.4.47"
