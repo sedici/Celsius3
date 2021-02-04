@@ -162,7 +162,7 @@ abstract class Event implements EventInterface
         return $this;
     }
 
-    public function getOperator(): UserInterface
+    public function getOperator(): ?UserInterface
     {
         return $this->operator;
     }

@@ -72,7 +72,7 @@ class EventRepository extends BaseRepository
                 ->andWhere('o.id <> :order_id')->setParameter('order_id', $order->getId());
 
             $qb->orderBy('s.result', 'ASC')
-                ->addOrderBy('s.created_at', 'DESC');
+                ->addOrderBy('s.deletedAt', 'DESC');
 
             $qb->andWhere('j.name = :name');
 
@@ -106,7 +106,7 @@ class EventRepository extends BaseRepository
             ->addScalarResult('year', 'year')
             ->addScalarResult('requestsCount', 'requestsCount');
 
-        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.created_at) year, COUNT(e.id) requestsCount'
+        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.deletedAt) year, COUNT(e.id) requestsCount'
             . ' FROM event e'
             . ' INNER JOIN request r ON r.id = e.request_id'
             . ' INNER JOIN provider p ON p.id = e.provider_id'
@@ -118,7 +118,7 @@ class EventRepository extends BaseRepository
                 . ' AND';
         }
 
-        $sql .= ' YEAR(e.created_at) >= :initialYear AND YEAR(e.created_at) <= :finalYear'
+        $sql .= ' YEAR(e.deletedAt) >= :initialYear AND YEAR(e.deletedAt) <= :finalYear'
             . ' AND r.type = :type'
             . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
             . ' GROUP BY countryId, countryName, year'
@@ -160,7 +160,7 @@ class EventRepository extends BaseRepository
                 . ' AND';
         }
 
-        $sql .= ' YEAR(e.created_at) >= :initialYear AND YEAR(e.created_at) <= :finalYear'
+        $sql .= ' YEAR(e.deletedAt) >= :initialYear AND YEAR(e.deletedAt) <= :finalYear'
             . ' AND r.type = :type'
             . ' AND s.current = :current'
             . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
@@ -194,7 +194,7 @@ class EventRepository extends BaseRepository
             ->addScalarResult('year', 'year')
             ->addScalarResult('requestsCount', 'requestsCount');
 
-        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.created_at) year, COUNT(e.id) requestsCount'
+        $sql = 'SELECT c.id countryId, c.name countryName, YEAR(e.deletedAt) year, COUNT(e.id) requestsCount'
             . ' FROM event e'
             . ' INNER JOIN event re ON re.id = e.request_event_id'
             . ' INNER JOIN request r ON r.id = re.request_id'
@@ -207,7 +207,7 @@ class EventRepository extends BaseRepository
                 . ' AND';
         }
 
-        $sql .= ' YEAR(e.created_at) >= :initialYear AND YEAR(e.created_at) <= :finalYear'
+        $sql .= ' YEAR(e.deletedAt) >= :initialYear AND YEAR(e.deletedAt) <= :finalYear'
             . ' AND r.type = :type'
             . ' AND (e.type = :stateTypeA OR e.type = :stateTypeB)'
             . ' GROUP BY countryId, countryName, year'
@@ -237,7 +237,7 @@ class EventRepository extends BaseRepository
             ->andWhere('s.result IN (:result)')->setParameter('result', [CatalogManager::CATALOG__FOUND, CatalogManager::CATALOG__PARTIALLY_FOUND]);
 
         $qb->orderBy('s.result', 'ASC')
-            ->addOrderBy('s.created_at', 'DESC');
+            ->addOrderBy('s.deletedAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
@@ -276,7 +276,7 @@ class EventRepository extends BaseRepository
             ->andWhere('ereq.instance = :instance')->setParameter('instance', $instance->getId())
             ->andWhere('jt.journal = :journal')->setParameter('journal', $journal->getId());
 
-        $qb->orderBy('erec.created_at', 'DESC');
+        $qb->orderBy('erec.deletedAt', 'DESC');
 
          return array_filter($qb->getQuery()->getResult(), function ($var) use ($receiveEventClass) {
             return ($var instanceof $receiveEventClass) ? true : false;

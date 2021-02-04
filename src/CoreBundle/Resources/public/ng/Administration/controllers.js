@@ -8,7 +8,7 @@ administrationControllers.controller('AdministrationCtrl', ['$scope', '$routePar
 
         $scope.type = $routeParams.type;
         $scope.sortData = {
-            sort: 'o.created_at',
+            sort: 'o.createdAt',
             direction: 'asc'
         };
 

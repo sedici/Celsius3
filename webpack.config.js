@@ -8,6 +8,7 @@ Encore
     .addEntry('vendor', [
         'jquery',
         'jquery-ui',
+        'jquery-ui-timepicker-addon',
         'bootstrap-sass',
         'angular',
         'icanhaz',

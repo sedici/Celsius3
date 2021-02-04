@@ -66,7 +66,7 @@ abstract class BaseController extends Controller
     protected function getSortDefaults()
     {
         return array(
-            'defaultSortFieldName' => 'e.updated_at',
+            'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'desc',
         );
     }

@@ -72,7 +72,7 @@ class CancelEvent extends SingleInstanceEvent implements Notifiable
         $manager->notifyEvent($this, 'cancel');
     }
 
-    public function getCancelledByUser(): bool
+    public function getCancelledByUser(): ?bool
     {
         return $this->cancelledByUser;
     }
