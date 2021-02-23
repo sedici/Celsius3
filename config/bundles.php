@@ -39,4 +39,5 @@ return [
     Celsius3\MessageBundle\Celsius3MessageBundle::class => ['all' => true],
     Celsius3\ApiBundle\Celsius3ApiBundle::class => ['all' => true],
     Celsius3\TicketBundle\Celsius3TicketBundle::class => ['all' => true],
+    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
 ];
