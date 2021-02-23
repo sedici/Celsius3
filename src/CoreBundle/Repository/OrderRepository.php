@@ -24,6 +24,7 @@ namespace Celsius3\CoreBundle\Repository;
 
 use Celsius3\CoreBundle\Entity\BaseUser;
 use Celsius3\CoreBundle\Entity\Instance;
+use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Manager\StateManager;
 use Doctrine\ORM\QueryBuilder;
 
@@ -294,5 +295,36 @@ class OrderRepository extends BaseRepository
         }
 
         return $query;
+    }
+
+    public function listUserOrdersQuery(Instance $instance, BaseUser $user)
+    {
+        return $this->getEntityManager()
+            ->getRepository(Order::class)
+            ->createQueryBuilder('e')
+            ->join('e.originalRequest', 'r')
+            ->join('e.materialData', 'm')
+            ->where('r.instance = :instance')
+            ->setParameter('instance', $instance->getId())
+            ->andWhere('r.owner = :owner OR r.librarian = :owner')
+            ->setParameter('owner', $user->getId());
+    }
+
+    public function findUserOrder($id, Instance $instance, BaseUser $user): Order
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->join('e.originalRequest', 'r')
+            ->where('r.instance = :instance')
+            ->setParameter('instance', $instance->getId());
+
+        $qb = $qb->orWhere($qb->expr()->eq('r.owner', ':owner'))->setParameter('owner', $user->getId());
+        $qb = $qb->orWhere(
+            $qb->expr()->eq('r.librarian', ':librarian')
+        )->setParameter(
+            'librarian',
+            $user->getId()
+        );
+
+        return $qb->andWhere('e.id = :id')->setParameter('id', $id)->getQuery()->getSingleResult();
     }
 }

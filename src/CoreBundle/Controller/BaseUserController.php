@@ -36,7 +36,7 @@ abstract class BaseUserController extends BaseInstanceDependentController
             throw Exception::create(Exception::ENTITY_NOT_FOUND, 'exception.entity_not_found.user');
         }
 
-        if (!$this->get('celsius3_core.user_manager')->hasHigherRoles($this->getUser(), $entity)) {
+        if (!$this->getUser()->hasHigherRolesThan($entity)) {
             return $this->redirectToRoute($this->getUserListRoute());
         }
 

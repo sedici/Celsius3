@@ -892,4 +892,10 @@ class BaseUser extends User implements ParticipantInterface, Notifiable
     {
         $this->locked = $locked;
     }
+
+    public function hasHigherRolesThan(BaseUser $user): bool
+    {
+        return $this->hasRole('ROLE_SUPER_ADMIN')
+            || ($this->hasRole('ROLE_ADMIN') && !$user->hasRole('ROLE_SUPER_ADMIN'));
+    }
 }

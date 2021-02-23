@@ -122,24 +122,24 @@ class EventManager
         return $this->class_prefix.$this->event_classes[$event];
     }
 
-    private function prepareExtraDataForSearch()
+    public function prepareExtraDataForSearch()
     {
-        $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
+        $http_request = $this->container->get('request_stack')->getCurrentRequest();
 
-        $extraData = array();
-        $extraData['result'] = $httpRequest->request->get('result', null);
+        $extra_data = [];
+        $extra_data['result'] = $http_request->request->get('result', null);
 
-        if ($httpRequest->request->has('catalog_id')) {
-            $em = $this->container->get('doctrine.orm.entity_manager');
-            $extraData['catalog'] = $em->getRepository('Celsius3CoreBundle:Catalog')
-                    ->find($httpRequest->request->get('catalog_id'));
-        } else {
+        if (!$http_request->request->has('catalog_id')) {
             $this->container->get('session')->getFlashBag()->add('error', 'There was an error changing the state.');
 
             throw Exception::create(Exception::NOT_FOUND);
         }
 
-        return $extraData;
+        $entity_manager = $this->container->get('doctrine.orm.entity_manager');
+        $extra_data['catalog'] = $entity_manager->getRepository('Celsius3CoreBundle:Catalog')
+            ->find($http_request->request->get('catalog_id'));
+
+        return $extra_data;
     }
 
     public function prepareExtraDataForRequest()
@@ -172,7 +172,7 @@ class EventManager
         return $extra_data;
     }
 
-    private function prepareExtraDataForReceive(Request $request)
+    public function prepareExtraDataForReceive(Request $request)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
 
@@ -225,7 +225,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForApprove()
+    public function prepareExtraDataForApprove()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -247,7 +247,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForReclaim()
+    public function prepareExtraDataForReclaim()
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -291,7 +291,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForCancel(Request $request, Instance $instance)
+    public function prepareExtraDataForCancel(Request $request, Instance $instance)
     {
         $httpRequest = $this->container->get('request_stack')->getCurrentRequest();
         $em = $this->container->get('doctrine.orm.entity_manager');
@@ -345,7 +345,7 @@ class EventManager
         return $extraData;
     }
 
-    private function prepareExtraDataForAnnul(Request $request, Instance $instance)
+    public function prepareExtraDataForAnnul(Request $request, Instance $instance)
     {
         $extraData = array();
 
@@ -386,6 +386,22 @@ class EventManager
             && $extraData['provider']->findCelsiusInstance()->getId() !== $instance->getId()
             && $request->getPreviousRequest() === null
         ) ? self::EVENT__MULTI_INSTANCE_REQUEST : self::EVENT__SINGLE_INSTANCE_REQUEST;
+    }
+
+    public function getRealReceiveEventName(array $extraData, Instance $instance, Request $request): string
+    {
+        return $extraData['request']->getRequest()->getPreviousRequest()
+            ? self::EVENT__MULTI_INSTANCE_RECEIVE : self::EVENT__SINGLE_INSTANCE_RECEIVE;
+    }
+
+    public function getRealCancelEventName(array $extraData): string
+    {
+        if (!isset($extraData['request'])) {
+            return self::EVENT__CANCEL;
+        }
+
+        return $extraData['request'] instanceof MultiInstanceRequestEvent ?
+                self::EVENT__REMOTE_CANCEL : self::EVENT__LOCAL_CANCEL;
     }
 
     public function prepareExtraData($event, Request $request, Instance $instance)

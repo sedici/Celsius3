@@ -28,7 +28,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Celsius3\CoreBundle\Entity\Order;
 use Celsius3\CoreBundle\Form\Type\OrderType;
-use Celsius3\CoreBundle\Form\Type\Filter\OrderFilterType;
 use Celsius3\CoreBundle\Manager\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -65,39 +64,6 @@ class UserOrderController extends OrderController
         $qb = $qb->orWhere($qb->expr()->where('r.librarian = :librarian')->setParameter('librarian', $this->getUser()->getId()));
 
         return $qb->andWhere('e.id = :id')->setParameter('id', $id)->getQuery()->getSingleResult();
-    }
-
-    /**
-     * Lists all Order entities.
-     *
-     * @Route("/", name="user_order", options={"expose"=true})
-     * @Template()
-     *
-     * @return array
-     */
-    public function indexAction()
-    {
-        return $this->baseIndex('Order', $this->createForm(OrderFilterType::class, null, array(
-            'instance' => $this->getInstance(),
-            'owner' => $this->getUser(),
-        )));
-    }
-
-    /**
-     * Finds and displays a Order entity.
-     *
-     * @Route("/{id}/show", name="user_order_show")
-     * @Template()
-     *
-     * @param string $id The entity ID
-     *
-     * @return array
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If entity doesn't exists
-     */
-    public function showAction($id)
-    {
-        return $this->baseShow('Order', $id);
     }
 
     /**

@@ -1,27 +1,14 @@
 {% extends 'Celsius3CoreBundle:Administration:layout.html.twig' %}
 
-{% block title %}
-    {{ 'Instance data request' | trans }}
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <style type="text/css">
-        label.form-check-label input {
-            margin-right: 20px;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
     <div class="row">
         <h3>{{ 'Instance data request' | trans }}</h3>
         <hr class="separator_hr">
         <div class="col-md-9">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#">{{ 'orders' | trans }}</a></li>
-                <li role="presentation"><a
-                            href="{{ path('admin_instance_users_data_request') }}">{{ 'Users' | trans }}</a></li>
+                <li role="presentation"><a href="{{ path('admin_instance_data_request') }}">{{ 'orders' | trans }}</a>
+                </li>
+                <li role="presentation" class="active"><a href="#">{{ 'Users' | trans }}</a></li>
             </ul>
             <br>
             {{ form_start(form) }}
@@ -77,114 +64,92 @@
                         <p class="text-danger">{{ 'No data selected' | trans }}</p>
                     {% endfor %}
                     <div class="row"
-                         style="border-top: 1px solid grey; border-left: 1px solid grey; border-right: 1px solid grey; padding-top: 10px;">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.date, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.type, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.type, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.materialType, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.materialType, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.title, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.authors, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.authors, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.year, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.year, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.startPage, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.startPage, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                    {{ form_widget(form.endPage, { 'attr': {'class': 'form-control'} }) }}
-                                </div>
-                                {{ form_label(form.endPage, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row"
-                         style="border-top: 1px solid grey; border-left: 1px solid grey; border-right: 1px solid grey">
-                        <div class="col-md-3" style="border-right: 1px solid grey; height: 300px; padding-top: 10px;">
-                            <div class="form-group">
-                                {{ form_label(form.journal, null, { 'label_attr': {'class': 'control-label'} }) }}
-                                {{ form_widget(form.journal) }}
-                            </div>
-                        </div>
-                        <div class="col-md-3" style="border-right: 1px solid grey; height: 300px; padding-top: 10px;">
-                            <div class="form-group">
-                                {{ form_label(form.book, null, { 'label_attr': {'class': 'control-label'} }) }}
-                                {{ form_widget(form.book) }}
-                            </div>
-                        </div>
-                        <div class="col-md-3" style="border-right: 1px solid grey; height: 300px; padding-top: 10px;">
-                            <div class="form-group">
-                                {{ form_label(form.thesis, null, { 'label_attr': {'class': 'control-label'} }) }}
-                                {{ form_widget(form.thesis) }}
-                            </div>
-                        </div>
-                        <div class="col-md-3" style="padding-top: 10px;">
-                            <div class="form-group">
-                                {{ form_label(form.congress, null, { 'label_attr': {'class': 'control-label'} }) }}
-                                {{ form_widget(form.congress) }}
-                            </div>
-                        </div>
+                         style="border: 1px solid grey; padding-top: 10px; margin-bottom: 20px">
 
-                    </div>
-                    <div class="row" style="border-top: 1px solid grey">
-                        <div class="col-md-3"
-                             style="border-right: 1px solid grey; height: 300px; border-left: 1px solid grey; border-bottom: 1px solid grey; padding-top: 10px;">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                {{ form_label(form.states, null, { 'label_attr': {'class': 'control-label'} }) }}
-                                {{ form_widget(form.states) }}
+                                <div class="col-md-2">
+                                    {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.email, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.first_name, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.first_name, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.surname, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.surname, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.birthdate, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.birthdate, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.address, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.address, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.downloadAuth, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.downloadAuth, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.pdf, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.pdf, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.locked, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.locked, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.institution, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.institution, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control'} }) }}
+                                </div>
+                                {{ form_label(form.observaciones, null, { 'label_attr': {'class': 'col-md-10 control-label'} }) }}
                             </div>
                         </div>
                     </div>
-                    <br>
+                    {{ form_end(form) }}
                 </fieldset>
             </div>
-            <br>
-            {{ form_end(form) }}
         </div>
         <div class="col-md-3">
             <div id="accordion" class="panel-group">
@@ -213,3 +178,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

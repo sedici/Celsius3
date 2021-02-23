@@ -23,8 +23,6 @@
 namespace Celsius3\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -49,116 +47,8 @@ class DataRequestType extends AbstractType
                 'data' => new \DateTime('now'),
                 'widget' => 'single_text'
             ])
-            ->add('date', CheckboxType::class, [
-                'label' => 'Date',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('type', CheckboxType::class, [
-                'label' => 'Type',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('states', ChoiceType::class, [
-                'label' => 'Order states dates',
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Created_s' => 'created',
-                    'Annulled' => 'annulled',
-                    'Cancelled_s' => 'cancelled',
-                    'Searched' => 'searched',
-                    'Requested' => 'requested',
-                    'Received' => 'received',
-                    'Delivered_s' => 'delivered'
-                ],
-                'mapped' => false
-            ])
-            ->add('materialType', CheckboxType::class, [
-                'label' => 'Material type',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('title', CheckboxType::class, [
-                'label' => 'Title',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('authors', CheckboxType::class, [
-                'label' => 'Authors',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('year', CheckboxType::class, [
-                'label' => 'Year',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('startPage', CheckboxType::class, [
-                'label' => 'Start page',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('endPage', CheckboxType::class, [
-                'label' => 'End page',
-                'required' => false,
-                'mapped' => false
-            ])
-            ->add('journal', ChoiceType::class, [
-                'label' => 'Journal',
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Name' => 'name',
-                    'Volume' => 'volume',
-                    'Number' => 'number',
-                    'ISSN' => 'issn',
-                    'ISSNE' => 'issne',
-                    'Responsible' => 'responsible',
-                    'Frecuency' => 'frecuency',
-                    'Abbreviation' => 'abbreviation'
-                ],
-                'mapped' => false
-            ])
-            ->add('book', ChoiceType::class, [
-                'label' => 'Book',
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Editor' => 'editor',
-                    'Chapter' => 'chapter',
-                    'ISBN' => 'isbn'
-                ],
-                'mapped' => false
-            ])
-            ->add('thesis', ChoiceType::class, [
-                'label' => 'Thesis',
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Director' => 'director',
-                    'Degree' => 'degree'
-                ],
-                'mapped' => false
-            ])
-            ->add('congress', ChoiceType::class, [
-                'label' => 'Congress',
-                'required' => false,
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Place' => 'place',
-                    'Communication' => 'communication'
-                ],
-                'mapped' => false
-            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Request data'
             ]);
-
     }
 }
