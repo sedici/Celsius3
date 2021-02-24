@@ -4339,6 +4339,26 @@
         <source>Associated to</source>
         <target>Asociado a</target>
       </trans-unit>
+      <trans-unit id="first_name" resname="first_name">
+        <source>first_name</source>
+        <target>Nombre</target>
+      </trans-unit>
+      <trans-unit id="surname" resname="surname">
+        <source>surname</source>
+        <target>Apellido</target>
+      </trans-unit>
+      <trans-unit id="downloadAuth" resname="downloadAuth">
+        <source>downloadAuth</source>
+        <target>Autorizado a descargar</target>
+      </trans-unit>
+      <trans-unit id="locked" resname="locked">
+        <source>locked</source>
+        <target>Bloqueado</target>
+      </trans-unit>
+      <trans-unit id="observaciones" resname="observaciones">
+        <source>observaciones</source>
+        <target>observaciones</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

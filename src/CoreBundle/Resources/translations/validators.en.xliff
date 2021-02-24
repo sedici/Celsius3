@@ -81,6 +81,26 @@
         <source>fos_user.username.short</source>
         <target>The username is too short</target>
       </trans-unit>
+      <trans-unit id="first_name" resname="first_name">
+        <source>first_name</source>
+        <target>name</target>
+      </trans-unit>
+      <trans-unit id="surname" resname="surname">
+        <source>surname</source>
+        <target>surname</target>
+      </trans-unit>
+      <trans-unit id="downloadAuth" resname="downloadAuth">
+        <source>downloadAuth</source>
+        <target>authorized to download</target>
+      </trans-unit>
+      <trans-unit id="locked" resname="locked">
+        <source>locked</source>
+        <target>locked</target>
+      </trans-unit>
+      <trans-unit id="observaciones" resname="observaciones">
+        <source>observaciones</source>
+        <target>observations</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
