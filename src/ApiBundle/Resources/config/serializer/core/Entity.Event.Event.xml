@@ -23,7 +23,7 @@
         <discriminator-class value="searchpendings">Celsius3\CoreBundle\Entity\Event\SearchPendingsEvent</discriminator-class>
         <discriminator-class value="nosearchpendings">Celsius3\CoreBundle\Entity\Event\NoSearchPendingsEvent</discriminator-class>
         <property name="id" type="string" expose="true" read-only="true" groups="administration_list,administration_order_show,administration_user_show"></property>
-        <property name="created_at" type="DateTime" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show"></property>
+        <property name="createdAt" type="DateTime" expose="true" access-type="public_method" groups="administration_list,administration_order_show,administration_user_show"></property>
         <property name="observations" type="string" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="operator" type="Celsius3\CoreBundle\Entity\BaseUser" expose="true" access-type="public_method" groups="administration_order_show"></property>
         <property name="request" type="Celsius3\CoreBundle\Entity\Request" expose="true" access-type="public_method" groups="administration_order_show"></property>

@@ -65,7 +65,7 @@ class SuperadminOrderController extends OrderController
     protected function getSortDefaults()
     {
         return array(
-            'defaultSortFieldName' => 'e.updated_at',
+            'defaultSortFieldName' => 'e.updatedAt',
             'defaultSortDirection' => 'asc',
         );
     }

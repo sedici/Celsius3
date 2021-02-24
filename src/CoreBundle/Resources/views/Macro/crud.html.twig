@@ -269,7 +269,7 @@
                         <input type="hidden" name="element[]" id="element{{ entity.id }}" value="{{ entity.id }}"/>
                         <label for="main{{ entity.id }}">{{ entity.id }} - {{ full_name(entity) }}</label>
                         <p>
-                            {{ 'Created at' | trans }}: {{ entity.created_at | localizeddate }}<br>
+                            {{ 'Created at' | trans }}: {{ entity.createdAt | localizeddate }}<br>
                             {% if '/admin/user/' in app.request.getPathInfo() %}
                                 {{ 'institution' | trans }}: {{ entity.getInstitution().getFullName() }}
                             {% endif %}

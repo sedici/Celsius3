@@ -42,7 +42,7 @@ class AdminOrderController extends OrderController
     protected function getSortDefaults()
     {
         return [
-            'defaultSortFieldName' => 'o.updated_at',
+            'defaultSortFieldName' => 'o.updatedAt',
             'defaultSortDirection' => 'asc',
         ];
     }

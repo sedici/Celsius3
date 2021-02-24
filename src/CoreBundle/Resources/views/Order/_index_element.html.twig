@@ -29,7 +29,7 @@
         </div>
 
         <div class="top_center pull-right text-center">
-            {{ request.created_at | localizeddate('medium', 'none')}}
+            {{ request.createdAt | localizeddate('medium', 'none')}}
         </div>
     </div>
 
@@ -102,9 +102,9 @@
             {% if (event.getEventType() == 'sirequest' or event.getEventType() == 'mirequest') %}
                 <p {% if (event.cancelled is defined and event.cancelled) or (event.annulled is defined and event.annulled) %} style="text-decoration: line-through" {% endif %}>
                 {% if (event.provider.getProviderType() == 'institution') %}
-                    <span class="event_date">{{ event.created_at | date('d M Y H:m') }}</span> | {{ print_institutions(event.provider) }}
+                    <span class="event_date">{{ event.createdAt | date('d M Y H:m') }}</span> | {{ print_institutions(event.provider) }}
                 {% elseif (event.provider.getProviderType() == 'author' or event.provider.getProviderType() == 'web') %}
-                    <span class="event_date">{{ event.created_at | date('d M Y H:m') }}</span> | {{ event.provider.getProviderName() }}
+                    <span class="event_date">{{ event.createdAt | date('d M Y H:m') }}</span> | {{ event.provider.getProviderName() }}
                 {% endif %}
                 </p>
             {% endif %}

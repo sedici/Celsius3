@@ -272,7 +272,7 @@ class AdminBaseUserRestController extends BaseInstanceDependentRestController
     protected function getSortDefaults()
     {
         return [
-            'defaultSortFieldName' => 'o.updated_at',
+            'defaultSortFieldName' => 'o.updatedAt',
             'defaultSortDirection' => 'asc',
         ];
     }
