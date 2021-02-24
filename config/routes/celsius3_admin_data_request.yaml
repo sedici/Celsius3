@@ -1,0 +1,3 @@
+celsius3_admin_data_request:
+    resource: "@Celsius3CoreBundle/Resources/config/routes/Admin/DataRequest.yaml"
+    prefix: /admin/data_request
